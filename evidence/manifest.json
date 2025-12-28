@@ -1,16 +1,78 @@
 {
-    "omega":  "OMEGA_AEROSPACE_NOTARIAL_v3.5",
-    "timestamp_utc":  "2025-12-28T00:03:47.839Z",
-    "runner_os":  "Windows",
-    "runner_name":  "MRED-FRANCKY",
-    "github":  {
-                   "sha":  "local",
-                   "run_id":  "local",
-                   "repository":  "local"
-               },
-    "binary":  {
-                   "path":  ".\\omega-bridge-win.exe",
-                   "sha256":  "eedf8ee47655b3d92dda48cb5cd4f87c2b9948a473bed27140f5407e1fed1abd",
-                   "size":  42967065
-               }
+  "release": {
+    "name": "OMEGA TAURI Desktop",
+    "version": "1.0.0-GOLD",
+    "status": "GOLD_MASTER",
+    "grade": "AEROSPACE_CERTIFIED",
+    "date": "2025-12-28T00:07:11.825Z"
+  },
+  "certification": {
+    "core_ts": {
+      "tests": 131,
+      "passed": 131,
+      "percentage": 100
+    },
+    "bridge_windows": {
+      "tests": 50,
+      "passed": 50,
+      "percentage": 100
+    },
+    "total": {
+      "tests": 181,
+      "passed": 181,
+      "percentage": 100
+    }
+  },
+  "binaries": {
+    "windows": {
+      "filename": "omega-bridge-win.exe",
+      "sha256": "eedf8ee47655b3d92dda48cb5cd4f87c2b9948a473bed27140f5407e1fed1abd",
+      "size_bytes": 42967065,
+      "platform": "win32",
+      "arch": "x64"
+    },
+    "linux": {
+      "filename": "omega-bridge-linux",
+      "sha256": "b8e6330964595cc42cf0629ddaa40a1e41e1d869ddf18476599e3c3401684a7b",
+      "platform": "linux",
+      "arch": "x64"
+    }
+  },
+  "github_proof": {
+    "repository": "4Xdlm/omega-project",
+    "run_id": "20546141397",
+    "run_number": 1,
+    "commit_sha": "01225d8e363d2c6237fb3eb6a9c279d9006aa58d",
+    "runner": "GitHub Actions 1000000000",
+    "infrastructure": "Microsoft Azure",
+    "url": "https://github.com/4Xdlm/omega-project/actions/runs/20546141397"
+  },
+  "invariants_verified": [
+    "INV-CORE-01: Atomic Save",
+    "INV-CORE-02: Crash-safe Recovery",
+    "INV-CORE-03: Hash Chain Integrity",
+    "INV-CORE-04: Lock Correctness",
+    "INV-CORE-05: Determinism",
+    "INV-CREATE-02: Schema Version",
+    "INV-CREATE-04: Double Create Blocked",
+    "INV-CREATE-05: UUID v4 Format",
+    "INV-CREATE-06: Timestamp Consistency"
+  ],
+  "known_limitations": [
+    {
+      "id": "KL-001",
+      "description": "macOS non certifié",
+      "status": "EXPERIMENTAL"
+    },
+    {
+      "id": "KL-006",
+      "description": "Lock file après crash brutal",
+      "mitigation": "Suppression manuelle du .lock"
+    }
+  ],
+  "signatures": {
+    "architect": "Francky",
+    "ai_assistant": "Claude (Anthropic)",
+    "certification_date": "2025-12-28"
+  }
 }

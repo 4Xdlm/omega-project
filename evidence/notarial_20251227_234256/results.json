@@ -1,0 +1,408 @@
+{
+    "total":  50,
+    "passed":  48,
+    "failed":  2,
+    "percentage":  96,
+    "tests":  [
+                  {
+                      "id":  "L1-01",
+                      "name":  "Health Check",
+                      "category":  "PROTOCOL",
+                      "passed":  true,
+                      "details":  "",
+                      "timestamp":  "2025-12-27T23:42:57.097Z"
+                  },
+                  {
+                      "id":  "L1-02",
+                      "name":  "Version Check",
+                      "category":  "PROTOCOL",
+                      "passed":  true,
+                      "details":  "",
+                      "timestamp":  "2025-12-27T23:42:57.165Z"
+                  },
+                  {
+                      "id":  "L1-03",
+                      "name":  "Create Project",
+                      "category":  "PROTOCOL",
+                      "passed":  true,
+                      "details":  "",
+                      "timestamp":  "2025-12-27T23:42:57.233Z"
+                  },
+                  {
+                      "id":  "L1-04",
+                      "name":  "Project Exists (true)",
+                      "category":  "PROTOCOL",
+                      "passed":  true,
+                      "details":  "",
+                      "timestamp":  "2025-12-27T23:42:57.301Z"
+                  },
+                  {
+                      "id":  "L1-05",
+                      "name":  "Project Exists (false)",
+                      "category":  "PROTOCOL",
+                      "passed":  true,
+                      "details":  "",
+                      "timestamp":  "2025-12-27T23:42:57.375Z"
+                  },
+                  {
+                      "id":  "L1-06",
+                      "name":  "Load Project",
+                      "category":  "PROTOCOL",
+                      "passed":  true,
+                      "details":  "",
+                      "timestamp":  "2025-12-27T23:42:57.439Z"
+                  },
+                  {
+                      "id":  "L1-07",
+                      "name":  "Check Integrity",
+                      "category":  "PROTOCOL",
+                      "passed":  true,
+                      "details":  "",
+                      "timestamp":  "2025-12-27T23:42:57.506Z"
+                  },
+                  {
+                      "id":  "L1-08",
+                      "name":  "Security Block (System32)",
+                      "category":  "PROTOCOL",
+                      "passed":  true,
+                      "details":  "",
+                      "timestamp":  "2025-12-27T23:42:57.569Z"
+                  },
+                  {
+                      "id":  "L1-09",
+                      "name":  "Security Block (Program Files)",
+                      "category":  "PROTOCOL",
+                      "passed":  false,
+                      "details":  "ASSERTION FAILED: error.code in security_block_progfiles expected \u0027INVALID_PATH\u0027 but got \u0027INVALID_JSON\u0027",
+                      "timestamp":  "2025-12-27T23:42:57.633Z"
+                  },
+                  {
+                      "id":  "L1-10",
+                      "name":  "Timestamp ISO 8601",
+                      "category":  "PROTOCOL",
+                      "passed":  true,
+                      "details":  "",
+                      "timestamp":  "2025-12-27T23:42:57.697Z"
+                  },
+                  {
+                      "id":  "INV-01",
+                      "name":  "Atomic Save",
+                      "category":  "INVARIANTS",
+                      "passed":  true,
+                      "details":  "",
+                      "timestamp":  "2025-12-27T23:42:57.766Z"
+                  },
+                  {
+                      "id":  "INV-02",
+                      "name":  "Corruption Detection",
+                      "category":  "INVARIANTS",
+                      "passed":  true,
+                      "details":  "",
+                      "timestamp":  "2025-12-27T23:42:57.898Z"
+                  },
+                  {
+                      "id":  "INV-03",
+                      "name":  "Hash SHA-256 Format",
+                      "category":  "INVARIANTS",
+                      "passed":  true,
+                      "details":  "",
+                      "timestamp":  "2025-12-27T23:42:57.959Z"
+                  },
+                  {
+                      "id":  "INV-04",
+                      "name":  "Double Create Blocked",
+                      "category":  "INVARIANTS",
+                      "passed":  true,
+                      "details":  "",
+                      "timestamp":  "2025-12-27T23:42:58.022Z"
+                  },
+                  {
+                      "id":  "INV-05",
+                      "name":  "UUID v4 Format",
+                      "category":  "INVARIANTS",
+                      "passed":  true,
+                      "details":  "",
+                      "timestamp":  "2025-12-27T23:42:58.086Z"
+                  },
+                  {
+                      "id":  "INV-06",
+                      "name":  "Schema Version 1.0.0",
+                      "category":  "INVARIANTS",
+                      "passed":  true,
+                      "details":  "",
+                      "timestamp":  "2025-12-27T23:42:58.143Z"
+                  },
+                  {
+                      "id":  "INV-07",
+                      "name":  "Hash Reproducible",
+                      "category":  "INVARIANTS",
+                      "passed":  true,
+                      "details":  "",
+                      "timestamp":  "2025-12-27T23:42:58.264Z"
+                  },
+                  {
+                      "id":  "INV-08",
+                      "name":  "created_at = updated_at",
+                      "category":  "INVARIANTS",
+                      "passed":  true,
+                      "details":  "",
+                      "timestamp":  "2025-12-27T23:42:58.386Z"
+                  },
+                  {
+                      "id":  "INV-09",
+                      "name":  "Empty Runs Array",
+                      "category":  "INVARIANTS",
+                      "passed":  true,
+                      "details":  "",
+                      "timestamp":  "2025-12-27T23:42:58.391Z"
+                  },
+                  {
+                      "id":  "INV-10",
+                      "name":  "Empty State Object",
+                      "category":  "INVARIANTS",
+                      "passed":  true,
+                      "details":  "",
+                      "timestamp":  "2025-12-27T23:42:58.399Z"
+                  },
+                  {
+                      "id":  "BRUTAL-01",
+                      "name":  "Invalid Command",
+                      "category":  "BRUTAL",
+                      "passed":  true,
+                      "details":  "",
+                      "timestamp":  "2025-12-27T23:42:58.461Z"
+                  },
+                  {
+                      "id":  "BRUTAL-02",
+                      "name":  "Malformed JSON",
+                      "category":  "BRUTAL",
+                      "passed":  true,
+                      "details":  "",
+                      "timestamp":  "2025-12-27T23:42:58.521Z"
+                  },
+                  {
+                      "id":  "BRUTAL-03",
+                      "name":  "Empty Payload",
+                      "category":  "BRUTAL",
+                      "passed":  true,
+                      "details":  "",
+                      "timestamp":  "2025-12-27T23:42:58.579Z"
+                  },
+                  {
+                      "id":  "BRUTAL-04",
+                      "name":  "Path Traversal Attack",
+                      "category":  "BRUTAL",
+                      "passed":  true,
+                      "details":  "",
+                      "timestamp":  "2025-12-27T23:42:58.636Z"
+                  },
+                  {
+                      "id":  "BRUTAL-05",
+                      "name":  "Null Path",
+                      "category":  "BRUTAL",
+                      "passed":  true,
+                      "details":  "",
+                      "timestamp":  "2025-12-27T23:42:58.692Z"
+                  },
+                  {
+                      "id":  "BRUTAL-06",
+                      "name":  "Empty Path",
+                      "category":  "BRUTAL",
+                      "passed":  true,
+                      "details":  "",
+                      "timestamp":  "2025-12-27T23:42:58.753Z"
+                  },
+                  {
+                      "id":  "BRUTAL-07",
+                      "name":  "Long Name (200 chars)",
+                      "category":  "BRUTAL",
+                      "passed":  true,
+                      "details":  "",
+                      "timestamp":  "2025-12-27T23:42:58.819Z"
+                  },
+                  {
+                      "id":  "BRUTAL-08",
+                      "name":  "Special Characters",
+                      "category":  "BRUTAL",
+                      "passed":  true,
+                      "details":  "",
+                      "timestamp":  "2025-12-27T23:42:58.897Z"
+                  },
+                  {
+                      "id":  "BRUTAL-09",
+                      "name":  "Numbers in Name",
+                      "category":  "BRUTAL",
+                      "passed":  true,
+                      "details":  "",
+                      "timestamp":  "2025-12-27T23:42:58.965Z"
+                  },
+                  {
+                      "id":  "BRUTAL-10",
+                      "name":  "Rapid Fire (20x)",
+                      "category":  "BRUTAL",
+                      "passed":  true,
+                      "details":  "",
+                      "timestamp":  "2025-12-27T23:43:00.073Z"
+                  },
+                  {
+                      "id":  "BRUTAL-11",
+                      "name":  "Recovery After Error",
+                      "category":  "BRUTAL",
+                      "passed":  true,
+                      "details":  "",
+                      "timestamp":  "2025-12-27T23:43:00.180Z"
+                  },
+                  {
+                      "id":  "BRUTAL-12",
+                      "name":  "Deep Nested JSON",
+                      "category":  "BRUTAL",
+                      "passed":  true,
+                      "details":  "",
+                      "timestamp":  "2025-12-27T23:43:00.240Z"
+                  },
+                  {
+                      "id":  "BRUTAL-13",
+                      "name":  "Health Still Works",
+                      "category":  "BRUTAL",
+                      "passed":  true,
+                      "details":  "",
+                      "timestamp":  "2025-12-27T23:43:00.298Z"
+                  },
+                  {
+                      "id":  "BRUTAL-14",
+                      "name":  "Missing Required Field",
+                      "category":  "BRUTAL",
+                      "passed":  true,
+                      "details":  "",
+                      "timestamp":  "2025-12-27T23:43:00.354Z"
+                  },
+                  {
+                      "id":  "BRUTAL-15",
+                      "name":  "Extra Unknown Fields",
+                      "category":  "BRUTAL",
+                      "passed":  true,
+                      "details":  "",
+                      "timestamp":  "2025-12-27T23:43:00.418Z"
+                  },
+                  {
+                      "id":  "AERO-01",
+                      "name":  "Version Constant (10x)",
+                      "category":  "AEROSPACE",
+                      "passed":  false,
+                      "details":  "La propriété « Count » est introuvable dans cet objet. Vérifiez qu’elle existe.",
+                      "timestamp":  "2025-12-27T23:43:00.985Z"
+                  },
+                  {
+                      "id":  "AERO-02",
+                      "name":  "Health Stable (50x)",
+                      "category":  "AEROSPACE",
+                      "passed":  true,
+                      "details":  "",
+                      "timestamp":  "2025-12-27T23:43:03.821Z"
+                  },
+                  {
+                      "id":  "AERO-03",
+                      "name":  "Sequential Creates (5x)",
+                      "category":  "AEROSPACE",
+                      "passed":  true,
+                      "details":  "",
+                      "timestamp":  "2025-12-27T23:43:04.151Z"
+                  },
+                  {
+                      "id":  "AERO-04",
+                      "name":  "Memory Stability",
+                      "category":  "AEROSPACE",
+                      "passed":  true,
+                      "details":  "",
+                      "timestamp":  "2025-12-27T23:43:04.212Z"
+                  },
+                  {
+                      "id":  "AERO-05",
+                      "name":  "Duration Reasonable",
+                      "category":  "AEROSPACE",
+                      "passed":  true,
+                      "details":  "",
+                      "timestamp":  "2025-12-27T23:43:04.216Z"
+                  },
+                  {
+                      "id":  "AERO-06",
+                      "name":  "Uptime Reported",
+                      "category":  "AEROSPACE",
+                      "passed":  true,
+                      "details":  "",
+                      "timestamp":  "2025-12-27T23:43:04.220Z"
+                  },
+                  {
+                      "id":  "AERO-07",
+                      "name":  "Integrity Hash Match",
+                      "category":  "AEROSPACE",
+                      "passed":  true,
+                      "details":  "",
+                      "timestamp":  "2025-12-27T23:43:04.283Z"
+                  },
+                  {
+                      "id":  "AERO-08",
+                      "name":  "Project ID Persists",
+                      "category":  "AEROSPACE",
+                      "passed":  true,
+                      "details":  "",
+                      "timestamp":  "2025-12-27T23:43:04.406Z"
+                  },
+                  {
+                      "id":  "AERO-09",
+                      "name":  "Protocol Version Format",
+                      "category":  "AEROSPACE",
+                      "passed":  true,
+                      "details":  "",
+                      "timestamp":  "2025-12-27T23:43:04.468Z"
+                  },
+                  {
+                      "id":  "AERO-10",
+                      "name":  "Certification Present",
+                      "category":  "AEROSPACE",
+                      "passed":  true,
+                      "details":  "",
+                      "timestamp":  "2025-12-27T23:43:04.470Z"
+                  },
+                  {
+                      "id":  "AERO-11",
+                      "name":  "Error Structure Complete",
+                      "category":  "AEROSPACE",
+                      "passed":  true,
+                      "details":  "",
+                      "timestamp":  "2025-12-27T23:43:04.527Z"
+                  },
+                  {
+                      "id":  "AERO-12",
+                      "name":  "Success Structure Complete",
+                      "category":  "AEROSPACE",
+                      "passed":  true,
+                      "details":  "",
+                      "timestamp":  "2025-12-27T23:43:04.585Z"
+                  },
+                  {
+                      "id":  "AERO-13",
+                      "name":  "No Crash on Bad Input",
+                      "category":  "AEROSPACE",
+                      "passed":  true,
+                      "details":  "",
+                      "timestamp":  "2025-12-27T23:43:04.645Z"
+                  },
+                  {
+                      "id":  "AERO-14",
+                      "name":  "Duration Field Present",
+                      "category":  "AEROSPACE",
+                      "passed":  true,
+                      "details":  "",
+                      "timestamp":  "2025-12-27T23:43:04.648Z"
+                  },
+                  {
+                      "id":  "AERO-15",
+                      "name":  "Command Echo",
+                      "category":  "AEROSPACE",
+                      "passed":  true,
+                      "details":  "",
+                      "timestamp":  "2025-12-27T23:43:04.650Z"
+                  }
+              ]
+}

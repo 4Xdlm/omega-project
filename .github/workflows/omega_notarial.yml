@@ -1,0 +1,107 @@
+name: OMEGA Notarial Certification
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  notarial-certification:
+    name: Windows Notarial Test Suite
+    runs-on: windows-latest
+    
+    permissions:
+      contents: read
+      id-token: write
+      attestations: write
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      
+      - name: Verify Binary Exists
+        shell: pwsh
+        run: |
+          if (-not (Test-Path "omega-bridge-win.exe")) {
+            Write-Error "Binary omega-bridge-win.exe not found!"
+            exit 1
+          }
+          $hash = (Get-FileHash -Algorithm SHA256 "omega-bridge-win.exe").Hash.ToLower()
+          Write-Host "Binary SHA-256: $hash"
+          echo "BINARY_HASH=$hash" >> $env:GITHUB_ENV
+      
+      - name: Run Notarial Test Suite (50 tests)
+        shell: pwsh
+        run: |
+          powershell -ExecutionPolicy Bypass -File .\scripts\omega_notarial_runner.ps1 `
+            -Bin ".\omega-bridge-win.exe" `
+            -RequestsDir ".\requests" `
+            -OutDir ".\evidence"
+      
+      - name: Generate Evidence Manifest
+        if: always()
+        shell: pwsh
+        run: |
+          $manifest = @{
+            certification = "OMEGA_AEROSPACE_NOTARIAL"
+            timestamp_utc = (Get-Date).ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ss.fffZ")
+            github = @{
+              repository = "${{ github.repository }}"
+              run_id = "${{ github.run_id }}"
+              run_number = "${{ github.run_number }}"
+              sha = "${{ github.sha }}"
+              ref = "${{ github.ref }}"
+              actor = "${{ github.actor }}"
+              workflow = "${{ github.workflow }}"
+            }
+            runner = @{
+              os = "${{ runner.os }}"
+              name = "${{ runner.name }}"
+            }
+            binary = @{
+              sha256 = "$env:BINARY_HASH"
+            }
+          }
+          $manifest | ConvertTo-Json -Depth 10 | Out-File -FilePath ".\evidence\github_manifest.json" -Encoding UTF8
+      
+      - name: Upload Evidence Artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omega-notarial-evidence-${{ github.run_number }}
+          path: evidence/
+          retention-days: 90
+      
+      - name: Generate Attestation
+        if: success()
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: omega-bridge-win.exe
+      
+      - name: Certification Summary
+        if: always()
+        shell: pwsh
+        run: |
+          Write-Host ""
+          Write-Host "========================================================================"
+          Write-Host "  OMEGA NOTARIAL CERTIFICATION - GITHUB ACTIONS"
+          Write-Host "========================================================================"
+          Write-Host "  Repository:  ${{ github.repository }}"
+          Write-Host "  Run ID:      ${{ github.run_id }}"
+          Write-Host "  Commit:      ${{ github.sha }}"
+          Write-Host "  Runner:      ${{ runner.os }} / ${{ runner.name }}"
+          Write-Host "  Binary:      $env:BINARY_HASH"
+          Write-Host "========================================================================"
+          
+          if (Test-Path ".\evidence\results.json") {
+            $results = Get-Content ".\evidence\results.json" | ConvertFrom-Json
+            Write-Host "  Tests:       $($results.passed)/$($results.total) ($($results.percentage)%)"
+            if ($results.failed -eq 0) {
+              Write-Host "  Status:      CERTIFIED" -ForegroundColor Green
+            } else {
+              Write-Host "  Status:      FAILED" -ForegroundColor Red
+            }
+          }
+          Write-Host "========================================================================"

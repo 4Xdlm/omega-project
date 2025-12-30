@@ -37,6 +37,8 @@ pub struct AnalyzeOptions {
     pub language: Option<String>,
     pub normalize: Option<bool>,
     pub segmentation: Option<SegmentationOptions>,
+    /// Mode d'analyse: "deterministic" | "hybrid" | "boost"
+    pub analyzer_mode: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
@@ -85,6 +87,16 @@ pub struct SegmentationInfo {
     pub segments_count: usize,
 }
 
+/// Métadonnées de l'analyse (mode, provider, etc.)
+#[derive(Debug, Serialize, Deserialize, Clone, Default)]
+pub struct AnalysisMeta {
+    pub mode: String,
+    pub provider: Option<String>,
+    pub ai_calls: u32,
+    pub deterministic: bool,
+    pub fallback_used: bool,
+}
+
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct AnalyzeResult {
     pub timestamp: String,
@@ -99,6 +111,8 @@ pub struct AnalyzeResult {
     pub version: String,
     pub segmentation: Option<SegmentationInfo>,
     pub segments: Option<Vec<SegmentResult>>,
+    /// Métadonnées du mode d'analyse utilisé
+    pub analysis_meta: Option<AnalysisMeta>,
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
@@ -399,7 +413,45 @@ fn analyze_internal(text: &str, source: &str, options: &AnalyzeOptions) -> Analy
     let char_count = text.chars().count();
     let line_count = text.lines().count().max(1);
     
-    let (emotions, total_hits) = analyze_segment(text, normalize);
+    // Utiliser le nouvel EmotionAnalyzer selon le mode
+    let analyzer_mode_enum = modules::AnalyzerMode::from_str(
+        options.analyzer_mode.as_deref().unwrap_or("deterministic")
+    );
+    let analyzer = modules::create_analyzer(analyzer_mode_enum, None);
+    
+    let (emotions, total_hits, analysis_meta) = match analyzer.analyze(text) {
+        Ok(result) => {
+            let emo: Vec<EmotionStat> = result.emotions.iter().map(|e| EmotionStat {
+                emotion: e.emotion.clone(),
+                intensity: e.score,
+                occurrences: e.keywords.len(),
+                keywords: e.keywords.clone(),
+                keyword_counts: e.keywords.iter().map(|k| KeywordCount {
+                    word: k.clone(),
+                    count: text.to_lowercase().matches(k.as_str()).count(),
+                }).collect(),
+            }).collect();
+            let meta = AnalysisMeta {
+                mode: result.meta.mode,
+                provider: result.meta.provider,
+                ai_calls: result.meta.ai_calls,
+                deterministic: result.meta.deterministic,
+                fallback_used: result.meta.fallback_used,
+            };
+            (emo, result.total_hits, Some(meta))
+        }
+        Err(_) => {
+            // Fallback to old method
+            let (emo, hits) = analyze_segment(text, normalize);
+            (emo, hits, Some(AnalysisMeta {
+                mode: "deterministic".into(),
+                provider: None,
+                ai_calls: 0,
+                deterministic: true,
+                fallback_used: true,
+            }))
+        }
+    };
     let dominant = emotions.first().map(|e| e.emotion.clone());
     
     let seg_opts = options.segmentation.as_ref();
@@ -478,9 +530,10 @@ fn analyze_internal(text: &str, source: &str, options: &AnalyzeOptions) -> Analy
         total_emotion_hits: total_hits,
         emotions,
         dominant_emotion: dominant,
-        version: "0.7.2".to_string(),
+        version: "0.8.0-HYBRID".to_string(),
         segmentation: segmentation_info,
         segments,
+        analysis_meta,
     }
 }
 
@@ -598,6 +651,7 @@ fn analyze_text(input: AnalyzeInput) -> Result<AnalyzeResult, String> {
         language: Some("fr".to_string()),
         normalize: Some(true),
         segmentation: None,
+        analyzer_mode: None,
     });
     
     let result = analyze_internal(&input.text, &source, &options);
@@ -667,6 +721,7 @@ fn analyze_file(file_path: String, segmentation_mode: Option<String>, fixed_word
             language: Some("fr".to_string()),
             normalize: Some(true),
             segmentation: seg_opts,
+            analyzer_mode: None,
         }),
     };
     

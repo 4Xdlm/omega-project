@@ -1,7 +1,11 @@
-﻿//! OMEGA Modules — Pipeline Passes Registry
-pub mod registry;
+﻿pub mod canon_guard;
 pub mod intake;
-pub mod canon_guard;
-pub use registry::*;
-pub use intake::*;
-pub use canon_guard::*;
+pub mod registry;
+pub mod analyzer_mode;
+pub mod emotion_analyzer;
+
+// Re-exports pour aerospace_tests
+pub use canon_guard::{CanonGuardPass, get_canon_rules};
+pub use intake::IntakePass;
+pub use analyzer_mode::AnalyzerMode;
+pub use emotion_analyzer::{EmotionAnalyzer, create_analyzer, AnalysisResult, EmotionResult};

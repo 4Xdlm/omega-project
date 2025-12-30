@@ -32,6 +32,14 @@ interface SegmentationInfo {
   segments_count: number;
 }
 
+interface AnalysisMeta {
+  mode: string;
+  provider: string | null;
+  ai_calls: number;
+  deterministic: boolean;
+  fallback_used: boolean;
+}
+
 interface AnalyzeResult {
   timestamp: string;
   duration_ms: number;
@@ -45,12 +53,19 @@ interface AnalyzeResult {
   version: string;
   segmentation?: SegmentationInfo;
   segments?: SegmentResult[];
+  analysis_meta?: AnalysisMeta;
 }
 
 const EMOTION_COLORS: Record<string, string> = {
   joy: "#FFD700", sadness: "#4169E1", anger: "#DC143C", fear: "#800080",
   surprise: "#FF69B4", disgust: "#228B22", trust: "#20B2AA", anticipation: "#FF8C00",
   love: "#FF1493", pride: "#DAA520"
+};
+
+const MODE_LABELS: Record<string, string> = {
+  deterministic: "Lexicon (Deterministe)",
+  hybrid: "Hybride (Lexicon + IA)",
+  boost: "Boost (IA Always-On)"
 };
 
 interface Props {
@@ -69,6 +84,8 @@ function TextAnalyzer({ onBack, preloadedResult }: Props) {
   const [segMode, setSegMode] = useState<"chapters" | "fixed_words">("chapters");
   const [fixedWords, setFixedWords] = useState(1000);
   const [selectedSegment, setSelectedSegment] = useState<SegmentResult | null>(null);
+  
+  const [analyzerMode, setAnalyzerMode] = useState<"deterministic" | "hybrid" | "boost">("deterministic");
 
   useEffect(() => {
     if (preloadedResult) {
@@ -87,7 +104,8 @@ function TextAnalyzer({ onBack, preloadedResult }: Props) {
       const analysis = await invoke<AnalyzeResult>("analyze_file", {
         filePath,
         segmentationMode,
-        fixedWords: segMode === "fixed_words" ? fixedWords : null
+        fixedWords: segMode === "fixed_words" ? fixedWords : null,
+        analyzerMode: analyzerMode
       });
       setResult(analysis);
     } catch (err) {
@@ -150,6 +168,19 @@ function TextAnalyzer({ onBack, preloadedResult }: Props) {
           {filePath && <span className="loaded-file">{getSourceName(filePath)}</span>}
         </div>
 
+        <div className="mode-selector">
+          <label className="mode-label">Mode d analyse:</label>
+          <select 
+            value={analyzerMode} 
+            onChange={(e) => setAnalyzerMode(e.target.value as any)}
+            className="mode-select"
+          >
+            <option value="deterministic">Lexicon (Deterministe)</option>
+            <option value="hybrid">Hybride (Lexicon + IA si ambigu)</option>
+            <option value="boost">Boost (IA Always-On)</option>
+          </select>
+        </div>
+
         <div className="segmentation-options">
           <label className="toggle-label">
             <input
@@ -200,6 +231,26 @@ function TextAnalyzer({ onBack, preloadedResult }: Props) {
             <span>Version: {result.version}</span>
             <span>Duree: {result.duration_ms}ms</span>
           </div>
+
+          {result.analysis_meta && (
+            <div className="analysis-meta-box">
+              <span className={`meta-mode ${result.analysis_meta.deterministic ? 'deterministic' : 'ai'}`}>
+                {MODE_LABELS[result.analysis_meta.mode] || result.analysis_meta.mode}
+              </span>
+              {result.analysis_meta.provider && (
+                <span className="meta-provider">Provider: {result.analysis_meta.provider}</span>
+              )}
+              {result.analysis_meta.ai_calls > 0 && (
+                <span className="meta-ai-calls">Appels IA: {result.analysis_meta.ai_calls}</span>
+              )}
+              {result.analysis_meta.fallback_used && (
+                <span className="meta-fallback">Fallback utilise</span>
+              )}
+              <span className={`meta-cert ${result.analysis_meta.deterministic ? 'certified' : ''}`}>
+                {result.analysis_meta.deterministic ? "CERTIFIE" : "NON-DETERMINISTE"}
+              </span>
+            </div>
+          )}
 
           <div className="result-stats">
             <div className="stat">

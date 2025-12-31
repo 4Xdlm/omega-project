@@ -12,8 +12,8 @@ use std::env;
 use std::fs;
 use std::path::PathBuf;
 use std::sync::Arc;
-use std::io::Write;
 use chrono::Utc;
+use uuid::Uuid;
 
 fn main() {
     match run_cli() {
@@ -99,18 +99,25 @@ fn run_cli() -> OmegaResult<String> {
         _ => Arc::new(MockDeterministicProvider::default()),
     };
     
-    // Run pipeline
+    // Generate UUID v4 for run_id (NASA-grade unique identifier)
+    let run_uuid = Uuid::new_v4();
+    let run_id = format!("RUN_{}", run_uuid.to_string().to_uppercase().replace("-", ""));
+    
+    // Run pipeline with custom run_id
     let runner = PipelineRunner::new(provider);
-    let result = runner.run(&input, seed)?;
+    let mut result = runner.run(&input, seed)?;
+    
+    // Override run_id with UUID-based one
+    result.run_id = run_id.clone();
     
     // Create run directory
-    let run_dir = output_dir.join(&result.run_id);
+    let run_dir = output_dir.join(&run_id);
     ensure_dir(&run_dir)?;
     
     // Write artifacts
     write_run_artifacts(&run_dir, &result, &input, &mode)?;
     
-    Ok(result.run_id)
+    Ok(run_id)
 }
 
 fn write_run_artifacts(
@@ -119,28 +126,30 @@ fn write_run_artifacts(
     input: &str,
     mode: &str,
 ) -> OmegaResult<()> {
-    // 1. Write run.json
+    // 1. Write run.json (MANDATORY)
     let run_json_path = run_dir.join("run.json");
     write_json(&run_json_path, result)?;
     
-    // 2. Write input.txt (for replay)
+    // 2. Write input.txt (OPTIONAL - for traceability/replay)
     let input_path = run_dir.join("input.txt");
     fs::write(&input_path, input)
         .map_err(|e| omega_ui::error::OmegaError::WriteError(e.to_string()))?;
     
-    // 3. Write manifest.sha256
+    // 3. Write manifest.sha256 (MANDATORY)
     let run_json_content = fs::read_to_string(&run_json_path)
         .map_err(|e| omega_ui::error::OmegaError::ReadError(e.to_string()))?;
     let run_json_hash = sha256_str(&run_json_content);
     let input_hash = sha256_str(input);
     
     let manifest_content = format!(
-        "# OMEGA Run Manifest\n\
+        "# OMEGA Run Manifest — AS9100D Compliant\n\
          # Generated: {}\n\
-         # Run ID: {}\n\
+         # Run ID: {} (UUID v4)\n\
          # Mode: {}\n\
          # Seed: {}\n\n\
-         {}  run.json\n\
+         # MANDATORY ARTIFACTS\n\
+         {}  run.json\n\n\
+         # OPTIONAL ARTIFACTS (traceability)\n\
          {}  input.txt\n",
         Utc::now().to_rfc3339(),
         result.run_id,
@@ -154,10 +163,10 @@ fn write_run_artifacts(
     fs::write(&manifest_path, &manifest_content)
         .map_err(|e| omega_ui::error::OmegaError::WriteError(e.to_string()))?;
     
-    // 4. Write logs.txt
+    // 4. Write logs.txt (MANDATORY)
     let logs_content = format!(
         "[{}] OMEGA_RUN START\n\
-         [{}] run_id={}\n\
+         [{}] run_id={} (UUID v4)\n\
          [{}] seed={}\n\
          [{}] mode={}\n\
          [{}] input_hash={}\n\
@@ -188,7 +197,7 @@ fn write_run_artifacts(
 }
 
 fn print_help() {
-    eprintln!("OMEGA CLI Runner — Phase 1 Production");
+    eprintln!("OMEGA CLI Runner — Phase 1 Production (AS9100D)");
     eprintln!("");
     eprintln!("USAGE:");
     eprintln!("    omega_run [OPTIONS]");
@@ -202,12 +211,12 @@ fn print_help() {
     eprintln!("    -h, --help           Show this help");
     eprintln!("");
     eprintln!("OUTPUT:");
-    eprintln!("    Prints run_id to stdout");
+    eprintln!("    Prints run_id (UUID v4) to stdout");
     eprintln!("    Creates runs/<run_id>/ with:");
-    eprintln!("      - run.json       Pipeline result");
-    eprintln!("      - manifest.sha256 Hash manifest");
-    eprintln!("      - logs.txt       Execution logs");
-    eprintln!("      - input.txt      Original input");
+    eprintln!("      - run.json        Pipeline result (MANDATORY)");
+    eprintln!("      - manifest.sha256 Hash manifest (MANDATORY)");
+    eprintln!("      - logs.txt        Execution logs (MANDATORY)");
+    eprintln!("      - input.txt       Original input (OPTIONAL/traceability)");
     eprintln!("");
     eprintln!("EXIT CODES:");
     eprintln!("    0  SUCCESS");

@@ -1,7 +1,6 @@
 ﻿import { useState, useMemo } from "react";
 import {
-  LineChart, Line, BarChart, Bar,
-  XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
+  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer,
   ReferenceLine
 } from "recharts";
 import { getEmotionLabel } from "../i18n/emotions";
@@ -66,7 +65,7 @@ interface Props {
   onBack: () => void;
 }
 
-function DiffViewer({ runA, runB, runIdA, runIdB, onBack }: Props) {
+function DiffViewer({ runA, runB, onBack }: Props) {
   const [selectedSegmentIndex, setSelectedSegmentIndex] = useState<number | null>(null);
   const [showTop, setShowTop] = useState<5 | 7>(5);
   const [showOnlySignificant, setShowOnlySignificant] = useState(false);

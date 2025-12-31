@@ -14,7 +14,7 @@ type View = "home" | "run" | "results" | "analyzer" | "history" | "viewer" | "di
 interface RunResult {
   timestamp: string;
   workspace: string;
-  status: string;
+  status: "PASS" | "FAIL";
   duration_ms: number;
   summary: {
     tests: number | null;
@@ -96,8 +96,8 @@ function App() {
         )}
         {view === "run" && (
           <RunConsole 
-            onComplete={handleRunComplete}
-            onCancel={() => setView("home")}
+            workspace="" onComplete={handleRunComplete}
+            onBack={() => setView("home")}
           />
         )}
         {view === "results" && result && (

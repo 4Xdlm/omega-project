@@ -1,6 +1,7 @@
 ﻿import { useState, useEffect } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { open } from "@tauri-apps/plugin-dialog";
+import HolographPanel from './HolographPanel';
 import { getEmotionLabel } from "../i18n/emotions";
 
 interface EmotionStat {
@@ -42,6 +43,7 @@ interface AnalysisMeta {
 
 interface AnalyzeResult {
   timestamp: string;
+  run_id?: string;
   duration_ms: number;
   source: string;
   word_count: number;
@@ -427,6 +429,8 @@ function TextAnalyzer({ onBack, preloadedResult }: Props) {
               )}
             </div>
           )}
+          {/* HOLOGRAPH PANEL */}
+          <HolographPanel text={text} />
         </div>
       )}
     </div>

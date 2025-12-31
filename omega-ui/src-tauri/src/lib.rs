@@ -1,11 +1,12 @@
 ﻿// -------------------------------------------------------------------------------
-// OMEGA Modules — Sprint A Pipeline IA
+// OMEGA Modules  Sprint A Pipeline IA
 // -------------------------------------------------------------------------------
 pub mod error;
 pub mod ai;
 pub mod pipeline;
 pub mod modules;
 pub mod lexicon_fr_gold;
+pub mod holograph;
 
 // // =========================================================================
 // OMEGA UI v0.7.2 ? Keyword Counts
@@ -87,7 +88,7 @@ pub struct SegmentationInfo {
     pub segments_count: usize,
 }
 
-/// Métadonnées de l'analyse (mode, provider, etc.)
+/// Mtadonnes de l'analyse (mode, provider, etc.)
 #[derive(Debug, Serialize, Deserialize, Clone, Default)]
 pub struct AnalysisMeta {
     pub mode: String,
@@ -112,7 +113,7 @@ pub struct AnalyzeResult {
     pub version: String,
     pub segmentation: Option<SegmentationInfo>,
     pub segments: Option<Vec<SegmentResult>>,
-    /// Métadonnées du mode d'analyse utilisé
+    /// Mtadonnes du mode d'analyse utilis
     pub analysis_meta: Option<AnalysisMeta>,
 }
 
@@ -788,9 +789,9 @@ fn open_run_folder(run_id: String) -> Result<(), String> {
 }
 
 
-// ═══════════════════════════════════════════════════════════════════════════════
-// EXPORT FUNCTIONS — Markdown & DOCX
-// ═══════════════════════════════════════════════════════════════════════════════
+// -------------------------------------------------------------------------------
+// EXPORT FUNCTIONS  Markdown & DOCX
+// -------------------------------------------------------------------------------
 
 #[tauri::command]
 fn export_markdown(run_id: String) -> Result<String, String> {
@@ -807,23 +808,23 @@ fn export_markdown(run_id: String) -> Result<String, String> {
         .map_err(|e| format!("Failed to parse run: {}", e))?;
     
     let mut md = String::new();
-    md.push_str(&format!("# Analyse OMEGA — {}\n\n", result.source));
+    md.push_str(&format!("# Analyse OMEGA  {}\n\n", result.source));
     md.push_str(&format!("**Date**: {}\n", result.timestamp));
     md.push_str(&format!("**Version**: {}\n", result.version));
-    md.push_str(&format!("**Durée**: {}ms\n\n", result.duration_ms));
+    md.push_str(&format!("**Dure**: {}ms\n\n", result.duration_ms));
     
     md.push_str("## Statistiques\n\n");
     md.push_str(&format!("- Mots: {}\n", result.word_count));
-    md.push_str(&format!("- Caractères: {}\n", result.char_count));
+    md.push_str(&format!("- Caractres: {}\n", result.char_count));
     md.push_str(&format!("- Lignes: {}\n", result.line_count));
-    md.push_str(&format!("- Marqueurs émotionnels: {}\n", result.total_emotion_hits));
+    md.push_str(&format!("- Marqueurs motionnels: {}\n", result.total_emotion_hits));
     
     if let Some(dominant) = &result.dominant_emotion {
-        md.push_str(&format!("- **Émotion dominante**: {}\n", dominant));
+        md.push_str(&format!("- **motion dominante**: {}\n", dominant));
     }
     
-    md.push_str("\n## Émotions détectées\n\n");
-    md.push_str("| Émotion | Intensité | Occurrences | Mots-clés |\n");
+    md.push_str("\n## motions dtectes\n\n");
+    md.push_str("| motion | Intensit | Occurrences | Mots-cls |\n");
     md.push_str("|---------|-----------|-------------|----------|\n");
     
     for e in &result.emotions {
@@ -876,14 +877,14 @@ fn export_docx(run_id: String) -> Result<String, String> {
     // Titre
     docx = docx.add_paragraph(
         Paragraph::new()
-            .add_run(Run::new().add_text(&format!("Analyse OMEGA — {}", result.source)).bold())
+            .add_run(Run::new().add_text(&format!("Analyse OMEGA  {}", result.source)).bold())
             .style("Heading1")
     );
     
-    // Métadonnées
+    // Mtadonnes
     docx = docx.add_paragraph(
         Paragraph::new()
-            .add_run(Run::new().add_text(&format!("Date: {} | Version: {} | Durée: {}ms", 
+            .add_run(Run::new().add_text(&format!("Date: {} | Version: {} | Dure: {}ms", 
                 result.timestamp, result.version, result.duration_ms)))
     );
     
@@ -897,7 +898,7 @@ fn export_docx(run_id: String) -> Result<String, String> {
     docx = docx.add_paragraph(
         Paragraph::new()
             .add_run(Run::new().add_text(&format!(
-                "Mots: {} | Caractères: {} | Marqueurs: {}",
+                "Mots: {} | Caractres: {} | Marqueurs: {}",
                 result.word_count, result.char_count, result.total_emotion_hits
             )))
     );
@@ -905,14 +906,14 @@ fn export_docx(run_id: String) -> Result<String, String> {
     if let Some(dominant) = &result.dominant_emotion {
         docx = docx.add_paragraph(
             Paragraph::new()
-                .add_run(Run::new().add_text(&format!("Émotion dominante: {}", dominant)).bold())
+                .add_run(Run::new().add_text(&format!("motion dominante: {}", dominant)).bold())
         );
     }
     
-    // Émotions
+    // motions
     docx = docx.add_paragraph(
         Paragraph::new()
-            .add_run(Run::new().add_text("Émotions détectées").bold())
+            .add_run(Run::new().add_text("motions dtectes").bold())
             .style("Heading2")
     );
     
@@ -921,7 +922,7 @@ fn export_docx(run_id: String) -> Result<String, String> {
         docx = docx.add_paragraph(
             Paragraph::new()
                 .add_run(Run::new().add_text(&format!(
-                    "• {} — {:.1}% ({} occurrences) — {}",
+                    " {}  {:.1}% ({} occurrences)  {}",
                     e.emotion,
                     e.intensity * 100.0,
                     e.occurrences,
@@ -955,7 +956,8 @@ pub fn run() {
             open_output_folder,
             open_run_folder,
             export_markdown,
-            export_docx
+            export_docx,
+            scan_holograph
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
@@ -975,3 +977,12 @@ mod aerospace_tests;
 
 
 
+
+// =========================================================================
+// HOLOGRAPH COMMAND
+// =========================================================================
+#[tauri::command]
+fn scan_holograph(text: String) -> Result<holograph::HolographReport, String> {
+    let scanner = holograph::HolographScanner::new();
+    Ok(scanner.scan(&text))
+}

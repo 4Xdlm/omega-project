@@ -81,10 +81,6 @@ function History({ onBack, onLoadRun, onCompareTwoRuns }: Props) {
     return new Date(timestamp).toLocaleString();
   };
 
-  const formatDuration = (ms: number) => {
-    if (ms < 1000) return `${ms}ms`;
-    return `${(ms / 1000).toFixed(2)}s`;
-  };
 
   const getSourceName = (source: string) => {
     if (source === "direct_input") return "Texte colle";

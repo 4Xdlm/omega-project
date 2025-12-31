@@ -1,8 +1,8 @@
-import { open } from '@tauri-apps/plugin-dialog';
+﻿import { open } from '@tauri-apps/plugin-dialog';
 
 interface HomeProps {
-  workspace: string | null;
-  onWorkspaceSelect: (path: string) => void;
+  workspace?: string | null;
+  onWorkspaceSelect?: (path: string) => void;
   onStartRun: () => void;
 }
 
@@ -16,7 +16,7 @@ function Home({ workspace, onWorkspaceSelect, onStartRun }: HomeProps) {
       });
 
       if (selected && typeof selected === 'string') {
-        onWorkspaceSelect(selected);
+        onWorkspaceSelect?.(selected);
       }
     } catch (error) {
       console.error('Error selecting folder:', error);
@@ -25,11 +25,11 @@ function Home({ workspace, onWorkspaceSelect, onStartRun }: HomeProps) {
 
   return (
     <div className="home-screen">
-      <h2>🚀 First Cycle Runner</h2>
+      <h2>ðŸš€ First Cycle Runner</h2>
 
       <div className="workspace-section">
         <button className="btn btn-primary" onClick={handleSelectFolder}>
-          📁 Select Workspace Folder
+          ðŸ“ Select Workspace Folder
         </button>
 
         <div className={`workspace-path ${!workspace ? 'empty' : ''}`}>
@@ -43,7 +43,7 @@ function Home({ workspace, onWorkspaceSelect, onStartRun }: HomeProps) {
           onClick={onStartRun}
           disabled={!workspace}
         >
-          ▶️ Run First Cycle
+          â–¶ï¸ Run First Cycle
         </button>
 
         {!workspace && (

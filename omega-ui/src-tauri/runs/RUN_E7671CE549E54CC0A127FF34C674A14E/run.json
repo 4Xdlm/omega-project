@@ -1,0 +1,53 @@
+{
+  "schema": "OMEGA_RUN_V1",
+  "run_id": "RUN_E7671CE549E54CC0A127FF34C674A14E",
+  "seed": 1,
+  "provider_id": "mock-deterministic-v1",
+  "input_hash": "92fed5fe0542495e0fb0b4529790e49c663f441ad36d96e71d37d8a77a4c60f3",
+  "passes": [
+    {
+      "pass_id": "INTAKE",
+      "success": true,
+      "artifacts": {
+        "char_count": 17,
+        "normalized_input": "Test concurrent 1",
+        "word_count": 3
+      },
+      "proof": {
+        "pass_id": "INTAKE",
+        "input_hash": "92fed5fe0542495e0fb0b4529790e49c663f441ad36d96e71d37d8a77a4c60f3",
+        "output_hash": "d2c56c2cefafc4468915725d164f94a2555dbd271aaa595675770ec593cdea5a",
+        "chain_hash": "c750cebfea619117101ac6d7cf4868733c74a7e3248156ad3fb5a0bcd45386c3",
+        "prev_hash": "GENESIS_HASH",
+        "timestamp_iso": "2025-12-31T14:42:32.290450500+00:00",
+        "duration_ms": 0
+      },
+      "error": null
+    },
+    {
+      "pass_id": "EMOTION_ANALYSIS",
+      "success": true,
+      "artifacts": {
+        "deterministic": true,
+        "dominant_emotion": null,
+        "emotions": [],
+        "lexicon_version": "1.0.0",
+        "mode": "deterministic",
+        "total_hits": 0
+      },
+      "proof": {
+        "pass_id": "EMOTION_ANALYSIS",
+        "input_hash": "41ed80085e181b4b3d0add70adc7654559f95a765e39d1da57729a189439cb7a",
+        "output_hash": "f35fa8df360e933b373c98b9ece22fe50c4e9482b6a414ebd336ac55376f0b4f",
+        "chain_hash": "0bf18dc06441558db347ce805f225f85dfd8fc7f712ea40cef18f5d0eb545683",
+        "prev_hash": "c750cebfea619117101ac6d7cf4868733c74a7e3248156ad3fb5a0bcd45386c3",
+        "timestamp_iso": "2025-12-31T14:42:32.290587900+00:00",
+        "duration_ms": 0
+      },
+      "error": null
+    }
+  ],
+  "global_hash": "6a59afeae0ff5cdc0ed227429de00a6a889f8cf4b51786c908358804bf9da4a6",
+  "success": true,
+  "timestamp_iso": "2025-12-31T14:42:32.290598100+00:00"
+}

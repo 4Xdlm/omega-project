@@ -1,0 +1,66 @@
+{
+  "schema": "OMEGA_RUN_V1",
+  "run_id": "RUN_5DBF051BAD4A45419F72F4FFAFDF354D",
+  "seed": 42,
+  "provider_id": "mock-deterministic-v1",
+  "input_hash": "fd62b2fe0dcf695caa03dafd9845bc72da2c2f65350beb37199311e59d49266b",
+  "passes": [
+    {
+      "pass_id": "INTAKE",
+      "success": true,
+      "artifacts": {
+        "char_count": 76,
+        "normalized_input": "Je suis très heureux! 😊 La joie déborde... Ça c'est génial! àéïõü 中文 العربية",
+        "word_count": 14
+      },
+      "proof": {
+        "pass_id": "INTAKE",
+        "input_hash": "fd62b2fe0dcf695caa03dafd9845bc72da2c2f65350beb37199311e59d49266b",
+        "output_hash": "d56050655fb2067fcd083a572b920e807dfdade2e28779d5b4ecaa4096dcbd26",
+        "chain_hash": "cdc9b980396454d6dd3b5501aa5ce3e359d6614ed887b06db65724a1591f68b2",
+        "prev_hash": "GENESIS_HASH",
+        "timestamp_iso": "2025-12-31T14:41:30.887296500+00:00",
+        "duration_ms": 0
+      },
+      "error": null
+    },
+    {
+      "pass_id": "EMOTION_ANALYSIS",
+      "success": true,
+      "artifacts": {
+        "deterministic": true,
+        "dominant_emotion": "joy",
+        "emotions": [
+          {
+            "ai_adjustment": null,
+            "confidence": 0.7,
+            "emotion": "joy",
+            "keywords": [
+              "joie",
+              "heureux"
+            ],
+            "lexicon_score": 1.0,
+            "score": 1.0,
+            "source": "Lexicon"
+          }
+        ],
+        "lexicon_version": "1.0.0",
+        "mode": "deterministic",
+        "total_hits": 2
+      },
+      "proof": {
+        "pass_id": "EMOTION_ANALYSIS",
+        "input_hash": "fe2c42d2b488cf469ca234e71d64580f47004fb32f99106c436a9f30ff1e2e12",
+        "output_hash": "e32be61bd23a4e85ddc21201ae5f64af6f637320417a8b87035c08c0d2813900",
+        "chain_hash": "ec0d9fdf9ac1f0db3b31865080bcc113afd23d418655c42e5f1536b6c6b57ef5",
+        "prev_hash": "cdc9b980396454d6dd3b5501aa5ce3e359d6614ed887b06db65724a1591f68b2",
+        "timestamp_iso": "2025-12-31T14:41:30.887532800+00:00",
+        "duration_ms": 0
+      },
+      "error": null
+    }
+  ],
+  "global_hash": "5a56cc838ea66b7e0bd4036e770626c8531a6574d4610c95cf0e9dd4b4a226f4",
+  "success": true,
+  "timestamp_iso": "2025-12-31T14:41:30.887543400+00:00"
+}

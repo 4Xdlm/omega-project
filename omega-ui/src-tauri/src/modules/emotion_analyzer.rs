@@ -352,12 +352,13 @@ pub fn create_analyzer(mode: AnalyzerMode, provider: Option<Arc<dyn LLMProvider>
     match mode {
         AnalyzerMode::Deterministic => Box::new(LexiconAnalyzer::new()),
         AnalyzerMode::Hybrid => {
-            let p = provider.unwrap_or_else(|| Arc::new(crate::ai::MockDeterministicProvider::new()));
+            let p = provider.unwrap_or_else(|| Arc::new(crate::ai::FallbackProvider::from_env()));
             Box::new(HybridAnalyzer::new(p))
         }
         AnalyzerMode::Boost => {
-            let p = provider.unwrap_or_else(|| Arc::new(crate::ai::MockDeterministicProvider::new()));
+            let p = provider.unwrap_or_else(|| Arc::new(crate::ai::FallbackProvider::from_env()));
             Box::new(AIAnalyzer::new(p))
         }
     }
 }
+

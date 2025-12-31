@@ -99,6 +99,7 @@ pub struct AnalysisMeta {
 
 #[derive(Debug, Serialize, Deserialize, Clone)]
 pub struct AnalyzeResult {
+    pub run_id: Option<String>,
     pub timestamp: String,
     pub duration_ms: u64,
     pub source: String,
@@ -521,6 +522,7 @@ fn analyze_internal(text: &str, source: &str, options: &AnalyzeOptions) -> Analy
     };
     
     AnalyzeResult {
+        run_id: None,
         timestamp,
         duration_ms: start.elapsed().as_millis() as u64,
         source: source.to_string(),
@@ -654,9 +656,9 @@ fn analyze_text(input: AnalyzeInput) -> Result<AnalyzeResult, String> {
         analyzer_mode: None,
     });
     
-    let result = analyze_internal(&input.text, &source, &options);
-    
+    let mut result = analyze_internal(&input.text, &source, &options);
     let run_id = Local::now().format("%Y-%m-%d_%H-%M-%S").to_string();
+    result.run_id = Some(run_id.clone());
     let run_dir = get_output_dir().join(&run_id);
     fs::create_dir_all(&run_dir).ok();
     
@@ -785,6 +787,159 @@ fn open_run_folder(run_id: String) -> Result<(), String> {
     Ok(())
 }
 
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// EXPORT FUNCTIONS — Markdown & DOCX
+// ═══════════════════════════════════════════════════════════════════════════════
+
+#[tauri::command]
+fn export_markdown(run_id: String) -> Result<String, String> {
+    let run_dir = get_output_dir().join(&run_id);
+    let run_file = run_dir.join("result.json");
+    
+    if !run_file.exists() {
+        return Err(format!("Run not found: {}", run_id));
+    }
+    
+    let content = std::fs::read_to_string(&run_file)
+        .map_err(|e| format!("Failed to read run: {}", e))?;
+    let result: AnalyzeResult = serde_json::from_str(&content)
+        .map_err(|e| format!("Failed to parse run: {}", e))?;
+    
+    let mut md = String::new();
+    md.push_str(&format!("# Analyse OMEGA — {}\n\n", result.source));
+    md.push_str(&format!("**Date**: {}\n", result.timestamp));
+    md.push_str(&format!("**Version**: {}\n", result.version));
+    md.push_str(&format!("**Durée**: {}ms\n\n", result.duration_ms));
+    
+    md.push_str("## Statistiques\n\n");
+    md.push_str(&format!("- Mots: {}\n", result.word_count));
+    md.push_str(&format!("- Caractères: {}\n", result.char_count));
+    md.push_str(&format!("- Lignes: {}\n", result.line_count));
+    md.push_str(&format!("- Marqueurs émotionnels: {}\n", result.total_emotion_hits));
+    
+    if let Some(dominant) = &result.dominant_emotion {
+        md.push_str(&format!("- **Émotion dominante**: {}\n", dominant));
+    }
+    
+    md.push_str("\n## Émotions détectées\n\n");
+    md.push_str("| Émotion | Intensité | Occurrences | Mots-clés |\n");
+    md.push_str("|---------|-----------|-------------|----------|\n");
+    
+    for e in &result.emotions {
+        let keywords: Vec<String> = e.keywords.iter().take(5).cloned().collect();
+        md.push_str(&format!(
+            "| {} | {:.1}% | {} | {} |\n",
+            e.emotion,
+            e.intensity * 100.0,
+            e.occurrences,
+            keywords.join(", ")
+        ));
+    }
+    
+    if let Some(segments) = &result.segments {
+        md.push_str("\n## Analyse par segments\n\n");
+        for seg in segments {
+            md.push_str(&format!("### {}\n", seg.title));
+            md.push_str(&format!("- Mots: {} ({}-{})\n", seg.word_count, seg.word_start, seg.word_end));
+            if let Some(dom) = &seg.dominant_emotion {
+                md.push_str(&format!("- Dominante: {}\n", dom));
+            }
+            md.push_str("\n");
+        }
+    }
+    
+    let export_path = run_dir.join("export.md");
+    std::fs::write(&export_path, &md)
+        .map_err(|e| format!("Failed to write markdown: {}", e))?;
+    
+    Ok(export_path.to_string_lossy().to_string())
+}
+
+#[tauri::command]
+fn export_docx(run_id: String) -> Result<String, String> {
+    use docx_rs::*;
+    let run_dir = get_output_dir().join(&run_id);
+    let run_file = run_dir.join("result.json");
+    
+    if !run_file.exists() {
+        return Err(format!("Run not found: {}", run_id));
+    }
+    
+    let content = std::fs::read_to_string(&run_file)
+        .map_err(|e| format!("Failed to read run: {}", e))?;
+    let result: AnalyzeResult = serde_json::from_str(&content)
+        .map_err(|e| format!("Failed to parse run: {}", e))?;
+    
+    let mut docx = Docx::new();
+    
+    // Titre
+    docx = docx.add_paragraph(
+        Paragraph::new()
+            .add_run(Run::new().add_text(&format!("Analyse OMEGA — {}", result.source)).bold())
+            .style("Heading1")
+    );
+    
+    // Métadonnées
+    docx = docx.add_paragraph(
+        Paragraph::new()
+            .add_run(Run::new().add_text(&format!("Date: {} | Version: {} | Durée: {}ms", 
+                result.timestamp, result.version, result.duration_ms)))
+    );
+    
+    // Stats
+    docx = docx.add_paragraph(
+        Paragraph::new()
+            .add_run(Run::new().add_text("Statistiques").bold())
+            .style("Heading2")
+    );
+    
+    docx = docx.add_paragraph(
+        Paragraph::new()
+            .add_run(Run::new().add_text(&format!(
+                "Mots: {} | Caractères: {} | Marqueurs: {}",
+                result.word_count, result.char_count, result.total_emotion_hits
+            )))
+    );
+    
+    if let Some(dominant) = &result.dominant_emotion {
+        docx = docx.add_paragraph(
+            Paragraph::new()
+                .add_run(Run::new().add_text(&format!("Émotion dominante: {}", dominant)).bold())
+        );
+    }
+    
+    // Émotions
+    docx = docx.add_paragraph(
+        Paragraph::new()
+            .add_run(Run::new().add_text("Émotions détectées").bold())
+            .style("Heading2")
+    );
+    
+    for e in &result.emotions {
+        let keywords: Vec<String> = e.keywords.iter().take(5).cloned().collect();
+        docx = docx.add_paragraph(
+            Paragraph::new()
+                .add_run(Run::new().add_text(&format!(
+                    "• {} — {:.1}% ({} occurrences) — {}",
+                    e.emotion,
+                    e.intensity * 100.0,
+                    e.occurrences,
+                    keywords.join(", ")
+                )))
+        );
+    }
+    
+    let export_path = run_dir.join("export.docx");
+    let file = std::fs::File::create(&export_path)
+        .map_err(|e| format!("Failed to create docx: {}", e))?;
+    
+    docx.build().pack(file)
+        .map_err(|e| format!("Failed to write docx: {}", e))?;
+    
+    Ok(export_path.to_string_lossy().to_string())
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
@@ -798,7 +953,9 @@ pub fn run() {
             get_history,
             load_run,
             open_output_folder,
-            open_run_folder
+            open_run_folder,
+            export_markdown,
+            export_docx
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
@@ -811,4 +968,10 @@ pub fn run() {
 
 #[cfg(test)]
 mod aerospace_tests;
+
+
+
+
+
+
 

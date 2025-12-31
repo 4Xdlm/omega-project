@@ -174,6 +174,28 @@ function TextAnalyzer({ onBack, preloadedResult }: Props) {
     await invoke("open_output_folder");
   };
 
+  const handleExportMarkdown = async () => {
+    if (!result) return;
+    try {
+      const runId = result.run_id || "RUN_" + Date.now();
+      const path = await invoke<string>("export_markdown", { runId });
+      alert("Markdown exporte: " + path);
+    } catch (err) {
+      setError("Export MD failed: " + String(err));
+    }
+  };
+
+  const handleExportDocx = async () => {
+    if (!result) return;
+    try {
+      const runId = result.run_id || "RUN_" + Date.now();
+      const path = await invoke<string>("export_docx", { runId });
+      alert("DOCX exporte: " + path);
+    } catch (err) {
+      setError("Export DOCX failed: " + String(err));
+    }
+  };
+
   const getSourceName = (source: string) => {
     if (source === "direct_input") return "Texte colle";
     const parts = source.split(/[/\\]/);
@@ -281,6 +303,15 @@ function TextAnalyzer({ onBack, preloadedResult }: Props) {
             <span>Source: {getSourceName(result.source)}</span>
             <span>Version: {result.version}</span>
             <span>Duree: {result.duration_ms}ms</span>
+          </div>
+
+          <div className="export-actions">
+            <button className="btn btn-secondary" onClick={handleExportMarkdown}>
+              Export Markdown
+            </button>
+            <button className="btn btn-secondary" onClick={handleExportDocx}>
+              Export DOCX
+            </button>
           </div>
 
           {result.analysis_meta && (
@@ -403,5 +434,11 @@ function TextAnalyzer({ onBack, preloadedResult }: Props) {
 }
 
 export default TextAnalyzer;
+
+
+
+
+
+
 
 

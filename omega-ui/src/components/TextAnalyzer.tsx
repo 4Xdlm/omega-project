@@ -114,6 +114,36 @@ function TextAnalyzer({ onBack, preloadedResult }: Props) {
     setIsAnalyzing(false);
   };
 
+  const handleAnalyzeText = async () => {
+    if (!text.trim()) return;
+    setIsAnalyzing(true);
+    setError(null);
+    setSelectedSegment(null);
+    try {
+      const analysis = await invoke<AnalyzeResult>("analyze_text", {
+        input: {
+          text: text,
+          source: "direct_input",
+          options: {
+            language: "fr",
+            normalize: true,
+            segmentation: enableSegmentation ? {
+              mode: segMode,
+              fixed_words: fixedWords,
+              min_segment_words: 250,
+              max_segments: 300
+            } : null,
+            analyzer_mode: analyzerMode
+          }
+        }
+      });
+      setResult(analysis);
+    } catch (err) {
+      setError(String(err));
+    }
+    setIsAnalyzing(false);
+  };
+
   const handleOpenFile = async () => {
     try {
       setError(null);
@@ -166,6 +196,27 @@ function TextAnalyzer({ onBack, preloadedResult }: Props) {
             Charger fichier (.txt/.md)
           </button>
           {filePath && <span className="loaded-file">{getSourceName(filePath)}</span>}
+        </div>
+        
+        <div className="text-input-section">
+          <label className="input-label">Ou collez votre texte ici :</label>
+          <textarea
+            className="text-input"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            placeholder="Collez ou tapez votre texte francais ici pour l'analyser..."
+            rows={6}
+            disabled={isAnalyzing || !!filePath}
+          />
+          {text && !filePath && (
+            <button
+              className="btn btn-primary btn-analyze-text"
+              onClick={handleAnalyzeText}
+              disabled={isAnalyzing || !text.trim()}
+            >
+              {isAnalyzing ? "Analyse..." : "Analyser le texte"}
+            </button>
+          )}
         </div>
 
         <div className="mode-selector">
@@ -352,3 +403,5 @@ function TextAnalyzer({ onBack, preloadedResult }: Props) {
 }
 
 export default TextAnalyzer;
+
+

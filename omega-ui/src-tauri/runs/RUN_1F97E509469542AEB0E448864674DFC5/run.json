@@ -1,0 +1,79 @@
+{
+  "schema": "OMEGA_RUN_V1",
+  "run_id": "RUN_1F97E509469542AEB0E448864674DFC5",
+  "seed": 42,
+  "provider_id": "mock-deterministic-v1",
+  "input_hash": "6a2744a1ffd94490977ea2b4e867b1c3641bd5d1c20cdfc6f54f6504b331d2f6",
+  "passes": [
+    {
+      "pass_id": "INTAKE",
+      "success": true,
+      "artifacts": {
+        "char_count": 99,
+        "normalized_input": "Je suis tellement heureux et ravi de cette joie immense. Mais aussi triste et melancolique parfois.",
+        "word_count": 16
+      },
+      "proof": {
+        "pass_id": "INTAKE",
+        "input_hash": "6a2744a1ffd94490977ea2b4e867b1c3641bd5d1c20cdfc6f54f6504b331d2f6",
+        "output_hash": "909b5acffaabed90700a0c7f1666bfccd8fe4ea5c0c0c20b94dd9137a9cdf842",
+        "chain_hash": "81c6c88affdbee197d4f5f93549d23a4f905e35b591d4036da40f0264226f835",
+        "prev_hash": "GENESIS_HASH",
+        "timestamp_iso": "2025-12-31T13:43:33.894462800+00:00",
+        "duration_ms": 0
+      },
+      "error": null
+    },
+    {
+      "pass_id": "EMOTION_ANALYSIS",
+      "success": true,
+      "artifacts": {
+        "deterministic": true,
+        "dominant_emotion": "joy",
+        "emotions": [
+          {
+            "ai_adjustment": null,
+            "confidence": 0.7,
+            "emotion": "joy",
+            "keywords": [
+              "heureux",
+              "ravi",
+              "joie"
+            ],
+            "lexicon_score": 0.6,
+            "score": 0.6,
+            "source": "Lexicon"
+          },
+          {
+            "ai_adjustment": null,
+            "confidence": 0.7,
+            "emotion": "sadness",
+            "keywords": [
+              "triste",
+              "melancolique"
+            ],
+            "lexicon_score": 0.4,
+            "score": 0.4,
+            "source": "Lexicon"
+          }
+        ],
+        "lexicon_version": "1.0.0",
+        "mode": "deterministic",
+        "total_hits": 5
+      },
+      "proof": {
+        "pass_id": "EMOTION_ANALYSIS",
+        "input_hash": "8e025f95388b8d702ee5d4d43f7009c06e0c15d03c87d23adae4f46cb15d19ed",
+        "output_hash": "6a70a6d6564c6f179628e79656c92aa647e66d78f69e1c8c3009aac599d466b9",
+        "chain_hash": "4ace63653dcec6d9aa627b13fde6fa28b39e8591342d87bd7e77874e65b31a19",
+        "prev_hash": "81c6c88affdbee197d4f5f93549d23a4f905e35b591d4036da40f0264226f835",
+        "timestamp_iso": "2025-12-31T13:43:33.894726500+00:00",
+        "duration_ms": 0
+      },
+      "error": null
+    }
+  ],
+  "global_hash": "bb2ec6e0a45b4d31da66d1b99f905d4a3522f4f166dc279048920971c60b0afe",
+  "success": true,
+  "timestamp_iso": "2025-12-31T13:43:33.894737900+00:00"
+}

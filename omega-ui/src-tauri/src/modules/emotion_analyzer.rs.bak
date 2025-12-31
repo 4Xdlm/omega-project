@@ -1,6 +1,5 @@
 ﻿//! OMEGA Sprint C — Emotion Analyzer
 //! Interface unifiée pour Lexicon / AI / Hybrid
-//! v2.0 — Branché sur FR_LEXICON_V1_GOLD (118 keywords)
 
 use serde::{Deserialize, Serialize};
 use crate::error::OmegaResult;
@@ -38,7 +37,6 @@ pub struct AnalysisMeta {
     pub ai_usage: Option<AIUsage>,
     pub fallback_used: bool,
     pub deterministic: bool,
-    pub lexicon_version: Option<String>,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -74,40 +72,59 @@ pub trait EmotionAnalyzer: Send + Sync {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// LEXICON ANALYZER (DETERMINISTIC) — BRANCHÉ SUR FR_LEXICON_V1_GOLD
+// LEXICON ANALYZER (DETERMINISTIC)
 // ═══════════════════════════════════════════════════════════════════════════════
 
 pub struct LexiconAnalyzer;
 
 impl LexiconAnalyzer {
     pub fn new() -> Self { Self }
-
-    /// Analyse avec FR_LEXICON_V1_GOLD (118 keywords, aerospace-grade)
-    pub fn analyze_with_lexicon(text: &str) -> Vec<EmotionResult> {
-        use crate::lexicon_fr_gold::{analyze_gold, AnalyzerConfig, LEXICON_VERSION};
-        
-        let config = AnalyzerConfig::default();
-        let gold_result = analyze_gold(text, None, &config);
-        
-        // Convertir les résultats FR Gold vers notre format
-        gold_result.emotions.into_iter()
-            .filter(|e| e.occurrences > 0)
-            .map(|e| {
-                EmotionResult {
-                    emotion: e.emotion,
-                    score: e.intensity,
-                    confidence: if e.occurrences > 3 { 0.9 } else if e.occurrences > 1 { 0.7 } else { 0.5 },
-                    source: EmotionSource::Lexicon,
-                    keywords: e.keywords,
-                    lexicon_score: Some(e.intensity),
-                    ai_adjustment: None,
-                }
-            }).collect()
-    }
     
-    /// Retourne la version du lexicon utilisé
-    pub fn lexicon_version() -> &'static str {
-        crate::lexicon_fr_gold::LEXICON_VERSION
+    pub fn analyze_with_lexicon(text: &str) -> Vec<EmotionResult> {
+        // Utilise le lexicon intégré dans lib.rs (get_emotion_keywords)
+        // Pour l'instant on fait une analyse simple basée sur les keywords
+        let keywords_map = crate::get_emotion_keywords();
+        let lower_text = text.to_lowercase();
+        let mut results: Vec<EmotionResult> = Vec::new();
+        let mut total_hits = 0usize;
+        
+        for (emotion, keywords) in keywords_map.iter() {
+            let mut found: Vec<String> = Vec::new();
+            let mut count = 0usize;
+            
+            for kw in keywords {
+                let c = lower_text.matches(kw).count();
+                if c > 0 {
+                    found.push(kw.to_string());
+                    count += c;
+                }
+            }
+            
+            if count > 0 {
+                total_hits += count;
+                results.push(EmotionResult {
+                    emotion: emotion.to_string(),
+                    score: 0.0, // sera normalisé après
+                    confidence: if count > 3 { 0.9 } else { 0.6 },
+                    source: EmotionSource::Lexicon,
+                    keywords: found,
+                    lexicon_score: None,
+                    ai_adjustment: None,
+                });
+            }
+        }
+        
+        // Normaliser les scores
+        if total_hits > 0 {
+            for r in &mut results {
+                let count: usize = r.keywords.iter().map(|k| lower_text.matches(k.as_str()).count()).sum();
+                r.score = count as f64 / total_hits as f64;
+                r.lexicon_score = Some(r.score);
+            }
+        }
+        
+        results.sort_by(|a, b| b.score.partial_cmp(&a.score).unwrap_or(std::cmp::Ordering::Equal));
+        results
     }
 }
 
@@ -116,7 +133,7 @@ impl EmotionAnalyzer for LexiconAnalyzer {
         let emotions = Self::analyze_with_lexicon(text);
         let total_hits: usize = emotions.iter().map(|e| e.keywords.len()).sum();
         let dominant = emotions.first().map(|e| e.emotion.clone());
-
+        
         Ok(AnalysisResult {
             emotions,
             dominant,
@@ -128,11 +145,10 @@ impl EmotionAnalyzer for LexiconAnalyzer {
                 ai_usage: None,
                 fallback_used: false,
                 deterministic: true,
-                lexicon_version: Some(Self::lexicon_version().to_string()),
             },
         })
     }
-
+    
     fn mode(&self) -> AnalyzerMode { AnalyzerMode::Deterministic }
 }
 
@@ -148,10 +164,10 @@ impl AIAnalyzer {
     pub fn new(provider: Arc<dyn LLMProvider>) -> Self {
         Self { provider }
     }
-
+    
     pub fn call_ai(&self, text: &str, lexicon_baseline: &[EmotionResult]) -> OmegaResult<(Vec<EmotionResult>, AIUsage)> {
         let baseline_json = serde_json::to_string(lexicon_baseline).unwrap_or_default();
-
+        
         let request = crate::ai::models::CompletionRequest {
             run_id: generate_run_id(),
             seed: 42,
@@ -172,20 +188,20 @@ impl AIAnalyzer {
             })),
             constraints: Default::default(),
         };
-
+        
         let response = self.provider.generate(request)?;
-
+        
         let usage = AIUsage {
             prompt_tokens: response.usage.prompt_tokens,
             completion_tokens: response.usage.completion_tokens,
             total_tokens: response.usage.total_tokens,
         };
-
+        
         let ai_emotions = Self::parse_ai_response(&response.content, lexicon_baseline);
-
+        
         Ok((ai_emotions, usage))
     }
-
+    
     fn parse_ai_response(content: &str, baseline: &[EmotionResult]) -> Vec<EmotionResult> {
         if let Ok(parsed) = serde_json::from_str::<serde_json::Value>(content) {
             if let Some(emotions) = parsed.get("emotions").and_then(|e| e.as_array()) {
@@ -195,7 +211,7 @@ impl AIAnalyzer {
                     let baseline_score = baseline.iter()
                         .find(|b| b.emotion == emotion)
                         .map(|b| b.score);
-
+                    
                     Some(EmotionResult {
                         emotion: emotion.to_string(),
                         score,
@@ -208,7 +224,7 @@ impl AIAnalyzer {
                 }).collect();
             }
         }
-
+        
         baseline.iter().cloned().map(|mut e| {
             e.source = EmotionSource::AI;
             e
@@ -222,7 +238,7 @@ impl EmotionAnalyzer for AIAnalyzer {
         let (emotions, usage) = self.call_ai(text, &baseline)?;
         let total_hits = emotions.len();
         let dominant = emotions.first().map(|e| e.emotion.clone());
-
+        
         Ok(AnalysisResult {
             emotions,
             dominant,
@@ -234,11 +250,10 @@ impl EmotionAnalyzer for AIAnalyzer {
                 ai_usage: Some(usage),
                 fallback_used: false,
                 deterministic: false,
-                lexicon_version: Some(LexiconAnalyzer::lexicon_version().to_string()),
             },
         })
     }
-
+    
     fn mode(&self) -> AnalyzerMode { AnalyzerMode::Boost }
 }
 
@@ -254,17 +269,17 @@ impl HybridAnalyzer {
     pub fn new(provider: Arc<dyn LLMProvider>) -> Self {
         Self { provider }
     }
-
+    
     fn needs_ai_clarification(emotions: &[EmotionResult]) -> bool {
         if emotions.is_empty() { return false; }
-
+        
         if emotions.len() >= 2 {
             let diff = emotions[0].score - emotions[1].score;
             if diff.abs() < HYBRID_AMBIGUITY_THRESHOLD { return true; }
         }
-
+        
         if emotions.iter().any(|e| e.confidence < HYBRID_LOW_CONFIDENCE) { return true; }
-
+        
         false
     }
 }
@@ -272,11 +287,11 @@ impl HybridAnalyzer {
 impl EmotionAnalyzer for HybridAnalyzer {
     fn analyze(&self, text: &str) -> OmegaResult<AnalysisResult> {
         let lexicon_emotions = LexiconAnalyzer::analyze_with_lexicon(text);
-
+        
         if !Self::needs_ai_clarification(&lexicon_emotions) {
             let total_hits: usize = lexicon_emotions.iter().map(|e| e.keywords.len()).sum();
             let dominant = lexicon_emotions.first().map(|e| e.emotion.clone());
-
+            
             return Ok(AnalysisResult {
                 emotions: lexicon_emotions,
                 dominant,
@@ -288,11 +303,10 @@ impl EmotionAnalyzer for HybridAnalyzer {
                     ai_usage: None,
                     fallback_used: false,
                     deterministic: true,
-                    lexicon_version: Some(LexiconAnalyzer::lexicon_version().to_string()),
                 },
             });
         }
-
+        
         let ai_analyzer = AIAnalyzer::new(Arc::clone(&self.provider));
         match ai_analyzer.call_ai(text, &lexicon_emotions) {
             Ok((ai_emotions, usage)) => {
@@ -300,10 +314,10 @@ impl EmotionAnalyzer for HybridAnalyzer {
                     e.source = EmotionSource::Hybrid;
                     e
                 }).collect();
-
+                
                 let total_hits = merged.len();
                 let dominant = merged.first().map(|e| e.emotion.clone());
-
+                
                 Ok(AnalysisResult {
                     emotions: merged,
                     dominant,
@@ -315,14 +329,13 @@ impl EmotionAnalyzer for HybridAnalyzer {
                         ai_usage: Some(usage),
                         fallback_used: false,
                         deterministic: false,
-                        lexicon_version: Some(LexiconAnalyzer::lexicon_version().to_string()),
                     },
                 })
             }
             Err(_) => {
                 let total_hits: usize = lexicon_emotions.iter().map(|e| e.keywords.len()).sum();
                 let dominant = lexicon_emotions.first().map(|e| e.emotion.clone());
-
+                
                 Ok(AnalysisResult {
                     emotions: lexicon_emotions,
                     dominant,
@@ -334,13 +347,12 @@ impl EmotionAnalyzer for HybridAnalyzer {
                         ai_usage: None,
                         fallback_used: true,
                         deterministic: true,
-                        lexicon_version: Some(LexiconAnalyzer::lexicon_version().to_string()),
                     },
                 })
             }
         }
     }
-
+    
     fn mode(&self) -> AnalyzerMode { AnalyzerMode::Hybrid }
 }
 

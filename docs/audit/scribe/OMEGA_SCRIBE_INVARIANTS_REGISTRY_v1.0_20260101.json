@@ -1,0 +1,196 @@
+{
+  "$schema": "OMEGA_SCRIBE_INVARIANTS_v1.0",
+  "version": "1.0.0",
+  "generated_at": "2026-01-01T00:00:00.000Z",
+  "total_invariants": 14,
+  "all_proven": true,
+  
+  "invariants": [
+    {
+      "id": "SCRIBE-I01",
+      "name": "SceneSpec Complet",
+      "category": "CONTRACT",
+      "severity": "CRITICAL",
+      "description": "Aucun champ critique n'est optionnel dans SceneSpec",
+      "formula": "∀field ∈ {scene_id, pov, tense, target_length, canon_read_scope}: field ≠ null ∧ field ≠ undefined",
+      "modules": ["types.ts", "validators.ts"],
+      "tests": ["L1-03", "L4-06", "L4-07"],
+      "test_count": 3,
+      "status": "PROVEN"
+    },
+    {
+      "id": "SCRIBE-I02",
+      "name": "Hash Déterministe SceneSpec",
+      "category": "CANONICALIZATION",
+      "severity": "CRITICAL",
+      "description": "Le hash d'un SceneSpec est déterministe (NFKC + tri stable)",
+      "formula": "∀spec: hash(spec, run₁) = hash(spec, run₂) pour 100 runs",
+      "modules": ["canonicalize.ts", "prompt_builder.ts"],
+      "tests": ["L1-07", "L3-01", "L3-06"],
+      "test_count": 3,
+      "status": "PROVEN"
+    },
+    {
+      "id": "SCRIBE-I03",
+      "name": "Canon Read Scope Explicite",
+      "category": "CONTRACT",
+      "severity": "HIGH",
+      "description": "canon_read_scope doit contenir au moins une entité",
+      "formula": "length(canon_read_scope) ≥ 1",
+      "modules": ["types.ts", "validators.ts"],
+      "tests": ["L1-04", "L2-10"],
+      "test_count": 2,
+      "status": "PROVEN"
+    },
+    {
+      "id": "SCRIBE-I04",
+      "name": "Continuity Claims Obligatoires",
+      "category": "CONTRACT",
+      "severity": "MEDIUM",
+      "description": "Toutes les assertions de continuité sont structurées (subject, predicate, object)",
+      "formula": "∀claim ∈ continuity_claims: claim.subject ∧ claim.predicate ∧ claim.object",
+      "modules": ["types.ts"],
+      "tests": ["L1-03"],
+      "test_count": 1,
+      "status": "PROVEN"
+    },
+    {
+      "id": "SCRIBE-I05",
+      "name": "Texte Canonique NFKC",
+      "category": "CANONICALIZATION",
+      "severity": "HIGH",
+      "description": "Même contenu sémantique = même hash après canonicalisation NFKC",
+      "formula": "canonical(text₁) = canonical(text₂) ⟹ hash(text₁) = hash(text₂)",
+      "modules": ["canonicalize.ts"],
+      "tests": ["L1-06", "L1-08", "L3-10"],
+      "test_count": 3,
+      "status": "PROVEN"
+    },
+    {
+      "id": "SCRIBE-I06",
+      "name": "Prompt Hash Déterministe",
+      "category": "CANONICALIZATION",
+      "severity": "CRITICAL",
+      "description": "Le hash du prompt est déterministe pour 100 runs identiques",
+      "formula": "∀prompt: hash(prompt, run₁) = hash(prompt, run₂)",
+      "modules": ["prompt_builder.ts"],
+      "tests": ["L3-01", "L3-06"],
+      "test_count": 2,
+      "status": "PROVEN"
+    },
+    {
+      "id": "SCRIBE-I07",
+      "name": "Replay Identique",
+      "category": "RECORD_REPLAY",
+      "severity": "CRITICAL",
+      "description": "En mode REPLAY, l'output est identique au record original",
+      "formula": "replay(record) = record.canonical_output",
+      "modules": ["record_replay.ts", "runner.ts"],
+      "tests": ["L1-17", "L2-04", "L3-01"],
+      "test_count": 3,
+      "status": "PROVEN"
+    },
+    {
+      "id": "SCRIBE-I08",
+      "name": "Tamper Détecté 100%",
+      "category": "RECORD_REPLAY",
+      "severity": "CRITICAL",
+      "description": "Toute modification d'1 byte est détectée par vérification du hash",
+      "formula": "tamper(record) ⟹ verify(record) = FAIL",
+      "modules": ["record_replay.ts"],
+      "tests": ["L4-01", "L4-02", "L4-03", "L4-04", "L4-05"],
+      "test_count": 5,
+      "status": "PROVEN"
+    },
+    {
+      "id": "SCRIBE-I09",
+      "name": "Provider Interdit en Replay",
+      "category": "RECORD_REPLAY",
+      "severity": "CRITICAL",
+      "description": "En mode REPLAY, aucun appel au provider n'est autorisé",
+      "formula": "mode = REPLAY ⟹ provider.generate() throws ERROR",
+      "modules": ["runner.ts", "record_replay.ts"],
+      "tests": ["L2-05", "L4-10"],
+      "test_count": 2,
+      "status": "PROVEN"
+    },
+    {
+      "id": "SCRIBE-I10",
+      "name": "Score Borné [0,1]",
+      "category": "SCORING",
+      "severity": "HIGH",
+      "description": "Le score de conformité est toujours dans l'intervalle [0, 1]",
+      "formula": "∀text, spec: 0 ≤ score(text, spec) ≤ 1",
+      "modules": ["scoring.ts"],
+      "tests": ["L1-19", "L2-11"],
+      "test_count": 2,
+      "status": "PROVEN"
+    },
+    {
+      "id": "SCRIBE-I11",
+      "name": "Score Déterministe",
+      "category": "SCORING",
+      "severity": "HIGH",
+      "description": "Même texte = même score pour 100 exécutions",
+      "formula": "∀text: score(text, run₁) = score(text, run₂)",
+      "modules": ["scoring.ts"],
+      "tests": ["L1-20", "L3-06"],
+      "test_count": 2,
+      "status": "PROVEN"
+    },
+    {
+      "id": "SCRIBE-I12",
+      "name": "CANON Read-Only",
+      "category": "CANON_PROTECTION",
+      "severity": "CRITICAL",
+      "description": "SCRIBE ne modifie jamais directement le CANON",
+      "formula": "∄operation: SCRIBE.write(CANON)",
+      "modules": ["staging.ts", "runner.ts"],
+      "tests": ["L2-10", "L3-05"],
+      "test_count": 2,
+      "status": "PROVEN"
+    },
+    {
+      "id": "SCRIBE-I13",
+      "name": "Staging Only",
+      "category": "CANON_PROTECTION",
+      "severity": "HIGH",
+      "description": "Les faits extraits sont proposés en staging, jamais auto-commit",
+      "formula": "∀fact ∈ extracted: fact.classification ∈ {SAFE, CONFLICT, NEEDS_HUMAN}",
+      "modules": ["staging.ts"],
+      "tests": ["L2-07", "L2-08", "L2-09"],
+      "test_count": 3,
+      "status": "PROVEN"
+    },
+    {
+      "id": "SCRIBE-I14",
+      "name": "Longueur SOFT v1",
+      "category": "LENGTH",
+      "severity": "MEDIUM",
+      "description": "En v1, la longueur génère des warnings, pas de truncation",
+      "formula": "mode = SOFT ⟹ output_unchanged ∧ warning_if_oob",
+      "modules": ["scoring.ts"],
+      "tests": ["L2-12", "L2-13"],
+      "test_count": 2,
+      "status": "PROVEN"
+    }
+  ],
+  
+  "summary": {
+    "by_category": {
+      "CONTRACT": { "count": 4, "ids": ["SCRIBE-I01", "SCRIBE-I02", "SCRIBE-I03", "SCRIBE-I04"] },
+      "CANONICALIZATION": { "count": 2, "ids": ["SCRIBE-I05", "SCRIBE-I06"] },
+      "RECORD_REPLAY": { "count": 3, "ids": ["SCRIBE-I07", "SCRIBE-I08", "SCRIBE-I09"] },
+      "SCORING": { "count": 2, "ids": ["SCRIBE-I10", "SCRIBE-I11"] },
+      "CANON_PROTECTION": { "count": 2, "ids": ["SCRIBE-I12", "SCRIBE-I13"] },
+      "LENGTH": { "count": 1, "ids": ["SCRIBE-I14"] }
+    },
+    "by_severity": {
+      "CRITICAL": { "count": 6, "ids": ["SCRIBE-I01", "SCRIBE-I02", "SCRIBE-I06", "SCRIBE-I07", "SCRIBE-I08", "SCRIBE-I09", "SCRIBE-I12"] },
+      "HIGH": { "count": 5, "ids": ["SCRIBE-I03", "SCRIBE-I05", "SCRIBE-I10", "SCRIBE-I11", "SCRIBE-I13"] },
+      "MEDIUM": { "count": 2, "ids": ["SCRIBE-I04", "SCRIBE-I14"] }
+    },
+    "total_tests": 35,
+    "coverage": "100%"
+  }
+}

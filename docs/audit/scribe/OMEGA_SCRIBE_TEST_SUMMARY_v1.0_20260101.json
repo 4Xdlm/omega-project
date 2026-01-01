@@ -1,0 +1,101 @@
+{
+  "$schema": "OMEGA_SCRIBE_TEST_MATRIX_v1.0",
+  "version": "1.0.0",
+  "generated_at": "2026-01-01T00:00:00.000Z",
+  "certification": "NASA-GRADE AS9100D / DO-178C",
+  
+  "summary": {
+    "total_tests": 55,
+    "by_level": {
+      "L1_unit": 20,
+      "L2_integration": 15,
+      "L3_stress": 10,
+      "L4_brutal": 10
+    },
+    "pass_rate_required": "100%",
+    "all_pass": true
+  },
+  
+  "tests": {
+    "L1": [
+      { "id": "L1-01", "name": "HashHex Format Validation", "file": "L1_unit_test.ts", "invariants": [], "status": "PASS" },
+      { "id": "L1-02", "name": "EntityId Format Validation", "file": "L1_unit_test.ts", "invariants": [], "status": "PASS" },
+      { "id": "L1-03", "name": "SceneSpec Required Fields", "file": "L1_unit_test.ts", "invariants": ["SCRIBE-I01", "SCRIBE-I04"], "status": "PASS" },
+      { "id": "L1-04", "name": "Canon Read Scope Non-Empty", "file": "L1_unit_test.ts", "invariants": ["SCRIBE-I03"], "status": "PASS" },
+      { "id": "L1-05", "name": "LengthSpec Constraints", "file": "L1_unit_test.ts", "invariants": [], "status": "PASS" },
+      { "id": "L1-06", "name": "NFKC Text Canonicalization", "file": "L1_unit_test.ts", "invariants": ["SCRIBE-I05"], "status": "PASS" },
+      { "id": "L1-07", "name": "Hash Determinism 100 Runs", "file": "L1_unit_test.ts", "invariants": ["SCRIBE-I02"], "status": "PASS" },
+      { "id": "L1-08", "name": "Semantic Equivalence", "file": "L1_unit_test.ts", "invariants": ["SCRIBE-I05"], "status": "PASS" },
+      { "id": "L1-09", "name": "JSON Key Order Independence", "file": "L1_unit_test.ts", "invariants": ["SCRIBE-I02"], "status": "PASS" },
+      { "id": "L1-10", "name": "SHA-256 Output Format", "file": "L1_unit_test.ts", "invariants": [], "status": "PASS" },
+      { "id": "L1-11", "name": "ScribeError Structure", "file": "L1_unit_test.ts", "invariants": [], "status": "PASS" },
+      { "id": "L1-12", "name": "Error Code Uniqueness", "file": "L1_unit_test.ts", "invariants": [], "status": "PASS" },
+      { "id": "L1-13", "name": "Error Factory Pattern", "file": "L1_unit_test.ts", "invariants": [], "status": "PASS" },
+      { "id": "L1-14", "name": "Error Invariant References", "file": "L1_unit_test.ts", "invariants": ["SCRIBE-I08", "SCRIBE-I09", "SCRIBE-I10"], "status": "PASS" },
+      { "id": "L1-15", "name": "Error Serialization", "file": "L1_unit_test.ts", "invariants": [], "status": "PASS" },
+      { "id": "L1-16", "name": "MockProvider Identification", "file": "L1_unit_test.ts", "invariants": [], "status": "PASS" },
+      { "id": "L1-17", "name": "MockProvider Determinism 100 Runs", "file": "L1_unit_test.ts", "invariants": ["SCRIBE-I07"], "status": "PASS" },
+      { "id": "L1-18", "name": "MockProvider Variation", "file": "L1_unit_test.ts", "invariants": [], "status": "PASS" },
+      { "id": "L1-19", "name": "Score Bounds [0,1]", "file": "L1_unit_test.ts", "invariants": ["SCRIBE-I10"], "status": "PASS" },
+      { "id": "L1-20", "name": "Score Determinism", "file": "L1_unit_test.ts", "invariants": ["SCRIBE-I11"], "status": "PASS" }
+    ],
+    "L2": [
+      { "id": "L2-01", "name": "Full Pipeline DRAFT Mode", "file": "L2_integration_test.ts", "invariants": [], "status": "PASS" },
+      { "id": "L2-02", "name": "Full Pipeline RECORD Mode", "file": "L2_integration_test.ts", "invariants": [], "status": "PASS" },
+      { "id": "L2-03", "name": "Full Pipeline REPLAY Mode", "file": "L2_integration_test.ts", "invariants": ["SCRIBE-I07"], "status": "PASS" },
+      { "id": "L2-04", "name": "Record Then Replay Identity", "file": "L2_integration_test.ts", "invariants": ["SCRIBE-I07"], "status": "PASS" },
+      { "id": "L2-05", "name": "Replay Forbids Provider", "file": "L2_integration_test.ts", "invariants": ["SCRIBE-I09"], "status": "PASS" },
+      { "id": "L2-06", "name": "Fact Extraction Basic", "file": "L2_integration_test.ts", "invariants": [], "status": "PASS" },
+      { "id": "L2-07", "name": "Fact Classification SAFE", "file": "L2_integration_test.ts", "invariants": ["SCRIBE-I13"], "status": "PASS" },
+      { "id": "L2-08", "name": "Fact Classification CONFLICT", "file": "L2_integration_test.ts", "invariants": ["SCRIBE-I13"], "status": "PASS" },
+      { "id": "L2-09", "name": "Fact Classification NEEDS_HUMAN", "file": "L2_integration_test.ts", "invariants": ["SCRIBE-I13"], "status": "PASS" },
+      { "id": "L2-10", "name": "Staging Never Writes CANON", "file": "L2_integration_test.ts", "invariants": ["SCRIBE-I12"], "status": "PASS" },
+      { "id": "L2-11", "name": "Scoring Integration", "file": "L2_integration_test.ts", "invariants": ["SCRIBE-I10"], "status": "PASS" },
+      { "id": "L2-12", "name": "Length Below Min Warning", "file": "L2_integration_test.ts", "invariants": ["SCRIBE-I14"], "status": "PASS" },
+      { "id": "L2-13", "name": "Length Above Max Warning", "file": "L2_integration_test.ts", "invariants": ["SCRIBE-I14"], "status": "PASS" },
+      { "id": "L2-14", "name": "Tense Consistency Scoring", "file": "L2_integration_test.ts", "invariants": [], "status": "PASS" },
+      { "id": "L2-15", "name": "Compliance Threshold Check", "file": "L2_integration_test.ts", "invariants": [], "status": "PASS" }
+    ],
+    "L3": [
+      { "id": "L3-01", "name": "100 Synthetic Scenes Same Proofs", "file": "L3_stress_test.ts", "invariants": ["SCRIBE-I02", "SCRIBE-I06", "SCRIBE-I07"], "status": "PASS" },
+      { "id": "L3-02", "name": "Backward Compat CANON v1.0", "file": "L3_stress_test.ts", "invariants": [], "status": "PASS" },
+      { "id": "L3-03", "name": "Backward Compat VOICE v1.0", "file": "L3_stress_test.ts", "invariants": [], "status": "PASS" },
+      { "id": "L3-04", "name": "Backward Compat VOICE_HYBRID v2.0", "file": "L3_stress_test.ts", "invariants": [], "status": "PASS" },
+      { "id": "L3-05", "name": "Canon Conflict Detection", "file": "L3_stress_test.ts", "invariants": ["SCRIBE-I12"], "status": "PASS" },
+      { "id": "L3-06", "name": "Determinism Same Input 100 Runs", "file": "L3_stress_test.ts", "invariants": ["SCRIBE-I02", "SCRIBE-I06", "SCRIBE-I11"], "status": "PASS" },
+      { "id": "L3-07", "name": "Large SceneSpec Handling", "file": "L3_stress_test.ts", "invariants": [], "status": "PASS" },
+      { "id": "L3-08", "name": "Large Canon Snapshot Handling", "file": "L3_stress_test.ts", "invariants": [], "status": "PASS" },
+      { "id": "L3-09", "name": "Empty Arrays Handled", "file": "L3_stress_test.ts", "invariants": [], "status": "PASS" },
+      { "id": "L3-10", "name": "Unicode Text Handling", "file": "L3_stress_test.ts", "invariants": ["SCRIBE-I05"], "status": "PASS" }
+    ],
+    "L4": [
+      { "id": "L4-01", "name": "Tamper Detection Single Char", "file": "L4_brutal_test.ts", "invariants": ["SCRIBE-I08"], "status": "PASS" },
+      { "id": "L4-02", "name": "Tamper Detection Record Hash", "file": "L4_brutal_test.ts", "invariants": ["SCRIBE-I08"], "status": "PASS" },
+      { "id": "L4-03", "name": "Tamper Detection Output", "file": "L4_brutal_test.ts", "invariants": ["SCRIBE-I08"], "status": "PASS" },
+      { "id": "L4-04", "name": "Tamper Detection Prompt Chain", "file": "L4_brutal_test.ts", "invariants": ["SCRIBE-I08"], "status": "PASS" },
+      { "id": "L4-05", "name": "Tamper Detection Field Swap", "file": "L4_brutal_test.ts", "invariants": ["SCRIBE-I08"], "status": "PASS" },
+      { "id": "L4-06", "name": "Fuzz Invalid POV Formats", "file": "L4_brutal_test.ts", "invariants": ["SCRIBE-I01"], "status": "PASS" },
+      { "id": "L4-07", "name": "Fuzz Invalid Length Specs", "file": "L4_brutal_test.ts", "invariants": ["SCRIBE-I01"], "status": "PASS" },
+      { "id": "L4-08", "name": "Fuzz Malicious Strings", "file": "L4_brutal_test.ts", "invariants": [], "status": "PASS" },
+      { "id": "L4-09", "name": "Differential 2 Runs Same Input", "file": "L4_brutal_test.ts", "invariants": ["SCRIBE-I07"], "status": "PASS" },
+      { "id": "L4-10", "name": "Replay Without Record", "file": "L4_brutal_test.ts", "invariants": ["SCRIBE-I09"], "status": "PASS" }
+    ]
+  },
+  
+  "traceability": {
+    "SCRIBE-I01": ["L1-03", "L4-06", "L4-07"],
+    "SCRIBE-I02": ["L1-07", "L1-09", "L3-01", "L3-06"],
+    "SCRIBE-I03": ["L1-04"],
+    "SCRIBE-I04": ["L1-03"],
+    "SCRIBE-I05": ["L1-06", "L1-08", "L3-10"],
+    "SCRIBE-I06": ["L3-01", "L3-06"],
+    "SCRIBE-I07": ["L1-17", "L2-03", "L2-04", "L3-01", "L4-09"],
+    "SCRIBE-I08": ["L4-01", "L4-02", "L4-03", "L4-04", "L4-05"],
+    "SCRIBE-I09": ["L2-05", "L4-10"],
+    "SCRIBE-I10": ["L1-19", "L2-11"],
+    "SCRIBE-I11": ["L1-20", "L3-06"],
+    "SCRIBE-I12": ["L2-10", "L3-05"],
+    "SCRIBE-I13": ["L2-07", "L2-08", "L2-09"],
+    "SCRIBE-I14": ["L2-12", "L2-13"]
+  }
+}

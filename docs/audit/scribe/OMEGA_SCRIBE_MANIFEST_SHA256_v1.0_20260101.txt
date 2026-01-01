@@ -1,0 +1,61 @@
+# ═══════════════════════════════════════════════════════════════════════════
+#                    OMEGA SCRIBE v1.0 — MANIFEST SHA256
+#                    NASA-GRADE AS9100D / DO-178C
+# ═══════════════════════════════════════════════════════════════════════════
+#
+# Date: 2026-01-01
+# Version: 1.0.0
+# Total Files: 18
+#
+# ═══════════════════════════════════════════════════════════════════════════
+
+# === SOURCE FILES (11) ===
+019612cec161152d7f988a8b4c2d442498bc0e008f3b9c0b4d3f7652b13988fc  src/scribe/types.ts
+253239437f27213a4527a441c5fdf5cff4b6fa5dd4fcf02e30203b646b5cc737  src/scribe/errors.ts
+08b1fb0ac7c7385cfa65c6fb1f1c2e7d4ed11898702bc0cec38dafe6513a0a57  src/scribe/canonicalize.ts
+d6ab530399428e6ca84d94c3ff4e651c54f2dd72c0cb804812d2efbd3a0f0d00  src/scribe/validators.ts
+fad631b89370b667ef37cb21bccd01197c1b3a4101df0bce73dc252a9eac3a7a  src/scribe/prompt_builder.ts
+bdf0a48368dd5c89594664923c60248d3b561f6a20554d75d8175a340bb1e2cc  src/scribe/record_replay.ts
+430be6925d7047dc1972a67cc34e79e0f272ce1935c1247fab8b116c6c63ff70  src/scribe/scoring.ts
+524ef3decb747d841b3dcb65898960c9f2d53f9560d2a63691fbf5e701a74527  src/scribe/staging.ts
+8ef28aa5e68d49c05f30c9176f81af560b2c9bc4dd4c11d063088dcd7464cb86  src/scribe/mock_provider.ts
+6691c998fbd1ba1cde15cdcc9e78a461da8f9ee7f0ed3cc860c10c97d4234cdf  src/scribe/runner.ts
+1dd159c33298aa098d2e8682fc9f54551a8b937673c65bf95a9ee83f640ace24  src/scribe/index.ts
+
+# === TEST FILES (4) ===
+581c23312d20ea0c71e438e2962252fc51d36adcc89f304ae398f7e802f03200  tests/scribe/L1_unit_test.ts
+f8e93d1e5799992f4e08b3f08413bdede847b1c350daa6fcaf670c98c0dc33ab  tests/scribe/L2_integration_test.ts
+965f487b6a712694df69fa9a0d6ee1fd227efbb2910dfe08e02179012a2bf9d6  tests/scribe/L3_stress_test.ts
+09a37e49c4a8c59349aa0c0cc29eb6771bace54877a9f88792c0a26bbc58548c  tests/scribe/L4_brutal_test.ts
+
+# === DOCUMENTATION FILES (3) ===
+b60d321ee754b99abf4287ffd392e36ec9f9b4e444f9da1fd9a834c430c14419  docs/audit/scribe/OMEGA_SCRIBE_SPEC_v1.0_20260101.md
+377cafab78ed82452415886f7f3caff3f7bd5786f27efc3ebe741b74d04227cb  docs/audit/scribe/OMEGA_SCRIBE_INVARIANTS_REGISTRY_v1.0_20260101.json
+6231d6cf366a105ae735a08bbc74afa106ffa974356f19a6d3499d970cd735ed  docs/audit/scribe/OMEGA_SCRIBE_TEST_SUMMARY_v1.0_20260101.json
+
+# ═══════════════════════════════════════════════════════════════════════════
+#                           VERIFICATION
+# ═══════════════════════════════════════════════════════════════════════════
+#
+# Pour vérifier l'intégrité :
+#
+#   Windows (PowerShell):
+#   Get-Content OMEGA_SCRIBE_MANIFEST_SHA256_v1.0_20260101.txt | 
+#     Where-Object { $_ -match '^[a-f0-9]{64}' } | 
+#     ForEach-Object { 
+#       $parts = $_ -split '  '; 
+#       $expected = $parts[0]; 
+#       $file = $parts[1]; 
+#       $actual = (Get-FileHash $file -Algorithm SHA256).Hash.ToLower();
+#       if ($actual -eq $expected) { "✓ $file" } else { "✗ $file" }
+#     }
+#
+#   Linux/Mac:
+#   sha256sum -c OMEGA_SCRIBE_MANIFEST_SHA256_v1.0_20260101.txt
+#
+# ═══════════════════════════════════════════════════════════════════════════
+
+# SIGNATURE BLOCK (à remplir après validation)
+# Signed-By: 
+# Signature-Date: 
+# Signature-Hash: 

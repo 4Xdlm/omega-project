@@ -11,6 +11,7 @@ pub mod interfaces;
 pub mod modules;
 pub mod lexicon_fr_gold;
 pub mod holograph;
+pub mod genesis;
 
 // // =========================================================================
 // OMEGA UI v0.7.2 ? Keyword Counts

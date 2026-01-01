@@ -506,3 +506,398 @@ mod tests {
         assert!(a_pos < m_pos && m_pos < z_pos);
     }
 }
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// TESTS NIVEAU 2 — BRUTAL/CHAOS
+// ═══════════════════════════════════════════════════════════════════════════════
+
+#[cfg(test)]
+mod brutal_tests {
+    use super::*;
+    use serde_json::json;
+
+    #[test]
+    fn brutal_01_empty_entity_id_rejected() {
+        let mut store = CanonJsonStore::new();
+        let mut fact = CanonJsonStore::create_fact("CHAR:VICK", "eyes", json!("blue"), FactSource::User, LockLevel::None);
+        fact.entity_id = "".to_string();
+        fact.hash = compute_fact_hash(&fact.entity_id, &fact.key, &fact.value, fact.source, fact.lock);
+        let result = store.assert_fact(fact, ConflictPolicy::AskUser);
+        assert!(result.is_err(), "BRUTAL-01: Empty entity_id must be rejected");
+    }
+
+    #[test]
+    fn brutal_02_null_value_handled() {
+        let mut store = CanonJsonStore::new();
+        let fact = CanonJsonStore::create_fact("CHAR:GHOST", "data", json!(null), FactSource::User, LockLevel::None);
+        let result = store.assert_fact(fact, ConflictPolicy::AskUser);
+        assert!(result.is_ok(), "BRUTAL-02: Null value must be handled");
+    }
+
+    #[test]
+    fn brutal_03_special_chars_in_key() {
+        let mut store = CanonJsonStore::new();
+        let fact = CanonJsonStore::create_fact("CHAR:TEST", "clé_spéciale!@#$%", json!("value"), FactSource::User, LockLevel::None);
+        let result = store.assert_fact(fact, ConflictPolicy::AskUser);
+        assert!(result.is_ok(), "BRUTAL-03: Special chars must be handled");
+    }
+
+    #[test]
+    fn brutal_04_unicode_entity_id() {
+        let mut store = CanonJsonStore::new();
+        let fact = CanonJsonStore::create_fact("CHAR:日本語キャラ", "名前", json!("太郎"), FactSource::User, LockLevel::None);
+        let result = store.assert_fact(fact, ConflictPolicy::AskUser);
+        assert!(result.is_ok(), "BRUTAL-04: Unicode must be handled");
+    }
+
+    #[test]
+    fn brutal_05_very_long_value() {
+        let mut store = CanonJsonStore::new();
+        let long_string = "x".repeat(100_000);
+        let fact = CanonJsonStore::create_fact("CHAR:TEST", "data", json!(long_string), FactSource::User, LockLevel::None);
+        let result = store.assert_fact(fact, ConflictPolicy::AskUser);
+        assert!(result.is_ok(), "BRUTAL-05: Long values must be handled");
+    }
+
+    #[test]
+    fn brutal_06_deeply_nested_json() {
+        let mut store = CanonJsonStore::new();
+        let nested = json!({
+            "l1": { "l2": { "l3": { "l4": { "l5": { "l6": { "l7": { "l8": "deep" } } } } } } }
+        });
+        let fact = CanonJsonStore::create_fact("CHAR:TEST", "nested", nested, FactSource::User, LockLevel::None);
+        let result = store.assert_fact(fact, ConflictPolicy::AskUser);
+        assert!(result.is_ok(), "BRUTAL-06: Nested JSON must be handled");
+    }
+
+    #[test]
+    fn brutal_07_rapid_operations_100x() {
+        let mut store = CanonJsonStore::new();
+        for i in 0..100 {
+            let fact = CanonJsonStore::create_fact(
+                &format!("CHAR:RAPID{}", i), 
+                "prop", 
+                json!(i), 
+                FactSource::User, 
+                LockLevel::None
+            );
+            store.assert_fact(fact, ConflictPolicy::ArchitectOverride).unwrap();
+        }
+        assert_eq!(store.stats().total_facts, 100, "BRUTAL-07: 100 rapid ops must work");
+    }
+
+    #[test]
+    fn brutal_08_malformed_entity_id_formats() {
+        let mut store = CanonJsonStore::new();
+        let bad_formats = vec!["NOCODON", ":", ":EMPTY", "EMPTY:", "::"];
+        for bad in bad_formats {
+            let mut fact = CanonJsonStore::create_fact("CHAR:OK", "key", json!("v"), FactSource::User, LockLevel::None);
+            fact.entity_id = bad.to_string();
+            fact.hash = compute_fact_hash(&fact.entity_id, &fact.key, &fact.value, fact.source, fact.lock);
+            let result = store.assert_fact(fact, ConflictPolicy::AskUser);
+            assert!(result.is_err(), "BRUTAL-08: '{}' must be rejected", bad);
+        }
+    }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// TESTS NIVEAU 3 — AEROSPACE L1-L4
+// ═══════════════════════════════════════════════════════════════════════════════
+
+#[cfg(test)]
+mod aerospace_tests {
+    use super::*;
+    use serde_json::json;
+
+    // L1 — Property-based (déterminisme)
+    #[test]
+    fn aero_l1_01_hash_always_64_hex() {
+        for i in 0..100 {
+            let fact = CanonJsonStore::create_fact(
+                &format!("CHAR:TEST{}", i),
+                "prop",
+                json!({"n": i}),
+                FactSource::User,
+                LockLevel::None
+            );
+            assert_eq!(fact.hash.len(), 64, "AERO-L1-01: Hash must be 64 chars");
+            assert!(fact.hash.chars().all(|c| c.is_ascii_hexdigit()), "AERO-L1-01: Hash must be hex");
+        }
+    }
+
+    #[test]
+    fn aero_l1_02_fact_id_format() {
+        let fact = CanonJsonStore::create_fact("CHAR:TEST", "prop", json!("value"), FactSource::User, LockLevel::None);
+        assert!(fact.fact_id.starts_with("FACT_"), "AERO-L1-02: fact_id must start with FACT_");
+        assert_eq!(fact.fact_id.len(), 5 + 64, "AERO-L1-02: fact_id must be FACT_ + 64 hex");
+    }
+
+    #[test]
+    fn aero_l1_03_determinism_1000_runs() {
+        let value = json!({"test": "determinism", "count": 42});
+        let reference = CanonJsonStore::create_fact("CHAR:DET", "data", value.clone(), FactSource::User, LockLevel::None);
+        for i in 0..1000 {
+            let fact = CanonJsonStore::create_fact("CHAR:DET", "data", value.clone(), FactSource::User, LockLevel::None);
+            assert_eq!(fact.hash, reference.hash, "AERO-L1-03: Run {} differs!", i);
+        }
+    }
+
+    // L2 — Boundary tests
+    #[test]
+    fn aero_l2_01_confidence_bounds() {
+        let mut store = CanonJsonStore::new();
+        let mut fact = CanonJsonStore::create_fact("CHAR:TEST", "key", json!("v"), FactSource::User, LockLevel::None);
+        
+        fact.confidence = -0.001;
+        assert!(store.assert_fact(fact.clone(), ConflictPolicy::AskUser).is_err(), "AERO-L2-01: <0 rejected");
+        
+        fact.confidence = 1.001;
+        assert!(store.assert_fact(fact.clone(), ConflictPolicy::AskUser).is_err(), "AERO-L2-01: >1 rejected");
+        
+        fact.confidence = 0.0;
+        fact.hash = compute_fact_hash(&fact.entity_id, &fact.key, &fact.value, fact.source, fact.lock);
+        assert!(store.assert_fact(fact.clone(), ConflictPolicy::AskUser).is_ok(), "AERO-L2-01: 0.0 accepted");
+    }
+
+    #[test]
+    fn aero_l2_02_empty_key_allowed() {
+        let mut store = CanonJsonStore::new();
+        let fact = CanonJsonStore::create_fact("CHAR:TEST", "", json!("value"), FactSource::User, LockLevel::None);
+        let result = store.assert_fact(fact, ConflictPolicy::AskUser);
+        assert!(result.is_ok(), "AERO-L2-02: Empty key should be allowed");
+    }
+
+    #[test]
+    fn aero_l2_03_all_sources_work() {
+        let sources = vec![
+            FactSource::User, FactSource::Import, FactSource::Ai,
+            FactSource::Inferred, FactSource::System, FactSource::Architect
+        ];
+        for (i, source) in sources.iter().enumerate() {
+            let mut store = CanonJsonStore::new();
+            let fact = CanonJsonStore::create_fact(
+                &format!("CHAR:SRC{}", i), "key", json!("v"), *source, LockLevel::None
+            );
+            assert!(store.assert_fact(fact, ConflictPolicy::AskUser).is_ok(), "AERO-L2-03: {:?} must work", source);
+        }
+    }
+
+    #[test]
+    fn aero_l2_04_all_lock_levels_work() {
+        let locks = vec![LockLevel::None, LockLevel::Soft, LockLevel::Hard];
+        for (i, lock) in locks.iter().enumerate() {
+            let mut store = CanonJsonStore::new();
+            let fact = CanonJsonStore::create_fact(
+                &format!("CHAR:LOCK{}", i), "key", json!("v"), FactSource::User, *lock
+            );
+            assert!(store.assert_fact(fact, ConflictPolicy::AskUser).is_ok(), "AERO-L2-04: {:?} must work", lock);
+        }
+    }
+
+    // L3 — Chaos tests
+    #[test]
+    fn aero_l3_01_concurrent_style_stress() {
+        let mut store = CanonJsonStore::new();
+        for i in 0..500 {
+            let op = i % 5;
+            match op {
+                0 => {
+                    let fact = CanonJsonStore::create_fact(
+                        &format!("CHAR:CHAOS{}", i % 50), "prop", json!(i), FactSource::User, LockLevel::None
+                    );
+                    let _ = store.assert_fact(fact, ConflictPolicy::ArchitectOverride);
+                }
+                1 => { let _ = store.query(&format!("CHAR:CHAOS{}", i % 50), "prop"); }
+                2 => { let _ = store.query_entity(&format!("CHAR:CHAOS{}", i % 50)); }
+                3 => { let _ = store.stats(); }
+                4 => { let _ = store.export_snapshot(); }
+                _ => {}
+            }
+        }
+        assert!(store.verify_ledger_chain(), "AERO-L3-01: Chain must survive chaos");
+    }
+
+    #[test]
+    fn aero_l3_02_recovery_after_errors() {
+        let mut store = CanonJsonStore::new();
+        
+        // Cause errors
+        for _ in 0..10 {
+            let mut bad = CanonJsonStore::create_fact("BAD", "k", json!("v"), FactSource::User, LockLevel::None);
+            bad.entity_id = "INVALID".to_string();
+            bad.hash = compute_fact_hash(&bad.entity_id, &bad.key, &bad.value, bad.source, bad.lock);
+            let _ = store.assert_fact(bad, ConflictPolicy::AskUser);
+        }
+        
+        // Must still work
+        let good = CanonJsonStore::create_fact("CHAR:GOOD", "key", json!("ok"), FactSource::User, LockLevel::None);
+        assert!(store.assert_fact(good, ConflictPolicy::AskUser).is_ok(), "AERO-L3-02: Must recover");
+    }
+
+    // L4 — Differential/Oracle tests
+    #[test]
+    fn aero_l4_01_hash_matches_manual_computation() {
+        let entity = "CHAR:ORACLE";
+        let key = "test";
+        let value = json!({"a": 1, "b": 2});
+        let source = FactSource::User;
+        let lock = LockLevel::None;
+        
+        // Manual computation
+        let canonical = canonical_json(&value);
+        let payload = format!("{}|{}|{}|{}|{}", entity, key, canonical, source, lock);
+        let mut hasher = sha2::Sha256::new();
+        sha2::Digest::update(&mut hasher, payload.as_bytes());
+        let expected: String = format!("{:x}", sha2::Digest::finalize(hasher));
+        
+        // Function computation
+        let actual = compute_fact_hash(entity, key, &value, source, lock);
+        
+        assert_eq!(actual, expected, "AERO-L4-01: Hash must match oracle");
+    }
+
+    #[test]
+    fn aero_l4_02_snapshot_hash_deterministic() {
+        let mut hashes = Vec::new();
+        for _ in 0..20 {
+            let mut store = CanonJsonStore::new();
+            store.assert_fact(CanonJsonStore::create_fact("CHAR:A", "k1", json!("v1"), FactSource::User, LockLevel::None), ConflictPolicy::ArchitectOverride).unwrap();
+            store.assert_fact(CanonJsonStore::create_fact("CHAR:B", "k2", json!("v2"), FactSource::User, LockLevel::None), ConflictPolicy::ArchitectOverride).unwrap();
+            let snapshot = store.export_snapshot().unwrap();
+            hashes.push(snapshot.snapshot_hash);
+        }
+        assert!(hashes.iter().all(|h| h == &hashes[0]), "AERO-L4-02: Snapshot hash must be deterministic");
+    }
+
+    #[test]
+    fn aero_l4_03_ledger_event_count_exact() {
+        let mut store = CanonJsonStore::new();
+        let ops = vec![
+            ("CHAR:A", "k", json!("v1")),
+            ("CHAR:B", "k", json!("v2")),
+            ("CHAR:C", "k", json!("v3")),
+        ];
+        for (e, k, v) in ops {
+            let fact = CanonJsonStore::create_fact(e, k, v, FactSource::User, LockLevel::None);
+            store.assert_fact(fact, ConflictPolicy::ArchitectOverride).unwrap();
+        }
+        assert_eq!(store.ledger_len(), 3, "AERO-L4-03: Exactly 3 events expected");
+    }
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// TESTS INVCORE — Invariants CANON
+// ═══════════════════════════════════════════════════════════════════════════════
+
+#[cfg(test)]
+mod invcore_tests {
+    use super::*;
+    use serde_json::json;
+
+    #[test]
+    fn invcore_01_determinism_absolute() {
+        // CANON-I01: Même input = Même output (1000 runs)
+        let value = json!({"complex": {"nested": [1,2,3]}, "unicode": "日本語"});
+        let reference = CanonJsonStore::create_fact("CHAR:INV01", "data", value.clone(), FactSource::User, LockLevel::None);
+        for _ in 0..1000 {
+            let fact = CanonJsonStore::create_fact("CHAR:INV01", "data", value.clone(), FactSource::User, LockLevel::None);
+            assert_eq!(fact.fact_id, reference.fact_id, "INVCORE-01: Determinism violated!");
+            assert_eq!(fact.hash, reference.hash, "INVCORE-01: Hash differs!");
+        }
+    }
+
+    #[test]
+    fn invcore_02_ledger_append_only() {
+        // CANON-I02: Ledger croît toujours
+        let mut store = CanonJsonStore::new();
+        let mut sizes = Vec::new();
+        for i in 0..100 {
+            let fact = CanonJsonStore::create_fact(&format!("CHAR:INV02_{}", i), "k", json!(i), FactSource::User, LockLevel::None);
+            store.assert_fact(fact, ConflictPolicy::ArchitectOverride).unwrap();
+            sizes.push(store.ledger_len());
+        }
+        for i in 1..sizes.len() {
+            assert!(sizes[i] > sizes[i-1], "INVCORE-02: Ledger must only grow");
+        }
+    }
+
+    #[test]
+    fn invcore_03_conflict_never_auto_resolve() {
+        // CANON-I03: Conflit = question, jamais auto-résolution
+        let mut store = CanonJsonStore::new();
+        store.assert_fact(CanonJsonStore::create_fact("CHAR:INV03", "eyes", json!("blue"), FactSource::User, LockLevel::None), ConflictPolicy::ArchitectOverride).unwrap();
+        
+        let conflict = CanonJsonStore::create_fact("CHAR:INV03", "eyes", json!("green"), FactSource::User, LockLevel::None);
+        let result = store.assert_fact(conflict, ConflictPolicy::AskUser).unwrap();
+        
+        match result {
+            AssertResult::Conflict { conflicts } => {
+                assert!(!conflicts.is_empty(), "INVCORE-03: Must return conflicts");
+            }
+            _ => panic!("INVCORE-03: Must be Conflict, not auto-resolved!")
+        }
+    }
+
+    #[test]
+    fn invcore_04_hard_lock_inviolable_1000x() {
+        // CANON-I04: Lock HARD = inviolable (1000 tentatives)
+        let mut store = CanonJsonStore::new();
+        store.assert_fact(CanonJsonStore::create_fact("CHAR:INV04", "locked", json!("original"), FactSource::User, LockLevel::Hard), ConflictPolicy::ArchitectOverride).unwrap();
+        
+        for i in 0..1000 {
+            let attack = CanonJsonStore::create_fact("CHAR:INV04", "locked", json!(format!("attack_{}", i)), FactSource::User, LockLevel::None);
+            let result = store.assert_fact(attack, ConflictPolicy::ArchitectOverride);
+            assert!(matches!(result, Err(CanonError::LockViolation { .. })), "INVCORE-04: Attempt {} must fail", i);
+        }
+        
+        let fact = store.query("CHAR:INV04", "locked").unwrap();
+        assert_eq!(fact.value, json!("original"), "INVCORE-04: Value must be unchanged");
+    }
+
+    #[test]
+    fn invcore_05_export_canonical() {
+        // CANON-I05: Export toujours canonique
+        let mut hashes = Vec::new();
+        for _ in 0..20 {
+            let mut store = CanonJsonStore::new();
+            // Insertion dans un ordre différent à chaque fois
+            let facts = vec![
+                ("CHAR:Z", "k", json!("z")),
+                ("CHAR:A", "k", json!("a")),
+                ("CHAR:M", "k", json!("m")),
+            ];
+            for (e, k, v) in facts {
+                store.assert_fact(CanonJsonStore::create_fact(e, k, v, FactSource::User, LockLevel::None), ConflictPolicy::ArchitectOverride).unwrap();
+            }
+            hashes.push(store.export_snapshot().unwrap().snapshot_hash);
+        }
+        assert!(hashes.iter().all(|h| h == &hashes[0]), "INVCORE-05: Export must be canonical");
+    }
+
+    #[test]
+    fn invcore_06_import_export_idempotent() {
+        // CANON-I06: import(export(state)) = state
+        let mut store1 = CanonJsonStore::new();
+        for i in 0..10 {
+            store1.assert_fact(CanonJsonStore::create_fact(&format!("CHAR:IE{}", i), "k", json!(i), FactSource::User, LockLevel::None), ConflictPolicy::ArchitectOverride).unwrap();
+        }
+        let snap1 = store1.export_snapshot().unwrap();
+        
+        let mut store2 = CanonJsonStore::new();
+        store2.import_snapshot(snap1.clone(), ImportPolicy::ReplaceAll).unwrap();
+        let snap2 = store2.export_snapshot().unwrap();
+        
+        assert_eq!(snap1.snapshot_hash, snap2.snapshot_hash, "INVCORE-06: Idempotence violated");
+    }
+
+    #[test]
+    fn invcore_08_hash_chain_integrity() {
+        // CANON-I08: Chain de hash intègre
+        let mut store = CanonJsonStore::new();
+        for i in 0..200 {
+            let fact = CanonJsonStore::create_fact(&format!("CHAR:HC{}", i), "k", json!(i), FactSource::User, LockLevel::None);
+            store.assert_fact(fact, ConflictPolicy::ArchitectOverride).unwrap();
+        }
+        assert!(store.verify_ledger_chain(), "INVCORE-08: Hash chain must be valid");
+    }
+}

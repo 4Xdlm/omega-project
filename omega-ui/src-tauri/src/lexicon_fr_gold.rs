@@ -664,7 +664,7 @@ pub fn analyze_gold(
     }
     
     // Trier par intensité décroissante
-    emotions.sort_by(|a, b| b.intensity.partial_cmp(&a.intensity).unwrap());
+    emotions.sort_by(|a, b| b.intensity.partial_cmp(&a.intensity).unwrap().then_with(|| a.emotion.cmp(&b.emotion)));
     
     let dominant_emotion = emotions.first().and_then(|e| {
         if e.occurrences > 0 {

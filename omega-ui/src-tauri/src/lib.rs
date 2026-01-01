@@ -1,3 +1,4 @@
+mod l3_stress_lexicon;
 mod l3_stress_tests;
 // -------------------------------------------------------------------------------
 // OMEGA Modules  Sprint A Pipeline IA

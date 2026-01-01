@@ -1,3 +1,4 @@
+mod l3_export_hash;
 mod l3_stress_lexicon;
 mod l3_stress_tests;
 // -------------------------------------------------------------------------------

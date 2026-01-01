@@ -7,6 +7,7 @@ mod l3_stress_tests;
 pub mod error;
 pub mod ai;
 pub mod pipeline;
+pub mod interfaces;
 pub mod modules;
 pub mod lexicon_fr_gold;
 pub mod holograph;

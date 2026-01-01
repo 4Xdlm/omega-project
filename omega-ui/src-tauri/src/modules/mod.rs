@@ -15,3 +15,4 @@ pub use emotion_analyzer::{EmotionAnalyzer, create_analyzer, AnalysisResult, Emo
 pub use canon::CanonJsonStore;
 pub use crate::interfaces::canon::{CanonFact, CanonError, FactSource, LockLevel};
 pub mod voice;
+pub mod voice_hybrid;

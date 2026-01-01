@@ -1,0 +1,20 @@
+﻿{
+  "$schema": "OMEGA_TEST_SUMMARY_v1",
+  "generated_at": "2026-01-01T15:30:00Z",
+  "tag": "VOICE_HYBRID_v2.0.0-INTEGRATED",
+  "commit": "3af1765",
+  "totals": {
+    "all_tests": 265,
+    "passed": 265,
+    "failed": 0,
+    "status": "GREEN"
+  },
+  "suites": {
+    "CANON_v1": { "passed": 57, "tag": "CANON_v1.0.0-CERTIFIED", "status": "CERTIFIED" },
+    "VOICE_v1": { "passed": 78, "tag": "VOICE_v1.0.0-CERTIFIED", "status": "CERTIFIED" },
+    "VOICE_HYBRID_v2": { "passed": 65, "tag": "VOICE_HYBRID_v2.0.0-INTEGRATED", "status": "INTEGRATED" },
+    "INVCORE": { "passed": 14, "status": "GREEN" }
+  },
+  "verification": "cargo test --lib 2>&1 | Select-String 'test result'",
+  "ssot_rule": "Ce fichier est la SOURCE UNIQUE. Tout ecart = NCR."
+}

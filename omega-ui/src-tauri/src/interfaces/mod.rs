@@ -5,3 +5,4 @@ pub mod canon;
 
 // Re-export CANON contract
 pub use canon::*;
+pub mod voice;

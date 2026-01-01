@@ -14,3 +14,4 @@ pub use emotion_analyzer::{EmotionAnalyzer, create_analyzer, AnalysisResult, Emo
 // Re-export CANON (types viennent de interfaces)
 pub use canon::CanonJsonStore;
 pub use crate::interfaces::canon::{CanonFact, CanonError, FactSource, LockLevel};
+pub mod voice;

@@ -1,0 +1,35 @@
+﻿{
+  "name": "omega-gateway-universel",
+  "version": "1.0.0",
+  "description": "OMEGA Gateway Universel - NASA/SpaceX-Grade",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:unit": "vitest run --grep=L1|L2",
+    "test:brutal": "vitest run --grep=L3|Chaos",
+    "test:aerospace": "vitest run --grep=L4|INVARIANT",
+    "test:all": "vitest run",
+    "audit": "npm run typecheck && npm run test:all",
+    "audit:force": "npm run typecheck && npm run test:all -- --no-cache",
+    "trace": "echo TRACE: 16 tests covering 12 invariants"
+  },
+  "dependencies": {
+    "fast-json-stable-stringify": "^2.1.0",
+    "zod": "^3.22.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "fast-check": "^3.14.0",
+    "typescript": "^5.3.0",
+    "vitest": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

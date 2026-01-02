@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://omega.dev/schemas/ledger_entry.schema.json",
+  "title": "LedgerEntry",
+  "description": "OMEGA Ledger - Entrée append-only chaînée cryptographiquement",
+  "type": "object",
+  "required": ["entry_id", "timestamp", "stream_id", "seq", "event_type", "payload", "prev_hash", "entry_hash"],
+  "additionalProperties": false,
+  "properties": {
+    "entry_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "stream_id": {
+      "type": "string",
+      "description": "execution_token ou 'gateway-global' ou autre stream",
+      "minLength": 1,
+      "maxLength": 256
+    },
+    "seq": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Numéro de séquence monotone par stream"
+    },
+    "event_type": {
+      "type": "string",
+      "pattern": "^[A-Z][A-Z0-9_]*$",
+      "description": "Type d'événement normalisé"
+    },
+    "payload": {
+      "type": "object",
+      "description": "Contenu de l'événement (canonical JSON)"
+    },
+    "prev_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "SHA-256 de l'entrée précédente (GENESIS pour seq=0)"
+    },
+    "entry_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "SHA-256 de cette entrée"
+    }
+  }
+}

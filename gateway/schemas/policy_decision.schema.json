@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://omega.dev/schemas/policy_decision.schema.json",
+  "title": "PolicyDecision",
+  "description": "OMEGA Policy Engine Decision",
+  "type": "object",
+  "required": ["verdict", "reason_code", "message", "policy_version", "timestamp"],
+  "additionalProperties": false,
+  "properties": {
+    "verdict": {
+      "type": "string",
+      "enum": ["ALLOW", "DENY", "ALLOW_WITH_CONSTRAINTS"],
+      "description": "Verdict de la policy"
+    },
+    "reason_code": {
+      "type": "string",
+      "pattern": "^POL_[A-Z_]+$|^ALLOW$",
+      "description": "Code de raison"
+    },
+    "message": {
+      "type": "string",
+      "description": "Message explicatif"
+    },
+    "policy_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Version de la policy appliquée"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "matched_rule": {
+      "type": "string",
+      "description": "ID de la règle qui a matché (optionnel)"
+    },
+    "constraints": {
+      "$ref": "#/$defs/PolicyConstraints"
+    }
+  },
+  "$defs": {
+    "PolicyConstraints": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "max_runtime_ms": {
+          "type": "integer",
+          "minimum": 1000
+        },
+        "max_payload_bytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "allowed_pipelines": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "trace_required": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

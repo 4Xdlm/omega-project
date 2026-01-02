@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://omega.dev/schemas/pipeline_spec.schema.json",
+  "title": "PipelineSpec",
+  "description": "OMEGA Pipeline Specification - Définition complète d'un pipeline",
+  "type": "object",
+  "required": ["pipeline_id", "version", "intent", "description", "criticality", "input_schema_id", "output_schema_id", "constraints", "allowed_callers", "module_chain"],
+  "additionalProperties": false,
+  "properties": {
+    "pipeline_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]*$",
+      "minLength": 1,
+      "maxLength": 128,
+      "description": "Identifiant unique du pipeline"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Version SemVer"
+    },
+    "intent": {
+      "type": "string",
+      "pattern": "^[a-zA-Z][a-zA-Z0-9_.-]*$",
+      "description": "Intent résolu par ce pipeline"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024,
+      "description": "Description du pipeline"
+    },
+    "criticality": {
+      "type": "string",
+      "enum": ["LOW", "MEDIUM", "HIGH", "CRITICAL"],
+      "description": "Niveau de criticité"
+    },
+    "input_schema_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_.@-]*$",
+      "description": "ID du schema d'entrée"
+    },
+    "output_schema_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_.@-]*$",
+      "description": "ID du schema de sortie"
+    },
+    "constraints": {
+      "$ref": "#/$defs/PipelineConstraints"
+    },
+    "allowed_callers": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["SYSTEM", "USER", "PIPELINE"]
+      },
+      "minItems": 1,
+      "uniqueItems": true,
+      "description": "Types d'appelants autorisés"
+    },
+    "module_chain": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9_-]*@\\d+\\.\\d+\\.\\d+$",
+        "description": "Format: module_id@version"
+      },
+      "minItems": 1,
+      "maxItems": 50,
+      "description": "Chaîne ordonnée des modules (whitelist)"
+    },
+    "enabled": {
+      "type": "boolean",
+      "default": true,
+      "description": "Kill switch"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "PipelineConstraints": {
+      "type": "object",
+      "required": ["max_runtime_ms", "max_payload_bytes", "trace_required", "deterministic_required"],
+      "additionalProperties": false,
+      "properties": {
+        "max_runtime_ms": {
+          "type": "integer",
+          "minimum": 1000,
+          "maximum": 300000,
+          "default": 15000
+        },
+        "max_payload_bytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2097152,
+          "default": 2097152
+        },
+        "trace_required": {
+          "type": "boolean",
+          "default": false
+        },
+        "deterministic_required": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    }
+  }
+}

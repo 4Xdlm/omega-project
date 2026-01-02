@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://omega.dev/schemas/snapshot_payload.schema.json",
+  "title": "SnapshotPayload",
+  "description": "OMEGA Snapshot Engine - Preuve cryptographique d'état",
+  "type": "object",
+  "required": ["snapshot_id", "execution_token", "pipeline_id", "step", "timestamp", "input_hash", "state_digest"],
+  "additionalProperties": false,
+  "properties": {
+    "snapshot_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "execution_token": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "pipeline_id": {
+      "type": "string"
+    },
+    "step": {
+      "type": "string",
+      "description": "module_id@version ou PRE/POST/TERMINAL"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "input_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "SHA-256 de l'input canonicalisé"
+    },
+    "output_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "SHA-256 de l'output (si step terminé)"
+    },
+    "state_digest": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "SHA-256 résumé de l'état d'exécution"
+    },
+    "artifacts_refs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["kind", "content_hash", "storage_ref"],
+        "properties": {
+          "kind": { "type": "string" },
+          "content_hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+          "storage_ref": { "type": "string" }
+        }
+      },
+      "description": "Références aux artifacts (jamais de blobs)"
+    }
+  }
+}

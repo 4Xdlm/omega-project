@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://omega.dev/schemas/execution_report.schema.json",
+  "title": "ExecutionReport",
+  "description": "OMEGA Orchestrator Execution Report - Rapport final d'exécution",
+  "type": "object",
+  "required": ["execution_token", "pipeline_id", "status", "start_time", "end_time"],
+  "additionalProperties": false,
+  "properties": {
+    "execution_token": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "pipeline_id": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["COMPLETED", "FAILED", "TIMED_OUT", "CANCELLED"]
+    },
+    "start_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "end_time": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "duration_ms": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "steps_completed": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "steps_total": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "artifacts": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/ArtifactRef" }
+    },
+    "output_ref": {
+      "$ref": "#/$defs/ArtifactRef"
+    },
+    "error_trace": {
+      "$ref": "#/$defs/ErrorTrace"
+    },
+    "metrics": {
+      "$ref": "#/$defs/ExecutionMetrics"
+    }
+  },
+  "$defs": {
+    "ArtifactRef": {
+      "type": "object",
+      "required": ["kind", "content_hash", "storage_ref"],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": ["FINAL_OUTPUT", "STEP_OUTPUT", "REPORT", "SNAPSHOT_PAYLOAD", "DEBUG_TRACE"]
+        },
+        "content_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "size_bytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "mime": {
+          "type": "string"
+        },
+        "storage_ref": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "ErrorTrace": {
+      "type": "object",
+      "required": ["step", "code", "message"],
+      "properties": {
+        "step": {
+          "type": "string",
+          "description": "module_id@version où l'erreur s'est produite"
+        },
+        "code": {
+          "type": "string",
+          "pattern": "^(ORCH|MOD)_[A-Z_]+$"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "string"
+        },
+        "retryable": {
+          "type": "boolean"
+        }
+      }
+    },
+    "ExecutionMetrics": {
+      "type": "object",
+      "properties": {
+        "total_duration_ms": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "steps_duration_ms": {
+          "type": "object",
+          "additionalProperties": { "type": "integer" }
+        },
+        "memory_peak_bytes": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    }
+  }
+}

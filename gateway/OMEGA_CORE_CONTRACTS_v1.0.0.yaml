@@ -1,0 +1,215 @@
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════
+#
+#   ██████╗ ███╗   ███╗███████╗ ██████╗  █████╗      ██████╗ ██████╗ ███╗   ██╗████████╗██████╗  █████╗  ██████╗████████╗███████╗
+#  ██╔═══██╗████╗ ████║██╔════╝██╔════╝ ██╔══██╗    ██╔════╝██╔═══██╗████╗  ██║╚══██╔══╝██╔══██╗██╔══██╗██╔════╝╚══██╔══╝██╔════╝
+#  ██║   ██║██╔████╔██║█████╗  ██║  ███╗███████║    ██║     ██║   ██║██╔██╗ ██║   ██║   ██████╔╝███████║██║        ██║   ███████╗
+#  ██║   ██║██║╚██╔╝██║██╔══╝  ██║   ██║██╔══██║    ██║     ██║   ██║██║╚██╗██║   ██║   ██╔══██╗██╔══██║██║        ██║   ╚════██║
+#  ╚██████╔╝██║ ╚═╝ ██║███████╗╚██████╔╝██║  ██║    ╚██████╗╚██████╔╝██║ ╚████║   ██║   ██║  ██║██║  ██║╚██████╗   ██║   ███████║
+#   ╚═════╝ ╚═╝     ╚═╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝     ╚═════╝ ╚═════╝ ╚═╝  ╚═══╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝ ╚═════╝   ╚═╝   ╚══════╝
+#
+#                              OMEGA CORE CONTRACTS — SOURCE DE VÉRITÉ UNIQUE
+#                                    Version 1.0.0 — NASA/SpaceX-Grade
+#                                         2 Janvier 2026
+#
+# ═══════════════════════════════════════════════════════════════════════════════════════════════════════
+
+meta:
+  document_id: "OMEGA-CONTRACTS-001"
+  version: "1.0.0"
+  status: "DRAFT"
+  created_at: "2026-01-02T00:00:00Z"
+  frozen_at: null
+  standards: ["NASA-STD-8719.13C", "DO-178C Level A", "AS9100D", "JSON Schema Draft 2020-12"]
+  integration:
+    base_module: "NEXUS DEP v1.0.0-FROZEN"
+    nexus_hash: "41cdfc068cc8d26d8e35ea4241d6c9938ea24507df56ec921c3a6de21f11bca0"
+  validation:
+    architect: "Francky"
+    primary_ia: "Claude"
+    consultants: ["ChatGPT", "Gemini"]
+
+glossary:
+  MUST: "Obligation absolue - violation = système invalide"
+  MUST_NOT: "Interdiction absolue - violation = système invalide"
+  SHOULD: "Recommandé sauf raison documentée dans ADR"
+  MAY: "Optionnel"
+  determinism: "Même input + même seed → même output, bit pour bit"
+  immutability: "Une fois écrit, jamais modifié (append-only)"
+  monotonicity: "État ne peut que progresser, jamais reculer"
+  fail_fast: "Erreur → arrêt immédiat"
+  fail_loud: "Erreur → signal explicite avec reason_code"
+  canonical_json: "JSON clés triées récursivement, UTF-8 strict"
+  default_deny: "Sans règle ALLOW explicite → DENY"
+
+types:
+  primitives:
+    UUID: {type: "string", pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"}
+    ISO8601: {type: "string", format: "date-time"}
+    SHA256: {type: "string", pattern: "^[a-f0-9]{64}$", minLength: 64, maxLength: 64}
+    SemVer: {type: "string", pattern: "^\\d+\\.\\d+\\.\\d+(-[a-zA-Z0-9.]+)?$"}
+  enums:
+    CallerType: {enum: ["SYSTEM", "USER", "PIPELINE"]}
+    ExecutionMode: {enum: ["PROD", "TEST", "DRY_RUN"], default: "PROD"}
+    ResponseStatus: {enum: ["ACCEPTED", "REJECTED"]}
+    PolicyVerdict: {enum: ["ALLOW", "DENY", "ALLOW_WITH_CONSTRAINTS"], default_on_no_match: "DENY"}
+    ExecutionState: {enum: ["PENDING", "INITIALIZING", "RUNNING", "COMPLETED", "FAILED", "TIMED_OUT", "CANCELLED"], terminal: ["COMPLETED", "FAILED", "TIMED_OUT", "CANCELLED"]}
+    ModuleErrorCategory: {enum: ["VALIDATION", "EXECUTION", "TIMEOUT", "DEPENDENCY", "INTERNAL"]}
+    ArtifactKind: {enum: ["FINAL_OUTPUT", "STEP_OUTPUT", "REPORT", "SNAPSHOT_PAYLOAD", "DEBUG_TRACE"]}
+    Severity: {enum: ["CRITICAL", "HIGH", "MEDIUM", "LOW"]}
+
+reason_codes:
+  gateway:
+    GW_REQ_NULL: {message: "Request is null", recoverable: false}
+    GW_NO_REQUEST_ID: {message: "Missing request_id", recoverable: false}
+    GW_BAD_TIMESTAMP: {message: "Invalid timestamp", recoverable: false}
+    GW_BAD_CALLER: {message: "Invalid caller", recoverable: false}
+    GW_NO_INTENT: {message: "Missing intent", recoverable: false}
+    GW_NO_PAYLOAD: {message: "Missing payload", recoverable: false}
+    GW_PAYLOAD_TOO_LARGE: {message: "Payload exceeds 2MB", recoverable: false}
+    GW_SCHEMA_INVALID: {message: "Payload schema mismatch", recoverable: false}
+    GW_POLICY_DENY: {message: "Policy denied", recoverable: false}
+    GW_INTENT_UNKNOWN: {message: "Unknown intent", recoverable: false}
+    GW_CALLER_NOT_ALLOWED: {message: "Caller not allowed", recoverable: false}
+    GW_TRACE_REQUIRED: {message: "Trace required", recoverable: true}
+    GW_RATE_LIMITED: {message: "Rate limited", recoverable: true}
+  policy:
+    POL_NO_VERSION: {message: "Missing policy_version", recoverable: false}
+    POL_CALLER_BLACKLISTED: {message: "Caller blacklisted", recoverable: false}
+    POL_INTENT_FORBIDDEN: {message: "Intent forbidden", recoverable: false}
+    POL_MODE_RESTRICTED: {message: "Mode restricted", recoverable: false}
+  registry:
+    REG_INTENT_NOT_FOUND: {message: "Intent not registered", recoverable: false}
+    REG_PIPELINE_NOT_FOUND: {message: "Pipeline not found", recoverable: false}
+    REG_INVALID_SPEC: {message: "Invalid spec", recoverable: false}
+  module_registry:
+    MREG_NOT_FOUND: {message: "Module not found", recoverable: false}
+    MREG_DISABLED: {message: "Module disabled", recoverable: false}
+    MREG_INTERFACE_MISMATCH: {message: "Interface mismatch", recoverable: false}
+    MREG_NOT_DETERMINISTIC: {message: "Not deterministic-safe", recoverable: false}
+  orchestrator:
+    ORCH_NO_TOKEN: {message: "Missing token", recoverable: false}
+    ORCH_NO_SPEC: {message: "Missing spec", recoverable: false}
+    ORCH_BAD_DEADLINE: {message: "Invalid deadline", recoverable: false}
+    ORCH_EMPTY_CHAIN: {message: "Empty module_chain", recoverable: false}
+    ORCH_MODULE_NOT_FOUND: {message: "Module not found", recoverable: false}
+    ORCH_STEP_CRASH: {message: "Module crashed", recoverable: false}
+    ORCH_TIMEOUT: {message: "Deadline exceeded", recoverable: false}
+    ORCH_STATE_VIOLATION: {message: "Invalid state transition", recoverable: false}
+  module:
+    MOD_VALIDATION_FAILED: {message: "Validation failed", recoverable: false}
+    MOD_EXECUTION_ERROR: {message: "Execution error", recoverable: true}
+    MOD_TIMEOUT: {message: "Module timeout", recoverable: false}
+  snapshot:
+    SNAP_CREATION_FAILED: {message: "Creation failed", recoverable: false}
+    SNAP_NOT_FOUND: {message: "Not found", recoverable: false}
+    SNAP_HASH_MISMATCH: {message: "Hash mismatch", recoverable: false}
+  ledger:
+    LED_APPEND_FAILED: {message: "Append failed", recoverable: false}
+    LED_CHAIN_BROKEN: {message: "Chain broken", recoverable: false}
+    LED_SEQ_GAP: {message: "Sequence gap", recoverable: false}
+  artifact:
+    ART_STORE_FAILED: {message: "Store failed", recoverable: false}
+    ART_NOT_FOUND: {message: "Not found", recoverable: false}
+    ART_HASH_MISMATCH: {message: "Hash mismatch", recoverable: false}
+  schema:
+    SCH_NOT_FOUND: {message: "Schema not found", recoverable: false}
+    SCH_VALIDATION_FAILED: {message: "Validation failed", recoverable: false}
+
+event_types:
+  gateway: [GATEWAY_RECEIVED, GATEWAY_REJECTED, GATEWAY_ACCEPTED, EXECUTION_TOKEN_ISSUED]
+  policy: [POLICY_CHECK_START, POLICY_DECISION, POLICY_RULE_MATCHED]
+  registry: [PIPELINE_RESOLVED, MODULE_RESOLVED]
+  orchestrator: [ORCH_STATE_CHANGE, ORCH_INIT_OK, STEP_BEGIN, STEP_OK, STEP_FAIL, STEP_CRASH, ORCH_TIMEOUT, ORCH_COMPLETED, ORCH_FAILED]
+  snapshot: [SNAPSHOT_CREATED, SNAPSHOT_VERIFIED]
+  ledger: [LEDGER_APPEND, LEDGER_VERIFY_OK, LEDGER_VERIFY_FAIL]
+  artifact: [ARTIFACT_STORED, ARTIFACT_RETRIEVED, ARTIFACT_VERIFIED]
+
+invariants:
+  gateway:
+    - {id: "GW-01", title: "Point d'entrée unique", severity: "CRITICAL", formula: "∀ execution: entry = Gateway"}
+    - {id: "GW-02", title: "Bypass impossible", severity: "CRITICAL", formula: "¬∃ path: bypasses(Gateway)"}
+    - {id: "GW-03", title: "Validation avant routage", severity: "CRITICAL", formula: "validate < policy < registry"}
+    - {id: "GW-04", title: "Décision déterministe", severity: "CRITICAL", formula: "f(input) = f(input)"}
+    - {id: "GW-05", title: "Refus explicite", severity: "HIGH", formula: "reject → ∃ reason_code"}
+    - {id: "GW-06", title: "Aucun effet de bord", severity: "HIGH", formula: "side_effects ⊆ {audit}"}
+  policy:
+    - {id: "POL-01", title: "Décision déterministe", severity: "CRITICAL", formula: "policy(req,v) = policy(req,v)"}
+    - {id: "POL-02", title: "Version obligatoire", severity: "CRITICAL", formula: "∀ decision: ∃ policy_version"}
+    - {id: "POL-03", title: "Reason stable", severity: "HIGH", formula: "reason_code ∈ CODES"}
+    - {id: "POL-04", title: "Pas de dépendance résultat", severity: "HIGH", formula: "¬depends(decision, result)"}
+    - {id: "POL-05", title: "Pas d'effets de bord", severity: "HIGH", formula: "side_effects = ∅"}
+  registry:
+    - {id: "REG-01", title: "Non déclaré = inexistant", severity: "CRITICAL", formula: "¬registered → ¬executable"}
+    - {id: "REG-02", title: "Résolution déterministe", severity: "CRITICAL", formula: "resolve(i) = resolve(i)"}
+    - {id: "REG-03", title: "Spec versionnée", severity: "HIGH", formula: "∀ spec: ∃ version"}
+    - {id: "REG-04", title: "Whitelist chain", severity: "HIGH", formula: "call(m) → m ∈ chain"}
+    - {id: "REG-05", title: "Contraintes explicites", severity: "HIGH", formula: "∀ spec: defined(constraints)"}
+  module_registry:
+    - {id: "MREG-01", title: "Non déclaré = inexistant", severity: "CRITICAL", formula: "¬registered → ¬loadable"}
+    - {id: "MREG-02", title: "Version explicite", severity: "HIGH", formula: "∀ resolve: explicit(version)"}
+    - {id: "MREG-03", title: "Kill switch absolu", severity: "CRITICAL", formula: "enabled=false → ¬executable"}
+    - {id: "MREG-04", title: "Interface strict", severity: "HIGH", formula: "interface_version = required"}
+    - {id: "MREG-05", title: "Résolution déterministe", severity: "HIGH", formula: "get(id,v) = get(id,v)"}
+  orchestrator:
+    - {id: "ORCH-01", title: "Monotonie état", severity: "CRITICAL", formula: "state(t+1) ≥ state(t)"}
+    - {id: "ORCH-02", title: "Isolation NEXUS", severity: "CRITICAL", formula: "deterministic → NEXUS_DEP"}
+    - {id: "ORCH-03", title: "Time-bounding", severity: "HIGH", formula: "elapsed > deadline → SIGKILL"}
+    - {id: "ORCH-04", title: "Capture totale", severity: "HIGH", formula: "crash(module) → state=FAILED"}
+    - {id: "ORCH-05", title: "Trace step-by-step", severity: "HIGH", formula: "∀ transition: audit_event"}
+  module:
+    - {id: "MOD-01", title: "Effets bord limités", severity: "CRITICAL", formula: "effects ⊆ {audit,artifacts,rng}"}
+    - {id: "MOD-02", title: "Erreurs typées", severity: "HIGH", formula: "∀ error: ModuleError"}
+    - {id: "MOD-03", title: "validate() pure", severity: "HIGH", formula: "side_effects(validate) = ∅"}
+    - {id: "MOD-04", title: "Déterminisme", severity: "CRITICAL", formula: "required ∧ ¬safe → reject"}
+    - {id: "MOD-05", title: "Audit minimal", severity: "HIGH", formula: "audit(entry) ∧ audit(exit)"}
+  snapshot:
+    - {id: "SNAP-01", title: "Immutabilité", severity: "CRITICAL", formula: "created → immutable"}
+    - {id: "SNAP-02", title: "Hash stable", severity: "CRITICAL", formula: "hash(p) = hash(p)"}
+    - {id: "SNAP-03", title: "Canonicalisation", severity: "HIGH", formula: "∀ field: canonical"}
+    - {id: "SNAP-04", title: "Ref vérifiable", severity: "HIGH", formula: "verify(ref) → bool"}
+  ledger:
+    - {id: "LED-01", title: "Append-only", severity: "CRITICAL", formula: "¬mutable(entry)"}
+    - {id: "LED-02", title: "Chaînage strict", severity: "CRITICAL", formula: "prev_hash = hash(prev)"}
+    - {id: "LED-03", title: "Séquence monotone", severity: "HIGH", formula: "seq[n] > seq[n-1]"}
+    - {id: "LED-04", title: "Canonical stable", severity: "HIGH", formula: "canonical(c) = canonical(c)"}
+    - {id: "LED-05", title: "Verify full-chain", severity: "CRITICAL", formula: "verify_chain() → result"}
+  artifact:
+    - {id: "ART-01", title: "Write-once", severity: "CRITICAL", formula: "∃(hash) → ¬writable"}
+    - {id: "ART-02", title: "Content-addressed", severity: "CRITICAL", formula: "ref.hash = SHA256(content)"}
+    - {id: "ART-03", title: "Refs stables", severity: "HIGH", formula: "verify(ref) → bool"}
+    - {id: "ART-04", title: "Pas de secrets", severity: "HIGH", formula: "¬contains_secret"}
+    - {id: "ART-05", title: "Backend agnostique", severity: "MEDIUM", formula: "backend.change → API.stable"}
+  schema:
+    - {id: "SCH-01", title: "Immutabilité", severity: "CRITICAL", formula: "registered → immutable"}
+    - {id: "SCH-02", title: "ID+version unique", severity: "CRITICAL", formula: "unique(id, version)"}
+    - {id: "SCH-03", title: "Hash stable", severity: "HIGH", formula: "hash(s) = hash(s)"}
+    - {id: "SCH-04", title: "Validation déterministe", severity: "CRITICAL", formula: "validate(s,p) = validate(s,p)"}
+    - {id: "SCH-05", title: "Erreurs stables", severity: "HIGH", formula: "errors(s,p) = errors(s,p)"}
+
+constants:
+  MAX_PAYLOAD_BYTES: 2097152
+  MAX_ARTIFACT_BYTES: 5242880
+  DEFAULT_TIMEOUT_MS: 15000
+  MAX_TIMEOUT_MS: 300000
+  RETRY_MIN_BUDGET_MS: 1000
+  MAX_MODULE_CHAIN_LENGTH: 50
+  DETERMINISTIC_SEED: 42
+  GENESIS_PREV_HASH: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  INTERFACE_VERSION: "OMEGA_MODULE_v1.0"
+  SCHEMA_DRAFT: "https://json-schema.org/draft/2020-12/schema"
+  CONTRACT_VERSION: "1.0.0"
+  DEFAULT_RATE_LIMIT_RPS: 100
+
+state_machine:
+  orchestrator:
+    initial: "PENDING"
+    terminal: ["COMPLETED", "FAILED", "TIMED_OUT", "CANCELLED"]
+    transitions:
+      PENDING: ["INITIALIZING"]
+      INITIALIZING: ["RUNNING", "FAILED"]
+      RUNNING: ["RUNNING", "COMPLETED", "FAILED", "TIMED_OUT", "CANCELLED"]
+    forbidden_from_terminal: true
+
+document_integrity:
+  algorithm: "SHA-256"
+  hash: null

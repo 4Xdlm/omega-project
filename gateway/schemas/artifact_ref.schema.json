@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://omega.dev/schemas/artifact_ref.schema.json",
+  "title": "ArtifactRef",
+  "description": "OMEGA Artifact Store - Référence content-addressed",
+  "type": "object",
+  "required": ["kind", "content_hash", "size_bytes", "mime", "storage_ref", "created_at", "execution_token", "pipeline_id"],
+  "additionalProperties": false,
+  "properties": {
+    "kind": {
+      "type": "string",
+      "enum": ["FINAL_OUTPUT", "STEP_OUTPUT", "REPORT", "SNAPSHOT_PAYLOAD", "DEBUG_TRACE"]
+    },
+    "content_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "SHA-256 du contenu"
+    },
+    "size_bytes": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 5242880
+    },
+    "mime": {
+      "type": "string",
+      "default": "application/json"
+    },
+    "storage_ref": {
+      "type": "string",
+      "description": "Référence opaque au backend de stockage"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "execution_token": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "pipeline_id": {
+      "type": "string"
+    },
+    "step": {
+      "type": "string",
+      "description": "module_id@version si lié à un step"
+    }
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://omega.dev/schemas/gateway_request.schema.json",
+  "title": "GatewayRequest",
+  "description": "OMEGA Gateway Universal Request - Point d'entrée unique du système",
+  "type": "object",
+  "required": ["request_id", "timestamp", "caller", "intent", "payload", "context"],
+  "additionalProperties": false,
+  "properties": {
+    "request_id": {
+      "type": "string",
+      "format": "uuid",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+      "description": "Identifiant unique de la requête (UUID v4)"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Horodatage ISO 8601 UTC"
+    },
+    "caller": {
+      "type": "object",
+      "required": ["id", "type"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 256,
+          "description": "Identifiant de l'appelant"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["SYSTEM", "USER", "PIPELINE"],
+          "description": "Type d'appelant"
+        }
+      }
+    },
+    "intent": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^[a-zA-Z][a-zA-Z0-9_.-]*$",
+      "description": "Intent à résoudre vers un pipeline"
+    },
+    "payload": {
+      "description": "Données de la requête (validées par schema du pipeline)"
+    },
+    "context": {
+      "type": "object",
+      "required": ["mode"],
+      "additionalProperties": false,
+      "properties": {
+        "mode": {
+          "type": "string",
+          "enum": ["PROD", "TEST", "DRY_RUN"],
+          "default": "PROD",
+          "description": "Mode d'exécution"
+        },
+        "trace": {
+          "type": "boolean",
+          "default": false,
+          "description": "Activer le traçage détaillé"
+        },
+        "timeout_ms": {
+          "type": "integer",
+          "minimum": 1000,
+          "maximum": 300000,
+          "description": "Timeout personnalisé en ms"
+        },
+        "correlation_id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "ID de corrélation pour chaînage"
+        },
+        "metadata": {
+          "type": "object",
+          "additionalProperties": true,
+          "description": "Métadonnées additionnelles"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "uuid": {
+      "type": "string",
+      "format": "uuid",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+    }
+  }
+}

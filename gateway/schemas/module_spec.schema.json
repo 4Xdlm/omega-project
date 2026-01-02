@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://omega.dev/schemas/module_spec.schema.json",
+  "title": "ModuleSpec",
+  "description": "OMEGA Module Specification - Définition d'un module exécutable",
+  "type": "object",
+  "required": ["module_id", "version", "description", "criticality", "interface_version", "limits", "io", "enabled"],
+  "additionalProperties": false,
+  "properties": {
+    "module_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_-]*$",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "description": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024
+    },
+    "criticality": {
+      "type": "string",
+      "enum": ["LOW", "MEDIUM", "HIGH", "CRITICAL"]
+    },
+    "interface_version": {
+      "type": "string",
+      "const": "OMEGA_MODULE_v1.0",
+      "description": "Version de l'interface - DOIT être exacte"
+    },
+    "limits": {
+      "$ref": "#/$defs/ModuleLimits"
+    },
+    "io": {
+      "$ref": "#/$defs/ModuleIO"
+    },
+    "capabilities": {
+      "type": "array",
+      "items": { "type": "string" },
+      "default": [],
+      "description": "Capacités déclarées (audit, artifacts, rng)"
+    },
+    "enabled": {
+      "type": "boolean",
+      "default": true,
+      "description": "Kill switch"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "$defs": {
+    "ModuleLimits": {
+      "type": "object",
+      "required": ["deterministic_safe"],
+      "additionalProperties": false,
+      "properties": {
+        "max_runtime_ms": {
+          "type": "integer",
+          "minimum": 100,
+          "maximum": 300000
+        },
+        "max_input_bytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5242880
+        },
+        "deterministic_safe": {
+          "type": "boolean",
+          "description": "Module peut-il s'exécuter dans NEXUS DEP?"
+        }
+      }
+    },
+    "ModuleIO": {
+      "type": "object",
+      "required": ["input_schema_id", "output_schema_id"],
+      "additionalProperties": false,
+      "properties": {
+        "input_schema_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_.@-]*$"
+        },
+        "output_schema_id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_.@-]*$"
+        }
+      }
+    }
+  }
+}

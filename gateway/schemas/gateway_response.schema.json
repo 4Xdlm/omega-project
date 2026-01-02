@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://omega.dev/schemas/gateway_response.schema.json",
+  "title": "GatewayResponse",
+  "description": "OMEGA Gateway Response - Réponse du point d'entrée",
+  "oneOf": [
+    { "$ref": "#/$defs/AcceptedResponse" },
+    { "$ref": "#/$defs/RejectedResponse" }
+  ],
+  "$defs": {
+    "AcceptedResponse": {
+      "type": "object",
+      "required": ["status", "pipeline_id", "execution_token", "timestamp"],
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "type": "string",
+          "const": "ACCEPTED"
+        },
+        "pipeline_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "ID du pipeline résolu"
+        },
+        "execution_token": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Token unique pour cette exécution"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "constraints": {
+          "$ref": "#/$defs/ExecutionConstraints"
+        }
+      }
+    },
+    "RejectedResponse": {
+      "type": "object",
+      "required": ["status", "reason_code", "message", "timestamp"],
+      "additionalProperties": false,
+      "properties": {
+        "status": {
+          "type": "string",
+          "const": "REJECTED"
+        },
+        "reason_code": {
+          "type": "string",
+          "pattern": "^(GW|POL|REG)_[A-Z_]+$",
+          "description": "Code d'erreur normalisé"
+        },
+        "message": {
+          "type": "string",
+          "description": "Message lisible"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "details": {
+          "type": "object",
+          "additionalProperties": true,
+          "description": "Détails additionnels de l'erreur"
+        }
+      }
+    },
+    "ExecutionConstraints": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "max_runtime_ms": {
+          "type": "integer",
+          "minimum": 1000,
+          "maximum": 300000
+        },
+        "max_payload_bytes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5242880
+        },
+        "trace_required": {
+          "type": "boolean"
+        },
+        "deterministic_required": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

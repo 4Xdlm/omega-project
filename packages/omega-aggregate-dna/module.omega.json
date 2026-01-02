@@ -1,0 +1,139 @@
+{
+  "$schema": "https://omega-project.dev/schemas/module.omega.json",
+  "module": {
+    "name": "omega-aggregate-dna",
+    "version": "1.0.0",
+    "profile": "L4",
+    "standard": "NASA-Grade / AS9100D / DO-178C Level A",
+    "language": "TypeScript",
+    "certification_date": null,
+    "root_hash": null
+  },
+  "description": {
+    "short": "Agrégation de segments MyceliumDNA en DNA global",
+    "long": "Module d'agrégation utilisant le pattern Adapter pour être indépendant du type DNA concret. Implémente la moyenne pondérée par word_count, Merkle tree pour preuves d'intégrité, et garantit un déterminisme absolu."
+  },
+  "dependencies": {
+    "runtime": [],
+    "dev": ["vitest", "typescript"]
+  },
+  "invariants": {
+    "count": 6,
+    "list": [
+      {
+        "id": "INV-AGG-01",
+        "name": "Déterminisme",
+        "assertion": "Même segments → même rootHash"
+      },
+      {
+        "id": "INV-AGG-02",
+        "name": "Merkle valide",
+        "assertion": "merkle_root = computeMerkleRoot(segment_root_hashes)"
+      },
+      {
+        "id": "INV-AGG-03",
+        "name": "Ordre sensible",
+        "assertion": "[A,B] ≠ [B,A]"
+      },
+      {
+        "id": "INV-AGG-04",
+        "name": "Seed aligné",
+        "assertion": "∀segment: segment.seed === input.seed"
+      },
+      {
+        "id": "INV-AGG-05",
+        "name": "Stats sommées",
+        "assertion": "word_count = Σ segment.word_count"
+      },
+      {
+        "id": "INV-AGG-06",
+        "name": "Vide valide",
+        "assertion": "0 segments → DNA valide avec segment_count=0"
+      }
+    ]
+  },
+  "tests": {
+    "target": 25,
+    "categories": {
+      "merkle": 7,
+      "aggregation_basic": 4,
+      "determinism": 3,
+      "order_sensitive": 2,
+      "seed_validation": 2,
+      "invariants": 4,
+      "segmentation_hash": 2,
+      "weights": 3
+    }
+  },
+  "files": {
+    "source": [
+      "src/types.ts",
+      "src/merkle.ts",
+      "src/aggregate.ts",
+      "src/invariants.ts",
+      "src/mycelium_adapter.ts",
+      "src/index.ts"
+    ],
+    "tests": [
+      "tests/aggregate.test.ts"
+    ],
+    "config": [
+      "package.json",
+      "tsconfig.json",
+      "vitest.config.ts",
+      "module.omega.json"
+    ]
+  },
+  "api": {
+    "main": "aggregateDNA(input, adapter)",
+    "exports": [
+      "aggregateDNA",
+      "verifyAggregationDeterminism",
+      "computeMerkleRoot",
+      "generateMerkleProof",
+      "verifyMerkleProof",
+      "MyceliumDNAAdapter",
+      "createMockMyceliumDNA",
+      "assertAggregationInvariants"
+    ]
+  },
+  "patterns": {
+    "adapter": {
+      "interface": "AggregateAdapter<DNA>",
+      "methods": [
+        "extractEmotionField(dna)",
+        "extractTextStats(dna)",
+        "extractRootHash(dna)",
+        "extractSeed(dna)",
+        "makeAggregatedDNA(args)"
+      ],
+      "purpose": "Permet d'agréger n'importe quel type DNA en implémentant l'adapter"
+    }
+  },
+  "adr": [
+    {
+      "id": "ADR-AGG-001",
+      "title": "Adapter Pattern",
+      "decision": "L'agrégateur est générique, le type DNA est branché via adapter",
+      "date": "2026-01-02"
+    },
+    {
+      "id": "ADR-AGG-002",
+      "title": "Moyenne pondérée",
+      "decision": "word_count comme poids par défaut (peut être overridé)",
+      "date": "2026-01-02"
+    },
+    {
+      "id": "ADR-AGG-003",
+      "title": "Merkle avec préfixes",
+      "decision": "LEAF_PREFIX et NODE_PREFIX pour éviter second preimage attacks",
+      "date": "2026-01-02"
+    },
+    {
+      "id": "ADR-AGG-004",
+      "title": "Duplication si impair",
+      "decision": "Standard Merkle: si nombre impair de feuilles, duplique la dernière",
+      "date": "2026-01-02"
+    }
+  ]
+}

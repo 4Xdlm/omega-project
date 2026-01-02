@@ -1,0 +1,137 @@
+{
+  "$schema": "https://omega-project.dev/schemas/module.omega.json",
+  "module": {
+    "name": "omega-segment-engine",
+    "version": "1.0.0",
+    "profile": "L4",
+    "standard": "NASA-Grade / AS9100D / DO-178C Level A",
+    "language": "TypeScript",
+    "certification_date": null,
+    "root_hash": null
+  },
+  "description": {
+    "short": "Découpage déterministe du texte en segments",
+    "long": "Module de segmentation de texte avec 3 modes (sentence, paragraph, scene), gestion des abréviations FR/EN, normalisation CRLF, et garantie de déterminisme absolu pour certification aérospatiale."
+  },
+  "dependencies": {
+    "runtime": [],
+    "dev": ["vitest", "typescript"]
+  },
+  "invariants": {
+    "count": 8,
+    "list": [
+      {
+        "id": "INV-SEG-01",
+        "name": "Offsets valides",
+        "assertion": "∀s: 0 ≤ s.start < s.end ≤ input.length"
+      },
+      {
+        "id": "INV-SEG-02",
+        "name": "Slice exacte",
+        "assertion": "∀s: s.text === input.slice(s.start, s.end)"
+      },
+      {
+        "id": "INV-SEG-03",
+        "name": "Non-vide",
+        "assertion": "∀s: s.text.trim().length > 0"
+      },
+      {
+        "id": "INV-SEG-04",
+        "name": "Index monotone",
+        "assertion": "∀i: segments[i].index === i"
+      },
+      {
+        "id": "INV-SEG-05",
+        "name": "Hash déterministe",
+        "assertion": "hash(input, opts) === hash(input, opts) ∀runs"
+      },
+      {
+        "id": "INV-SEG-06",
+        "name": "Char count cohérent",
+        "assertion": "∀s: s.char_count === s.text.length"
+      },
+      {
+        "id": "INV-SEG-07",
+        "name": "Word count positif",
+        "assertion": "∀s: s.word_count ≥ 1 si s.text.trim()"
+      },
+      {
+        "id": "INV-SEG-08",
+        "name": "Newline stable",
+        "assertion": "normalize_lf ⇒ ∀s: ¬(\\r ∈ s.text)"
+      }
+    ]
+  },
+  "tests": {
+    "target": 45,
+    "categories": {
+      "sentence_basic": 8,
+      "sentence_abbreviations": 6,
+      "paragraph": 5,
+      "scene": 5,
+      "edge_cases": 6,
+      "determinism": 5,
+      "invariants": 8,
+      "meta": 5
+    }
+  },
+  "files": {
+    "source": [
+      "src/types.ts",
+      "src/canonical.ts",
+      "src/exceptions.ts",
+      "src/normalizer.ts",
+      "src/segmenter.ts",
+      "src/invariants.ts",
+      "src/index.ts"
+    ],
+    "tests": [
+      "tests/segmenter.test.ts"
+    ],
+    "config": [
+      "package.json",
+      "tsconfig.json",
+      "vitest.config.ts",
+      "module.omega.json"
+    ]
+  },
+  "api": {
+    "main": "segmentText(input, options)",
+    "exports": [
+      "segmentText",
+      "assertAllInvariants",
+      "normalizeText",
+      "countWords",
+      "countLines",
+      "ABBREVIATIONS_FR",
+      "ABBREVIATIONS_EN",
+      "ABBREVIATIONS_DEFAULT"
+    ]
+  },
+  "adr": [
+    {
+      "id": "ADR-SEG-001",
+      "title": "Normalisation CRLF par défaut",
+      "decision": "normalize_lf est le défaut pour cohérence cross-platform",
+      "date": "2026-01-02"
+    },
+    {
+      "id": "ADR-SEG-002",
+      "title": "Ellipse Unicode",
+      "decision": "... → … (U+2026) pour comptage caractères cohérent",
+      "date": "2026-01-02"
+    },
+    {
+      "id": "ADR-SEG-003",
+      "title": "ID basé sur position",
+      "decision": "segment_id = hash(mode:index:start:end), pas sur le texte",
+      "date": "2026-01-02"
+    },
+    {
+      "id": "ADR-SEG-004",
+      "title": "Abréviations FR+EN",
+      "decision": "Liste étendue validée (50+ entrées) pour éviter faux positifs",
+      "date": "2026-01-02"
+    }
+  ]
+}

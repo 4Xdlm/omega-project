@@ -4,12 +4,21 @@ export default defineConfig({
   test: {
     globals: true,
     environment: 'node',
-    include: ['**/*_test.ts', '**/*.test.ts'],
-    seed: 42,
-    sequence: {
-      shuffle: false
+    include: [
+      'src/**/*.test.ts',
+      'tests/**/*.test.ts',
+      'gateway/tests/**/*.test.ts',
+      '*.test.ts'
+    ],
+    exclude: [
+      '**/node_modules/**',
+      '**/dist/**',
+      '**/omega-ui/**'
+    ],
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'json', 'html'],
     },
-    testTimeout: 30000,
-    reporters: ['verbose']
-  }
+    testTimeout: 10000,
+  },
 });

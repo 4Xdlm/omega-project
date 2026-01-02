@@ -1,0 +1,126 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://omega-project.io/schemas/module.omega.v2.schema.json",
+  "title": "OMEGA Module Manifest v2.0",
+  "description": "Manifest file for OMEGA certified modules - Protocol v2.0",
+  "type": "object",
+  "required": ["meta", "technical", "contract", "verification"],
+  "properties": {
+    "meta": {
+      "type": "object",
+      "required": ["name", "version"],
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Module name (unique identifier)"
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+(-[a-zA-Z0-9]+)?$",
+          "description": "Semantic version (e.g., 1.0.0, 1.0.0-beta)"
+        },
+        "description": {
+          "type": "string",
+          "description": "Human-readable description"
+        },
+        "maintainer": {
+          "type": "string",
+          "description": "Maintainer name or team"
+        }
+      }
+    },
+    "technical": {
+      "type": "object",
+      "required": ["entryPoint"],
+      "properties": {
+        "entryPoint": {
+          "type": "string",
+          "description": "Main entry file (e.g., src/index.ts)"
+        },
+        "language": {
+          "type": "string",
+          "enum": ["typescript", "javascript", "rust"],
+          "default": "typescript"
+        },
+        "framework": {
+          "type": "string",
+          "description": "Framework used (e.g., omega-core-v2)"
+        }
+      }
+    },
+    "contract": {
+      "type": "object",
+      "required": ["type", "claims"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["OMEGA_MODULE_L1", "OMEGA_MODULE_L2", "OMEGA_MODULE_L3", "OMEGA_MODULE_L4"],
+          "description": "Security level - L4 requires all claims to be true and verified"
+        },
+        "claims": {
+          "type": "object",
+          "description": "Properties claimed by the module - must be PROVEN for L4",
+          "properties": {
+            "deterministic": {
+              "type": "boolean",
+              "description": "Same input always produces same output (requires OMEGA_SEED usage)"
+            },
+            "pure": {
+              "type": "boolean",
+              "description": "No side effects"
+            },
+            "stateless": {
+              "type": "boolean",
+              "description": "No internal state between calls"
+            },
+            "serializable_io": {
+              "type": "boolean",
+              "description": "All inputs/outputs are JSON-serializable"
+            }
+          },
+          "required": ["deterministic", "pure", "stateless", "serializable_io"]
+        },
+        "requirements": {
+          "type": "object",
+          "properties": {
+            "max_execution_ms": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Maximum execution time in milliseconds"
+            },
+            "max_memory_mb": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "Maximum memory usage in megabytes"
+            }
+          }
+        }
+      }
+    },
+    "verification": {
+      "type": "object",
+      "required": ["fixtures_path"],
+      "properties": {
+        "fixtures_path": {
+          "type": "string",
+          "description": "Path to test fixtures directory"
+        },
+        "invariants_file": {
+          "type": "string",
+          "description": "Path to invariants definition file (INVARIANTS.yaml)"
+        },
+        "specific_tests": {
+          "type": "string",
+          "description": "Path to module-specific tests"
+        },
+        "seed_usage": {
+          "type": "string",
+          "enum": ["OMEGA_SEED_ENV", "CONSTRUCTOR_INJECTION", "GLOBAL_CONFIG"],
+          "default": "OMEGA_SEED_ENV",
+          "description": "How the module consumes the seed for determinism"
+        }
+      }
+    }
+  }
+}

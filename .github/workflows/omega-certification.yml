@@ -1,0 +1,50 @@
+﻿name: OMEGA Certification
+
+on:
+  push:
+    branches: [main, master, develop]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  certify:
+    name: OMEGA Certification L4
+    runs-on: windows-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - run: npm ci
+
+      - name: Check module.omega.json
+        shell: pwsh
+        run: |
+          if (-not (Test-Path "module.omega.json")) {
+            Write-Host "::error::L4 requires module.omega.json"
+            exit 1
+          }
+
+      - name: Run OMEGA Certification
+        shell: pwsh
+        run: .\tools\omega-certifier\ocert.ps1
+
+      - name: Upload Certificate
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omega-certificate
+          path: certificates/
+
+      - name: Upload Failure Report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: omega-failure-report
+          path: certificates/

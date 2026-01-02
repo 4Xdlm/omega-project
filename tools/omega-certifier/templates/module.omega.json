@@ -1,0 +1,33 @@
+{
+  "$schema": "./schemas/module.omega.schema.json",
+  "meta": {
+    "name": "OMEGA_CORE",
+    "version": "1.1.0",
+    "description": "OMEGA Canon V1 - Canonical Project Storage with SHA-256 Integrity",
+    "maintainer": "Francky (Architecte OMEGA)"
+  },
+  "technical": {
+    "entryPoint": "src/index.ts",
+    "language": "typescript",
+    "framework": "omega-core-v2"
+  },
+  "contract": {
+    "type": "OMEGA_MODULE_L4",
+    "claims": {
+      "deterministic": true,
+      "pure": true,
+      "stateless": true,
+      "serializable_io": true
+    },
+    "requirements": {
+      "max_execution_ms": 200,
+      "max_memory_mb": 512
+    }
+  },
+  "verification": {
+    "fixtures_path": "./fixtures",
+    "invariants_file": "./INVARIANTS.yaml",
+    "specific_tests": "./**/*.test.ts",
+    "seed_usage": "OMEGA_SEED_ENV"
+  }
+}

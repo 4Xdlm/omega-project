@@ -66,11 +66,12 @@ $testResults = @()
 
 for ($run = 1; $run -le $Runs; $run++) {
     Write-Host "    Run ${run}/${Runs}..." -NoNewline
-    $output = npm test 2>&1 | Out-String
+    $rawOutput = npm test 2>&1 | Out-String
+    $output = $rawOutput -replace '\x1b\[[0-9;]*m',''
     
     $passed = 0
     $failed = 0
-    if ($output -match "(\d+) passed") { $passed = [int]$Matches[1] }
+    if ($output -match "Tests\s+(\d+)\s+passed") { $passed = [int]$Matches[1] }
     if ($output -match "(\d+) failed") { $failed = [int]$Matches[1] }
     
     $testResults += @{ run = $run; passed = $passed; failed = $failed }
@@ -186,3 +187,8 @@ Generated: $((Get-Date).ToUniversalTime().ToString("o"))
 Write-Host ""
 Write-Host "  Output: $certDir"
 Write-Host ""
+
+
+
+
+

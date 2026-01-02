@@ -736,45 +736,6 @@ fn analyze_file(file_path: String, segmentation_mode: Option<String>, fixed_word
     analyze_text(input)
 }
 
-
-// =========================================================================
-// DUMP ANALYSIS - NASA-Grade JSON Export
-// =========================================================================
-
-#[derive(Debug, Clone, Deserialize)]
-pub struct DumpAnalysisInput {
-    pub input_path: String,
-    pub output_path: String,
-    pub segmentation_mode: Option<String>,
-    pub fixed_words: Option<usize>,
-    pub pretty: Option<bool>,
-}
-
-#[tauri::command]
-fn dump_analysis(input: DumpAnalysisInput) -> Result<String, String> {
-    let analysis = analyze_file(
-        input.input_path.clone(),
-        input.segmentation_mode.clone(),
-        input.fixed_words,
-    )?;
-
-    let out_path = std::path::Path::new(&input.output_path);
-    if let Some(parent) = out_path.parent() {
-        fs::create_dir_all(parent).map_err(|e| format!("create_dir_all failed: {}", e))?;
-    }
-
-    let pretty = input.pretty.unwrap_or(true);
-    let json_str = if pretty {
-        serde_json::to_string_pretty(&analysis).map_err(|e| format!("json serialize failed: {}", e))?
-    } else {
-        serde_json::to_string(&analysis).map_err(|e| format!("json serialize failed: {}", e))?
-    };
-
-    fs::write(out_path, json_str).map_err(|e| format!("write failed: {}", e))?;
-
-    Ok(input.output_path)
-}
-
 #[tauri::command]
 fn read_file(file_path: String) -> Result<String, String> {
     fs::read_to_string(&file_path)
@@ -994,7 +955,6 @@ pub fn run() {
         .invoke_handler(tauri::generate_handler![
             analyze_text,
             analyze_file,
-            dump_analysis,
             read_file,
             get_history,
             load_run,

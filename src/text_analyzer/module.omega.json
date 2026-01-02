@@ -1,150 +1,16 @@
-{
+﻿{
   "meta": {
-    "name": "text-analyzer",
+    "name": "text_analyzer",
     "version": "1.0.0",
-    "description": "NASA-Grade Text Analysis Module for OMEGA - Mycelium-ready",
-    "author": "OMEGA Core Team",
-    "license": "MIT",
-    "created": "2026-01-02",
-    "repository": "https://github.com/4Xdlm/omega-project"
+    "description": "Module d'analyse textuelle NASA-Grade avec Mycelium"
   },
-  
-  "technical": {
-    "entryPoint": "src/text_analyzer/index.ts",
-    "runtime": "node >= 18.0.0",
-    "language": "TypeScript 5.0+",
-    "dependencies": {
-      "typescript": "^5.0.0"
-    },
-    "peerDependencies": {},
-    "devDependencies": {
-      "vitest": "^1.0.0"
-    }
-  },
-  
   "contract": {
     "type": "OMEGA_MODULE_L4",
-    "profile": "NASA-AEROSPACE",
-    "claims": {
-      "deterministic": true,
-      "pure": true,
-      "stateless": true,
-      "serializable_io": true,
-      "self_validating": true,
-      "crash_safe": true
-    },
-    "invariants": [
-      "INV-TA-01",
-      "INV-TA-02",
-      "INV-TA-03",
-      "INV-TA-04",
-      "INV-TA-05",
-      "INV-TA-06",
-      "INV-TA-09",
-      "INV-TA-10"
-    ],
-    "guarantees": {
-      "sameInput_sameOutput": true,
-      "bounds_always_valid": true,
-      "counters_always_coherent": true,
-      "indices_always_monotonic": true,
-      "reverse_index_consistent": true,
-      "hash_reproducible": true,
-      "gematria_correct": true,
-      "hierarchy_valid": true
-    }
+    "test_file": "src/text_analyzer/text_analyzer.test.ts",
+    "test_count_minimum": 37
   },
-  
-  "verification": {
-    "fixtures_path": "./fixtures/text_analyzer",
-    "test_path": "./tests/text_analyzer",
-    "coverage_target": 95,
-    "test_count_minimum": 50,
-    "invariant_tests_required": true
-  },
-  
   "certification": {
-    "standard": "NASA-AEROSPACE-L4",
-    "certifier_version": "2.0.0",
-    "certified_date": null,
-    "certificate_hash": null,
-    "audit_trail": []
-  },
-  
-  "integration": {
-    "provides": [
-      "TextAnalysisResult",
-      "CharUnit",
-      "GraphemeUnit", 
-      "LetterUnit",
-      "WordUnit",
-      "SentenceUnit",
-      "ParagraphUnit",
-      "ReverseIndex",
-      "BasicStats",
-      "LinguisticStats",
-      "MyceliumStats",
-      "StyleStats",
-      "Proof"
-    ],
-    "requires": [],
-    "consumers": [
-      "EmotionEngine",
-      "Mycelium",
-      "STYLE_ANALYZER",
-      "SIMILARITY_SHIELD",
-      "UI/RunViewer"
-    ]
-  },
-  
-  "mycelium": {
-    "enabled": true,
-    "levels": {
-      "level1": "paragraphs",
-      "level2": "sentences", 
-      "level3": "words"
-    },
-    "branchWeight": {
-      "level3": "word.gematriaValue",
-      "level2": "Σ(words.gematriaValue)",
-      "level1": "Σ(sentences.branchWeight)"
-    },
-    "gematria": {
-      "enabled": true,
-      "alphabet": "A=1..Z=26",
-      "stripDiacritics": true,
-      "formula": "G(word) = Σ(letterRank)"
-    },
-    "lod": {
-      "zoom_0_30": ["level1"],
-      "zoom_30_80": ["level1", "level2"],
-      "zoom_80_100": ["level1", "level2", "level3"]
-    }
-  },
-  
-  "style_analyzer": {
-    "enabled": true,
-    "dimensions": {
-      "lexique": ["lexicalDiversity", "vocabularyRichness", "rareWordRatio"],
-      "syntaxe": ["avgSentenceLength", "sentenceLengthVariance", "subordinationFrequency"],
-      "rythme": ["rhythmPattern", "pauseFrequency", "cadenceScore"],
-      "registre": ["formalityScore", "toneIndicator"],
-      "show_vs_tell": ["dialogueRatio", "sensoryDensity"],
-      "voix": ["firstPersonRatio", "activeVoiceRatio"]
-    }
-  },
-  
-  "performance": {
-    "target_chars_per_second": 100000,
-    "target_words_per_second": 20000,
-    "max_processing_time_ms": 30000,
-    "memory_limit_mb": 512
-  },
-  
-  "documentation": {
-    "spec": "TEXT_ANALYZER_NASA_SPEC.md",
-    "api": "text_analyzer/index.ts",
-    "types": "text_analyzer/types.ts",
-    "tests": "text_analyzer/text_analyzer.test.ts"
+    "status": "PENDING",
+    "profile": "L4"
   }
 }

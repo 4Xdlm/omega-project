@@ -1,0 +1,191 @@
+{
+  "version": "SCALE-2.0.0",
+  "pipeline_version": "3.2.0",
+  "profile": "L4",
+  "seed": 42,
+  "streaming": {
+    "used": true,
+    "chunk_size": 65536,
+    "threshold_mb": 50
+  },
+  "input": {
+    "file": "C:\\Users\\elric\\omega-project\\.test_stream_tmp\\para_test.txt",
+    "hash": "be41f8e8b65da80b0d97b92283bf5219092255b8d80fd9ac332b1023a3b9024c",
+    "char_count": 295,
+    "word_count": 45,
+    "size_bytes": 306
+  },
+  "perf": {
+    "read_ms": 0,
+    "segment_ms": 1,
+    "analyze_ms": 13,
+    "dna_ms": 4,
+    "aggregate_ms": 0,
+    "total_ms": 18,
+    "streaming_used": true
+  },
+  "segmentation": {
+    "mode": "paragraph",
+    "segmentation_hash": "996d425b9d966ab5357fd47e9e3bf33f1a992e66efc6008a1780737f70a64f19",
+    "segment_count": 4,
+    "coverage_ratio": 0.9800664451827242
+  },
+  "segments": [
+    {
+      "id": "seg_0_c116ceb25fd2",
+      "index": 0,
+      "start": 0,
+      "end": 86,
+      "word_count": 14,
+      "char_count": 86,
+      "line_count": 2
+    },
+    {
+      "id": "seg_1_2567face4d92",
+      "index": 1,
+      "start": 88,
+      "end": 165,
+      "word_count": 11,
+      "char_count": 77,
+      "line_count": 2
+    },
+    {
+      "id": "seg_2_ff2e1e2914db",
+      "index": 2,
+      "start": 167,
+      "end": 237,
+      "word_count": 10,
+      "char_count": 70,
+      "line_count": 2
+    },
+    {
+      "id": "seg_3_bedf60973b8e",
+      "index": 3,
+      "start": 239,
+      "end": 301,
+      "word_count": 10,
+      "char_count": 62,
+      "line_count": 2
+    }
+  ],
+  "segment_dnas": [
+    {
+      "segment_id": "seg_0_c116ceb25fd2",
+      "segment_index": 0,
+      "rootHash": "000000000000000000000000000000000000000000000000000000006a36348b",
+      "nodeCount": 5
+    },
+    {
+      "segment_id": "seg_1_2567face4d92",
+      "segment_index": 1,
+      "rootHash": "000000000000000000000000000000000000000000000000000000006a36348b",
+      "nodeCount": 5
+    },
+    {
+      "segment_id": "seg_2_ff2e1e2914db",
+      "segment_index": 2,
+      "rootHash": "000000000000000000000000000000000000000000000000000000006a36348b",
+      "nodeCount": 5
+    },
+    {
+      "segment_id": "seg_3_bedf60973b8e",
+      "segment_index": 3,
+      "rootHash": "000000000000000000000000000000000000000000000000000000006a36348b",
+      "nodeCount": 5
+    }
+  ],
+  "global_dna": {
+    "rootHash": "b1c10cc66136f3913bf3c3ba3fe621794320be916cd61590e0d09f7e93649a8b",
+    "version": "1.0.0",
+    "profile": "L4",
+    "fingerprint": {
+      "emotionDistribution": {
+        "joy": 0.10684660733443627,
+        "fear": 0.1281141561584221,
+        "anger": 0.06204768765118052,
+        "sadness": 0.06204768765118052,
+        "surprise": 0.08251467234415576,
+        "disgust": 0.06204768765118052,
+        "trust": 0.06204768765118052,
+        "anticipation": 0.06204768765118052,
+        "love": 0.06204768765118052,
+        "guilt": 0.06204768765118052,
+        "shame": 0.06204768765118052,
+        "pride": 0.06204768765118052,
+        "hope": 0.06204768765118052,
+        "despair": 0.06204768765118052
+      },
+      "oxygenHistogram": [
+        0.6666666666666666,
+        0.3333333333333333,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "hueHistogram": [
+        0,
+        0,
+        0,
+        0.3333333333333333,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0.3333333333333333,
+        0,
+        0,
+        0,
+        0,
+        0.3333333333333333,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "stats": {
+        "avgOxygen": 0.5,
+        "maxOxygen": 1,
+        "minOxygen": 0,
+        "hypoxiaEvents": 0,
+        "hyperoxiaEvents": 0,
+        "climaxEvents": 0,
+        "fruitCount": 0,
+        "scarCount": 0
+      },
+      "breathing": {
+        "avgInhaleExhaleRatio": 1,
+        "rhythmVariance": 0.1,
+        "avgConservationDelta": 0.05
+      }
+    },
+    "merkle_root": "df37817b1420fd5957f365b00476f29c96d83f6af9bf8c6ef817716b39e1178d",
+    "segment_root_hashes": [
+      "000000000000000000000000000000000000000000000000000000006a36348b",
+      "000000000000000000000000000000000000000000000000000000006a36348b",
+      "000000000000000000000000000000000000000000000000000000006a36348b",
+      "000000000000000000000000000000000000000000000000000000006a36348b"
+    ],
+    "segmentation_hash": "996d425b9d966ab5357fd47e9e3bf33f1a992e66efc6008a1780737f70a64f19"
+  }
+}

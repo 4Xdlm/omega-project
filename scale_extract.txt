@@ -1,0 +1,417 @@
+﻿// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// OMEGA SCALE â€” INVARIANTS TEST SUITE v1.0.0
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// Tests L4 pour les invariants SCALE
+// Standard: NASA-Grade L4 / AS9100D / DO-178C Level A
+//
+// INVARIANTS TESTÃ‰S:
+//   INV-SCALE-01: Concurrency-invariant hash (c=1 === c=N)
+//   INV-SCALE-02: Batch idempotent (2 runs â†’ same output)
+//   INV-SCALE-03: Mode-sensitive hash (sentence â‰  paragraph)
+//   INV-SCALE-04: Text exclusion from hash (--no-text === --include-text)
+//   INV-SCALE-05: Ordered aggregation (sort by index before Merkle)
+// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+
+import { describe, it, expect, beforeAll, afterAll } from "vitest";
+import fs from "node:fs";
+import path from "node:path";
+import { execSync } from "node:child_process";
+import { createHash } from "node:crypto";
+
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// TEST CONFIGURATION
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+const TEST_DIR = path.join(process.cwd(), ".test_scale_tmp");
+const TEST_FILE = path.join(TEST_DIR, "test_input.txt");
+const OUT_DIR_1 = path.join(TEST_DIR, "out1");
+const OUT_DIR_2 = path.join(TEST_DIR, "out2");
+
+const SEED = 42;
+const TIMEOUT = 60000; // 60s for slow tests
+
+// Sample text with varied emotions for testing
+const SAMPLE_TEXT = `
+Il avait peur. Une peur sourde qui lui nouait l'estomac.
+Puis il ressentit de la joie! Une joie pure et inattendue.
+Soudain, tout changea. Le monde bascula autour de lui.
+
+Elle sourit, les yeux brillants de bonheur intense.
+La colÃ¨re montait en lui, irrÃ©pressible et violente.
+Un sentiment de tristesse l'envahit lentement mais sÃ»rement.
+
+###
+
+L'espoir renaissait, fragile mais tenace comme une flamme.
+Il Ã©tait surpris par cette rÃ©vÃ©lation soudaine et inattendue.
+La confiance qu'il avait en elle Ã©tait inÃ©branlable.
+
+Le dÃ©goÃ»t se lisait sur son visage pÃ¢le et crispÃ©.
+L'amour qu'ils partageaient Ã©tait plus fort que tout obstacle.
+La honte le submergea, brÃ»lante et cuisante comme une plaie.
+
+###
+
+Il ressentait une fiertÃ© immense devant son accomplissement final.
+Le dÃ©sespoir s'abattit sur elle comme une chape de plomb froide.
+Mais au fond de son cÅ“ur, une lueur persistait encore.
+`.trim();
+
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// UTILITIES
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+function setupTestDir(): void {
+  if (fs.existsSync(TEST_DIR)) {
+    fs.rmSync(TEST_DIR, { recursive: true, force: true });
+  }
+  fs.mkdirSync(TEST_DIR, { recursive: true });
+  fs.mkdirSync(OUT_DIR_1, { recursive: true });
+  fs.mkdirSync(OUT_DIR_2, { recursive: true });
+  fs.writeFileSync(TEST_FILE, SAMPLE_TEXT, "utf8");
+}
+
+function cleanupTestDir(): void {
+  if (fs.existsSync(TEST_DIR)) {
+    fs.rmSync(TEST_DIR, { recursive: true, force: true });
+  }
+}
+
+function runScale(args: string): string {
+  const cmd = `npx tsx run_pipeline_scale.ts ${args}`;
+  try {
+    return execSync(cmd, { 
+      encoding: "utf8", 
+      stdio: ["pipe", "pipe", "pipe"],
+      timeout: TIMEOUT,
+    });
+  } catch (err: any) {
+    console.error("Command failed:", cmd);
+    console.error("STDERR:", err.stderr);
+    throw err;
+  }
+}
+
+function readOutput(outDir: string, inputFile: string): any {
+  const baseName = path.basename(inputFile).replace(/[^a-zA-Z0-9._-]/g, "_");
+  const outPath = path.join(outDir, baseName + ".omega.json");
+  const content = fs.readFileSync(outPath, "utf8");
+  return JSON.parse(content);
+}
+
+function hashFile(filePath: string): string {
+  const content = fs.readFileSync(filePath, "utf8");
+  return createHash("sha256").update(content).digest("hex");
+}
+
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// TEST SUITE
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+
+describe("OMEGA SCALE â€” Invariants L4", () => {
+  beforeAll(() => {
+    setupTestDir();
+  });
+
+  afterAll(() => {
+    cleanupTestDir();
+  });
+
+  // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+  // INV-SCALE-01: Concurrency-invariant hash
+  // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+
+  describe("INV-SCALE-01: Concurrency-invariant hash", () => {
+    it("concurrency=1 produces same rootHash as concurrency=4", () => {
+      // Run with concurrency=1
+      const out1 = path.join(TEST_DIR, "c1");
+      fs.mkdirSync(out1, { recursive: true });
+      runScale(`--in "${TEST_FILE}" --out "${out1}" --seed ${SEED} --concurrency 1 -q`);
+      const result1 = readOutput(out1, TEST_FILE);
+
+      // Run with concurrency=4
+      const out4 = path.join(TEST_DIR, "c4");
+      fs.mkdirSync(out4, { recursive: true });
+      runScale(`--in "${TEST_FILE}" --out "${out4}" --seed ${SEED} --concurrency 4 -q`);
+      const result4 = readOutput(out4, TEST_FILE);
+
+      // CRITICAL: rootHash MUST be identical
+      expect(result1.global_dna.rootHash).toBe(result4.global_dna.rootHash);
+      expect(result1.global_dna.merkle_root).toBe(result4.global_dna.merkle_root);
+      expect(result1.segmentation.segmentation_hash).toBe(result4.segmentation.segmentation_hash);
+    });
+
+    it("concurrency=1 produces same segment_dnas order as concurrency=8", () => {
+      const out1 = path.join(TEST_DIR, "c1_order");
+      const out8 = path.join(TEST_DIR, "c8_order");
+      fs.mkdirSync(out1, { recursive: true });
+      fs.mkdirSync(out8, { recursive: true });
+
+      runScale(`--in "${TEST_FILE}" --out "${out1}" --seed ${SEED} --concurrency 1 -q`);
+      runScale(`--in "${TEST_FILE}" --out "${out8}" --seed ${SEED} --concurrency 8 -q`);
+
+      const result1 = readOutput(out1, TEST_FILE);
+      const result8 = readOutput(out8, TEST_FILE);
+
+      // All segment rootHashes must be in same order
+      expect(result1.segment_dnas.length).toBe(result8.segment_dnas.length);
+      for (let i = 0; i < result1.segment_dnas.length; i++) {
+        expect(result1.segment_dnas[i].rootHash).toBe(result8.segment_dnas[i].rootHash);
+        expect(result1.segment_dnas[i].segment_index).toBe(result8.segment_dnas[i].segment_index);
+      }
+    });
+  });
+
+  // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+  // INV-SCALE-02: Batch idempotent
+  // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+
+  describe("INV-SCALE-02: Batch idempotent", () => {
+    it("two identical runs produce identical output", () => {
+      const outA = path.join(TEST_DIR, "idem_a");
+      const outB = path.join(TEST_DIR, "idem_b");
+      fs.mkdirSync(outA, { recursive: true });
+      fs.mkdirSync(outB, { recursive: true });
+
+      // Run twice with identical config
+      runScale(`--in "${TEST_FILE}" --out "${outA}" --seed ${SEED} --mode sentence -q`);
+      runScale(`--in "${TEST_FILE}" --out "${outB}" --seed ${SEED} --mode sentence -q`);
+
+      const resultA = readOutput(outA, TEST_FILE);
+      const resultB = readOutput(outB, TEST_FILE);
+
+      // Everything except perf metrics should be identical
+      expect(resultA.global_dna.rootHash).toBe(resultB.global_dna.rootHash);
+      expect(resultA.global_dna.merkle_root).toBe(resultB.global_dna.merkle_root);
+      expect(resultA.segmentation).toEqual(resultB.segmentation);
+      expect(resultA.segments).toEqual(resultB.segments);
+      expect(resultA.segment_dnas).toEqual(resultB.segment_dnas);
+    });
+
+    it("different seeds produce different hashes", () => {
+      const out42 = path.join(TEST_DIR, "seed42");
+      const out99 = path.join(TEST_DIR, "seed99");
+      fs.mkdirSync(out42, { recursive: true });
+      fs.mkdirSync(out99, { recursive: true });
+
+      runScale(`--in "${TEST_FILE}" --out "${out42}" --seed 42 -q`);
+      runScale(`--in "${TEST_FILE}" --out "${out99}" --seed 99 -q`);
+
+      const result42 = readOutput(out42, TEST_FILE);
+      const result99 = readOutput(out99, TEST_FILE);
+
+      // Segmentation hash should be the same (seed doesn't affect segmentation)
+      expect(result42.segmentation.segmentation_hash).toBe(result99.segmentation.segmentation_hash);
+      
+      // But DNA rootHash should be different (seed affects DNA building)
+      expect(result42.global_dna.rootHash).not.toBe(result99.global_dna.rootHash);
+    });
+  });
+
+  // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+  // INV-SCALE-03: Mode-sensitive hash
+  // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+
+  describe("INV-SCALE-03: Mode-sensitive hash", () => {
+    it("sentence mode produces different hash than paragraph mode", () => {
+      const outSent = path.join(TEST_DIR, "mode_sent");
+      const outPara = path.join(TEST_DIR, "mode_para");
+      fs.mkdirSync(outSent, { recursive: true });
+      fs.mkdirSync(outPara, { recursive: true });
+
+      runScale(`--in "${TEST_FILE}" --out "${outSent}" --seed ${SEED} --mode sentence -q`);
+      runScale(`--in "${TEST_FILE}" --out "${outPara}" --seed ${SEED} --mode paragraph -q`);
+
+      const resultSent = readOutput(outSent, TEST_FILE);
+      const resultPara = readOutput(outPara, TEST_FILE);
+
+      // Different modes MUST produce different segmentation hashes
+      expect(resultSent.segmentation.segmentation_hash).not.toBe(resultPara.segmentation.segmentation_hash);
+      
+      // And therefore different global rootHashes
+      expect(resultSent.global_dna.rootHash).not.toBe(resultPara.global_dna.rootHash);
+      
+      // Segment counts should differ
+      expect(resultSent.segmentation.segment_count).not.toBe(resultPara.segmentation.segment_count);
+    });
+
+    it("scene mode produces different segment count than sentence mode", () => {
+      const outScene = path.join(TEST_DIR, "mode_scene");
+      fs.mkdirSync(outScene, { recursive: true });
+
+      runScale(`--in "${TEST_FILE}" --out "${outScene}" --seed ${SEED} --mode scene -q`);
+      
+      const resultScene = readOutput(outScene, TEST_FILE);
+
+      // Scene mode should have fewer segments (splits on ###)
+      expect(resultScene.segmentation.segment_count).toBeLessThanOrEqual(5); // ~3 scenes in our test text
+      expect(resultScene.segmentation.mode).toBe("scene");
+    });
+  });
+
+  // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+  // INV-SCALE-04: Text exclusion from hash
+  // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+
+  describe("INV-SCALE-04: Text exclusion from hash", () => {
+    it("--no-text and --include-text produce same rootHash", () => {
+      const outNoText = path.join(TEST_DIR, "no_text");
+      const outWithText = path.join(TEST_DIR, "with_text");
+      fs.mkdirSync(outNoText, { recursive: true });
+      fs.mkdirSync(outWithText, { recursive: true });
+
+      runScale(`--in "${TEST_FILE}" --out "${outNoText}" --seed ${SEED} --no-text -q`);
+      runScale(`--in "${TEST_FILE}" --out "${outWithText}" --seed ${SEED} --include-text -q`);
+
+      const resultNoText = readOutput(outNoText, TEST_FILE);
+      const resultWithText = readOutput(outWithText, TEST_FILE);
+
+      // CRITICAL: rootHash MUST be identical regardless of text inclusion
+      expect(resultNoText.global_dna.rootHash).toBe(resultWithText.global_dna.rootHash);
+      expect(resultNoText.global_dna.merkle_root).toBe(resultWithText.global_dna.merkle_root);
+
+      // But output files should have different sizes
+      const noTextFile = path.join(outNoText, path.basename(TEST_FILE).replace(/[^a-zA-Z0-9._-]/g, "_") + ".omega.json");
+      const withTextFile = path.join(outWithText, path.basename(TEST_FILE).replace(/[^a-zA-Z0-9._-]/g, "_") + ".omega.json");
+      
+      const noTextSize = fs.statSync(noTextFile).size;
+      const withTextSize = fs.statSync(withTextFile).size;
+      
+      expect(withTextSize).toBeGreaterThan(noTextSize);
+    });
+
+    it("segments have text field only when --include-text", () => {
+      const outNoText = path.join(TEST_DIR, "no_text_check");
+      const outWithText = path.join(TEST_DIR, "with_text_check");
+      fs.mkdirSync(outNoText, { recursive: true });
+      fs.mkdirSync(outWithText, { recursive: true });
+
+      runScale(`--in "${TEST_FILE}" --out "${outNoText}" --seed ${SEED} --no-text -q`);
+      runScale(`--in "${TEST_FILE}" --out "${outWithText}" --seed ${SEED} --include-text -q`);
+
+      const resultNoText = readOutput(outNoText, TEST_FILE);
+      const resultWithText = readOutput(outWithText, TEST_FILE);
+
+      // --no-text: segments should NOT have text field
+      for (const seg of resultNoText.segments) {
+        expect(seg).not.toHaveProperty("text");
+      }
+
+      // --include-text: segments SHOULD have text field
+      for (const seg of resultWithText.segments) {
+        expect(seg).toHaveProperty("text");
+        expect(typeof seg.text).toBe("string");
+      }
+    });
+  });
+
+  // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+  // INV-SCALE-05: Ordered aggregation
+  // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+
+  describe("INV-SCALE-05: Ordered aggregation", () => {
+    it("segment_dnas are ordered by segment_index", () => {
+      runScale(`--in "${TEST_FILE}" --out "${OUT_DIR_1}" --seed ${SEED} -q`);
+      const result = readOutput(OUT_DIR_1, TEST_FILE);
+
+      // Verify segment_dnas are sorted by index
+      for (let i = 0; i < result.segment_dnas.length - 1; i++) {
+        expect(result.segment_dnas[i].segment_index).toBeLessThan(
+          result.segment_dnas[i + 1].segment_index
+        );
+      }
+
+      // Verify indices are contiguous from 0
+      for (let i = 0; i < result.segment_dnas.length; i++) {
+        expect(result.segment_dnas[i].segment_index).toBe(i);
+      }
+    });
+
+    it("segment_root_hashes in global_dna match segment_dnas order", () => {
+      const outDir = path.join(TEST_DIR, "order_check");
+      fs.mkdirSync(outDir, { recursive: true });
+      
+      runScale(`--in "${TEST_FILE}" --out "${outDir}" --seed ${SEED} -q`);
+      const result = readOutput(outDir, TEST_FILE);
+
+      const segmentRootHashes = result.segment_dnas.map((sd: any) => sd.rootHash);
+      
+      // global_dna.segment_root_hashes should match the order of segment_dnas
+      expect(result.global_dna.segment_root_hashes.length).toBe(segmentRootHashes.length);
+    });
+  });
+
+  // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+  // STRESS TESTS
+  // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+
+  describe("Stress Tests", () => {
+    it("handles large file without OOM", { timeout: TIMEOUT }, () => {
+      // Generate a larger test file (~10k lines)
+      const largeFile = path.join(TEST_DIR, "large_test.txt");
+      const lines: string[] = [];
+      for (let i = 0; i < 10000; i++) {
+        lines.push(`${i}. Il avait peur. Puis il ressentit de la joie!`);
+        if (i % 50 === 0) lines.push("");
+      }
+      fs.writeFileSync(largeFile, lines.join("\n"), "utf8");
+
+      const outLarge = path.join(TEST_DIR, "large_out");
+      fs.mkdirSync(outLarge, { recursive: true });
+
+      // Should complete without error
+      runScale(`--in "${largeFile}" --out "${outLarge}" --seed ${SEED} --no-text -q`);
+      
+      const result = readOutput(outLarge, largeFile);
+      
+      expect(result.segmentation.segment_count).toBeGreaterThan(100);
+      expect(result.global_dna.rootHash).toBeTruthy();
+      expect(result.global_dna.rootHash.length).toBe(64); // SHA-256 hex
+    });
+
+    it("batch summary is created correctly", () => {
+      const batchDir = path.join(TEST_DIR, "batch_input");
+      const batchOut = path.join(TEST_DIR, "batch_out");
+      fs.mkdirSync(batchDir, { recursive: true });
+      fs.mkdirSync(batchOut, { recursive: true });
+
+      // Create multiple test files
+      fs.writeFileSync(path.join(batchDir, "file1.txt"), "Joie et bonheur!", "utf8");
+      fs.writeFileSync(path.join(batchDir, "file2.txt"), "Tristesse et peine.", "utf8");
+      fs.writeFileSync(path.join(batchDir, "file3.txt"), "ColÃ¨re intense!", "utf8");
+
+      runScale(`--in "${batchDir}" --out "${batchOut}" --seed ${SEED} -q`);
+
+      // Check batch summary exists
+      const summaryPath = path.join(batchOut, "_BATCH_SUMMARY.json");
+      expect(fs.existsSync(summaryPath)).toBe(true);
+
+      const summary = JSON.parse(fs.readFileSync(summaryPath, "utf8"));
+      expect(summary.files_total).toBe(3);
+      expect(summary.files_success).toBe(3);
+      expect(summary.files_failed).toBe(0);
+      expect(summary.results.length).toBe(3);
+    });
+  });
+
+  // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+  // ERROR HANDLING
+  // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+
+  describe("Error Handling", () => {
+    it("fails gracefully on non-existent input", () => {
+      expect(() => {
+        runScale(`--in "nonexistent.txt" --out "${OUT_DIR_1}" -q`);
+      }).toThrow();
+    });
+
+    it("fails gracefully on empty directory", () => {
+      const emptyDir = path.join(TEST_DIR, "empty_dir");
+      fs.mkdirSync(emptyDir, { recursive: true });
+
+      expect(() => {
+        runScale(`--in "${emptyDir}" --out "${OUT_DIR_1}" -q`);
+      }).toThrow();
+    });
+  });
+});

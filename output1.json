@@ -1,0 +1,911 @@
+{
+  "version": "1.0.0",
+  "profile": "L4",
+  "seed": 42,
+  "sourceHash": "00000000000000000000000000000000000000000000000000000000347d214f",
+  "fingerprint": {
+    "emotionDistribution": {
+      "joy": 0.20406329437348203,
+      "fear": 0.20696502936828304,
+      "anger": 0.044714157342225266,
+      "sadness": 0.044714157342225266,
+      "surprise": 0.09711594549375685,
+      "disgust": 0.044714157342225266,
+      "trust": 0.044714157342225266,
+      "anticipation": 0.044714157342225266,
+      "love": 0.044714157342225266,
+      "guilt": 0.044714157342225266,
+      "shame": 0.044714157342225266,
+      "pride": 0.044714157342225266,
+      "hope": 0.044714157342225266,
+      "despair": 0.044714157342225266
+    },
+    "oxygenHistogram": [
+      0,
+      0,
+      0.3333333333333333,
+      0,
+      0,
+      0.6666666666666666,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "hueHistogram": [
+      0,
+      0,
+      0,
+      0.3333333333333333,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0.3333333333333333,
+      0,
+      0,
+      0,
+      0,
+      0.3333333333333333,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "stats": {
+      "avgOxygen": 0.2204601703745682,
+      "maxOxygen": 0.2817300254715411,
+      "minOxygen": 0.12860717889807408,
+      "hypoxiaEvents": 1,
+      "hyperoxiaEvents": 0,
+      "climaxEvents": 0,
+      "fruitCount": 0,
+      "scarCount": 0
+    },
+    "breathing": {
+      "avgInhaleExhaleRatio": 0,
+      "rhythmVariance": 0.0021044885193188837,
+      "avgConservationDelta": 0.12053871232775278
+    }
+  },
+  "nodes": [
+    {
+      "id": "book-00000000",
+      "kind": "book",
+      "level": 0,
+      "gematriaSum": 0,
+      "branchWeight": 1,
+      "thickness": 1,
+      "emotionField": {
+        "states": {
+          "joy": {
+            "type": "joy",
+            "mass": 1,
+            "intensity": 0.125,
+            "inertia": 0.28,
+            "decay_rate": 0.1,
+            "baseline": 0.125
+          },
+          "fear": {
+            "type": "fear",
+            "mass": 1,
+            "intensity": 0.125,
+            "inertia": 0.28,
+            "decay_rate": 0.1,
+            "baseline": 0.125
+          },
+          "anger": {
+            "type": "anger",
+            "mass": 1,
+            "intensity": 0.125,
+            "inertia": 0.28,
+            "decay_rate": 0.1,
+            "baseline": 0.125
+          },
+          "sadness": {
+            "type": "sadness",
+            "mass": 1,
+            "intensity": 0.125,
+            "inertia": 0.28,
+            "decay_rate": 0.1,
+            "baseline": 0.125
+          },
+          "surprise": {
+            "type": "surprise",
+            "mass": 1,
+            "intensity": 0.125,
+            "inertia": 0.28,
+            "decay_rate": 0.1,
+            "baseline": 0.125
+          },
+          "disgust": {
+            "type": "disgust",
+            "mass": 1,
+            "intensity": 0.125,
+            "inertia": 0.28,
+            "decay_rate": 0.1,
+            "baseline": 0.125
+          },
+          "trust": {
+            "type": "trust",
+            "mass": 1,
+            "intensity": 0.125,
+            "inertia": 0.28,
+            "decay_rate": 0.1,
+            "baseline": 0.125
+          },
+          "anticipation": {
+            "type": "anticipation",
+            "mass": 1,
+            "intensity": 0.125,
+            "inertia": 0.28,
+            "decay_rate": 0.1,
+            "baseline": 0.125
+          },
+          "love": {
+            "type": "love",
+            "mass": 1,
+            "intensity": 0.125,
+            "inertia": 0.28,
+            "decay_rate": 0.1,
+            "baseline": 0.125
+          },
+          "guilt": {
+            "type": "guilt",
+            "mass": 1,
+            "intensity": 0.125,
+            "inertia": 0.28,
+            "decay_rate": 0.1,
+            "baseline": 0.125
+          },
+          "shame": {
+            "type": "shame",
+            "mass": 1,
+            "intensity": 0.125,
+            "inertia": 0.28,
+            "decay_rate": 0.1,
+            "baseline": 0.125
+          },
+          "pride": {
+            "type": "pride",
+            "mass": 1,
+            "intensity": 0.125,
+            "inertia": 0.28,
+            "decay_rate": 0.1,
+            "baseline": 0.125
+          },
+          "hope": {
+            "type": "hope",
+            "mass": 1,
+            "intensity": 0.125,
+            "inertia": 0.28,
+            "decay_rate": 0.1,
+            "baseline": 0.125
+          },
+          "despair": {
+            "type": "despair",
+            "mass": 1,
+            "intensity": 0.125,
+            "inertia": 0.28,
+            "decay_rate": 0.1,
+            "baseline": 0.125
+          }
+        },
+        "normalizedIntensities": {
+          "joy": 0.07142857142857142,
+          "fear": 0.07142857142857142,
+          "anger": 0.07142857142857142,
+          "sadness": 0.07142857142857142,
+          "surprise": 0.07142857142857142,
+          "disgust": 0.07142857142857142,
+          "trust": 0.07142857142857142,
+          "anticipation": 0.07142857142857142,
+          "love": 0.07142857142857142,
+          "guilt": 0.07142857142857142,
+          "shame": 0.07142857142857142,
+          "pride": 0.07142857142857142,
+          "hope": 0.07142857142857142,
+          "despair": 0.07142857142857142
+        },
+        "dominant": "joy",
+        "peak": 0.07142857142857142,
+        "totalEnergy": 1.75,
+        "entropy": 1,
+        "contrast": 0.5,
+        "inertia": 0.3,
+        "conservationDelta": 0
+      },
+      "emotionDominant": "joy",
+      "emotionIntensity": 0.07142857142857142,
+      "oxygen": 0.5,
+      "direction": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "color": {
+        "h": 0,
+        "s": 0,
+        "l": 0.5
+      },
+      "markers": [],
+      "nodeHash": "0000000000000000000000000000000000000000000000000000000028935fba"
+    },
+    {
+      "id": "paragraph-0-289-42",
+      "kind": "paragraph",
+      "level": 1,
+      "gematriaSum": 289,
+      "branchWeight": 5.5078843251810765,
+      "thickness": 0.5957095892662969,
+      "emotionField": {
+        "states": {
+          "joy": {
+            "type": "joy",
+            "mass": 1,
+            "intensity": 1,
+            "inertia": 0.3,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "fear": {
+            "type": "fear",
+            "mass": 1,
+            "intensity": 1,
+            "inertia": 0.7,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "anger": {
+            "type": "anger",
+            "mass": 1,
+            "intensity": 0.1,
+            "inertia": 0.45,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "sadness": {
+            "type": "sadness",
+            "mass": 1,
+            "intensity": 0.1,
+            "inertia": 0.85,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "surprise": {
+            "type": "surprise",
+            "mass": 1,
+            "intensity": 0.4,
+            "inertia": 0.2,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "disgust": {
+            "type": "disgust",
+            "mass": 1,
+            "intensity": 0.1,
+            "inertia": 0.65,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "trust": {
+            "type": "trust",
+            "mass": 1,
+            "intensity": 0.1,
+            "inertia": 0.6,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "anticipation": {
+            "type": "anticipation",
+            "mass": 1,
+            "intensity": 0.1,
+            "inertia": 0.4,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "love": {
+            "type": "love",
+            "mass": 1,
+            "intensity": 0.1,
+            "inertia": 0.55,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "guilt": {
+            "type": "guilt",
+            "mass": 1,
+            "intensity": 0.1,
+            "inertia": 0.75,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "shame": {
+            "type": "shame",
+            "mass": 1,
+            "intensity": 0.1,
+            "inertia": 0.8,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "pride": {
+            "type": "pride",
+            "mass": 1,
+            "intensity": 0.1,
+            "inertia": 0.35,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "hope": {
+            "type": "hope",
+            "mass": 1,
+            "intensity": 0.1,
+            "inertia": 0.35,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "despair": {
+            "type": "despair",
+            "mass": 1,
+            "intensity": 0.1,
+            "inertia": 0.9,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          }
+        },
+        "normalizedIntensities": {
+          "joy": 0.28571428571428564,
+          "fear": 0.28571428571428564,
+          "anger": 0.028571428571428567,
+          "sadness": 0.028571428571428567,
+          "surprise": 0.11428571428571427,
+          "disgust": 0.028571428571428567,
+          "trust": 0.028571428571428567,
+          "anticipation": 0.028571428571428567,
+          "love": 0.028571428571428567,
+          "guilt": 0.028571428571428567,
+          "shame": 0.028571428571428567,
+          "pride": 0.028571428571428567,
+          "hope": 0.028571428571428567,
+          "despair": 0.028571428571428567
+        },
+        "dominant": "joy",
+        "peak": 0.28571428571428564,
+        "totalEnergy": 3.500000000000001,
+        "entropy": 0.7885965517238928,
+        "contrast": 0.5,
+        "inertia": 0.3,
+        "conservationDelta": 0
+      },
+      "emotionDominant": "joy",
+      "emotionIntensity": 0.28571428571428564,
+      "oxygen": 0.35884977724139333,
+      "direction": {
+        "x": -0.5417070943563946,
+        "y": 0.759819150905053,
+        "z": 0.35948335405394827
+      },
+      "color": {
+        "h": 50,
+        "s": 0.46428571428571425,
+        "l": 0.38707982179311473
+      },
+      "markers": [],
+      "nodeHash": "000000000000000000000000000000000000000000000000000000001aff4c15"
+    },
+    {
+      "id": "sentence-1-141-42",
+      "kind": "sentence",
+      "level": 2,
+      "parentId": "paragraph-0",
+      "gematriaSum": 141,
+      "branchWeight": 4.9381708731802165,
+      "thickness": 0.5444353785862195,
+      "emotionField": {
+        "states": {
+          "joy": {
+            "type": "joy",
+            "mass": 1,
+            "intensity": 0.8740898111080426,
+            "inertia": 0.3,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "fear": {
+            "type": "fear",
+            "mass": 1,
+            "intensity": 0.3340898111080427,
+            "inertia": 0.7,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "anger": {
+            "type": "anger",
+            "mass": 1,
+            "intensity": 0.11573877361149466,
+            "inertia": 0.45,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "sadness": {
+            "type": "sadness",
+            "mass": 1,
+            "intensity": 0.11573877361149466,
+            "inertia": 0.85,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "surprise": {
+            "type": "surprise",
+            "mass": 1,
+            "intensity": 0.18852245277701069,
+            "inertia": 0.2,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "disgust": {
+            "type": "disgust",
+            "mass": 1,
+            "intensity": 0.11573877361149466,
+            "inertia": 0.65,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "trust": {
+            "type": "trust",
+            "mass": 1,
+            "intensity": 0.11573877361149466,
+            "inertia": 0.6,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "anticipation": {
+            "type": "anticipation",
+            "mass": 1,
+            "intensity": 0.11573877361149466,
+            "inertia": 0.4,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "love": {
+            "type": "love",
+            "mass": 1,
+            "intensity": 0.11573877361149466,
+            "inertia": 0.55,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "guilt": {
+            "type": "guilt",
+            "mass": 1,
+            "intensity": 0.11573877361149466,
+            "inertia": 0.75,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "shame": {
+            "type": "shame",
+            "mass": 1,
+            "intensity": 0.11573877361149466,
+            "inertia": 0.8,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "pride": {
+            "type": "pride",
+            "mass": 1,
+            "intensity": 0.11573877361149466,
+            "inertia": 0.35,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "hope": {
+            "type": "hope",
+            "mass": 1,
+            "intensity": 0.11573877361149466,
+            "inertia": 0.35,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "despair": {
+            "type": "despair",
+            "mass": 1,
+            "intensity": 0.11573877361149466,
+            "inertia": 0.9,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          }
+        },
+        "normalizedIntensities": {
+          "joy": 0.3273954800359831,
+          "fear": 0.12513530382443575,
+          "anger": 0.0433506384169802,
+          "sadness": 0.0433506384169802,
+          "surprise": 0.07061219355279871,
+          "disgust": 0.0433506384169802,
+          "trust": 0.0433506384169802,
+          "anticipation": 0.0433506384169802,
+          "love": 0.0433506384169802,
+          "guilt": 0.0433506384169802,
+          "shame": 0.0433506384169802,
+          "pride": 0.0433506384169802,
+          "hope": 0.0433506384169802,
+          "despair": 0.0433506384169802
+        },
+        "dominant": "joy",
+        "peak": 0.3273954800359831,
+        "totalEnergy": 2.669828584719538,
+        "entropy": 0.8750802930454886,
+        "contrast": 0.20425250262276548,
+        "inertia": 0.3,
+        "conservationDelta": 0.23719183293727505
+      },
+      "emotionDominant": "joy",
+      "emotionIntensity": 0.3273954800359831,
+      "oxygen": 0.2817300254715411,
+      "direction": {
+        "x": -0.27051716694663847,
+        "y": 0.9114992424045671,
+        "z": 0.3098218737969687
+      },
+      "color": {
+        "h": 50,
+        "s": 0.49554661002698736,
+        "l": 0.3253840203772329
+      },
+      "markers": [],
+      "sentenceIndex": 1,
+      "nodeHash": "00000000000000000000000000000000000000000000000000000000478734fd"
+    },
+    {
+      "id": "sentence-2-265-42",
+      "kind": "sentence",
+      "level": 2,
+      "parentId": "paragraph-0",
+      "gematriaSum": 265,
+      "branchWeight": 5.433833636118795,
+      "thickness": 0.5890450272506915,
+      "emotionField": {
+        "states": {
+          "joy": {
+            "type": "joy",
+            "mass": 1,
+            "intensity": 0.30354245513477024,
+            "inertia": 0.3,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "fear": {
+            "type": "fear",
+            "mass": 1,
+            "intensity": 0.7125318326368414,
+            "inertia": 0.7,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "anger": {
+            "type": "anger",
+            "mass": 1,
+            "intensity": 0.11955719310815373,
+            "inertia": 0.45,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "sadness": {
+            "type": "sadness",
+            "mass": 1,
+            "intensity": 0.11955719310815373,
+            "inertia": 0.85,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "surprise": {
+            "type": "surprise",
+            "mass": 1,
+            "intensity": 0.13721540628438295,
+            "inertia": 0.2,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "disgust": {
+            "type": "disgust",
+            "mass": 1,
+            "intensity": 0.11955719310815373,
+            "inertia": 0.65,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "trust": {
+            "type": "trust",
+            "mass": 1,
+            "intensity": 0.11955719310815373,
+            "inertia": 0.6,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "anticipation": {
+            "type": "anticipation",
+            "mass": 1,
+            "intensity": 0.11955719310815373,
+            "inertia": 0.4,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "love": {
+            "type": "love",
+            "mass": 1,
+            "intensity": 0.11955719310815373,
+            "inertia": 0.55,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "guilt": {
+            "type": "guilt",
+            "mass": 1,
+            "intensity": 0.11955719310815373,
+            "inertia": 0.75,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "shame": {
+            "type": "shame",
+            "mass": 1,
+            "intensity": 0.11955719310815373,
+            "inertia": 0.8,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "pride": {
+            "type": "pride",
+            "mass": 1,
+            "intensity": 0.11955719310815373,
+            "inertia": 0.35,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "hope": {
+            "type": "hope",
+            "mass": 1,
+            "intensity": 0.11955719310815373,
+            "inertia": 0.35,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "despair": {
+            "type": "despair",
+            "mass": 1,
+            "intensity": 0.11955719310815373,
+            "inertia": 0.9,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          }
+        },
+        "normalizedIntensities": {
+          "joy": 0.12297040230413527,
+          "fear": 0.28865921267900563,
+          "anger": 0.04843472761770769,
+          "sadness": 0.04843472761770769,
+          "surprise": 0.05558838122207413,
+          "disgust": 0.04843472761770769,
+          "trust": 0.04843472761770769,
+          "anticipation": 0.04843472761770769,
+          "love": 0.04843472761770769,
+          "guilt": 0.04843472761770769,
+          "shame": 0.04843472761770769,
+          "pride": 0.04843472761770769,
+          "hope": 0.04843472761770769,
+          "despair": 0.04843472761770769
+        },
+        "dominant": "fear",
+        "peak": 0.28865921267900563,
+        "totalEnergy": 2.4684188182456865,
+        "entropy": 0.9056417276889552,
+        "contrast": 0.21944889006257243,
+        "inertia": 0.7,
+        "conservationDelta": 0.07543921269949594
+      },
+      "emotionDominant": "fear",
+      "emotionIntensity": 0.28865921267900563,
+      "oxygen": 0.25104330675408937,
+      "direction": {
+        "x": -0.803414341224057,
+        "y": 0.5450690118505679,
+        "z": 0.23963549118559224
+      },
+      "color": {
+        "h": 260,
+        "s": 0.46649440950925425,
+        "l": 0.30083464540327154
+      },
+      "markers": [],
+      "sentenceIndex": 2,
+      "nodeHash": "0000000000000000000000000000000000000000000000000000000048d5a492"
+    },
+    {
+      "id": "sentence-3-83-42",
+      "kind": "sentence",
+      "level": 2,
+      "parentId": "paragraph-0",
+      "gematriaSum": 83,
+      "branchWeight": 3.9380501359482625,
+      "thickness": 0.45442451223534364,
+      "emotionField": {
+        "states": {
+          "joy": {
+            "type": "joy",
+            "mass": 1,
+            "intensity": 0.16512066944846315,
+            "inertia": 0.3,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "fear": {
+            "type": "fear",
+            "mass": 1,
+            "intensity": 0.2643465082291794,
+            "inertia": 0.7,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "anger": {
+            "type": "anger",
+            "mass": 1,
+            "intensity": 0.120483588506701,
+            "inertia": 0.45,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "sadness": {
+            "type": "sadness",
+            "mass": 1,
+            "intensity": 0.120483588506701,
+            "inertia": 0.85,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "surprise": {
+            "type": "surprise",
+            "mass": 1,
+            "intensity": 0.3047676875815508,
+            "inertia": 0.2,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "disgust": {
+            "type": "disgust",
+            "mass": 1,
+            "intensity": 0.120483588506701,
+            "inertia": 0.65,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "trust": {
+            "type": "trust",
+            "mass": 1,
+            "intensity": 0.120483588506701,
+            "inertia": 0.6,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "anticipation": {
+            "type": "anticipation",
+            "mass": 1,
+            "intensity": 0.120483588506701,
+            "inertia": 0.4,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "love": {
+            "type": "love",
+            "mass": 1,
+            "intensity": 0.120483588506701,
+            "inertia": 0.55,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "guilt": {
+            "type": "guilt",
+            "mass": 1,
+            "intensity": 0.120483588506701,
+            "inertia": 0.75,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "shame": {
+            "type": "shame",
+            "mass": 1,
+            "intensity": 0.120483588506701,
+            "inertia": 0.8,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "pride": {
+            "type": "pride",
+            "mass": 1,
+            "intensity": 0.120483588506701,
+            "inertia": 0.35,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "hope": {
+            "type": "hope",
+            "mass": 1,
+            "intensity": 0.120483588506701,
+            "inertia": 0.35,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          },
+          "despair": {
+            "type": "despair",
+            "mass": 1,
+            "intensity": 0.120483588506701,
+            "inertia": 0.9,
+            "decay_rate": 0.1,
+            "baseline": 0.2
+          }
+        },
+        "normalizedIntensities": {
+          "joy": 0.08017300943952403,
+          "fear": 0.128351315255405,
+          "anger": 0.05849983476278459,
+          "sadness": 0.05849983476278459,
+          "surprise": 0.14797749291444023,
+          "disgust": 0.05849983476278459,
+          "trust": 0.05849983476278459,
+          "anticipation": 0.05849983476278459,
+          "love": 0.05849983476278459,
+          "guilt": 0.05849983476278459,
+          "shame": 0.05849983476278459,
+          "pride": 0.05849983476278459,
+          "hope": 0.05849983476278459,
+          "despair": 0.05849983476278459
+        },
+        "dominant": "surprise",
+        "peak": 0.14797749291444023,
+        "totalEnergy": 2.0595543388329047,
+        "entropy": 0.9758346613714753,
+        "contrast": 0.203105290288212,
+        "inertia": 0.2,
+        "conservationDelta": 0.1656382119560096
+      },
+      "emotionDominant": "surprise",
+      "emotionIntensity": 0.14797749291444023,
+      "oxygen": 0.12860717889807408,
+      "direction": {
+        "x": 0.11534859317942792,
+        "y": 0.4223683165075997,
+        "z": 0.8990548966898867
+      },
+      "color": {
+        "h": 180,
+        "s": 0.3609831196858302,
+        "l": 0.20288574311845928
+      },
+      "markers": [],
+      "sentenceIndex": 3,
+      "nodeHash": "000000000000000000000000000000000000000000000000000000002d08ace4"
+    }
+  ],
+  "rootHash": "0000000000000000000000000000000000000000000000000000000047a8a743",
+  "meta": {
+    "computedAt": "2026-01-02T23:14:18.992Z",
+    "nodeCount": 5,
+    "processingTimeMs": 6
+  }
+}

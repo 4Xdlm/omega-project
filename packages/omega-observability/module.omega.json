@@ -1,0 +1,111 @@
+{
+  "$schema": "../../tools/omega-certifier/schemas/module.omega.schema.json",
+  "name": "omega-observability",
+  "version": "1.0.0",
+  "type": "library",
+  "language": "typescript",
+  "profile": "L4",
+  "standard": "OUTP v2.0.0 / NASA-Grade / DO-178C Level A",
+  "description": "Progress callbacks & observability layer - Zero-impact on pipeline determinism",
+  "author": "OMEGA Project (Francky)",
+  "repository": "https://github.com/4Xdlm/omega-project",
+  "path": "packages/omega-observability",
+  "invariants": [
+    {
+      "id": "INV-PROG-01",
+      "name": "Progress hash isolation",
+      "description": "Progress ON/OFF → même rootHash",
+      "criticality": "CRITICAL",
+      "runs": 20,
+      "test_file": "tests/progress_invariants.test.ts"
+    },
+    {
+      "id": "INV-PROG-02",
+      "name": "Format hash isolation",
+      "description": "cli vs jsonl vs none → même rootHash",
+      "criticality": "CRITICAL",
+      "runs": 10,
+      "test_file": "tests/progress_invariants.test.ts"
+    },
+    {
+      "id": "INV-PROG-03",
+      "name": "Throttle hash isolation",
+      "description": "throttle 10ms vs 200ms → même rootHash",
+      "criticality": "CRITICAL",
+      "runs": 10,
+      "test_file": "tests/progress_invariants.test.ts"
+    },
+    {
+      "id": "INV-PROG-04",
+      "name": "Streaming + Progress isolation",
+      "description": "streaming ON + progress ON → même rootHash que baseline",
+      "criticality": "CRITICAL",
+      "runs": 10,
+      "test_file": "tests/progress_invariants.test.ts"
+    },
+    {
+      "id": "INV-PROG-05",
+      "name": "Quiet mode functional",
+      "description": "quiet mode → aucun output + pipeline OK",
+      "criticality": "HIGH",
+      "runs": 5,
+      "test_file": "tests/progress_invariants.test.ts"
+    },
+    {
+      "id": "INV-PROG-06",
+      "name": "ETA monotonic",
+      "description": "ETA ne recule pas violemment (±10% tolerance)",
+      "criticality": "MEDIUM",
+      "runs": 5,
+      "test_file": "tests/progress_invariants.test.ts"
+    },
+    {
+      "id": "INV-PROG-07",
+      "name": "Event phases valid",
+      "description": "Events uniquement dans phases déclarées",
+      "criticality": "MEDIUM",
+      "runs": 5,
+      "test_file": "tests/progress_invariants.test.ts"
+    }
+  ],
+  "test_files": [
+    "tests/progress_invariants.test.ts",
+    "packages/omega-observability/tests/unit.test.ts"
+  ],
+  "source_files": [
+    "src/types.ts",
+    "src/emitter.ts",
+    "src/formatters.ts",
+    "src/index.ts"
+  ],
+  "dependencies": [],
+  "exports": [
+    "ProgressEmitter",
+    "ProgressEvent",
+    "ProgressOptions",
+    "ProgressPhase",
+    "ProgressCallback",
+    "ProgressFormat",
+    "PipelineStats",
+    "formatCli",
+    "formatJsonl",
+    "formatDuration",
+    "formatBytes",
+    "formatRate",
+    "createNoopEmitter",
+    "createCliEmitter",
+    "createCiEmitter",
+    "createCallbackEmitter",
+    "createTestEmitter"
+  ],
+  "api_stability": "frozen",
+  "certification_required": true,
+  "zero_impact_guarantee": {
+    "description": "This module NEVER affects pipeline hash calculation",
+    "proof": "INV-PROG-01, INV-PROG-02, INV-PROG-03, INV-PROG-04",
+    "mechanism": "Side-channel read-only design, fire-and-forget callbacks"
+  },
+  "created_at": "2026-01-03T02:00:00Z",
+  "certified_at": null,
+  "certification_hash": null
+}

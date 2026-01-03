@@ -41,7 +41,14 @@ export type ViolationType =
   | "DEUS_EX_MACHINA"    // Solution miracle non méritée
   | "PLOT_ARMOR"         // Immunité narrative injustifiée
   | "UNKNOWN_REFERENCE"  // Référence à élément non établi
-  | "CANON_CONFLICT";    // Conflit avec le canon établi
+  | "CANON_CONFLICT"     // Conflit avec le canon établi
+  // Emotional violations (Phase 7C)
+  | "OUT_OF_CHARACTER"      // Réaction hors caractère
+  | "INTENSITY_UNJUSTIFIED" // Intensité non justifiée
+  | "ARC_BROKEN"            // Arc émotionnel cassé
+  | "EMOTION_CONTRADICTION" // Émotion contradictoire
+  | "MISSING_TRANSITION"    // Transition manquante
+  | "DEBT_OVERFLOW";        // Dette émotionnelle excessive
 
 export interface Violation {
   /** Type de violation */
@@ -146,3 +153,4 @@ export interface Gate<TInput, TOutput> {
 }
 
 export type TruthGate = Gate<TruthGateInput, TruthGateOutput>;
+

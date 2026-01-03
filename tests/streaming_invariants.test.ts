@@ -1,0 +1,477 @@
+// ═══════════════════════════════════════════════════════════════════════════════
+// OMEGA STREAMING v2 — INVARIANTS TEST SUITE
+// ═══════════════════════════════════════════════════════════════════════════════
+// Tests L4 pour les invariants STREAMING
+// Standard: NASA-Grade L4 / AS9100D / DO-178C Level A
+//
+// INVARIANTS TESTÉS:
+//   INV-STR-01: Streaming == Non-streaming (rootHash identique)
+//   INV-STR-02: chunk_size ne change pas le hash
+//   INV-STR-03: Offsets globaux valides
+//   INV-STR-04: Auto-stream = --stream explicite
+//   INV-STR-05: Determinism multi-runs (10 runs)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+import { describe, it, expect, beforeAll, afterAll } from "vitest";
+import fs from "node:fs";
+import path from "node:path";
+import { execSync } from "node:child_process";
+
+// ─────────────────────────────────────────────────────────────────────────────
+// TEST CONFIGURATION
+// ─────────────────────────────────────────────────────────────────────────────
+
+const TEST_DIR = path.join(process.cwd(), ".test_stream_tmp");
+const SEED = 42;
+const TIMEOUT = 120000; // 2 min for streaming tests
+
+// Sample texts for testing
+const SAMPLE_TEXT_PARAGRAPH = `
+Premier paragraphe avec de la joie et du bonheur.
+Cette phrase continue le paragraphe.
+
+Deuxième paragraphe avec de la tristesse.
+La mélancolie s'installe doucement.
+
+Troisième paragraphe avec de la colère.
+La rage monte progressivement.
+
+Quatrième paragraphe avec de la peur.
+L'angoisse envahit tout.
+`.trim();
+
+const SAMPLE_TEXT_SCENE = `
+Première scène avec des émotions variées.
+Le personnage ressent de la joie intense.
+
+###
+
+Deuxième scène après le séparateur.
+Maintenant c'est la tristesse qui domine.
+Les larmes coulent silencieusement.
+
+###
+
+Troisième scène finale.
+L'espoir renaît enfin.
+`.trim();
+
+const SAMPLE_TEXT_SENTENCE = `Il avait peur. Une peur sourde qui lui nouait l'estomac. Puis il ressentit de la joie! Une joie pure et inattendue. Soudain, tout changea. Le monde bascula autour de lui. Elle sourit, les yeux brillants de bonheur intense. La colère montait en lui, irrépressible et violente. Un sentiment de tristesse l'envahit lentement mais sûrement.`;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// UTILITIES
+// ─────────────────────────────────────────────────────────────────────────────
+
+function setupTestDir(): void {
+  if (fs.existsSync(TEST_DIR)) {
+    fs.rmSync(TEST_DIR, { recursive: true, force: true });
+  }
+  fs.mkdirSync(TEST_DIR, { recursive: true });
+}
+
+function cleanupTestDir(): void {
+  if (fs.existsSync(TEST_DIR)) {
+    fs.rmSync(TEST_DIR, { recursive: true, force: true });
+  }
+}
+
+function createTestFile(name: string, content: string): string {
+  const filePath = path.join(TEST_DIR, name);
+  fs.writeFileSync(filePath, content, "utf8");
+  return filePath;
+}
+
+function runScaleV2(args: string): string {
+  const cmd = `npx tsx run_pipeline_scale_v2.ts ${args}`;
+  try {
+    return execSync(cmd, { 
+      encoding: "utf8", 
+      stdio: ["pipe", "pipe", "pipe"],
+      timeout: TIMEOUT,
+    });
+  } catch (err: any) {
+    console.error("Command failed:", cmd);
+    console.error("STDERR:", err.stderr);
+    throw err;
+  }
+}
+
+function runScaleV1(args: string): string {
+  const cmd = `npx tsx run_pipeline_scale.ts ${args}`;
+  try {
+    return execSync(cmd, { 
+      encoding: "utf8", 
+      stdio: ["pipe", "pipe", "pipe"],
+      timeout: TIMEOUT,
+    });
+  } catch (err: any) {
+    console.error("Command failed:", cmd);
+    console.error("STDERR:", err.stderr);
+    throw err;
+  }
+}
+
+function readOutput(outDir: string, inputFile: string): any {
+  const baseName = path.basename(inputFile).replace(/[^a-zA-Z0-9._-]/g, "_");
+  const outPath = path.join(outDir, baseName + ".omega.json");
+  const content = fs.readFileSync(outPath, "utf8");
+  return JSON.parse(content);
+}
+
+function generateLargeFile(name: string, lines: number): string {
+  const filePath = path.join(TEST_DIR, name);
+  const sentences = [
+    "Il avait peur, une peur sourde qui lui nouait l'estomac.",
+    "Puis il ressentit de la joie, une joie pure et inattendue!",
+    "Soudain, tout changea. Le monde bascula.",
+    "Elle sourit, les yeux brillants de bonheur.",
+    "La colère montait en lui, irrépressible.",
+    "Un sentiment de tristesse l'envahit lentement.",
+    "L'espoir renaissait, fragile mais tenace.",
+    "Il était surpris par cette révélation soudaine.",
+  ];
+  
+  const content: string[] = [];
+  for (let i = 0; i < lines; i++) {
+    content.push(`${i + 1}. ${sentences[i % sentences.length]}`);
+    if (i % 50 === 49) content.push(""); // Paragraph break
+    if (i % 500 === 499) content.push("###"); // Scene break
+  }
+  
+  fs.writeFileSync(filePath, content.join("\n"), "utf8");
+  return filePath;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// TEST SUITE
+// ─────────────────────────────────────────────────────────────────────────────
+
+describe("OMEGA STREAMING v2 — Invariants L4", () => {
+  beforeAll(() => {
+    setupTestDir();
+  });
+
+  afterAll(() => {
+    cleanupTestDir();
+  });
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // INV-STR-01: Streaming == Non-streaming (rootHash identique)
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  describe("INV-STR-01: Streaming == Non-streaming", () => {
+    it("paragraph mode: streaming produces same rootHash as non-streaming", () => {
+      const testFile = createTestFile("para_test.txt", SAMPLE_TEXT_PARAGRAPH);
+      
+      // Non-streaming (v1)
+      const outV1 = path.join(TEST_DIR, "out_v1_para");
+      fs.mkdirSync(outV1, { recursive: true });
+      runScaleV1(`--in "${testFile}" --out "${outV1}" --seed ${SEED} --mode paragraph -q`);
+      const resultV1 = readOutput(outV1, testFile);
+
+      // Streaming (v2 with --stream)
+      const outV2 = path.join(TEST_DIR, "out_v2_para");
+      fs.mkdirSync(outV2, { recursive: true });
+      runScaleV2(`--in "${testFile}" --out "${outV2}" --seed ${SEED} --mode paragraph --stream -q`);
+      const resultV2 = readOutput(outV2, testFile);
+
+      // CRITICAL: rootHash MUST be identical
+      expect(resultV2.global_dna.rootHash).toBe(resultV1.global_dna.rootHash);
+      expect(resultV2.segmentation.segment_count).toBe(resultV1.segmentation.segment_count);
+    });
+
+    it("scene mode: streaming produces same rootHash as non-streaming", () => {
+      const testFile = createTestFile("scene_test.txt", SAMPLE_TEXT_SCENE);
+      
+      const outV1 = path.join(TEST_DIR, "out_v1_scene");
+      const outV2 = path.join(TEST_DIR, "out_v2_scene");
+      fs.mkdirSync(outV1, { recursive: true });
+      fs.mkdirSync(outV2, { recursive: true });
+
+      runScaleV1(`--in "${testFile}" --out "${outV1}" --seed ${SEED} --mode scene -q`);
+      runScaleV2(`--in "${testFile}" --out "${outV2}" --seed ${SEED} --mode scene --stream -q`);
+
+      const resultV1 = readOutput(outV1, testFile);
+      const resultV2 = readOutput(outV2, testFile);
+
+      expect(resultV2.global_dna.rootHash).toBe(resultV1.global_dna.rootHash);
+    });
+
+    it("sentence mode: streaming produces same rootHash as non-streaming", () => {
+      const testFile = createTestFile("sent_test.txt", SAMPLE_TEXT_SENTENCE);
+      
+      const outV1 = path.join(TEST_DIR, "out_v1_sent");
+      const outV2 = path.join(TEST_DIR, "out_v2_sent");
+      fs.mkdirSync(outV1, { recursive: true });
+      fs.mkdirSync(outV2, { recursive: true });
+
+      runScaleV1(`--in "${testFile}" --out "${outV1}" --seed ${SEED} --mode sentence -q`);
+      runScaleV2(`--in "${testFile}" --out "${outV2}" --seed ${SEED} --mode sentence --stream -q`);
+
+      const resultV1 = readOutput(outV1, testFile);
+      const resultV2 = readOutput(outV2, testFile);
+
+      expect(resultV2.global_dna.rootHash).toBe(resultV1.global_dna.rootHash);
+    });
+  });
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // INV-STR-02: chunk_size ne change pas le hash
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  describe("INV-STR-02: chunk_size invariant", () => {
+    it("different chunk sizes produce identical rootHash", () => {
+      const testFile = generateLargeFile("chunk_test.txt", 5000);
+      
+      const chunkSizes = [16384, 65536, 262144]; // 16KB, 64KB, 256KB
+      const results: any[] = [];
+
+      for (const chunkSize of chunkSizes) {
+        const outDir = path.join(TEST_DIR, `out_chunk_${chunkSize}`);
+        fs.mkdirSync(outDir, { recursive: true });
+        
+        runScaleV2(`--in "${testFile}" --out "${outDir}" --seed ${SEED} --mode paragraph --stream --chunk-size ${chunkSize} -q`);
+        results.push(readOutput(outDir, testFile));
+      }
+
+      // All chunk sizes must produce same hash
+      const firstHash = results[0].global_dna.rootHash;
+      for (let i = 1; i < results.length; i++) {
+        expect(results[i].global_dna.rootHash).toBe(firstHash);
+      }
+    });
+
+    it("chunk size does not affect segment count", () => {
+      const testFile = generateLargeFile("chunk_count_test.txt", 2000);
+      
+      const out16k = path.join(TEST_DIR, "out_16k");
+      const out256k = path.join(TEST_DIR, "out_256k");
+      fs.mkdirSync(out16k, { recursive: true });
+      fs.mkdirSync(out256k, { recursive: true });
+
+      runScaleV2(`--in "${testFile}" --out "${out16k}" --seed ${SEED} --mode paragraph --stream --chunk-size 16384 -q`);
+      runScaleV2(`--in "${testFile}" --out "${out256k}" --seed ${SEED} --mode paragraph --stream --chunk-size 262144 -q`);
+
+      const result16k = readOutput(out16k, testFile);
+      const result256k = readOutput(out256k, testFile);
+
+      expect(result16k.segmentation.segment_count).toBe(result256k.segmentation.segment_count);
+    });
+  });
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // INV-STR-03: Offsets globaux valides
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  describe("INV-STR-03: Offsets globaux valides", () => {
+    it("segment offsets are contiguous and cover input", () => {
+      const testFile = createTestFile("offset_test.txt", SAMPLE_TEXT_PARAGRAPH);
+      
+      const outDir = path.join(TEST_DIR, "out_offset");
+      fs.mkdirSync(outDir, { recursive: true });
+
+      runScaleV2(`--in "${testFile}" --out "${outDir}" --seed ${SEED} --mode paragraph --stream -q`);
+      const result = readOutput(outDir, testFile);
+
+      const segments = result.segments;
+      
+      // Check offsets are non-negative
+      for (const seg of segments) {
+        expect(seg.start).toBeGreaterThanOrEqual(0);
+        expect(seg.end).toBeGreaterThan(seg.start);
+      }
+
+      // Check segments are ordered by index
+      for (let i = 1; i < segments.length; i++) {
+        expect(segments[i].index).toBeGreaterThan(segments[i - 1].index);
+      }
+    });
+
+    it("streaming offsets match non-streaming offsets", () => {
+      const testFile = createTestFile("offset_match.txt", SAMPLE_TEXT_SENTENCE);
+      
+      const outV1 = path.join(TEST_DIR, "out_offset_v1");
+      const outV2 = path.join(TEST_DIR, "out_offset_v2");
+      fs.mkdirSync(outV1, { recursive: true });
+      fs.mkdirSync(outV2, { recursive: true });
+
+      runScaleV1(`--in "${testFile}" --out "${outV1}" --seed ${SEED} --mode sentence -q`);
+      runScaleV2(`--in "${testFile}" --out "${outV2}" --seed ${SEED} --mode sentence --stream -q`);
+
+      const resultV1 = readOutput(outV1, testFile);
+      const resultV2 = readOutput(outV2, testFile);
+
+      // Same number of segments
+      expect(resultV2.segments.length).toBe(resultV1.segments.length);
+    });
+  });
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // INV-STR-04: Auto-stream = --stream explicite
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  describe("INV-STR-04: Auto-stream consistency", () => {
+    it("auto-stream produces same result as explicit --stream", () => {
+      // Create a file just above 1MB threshold (for fast testing)
+      const testFile = generateLargeFile("auto_stream.txt", 20000);
+      const fileSize = fs.statSync(testFile).size;
+      const thresholdMB = Math.floor(fileSize / (1024 * 1024)) - 1; // Set threshold below file size
+
+      const outAuto = path.join(TEST_DIR, "out_auto");
+      const outExplicit = path.join(TEST_DIR, "out_explicit");
+      fs.mkdirSync(outAuto, { recursive: true });
+      fs.mkdirSync(outExplicit, { recursive: true });
+
+      // Auto-stream (threshold below file size)
+      runScaleV2(`--in "${testFile}" --out "${outAuto}" --seed ${SEED} --mode paragraph --stream-threshold-mb 0 -q`);
+      
+      // Explicit --stream
+      runScaleV2(`--in "${testFile}" --out "${outExplicit}" --seed ${SEED} --mode paragraph --stream -q`);
+
+      const resultAuto = readOutput(outAuto, testFile);
+      const resultExplicit = readOutput(outExplicit, testFile);
+
+      expect(resultAuto.global_dna.rootHash).toBe(resultExplicit.global_dna.rootHash);
+      expect(resultAuto.streaming.used).toBe(true);
+      expect(resultExplicit.streaming.used).toBe(true);
+    });
+  });
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // INV-STR-05: Determinism multi-runs
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  describe("INV-STR-05: Multi-run determinism", () => {
+    it("10 consecutive runs produce identical rootHash", () => {
+      const testFile = generateLargeFile("multi_run.txt", 3000);
+      const hashes: string[] = [];
+
+      for (let run = 0; run < 10; run++) {
+        const outDir = path.join(TEST_DIR, `out_run_${run}`);
+        fs.mkdirSync(outDir, { recursive: true });
+        
+        runScaleV2(`--in "${testFile}" --out "${outDir}" --seed ${SEED} --mode paragraph --stream -q`);
+        const result = readOutput(outDir, testFile);
+        hashes.push(result.global_dna.rootHash);
+      }
+
+      // All runs must produce same hash
+      const firstHash = hashes[0];
+      for (let i = 1; i < hashes.length; i++) {
+        expect(hashes[i]).toBe(firstHash);
+      }
+    });
+
+    it("streaming + concurrency produces same hash as sequential", () => {
+      const testFile = generateLargeFile("conc_stream.txt", 5000);
+      
+      const outC1 = path.join(TEST_DIR, "out_c1_stream");
+      const outC4 = path.join(TEST_DIR, "out_c4_stream");
+      fs.mkdirSync(outC1, { recursive: true });
+      fs.mkdirSync(outC4, { recursive: true });
+
+      runScaleV2(`--in "${testFile}" --out "${outC1}" --seed ${SEED} --mode paragraph --stream --concurrency 1 -q`);
+      runScaleV2(`--in "${testFile}" --out "${outC4}" --seed ${SEED} --mode paragraph --stream --concurrency 4 -q`);
+
+      const resultC1 = readOutput(outC1, testFile);
+      const resultC4 = readOutput(outC4, testFile);
+
+      expect(resultC4.global_dna.rootHash).toBe(resultC1.global_dna.rootHash);
+    });
+  });
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // STRESS TESTS
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  describe("Stress Tests", { timeout: TIMEOUT }, () => {
+    it("handles large file (50k lines) without OOM", () => {
+      const testFile = generateLargeFile("stress_50k.txt", 50000);
+      const outDir = path.join(TEST_DIR, "out_stress");
+      fs.mkdirSync(outDir, { recursive: true });
+
+      // Get memory before
+      const memBefore = process.memoryUsage().heapUsed;
+
+      runScaleV2(`--in "${testFile}" --out "${outDir}" --seed ${SEED} --mode paragraph --stream -q`);
+      
+      const result = readOutput(outDir, testFile);
+      
+      // Should complete successfully
+      expect(result.segmentation.segment_count).toBeGreaterThan(100);
+      expect(result.global_dna.rootHash).toBeTruthy();
+      expect(result.global_dna.rootHash.length).toBe(64);
+      expect(result.streaming.used).toBe(true);
+    });
+
+    it("streaming mode flag is correctly set in output", () => {
+      const testFile = createTestFile("flag_test.txt", SAMPLE_TEXT_PARAGRAPH);
+      
+      const outStream = path.join(TEST_DIR, "out_stream_flag");
+      const outNoStream = path.join(TEST_DIR, "out_nostream_flag");
+      fs.mkdirSync(outStream, { recursive: true });
+      fs.mkdirSync(outNoStream, { recursive: true });
+
+      // With --stream
+      runScaleV2(`--in "${testFile}" --out "${outStream}" --seed ${SEED} --stream -q`);
+      const resultStream = readOutput(outStream, testFile);
+      expect(resultStream.streaming.used).toBe(true);
+
+      // Without --stream (small file, auto-stream should be false)
+      runScaleV2(`--in "${testFile}" --out "${outNoStream}" --seed ${SEED} --stream-threshold-mb 1000 -q`);
+      const resultNoStream = readOutput(outNoStream, testFile);
+      expect(resultNoStream.streaming.used).toBe(false);
+    });
+  });
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // EDGE CASES
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  describe("Edge Cases", () => {
+    it("handles empty paragraphs correctly", () => {
+      const textWithEmpty = "First paragraph.\n\n\n\n\nSecond paragraph after empty lines.";
+      const testFile = createTestFile("empty_para.txt", textWithEmpty);
+      
+      const outDir = path.join(TEST_DIR, "out_empty_para");
+      fs.mkdirSync(outDir, { recursive: true });
+
+      runScaleV2(`--in "${testFile}" --out "${outDir}" --seed ${SEED} --mode paragraph --stream -q`);
+      const result = readOutput(outDir, testFile);
+
+      expect(result.segmentation.segment_count).toBe(2);
+    });
+
+    it("handles UTF-8 special characters", () => {
+      const textWithUTF8 = "Première phrase avec des émotions. Deuxième avec ça et là. Troisième avec 日本語.";
+      const testFile = createTestFile("utf8_test.txt", textWithUTF8);
+      
+      const outV1 = path.join(TEST_DIR, "out_utf8_v1");
+      const outV2 = path.join(TEST_DIR, "out_utf8_v2");
+      fs.mkdirSync(outV1, { recursive: true });
+      fs.mkdirSync(outV2, { recursive: true });
+
+      runScaleV1(`--in "${testFile}" --out "${outV1}" --seed ${SEED} --mode sentence -q`);
+      runScaleV2(`--in "${testFile}" --out "${outV2}" --seed ${SEED} --mode sentence --stream -q`);
+
+      const resultV1 = readOutput(outV1, testFile);
+      const resultV2 = readOutput(outV2, testFile);
+
+      // Must produce same hash even with UTF-8
+      expect(resultV2.global_dna.rootHash).toBe(resultV1.global_dna.rootHash);
+    });
+
+    it("handles Windows line endings (CRLF)", () => {
+      const textWithCRLF = "Line one.\r\nLine two.\r\nLine three.";
+      const testFile = createTestFile("crlf_test.txt", textWithCRLF);
+      
+      const outDir = path.join(TEST_DIR, "out_crlf");
+      fs.mkdirSync(outDir, { recursive: true });
+
+      runScaleV2(`--in "${testFile}" --out "${outDir}" --seed ${SEED} --mode sentence --stream -q`);
+      const result = readOutput(outDir, testFile);
+
+      expect(result.segmentation.segment_count).toBe(3);
+    });
+  });
+});

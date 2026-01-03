@@ -1,0 +1,76 @@
+{
+  "name": "omega-observability",
+  "version": "1.0.0",
+  "description": "OMEGA Progress Callbacks & Observability - Zero-Impact Design for NASA-Grade Pipeline",
+  "keywords": [
+    "omega",
+    "progress",
+    "observability",
+    "cli",
+    "ci",
+    "pipeline",
+    "callback",
+    "nasa-grade"
+  ],
+  "author": "OMEGA Project (Francky)",
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./types": {
+      "types": "./dist/types.d.ts",
+      "import": "./dist/types.js"
+    },
+    "./emitter": {
+      "types": "./dist/emitter.d.ts",
+      "import": "./dist/emitter.js"
+    },
+    "./formatters": {
+      "types": "./dist/formatters.d.ts",
+      "import": "./dist/formatters.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src",
+    "README.md",
+    "module.omega.json"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "clean": "rimraf dist",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run clean && npm run build"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.0",
+    "vitest": "^1.0.0",
+    "rimraf": "^5.0.0"
+  },
+  "peerDependencies": {},
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/4Xdlm/omega-project.git",
+    "directory": "packages/omega-observability"
+  },
+  "bugs": {
+    "url": "https://github.com/4Xdlm/omega-project/issues"
+  },
+  "homepage": "https://github.com/4Xdlm/omega-project#readme"
+}

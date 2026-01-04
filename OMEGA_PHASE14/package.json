@@ -1,10 +1,10 @@
 {
   "name": "omega-phase14",
   "version": "3.14.0",
-  "description": "OMEGA Phase 14 - LLM Integration (Python IPC Bridge)",
+  "description": "OMEGA Phase 14 - LLM Integration (IPC Bridge + Smart Router)",
   "type": "module",
-  "main": "ipc/index.js",
-  "types": "ipc/index.d.ts",
+  "main": "index.js",
+  "types": "index.d.ts",
   "scripts": {
     "build": "tsc",
     "test": "vitest run",
@@ -16,7 +16,8 @@
     "ipc",
     "python",
     "json-rpc",
-    "llm"
+    "llm",
+    "router"
   ],
   "author": "OMEGA Team",
   "license": "MIT",

@@ -203,3 +203,24 @@ export {
   verifyQueryDeterminism,
   DEFAULT_QUERY_CONFIG,
 } from "./memory_query.js";
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// MEMORY ENGINE — Phase 10D
+// ═══════════════════════════════════════════════════════════════════════════════
+
+export type {
+  EngineRecord,
+  EngineWriteRequest,
+  EngineWriteResult,
+  EngineState,
+  EngineConfig,
+} from "./memory_engine.js";
+
+export {
+  MemoryEngine,
+  enginesEqual,
+  verifyEngineDeterminism,
+  hasNoCreationLayerInfluence,
+  CREATION_LAYER_ISOLATION_PROOF,
+  DEFAULT_ENGINE_CONFIG,
+} from "./memory_engine.js";

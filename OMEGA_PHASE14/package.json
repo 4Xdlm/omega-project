@@ -1,0 +1,31 @@
+{
+  "name": "omega-phase14",
+  "version": "3.14.0",
+  "description": "OMEGA Phase 14 - LLM Integration (Python IPC Bridge)",
+  "type": "module",
+  "main": "ipc/index.js",
+  "types": "ipc/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest watch",
+    "test:coverage": "vitest run --coverage"
+  },
+  "keywords": [
+    "omega",
+    "ipc",
+    "python",
+    "json-rpc",
+    "llm"
+  ],
+  "author": "OMEGA Team",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.0",
+    "vitest": "^1.6.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

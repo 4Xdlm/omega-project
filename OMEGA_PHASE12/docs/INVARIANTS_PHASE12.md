@@ -22,9 +22,9 @@
 | Bloc | Préfixe | Quantité | Status |
 |------|---------|----------|--------|
 | Deployment | INV-DEP-* | 5 | 🔄 |
-| Configuration | INV-CFG-* | 4 | ✅ |
-| Safe Mode | INV-SAFE-* | 3 | 🔄 |
-| **TOTAL** | | **12** | |
+| Configuration | INV-CFG-* | 4 | ✅ PROUVÉ |
+| Safe Mode | INV-SAFE-* | 3 | ✅ PROUVÉ |
+| **TOTAL** | | **12** | **7/12** |
 
 ---
 
@@ -71,9 +71,9 @@ Couverture:
 
 | ID | Description | Criticité | Preuve | Status |
 |----|-------------|-----------|--------|--------|
-| **INV-SAFE-01** | SAFE MODE true par défaut | CRITICAL | test 17 | ✅ PROUVÉ |
-| **INV-SAFE-02** | 8 actions critiques refusées | CRITICAL | 8 tests | 🔄 |
-| **INV-SAFE-03** | Refus journalisé (action, role, reason, trace_id) | HIGH | Log check | 🔄 |
+| **INV-SAFE-01** | SAFE MODE true par défaut | CRITICAL | test 17 (config) | ✅ PROUVÉ |
+| **INV-SAFE-02** | 8 actions critiques refusées | CRITICAL | 9 tests | ✅ PROUVÉ |
+| **INV-SAFE-03** | Refus journalisé (action, role, reason, trace_id) | HIGH | 6 tests | ✅ PROUVÉ |
 
 ### Preuve INV-SAFE-01
 
@@ -87,6 +87,35 @@ Code testé:
   }
 ```
 
+### Preuve INV-SAFE-02
+
+```
+Tests: 9 tests (1 par action HITL + 1 test global)
+Actions testées:
+  1. DELETE_PROJECT       ✅ BLOCKED_SAFE_MODE
+  2. DELETE_RUN           ✅ BLOCKED_SAFE_MODE
+  3. OVERRIDE_INVARIANT   ✅ BLOCKED_SAFE_MODE
+  4. MODIFY_CANON         ✅ BLOCKED_SAFE_MODE
+  5. BYPASS_TRUTH_GATE    ✅ BLOCKED_SAFE_MODE
+  6. FORCE_VALIDATION     ✅ BLOCKED_SAFE_MODE
+  7. EXPORT_SENSITIVE     ✅ BLOCKED_SAFE_MODE
+  8. MODIFY_GOVERNANCE    ✅ BLOCKED_SAFE_MODE
+```
+
+### Preuve INV-SAFE-03
+
+```
+Tests: 6 tests (champs requis)
+Champs vérifiés:
+  - trace_id      ✅
+  - timestamp     ✅
+  - action        ✅
+  - role          ✅
+  - reason        ✅
+  - status        ✅
+  - safe_mode_active ✅
+```
+
 ---
 
 # 📈 PROGRESSION PHASE 12
@@ -94,10 +123,12 @@ Code testé:
 | Sous-phase | Invariants | Tests | Status |
 |------------|------------|-------|--------|
 | 12.1 Configuration | INV-CFG-01 à 04, INV-SAFE-01 | 20 | ✅ PASS |
-| 12.2 SAFE MODE | INV-SAFE-02 à 03 | 0 | 🔄 TODO |
+| **12.2 SAFE MODE** | **INV-SAFE-02, INV-SAFE-03** | **25** | ✅ **PASS** |
 | 12.3 Deployment | INV-DEP-01 à 05 | 0 | 🔄 TODO |
 | 12.4 CI/CD | - | 0 | 🔄 TODO |
 | 12.5 Documentation | - | 0 | 🔄 TODO |
+
+**TOTAL TESTS PHASE 12 : 45/45 PASS**
 
 ---
 

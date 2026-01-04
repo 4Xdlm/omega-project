@@ -25,3 +25,18 @@ export {
   CONFIG_ERROR_CODES,
   type ConfigErrorCode,
 } from "./omega.config.loader.js";
+
+// Safe Mode exports
+export {
+  SafeModeController,
+  createSafeModeController,
+  validateRefusalLog,
+  HITL_ACTIONS,
+  FORBIDDEN_ACTIONS,
+  type HITLAction,
+  type ForbiddenAction,
+  type CriticalAction,
+  type ActionStatus,
+  type ActionCheckResult,
+  type RefusalLogEntry,
+} from "./safe_mode.js";

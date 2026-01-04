@@ -177,3 +177,75 @@ describe("Deployment Pester tests exist", () => {
     expect(existsSync(testPath)).toBe(true);
   });
 });
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// TEST SUITE: CI/CD Workflow (INV-DEP-01 automation)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+describe("CI/CD GitHub Actions workflow", () => {
+  const workflowDir = join(__dirname, "..", "..", ".github", "workflows");
+
+  it("phase12_certify.yml exists", () => {
+    const workflowPath = join(workflowDir, "phase12_certify.yml");
+    expect(existsSync(workflowPath)).toBe(true);
+  });
+
+  it("workflow contains required jobs", () => {
+    const workflowPath = join(workflowDir, "phase12_certify.yml");
+    if (existsSync(workflowPath)) {
+      const content = readFileSync(workflowPath, "utf8");
+      
+      // Must have certify job
+      expect(content).toContain("certify:");
+      
+      // Must run on windows for Pester
+      expect(content).toContain("windows-latest");
+      
+      // Must have fetch-depth: 0 for git diff
+      expect(content).toContain("fetch-depth: 0");
+    }
+  });
+
+  it("workflow includes npm test step", () => {
+    const workflowPath = join(workflowDir, "phase12_certify.yml");
+    if (existsSync(workflowPath)) {
+      const content = readFileSync(workflowPath, "utf8");
+      expect(content).toContain("npm test");
+    }
+  });
+
+  it("workflow includes Pester test step", () => {
+    const workflowPath = join(workflowDir, "phase12_certify.yml");
+    if (existsSync(workflowPath)) {
+      const content = readFileSync(workflowPath, "utf8");
+      expect(content).toContain("Invoke-Pester");
+    }
+  });
+
+  it("workflow includes evidence pack generation", () => {
+    const workflowPath = join(workflowDir, "phase12_certify.yml");
+    if (existsSync(workflowPath)) {
+      const content = readFileSync(workflowPath, "utf8");
+      expect(content).toContain("evidence_pack.ps1");
+    }
+  });
+
+  it("workflow includes artifact upload", () => {
+    const workflowPath = join(workflowDir, "phase12_certify.yml");
+    if (existsSync(workflowPath)) {
+      const content = readFileSync(workflowPath, "utf8");
+      expect(content).toContain("upload-artifact");
+      expect(content).toContain("PHASE_12_EVIDENCE");
+    }
+  });
+
+  it("workflow includes Merkle stability check", () => {
+    const workflowPath = join(workflowDir, "phase12_certify.yml");
+    if (existsSync(workflowPath)) {
+      const content = readFileSync(workflowPath, "utf8");
+      expect(content).toContain("merkle_root_run1");
+      expect(content).toContain("merkle_root_run2");
+      expect(content).toContain("MERKLE STABLE");
+    }
+  });
+});

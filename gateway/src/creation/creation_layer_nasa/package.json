@@ -1,0 +1,38 @@
+{
+  "name": "@omega/creation-layer",
+  "version": "1.0.0-NASA",
+  "description": "OMEGA CREATION_LAYER - Artifact Generation Engine - NASA-Grade L4",
+  "type": "module",
+  "main": "index.js",
+  "types": "index.d.ts",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "build": "tsc",
+    "lint": "tsc --noEmit"
+  },
+  "keywords": [
+    "omega",
+    "creation",
+    "artifact",
+    "nasa-grade",
+    "deterministic"
+  ],
+  "author": "OMEGA Project",
+  "license": "MIT",
+  "devDependencies": {
+    "vitest": "^1.6.0",
+    "typescript": "^5.3.0",
+    "@types/node": "^20.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "*.ts",
+    "*.js",
+    "*.d.ts",
+    "!*.test.ts"
+  ]
+}

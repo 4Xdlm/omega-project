@@ -84,3 +84,35 @@ export {
   // Class
   MetricsCollector
 } from './metrics_collector.js';
+
+// Alert System (Sprint 13A.4)
+export {
+  // Types
+  type AlertSeverity,
+  type AlertState,
+  type AlertRule,
+  type AlertEvent,
+  type AlertRuleState,
+  type EvaluationResult,
+  type MetricsInput,
+  SEVERITY_LEVELS
+} from './alert_types.js';
+
+export {
+  // Rule management
+  validateRule,
+  createRule,
+  RuleRegistry,
+  DEFAULT_RULES,
+  RULE_HIGH_ERROR_RATE,
+  RULE_WARNING_ERROR_RATE,
+  RULE_HIGH_LATENCY
+} from './alert_rules.js';
+
+export {
+  // Engine
+  AlertEngine,
+  evaluateCondition,
+  extractMetricValue,
+  createAlertEngine
+} from './alert_engine.js';

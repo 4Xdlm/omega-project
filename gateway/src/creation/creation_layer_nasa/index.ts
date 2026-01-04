@@ -157,11 +157,64 @@ export {
 } from "./snapshot_context.js";
 
 // ═══════════════════════════════════════════════════════════════════════════════
+// TEMPLATE REGISTRY — Phase 9C
+// ═══════════════════════════════════════════════════════════════════════════════
+
+export type {
+  ExecutionOptions,
+  ExecutionResult,
+} from "./template_registry.js";
+
+export {
+  // Registry
+  TemplateRegistry,
+  globalRegistry,
+  
+  // Execution — INV-CRE-04, INV-CRE-08
+  executeTemplate,
+  executeTemplateSync,
+  
+  // Validation
+  validateParams,
+  validateOutput,
+  
+  // Helper
+  createTemplate,
+} from "./template_registry.js";
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// ARTIFACT BUILDER — Phase 9C
+// ═══════════════════════════════════════════════════════════════════════════════
+
+export type {
+  QuickBuildOptions,
+  ArtifactVerificationResult,
+} from "./artifact_builder.js";
+
+export {
+  // Build context — INV-CRE-03, INV-CRE-05, INV-CRE-09
+  ArtifactBuildContext,
+  createBuildContext,
+  
+  // Quick build
+  buildArtifact,
+  
+  // Verification
+  verifyArtifact,
+  requireValidArtifact,
+  
+  // Comparison
+  artifactsEqual,
+  sameSnapshotOrigin,
+  hasCompleteDerivation,
+} from "./artifact_builder.js";
+
+// ═══════════════════════════════════════════════════════════════════════════════
 // VERSION INFO
 // ═══════════════════════════════════════════════════════════════════════════════
 
 export const CREATION_LAYER_VERSION = "1.0.0-NASA" as const;
-export const CREATION_LAYER_PHASE = "9B" as const;
+export const CREATION_LAYER_PHASE = "9C" as const;
 
 /**
  * Metadata about this module
@@ -173,9 +226,19 @@ export const CREATION_LAYER_INFO = Object.freeze({
   standard: "DO-178C Level A",
   
   invariants: {
-    proven: ["INV-CRE-01", "INV-CRE-06", "INV-CRE-07", "INV-CRE-10", "INV-CRE-11"],
-    pending: ["INV-CRE-02", "INV-CRE-03", "INV-CRE-04", "INV-CRE-05", 
-              "INV-CRE-08", "INV-CRE-09"],
+    proven: [
+      "INV-CRE-01", // Snapshot-Only
+      "INV-CRE-03", // Full Provenance
+      "INV-CRE-04", // Deterministic Output
+      "INV-CRE-05", // Derivation Honesty
+      "INV-CRE-06", // Template Purity (deepFreeze)
+      "INV-CRE-07", // Request Validation
+      "INV-CRE-08", // Bounded Execution (soft limit)
+      "INV-CRE-09", // Atomic Output
+      "INV-CRE-10", // Idempotency
+      "INV-CRE-11", // Source Verification
+    ],
+    pending: ["INV-CRE-02"], // No Write Authority (→ 9E)
   },
   
   ncr: {

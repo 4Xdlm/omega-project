@@ -1,195 +1,161 @@
-// ═══════════════════════════════════════════════════════════════════════════════
-// OMEGA — MEMORY_LAYER — index.ts
-// Phase 8 — NASA-Grade L4 / DO-178C Level A
-// Version: 1.0.0-NASA
-// 
-// EXPORT PRINCIPAL DU MODULE
-// ═══════════════════════════════════════════════════════════════════════════════
+/**
+ * ═══════════════════════════════════════════════════════════════════════════════
+ * OMEGA PROJECT — MEMORY_LAYER
+ * index.ts — Public API Exports
+ * ═══════════════════════════════════════════════════════════════════════════════
+ * 
+ * VERSION     : 1.0.0-NASA
+ * PHASE       : 10A
+ * STANDARD    : DO-178C Level A
+ * 
+ * ═══════════════════════════════════════════════════════════════════════════════
+ */
 
-// ─────────────────────────────────────────────────────────────────────────────────
-// TYPES
-// ─────────────────────────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════════════════
+// MEMORY TYPES — Phase 10A
+// ═══════════════════════════════════════════════════════════════════════════════
 
 export type {
-  // Core types
-  MemoryEntry,
-  MemoryMetaEvent,
-  MemoryWriteRequest,
-  MemoryWriteResponse,
-  MemorySnapshot,
+  // Record Key
+  RecordKey,
+  
+  // Provenance
+  ProvenanceSource,
+  ProvenanceReason,
+  Provenance,
+  
+  // Record
+  MemoryRecord,
+  RecordMetadata,
+  RecordRef,
+  
+  // Write Request
+  WriteRequest,
+  
+  // Query
+  QueryFilter,
+  QueryOptions,
+  QueryResult,
+  
+  // History
+  RecordHistory,
+  
+  // Store State
+  StoreState,
+  
+  // Config
   MemoryConfig,
-  
-  // Payload types
-  MemoryPayloadType,
-  RippleEventType,
-  MetaEventType,
-  
-  // Tier types
-  MemoryTier,
-  TieringPolicy,
-  TieringAction,
-  
-  // Decay types
-  DecayLevel,
-  DecayDecision,
-  
-  // Digest types
-  DigestSourceRef,
-  DigestPayload,
-  
-  // Meta event payloads
-  AccessLoggedPayload,
-  TierChangedPayload,
-  DecayMarkedPayload,
-  
-  // Error handling
-  MemoryErrorCode,
-  Result,
-} from "./types";
+} from "./memory_types.js";
 
 export {
-  // Config defaults
+  // Record Key
+  parseRecordKey,
+  formatRecordKey,
+  isValidKeyFormat,
+  
+  // Provenance
+  createUserProvenance,
+  createSystemProvenance,
+  isProvenance,
+  isProvenanceSource,
+  
+  // Record
+  isMemoryRecord,
+  extractMetadata,
+  createRecordRef,
+  
+  // Write Request
+  isWriteRequest,
+  
+  // Validation
+  validateKey,
+  validatePayload,
+  KEY_VALIDATION,
+  
+  // Config
   DEFAULT_MEMORY_CONFIG,
-  DEFAULT_TIERING_POLICY,
+  
+  // Module info
+  MEMORY_LAYER_VERSION,
+  MEMORY_LAYER_PHASE,
+  MEMORY_LAYER_INFO,
+} from "./memory_types.js";
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// MEMORY ERRORS — Phase 10A
+// ═══════════════════════════════════════════════════════════════════════════════
+
+export type {
+  MemoryErrorCode,
+  MemoryErrorCategory,
+  MemoryResult,
+} from "./memory_errors.js";
+
+export {
+  // Error class
+  MemoryError,
+  MemoryErrors,
   
   // Type guards
-  isMemoryTier,
-  isDecayLevel,
-  isTierChangedPayload,
-  isDecayMarkedPayload,
-  isAccessLoggedPayload,
+  isMemoryError,
+  isMemoryErrorOfCategory,
+  isInvariantViolation,
+  filterInvariantViolations,
+  
+  // Utilities
+  getErrorCategory,
+  wrapError,
+  createErrorFromCode,
   
   // Result helpers
-  ok,
-  err,
-} from "./types";
+  success,
+  failure,
+  unwrap,
+  unwrapOr,
+} from "./memory_errors.js";
 
-// ─────────────────────────────────────────────────────────────────────────────────
-// CANONICAL ENCODE
-// ─────────────────────────────────────────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════════════════════
+// MEMORY HASH — Phase 10A
+// ═══════════════════════════════════════════════════════════════════════════════
+
+export type {
+  PayloadHashInput,
+  RecordHashInput,
+  HashVerificationResult,
+  ChainVerificationResult,
+} from "./memory_hash.js";
 
 export {
+  // Canonical encoding
   canonicalEncode,
-  sha256Hex,
-  uuid,
-  nowUtcIso,
-  isIso8601UtcZ,
-  byteLength,
-  chainHashFirst,
-  chainHashNext,
-  CanonicalEncodeError,
-} from "./canonical_encode";
-
-// ─────────────────────────────────────────────────────────────────────────────────
-// CANONICAL KEY
-// ─────────────────────────────────────────────────────────────────────────────────
-
-export {
-  isValidCanonicalKey,
-  validateCanonicalKey,
-  parseCanonicalKey,
-  buildCanonicalKey,
-  getDomain,
-  getEntityType,
-  isInDomain,
-  hasPrefix,
-  CANONICAL_KEY_REGEX,
-  MIN_KEY_LENGTH,
-  MAX_KEY_LENGTH,
-  MIN_SEGMENTS,
-  MAX_SEGMENTS,
-  MAX_SEGMENT_LENGTH,
-} from "./canonical_key";
-
-export type { KeyValidationResult } from "./canonical_key";
-
-// ─────────────────────────────────────────────────────────────────────────────────
-// MEMORY STORE
-// ─────────────────────────────────────────────────────────────────────────────────
-
-export { MemoryStore } from "./memory_store";
-
-// ─────────────────────────────────────────────────────────────────────────────────
-// MEMORY SNAPSHOT
-// ─────────────────────────────────────────────────────────────────────────────────
-
-export { SnapshotManager } from "./memory_snapshot";
-
-// ─────────────────────────────────────────────────────────────────────────────────
-// MEMORY HYBRID
-// ─────────────────────────────────────────────────────────────────────────────────
-
-export {
-  MemoryHybrid,
-  getEffectiveTier,
-  getLastTierChangeTimestamp,
-  splitHybridView,
-} from "./memory_hybrid";
-
-export type { HybridView, MemoryHybridOptions } from "./memory_hybrid";
-
-// ─────────────────────────────────────────────────────────────────────────────────
-// MEMORY TIERING
-// ─────────────────────────────────────────────────────────────────────────────────
-
-export {
-  computeTieringActions,
-  applyTieringActions,
-  logAccess,
-  getTieringStats,
-} from "./memory_tiering";
-
-export type { TieringResult, TieringStats } from "./memory_tiering";
-
-// ─────────────────────────────────────────────────────────────────────────────────
-// MEMORY DECAY
-// ─────────────────────────────────────────────────────────────────────────────────
-
-export { DecayManager, projectDecayState } from "./memory_decay";
-
-// ─────────────────────────────────────────────────────────────────────────────────
-// MEMORY DIGEST
-// ─────────────────────────────────────────────────────────────────────────────────
-
-export {
-  DIGEST_PAYLOAD_TYPE,
-  DIGEST_EVENT_TYPE,
-  MAX_DIGEST_SOURCES,
-  validateDigestSources,
-  assertDigestableSources,
-  sortSourcesDeterministic,
-  buildDigestPayload,
-  isDigestPayload,
-  isDigestEntry,
-  getDigestSourceIds,
-  verifyDigestIntegrity,
-} from "./memory_digest";
-
-export type { DigestRule } from "./memory_digest";
-
-// ─────────────────────────────────────────────────────────────────────────────────
-// DIGEST RULES
-// ─────────────────────────────────────────────────────────────────────────────────
-
-export {
-  DIGEST_CONTEXT_V1,
-  DIGEST_FACTS_V1,
-  DIGEST_TIMELINE_V1,
-  DIGEST_KEYS_V1,
-  DIGEST_EMOTIONS_V1,
-  DIGEST_RULES,
-  getDigestRule,
-  listDigestRuleIds,
-} from "./digest_rules";
-
-// ─────────────────────────────────────────────────────────────────────────────────
-// DIGEST WRITER
-// ─────────────────────────────────────────────────────────────────────────────────
-
-export {
-  writeDigest,
-  createAndWriteDigest,
-  createChainedDigest,
-  getDigestSources,
-  isDigestComplete,
-} from "./memory_digest_writer";
+  canonicalEqual,
+  
+  // SHA-256
+  sha256,
+  sha256Buffer,
+  sha256Value,
+  
+  // Record hashing — INV-MEM-06
+  computePayloadHash,
+  computeRecordHash,
+  
+  // Merkle tree
+  combineHashes,
+  computeMerkleRoot,
+  
+  // Verification
+  verifyPayloadHash,
+  verifyRecordHash,
+  verifyHashChain,
+  
+  // Utilities
+  hashToId,
+  generateContentId,
+  isValidHash,
+  hashesEqual,
+  verifyDeterminism,
+  
+  // Constants
+  NULL_HASH,
+  EMPTY_HASH,
+} from "./memory_hash.js";

@@ -178,3 +178,28 @@ export {
   verifyIndex,
   verifyIndexDeterminism,
 } from "./memory_index.js";
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// MEMORY QUERY — Phase 10C
+// ═══════════════════════════════════════════════════════════════════════════════
+
+export type {
+  QueryableRecord,
+  QueryOptions,
+  QueryResult,
+  StoreSnapshot,
+  QueryConfig,
+  QueryStats,
+} from "./memory_query.js";
+
+export {
+  QueryEngine,
+  createSnapshot,
+  sortRecordsCanonical,
+  canonicalRecordCompare,
+  canonicalStringCompare,
+  computeResultHash,
+  verifySnapshotUnchanged,
+  verifyQueryDeterminism,
+  DEFAULT_QUERY_CONFIG,
+} from "./memory_query.js";

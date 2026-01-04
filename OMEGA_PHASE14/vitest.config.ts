@@ -4,7 +4,7 @@ export default defineConfig({
   test: {
     globals: false,
     environment: 'node',
-    include: ['ipc/tests/**/*.test.ts', 'router/tests/**/*.test.ts'],
+    include: ['ipc/tests/**/*.test.ts', 'router/tests/**/*.test.ts', 'oracle/tests/**/*.test.ts'],
     testTimeout: 30000, // 30s for IPC tests
     hookTimeout: 10000,
     teardownTimeout: 10000,

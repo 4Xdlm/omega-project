@@ -65,3 +65,22 @@ export {
   // Class
   AuditTrail
 } from './audit_trail.js';
+
+// Metrics Collector (Sprint 13A.3)
+export {
+  // Types
+  type MetricLabels,
+  type Outcome,
+  type LatencyBucketsMs,
+  type MetricsConfig,
+  type MetricsSnapshot,
+  
+  // Functions
+  stableLabelKey,
+  sanitizeMetricName,
+  getDefaultMetricsCollector,
+  resetDefaultMetricsCollector,
+  
+  // Class
+  MetricsCollector
+} from './metrics_collector.js';

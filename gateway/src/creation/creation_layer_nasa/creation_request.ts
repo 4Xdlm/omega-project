@@ -197,8 +197,10 @@ const SNAPSHOT_ID_REGEX = /^[a-zA-Z0-9_-]{1,128}$/;
 
 /**
  * Règles de validation pour template_id
+ * Format: UPPER_SNAKE_CASE[@version]
+ * Exemples: MY_TEMPLATE, MY_TEMPLATE@1.0.0
  */
-const TEMPLATE_ID_REGEX = /^[A-Z][A-Z0-9_]{0,63}$/;
+const TEMPLATE_ID_REGEX = /^[A-Z][A-Z0-9_]{0,63}(@\d+\.\d+\.\d+)?$/;
 
 /**
  * Valide une CreationRequest COMPLÈTE

@@ -210,11 +210,35 @@ export {
 } from "./artifact_builder.js";
 
 // ═══════════════════════════════════════════════════════════════════════════════
+// CREATION ENGINE — Phase 9D+9E
+// ═══════════════════════════════════════════════════════════════════════════════
+
+export type {
+  CreationProposal,
+  CreationEngineOptions,
+} from "./creation_engine.js";
+
+export {
+  // Engine — INV-CRE-02, INV-CRE-10
+  CreationEngine,
+  globalEngine,
+  
+  // Convenience functions
+  createArtifact,
+  createArtifactSync,
+  
+  // Proposal helpers
+  isProposalValid,
+  isProposalComplete,
+  extractArtifact,
+} from "./creation_engine.js";
+
+// ═══════════════════════════════════════════════════════════════════════════════
 // VERSION INFO
 // ═══════════════════════════════════════════════════════════════════════════════
 
 export const CREATION_LAYER_VERSION = "1.0.0-NASA" as const;
-export const CREATION_LAYER_PHASE = "9C" as const;
+export const CREATION_LAYER_PHASE = "9-FINAL" as const;
 
 /**
  * Metadata about this module
@@ -228,6 +252,7 @@ export const CREATION_LAYER_INFO = Object.freeze({
   invariants: {
     proven: [
       "INV-CRE-01", // Snapshot-Only
+      "INV-CRE-02", // No Write Authority ← NEW Phase 9E
       "INV-CRE-03", // Full Provenance
       "INV-CRE-04", // Deterministic Output
       "INV-CRE-05", // Derivation Honesty
@@ -238,7 +263,7 @@ export const CREATION_LAYER_INFO = Object.freeze({
       "INV-CRE-10", // Idempotency
       "INV-CRE-11", // Source Verification
     ],
-    pending: ["INV-CRE-02"], // No Write Authority (→ 9E)
+    pending: [], // ALL PROVEN!
   },
   
   ncr: {

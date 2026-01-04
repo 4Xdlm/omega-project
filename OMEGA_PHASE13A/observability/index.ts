@@ -37,3 +37,31 @@ export {
   // Class
   ForensicLogger
 } from './forensic_logger.js';
+
+// Audit Trail (Sprint 13A.2)
+export {
+  // Types
+  type AuditEventType,
+  type ActorRole,
+  type AuditEventInput,
+  type CanonicalPayload,
+  type AuditEvent,
+  type VerifyResult,
+  type ExportResult,
+  
+  // Constants
+  GENESIS_HASH as AUDIT_GENESIS_HASH,
+  REQUIRED_FIELDS,
+  
+  // Functions
+  sortObjectKeys,
+  canonicalJSON,
+  computeEventHash,
+  utcTimestamp,
+  validateEventInput,
+  getDefaultAuditTrail,
+  resetDefaultAuditTrail,
+  
+  // Class
+  AuditTrail
+} from './audit_trail.js';

@@ -159,3 +159,22 @@ export {
   NULL_HASH,
   EMPTY_HASH,
 } from "./memory_hash.js";
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// MEMORY INDEX — Phase 10B
+// ═══════════════════════════════════════════════════════════════════════════════
+
+export type {
+  IndexEntry,
+  IndexStats,
+  IndexBuildInput,
+  IndexVerificationResult,
+} from "./memory_index.js";
+
+export {
+  MemoryIndex,
+  isIndexEntry,
+  buildIndex,
+  verifyIndex,
+  verifyIndexDeterminism,
+} from "./memory_index.js";

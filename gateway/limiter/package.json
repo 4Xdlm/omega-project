@@ -1,0 +1,35 @@
+{
+  "name": "@omega/rate-limiter",
+  "version": "3.16.3",
+  "description": "OMEGA RATE_LIMITER — Request Throttling with Multiple Strategies",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage"
+  },
+  "keywords": [
+    "omega",
+    "rate-limiter",
+    "throttling",
+    "token-bucket",
+    "sliding-window"
+  ],
+  "author": "OMEGA Project",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.3.0",
+    "vitest": "^1.6.0",
+    "@vitest/coverage-v8": "^1.6.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "dist",
+    "src"
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "xss": [
+    "<script>alert('xss')</script>",
+    "<img src=x onerror=alert(1)>",
+    "javascript:alert(document.cookie)",
+    "<iframe src='evil.com'>",
+    "<svg onload=alert(1)>"
+  ],
+  "sql": [
+    "' OR '1'='1",
+    "'; DROP TABLE users; --",
+    "1; SELECT * FROM passwords",
+    "admin'--",
+    "UNION SELECT password FROM users"
+  ],
+  "command": [
+    "; cat /etc/passwd",
+    "| ls -la",
+    "$(whoami)",
+    "`id`",
+    "../../../etc/shadow"
+  ],
+  "nosql": [
+    "{\"$ne\": \"\"}",
+    "{\"$gt\": \"\"}",
+    "{\"$where\": \"this.password\"}",
+    "{\"$or\": [{\"admin\": true}]}"
+  ],
+  "template": [
+    "{{constructor.constructor('return this')()}}",
+    "{% import os %}",
+    "${7*7}",
+    "#{system('id')}"
+  ],
+  "prototype": [
+    "__proto__",
+    "constructor.prototype",
+    "Object.setPrototypeOf"
+  ]
+}

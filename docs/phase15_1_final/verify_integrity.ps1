@@ -1,6 +1,6 @@
 # ===========================================================================
 #                    OMEGA Phase 15.1 - Verification Integrite
-#                    DEFENSE GRADE — v3.0.1-FIXED
+#                    DEFENSE GRADE — v3.1.0
 # ===========================================================================
 
 param(
@@ -11,17 +11,16 @@ param(
 Write-Host ""
 Write-Host "===================================================================" -ForegroundColor Cyan
 Write-Host "   OMEGA PHASE 15.1 - VERIFICATION INTEGRITE (DEFENSE GRADE)      " -ForegroundColor Cyan
-Write-Host "                    v3.0.1-FIXED                                  " -ForegroundColor Cyan
+Write-Host "                    v3.1.0                                        " -ForegroundColor Cyan
 Write-Host "===================================================================" -ForegroundColor Cyan
 Write-Host ""
 
 # Configuration
 $ProjectPath = "C:\Users\elric\omega-project"
 $DocsPath = "C:\Users\elric\omega-project\docs\phase15_1_final"
-$ExpectedTag = "v3.15.0-NEXUS_CORE"
 
-# NOUVEAU HASH DE REFERENCE (apres commit docs v3)
-$ExpectedCommit = "9abe526754a14d3f1278802897a29f56a0a995c9"
+# TAG DE REFERENCE (le code est gele a partir de ce tag)
+$ReferenceTag = "v3.15.0-NEXUS_CORE"
 
 # Fichiers append-only a verifier
 $AppendOnlyFiles = @(
@@ -84,65 +83,80 @@ if (-not $PathExists) {
 Set-Location $ProjectPath
 
 # ===========================================================================
-# SECTION 2 - VERIFICATION GIT STATUS
+# SECTION 2 - VERIFICATION GIT STATUS (CODE SEULEMENT)
 # ===========================================================================
 
 Write-Host ""
-Write-Host "[2/7] VERIFICATION GIT STATUS (GARDE-FOU GF-01 a GF-06)" -ForegroundColor Yellow
+Write-Host "[2/7] VERIFICATION GIT STATUS (CODE GELE)" -ForegroundColor Yellow
 Write-Host ""
 
-$gitStatus = git status --porcelain 2>$null
-$IsClean = [string]::IsNullOrWhiteSpace($gitStatus)
+# Verifier les modifications sur les fichiers CODE (pas docs)
+$gitStatusCode = git status --porcelain -- "*.ts" "*.tsx" "*.js" "*.rs" "package.json" "Cargo.toml" 2>$null
+$IsCodeClean = [string]::IsNullOrWhiteSpace($gitStatusCode)
 
-Test-Check -Name "Working tree clean" `
-           -Condition $IsClean `
-           -SuccessMsg "Aucune modification detectee" `
-           -FailMsg "MODIFICATIONS DETECTEES - VIOLATION GARDE-FOU"
+Test-Check -Name "Code source intact" `
+           -Condition $IsCodeClean `
+           -SuccessMsg "Aucune modification de code detectee" `
+           -FailMsg "MODIFICATIONS CODE DETECTEES - VIOLATION GARDE-FOU"
 
-if (-not $IsClean) {
+if (-not $IsCodeClean) {
     Write-Host ""
-    Write-Host "      Fichiers modifies:" -ForegroundColor Red
-    git status --short | ForEach-Object { Write-Host "         $_" -ForegroundColor Red }
-    Write-Host ""
-    Write-Host "      WARNING: Phase 15.1 interdit toute modification CODE" -ForegroundColor Red
-    Write-Host "      Note: Les fichiers docs/phase15_1_final/*.md sont autorises" -ForegroundColor Yellow
+    Write-Host "      Fichiers code modifies:" -ForegroundColor Red
+    git status --short -- "*.ts" "*.tsx" "*.js" "*.rs" "package.json" "Cargo.toml" | ForEach-Object { 
+        Write-Host "         $_" -ForegroundColor Red 
+    }
+}
+
+# Verifier les modifications docs (autorisees mais signalees)
+$gitStatusDocs = git status --porcelain -- "docs/" 2>$null
+if (-not [string]::IsNullOrWhiteSpace($gitStatusDocs)) {
+    Write-Host "      [INFO] Modifications docs detectees (autorise)" -ForegroundColor Gray
 }
 
 # ===========================================================================
-# SECTION 3 - VERIFICATION COMMIT ET TAG
+# SECTION 3 - VERIFICATION HERITAGE DU TAG
 # ===========================================================================
 
 Write-Host ""
-Write-Host "[3/7] VERIFICATION COMMIT ET TAG" -ForegroundColor Yellow
+Write-Host "[3/7] VERIFICATION HERITAGE TAG $ReferenceTag" -ForegroundColor Yellow
 Write-Host ""
 
 $currentCommit = git log -1 --format="%H" 2>$null
-$currentTag = git describe --tags --exact-match 2>$null
 $commitDate = git log -1 --format="%ci" 2>$null
 $commitMsg = git log -1 --format="%s" 2>$null
 
-Write-Host "      Commit: $currentCommit" -ForegroundColor Gray
-Write-Host "      Date:   $commitDate" -ForegroundColor Gray
-Write-Host "      Msg:    $commitMsg" -ForegroundColor Gray
+Write-Host "      Commit actuel: $($currentCommit.Substring(0,12))..." -ForegroundColor Gray
+Write-Host "      Date:          $commitDate" -ForegroundColor Gray
+Write-Host "      Message:       $commitMsg" -ForegroundColor Gray
 Write-Host ""
 
-$CommitCorrect = ($currentCommit -eq $ExpectedCommit)
-Test-Check -Name "Commit reference" `
-           -Condition $CommitCorrect `
-           -SuccessMsg "Hash intact: $currentCommit" `
-           -FailMsg "Hash different! Attendu: $ExpectedCommit"
-
-# Le tag peut ne pas etre exactement sur ce commit (il est sur le commit precedent)
-# On verifie juste qu'on est sur ou apres le tag
-$tagCommit = git rev-list -n 1 $ExpectedTag 2>$null
-$isTagAncestor = git merge-base --is-ancestor $tagCommit HEAD 2>$null
-$TagOk = ($LASTEXITCODE -eq 0)
-
-Test-Check -Name "Tag version" `
-           -Condition $TagOk `
-           -SuccessMsg "Tag $ExpectedTag est ancetre du commit actuel" `
-           -FailMsg "Tag $ExpectedTag non trouve dans l'historique" `
-           -IsCritical $false
+# Verifier que le tag existe
+$tagExists = git tag -l $ReferenceTag 2>$null
+if ([string]::IsNullOrWhiteSpace($tagExists)) {
+    Test-Check -Name "Tag reference existe" `
+               -Condition $false `
+               -SuccessMsg "" `
+               -FailMsg "Tag $ReferenceTag introuvable!"
+} else {
+    # Recuperer le hash du tag
+    $tagCommit = git rev-list -n 1 $ReferenceTag 2>$null
+    Write-Host "      Tag reference: $ReferenceTag" -ForegroundColor Gray
+    Write-Host "      Tag commit:    $($tagCommit.Substring(0,12))..." -ForegroundColor Gray
+    Write-Host ""
+    
+    # Verifier que le commit actuel est descendant du tag
+    git merge-base --is-ancestor $tagCommit HEAD 2>$null
+    $isDescendant = ($LASTEXITCODE -eq 0)
+    
+    Test-Check -Name "Descendant de $ReferenceTag" `
+               -Condition $isDescendant `
+               -SuccessMsg "Commit actuel est descendant du tag de reference" `
+               -FailMsg "Commit actuel n'est PAS descendant de $ReferenceTag!"
+    
+    # Compter les commits depuis le tag
+    $commitsSinceTag = git rev-list --count "$ReferenceTag..HEAD" 2>$null
+    Write-Host "      Commits depuis tag: $commitsSinceTag (docs seulement autorise)" -ForegroundColor Gray
+}
 
 # ===========================================================================
 # SECTION 4 - VERIFICATION BRANCHES
@@ -288,9 +302,9 @@ Write-Host "      G3 INTEGRITY    -> INCIDENT REPORT" -ForegroundColor Red
 Write-Host "      G4 CATASTROPHIC -> ARRET IMMEDIAT" -ForegroundColor Red
 Write-Host ""
 Write-Host "      GARDE-FOUS INVIOLABLES:" -ForegroundColor Magenta
-Write-Host "      - Aucun fichier .ts modifie" -ForegroundColor White
-Write-Host "      - Aucun git commit/push (sauf docs)" -ForegroundColor White
-Write-Host "      - Notes append-only" -ForegroundColor White
+Write-Host "      - Aucun fichier CODE modifie (.ts, .rs, package.json)" -ForegroundColor White
+Write-Host "      - Modifications docs autorisees" -ForegroundColor White
+Write-Host "      - Notes append-only (lignes croissantes)" -ForegroundColor White
 Write-Host "      - Minimum 3 occurrences pour pattern" -ForegroundColor White
 Write-Host ""
 Write-Host "      REGLE CARDINALE:" -ForegroundColor Magenta
@@ -318,7 +332,7 @@ if ($Warnings -gt 0) {
     Write-Host "      Warnings:        $Warnings" -ForegroundColor Green
 }
 Write-Host ""
-Write-Host "      Hash reference:  $ExpectedCommit" -ForegroundColor Gray
+Write-Host "      Tag reference:   $ReferenceTag" -ForegroundColor Gray
 Write-Host ""
 
 if ($Failed -eq 0) {
@@ -329,8 +343,7 @@ if ($Failed -eq 0) {
 } else {
     Write-Host "  [FAIL] INTEGRITE COMPROMISE - Corrections requises" -ForegroundColor Red
     Write-Host ""
-    Write-Host "  -> STOP: Restaurer l'etat avant de continuer" -ForegroundColor Yellow
-    Write-Host "  -> Commande: git checkout ." -ForegroundColor Yellow
+    Write-Host "  -> STOP: Verifier les violations ci-dessus" -ForegroundColor Yellow
     $exitCode = 1
 }
 

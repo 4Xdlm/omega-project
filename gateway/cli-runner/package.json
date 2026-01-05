@@ -1,0 +1,53 @@
+{
+  "name": "@omega/cli-runner",
+  "version": "3.16.0",
+  "description": "OMEGA CLI Runner — Command Line Interface for Emotional Analysis",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "omega": "./dist/cli/runner.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "typecheck": "tsc --noEmit",
+    "validate": "npm run typecheck && npm run test",
+    "cli": "node --loader ts-node/esm src/cli/runner.ts"
+  },
+  "keywords": [
+    "omega",
+    "cli",
+    "emotional-analysis",
+    "text-analysis",
+    "nasa-grade"
+  ],
+  "author": "Francky (Architecte OMEGA)",
+  "license": "PROPRIETARY",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.3",
+    "vitest": "^1.0.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/4Xdlm/omega-project.git"
+  }
+}

@@ -1,6 +1,6 @@
 # ===========================================================================
 #                    OMEGA Phase 15.1 - Verification Integrite
-#                         MIL-GRADE VERSION (ASCII)
+#                    DEFENSE GRADE — v3.0.0-FINAL
 # ===========================================================================
 
 param(
@@ -10,19 +10,33 @@ param(
 
 Write-Host ""
 Write-Host "===================================================================" -ForegroundColor Cyan
-Write-Host "     OMEGA PHASE 15.1 - VERIFICATION INTEGRITE (MIL-GRADE)        " -ForegroundColor Cyan
+Write-Host "   OMEGA PHASE 15.1 - VERIFICATION INTEGRITE (DEFENSE GRADE)      " -ForegroundColor Cyan
+Write-Host "                    v3.0.0-FINAL                                  " -ForegroundColor Cyan
 Write-Host "===================================================================" -ForegroundColor Cyan
 Write-Host ""
 
 # Configuration
 $ProjectPath = "C:\Users\elric\omega-project"
+$DocsPath = "C:\Users\elric\omega-project\docs\phase15_1_final"
 $ExpectedTag = "v3.15.0-NEXUS_CORE"
-$ExpectedRootHash = "1028a0340d16fe7cfed1fb5bcfa4adebc0bb489999d19844de7fcfb028a571b5"
+$ExpectedCommit = "49da34bb4f62eb8f5c810ab7e2bf109a75e156cf"
+
+# Fichiers append-only a verifier
+$AppendOnlyFiles = @(
+    "OBS_TERRAIN_LOG_APPEND_ONLY.md",
+    "PATTERN_EXTRACTION_MIL_GRADE.md",
+    "NO_EVENT_LOG.md",
+    "BACKLOG_TENTATION.md",
+    "NO_GO_ZONE.md"
+)
 
 # Compteurs
 $Passed = 0
 $Failed = 0
 $Warnings = 0
+
+# Stockage des lignes count pour verification append-only
+$LineCountFile = "$DocsPath\.line_counts.json"
 
 function Test-Check {
     param($Name, $Condition, $SuccessMsg, $FailMsg, $IsCritical = $true)
@@ -50,7 +64,7 @@ function Test-Check {
 # SECTION 1 - VERIFICATION REPERTOIRE
 # ===========================================================================
 
-Write-Host "[1/6] VERIFICATION REPERTOIRE" -ForegroundColor Yellow
+Write-Host "[1/7] VERIFICATION REPERTOIRE" -ForegroundColor Yellow
 Write-Host ""
 
 $PathExists = Test-Path $ProjectPath
@@ -72,7 +86,7 @@ Set-Location $ProjectPath
 # ===========================================================================
 
 Write-Host ""
-Write-Host "[2/6] VERIFICATION GIT STATUS (GARDE-FOU GF-01 a GF-06)" -ForegroundColor Yellow
+Write-Host "[2/7] VERIFICATION GIT STATUS (GARDE-FOU GF-01 a GF-06)" -ForegroundColor Yellow
 Write-Host ""
 
 $gitStatus = git status --porcelain 2>$null
@@ -88,27 +102,31 @@ if (-not $IsClean) {
     Write-Host "      Fichiers modifies:" -ForegroundColor Red
     git status --short | ForEach-Object { Write-Host "         $_" -ForegroundColor Red }
     Write-Host ""
-    Write-Host "      WARNING: Phase 15.1 interdit toute modification" -ForegroundColor Red
-    Write-Host "      -> Pour restaurer: git checkout ." -ForegroundColor Yellow
+    Write-Host "      WARNING: Phase 15.1 interdit toute modification CODE" -ForegroundColor Red
+    Write-Host "      Note: Les fichiers docs/phase15_1_final/*.md sont autorises" -ForegroundColor Yellow
 }
 
 # ===========================================================================
-# SECTION 3 - VERIFICATION TAG/COMMIT
+# SECTION 3 - VERIFICATION COMMIT ET TAG
 # ===========================================================================
 
 Write-Host ""
-Write-Host "[3/6] VERIFICATION TAG ET COMMIT" -ForegroundColor Yellow
+Write-Host "[3/7] VERIFICATION COMMIT ET TAG" -ForegroundColor Yellow
 Write-Host ""
 
 $currentCommit = git log -1 --format="%H" 2>$null
 $currentTag = git describe --tags --exact-match 2>$null
 $commitDate = git log -1 --format="%ci" 2>$null
-$commitMsg = git log -1 --format="%s" 2>$null
 
 Write-Host "      Commit: $currentCommit" -ForegroundColor Gray
 Write-Host "      Date:   $commitDate" -ForegroundColor Gray
-Write-Host "      Msg:    $commitMsg" -ForegroundColor Gray
 Write-Host ""
+
+$CommitCorrect = ($currentCommit -eq $ExpectedCommit)
+Test-Check -Name "Commit reference" `
+           -Condition $CommitCorrect `
+           -SuccessMsg "Hash intact: $currentCommit" `
+           -FailMsg "Hash different! Attendu: $ExpectedCommit"
 
 $TagCorrect = ($currentTag -eq $ExpectedTag)
 Test-Check -Name "Tag version" `
@@ -122,7 +140,7 @@ Test-Check -Name "Tag version" `
 # ===========================================================================
 
 Write-Host ""
-Write-Host "[4/6] VERIFICATION BRANCHES" -ForegroundColor Yellow
+Write-Host "[4/7] VERIFICATION BRANCHES" -ForegroundColor Yellow
 Write-Host ""
 
 $currentBranch = git branch --show-current 2>$null
@@ -134,26 +152,75 @@ Test-Check -Name "Branch master" `
            -FailMsg "Sur branch: $currentBranch (attendu: master)" `
            -IsCritical $false
 
-# Verifier sync avec origin
-$aheadBehind = git rev-list --count --left-right origin/master...HEAD 2>$null
-if ($aheadBehind -match "(\d+)\s+(\d+)") {
-    $behind = [int]$matches[1]
-    $ahead = [int]$matches[2]
-    $InSync = ($behind -eq 0) -and ($ahead -eq 0)
-    
-    Test-Check -Name "Sync avec origin" `
-               -Condition $InSync `
-               -SuccessMsg "Synchronise avec origin/master" `
-               -FailMsg "Desynchronise: $behind behind, $ahead ahead" `
-               -IsCritical $false
-}
-
 # ===========================================================================
-# SECTION 5 - VERIFICATION TESTS (optionnel avec -Full)
+# SECTION 5 - VERIFICATION FICHIERS APPEND-ONLY (INTEGRITE PROCESSUS)
 # ===========================================================================
 
 Write-Host ""
-Write-Host "[5/6] VERIFICATION TESTS" -ForegroundColor Yellow
+Write-Host "[5/7] VERIFICATION INTEGRITE PROCESSUS (APPEND-ONLY)" -ForegroundColor Yellow
+Write-Host ""
+
+$DocsExists = Test-Path $DocsPath
+if (-not $DocsExists) {
+    Write-Host "      [WARN] Repertoire docs non trouve: $DocsPath" -ForegroundColor Yellow
+    Write-Host "          Les fichiers append-only seront crees lors des observations" -ForegroundColor Gray
+    $Warnings++
+} else {
+    # Charger les comptes de lignes precedents
+    $previousCounts = @{}
+    if (Test-Path $LineCountFile) {
+        $previousCounts = Get-Content $LineCountFile | ConvertFrom-Json -AsHashtable
+    }
+    
+    $currentCounts = @{}
+    $appendOnlyViolation = $false
+    
+    foreach ($file in $AppendOnlyFiles) {
+        $filePath = Join-Path $DocsPath $file
+        if (Test-Path $filePath) {
+            $lineCount = (Get-Content $filePath | Measure-Object -Line).Lines
+            $currentCounts[$file] = $lineCount
+            
+            # Verifier que le nombre de lignes n'a pas diminue
+            if ($previousCounts.ContainsKey($file)) {
+                $prevCount = $previousCounts[$file]
+                if ($lineCount -lt $prevCount) {
+                    Write-Host "      [FAIL] $file" -ForegroundColor Red
+                    Write-Host "          SUPPRESSION DETECTEE: $prevCount -> $lineCount lignes" -ForegroundColor Red
+                    $appendOnlyViolation = $true
+                    $script:Failed++
+                } else {
+                    Write-Host "      [OK] $file" -ForegroundColor Green
+                    Write-Host "          Lignes: $lineCount (precedent: $prevCount)" -ForegroundColor Gray
+                    $script:Passed++
+                }
+            } else {
+                Write-Host "      [OK] $file" -ForegroundColor Green
+                Write-Host "          Lignes: $lineCount (premiere verification)" -ForegroundColor Gray
+                $script:Passed++
+            }
+        } else {
+            Write-Host "      [--] $file" -ForegroundColor Gray
+            Write-Host "          Non encore cree" -ForegroundColor Gray
+        }
+    }
+    
+    # Sauvegarder les comptes actuels
+    $currentCounts | ConvertTo-Json | Set-Content $LineCountFile
+    
+    if ($appendOnlyViolation) {
+        Write-Host ""
+        Write-Host "      VIOLATION APPEND-ONLY DETECTEE!" -ForegroundColor Red
+        Write-Host "      Les fichiers d'observation ne doivent JAMAIS diminuer." -ForegroundColor Red
+    }
+}
+
+# ===========================================================================
+# SECTION 6 - VERIFICATION TESTS (optionnel avec -Full)
+# ===========================================================================
+
+Write-Host ""
+Write-Host "[6/7] VERIFICATION TESTS" -ForegroundColor Yellow
 Write-Host ""
 
 if ($Full) {
@@ -177,26 +244,31 @@ if ($Full) {
 }
 
 # ===========================================================================
-# SECTION 6 - RAPPEL DES REGLES
+# SECTION 7 - RAPPEL DES REGLES
 # ===========================================================================
 
 Write-Host ""
-Write-Host "[6/6] RAPPEL REGLES PHASE 15.1 (MIL-GRADE)" -ForegroundColor Yellow
+Write-Host "[7/7] RAPPEL REGLES PHASE 15.1 (DEFENSE GRADE)" -ForegroundColor Yellow
 Write-Host ""
 
-Write-Host "      GARDE-FOUS INVIOLABLES:" -ForegroundColor Magenta
-Write-Host "      GF-01: Aucun fichier .ts modifie" -ForegroundColor White
-Write-Host "      GF-02: Aucun fichier .test.ts modifie" -ForegroundColor White
-Write-Host "      GF-03: Aucun git commit" -ForegroundColor White
-Write-Host "      GF-04: Aucun git push" -ForegroundColor White
-Write-Host "      GF-05: Aucun npm install" -ForegroundColor White
-Write-Host "      GF-06: Aucune creation module" -ForegroundColor White
+Write-Host "      CHAINE DE COMMANDEMENT:" -ForegroundColor Magenta
+Write-Host "      -> Toute decision interpretative requiert validation Architecte" -ForegroundColor White
 Write-Host ""
-Write-Host "      DISCIPLINE MENTALE:" -ForegroundColor Magenta
-Write-Host "      - Ce qui est observe, pas ce qui est compris" -ForegroundColor White
-Write-Host "      - Notes append-only (aucune modification)" -ForegroundColor White
-Write-Host "      - Minimum 3 occurrences pour pattern confirme" -ForegroundColor White
-Write-Host "      - G3/G4 = Arret d'urgence + Escalade Architecte" -ForegroundColor White
+Write-Host "      ACTIONS AUTOMATIQUES G0-G4:" -ForegroundColor Magenta
+Write-Host "      G0 COSMETIC     -> IGNORER" -ForegroundColor White
+Write-Host "      G1 DEGRADED     -> LOG SEULEMENT" -ForegroundColor White
+Write-Host "      G2 UNSAFE       -> SURVEILLANCE" -ForegroundColor Yellow
+Write-Host "      G3 INTEGRITY    -> INCIDENT REPORT" -ForegroundColor Red
+Write-Host "      G4 CATASTROPHIC -> ARRET IMMEDIAT" -ForegroundColor Red
+Write-Host ""
+Write-Host "      GARDE-FOUS INVIOLABLES:" -ForegroundColor Magenta
+Write-Host "      - Aucun fichier .ts modifie" -ForegroundColor White
+Write-Host "      - Aucun git commit/push" -ForegroundColor White
+Write-Host "      - Notes append-only" -ForegroundColor White
+Write-Host "      - Minimum 3 occurrences pour pattern" -ForegroundColor White
+Write-Host ""
+Write-Host "      REGLE CARDINALE:" -ForegroundColor Magenta
+Write-Host "      'CE QUI EST OBSERVE, PAS CE QUI EST COMPRIS.'" -ForegroundColor Cyan
 
 # ===========================================================================
 # RESUME FINAL
@@ -220,11 +292,13 @@ if ($Warnings -gt 0) {
     Write-Host "      Warnings:        $Warnings" -ForegroundColor Green
 }
 Write-Host ""
+Write-Host "      Hash reference:  $ExpectedCommit" -ForegroundColor Gray
+Write-Host ""
 
 if ($Failed -eq 0) {
     Write-Host "  [OK] INTEGRITE OK - Systeme pret pour observation" -ForegroundColor Green
     Write-Host ""
-    Write-Host "  -> Pret pour Phase 15.1 OBSERVATION TERRAIN" -ForegroundColor White
+    Write-Host "  -> Phase 15.1 OBSERVATION TERRAIN active" -ForegroundColor White
     $exitCode = 0
 } else {
     Write-Host "  [FAIL] INTEGRITE COMPROMISE - Corrections requises" -ForegroundColor Red

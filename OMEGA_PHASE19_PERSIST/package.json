@@ -1,0 +1,24 @@
+{
+  "name": "omega-persistence-layer",
+  "version": "3.19.0",
+  "description": "OMEGA Phase 19 — Persistence Layer (NASA-Grade)",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "keywords": ["omega", "persistence", "nasa-grade", "atomic-write"],
+  "author": "OMEGA Team",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.0",
+    "vitest": "^1.6.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "name": "@omega/nexus",
+  "version": "3.24.0",
+  "description": "OMEGA NEXUS - Unified Integration & Certification Engine",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "certify": "node --loader ts-node/esm src/cli/certify.ts"
+  },
+  "keywords": ["omega", "nexus", "certification", "nasa-grade", "resilience"],
+  "author": "OMEGA Team",
+  "license": "PROPRIETARY",
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "typescript": "^5.3.0",
+    "vitest": "^1.6.0"
+  }
+}

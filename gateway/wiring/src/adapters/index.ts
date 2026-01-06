@@ -43,3 +43,35 @@ export {
   QUERY_SCHEMAS,
   createQueryAdapter,
 } from './query_adapter.js';
+
+// ─── Gateway Schemas ──────────────────────────────────────────────────────────
+export type {
+  GatewayInput,
+  GatewayInputKind,
+  EnvelopeSpec,
+  ValidationResult,
+} from './gateway_schemas.js';
+
+export {
+  GATEWAY_INPUT_KINDS,
+  GatewayValidationCodes,
+  mapToEnvelopeSpec,
+  validateGatewayInput,
+  isMemoryKind,
+  isQueryKind,
+  isGatewayKind,
+} from './gateway_schemas.js';
+
+// ─── Gateway Adapter ──────────────────────────────────────────────────────────
+export type {
+  GatewayAdapterConfig,
+  GatewayRequestContext,
+  EnvelopeBuildResult,
+} from './gateway_adapter.js';
+
+export {
+  GatewayAdapter,
+  GatewayErrorCodes,
+  createGatewayAdapter,
+  createOmegaGatewayAdapter,
+} from './gateway_adapter.js';

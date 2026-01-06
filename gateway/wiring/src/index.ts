@@ -122,6 +122,13 @@ export type {
   QueryAnalyzeResponse,
   QueryAdapterConfig,
   QuerySchema,
+  GatewayInput,
+  GatewayInputKind,
+  EnvelopeSpec,
+  ValidationResult,
+  GatewayAdapterConfig,
+  GatewayRequestContext,
+  EnvelopeBuildResult,
 } from './adapters/index.js';
 
 export {
@@ -131,7 +138,35 @@ export {
   QueryAdapter,
   QUERY_SCHEMAS,
   createQueryAdapter,
+  GATEWAY_INPUT_KINDS,
+  GatewayValidationCodes,
+  mapToEnvelopeSpec,
+  validateGatewayInput,
+  isMemoryKind,
+  isQueryKind,
+  isGatewayKind,
+  GatewayAdapter,
+  GatewayErrorCodes,
+  createGatewayAdapter,
+  createOmegaGatewayAdapter,
 } from './adapters/index.js';
+
+// ─── Anti-Bypass Scanner ──────────────────────────────────────────────────────
+export type {
+  BypassViolation,
+  ScannerConfig,
+  ScanResult,
+} from './anti_bypass_scanner.js';
+
+export {
+  AntiBypassScanner,
+  FORBIDDEN_IMPORT_PATTERNS,
+  FORBIDDEN_CALL_PATTERNS,
+  DEFAULT_SCANNER_CONFIG,
+  createAntiBypassScanner,
+  scanForBypasses,
+  assertNoBypass,
+} from './anti_bypass_scanner.js';
 
 // ─── Policy ───────────────────────────────────────────────────────────────────
 export type {

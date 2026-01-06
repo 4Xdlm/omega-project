@@ -193,3 +193,55 @@ export {
 
 export const WIRING_VERSION = '1.0.0';
 export const WIRING_MODULE = 'wiring@1.0.0';
+
+// ─── Orchestrator ─────────────────────────────────────────────────────────────
+export type {
+  HandlerCapabilities,
+  HandlerRegistration,
+  ResolveResult,
+  ChronicleEventType,
+  ChronicleRecord,
+  DispatchReceivedRecord,
+  ValidationOkRecord,
+  ValidationFailedRecord,
+  PolicyOkRecord,
+  PolicyRejectedRecord,
+  ReplayOkRecord,
+  ReplayRejectedRecord,
+  HandlerResolvedRecord,
+  HandlerNotFoundRecord,
+  ExecutionStartRecord,
+  ExecutionOkRecord,
+  ExecutionErrorRecord,
+  DispatchCompleteRecord,
+  Chronicle,
+  ReplayStrategy,
+  ReplayEntry,
+  ReplayCheckResult,
+  ReplayStore,
+  ReplayGuardConfig,
+  CircuitState,
+  CircuitBreakerConfig,
+  OrchestratorConfig,
+  DispatchResult,
+} from './orchestrator/index.js';
+
+export {
+  HandlerRegistry,
+  RegistryErrorCodes,
+  createHandlerRegistry,
+  InMemoryChronicle,
+  ChronicleWriter,
+  createChronicle,
+  createChronicleWriter,
+  ReplayGuard,
+  InMemoryReplayStore,
+  ReplayErrorCodes,
+  createReplayGuard,
+  createStrictReplayGuard,
+  createIdempotentReplayGuard,
+  Orchestrator,
+  CircuitBreaker,
+  OrchestratorErrorCodes,
+  createOrchestrator,
+} from './orchestrator/index.js';

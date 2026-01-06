@@ -245,3 +245,27 @@ export {
   OrchestratorErrorCodes,
   createOrchestrator,
 } from './orchestrator/index.js';
+
+// ─── Proof Crystal ────────────────────────────────────────────────────────────
+export type {
+  MerkleNode,
+  CausalityMatrix,
+  CausalityVerification,
+  DeterminismFingerprint,
+  StatisticalProfile,
+  ProofCrystal,
+  CrystallizerConfig,
+  CrystalScenario,
+  CrystallizeOptions,
+} from './proof/index.js';
+
+export {
+  sha256,
+  hashObject,
+  MerkleTreeBuilder,
+  CausalityMatrixBuilder,
+  StatisticalProfiler,
+  DeterminismProver,
+  ProofCrystallizer,
+  createCrystallizer,
+} from './proof/index.js';

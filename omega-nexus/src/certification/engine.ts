@@ -117,12 +117,11 @@ export class CertificationEngine {
     const merkleItems = this.collectMerkleItems(modules, testReport);
     const merkleRoot = getMerkleRoot(merkleItems);
     
-    // Generate report ID (hash of entire report)
+    // Generate report ID (hash of entire report - timestamp excluded for reproducibility)
     const reportId = this.generateReportId(
       modules,
       testReport,
-      merkleRoot,
-      timestamp
+      merkleRoot
     );
 
     return {
@@ -217,13 +216,29 @@ export class CertificationEngine {
       const testsTotal = data.testResults.length;
       const coverage = coveragePercent(data.coverage);
 
+      // CRITICAL: Module with 0 tests cannot be certified
+      // testRatio is 0 if no tests (not NaN)
+      const testRatio = testsTotal > 0 ? testsPassed / testsTotal : 0;
+      const invariantRatio = invariants.length > 0 
+        ? provenInvariants.length / invariants.length 
+        : 0;
+
       const level = this.determineModuleLevel(
-        testsPassed / testsTotal,
-        provenInvariants.length / (invariants.length || 1),
+        testRatio,
+        invariantRatio,
         data.coverage / 100
       );
 
-      const status = testsPassed === testsTotal && provenInvariants.length === invariants.length
+      // CRITICAL: Certification requires:
+      // 1. At least 1 test
+      // 2. All tests passed
+      // 3. All invariants proven (if any defined)
+      const canBeCertified = 
+        testsTotal > 0 &&
+        testsPassed === testsTotal &&
+        (invariants.length === 0 || provenInvariants.length === invariants.length);
+
+      const status = canBeCertified
         ? CertificationStatus.CERTIFIED
         : CertificationStatus.IN_PROGRESS;
 
@@ -384,20 +399,22 @@ export class CertificationEngine {
 
   /**
    * Generate report ID
+   * 
+   * NOTE: Timestamp is intentionally excluded from the hash to ensure
+   * reproducibility. The same inputs always produce the same report ID.
+   * Timestamp is stored as metadata only.
    */
   private generateReportId(
     modules: ModuleCertification[],
     testReport: TestReport,
-    merkleRoot: CertificationHash,
-    timestamp: TimestampMs
+    merkleRoot: CertificationHash
   ): CertificationHash {
     return sha256(JSON.stringify({
       version: this.config.version,
       gitCommit: this.config.gitCommit,
-      moduleHashes: modules.map(m => m.hash),
+      moduleHashes: modules.map(m => m.hash).sort(),
       testHash: testReport.hash,
       merkleRoot,
-      timestamp,
     }));
   }
 }

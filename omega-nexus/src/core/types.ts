@@ -446,8 +446,8 @@ export function testId(value?: string): TestId {
 }
 
 export function certificationHash(value: string): CertificationHash {
-  if (!value || value.length < 16) {
-    throw new Error('CertificationHash must be at least 16 characters');
+  if (!value || !/^[a-f0-9]{64}$/i.test(value)) {
+    throw new Error('CertificationHash must be a valid SHA-256 hex string (64 characters)');
   }
   return value as CertificationHash;
 }
@@ -464,8 +464,8 @@ export function semanticVersion(value: string): SemanticVersion {
 }
 
 export function commitHash(value: string): CommitHash {
-  if (!value || value.length < 7) {
-    throw new Error('CommitHash must be at least 7 characters');
+  if (!value || !/^[a-f0-9]{7,40}$/i.test(value)) {
+    throw new Error('CommitHash must be a valid git hash (7-40 hex characters)');
   }
   return value as CommitHash;
 }

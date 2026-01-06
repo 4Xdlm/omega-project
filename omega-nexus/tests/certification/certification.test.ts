@@ -290,4 +290,45 @@ describe('INV-NEXUS-02: Certification Consistency', () => {
     expect(chaosModule.status).not.toBe(CertificationStatus.CERTIFIED);
     expect(report.status).toBe(CertificationStatus.FAILED);
   });
+
+  it('should NOT certify module with 0 tests (CRITICAL FIX)', () => {
+    const engine = createCertificationEngine();
+    
+    // Module with 0 tests
+    engine.addModuleData({
+      module: OmegaModule.CHAOS,
+      version: OMEGA_VERSION,
+      testResults: [],
+      coverage: 0,
+    });
+    
+    const report = engine.generateReport();
+    const chaosModule = report.modules[0];
+    
+    // 0 tests = NOT CERTIFIED (was a bug: 0===0 would pass)
+    expect(chaosModule.testsTotal).toBe(0);
+    expect(chaosModule.status).toBe(CertificationStatus.IN_PROGRESS);
+    expect(chaosModule.status).not.toBe(CertificationStatus.CERTIFIED);
+  });
+
+  it('should produce reproducible report IDs (timestamp excluded)', () => {
+    const createReport = () => {
+      const engine = createCertificationEngine('3.24.0', 'abc1234', 'v3.24.0');
+      engine.addModuleData({
+        module: OmegaModule.CHAOS,
+        version: OMEGA_VERSION,
+        testResults: [
+          { name: 'test1', status: TestStatus.PASS, duration: 10 },
+        ],
+        coverage: 95,
+      });
+      return engine.generateReport();
+    };
+    
+    const report1 = createReport();
+    const report2 = createReport();
+    
+    // Same inputs = same report ID (timestamp excluded from hash)
+    expect(report1.id).toBe(report2.id);
+  });
 });

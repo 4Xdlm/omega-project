@@ -173,6 +173,34 @@ describe('Core Types', () => {
         expect(() => confidenceLevel(1.1)).toThrow();
       });
     });
+
+    describe('certificationHash', () => {
+      it('should accept valid SHA-256 hex strings', () => {
+        const validHash = 'a'.repeat(64);
+        expect(certificationHash(validHash)).toBe(validHash);
+      });
+
+      it('should reject strings that are not 64 hex chars', () => {
+        expect(() => certificationHash('short')).toThrow();
+        expect(() => certificationHash('a'.repeat(63))).toThrow();
+        expect(() => certificationHash('a'.repeat(65))).toThrow();
+        expect(() => certificationHash('g'.repeat(64))).toThrow(); // non-hex
+        expect(() => certificationHash('lolmdr1234567890')).toThrow(); // 16 chars, was bug
+      });
+    });
+
+    describe('commitHash', () => {
+      it('should accept valid git hashes', () => {
+        expect(commitHash('abc1234')).toBe('abc1234');
+        expect(commitHash('a'.repeat(40))).toBe('a'.repeat(40));
+      });
+
+      it('should reject invalid git hashes', () => {
+        expect(() => commitHash('short')).toThrow(); // < 7
+        expect(() => commitHash('HEAD')).toThrow(); // not hex
+        expect(() => commitHash('g'.repeat(7))).toThrow(); // non-hex
+      });
+    });
   });
 
   describe('Constants', () => {
@@ -224,6 +252,19 @@ describe('Crypto Utilities', () => {
     it('should produce same hash regardless of property order', () => {
       const obj1 = { a: 1, b: 2 };
       const obj2 = { b: 2, a: 1 };
+      expect(hashObject(obj1)).toBe(hashObject(obj2));
+    });
+
+    it('should canonicalize nested objects recursively', () => {
+      const obj1 = { 
+        outer: { z: 3, a: 1 }, 
+        arr: [{ b: 2, a: 1 }] 
+      };
+      const obj2 = { 
+        outer: { a: 1, z: 3 }, 
+        arr: [{ a: 1, b: 2 }] 
+      };
+      // Nested keys should be sorted too
       expect(hashObject(obj1)).toBe(hashObject(obj2));
     });
   });

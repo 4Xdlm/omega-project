@@ -23,10 +23,31 @@ export function sha256(data: string): CertificationHash {
 }
 
 /**
- * Compute SHA-256 hash of an object (JSON serialized)
+ * Recursively sort object keys for canonical JSON
+ */
+function canonicalize(value: unknown): unknown {
+  if (value === null || typeof value !== 'object') {
+    return value;
+  }
+  
+  if (Array.isArray(value)) {
+    return value.map(canonicalize);
+  }
+  
+  const sorted: Record<string, unknown> = {};
+  const keys = Object.keys(value as object).sort();
+  for (const key of keys) {
+    sorted[key] = canonicalize((value as Record<string, unknown>)[key]);
+  }
+  return sorted;
+}
+
+/**
+ * Compute SHA-256 hash of an object (canonical JSON serialized)
  */
 export function hashObject<T>(obj: T): CertificationHash {
-  const json = JSON.stringify(obj, Object.keys(obj as object).sort());
+  const canonical = canonicalize(obj);
+  const json = JSON.stringify(canonical);
   return sha256(json);
 }
 
@@ -147,6 +168,9 @@ export function getMerkleRoot(items: ReadonlyArray<string>): CertificationHash {
 
 /**
  * Generate Merkle proof for a leaf
+ * 
+ * Implements standard Merkle proof generation by traversing the tree
+ * from leaf to root, collecting sibling hashes at each level.
  */
 export function generateMerkleProof(
   tree: MerkleTree,
@@ -159,8 +183,7 @@ export function generateMerkleProof(
   const leaf = tree.leaves[leafIndex];
   const path: Array<{ hash: CertificationHash; position: 'left' | 'right' }> = [];
   
-  // Simplified proof generation for demonstration
-  // In production, would traverse actual tree structure
+  // Traverse from leaves to root, collecting sibling hashes
   let nodes = [...tree.leaves] as MerkleNode[];
   let currentIndex = leafIndex;
 
@@ -172,7 +195,7 @@ export function generateMerkleProof(
       const right = nodes[i + 1] ?? left;
       
       if (i === (currentIndex & ~1)) {
-        // This pair contains our node
+        // This pair contains our target node
         if (currentIndex % 2 === 0 && right !== left) {
           path.push({ hash: right.hash, position: 'right' });
         } else if (currentIndex % 2 === 1) {

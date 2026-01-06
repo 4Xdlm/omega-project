@@ -112,13 +112,45 @@ export type {
   MemoryReadByHashResponse,
   MemoryListKeysResponse,
   MemorySchema,
+  QueryEngine,
+  QuerySearchPayload,
+  QueryFindPayload,
+  QueryAggregatePayload,
+  QueryAnalyzePayload,
+  QuerySearchResponse,
+  QueryAggregateResponse,
+  QueryAnalyzeResponse,
+  QueryAdapterConfig,
+  QuerySchema,
 } from './adapters/index.js';
 
 export {
   MemoryAdapter,
   MEMORY_SCHEMAS,
   createMemoryAdapter,
+  QueryAdapter,
+  QUERY_SCHEMAS,
+  createQueryAdapter,
 } from './adapters/index.js';
+
+// ─── Policy ───────────────────────────────────────────────────────────────────
+export type {
+  PolicyDecision,
+  PolicyRule,
+  PolicyConfig,
+} from './policy.js';
+
+export {
+  PolicyEngine,
+  PolicyCodes,
+  DEFAULT_POLICY_CONFIG,
+  policyAllowAll,
+  policyDenyAll,
+  createModuleWhitelist,
+  createPolicyEngine,
+  createPermissivePolicyEngine,
+  createStrictPolicyEngine,
+} from './policy.js';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // VERSION

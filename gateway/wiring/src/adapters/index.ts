@@ -23,3 +23,23 @@ export {
   MEMORY_SCHEMAS,
   createMemoryAdapter,
 } from './memory_adapter.js';
+
+// ─── Query Adapter ────────────────────────────────────────────────────────────
+export type {
+  QueryEngine,
+  QuerySearchPayload,
+  QueryFindPayload,
+  QueryAggregatePayload,
+  QueryAnalyzePayload,
+  QuerySearchResponse,
+  QueryAggregateResponse,
+  QueryAnalyzeResponse,
+  QueryAdapterConfig,
+  QuerySchema,
+} from './query_adapter.js';
+
+export {
+  QueryAdapter,
+  QUERY_SCHEMAS,
+  createQueryAdapter,
+} from './query_adapter.js';

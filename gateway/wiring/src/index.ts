@@ -88,6 +88,38 @@ export {
   verifyReplayKey,
 } from './envelope.js';
 
+// ─── Replay Cache ─────────────────────────────────────────────────────────────
+export type {
+  ReplayCacheEntry,
+  ReplayCacheConfig,
+  ReplayCheckResult,
+} from './replay_cache.js';
+
+export {
+  ReplayCache,
+  createReplayCache,
+} from './replay_cache.js';
+
+// ─── Adapters ─────────────────────────────────────────────────────────────────
+export type {
+  MemoryStack,
+  MemoryWritePayload,
+  MemoryReadLatestPayload,
+  MemoryReadByHashPayload,
+  MemoryListKeysPayload,
+  MemoryWriteResponse,
+  MemoryReadLatestResponse,
+  MemoryReadByHashResponse,
+  MemoryListKeysResponse,
+  MemorySchema,
+} from './adapters/index.js';
+
+export {
+  MemoryAdapter,
+  MEMORY_SCHEMAS,
+  createMemoryAdapter,
+} from './adapters/index.js';
+
 // ═══════════════════════════════════════════════════════════════════════════════
 // VERSION
 // ═══════════════════════════════════════════════════════════════════════════════

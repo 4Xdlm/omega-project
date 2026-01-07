@@ -1,0 +1,80 @@
+{
+  "seal": {
+    "name": "@omega/genome",
+    "version": "1.2.0",
+    "specVersion": "1.2",
+    "sealVersion": "1.0.0",
+    "status": "SEALED",
+    "date": "2026-01-07"
+  },
+  "references": {
+    "specDocument": "NARRATIVE_GENOME_SPEC_v1.2.md",
+    "goldenCanonical": {
+      "file": "canonical_golden.json",
+      "hash": "172f970a3b2bb5713743d0cd3ecf2d7537699cba5694a3e6946b786f5e213252"
+    },
+    "manifestHash": "1595ef1e69b747062822d239fc07c7b856ff13553095cc57198c00046fed0bd9"
+  },
+  "invariants": {
+    "total": 14,
+    "proven": 14,
+    "list": [
+      { "id": "INV-GEN-01", "name": "Déterminisme", "criticality": "CRITICAL", "status": "PROVEN" },
+      { "id": "INV-GEN-02", "name": "Fingerprint SHA256", "criticality": "CRITICAL", "status": "PROVEN" },
+      { "id": "INV-GEN-03", "name": "Axes bornés", "criticality": "HIGH", "status": "PROVEN" },
+      { "id": "INV-GEN-04", "name": "Distribution somme 1.0", "criticality": "HIGH", "status": "PROVEN" },
+      { "id": "INV-GEN-05", "name": "Similarité symétrique", "criticality": "HIGH", "status": "PROVEN" },
+      { "id": "INV-GEN-06", "name": "Similarité bornée", "criticality": "HIGH", "status": "PROVEN" },
+      { "id": "INV-GEN-07", "name": "Auto-similarité 1.0", "criticality": "MEDIUM", "status": "PROVEN" },
+      { "id": "INV-GEN-08", "name": "Version tracée", "criticality": "MEDIUM", "status": "PROVEN" },
+      { "id": "INV-GEN-09", "name": "Source tracée", "criticality": "HIGH", "status": "PROVEN" },
+      { "id": "INV-GEN-10", "name": "Read-only", "criticality": "CRITICAL", "status": "PROVEN" },
+      { "id": "INV-GEN-11", "name": "Metadata hors fingerprint", "criticality": "CRITICAL", "status": "PROVEN" },
+      { "id": "INV-GEN-12", "name": "Emotion14 sanctuarisé", "criticality": "CRITICAL", "status": "PROVEN" },
+      { "id": "INV-GEN-13", "name": "Sérialisation canonique", "criticality": "CRITICAL", "status": "PROVEN" },
+      { "id": "INV-GEN-14", "name": "Float quantifié 1e-6", "criticality": "CRITICAL", "status": "PROVEN" }
+    ]
+  },
+  "tests": {
+    "total": 109,
+    "passed": 109,
+    "failed": 0,
+    "categories": {
+      "genome": 29,
+      "canonical": 31,
+      "validation": 39,
+      "performance": 10
+    }
+  },
+  "platforms": {
+    "linux": { "status": "PASS", "tests": 109 },
+    "windows": { "status": "PENDING_VERIFICATION", "tests": null }
+  },
+  "canonicalization": {
+    "keyOrdering": "lexicographic",
+    "floatQuantization": "1e-6",
+    "encoding": "UTF-8",
+    "whitespace": "none",
+    "nanInfinity": "REJECTED",
+    "metadataExclusion": true
+  },
+  "limitations": [
+    {
+      "id": "LIM-GEN-01",
+      "summary": "Extracteurs sont des placeholders - intégration réelle DNA/Mycelium requise"
+    },
+    {
+      "id": "LIM-GEN-02", 
+      "summary": "Similarité est indicateur probabiliste, pas preuve légale"
+    },
+    {
+      "id": "LIM-GEN-03",
+      "summary": "Intégration Sentinel non effectuée (Phase 28.5 reportée)"
+    }
+  ],
+  "meta": {
+    "sealedBy": "Claude (IA Principal)",
+    "authorizedBy": "Francky (Architecte Suprême)",
+    "standard": "NASA-Grade L4"
+  }
+}

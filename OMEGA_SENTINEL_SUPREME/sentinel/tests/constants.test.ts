@@ -88,8 +88,8 @@ describe('Versions', () => {
       expect(isValidSemVer(CORPUS_VERSION)).toBe(true);
     });
     
-    it('SENTINEL_VERSION should be 3.28.0', () => {
-      expect(SENTINEL_VERSION).toBe('3.28.0');
+    it('SENTINEL_VERSION should be 3.30.0', () => {
+      expect(SENTINEL_VERSION).toBe('3.30.0');
     });
     
     it('IDL_VERSION should be 2.0.0', () => {

@@ -4,7 +4,7 @@
  * ═══════════════════════════════════════════════════════════════════════════════
  * 
  * @module tests/constants.test
- * @version 3.26.0
+ * @version 3.27.0
  * 
  * INVARIANTS TESTED:
  * - INV-CONST-01: All constants are immutable (Object.freeze)
@@ -88,8 +88,8 @@ describe('Versions', () => {
       expect(isValidSemVer(CORPUS_VERSION)).toBe(true);
     });
     
-    it('SENTINEL_VERSION should be 3.26.0', () => {
-      expect(SENTINEL_VERSION).toBe('3.26.0');
+    it('SENTINEL_VERSION should be 3.27.0', () => {
+      expect(SENTINEL_VERSION).toBe('3.27.0');
     });
     
     it('IDL_VERSION should be 2.0.0', () => {
@@ -409,7 +409,7 @@ describe('Validation Patterns', () => {
     
     it('should match valid SemVer versions', () => {
       expect(VALIDATION_PATTERNS.SEMVER.test('1.0.0')).toBe(true);
-      expect(VALIDATION_PATTERNS.SEMVER.test('3.26.0')).toBe(true);
+      expect(VALIDATION_PATTERNS.SEMVER.test('3.27.0')).toBe(true);
       expect(VALIDATION_PATTERNS.SEMVER.test('0.0.1')).toBe(true);
       expect(VALIDATION_PATTERNS.SEMVER.test('1.0.0-alpha')).toBe(true);
       expect(VALIDATION_PATTERNS.SEMVER.test('1.0.0+build')).toBe(true);
@@ -509,7 +509,7 @@ describe('Type Guards', () => {
     
     it('should validate correct versions', () => {
       expect(isValidSemVer('1.0.0')).toBe(true);
-      expect(isValidSemVer('3.26.0')).toBe(true);
+      expect(isValidSemVer('3.27.0')).toBe(true);
     });
     
     it('should reject incorrect versions', () => {

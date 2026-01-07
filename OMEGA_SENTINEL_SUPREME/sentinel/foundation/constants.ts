@@ -24,7 +24,7 @@
  * - MINOR: New features, backward compatible
  * - PATCH: Bug fixes, no semantic changes
  */
-export const SENTINEL_VERSION = '3.26.0' as const;
+export const SENTINEL_VERSION = '3.27.0' as const;
 
 /**
  * IDL (Invariant Descriptor Language) version

@@ -1,18 +1,12 @@
 # ═══════════════════════════════════════════════════════════════════════════════════════════
 #
-#   ██████╗ ███╗   ███╗███████╗ ██████╗  █████╗     ███████╗██╗   ██╗██╗██╗   ██╗██╗
-#  ██╔═══██╗████╗ ████║██╔════╝██╔════╝ ██╔══██╗    ██╔════╝██║   ██║██║██║   ██║██║
-#  ██║   ██║██╔████╔██║█████╗  ██║  ███╗███████║    ███████╗██║   ██║██║██║   ██║██║
-#  ██║   ██║██║╚██╔╝██║██╔══╝  ██║   ██║██╔══██║    ╚════██║██║   ██║██║╚██╗ ██╔╝██║
-#  ╚██████╔╝██║ ╚═╝ ██║███████╗╚██████╔╝██║  ██║    ███████║╚██████╔╝██║ ╚████╔╝ ██║
-#   ╚═════╝ ╚═╝     ╚═╝╚══════╝ ╚═════╝ ╚═╝  ╚═╝    ╚══════╝ ╚═════╝ ╚═╝  ╚═══╝ ╚═╝
-#
 #   OMEGA — DOCUMENT DE SUIVI INTER-SESSION
 #   Pour reprise dans nouvelle conversation
 #
 #   Date: 2026-01-09
-#   Version: v3.29.0
-#   Prochaine Phase: 29.2+ (Implémentation Mycelium)
+#   Version: v3.30.0
+#   Dernière Phase: 29.2 (MYCELIUM v1.0.0 FROZEN)
+#   Prochaine Phase: 29.3 (Intégration Mycelium → Genome)
 #
 # ═══════════════════════════════════════════════════════════════════════════════════════════
 
@@ -23,9 +17,9 @@
 ```
 # 🚀 OMEGA SESSION — INITIALISATION
 
-Version: v3.29.0
-Dernier état: SESSION_SAVE_PHASE_29_CERTIFIED.md
-Objectif: Phase 29.2+ (Implémentation Mycelium)
+Version: v3.30.0
+Dernier état: CERT_PHASE29_2_MYCELIUM_20260109_205851.md
+Objectif: Phase 29.3 (Intégration Mycelium → Genome)
 
 RAPPEL:
 - Lire les docs minutieusement AVANT d'agir
@@ -47,14 +41,15 @@ Let's go! 🚀
 ║                                                                                       ║
 ║   OMEGA PROJECT STATUS                                                                ║
 ║                                                                                       ║
-║   Version:          v3.29.0                                                           ║
-║   Dernière Phase:   29 (MYCELIUM DESIGN — FROZEN)                                     ║
-║   Prochaine Phase:  29.2+ (Implémentation Mycelium)                                   ║
+║   Version:          v3.30.0                                                           ║
+║   Dernière Phase:   29.2 (MYCELIUM v1.0.0 — FROZEN)                                   ║
+║   Prochaine Phase:  29.3 (Intégration Mycelium → Genome)                              ║
 ║   Status Global:    ✅ CERTIFIED                                                      ║
 ║                                                                                       ║
-║   Tests exécutables:   1036 (927 Sentinel + 109 Genome)                               ║
-║   Invariants prouvés:  117 (101 Sentinel + 16 Mycelium design)                        ║
-║   NCR:                 0                                                              ║
+║   Tests:            1133 (927 Sentinel + 109 Genome + 97 Mycelium)                    ║
+║   Invariants:       136 (101 + 14 + 21)                                               ║
+║   Modules:          3 certifiés                                                       ║
+║   NCR:              0                                                                 ║
 ║                                                                                       ║
 ╚═══════════════════════════════════════════════════════════════════════════════════════╝
 ```
@@ -65,60 +60,32 @@ Let's go! 🚀
 
 | Phase | Nom | Version | Tests | Status |
 |-------|-----|---------|-------|--------|
-| 26 | SENTINEL SUPREME | v3.26.0 | 804 | 🔒 FROZEN |
-| 27 | SENTINEL SELF-SEAL | v3.27.0 | 898 | 🔒 FROZEN |
+| 27 | SENTINEL SELF-SEAL | v3.27.0 | 927 | 🔒 FROZEN |
 | 28 | GENOME v1.2.0 | v3.28.0 | 109 | 🔒 SEALED |
 | 28.5 | SENTINEL INTEGRATION | v3.28.5 | +29 | 🔒 FROZEN |
-| 29 | MYCELIUM DESIGN | v3.29.0 | 0 (design) | 🔒 FROZEN |
-| 29.2+ | MYCELIUM IMPL | v3.30.0 | - | 🔜 PENDING |
+| 29.0-29.1 | MYCELIUM DESIGN | v3.29.0 | 0 (design) | 🔒 FROZEN |
+| **29.2** | **MYCELIUM v1.0.0** | **v3.30.0** | **97** | **🔒 FROZEN** |
+| 29.3 | INTEGRATION MYC→GEN | v3.31.0 | - | 🔜 PENDING |
 
 ---
 
-# 🌿 PHASE 29 — MYCELIUM DESIGN (RÉSUMÉ)
+# 🌿 PHASE 29.2 — MYCELIUM v1.0.0 (RÉSUMÉ)
 
-**Type**: Design only — 0 code produit
+| Métrique | Valeur |
+|----------|--------|
+| **Tests** | 97/97 PASS |
+| **Commit** | 35976d1 |
+| **Tag** | v3.30.0 |
 
-| Artefact | Quantité |
-|----------|----------|
-| Documents | 7 |
-| Invariants INV-MYC-* | 12 |
-| Invariants INV-BOUND-* | 4 |
-| Codes de rejet REJ-MYC-* | 20 |
-| Gates bloquants GATE-MYC-* | 5 |
-| Catégories de test CAT-* | 8 |
+| Type | Count | Status |
+|------|-------|--------|
+| INV-MYC-* | 12 | ✅ PROVEN |
+| INV-BOUND-* | 4 | ✅ RESPECTED |
+| GATE-MYC-* | 5 | ✅ ENFORCED |
+| REJ-MYC-* | 20 | ✅ IMPLEMENTED |
 
-**Documents :**
-- `DNA_INPUT_CONTRACT.md`
-- `MYCELIUM_INVARIANTS.md`
-- `MYCELIUM_REJECTION_CATALOG.md`
-- `BOUNDARY_MYCELIUM_GENOME.md`
-- `MYCELIUM_VALIDATION_PLAN.md`
-- `MYCELIUM_TEST_CATEGORIES.md`
-- `MYCELIUM_PROOF_REQUIREMENTS.md`
-
----
-
-# 🧬 PHASE 28 + 28.5 — GENOME + SENTINEL (RÉSUMÉ)
-
-| Module | Tests | Invariants | Status |
-|--------|-------|------------|--------|
-| **Genome v1.2.0** | 109 | 14 | 🔒 SEALED |
-| **Sentinel** | 927 | 101 | 🔒 FROZEN |
-
-**Golden Hash**: `172f970a3b2bb5713743d0cd3ecf2d7537699cba5694a3e6946b786f5e213252`
-
----
-
-# 📁 FICHIERS CLÉS DU PROJET
-
-Dans `/mnt/project/` ou à uploader:
-- `00_INDEX_MASTER.md` — Index principal (v3.29.0)
-- `SESSION_SAVE_PHASE_29_CERTIFIED.md` — Phase 29 FROZEN
-- `SESSION_SAVE_SPRINT_28_5_CERTIFIED.md` — Sprint 28.5 CODE
-- `PHASE_28_CLOSURE_CERTIFICATE.md` — Clôture officielle
-- `DNA_INPUT_CONTRACT.md` — Contrat d'entrée Mycelium
-- `MYCELIUM_INVARIANTS.md` — 12 invariants
-- `BOUNDARY_MYCELIUM_GENOME.md` — Frontière formelle
+**Certificat:** `certificates/CERT_PHASE29_2_MYCELIUM_20260109_205851.md`
+**Seal:** `packages/mycelium/artifacts/MYCELIUM_SEAL.json`
 
 ---
 
@@ -128,8 +95,9 @@ Dans `/mnt/project/` ou à uploader:
 MONDE EXTÉRIEUR (données brutes)
          │
          ▼
-    MYCELIUM (Phase 29 — DESIGN)
+    MYCELIUM v1.0.0 (Phase 29.2 — FROZEN) ← NEW
     12 INV-MYC + 20 REJ-MYC + 5 GATE
+    97 tests
          │
     ═══════════════════
     FRONTIÈRE (4 INV-BOUND)
@@ -146,104 +114,25 @@ MONDE EXTÉRIEUR (données brutes)
 
 ---
 
-# ⚖️ RÈGLES DE TRAVAIL OMEGA (RÉSUMÉ)
-
-## Positionnement IA
-
-```
-╔═══════════════════════════════════════════════════════════════════════════════╗
-║                                                                               ║
-║   L'IA agit EXCLUSIVEMENT comme:                                              ║
-║   • Ingénieur système aerospace senior                                        ║
-║   • Architecte software critique                                              ║
-║   • Auditeur interne hostile (red team)                                       ║
-║                                                                               ║
-║   INTERDIT: Assistanat, Pédagogie longue, Storytelling, Philosophie           ║
-║                                                                               ║
-║   TON: Direct, Froid, Factuel, Concis, Actionnable                            ║
-║                                                                               ║
-╚═══════════════════════════════════════════════════════════════════════════════╝
-```
-
-## Règles Cardinales
-
-| # | Règle |
-|---|-------|
-| 1 | CE QUI N'EST PAS PROUVÉ N'EXISTE PAS |
-| 2 | CE QUI N'EST PAS MESURÉ N'EST PAS ACCEPTABLE |
-| 3 | CE QUI NE RÉSISTE PAS EST ÉLIMINÉ |
-| 4 | UNE REPRISE SANS BILAN = CORRUPTION |
-
-## Chemins Standards
-
-| Élément | Chemin |
-|---------|--------|
-| Downloads Francky | `C:\Users\elric\Downloads\` |
-| Projet OMEGA | `C:\Users\elric\omega-project\` |
-| Claude outputs | `/mnt/user-data/outputs/` |
-| Claude workspace | `/home/claude/` |
-
----
-
-# 🔄 PROCÉDURE DE REPRISE
-
-## À Chaque Nouvelle Session
-
-1. **GEL MENTAL** — Aucune mémoire implicite fiable
-2. **LECTURE** — Lire les docs dans `/mnt/project/` et uploads
-3. **BILAN** — Présenter compréhension à Francky
-4. **VALIDATION** — Attendre OK avant d'agir
-
-## Format Bilan Obligatoire
-
-```markdown
-## 📋 BILAN DE COMPRÉHENSION
-
-**Réponse produite sous contrainte OMEGA — NASA-grade — aucune approximation tolérée.**
-
-### État du projet
-| Attribut | Valeur |
-|----------|--------|
-| Version | v3.29.0 |
-| Dernière phase | Phase 29 (MYCELIUM DESIGN — FROZEN) |
-| Tests | 1036 exécutables |
-| Invariants | 117 |
-
-### Ce que j'ai compris
-1. [Point clé 1]
-2. [Point clé 2]
-
-### Ce qui reste à faire
-1. [Priorité 1]
-2. [Priorité 2]
-
----
-
-**Ma compréhension est-elle correcte ?**
-**Attente de validation avant action.**
-```
-
----
-
 # 🔐 HASHES DE RÉFÉRENCE
 
-| Phase | ZIP | SHA-256 |
-|-------|-----|---------|
-| 26 | OMEGA_SENTINEL_SUPREME_PHASE_26_FINAL.zip | `99d44f3762538e7907980d3f44053660426eaf189cafd2bf55a0d48747c1a69e` |
-| 27 | OMEGA_PHASE_27_FINAL.zip | `da7c6f2c4553d542c6c9a22daa2df71b8924f8d88486d374ed9cbf8be0f8f8a0` |
-| 28 | OMEGA_GENOME_PHASE28_FINAL.zip | `6bc5433ac9d3936aa13a899afeb3387f6921c56191539a6f544a09c5f7087d86` |
-| 28.5 | OMEGA_SENTINEL_SPRINT28_5.zip | `BC1DC1DD46E62FD6421412EE0E35D96F17627089CAC1835312895FCCE8A07982` |
+| Module | Artifact | SHA-256 |
+|--------|----------|---------|
+| Mycelium | MYCELIUM_SEAL.json | `c0b9b859d21c51f4d2c3e0090c3c40d3423c109e9fa6b882ecc954238d2f270f` |
+| Genome | canonical_golden.json | `172f970a3b2bb5713743d0cd3ecf2d7537699cba5694a3e6946b786f5e213252` |
 
 ---
 
-# 💡 PROCHAINES ÉTAPES (PHASE 29.2+)
+# 💡 PROCHAINES ÉTAPES (PHASE 29.3)
 
-| Sprint | Description | Livrables attendus |
-|--------|-------------|-------------------|
-| 29.2 | Implémentation Mycelium Core | Code + tests INV-MYC-* |
-| 29.3 | Validation UTF-8 + Rejets | REJ-MYC-* testés |
-| 29.4 | Intégration frontière Genome | INV-BOUND-* prouvés |
-| 29.5 | Pack final | ZIP certifié |
+**Objectif:** Connecter Mycelium à Genome via la frontière INV-BOUND-*
+
+| Étape | Description |
+|-------|-------------|
+| 1 | Créer bridge Mycelium → Genome |
+| 2 | Implémenter INV-BOUND-01 à 04 en code |
+| 3 | Tests d'intégration (Mycelium.validate() → Genome.analyze()) |
+| 4 | Preuve que rejet Mycelium bloque Genome |
 
 ---
 
@@ -251,10 +140,9 @@ MONDE EXTÉRIEUR (données brutes)
 
 - [ ] Ouvrir nouvelle conversation dans le projet
 - [ ] Coller la commande de lancement
-- [ ] Uploader les documents Phase 29 si nécessaire
 - [ ] Attendre le bilan de compréhension de Claude
 - [ ] Valider le bilan
-- [ ] Définir l'objectif (Phase 29.2+ ou autre)
+- [ ] Définir l'objectif (Phase 29.3 ou autre)
 - [ ] Lancer le développement
 
 ---

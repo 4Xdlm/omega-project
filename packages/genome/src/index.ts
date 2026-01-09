@@ -66,6 +66,28 @@ export {
 export { EMOTION14_ORDERED } from "./core/emotion14.js";
 
 // ═══════════════════════════════════════════════════════════════════════════════
+// MYCELIUM INTEGRATION (Phase 29.3)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+export {
+  processWithMycelium,
+  isMyceliumOk,
+  isMyceliumErr,
+  MYCELIUM_SEAL_REF,
+  INTEGRATION_GATES,
+  ADAPTER_VERSION,
+} from "./integrations/myceliumAdapter.js";
+
+export type {
+  GenomeMyceliumInput,
+  GenomeMyceliumResult,
+  GenomeMyceliumOk,
+  GenomeMyceliumErr,
+  MyceliumSealRef,
+  IntegrationGate,
+} from "./integrations/myceliumTypes.js";
+
+// ═══════════════════════════════════════════════════════════════════════════════
 // CORE UTILITIES (re-export pour tests)
 // ═══════════════════════════════════════════════════════════════════════════════
 

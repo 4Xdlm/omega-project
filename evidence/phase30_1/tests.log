@@ -1,0 +1,60 @@
+
+[7m[1m[36m RUN [39m[22m[27m [36mv1.6.1[39m [90mC:/Users/elric/omega-project/tests/benchmarks[39m
+
+[90mstdout[2m | pipeline.bench.ts[2m > [22m[2mPERF-A: Pipeline Latency [INV-PERF-01][2m > [22m[2mPERF-A-01: Standard text validation < 100ms[22m[39m
+Standard text validation: 0.45ms
+
+[90mstdout[2m | pipeline.bench.ts[2m > [22m[2mPERF-A: Pipeline Latency [INV-PERF-01][2m > [22m[2mPERF-A-02: Small text validation < 10ms[22m[39m
+Small text validation: 0.04ms
+
+[90mstdout[2m | pipeline.bench.ts[2m > [22m[2mPERF-A: Pipeline Latency [INV-PERF-01][2m > [22m[2mPERF-A-03: Medium text validation < 50ms[22m[39m
+Medium text validation: 0.21ms
+
+[90mstdout[2m | pipeline.bench.ts[2m > [22m[2mPERF-A: Pipeline Latency [INV-PERF-01][2m > [22m[2mPERF-A-04: Large text validation < 200ms[22m[39m
+Large text (43900 chars) validation: 0.82ms
+
+[90mstdout[2m | pipeline.bench.ts[2m > [22m[2mPERF-B: Throughput[2m > [22m[2mPERF-B-01: > 100 validations/second for small text[22m[39m
+Throughput: 267953 validations/sec (100 in 0ms)
+
+[90mstdout[2m | pipeline.bench.ts[2m > [22m[2mPERF-B: Throughput[2m > [22m[2mPERF-B-02: > 50 validations/second for standard text[22m[39m
+Standard throughput: 72812 validations/sec
+
+[90mstdout[2m | pipeline.bench.ts[2m > [22m[2mPERF-D: Baseline Statistics[2m > [22m[2mPERF-D-01: Measure standard text baseline (100 iterations)[22m[39m
+
+    ═══════════════════════════════════════════════════════════════
+    BASELINE: Standard Text (878 chars)
+    ═══════════════════════════════════════════════════════════════
+    Iterations:  100
+    Total:       1.30ms
+    Average:     0.013ms
+    Min:         0.010ms
+    Max:         0.076ms
+    ═══════════════════════════════════════════════════════════════
+    
+
+[90mstdout[2m | pipeline.bench.ts[2m > [22m[2mPERF-D: Baseline Statistics[2m > [22m[2mPERF-D-02: Measure large text baseline (50 iterations)[22m[39m
+
+    ═══════════════════════════════════════════════════════════════
+    BASELINE: Large Text (43900 chars)
+    ═══════════════════════════════════════════════════════════════
+    Iterations:  50
+    Total:       24.10ms
+    Average:     0.482ms
+    Min:         0.378ms
+    Max:         0.875ms
+    ═══════════════════════════════════════════════════════════════
+    
+
+[90mstdout[2m | pipeline.bench.ts[2m > [22m[2mPERF-E: Seal Reference Overhead [INV-PERF-03][2m > [22m[2mPERF-E-01: seal_ref access is negligible[22m[39m
+seal_ref access (10000x): 0.16ms
+
+[90mstdout[2m | pipeline.bench.ts[2m > [22m[2mPERF-E: Seal Reference Overhead [INV-PERF-03][2m > [22m[2mPERF-E-02: MYCELIUM_SEAL_REF constant access[22m[39m
+MYCELIUM_SEAL_REF access (10000x): 0.36ms
+
+ [32m✓[39m pipeline.bench.ts [2m ([22m[2m12 tests[22m[2m)[22m[90m 52[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m1 passed[39m[22m[90m (1)[39m
+[2m      Tests [22m [1m[32m12 passed[39m[22m[90m (12)[39m
+[2m   Start at [22m 23:17:25
+[2m   Duration [22m 350ms[2m (transform 81ms, setup 0ms, collect 101ms, tests 52ms, environment 0ms, prepare 57ms)[22m
+

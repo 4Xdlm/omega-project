@@ -1,0 +1,38 @@
+# ═══════════════════════════════════════════════════════════════════════════════
+# PHASE 29.3 — CERTIFICATION SCOPE
+# ═══════════════════════════════════════════════════════════════════════════════
+
+SCOPE: Integration Layer Mycelium -> Genome
+
+FILES IN SCOPE:
+  - packages/genome/src/integrations/myceliumTypes.ts
+  - packages/genome/src/integrations/myceliumAdapter.ts
+  - packages/genome/src/index.ts (exports added)
+  - packages/genome/test/integration/myceliumAdapter.test.ts
+  - packages/genome/vitest.config.ts (alias for mycelium source)
+  - packages/genome/package.json (dependency added)
+
+FILES OUT OF SCOPE (FROZEN - DO NOT MODIFY):
+  - packages/mycelium/* (Phase 29.2 FROZEN)
+  - packages/sentinel/* (Phase 27 FROZEN)
+  - packages/genome/src/api/* (Phase 28 SEALED)
+  - packages/genome/src/core/* (Phase 28 SEALED)
+
+INVARIANTS ADDED:
+  - INV-INT-01: Mycelium module is NOT modified (FROZEN)
+  - INV-INT-02: All REJ-MYC-* codes propagated without loss
+  - INV-INT-03: Gates are fail-fast (no silent fallback)
+  - INV-INT-04: seal_ref always attached
+  - INV-INT-05: Deterministic output for same input
+
+TEST CATEGORIES:
+  - CAT-INT-A: Happy path (7 tests)
+  - CAT-INT-B: Rejection propagation (7 tests)
+  - CAT-INT-C: Gate fail-fast (5 tests)
+  - CAT-INT-D: Determinism (5 tests)
+  - CAT-INT-E: Boundary tests (7 tests)
+  - CAT-INT-F: Seal reference (5 tests)
+  - Type Guards: (2 tests)
+  TOTAL: 38 integration tests
+
+# ═══════════════════════════════════════════════════════════════════════════════

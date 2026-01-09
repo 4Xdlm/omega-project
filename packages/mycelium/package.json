@@ -1,0 +1,36 @@
+{
+  "name": "@omega/mycelium",
+  "version": "1.0.0",
+  "description": "OMEGA Mycelium - Input validation guardian for DNA/Genome pipeline",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "keywords": ["omega", "mycelium", "validation", "guardian"],
+  "license": "PROPRIETARY",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.0",
+    "vitest": "^1.0.0"
+  },
+  "omega": {
+    "phase": 29.2,
+    "specVersion": "1.0",
+    "invariants": 12,
+    "rejections": 20,
+    "gates": 5,
+    "testCategories": 8
+  }
+}

@@ -17,3 +17,29 @@
 | Resolution | Alias vitest configure. Tests passent 147/147. Module FROZEN non modifie. |
 
 ---
+
+## NCR-002
+| Field | Value |
+|-------|-------|
+| Date | 2026-01-09 23:25 |
+| Phase | 31.0 |
+| Severity | LOW |
+| Description | DEL character (\x7F) is NOT rejected by Mycelium validation. Control character filtering is incomplete. |
+| Decision | Document actual behavior in tests. Module SEALED/FROZEN - cannot modify validation logic. |
+| Status | OPEN |
+| Recommendation | Future phase could add DEL to control character rejection list. |
+
+---
+
+## NCR-003
+| Field | Value |
+|-------|-------|
+| Date | 2026-01-09 23:25 |
+| Phase | 31.0 |
+| Severity | LOW |
+| Description | ELF binary magic bytes (\x7FELF) are NOT rejected by Mycelium validation. Binary detection incomplete. |
+| Decision | Document actual behavior in tests. Module SEALED/FROZEN - cannot modify validation logic. |
+| Status | OPEN |
+| Recommendation | Future phase could add ELF to binary magic bytes rejection list. |
+
+---

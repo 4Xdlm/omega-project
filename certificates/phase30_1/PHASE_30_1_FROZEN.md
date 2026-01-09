@@ -8,7 +8,7 @@
 |-------|-------|
 | Phase | 30.1 |
 | Date du gel | 2026-01-09 23:17 UTC |
-| Commit | (pending) |
+| Commit | d306ac3 |
 | Tag | v3.33.0 |
 | Scope | tests/benchmarks/ |
 

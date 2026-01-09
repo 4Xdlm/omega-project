@@ -8,7 +8,7 @@
 |-------|-------|
 | Phase | 30.0 |
 | Date du gel | 2026-01-09 23:09 UTC |
-| Commit | (pending) |
+| Commit | 6823f37 |
 | Tag | v3.32.0 |
 | Scope | tests/e2e/ |
 

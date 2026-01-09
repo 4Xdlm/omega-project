@@ -1,0 +1,92 @@
+# ═══════════════════════════════════════════════════════════════════════════════
+# OMEGA PROJECT — CERTIFICATION SCOPE — PHASE 29.2
+# ═══════════════════════════════════════════════════════════════════════════════
+
+PHASE:          29.2
+MODULE:         MYCELIUM
+VERSION:        v1.0.0
+STATUS:         FROZEN
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# SCOPE DE CERTIFICATION
+# ═══════════════════════════════════════════════════════════════════════════════
+
+La certification Phase 29.2 porte EXCLUSIVEMENT sur le périmètre suivant:
+
+    packages/mycelium/
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# COMMIT DE RÉFÉRENCE
+# ═══════════════════════════════════════════════════════════════════════════════
+
+COMMIT CODE:    35976d1
+COMMIT FULL:    35976d173d3acd3cc2ba670414c487f01b354aa9
+TAG:            v3.30.0
+DATE:           2026-01-09
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# FICHIERS INCLUS DANS LE SCOPE
+# ═══════════════════════════════════════════════════════════════════════════════
+
+packages/mycelium/
+├── src/
+│   ├── index.ts
+│   ├── constants.ts
+│   ├── types.ts
+│   ├── validator.ts
+│   ├── normalizer.ts
+│   └── mycelium.ts
+├── test/invariants/
+│   ├── cat-a.test.ts
+│   ├── cat-b.test.ts
+│   ├── cat-c.test.ts
+│   ├── cat-d.test.ts
+│   ├── cat-e.test.ts
+│   ├── cat-f.test.ts
+│   ├── cat-g.test.ts
+│   └── cat-h.test.ts
+├── artifacts/
+│   ├── MYCELIUM_SEAL.json
+│   └── hashes.sha256
+├── package.json
+├── tsconfig.json
+├── vitest.config.ts
+└── .gitignore
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# FICHIERS EXCLUS DU SCOPE
+# ═══════════════════════════════════════════════════════════════════════════════
+
+- node_modules/           (dépendances, non versionnées)
+- dist/                   (build output, généré)
+- package-lock.json       (lockfile, déterministe mais non audité)
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# HASHES DES FICHIERS SOURCE (SHA-256)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+019582f6099c83ed75ca608ff737dc8bdc113222483e6f36646e960522635bdd  src/index.ts
+940d50b0c77bc2368274d18b6a0a61b0af2813176dba8ab7dced2c36ada821ca  src/constants.ts
+3dde86655304c6afb1cc91787e1d0a849b703151057f04b8893eeb403d9f5011  src/types.ts
+131a99888699bb14385406b6f2fffe2946cca0d409e06adaa824e583e80859a7  src/validator.ts
+8dc7a4b171dce0987acb003ab8736e7f3201f09f3a4e82a07e7ec74176cdb2de  src/normalizer.ts
+2d6ffc4f0050ef8b65d5381a3afc0de399323c9b37a13424f7e9fdcf1affea74  src/mycelium.ts
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# ATTESTATION
+# ═══════════════════════════════════════════════════════════════════════════════
+
+Ce document définit le périmètre exact de la certification Phase 29.2.
+Tout fichier hors de ce périmètre n'est PAS couvert par le certificat
+CERT_PHASE29_2_MYCELIUM_20260109_205851.md.
+
+Un auditeur peut vérifier ce scope en exécutant:
+
+    git checkout v3.30.0
+    ls packages/mycelium/
+
+Standard: NASA-Grade L4 / DO-178C Level A
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# FIN DU DOCUMENT
+# ═══════════════════════════════════════════════════════════════════════════════

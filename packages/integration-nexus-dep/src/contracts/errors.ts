@@ -141,8 +141,28 @@ export function extractNexusError(err: unknown): NexusError {
   if (isNexusOperationError(err)) {
     return err.nexusError;
   }
+  // Check if it's already a NexusError object
+  if (isNexusErrorObject(err)) {
+    return err;
+  }
   if (err instanceof Error) {
     return createNexusError("ADAPTER_ERROR", err.message, err.name);
   }
   return createNexusError("ADAPTER_ERROR", String(err), "unknown");
+}
+
+/**
+ * Check if an object is a NexusError (duck typing)
+ */
+function isNexusErrorObject(obj: unknown): obj is NexusError {
+  return (
+    typeof obj === "object" &&
+    obj !== null &&
+    "code" in obj &&
+    "message" in obj &&
+    "timestamp" in obj &&
+    typeof (obj as NexusError).code === "string" &&
+    typeof (obj as NexusError).message === "string" &&
+    typeof (obj as NexusError).timestamp === "string"
+  );
 }

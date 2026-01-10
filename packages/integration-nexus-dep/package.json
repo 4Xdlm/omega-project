@@ -1,0 +1,33 @@
+{
+  "name": "@omega/integration-nexus-dep",
+  "version": "0.1.0",
+  "description": "OMEGA NEXUS DEP - Dependency Integration Layer",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^5.3.0",
+    "vitest": "^1.6.0"
+  },
+  "keywords": [
+    "omega",
+    "nexus",
+    "integration",
+    "nasa-grade"
+  ],
+  "author": "OMEGA Project",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  }
+}

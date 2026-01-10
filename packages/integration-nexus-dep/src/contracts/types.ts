@@ -204,3 +204,69 @@ export function isErrorResponse<T>(
 ): response is NexusResponse<T> & { error: NexusError } {
   return !response.success && response.error !== undefined;
 }
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// REQUEST/RESPONSE FACTORIES
+// ═══════════════════════════════════════════════════════════════════════════════
+
+let requestCounter = 0;
+
+/**
+ * Generate a unique request ID
+ * Format: NEXUS-{timestamp}-{random}
+ */
+function generateRequestId(): string {
+  const timestamp = Date.now().toString(36);
+  const counter = (++requestCounter).toString(36).padStart(4, "0");
+  return `NEXUS-${timestamp}-${counter}`;
+}
+
+/**
+ * Create a NEXUS request
+ * INV-NEXUS-04: All requests have unique IDs
+ */
+export function createNexusRequest<T>(
+  type: NexusOperationType | string,
+  payload: T,
+  seed?: number
+): NexusRequest<T> {
+  return Object.freeze({
+    id: generateRequestId(),
+    type: type as NexusOperationType,
+    payload,
+    timestamp: new Date().toISOString(),
+    seed
+  });
+}
+
+/**
+ * Create a successful NEXUS response
+ */
+export function createNexusResponse<T>(
+  requestId: string,
+  data: T,
+  executionTimeMs: number = 0
+): NexusResponse<T> {
+  return Object.freeze({
+    requestId,
+    success: true,
+    data,
+    executionTimeMs
+  });
+}
+
+/**
+ * Create an error NEXUS response
+ */
+export function createErrorResponse<T>(
+  requestId: string,
+  error: NexusError,
+  executionTimeMs: number = 0
+): NexusResponse<T> {
+  return Object.freeze({
+    requestId,
+    success: false,
+    error,
+    executionTimeMs
+  });
+}

@@ -74,3 +74,28 @@ export function getAllAdapters(): readonly NexusAdapter[] {
     new MyceliumBioAdapter()
   ];
 }
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// INDIVIDUAL ADAPTER FACTORIES
+// ═══════════════════════════════════════════════════════════════════════════════
+
+/**
+ * Create a Genome adapter
+ */
+export function createGenomeAdapter(sanctuaryPath?: string): GenomeAdapter {
+  return new GenomeAdapter(sanctuaryPath);
+}
+
+/**
+ * Create a Mycelium adapter
+ */
+export function createMyceliumAdapter(sanctuaryPath?: string): MyceliumAdapter {
+  return new MyceliumAdapter(sanctuaryPath);
+}
+
+/**
+ * Create a Mycelium-Bio adapter
+ */
+export function createMyceliumBioAdapter(sanctuaryPath?: string): MyceliumBioAdapter {
+  return new MyceliumBioAdapter(sanctuaryPath);
+}

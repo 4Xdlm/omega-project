@@ -43,3 +43,44 @@
 | Recommendation | Future phase could add ELF to binary magic bytes rejection list. |
 
 ---
+
+## NCR-004
+| Field | Value |
+|-------|-------|
+| Date | 2026-01-09 22:53:17 |
+| Phase | N/A |
+| Severity | CRITICAL |
+| Command | `git reset --hard` |
+| Reason | Forbidden command prefix detected |
+| Commit | 16586f6 |
+| Status | OPEN |
+
+---
+
+## NCR-005
+| Field | Value |
+|-------|-------|
+| Date | 2026-01-09 23:40:07 |
+| Phase | N/A |
+| Severity | CRITICAL |
+| Command | `git reset HEAD~1` |
+| Reason | Forbidden command prefix detected |
+| Commit | e7a5b6c |
+| Status | CLOSED |
+| Resolution | Not needed - alternative approach used |
+
+---
+
+## NCR-006
+| Field | Value |
+|-------|-------|
+| Date | 2026-01-10 00:45 |
+| Phase | 42.0 |
+| Severity | HIGH |
+| Description | GOLD MASTER FULL archive (1.5GB) exceeds GitHub 100MB file size limit. Large file in git history prevents push. |
+| Decision | Replace FULL archive with smaller SRC archive. Mark as PUSH PENDING. Removal of large file from history requires forbidden git commands (filter-branch, rebase). |
+| Status | OPEN |
+| Impact | GOLD MASTER locally complete but push blocked. |
+| Recommendation | Use GitHub LFS or external storage for large archives in future. |
+
+---

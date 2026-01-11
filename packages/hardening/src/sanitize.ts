@@ -9,7 +9,7 @@ import type {
   SanitizationResult,
   StringSanitizeOptions,
 } from './types.js';
-import { isPlainObject, hasDangerousKeys } from './types.js';
+import { isPlainObject } from './types.js';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // STRING SANITIZATION

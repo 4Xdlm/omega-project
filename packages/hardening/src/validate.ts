@@ -15,7 +15,6 @@ import type {
 import {
   isPlainObject,
   isSafeInteger,
-  isNonEmptyString,
   isValidHash,
   hasDangerousKeys,
 } from './types.js';

@@ -108,7 +108,7 @@ export class Timer {
 /**
  * Measure execution time of a synchronous function.
  */
-export function time<T>(fn: () => T, name?: string): { result: T; duration: number } {
+export function time<T>(fn: () => T, _name?: string): { result: T; duration: number } {
   const start = now();
   const result = fn();
   const duration = now() - start;
@@ -120,7 +120,7 @@ export function time<T>(fn: () => T, name?: string): { result: T; duration: numb
  */
 export async function timeAsync<T>(
   fn: () => Promise<T>,
-  name?: string
+  _name?: string
 ): Promise<{ result: T; duration: number }> {
   const start = now();
   const result = await fn();

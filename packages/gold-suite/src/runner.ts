@@ -5,7 +5,7 @@
  * Test suite execution engine.
  */
 
-import { sha256 } from '@omega/orchestrator-core';
+// sha256 available if needed for hashing
 import { OMEGA_PACKAGES } from '@omega/gold-internal';
 import type {
   SuiteConfig,
@@ -131,7 +131,6 @@ export class SuiteRunner {
    */
   private async runTest(suite: string, name: string): Promise<TestCase> {
     const id = this.generateTestId();
-    const startTime = Date.now();
 
     this.emit('test:start', { id, name, suite });
 

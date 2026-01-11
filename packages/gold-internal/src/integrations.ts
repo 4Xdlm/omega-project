@@ -6,7 +6,7 @@
  */
 
 import { sha256, createSystemClock, stableStringify } from '@omega/orchestrator-core';
-import { Timer, LRUCache, lazy } from '@omega/performance';
+import { LRUCache, lazy } from '@omega/performance';
 import {
   sanitizeString,
   validateString,
@@ -21,7 +21,7 @@ import {
   serializeProofPack,
   deserializeProofPack,
 } from '@omega/proof-pack';
-import { ALL_INVARIANTS, ALL_MODULES, InMemoryContractRegistry } from '@omega/contracts-canon';
+import { ALL_INVARIANTS, ALL_MODULES } from '@omega/contracts-canon';
 
 import type { IntegrationTest } from './validator.js';
 

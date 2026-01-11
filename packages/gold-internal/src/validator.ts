@@ -10,7 +10,6 @@ import type {
   ExportValidation,
   CrossPackageValidation,
   IntegrationValidation,
-  OMEGA_PACKAGES,
 } from './types.js';
 
 // ═══════════════════════════════════════════════════════════════════════════════

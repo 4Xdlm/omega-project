@@ -211,7 +211,7 @@ export function coefficientOfVariation(values: readonly number[]): number {
 export function isSignificantlyDifferent(
   sample1: readonly number[],
   sample2: readonly number[],
-  threshold: number = 0.05
+  _threshold: number = 0.05
 ): boolean {
   if (sample1.length < 2 || sample2.length < 2) return false;
 

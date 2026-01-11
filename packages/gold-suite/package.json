@@ -1,0 +1,29 @@
+{
+  "name": "@omega/gold-suite",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "OMEGA Gold Suite - Consolidated test suite runner",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "keywords": ["omega", "gold", "suite", "tests"],
+  "dependencies": {
+    "@omega/orchestrator-core": "file:../orchestrator-core",
+    "@omega/gold-internal": "file:../gold-internal"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.6",
+    "typescript": "^5.7.3",
+    "vitest": "^1.6.1"
+  }
+}

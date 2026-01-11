@@ -1,0 +1,902 @@
+# ╔══════════════════════════════════════════════════════════════════════════════════════════╗
+# ║                                                                                          ║
+# ║   OMEGA — PLAN DE TRAVAIL PHASES 61 → 80                                                 ║
+# ║   Definition of Done par Phase — Critères Binaires                                       ║
+# ║                                                                                          ║
+# ║   Version: 1.0                                                                           ║
+# ║   Date: 2026-01-11                                                                       ║
+# ║   Alignement: PROMPT v9.0 + POLICY v9.0 + Validation ChatGPT                             ║
+# ║                                                                                          ║
+# ╚══════════════════════════════════════════════════════════════════════════════════════════╝
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# RÈGLES BÉTON (VALABLES 61→80)
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+RÈGLES_ABSOLUES:
+  - "UI INTERDITE tant que mot-clé UI_START_ORDER non reçu"
+  - "Sanctuaires READ-ONLY: packages/sentinel, packages/genome, packages/mycelium, gateway"
+  - "Chaque phase = code + tests + evidence + hashes + history + cert (sinon STOP + NCR)"
+  - "Aucun hash inventé: tout doit être généré localement et tracé"
+  - "Avancer phase par phase, validation entre chaque"
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# MODULES / PACKAGES À CRÉER (61→80)
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+MODULES_À_CRÉER:
+  - "packages/orchestrator-core/"      # Phase 61-62
+  - "packages/headless-runner/"        # Phase 63
+  - "packages/replay-engine/"          # Phase 64
+  - "packages/contracts-canon/"        # Phase 65
+  - "packages/proof-pack/"             # Phase 67
+  - "packages/evidence-kit/"           # Phase 74 (optionnel)
+
+MODULES_EXISTANTS_À_ÉTENDRE:
+  - "packages/integration-nexus-dep/"  # Phase 66 (wiring)
+
+SANCTUAIRES_INTOUCHABLES:
+  - "packages/sentinel/**"
+  - "packages/genome/**"
+  - "packages/mycelium/**"
+  - "gateway/**"
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# CHECKLIST GLOBALE (CHAQUE PHASE)
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+DEFINITION_OF_DONE_GLOBALE:
+  obligatoire:
+    - "[ ] npm test PASS (100%)"
+    - "[ ] evidence/<phase>/commands.txt (commandes exactes)"
+    - "[ ] evidence/<phase>/tests.log (stdout+stderr complet)"
+    - "[ ] evidence/<phase>/env.txt (node -v, npm -v, git --version)"
+    - "[ ] certificates/<phase>/DESIGN_*.md"
+    - "[ ] certificates/<phase>/CERT_*.md"
+    - "[ ] certificates/<phase>/HASHES_*.sha256"
+    - "[ ] history/HISTORY_<phase>.md"
+    - "[ ] git status --porcelain clean"
+    - "[ ] Tag version conforme (v3.XX.0)"
+    - "[ ] Si item manquant → STOP + NCR"
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+#                              BLOC A — ORCHESTRATION CORE (61-64)
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+# ───────────────────────────────────────────────────────────────────────────────────────────
+# PHASE 61 — ORCHESTRATOR CORE
+# ───────────────────────────────────────────────────────────────────────────────────────────
+
+PHASE_61:
+  id: "phase61_0"
+  nom: "ORCHESTRATOR CORE"
+  objectif: "Moteur d'exécution deterministic"
+  tag: "v3.64.0"
+  package: "packages/orchestrator-core"
+  tests_cible: 50
+  
+  à_coder:
+    - "RunContext (run_id, seed, timestamps injectés, platform info)"
+    - "Plan (steps, retries, hooks)"
+    - "Executor (exécute steps, collecte outputs)"
+    - "DeterminismGuard (mêmes inputs => mêmes outputs)"
+  
+  fichiers_source:
+    - "packages/orchestrator-core/package.json"
+    - "packages/orchestrator-core/tsconfig.json"
+    - "packages/orchestrator-core/vitest.config.ts"
+    - "packages/orchestrator-core/src/index.ts"
+    - "packages/orchestrator-core/src/run-context.ts"
+    - "packages/orchestrator-core/src/plan.ts"
+    - "packages/orchestrator-core/src/executor.ts"
+    - "packages/orchestrator-core/src/determinism-guard.ts"
+    - "packages/orchestrator-core/src/types.ts"
+    - "packages/orchestrator-core/src/errors.ts"
+  
+  fichiers_test:
+    - "packages/orchestrator-core/test/run-context.test.ts"
+    - "packages/orchestrator-core/test/plan.test.ts"
+    - "packages/orchestrator-core/test/executor.test.ts"
+    - "packages/orchestrator-core/test/determinism.test.ts"
+    - "packages/orchestrator-core/test/integration.test.ts"
+  
+  connexions:
+    - "Interface 'module runner' abstraite (pas encore Genesis/Scribe)"
+  
+  definition_of_done:
+    - "[ ] package.json avec @omega/orchestrator-core"
+    - "[ ] Tous src/*.ts compilent"
+    - "[ ] Aucun TODO/FIXME"
+    - "[ ] npm test: 50+ tests PASS"
+    - "[ ] RunContext.run_id reproductible si seed identique"
+    - "[ ] 2 runs identiques = mêmes outputs"
+    - "[ ] DESIGN_PHASE_61_0.md créé"
+    - "[ ] CERT_PHASE_61_0.md avec CERTIFIED"
+    - "[ ] HASHES_PHASE_61_0.sha256 calculés"
+    - "[ ] HISTORY_PHASE_61_0.md créé"
+    - "[ ] evidence/phase61_0/* complet"
+    - "[ ] Commit + Tag v3.64.0"
+
+# ───────────────────────────────────────────────────────────────────────────────────────────
+# PHASE 62 — ARTIFACT REGISTRY
+# ───────────────────────────────────────────────────────────────────────────────────────────
+
+PHASE_62:
+  id: "phase62_0"
+  nom: "ARTIFACT REGISTRY + MANIFEST + HASHES"
+  objectif: "Standardiser production artefacts"
+  tag: "v3.65.0"
+  package: "packages/orchestrator-core"  # Extension
+  tests_cible: 30
+  
+  à_coder:
+    - "ArtifactDescriptor"
+    - "ArtifactRegistry (enregistrement, layout standard)"
+    - "manifest.json generator"
+    - "hashes.sha256 generator + verify"
+  
+  fichiers_source:
+    - "packages/orchestrator-core/src/artifact-registry.ts"
+    - "packages/orchestrator-core/src/artifact-descriptor.ts"
+    - "packages/orchestrator-core/src/manifest-generator.ts"
+    - "packages/orchestrator-core/src/hash-generator.ts"
+  
+  fichiers_test:
+    - "packages/orchestrator-core/test/artifact-registry.test.ts"
+    - "packages/orchestrator-core/test/manifest.test.ts"
+    - "packages/orchestrator-core/test/hash-generator.test.ts"
+  
+  connexions:
+    - "Orchestrator => Registry (tout run sort un manifest)"
+  
+  outputs_format:
+    manifest: |
+      {
+        "run_id": "...",
+        "timestamp": "...",
+        "version": "...",
+        "artifacts": [...]
+      }
+    hashes: |
+      sha256  filename
+      ...
+  
+  definition_of_done:
+    - "[ ] artifact-registry.ts créé"
+    - "[ ] manifest.json generator fonctionne"
+    - "[ ] hashes.sha256 generator fonctionne"
+    - "[ ] npm test: 30+ tests supplémentaires PASS"
+    - "[ ] out/runs/<run_id>/manifest.json générable"
+    - "[ ] out/runs/<run_id>/hashes.sha256 générable"
+    - "[ ] Commit + Tag v3.65.0"
+
+# ───────────────────────────────────────────────────────────────────────────────────────────
+# PHASE 63 — HEADLESS RUNNER CLI
+# ───────────────────────────────────────────────────────────────────────────────────────────
+
+PHASE_63:
+  id: "phase63_0"
+  nom: "HEADLESS RUNNER CLI"
+  objectif: "CLI complète omega run/verify/replay/status/pack"
+  tag: "v3.66.0"
+  package: "packages/headless-runner"
+  tests_cible: 40
+  
+  à_coder:
+    - "CLI omega run --plan plan.json"
+    - "CLI omega verify --pack pack.zip"
+    - "CLI omega replay --run <id>"
+    - "CLI omega status --run <id>"
+    - "CLI omega pack --run <id>"
+  
+  fichiers_source:
+    - "packages/headless-runner/package.json"
+    - "packages/headless-runner/tsconfig.json"
+    - "packages/headless-runner/vitest.config.ts"
+    - "packages/headless-runner/bin/omega"
+    - "packages/headless-runner/src/index.ts"
+    - "packages/headless-runner/src/cli.ts"
+    - "packages/headless-runner/src/commands/run.ts"
+    - "packages/headless-runner/src/commands/verify.ts"
+    - "packages/headless-runner/src/commands/replay.ts"
+    - "packages/headless-runner/src/commands/status.ts"
+    - "packages/headless-runner/src/commands/pack.ts"
+  
+  fichiers_test:
+    - "packages/headless-runner/test/cli.test.ts"
+    - "packages/headless-runner/test/run.test.ts"
+    - "packages/headless-runner/test/verify.test.ts"
+    - "packages/headless-runner/test/e2e.test.ts"
+  
+  connexions:
+    - "CLI appelle Orchestrator + ArtifactRegistry"
+  
+  definition_of_done:
+    - "[ ] bin/omega exécutable"
+    - "[ ] omega run fonctionne"
+    - "[ ] omega verify fonctionne"
+    - "[ ] omega replay fonctionne"
+    - "[ ] omega status fonctionne"
+    - "[ ] omega pack fonctionne"
+    - "[ ] --help affiché"
+    - "[ ] Exit codes corrects (0/1)"
+    - "[ ] npm test: 40+ tests PASS"
+    - "[ ] Test E2E: run → pack → verify"
+    - "[ ] Commit + Tag v3.66.0"
+
+# ───────────────────────────────────────────────────────────────────────────────────────────
+# PHASE 64 — REPLAY ENGINE
+# ───────────────────────────────────────────────────────────────────────────────────────────
+
+PHASE_64:
+  id: "phase64_0"
+  nom: "REPLAY ENGINE + DETERMINISM"
+  objectif: "Rejouer un run et comparer"
+  tag: "v3.67.0"
+  package: "packages/replay-engine"
+  tests_cible: 60
+  
+  à_coder:
+    - "ReplayEngine (rejoue run depuis pack/folder)"
+    - "DiffReport (diff stable)"
+    - "DivergenceDetector (détecte différences)"
+    - "Comparator (compare outputs)"
+  
+  fichiers_source:
+    - "packages/replay-engine/package.json"
+    - "packages/replay-engine/tsconfig.json"
+    - "packages/replay-engine/vitest.config.ts"
+    - "packages/replay-engine/src/index.ts"
+    - "packages/replay-engine/src/replay-engine.ts"
+    - "packages/replay-engine/src/diff-report.ts"
+    - "packages/replay-engine/src/divergence-detector.ts"
+    - "packages/replay-engine/src/comparator.ts"
+  
+  fichiers_test:
+    - "packages/replay-engine/test/replay-engine.test.ts"
+    - "packages/replay-engine/test/diff-report.test.ts"
+    - "packages/replay-engine/test/divergence.test.ts"
+    - "packages/replay-engine/test/determinism.test.ts"
+  
+  connexions:
+    - "CLI omega replay => ReplayEngine"
+  
+  definition_of_done:
+    - "[ ] ReplayEngine charge un pack"
+    - "[ ] ReplayEngine ré-exécute"
+    - "[ ] DiffReport compare outputs"
+    - "[ ] DivergenceDetector détecte différences"
+    - "[ ] Même pack → même résultat"
+    - "[ ] Test: 3 runs identiques comparés"
+    - "[ ] npm test: 60+ tests PASS"
+    - "[ ] Commit + Tag v3.67.0"
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+#                              BLOC B — CONTRACTS & WIRING (65-66)
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+# ───────────────────────────────────────────────────────────────────────────────────────────
+# PHASE 65 — CONTRACTS CANON
+# ───────────────────────────────────────────────────────────────────────────────────────────
+
+PHASE_65:
+  id: "phase65_0"
+  nom: "CONTRACTS CANON (IO STABLE)"
+  objectif: "Envelopes + schemas versionnés"
+  tag: "v3.68.0"
+  package: "packages/contracts-canon"
+  tests_cible: 30
+  
+  à_coder:
+    - "InputEnvelope / OutputEnvelope"
+    - "ErrorEnvelope"
+    - "ArtifactDescriptor (type partagé)"
+    - "JSON schemas versionnés"
+    - "Validateur strict (reject unknown fields)"
+  
+  fichiers_source:
+    - "packages/contracts-canon/package.json"
+    - "packages/contracts-canon/tsconfig.json"
+    - "packages/contracts-canon/vitest.config.ts"
+    - "packages/contracts-canon/src/index.ts"
+    - "packages/contracts-canon/src/envelopes.ts"
+    - "packages/contracts-canon/src/artifact-descriptor.ts"
+    - "packages/contracts-canon/src/validators.ts"
+    - "packages/contracts-canon/src/errors.ts"
+    - "packages/contracts-canon/schemas/input-envelope.v1.json"
+    - "packages/contracts-canon/schemas/output-envelope.v1.json"
+    - "packages/contracts-canon/schemas/error-envelope.v1.json"
+    - "packages/contracts-canon/schemas/artifact.v1.json"
+  
+  fichiers_test:
+    - "packages/contracts-canon/test/envelopes.test.ts"
+    - "packages/contracts-canon/test/validators.test.ts"
+    - "packages/contracts-canon/test/schema-validation.test.ts"
+  
+  connexions:
+    - "Orchestrator steps utilisent ces envelopes"
+  
+  definition_of_done:
+    - "[ ] InputEnvelope type défini"
+    - "[ ] OutputEnvelope type défini"
+    - "[ ] ErrorEnvelope type défini"
+    - "[ ] JSON schemas créés avec version"
+    - "[ ] Validateur fonctionne"
+    - "[ ] npm test: 30+ tests PASS"
+    - "[ ] Commit + Tag v3.68.0"
+
+# ───────────────────────────────────────────────────────────────────────────────────────────
+# PHASE 66 — WIRING GENESIS ↔ ORACLE ↔ SCRIBE
+# ───────────────────────────────────────────────────────────────────────────────────────────
+
+PHASE_66:
+  id: "phase66_0"
+  nom: "WIRING GENESIS/ORACLE/SCRIBE"
+  objectif: "Connecter modules via NEXUS DEP (SANS TOUCHER SANCTUAIRES)"
+  tag: "v3.69.0"
+  package: "packages/integration-nexus-dep"
+  tests_cible: 80
+  
+  à_coder:
+    - "genesis.adapter.ts (wrapper lecture)"
+    - "oracle.adapter.ts (wrapper lecture)"
+    - "scribe.adapter.ts (wrapper lecture)"
+    - "full-pipeline.ts (orchestre les 3)"
+    - "Normalisation flux I/O via Contracts Canon"
+  
+  fichiers_source:
+    - "packages/integration-nexus-dep/src/adapters/genesis.adapter.ts"
+    - "packages/integration-nexus-dep/src/adapters/oracle.adapter.ts"
+    - "packages/integration-nexus-dep/src/adapters/scribe.adapter.ts"
+    - "packages/integration-nexus-dep/src/pipeline/full-pipeline.ts"
+  
+  fichiers_test:
+    - "packages/integration-nexus-dep/test/genesis-adapter.test.ts"
+    - "packages/integration-nexus-dep/test/oracle-adapter.test.ts"
+    - "packages/integration-nexus-dep/test/scribe-adapter.test.ts"
+    - "packages/integration-nexus-dep/test/full-pipeline.test.ts"
+    - "packages/integration-nexus-dep/test/golden/*.snapshot"
+  
+  connexions:
+    - "Pipeline: input → genesis → oracle → scribe → output"
+    - "Genesis/Scribe/Oracle via adapters SANS toucher sanctuaires"
+  
+  ATTENTION_SANCTUAIRES:
+    - "⚠️ NE PAS MODIFIER packages/sentinel/"
+    - "⚠️ NE PAS MODIFIER packages/genome/"
+    - "⚠️ NE PAS MODIFIER packages/mycelium/"
+    - "⚠️ NE PAS MODIFIER gateway/"
+    - "✅ Adapters = wrappers qui APPELLENT (lecture seule)"
+  
+  definition_of_done:
+    - "[ ] genesis.adapter.ts créé"
+    - "[ ] oracle.adapter.ts créé"
+    - "[ ] scribe.adapter.ts créé"
+    - "[ ] full-pipeline.ts orchestre les 3"
+    - "[ ] Golden snapshots créés"
+    - "[ ] npm test: 80+ tests PASS"
+    - "[ ] git diff packages/sentinel/ = VIDE"
+    - "[ ] git diff packages/genome/ = VIDE"
+    - "[ ] git diff packages/mycelium/ = VIDE"
+    - "[ ] git diff gateway/ = VIDE"
+    - "[ ] Commit + Tag v3.69.0"
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+#                              BLOC C — PROOF & HARDENING (67-69)
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+# ───────────────────────────────────────────────────────────────────────────────────────────
+# PHASE 67 — PROOF PACK GENERATOR
+# ───────────────────────────────────────────────────────────────────────────────────────────
+
+PHASE_67:
+  id: "phase67_0"
+  nom: "PROOF PACK GENERATOR"
+  objectif: "Pack tribunal ZIP en une commande"
+  tag: "v3.70.0"
+  package: "packages/proof-pack"
+  tests_cible: 20
+  
+  à_coder:
+    - "PackBuilder (génère ZIP)"
+    - "PackVerifier (vérifie ZIP)"
+    - "verify-pack script"
+  
+  fichiers_source:
+    - "packages/proof-pack/package.json"
+    - "packages/proof-pack/tsconfig.json"
+    - "packages/proof-pack/vitest.config.ts"
+    - "packages/proof-pack/src/index.ts"
+    - "packages/proof-pack/src/pack-builder.ts"
+    - "packages/proof-pack/src/pack-verifier.ts"
+    - "packages/proof-pack/src/verify-script-generator.ts"
+  
+  fichiers_test:
+    - "packages/proof-pack/test/pack-builder.test.ts"
+    - "packages/proof-pack/test/pack-verifier.test.ts"
+  
+  connexions:
+    - "ArtifactRegistry => PackBuilder"
+    - "omega pack => PackBuilder"
+  
+  pack_contenu:
+    - "manifest.json"
+    - "hashes.sha256"
+    - "artifacts/*"
+    - "logs/*"
+    - "verify.sh"
+  
+  definition_of_done:
+    - "[ ] omega pack --run <id> génère ZIP"
+    - "[ ] ZIP contient manifest + hashes + artifacts"
+    - "[ ] verify script inclus"
+    - "[ ] omega verify --pack vérifie OK"
+    - "[ ] npm test: 20+ tests PASS"
+    - "[ ] Commit + Tag v3.70.0"
+
+# ───────────────────────────────────────────────────────────────────────────────────────────
+# PHASE 68 — HARDENING + RED TEAM
+# ───────────────────────────────────────────────────────────────────────────────────────────
+
+PHASE_68:
+  id: "phase68_0"
+  nom: "HARDENING + RED TEAM (SURFACES D'ENTRÉE)"
+  objectif: "Tests hostiles sur boundaries (PAS sanctuaires)"
+  tag: "v3.71.0"
+  package: "test/red-team"
+  tests_cible: 50
+  
+  à_coder:
+    - "Sanitation input (bytes interdits, path traversal, tailles max)"
+    - "Fuzz tests (envelopes + CLI args)"
+    - "Rejection tests (erreurs attendues)"
+  
+  ATTENTION:
+    - "⚠️ RED TEAM = surfaces d'entrée (CLI/orchestrator/contracts/wiring)"
+    - "⚠️ RED TEAM ≠ sanctuaires (sentinel/genome/mycelium)"
+    - "✅ Cibles: headless-runner, orchestrator-core, contracts-canon, nexus-dep adapters"
+  
+  fichiers_test:
+    - "test/red-team/sanitation.test.ts"
+    - "test/red-team/path-traversal.test.ts"
+    - "test/red-team/size-limits.test.ts"
+    - "test/red-team/fuzz-envelopes.test.ts"
+    - "test/red-team/fuzz-cli.test.ts"
+    - "test/red-team/rejection.test.ts"
+  
+  connexions:
+    - "Enforcement dans CLI + Orchestrator boundary"
+  
+  definition_of_done:
+    - "[ ] Input sanitation implémentée"
+    - "[ ] Path traversal bloqué"
+    - "[ ] Tailles max enforced"
+    - "[ ] Fuzz tests passent"
+    - "[ ] Rejets documentés"
+    - "[ ] npm test: 50+ tests PASS"
+    - "[ ] Aucune modification sanctuaires"
+    - "[ ] Commit + Tag v3.71.0"
+
+# ───────────────────────────────────────────────────────────────────────────────────────────
+# PHASE 69 — PERFORMANCE + BENCHMARKS
+# ───────────────────────────────────────────────────────────────────────────────────────────
+
+PHASE_69:
+  id: "phase69_0"
+  nom: "PERFORMANCE + BENCHMARKS"
+  objectif: "Benchmarks contractuels + seuils"
+  tag: "v3.72.0"
+  package: "bench"
+  tests_cible: 30
+  
+  à_coder:
+    - "Bench harness (durées, mémoire, taille packs)"
+    - "Seuils contractuels"
+    - "Non-régression check"
+  
+  fichiers_source:
+    - "bench/package.json"
+    - "bench/run-bench.ts"
+    - "bench/bench-orchestrator.ts"
+    - "bench/bench-replay.ts"
+    - "bench/bench-pack.ts"
+    - "bench/thresholds.json"
+  
+  outputs:
+    - "out/bench.json"
+    - "out/bench-report.md"
+  
+  definition_of_done:
+    - "[ ] Bench harness fonctionne"
+    - "[ ] Durées mesurées"
+    - "[ ] Mémoire mesurée"
+    - "[ ] Seuils définis dans thresholds.json"
+    - "[ ] out/bench.json généré"
+    - "[ ] npm test: 30+ tests PASS"
+    - "[ ] Commit + Tag v3.72.0"
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+#                              BLOC D — GOLD HEADLESS (70)
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+# ───────────────────────────────────────────────────────────────────────────────────────────
+# PHASE 70 — GOLD HEADLESS (PRÉ-GOLD INTERNE)
+# ───────────────────────────────────────────────────────────────────────────────────────────
+
+PHASE_70:
+  id: "phase70_0"
+  nom: "GOLD HEADLESS (INTERNAL)"
+  objectif: "Figer pipeline headless + pack audit + go/no-go"
+  tag: "v3.73.0-GOLD-HEADLESS-INTERNAL"
+  is_gold_internal: true
+  
+  à_faire:
+    - "Run complet pipeline headless"
+    - "Packs + verify OK"
+    - "Doc 'headless gold' + checklist"
+    - "Go/No-Go decision"
+  
+  fichiers_cert:
+    - "certificates/phase70_0/CERT_PHASE_70_GOLD_HEADLESS_INTERNAL.md"
+    - "certificates/phase70_0/HASHES_PHASE_70.sha256"
+    - "certificates/phase70_0/CHECKLIST_GOLD_HEADLESS.md"
+    - "history/HISTORY_PHASE_70_0.md"
+  
+  definition_of_done:
+    - "[ ] Run complet E2E headless OK"
+    - "[ ] Pack généré + vérifié"
+    - "[ ] Replay identique"
+    - "[ ] Tous tests passent"
+    - "[ ] Checklist GOLD HEADLESS complète"
+    - "[ ] Go/No-Go = GO"
+    - "[ ] Commit + Tag v3.73.0-GOLD-HEADLESS-INTERNAL"
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+#                              BLOC E — CONSOLIDATION (71-76)
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+# ───────────────────────────────────────────────────────────────────────────────────────────
+# PHASE 71 — MODULE INVENTORY & CAPABILITY MAP
+# ───────────────────────────────────────────────────────────────────────────────────────────
+
+PHASE_71:
+  id: "phase71_0"
+  nom: "MODULE INVENTORY & CAPABILITY MAP"
+  objectif: "Cartographier ce qui existe réellement"
+  tag: "v3.74.0"
+  
+  à_faire:
+    - "Inventaire modules existants (Genesis/Scribe/Oracle/etc.)"
+    - "Tableau: DONE/PARTIAL/MISSING + preuves"
+    - "Graph dépendances"
+  
+  fichiers_output:
+    - "docs/MODULE_CAPABILITIES.md"
+    - "docs/MODULE_DEPENDENCY_GRAPH.md"
+    - "docs/MODULE_STATUS_TABLE.md"
+  
+  objectif_principal:
+    - "Plus jamais 'je crois que c'est fait': c'est écrit et prouvé"
+  
+  definition_of_done:
+    - "[ ] MODULE_CAPABILITIES.md créé"
+    - "[ ] MODULE_DEPENDENCY_GRAPH.md créé"
+    - "[ ] Tableau status: DONE/PARTIAL/MISSING"
+    - "[ ] Preuves référencées (tests/fichiers)"
+    - "[ ] Commit + Tag v3.74.0"
+
+# ───────────────────────────────────────────────────────────────────────────────────────────
+# PHASE 72 — UNIFIED ERROR TAXONOMY + NCR WIRING
+# ───────────────────────────────────────────────────────────────────────────────────────────
+
+PHASE_72:
+  id: "phase72_0"
+  nom: "UNIFIED ERROR TAXONOMY + NCR WIRING"
+  objectif: "Erreurs homogènes + mapping NCR + codes stables"
+  tag: "v3.75.0"
+  
+  à_coder:
+    - "Registre des erreurs (codes, severities, mapping NCR)"
+    - "Normalisation errors adapters + orchestrator + CLI"
+  
+  fichiers_source:
+    - "packages/contracts-canon/src/errors/error-registry.ts"
+    - "packages/contracts-canon/src/errors/error-codes.ts"
+    - "packages/contracts-canon/src/errors/ncr-mapper.ts"
+  
+  fichiers_output:
+    - "docs/ERROR_CODES_REGISTRY.md"
+  
+  definition_of_done:
+    - "[ ] error-registry.ts créé"
+    - "[ ] Codes erreurs définis"
+    - "[ ] Mapping NCR implémenté"
+    - "[ ] ERROR_CODES_REGISTRY.md créé"
+    - "[ ] Tests: same error format everywhere"
+    - "[ ] Commit + Tag v3.75.0"
+
+# ───────────────────────────────────────────────────────────────────────────────────────────
+# PHASE 73 — SNAPSHOT / GOLDEN FIXTURES SYSTEM
+# ───────────────────────────────────────────────────────────────────────────────────────────
+
+PHASE_73:
+  id: "phase73_0"
+  nom: "SNAPSHOT / GOLDEN FIXTURES SYSTEM"
+  objectif: "Fixtures versionnées, snapshots reproductibles"
+  tag: "v3.76.0"
+  
+  à_coder:
+    - "Snapshots store"
+    - "Comparateur standard"
+    - "Règles de versioning fixtures"
+  
+  fichiers_source:
+    - "packages/replay-engine/src/snapshot-store.ts"
+    - "packages/replay-engine/src/snapshot-comparator.ts"
+  
+  fichiers_output:
+    - "fixtures/README.md"
+    - "fixtures/v1/*.json"
+  
+  definition_of_done:
+    - "[ ] snapshot-store.ts créé"
+    - "[ ] snapshot-comparator.ts créé"
+    - "[ ] fixtures/ structure créée"
+    - "[ ] Comparaison cross-platform OK"
+    - "[ ] Commit + Tag v3.76.0"
+
+# ───────────────────────────────────────────────────────────────────────────────────────────
+# PHASE 74 — EVIDENCE AUTOMATION
+# ───────────────────────────────────────────────────────────────────────────────────────────
+
+PHASE_74:
+  id: "phase74_0"
+  nom: "EVIDENCE AUTOMATION (ZÉRO OUBLI)"
+  objectif: "Chaque commande critique laisse une trace"
+  tag: "v3.77.0"
+  
+  à_coder:
+    - "Générateur evidence/<phase>/commands.txt"
+    - "Générateur evidence/<phase>/run.log"
+    - "Enforcement: evidence absente => phase non certifiable"
+  
+  fichiers_source:
+    - "packages/evidence-kit/package.json"
+    - "packages/evidence-kit/src/index.ts"
+    - "packages/evidence-kit/src/commands-logger.ts"
+    - "packages/evidence-kit/src/run-logger.ts"
+    - "packages/evidence-kit/src/evidence-validator.ts"
+  
+  definition_of_done:
+    - "[ ] evidence-kit package créé"
+    - "[ ] commands.txt auto-généré"
+    - "[ ] run.log auto-capturé"
+    - "[ ] Validation evidence présente"
+    - "[ ] Tests: evidence required files present"
+    - "[ ] Commit + Tag v3.77.0"
+
+# ───────────────────────────────────────────────────────────────────────────────────────────
+# PHASE 75 — CROSS-PLATFORM DETERMINISM GATE
+# ───────────────────────────────────────────────────────────────────────────────────────────
+
+PHASE_75:
+  id: "phase75_0"
+  nom: "CROSS-PLATFORM DETERMINISM GATE"
+  objectif: "Windows/Linux mêmes outputs"
+  tag: "v3.78.0"
+  
+  à_faire:
+    - "Scripts run double-plateforme"
+    - "Règles normalisation (EOL, paths, timestamps)"
+    - "Rapport divergence"
+  
+  fichiers_output:
+    - "docs/CROSS_PLATFORM_RULES.md"
+    - "scripts/normalize-output.ts"
+  
+  definition_of_done:
+    - "[ ] CROSS_PLATFORM_RULES.md créé"
+    - "[ ] Normalisation EOL implémentée"
+    - "[ ] Normalisation paths implémentée"
+    - "[ ] Timestamps injectés (pas Date.now())"
+    - "[ ] Test Windows/Linux comparaison"
+    - "[ ] Commit + Tag v3.78.0"
+
+# ───────────────────────────────────────────────────────────────────────────────────────────
+# PHASE 76 — STRESS / SOAK / LARGE INPUTS
+# ───────────────────────────────────────────────────────────────────────────────────────────
+
+PHASE_76:
+  id: "phase76_0"
+  nom: "STRESS / SOAK / LARGE INPUTS"
+  objectif: "Tests 'sale' + charges + gros fichiers"
+  tag: "v3.79.0"
+  
+  à_coder:
+    - "Suite stress"
+    - "Tests gros fichiers"
+    - "Timeouts contrôlés"
+    - "Seuils et limites officielles"
+  
+  fichiers_test:
+    - "test/stress/large-input.test.ts"
+    - "test/stress/many-runs.test.ts"
+    - "test/stress/timeout.test.ts"
+    - "test/stress/memory-pressure.test.ts"
+  
+  fichiers_output:
+    - "docs/LIMITS_AND_THRESHOLDS.md"
+  
+  definition_of_done:
+    - "[ ] Tests gros inputs passent"
+    - "[ ] Tests N runs passent"
+    - "[ ] Timeouts documentés"
+    - "[ ] Limites officielles documentées"
+    - "[ ] Commit + Tag v3.79.0"
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+#                              BLOC F — RELEASE (77-80)
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+# ───────────────────────────────────────────────────────────────────────────────────────────
+# PHASE 77 — DOCUMENTATION FINALIZATION
+# ───────────────────────────────────────────────────────────────────────────────────────────
+
+PHASE_77:
+  id: "phase77_0"
+  nom: "DOCUMENTATION FINALIZATION"
+  objectif: "Docs complètes, cohérentes, indexées"
+  tag: "v3.80.0"
+  code_only: false
+  
+  à_faire:
+    - "README principal mis à jour"
+    - "RUNBOOK (mode opératoire)"
+    - "Index docs complet"
+    - "'How to reproduce any proof pack' step-by-step"
+  
+  fichiers_output:
+    - "README.md (mis à jour)"
+    - "docs/RUNBOOK.md"
+    - "docs/INDEX.md"
+    - "docs/HOW_TO_REPRODUCE_PROOF_PACK.md"
+  
+  definition_of_done:
+    - "[ ] README.md complet"
+    - "[ ] RUNBOOK.md créé"
+    - "[ ] INDEX.md créé"
+    - "[ ] HOW_TO_REPRODUCE_PROOF_PACK.md créé"
+    - "[ ] Aucun lien cassé"
+    - "[ ] Commit + Tag v3.80.0"
+
+# ───────────────────────────────────────────────────────────────────────────────────────────
+# PHASE 78 — RC + REHEARSAL FREEZE
+# ───────────────────────────────────────────────────────────────────────────────────────────
+
+PHASE_78:
+  id: "phase78_0"
+  nom: "RELEASE CANDIDATE + REHEARSAL FREEZE"
+  objectif: "Répétition générale freeze"
+  tag: "v3.81.0-RC1"
+  
+  à_faire:
+    - "Pack complet"
+    - "Audit simulation"
+    - "Zéro modif hors docs/evidence"
+    - "Checklist freeze rehearsal"
+  
+  fichiers_output:
+    - "certificates/phase78_0/RC_REPORT.md"
+    - "certificates/phase78_0/FREEZE_REHEARSAL_CHECKLIST.md"
+  
+  definition_of_done:
+    - "[ ] RC_REPORT.md créé"
+    - "[ ] FREEZE_REHEARSAL_CHECKLIST.md complète"
+    - "[ ] Pack généré et vérifié"
+    - "[ ] Aucune modification code"
+    - "[ ] forbid_after_gold testée"
+    - "[ ] Commit + Tag v3.81.0-RC1"
+
+# ───────────────────────────────────────────────────────────────────────────────────────────
+# PHASE 79 — FINAL AUDIT PACK (EXTERNAL-STYLE)
+# ───────────────────────────────────────────────────────────────────────────────────────────
+
+PHASE_79:
+  id: "phase79_0"
+  nom: "FINAL AUDIT PACK (EXTERNAL-STYLE)"
+  objectif: "Audit 'comme si un autre te juge'"
+  tag: "v3.82.0"
+  
+  à_faire:
+    - "Pack audit final"
+    - "Preuves minimales + traçabilité"
+    - "Scripts verify + hashes"
+    - "Checklist audit externe"
+  
+  fichiers_output:
+    - "certificates/phase79_0/FINAL_AUDIT_PACK.md"
+    - "archives/phase79_0/OMEGA_AUDIT_PACK_v3.82.0.zip"
+  
+  definition_of_done:
+    - "[ ] FINAL_AUDIT_PACK.md créé"
+    - "[ ] ZIP audit généré"
+    - "[ ] Verify script inclus"
+    - "[ ] Hashes calculés"
+    - "[ ] Checklist externe OK"
+    - "[ ] Commit + Tag v3.82.0"
+
+# ───────────────────────────────────────────────────────────────────────────────────────────
+# PHASE 80 — GOLD MASTER FINAL
+# ───────────────────────────────────────────────────────────────────────────────────────────
+
+PHASE_80:
+  id: "phase80_0"
+  nom: "GOLD MASTER FINAL"
+  objectif: "FREEZE TOTAL + tags finaux + archives + preuve complète"
+  tag: "v3.83.0-GOLD"
+  is_gold_final: true
+  
+  à_faire:
+    - "Freeze total"
+    - "Tags finaux"
+    - "ZIPs finaux (SOURCE, DOCS, FULL)"
+    - "Final report"
+    - "forbid_after_gold appliqué"
+  
+  fichiers_output:
+    - "certificates/phase80_0/CERT_PHASE80_GOLD_MASTER.md"
+    - "certificates/phase80_0/HASHES_PHASE80_GOLD.sha256"
+    - "history/FINAL_REPORT_PHASE80_GOLD_MASTER.md"
+    - "archives/phase80_0/OMEGA_SOURCE_v3.83.0-GOLD.zip"
+    - "archives/phase80_0/OMEGA_DOCS_v3.83.0-GOLD.zip"
+    - "archives/phase80_0/OMEGA_FULL_v3.83.0-GOLD.zip"
+  
+  definition_of_done:
+    - "[ ] Tous tests passent"
+    - "[ ] Tous fichiers cert/history présents"
+    - "[ ] ZIPs générés"
+    - "[ ] Hashes calculés"
+    - "[ ] CERT_PHASE80_GOLD_MASTER.md créé"
+    - "[ ] FINAL_REPORT créé"
+    - "[ ] Tag v3.83.0-GOLD"
+    - "[ ] forbid_after_gold: aucun commit après tag"
+    - "[ ] FREEZE TOTAL"
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# APRÈS PHASE 80 — UI (SI UI_START_ORDER)
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+APRÈS_80:
+  condition: "UI_START_ORDER reçu de Francky"
+  phases: "81+"
+  note: "UI = nouveau cycle, tags v3.84.0+"
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# RÉSUMÉ TAGS
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+TAGS_PRÉVUS:
+  - "v3.64.0  - Phase 61 Orchestrator Core"
+  - "v3.65.0  - Phase 62 Artifact Registry"
+  - "v3.66.0  - Phase 63 Headless Runner CLI"
+  - "v3.67.0  - Phase 64 Replay Engine"
+  - "v3.68.0  - Phase 65 Contracts Canon"
+  - "v3.69.0  - Phase 66 Wiring"
+  - "v3.70.0  - Phase 67 Proof Pack"
+  - "v3.71.0  - Phase 68 Hardening"
+  - "v3.72.0  - Phase 69 Performance"
+  - "v3.73.0-GOLD-HEADLESS-INTERNAL - Phase 70"
+  - "v3.74.0  - Phase 71 Module Inventory"
+  - "v3.75.0  - Phase 72 Error Taxonomy"
+  - "v3.76.0  - Phase 73 Snapshot System"
+  - "v3.77.0  - Phase 74 Evidence Automation"
+  - "v3.78.0  - Phase 75 Cross-Platform"
+  - "v3.79.0  - Phase 76 Stress Tests"
+  - "v3.80.0  - Phase 77 Documentation"
+  - "v3.81.0-RC1 - Phase 78 RC"
+  - "v3.82.0  - Phase 79 Audit Pack"
+  - "v3.83.0-GOLD - Phase 80 GOLD MASTER FINAL"
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# FIN DU PLAN DE TRAVAIL
+# ═══════════════════════════════════════════════════════════════════════════════════════════

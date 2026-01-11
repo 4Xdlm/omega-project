@@ -1,0 +1,519 @@
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# OMEGA POLICY v9.1 ULTIMATE
+# Machine-readable — Source of Truth for Policy Engine
+# Fusion: Claude Opus 4.5 + ChatGPT Titanium
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+omegafile: "OMEGA_POLICY"
+version: "9.1"
+edition: "ULTIMATE"
+date: "2026-01-11"
+standard:
+  - "NASA-Grade L4"
+  - "DO-178C Level A"
+  - "SpaceX FRR"
+  - "AS9100D"
+  - "MIL-STD"
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# REPOSITORY STATE (VERIFIED)
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+repo:
+  default_branch: "master"
+  working_branch: "cycle-61"
+  remote: "origin"
+  master_head: "ad83887"                    # Warm-up v9 commité
+  gold_last: "v3.60.0-GOLD-CYCLE43"
+  warmup_status: "EXECUTED_AND_TRACED"
+  next_version: "v3.64.0"
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# SANCTUARIES (READ-ONLY ABSOLUTE)
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+sanctuaries:
+  paths:
+    - "packages/sentinel/**"
+    - "packages/genome/**"
+    - "packages/mycelium/**"
+    - "gateway/**"
+    - "OMEGA_SENTINEL_SUPREME/**"
+  
+  verification:
+    before_phase: true
+    after_phase: true
+    after_commit: true
+  
+  check_command: "git diff --name-only packages/sentinel packages/genome packages/mycelium gateway"
+  expected_result: "EMPTY"
+  violation_action: "ABORT + REVERT + NCR"
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# FROZEN FILES (READ-ONLY)
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+frozen_patterns:
+  - "*_FROZEN.md"
+  - "*_GOLD_SEAL.md"
+  - "GOLD_SEAL.md"
+  - "certificates/phase*_0/PHASE*_FROZEN.md"
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# WARM-UP RULES
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+warmup:
+  version: "v9.0"
+  status: "EXECUTED"
+  evidence_path: "evidence/warmup/WARMUP_v9.log"
+  hash_path: "evidence/warmup/WARMUP_v9.sha256"
+  
+  rules:
+    - "IF evidence exists AND hash valid → PROCEED (do not re-run)"
+    - "IF evidence missing → ABORT with message"
+    - "Re-run ONLY if: node upgrade, npm upgrade, shell change, policy change, NCR"
+  
+  check_command: "test -f evidence/warmup/WARMUP_v9.log && echo OK || echo MISSING"
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# WRITABLE PATHS (PHASE 61)
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+writable_paths:
+  phase61:
+    - "packages/orchestrator-core/**"
+    - "evidence/phase61_0/**"
+    - "certificates/phase61_0/**"
+    - "history/HISTORY_PHASE_61_0.md"
+    - "archives/phase61_0/**"
+  
+  always_writable:
+    - ".warmup/**"
+    - "out/**"
+    - "tmp/**"
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# GIT STATUS RULES
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+git_status:
+  must_be_clean_after_commit: true
+  
+  ignored_patterns:
+    - "?? .warmup/"
+    - "?? node_modules/"
+    - "?? out/"
+    - "?? tmp/"
+    - "?? .vite/"
+    - "?? dist/"
+    - "?? coverage/"
+  
+  unexpected_file_action: "NCR"
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# COMMANDS CLASSIFICATION
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+commands:
+
+  # ─────────────────────────────────────────────────────────────────────────────────────────
+  # SAFE EXACT — Autorisées telles quelles
+  # ─────────────────────────────────────────────────────────────────────────────────────────
+  safe_exact:
+    # Git lecture
+    - "git status"
+    - "git status --porcelain"
+    - "git branch"
+    - "git branch -vv"
+    - "git branch --show-current"
+    - "git diff"
+    - "git diff --name-only"
+    - "git diff --cached"
+    - "git diff --cached --name-only"
+    - "git log"
+    - "git log -1"
+    - "git log -1 --oneline"
+    - "git remote -v"
+    - "git stash list"
+    - "git tag --list"
+    - "git rev-parse HEAD"
+    - "git rev-parse --short HEAD"
+    
+    # System info
+    - "pwd"
+    - "whoami"
+    - "hostname"
+    - "date"
+    - "date -u"
+    - "date -Iseconds"
+    - "uname -a"
+    - "env"
+    - "true"
+    - "false"
+    
+    # Node/NPM
+    - "node --version"
+    - "npm --version"
+    - "npm test"
+    - "npm run build"
+    - "npm run lint"
+    - "npm ls --depth=0"
+    - "npm install"
+    
+    # Files
+    - "ls"
+    - "ls -l"
+    - "ls -la"
+    - "ls -lah"
+
+  # ─────────────────────────────────────────────────────────────────────────────────────────
+  # SAFE PREFIX — Autorisées si commencent par...
+  # ─────────────────────────────────────────────────────────────────────────────────────────
+  safe_prefix:
+    # Filesystem read
+    - "cat "
+    - "head "
+    - "tail "
+    - "less "
+    - "more "
+    - "wc "
+    - "ls "
+    - "find "
+    - "grep "
+    - "diff "
+    - "stat "
+    - "file "
+    - "du "
+    - "df "
+    - "test "
+    
+    # Text manipulation
+    - "sort "
+    - "uniq "
+    - "cut "
+    - "awk "
+    - "sed "
+    - "tr "
+    - "xargs "
+    - "printf "
+    - "echo "
+    - "seq "
+    - "tee "
+    
+    # Filesystem write (controlled)
+    - "mkdir "
+    - "mkdir -p "
+    - "touch "
+    - "cp "
+    - "cp -r "
+    - "mv "
+    
+    # Archives
+    - "tar -c"
+    - "tar -t"
+    - "tar -x"
+    - "tar --create"
+    - "tar --list"
+    - "zip "
+    - "zip -r "
+    - "unzip "
+    - "unzip -l "
+    
+    # Hash
+    - "sha256sum "
+    - "md5sum "
+    
+    # Git read
+    - "git log "
+    - "git show "
+    - "git diff "
+    - "git ls-files"
+    - "git rev-parse "
+    - "git describe "
+    - "git rev-list "
+    - "git shortlog "
+    - "git remote show "
+    - "git config --list"
+    
+    # Git write (controlled)
+    - "git checkout cycle-"
+    - "git checkout -b cycle-"
+    - "git add packages/orchestrator-core/"
+    - "git add evidence/phase"
+    - "git add certificates/phase"
+    - "git add history/HISTORY_PHASE"
+    - "git add archives/phase"
+    - "git commit -m"
+    - "git commit --dry-run"
+    - "git tag -a v"
+    - "git push origin cycle-"
+    - "git push origin v"
+    - "git push --dry-run"
+    
+    # Date
+    - "date +"
+    
+    # Node
+    - "node -e "
+    - "node -p "
+    - "node "
+    - "npm run "
+    - "npm "
+    - "npx "
+
+  # ─────────────────────────────────────────────────────────────────────────────────────────
+  # FORBIDDEN ABSOLUTE (DENY_CRITICAL)
+  # ─────────────────────────────────────────────────────────────────────────────────────────
+  forbidden:
+    # Git dangerous
+    - "git push origin master"
+    - "git push --force"
+    - "git push -f"
+    - "git reset --hard"
+    - "git clean"
+    - "git reflog expire"
+    - "git gc"
+    - "git pull"
+    - "git merge"
+    - "git rebase"
+    - "git stash"
+    - "git cherry-pick"
+    - "git push --delete"
+    
+    # Git staging global
+    - "git add -A"
+    - "git add ."
+    - "git add --all"
+    
+    # Destructive
+    - "rm -rf"
+    - "rm -r"
+    - "rmdir"
+    - "sudo "
+    - "chmod "
+    - "chown "
+    - "kill "
+    - "pkill "
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# TEST THRESHOLDS (HARD LIMITS)
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+test_thresholds:
+  phase61:
+    total_minimum: 50
+    unit_minimum: 35
+    integration_minimum: 15
+    failure_action: "STOP + NCR"
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# EVIDENCE REQUIREMENTS (MANDATORY)
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+evidence_requirements:
+  per_phase:
+    - "evidence/phaseNN_0/env.txt"
+    - "evidence/phaseNN_0/commands.txt"
+    - "evidence/phaseNN_0/tests.log"
+    - "evidence/phaseNN_0/tests.sha256"
+  
+  certificates:
+    - "certificates/phaseNN_0/DESIGN_PHASE_NN_0.md"
+    - "certificates/phaseNN_0/CERT_PHASE_NN_0.md"
+    - "certificates/phaseNN_0/HASHES_PHASE_NN_0.sha256"
+  
+  history:
+    - "history/HISTORY_PHASE_NN_0.md"
+  
+  archives:
+    - "archives/phaseNN_0/OMEGA_PHASE_NN_0_TAG_TIMESTAMP_COMMIT.zip"
+  
+  missing_action: "STOP + NCR"
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# DETERMINISM RULES
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+determinism:
+  forbidden_direct:
+    - "Date.now()"
+    - "Math.random()"
+    - "crypto.randomUUID()"
+    - "new Date()"
+  
+  required_injection:
+    - "clock"
+    - "rng"
+    - "id_factory"
+  
+  verification:
+    - "Two runs with same (plan + seed + adapters) MUST yield same hash"
+    - "Run determinism test as part of integration tests"
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# UI POLICY
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+ui_policy:
+  status: "FORBIDDEN"
+  unlock_keyword: "UI_START_ORDER"
+  
+  forbidden_until_unlock:
+    - "tauri"
+    - "react"
+    - "vue"
+    - "svelte"
+    - "frontend"
+    - "ui/"
+    - "web/"
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# PHASE PLAN (61 → 80)
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+phase_plan:
+  working_branch: "cycle-61"
+  
+  phases:
+    - id: "61"
+      name: "Orchestrator Core"
+      tag: "v3.64.0"
+      package: "packages/orchestrator-core"
+      tests: 50
+    
+    - id: "62"
+      name: "Artifact Registry"
+      tag: "v3.65.0"
+      package: "packages/orchestrator-core"
+      tests: 30
+    
+    - id: "63"
+      name: "Headless Runner CLI"
+      tag: "v3.66.0"
+      package: "packages/headless-runner"
+      tests: 40
+    
+    - id: "64"
+      name: "Replay Engine"
+      tag: "v3.67.0"
+      package: "packages/replay-engine"
+      tests: 60
+    
+    - id: "65"
+      name: "Contracts Canon"
+      tag: "v3.68.0"
+      package: "packages/contracts-canon"
+      tests: 30
+    
+    - id: "66"
+      name: "Wiring NEXUS DEP"
+      tag: "v3.69.0"
+      package: "packages/integration-nexus-dep"
+      tests: 80
+      note: "CAPABILITY CHECK required before promising integration"
+    
+    - id: "67"
+      name: "Proof Pack"
+      tag: "v3.70.0"
+      package: "packages/proof-pack"
+      tests: 20
+    
+    - id: "68"
+      name: "Hardening Red Team"
+      tag: "v3.71.0"
+      target: "surfaces d'entrée (CLI/orchestrator/contracts)"
+      forbidden: "sanctuaires"
+      tests: 50
+    
+    - id: "69"
+      name: "Performance"
+      tag: "v3.72.0"
+      tests: 30
+    
+    - id: "70"
+      name: "GOLD Headless Internal"
+      tag: "v3.73.0-GOLD-HEADLESS-INTERNAL"
+      is_gold: true
+    
+    - id: "71"
+      name: "Module Inventory"
+      tag: "v3.74.0"
+    
+    - id: "72"
+      name: "Error Taxonomy"
+      tag: "v3.75.0"
+    
+    - id: "73"
+      name: "Snapshot System"
+      tag: "v3.76.0"
+    
+    - id: "74"
+      name: "Evidence Automation"
+      tag: "v3.77.0"
+    
+    - id: "75"
+      name: "Cross-Platform"
+      tag: "v3.78.0"
+    
+    - id: "76"
+      name: "Stress Tests"
+      tag: "v3.79.0"
+    
+    - id: "77"
+      name: "Documentation"
+      tag: "v3.80.0"
+    
+    - id: "78"
+      name: "RC"
+      tag: "v3.81.0-RC1"
+    
+    - id: "79"
+      name: "Audit Pack"
+      tag: "v3.82.0"
+    
+    - id: "80"
+      name: "GOLD MASTER FINAL"
+      tag: "v3.83.0-GOLD"
+      is_gold: true
+      forbid_after: true
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# STOP CONDITIONS
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+stop_conditions:
+  - "Sanctuary modified"
+  - "Tests failing"
+  - "Tests count < threshold"
+  - "Determinism mismatch"
+  - "Evidence artifact missing"
+  - "POLICY violation"
+  - "git status not clean"
+  - "Warm-up missing"
+
+stop_action: "STOP + REPORT + WAIT FOR ARCHITECT"
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# VOCABULARY (LOCKED)
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+vocabulary:
+  pass: "PASS"
+  fail: "FAIL"
+  certified: "CERTIFIED"
+  gold: "GOLD"
+  frozen: "FROZEN"
+  
+  forbidden_terms:
+    - "CERTIFIED LOCAL"
+    - "PARTIALLY CERTIFIED"
+    - "MOSTLY WORKING"
+    - "SHOULD WORK"
+    - "PROBABLY"
+    - "MAYBE"
+    - "LIKELY"
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# END OF POLICY v9.1 ULTIMATE
+# ═══════════════════════════════════════════════════════════════════════════════════════════

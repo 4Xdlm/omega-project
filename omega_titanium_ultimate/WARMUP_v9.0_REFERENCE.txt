@@ -1,0 +1,709 @@
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+#
+#   OMEGA TITANIUM — WARM-UP COMPLÉMENTAIRE v9.0
+#   Commandes manquantes pour ZÉRO QUESTION après Phase 1
+#   
+#   Objectif: Couvrir 100% des patterns utilisés dans les phases 43-60
+#
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# BLOC 1 — REDIRECTIONS (>, >>, 2>&1, |)
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+# Redirection stdout vers fichier
+echo "test" > .warmup/redirect_test.txt
+
+# Redirection append
+echo "append" >> .warmup/redirect_test.txt
+
+# Redirection stderr + stdout
+echo "test" > .warmup/output.log 2>&1
+
+# npm test avec redirection
+npm test > .warmup/tests.log 2>&1
+
+# npm test avec tee (double output)
+npm test 2>&1 | tee .warmup/tests_tee.log
+
+# Commande avec redirection et création dossier
+mkdir -p .warmup/evidence && npm test > .warmup/evidence/run1.log 2>&1
+
+# Triple run pour determinism
+npm test > .warmup/run1.log 2>&1 && npm test > .warmup/run2.log 2>&1 && npm test > .warmup/run3.log 2>&1
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# BLOC 2 — FIND (recherche fichiers)
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+# Find basique
+find . -name "*.md" -type f | head -5
+
+# Find avec exclusion node_modules
+find . -name "*.ts" -type f -not -path "*/node_modules/*" | head -5
+
+# Find avec compte
+find . -name "*.test.ts" -type f | wc -l
+
+# Find dans packages
+find packages/ -name "*.ts" -type f | head -10
+
+# Find avec exec
+find . -name "*.md" -type f -exec wc -l {} \;
+
+# Find directories
+find . -type d -name "test" | head -5
+
+# Find avec maxdepth
+find . -maxdepth 2 -name "*.json" -type f
+
+# Find avec mtime (fichiers récents)
+find . -name "*.md" -mtime -1 | head -5
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# BLOC 3 — GREP (recherche contenu)
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+# Grep basique
+grep "test" .warmup/redirect_test.txt
+
+# Grep récursif
+grep -r "invariant" . --include="*.md" | head -5
+
+# Grep avec numéro de ligne
+grep -n "test" .warmup/redirect_test.txt
+
+# Grep récursif avec numéro
+grep -rn "TODO" . --include="*.ts" | head -5
+
+# Grep count
+grep -c "test" .warmup/redirect_test.txt
+
+# Grep avec context
+grep -A 2 -B 2 "test" .warmup/redirect_test.txt
+
+# Grep inverse (lignes sans match)
+grep -v "test" .warmup/redirect_test.txt
+
+# Grep avec pattern regex
+grep -E "test|append" .warmup/redirect_test.txt
+
+# Grep silencieux (juste exit code)
+grep -q "test" .warmup/redirect_test.txt && echo "found"
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# BLOC 4 — WC (comptage)
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+# wc lignes
+wc -l .warmup/redirect_test.txt
+
+# wc mots
+wc -w .warmup/redirect_test.txt
+
+# wc caractères
+wc -c .warmup/redirect_test.txt
+
+# wc tout
+wc .warmup/redirect_test.txt
+
+# wc sur plusieurs fichiers
+wc -l .warmup/*.txt
+
+# wc avec find
+find .warmup -name "*.txt" -exec wc -l {} \;
+
+# wc avec pipe
+cat .warmup/redirect_test.txt | wc -l
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# BLOC 5 — DIFF (comparaison)
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+# Créer fichiers pour diff
+echo "line1" > .warmup/diff1.txt
+echo "line2" > .warmup/diff2.txt
+
+# Diff basique
+diff .warmup/diff1.txt .warmup/diff2.txt || true
+
+# Diff unifié
+diff -u .warmup/diff1.txt .warmup/diff2.txt || true
+
+# Diff silencieux (juste exit code)
+diff -q .warmup/diff1.txt .warmup/diff2.txt || true
+
+# Diff avec context
+diff -c .warmup/diff1.txt .warmup/diff2.txt || true
+
+# Diff récursif directories
+diff -r .warmup/ .warmup/ || true
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# BLOC 6 — CAT (lecture/création fichiers)
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+# Cat simple
+cat .warmup/redirect_test.txt
+
+# Cat plusieurs fichiers
+cat .warmup/diff1.txt .warmup/diff2.txt
+
+# Cat avec numéro de lignes
+cat -n .warmup/redirect_test.txt
+
+# Cat vers nouveau fichier
+cat .warmup/diff1.txt .warmup/diff2.txt > .warmup/combined.txt
+
+# Cat avec heredoc
+cat << 'EOF' > .warmup/heredoc.txt
+line1
+line2
+line3
+EOF
+
+# Cat avec heredoc inline
+cat << 'EOF'
+This is a test
+EOF
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# BLOC 7 — HEAD/TAIL (lecture partielle)
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+# Head
+head .warmup/redirect_test.txt
+
+# Head avec nombre de lignes
+head -n 5 .warmup/redirect_test.txt
+
+# Head -1
+head -1 .warmup/redirect_test.txt
+
+# Tail
+tail .warmup/redirect_test.txt
+
+# Tail avec nombre de lignes
+tail -n 5 .warmup/redirect_test.txt
+
+# Tail -1
+tail -1 .warmup/redirect_test.txt
+
+# Tail -f (sans bloquer pour warmup)
+timeout 1 tail -f .warmup/redirect_test.txt || true
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# BLOC 8 — SORT/UNIQ (tri et déduplication)
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+# Sort
+sort .warmup/redirect_test.txt
+
+# Sort reverse
+sort -r .warmup/redirect_test.txt
+
+# Sort numérique
+sort -n .warmup/redirect_test.txt
+
+# Sort unique
+sort -u .warmup/redirect_test.txt
+
+# Uniq
+uniq .warmup/redirect_test.txt
+
+# Uniq avec count
+uniq -c .warmup/redirect_test.txt
+
+# Sort + uniq pipeline
+cat .warmup/redirect_test.txt | sort | uniq
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# BLOC 9 — CUT/AWK/SED (manipulation texte)
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+# Cut par délimiteur
+echo "a:b:c" | cut -d: -f1
+
+# Cut par caractères
+echo "abcdef" | cut -c1-3
+
+# Awk print
+echo "a b c" | awk '{print $1}'
+
+# Awk avec séparateur
+echo "a:b:c" | awk -F: '{print $2}'
+
+# Sed substitution
+echo "hello world" | sed 's/world/universe/'
+
+# Sed in-place (sur fichier test)
+cp .warmup/redirect_test.txt .warmup/sed_test.txt
+sed -i 's/test/TEST/' .warmup/sed_test.txt
+
+# Sed delete line
+sed '1d' .warmup/redirect_test.txt
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# BLOC 10 — TR/XARGS (transformation)
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+# tr lowercase to uppercase
+echo "hello" | tr 'a-z' 'A-Z'
+
+# tr delete characters
+echo "hello123" | tr -d '0-9'
+
+# tr squeeze repeats
+echo "hellooo" | tr -s 'o'
+
+# xargs simple
+echo "file1 file2" | xargs echo
+
+# xargs avec find
+find .warmup -name "*.txt" | xargs wc -l
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# BLOC 11 — NPM SCRIPTS (variations)
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+# npm scripts standard
+npm test
+npm run build
+npm run lint
+
+# npm test avec coverage (si script existe)
+npm run test:coverage 2>/dev/null || echo "script not found, OK"
+
+# npm test avec watch disabled
+npm run test -- --run 2>/dev/null || npm test
+
+# npm run avec arguments
+npm run test -- --reporter=verbose 2>/dev/null || true
+
+# npx vitest
+npx vitest run 2>/dev/null || true
+
+# npx avec arguments
+npx vitest run --reporter=verbose 2>/dev/null || true
+
+# npm ls (list packages)
+npm ls --depth=0
+
+# npm outdated
+npm outdated 2>/dev/null || true
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# BLOC 12 — NODE DIRECT
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+# Node version
+node --version
+
+# Node eval
+node -e "console.log('test')"
+
+# Node print
+node -p "1+1"
+
+# Node avec fichier
+echo "console.log('hello')" > .warmup/test.js && node .warmup/test.js
+
+# Node avec JSON
+node -e "console.log(JSON.stringify({test:1}))"
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# BLOC 13 — MKDIR/TOUCH/CP/MV AVANCÉS
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+# mkdir avec parents
+mkdir -p .warmup/deep/nested/path
+
+# mkdir multiple
+mkdir -p .warmup/dir1 .warmup/dir2 .warmup/dir3
+
+# touch multiple
+touch .warmup/file1.txt .warmup/file2.txt .warmup/file3.txt
+
+# touch avec timestamp
+touch -t 202601100000 .warmup/dated.txt
+
+# cp simple
+cp .warmup/redirect_test.txt .warmup/copy_test.txt
+
+# cp recursive
+cp -r .warmup/dir1 .warmup/dir1_copy
+
+# cp avec backup
+cp --backup .warmup/redirect_test.txt .warmup/backup_test.txt 2>/dev/null || cp .warmup/redirect_test.txt .warmup/backup_test.txt
+
+# mv rename
+mv .warmup/file3.txt .warmup/file3_renamed.txt
+
+# mv to directory
+mv .warmup/file3_renamed.txt .warmup/dir1/
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# BLOC 14 — LS AVANCÉS
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+# ls basique
+ls
+
+# ls long format
+ls -l
+
+# ls all (hidden)
+ls -la
+
+# ls human readable
+ls -lah
+
+# ls recursive
+ls -R .warmup/ | head -20
+
+# ls avec pattern
+ls .warmup/*.txt
+
+# ls sorted by time
+ls -lt .warmup/
+
+# ls sorted by size
+ls -lS .warmup/
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# BLOC 15 — STAT/FILE/DU/DF
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+# stat fichier
+stat .warmup/redirect_test.txt 2>/dev/null || ls -l .warmup/redirect_test.txt
+
+# file type
+file .warmup/redirect_test.txt
+
+# du directory size
+du -sh .warmup/
+
+# du with files
+du -h .warmup/*
+
+# df disk space
+df -h . | head -2
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# BLOC 16 — TAR/ZIP AVANCÉS
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+# tar create verbose
+tar -cvf .warmup/test.tar .warmup/dir1/
+
+# tar create gzip verbose
+tar -czvf .warmup/test.tar.gz .warmup/dir1/
+
+# tar list
+tar -tvf .warmup/test.tar
+
+# tar list gzip
+tar -tzvf .warmup/test.tar.gz
+
+# tar extract to specific dir
+mkdir -p .warmup/extract && tar -xzf .warmup/test.tar.gz -C .warmup/extract
+
+# tar avec exclude
+tar -czvf .warmup/test_exclude.tar.gz .warmup/ --exclude="*.log"
+
+# zip verbose
+zip -v .warmup/test.zip .warmup/redirect_test.txt
+
+# zip recursive avec exclude
+zip -r .warmup/test_full.zip .warmup/ -x "*.tar*" -x "*.gz"
+
+# unzip list
+unzip -l .warmup/test.zip
+
+# unzip to directory
+mkdir -p .warmup/unzipped && unzip -o .warmup/test.zip -d .warmup/unzipped
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# BLOC 17 — HASH AVANCÉS
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+# sha256sum single
+sha256sum .warmup/redirect_test.txt
+
+# sha256sum multiple
+sha256sum .warmup/*.txt
+
+# sha256sum avec output file
+sha256sum .warmup/*.txt > .warmup/checksums.sha256
+
+# sha256sum verify
+sha256sum -c .warmup/checksums.sha256 2>/dev/null || true
+
+# md5sum
+md5sum .warmup/redirect_test.txt
+
+# sha1sum
+sha1sum .warmup/redirect_test.txt 2>/dev/null || shasum .warmup/redirect_test.txt
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# BLOC 18 — GIT AVANCÉS
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+# git log avec format
+git log --oneline -5
+
+# git log avec graph
+git log --oneline --graph -5
+
+# git log avec date
+git log --format="%h %ad %s" --date=short -5
+
+# git show fichier spécifique
+git show HEAD:README.md | head -10
+
+# git diff staged
+git diff --cached --name-only
+
+# git diff avec stat
+git diff --stat HEAD~1 2>/dev/null || true
+
+# git ls-files
+git ls-files | head -10
+
+# git ls-files avec pattern
+git ls-files "*.md" | head -10
+
+# git rev-list count
+git rev-list --count HEAD
+
+# git shortlog
+git shortlog -s -n | head -5
+
+# git stash list (lecture seule)
+git stash list
+
+# git remote show
+git remote show origin 2>/dev/null | head -10 || git remote -v
+
+# git config list
+git config --list --local | head -10
+
+# git branch avec verbose
+git branch -vv
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# BLOC 19 — DATE/TIME
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+# date standard
+date
+
+# date ISO format
+date -Iseconds 2>/dev/null || date +%Y-%m-%dT%H:%M:%S
+
+# date custom format
+date +%Y%m%d_%H%M%S
+
+# date UTC
+date -u
+
+# date epoch
+date +%s
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# BLOC 20 — VARIABLES ET SUBSTITUTIONS COMPLEXES
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+# Variable simple
+MYVAR="test" && echo $MYVAR
+
+# Variable avec commande
+TIMESTAMP=$(date +%Y%m%d_%H%M%S) && echo "TIMESTAMP=$TIMESTAMP"
+
+# Variable avec git
+COMMIT=$(git rev-parse --short HEAD) && echo "COMMIT=$COMMIT"
+
+# Variable avec git describe
+TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "no-tag") && echo "TAG=$TAG"
+
+# Variables multiples chainées
+TIMESTAMP=$(date +%Y%m%d_%H%M) && COMMIT=$(git rev-parse --short HEAD) && TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0") && echo "Archive: ${TAG}_${TIMESTAMP}_${COMMIT}"
+
+# Variable avec wc
+LINECOUNT=$(wc -l < .warmup/redirect_test.txt) && echo "Lines: $LINECOUNT"
+
+# Variable avec find count
+FILECOUNT=$(find .warmup -name "*.txt" | wc -l) && echo "Files: $FILECOUNT"
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# BLOC 21 — PIPES COMPLEXES
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+# Pipe simple
+cat .warmup/redirect_test.txt | grep test
+
+# Pipe double
+cat .warmup/redirect_test.txt | grep test | wc -l
+
+# Pipe triple
+cat .warmup/redirect_test.txt | sort | uniq | wc -l
+
+# Pipe avec head
+git log --oneline | head -5
+
+# Pipe avec tail
+git log --oneline | tail -5
+
+# Pipe avec tee
+echo "test" | tee .warmup/tee_test.txt
+
+# Pipe avec tee append
+echo "test2" | tee -a .warmup/tee_test.txt
+
+# Pipe find + xargs + grep
+find .warmup -name "*.txt" | xargs grep "test" 2>/dev/null || true
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# BLOC 22 — CONDITIONS ET TESTS
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+# Test fichier existe
+test -f .warmup/redirect_test.txt && echo "exists"
+
+# Test directory existe
+test -d .warmup && echo "dir exists"
+
+# Test avec [
+[ -f .warmup/redirect_test.txt ] && echo "exists with bracket"
+
+# Test avec [[
+[[ -f .warmup/redirect_test.txt ]] && echo "exists with double bracket"
+
+# If inline
+if [ -f .warmup/redirect_test.txt ]; then echo "found"; fi
+
+# Or fallback
+cat .warmup/nonexistent.txt 2>/dev/null || echo "file not found, OK"
+
+# And continue
+test -f .warmup/redirect_test.txt && cat .warmup/redirect_test.txt
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# BLOC 23 — PROCESS (ps, kill - lecture seule)
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+# ps basique
+ps aux | head -5
+
+# ps avec grep
+ps aux | grep node | head -3 || true
+
+# which/where
+which node
+which npm
+
+# type
+type node
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# BLOC 24 — ENV (lecture seule)
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+# env
+env | head -10
+
+# printenv
+printenv PATH
+
+# echo variable env
+echo $PATH | tr ':' '\n' | head -5
+
+# echo HOME
+echo $HOME
+
+# echo PWD
+echo $PWD
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# BLOC 25 — TRUE/FALSE/EXIT (contrôle)
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+# true
+true && echo "true works"
+
+# false avec recovery
+false || echo "false recovered"
+
+# exit code check
+npm test && echo "tests passed" || echo "tests failed"
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# BLOC 26 — TIMEOUT
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+# timeout simple
+timeout 5 sleep 1
+
+# timeout avec commande
+timeout 10 npm test 2>/dev/null || npm test
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# BLOC 27 — BASENAME/DIRNAME
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+# basename
+basename /path/to/file.txt
+
+# dirname
+dirname /path/to/file.txt
+
+# realpath
+realpath .warmup/redirect_test.txt 2>/dev/null || readlink -f .warmup/redirect_test.txt
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# BLOC 28 — PRINTF/ECHO AVANCÉS
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+# echo avec -e (escape sequences)
+echo -e "line1\nline2"
+
+# echo avec -n (no newline)
+echo -n "no newline: " && echo "continued"
+
+# printf
+printf "Name: %s, Count: %d\n" "test" 42
+
+# printf avec padding
+printf "%10s | %5d\n" "item" 100
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# BLOC 29 — SEQ/SHUF
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+# seq
+seq 1 5
+
+# seq avec step
+seq 0 2 10
+
+# seq reverse
+seq 5 -1 1
+
+# shuf (si disponible)
+seq 1 5 | shuf 2>/dev/null || seq 1 5
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# BLOC 30 — CLEANUP WARMUP
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+# Vérifier ce qu'on a créé
+ls -la .warmup/
+
+# Count fichiers créés
+find .warmup -type f | wc -l
+
+# Final message
+echo "═══════════════════════════════════════════════════════════════"
+echo " WARM-UP COMPLET — TOUTES PERMISSIONS ACCORDÉES"
+echo " Prêt pour exécution autonome ZÉRO QUESTION"
+echo "═══════════════════════════════════════════════════════════════"

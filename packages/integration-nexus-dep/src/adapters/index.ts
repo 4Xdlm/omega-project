@@ -36,6 +36,16 @@ export type {
   EmotionType
 } from "./mycelium-bio.adapter.js";
 
+// Orchestrator Adapter
+export { OrchestratorAdapter, createOrchestratorAdapter } from "./orchestrator.adapter.js";
+export type {
+  OrchestratorStep,
+  OrchestratorPlan,
+  OrchestratorStepResult,
+  OrchestratorRunResult,
+  OrchestratorOptions
+} from "./orchestrator.adapter.js";
+
 // ═══════════════════════════════════════════════════════════════════════════════
 // ADAPTER FACTORY
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -43,9 +53,10 @@ export type {
 import { GenomeAdapter } from "./genome.adapter.js";
 import { MyceliumAdapter } from "./mycelium.adapter.js";
 import { MyceliumBioAdapter } from "./mycelium-bio.adapter.js";
+import { OrchestratorAdapter } from "./orchestrator.adapter.js";
 import type { NexusAdapter } from "../contracts/types.js";
 
-export type AdapterType = "genome" | "mycelium" | "mycelium-bio";
+export type AdapterType = "genome" | "mycelium" | "mycelium-bio" | "orchestrator";
 
 /**
  * Create an adapter instance by type
@@ -59,6 +70,8 @@ export function createAdapter(type: AdapterType): NexusAdapter {
       return new MyceliumAdapter();
     case "mycelium-bio":
       return new MyceliumBioAdapter();
+    case "orchestrator":
+      return new OrchestratorAdapter();
     default:
       throw new Error(`Unknown adapter type: ${type}`);
   }
@@ -71,7 +84,8 @@ export function getAllAdapters(): readonly NexusAdapter[] {
   return [
     new GenomeAdapter(),
     new MyceliumAdapter(),
-    new MyceliumBioAdapter()
+    new MyceliumBioAdapter(),
+    new OrchestratorAdapter()
   ];
 }
 

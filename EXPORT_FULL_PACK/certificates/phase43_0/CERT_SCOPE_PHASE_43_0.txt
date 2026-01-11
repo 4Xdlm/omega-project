@@ -1,0 +1,38 @@
+PHASE 43.0 — SCOPE
+
+Module: @omega/integration-nexus-dep
+Version: 0.1.0
+Type: NEW PACKAGE
+
+FILES ADDED:
+- packages/integration-nexus-dep/package.json
+- packages/integration-nexus-dep/tsconfig.json
+- packages/integration-nexus-dep/vitest.config.ts
+- packages/integration-nexus-dep/src/index.ts
+- packages/integration-nexus-dep/src/contracts/index.ts
+- packages/integration-nexus-dep/src/contracts/types.ts
+- packages/integration-nexus-dep/src/contracts/io.ts
+- packages/integration-nexus-dep/src/contracts/errors.ts
+- packages/integration-nexus-dep/src/adapters/index.ts
+- packages/integration-nexus-dep/src/adapters/genome.adapter.ts
+- packages/integration-nexus-dep/src/adapters/mycelium.adapter.ts
+- packages/integration-nexus-dep/src/adapters/mycelium-bio.adapter.ts
+- packages/integration-nexus-dep/test/contracts.test.ts
+- packages/integration-nexus-dep/test/adapters.test.ts
+
+FILES MODIFIED:
+- tools/policy-check.cjs (added cycle-43 branch commands)
+
+SANCTUARIES ACCESSED (READ-ONLY):
+- packages/genome (type reference)
+- packages/mycelium (type reference)
+- packages/mycelium-bio (type reference)
+
+INVARIANTS:
+- INV-NEXUS-01: READ-ONLY adapters
+- INV-NEXUS-02: Deterministic operations
+- INV-NEXUS-03: Error source tracing
+- INV-NEXUS-04: Request/Response IDs
+- INV-NEXUS-05: Immutable traces
+
+TESTS: 60 passed, 0 failed

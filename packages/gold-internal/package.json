@@ -1,0 +1,43 @@
+{
+  "name": "@omega/gold-internal",
+  "version": "0.1.0",
+  "description": "OMEGA Gold Internal - Cross-package validation and certification",
+  "type": "module",
+  "main": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./src/index.js",
+      "types": "./src/index.d.ts"
+    }
+  },
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "build": "tsc",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@omega/orchestrator-core": "file:../orchestrator-core",
+    "@omega/headless-runner": "file:../headless-runner",
+    "@omega/contracts-canon": "file:../contracts-canon",
+    "@omega/proof-pack": "file:../proof-pack",
+    "@omega/hardening": "file:../hardening",
+    "@omega/performance": "file:../performance"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3",
+    "vitest": "^1.6.0"
+  },
+  "files": [
+    "src/**/*.js",
+    "src/**/*.d.ts"
+  ],
+  "keywords": [
+    "omega",
+    "gold",
+    "certification",
+    "validation"
+  ],
+  "license": "MIT"
+}

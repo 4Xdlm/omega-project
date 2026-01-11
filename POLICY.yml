@@ -1,11 +1,11 @@
 # ═══════════════════════════════════════════════════════════════════════════════════════════
-# OMEGA POLICY v6.0 TITANIUM
-# Machine-readable compilation of RUNBOOK_GOLD.md
+# OMEGA POLICY v8.0 TITANIUM ULTIME
+# Machine-readable — Source of Truth for Policy Engine
 # ═══════════════════════════════════════════════════════════════════════════════════════════
 
 omegafile: "OMEGA_POLICY"
-version: "6.0"
-edition: "TITANIUM"
+version: "8.0"
+edition: "TITANIUM_ULTIME"
 standard:
   - "NASA-Grade L4"
   - "DO-178C Level A"
@@ -18,6 +18,7 @@ standard:
 repo:
   default_branch: "master"
   remote: "origin"
+  version_prefix: "v3"  # Rester en v3.xx.0 jusqu'à vraie bascule major
 
 # ═══════════════════════════════════════════════════════════════════════════════════════════
 # SANCTUARIES (READ-ONLY ABSOLUTE)
@@ -28,9 +29,23 @@ sanctuaries:
   - "packages/sentinel/**"
   - "packages/genome/**"
   - "packages/mycelium/**"
+  - "packages/nexus/**"  # Si sanctuarisé
 
-# Tag de référence pour vérifier qu'aucun sanctuaire n'a bougé
 sanctuary_base_tag: "v3.31.0"
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# NEXUS DEP — EMPLACEMENT OFFICIEL
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+nexus_dep:
+  package: "packages/integration-nexus-dep"
+  role: "Bus connexions + traduction + router + in/out"
+  rule: "NE JAMAIS modifier les sanctuaires, uniquement CONSOMMER"
+  structure:
+    - "src/contracts/"
+    - "src/adapters/"
+    - "src/router/"
+    - "test/"
 
 # ═══════════════════════════════════════════════════════════════════════════════════════════
 # COMMANDS CLASSIFICATION
@@ -49,6 +64,7 @@ commands:
     - "git diff"
     - "git diff --name-only"
     - "git diff --cached"
+    - "git diff --cached --name-only"
     - "git diff HEAD"
     - "git log"
     - "git log -1"
@@ -83,6 +99,7 @@ commands:
     - "more"
     - "less"
     - "wc"
+    - "wc -l"
     
     # Hash
     - "sha256sum"
@@ -109,6 +126,7 @@ commands:
     - "npm run format"
     - "npm ls"
     - "npm list"
+    - "zip --version"
 
   # ─────────────────────────────────────────────────────────────────────────────────────────
   # SAFE PREFIX - Commandes autorisées si commencent par...
@@ -116,6 +134,7 @@ commands:
   safe_prefix:
     # Filesystem creation/copy/move
     - "mkdir"
+    - "mkdir -p"
     - "New-Item -ItemType Directory"
     - "New-Item"
     - "touch"
@@ -128,9 +147,13 @@ commands:
     - "Get-ChildItem"
     
     # Archives
-    - "zip"
+    - "zip "
+    - "zip -r"
     - "unzip"
     - "tar "
+    - "tar -c"
+    - "tar -x"
+    - "tar --"
     - "Compress-Archive"
     - "Expand-Archive"
     - "7z "
@@ -157,6 +180,15 @@ commands:
     - "printf "
     - "Write-Output"
     
+    # Variables bash et chaînage
+    - "TIMESTAMP="
+    - "COMMIT="
+    - "TAG="
+    - "date +"
+    - "$(date"
+    - "$(git rev-parse"
+    - "$(git describe"
+    
     # Node/NPM variants
     - "npm run test:"
     - "npm run "
@@ -164,16 +196,24 @@ commands:
     - "npx jest"
     - "node "
     
-    # Git write (controlled)
-    - "git add "
+    # Git write SAFE (staging contrôlé explicite)
+    - "git add certificates/"
+    - "git add evidence/"
+    - "git add history/"
+    - "git add packages/integration-nexus-dep/"
+    - "git add docs/"
+    - "git add README"
     - "git commit "
+    - "git commit -m"
+    - "git commit --dry-run"
     - "git tag -a "
     - "git push origin master"
+    - "git push --dry-run"
     - "git checkout -- "
     - "git restore "
 
   # ─────────────────────────────────────────────────────────────────────────────────────────
-  # SAFE PRE-FLIGHT ONLY - Autorisées uniquement en PRE-FLIGHT
+  # SAFE PRE-FLIGHT ONLY
   # ─────────────────────────────────────────────────────────────────────────────────────────
   safe_preflight_only:
     - "npm install"
@@ -181,7 +221,7 @@ commands:
     - "npm update"
 
   # ─────────────────────────────────────────────────────────────────────────────────────────
-  # FORBIDDEN - JAMAIS autorisées (DENY_CRITICAL)
+  # FORBIDDEN ABSOLUTE (DENY_CRITICAL)
   # ─────────────────────────────────────────────────────────────────────────────────────────
   forbidden_prefix:
     # Suppression
@@ -203,7 +243,7 @@ commands:
     - "git reflog expire"
     - "git gc --prune"
     
-    # Git merge/pull/stash (TOUJOURS interdit)
+    # Git merge/pull/stash (TOUJOURS interdit — merge implicite)
     - "git pull"
     - "git merge"
     - "git stash"
@@ -212,6 +252,11 @@ commands:
     - "git tag -d"
     - "git push --delete"
     - "git push origin :"
+    
+    # Staging global (TOUJOURS interdit)
+    - "git add -A"
+    - "git add ."
+    - "git add --all"
     
     # Système privilégié
     - "sudo "
@@ -222,7 +267,7 @@ commands:
     - "mkfs"
 
   # ─────────────────────────────────────────────────────────────────────────────────────────
-  # FORBIDDEN IN GOLD MASTER (Phase 42)
+  # FORBIDDEN IN GOLD MASTER (Phase 60)
   # ─────────────────────────────────────────────────────────────────────────────────────────
   forbidden_gold_master:
     - "npm install"
@@ -236,7 +281,6 @@ commands:
 # ═══════════════════════════════════════════════════════════════════════════════════════════
 
 unknown_policy:
-  # Si commande inconnue contient ces patterns → DENY
   deny_if_contains:
     - "git "
     - "npm "
@@ -254,7 +298,6 @@ unknown_policy:
     - "http://"
     - "https://"
   
-  # Si commande inconnue contient ces patterns → DENY_CRITICAL
   deny_critical_if_contains:
     - "sudo"
     - "admin"
@@ -264,8 +307,87 @@ unknown_policy:
     - "/etc/"
     - "C:\\Windows\\System32"
   
-  # Default pour toute commande inconnue non matchée
   default: "DENY"
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# COMMAND COMPOSITION RULES
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+composition_rules:
+  # Chaînage && : autorisé si CHAQUE segment est SAFE
+  chain_and:
+    enabled: true
+    separator: "&&"
+    rule: "ALL_SAFE"
+  
+  # Chaînage ; : même règle
+  chain_semicolon:
+    enabled: true
+    separator: ";"
+    rule: "ALL_SAFE"
+  
+  # Pipe | : exceptions pour commandes lecture seule
+  pipe:
+    enabled: true
+    default: "DENY"
+    exceptions:
+      - "| tee "
+      - "| grep "
+      - "| head "
+      - "| tail "
+      - "| wc "
+      - "| sort"
+      - "| uniq"
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# SUBSTITUTION WHITELIST — $(...) autorisé UNIQUEMENT pour ces commandes
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+substitution_safe:
+  # Git
+  - "git rev-parse HEAD"
+  - "git rev-parse --short HEAD"
+  - "git describe --tags"
+  - "git describe --tags --abbrev=0"
+  - "git branch --show-current"
+  
+  # Date/Time
+  - "date"
+  - "date +%Y%m%d"
+  - "date +%Y%m%d_%H%M"
+  - "date +%Y-%m-%d"
+  - "date +%H%M%S"
+  - "date -u"
+  
+  # Info système (lecture seule)
+  - "pwd"
+  - "whoami"
+  - "hostname"
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# TAR RULES
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+tar_rules:
+  # Création = SAFE
+  safe_create:
+    - "tar -c"
+    - "tar -cz"
+    - "tar -czf"
+    - "tar -czvf"
+    - "tar --create"
+  
+  # Liste = SAFE (lecture seule)
+  safe_list:
+    - "tar -t"
+    - "tar -tf"
+    - "tar -tzvf"
+    - "tar --list"
+  
+  # Extraction = DENY sauf avec -C
+  extract_without_destination: "DENY"
+  extract_with_destination: "ALLOW"
+  destination_flag: "-C"
 
 # ═══════════════════════════════════════════════════════════════════════════════════════════
 # VOCABULARY (LOCKED)
@@ -277,7 +399,6 @@ vocabulary:
   push_pending: "PUSH PENDING"
   gold: "GOLD"
   
-  # Termes interdits (ne jamais utiliser)
   forbidden_terms:
     - "CERTIFIED LOCAL"
     - "PARTIALLY CERTIFIED"
@@ -285,11 +406,10 @@ vocabulary:
     - "CERTIFIED WITH ISSUES"
 
 # ═══════════════════════════════════════════════════════════════════════════════════════════
-# PHASE REQUIREMENTS (pour CERTIFIED)
+# PHASE REQUIREMENTS
 # ═══════════════════════════════════════════════════════════════════════════════════════════
 
 phase_requirements:
-  # Fichiers requis pour qu'une phase soit CERTIFIED
   required_files:
     - "certificates/{phase}/DESIGN_PHASE_{phase_upper}.md"
     - "certificates/{phase}/CERT_PHASE_{phase_upper}.md"
@@ -300,80 +420,158 @@ phase_requirements:
     - "evidence/{phase}/commands.txt"
     - "history/HISTORY_PHASE_{phase_upper}.md"
   
-  # ZIP obligatoire
   zip_required: true
   zip_path_pattern: "archives/{phase}/"
   zip_name_pattern: "OMEGA_PHASE_{phase_upper}_*.zip"
 
 # ═══════════════════════════════════════════════════════════════════════════════════════════
-# GOLD MASTER CONFIGURATION (Phase 42)
+# PHASE PLAN (40 → 60 avec NEXUS DEP)
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+phase_plan:
+  version_scheme: "v3.XX.0"  # Monotone cohérent
+  
+  phases:
+    # BLOC A — CONSOLIDATION + NEXUS DEP BOOTSTRAP (40-45)
+    - id: "phase40_0"
+      name: "Consolidation"
+      objective: "Consolidation globale sans refactor cosmétique"
+      version: "v3.40.0"
+    
+    - id: "phase41_0"
+      name: "Nexus DEP Bootstrap"
+      objective: "packages/integration-nexus-dep/ - contracts, types, tests base"
+      version: "v3.41.0"
+      creates: "packages/integration-nexus-dep/"
+    
+    - id: "phase42_0"
+      name: "Nexus DEP Router"
+      objective: "Dispatch + registry + handlers fake"
+      version: "v3.42.0"
+    
+    - id: "phase43_0"
+      name: "Nexus DEP Translators"
+      objective: "In/out normalisation + json stable"
+      version: "v3.43.0"
+    
+    - id: "phase44_0"
+      name: "Nexus DEP Adapters"
+      objective: "Adapters filesystem/cli mock, lecture sanctuaires"
+      version: "v3.44.0"
+    
+    - id: "phase45_0"
+      name: "Nexus DEP Integration"
+      objective: "Integration tests monorepo + e2e minimal"
+      version: "v3.45.0"
+    
+    # BLOC B — HARDENING (46-49)
+    - id: "phase46_0"
+      name: "Hardening Inputs"
+      objective: "Rejets bytes interdits, sanitation"
+      version: "v3.46.0"
+    
+    - id: "phase47_0"
+      name: "Determinism Proof"
+      objective: "2 runs identiques, compare outputs"
+      version: "v3.47.0"
+    
+    - id: "phase48_0"
+      name: "Performance"
+      objective: "Benchmarks contractuels"
+      version: "v3.48.0"
+    
+    - id: "phase49_0"
+      name: "Red Team"
+      objective: "Audit hostile surfaces d'entrée"
+      version: "v3.49.0"
+    
+    # BLOC C — VALIDATION (50-54)
+    - id: "phase50_0"
+      name: "E2E Pipeline"
+      objective: "Validation complète pipeline"
+      version: "v3.50.0"
+    
+    - id: "phase51_0"
+      name: "Cross-Platform"
+      objective: "Validation cross-platform"
+      version: "v3.51.0"
+    
+    - id: "phase52_0"
+      name: "Stress Tests"
+      objective: "Tests extrêmes"
+      version: "v3.52.0"
+    
+    - id: "phase53_0"
+      name: "Determinism 100 Runs"
+      objective: "Validation déterminisme échantillon"
+      version: "v3.53.0"
+    
+    - id: "phase54_0"
+      name: "External Audit"
+      objective: "Audit externe simulé, pack preuves"
+      version: "v3.54.0"
+    
+    # BLOC D — PRE-RELEASE (55-59)
+    - id: "phase55_0"
+      name: "Documentation"
+      objective: "docs/ complète, zéro code"
+      version: "v3.55.0"
+    
+    - id: "phase56_0"
+      name: "Release Notes"
+      objective: "Changelog complet"
+      version: "v3.56.0"
+    
+    - id: "phase57_0"
+      name: "Triple Validation"
+      objective: "3 runs tests"
+      version: "v3.57.0"
+    
+    - id: "phase58_0"
+      name: "Pre-GOLD Audit"
+      objective: "Zéro dette"
+      version: "v3.58.0"
+    
+    - id: "phase59_0"
+      name: "GOLD Rehearsal"
+      objective: "Simulation freeze"
+      version: "v3.59.0"
+    
+    # BLOC E — GOLD MASTER
+    - id: "phase60_0"
+      name: "GOLD MASTER"
+      objective: "Freeze total"
+      version: "v3.60.0-GOLD"
+      is_gold: true
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+# GOLD MASTER CONFIGURATION (Phase 60)
 # ═══════════════════════════════════════════════════════════════════════════════════════════
 
 gold_master:
-  phase: "phase42_0"
-  phase_upper: "PHASE42_0"
+  phase: "phase60_0"
+  phase_upper: "PHASE60_0"
   
-  # ZIPs requis pour GOLD
   required_zips:
     - name_contains: "OMEGA_GOLD_MASTER_FULL"
     - name_contains: "OMEGA_GOLD_MASTER_DOCS"
+    - name_contains: "OMEGA_GOLD_MASTER_SOURCE"
   
-  # Fichiers requis
   required_files:
-    - "certificates/phase42_0/CERT_PHASE42_GOLD_MASTER.md"
-    - "certificates/phase42_0/CERT_SCOPE_PHASE42.txt"
-    - "certificates/phase42_0/HASHES_PHASE42.sha256"
-    - "certificates/phase42_0/PHASE42_GOLD_FROZEN.md"
-    - "history/FINAL_REPORT_PHASE42.md"
+    - "certificates/phase60_0/CERT_PHASE60_GOLD_MASTER.md"
+    - "certificates/phase60_0/CERT_SCOPE_PHASE60.txt"
+    - "certificates/phase60_0/HASHES_PHASE60.sha256"
+    - "certificates/phase60_0/PHASE60_GOLD_FROZEN.md"
+    - "history/FINAL_REPORT_PHASE60_GOLD_MASTER.md"
   
-  # Actions interdites après tag GOLD
+  final_tag: "v3.60.0-GOLD"
+  
   forbid_after_gold:
     - "git commit"
     - "git tag"
     - "git push"
     - "npm install"
     - "npm ci"
-
-# ═══════════════════════════════════════════════════════════════════════════════════════════
-# PHASE PLAN (32 → 42)
-# ═══════════════════════════════════════════════════════════════════════════════════════════
-
-phase_plan:
-  phases:
-    - id: "phase32_0"
-      name: "Consolidation"
-      objective: "Consolidation post-Phase 29-31"
-    - id: "phase33_0"
-      name: "Robustesse"
-      objective: "Robustesse globale"
-    - id: "phase34_0"
-      name: "Performance"
-      objective: "Performance / scalabilité"
-    - id: "phase35_0"
-      name: "Hardening"
-      objective: "Hardening invariants & rejets"
-    - id: "phase36_0"
-      name: "Red Team"
-      objective: "Audit interne hostile"
-    - id: "phase37_0"
-      name: "Documentation"
-      objective: "Cleanup documentaire"
-    - id: "phase38_0"
-      name: "Determinism"
-      objective: "Validation déterminisme global"
-    - id: "phase39_0"
-      name: "Pre-release"
-      objective: "Pré-release engineering"
-    - id: "phase40_0"
-      name: "Integration"
-      objective: "Integration finale"
-    - id: "phase41_0"
-      name: "Validation"
-      objective: "Validation complète"
-    - id: "phase42_0"
-      name: "GOLD MASTER"
-      objective: "Freeze total"
-      is_gold: true
 
 # ═══════════════════════════════════════════════════════════════════════════════════════════
 # NCR CONFIGURATION
@@ -408,11 +606,10 @@ push_pending:
   max_retries: 5
 
 # ═══════════════════════════════════════════════════════════════════════════════════════════
-# DECISION RULES (for Policy Engine)
+# DECISION RULES
 # ═══════════════════════════════════════════════════════════════════════════════════════════
 
 decision_rules:
-  # Ordre d'évaluation
   evaluation_order:
     - "check_forbidden"
     - "check_safe_exact"
@@ -421,7 +618,6 @@ decision_rules:
     - "check_unknown_critical_patterns"
     - "apply_default"
   
-  # Actions par décision
   actions:
     ALLOW:
       exit_code: 0
@@ -441,5 +637,5 @@ decision_rules:
       ncr_severity: "CRITICAL"
 
 # ═══════════════════════════════════════════════════════════════════════════════════════════
-# END OF POLICY
+# END OF POLICY v8.0 TITANIUM ULTIME
 # ═══════════════════════════════════════════════════════════════════════════════════════════

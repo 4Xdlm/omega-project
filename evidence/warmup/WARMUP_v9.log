@@ -1,0 +1,322 @@
+═══════════════════════════════════════════════════════════════
+ OMEGA TITANIUM — WARM-UP v9.0 START
+ Date: 2026-01-11T02:06:07+01:00
+═══════════════════════════════════════════════════════════════
+
+### BLOC 1 — REDIRECTIONS ###
+✓ Basic redirections OK
+
+### BLOC 2 — FIND ###
+./.github/OMEGA_RELEASE_v1.0.0-GOLD/docs/50B_TEST_MATRIX.md
+./.github/OMEGA_RELEASE_v1.0.0-GOLD/evidence/CERTIFICATE_GITHUB.md
+./.github/OMEGA_RELEASE_v1.0.0-GOLD/evidence/CERTIFICATE_WINDOWS.md
+./.github/OMEGA_RELEASE_v1.0.0-GOLD/evidence/README.md
+./.github/OMEGA_RELEASE_v1.0.0-GOLD/RELEASE_NOTE_v1.0.0-GOLD.md
+./bench_gen_text.ts
+./concurrency_test.ts
+./create_project.ts
+./create_project_test.ts
+./emotion_engine.ts
+809
+packages/genome/node_modules/@jest/schemas/build/index.d.ts
+packages/genome/node_modules/@jridgewell/sourcemap-codec/src/scopes.ts
+packages/genome/node_modules/@jridgewell/sourcemap-codec/src/sourcemap-codec.ts
+packages/genome/node_modules/@jridgewell/sourcemap-codec/src/strings.ts
+packages/genome/node_modules/@jridgewell/sourcemap-codec/src/vlq.ts
+packages/genome/node_modules/@sinclair/typebox/compiler/compiler.d.ts
+packages/genome/node_modules/@sinclair/typebox/compiler/index.d.ts
+packages/genome/node_modules/@sinclair/typebox/errors/errors.d.ts
+packages/genome/node_modules/@sinclair/typebox/errors/index.d.ts
+packages/genome/node_modules/@sinclair/typebox/system/index.d.ts
+./gateway/chaos/node_modules/@bcoe/v8-coverage/src/test
+./gateway/chaos/node_modules/concat-map/test
+./gateway/chaos/node_modules/html-escaper/test
+./gateway/chaos/node_modules/isexe/test
+./gateway/cli-runner/node_modules/isexe/test
+./.claude/settings.local.json
+./dump_analysis.json
+./evidence/manifest.json
+./evidence/results.json
+./gateway/package-lock.json
+✓ Find commands OK
+
+### BLOC 3 — GREP ###
+test
+1:test
+1
+test
+append
+append
+test
+append
+found
+✓ Grep commands OK
+
+### BLOC 4 — WC ###
+2 .warmup/redirect_test.txt
+2 .warmup/redirect_test.txt
+12 .warmup/redirect_test.txt
+ 2  2 12 .warmup/redirect_test.txt
+2
+✓ WC commands OK
+
+### BLOC 5 — DIFF ###
+1c1
+< line1
+---
+> line2
+Files .warmup/diff1.txt and .warmup/diff2.txt differ
+✓ Diff commands OK
+
+### BLOC 6 — CAT ###
+test
+append
+line1
+line2
+     1	test
+     2	append
+✓ Cat commands OK
+
+### BLOC 7 — HEAD/TAIL ###
+test
+append
+test
+test
+append
+append
+✓ Head/Tail commands OK
+
+### BLOC 8 — SORT/UNIQ ###
+append
+test
+test
+append
+append
+test
+test
+append
+append
+test
+✓ Sort/Uniq commands OK
+
+### BLOC 9 — CUT/AWK/SED ###
+a
+abc
+a
+b
+hello universe
+append
+✓ Cut/Awk/Sed commands OK
+
+### BLOC 10 — TR/XARGS ###
+HELLO
+hello
+hello
+file1 file2
+ 2 .warmup/combined.txt
+ 1 .warmup/diff1.txt
+ 1 .warmup/diff2.txt
+ 3 .warmup/heredoc.txt
+ 2 .warmup/redirect_test.txt
+ 2 .warmup/sed_test.txt
+11 total
+✓ Tr/Xargs commands OK
+
+### BLOC 11 — NPM SCRIPTS ###
+omega-core@1.0.0 C:\Users\elric\omega-project
+├── fast-json-stable-stringify@2.1.0
+├── vitest@1.6.1
+└── zod@3.25.76
+
+✓ NPM commands OK
+
+### BLOC 12 — NODE DIRECT ###
+v24.12.0
+node works
+2
+hello
+{"test":1}
+✓ Node commands OK
+
+### BLOC 13 — MKDIR/TOUCH/CP/MV ###
+✓ Mkdir/Touch/Cp/Mv commands OK
+
+### BLOC 14 — LS ###
+total 73
+drwxr-xr-x 1 elric 197610    0 janv. 11 02:06 .
+drwxr-xr-x 1 elric 197610    0 janv. 11 02:04 ..
+-rw-r--r-- 1 elric 197610   12 janv. 11 02:06 combined.txt
+-rw-r--r-- 1 elric 197610   12 janv. 11 02:06 copy_test.txt
+drwxr-xr-x 1 elric 197610    0 janv. 11 02:06 deep
+-rw-r--r-- 1 elric 197610    6 janv. 11 02:06 diff1.txt
+-rw-r--r-- 1 elric 197610    6 janv. 11 02:06 diff2.txt
+drwxr-xr-x 1 elric 197610    0 janv. 11 02:06 dir1
+drwxr-xr-x 1 elric 197610    0 janv. 11 02:06 dir1_copy
+.warmup/combined.txt
+.warmup/copy_test.txt
+.warmup/diff1.txt
+.warmup/diff2.txt
+.warmup/file1.txt
+total 21
+drwxr-xr-x 1 elric 197610    0 janv. 11 02:06 dir1
+drwxr-xr-x 1 elric 197610    0 janv. 11 02:06 dir1_copy
+-rw-r--r-- 1 elric 197610   12 janv. 11 02:06 copy_test.txt
+-rw-r--r-- 1 elric 197610    0 janv. 11 02:06 file2.txt
+✓ Ls commands OK
+
+### BLOC 15 — STAT/FILE/DU ###
+  File: .warmup/redirect_test.txt
+  Size: 12        	Blocks: 1          IO Block: 65536  regular file
+Device: c08d3eafh/3230482095d	Inode: 5066549581521202  Links: 1
+Access: (0644/-rw-r--r--)  Uid: (197610/   elric)   Gid: (197610/ UNKNOWN)
+Access: 2026-01-11 02:06:15.025015600 +0100
+Modify: 2026-01-11 02:06:07.128891600 +0100
+Change: 2026-01-11 02:06:07.128891600 +0100
+ Birth: 2026-01-11 02:06:07.128891600 +0100
+.warmup/redirect_test.txt: ASCII text
+25K	.warmup/
+✓ Stat/File/Du commands OK
+
+### BLOC 16 — TAR/ZIP ###
+.warmup/dir1/
+.warmup/dir1/file3_renamed.txt
+.warmup/dir1/
+.warmup/dir1/file3_renamed.txt
+drwxr-xr-x elric/197610      0 2026-01-11 02:06 .warmup/dir1/
+-rw-r--r-- elric/197610      0 2026-01-11 02:06 .warmup/dir1/file3_renamed.txt
+zip command executed
+unzip list executed
+✓ Tar/Zip commands OK
+
+### BLOC 17 — HASH ###
+7ee8287e547eba8e949d10019edff80c9eee97fa737d3ff25d167931bb5a8b2a *.warmup/redirect_test.txt
+2751a3a2f303ad21752038085e2b8c5f98ecff61a2e4ebbd43506a941725be80 *.warmup/combined.txt
+7ee8287e547eba8e949d10019edff80c9eee97fa737d3ff25d167931bb5a8b2a *.warmup/copy_test.txt
+cd205f1f8b8ab1bf7da554fd3460b5d377c587eb7fa4f394c3f403af3a787a1b *.warmup/diff1.txt
+5f2d8fbfbe740f3d496f16c3abb460a5690f465b18b379c26c9c6031a5ce277b *.warmup/diff2.txt
+e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 *.warmup/file1.txt
+✓ Hash commands OK
+
+### BLOC 18 — GIT ###
+ee3eac7 Merge cycle-43: NEXUS DEP GOLD MASTER v3.60.0
+b4dee02 docs: complete phase evidence 45-60 + policy v8 alignment
+20a9e6a gold(phase60.0): OMEGA GOLD MASTER - FREEZE TOTAL [v3.60.0-GOLD-CYCLE43]
+e7f3115 feat(phase59.0): GOLD Rehearsal - GO FOR GOLD [CERTIFIED]
+f4c856c feat(phase58.0): Triple Validation - 10/10 consecutive passes [CERTIFIED]
+ee3eac7 2026-01-11 Merge cycle-43: NEXUS DEP GOLD MASTER v3.60.0
+b4dee02 2026-01-11 docs: complete phase evidence 45-60 + policy v8 alignment
+20a9e6a 2026-01-10 gold(phase60.0): OMEGA GOLD MASTER - FREEZE TOTAL [v3.60.0-GOLD-CYCLE43]
+.github/OMEGA_RELEASE_v1.0.0-GOLD/GIT_RELEASE_COMMANDS.ps1
+.github/OMEGA_RELEASE_v1.0.0-GOLD/RELEASE_NOTE_v1.0.0-GOLD.md
+.github/OMEGA_RELEASE_v1.0.0-GOLD/docs/50B_TEST_MATRIX.md
+.github/OMEGA_RELEASE_v1.0.0-GOLD/evidence/CERTIFICATE_GITHUB.md
+.github/OMEGA_RELEASE_v1.0.0-GOLD/evidence/CERTIFICATE_WINDOWS.md
+.github/OMEGA_RELEASE_v1.0.0-GOLD/evidence/README.md
+.github/OMEGA_RELEASE_v1.0.0-GOLD/evidence/hashes.sha256
+.github/OMEGA_RELEASE_v1.0.0-GOLD/evidence/manifest.json
+.github/workflows/omega-certification.yml
+.github/workflows/omega-ci.yml
+192
+  cycle-43 b4dee02 [origin/cycle-43] docs: complete phase evidence 45-60 + policy v8 alignment
+* master   ee3eac7 [origin/master] Merge cycle-43: NEXUS DEP GOLD MASTER v3.60.0
+✓ Git commands OK
+
+### BLOC 19 — DATE/TIME ###
+dim. 11 janv. 2026 02:06:16
+2026-01-11T02:06:16+01:00
+20260111_020616
+1768093576
+✓ Date/Time commands OK
+
+### BLOC 20 — VARIABLES ###
+test
+TIMESTAMP=20260111_020616
+COMMIT=ee3eac7
+TAG=v3.60.0-GOLD-CYCLE43
+Lines: 2
+Files: 11
+✓ Variables commands OK
+
+### BLOC 21 — PIPES ###
+test
+1
+ee3eac7 Merge cycle-43: NEXUS DEP GOLD MASTER v3.60.0
+b4dee02 docs: complete phase evidence 45-60 + policy v8 alignment
+20a9e6a gold(phase60.0): OMEGA GOLD MASTER - FREEZE TOTAL [v3.60.0-GOLD-CYCLE43]
+e7f3115 feat(phase59.0): GOLD Rehearsal - GO FOR GOLD [CERTIFIED]
+f4c856c feat(phase58.0): Triple Validation - 10/10 consecutive passes [CERTIFIED]
+test
+✓ Pipes commands OK
+
+### BLOC 22 — CONDITIONS ###
+exists
+dir exists
+exists with bracket
+found
+file not found, OK
+✓ Conditions commands OK
+
+### BLOC 23 — PROCESS ###
+/c/Program Files/nodejs/node
+/c/Program Files/nodejs/npm
+node is hashed (/c/Program Files/nodejs/node)
+✓ Process commands OK
+
+### BLOC 24 — ENV ###
+/c/Users/elric
+/c/Users/elric/omega-project
+✓ Env commands OK
+
+### BLOC 25 — TRUE/FALSE ###
+true works
+false recovered
+✓ True/False commands OK
+
+### BLOC 26 — BASENAME/DIRNAME ###
+file.txt
+/path/to
+✓ Basename/Dirname commands OK
+
+### BLOC 27 — PRINTF/ECHO ###
+line1
+line2
+no newline: continued
+Name: test, Count: 42
+✓ Printf/Echo commands OK
+
+### BLOC 28 — SEQ ###
+1
+2
+3
+4
+5
+5
+4
+3
+2
+1
+✓ Seq commands OK
+
+### BLOC 29 — CLEANUP INFO ###
+total 88
+drwxr-xr-x 1 elric 197610     0 janv. 11 02:06 .
+drwxr-xr-x 1 elric 197610     0 janv. 11 02:04 ..
+-rw-r--r-- 1 elric 197610    92 janv. 11 02:06 checksums.sha256
+-rw-r--r-- 1 elric 197610    12 janv. 11 02:06 combined.txt
+-rw-r--r-- 1 elric 197610    12 janv. 11 02:06 copy_test.txt
+drwxr-xr-x 1 elric 197610     0 janv. 11 02:06 deep
+-rw-r--r-- 1 elric 197610     6 janv. 11 02:06 diff1.txt
+-rw-r--r-- 1 elric 197610     6 janv. 11 02:06 diff2.txt
+drwxr-xr-x 1 elric 197610     0 janv. 11 02:06 dir1
+drwxr-xr-x 1 elric 197610     0 janv. 11 02:06 dir1_copy
+drwxr-xr-x 1 elric 197610     0 janv. 11 02:06 dir2
+drwxr-xr-x 1 elric 197610     0 janv. 11 02:06 dir3
+drwxr-xr-x 1 elric 197610     0 janv. 11 02:06 extract
+-rw-r--r-- 1 elric 197610     0 janv. 11 02:06 file1.txt
+18
+✓ Cleanup info OK
+
+═══════════════════════════════════════════════════════════════
+ WARM-UP v9.0 COMPLET — TOUTES COMMANDES VALIDÉES
+ Date fin: 2026-01-11T02:06:18+01:00
+═══════════════════════════════════════════════════════════════

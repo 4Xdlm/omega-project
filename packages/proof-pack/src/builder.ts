@@ -5,7 +5,7 @@
  * Builds proof packs from evidence files.
  */
 
-import { sha256, stableStringify } from '@omega/orchestrator-core';
+import { sha256 } from '@omega/orchestrator-core';
 import type {
   ProofPackManifest,
   ProofPackBundle,

@@ -1,7 +1,7 @@
 {
-  "name": "@omega/performance",
+  "name": "@omega/gold-internal",
   "version": "0.1.0",
-  "description": "OMEGA Performance - Benchmarking and optimization utilities",
+  "description": "OMEGA Gold Internal - Cross-package validation and certification",
   "type": "module",
   "main": "./src/index.js",
   "types": "./src/index.d.ts",
@@ -18,10 +18,14 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@omega/orchestrator-core": "file:../orchestrator-core"
+    "@omega/orchestrator-core": "file:../orchestrator-core",
+    "@omega/headless-runner": "file:../headless-runner",
+    "@omega/contracts-canon": "file:../contracts-canon",
+    "@omega/proof-pack": "file:../proof-pack",
+    "@omega/hardening": "file:../hardening",
+    "@omega/performance": "file:../performance"
   },
   "devDependencies": {
-    "@types/node": "^25.0.6",
     "typescript": "^5.3.3",
     "vitest": "^1.6.0"
   },
@@ -31,9 +35,9 @@
   ],
   "keywords": [
     "omega",
-    "performance",
-    "benchmark",
-    "optimization"
+    "gold",
+    "certification",
+    "validation"
   ],
   "license": "MIT"
 }

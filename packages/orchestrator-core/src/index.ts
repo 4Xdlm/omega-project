@@ -149,3 +149,19 @@ export {
   createDeterminismGuard,
   assertDeterministic,
 } from './core/DeterminismGuard.js';
+
+// ============================================================================
+// Artifact Registry
+// ============================================================================
+export type {
+  ArtifactMetadata,
+  Artifact,
+  ArtifactQuery,
+  ArtifactRegistry,
+  IdGenerator,
+} from './artifacts/ArtifactRegistry.js';
+
+export {
+  InMemoryArtifactRegistry,
+  createArtifactRegistry,
+} from './artifacts/ArtifactRegistry.js';

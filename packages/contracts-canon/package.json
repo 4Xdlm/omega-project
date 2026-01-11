@@ -1,0 +1,28 @@
+{
+  "name": "@omega/contracts-canon",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "OMEGA Contracts Canon - Unified interface contracts and invariants",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "keywords": ["omega", "contracts", "invariants", "types"],
+  "dependencies": {
+    "@omega/orchestrator-core": "file:../orchestrator-core"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.6",
+    "typescript": "^5.7.3",
+    "vitest": "^1.6.1"
+  }
+}

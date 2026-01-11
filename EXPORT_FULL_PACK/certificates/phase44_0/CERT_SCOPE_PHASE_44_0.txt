@@ -1,0 +1,32 @@
+PHASE 44.0 — SCOPE
+
+Module: @omega/integration-nexus-dep/router
+Version: 0.2.0
+Type: FEATURE ADDITION
+
+FILES ADDED:
+- packages/integration-nexus-dep/src/router/registry.ts
+- packages/integration-nexus-dep/src/router/dispatcher.ts
+- packages/integration-nexus-dep/src/router/router.ts
+- packages/integration-nexus-dep/src/router/index.ts
+- packages/integration-nexus-dep/test/router.test.ts
+
+FILES MODIFIED:
+- packages/integration-nexus-dep/src/index.ts (added router export)
+- packages/integration-nexus-dep/src/contracts/errors.ts (improved extractNexusError)
+- packages/integration-nexus-dep/package.json (version bump to 0.2.0)
+
+COMPONENTS:
+- OperationRegistry: Handler registration and lookup
+- Dispatcher: Request execution with timeout
+- NexusRouter: High-level routing API
+- createDefaultRouter: Pre-configured router with adapters
+
+INVARIANTS:
+- INV-ROUTER-01: Unknown operations error
+- INV-ROUTER-02: Execution time tracking
+- INV-ROUTER-03: Request ID preservation
+- INV-ROUTER-04: Timeout handling
+- INV-ROUTER-05: Immutable traces
+
+TESTS: 91 passed (24 contracts + 36 adapters + 31 router)

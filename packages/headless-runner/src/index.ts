@@ -57,3 +57,24 @@ export {
   type CliExecutor,
   type CliResult,
 } from './cli.js';
+
+// Replay
+export {
+  createRecording,
+  validateRecording,
+  compareResults,
+  createReplayContext,
+  filterRecordings,
+  summarizeRecording,
+  exportRecording,
+  importRecording,
+  InMemoryRecordingStore,
+  type RunRecording,
+  type RecordingMetadata,
+  type ReplayResult,
+  type ReplayDifference,
+  type RecordingStore,
+  type ReplayOptions,
+  type RecordingQuery,
+  type RecordingSummary,
+} from './replay.js';

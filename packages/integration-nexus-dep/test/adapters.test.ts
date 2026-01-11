@@ -11,6 +11,7 @@ import {
   GenomeAdapter,
   MyceliumAdapter,
   MyceliumBioAdapter,
+  OrchestratorAdapter,
   createAdapter,
   getAllAdapters,
   REJECTION_CODES
@@ -274,6 +275,201 @@ describe("NEXUS DEP — Adapters — MyceliumBioAdapter", () => {
 });
 
 // ═══════════════════════════════════════════════════════════════════════════════
+// ORCHESTRATOR ADAPTER TESTS
+// ═══════════════════════════════════════════════════════════════════════════════
+
+describe("NEXUS DEP — Adapters — OrchestratorAdapter", () => {
+  it("should be READ-ONLY", () => {
+    const adapter = new OrchestratorAdapter();
+    expect(adapter.isReadOnly).toBe(true);
+  });
+
+  it("should have correct name and version", () => {
+    const adapter = new OrchestratorAdapter();
+    expect(adapter.name).toBe("orchestrator");
+    expect(adapter.version).toBe("0.1.0");
+  });
+
+  it("should be frozen (immutable)", () => {
+    const adapter = new OrchestratorAdapter();
+    expect(Object.isFrozen(adapter)).toBe(true);
+  });
+
+  it("checkHealth should return healthy status", async () => {
+    const adapter = new OrchestratorAdapter();
+    const health = await adapter.checkHealth();
+    expect(health.adapter).toBe("orchestrator");
+    expect(health.healthy).toBe(true);
+    expect(health.latencyMs).toBeGreaterThanOrEqual(0);
+  });
+
+  it("executePlan should execute simple plan", async () => {
+    const adapter = new OrchestratorAdapter();
+    const plan = {
+      id: "test-plan",
+      version: "1.0.0",
+      steps: [
+        { id: "s1", kind: "noop", input: {} },
+        { id: "s2", kind: "echo", input: { value: 42 } },
+      ],
+    };
+
+    const result = await adapter.executePlan(plan, { seed: "test-seed" });
+
+    expect(result.plan_id).toBe("test-plan");
+    expect(result.status).toBe("SUCCESS");
+    expect(result.steps).toHaveLength(2);
+    expect(result.steps[0].status).toBe("SUCCESS");
+    expect(result.steps[1].status).toBe("SUCCESS");
+  });
+
+  it("executePlan should respect dependencies", async () => {
+    const adapter = new OrchestratorAdapter();
+    const plan = {
+      id: "dep-plan",
+      version: "1.0.0",
+      steps: [
+        { id: "s1", kind: "noop", input: {} },
+        { id: "s2", kind: "noop", input: {}, depends_on: ["s1"] },
+      ],
+    };
+
+    const result = await adapter.executePlan(plan, { seed: "test" });
+
+    expect(result.status).toBe("SUCCESS");
+    expect(result.steps[0].step_id).toBe("s1");
+    expect(result.steps[1].step_id).toBe("s2");
+  });
+
+  it("executePlan should handle step failure", async () => {
+    const adapter = new OrchestratorAdapter();
+    const plan = {
+      id: "fail-plan",
+      version: "1.0.0",
+      steps: [
+        { id: "s1", kind: "fail", input: { message: "Intentional" } },
+      ],
+    };
+
+    const result = await adapter.executePlan(plan, { seed: "test" });
+
+    expect(result.status).toBe("FAILURE");
+    expect(result.steps[0].status).toBe("FAILURE");
+    expect(result.steps[0].error?.message).toContain("Intentional");
+  });
+
+  it("validatePlan should accept valid plan", () => {
+    const adapter = new OrchestratorAdapter();
+    const plan = {
+      id: "valid-plan",
+      version: "1.0.0",
+      steps: [
+        { id: "s1", kind: "noop", input: {} },
+      ],
+    };
+
+    const result = adapter.validatePlan(plan);
+    expect(result.valid).toBe(true);
+    expect(result.errors).toHaveLength(0);
+  });
+
+  it("validatePlan should reject plan without id", () => {
+    const adapter = new OrchestratorAdapter();
+    const plan = {
+      id: "",
+      version: "1.0.0",
+      steps: [],
+    };
+
+    const result = adapter.validatePlan(plan);
+    expect(result.valid).toBe(false);
+    expect(result.errors.some(e => e.includes("id"))).toBe(true);
+  });
+
+  it("validatePlan should reject duplicate step ids", () => {
+    const adapter = new OrchestratorAdapter();
+    const plan = {
+      id: "dup-plan",
+      version: "1.0.0",
+      steps: [
+        { id: "s1", kind: "noop", input: {} },
+        { id: "s1", kind: "noop", input: {} },
+      ],
+    };
+
+    const result = adapter.validatePlan(plan);
+    expect(result.valid).toBe(false);
+    expect(result.errors.some(e => e.includes("Duplicate"))).toBe(true);
+  });
+
+  it("validatePlan should reject self-dependencies", () => {
+    const adapter = new OrchestratorAdapter();
+    const plan = {
+      id: "self-dep",
+      version: "1.0.0",
+      steps: [
+        { id: "s1", kind: "noop", input: {}, depends_on: ["s1"] },
+      ],
+    };
+
+    const result = adapter.validatePlan(plan);
+    expect(result.valid).toBe(false);
+    expect(result.errors.some(e => e.includes("itself"))).toBe(true);
+  });
+
+  it("validatePlan should reject unknown dependencies", () => {
+    const adapter = new OrchestratorAdapter();
+    const plan = {
+      id: "unknown-dep",
+      version: "1.0.0",
+      steps: [
+        { id: "s1", kind: "noop", input: {}, depends_on: ["s0"] },
+      ],
+    };
+
+    const result = adapter.validatePlan(plan);
+    expect(result.valid).toBe(false);
+    expect(result.errors.some(e => e.includes("unknown"))).toBe(true);
+  });
+
+  it("toExecutionTrace should convert result to trace", async () => {
+    const adapter = new OrchestratorAdapter();
+    const plan = {
+      id: "trace-plan",
+      version: "1.0.0",
+      steps: [
+        { id: "s1", kind: "noop", input: {} },
+      ],
+    };
+
+    const result = await adapter.executePlan(plan, { seed: "test" });
+    const trace = adapter.toExecutionTrace(result);
+
+    expect(trace.requestId).toBe(result.run_id);
+    expect(trace.steps).toHaveLength(1);
+    expect(trace.totalTimeMs).toBe(result.duration_ms);
+    expect(trace.determinismHash).toBe(result.hash);
+  });
+
+  it("executePlan should be deterministic with same seed", async () => {
+    const adapter = new OrchestratorAdapter();
+    const plan = {
+      id: "det-plan",
+      version: "1.0.0",
+      steps: [
+        { id: "s1", kind: "echo", input: { x: 1 } },
+      ],
+    };
+
+    const result1 = await adapter.executePlan(plan, { seed: "same-seed" });
+    const result2 = await adapter.executePlan(plan, { seed: "same-seed" });
+
+    // Steps should execute identically
+    expect(result1.steps[0].output).toEqual(result2.steps[0].output);
+  });
+});
+
+// ═══════════════════════════════════════════════════════════════════════════════
 // ADAPTER FACTORY TESTS
 // ═══════════════════════════════════════════════════════════════════════════════
 
@@ -296,18 +492,25 @@ describe("NEXUS DEP — Adapters — Factory", () => {
     expect(adapter.isReadOnly).toBe(true);
   });
 
+  it("createAdapter should create orchestrator adapter", () => {
+    const adapter = createAdapter("orchestrator");
+    expect(adapter.name).toBe("orchestrator");
+    expect(adapter.isReadOnly).toBe(true);
+  });
+
   it("createAdapter should throw on unknown type", () => {
     expect(() => createAdapter("unknown" as never)).toThrow();
   });
 
-  it("getAllAdapters should return all 3 adapters", () => {
+  it("getAllAdapters should return all 4 adapters", () => {
     const adapters = getAllAdapters();
-    expect(adapters).toHaveLength(3);
+    expect(adapters).toHaveLength(4);
 
     const names = adapters.map(a => a.name);
     expect(names).toContain("genome");
     expect(names).toContain("mycelium");
     expect(names).toContain("mycelium-bio");
+    expect(names).toContain("orchestrator");
   });
 
   it("all adapters should be READ-ONLY", () => {

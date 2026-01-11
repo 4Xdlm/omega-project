@@ -86,15 +86,8 @@ function findDifferences(v1: unknown, v2: unknown, path: string): DeterminismDif
   return differences;
 }
 
-/**
- * Fields to ignore when comparing run results for determinism.
- * These are expected to differ between runs (timestamps).
- */
-const IGNORED_FIELDS = new Set([
-  'started_at',
-  'completed_at',
-  'created_at',
-]);
+// Note: Ignored fields are handled by normalizeForComparison which
+// explicitly selects which fields to compare, ignoring timestamps.
 
 /**
  * Normalizes a run result for determinism comparison.

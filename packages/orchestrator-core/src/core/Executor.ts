@@ -19,7 +19,6 @@ import { stableStringify } from '../util/stableJson.js';
 import {
   OrchestratorErrorCode,
   adapterNotFoundError,
-  invalidPlanError,
   stepFailedError,
   timeoutError,
 } from './errors.js';
@@ -137,11 +136,6 @@ export class DefaultExecutor implements OrchestratorExecutor {
     // Validate plan first
     const validation = validatePlan(plan);
     if (!validation.valid) {
-      const err = invalidPlanError(
-        validation.errors.join('; '),
-        ctx.timestamp(),
-        { errors: validation.errors }
-      );
       // Return a failed result immediately
       const started_at = ctx.timestamp();
       const result: Omit<RunResult, 'hash'> = {

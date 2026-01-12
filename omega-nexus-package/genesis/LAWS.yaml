@@ -1,0 +1,311 @@
+# ═══════════════════════════════════════════════════════════════════════════════
+# OMEGA NEXUS — LAWS v2.2.3 NUCLEAR PROOF
+# Les lois fondamentales du coffre-fort technique
+# ═══════════════════════════════════════════════════════════════════════════════
+
+version: "2.2.3"
+status: "NUCLEAR_PROOF_FINAL"
+created: "2026-01-12T00:00:00Z"
+created_by: "Francky"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# LES 7 LOIS IMMORTELLES
+# ═══════════════════════════════════════════════════════════════════════════════
+
+laws:
+  LAW-001:
+    name: "APPEND-ONLY UNIVERSEL"
+    statement: "Rien ne se réécrit, tout se succède via EVENT"
+    enforcement: "Guardian rule 1_SCHEMA + 2_IDS_UNIQUE"
+    
+  LAW-002:
+    name: "SOURCE = NEXUS"
+    statement: "Le Nexus est la seule vérité. Tout le reste est dérivé."
+    enforcement: "Guardian rule 8_ATLAS_META"
+    
+  LAW-003:
+    name: "RIEN NE MEURT"
+    statement: "Aucune entité ne disparaît, elle change de lifecycle"
+    enforcement: "Invariant INV-NEXUS-001"
+    
+  LAW-004:
+    name: "ABANDON = LESSON"
+    statement: "Tout ABANDONED/FAILED DOIT créer une LESSON liée"
+    enforcement: "Guardian rule 6_ABANDONED_LESSON"
+    
+  LAW-005:
+    name: "CERTIFIED = PREUVE + TAGS"
+    statement: "CERTIFIED nécessite STATE + MANIFEST + tests + tags non vides"
+    enforcement: "Guardian rules 5_CERTIFIED_PROOF + 12_TAGS_REQUIRED"
+    
+  LAW-006:
+    name: "IA PROPOSE, HUMAIN SCELLE"
+    statement: "Aucune décision vraie sans validation Francky"
+    enforcement: "SEAL.sealed_by = Francky"
+    
+  LAW-007:
+    name: "HASH = RFC 8785"
+    statement: "Canonical JSON (JCS RFC 8785) + SHA-256"
+    enforcement: "Guardian rule 13_ROOT_HASH"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# CONVENTIONS DE NOMMAGE
+# ═══════════════════════════════════════════════════════════════════════════════
+
+naming:
+  date_format: "YYYYMMDD"
+  date_source: "UTC timestamp (NOT local)"
+  seq_format: "4 digits zero-padded (0001-9999)"
+  timestamp_format: "ISO 8601 UTC only (Z)"
+  id_pattern: "TYPE-YYYYMMDD-NNNN"
+  id_uniqueness: "Global (one ID = one canonical path)"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# HASHING
+# ═══════════════════════════════════════════════════════════════════════════════
+
+hashing:
+  standard: "RFC 8785 (JSON Canonicalization Scheme)"
+  algorithm: "SHA-256"
+  format: "sha256:<64 hex chars lowercase>"
+  
+  reference_tool:
+    runtime: "Node.js >= 18.x"
+    library: "canonicalize@2.0.0"
+    
+  parse_by_extension:
+    yaml: [".yaml", ".yml"]
+    json: [".json"]
+    jsonl: [".jsonl"]
+    direct: [".md", ".txt"]
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# MERKLE TREE
+# ═══════════════════════════════════════════════════════════════════════════════
+
+merkle:
+  algorithm: "sha256-domain-separated"
+  leaf_prefix: "omega:leaf\0"
+  node_prefix: "omega:node\0"
+  path_binding: true
+  
+  scope:
+    included:
+      - "nexus/genesis/**"
+      - "nexus/ledger/**"
+      - "nexus/proof/states/**"
+      - "nexus/proof/completeness/**"
+      - "nexus/proof/certificates/**"
+      - "nexus/proof/seals/**"
+    excluded:
+      - "Current SEAL being created"
+      - "Current MANIFEST being created"
+      - "nexus/atlas/**"
+      - "nexus/output/**"
+      - "nexus/ledger/registry/LOCK-*.json"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# REGISTRY & LOCK
+# ═══════════════════════════════════════════════════════════════════════════════
+
+registry:
+  file_pattern: "REG-YYYYMMDD.yaml"
+  location: "nexus/ledger/registry/"
+  
+lock:
+  file_pattern: "LOCK-YYYYMMDD.json"
+  location: "nexus/ledger/registry/"
+  content:
+    - "timestamp"
+    - "pid"
+    - "hostname"
+    - "user"
+    - "purpose"
+  stale_timeout_seconds: 60
+  retry_max: 10
+  retry_delay_ms: 100
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# LIFECYCLES & TAGS
+# ═══════════════════════════════════════════════════════════════════════════════
+
+lifecycles:
+  - VISION
+  - PROPOSED
+  - PLANNED
+  - ACTIVE
+  - CERTIFIED
+  - PAUSED
+  - DEPRECATED
+  - ABANDONED
+  - FAILED
+  - MYTH
+
+tags_policy:
+  empty_allowed:
+    - VISION
+    - PROPOSED
+    - IDEA
+  recommended:
+    - PLANNED
+    - ACTIVE
+  required:
+    - CERTIFIED
+    - ABANDONED
+    - FAILED
+    - DEPRECATED
+    - PAUSED
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# TYPES & CANONICAL PATHS
+# ═══════════════════════════════════════════════════════════════════════════════
+
+types:
+  ENT:
+    path: "nexus/ledger/entities/{id}.yaml"
+    extension: ".yaml"
+    
+  EVT:
+    path: "nexus/ledger/events/{id}.yaml"
+    extension: ".yaml"
+    
+  LINK:
+    path: "nexus/ledger/links/{id}.yaml"
+    extension: ".yaml"
+    
+  REG:
+    path: "nexus/ledger/registry/{id}.yaml"
+    extension: ".yaml"
+    
+  SES:
+    path: "nexus/raw/sessions/{id}.jsonl"
+    extension: ".jsonl"
+    
+  TESTLOG:
+    path: "nexus/raw/logs/tests/{id}.json"
+    extension: ".json"
+    
+  BUILDLOG:
+    path: "nexus/raw/logs/build/{id}.txt"
+    extension: ".txt"
+    
+  COV:
+    path: "nexus/raw/reports/coverage/{id}.json"
+    extension: ".json"
+    
+  SEAL:
+    path: "nexus/proof/seals/{id}.yaml"
+    extension: ".yaml"
+    
+  STATE:
+    path: "nexus/proof/states/{id}.yaml"
+    extension: ".yaml"
+    
+  COMP:
+    path: "nexus/proof/completeness/{id}.yaml"
+    extension: ".yaml"
+    
+  CERT:
+    path: "nexus/proof/certificates/{id}.yaml"
+    extension: ".yaml"
+    
+  MANIFEST:
+    path: "nexus/proof/snapshots/manifests/{id}.json"
+    extension: ".json"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# TOOLING
+# ═══════════════════════════════════════════════════════════════════════════════
+
+tooling:
+  mode: "STRICT"
+  
+  allowed_extensions:
+    - ".ps1"
+    - ".sh"
+    - ".js"
+    - ".ts"
+    - ".mjs"
+    - ".yaml"
+    - ".json"
+    - ".md"
+    
+  allowed_dependencies:
+    - "canonicalize@2.0.0"
+    - "yaml@2.x"
+    - "glob@10.x"
+    - "commander@11.x"
+    - "chalk@5.x"
+    - "ajv@8.x"
+    
+  forbidden_directories:
+    - "src"
+    - "packages"
+    - "components"
+    - "ui"
+    - "app"
+    - "dist"
+    - "build"
+    
+  forbidden_imports:
+    - "packages/"
+    - "../packages"
+    - "../../packages"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# ATLAS
+# ═══════════════════════════════════════════════════════════════════════════════
+
+atlas:
+  meta_file: "ATLAS-META.json"
+  run_file: "ATLAS-RUN.json"
+  
+  meta_deterministic:
+    description: "No timestamps, hashable, reproducible"
+    fields:
+      - "version"
+      - "tool_version"
+      - "source_root_hash"
+      - "files_generated"
+      - "counts"
+      
+  run_non_deterministic:
+    description: "Debug info, not validated by Guardian"
+    fields:
+      - "generated_at"
+      - "hostname"
+      - "user"
+      - "duration_ms"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# METADATA
+# ═══════════════════════════════════════════════════════════════════════════════
+
+metadata:
+  corrections_total: 29
+  guardian_rules: 14
+  invariants: 24
+  laws: 7
+  
+  history:
+    - version: "2.1.0"
+      date: "2026-01-11"
+      changes: "Spec initiale"
+    - version: "2.1.1"
+      date: "2026-01-11"
+      changes: "EVT dans ledger/, evidence dirs"
+    - version: "2.1.2"
+      date: "2026-01-11"
+      changes: "Date YYYYMMDD compact, templates"
+    - version: "2.2.0"
+      date: "2026-01-11"
+      changes: "UTC, PROPOSED genesis, RFC8785, registry"
+    - version: "2.2.1"
+      date: "2026-01-11"
+      changes: "Date ID UTC, unicité globale, lock"
+    - version: "2.2.2"
+      date: "2026-01-12"
+      changes: "root_hash Merkle, SES au début, ATLAS-META"
+    - version: "2.2.3"
+      date: "2026-01-12"
+      changes: "MANIFEST.files_in_scope, domain separation, STRICT mode"

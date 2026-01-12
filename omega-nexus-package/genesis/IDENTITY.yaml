@@ -1,0 +1,166 @@
+# ═══════════════════════════════════════════════════════════════════════════════
+# OMEGA NEXUS — IDENTITY v2.2.3
+# Identité et gouvernance du coffre-fort technique
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# IDENTITÉ
+# ═══════════════════════════════════════════════════════════════════════════════
+
+identity:
+  name: "OMEGA NEXUS"
+  tagline: "Coffre-Fort Technique pour Mémoire Totale"
+  version: "2.2.3"
+  codename: "NUCLEAR PROOF"
+  
+  description: |
+    OMEGA NEXUS est le système de mémoire permanente du projet OMEGA.
+    Il garantit que rien ne se perd: décisions, abandons, lessons, visions,
+    code, preuves, historique complet.
+    
+    Principes fondateurs:
+    - Append-only (rien ne s'efface)
+    - Rien ne meurt (lifecycle change via EVENT)
+    - Traçabilité cryptographique (Merkle + RFC 8785)
+    - Vérifiabilité mécanique (Guardian 14 règles)
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# GOUVERNANCE
+# ═══════════════════════════════════════════════════════════════════════════════
+
+governance:
+  architect:
+    name: "Francky"
+    role: "Architecte Suprême"
+    authority: "ABSOLUE — Décide de TOUT"
+    
+  seal_authority:
+    name: "Francky"
+    exclusive: true
+    description: "Seul Francky peut sceller officiellement"
+    
+  timezone:
+    storage: "UTC (Z)"
+    display: "Europe/Paris (optionnel)"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# RÔLES IA
+# ═══════════════════════════════════════════════════════════════════════════════
+
+ai_roles:
+  claude:
+    role: "IA Principal"
+    responsibilities:
+      - "Exécution des tâches"
+      - "Documentation"
+      - "Archivage"
+      - "Génération des fichiers Nexus"
+    authority: "Propose, ne décide jamais"
+    
+  chatgpt:
+    role: "Consultant / Auditeur"
+    responsibilities:
+      - "Validation externe"
+      - "Red team / audit hostile"
+      - "Second avis sur architecture"
+    authority: "Consultatif uniquement"
+    
+  gemini:
+    role: "Design Alternatif"
+    responsibilities:
+      - "Perspectives différentes"
+      - "Challenge des idées"
+    authority: "Consultatif uniquement"
+    
+  perplexity:
+    role: "Recherche / Références"
+    responsibilities:
+      - "Recherche de standards"
+      - "Validation contre bonnes pratiques"
+    authority: "Consultatif uniquement"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# SCOPE
+# ═══════════════════════════════════════════════════════════════════════════════
+
+scope:
+  included:
+    - "Code provenance (manifests, archives jalons)"
+    - "Scripts et outillage Nexus"
+    - "Décisions techniques"
+    - "Invariants et leurs preuves"
+    - "Lessons learned"
+    - "Visions et idées futures"
+    - "Logs (tests, build, coverage)"
+    - "Preuves cryptographiques"
+    - "Historique complet"
+    
+  excluded:
+    - "Émotions / mood / psychologie"
+    - "Code applicatif OMEGA (reste dans packages/)"
+    - "Données utilisateur"
+    - "Secrets / credentials"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# STANDARDS
+# ═══════════════════════════════════════════════════════════════════════════════
+
+standards:
+  primary:
+    - name: "NASA-Grade L4"
+      description: "Engineering critique niveau maximum"
+    - name: "AS9100D"
+      description: "Aerospace Quality Management"
+    - name: "DO-178C"
+      description: "Logique de sûreté logicielle"
+      
+  secondary:
+    - name: "RFC 8785"
+      description: "JSON Canonicalization Scheme"
+    - name: "ISO 8601"
+      description: "Date and time format"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# VALIDATION
+# ═══════════════════════════════════════════════════════════════════════════════
+
+validation:
+  iterations: 6
+  versions:
+    - "v2.1.0"
+    - "v2.1.1"
+    - "v2.1.2"
+    - "v2.2.0"
+    - "v2.2.1"
+    - "v2.2.2"
+    - "v2.2.3"
+    
+  reviewers:
+    - name: "Claude"
+      role: "Primary Designer"
+    - name: "ChatGPT"
+      role: "Auditor (7+6 corrections)"
+    - name: "Gemini"
+      role: "Alternative Review"
+    - name: "Perplexity"
+      role: "Standards Validation"
+      
+  corrections_total: 29
+  
+  final_status:
+    guardian_rules: 14
+    invariants: 24
+    laws: 7
+    types_defined: 13
+    canonical_paths: "Complete for all types"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# METADATA
+# ═══════════════════════════════════════════════════════════════════════════════
+
+metadata:
+  created: "2026-01-11T00:00:00Z"
+  updated: "2026-01-12T00:00:00Z"
+  created_by: "Francky"
+  
+  genesis_hash: "TO_BE_COMPUTED_ON_FIRST_SEAL"

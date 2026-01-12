@@ -1,0 +1,56 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://omega.nexus/schemas/EVT.schema.json",
+  "title": "OMEGA Nexus Event",
+  "description": "Schema for Event files (EVT-YYYYMMDD-NNNN.yaml)",
+  "type": "object",
+  "required": ["id", "type", "target", "timestamp"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^EVT-[0-9]{8}-[0-9]{4}$",
+      "description": "Event ID in format EVT-YYYYMMDD-NNNN"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["CREATED", "UPDATED", "PROMOTED", "LINKED", "SEALED", "REVIEWED", "ARCHIVED", "DELETED"],
+      "description": "Event type"
+    },
+    "target": {
+      "type": "string",
+      "pattern": "^[A-Z]+-[0-9]{8}-[0-9]{4}$",
+      "description": "Target entity/object ID"
+    },
+    "timestamp": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
+      "description": "ISO 8601 UTC timestamp"
+    },
+    "actor": {
+      "type": "string",
+      "description": "Who/what triggered the event"
+    },
+    "before": {
+      "type": "object",
+      "description": "State before change (for UPDATED events)"
+    },
+    "after": {
+      "type": "object",
+      "description": "State after change (for UPDATED events)"
+    },
+    "context": {
+      "type": "object",
+      "description": "Additional context"
+    },
+    "session": {
+      "type": "string",
+      "pattern": "^SES-[0-9]{8}-[0-9]{4}$",
+      "description": "Session ID if applicable"
+    },
+    "meta": {
+      "type": "object",
+      "description": "Additional metadata"
+    }
+  },
+  "additionalProperties": false
+}

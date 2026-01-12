@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://omega.nexus/schemas/MANIFEST.schema.json",
+  "title": "OMEGA Nexus Manifest",
+  "description": "Schema for Manifest files (MANIFEST-YYYYMMDD-NNNN.json)",
+  "type": "object",
+  "required": ["id", "timestamp", "files"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^MANIFEST-[0-9]{8}-[0-9]{4}$",
+      "description": "Manifest ID in format MANIFEST-YYYYMMDD-NNNN"
+    },
+    "timestamp": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
+      "description": "ISO 8601 UTC timestamp"
+    },
+    "files": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^sha256:[a-f0-9]{64}$"
+      },
+      "description": "Map of relative path to SHA-256 hash"
+    },
+    "rootHash": {
+      "type": "string",
+      "pattern": "^sha256:[a-f0-9]{64}$",
+      "description": "Merkle root hash of all files"
+    },
+    "fileCount": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Number of files in manifest"
+    },
+    "session": {
+      "type": "string",
+      "pattern": "^SES-[0-9]{8}-[0-9]{4}$",
+      "description": "Session that created this manifest"
+    },
+    "excludePatterns": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Patterns excluded from manifest"
+    },
+    "meta": {
+      "type": "object",
+      "description": "Additional metadata"
+    }
+  },
+  "additionalProperties": false
+}

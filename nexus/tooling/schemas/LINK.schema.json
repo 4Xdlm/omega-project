@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://omega.nexus/schemas/LINK.schema.json",
+  "title": "OMEGA Nexus Link",
+  "description": "Schema for Link files (LINK-YYYYMMDD-NNNN.yaml)",
+  "type": "object",
+  "required": ["id", "type", "source", "target", "created_at"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^LINK-[0-9]{8}-[0-9]{4}$",
+      "description": "Link ID in format LINK-YYYYMMDD-NNNN"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["DEPENDS_ON", "PARENT_OF", "RELATED_TO", "SUPERSEDES", "IMPLEMENTS", "TESTS", "DOCUMENTS", "CAUSED_BY", "LESSON_FROM"],
+      "description": "Link type"
+    },
+    "source": {
+      "type": "string",
+      "pattern": "^[A-Z]+-[0-9]{8}-[0-9]{4}$",
+      "description": "Source entity ID"
+    },
+    "target": {
+      "type": "string",
+      "pattern": "^[A-Z]+-[0-9]{8}-[0-9]{4}$",
+      "description": "Target entity ID"
+    },
+    "created_at": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
+      "description": "ISO 8601 UTC timestamp"
+    },
+    "strength": {
+      "type": "string",
+      "enum": ["STRONG", "WEAK", "OPTIONAL"],
+      "description": "Link strength"
+    },
+    "description": {
+      "type": "string",
+      "description": "Optional description"
+    },
+    "bidirectional": {
+      "type": "boolean",
+      "description": "Whether link is bidirectional"
+    },
+    "meta": {
+      "type": "object",
+      "description": "Additional metadata"
+    }
+  },
+  "additionalProperties": false
+}

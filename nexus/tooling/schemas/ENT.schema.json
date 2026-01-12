@@ -1,0 +1,72 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://omega.nexus/schemas/ENT.schema.json",
+  "title": "OMEGA Nexus Entity",
+  "description": "Schema for Entity files (ENT-YYYYMMDD-NNNN.yaml)",
+  "type": "object",
+  "required": ["id", "type", "title", "lifecycle", "created_at"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^ENT-[0-9]{8}-[0-9]{4}$",
+      "description": "Entity ID in format ENT-YYYYMMDD-NNNN"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["CONCEPT", "MODULE", "DECISION", "SPEC", "TEST", "LESSON", "RISK", "MILESTONE"],
+      "description": "Entity type"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120,
+      "description": "Entity title (max 120 chars)"
+    },
+    "lifecycle": {
+      "type": "string",
+      "enum": ["DRAFT", "ACTIVE", "CERTIFIED", "DEPRECATED", "ABANDONED", "FAILED", "PAUSED"],
+      "description": "Entity lifecycle state"
+    },
+    "created_at": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
+      "description": "ISO 8601 UTC timestamp"
+    },
+    "updated_at": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
+      "description": "ISO 8601 UTC timestamp"
+    },
+    "description": {
+      "type": "string",
+      "description": "Optional description"
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Tags array (required for certain lifecycles)"
+    },
+    "refs": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "References to other entities"
+    },
+    "evidence": {
+      "type": "object",
+      "properties": {
+        "state": { "type": "string" },
+        "manifest": { "type": "string" },
+        "tests": { 
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "description": "Evidence for certification"
+    },
+    "meta": {
+      "type": "object",
+      "description": "Additional metadata"
+    }
+  },
+  "additionalProperties": false
+}

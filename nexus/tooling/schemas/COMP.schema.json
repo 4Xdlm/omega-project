@@ -1,0 +1,81 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://omega.nexus/schemas/COMP.schema.json",
+  "title": "OMEGA Nexus Completeness Report",
+  "description": "Schema for Completeness files (COMP-YYYYMMDD-NNNN.json)",
+  "type": "object",
+  "required": ["id", "timestamp", "rules", "status"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^COMP-[0-9]{8}-[0-9]{4}$",
+      "description": "Completeness ID in format COMP-YYYYMMDD-NNNN"
+    },
+    "timestamp": {
+      "type": "string",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]{3})?Z$",
+      "description": "ISO 8601 UTC timestamp"
+    },
+    "rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "status"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Rule ID"
+          },
+          "name": {
+            "type": "string",
+            "description": "Rule name"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["PASS", "FAIL", "SKIP", "WARN"],
+            "description": "Rule result"
+          },
+          "message": {
+            "type": "string",
+            "description": "Result message"
+          },
+          "details": {
+            "type": "object",
+            "description": "Additional details"
+          }
+        }
+      },
+      "description": "Array of rule results"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["PASS", "FAIL"],
+      "description": "Overall status (PASS only if all rules PASS)"
+    },
+    "summary": {
+      "type": "object",
+      "properties": {
+        "total": { "type": "integer" },
+        "passed": { "type": "integer" },
+        "failed": { "type": "integer" },
+        "skipped": { "type": "integer" },
+        "warnings": { "type": "integer" }
+      },
+      "description": "Summary counts"
+    },
+    "scope": {
+      "type": "string",
+      "description": "What was checked"
+    },
+    "session": {
+      "type": "string",
+      "pattern": "^SES-[0-9]{8}-[0-9]{4}$",
+      "description": "Session that ran the check"
+    },
+    "meta": {
+      "type": "object",
+      "description": "Additional metadata"
+    }
+  },
+  "additionalProperties": false
+}

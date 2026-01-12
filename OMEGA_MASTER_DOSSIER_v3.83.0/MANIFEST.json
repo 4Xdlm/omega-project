@@ -1,0 +1,87 @@
+{
+  "name": "OMEGA_MASTER_DOSSIER",
+  "version": "3.83.0",
+  "codename": "GOLD_MASTER",
+  "status": "FROZEN",
+  "standard": "NASA-Grade L4 / DO-178C / MIL-STD-882E",
+  "date": "2026-01-12",
+  "author": {
+    "architect": "Francky",
+    "ia_principal": "Claude",
+    "ia_code": "Claude Code"
+  },
+  "metrics": {
+    "phases_certified": 74,
+    "phases_range": "7-80",
+    "tests_total": "2000+",
+    "invariants_total": "300+",
+    "packages_total": "25+",
+    "lines_of_code": "50000+",
+    "platforms": ["Linux", "Windows"]
+  },
+  "cycles": {
+    "legacy": {
+      "phases": "7-29",
+      "description": "Foundation, Memory, Gates, Sentinel, Genome"
+    },
+    "cycle_1": {
+      "phases": "30-60",
+      "description": "Mycelium, Bridge, Integration, GOLD Cycle 43"
+    },
+    "titanium": {
+      "phases": "61-80",
+      "description": "Pipeline Headless, Gold Suite, GOLD MASTER"
+    }
+  },
+  "gold_masters": {
+    "cycle_43": {
+      "tag": "v3.60.0-GOLD-CYCLE43",
+      "phase": 42
+    },
+    "final": {
+      "tag": "v3.83.0-GOLD-MASTER",
+      "phase": 80
+    }
+  },
+  "git": {
+    "repository": "https://github.com/4Xdlm/omega-project",
+    "branch": "master",
+    "tags": [
+      "v3.60.0-GOLD-CYCLE43",
+      "v3.83.0-GOLD-MASTER"
+    ],
+    "commits": {
+      "gold_merge": "ee3eac7",
+      "warmup": "ad83887"
+    }
+  },
+  "structure": {
+    "directories": 17,
+    "files_md": "250+",
+    "files_total": "280+"
+  },
+  "next": {
+    "phase": 81,
+    "name": "OMEGA_NEXUS",
+    "spec": "OMEGA_NEXUS_SPEC_v2.2.3",
+    "codename": "NUCLEAR_PROOF",
+    "status": "READY_FOR_IMPLEMENTATION"
+  },
+  "sanctuaries": [
+    "emotion-model-v2",
+    "canon-engine",
+    "truth-gate",
+    "ripple-engine",
+    "memory-layer",
+    "sentinel",
+    "genome"
+  ],
+  "verification": {
+    "hash_algorithm": "SHA-256",
+    "scripts": [
+      "15_SCRIPTS/VERIFY.ps1",
+      "15_SCRIPTS/verify-omega.ps1",
+      "15_SCRIPTS/verify-omega.sh"
+    ]
+  }
+}

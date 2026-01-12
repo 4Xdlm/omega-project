@@ -6,6 +6,7 @@ export default defineConfig({
     include: [
       'src/**/*.test.ts',
       'tests/**/*.test.ts',
+      'tests/scribe/*_test.ts',
       'gateway/tests/**/*.test.ts',
       'packages/mycelium-bio/tests/**/*.test.ts',
       'packages/omega-bridge-ta-mycelium/tests/**/*.test.ts',

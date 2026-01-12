@@ -1,0 +1,28 @@
+id: ENT-20260112-0004
+type: SPEC
+title: "IA RUN MODE - Protocole d action IA gouvernee"
+lifecycle: ACTIVE
+created_at: 2026-01-12T13:30:00Z
+description: |
+  Protocole officiel definissant comment une IA peut agir
+  dans le systeme OMEGA sous gouvernance Human-in-the-Loop.
+  
+  Principe: L IA propose, l humain dispose.
+  
+  Zones autorisees: draft/, audit/, proposals/, seal_candidates/
+  Zones interdites: ledger/, proof/, genesis/ (lecture seule)
+tags:
+  - governance
+  - ia-protocol
+  - run-mode
+  - human-in-the-loop
+  - phase-87
+meta:
+  version: "1.0.0"
+  phase: 87
+  file: nexus/genesis/IA_RUN_MODE.md
+  zones_ia:
+    - nexus/draft/
+    - nexus/audit/
+    - nexus/proposals/
+    - nexus/seal_candidates/

@@ -675,6 +675,12 @@ export function validateToolingNoPackagesImport(content, filePath) {
       'Not a JS/TS file');
   }
   
+  // Skip test files (they may contain test strings with packages/)
+  if (filePath.includes('.test.') || filePath.includes('.spec.')) {
+    return createResult(RULES.TOOLING_NO_PACKAGES_IMPORT, RULE_STATUS.SKIP, 
+      'Test file');
+  }
+  
   // Check for imports from packages/
   const importPatterns = [
     /from\s+['"].*packages\//,
@@ -708,8 +714,32 @@ export function validateFile(filePath, nexusRoot, options = {}) {
   const results = [];
   const ext = extname(filePath).toLowerCase();
   
-  // Rule 12: Extension allowlist (for nexus/ content files only)
+  // Get relative path for exclusion checks
   const relPath = relative(nexusRoot, filePath).replace(/\\/g, '/');
+  
+  // Skip system-generated files (registry, seals, manifests, sessions)
+  const skipPatterns = [
+    /^nexus\/ledger\/registry\//,
+    /^nexus\/proof\/seals\//,
+    /^nexus\/proof\/snapshots\//,
+    /^nexus\/proof\/states\//,
+    /^nexus\/proof\/completeness\//,
+    /^nexus\/raw\/sessions\//,
+    /ATLAS-RUN\.json$/,
+    /ATLAS-META\.yaml$/
+  ];
+  
+  for (const pattern of skipPatterns) {
+    if (pattern.test(relPath)) {
+      return { 
+        file: filePath, 
+        results: [createResult(RULES.SCHEMA_YAML, RULE_STATUS.SKIP, 'System-generated file')], 
+        valid: true 
+      };
+    }
+  }
+  
+  // Rule 12: Extension allowlist (for nexus/ content files only)
   if (relPath.startsWith('nexus/') && !relPath.includes('tooling/')) {
     results.push(validateToolingExtAllowlist(filePath));
   }

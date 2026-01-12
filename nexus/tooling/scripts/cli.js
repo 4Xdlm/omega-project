@@ -616,8 +616,109 @@ program
   .option('--verify <path>', 'Verify existing backup')
   .action(cmdBackup);
 
+program
+  .command('where')
+  .description('Show current project state (phase, seals, entities)')
+  .option('-d, --dir <path>', 'Base directory', DEFAULT_BASE_DIR)
+  .action(cmdWhere);
+
 // Parse and run
 program.parse();
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// WHERE COMMAND
+// ═══════════════════════════════════════════════════════════════════════════════
+
+async function cmdWhere(options) {
+  const baseDir = getBaseDir(options);
+  printHeader('OMEGA NEXUS — WHERE');
+  
+  if (!nexusExists(baseDir)) {
+    console.log(error('Nexus not found. Run `omega-nexus init` first.'));
+    return;
+  }
+  
+  const ledger = loadLedger(baseDir);
+  
+  // Find latest seal
+  let latestSeal = null;
+  if (ledger.seals.length > 0) {
+    latestSeal = ledger.seals[ledger.seals.length - 1];
+  }
+  
+  // Count entities by lifecycle
+  const lifecycleCounts = {};
+  for (const entity of ledger.entities) {
+    const lc = entity.lifecycle || 'UNKNOWN';
+    lifecycleCounts[lc] = (lifecycleCounts[lc] || 0) + 1;
+  }
+  
+  // Count by type
+  const typeCounts = {};
+  for (const entity of ledger.entities) {
+    const t = entity.type || 'UNKNOWN';
+    typeCounts[t] = (typeCounts[t] || 0) + 1;
+  }
+  
+  // Find active entities (DRAFT or ACTIVE)
+  const activeEntities = ledger.entities.filter(e => 
+    e.lifecycle === 'ACTIVE' || e.lifecycle === 'DRAFT'
+  );
+  
+  console.log(chalk.bold('📍 Current State'));
+  console.log('');
+  
+  // Latest seal
+  if (latestSeal) {
+    console.log(success(`  Last Seal: ${latestSeal.id}`));
+    console.log(dim(`    Date: ${latestSeal.timestamp}`));
+    console.log(dim(`    Hash: ${latestSeal.root_hash}`));
+  } else {
+    console.log(warn('  No seals yet'));
+  }
+  
+  console.log('');
+  console.log(chalk.bold('📊 Entities'));
+  console.log(`  Total: ${ledger.entities.length}`);
+  
+  // By lifecycle
+  for (const [lc, count] of Object.entries(lifecycleCounts).sort()) {
+    const icon = lc === 'ACTIVE' ? '✓' : lc === 'DRAFT' ? '◐' : '○';
+    console.log(`    ${icon} ${lc}: ${count}`);
+  }
+  
+  console.log('');
+  console.log(chalk.bold('📋 By Type'));
+  for (const [t, count] of Object.entries(typeCounts).sort()) {
+    console.log(`    ${t}: ${count}`);
+  }
+  
+  // Active work
+  if (activeEntities.length > 0) {
+    console.log('');
+    console.log(chalk.bold('🎯 Active Work'));
+    for (const entity of activeEntities.slice(0, 5)) {
+      const status = entity.lifecycle === 'DRAFT' ? dim('[DRAFT]') : success('[ACTIVE]');
+      console.log(`    ${entity.id} ${status}`);
+      console.log(dim(`      ${entity.title}`));
+    }
+    if (activeEntities.length > 5) {
+      console.log(dim(`    ... and ${activeEntities.length - 5} more`));
+    }
+  }
+  
+  // Events count
+  console.log('');
+  console.log(chalk.bold('📜 Events'));
+  console.log(`  Total: ${ledger.events.length}`);
+  
+  // Seals count
+  console.log('');
+  console.log(chalk.bold('🔐 Seals'));
+  console.log(`  Total: ${ledger.seals.length}`);
+  
+  console.log('');
+}
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // HOOKS COMMAND

@@ -1,160 +1,236 @@
 # ═══════════════════════════════════════════════════════════════════════════════
 #
-#   SESSION_SAVE — OMEGA PROJECT
-#   Guide de synchronisation (humain + IA)
+#   SESSION_SAVE — OMEGA NEXUS
+#   Document d'archive canonique
 #
-#   Version: v3.85.0-GOVERNANCE
+#   Période: Phase 86 → Phase 88
 #   Date: 2026-01-12
-#   Status: SOURCE DE VÉRITÉ UNIQUE
+#   Statut: CERTIFIED
 #
 # ═══════════════════════════════════════════════════════════════════════════════
 
-## 1. STATUT OFFICIEL
+## 1. ÉTAT CANONIQUE
+
+```
+Dernier SEAL:   SEAL-20260112-0006
+Date:           2026-01-12T13:39:08Z
+Root Hash:      sha256:6b58ce62af7a5be2d07d251c861e795b24864e35d3d78fc6e150884d50c07fb3
+Commit:         d6e1e8c
+Tag:            v3.88.0-VERIFY-FIX
+Verify:         PASS
+```
+
+---
+
+## 2. ÉTAT FINAL VÉRIFIÉ
+
+### omega-nexus where
+
+```
+Entities:  5 (ACTIVE: 5)
+Events:    9
+Links:     2
+Seals:     1
+```
+
+### omega-nexus verify
+
+```
+Structure:    ✓ All directories exist
+Genesis:      ✓ All files present
+Guardian:     ✓ 9/9 rules passed
+Seal Chain:   ✓ 1/1 seals verified
+Latest Seal:  ✓ Verified
+Result:       PASS
+```
+
+### Entités actives
+
+| ID | Type | Title |
+|----|------|-------|
+| ENT-20260112-0001 | MILESTONE | Transition OMEGA vers NEXUS (Phases 80-84) |
+| ENT-20260112-0002 | MILESTONE | OMEGA Projet - Phases 1 à 80 |
+| ENT-20260112-0003 | SPEC | IA Consumption Flow - Protocole de synchronisation |
+| ENT-20260112-0004 | SPEC | IA RUN MODE - Protocole d'action IA gouvernée |
+| ENT-20260112-0005 | MILESTONE | Phase 85 - Gouvernance NEXUS et SEAL GLOBAL |
+
+---
+
+## 3. HISTORIQUE DES PHASES
+
+### Phase 86 — IA Consumption Flow
 
 | Attribut | Valeur |
 |----------|--------|
-| **Phase courante** | 85 — Gouvernance |
-| **Dernier SEAL** | SEAL-20260112-0002 |
-| **Root Hash** | `sha256:a633dabefe341536c85e8cc43333a349fd72a65e705f5eb9ff378cf84a8735bb` |
-| **Tag Git** | v3.85.0-GOVERNANCE |
-| **Commit** | 9913037 |
-| **Repository** | https://github.com/4Xdlm/omega-project |
+| Objectif | Définir comment une IA se synchronise avec OMEGA |
+| Entité | ENT-20260112-0003 |
+| Event | EVT-20260112-0005 |
+| Fichier | nexus/genesis/IA_CONSUMPTION_FLOW.md |
+| Tag Git | v3.86.0-IA-FLOW |
+
+**Contenu:**
+- Protocole de synchronisation (SYNC → VERIFY → READ → RESPOND)
+- Zones de lecture autorisées
+- Règle: "Une IA ne suppose jamais. Une IA consulte."
 
 ---
 
-## 2. CARTE MENTALE DU PROJET
+### Phase 87 — IA RUN MODE
+
+| Attribut | Valeur |
+|----------|--------|
+| Objectif | Définir comment une IA peut agir sous gouvernance |
+| Entité | ENT-20260112-0004 |
+| Event | EVT-20260112-0006 |
+| Link | LINK-20260112-0002 (dépend de Phase 86) |
+| Fichier | nexus/genesis/IA_RUN_MODE.md |
+| Tag Git | v3.87.0-IA-RUN-MODE |
+
+**Contenu:**
+- Zones d'écriture IA: draft/, audit/, proposals/, seal_candidates/
+- Principe: "L'IA propose. L'humain dispose."
+- Workflow: SYNC → VERIFY → READ → PROPOSE → WAIT → EXECUTE
+
+---
+
+### Phase 88 — Audit + Bug Fix
+
+| Attribut | Valeur |
+|----------|--------|
+| Objectif | Premier audit IA réel + correction des anomalies |
+| Entité | ENT-20260112-0005 (Phase 85 manquante) |
+| Events | EVT-20260112-0007, 0008, 0009 |
+| Audit | nexus/audit/IA_AUDIT_20260112.md |
+| Tag Git | v3.88.0-VERIFY-FIX |
+
+**Corrections effectuées:**
+- EVT CREATED rétroactifs pour ENT-0001 et ENT-0002
+- Création ENT Phase 85 (manquante dans le ledger)
+- Fix bug verify (voir section 4)
+
+---
+
+## 4. INCIDENT CRITIQUE — VERIFY BUG
+
+### Symptôme
 
 ```
-┌─────────────────────────────────────────────────────────────────────┐
-│                                                                     │
-│   PHASES 1–80        PHASES 80–84       PHASE 85+                   │
-│   ────────────       ────────────       ────────                    │
-│   Historique         Transition         Gouvernance                 │
-│   FIGÉ               SCELLÉ             ACTIVE                      │
-│                                                                     │
-│   • CANON_LAYER      • OMEGA NEXUS      • Ledger vivant             │
-│   • TRUTH_LAYER      • 339 tests        • Seals continus            │
-│   • EMOTION_LAYER    • 11 modules       • Atlas généré              │
-│   • RIPPLE_LAYER     • CLI complet      • AI-consumable             │
-│   • MEMORY_LAYER                                                    │
-│   • CREATION_LAYER                                                  │
-│   • HARDENING                                                       │
-│                                                                     │
-└─────────────────────────────────────────────────────────────────────┘
+omega-nexus verify → FAIL
+0/N seals verified
+Manifest verification failed
 ```
 
-**Entités enregistrées:**
-- `ENT-20260112-0001` — Transition OMEGA → NEXUS (Phases 80-84)
-- `ENT-20260112-0002` — OMEGA Projet (Phases 1-80)
+### Cause racine
 
----
+**Deux problèmes distincts:**
 
-## 3. MODE D'EMPLOI IA
+| Problème | Description |
+|----------|-------------|
+| Path mismatch | Chemins stockés avec `\` (Windows), comparés avec `/` (Linux) |
+| Registry mutable | Le fichier REG-*.yaml est modifié PENDANT le seal |
 
-### ⚠️ RÈGLES ABSOLUES
+### Détection
 
-1. **Ne pas inférer depuis la documentation externe**
-   - Les fichiers Markdown hors NEXUS sont informatifs, pas canoniques
+- Audit IA Phase 88 (IA_AUDIT_20260112.md)
+- Debug manuel: `verifySeal()` retourne hash mismatch sur registry
 
-2. **Toujours vérifier dans le ledger**
-   - Source de vérité: `nexus/ledger/`
-   - Preuves: `nexus/proof/seals/`
+### Correction
 
-3. **Utiliser Atlas pour la vision**
-   - Timeline: `nexus/atlas/TIMELINE.md`
-   - Entités mortes: `nexus/atlas/museum/`
-   - Entités futures: `nexus/atlas/visions/`
+**Fichier:** `nexus/tooling/scripts/merkle.js`
 
-4. **Consulter avant d'affirmer**
-   - `omega-nexus where` → état courant
-   - `omega-nexus verify` → intégrité
+| Fix | Description |
+|-----|-------------|
+| Path normalization | `normalizePath()` convertit tous les `\` en `/` |
+| Registry exclusion | `nexus/ledger/registry` retiré de INCLUDED_DIRS |
 
-### 📖 OÙ LIRE LA VÉRITÉ
+### Résultat
 
-| Priorité | Chemin | Contenu |
-|----------|--------|---------|
-| 1️⃣ | `nexus/ledger/entities/` | Décisions, modules, concepts |
-| 2️⃣ | `nexus/ledger/events/` | Historique des changements |
-| 3️⃣ | `nexus/proof/seals/` | États certifiés |
-| 4️⃣ | `nexus/genesis/` | Lois fondatrices (immutables) |
-
-### ❌ À IGNORER
-
-- `nexus/raw/` — données brutes
-- `nexus/tooling/` — code technique
-- `*.ARCHIVED` — historique obsolète
-
----
-
-## 4. COMMANDES DE BASE
-
-```bash
-# État courant (phase, seals, entités)
-omega-nexus where
-
-# Vérifier l'intégrité
-omega-nexus verify
-
-# Générer les vues Atlas
-omega-nexus atlas
-
-# Voir le status
-omega-nexus status
-
-# Créer un seal après travail
-omega-nexus seal -m "Description"
-
-# Exporter pour audit
-omega-nexus export -o ./audit/
+```
+omega-nexus verify → PASS
+Hash stable et reproductible
 ```
 
 ---
 
-## 5. RÈGLE D'OR
+## 5. INVARIANTS CONSOLIDÉS
+
+Ces règles sont désormais canoniques:
+
+| ID | Invariant |
+|----|-----------|
+| INV-001 | Registry ≠ objet cryptographique (exclu du Merkle) |
+| INV-002 | Un seul SEAL canonique actif à la fois |
+| INV-003 | Corrections rétroactives autorisées si traçables (EVT avec audit_ref) |
+| INV-004 | L'IA ne scelle jamais seule (Human-in-the-Loop) |
+| INV-005 | Ledger > discours (seule source de vérité) |
+| INV-006 | Chemins normalisés en forward slashes dans le Merkle |
+| INV-007 | Windows = plateforme canonique pour les seals |
+
+---
+
+## 6. GUIDE DE REPRISE IA
 
 ```
 ╔═══════════════════════════════════════════════════════════════════════════════╗
 ║                                                                               ║
-║   TOUTE INFORMATION NON PRÉSENTE DANS LE LEDGER                               ║
-║   EST CONSIDÉRÉE COMME NON FIABLE.                                            ║
+║   POUR TOUTE IA — NOUVELLE SESSION                                            ║
 ║                                                                               ║
-║   OMEGA ne se décrit plus.                                                    ║
-║   OMEGA se consulte.                                                          ║
+║   1. Lire ce document (SESSION_SAVE.md)                                       ║
+║   2. Lire nexus/genesis/IA_CONSUMPTION_FLOW.md                                ║
+║   3. Exécuter: omega-nexus where                                              ║
+║   4. Vérifier le Root Hash correspond                                         ║
+║   5. Ne RIEN supposer — consulter le ledger                                   ║
+║                                                                               ║
+║   Si action requise:                                                          ║
+║   6. Lire nexus/genesis/IA_RUN_MODE.md                                        ║
+║   7. Écrire uniquement dans draft/, audit/, proposals/                        ║
+║   8. Attendre validation humaine                                              ║
 ║                                                                               ║
 ╚═══════════════════════════════════════════════════════════════════════════════╝
 ```
 
----
+### Commandes essentielles
 
-## 6. POUR REPRENDRE LE PROJET
+```bash
+# État courant
+omega-nexus where -d <projet>
 
-### En tant qu'humain:
-1. `cd C:\Users\elric\omega-project\nexus\tooling`
-2. `omega-nexus where`
-3. Lire le dernier SEAL
+# Vérification intégrité
+omega-nexus verify -d <projet>
 
-### En tant qu'IA:
-1. Lire `nexus/genesis/AI_CONSUMPTION_GUIDE.md`
-2. Lire `nexus/ledger/entities/` (entités ACTIVE)
-3. Lire `nexus/proof/seals/` (dernier seal)
-4. Ne rien supposer qui n'est pas dans le ledger
+# Après modification (humain uniquement)
+omega-nexus seal -m "description" -d <projet>
+```
 
 ---
 
-## 7. PROCHAINE PHASE (86)
+## 7. FICHIERS CLÉS
 
-**Objectif:** IA Consumption Flow
-- Comment une IA se met à jour
-- Comment elle vérifie
-- Comment elle raisonne sans halluciner
-
----
-
-**Signature:** Claude (IA Principal)  
-**Date:** 2026-01-12  
-**Standard:** NASA-Grade L4 / DO-178C
+| Fichier | Rôle |
+|---------|------|
+| `nexus/SESSION_SAVE.md` | Ce document |
+| `nexus/genesis/IA_CONSUMPTION_FLOW.md` | Protocole lecture IA |
+| `nexus/genesis/IA_RUN_MODE.md` | Protocole action IA |
+| `nexus/audit/IA_AUDIT_20260112.md` | Premier audit |
+| `nexus/tooling/scripts/merkle.js` | Calcul Merkle (patché) |
 
 ---
 
-*Ce document est un guide de synchronisation, pas une archive.*
+## 8. SIGNATURE
+
+```
+Document:       SESSION_SAVE
+Phases:         86 → 88
+Date:           2026-01-12
+Seal:           SEAL-20260112-0006
+Root Hash:      sha256:6b58ce62af7a5be2d07d251c861e795b24864e35d3d78fc6e150884d50c07fb3
+Auteur:         Claude (IA Principal)
+Validation:     Francky (Architecte Suprême)
+Status:         CERTIFIED
+```
+
+---
+
+**FIN DU DOCUMENT — SESSION_SAVE**
+
 *La vérité est dans le ledger.*

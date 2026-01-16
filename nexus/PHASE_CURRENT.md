@@ -1,8 +1,8 @@
 # OMEGA — CURRENT PHASE (CANONICAL)
 
-Phase Number : 151
-Phase Name   : EXPORT CORE
-Phase Type   : EXPORT / FORMATS
+Phase Number : 152
+Phase Name   : IMPORT CORE
+Phase Type   : IMPORT / PARSERS
 Status       : ACTIVE
 
 Locked Date  : 2026-01-16

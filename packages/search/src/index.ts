@@ -72,3 +72,14 @@ export {
   createSearchExporter,
   DEFAULT_EXPORT_OPTIONS,
 } from './export';
+
+export {
+  type ImportFormat,
+  type ImportOptions,
+  type ImportResult,
+  type ImportError,
+  type ImportValidation,
+  SearchImporter,
+  createSearchImporter,
+  DEFAULT_IMPORT_OPTIONS,
+} from './import';

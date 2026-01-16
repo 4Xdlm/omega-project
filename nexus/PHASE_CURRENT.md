@@ -1,7 +1,7 @@
 # OMEGA — CURRENT PHASE (CANONICAL)
 
-Phase Number : 127
-Phase Name   : IPC BRIDGE
+Phase Number : 128
+Phase Name   : CORE INTEGRATION
 Phase Type   : UI / FOUNDATION
 Status       : ACTIVE
 

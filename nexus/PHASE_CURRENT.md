@@ -1,7 +1,7 @@
 ﻿# OMEGA — CURRENT PHASE (CANONICAL)
 
-Phase Number : 93
-Phase Name   : ATLAS AUTO-REGENERATION
+Phase Number : 94
+Phase Name   : REGISTRY GOVERNANCE
 Phase Type   : SYSTEM / INFRASTRUCTURE
 Status       : ACTIVE
 

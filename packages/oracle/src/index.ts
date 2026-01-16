@@ -40,3 +40,24 @@ export {
   createCache,
   DEFAULT_CACHE_CONFIG,
 } from './cache';
+
+export {
+  type StreamChunkType,
+  type StreamChunk,
+  type StartChunk,
+  type TextChunk,
+  type InsightChunk,
+  type NarrativeChunk,
+  type SummaryChunk,
+  type ProgressChunk,
+  type CompleteChunk,
+  type ErrorChunk,
+  type OracleStreamChunk,
+  type StreamConfig,
+  type StreamState,
+  type StreamCallbacks,
+  StreamController,
+  StreamingOracle,
+  createStreamingOracle,
+  DEFAULT_STREAM_CONFIG,
+} from './streaming';

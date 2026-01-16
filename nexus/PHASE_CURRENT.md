@@ -1,7 +1,7 @@
 # OMEGA — CURRENT PHASE (CANONICAL)
 
-Phase Number : 141
-Phase Name   : ORACLE CACHE
+Phase Number : 142
+Phase Name   : ORACLE STREAMING
 Phase Type   : ORACLE / ENGINE
 Status       : ACTIVE
 

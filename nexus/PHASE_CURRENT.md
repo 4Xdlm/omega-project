@@ -1,8 +1,8 @@
 # OMEGA — CURRENT PHASE (CANONICAL)
 
-Phase Number : 149
-Phase Name   : SEARCH INDEX
-Phase Type   : SEARCH / INDEX
+Phase Number : 150
+Phase Name   : SEARCH UI INTEGRATION
+Phase Type   : SEARCH / UI HOOK
 Status       : ACTIVE
 
 Locked Date  : 2026-01-16

@@ -1,7 +1,7 @@
 # OMEGA — CURRENT PHASE (CANONICAL)
 
-Phase Number : 135
-Phase Name   : DASHBOARD
+Phase Number : 136
+Phase Name   : SETTINGS PAGE
 Phase Type   : UI / FEATURES
 Status       : ACTIVE
 

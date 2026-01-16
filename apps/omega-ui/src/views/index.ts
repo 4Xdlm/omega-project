@@ -7,3 +7,4 @@
 export { AnalysisView } from './AnalysisView';
 export { HistoryView } from './HistoryView';
 export { DashboardView } from './DashboardView';
+export { SettingsView } from './SettingsView';

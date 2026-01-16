@@ -1,7 +1,7 @@
 # OMEGA — CURRENT PHASE (CANONICAL)
 
-Phase Number : 137
-Phase Name   : THEME SYSTEM
+Phase Number : 138
+Phase Name   : NOTIFICATIONS
 Phase Type   : UI / FEATURES
 Status       : ACTIVE
 

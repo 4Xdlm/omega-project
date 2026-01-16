@@ -72,3 +72,21 @@ export {
   createContext,
   DEFAULT_CONTEXT_CONFIG,
 } from './context';
+
+export {
+  type MetricType,
+  type Metric,
+  type CounterMetric,
+  type GaugeMetric,
+  type HistogramMetric,
+  type TimerMetric,
+  type MetricsConfig,
+  type TimerContext,
+  type MetricsSnapshot,
+  type PerformanceReport,
+  OracleMetrics,
+  createMetrics,
+  getGlobalMetrics,
+  resetGlobalMetrics,
+  DEFAULT_METRICS_CONFIG,
+} from './metrics';

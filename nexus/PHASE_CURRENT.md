@@ -1,8 +1,8 @@
 # OMEGA — CURRENT PHASE (CANONICAL)
 
-Phase Number : 144
-Phase Name   : ORACLE CONTEXT
-Phase Type   : ORACLE / ADVANCED
+Phase Number : 145
+Phase Name   : ORACLE METRICS
+Phase Type   : ORACLE / MONITORING
 Status       : ACTIVE
 
 Locked Date  : 2026-01-16

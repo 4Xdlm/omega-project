@@ -1,0 +1,33 @@
+{
+  "name": "@omega/search",
+  "version": "3.146.0",
+  "description": "OMEGA Search - Intelligent Text Search Engine",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "typescript": "^5.5.0",
+    "vitest": "^1.6.0"
+  },
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "omega",
+    "search",
+    "text-search",
+    "indexing"
+  ]
+}

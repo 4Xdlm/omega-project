@@ -1,7 +1,7 @@
 ﻿# OMEGA — CURRENT PHASE (CANONICAL)
 
-Phase Number : 92
-Phase Name   : CONSTITUTION GATE
+Phase Number : 93
+Phase Name   : ATLAS AUTO-REGENERATION
 Phase Type   : SYSTEM / INFRASTRUCTURE
 Status       : ACTIVE
 

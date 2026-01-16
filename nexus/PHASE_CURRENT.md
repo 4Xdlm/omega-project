@@ -1,7 +1,7 @@
 ﻿# OMEGA — CURRENT PHASE (CANONICAL)
 
-Phase Number : 94
-Phase Name   : REGISTRY GOVERNANCE
+Phase Number : 95
+Phase Name   : CRLF/LF CROSS-PLATFORM
 Phase Type   : SYSTEM / INFRASTRUCTURE
 Status       : ACTIVE
 

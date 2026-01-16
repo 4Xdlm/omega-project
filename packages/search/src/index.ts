@@ -38,3 +38,14 @@ export {
   createFacetProcessor,
   createAggregationProcessor,
 } from './filters';
+
+export {
+  type SuggestionType,
+  type Suggestion,
+  type SuggestRequest,
+  type SuggestResponse,
+  type SuggesterConfig,
+  SearchSuggester,
+  createSuggester,
+  DEFAULT_SUGGESTER_CONFIG,
+} from './suggest';

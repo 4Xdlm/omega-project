@@ -1,0 +1,31 @@
+[package]
+name = "omega-ui"
+version = "3.125.0"
+description = "OMEGA Desktop Application - Emotional Analysis Engine"
+authors = ["OMEGA Project"]
+edition = "2021"
+rust-version = "1.70"
+
+[lib]
+name = "omega_ui_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-shell = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+[features]
+default = ["custom-protocol"]
+custom-protocol = ["tauri/custom-protocol"]
+
+[profile.release]
+panic = "abort"
+codegen-units = 1
+lto = true
+opt-level = "s"
+strip = true

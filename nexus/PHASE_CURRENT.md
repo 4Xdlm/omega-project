@@ -1,8 +1,8 @@
 # OMEGA — CURRENT PHASE (CANONICAL)
 
-Phase Number : 150
-Phase Name   : SEARCH UI INTEGRATION
-Phase Type   : SEARCH / UI HOOK
+Phase Number : 151
+Phase Name   : EXPORT CORE
+Phase Type   : EXPORT / FORMATS
 Status       : ACTIVE
 
 Locked Date  : 2026-01-16

@@ -62,3 +62,13 @@ export {
   createIndexManager,
   DEFAULT_INDEX_MANAGER_CONFIG,
 } from './index-manager';
+
+export {
+  type ExportFormat,
+  type ExportOptions,
+  type ExportResult,
+  type ExportTemplate,
+  SearchExporter,
+  createSearchExporter,
+  DEFAULT_EXPORT_OPTIONS,
+} from './export';

@@ -109,3 +109,11 @@ export {
   createSearchAnalytics,
   DEFAULT_ANALYTICS_CONFIG,
 } from './analytics';
+
+export {
+  type UnifiedSearchOptions,
+  type SearchFacade,
+  UnifiedSearch,
+  createUnifiedSearch,
+  DEFAULT_UNIFIED_OPTIONS,
+} from './search';

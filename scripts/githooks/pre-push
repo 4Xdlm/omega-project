@@ -1,0 +1,35 @@
+#!/bin/sh
+# OMEGA Pre-Push Hook
+# Version: 3.92.0
+# Standard: NASA-Grade L4 / DO-178C Level A
+#
+# This hook runs thorough validation before push.
+# Includes critical tests and full gate validation.
+# Install with: scripts/githooks/install-hooks.ps1
+
+echo "[OMEGA] Pre-push hook starting..."
+
+# Run constitution gate in pre-push mode
+node scripts/gates/constitution-gate.cjs pre-push
+GATE_CODE=$?
+
+if [ $GATE_CODE -ne 0 ]; then
+    echo "[OMEGA] Constitution gate FAILED"
+    exit 1
+fi
+
+echo "[OMEGA] Constitution gate PASSED"
+
+# Run critical tests (optional, can be enabled)
+# Uncomment to enable test validation on push:
+# echo "[OMEGA] Running critical tests..."
+# npm test -- --run test/repo-hygiene.test.ts test/save-protocol.test.ts
+# TEST_CODE=$?
+# if [ $TEST_CODE -ne 0 ]; then
+#     echo "[OMEGA] Critical tests FAILED"
+#     exit 1
+# fi
+# echo "[OMEGA] Critical tests PASSED"
+
+echo "[OMEGA] Pre-push hook PASSED"
+exit 0

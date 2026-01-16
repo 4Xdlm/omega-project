@@ -1,19 +1,21 @@
-﻿#!/bin/sh
-FILES=\git diff --cached --name-only | grep '^nexus/proof/sessions/SES-.*\.md'\
+#!/bin/sh
+# OMEGA Pre-Commit Hook
+# Version: 3.92.0
+# Standard: NASA-Grade L4 / DO-178C Level A
+#
+# This hook runs fast validation (<5s) before each commit.
+# Install with: scripts/githooks/install-hooks.ps1
 
-if [ -z "\" ]; then
-  exit 0
+echo "[OMEGA] Pre-commit hook starting..."
+
+# Run constitution gate in pre-commit mode
+node scripts/gates/constitution-gate.cjs pre-commit
+EXIT_CODE=$?
+
+if [ $EXIT_CODE -ne 0 ]; then
+    echo "[OMEGA] Pre-commit hook FAILED"
+    exit 1
 fi
 
-echo "Checking phase declaration..."
-
-for f in \; do
-  powershell -ExecutionPolicy Bypass -File scripts/gates/check-phase.ps1 -SessionFile \
-  if [ \True -ne 0 ]; then
-    echo "Commit blocked: phase declaration invalid"
-    exit 1
-  fi
-done
-
-echo "Phase check PASS"
+echo "[OMEGA] Pre-commit hook PASSED"
 exit 0

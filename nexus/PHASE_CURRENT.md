@@ -1,7 +1,7 @@
 ﻿# OMEGA — CURRENT PHASE (CANONICAL)
 
-Phase Number : 91
-Phase Name   : SAVE PROTOCOL HARDENING
+Phase Number : 92
+Phase Name   : CONSTITUTION GATE
 Phase Type   : SYSTEM / INFRASTRUCTURE
 Status       : ACTIVE
 

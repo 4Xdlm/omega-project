@@ -1,0 +1,19 @@
+﻿#!/bin/sh
+FILES=\git diff --cached --name-only | grep '^nexus/proof/sessions/SES-.*\.md'\
+
+if [ -z "\" ]; then
+  exit 0
+fi
+
+echo "Checking phase declaration..."
+
+for f in \; do
+  powershell -ExecutionPolicy Bypass -File scripts/gates/check-phase.ps1 -SessionFile \
+  if [ \True -ne 0 ]; then
+    echo "Commit blocked: phase declaration invalid"
+    exit 1
+  fi
+done
+
+echo "Phase check PASS"
+exit 0

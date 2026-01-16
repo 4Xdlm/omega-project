@@ -1,7 +1,7 @@
 # OMEGA — CURRENT PHASE (CANONICAL)
 
-Phase Number : 129
-Phase Name   : STATE MANAGEMENT
+Phase Number : 130
+Phase Name   : LAYOUT & NAVIGATION
 Phase Type   : UI / FOUNDATION
 Status       : ACTIVE
 

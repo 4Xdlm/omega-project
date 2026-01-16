@@ -5,3 +5,4 @@
  */
 
 export { AnalysisView } from './AnalysisView';
+export { HistoryView } from './HistoryView';

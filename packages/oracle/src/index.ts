@@ -61,3 +61,14 @@ export {
   createStreamingOracle,
   DEFAULT_STREAM_CONFIG,
 } from './streaming';
+
+export {
+  type ContextEntry,
+  type ContextConfig,
+  type EmotionTrend,
+  type ContextSummary,
+  type ComparisonResult,
+  OracleContext,
+  createContext,
+  DEFAULT_CONTEXT_CONFIG,
+} from './context';

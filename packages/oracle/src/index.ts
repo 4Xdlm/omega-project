@@ -17,3 +17,17 @@ export {
 } from './types';
 
 export { Oracle, createOracle } from './oracle';
+
+export {
+  type PromptParams,
+  type PromptTemplate,
+  createAnalysisPrompt,
+  createNarrativePrompt,
+  createComparisonPrompt,
+  createSummaryPrompt,
+  createRecommendationsPrompt,
+  getAvailablePromptTypes,
+  validatePromptParams,
+  estimateTokenCount,
+  PROMPT_REGISTRY,
+} from './prompts';

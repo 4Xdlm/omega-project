@@ -16,10 +16,14 @@ function App(): JSX.Element {
         <p>Emotional Analysis Engine</p>
       </header>
       <main className="omega-main">
-        <section className="omega-welcome">
-          <h2>Phase 125 - Tauri Initialized</h2>
-          <p>Desktop application scaffold complete.</p>
-          <p className="version">v3.125.0</p>
+        <section className="omega-card">
+          <h2 className="text-2xl font-semibold">Phase 126 - Frontend Setup</h2>
+          <p className="text-omega-muted mt-2">React + Vite + Tailwind CSS configured.</p>
+          <p className="version">v3.126.0</p>
+          <div className="mt-8 flex gap-4 justify-center">
+            <button className="omega-btn">Analyze Text</button>
+            <button className="omega-btn-secondary">View History</button>
+          </div>
         </section>
       </main>
       <footer className="omega-footer">

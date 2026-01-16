@@ -1,99 +1,89 @@
 /**
- * OMEGA UI Base Styles
+ * OMEGA UI Base Styles with Tailwind
  * @description Foundational CSS for the desktop application
  */
 
-:root {
-  --omega-bg: #0a0a0f;
-  --omega-surface: #14141f;
-  --omega-border: #2a2a3f;
-  --omega-text: #e0e0e8;
-  --omega-text-muted: #8080a0;
-  --omega-primary: #6366f1;
-  --omega-primary-hover: #818cf8;
-  --omega-success: #22c55e;
-  --omega-warning: #f59e0b;
-  --omega-error: #ef4444;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --omega-bg: #0a0a0f;
+    --omega-surface: #14141f;
+    --omega-border: #2a2a3f;
+    --omega-text: #e0e0e8;
+    --omega-text-muted: #8080a0;
+    --omega-primary: #6366f1;
+    --omega-primary-hover: #818cf8;
+    --omega-success: #22c55e;
+    --omega-warning: #f59e0b;
+    --omega-error: #ef4444;
+  }
+
+  html, body, #root {
+    @apply h-full w-full;
+  }
+
+  body {
+    @apply bg-omega-bg text-omega-text;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+  }
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+@layer components {
+  .omega-app {
+    @apply flex flex-col min-h-screen;
+  }
 
-html, body, #root {
-  height: 100%;
-  width: 100%;
-}
+  .omega-header {
+    @apply p-8 text-center border-b border-omega-border bg-omega-surface;
+  }
 
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-  background-color: var(--omega-bg);
-  color: var(--omega-text);
-  line-height: 1.6;
-}
+  .omega-header h1 {
+    @apply text-4xl font-bold tracking-widest text-omega-primary;
+  }
 
-.omega-app {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-}
+  .omega-header p {
+    @apply text-omega-muted text-sm mt-2;
+  }
 
-.omega-header {
-  padding: 2rem;
-  text-align: center;
-  border-bottom: 1px solid var(--omega-border);
-  background: var(--omega-surface);
-}
+  .omega-main {
+    @apply flex-1 p-8 flex items-center justify-center;
+  }
 
-.omega-header h1 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  letter-spacing: 0.5rem;
-  color: var(--omega-primary);
-}
+  .omega-card {
+    @apply text-center p-12 bg-omega-surface border border-omega-border rounded-lg;
+  }
 
-.omega-header p {
-  color: var(--omega-text-muted);
-  font-size: 0.875rem;
-  margin-top: 0.5rem;
-}
+  .omega-card h2 {
+    @apply text-omega-success mb-4;
+  }
 
-.omega-main {
-  flex: 1;
-  padding: 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+  .omega-card .version {
+    @apply mt-6 font-mono text-omega-primary text-xl;
+  }
 
-.omega-welcome {
-  text-align: center;
-  padding: 3rem;
-  background: var(--omega-surface);
-  border: 1px solid var(--omega-border);
-  border-radius: 0.5rem;
-}
+  .omega-footer {
+    @apply px-8 py-4 text-center border-t border-omega-border bg-omega-surface;
+    @apply text-xs text-omega-muted font-mono;
+  }
 
-.omega-welcome h2 {
-  color: var(--omega-success);
-  margin-bottom: 1rem;
-}
+  .omega-btn {
+    @apply px-6 py-3 rounded-lg font-medium transition-colors;
+    @apply bg-omega-primary text-white hover:bg-omega-primary-hover;
+  }
 
-.omega-welcome .version {
-  margin-top: 1.5rem;
-  font-family: monospace;
-  color: var(--omega-primary);
-  font-size: 1.25rem;
-}
+  .omega-btn-secondary {
+    @apply px-6 py-3 rounded-lg font-medium transition-colors;
+    @apply bg-omega-surface border border-omega-border text-omega-text;
+    @apply hover:border-omega-primary;
+  }
 
-.omega-footer {
-  padding: 1rem 2rem;
-  text-align: center;
-  border-top: 1px solid var(--omega-border);
-  background: var(--omega-surface);
-  font-size: 0.75rem;
-  color: var(--omega-text-muted);
-  font-family: monospace;
+  .omega-input {
+    @apply w-full px-4 py-3 rounded-lg bg-omega-bg border border-omega-border;
+    @apply text-omega-text placeholder-omega-muted;
+    @apply focus:outline-none focus:border-omega-primary;
+  }
 }

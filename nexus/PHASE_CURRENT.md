@@ -1,8 +1,8 @@
 # OMEGA — CURRENT PHASE (CANONICAL)
 
-Phase Number : 130
-Phase Name   : LAYOUT & NAVIGATION
-Phase Type   : UI / FOUNDATION
+Phase Number : 131
+Phase Name   : TEXT INPUT
+Phase Type   : UI / FEATURES
 Status       : ACTIVE
 
 Locked Date  : 2026-01-16

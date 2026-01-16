@@ -1,7 +1,7 @@
 # OMEGA — CURRENT PHASE (CANONICAL)
 
-Phase Number : 126
-Phase Name   : REACT + VITE + TAILWIND
+Phase Number : 127
+Phase Name   : IPC BRIDGE
 Phase Type   : UI / FOUNDATION
 Status       : ACTIVE
 

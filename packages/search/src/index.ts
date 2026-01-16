@@ -83,3 +83,17 @@ export {
   createSearchImporter,
   DEFAULT_IMPORT_OPTIONS,
 } from './import';
+
+export {
+  type TokenType,
+  type Token,
+  type ASTNodeType,
+  type ASTNode,
+  type ParseResult,
+  type ParseError,
+  type QueryParserOptions,
+  QueryParser,
+  createQueryParser,
+  parseQuery,
+  DEFAULT_PARSER_OPTIONS,
+} from './query-parser';

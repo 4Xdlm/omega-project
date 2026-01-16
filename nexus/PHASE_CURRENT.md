@@ -1,8 +1,8 @@
 # OMEGA — CURRENT PHASE (CANONICAL)
 
-Phase Number : 152
-Phase Name   : IMPORT CORE
-Phase Type   : IMPORT / PARSERS
+Phase Number : 153
+Phase Name   : QUERY PARSER
+Phase Type   : SEARCH / QUERY SYNTAX
 Status       : ACTIVE
 
 Locked Date  : 2026-01-16

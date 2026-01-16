@@ -31,3 +31,12 @@ export {
   estimateTokenCount,
   PROMPT_REGISTRY,
 } from './prompts';
+
+export {
+  type CacheEntry,
+  type CacheConfig,
+  type CacheStats,
+  OracleCache,
+  createCache,
+  DEFAULT_CACHE_CONFIG,
+} from './cache';

@@ -49,3 +49,16 @@ export {
   createSuggester,
   DEFAULT_SUGGESTER_CONFIG,
 } from './suggest';
+
+export {
+  type IndexSegment,
+  type IndexMetadata,
+  type IndexSnapshot,
+  type IndexManagerConfig,
+  type IndexOperation,
+  type IndexOperationLog,
+  type IndexHealth,
+  IndexManager,
+  createIndexManager,
+  DEFAULT_INDEX_MANAGER_CONFIG,
+} from './index-manager';

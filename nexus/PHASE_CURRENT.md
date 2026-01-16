@@ -1,8 +1,8 @@
 # OMEGA — CURRENT PHASE (CANONICAL)
 
-Phase Number : 153
-Phase Name   : QUERY PARSER
-Phase Type   : SEARCH / QUERY SYNTAX
+Phase Number : 154
+Phase Name   : SEARCH ANALYTICS
+Phase Type   : SEARCH / METRICS
 Status       : ACTIVE
 
 Locked Date  : 2026-01-16

@@ -97,3 +97,15 @@ export {
   parseQuery,
   DEFAULT_PARSER_OPTIONS,
 } from './query-parser';
+
+export {
+  type SearchEventType,
+  type SearchEvent,
+  type QueryStats,
+  type SearchSession,
+  type AnalyticsSummary,
+  type AnalyticsConfig,
+  SearchAnalytics,
+  createSearchAnalytics,
+  DEFAULT_ANALYTICS_CONFIG,
+} from './analytics';

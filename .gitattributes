@@ -1,145 +1,93 @@
 # ═══════════════════════════════════════════════════════════════════════════════
-# OMEGA PROJECT — GITIGNORE
+# OMEGA PROJECT — GITATTRIBUTES
 # Version: 3.90.0
 # Standard: NASA-Grade L4 / DO-178C Level A
+# Cross-Platform EOL Determinism
 # ═══════════════════════════════════════════════════════════════════════════════
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# NODE / NPM
+# DEFAULT — AUTO DETECTION
 # ═══════════════════════════════════════════════════════════════════════════════
-node_modules/
-**/node_modules/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-.npm/
-.yarn/
+* text=auto
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# BUILD OUTPUT
+# UNIX-STYLE LF — Cross-platform code files
 # ═══════════════════════════════════════════════════════════════════════════════
-dist/
-**/dist/
-out/
-**/out/
-build/
-**/build/
-*.tsbuildinfo
+*.ts text eol=lf
+*.tsx text eol=lf
+*.js text eol=lf
+*.jsx text eol=lf
+*.mjs text eol=lf
+*.cjs text eol=lf
+*.json text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# TEST / COVERAGE
+# UNIX-STYLE LF — Documentation and config
 # ═══════════════════════════════════════════════════════════════════════════════
-coverage/
-**/coverage/
-.nyc_output/
-**/.nyc_output/
-.vitest/
-**/.vitest/
-**/.vite/
+*.md text eol=lf
+*.txt text eol=lf
+*.html text eol=lf
+*.css text eol=lf
+*.scss text eol=lf
+*.less text eol=lf
+*.svg text eol=lf
+*.xml text eol=lf
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# IDE / EDITOR
+# UNIX-STYLE LF — Shell scripts and CI
 # ═══════════════════════════════════════════════════════════════════════════════
-.idea/
-.vscode/
-*.swp
-*.swo
-*~
-.project
-.classpath
-.settings/
+*.sh text eol=lf
+.husky/* text eol=lf
+.github/**/* text eol=lf
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# CLAUDE CODE / AI TOOLS
+# WINDOWS-STYLE CRLF — PowerShell scripts
 # ═══════════════════════════════════════════════════════════════════════════════
-.claude/
-.claude-*
-tmpclaude-*
-**/tmpclaude-*
-.warmup/
+*.ps1 text eol=crlf
+*.psm1 text eol=crlf
+*.psd1 text eol=crlf
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# OS GENERATED
+# WINDOWS-STYLE CRLF — Batch files
 # ═══════════════════════════════════════════════════════════════════════════════
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
-desktop.ini
+*.bat text eol=crlf
+*.cmd text eol=crlf
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# ENVIRONMENT / SECRETS
+# BINARY — Do not process
 # ═══════════════════════════════════════════════════════════════════════════════
-.env
-.env.local
-.env.*.local
-.env.development
-.env.production
-*.pem
-*.key
-secrets/
-credentials/
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.pdf binary
+*.zip binary
+*.tar binary
+*.gz binary
+*.7z binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# TEMP / CACHE
+# OMEGA SPECIFIC — Certificates and evidence (LF for hash consistency)
 # ═══════════════════════════════════════════════════════════════════════════════
-tmp/
-temp/
-*.tmp
-*.temp
-*.cache
-.cache/
-**/.cache/
+certificates/**/*.md text eol=lf
+certificates/**/*.sha256 text eol=lf
+evidence/**/*.txt text eol=lf
+evidence/**/*.log text eol=lf
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# LOGS
+# LOCK FILES — Preserve as-is
 # ═══════════════════════════════════════════════════════════════════════════════
-*.log
-logs/
-!logs/.gitkeep
-
-# ═══════════════════════════════════════════════════════════════════════════════
-# ARCHIVES (local only)
-# ═══════════════════════════════════════════════════════════════════════════════
-*.zip
-*.tar
-*.tar.gz
-*.7z
-*.rar
-!archives/*.zip
+package-lock.json text eol=lf -diff
+yarn.lock text eol=lf -diff
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# OMEGA-SPECIFIC IGNORES
-# ═══════════════════════════════════════════════════════════════════════════════
-
-# Local POC directories (not production)
-nexus-search-poc/
-
-# Legacy omega scripts (replaced by official tooling)
-check_atlas.ps1
-omega-save.ps1
-
-# Pack directories (external distribution)
-omega_pack_v10/
-omega_titanium_ultimate/
-
-# Registry auto-generated (DECISION: now versioned per Phase 94)
-# nexus/ledger/registry/*.yaml
-
-# Broken hooks backup
-.git/hooks/*.broken
-
-# ═══════════════════════════════════════════════════════════════════════════════
-# LEGACY DIRECTORIES (archived externally)
-# ═══════════════════════════════════════════════════════════════════════════════
-# These are historical phase directories - kept for reference but not committed
-# OMEGA_PHASE*/
-# OMEGA_MASTER_DOSSIER_*/
-# sprint*/
-
-# ═══════════════════════════════════════════════════════════════════════════════
-# END OF GITIGNORE
+# END OF GITATTRIBUTES
 # ═══════════════════════════════════════════════════════════════════════════════

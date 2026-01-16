@@ -1,8 +1,8 @@
 # OMEGA — CURRENT PHASE (CANONICAL)
 
-Phase Number : 146
-Phase Name   : SEARCH CORE
-Phase Type   : SEARCH / ENGINE
+Phase Number : 147
+Phase Name   : SEARCH FILTERS
+Phase Type   : SEARCH / FILTERS
 Status       : ACTIVE
 
 Locked Date  : 2026-01-16

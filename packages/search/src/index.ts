@@ -20,3 +20,21 @@ export {
 } from './types';
 
 export { SearchEngine, createSearchEngine } from './engine';
+
+export {
+  type FilterOperator,
+  type AdvancedFilter,
+  type FilterGroup,
+  type FacetDefinition,
+  type TermsFacetResult,
+  type RangeFacetResult,
+  type FacetResult,
+  type AggregationDefinition,
+  type AggregationResult,
+  FilterProcessor,
+  FacetProcessor,
+  AggregationProcessor,
+  createFilterProcessor,
+  createFacetProcessor,
+  createAggregationProcessor,
+} from './filters';

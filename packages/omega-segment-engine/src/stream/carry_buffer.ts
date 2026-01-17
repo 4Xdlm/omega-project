@@ -58,9 +58,6 @@ const ABBREVIATIONS = new Set([
   "av", "bd", "etc", "cf", "fig", "vol", "n°", "p", "pp", "éd",
 ]);
 
-/** Minimum carry size for sentence mode (to handle abbreviations) */
-const MIN_SENTENCE_CARRY = 50;
-
 // ─────────────────────────────────────────────────────────────────────────────
 // NEWLINE NORMALIZER
 // ─────────────────────────────────────────────────────────────────────────────
@@ -161,8 +158,7 @@ export class NewlineNormalizer {
 export class CarryBuffer {
   private carry: string = "";
   private mode: SegmentMode;
-  private currentOffset: number = 0;
-  
+
   constructor(mode: SegmentMode) {
     this.mode = mode;
   }
@@ -186,8 +182,7 @@ export class CarryBuffer {
     
     const completeSegments: string[] = [];
     const segmentOffsets: Array<[number, number]> = [];
-    
-    let searchStart = 0;
+
     let lastBoundary = 0;
     
     switch (this.mode) {
@@ -366,6 +361,5 @@ export class CarryBuffer {
    */
   reset(): void {
     this.carry = "";
-    this.currentOffset = 0;
   }
 }

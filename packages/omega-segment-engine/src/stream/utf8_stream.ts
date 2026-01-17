@@ -76,16 +76,14 @@ export async function* readUTF8Stream(
   });
   
   let byteOffset = 0;
-  let chunkIndex = 0;
-  
+
   try {
     for await (const chunk of stream) {
       const buffer = chunk as Buffer;
-      const isLast = false; // Will be determined after loop
-      
+
       // Decode with stream:true to handle UTF-8 boundaries
       const text = decoder.decode(buffer, { stream: true });
-      
+
       if (text.length > 0) {
         yield {
           text,
@@ -93,9 +91,8 @@ export async function* readUTF8Stream(
           isLast: false,
         };
       }
-      
+
       byteOffset += buffer.length;
-      chunkIndex++;
     }
     
     // Flush any remaining bytes in the decoder

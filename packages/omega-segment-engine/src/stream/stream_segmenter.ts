@@ -88,7 +88,6 @@ export interface StreamSegmentationResult {
 // ─────────────────────────────────────────────────────────────────────────────
 
 const DEFAULT_CHUNK_SIZE = 65536; // 64KB
-const STREAMING_VERSION = "2.0.0";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // UTILITIES
@@ -150,9 +149,7 @@ export async function* iterateSegmentsStreaming(
   
   let segmentIndex = 0;
   let bytesRead = 0;
-  let isFirstChunk = true;
-  let lastChunkText = "";
-  
+
   const reader = readUTF8Stream(filePath, { chunkSize });
   
   for await (const utf8Chunk of reader) {

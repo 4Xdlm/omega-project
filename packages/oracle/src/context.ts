@@ -6,6 +6,22 @@
 
 import type { OracleResponse, EmotionalInsight } from './types';
 
+// ═══════════════════════════════════════════════════════════════════════════
+// THRESHOLDS (internal, not exported)
+// ═══════════════════════════════════════════════════════════════════════════
+
+/** Minimum difference between halves to detect trend */
+const TREND_DETECTION_THRESHOLD = 0.1;
+
+/** Minimum difference to consider emotions divergent */
+const EMOTION_DIVERGENCE_THRESHOLD = 0.2;
+
+/** Similarity >= this is "very similar" */
+const HIGH_SIMILARITY_THRESHOLD = 0.8;
+
+/** Similarity >= this is "moderate similarity" */
+const MODERATE_SIMILARITY_THRESHOLD = 0.5;
+
 /**
  * Context entry representing a single analyzed text
  */
@@ -292,8 +308,8 @@ export class OracleContext {
 
       let trend: 'increasing' | 'decreasing' | 'stable' = 'stable';
       const diff = secondAvg - firstAvg;
-      if (diff > 0.1) trend = 'increasing';
-      else if (diff < -0.1) trend = 'decreasing';
+      if (diff > TREND_DETECTION_THRESHOLD) trend = 'increasing';
+      else if (diff < -TREND_DETECTION_THRESHOLD) trend = 'decreasing';
 
       trends.push({
         emotion,
@@ -338,7 +354,7 @@ export class OracleContext {
       const diff = Math.abs(v1 - v2);
       distance += diff;
 
-      if (diff > 0.2) {
+      if (diff > EMOTION_DIVERGENCE_THRESHOLD) {
         divergentEmotions.push({ emotion, diff });
       }
     }
@@ -347,9 +363,9 @@ export class OracleContext {
     const similarity = maxDistance > 0 ? 1 - distance / maxDistance : 1;
 
     let narrative = '';
-    if (similarity > 0.8) {
+    if (similarity > HIGH_SIMILARITY_THRESHOLD) {
       narrative = `Very similar emotional profiles with ${sharedEmotions.length} shared emotions.`;
-    } else if (similarity > 0.5) {
+    } else if (similarity > MODERATE_SIMILARITY_THRESHOLD) {
       narrative = `Moderate similarity. Key differences in: ${divergentEmotions.map((d) => d.emotion).join(', ')}.`;
     } else {
       narrative = `Significantly different emotional profiles. Major divergence in ${divergentEmotions.length} emotions.`;

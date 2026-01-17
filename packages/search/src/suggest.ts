@@ -4,6 +4,25 @@
  * @description Autocomplete and query suggestions
  */
 
+// ═══════════════════════════════════════════════════════════════════════════
+// SCORING WEIGHTS (internal, not exported)
+// ═══════════════════════════════════════════════════════════════════════════
+
+/** Weight for prefix ratio in completion scoring */
+const COMPLETION_PREFIX_WEIGHT = 0.5;
+/** Weight for frequency in completion scoring */
+const COMPLETION_FREQUENCY_WEIGHT = 0.5;
+
+/** Weight for distance penalty in correction scoring */
+const CORRECTION_DISTANCE_WEIGHT = 0.6;
+/** Weight for frequency in correction scoring */
+const CORRECTION_FREQUENCY_WEIGHT = 0.4;
+
+/** Weight for prefix ratio in phrase scoring */
+const PHRASE_PREFIX_WEIGHT = 0.4;
+/** Weight for frequency in phrase scoring */
+const PHRASE_FREQUENCY_WEIGHT = 0.6;
+
 /**
  * Suggestion type
  */
@@ -360,7 +379,7 @@ export class SearchSuggester {
   private calculateCompletionScore(prefix: string, term: string, frequency: number): number {
     const prefixRatio = prefix.length / term.length;
     const frequencyScore = Math.log(frequency + 1);
-    return prefixRatio * 0.5 + frequencyScore * 0.5;
+    return prefixRatio * COMPLETION_PREFIX_WEIGHT + frequencyScore * COMPLETION_FREQUENCY_WEIGHT;
   }
 
   /**
@@ -369,7 +388,7 @@ export class SearchSuggester {
   private calculateCorrectionScore(distance: number, frequency: number): number {
     const distancePenalty = 1 / (distance + 1);
     const frequencyScore = Math.log(frequency + 1);
-    return distancePenalty * 0.6 + frequencyScore * 0.4;
+    return distancePenalty * CORRECTION_DISTANCE_WEIGHT + frequencyScore * CORRECTION_FREQUENCY_WEIGHT;
   }
 
   /**
@@ -378,7 +397,7 @@ export class SearchSuggester {
   private calculatePhraseScore(prefix: string, phrase: string, frequency: number): number {
     const prefixRatio = prefix.length / phrase.length;
     const frequencyScore = Math.log(frequency + 1);
-    return prefixRatio * 0.4 + frequencyScore * 0.6;
+    return prefixRatio * PHRASE_PREFIX_WEIGHT + frequencyScore * PHRASE_FREQUENCY_WEIGHT;
   }
 
   /**

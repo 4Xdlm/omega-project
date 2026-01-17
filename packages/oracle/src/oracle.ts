@@ -14,6 +14,19 @@ import {
   OracleError,
 } from './types';
 
+// ═══════════════════════════════════════════════════════════════════════════
+// THRESHOLDS (internal, not exported)
+// ═══════════════════════════════════════════════════════════════════════════
+
+/** Below this intensity, emotional expression is considered weak */
+const LOW_INTENSITY_THRESHOLD = 0.3;
+
+/** Below this intensity, overall emotional impact is considered mild */
+const MILD_INTENSITY_THRESHOLD = 0.5;
+
+/** Above this confidence, emotion detection is considered high confidence */
+const HIGH_CONFIDENCE_THRESHOLD = 0.8;
+
 /**
  * Generate unique response ID
  */
@@ -247,7 +260,7 @@ export class Oracle {
     }
 
     const dominant = insights[0];
-    if (dominant.intensity < 0.3) {
+    if (dominant.intensity < LOW_INTENSITY_THRESHOLD) {
       recommendations.push('The emotional expression could be stronger');
     }
 
@@ -259,7 +272,7 @@ export class Oracle {
       recommendations.push('Balance negative emotions with contrasting positive elements');
     }
 
-    if (insights.every((i) => i.intensity < 0.5)) {
+    if (insights.every((i) => i.intensity < MILD_INTENSITY_THRESHOLD)) {
       recommendations.push('Increase emotional intensity through specific details and imagery');
     }
 
@@ -280,7 +293,7 @@ export class Oracle {
     const dominant = insights[0];
     let summary = `The text primarily conveys ${dominant.primaryEmotion}`;
 
-    if (dominant.confidence > 0.8) {
+    if (dominant.confidence > HIGH_CONFIDENCE_THRESHOLD) {
       summary += ' with high confidence';
     }
 

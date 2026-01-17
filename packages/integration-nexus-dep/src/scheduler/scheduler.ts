@@ -32,6 +32,13 @@ import type {
 import type { PipelineDefinition } from "../pipeline/types.js";
 
 // ═══════════════════════════════════════════════════════════════════════════════
+// CONSTANTS (internal, not exported)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+/** Polling interval when waiting for job completion (ms) */
+const JOB_POLL_INTERVAL_MS = 50;
+
+// ═══════════════════════════════════════════════════════════════════════════════
 // JOB SCHEDULER
 // ═══════════════════════════════════════════════════════════════════════════════
 
@@ -190,7 +197,7 @@ export class JobScheduler {
         return state;
       }
 
-      await new Promise(resolve => setTimeout(resolve, 50));
+      await new Promise(resolve => setTimeout(resolve, JOB_POLL_INTERVAL_MS));
     }
 
     throw new Error(`Timeout waiting for job ${jobId}`);

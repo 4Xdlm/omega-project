@@ -312,9 +312,9 @@ export class QueryParser {
         errors: this.errors,
         warnings: this.warnings,
       };
-    } catch (e) {
+    } catch (error) {
       this.errors.push({
-        message: e instanceof Error ? e.message : 'Parse error',
+        message: error instanceof Error ? error.message : 'Parse error',
         position: this.position,
       });
       return {

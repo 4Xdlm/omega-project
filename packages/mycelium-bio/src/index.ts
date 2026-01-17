@@ -206,64 +206,64 @@ export function runAllTests(): boolean {
   // Test canonical_json
   try {
     results.push({ module: "canonical_json", passed: canonicalJson.selfTest() });
-  } catch (e) {
-    console.error("CRASH: canonical_json", e);
+  } catch (error) {
+    console.error("CRASH: canonical_json", error);
     results.push({ module: "canonical_json", passed: false });
   }
 
   // Test gematria
   try {
     results.push({ module: "gematria", passed: gematria.selfTest() });
-  } catch (e) {
-    console.error("CRASH: gematria", e);
+  } catch (error) {
+    console.error("CRASH: gematria", error);
     results.push({ module: "gematria", passed: false });
   }
 
   // Test emotion_field
   try {
     results.push({ module: "emotion_field", passed: emotionField.selfTest() });
-  } catch (e) {
-    console.error("CRASH: emotion_field", e);
+  } catch (error) {
+    console.error("CRASH: emotion_field", error);
     results.push({ module: "emotion_field", passed: false });
   }
 
   // Test bio_engine
   try {
     results.push({ module: "bio_engine", passed: bioEngine.selfTest() });
-  } catch (e) {
-    console.error("CRASH: bio_engine", e);
+  } catch (error) {
+    console.error("CRASH: bio_engine", error);
     results.push({ module: "bio_engine", passed: false });
   }
 
   // Test morpho_engine
   try {
     results.push({ module: "morpho_engine", passed: morphoEngine.selfTest() });
-  } catch (e) {
-    console.error("CRASH: morpho_engine", e);
+  } catch (error) {
+    console.error("CRASH: morpho_engine", error);
     results.push({ module: "morpho_engine", passed: false });
   }
 
   // Test fingerprint
   try {
     results.push({ module: "fingerprint", passed: fingerprint.selfTest() });
-  } catch (e) {
-    console.error("CRASH: fingerprint", e);
+  } catch (error) {
+    console.error("CRASH: fingerprint", error);
     results.push({ module: "fingerprint", passed: false });
   }
 
   // Test merkle
   try {
     results.push({ module: "merkle", passed: merkle.selfTest() });
-  } catch (e) {
-    console.error("CRASH: merkle", e);
+  } catch (error) {
+    console.error("CRASH: merkle", error);
     results.push({ module: "merkle", passed: false });
   }
 
   // Test dna_builder
   try {
     results.push({ module: "dna_builder", passed: dnaBuilder.selfTest() });
-  } catch (e) {
-    console.error("CRASH: dna_builder", e);
+  } catch (error) {
+    console.error("CRASH: dna_builder", error);
     results.push({ module: "dna_builder", passed: false });
   }
 

@@ -47,12 +47,12 @@ export function validateExport(name: string, value: unknown): ExportValidation {
       type,
       valid: true,
     };
-  } catch (e) {
+  } catch (error) {
     return {
       name,
       type: 'const',
       valid: false,
-      error: e instanceof Error ? e.message : 'Unknown error',
+      error: error instanceof Error ? error.message : 'Unknown error',
     };
   }
 }
@@ -111,8 +111,8 @@ export async function runIntegrationTest(
     if (!result) {
       errors.push('Integration test returned false');
     }
-  } catch (e) {
-    errors.push(e instanceof Error ? e.message : 'Unknown error');
+  } catch (error) {
+    errors.push(error instanceof Error ? error.message : 'Unknown error');
   }
 
   return {
@@ -211,10 +211,10 @@ export function validateInstantiable(
   try {
     new (Class as new (...a: unknown[]) => unknown)(...args);
     return { valid: true };
-  } catch (e) {
+  } catch (error) {
     return {
       valid: false,
-      error: e instanceof Error ? e.message : 'Instantiation failed',
+      error: error instanceof Error ? error.message : 'Instantiation failed',
     };
   }
 }

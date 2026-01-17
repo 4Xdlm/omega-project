@@ -105,7 +105,7 @@ export function selfTest(): boolean {
     console.error("FAIL: NaN should throw");
     return false;
   } catch {
-    // OK
+    // Expected: NaN must throw - test passes
   }
 
   // Test refus Infinity
@@ -114,7 +114,7 @@ export function selfTest(): boolean {
     console.error("FAIL: Infinity should throw");
     return false;
   } catch {
-    // OK
+    // Expected: Infinity must throw - test passes
   }
 
   return true;

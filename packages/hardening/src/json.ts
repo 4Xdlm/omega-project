@@ -74,11 +74,11 @@ export function safeJsonParse<T = unknown>(
       success: true,
       value: parsed as T,
     };
-  } catch (e) {
+  } catch (error) {
     return {
       success: false,
       value: null,
-      error: e instanceof Error ? e.message : 'JSON parse error',
+      error: error instanceof Error ? error.message : 'JSON parse error',
     };
   }
 }
@@ -180,11 +180,11 @@ export function safeJsonStringify(
       success: true,
       value: result,
     };
-  } catch (e) {
+  } catch (error) {
     return {
       success: false,
       value: null,
-      error: e instanceof Error ? e.message : 'JSON stringify error',
+      error: error instanceof Error ? error.message : 'JSON stringify error',
     };
   }
 }

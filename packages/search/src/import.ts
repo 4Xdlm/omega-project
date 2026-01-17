@@ -111,9 +111,9 @@ export class SearchImporter {
         default:
           throw new Error(`Unsupported format: ${opts.format}`);
       }
-    } catch (e) {
+    } catch (error) {
       errors.push({
-        message: e instanceof Error ? e.message : 'Import failed',
+        message: error instanceof Error ? error.message : 'Import failed',
       });
     }
 
@@ -160,8 +160,8 @@ export class SearchImporter {
           documentCount = this.validateLines(content, opts, errors, warnings);
           break;
       }
-    } catch (e) {
-      errors.push(e instanceof Error ? e.message : 'Validation failed');
+    } catch (error) {
+      errors.push(error instanceof Error ? error.message : 'Validation failed');
     }
 
     return {
@@ -216,17 +216,17 @@ export class SearchImporter {
           if (doc) {
             documents.push(doc);
           }
-        } catch (e) {
+        } catch (error) {
           errors.push({
             index: i,
-            message: e instanceof Error ? e.message : 'Failed to parse item',
+            message: error instanceof Error ? error.message : 'Failed to parse item',
             rawData: JSON.stringify(items[i]).slice(0, 100),
           });
         }
       }
-    } catch (e) {
+    } catch (error) {
       errors.push({
-        message: `Invalid JSON: ${e instanceof Error ? e.message : 'parse error'}`,
+        message: `Invalid JSON: ${error instanceof Error ? error.message : 'parse error'}`,
       });
     }
 
@@ -276,10 +276,10 @@ export class SearchImporter {
         if (doc) {
           documents.push(doc);
         }
-      } catch (e) {
+      } catch (error) {
         errors.push({
           line: i + 1,
-          message: e instanceof Error ? e.message : 'Failed to parse line',
+          message: error instanceof Error ? error.message : 'Failed to parse line',
           rawData: lines[i].slice(0, 100),
         });
       }
@@ -363,10 +363,10 @@ export class SearchImporter {
         }
 
         index++;
-      } catch (e) {
+      } catch (error) {
         errors.push({
           index,
-          message: e instanceof Error ? e.message : 'Failed to parse document',
+          message: error instanceof Error ? error.message : 'Failed to parse document',
           rawData: match[1].slice(0, 100),
         });
         index++;
@@ -390,9 +390,9 @@ export class SearchImporter {
             documents.push(doc);
           }
         }
-      } catch (e) {
+      } catch (error) {
         errors.push({
-          message: e instanceof Error ? e.message : 'Failed to parse XML',
+          message: error instanceof Error ? error.message : 'Failed to parse XML',
         });
       }
     }
@@ -447,10 +447,10 @@ export class SearchImporter {
           content: line,
           title: line.slice(0, 50) + (line.length > 50 ? '...' : ''),
         });
-      } catch (e) {
+      } catch (error) {
         errors.push({
           line: i + 1,
-          message: e instanceof Error ? e.message : 'Failed to parse line',
+          message: error instanceof Error ? error.message : 'Failed to parse line',
           rawData: line.slice(0, 100),
         });
       }
@@ -552,8 +552,8 @@ export class SearchImporter {
       }
 
       return items.length;
-    } catch (e) {
-      errors.push(`Invalid JSON: ${e instanceof Error ? e.message : 'parse error'}`);
+    } catch (error) {
+      errors.push(`Invalid JSON: ${error instanceof Error ? error.message : 'parse error'}`);
       return 0;
     }
   }

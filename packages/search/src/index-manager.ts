@@ -170,9 +170,9 @@ export class IndexManager {
       success = true;
 
       return indexed;
-    } catch (e) {
-      error = e instanceof Error ? e.message : 'Unknown error';
-      throw e;
+    } catch (error) {
+      error = error instanceof Error ? error.message : 'Unknown error';
+      throw error;
     } finally {
       this.logOperation('add', doc.id, startTime, success, error);
     }
@@ -195,9 +195,9 @@ export class IndexManager {
       const indexed = this.addDocument(doc);
       success = true;
       return indexed;
-    } catch (e) {
-      error = e instanceof Error ? e.message : 'Unknown error';
-      throw e;
+    } catch (error) {
+      error = error instanceof Error ? error.message : 'Unknown error';
+      throw error;
     } finally {
       this.logOperation('update', doc.id, startTime, success, error);
     }
@@ -221,8 +221,8 @@ export class IndexManager {
       this.updatedAt = Date.now();
       success = true;
       return true;
-    } catch (e) {
-      error = e instanceof Error ? e.message : 'Unknown error';
+    } catch (error) {
+      error = error instanceof Error ? error.message : 'Unknown error';
       return false;
     } finally {
       this.logOperation('delete', docId, startTime, success, error);
@@ -367,8 +367,8 @@ export class IndexManager {
       this.updatedAt = Date.now();
       success = true;
       return mergedCount;
-    } catch (e) {
-      error = e instanceof Error ? e.message : 'Unknown error';
+    } catch (error) {
+      error = error instanceof Error ? error.message : 'Unknown error';
       return mergedCount;
     } finally {
       this.logOperation('merge', undefined, startTime, success, error);
@@ -401,8 +401,8 @@ export class IndexManager {
       success = true;
 
       return { segmentsMerged, emptySegmentsRemoved };
-    } catch (e) {
-      error = e instanceof Error ? e.message : 'Unknown error';
+    } catch (error) {
+      error = error instanceof Error ? error.message : 'Unknown error';
       return { segmentsMerged: 0, emptySegmentsRemoved: 0 };
     } finally {
       this.logOperation('optimize', undefined, startTime, success, error);

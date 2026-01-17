@@ -331,7 +331,7 @@ export class PipelineExecutor {
       try {
         handler(event);
       } catch {
-        // Ignore handler errors
+        // Intentionally ignored: Event handlers must not break pipeline execution
       }
     }
   }

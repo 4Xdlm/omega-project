@@ -241,10 +241,10 @@ export function memoizeAsync<A, R>(fn: (arg: A) => Promise<R>): (arg: A) => Prom
 
     try {
       return await promise;
-    } catch (e) {
+    } catch (error) {
       // Remove failed promises from cache
       cache.delete(arg);
-      throw e;
+      throw error;
     }
   };
 }

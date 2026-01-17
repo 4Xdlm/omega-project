@@ -245,8 +245,24 @@ export async function main(argv: string[] = process.argv.slice(2)): Promise<void
     stdout: console.log,
     stderr: console.error,
   });
-  
+
   if (typeof process !== 'undefined' && process.exit) {
     process.exit(result.exitCode);
   }
+}
+
+// ============================================================================
+// AUTO-EXECUTE WHEN RUN DIRECTLY
+// ============================================================================
+
+// Check if this is the main module being run
+const isMainModule = typeof process !== 'undefined' &&
+  process.argv[1] &&
+  (process.argv[1].endsWith('runner.js') || process.argv[1].endsWith('runner.ts'));
+
+if (isMainModule) {
+  main().catch((error) => {
+    console.error('Fatal error:', error);
+    process.exit(1);
+  });
 }

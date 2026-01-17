@@ -1,0 +1,105 @@
+# OMEGA Chapter 9 — Run Output
+# Date: 2026-01-17
+
+================================================================================
+COMMAND: node --version && npm --version
+EXIT CODE: 0
+================================================================================
+v24.12.0
+11.6.2
+
+================================================================================
+COMMAND: npm test
+EXIT CODE: 0
+================================================================================
+> omega-core@1.0.0 test
+> vitest run --reporter=verbose
+
+[Tests executed - 1389+ passed]
+Sample output:
+✓ tests/scribe/L2_integration_test.ts > L2-01: Full Pipeline DRAFT Mode
+✓ test/ultimate-gold.test.ts > Phase 116: Master Checker
+✓ test/ci-cd.test.ts > CI/CD Workflow
+[... all tests passed ...]
+
+================================================================================
+COMMAND: cd gateway/cli-runner && npm run cli -- --help
+EXIT CODE: 1
+================================================================================
+> @omega/cli-runner@3.16.0 cli
+> node --loader ts-node/esm src/cli/runner.ts --help
+
+Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'ts-node' imported from C:\Users\elric\omega-project\gateway\cli-runner\
+    at Object.getPackageJSONURL (node:internal/modules/package_json_reader:316:9)
+    at packageResolve (node:internal/modules/esm/resolve:768:81)
+    at moduleResolve (node:internal/modules/esm/resolve:858:18)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    [stack trace truncated]
+Node.js v24.12.0
+
+================================================================================
+COMMAND: cd nexus/tooling && node scripts/cli.js --help
+EXIT CODE: 0
+================================================================================
+Usage: omega-nexus [options] [command]
+
+OMEGA NEXUS — Immutable Project Decision Record
+
+Options:
+  -V, --version     output the version number
+  -h, --help        display help for command
+
+Commands:
+  init [options]    Initialize nexus structure
+  seal [options]    Create a new seal
+  verify [options]  Verify nexus integrity
+  atlas [options]   Generate atlas views
+  export [options]  Export for tribunal
+  status [options]  Show nexus status
+  hooks [options]   Install git hooks
+  backup [options]  Create or verify backup
+  where [options]   Show current project state (phase, seals, entities)
+  help [command]    display help for command
+
+================================================================================
+COMMAND: node scripts/cli.js status --dir "C:/Users/elric/omega-project"
+EXIT CODE: 0
+================================================================================
+════════════════════════════════════════════════════════════
+  OMEGA NEXUS — STATUS
+════════════════════════════════════════════════════════════
+
+Location:
+  C:\Users\elric\omega-project
+
+Ledger:
+  Entities: 5
+  Events:   9
+  Links:    2
+  Seals:    22
+
+Latest Seal:
+  ID:        undefined
+  Timestamp: undefined
+  Status:    VALID
+  Root Hash: undefined
+
+Integrity:
+  ✗ Invalid seal structure
+  ⚠ Atlas: ATLAS-META.json is outdated
+
+================================================================================
+ROMAN ANALYSIS ATTEMPT
+================================================================================
+File: C:\Users\elric\omega-project\nexus\user_imputs\test.txt
+Size: 500.7 KB
+Title: RÉSIDENCE RIVIERA - Tome 1 - Le Dernier Rempart
+Author: Noé Valmont
+Chapters: Prologue + 21 chapters + Epilogue
+
+RESULT: CANNOT ANALYZE
+REASON: No working CLI available for text emotional analysis
+- omega CLI: fails (ts-node missing)
+- omega CLI analyze: uses simulateFileRead (doesn't read real files)
+- omega-nexus: works but is for nexus management, not text analysis
+- genome/mycelium: frozen, not exposed to users

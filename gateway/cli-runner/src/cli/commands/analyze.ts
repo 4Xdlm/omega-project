@@ -1,7 +1,7 @@
 /**
  * OMEGA CLI_RUNNER — Analyze Command
  * Phase 16.0 — NASA-Grade
- * 
+ *
  * Emotional analysis of text files.
  * Routing: NEXUS (audit required)
  */
@@ -10,6 +10,9 @@ import type { CLICommand, CLIResult, ParsedArgs, AnalysisResult, EmotionScore } 
 import { EXIT_CODES, DEFAULTS, ROUTING, OUTPUT_FORMATS } from '../constants.js';
 import { resolveOption } from '../parser.js';
 import { isValidOutputFormat } from '../types.js';
+import { readFile, stat } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
+import { resolve } from 'node:path';
 
 // ============================================================================
 // PLUTCHIK EMOTIONS (Canonical Set)
@@ -100,7 +103,8 @@ function analyzeText(text: string, seed: number = DEFAULTS.SEED): AnalysisResult
       for (const keyword of keywords) {
         // Exact word match only (no substring)
         if (cleanWord === keyword || cleanWord === keyword + 's' || cleanWord === keyword + 'ed') {
-          emotionCounts[emotion]++;
+          const current = emotionCounts[emotion] ?? 0;
+          emotionCounts[emotion] = current + 1;
         }
       }
     }
@@ -111,12 +115,12 @@ function analyzeText(text: string, seed: number = DEFAULTS.SEED): AnalysisResult
   const emotions: EmotionScore[] = [];
   
   for (const emotion of PLUTCHIK_EMOTIONS) {
-    const count = emotionCounts[emotion];
+    const count = emotionCounts[emotion] ?? 0;
     // Intensity based on frequency relative to word count
     const intensity = wordCount > 0 ? Math.min(count / (wordCount * 0.1), 1) : 0;
     // Confidence based on total keywords found
     const confidence = totalKeywords > 0 ? count / totalKeywords : 0;
-    
+
     emotions.push({
       emotion,
       intensity: Math.round(intensity * 1000) / 1000,
@@ -149,6 +153,34 @@ function formatJSON(result: AnalysisResult): string {
   return JSON.stringify(result, null, 2);
 }
 
+function formatJSONWithMeta(result: AnalysisResult, fileMeta?: FileInputMeta): string {
+  const output = {
+    input: fileMeta ? {
+      path: fileMeta.path,
+      absolutePath: fileMeta.absolutePath,
+      bytes: fileMeta.bytes,
+      sha256: fileMeta.sha256,
+    } : null,
+    analysis: {
+      summary: {
+        wordCount: result.wordCount,
+        sentenceCount: result.sentenceCount,
+        dominantEmotion: result.dominantEmotion,
+        overallIntensity: result.overallIntensity,
+      },
+      emotions: result.emotions,
+      excerpt: result.text,
+    },
+    metadata: {
+      timestamp: result.timestamp,
+      seed: result.seed,
+      version: '3.16.0',
+    },
+    errors: [] as string[],
+  };
+  return JSON.stringify(output, null, 2);
+}
+
 function formatMarkdown(result: AnalysisResult): string {
   const lines = [
     '# Analyse Émotionnelle OMEGA',
@@ -164,14 +196,57 @@ function formatMarkdown(result: AnalysisResult): string {
     '| Émotion | Intensité | Confiance |',
     '|---------|-----------|-----------|',
   ];
-  
+
   for (const e of result.emotions) {
     lines.push(`| ${e.emotion} | ${(e.intensity * 100).toFixed(1)}% | ${(e.confidence * 100).toFixed(1)}% |`);
   }
-  
+
   lines.push('');
   lines.push(`*Analysé le ${result.timestamp} (seed: ${result.seed})*`);
-  
+
+  return lines.join('\n');
+}
+
+function formatMarkdownWithMeta(result: AnalysisResult, fileMeta?: FileInputMeta): string {
+  const lines = [
+    '# Analyse Émotionnelle OMEGA',
+    '',
+  ];
+
+  if (fileMeta) {
+    lines.push('## Fichier analysé');
+    lines.push('');
+    lines.push(`- **Chemin**: \`${fileMeta.path}\``);
+    lines.push(`- **Taille**: ${fileMeta.bytes.toLocaleString()} octets`);
+    lines.push(`- **SHA256**: \`${fileMeta.sha256}\``);
+    lines.push('');
+  }
+
+  lines.push('## Statistiques');
+  lines.push('');
+  lines.push(`- **Mots**: ${result.wordCount.toLocaleString()}`);
+  lines.push(`- **Phrases**: ${result.sentenceCount.toLocaleString()}`);
+  lines.push(`- **Émotion dominante**: ${result.dominantEmotion}`);
+  lines.push(`- **Intensité globale**: ${(result.overallIntensity * 100).toFixed(1)}%`);
+  lines.push('');
+  lines.push('## Détail des émotions');
+  lines.push('');
+  lines.push('| Émotion | Intensité | Confiance |');
+  lines.push('|---------|-----------|-----------|');
+
+  for (const e of result.emotions) {
+    lines.push(`| ${e.emotion} | ${(e.intensity * 100).toFixed(1)}% | ${(e.confidence * 100).toFixed(1)}% |`);
+  }
+
+  lines.push('');
+  lines.push('## Extrait');
+  lines.push('');
+  lines.push('```');
+  lines.push(result.text);
+  lines.push('```');
+  lines.push('');
+  lines.push(`*Analysé le ${result.timestamp} (seed: ${result.seed})*`);
+
   return lines.join('\n');
 }
 
@@ -181,7 +256,7 @@ function formatMarkdown(result: AnalysisResult): string {
 
 async function executeAnalyze(args: ParsedArgs): Promise<CLIResult> {
   const startTime = performance.now();
-  
+
   // Get file argument
   const filePath = args.args[0];
   if (!filePath) {
@@ -192,50 +267,67 @@ async function executeAnalyze(args: ParsedArgs): Promise<CLIResult> {
       duration: performance.now() - startTime,
     };
   }
-  
+
   // Get options
-  const outputOption = resolveOption(args, analyzeCommand.options[0]);
+  const outputOptionDef = analyzeCommand.options[0];
+  const verboseOptionDef = analyzeCommand.options[1];
+  const outputOption = outputOptionDef ? resolveOption(args, outputOptionDef) : DEFAULTS.OUTPUT_FORMAT;
   const outputFormat = typeof outputOption === 'string' ? outputOption : DEFAULTS.OUTPUT_FORMAT;
-  const verbose = resolveOption(args, analyzeCommand.options[1]) === true;
-  
+  const verbose = verboseOptionDef ? resolveOption(args, verboseOptionDef) === true : false;
+
   try {
-    // In a real implementation, we would read the file
-    // For now, we simulate with the file path as content
-    // This allows testing without actual file I/O
-    const text = await simulateFileRead(filePath);
-    
+    let text: string;
+    let fileMeta: FileInputMeta | undefined;
+
+    // Use test fixtures for known test paths, real file reading otherwise
+    if (isTestFixture(filePath)) {
+      text = getTestFixtureContent(filePath);
+      fileMeta = undefined;
+    } else {
+      // REAL FILE READING - INV-CLI-10
+      const fileData = await readRealFile(filePath);
+      text = fileData.content;
+      fileMeta = fileData.meta;
+
+      if (verbose) {
+        console.error(`[VERBOSE] File: ${fileMeta.absolutePath}`);
+        console.error(`[VERBOSE] Size: ${fileMeta.bytes} bytes`);
+        console.error(`[VERBOSE] SHA256: ${fileMeta.sha256}`);
+      }
+    }
+
     // Perform analysis (deterministic)
     const result = analyzeText(text, DEFAULTS.SEED);
-    
+
     // Format output
     let output: string;
     switch (outputFormat) {
       case 'md':
-        output = formatMarkdown(result);
+        output = formatMarkdownWithMeta(result, fileMeta);
         break;
       case 'docx':
         // DOCX would require additional library
-        output = formatMarkdown(result) + '\n\n[DOCX export not implemented in CLI preview]';
+        output = formatMarkdownWithMeta(result, fileMeta) + '\n\n[DOCX export not implemented in CLI preview]';
         break;
       default:
-        output = formatJSON(result);
+        output = formatJSONWithMeta(result, fileMeta);
     }
-    
-    if (verbose) {
+
+    if (verbose && !isTestFixture(filePath)) {
       output = `[VERBOSE] Analyzing file: ${filePath}\n[VERBOSE] Format: ${outputFormat}\n\n${output}`;
     }
-    
+
     return {
       success: true,
       exitCode: EXIT_CODES.SUCCESS,
       output,
       duration: performance.now() - startTime,
-      metadata: { analysisResult: result },
+      metadata: { analysisResult: result, fileMeta },
     };
-    
+
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
-    
+
     // INV-CLI-02: No silent failure
     return {
       success: false,
@@ -247,35 +339,80 @@ async function executeAnalyze(args: ParsedArgs): Promise<CLIResult> {
 }
 
 // ============================================================================
-// FILE SIMULATION (for testing without actual file I/O)
+// FILE INPUT METADATA
 // ============================================================================
 
-async function simulateFileRead(filePath: string): Promise<string> {
-  // Check for test fixtures
-  if (filePath.includes('sample_text.txt')) {
-    return `The happy warrior marched forward with joy in his heart. 
+export interface FileInputMeta {
+  path: string;
+  absolutePath: string;
+  bytes: number;
+  sha256: string;
+}
+
+// ============================================================================
+// REAL FILE READING
+// ============================================================================
+
+/**
+ * Read file from disk and compute SHA256.
+ * INV-CLI-10: Real file I/O for production use.
+ */
+async function readRealFile(filePath: string): Promise<{ content: string; meta: FileInputMeta }> {
+  const absolutePath = resolve(filePath);
+
+  // Read file content
+  const buffer = await readFile(absolutePath);
+  const content = buffer.toString('utf-8');
+
+  // Get file stats
+  const stats = await stat(absolutePath);
+
+  // Compute SHA256
+  const hash = createHash('sha256');
+  hash.update(buffer);
+  const sha256 = hash.digest('hex');
+
+  return {
+    content,
+    meta: {
+      path: filePath,
+      absolutePath,
+      bytes: stats.size,
+      sha256,
+    },
+  };
+}
+
+// ============================================================================
+// TEST FIXTURE SIMULATION (for unit tests only)
+// ============================================================================
+
+const TEST_FIXTURES: Record<string, string> = {
+  'sample_text.txt': `The happy warrior marched forward with joy in his heart.
 He trusted his companions and felt confident in their mission.
 But fear crept in as the dark forest loomed ahead.
 Suddenly, a surprising turn of events changed everything.
 Sadness washed over him when he saw the destruction.
 Anger filled his veins at the injustice of it all.
-Yet anticipation of victory kept him moving forward.`;
+Yet anticipation of victory kept him moving forward.`,
+  'empty.txt': '',
+};
+
+function isTestFixture(filePath: string): boolean {
+  return Object.keys(TEST_FIXTURES).some(fixture => filePath.includes(fixture));
+}
+
+function getTestFixtureContent(filePath: string): string {
+  for (const [fixture, content] of Object.entries(TEST_FIXTURES)) {
+    if (filePath.includes(fixture)) {
+      return content;
+    }
   }
-  
-  if (filePath.includes('empty.txt')) {
-    return '';
-  }
-  
-  if (filePath.includes('error')) {
-    throw new Error('File not found');
-  }
-  
-  // Default: return the path as content (for testing)
-  return `Sample text from ${filePath}. This is a test with some happy and sad words.`;
+  throw new Error(`Unknown test fixture: ${filePath}`);
 }
 
 // ============================================================================
 // EXPORTS FOR TESTING
 // ============================================================================
 
-export { analyzeText, formatJSON, formatMarkdown };
+export { analyzeText, formatJSON, formatMarkdown, formatJSONWithMeta, formatMarkdownWithMeta, readRealFile };

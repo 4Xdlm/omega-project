@@ -9,21 +9,24 @@
 import { EMOTION_KEYWORDS_EN, LANG_NAME_EN } from './en.js';
 import { EMOTION_KEYWORDS_FR, LANG_NAME_FR } from './fr.js';
 import { EMOTION_KEYWORDS_ES, LANG_NAME_ES } from './es.js';
+import { EMOTION_KEYWORDS_DE, LANG_NAME_DE } from './de.js';
 
-export type SupportedLanguage = 'en' | 'fr' | 'es';
+export type SupportedLanguage = 'en' | 'fr' | 'es' | 'de';
 
-export const SUPPORTED_LANGUAGES: SupportedLanguage[] = ['en', 'fr', 'es'];
+export const SUPPORTED_LANGUAGES: SupportedLanguage[] = ['en', 'fr', 'es', 'de'];
 
 export const LANGUAGE_NAMES: Record<SupportedLanguage, string> = {
   en: LANG_NAME_EN,
   fr: LANG_NAME_FR,
   es: LANG_NAME_ES,
+  de: LANG_NAME_DE,
 };
 
 export const EMOTION_KEYWORDS: Record<SupportedLanguage, Record<string, string[]>> = {
   en: EMOTION_KEYWORDS_EN,
   fr: EMOTION_KEYWORDS_FR,
   es: EMOTION_KEYWORDS_ES,
+  de: EMOTION_KEYWORDS_DE,
 };
 
 /**
@@ -54,3 +57,4 @@ export function getLanguageName(lang: string): string {
 export { EMOTION_KEYWORDS_EN, LANG_NAME_EN } from './en.js';
 export { EMOTION_KEYWORDS_FR, LANG_NAME_FR } from './fr.js';
 export { EMOTION_KEYWORDS_ES, LANG_NAME_ES } from './es.js';
+export { EMOTION_KEYWORDS_DE, LANG_NAME_DE } from './de.js';

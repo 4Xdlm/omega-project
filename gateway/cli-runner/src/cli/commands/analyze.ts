@@ -46,7 +46,7 @@ const EMOTION_KEYWORDS: Record<string, string[]> = {
 export const analyzeCommand: CLICommand = {
   name: 'analyze',
   description: 'Analyse émotionnelle d\'un fichier texte',
-  usage: 'analyze <file> [--lang en|fr] [--output json|md|both] [--save <path>] [--verbose]',
+  usage: 'analyze <file> [--lang en|fr|es|de] [--output json|md|both] [--save <path>] [--verbose]',
   args: [
     {
       name: 'file',
@@ -66,7 +66,7 @@ export const analyzeCommand: CLICommand = {
     {
       short: '-l',
       long: '--lang',
-      description: 'Langue du texte (en, fr)',
+      description: 'Langue du texte (en, fr, es, de)',
       hasValue: true,
       default: 'en',
       validator: isValidLanguage,
@@ -205,6 +205,14 @@ function formatJSONWithMeta(
   fileMeta?: FileInputMeta,
   lang?: string
 ): string {
+  const keywordsFound = result.keywordsFound ?? 0;
+  const wordCount = result.wordCount;
+  const keywordDensity = wordCount > 0 ? Math.round((keywordsFound / wordCount) * 1000) / 1000 : 0;
+  const warnings: string[] = [];
+  if (keywordDensity > 0.25) {
+    warnings.push('HIGH_KEYWORD_DENSITY');
+  }
+
   const output = {
     input: fileMeta ? {
       path: fileMeta.path,
@@ -218,10 +226,12 @@ function formatJSONWithMeta(
         sentenceCount: result.sentenceCount,
         dominantEmotion: result.dominantEmotion,
         overallIntensity: result.overallIntensity,
-        keywordsFound: result.keywordsFound ?? 0,
+        keywordsFound: keywordsFound,
+        keywordDensity: keywordDensity,
       },
       emotions: result.emotions,
       excerpt: result.text,
+      warnings: warnings,
     },
     metadata: {
       timestamp: result.timestamp,

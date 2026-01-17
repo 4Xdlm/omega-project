@@ -23,6 +23,16 @@ import {
   isValidPhase,
   type ProgressEvent,
   type ProgressOptions,
+  // Events API
+  emitEvent,
+  setEventCallback,
+  setRecordHistory,
+  getEventHistory,
+  clearEventHistory,
+  truncateId,
+  trackDuration,
+  type ObsEvent,
+  type ObsEventCallback,
 } from "../src/index.js";
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -86,7 +96,7 @@ describe("Formatters", () => {
 
   describe("formatRate", () => {
     it("should format rate correctly", () => {
-      expect(formatRate(1000, 1000, "items")).toBe("1000.0 items/s");
+      expect(formatRate(1000, 1000, "items")).toBe("1.0K items/s"); // 1000/s = 1K
       expect(formatRate(100, 1000, "seg")).toBe("100.0 seg/s");
       expect(formatRate(50, 500, "ops")).toBe("100.0 ops/s");
     });
@@ -590,5 +600,188 @@ describe("Edge Cases", () => {
     expect(phases).toContain("aggregate");
     expect(phases).toContain("write");
     expect(phases).toContain("done");
+  });
+});
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// STRUCTURED EVENTS TESTS
+// ═══════════════════════════════════════════════════════════════════════════════
+
+describe("Structured Events", () => {
+  beforeEach(() => {
+    // Reset state before each test
+    setEventCallback(undefined);
+    setRecordHistory(false);
+    clearEventHistory();
+  });
+
+  afterEach(() => {
+    // Clean up after each test
+    setEventCallback(undefined);
+    setRecordHistory(false);
+    clearEventHistory();
+  });
+
+  describe("emitEvent", () => {
+    it("should do nothing when no callback is set", () => {
+      // Should not throw
+      expect(() => {
+        emitEvent("test.event", "INFO", "OBS-TEST-001", { foo: "bar" });
+      }).not.toThrow();
+    });
+
+    it("should call callback when set", () => {
+      const received: ObsEvent[] = [];
+      setEventCallback((event) => received.push(event));
+
+      emitEvent("test.event", "INFO", "OBS-TEST-001", { count: 42 });
+
+      expect(received.length).toBe(1);
+      expect(received[0].name).toBe("test.event");
+      expect(received[0].severity).toBe("INFO");
+      expect(received[0].code).toBe("OBS-TEST-001");
+      expect(received[0].context.count).toBe(42);
+    });
+
+    it("should include timestamp in ISO format", () => {
+      const received: ObsEvent[] = [];
+      setEventCallback((event) => received.push(event));
+
+      emitEvent("test.event", "INFO", "OBS-TEST-001");
+
+      expect(received[0].timestamp).toMatch(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}/);
+    });
+
+    it("should freeze event objects", () => {
+      const received: ObsEvent[] = [];
+      setEventCallback((event) => received.push(event));
+
+      emitEvent("test.event", "INFO", "OBS-TEST-001", { value: 1 });
+
+      expect(Object.isFrozen(received[0])).toBe(true);
+      expect(Object.isFrozen(received[0].context)).toBe(true);
+    });
+
+    it("should handle different severities", () => {
+      const received: ObsEvent[] = [];
+      setEventCallback((event) => received.push(event));
+
+      emitEvent("info.event", "INFO", "OBS-INFO-001");
+      emitEvent("warn.event", "WARN", "OBS-WARN-001");
+      emitEvent("error.event", "ERROR", "OBS-ERR-001");
+
+      expect(received[0].severity).toBe("INFO");
+      expect(received[1].severity).toBe("WARN");
+      expect(received[2].severity).toBe("ERROR");
+    });
+
+    it("should silently catch callback errors", () => {
+      setEventCallback(() => {
+        throw new Error("Callback exploded!");
+      });
+
+      // Should not throw
+      expect(() => {
+        emitEvent("test.event", "INFO", "OBS-TEST-001");
+      }).not.toThrow();
+    });
+  });
+
+  describe("Event History", () => {
+    it("should record events when history is enabled", () => {
+      setRecordHistory(true);
+
+      emitEvent("first.event", "INFO", "OBS-FIRST-001");
+      emitEvent("second.event", "WARN", "OBS-SECOND-001");
+
+      const history = getEventHistory();
+      expect(history.length).toBe(2);
+      expect(history[0].name).toBe("first.event");
+      expect(history[1].name).toBe("second.event");
+    });
+
+    it("should not record events when history is disabled", () => {
+      setRecordHistory(false);
+
+      emitEvent("test.event", "INFO", "OBS-TEST-001");
+
+      expect(getEventHistory().length).toBe(0);
+    });
+
+    it("should limit history to 100 events", () => {
+      setRecordHistory(true);
+
+      for (let i = 0; i < 150; i++) {
+        emitEvent(`event.${i}`, "INFO", `OBS-TEST-${i}`);
+      }
+
+      const history = getEventHistory();
+      expect(history.length).toBe(100);
+      // First 50 events should have been evicted
+      expect(history[0].name).toBe("event.50");
+    });
+
+    it("should clear history on disable", () => {
+      setRecordHistory(true);
+      emitEvent("test.event", "INFO", "OBS-TEST-001");
+      expect(getEventHistory().length).toBe(1);
+
+      setRecordHistory(false);
+      expect(getEventHistory().length).toBe(0);
+    });
+
+    it("should return copy of history", () => {
+      setRecordHistory(true);
+      emitEvent("test.event", "INFO", "OBS-TEST-001");
+
+      const history1 = getEventHistory();
+      const history2 = getEventHistory();
+
+      expect(history1).not.toBe(history2);
+      expect(history1).toEqual(history2);
+    });
+  });
+
+  describe("truncateId", () => {
+    it("should truncate to 8 characters", () => {
+      expect(truncateId("abcdefghijklmnop")).toBe("abcdefgh");
+    });
+
+    it("should handle short IDs", () => {
+      expect(truncateId("abc")).toBe("abc");
+      expect(truncateId("")).toBe("");
+    });
+
+    it("should handle exactly 8 characters", () => {
+      expect(truncateId("12345678")).toBe("12345678");
+    });
+  });
+
+  describe("trackDuration", () => {
+    it("should emit start and complete events", async () => {
+      const received: ObsEvent[] = [];
+      setEventCallback((event) => received.push(event));
+
+      const complete = trackDuration(
+        "operation.start",
+        "operation.complete",
+        "OBS-OP-001",
+        { operationId: "test123" }
+      );
+
+      expect(received.length).toBe(1);
+      expect(received[0].name).toBe("operation.start");
+      expect(received[0].context.operationId).toBe("test123");
+
+      // Simulate some work
+      await new Promise((r) => setTimeout(r, 10));
+
+      complete();
+
+      expect(received.length).toBe(2);
+      expect(received[1].name).toBe("operation.complete");
+      expect(received[1].context.operationId).toBe("test123");
+      expect(received[1].context.durationMs).toBeGreaterThanOrEqual(10);
+    });
   });
 });

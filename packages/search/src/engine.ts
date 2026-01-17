@@ -16,6 +16,7 @@ import {
   DEFAULT_SEARCH_CONFIG,
   SearchError,
 } from './types';
+import { emitEvent } from '@omega/omega-observability';
 
 /**
  * Inverted index entry
@@ -140,6 +141,13 @@ export class SearchEngine {
     const startTime = Date.now();
     const queryText = query.text.trim();
 
+    // Emit search start event
+    emitEvent("search.start", "INFO", "OBS-SEARCH-001", {
+      queryLength: queryText.length,
+      fuzzy: query.fuzzy ?? false,
+      documentCount: this.documents.size,
+    });
+
     if (!queryText) {
       return {
         query: queryText,
@@ -209,12 +217,21 @@ export class SearchEngine {
     });
 
     const maxScore = results.length > 0 ? results[0].score : 0;
+    const durationMs = Date.now() - startTime;
+
+    // Emit search complete event
+    emitEvent("search.complete", "INFO", "OBS-SEARCH-002", {
+      totalHits,
+      resultCount: results.length,
+      durationMs,
+      maxScore: Math.round(maxScore * 1000) / 1000,
+    });
 
     return {
       query: queryText,
       results,
       totalHits,
-      took: Date.now() - startTime,
+      took: durationMs,
       maxScore,
     };
   }

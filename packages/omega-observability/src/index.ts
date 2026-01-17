@@ -48,6 +48,20 @@ export {
 } from "./formatters.js";
 
 // ══════════════════════════════════════════════════════════════════════════════
+// STRUCTURED EVENTS (opt-in observability)
+// ══════════════════════════════════════════════════════════════════════════════
+export type { ObsEvent, ObsSeverity, ObsEventCallback } from "./events.js";
+export {
+  emitEvent,
+  setEventCallback,
+  setRecordHistory,
+  getEventHistory,
+  clearEventHistory,
+  truncateId,
+  trackDuration,
+} from "./events.js";
+
+// ══════════════════════════════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════════════════════════════
 export const VERSION = "1.0.0";

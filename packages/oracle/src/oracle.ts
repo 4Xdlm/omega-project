@@ -13,6 +13,7 @@ import {
   DEFAULT_CONFIG,
   OracleError,
 } from './types';
+import { emitEvent } from '@omega/omega-observability';
 
 // ═══════════════════════════════════════════════════════════════════════════
 // THRESHOLDS (internal, not exported)
@@ -80,6 +81,13 @@ export class Oracle {
     const startTime = Date.now();
     this.stats.totalRequests++;
 
+    // Emit analyze start event
+    emitEvent("oracle.analyze.start", "INFO", "OBS-ORACLE-001", {
+      depth: request.depth,
+      textLength: request.text?.length ?? 0,
+      includeNarrative: request.includeNarrative ?? false,
+    });
+
     try {
       // Validate input
       if (!request.text || request.text.trim().length < 10) {
@@ -106,9 +114,23 @@ export class Oracle {
       const processingTime = Date.now() - startTime;
       this.stats.totalTime += processingTime;
 
+      // Emit analyze complete event
+      emitEvent("oracle.analyze.complete", "INFO", "OBS-ORACLE-002", {
+        insightCount: response.insights?.length ?? 0,
+        durationMs: processingTime,
+        cached: false,
+      });
+
       return response;
     } catch (error) {
       this.stats.totalErrors++;
+
+      // Emit analyze error event
+      emitEvent("oracle.analyze.error", "ERROR", "OBS-ORACLE-003", {
+        errorType: error instanceof OracleError ? error.code : "UNKNOWN",
+        durationMs: Date.now() - startTime,
+      });
+
       if (error instanceof OracleError) {
         throw error;
       }

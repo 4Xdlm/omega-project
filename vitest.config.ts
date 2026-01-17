@@ -13,6 +13,7 @@ export default defineConfig({
       'packages/omega-bridge-ta-mycelium/tests/**/*.test.ts',
       'packages/omega-segment-engine/tests/**/*.test.ts',
       'packages/omega-aggregate-dna/tests/**/*.test.ts',
+      'packages/omega-observability/tests/**/*.test.ts',
       '*.test.ts'
     ],
     exclude: [

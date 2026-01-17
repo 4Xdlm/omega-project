@@ -25,6 +25,7 @@ import {
 } from "../contracts/errors.js";
 import { DEFAULT_SEED } from "../contracts/io.js";
 import type { OperationRegistry, HandlerContext } from "./registry.js";
+import { emitEvent, truncateId } from "@omega/omega-observability";
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // DISPATCHER OPTIONS
@@ -131,10 +132,21 @@ export class Dispatcher {
    */
   async execute<T, R>(request: NexusRequest<T>): Promise<NexusResponse<R>> {
     const startTime = Date.now();
+    const reqIdShort = truncateId(request.id);
+
+    // Emit dispatch start event
+    emitEvent("dispatch.start", "INFO", "OBS-DISP-001", {
+      requestId: reqIdShort,
+      operation: request.type,
+    });
 
     // Check if operation is registered
     const handler = this.registry.get(request.type);
     if (!handler) {
+      emitEvent("dispatch.unknown_op", "WARN", "OBS-DISP-002", {
+        requestId: reqIdShort,
+        operation: request.type,
+      });
       return this.createErrorResponse<R>(
         request.id,
         unknownOperationError(request.type),
@@ -157,6 +169,13 @@ export class Dispatcher {
         request.type
       );
 
+      const durationMs = Date.now() - startTime;
+      emitEvent("dispatch.complete", "INFO", "OBS-DISP-003", {
+        requestId: reqIdShort,
+        operation: request.type,
+        durationMs,
+      });
+
       return this.createSuccessResponse<R>(
         request.id,
         result,
@@ -164,9 +183,17 @@ export class Dispatcher {
         context
       );
     } catch (err) {
+      const durationMs = Date.now() - startTime;
+      const nexusErr = extractNexusError(err);
+      emitEvent("dispatch.error", "ERROR", "OBS-DISP-004", {
+        requestId: reqIdShort,
+        operation: request.type,
+        errorCode: nexusErr.code,
+        durationMs,
+      });
       return this.createErrorResponse<R>(
         request.id,
-        extractNexusError(err),
+        nexusErr,
         startTime
       );
     }

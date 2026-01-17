@@ -49,7 +49,12 @@
       "Bash(npx tsc:*)",
       "Bash(git show:*)",
       "Bash(git rm:*)",
-      "Bash(xargs -d '\\\\n' git rm --cached)"
+      "Bash(xargs -d '\\\\n' git rm --cached)",
+      "Bash(rg:*)",
+      "Bash(if not exist \"C:\\\\Users\\\\elric\\\\omega-project\\\\nexus\\\\proof\\\\phase5.4\" mkdir \"C:\\\\Users\\\\elric\\\\omega-project\\\\nexus\\\\proof\\\\phase5.4\")",
+      "Bash(New-Item -ItemType Directory -Force -Path \"C:/Users/elric/omega-project/nexus/proof/phase5.4\")",
+      "Bash(Out-Null)",
+      "Bash(Write-Output \"Created\")"
     ]
   }
 }

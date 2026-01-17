@@ -3,7 +3,7 @@
 ## Tag Info
 - Tag: v4.1.0-cli-fr
 - Date: 2026-01-17T22:00:00Z
-- TagCommit: 4f63364000c1f17f32607ab43065899df3133c9d
+- TagRef: refs/tags/v4.1.0-cli-fr
 - CapabilityCommit: d934547f7f6c171399f9453872e0500ed8cbe4c0
 
 ## Capabilities

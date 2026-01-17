@@ -3,7 +3,7 @@
 ## Tag Info
 - Tag: v4.1.0-cli-fr
 - Date: 2026-01-17T22:00:00Z
-- Commit: 4c166ef (see git show v4.1.0-cli-fr for exact hash)
+- Commit: a1418bb6ccac9549dedac1c12a093a38223d8610
 
 ## Capabilities
 - CLI: `npm run omega -- analyze --file <path> --lang <en|fr>`

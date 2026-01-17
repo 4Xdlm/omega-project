@@ -1,5 +1,11 @@
 # @omega/genome
 
+> **FROZEN MODULE — DO NOT MODIFY**
+>
+> Status: SEALED | Version: 1.2.0 | Sealed: 2026-01-07
+>
+> See [FROZEN_MODULES.md](../../FROZEN_MODULES.md) for governance rules.
+
 Narrative Genome - Fingerprint for narrative works.
 
 ## Version

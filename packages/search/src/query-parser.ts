@@ -269,7 +269,33 @@ class QueryLexer {
 }
 
 /**
- * Query parser
+ * Parses advanced search query syntax into an AST for execution.
+ *
+ * Supports:
+ * - Boolean operators: AND, OR, NOT
+ * - Phrases: "exact match"
+ * - Field queries: title:value
+ * - Wildcards: test* or te?t
+ * - Fuzzy matching: test~2
+ * - Boosting: term^2.0
+ * - Ranges: [min TO max]
+ *
+ * INV-QP: Parse result always has tokens and errors arrays (never null).
+ * INV-QP: Non-empty queries produce at least one token.
+ * INV-QP: Token list always ends with EOF.
+ *
+ * @example
+ * ```ts
+ * const parser = createQueryParser();
+ * const result = parser.parse('title:"hello world" AND content:test*');
+ *
+ * if (result.errors.length > 0) {
+ *   console.warn('Parse warnings:', result.errors);
+ * }
+ *
+ * // Use AST for execution
+ * const query = parser.toQuery(result.ast);
+ * ```
  */
 export class QueryParser {
   private options: QueryParserOptions;
@@ -674,14 +700,32 @@ export class QueryParser {
 }
 
 /**
- * Create query parser
+ * Factory function to create a QueryParser instance.
+ *
+ * @example
+ * ```ts
+ * const parser = createQueryParser({
+ *   defaultOperator: 'OR',
+ *   allowWildcards: true,
+ * });
+ * ```
  */
 export function createQueryParser(options?: Partial<QueryParserOptions>): QueryParser {
   return new QueryParser(options);
 }
 
 /**
- * Parse query (convenience function)
+ * Convenience function to parse a query without keeping the parser instance.
+ *
+ * Equivalent to `createQueryParser(options).parse(query)`.
+ *
+ * @example
+ * ```ts
+ * const result = parseQuery('hello OR world');
+ * if (result.ast) {
+ *   // Process AST
+ * }
+ * ```
  */
 export function parseQuery(
   query: string,

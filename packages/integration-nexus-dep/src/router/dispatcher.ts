@@ -41,11 +41,40 @@ const DEFAULT_TIMEOUT_MS = 30000; // 30 seconds
 // DISPATCHER
 // ═══════════════════════════════════════════════════════════════════════════════
 
+/**
+ * Routes requests to registered operation handlers with timeout protection.
+ *
+ * The dispatcher acts as the central routing layer, ensuring:
+ * - INV-ROUTER-01: Unknown operations return structured errors (not exceptions)
+ * - INV-ROUTER-02: All responses include execution time for metrics
+ * - INV-ROUTER-03: Request ID is preserved for correlation
+ *
+ * Immutable by design: `withTimeout()` and `withTrace()` return new instances.
+ *
+ * @example
+ * ```ts
+ * const dispatcher = createDispatcher(registry, { timeoutMs: 5000 });
+ *
+ * const response = await dispatcher.execute({
+ *   id: 'req-123',
+ *   type: 'analyze',
+ *   payload: { text: 'Hello world' },
+ * });
+ *
+ * if (response.success) {
+ *   console.log(response.data);
+ * }
+ * ```
+ */
 export class Dispatcher {
   private readonly registry: OperationRegistry;
   private timeoutMs: number;
   private traceEnabled: boolean;
 
+  /**
+   * Creates a dispatcher bound to an operation registry.
+   * Prefer using `createDispatcher()` factory.
+   */
   constructor(registry: OperationRegistry, options: DispatcherOptions = {}) {
     this.registry = registry;
     this.timeoutMs = options.timeoutMs ?? DEFAULT_TIMEOUT_MS;
@@ -53,7 +82,16 @@ export class Dispatcher {
   }
 
   /**
-   * Create a new dispatcher with timeout
+   * Create a new dispatcher with a different timeout.
+   *
+   * Returns a new instance — original dispatcher is unchanged.
+   * Use for specific operations that need longer/shorter timeouts.
+   *
+   * @example
+   * ```ts
+   * const quickDispatcher = dispatcher.withTimeout(1000);
+   * const slowDispatcher = dispatcher.withTimeout(120000);
+   * ```
    */
   withTimeout(ms: number): Dispatcher {
     return new Dispatcher(this.registry, {
@@ -63,7 +101,10 @@ export class Dispatcher {
   }
 
   /**
-   * Create a new dispatcher with tracing
+   * Create a new dispatcher with tracing enabled or disabled.
+   *
+   * Returns a new instance — original dispatcher is unchanged.
+   * Enable tracing during development/debugging, disable in production.
    */
   withTrace(enabled: boolean): Dispatcher {
     return new Dispatcher(this.registry, {
@@ -73,10 +114,20 @@ export class Dispatcher {
   }
 
   /**
-   * Execute a request
-   * INV-ROUTER-01: Unknown operations return error
-   * INV-ROUTER-02: Execution time included
-   * INV-ROUTER-03: Request ID preserved
+   * Execute a request by routing to its registered handler.
+   *
+   * Never throws — all errors are captured in the response object.
+   * The response always includes `executionTimeMs` for performance monitoring.
+   *
+   * INV-ROUTER-01: Unknown operations return UNKNOWN_OPERATION error.
+   * INV-ROUTER-02: Execution time always included.
+   * INV-ROUTER-03: Request ID always preserved in response.
+   *
+   * @example
+   * ```ts
+   * const response = await dispatcher.execute(request);
+   * console.log(`Completed in ${response.executionTimeMs}ms`);
+   * ```
    */
   async execute<T, R>(request: NexusRequest<T>): Promise<NexusResponse<R>> {
     const startTime = Date.now();
@@ -181,7 +232,15 @@ export class Dispatcher {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 /**
- * Create a new dispatcher with the given registry
+ * Factory function to create a dispatcher bound to an operation registry.
+ *
+ * @example
+ * ```ts
+ * const registry = new OperationRegistry();
+ * registry.register('echo', async (payload) => payload);
+ *
+ * const dispatcher = createDispatcher(registry, { timeoutMs: 5000 });
+ * ```
  */
 export function createDispatcher(
   registry: OperationRegistry,

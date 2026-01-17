@@ -95,8 +95,30 @@ export interface IndexHealth {
 }
 
 /**
- * Index Manager
- * Manages search index lifecycle, segments, and optimization
+ * Manages the search index lifecycle including document storage, segmentation, and optimization.
+ *
+ * Documents are organized into segments for efficient indexing and retrieval.
+ * Supports automatic optimization via background timer (configurable).
+ *
+ * INV-INDEX: Document count always matches getAllDocuments().length.
+ * INV-INDEX: All document IDs are unique within the index.
+ * INV-INDEX: Deleted documents are immediately removed (no tombstones).
+ *
+ * @example
+ * ```ts
+ * const manager = createIndexManager({ autoOptimize: true });
+ *
+ * // Add documents
+ * manager.addDocument({ id: 'doc1', content: 'Hello world' });
+ * manager.addDocument({ id: 'doc2', content: 'Goodbye world' });
+ *
+ * // Query
+ * console.log(manager.getDocumentCount()); // 2
+ * console.log(manager.hasDocument('doc1')); // true
+ *
+ * // Cleanup
+ * manager.dispose();
+ * ```
  */
 export class IndexManager {
   private config: IndexManagerConfig;
@@ -598,7 +620,18 @@ export class IndexManager {
 }
 
 /**
- * Create index manager instance
+ * Factory function to create an IndexManager instance.
+ *
+ * Prefer this over `new IndexManager()` for consistency and future DI support.
+ *
+ * @example
+ * ```ts
+ * // Production: auto-optimize every 5 minutes
+ * const index = createIndexManager({ autoOptimize: true });
+ *
+ * // Testing: disable auto-optimization for determinism
+ * const testIndex = createIndexManager({ autoOptimize: false });
+ * ```
  */
 export function createIndexManager(config?: Partial<IndexManagerConfig>): IndexManager {
   return new IndexManager(config);

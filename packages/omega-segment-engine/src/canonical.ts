@@ -7,12 +7,25 @@
 import { createHash } from "node:crypto";
 
 /**
- * JSON stable avec tri des clés (ordre alphabétique)
- * 
- * Supporte: string, number, boolean, null, array, object
- * Refuse: NaN, Infinity, undefined, functions, symbols
- * 
- * @throws Error si type non supporté ou nombre non-fini
+ * Serialize a value to deterministic JSON with sorted object keys.
+ *
+ * Unlike JSON.stringify, object keys are sorted alphabetically ensuring
+ * identical output for semantically equivalent objects. This is critical
+ * for hash computation where {a:1,b:2} must equal {b:2,a:1}.
+ *
+ * Supports: string, number, boolean, null, array, object
+ *
+ * @throws Error for NaN, Infinity, undefined, functions, symbols
+ *
+ * @example
+ * ```ts
+ * // Key order is normalized
+ * stableStringify({ z: 1, a: 2 }); // '{"a":2,"z":1}'
+ * stableStringify({ a: 2, z: 1 }); // '{"a":2,"z":1}'
+ *
+ * // Use for hash computation
+ * const hash = sha256Hex(stableStringify(config));
+ * ```
  */
 export function stableStringify(value: unknown): string {
   return _stringify(value);
@@ -49,23 +62,50 @@ function _stringify(v: unknown): string {
 }
 
 /**
- * Hash SHA-256 (64 caractères hex lowercase)
+ * Compute SHA-256 hash of a string, returning 64 lowercase hex characters.
+ *
+ * Uses UTF-8 encoding. Result is always 64 characters regardless of input.
+ *
+ * @example
+ * ```ts
+ * const hash = sha256Hex('hello world');
+ * // hash.length === 64
+ * // hash === 'b94d27b9934d3e08a52e52d7da7dabfac484efe37a5380ee9088f7ace2efcde9'
+ * ```
  */
 export function sha256Hex(input: string): string {
   return createHash("sha256").update(input, "utf8").digest("hex");
 }
 
 /**
- * Hash court déterministe (pour IDs)
- * @param input Chaîne à hasher
- * @param len Longueur du hash (défaut: 12)
+ * Generate a short deterministic hash suitable for IDs.
+ *
+ * Truncates the full SHA-256 to the specified length. Default 12 characters
+ * provides ~48 bits of entropy, sufficient for local uniqueness.
+ *
+ * @example
+ * ```ts
+ * const id = shortHash('unique-input', 8);  // '9f86d081'
+ * const id2 = shortHash('unique-input', 12); // '9f86d081884c'
+ * ```
  */
 export function shortHash(input: string, len: number = 12): string {
   return sha256Hex(input).slice(0, len);
 }
 
 /**
- * Hash déterministe d'un objet (via JSON canonique)
+ * Hash an object deterministically via canonical JSON serialization.
+ *
+ * Combines stableStringify (for key ordering) with sha256Hex.
+ * Two objects with identical content produce identical hashes,
+ * regardless of property insertion order.
+ *
+ * @example
+ * ```ts
+ * const h1 = hashObject({ b: 2, a: 1 });
+ * const h2 = hashObject({ a: 1, b: 2 });
+ * // h1 === h2 (key order doesn't matter)
+ * ```
  */
 export function hashObject(obj: unknown): string {
   return sha256Hex(stableStringify(obj));

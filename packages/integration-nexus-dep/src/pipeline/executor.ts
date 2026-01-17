@@ -33,11 +33,34 @@ import type {
 // PIPELINE EXECUTOR
 // ═══════════════════════════════════════════════════════════════════════════════
 
+/**
+ * Executes pipeline definitions with deterministic stage sequencing.
+ *
+ * Provides a NASA-Grade execution environment ensuring:
+ * - INV-PIPE-01: Deterministic execution via seed-based randomness
+ * - INV-PIPE-02: Sequential stage execution with dependency validation
+ * - INV-PIPE-03: Configurable error handling with optional retry
+ *
+ * @example
+ * ```ts
+ * const executor = new PipelineExecutor({ seed: 42 });
+ * executor.on((event) => console.log(event.type));
+ *
+ * const result = await executor.execute(pipeline, { input: 'data' });
+ * if (result.status === 'completed') {
+ *   console.log(result.finalOutput);
+ * }
+ * ```
+ */
 export class PipelineExecutor {
   private readonly options: PipelineOptions;
   private readonly eventHandlers: PipelineEventHandler[] = [];
   private executionCounter = 0;
 
+  /**
+   * Creates an executor with merged default and custom options.
+   * Use seed option for reproducible test execution.
+   */
   constructor(options: PipelineOptions = {}) {
     this.options = {
       stopOnError: true,
@@ -50,8 +73,23 @@ export class PipelineExecutor {
   }
 
   /**
-   * Execute a pipeline
-   * INV-PIPE-01: Deterministic with seed
+   * Execute a pipeline definition with the provided input.
+   *
+   * Stages are executed sequentially, respecting dependencies declared in
+   * each stage's `dependsOn` array. Execution halts on first error if
+   * `stopOnError` is true (default), unless the failing stage is optional.
+   *
+   * INV-PIPE-01: Deterministic execution — same seed produces same results.
+   *
+   * @example
+   * ```ts
+   * const result = await executor.execute(myPipeline, { userId: '123' });
+   * if (result.status === 'failed') {
+   *   console.error(result.error?.message);
+   * }
+   * ```
+   *
+   * @throws Never throws directly — errors are captured in result.error
    */
   async execute<TInput, TOutput>(
     definition: PipelineDefinition,
@@ -307,14 +345,28 @@ export class PipelineExecutor {
   }
 
   /**
-   * Register event handler
+   * Register an event handler for pipeline lifecycle events.
+   *
+   * Handler exceptions are silently caught to prevent breaking pipeline
+   * execution. Use this for logging, metrics, or UI updates.
+   *
+   * @example
+   * ```ts
+   * executor.on((event) => {
+   *   if (event.type === 'stage:error') {
+   *     alerting.notify(event.data.error);
+   *   }
+   * });
+   * ```
    */
   on(handler: PipelineEventHandler): void {
     this.eventHandlers.push(handler);
   }
 
   /**
-   * Remove event handler
+   * Remove a previously registered event handler.
+   *
+   * Uses reference equality — pass the exact same function instance.
    */
   off(handler: PipelineEventHandler): void {
     const index = this.eventHandlers.indexOf(handler);
@@ -342,7 +394,23 @@ export class PipelineExecutor {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 /**
- * Create a pipeline executor
+ * Factory function to create a pipeline executor instance.
+ *
+ * Prefer this over `new PipelineExecutor()` for consistency with
+ * other OMEGA factories and future dependency injection support.
+ *
+ * @example
+ * ```ts
+ * // Production: default 30s timeout
+ * const executor = createPipelineExecutor();
+ *
+ * // Testing: deterministic with short timeout
+ * const testExecutor = createPipelineExecutor({
+ *   seed: 42,
+ *   defaultTimeoutMs: 1000,
+ *   traceEnabled: true,
+ * });
+ * ```
  */
 export function createPipelineExecutor(options?: PipelineOptions): PipelineExecutor {
   return new PipelineExecutor(options);

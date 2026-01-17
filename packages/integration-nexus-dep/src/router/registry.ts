@@ -52,6 +52,29 @@ export interface RegisteredHandler {
 // OPERATION REGISTRY
 // ═══════════════════════════════════════════════════════════════════════════════
 
+/**
+ * Central registry for operation handlers.
+ *
+ * Enforces unique operation types and provides lookup/enumeration.
+ * Each registration is timestamped for debugging and audit purposes.
+ *
+ * INV-ROUTER-01: Only registered operations can be executed.
+ *
+ * @example
+ * ```ts
+ * const registry = new OperationRegistry();
+ *
+ * registry.register('analyze', async (payload, ctx) => {
+ *   return { result: 'analyzed', seed: ctx.seed };
+ * });
+ *
+ * registry.register('transform', async (payload) => {
+ *   return { transformed: payload };
+ * });
+ *
+ * console.log(registry.list()); // ['analyze', 'transform']
+ * ```
+ */
 export class OperationRegistry {
   private readonly handlers: Map<NexusOperationType, RegisteredHandler>;
 
@@ -60,7 +83,12 @@ export class OperationRegistry {
   }
 
   /**
-   * Register an operation handler
+   * Register a handler for an operation type.
+   *
+   * Each operation type can only be registered once. Attempting to
+   * register a duplicate throws an error to prevent silent overwrites.
+   *
+   * @throws Error if operation type is already registered
    */
   register<T, R>(
     type: NexusOperationType,
@@ -135,7 +163,19 @@ export class OperationRegistry {
 let defaultRegistry: OperationRegistry | null = null;
 
 /**
- * Get the default registry instance
+ * Get the singleton registry instance.
+ *
+ * Use for application-wide operation registration. Creates the
+ * instance on first call (lazy initialization).
+ *
+ * @example
+ * ```ts
+ * // In module initialization
+ * getDefaultRegistry().register('myOp', myHandler);
+ *
+ * // In dispatcher setup
+ * const dispatcher = createDispatcher(getDefaultRegistry());
+ * ```
  */
 export function getDefaultRegistry(): OperationRegistry {
   if (!defaultRegistry) {
@@ -145,7 +185,10 @@ export function getDefaultRegistry(): OperationRegistry {
 }
 
 /**
- * Reset the default registry (for testing)
+ * Reset the singleton registry to initial state.
+ *
+ * **For testing only** — clears all registrations and releases
+ * the singleton instance. Production code should never call this.
  */
 export function resetDefaultRegistry(): void {
   if (defaultRegistry) {

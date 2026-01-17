@@ -24,7 +24,18 @@ import {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 /**
- * Validate a string value.
+ * Validate a string value, detecting common injection vectors.
+ *
+ * Checks for null bytes (common in path injection) and enforces length limits.
+ * Does not modify the value — use sanitizeString() if cleaning is needed.
+ *
+ * @example
+ * ```ts
+ * const result = validateString(req.body.name, { maxLength: 100 });
+ * if (!result.valid) {
+ *   return res.status(400).json({ errors: result.errors });
+ * }
+ * ```
  */
 export function validateString(
   value: unknown,
@@ -136,7 +147,22 @@ export function validateSafeInteger(value: unknown): ValidationResult {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 /**
- * Validate an object value.
+ * Validate an object for prototype pollution and excessive depth.
+ *
+ * In strict mode, rejects objects containing `__proto__`, `constructor`,
+ * or `prototype` keys which could enable prototype pollution attacks.
+ *
+ * @example
+ * ```ts
+ * const result = validateObject(untrustedData, {
+ *   strict: true,
+ *   maxDepth: 5,
+ * });
+ *
+ * if (!result.valid) {
+ *   throw new SecurityError(result.errors.join('; '));
+ * }
+ * ```
  */
 export function validateObject(
   value: unknown,
@@ -211,7 +237,29 @@ export function validateHash(value: unknown): ValidationResult {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 /**
- * Validate a file path.
+ * Validate a file path for security constraints.
+ *
+ * Detects directory traversal attempts, null bytes, and ensures paths
+ * conform to allowed patterns (relative vs absolute, base path constraints).
+ *
+ * Returns a normalized path (forward slashes) alongside validation result.
+ *
+ * @example
+ * ```ts
+ * const result = validatePath(userPath, {
+ *   basePath: '/var/uploads',
+ *   allowAbsolute: true,
+ *   allowRelative: false,
+ *   allowTraversal: false,
+ *   maxLength: 255,
+ * });
+ *
+ * if (!result.valid) {
+ *   throw new Error(`Invalid path: ${result.errors.join(', ')}`);
+ * }
+ *
+ * fs.readFileSync(result.normalized);
+ * ```
  */
 export function validatePath(
   value: unknown,
@@ -316,7 +364,24 @@ export function validateArray(
 // ═══════════════════════════════════════════════════════════════════════════════
 
 /**
- * Create a validator from rules.
+ * Create a reusable validator function from a list of rules.
+ *
+ * Use this to define custom validators that can be composed and reused.
+ * Rules are evaluated in order; all errors are collected.
+ *
+ * @example
+ * ```ts
+ * const validateUsername = createValidator([
+ *   commonRules.nonEmpty(),
+ *   commonRules.maxLength(50),
+ *   commonRules.pattern(/^[a-z0-9_]+$/i, 'Username must be alphanumeric'),
+ * ]);
+ *
+ * const result = validateUsername(req.body.username);
+ * if (!result.valid) {
+ *   throw new ValidationError(result.errors);
+ * }
+ * ```
  */
 export function createValidator<T>(
   rules: readonly ValidationRule<T>[]

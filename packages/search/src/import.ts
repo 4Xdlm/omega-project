@@ -77,13 +77,43 @@ export const DEFAULT_IMPORT_OPTIONS: ImportOptions = {
 };
 
 /**
- * Search importer
+ * Imports documents from various formats into SearchDocument structures.
+ *
+ * Supports JSON, CSV, XML, plain text, and line-by-line formats.
+ * Can auto-generate unique IDs for documents missing them.
+ *
+ * INV-IMP: successful + failed always equals totalParsed.
+ * INV-IMP: documents array is never null (may be empty).
+ * INV-IMP: errors.length always equals failed count.
+ * INV-IMP: All imported documents have non-empty content.
+ *
+ * @example
+ * ```ts
+ * const importer = createSearchImporter();
+ *
+ * // Import JSON
+ * const jsonResult = importer.import(
+ *   '[{"content": "Hello"}, {"content": "World"}]',
+ *   { format: 'json', generateIds: true }
+ * );
+ *
+ * // Import CSV
+ * const csvResult = importer.import(csvData, {
+ *   format: 'csv',
+ *   contentField: 'body',
+ *   hasHeaders: true,
+ * });
+ *
+ * console.log(`Imported ${csvResult.successful}/${csvResult.totalParsed}`);
+ * ```
  */
 export class SearchImporter {
   private idCounter: number = 0;
 
   /**
-   * Import from string content
+   * Import documents from string content.
+   *
+   * Never throws — all errors are captured in result.errors.
    */
   import(content: string, options: Partial<ImportOptions> = {}): ImportResult {
     const opts = { ...DEFAULT_IMPORT_OPTIONS, ...options };
@@ -629,7 +659,19 @@ export class SearchImporter {
 }
 
 /**
- * Create search importer
+ * Factory function to create a SearchImporter instance.
+ *
+ * Each instance maintains its own ID counter, so use a single instance
+ * when importing multiple files to ensure unique IDs across all imports.
+ *
+ * @example
+ * ```ts
+ * const importer = createSearchImporter();
+ *
+ * // IDs will be unique across both imports
+ * const result1 = importer.import(file1, { generateIds: true });
+ * const result2 = importer.import(file2, { generateIds: true });
+ * ```
  */
 export function createSearchImporter(): SearchImporter {
   return new SearchImporter();

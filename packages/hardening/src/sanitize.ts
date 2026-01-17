@@ -16,7 +16,28 @@ import { isPlainObject } from './types.js';
 // ═══════════════════════════════════════════════════════════════════════════════
 
 /**
- * Sanitize a string value.
+ * Sanitize a string by removing dangerous characters and normalizing content.
+ *
+ * Default behavior (no options) only removes null bytes and trims whitespace.
+ * Additional sanitization requires explicit options to avoid unintended data loss.
+ *
+ * All modifications are recorded in `result.modifications` for audit logging.
+ *
+ * @example
+ * ```ts
+ * // Basic sanitization (null bytes + trim)
+ * const result = sanitizeString(userInput);
+ *
+ * // Strict sanitization for filenames
+ * const strict = sanitizeString(filename, {
+ *   removeControlChars: true,
+ *   maxLength: 255,
+ * });
+ *
+ * if (strict.modifications.length > 0) {
+ *   console.log('Sanitized:', strict.modifications);
+ * }
+ * ```
  */
 export function sanitizeString(
   input: string,
@@ -95,7 +116,26 @@ export function sanitizeString(
 // ═══════════════════════════════════════════════════════════════════════════════
 
 /**
- * Sanitize an object by removing dangerous keys and limiting depth.
+ * Recursively sanitize an object, removing prototype pollution vectors.
+ *
+ * Removes keys that could enable prototype pollution attacks:
+ * `__proto__`, `constructor`, `prototype`. Also limits recursion depth
+ * to prevent stack overflow from maliciously crafted deep objects.
+ *
+ * Safe for use with untrusted JSON.parse() output before Object.assign().
+ *
+ * @example
+ * ```ts
+ * // Sanitize untrusted JSON before merging into config
+ * const untrusted = JSON.parse(userPayload);
+ * const safe = sanitizeObject(untrusted, 5);
+ *
+ * if (safe.modifications.length > 0) {
+ *   logger.warn('Removed dangerous keys:', safe.modifications);
+ * }
+ *
+ * Object.assign(config, safe.value);
+ * ```
  */
 export function sanitizeObject(
   input: unknown,
@@ -166,7 +206,27 @@ export function sanitizeObject(
 // ═══════════════════════════════════════════════════════════════════════════════
 
 /**
- * Sanitize a file path to prevent traversal attacks.
+ * Sanitize a file path by neutralizing directory traversal attacks.
+ *
+ * Removes `..` sequences, normalizes path separators to forward slashes,
+ * and strips null bytes. Essential for any user-supplied paths used
+ * in file operations.
+ *
+ * **Note**: This does not validate that the path exists or is within
+ * an allowed directory — use path.resolve() and prefix checking for that.
+ *
+ * @example
+ * ```ts
+ * // User input: "../../../etc/passwd"
+ * const safe = sanitizePath(userPath);
+ * // safe.value: "etc/passwd" (traversal removed)
+ *
+ * // Always combine with base directory validation
+ * const fullPath = path.resolve(baseDir, safe.value);
+ * if (!fullPath.startsWith(baseDir)) {
+ *   throw new Error('Path escape detected');
+ * }
+ * ```
  */
 export function sanitizePath(input: string): SanitizationResult<string> {
   const modifications: string[] = [];
@@ -215,7 +275,27 @@ export function sanitizePath(input: string): SanitizationResult<string> {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 /**
- * Sanitize a URL for safe use.
+ * Validate and sanitize a URL, blocking XSS vectors and dangerous protocols.
+ *
+ * Returns `success: false` for:
+ * - `javascript:` URLs (XSS vector)
+ * - `data:` URLs (can contain executable content)
+ * - `vbscript:` URLs (legacy IE XSS vector)
+ * - Any protocol not in `allowedProtocols` (default: https, http)
+ *
+ * @example
+ * ```ts
+ * // Block XSS attempts in user-supplied URLs
+ * const result = sanitizeUrl(userLink);
+ * if (!result.success) {
+ *   logger.warn('Blocked dangerous URL:', userLink);
+ *   return;
+ * }
+ * anchor.href = result.value;
+ *
+ * // Restrict to HTTPS only
+ * const httpsOnly = sanitizeUrl(url, ['https']);
+ * ```
  */
 export function sanitizeUrl(
   input: string,
@@ -265,7 +345,21 @@ export function sanitizeUrl(
 // ═══════════════════════════════════════════════════════════════════════════════
 
 /**
- * Escape HTML special characters.
+ * Escape HTML special characters to prevent XSS when inserting into HTML context.
+ *
+ * Escapes: `< > " ' &`
+ *
+ * Use this when inserting untrusted content into HTML text nodes or attributes.
+ * For attribute values, also ensure proper quoting with double quotes.
+ *
+ * @example
+ * ```ts
+ * const userComment = '<script>alert("xss")</script>';
+ * const safe = escapeHtml(userComment);
+ * // Result: '&lt;script&gt;alert(&quot;xss&quot;)&lt;/script&gt;'
+ *
+ * element.innerHTML = `<span>${safe}</span>`;
+ * ```
  */
 export function escapeHtml(input: string): string {
   return input
@@ -277,7 +371,21 @@ export function escapeHtml(input: string): string {
 }
 
 /**
- * Remove all HTML tags from input.
+ * Remove all HTML tags from input, extracting only text content.
+ *
+ * Specifically removes `<script>` and `<style>` tags **with their contents**
+ * before stripping other tags. This prevents hidden executable content.
+ *
+ * Use for extracting plain text from HTML content (e.g., email previews,
+ * search indexing). For displaying HTML safely, use escapeHtml() instead.
+ *
+ * @example
+ * ```ts
+ * const html = '<p>Hello <script>evil()</script> <b>World</b></p>';
+ * const result = stripHtml(html);
+ * // result.value: 'Hello  World'
+ * // result.modifications: ['removed script tags', 'removed HTML tags']
+ * ```
  */
 export function stripHtml(input: string): SanitizationResult<string> {
   const modifications: string[] = [];

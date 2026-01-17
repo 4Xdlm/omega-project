@@ -1,0 +1,75 @@
+
+> omega-core@1.0.0 omega
+> node gateway/cli-runner/dist/cli/runner.js analyze nexus/user_imputs/test_de_emotional.txt --lang de --intensity v2 --output json
+
+{
+  "input": {
+    "path": "nexus/user_imputs/test_de_emotional.txt",
+    "absolutePath": "C:\\Users\\elric\\omega-project\\nexus\\user_imputs\\test_de_emotional.txt",
+    "bytes": 1715,
+    "sha256": "c940b0ae51814e6c82bc0a60fe9ba05235518877a36cf0882ee4cdf066741e2f"
+  },
+  "analysis": {
+    "summary": {
+      "wordCount": 242,
+      "sentenceCount": 30,
+      "dominantEmotion": "joy",
+      "overallIntensity": 0.97,
+      "keywordsFound": 51,
+      "keywordDensity": 0.211,
+      "intensityMethod": "v2"
+    },
+    "emotions": [
+      {
+        "emotion": "joy",
+        "intensity": 1,
+        "confidence": 0.176
+      },
+      {
+        "emotion": "trust",
+        "intensity": 1,
+        "confidence": 0.059
+      },
+      {
+        "emotion": "fear",
+        "intensity": 1,
+        "confidence": 0.118
+      },
+      {
+        "emotion": "surprise",
+        "intensity": 1,
+        "confidence": 0.059
+      },
+      {
+        "emotion": "sadness",
+        "intensity": 1,
+        "confidence": 0.216
+      },
+      {
+        "emotion": "disgust",
+        "intensity": 1,
+        "confidence": 0.098
+      },
+      {
+        "emotion": "anger",
+        "intensity": 1,
+        "confidence": 0.118
+      },
+      {
+        "emotion": "anticipation",
+        "intensity": 1,
+        "confidence": 0.157
+      }
+    ],
+    "excerpt": "Die Freude überflutete mein Herz, als ich die wunderbare Nachricht erhielt. Tränen der Glückseligkei...",
+    "warnings": []
+  },
+  "metadata": {
+    "timestamp": "2026-01-17T23:46:08.480Z",
+    "seed": 42,
+    "version": "3.17.0",
+    "lang": "de",
+    "langName": "Deutsch"
+  },
+  "errors": []
+}

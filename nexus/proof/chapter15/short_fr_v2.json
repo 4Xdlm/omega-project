@@ -1,0 +1,75 @@
+
+> omega-core@1.0.0 omega
+> node gateway/cli-runner/dist/cli/runner.js analyze nexus/user_imputs/test_short_fr.txt --lang fr --intensity v2 --output json
+
+{
+  "input": {
+    "path": "nexus/user_imputs/test_short_fr.txt",
+    "absolutePath": "C:\\Users\\elric\\omega-project\\nexus\\user_imputs\\test_short_fr.txt",
+    "bytes": 292,
+    "sha256": "3acc790bf51eefe2a9b5e31ca68c93f47e5c863cec1edfd2df5bf73e058942e6"
+  },
+  "analysis": {
+    "summary": {
+      "wordCount": 45,
+      "sentenceCount": 5,
+      "dominantEmotion": "joy",
+      "overallIntensity": 0.925,
+      "keywordsFound": 7,
+      "keywordDensity": 0.156,
+      "intensityMethod": "v2"
+    },
+    "emotions": [
+      {
+        "emotion": "joy",
+        "intensity": 1,
+        "confidence": 0.143
+      },
+      {
+        "emotion": "trust",
+        "intensity": 1,
+        "confidence": 0.143
+      },
+      {
+        "emotion": "fear",
+        "intensity": 1,
+        "confidence": 0.143
+      },
+      {
+        "emotion": "surprise",
+        "intensity": 1,
+        "confidence": 0.143
+      },
+      {
+        "emotion": "sadness",
+        "intensity": 1,
+        "confidence": 0.143
+      },
+      {
+        "emotion": "disgust",
+        "intensity": 0,
+        "confidence": 0
+      },
+      {
+        "emotion": "anger",
+        "intensity": 1,
+        "confidence": 0.143
+      },
+      {
+        "emotion": "anticipation",
+        "intensity": 1,
+        "confidence": 0.143
+      }
+    ],
+    "excerpt": "Je suis content aujourd'hui, mais j'ai aussi peur. Je doute, puis je reprends confiance.\r\nJe veux av...",
+    "warnings": []
+  },
+  "metadata": {
+    "timestamp": "2026-01-17T23:46:02.065Z",
+    "seed": 42,
+    "version": "3.17.0",
+    "lang": "fr",
+    "langName": "Français"
+  },
+  "errors": []
+}

@@ -1,0 +1,75 @@
+
+> omega-core@1.0.0 omega
+> node gateway/cli-runner/dist/cli/runner.js analyze nexus/user_imputs/test_de_neutral.txt --lang de --intensity v2 --output json
+
+{
+  "input": {
+    "path": "nexus/user_imputs/test_de_neutral.txt",
+    "absolutePath": "C:\\Users\\elric\\omega-project\\nexus\\user_imputs\\test_de_neutral.txt",
+    "bytes": 1384,
+    "sha256": "6d2559c8e09a24ce0391de96f1d277eb967ec563750f121eab89654f49ffad14"
+  },
+  "analysis": {
+    "summary": {
+      "wordCount": 169,
+      "sentenceCount": 19,
+      "dominantEmotion": "joy",
+      "overallIntensity": 0,
+      "keywordsFound": 0,
+      "keywordDensity": 0,
+      "intensityMethod": "v2"
+    },
+    "emotions": [
+      {
+        "emotion": "joy",
+        "intensity": 0,
+        "confidence": 0
+      },
+      {
+        "emotion": "trust",
+        "intensity": 0,
+        "confidence": 0
+      },
+      {
+        "emotion": "fear",
+        "intensity": 0,
+        "confidence": 0
+      },
+      {
+        "emotion": "surprise",
+        "intensity": 0,
+        "confidence": 0
+      },
+      {
+        "emotion": "sadness",
+        "intensity": 0,
+        "confidence": 0
+      },
+      {
+        "emotion": "disgust",
+        "intensity": 0,
+        "confidence": 0
+      },
+      {
+        "emotion": "anger",
+        "intensity": 0,
+        "confidence": 0
+      },
+      {
+        "emotion": "anticipation",
+        "intensity": 0,
+        "confidence": 0
+      }
+    ],
+    "excerpt": "Die Bundesrepublik Deutschland liegt in Mitteleuropa und grenzt an neun Nachbarländer. Die Hauptstad...",
+    "warnings": []
+  },
+  "metadata": {
+    "timestamp": "2026-01-17T23:46:05.262Z",
+    "seed": 42,
+    "version": "3.17.0",
+    "lang": "de",
+    "langName": "Deutsch"
+  },
+  "errors": []
+}

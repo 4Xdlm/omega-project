@@ -1,0 +1,75 @@
+
+> omega-core@1.0.0 omega
+> node gateway/cli-runner/dist/cli/runner.js analyze nexus/user_imputs/test.txt --lang fr --intensity v2 --output json
+
+{
+  "input": {
+    "path": "nexus/user_imputs/test.txt",
+    "absolutePath": "C:\\Users\\elric\\omega-project\\nexus\\user_imputs\\test.txt",
+    "bytes": 512758,
+    "sha256": "2ba37e76dfe44427b1961d84e59d1d3904be50cfa595062b04f92bdc4500a20d"
+  },
+  "analysis": {
+    "summary": {
+      "wordCount": 83121,
+      "sentenceCount": 12472,
+      "dominantEmotion": "trust",
+      "overallIntensity": 0.309,
+      "keywordsFound": 1844,
+      "keywordDensity": 0.022,
+      "intensityMethod": "v2"
+    },
+    "emotions": [
+      {
+        "emotion": "joy",
+        "intensity": 0.292,
+        "confidence": 0.132
+      },
+      {
+        "emotion": "trust",
+        "intensity": 0.947,
+        "confidence": 0.427
+      },
+      {
+        "emotion": "fear",
+        "intensity": 0.248,
+        "confidence": 0.112
+      },
+      {
+        "emotion": "surprise",
+        "intensity": 0.055,
+        "confidence": 0.025
+      },
+      {
+        "emotion": "sadness",
+        "intensity": 0.247,
+        "confidence": 0.111
+      },
+      {
+        "emotion": "disgust",
+        "intensity": 0.016,
+        "confidence": 0.007
+      },
+      {
+        "emotion": "anger",
+        "intensity": 0.244,
+        "confidence": 0.11
+      },
+      {
+        "emotion": "anticipation",
+        "intensity": 0.17,
+        "confidence": 0.076
+      }
+    ],
+    "excerpt": "RÉSIDENCE RIVIERA\r\nTome 1\r\nLe Dernier Rempart\r\nNoé Valmont\r\n \r\n© 2024 Noé Valmont\r\nTous droits réser...",
+    "warnings": []
+  },
+  "metadata": {
+    "timestamp": "2026-01-17T23:46:13.208Z",
+    "seed": 42,
+    "version": "3.17.0",
+    "lang": "fr",
+    "langName": "Français"
+  },
+  "errors": []
+}

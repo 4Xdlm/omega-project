@@ -28,4 +28,11 @@ export {
   createRouter,
   createDefaultRouter
 } from "./router.js";
-export type { RouterOptions } from "./router.js";
+export type {
+  RouterOptions,
+  DefaultRouterOptions,
+  RouterAdapters,
+  IRouterValidationAdapter,
+  IRouterGenomeAdapter,
+  IRouterDNAAdapter
+} from "./router.js";

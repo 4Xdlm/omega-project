@@ -37,3 +37,11 @@ export {
   createAnalysisPipeline,
   createValidationPipeline
 } from "./builder.js";
+
+// DI Interfaces
+export type {
+  IValidationAdapter,
+  IGenomeAdapter,
+  IDNAAdapter,
+  PipelineAdapters
+} from "./builder.js";

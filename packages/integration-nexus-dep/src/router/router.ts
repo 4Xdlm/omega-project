@@ -146,7 +146,7 @@ export function createRouter(options?: RouterOptions): NexusRouter {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// PRE-CONFIGURED ROUTER WITH DEFAULT HANDLERS
+// PRE-CONFIGURED ROUTER WITH DEFAULT HANDLERS — DEPENDENCY INJECTION
 // ═══════════════════════════════════════════════════════════════════════════════
 
 import { GenomeAdapter } from "../adapters/genome.adapter.js";
@@ -155,15 +155,64 @@ import { MyceliumBioAdapter } from "../adapters/mycelium-bio.adapter.js";
 import type { AnalyzeTextInput, AnalyzeTextOutput } from "../contracts/io.js";
 
 /**
- * Create a router with default NEXUS handlers pre-registered
+ * Interface for validation adapter (DI)
  */
-export function createDefaultRouter(options?: RouterOptions): NexusRouter {
+export interface IRouterValidationAdapter {
+  validateInput(input: { content: string; seed?: number }): Promise<{
+    valid: boolean;
+    normalizedContent?: string;
+    rejectionMessage?: string;
+  }>;
+}
+
+/**
+ * Interface for genome analysis adapter (DI)
+ */
+export interface IRouterGenomeAdapter {
+  analyzeText(content: string, seed: number): Promise<{
+    fingerprint: string;
+    version: string;
+    axes: { emotion: { distribution: Record<string, number> } };
+  }>;
+}
+
+/**
+ * Interface for DNA building adapter (DI)
+ */
+export interface IRouterDNAAdapter {
+  buildDNA(input: { validatedContent: string; seed: number; mode: string }): Promise<{
+    rootHash: string;
+    nodeCount: number;
+  }>;
+}
+
+/**
+ * Adapters bundle for router injection
+ */
+export interface RouterAdapters {
+  validation?: IRouterValidationAdapter;
+  genome?: IRouterGenomeAdapter;
+  dna?: IRouterDNAAdapter;
+}
+
+/**
+ * Options for createDefaultRouter with optional adapters
+ */
+export interface DefaultRouterOptions extends RouterOptions {
+  adapters?: RouterAdapters;
+}
+
+/**
+ * Create a router with default NEXUS handlers pre-registered
+ * @param options Router options including optional adapters for DI
+ */
+export function createDefaultRouter(options?: DefaultRouterOptions): NexusRouter {
   const router = createRouter(options);
 
-  // Adapters
-  const genomeAdapter = new GenomeAdapter();
-  const myceliumAdapter = new MyceliumAdapter();
-  const bioAdapter = new MyceliumBioAdapter();
+  // Adapters (use injected or default)
+  const genomeAdapter = options?.adapters?.genome ?? new GenomeAdapter();
+  const myceliumAdapter = options?.adapters?.validation ?? new MyceliumAdapter();
+  const bioAdapter = options?.adapters?.dna ?? new MyceliumBioAdapter();
 
   // Register ANALYZE_TEXT handler
   router.register<AnalyzeTextInput, AnalyzeTextOutput>(

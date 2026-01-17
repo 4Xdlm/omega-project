@@ -229,7 +229,7 @@ export function createStage<TInput, TOutput>(
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// PRE-BUILT PIPELINES
+// PRE-BUILT PIPELINES — DEPENDENCY INJECTION
 // ═══════════════════════════════════════════════════════════════════════════════
 
 import { GenomeAdapter } from "../adapters/genome.adapter.js";
@@ -237,12 +237,53 @@ import { MyceliumAdapter } from "../adapters/mycelium.adapter.js";
 import { MyceliumBioAdapter } from "../adapters/mycelium-bio.adapter.js";
 
 /**
- * Create a standard analysis pipeline
+ * Interface for validation adapter (DI)
  */
-export function createAnalysisPipeline(): PipelineDefinition {
-  const myceliumAdapter = new MyceliumAdapter();
-  const genomeAdapter = new GenomeAdapter();
-  const bioAdapter = new MyceliumBioAdapter();
+export interface IValidationAdapter {
+  validateInput(input: { content: string; seed?: number }): Promise<{
+    valid: boolean;
+    normalizedContent?: string;
+    rejectionMessage?: string;
+  }>;
+}
+
+/**
+ * Interface for genome analysis adapter (DI)
+ */
+export interface IGenomeAdapter {
+  analyzeText(content: string, seed: number): Promise<{
+    fingerprint: string;
+    version: string;
+  }>;
+}
+
+/**
+ * Interface for DNA building adapter (DI)
+ */
+export interface IDNAAdapter {
+  buildDNA(input: { validatedContent: string; seed: number; mode: string }): Promise<{
+    rootHash: string;
+    nodeCount: number;
+  }>;
+}
+
+/**
+ * Adapters bundle for pipeline injection
+ */
+export interface PipelineAdapters {
+  validation?: IValidationAdapter;
+  genome?: IGenomeAdapter;
+  dna?: IDNAAdapter;
+}
+
+/**
+ * Create a standard analysis pipeline
+ * @param adapters Optional adapters for dependency injection (defaults provided)
+ */
+export function createAnalysisPipeline(adapters: PipelineAdapters = {}): PipelineDefinition {
+  const myceliumAdapter = adapters.validation ?? new MyceliumAdapter();
+  const genomeAdapter = adapters.genome ?? new GenomeAdapter();
+  const bioAdapter = adapters.dna ?? new MyceliumBioAdapter();
 
   return createPipeline("OMEGA-ANALYSIS")
     .setVersion("1.0.0")
@@ -295,9 +336,10 @@ export function createAnalysisPipeline(): PipelineDefinition {
 
 /**
  * Create a validation-only pipeline
+ * @param adapters Optional adapters for dependency injection (defaults provided)
  */
-export function createValidationPipeline(): PipelineDefinition {
-  const myceliumAdapter = new MyceliumAdapter();
+export function createValidationPipeline(adapters: Pick<PipelineAdapters, 'validation'> = {}): PipelineDefinition {
+  const myceliumAdapter = adapters.validation ?? new MyceliumAdapter();
 
   return createPipeline("OMEGA-VALIDATION")
     .setVersion("1.0.0")

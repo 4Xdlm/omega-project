@@ -111,6 +111,44 @@ Failed test: "should not have modified files in gateway"
 Reason: Test checks for uncommitted changes. Will pass after commit.
 
 ================================================================================
+CHAPTER 11 — FRENCH LANGUAGE SUPPORT
+================================================================================
+
+COMMAND EXECUTED:
+npm run omega -- analyze "nexus/user_imputs/test.txt" --lang fr --output both --save "nexus/proof/chapter10/roman_analysis_fr"
+
+FRENCH ANALYSIS RESULTS:
+- Words: 83,121
+- Keywords detected: 1,844
+- Dominant emotion: trust
+- Overall intensity: 27.7% (TARGET: >5% — ACHIEVED)
+
+EMOTION BREAKDOWN:
+| Emotion      | Intensity | Confidence |
+|--------------|-----------|------------|
+| trust        | 94.7%     | 42.7%      |
+| joy          | 29.2%     | 13.2%      |
+| fear         | 24.8%     | 11.2%      |
+| sadness      | 24.7%     | 11.1%      |
+| anger        | 24.4%     | 11.0%      |
+| anticipation | 17.0%     | 7.6%       |
+| surprise     | 5.5%      | 2.5%       |
+| disgust      | 1.6%      | 0.7%       |
+
+FRENCH OUTPUT FILES:
+94c48cd8a1e2ee3ab9060269a5fa2d155722fd37e4c70a4fed08091c3ba87d28  roman_analysis_fr.json
+007eb65c23c575825a0c06cb13a4754d02068936b1a66a73ee4973e65b295013  roman_analysis_fr.md
+
+FILES ADDED (gateway/cli-runner/src/cli/lang/):
+- en.ts — English emotion keywords
+- fr.ts — French emotion keywords (with accent normalization)
+- index.ts — Language support index
+
+ROOT package.json SCRIPTS:
+"omega": "node gateway/cli-runner/dist/cli/runner.js"
+"omega:build": "cd gateway/cli-runner && npm run build"
+
+================================================================================
 VERIFICATION SUMMARY
 ================================================================================
 [X] FROZEN modules untouched (packages/genome, packages/mycelium)
@@ -119,6 +157,10 @@ VERIFICATION SUMMARY
 [X] CLI builds without ts-node at runtime
 [X] Analysis outputs generated (JSON + MD)
 [X] Input/output hashes documented
+[X] French language support (--lang fr)
+[X] French intensity > 5% (actual: 27.7%)
+[X] Ergonomic npm run omega command
+[X] RUNBOOK.md updated with new commands
 
 ================================================================================
 END OF PROOF PACK

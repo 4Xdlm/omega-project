@@ -11,6 +11,7 @@ import { EXIT_CODES, DEFAULTS, ROUTING } from '../constants.js';
 import { resolveOption } from '../parser.js';
 import { isValidOutputFormat } from '../types.js';
 import { analyzeText } from './analyze.js';
+import { EMOTION_KEYWORDS_EN } from '../lang/en.js';
 
 // ============================================================================
 // COMPARE COMMAND DEFINITION
@@ -166,8 +167,8 @@ async function executeCompare(args: ParsedArgs): Promise<CLIResult> {
     const text1 = await simulateFileRead(file1);
     const text2 = await simulateFileRead(file2);
     
-    const result1 = analyzeText(text1, DEFAULTS.SEED);
-    const result2 = analyzeText(text2, DEFAULTS.SEED);
+    const result1 = analyzeText(text1, EMOTION_KEYWORDS_EN, DEFAULTS.SEED, 'en');
+    const result2 = analyzeText(text2, EMOTION_KEYWORDS_EN, DEFAULTS.SEED, 'en');
     
     // Compare results
     const comparison = compareResults(result1, result2);

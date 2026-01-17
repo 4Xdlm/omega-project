@@ -1,4 +1,4 @@
-# OMEGA CLI RUNBOOK — Chapter 10
+# OMEGA CLI RUNBOOK — Chapter 10/11
 **Date**: 2026-01-17
 **Standard**: NASA-Grade L4 / DO-178C aligned
 
@@ -22,8 +22,7 @@ cd omega-project
 npm install
 
 # Build CLI
-cd gateway/cli-runner
-npm run build
+npm run omega:build
 ```
 
 ---
@@ -40,9 +39,50 @@ Expected: 1389+ tests pass
 
 ---
 
-## Analyze a Text File
+## Ergonomic CLI Usage (RECOMMENDED)
 
-### Basic JSON Output
+From the project root, use the `npm run omega` command:
+
+```powershell
+cd C:\Users\elric\omega-project
+
+# Analyze French text
+npm run omega -- analyze "nexus/user_imputs/test.txt" --lang fr
+
+# Analyze English text
+npm run omega -- analyze "path/to/file.txt" --lang en
+
+# Output as Markdown
+npm run omega -- analyze "path/to/file.txt" --lang fr --output md
+
+# Output both JSON and MD, save to files
+npm run omega -- analyze "path/to/file.txt" --lang fr --output both --save "output_name"
+
+# Get help
+npm run omega -- --help
+npm run omega -- analyze --help
+```
+
+---
+
+## Language Support
+
+OMEGA CLI supports multiple languages for emotion detection:
+
+| Language | Flag | Keywords Config |
+|----------|------|-----------------|
+| English  | `--lang en` | gateway/cli-runner/src/cli/lang/en.ts |
+| French   | `--lang fr` | gateway/cli-runner/src/cli/lang/fr.ts |
+
+Default: English (`en`)
+
+French keywords include accent normalization (é→e, è→e, etc.) for robust matching.
+
+---
+
+## Analyze a Text File (Advanced)
+
+### Direct Node Execution
 
 ```powershell
 cd C:\Users\elric\omega-project\gateway\cli-runner
@@ -58,30 +98,35 @@ node dist/cli/runner.js analyze "path\to\your\file.txt" --output md
 ### Verbose Mode
 
 ```powershell
-node dist/cli/runner.js analyze "path\to\your\file.txt" --verbose
+npm run omega -- analyze "path\to\your\file.txt" --verbose
 ```
 
 ### Save to File
 
 ```powershell
-node dist/cli/runner.js analyze "path\to\your\file.txt" --output json > analysis.json
-node dist/cli/runner.js analyze "path\to\your\file.txt" --output md > analysis.md
+npm run omega -- analyze "path\to\your\file.txt" --output both --save "my_analysis"
+# Creates: my_analysis.json and my_analysis.md
 ```
 
 ---
 
-## Example: Analyze the Novel
+## Example: Analyze the French Novel
 
 ```powershell
-# Analyze "Résidence Riviera" novel
-cd C:\Users\elric\omega-project\gateway\cli-runner
+cd C:\Users\elric\omega-project
 
-# JSON output
-node dist/cli/runner.js analyze "C:\Users\elric\omega-project\nexus\user_imputs\test.txt" --output json
+# French analysis with Markdown output
+npm run omega -- analyze "nexus/user_imputs/test.txt" --lang fr --output md
 
-# Markdown output
-node dist/cli/runner.js analyze "C:\Users\elric\omega-project\nexus\user_imputs\test.txt" --output md
+# French analysis, save both formats
+npm run omega -- analyze "nexus/user_imputs/test.txt" --lang fr --output both --save "roman_analysis_fr"
 ```
+
+Expected output (French novel):
+- **Words**: 83,121
+- **Keywords detected**: 1,844
+- **Dominant emotion**: trust (94.7%)
+- **Overall intensity**: 27.7%
 
 ---
 

@@ -10,6 +10,7 @@ import type { CLICommand, CLIResult, ParsedArgs, BatchResult, BatchItem } from '
 import { EXIT_CODES, DEFAULTS, ROUTING, VALID_TEXT_EXTENSIONS } from '../constants.js';
 import { resolveOption } from '../parser.js';
 import { analyzeText } from './analyze.js';
+import { EMOTION_KEYWORDS_EN } from '../lang/en.js';
 
 // ============================================================================
 // BATCH COMMAND DEFINITION
@@ -55,8 +56,8 @@ async function processBatchItem(item: BatchItem): Promise<BatchItem> {
     // Simulate file read
     const text = await simulateFileRead(item.path);
     
-    // Analyze
-    const result = analyzeText(text, DEFAULTS.SEED);
+    // Analyze with English keywords (default)
+    const result = analyzeText(text, EMOTION_KEYWORDS_EN, DEFAULTS.SEED, 'en');
     
     return {
       ...item,

@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "test": "vitest run"
+    "test": "vitest run",
+    "omega": "node gateway/cli-runner/dist/cli/runner.js",
+    "omega:build": "cd gateway/cli-runner && npm run build"
   },
   "devDependencies": {
     "vitest": "^4.0.17",

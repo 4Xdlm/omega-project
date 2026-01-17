@@ -1,0 +1,91 @@
+====================================================================
+OMEGA CHAPTER 14 — PROOF RECORD
+Intensity Normalization v2 + Saturation Warnings
+====================================================================
+
+DATE: 2026-01-18T00:23:00Z
+PHASE: Chapter 14
+CAPABILITY: --intensity v1|v2 + SATURATED_INTENSITY warning
+
+====================================================================
+ACCEPTANCE CRITERIA
+====================================================================
+
+[✓] --intensity flag added (v1|v2, default v2)
+[✓] v2 formula: 1 - exp(-rawDensity / 0.06)
+[✓] intensityMethod field in JSON + MD output
+[✓] SATURATED_INTENSITY warning (>=0.98 AND wordCount>200)
+[✓] v2 reduces extreme intensities (DE emotional: 100% → 97%)
+[✓] Neutral files remain at 0%
+[✓] FROZEN modules untouched
+[✓] Tests pass
+
+====================================================================
+V1 vs V2 COMPARISON TABLE
+====================================================================
+
+| File            | Lang | Density | v1 Int | v2 Int | Δ     | Warnings (v1)       |
+|-----------------|------|---------|--------|--------|-------|---------------------|
+| test.txt        | FR   | 2.2%    | 27.7%  | 30.9%  | +3.2% | -                   |
+| test_es.txt     | ES   | 15.2%   | 91.7%  | 92.1%  | +0.4% | -                   |
+| test_de_emotional | DE | 21.1%   | 100.0% | 97.0%  | -3.0% | SATURATED_INTENSITY |
+| test_de_neutral | DE   | 0%      | 0%     | 0%     | 0%    | -                   |
+
+KEY INSIGHT: v2 prevents saturation at 100% for high-density texts.
+- DE emotional with v1: 100% (SATURATED)
+- DE emotional with v2: 97% (no warning)
+
+====================================================================
+INTENSITY V2 FORMULA
+====================================================================
+
+overallIntensity = 1 - exp(-rawDensity / k)
+where k = 0.06
+
+Calibration:
+- density 0.08 → intensity ~0.74 (73.6%)
+- density 0.21 → intensity ~0.97 (96.9%)
+
+====================================================================
+WARNINGS
+====================================================================
+
+| Warning              | Condition                           |
+|---------------------|-------------------------------------|
+| HIGH_KEYWORD_DENSITY | keywordDensity > 0.25               |
+| SATURATED_INTENSITY  | intensity >= 0.98 AND wordCount>200 |
+
+====================================================================
+ARTIFACTS
+====================================================================
+
+Source Files:
+- gateway/cli-runner/src/cli/commands/analyze.ts
+
+Proof Files:
+- nexus/proof/chapter14/de_emotional_v1.json
+- nexus/proof/chapter14/de_emotional_v2.json
+- nexus/proof/chapter14/de_emotional_v2.md
+- nexus/proof/chapter14/PROOF.txt
+- nexus/proof/chapter14/RUNBOOK.md
+
+====================================================================
+FROZEN VERIFICATION
+====================================================================
+
+git diff --name-only -- packages/genome packages/mycelium
+(empty output = untouched)
+
+====================================================================
+GIT STATUS
+====================================================================
+
+git status:
+On branch master
+Changes to be committed:
+  modified: gateway/cli-runner/src/cli/commands/analyze.ts
+  new file: nexus/proof/chapter14/*
+
+====================================================================
+STATUS: COMPLETE
+====================================================================

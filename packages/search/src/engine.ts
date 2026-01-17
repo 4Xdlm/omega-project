@@ -28,6 +28,11 @@ interface IndexEntry {
 }
 
 /**
+ * Stemming suffixes (module-level constant for performance)
+ */
+const STEM_SUFFIXES = ['ing', 'ed', 'ly', 'es', 's', 'ment', 'ness', 'tion', 'able', 'ible'] as const;
+
+/**
  * Search Engine
  * Full-text search with BM25 scoring and fuzzy matching
  */
@@ -37,6 +42,7 @@ export class SearchEngine {
   private invertedIndex: Map<string, IndexEntry[]>;
   private documentLengths: Map<string, number>;
   private avgDocumentLength: number;
+  private stopWordsSet: Set<string>;
 
   constructor(config: Partial<SearchConfig> = {}) {
     this.config = { ...DEFAULT_SEARCH_CONFIG, ...config };
@@ -44,6 +50,7 @@ export class SearchEngine {
     this.invertedIndex = new Map();
     this.documentLengths = new Map();
     this.avgDocumentLength = 0;
+    this.stopWordsSet = new Set(this.config.stopWords);
   }
 
   /**
@@ -296,11 +303,11 @@ export class SearchEngine {
     // Lowercase and split on non-word characters
     const raw = text.toLowerCase().split(/\W+/).filter(Boolean);
 
-    // Apply filters
+    // Apply filters (using Set for O(1) stopword lookup)
     let tokens = raw.filter(
       (t) =>
         t.length >= this.config.minTokenLength &&
-        !this.config.stopWords.includes(t)
+        !this.stopWordsSet.has(t)
     );
 
     // Apply stemming if enabled
@@ -315,10 +322,8 @@ export class SearchEngine {
    * Simple stemming (Porter-like)
    */
   private stem(word: string): string {
-    // Simple suffix removal
-    const suffixes = ['ing', 'ed', 'ly', 'es', 's', 'ment', 'ness', 'tion', 'able', 'ible'];
-
-    for (const suffix of suffixes) {
+    // Simple suffix removal (using module-level constant)
+    for (const suffix of STEM_SUFFIXES) {
       if (word.endsWith(suffix) && word.length > suffix.length + 2) {
         return word.slice(0, -suffix.length);
       }

@@ -1,5 +1,14 @@
 ﻿import { defineConfig } from 'vitest/config';
+import { resolve } from 'path';
+
 export default defineConfig({
+  resolve: {
+    alias: {
+      '@omega/omega-observability': resolve(__dirname, 'packages/omega-observability/src/index.ts'),
+      '@omega/search': resolve(__dirname, 'packages/search/src/index.ts'),
+      '@omega/oracle': resolve(__dirname, 'packages/oracle/src/index.ts'),
+    },
+  },
   test: {
     globals: true,
     environment: 'node',
@@ -14,6 +23,7 @@ export default defineConfig({
       'packages/omega-segment-engine/tests/**/*.test.ts',
       'packages/omega-aggregate-dna/tests/**/*.test.ts',
       'packages/omega-observability/tests/**/*.test.ts',
+      'packages/search/tests/**/*.test.ts',
       '*.test.ts'
     ],
     exclude: [

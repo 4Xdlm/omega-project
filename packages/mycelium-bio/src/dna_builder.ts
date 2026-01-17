@@ -476,10 +476,6 @@ export function selfTest(): boolean {
     return false;
   }
 
-  console.log("✅ dna_builder.ts: All tests passed");
-  console.log(`   Root hash: ${dna.rootHash.substring(0, 16)}...`);
-  console.log(`   Nodes: ${dna.nodes.length}`);
-  console.log(`   Processing: ${dna.meta.processingTimeMs}ms`);
   return true;
 }
 

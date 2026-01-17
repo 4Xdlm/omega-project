@@ -1,0 +1,500 @@
+packages/contracts-canon/dist/index.d.ts:9:export type { ContractVersion, ContractStability, ContractMetadata, InvariantSeverity, InvariantContract, InvariantResult, ModuleType, ModuleDependency, ModuleContract, MessageDirection, ProtocolMessage, ProtocolContract, DataFormat, DataContract, DataConstraint, ContractEntry, ContractRegistry, ValidationResult, ValidationError, ValidationWarning, } from './types.js';
+packages/contracts-canon/dist/index.d.ts:10:export { isContractVersion, isContractMetadata, isInvariantContract, isModuleContract, } from './types.js';
+packages/contracts-canon/dist/index.d.ts:11:export { INV_DET_01, INV_DET_02, INV_DET_03, INV_DET_04, INV_DET_05, INV_EXE_01, INV_EXE_02, INV_EXE_03, INV_EXE_04, INV_REP_01, INV_REP_02, INV_REP_03, INV_REP_04, INV_ART_01, INV_ART_02, INV_ART_03, INV_NEX_01, INV_NEX_02, INV_NEX_03, INV_SAN_01, INV_SAN_02, ALL_INVARIANTS, INVARIANT_COUNT, getInvariantsByModule, getInvariantsBySeverity, getInvariant, } from './invariants.js';
+packages/contracts-canon/dist/index.d.ts:12:export { MOD_SENTINEL, MOD_ORCHESTRATOR_CORE, MOD_HEADLESS_RUNNER, MOD_CONTRACTS_CANON, MOD_GENOME, MOD_MYCELIUM, MOD_MYCELIUM_BIO, MOD_NEXUS_DEP, MOD_SEGMENT_ENGINE, MOD_OBSERVABILITY, ALL_MODULES, MODULE_COUNT, getModulesByType, getModule, getModuleByPackage, } from './modules.js';
+packages/contracts-canon/dist/index.d.ts:13:export { InMemoryContractRegistry, validateContract, checkInvariant, buildDependencyGraph, detectCircularDependencies, getTopologicalOrder, } from './registry.js';
+packages/contracts-canon/dist/invariants.d.ts:9:export declare const INV_DET_01: InvariantContract;
+packages/contracts-canon/dist/invariants.d.ts:10:export declare const INV_DET_02: InvariantContract;
+packages/contracts-canon/dist/invariants.d.ts:11:export declare const INV_DET_03: InvariantContract;
+packages/contracts-canon/dist/invariants.d.ts:12:export declare const INV_DET_04: InvariantContract;
+packages/contracts-canon/dist/invariants.d.ts:13:export declare const INV_DET_05: InvariantContract;
+packages/contracts-canon/dist/invariants.d.ts:14:export declare const INV_EXE_01: InvariantContract;
+packages/contracts-canon/dist/invariants.d.ts:15:export declare const INV_EXE_02: InvariantContract;
+packages/contracts-canon/dist/invariants.d.ts:16:export declare const INV_EXE_03: InvariantContract;
+packages/contracts-canon/dist/invariants.d.ts:17:export declare const INV_EXE_04: InvariantContract;
+packages/contracts-canon/dist/invariants.d.ts:18:export declare const INV_REP_01: InvariantContract;
+packages/contracts-canon/dist/invariants.d.ts:19:export declare const INV_REP_02: InvariantContract;
+packages/contracts-canon/dist/invariants.d.ts:20:export declare const INV_REP_03: InvariantContract;
+packages/contracts-canon/dist/invariants.d.ts:21:export declare const INV_REP_04: InvariantContract;
+packages/contracts-canon/dist/invariants.d.ts:22:export declare const INV_ART_01: InvariantContract;
+packages/contracts-canon/dist/invariants.d.ts:23:export declare const INV_ART_02: InvariantContract;
+packages/contracts-canon/dist/invariants.d.ts:24:export declare const INV_ART_03: InvariantContract;
+packages/contracts-canon/dist/invariants.d.ts:25:export declare const INV_NEX_01: InvariantContract;
+packages/contracts-canon/dist/invariants.d.ts:26:export declare const INV_NEX_02: InvariantContract;
+packages/contracts-canon/dist/invariants.d.ts:27:export declare const INV_NEX_03: InvariantContract;
+packages/contracts-canon/dist/invariants.d.ts:28:export declare const INV_SAN_01: InvariantContract;
+packages/contracts-canon/dist/invariants.d.ts:29:export declare const INV_SAN_02: InvariantContract;
+packages/contracts-canon/dist/invariants.d.ts:33:export declare const ALL_INVARIANTS: readonly InvariantContract[];
+packages/contracts-canon/dist/invariants.d.ts:37:export declare function getInvariantsByModule(module: string): readonly InvariantContract[];
+packages/contracts-canon/dist/invariants.d.ts:41:export declare function getInvariantsBySeverity(severity: InvariantSeverity): readonly InvariantContract[];
+packages/contracts-canon/dist/invariants.d.ts:45:export declare function getInvariant(id: string): InvariantContract | undefined;
+packages/contracts-canon/dist/invariants.d.ts:49:export declare const INVARIANT_COUNT: number;
+packages/contracts-canon/dist/modules.d.ts:8:export declare const MOD_SENTINEL: ModuleContract;
+packages/contracts-canon/dist/modules.d.ts:9:export declare const MOD_ORCHESTRATOR_CORE: ModuleContract;
+packages/contracts-canon/dist/modules.d.ts:10:export declare const MOD_HEADLESS_RUNNER: ModuleContract;
+packages/contracts-canon/dist/modules.d.ts:11:export declare const MOD_CONTRACTS_CANON: ModuleContract;
+packages/contracts-canon/dist/modules.d.ts:12:export declare const MOD_GENOME: ModuleContract;
+packages/contracts-canon/dist/modules.d.ts:13:export declare const MOD_MYCELIUM: ModuleContract;
+packages/contracts-canon/dist/modules.d.ts:14:export declare const MOD_MYCELIUM_BIO: ModuleContract;
+packages/contracts-canon/dist/modules.d.ts:15:export declare const MOD_NEXUS_DEP: ModuleContract;
+packages/contracts-canon/dist/modules.d.ts:16:export declare const MOD_SEGMENT_ENGINE: ModuleContract;
+packages/contracts-canon/dist/modules.d.ts:17:export declare const MOD_OBSERVABILITY: ModuleContract;
+packages/contracts-canon/dist/modules.d.ts:21:export declare const ALL_MODULES: readonly ModuleContract[];
+packages/contracts-canon/dist/modules.d.ts:25:export declare function getModulesByType(type: ModuleType): readonly ModuleContract[];
+packages/contracts-canon/dist/modules.d.ts:29:export declare function getModule(id: string): ModuleContract | undefined;
+packages/contracts-canon/dist/modules.d.ts:33:export declare function getModuleByPackage(packageName: string): ModuleContract | undefined;
+packages/contracts-canon/dist/modules.d.ts:37:export declare const MODULE_COUNT: number;
+packages/contracts-canon/dist/registry.d.ts:11:export declare class InMemoryContractRegistry implements ContractRegistry {
+packages/contracts-canon/dist/registry.d.ts:27:export declare function validateContract(entry: ContractEntry): ValidationResult;
+packages/contracts-canon/dist/registry.d.ts:32:export declare function checkInvariant(invariant: InvariantContract, _context: unknown): {
+packages/contracts-canon/dist/registry.d.ts:39:export declare function buildDependencyGraph(modules: readonly ModuleContract[]): Map<string, Set<string>>;
+packages/contracts-canon/dist/registry.d.ts:43:export declare function detectCircularDependencies(modules: readonly ModuleContract[]): readonly string[][];
+packages/contracts-canon/dist/registry.d.ts:47:export declare function getTopologicalOrder(modules: readonly ModuleContract[]): readonly string[];
+packages/contracts-canon/dist/types.d.ts:12:export interface ContractVersion {
+packages/contracts-canon/dist/types.d.ts:20:export type ContractStability = 'EXPERIMENTAL' | 'UNSTABLE' | 'STABLE' | 'FROZEN' | 'DEPRECATED';
+packages/contracts-canon/dist/types.d.ts:24:export interface ContractMetadata {
+packages/contracts-canon/dist/types.d.ts:36:export type InvariantSeverity = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW';
+packages/contracts-canon/dist/types.d.ts:40:export interface InvariantContract {
+packages/contracts-canon/dist/types.d.ts:52:export interface InvariantResult {
+packages/contracts-canon/dist/types.d.ts:61:export type ModuleType = 'ROOT' | 'CORE' | 'CLIENT' | 'INTEGRATION' | 'UTILITY';
+packages/contracts-canon/dist/types.d.ts:65:export interface ModuleDependency {
+packages/contracts-canon/dist/types.d.ts:73:export interface ModuleContract {
+packages/contracts-canon/dist/types.d.ts:84:export type MessageDirection = 'REQUEST' | 'RESPONSE' | 'EVENT';
+packages/contracts-canon/dist/types.d.ts:88:export interface ProtocolMessage {
+packages/contracts-canon/dist/types.d.ts:97:export interface ProtocolContract {
+packages/contracts-canon/dist/types.d.ts:107:export type DataFormat = 'JSON' | 'NDJSON' | 'BINARY' | 'TEXT' | 'SHA256';
+packages/contracts-canon/dist/types.d.ts:111:export interface DataContract {
+packages/contracts-canon/dist/types.d.ts:121:export interface DataConstraint {
+packages/contracts-canon/dist/types.d.ts:130:export interface ContractEntry {
+packages/contracts-canon/dist/types.d.ts:137:export interface ContractRegistry {
+packages/contracts-canon/dist/types.d.ts:162:export interface ValidationResult {
+packages/contracts-canon/dist/types.d.ts:170:export interface ValidationError {
+packages/contracts-canon/dist/types.d.ts:180:export interface ValidationWarning {
+packages/contracts-canon/dist/types.d.ts:185:export declare function isContractVersion(obj: unknown): obj is ContractVersion;
+packages/contracts-canon/dist/types.d.ts:186:export declare function isContractMetadata(obj: unknown): obj is ContractMetadata;
+packages/contracts-canon/dist/types.d.ts:187:export declare function isInvariantContract(obj: unknown): obj is InvariantContract;
+packages/contracts-canon/dist/types.d.ts:188:export declare function isModuleContract(obj: unknown): obj is ModuleContract;
+packages/contracts-canon/node_modules/@jest/schemas/build/index.d.ts:38:export declare const SnapshotFormat: TObject<{
+packages/contracts-canon/node_modules/@jest/schemas/build/index.d.ts:61:export declare type SnapshotFormat = Static<typeof RawSnapshotFormat>;
+packages/contracts-canon/node_modules/@jest/schemas/build/index.d.ts:63:export {};
+packages/contracts-canon/node_modules/@jridgewell/sourcemap-codec/src/scopes.ts:16:export type OriginalScope = Mix<
+packages/contracts-canon/node_modules/@jridgewell/sourcemap-codec/src/scopes.ts:22:export type GeneratedRange = Mix<
+packages/contracts-canon/node_modules/@jridgewell/sourcemap-codec/src/scopes.ts:31:export type CallSite = [SourcesIndex, Line, Column];
+packages/contracts-canon/node_modules/@jridgewell/sourcemap-codec/src/scopes.ts:33:export type BindingExpressionRange = [Name] | [Name, Line, Column];
+packages/contracts-canon/node_modules/@jridgewell/sourcemap-codec/src/scopes.ts:35:export function decodeOriginalScopes(input: string): OriginalScope[] {
+packages/contracts-canon/node_modules/@jridgewell/sourcemap-codec/src/scopes.ts:78:export function encodeOriginalScopes(scopes: OriginalScope[]): string {
+packages/contracts-canon/node_modules/@jridgewell/sourcemap-codec/src/scopes.ts:129:export function decodeGeneratedRanges(input: string): GeneratedRange[] {
+packages/contracts-canon/node_modules/@jridgewell/sourcemap-codec/src/scopes.ts:231:export function encodeGeneratedRanges(ranges: GeneratedRange[]): string {
+packages/contracts-canon/node_modules/@jridgewell/sourcemap-codec/src/sourcemap-codec.ts:4:export {
+packages/contracts-canon/node_modules/@jridgewell/sourcemap-codec/src/sourcemap-codec.ts:10:export type { OriginalScope, GeneratedRange, CallSite, BindingExpressionRange } from './scopes';
+packages/contracts-canon/node_modules/@jridgewell/sourcemap-codec/src/sourcemap-codec.ts:12:export type SourceMapSegment =
+packages/contracts-canon/node_modules/@jridgewell/sourcemap-codec/src/sourcemap-codec.ts:16:export type SourceMapLine = SourceMapSegment[];
+packages/contracts-canon/node_modules/@jridgewell/sourcemap-codec/src/sourcemap-codec.ts:17:export type SourceMapMappings = SourceMapLine[];
+packages/contracts-canon/node_modules/@jridgewell/sourcemap-codec/src/sourcemap-codec.ts:19:export function decode(mappings: string): SourceMapMappings {
+packages/contracts-canon/node_modules/@jridgewell/sourcemap-codec/src/sourcemap-codec.ts:78:export function encode(decoded: SourceMapMappings): string;
+packages/contracts-canon/node_modules/@jridgewell/sourcemap-codec/src/sourcemap-codec.ts:79:export function encode(decoded: Readonly<SourceMapMappings>): string;
+packages/contracts-canon/node_modules/@jridgewell/sourcemap-codec/src/sourcemap-codec.ts:80:export function encode(decoded: Readonly<SourceMapMappings>): string {
+packages/contracts-canon/node_modules/@jridgewell/sourcemap-codec/src/strings.ts:24:export class StringWriter {
+packages/contracts-canon/node_modules/@jridgewell/sourcemap-codec/src/strings.ts:44:export class StringReader {
+packages/contracts-canon/node_modules/@jridgewell/sourcemap-codec/src/vlq.ts:3:export const comma = ','.charCodeAt(0);
+packages/contracts-canon/node_modules/@jridgewell/sourcemap-codec/src/vlq.ts:4:export const semicolon = ';'.charCodeAt(0);
+packages/contracts-canon/node_modules/@jridgewell/sourcemap-codec/src/vlq.ts:16:export function decodeInteger(reader: StringReader, relative: number): number {
+packages/contracts-canon/node_modules/@jridgewell/sourcemap-codec/src/vlq.ts:38:export function encodeInteger(builder: StringWriter, num: number, relative: number): number {
+packages/contracts-canon/node_modules/@jridgewell/sourcemap-codec/src/vlq.ts:52:export function hasMoreVlq(reader: StringReader, max: number) {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/artifacts/ArtifactRegistry.d.ts:10:export interface ArtifactMetadata {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/artifacts/ArtifactRegistry.d.ts:29:export interface Artifact<T = unknown> {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/artifacts/ArtifactRegistry.d.ts:38:export interface ArtifactQuery {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/artifacts/ArtifactRegistry.d.ts:52:export interface ArtifactRegistry {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/artifacts/ArtifactRegistry.d.ts:104:export type IdGenerator = () => string;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/artifacts/ArtifactRegistry.d.ts:108:export declare class InMemoryArtifactRegistry implements ArtifactRegistry {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/artifacts/ArtifactRegistry.d.ts:133:export declare function createArtifactRegistry(clock: Clock, idGenerator: IdGenerator): ArtifactRegistry;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/artifacts/index.d.ts:4:export { ArtifactMetadata, Artifact, ArtifactQuery, ArtifactRegistry, IdGenerator, InMemoryArtifactRegistry, createArtifactRegistry, } from './ArtifactRegistry.js';
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/core/DeterminismGuard.d.ts:10:export interface DeterminismGuard {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/core/DeterminismGuard.d.ts:22:export declare class DefaultDeterminismGuard implements DeterminismGuard {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/core/DeterminismGuard.d.ts:49:export declare function createDeterminismGuard(): DeterminismGuard;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/core/DeterminismGuard.d.ts:58:export declare function assertDeterministic(run1: RunResult, run2: RunResult): void;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/core/errors.d.ts:10:export declare enum OrchestratorErrorCode {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/core/errors.d.ts:36:export interface OrchestratorError {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/core/errors.d.ts:54:export declare function createError(code: OrchestratorErrorCode, message: string, timestamp: string, context?: Record<string, unknown>): OrchestratorError;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/core/errors.d.ts:61:export declare function invalidPlanError(message: string, timestamp: string, details?: Record<string, unknown>): OrchestratorError;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/core/errors.d.ts:69:export declare function stepFailedError(stepId: string, message: string, timestamp: string, cause?: unknown): OrchestratorError;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/core/errors.d.ts:76:export declare function timeoutError(stepId: string, timeoutMs: number, timestamp: string): OrchestratorError;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/core/errors.d.ts:83:export declare function determinismViolationError(hash1: string, hash2: string, timestamp: string): OrchestratorError;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/core/errors.d.ts:89:export declare function adapterNotFoundError(kind: string, timestamp: string): OrchestratorError;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/core/errors.d.ts:95:export declare function isOrchestratorError(value: unknown): value is OrchestratorError;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/core/Executor.d.ts:12:export interface ExecutorOptions {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/core/Executor.d.ts:21:export interface OrchestratorExecutor {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/core/Executor.d.ts:34:export declare class DefaultExecutor implements OrchestratorExecutor {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/core/Executor.d.ts:50:export declare function createExecutor(options?: ExecutorOptions): OrchestratorExecutor;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/core/Plan.d.ts:10:export interface PlanStep {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/core/Plan.d.ts:28:export type PreStepHook = (step: PlanStep, ctx: RunContextData) => void;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/core/Plan.d.ts:33:export type PostStepHook = (step: PlanStep, result: StepResult) => void;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/core/Plan.d.ts:37:export interface PlanHooks {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/core/Plan.d.ts:47:export interface OrchestratorPlan {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/core/Plan.d.ts:62:export interface PlanValidationResult {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/core/Plan.d.ts:81:export declare function validatePlan(plan: OrchestratorPlan): PlanValidationResult;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/core/Plan.d.ts:88:export declare function createPlanBuilder(id: string, version: string): PlanBuilder;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/core/Plan.d.ts:92:export declare class PlanBuilder {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/core/RunContext.d.ts:11:export interface RunContextOptions {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/core/RunContext.d.ts:23:export declare class RunContext implements RunContextData {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/core/RunContext.d.ts:68:export declare function createRunContext(options: RunContextOptions): RunContext;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/core/RunContext.d.ts:74:export declare function isValidRunContextData(value: unknown): value is RunContextData;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/core/types.d.ts:10:export interface PlatformInfo {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/core/types.d.ts:24:export interface IdFactory {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/core/types.d.ts:38:export declare class SeededIdFactory implements IdFactory {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/core/types.d.ts:53:export interface StepAdapter<TInput = unknown, TOutput = unknown> {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/core/types.d.ts:67:export interface AdapterRegistry {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/core/types.d.ts:88:export declare class SimpleAdapterRegistry implements AdapterRegistry {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/core/types.d.ts:97:export interface RunContextData {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/core/types.d.ts:112:export interface StepResult {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/core/types.d.ts:137:export type RunStatus = 'SUCCESS' | 'FAILURE' | 'PARTIAL';
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/core/types.d.ts:141:export interface RunResult {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/core/types.d.ts:162:export interface DeterminismReport {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/core/types.d.ts:175:export interface DeterminismDifference {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/index.d.ts:33:export { Clock, SystemClock, DeterministicClock, createSystemClock, createDeterministicClock, } from './util/clock.js';
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/index.d.ts:34:export { sha256, sha256Buffer, sha256Json, verifySha256, } from './util/hash.js';
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/index.d.ts:35:export { stableStringify, stableParse, stableEquals, } from './util/stableJson.js';
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/index.d.ts:36:export type { PlatformInfo, IdFactory, StepAdapter, AdapterRegistry, RunContextData, StepResult, RunStatus, RunResult, DeterminismReport, DeterminismDifference, } from './core/types.js';
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/index.d.ts:37:export { SeededIdFactory, SimpleAdapterRegistry, } from './core/types.js';
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/index.d.ts:38:export { OrchestratorErrorCode, OrchestratorError, createError, invalidPlanError, stepFailedError, timeoutError, determinismViolationError, adapterNotFoundError, isOrchestratorError, } from './core/errors.js';
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/index.d.ts:39:export type { RunContextOptions } from './core/RunContext.js';
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/index.d.ts:40:export { RunContext, createRunContext, isValidRunContextData, } from './core/RunContext.js';
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/index.d.ts:41:export type { PlanStep, PreStepHook, PostStepHook, PlanHooks, OrchestratorPlan, PlanValidationResult, } from './core/Plan.js';
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/index.d.ts:42:export { validatePlan, createPlanBuilder, PlanBuilder, } from './core/Plan.js';
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/index.d.ts:43:export type { ExecutorOptions, OrchestratorExecutor, } from './core/Executor.js';
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/index.d.ts:44:export { DefaultExecutor, createExecutor, } from './core/Executor.js';
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/index.d.ts:45:export type { DeterminismGuard } from './core/DeterminismGuard.js';
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/index.d.ts:46:export { DefaultDeterminismGuard, createDeterminismGuard, assertDeterministic, } from './core/DeterminismGuard.js';
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/index.d.ts:47:export type { ArtifactMetadata, Artifact, ArtifactQuery, ArtifactRegistry, IdGenerator, } from './artifacts/ArtifactRegistry.js';
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/index.d.ts:48:export { InMemoryArtifactRegistry, createArtifactRegistry, } from './artifacts/ArtifactRegistry.js';
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/util/clock.d.ts:10:export interface Clock {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/util/clock.d.ts:26:export declare class SystemClock implements Clock {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/util/clock.d.ts:34:export declare class DeterministicClock implements Clock {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/util/clock.d.ts:62:export declare function createSystemClock(): Clock;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/util/clock.d.ts:68:export declare function createDeterministicClock(startTime?: number): DeterministicClock;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/util/hash.d.ts:15:export declare function sha256(input: string): string;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/util/hash.d.ts:21:export declare function sha256Buffer(input: Buffer): string;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/util/hash.d.ts:28:export declare function sha256Json(value: unknown): string;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/util/hash.d.ts:35:export declare function verifySha256(input: string, expectedHash: string): boolean;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/util/stableJson.d.ts:22:export declare function stableStringify(value: unknown, indent?: number | string): string;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/util/stableJson.d.ts:31:export declare function stableParse<T = unknown>(json: string): T;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/dist/util/stableJson.d.ts:40:export declare function stableEquals(a: unknown, b: unknown): boolean;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@jest/schemas/build/index.d.ts:38:export declare const SnapshotFormat: TObject<{
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@jest/schemas/build/index.d.ts:61:export declare type SnapshotFormat = Static<typeof RawSnapshotFormat>;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@jest/schemas/build/index.d.ts:63:export {};
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@jridgewell/sourcemap-codec/src/scopes.ts:16:export type OriginalScope = Mix<
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@jridgewell/sourcemap-codec/src/scopes.ts:22:export type GeneratedRange = Mix<
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@jridgewell/sourcemap-codec/src/scopes.ts:31:export type CallSite = [SourcesIndex, Line, Column];
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@jridgewell/sourcemap-codec/src/scopes.ts:33:export type BindingExpressionRange = [Name] | [Name, Line, Column];
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@jridgewell/sourcemap-codec/src/scopes.ts:35:export function decodeOriginalScopes(input: string): OriginalScope[] {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@jridgewell/sourcemap-codec/src/scopes.ts:78:export function encodeOriginalScopes(scopes: OriginalScope[]): string {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@jridgewell/sourcemap-codec/src/scopes.ts:129:export function decodeGeneratedRanges(input: string): GeneratedRange[] {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@jridgewell/sourcemap-codec/src/scopes.ts:231:export function encodeGeneratedRanges(ranges: GeneratedRange[]): string {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@jridgewell/sourcemap-codec/src/sourcemap-codec.ts:4:export {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@jridgewell/sourcemap-codec/src/sourcemap-codec.ts:10:export type { OriginalScope, GeneratedRange, CallSite, BindingExpressionRange } from './scopes';
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@jridgewell/sourcemap-codec/src/sourcemap-codec.ts:12:export type SourceMapSegment =
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@jridgewell/sourcemap-codec/src/sourcemap-codec.ts:16:export type SourceMapLine = SourceMapSegment[];
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@jridgewell/sourcemap-codec/src/sourcemap-codec.ts:17:export type SourceMapMappings = SourceMapLine[];
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@jridgewell/sourcemap-codec/src/sourcemap-codec.ts:19:export function decode(mappings: string): SourceMapMappings {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@jridgewell/sourcemap-codec/src/sourcemap-codec.ts:78:export function encode(decoded: SourceMapMappings): string;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@jridgewell/sourcemap-codec/src/sourcemap-codec.ts:79:export function encode(decoded: Readonly<SourceMapMappings>): string;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@jridgewell/sourcemap-codec/src/sourcemap-codec.ts:80:export function encode(decoded: Readonly<SourceMapMappings>): string {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@jridgewell/sourcemap-codec/src/strings.ts:24:export class StringWriter {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@jridgewell/sourcemap-codec/src/strings.ts:44:export class StringReader {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@jridgewell/sourcemap-codec/src/vlq.ts:3:export const comma = ','.charCodeAt(0);
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@jridgewell/sourcemap-codec/src/vlq.ts:4:export const semicolon = ';'.charCodeAt(0);
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@jridgewell/sourcemap-codec/src/vlq.ts:16:export function decodeInteger(reader: StringReader, relative: number): number {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@jridgewell/sourcemap-codec/src/vlq.ts:38:export function encodeInteger(builder: StringWriter, num: number, relative: number): number {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@jridgewell/sourcemap-codec/src/vlq.ts:52:export function hasMoreVlq(reader: StringReader, max: number) {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/compiler/compiler.d.ts:3:export type CheckFunction = (value: unknown) => boolean;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/compiler/compiler.d.ts:4:export declare class TypeCheck<T extends Types.TSchema> {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/compiler/compiler.d.ts:17:export declare class TypeCompilerUnknownTypeError extends Error {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/compiler/compiler.d.ts:21:export declare class TypeCompilerDereferenceError extends Error {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/compiler/compiler.d.ts:25:export declare class TypeCompilerTypeGuardError extends Error {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/compiler/compiler.d.ts:30:export declare namespace TypeCompiler {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/compiler/index.d.ts:1:export { ValueError, ValueErrorType } from '../errors/index';
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/compiler/index.d.ts:2:export * from './compiler';
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/errors/errors.d.ts:2:export declare enum ValueErrorType {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/errors/errors.d.ts:63:export interface ValueError {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/errors/errors.d.ts:70:export declare class ValueErrorIterator {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/errors/errors.d.ts:77:export declare class ValueErrorsUnknownTypeError extends Error {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/errors/errors.d.ts:81:export declare class ValueErrorsDereferenceError extends Error {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/errors/errors.d.ts:86:export declare namespace ValueErrors {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/errors/index.d.ts:1:export * from './errors';
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/system/index.d.ts:1:export * from './system';
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/system/system.d.ts:2:export declare class TypeSystemDuplicateTypeKind extends Error {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/system/system.d.ts:5:export declare class TypeSystemDuplicateFormat extends Error {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/system/system.d.ts:9:export declare namespace TypeSystem {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:1:export declare const Modifier: unique symbol;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:2:export declare const Hint: unique symbol;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:3:export declare const Kind: unique symbol;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:4:export declare const PatternBoolean = "(true|false)";
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:5:export declare const PatternNumber = "(0|[1-9][0-9]*)";
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:6:export declare const PatternString = "(.*)";
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:7:export declare const PatternBooleanExact: string;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:8:export declare const PatternNumberExact: string;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:9:export declare const PatternStringExact: string;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:10:export type TupleToIntersect<T extends any[]> = T extends [infer I] ? I : T extends [infer I, ...infer R] ? I & TupleToIntersect<R> : never;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:11:export type TupleToUnion<T extends any[]> = {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:14:export type UnionToIntersect<U> = (U extends unknown ? (arg: U) => 0 : never) extends (arg: infer I) => 0 ? I : never;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:15:export type UnionLast<U> = UnionToIntersect<U extends unknown ? (x: U) => 0 : never> extends (x: infer L) => 0 ? L : never;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:16:export type UnionToTuple<U, L = UnionLast<U>> = [U] extends [never] ? [] : [...UnionToTuple<Exclude<U, L>>, L];
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:17:export type Assert<T, E> = T extends E ? T : never;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:18:export type Evaluate<T> = T extends infer O ? {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:21:export type Ensure<T> = T extends infer U ? U : never;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:22:export type TModifier = TReadonlyOptional<TSchema> | TOptional<TSchema> | TReadonly<TSchema>;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:23:export type TReadonly<T extends TSchema> = T & {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:26:export type TOptional<T extends TSchema> = T & {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:29:export type TReadonlyOptional<T extends TSchema> = T & {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:32:export interface SchemaOptions {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:46:export interface TKind {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:49:export interface TSchema extends SchemaOptions, TKind {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:55:export type TAnySchema = TSchema | TAny | TArray | TBigInt | TBoolean | TConstructor | TDate | TEnum | TFunction | TInteger | TIntersect | TLiteral | TNot | TNull | TNumber | TObject | TPromise | TRecord | TRef | TString | TSymbol | TTemplateLiteral | TThis | TTuple | TUndefined | TUnion | TUint8Array | TUnknown | TVoid;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:56:export type TNumeric = TInteger | TNumber;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:57:export interface NumericOptions<N extends number | bigint> extends SchemaOptions {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:64:export interface TAny extends TSchema {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:68:export interface ArrayOptions extends SchemaOptions {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:73:export interface TArray<T extends TSchema = TSchema> extends TSchema, ArrayOptions {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:79:export interface TBigInt extends TSchema, NumericOptions<bigint> {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:85:export interface TBoolean extends TSchema {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:90:export type TConstructorParameters<T extends TConstructor<TSchema[], TSchema>> = TTuple<T['parameters']>;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:91:export type TInstanceType<T extends TConstructor<TSchema[], TSchema>> = T['returns'];
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:92:export type TCompositeEvaluateArray<T extends readonly TSchema[], P extends unknown[]> = {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:95:export type TCompositeArray<T extends readonly TObject[]> = {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:98:export type TCompositeProperties<I extends unknown, T extends readonly any[]> = Evaluate<T extends [infer A, ...infer B] ? TCompositeProperties<I & A, B> : I extends object ? I : {}>;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:99:export interface TComposite<T extends TObject[] = TObject[]> extends TObject {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:104:export type TConstructorParameterArray<T extends readonly TSchema[], P extends unknown[]> = [...{
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:107:export interface TConstructor<T extends TSchema[] = TSchema[], U extends TSchema = TSchema> extends TSchema {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:115:export interface DateOptions extends SchemaOptions {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:121:export interface TDate extends TSchema, DateOptions {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:127:export interface TEnumOption<T> {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:131:export interface TEnum<T extends Record<string, string | number> = Record<string, string | number>> extends TSchema {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:136:export type TExtends<L extends TSchema, R extends TSchema, T extends TSchema, U extends TSchema> = (Static<L> extends Static<R> ? T : U) extends infer O ? UnionToTuple<O> extends [infer X, infer Y] ? TUnion<[Assert<X, TSchema>, Assert<Y, TSchema>]> : Assert<O, TSchema> : never;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:137:export type TExcludeTemplateLiteralResult<T extends string> = TUnionResult<Assert<UnionToTuple<{
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:140:export type TExcludeTemplateLiteral<T extends TTemplateLiteral, U extends TSchema> = Exclude<Static<T>, Static<U>> extends infer S ? TExcludeTemplateLiteralResult<Assert<S, string>> : never;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:141:export type TExcludeArray<T extends TSchema[], U extends TSchema> = Assert<UnionToTuple<{
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:144:export type TExclude<T extends TSchema, U extends TSchema> = T extends TTemplateLiteral ? TExcludeTemplateLiteral<T, U> : T extends TUnion<infer S> ? TExcludeArray<S, U> : T extends U ? TNever : T;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:145:export type TExtractTemplateLiteralResult<T extends string> = TUnionResult<Assert<UnionToTuple<{
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:148:export type TExtractTemplateLiteral<T extends TTemplateLiteral, U extends TSchema> = Extract<Static<T>, Static<U>> extends infer S ? TExtractTemplateLiteralResult<Assert<S, string>> : never;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:149:export type TExtractArray<T extends TSchema[], U extends TSchema> = Assert<UnionToTuple<{
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:152:export type TExtract<T extends TSchema, U extends TSchema> = T extends TTemplateLiteral ? TExtractTemplateLiteral<T, U> : T extends TUnion<infer S> ? TExtractArray<S, U> : T extends U ? T : T;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:153:export type TFunctionParameters<T extends readonly TSchema[], P extends unknown[]> = [...{
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:156:export interface TFunction<T extends readonly TSchema[] = TSchema[], U extends TSchema = TSchema> extends TSchema {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:164:export interface TInteger extends TSchema, NumericOptions<number> {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:169:export type TUnevaluatedProperties = undefined | TSchema | boolean;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:170:export interface IntersectOptions extends SchemaOptions {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:173:export interface TIntersect<T extends TSchema[] = TSchema[]> extends TSchema, IntersectOptions {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:181:export type TKeyOfTuple<T extends TSchema> = {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:186:export type TKeyOf<T extends TSchema = TSchema> = (T extends TRecursive<infer S> ? TKeyOfTuple<S> : T extends TComposite ? TKeyOfTuple<T> : T extends TIntersect ? TKeyOfTuple<T> : T extends TUnion ? TKeyOfTuple<T> : T extends TObject ? TKeyOfTuple<T> : T extends TRecord<infer K> ? [K] : [
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:188:export type TLiteralValue = string | number | boolean;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:189:export interface TLiteral<T extends TLiteralValue = TLiteralValue> extends TSchema {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:194:export interface TNever extends TSchema {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:199:export interface TNot<Not extends TSchema = TSchema, T extends TSchema = TSchema> extends TSchema {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:206:export interface TNull extends TSchema {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:211:export interface TNumber extends TSchema, NumericOptions<number> {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:216:export type ReadonlyOptionalPropertyKeys<T extends TProperties> = {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:219:export type ReadonlyPropertyKeys<T extends TProperties> = {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:222:export type OptionalPropertyKeys<T extends TProperties> = {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:225:export type RequiredPropertyKeys<T extends TProperties> = keyof Omit<T, ReadonlyOptionalPropertyKeys<T> | ReadonlyPropertyKeys<T> | OptionalPropertyKeys<T>>;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:226:export type PropertiesReducer<T extends TProperties, R extends Record<keyof any, unknown>> = Evaluate<(Readonly<Partial<Pick<R, ReadonlyOptionalPropertyKeys<T>>>> & Readonly<Pick<R, ReadonlyPropertyKeys<T>>> & Partial<Pick<R, OptionalPropertyKeys<T>>> & Required<Pick<R, RequiredPropertyKeys<T>>>)>;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:227:export type PropertiesReduce<T extends TProperties, P extends unknown[]> = PropertiesReducer<T, {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:230:export type TProperties = Record<keyof any, TSchema>;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:231:export type ObjectProperties<T> = T extends TObject<infer U> ? U : never;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:232:export type ObjectPropertyKeys<T> = T extends TObject<infer U> ? keyof U : never;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:233:export type TAdditionalProperties = undefined | TSchema | boolean;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:234:export interface ObjectOptions extends SchemaOptions {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:239:export interface TObject<T extends TProperties = TProperties> extends TSchema, ObjectOptions {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:247:export type TOmitArray<T extends TSchema[], K extends keyof any> = Assert<{
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:250:export type TOmitProperties<T extends TProperties, K extends keyof any> = Evaluate<Assert<Omit<T, K>, TProperties>>;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:251:export type TOmit<T extends TSchema = TSchema, K extends keyof any = keyof any> = T extends TRecursive<infer S> ? TRecursive<TOmit<S, K>> : T extends TComposite<infer S> ? TComposite<TOmitArray<S, K>> : T extends TIntersect<infer S> ? TIntersect<TOmitArray<S, K>> : T extends TUnion<infer S> ? TUnion<TOmitArray<S, K>> : T extends TObject<infer S> ? TObject<TOmitProperties<S, K>> : T;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:252:export type TParameters<T extends TFunction> = TTuple<T['parameters']>;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:253:export type TPartialObjectArray<T extends TObject[]> = Assert<{
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:256:export type TPartialArray<T extends TSchema[]> = Assert<{
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:259:export type TPartialProperties<T extends TProperties> = Evaluate<Assert<{
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:262:export type TPartial<T extends TSchema> = T extends TRecursive<infer S> ? TRecursive<TPartial<S>> : T extends TComposite<infer S> ? TComposite<TPartialArray<S>> : T extends TIntersect<infer S> ? TIntersect<TPartialArray<S>> : T extends TUnion<infer S> ? TUnion<TPartialArray<S>> : T extends TObject<infer S> ? TObject<TPartialProperties<S>> : T;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:263:export type TPickArray<T extends TSchema[], K extends keyof any> = {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:266:export type TPickProperties<T extends TProperties, K extends keyof any> = Pick<T, Assert<Extract<K, keyof T>, keyof T>> extends infer R ? ({
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:269:export type TPick<T extends TSchema = TSchema, K extends keyof any = keyof any> = T extends TRecursive<infer S> ? TRecursive<TPick<S, K>> : T extends TComposite<infer S> ? TComposite<TPickArray<S, K>> : T extends TIntersect<infer S> ? TIntersect<TPickArray<S, K>> : T extends TUnion<infer S> ? TUnion<TPickArray<S, K>> : T extends TObject<infer S> ? TObject<TPickProperties<S, K>> : T;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:270:export interface TPromise<T extends TSchema = TSchema> extends TSchema {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:277:export type RecordTemplateLiteralObjectType<K extends TTemplateLiteral, T extends TSchema> = Ensure<TObject<Evaluate<{
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:280:export type RecordTemplateLiteralType<K extends TTemplateLiteral, T extends TSchema> = IsTemplateLiteralFinite<K> extends true ? RecordTemplateLiteralObjectType<K, T> : TRecord<K, T>;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:281:export type RecordUnionLiteralType<K extends TUnion<TLiteral<string | number>[]>, T extends TSchema> = Static<K> extends string ? Ensure<TObject<{
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:284:export type RecordLiteralType<K extends TLiteral<string | number>, T extends TSchema> = Ensure<TObject<{
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:287:export type RecordNumberType<K extends TInteger | TNumber, T extends TSchema> = Ensure<TRecord<K, T>>;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:288:export type RecordStringType<K extends TString, T extends TSchema> = Ensure<TRecord<K, T>>;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:289:export type RecordKey = TUnion<TLiteral<string | number>[]> | TLiteral<string | number> | TTemplateLiteral | TInteger | TNumber | TString;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:290:export interface TRecord<K extends RecordKey = RecordKey, T extends TSchema = TSchema> extends TSchema {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:299:export interface TThis extends TSchema {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:304:export type TRecursiveReduce<T extends TSchema> = Static<T, [TRecursiveReduce<T>]>;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:305:export interface TRecursive<T extends TSchema> extends TSchema {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:309:export interface TRef<T extends TSchema = TSchema> extends TSchema {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:314:export type TReturnType<T extends TFunction> = T['returns'];
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:315:export type TRequiredArray<T extends TSchema[]> = Assert<{
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:318:export type TRequiredProperties<T extends TProperties> = Evaluate<Assert<{
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:321:export type TRequired<T extends TSchema> = T extends TRecursive<infer S> ? TRecursive<TRequired<S>> : T extends TComposite<infer S> ? TComposite<TRequiredArray<S>> : T extends TIntersect<infer S> ? TIntersect<TRequiredArray<S>> : T extends TUnion<infer S> ? TUnion<TRequiredArray<S>> : T extends TObject<infer S> ? TObject<TRequiredProperties<S>> : T;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:322:export type StringFormatOption = 'date-time' | 'time' | 'date' | 'email' | 'idn-email' | 'hostname' | 'idn-hostname' | 'ipv4' | 'ipv6' | 'uri' | 'uri-reference' | 'iri' | 'uuid' | 'iri-reference' | 'uri-template' | 'json-pointer' | 'relative-json-pointer' | 'regex';
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:323:export interface StringOptions<Format extends string> extends SchemaOptions {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:331:export interface TString<Format extends string = string> extends TSchema, StringOptions<Format> {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:336:export type SymbolValue = string | number | undefined;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:337:export interface TSymbol extends TSchema, SchemaOptions {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:343:export type IsTemplateLiteralFiniteCheck<T> = T extends TTemplateLiteral<infer U> ? IsTemplateLiteralFiniteArray<Assert<U, TTemplateLiteralKind[]>> : T extends TUnion<infer U> ? IsTemplateLiteralFiniteArray<Assert<U, TTemplateLiteralKind[]>> : T extends TString ? false : T extends TBoolean ? false : T extends TNumber ? false : T extends TInteger ? false : T extends TBigInt ? false : T extends TLiteral ? true : false;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:344:export type IsTemplateLiteralFiniteArray<T extends TTemplateLiteralKind[]> = T extends [infer L, ...infer R] ? IsTemplateLiteralFiniteCheck<L> extends false ? false : IsTemplateLiteralFiniteArray<Assert<R, TTemplateLiteralKind[]>> : T extends [infer L] ? IsTemplateLiteralFiniteCheck<L> extends false ? false : true : true;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:345:export type IsTemplateLiteralFinite<T> = T extends TTemplateLiteral<infer U> ? IsTemplateLiteralFiniteArray<U> : false;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:346:export type TTemplateLiteralKind = TUnion | TLiteral | TInteger | TTemplateLiteral | TNumber | TBigInt | TString | TBoolean | TNever;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:347:export type TTemplateLiteralConst<T, Acc extends string> = T extends TUnion<infer U> ? {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:350:export type TTemplateLiteralUnion<T extends TTemplateLiteralKind[], Acc extends string = ''> = T extends [infer L, ...infer R] ? `${TTemplateLiteralConst<L, Acc>}${TTemplateLiteralUnion<Assert<R, TTemplateLiteralKind[]>, Acc>}` : T extends [infer L] ? `${TTemplateLiteralConst<L, Acc>}${Acc}` : Acc;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:351:export interface TTemplateLiteral<T extends TTemplateLiteralKind[] = TTemplateLiteralKind[]> extends TSchema {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:357:export type TTupleIntoArray<T extends TTuple<TSchema[]>> = T extends TTuple<infer R> ? Assert<R, TSchema[]> : never;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:358:export interface TTuple<T extends TSchema[] = TSchema[]> extends TSchema {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:369:export interface TUndefined extends TSchema {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:375:export type TUnionOfLiteralArray<T extends TLiteral<string>[]> = {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:378:export type TUnionOfLiteral<T extends TUnion<TLiteral<string>[]>> = TUnionOfLiteralArray<T['anyOf']>;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:379:export type TUnionResult<T extends TSchema[]> = T extends [] ? TNever : T extends [infer S] ? S : TUnion<T>;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:380:export type TUnionTemplateLiteral<T extends TTemplateLiteral, S extends string = Static<T>> = Ensure<TUnionResult<Assert<UnionToTuple<{
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:383:export interface TUnion<T extends TSchema[] = TSchema[]> extends TSchema {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:390:export interface Uint8ArrayOptions extends SchemaOptions {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:394:export interface TUint8Array extends TSchema, Uint8ArrayOptions {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:400:export interface TUnknown extends TSchema {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:404:export interface UnsafeOptions extends SchemaOptions {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:407:export interface TUnsafe<T> extends TSchema {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:411:export interface TVoid extends TSchema {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:418:export type Static<T extends TSchema, P extends unknown[] = []> = (T & {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:421:export type TypeRegistryValidationFunction<TSchema> = (schema: TSchema, value: unknown) => boolean;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:423:export declare namespace TypeRegistry {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:435:export type FormatRegistryValidationFunction = (value: string) => boolean;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:437:export declare namespace FormatRegistry {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:449:export declare class TypeGuardUnknownTypeError extends Error {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:454:export declare namespace TypeGuard {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:527:export declare namespace ExtendsUndefined {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:530:export declare enum TypeExtendsResult {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:535:export declare namespace TypeExtends {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:539:export declare namespace TypeClone {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:543:export declare namespace ObjectMap {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:546:export declare namespace KeyResolver {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:549:export declare namespace TemplateLiteralPattern {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:552:export declare namespace TemplateLiteralResolver {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:555:export declare class TemplateLiteralParserError extends Error {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:558:export declare namespace TemplateLiteralParser {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:577:export declare namespace TemplateLiteralFinite {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:580:export declare namespace TemplateLiteralGenerator {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:583:export declare class TypeBuilder {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:589:export declare class StandardTypeBuilder extends TypeBuilder {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:686:export declare class ExtendedTypeBuilder extends StandardTypeBuilder {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:721:export declare const StandardType: StandardTypeBuilder;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/typebox.d.ts:723:export declare const Type: ExtendedTypeBuilder;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/cast.d.ts:2:export declare class ValueCastReferenceTypeError extends Error {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/cast.d.ts:6:export declare class ValueCastArrayUniqueItemsTypeError extends Error {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/cast.d.ts:11:export declare class ValueCastNeverTypeError extends Error {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/cast.d.ts:15:export declare class ValueCastRecursiveTypeError extends Error {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/cast.d.ts:19:export declare class ValueCastUnknownTypeError extends Error {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/cast.d.ts:23:export declare class ValueCastDereferenceError extends Error {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/cast.d.ts:27:export declare namespace ValueCast {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/check.d.ts:2:export declare class ValueCheckUnknownTypeError extends Error {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/check.d.ts:6:export declare class ValueCheckDereferenceError extends Error {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/check.d.ts:10:export declare namespace ValueCheck {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/clone.d.ts:1:export declare namespace ValueClone {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/convert.d.ts:2:export declare class ValueConvertUnknownTypeError extends Error {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/convert.d.ts:6:export declare class ValueConvertDereferenceError extends Error {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/convert.d.ts:10:export declare namespace ValueConvert {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/create.d.ts:2:export declare class ValueCreateUnknownTypeError extends Error {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/create.d.ts:6:export declare class ValueCreateNeverTypeError extends Error {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/create.d.ts:10:export declare class ValueCreateIntersectTypeError extends Error {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/create.d.ts:14:export declare class ValueCreateTempateLiteralTypeError extends Error {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/create.d.ts:18:export declare class ValueCreateDereferenceError extends Error {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/create.d.ts:22:export declare namespace ValueCreate {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/delta.d.ts:2:export type Insert = Static<typeof Insert>;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/delta.d.ts:3:export declare const Insert: import("../typebox").TObject<{
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/delta.d.ts:8:export type Update = Static<typeof Update>;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/delta.d.ts:9:export declare const Update: import("../typebox").TObject<{
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/delta.d.ts:14:export type Delete = Static<typeof Delete>;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/delta.d.ts:15:export declare const Delete: import("../typebox").TObject<{
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/delta.d.ts:19:export type Edit = Static<typeof Edit>;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/delta.d.ts:20:export declare const Edit: import("../typebox").TUnion<[import("../typebox").TObject<{
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/delta.d.ts:32:export declare class ValueDeltaObjectWithSymbolKeyError extends Error {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/delta.d.ts:36:export declare class ValueDeltaUnableToDiffUnknownValue extends Error {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/delta.d.ts:40:export declare namespace ValueDelta {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/equal.d.ts:1:export declare namespace ValueEqual {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/hash.d.ts:1:export declare class ValueHashError extends Error {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/hash.d.ts:5:export declare namespace ValueHash {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/index.d.ts:1:export { ValueError, ValueErrorIterator, ValueErrorType } from '../errors/index';
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/index.d.ts:2:export { ValueHash } from './hash';
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/index.d.ts:3:export { Edit, Insert, Update, Delete } from './delta';
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/index.d.ts:4:export { Mutable } from './mutate';
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/index.d.ts:5:export * from './pointer';
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/index.d.ts:6:export * from './value';
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/is.d.ts:1:export type ValueType = null | undefined | Function | symbol | bigint | number | boolean | string;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/is.d.ts:2:export type ObjectType = Record<string | number | symbol, unknown>;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/is.d.ts:3:export type TypedArrayType = Int8Array | Uint8Array | Uint8ClampedArray | Int16Array | Uint16Array | Int32Array | Uint32Array | Float32Array | Float64Array | BigInt64Array | BigUint64Array;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/is.d.ts:4:export type ArrayType = unknown[];
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/is.d.ts:5:export declare namespace Is {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/mutate.d.ts:1:export declare class ValueMutateTypeMismatchError extends Error {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/mutate.d.ts:4:export declare class ValueMutateInvalidRootMutationError extends Error {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/mutate.d.ts:7:export type Mutable = {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/mutate.d.ts:10:export declare namespace ValueMutate {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/pointer.d.ts:1:export declare class ValuePointerRootSetError extends Error {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/pointer.d.ts:7:export declare class ValuePointerRootDeleteError extends Error {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/pointer.d.ts:13:export declare namespace ValuePointer {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@sinclair/typebox/value/value.d.ts:6:export declare namespace Value {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:19:export interface BaseNodeWithoutComments {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:28:export interface BaseNode extends BaseNodeWithoutComments {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:33:export interface NodeMap {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:58:export type Node = NodeMap[keyof NodeMap];
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:60:export interface Comment extends BaseNodeWithoutComments {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:65:export interface SourceLocation {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:71:export interface Position {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:78:export interface Program extends BaseNode {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:85:export interface Directive extends BaseNode {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:91:export interface BaseFunction extends BaseNode {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:101:export type Function = FunctionDeclaration | FunctionExpression | ArrowFunctionExpression;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:103:export type Statement =
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:125:export interface BaseStatement extends BaseNode {}
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:127:export interface EmptyStatement extends BaseStatement {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:131:export interface BlockStatement extends BaseStatement {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:137:export interface StaticBlock extends Omit<BlockStatement, "type"> {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:141:export interface ExpressionStatement extends BaseStatement {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:146:export interface IfStatement extends BaseStatement {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:153:export interface LabeledStatement extends BaseStatement {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:159:export interface BreakStatement extends BaseStatement {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:164:export interface ContinueStatement extends BaseStatement {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:169:export interface WithStatement extends BaseStatement {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:175:export interface SwitchStatement extends BaseStatement {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:181:export interface ReturnStatement extends BaseStatement {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:186:export interface ThrowStatement extends BaseStatement {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:191:export interface TryStatement extends BaseStatement {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:198:export interface WhileStatement extends BaseStatement {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:204:export interface DoWhileStatement extends BaseStatement {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:210:export interface ForStatement extends BaseStatement {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:218:export interface BaseForXStatement extends BaseStatement {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:224:export interface ForInStatement extends BaseForXStatement {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:228:export interface DebuggerStatement extends BaseStatement {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:232:export type Declaration = FunctionDeclaration | VariableDeclaration | ClassDeclaration;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:234:export interface BaseDeclaration extends BaseStatement {}
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:236:export interface MaybeNamedFunctionDeclaration extends BaseFunction, BaseDeclaration {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:243:export interface FunctionDeclaration extends MaybeNamedFunctionDeclaration {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:247:export interface VariableDeclaration extends BaseDeclaration {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:253:export interface VariableDeclarator extends BaseNode {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:259:export interface ExpressionMap {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:287:export type Expression = ExpressionMap[keyof ExpressionMap];
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:289:export interface BaseExpression extends BaseNode {}
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:291:export type ChainElement = SimpleCallExpression | MemberExpression;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:293:export interface ChainExpression extends BaseExpression {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:298:export interface ThisExpression extends BaseExpression {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:302:export interface ArrayExpression extends BaseExpression {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:307:export interface ObjectExpression extends BaseExpression {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:312:export interface PrivateIdentifier extends BaseNode {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:317:export interface Property extends BaseNode {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:327:export interface PropertyDefinition extends BaseNode {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:335:export interface FunctionExpression extends BaseFunction, BaseExpression {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:341:export interface SequenceExpression extends BaseExpression {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:346:export interface UnaryExpression extends BaseExpression {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:353:export interface BinaryExpression extends BaseExpression {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:360:export interface AssignmentExpression extends BaseExpression {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:367:export interface UpdateExpression extends BaseExpression {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:374:export interface LogicalExpression extends BaseExpression {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:381:export interface ConditionalExpression extends BaseExpression {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:388:export interface BaseCallExpression extends BaseExpression {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:392:export type CallExpression = SimpleCallExpression | NewExpression;
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:394:export interface SimpleCallExpression extends BaseCallExpression {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:399:export interface NewExpression extends BaseCallExpression {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:403:export interface MemberExpression extends BaseExpression, BasePattern {
+packages/contracts-canon/node_modules/@omega/orchestrator-core/node_modules/@types/estree/index.d.ts:411:export type Pattern = Identifier | ObjectPattern | ArrayPattern | RestElement | AssignmentPattern | MemberExpression;

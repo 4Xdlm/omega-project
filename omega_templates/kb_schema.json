@@ -1,0 +1,608 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://omega.dev/schemas/kb_index_v1.0.0.json",
+  "title": "OMEGA Knowledge Base Index Schema",
+  "description": "Schema for validating the OMEGA Consciousness Knowledge Base index file",
+  "version": "1.0.0",
+  "type": "object",
+  "required": ["kb_version", "identity", "statistics", "entities", "relations", "integrity"],
+  
+  "properties": {
+    
+    "kb_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "description": "Semantic version of the KB schema"
+    },
+    
+    "identity": {
+      "type": "object",
+      "required": ["git_sha", "generated_at", "generator"],
+      "properties": {
+        "git_sha": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{40}$",
+          "description": "Full Git SHA of the commit"
+        },
+        "git_tag": {
+          "type": ["string", "null"],
+          "description": "Git tag if tagged release"
+        },
+        "git_branch": {
+          "type": "string",
+          "description": "Git branch name"
+        },
+        "generated_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp of generation"
+        },
+        "generator": {
+          "type": "string",
+          "description": "Tool that generated this KB"
+        },
+        "project_version": {
+          "type": "string",
+          "description": "Version from package.json"
+        }
+      }
+    },
+    
+    "statistics": {
+      "type": "object",
+      "required": ["modules", "functions", "tests", "invariants"],
+      "properties": {
+        "modules": { "type": "integer", "minimum": 0 },
+        "submodules": { "type": "integer", "minimum": 0 },
+        "functions": { "type": "integer", "minimum": 0 },
+        "tests": { "type": "integer", "minimum": 0 },
+        "invariants": { "type": "integer", "minimum": 0 },
+        "gates": { "type": "integer", "minimum": 0 },
+        "findings": {
+          "type": "object",
+          "properties": {
+            "total": { "type": "integer", "minimum": 0 },
+            "P0": { "type": "integer", "minimum": 0 },
+            "P1": { "type": "integer", "minimum": 0 },
+            "P2": { "type": "integer", "minimum": 0 },
+            "P3": { "type": "integer", "minimum": 0 },
+            "P4": { "type": "integer", "minimum": 0 }
+          }
+        },
+        "lines_of_code": { "type": "integer", "minimum": 0 },
+        "test_coverage": {
+          "type": "string",
+          "pattern": "^[0-9]+\\.?[0-9]*%$"
+        }
+      }
+    },
+    
+    "entities": {
+      "type": "object",
+      "required": ["modules", "functions"],
+      "properties": {
+        
+        "modules": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/Module" }
+        },
+        
+        "submodules": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/Submodule" }
+        },
+        
+        "functions": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/Function" }
+        },
+        
+        "invariants": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/Invariant" }
+        },
+        
+        "tests": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/Test" }
+        },
+        
+        "findings": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/Finding" }
+        },
+        
+        "gates": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/Gate" }
+        },
+        
+        "failure_modes": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/FailureMode" }
+        },
+        
+        "vulnerabilities": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/Vulnerability" }
+        }
+      }
+    },
+    
+    "relations": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/Relation" }
+    },
+    
+    "temporal": {
+      "type": "object",
+      "properties": {
+        "previous_snap": {
+          "type": ["string", "null"],
+          "description": "Reference to previous snapshot"
+        },
+        "trend_analysis": {
+          "type": "object",
+          "properties": {
+            "tests_delta": { "type": "string" },
+            "coverage_delta": { "type": "string" },
+            "findings_p0p1_delta": { "type": "string" },
+            "complexity_trend": {
+              "type": "string",
+              "enum": ["STABLE", "GROWING", "SHRINKING"]
+            }
+          }
+        },
+        "predictions": {
+          "type": "object",
+          "properties": {
+            "T+6_months": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "T+2_years": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "T+5_years": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "path", "type"],
+        "properties": {
+          "id": { "type": "string" },
+          "path": { "type": "string" },
+          "type": {
+            "type": "string",
+            "enum": [
+              "coverage_report",
+              "lint_report",
+              "test_report",
+              "dependency_graph",
+              "security_scan",
+              "benchmark",
+              "documentation",
+              "other"
+            ]
+          },
+          "description": { "type": "string" }
+        }
+      }
+    },
+    
+    "integrity": {
+      "type": "object",
+      "required": ["kb_hash"],
+      "properties": {
+        "kb_hash": {
+          "type": "string",
+          "pattern": "^sha256:[a-f0-9]{64}$"
+        },
+        "entities_count_check": {
+          "type": "object",
+          "properties": {
+            "modules": { "type": "integer" },
+            "functions": { "type": "integer" },
+            "valid": { "type": "boolean" }
+          }
+        }
+      }
+    }
+  },
+  
+  "$defs": {
+    
+    "Module": {
+      "type": "object",
+      "required": ["id", "name", "path"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^MOD-[a-z0-9-]+$"
+        },
+        "name": { "type": "string" },
+        "path": { "type": "string" },
+        "layer": {
+          "type": "string",
+          "enum": ["CORE", "SERVICE", "INFRASTRUCTURE", "INTERFACE", "UTILITY", "TEST"]
+        },
+        "purpose": { "type": "string" },
+        "submodules": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "exports": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "depends_on": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "depended_by": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "invariants": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "findings": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "tests": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "metrics": {
+          "type": "object",
+          "properties": {
+            "functions": { "type": "integer" },
+            "lines": { "type": "integer" },
+            "complexity_avg": { "type": "number" },
+            "coverage": { "type": "string" }
+          }
+        },
+        "doc_ref": { "type": "string" }
+      }
+    },
+    
+    "Submodule": {
+      "type": "object",
+      "required": ["id", "name", "parent", "path"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^SMOD-[a-z0-9-]+$"
+        },
+        "name": { "type": "string" },
+        "parent": { "type": "string" },
+        "path": { "type": "string" },
+        "purpose": { "type": "string" }
+      }
+    },
+    
+    "Function": {
+      "type": "object",
+      "required": ["id", "name", "module", "file", "line_start"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^FN-[a-zA-Z0-9-]+$"
+        },
+        "name": { "type": "string" },
+        "module": { "type": "string" },
+        "file": { "type": "string" },
+        "line_start": { "type": "integer", "minimum": 1 },
+        "line_end": { "type": "integer", "minimum": 1 },
+        "signature": { "type": "string" },
+        "visibility": {
+          "type": "string",
+          "enum": ["PUBLIC", "PRIVATE", "INTERNAL", "PROTECTED"]
+        },
+        "async": { "type": "boolean" },
+        "generator": { "type": "boolean" },
+        "purpose": { "type": "string" },
+        "calls": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "called_by": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "invariants": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "tests": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "findings": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "metrics": {
+          "type": "object",
+          "properties": {
+            "cyclomatic": { "type": "integer" },
+            "cognitive": { "type": "integer" },
+            "lines": { "type": "integer" }
+          }
+        },
+        "security": {
+          "type": "object",
+          "properties": {
+            "validates_input": { "type": "boolean" },
+            "sanitizes_output": { "type": "boolean" },
+            "injection_risk": {
+              "type": "string",
+              "enum": ["NONE", "LOW", "MEDIUM", "HIGH", "CRITICAL"]
+            },
+            "notes": { "type": ["string", "null"] }
+          }
+        },
+        "doc_ref": { "type": "string" }
+      }
+    },
+    
+    "Invariant": {
+      "type": "object",
+      "required": ["id", "title", "severity_floor", "category"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^INV-[A-Z]+-[0-9]+$"
+        },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "severity_floor": {
+          "type": "string",
+          "enum": ["P0", "P1", "P2", "P3", "P4"]
+        },
+        "category": {
+          "type": "string",
+          "enum": [
+            "TRUTH", "ARCHITECTURE", "ROBUSTNESS", "SECURITY",
+            "TESTS", "KNOWLEDGE", "OBSERVABILITY", "TEMPORAL"
+          ]
+        },
+        "check_type": {
+          "type": "string",
+          "enum": ["AUTOMATED", "MANUAL", "HYBRID"]
+        },
+        "check_command": { "type": "string" },
+        "enforced_by": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "verified_by": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "tests": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "status": {
+          "type": "string",
+          "enum": ["PASS", "FAIL", "UNKNOWN", "SKIPPED"]
+        }
+      }
+    },
+    
+    "Test": {
+      "type": "object",
+      "required": ["id", "name", "file"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^TST-[a-z0-9-]+$"
+        },
+        "name": { "type": "string" },
+        "file": { "type": "string" },
+        "line": { "type": "integer" },
+        "covers": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Function IDs covered"
+        },
+        "covers_modules": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Module IDs covered"
+        },
+        "verifies_invariants": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "status": {
+          "type": "string",
+          "enum": ["PASS", "FAIL", "SKIP", "TODO"]
+        },
+        "duration_ms": { "type": "integer" },
+        "flaky": { "type": "boolean" }
+      }
+    },
+    
+    "Finding": {
+      "type": "object",
+      "required": ["id", "priority", "category", "title", "status"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^FND-[0-9]{6}$"
+        },
+        "priority": {
+          "type": "string",
+          "enum": ["P0", "P1", "P2", "P3", "P4"]
+        },
+        "category": {
+          "type": "string",
+          "enum": [
+            "ARCHITECTURE", "SECURITY", "ROBUSTNESS", "PERFORMANCE",
+            "TESTS", "QUALITY", "TYPES", "DOCS", "BUILD",
+            "CROSS_PLATFORM", "OBSERVABILITY", "SEMANTICS"
+          ]
+        },
+        "subcategory": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "impact": { "type": "string" },
+        "affects_functions": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "affects_modules": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "affects_invariants": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "evidence_ref": { "type": "string" },
+        "status": {
+          "type": "string",
+          "enum": ["OPEN", "IN_PROGRESS", "RESOLVED", "WONTFIX", "DUPLICATE"]
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "resolved_at": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        },
+        "patch_ref": { "type": ["string", "null"] }
+      }
+    },
+    
+    "Gate": {
+      "type": "object",
+      "required": ["id", "priority", "status"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^GATE-P[0-4]-[A-Z-]+$"
+        },
+        "name": { "type": "string" },
+        "priority": {
+          "type": "string",
+          "enum": ["P0", "P1", "P2", "P3"]
+        },
+        "status": {
+          "type": "string",
+          "enum": ["PASS", "FAIL", "SKIP", "ERROR"]
+        },
+        "checks_passed": { "type": "integer" },
+        "checks_total": { "type": "integer" },
+        "blockers": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "duration_ms": { "type": "integer" }
+      }
+    },
+    
+    "FailureMode": {
+      "type": "object",
+      "required": ["id", "module", "description"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^FM-[a-z0-9-]+$"
+        },
+        "module": { "type": "string" },
+        "description": { "type": "string" },
+        "trigger": { "type": "string" },
+        "impact": { "type": "string" },
+        "likelihood": {
+          "type": "string",
+          "enum": ["RARE", "UNLIKELY", "POSSIBLE", "LIKELY", "CERTAIN"]
+        },
+        "severity": {
+          "type": "string",
+          "enum": ["NEGLIGIBLE", "MINOR", "MODERATE", "MAJOR", "CATASTROPHIC"]
+        },
+        "mitigation": { "type": "string" },
+        "test_ref": { "type": "string" }
+      }
+    },
+    
+    "Vulnerability": {
+      "type": "object",
+      "required": ["id", "source", "severity"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^VULN-[a-z0-9-]+$"
+        },
+        "source": {
+          "type": "string",
+          "enum": ["DEPENDENCY", "CODE", "CONFIG", "INFRA"]
+        },
+        "cve": { "type": ["string", "null"] },
+        "package": { "type": "string" },
+        "version": { "type": "string" },
+        "severity": {
+          "type": "string",
+          "enum": ["LOW", "MODERATE", "HIGH", "CRITICAL"]
+        },
+        "description": { "type": "string" },
+        "status": {
+          "type": "string",
+          "enum": ["OPEN", "MITIGATED", "FIXED", "ACCEPTED"]
+        },
+        "accepted_reason": { "type": ["string", "null"] },
+        "fix_available": { "type": "boolean" },
+        "fix_version": { "type": ["string", "null"] }
+      }
+    },
+    
+    "Relation": {
+      "type": "object",
+      "required": ["type", "from", "to"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "depends_on",
+            "depended_by",
+            "calls",
+            "called_by",
+            "covers",
+            "covered_by",
+            "enforces",
+            "enforced_by",
+            "affects",
+            "affected_by",
+            "verifies",
+            "verified_by",
+            "mitigates",
+            "mitigated_by",
+            "contains",
+            "contained_by"
+          ]
+        },
+        "from": { "type": "string" },
+        "to": { "type": "string" },
+        "metadata": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+    }
+  }
+}

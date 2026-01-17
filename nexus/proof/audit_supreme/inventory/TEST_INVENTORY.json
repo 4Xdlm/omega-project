@@ -1,0 +1,267 @@
+{
+  "generated_at": "2026-01-17T04:22:00Z",
+  "auditor": "Claude Code (Prompt 11 Ultimate)",
+  "total_test_files": 96,
+  "total_test_cases_estimated": 3443,
+  "test_framework": "vitest",
+  "test_files_by_package": [
+    {
+      "package": "@omega/contracts-canon",
+      "test_files": 4,
+      "test_cases": 157,
+      "files": [
+        "test/unit/invariants.test.ts",
+        "test/unit/modules.test.ts",
+        "test/unit/registry.test.ts",
+        "test/unit/types.test.ts"
+      ],
+      "coverage_type": "unit"
+    },
+    {
+      "package": "@omega/genome",
+      "test_files": 5,
+      "test_cases": 187,
+      "files": [
+        "test/integration/myceliumAdapter.test.ts",
+        "test/invariants/canonical.test.ts",
+        "test/invariants/genome.test.ts",
+        "test/invariants/performance.test.ts",
+        "test/invariants/validation.test.ts"
+      ],
+      "coverage_type": "integration + invariants",
+      "status": "FROZEN"
+    },
+    {
+      "package": "@omega/gold-cli",
+      "test_files": 3,
+      "test_cases": 76,
+      "files": [
+        "test/unit/output.test.ts",
+        "test/unit/parser.test.ts",
+        "test/unit/runner.test.ts"
+      ],
+      "coverage_type": "unit"
+    },
+    {
+      "package": "@omega/gold-internal",
+      "test_files": 3,
+      "test_cases": 99,
+      "files": [
+        "test/unit/certification.test.ts",
+        "test/unit/integrations.test.ts",
+        "test/unit/validator.test.ts"
+      ],
+      "coverage_type": "unit"
+    },
+    {
+      "package": "@omega/gold-master",
+      "test_files": 3,
+      "test_cases": 55,
+      "files": [
+        "test/certifier.test.ts",
+        "test/index.test.ts",
+        "test/types.test.ts"
+      ],
+      "coverage_type": "unit"
+    },
+    {
+      "package": "@omega/gold-suite",
+      "test_files": 2,
+      "test_cases": 38,
+      "files": [
+        "test/unit/aggregator.test.ts",
+        "test/unit/runner.test.ts"
+      ],
+      "coverage_type": "unit"
+    },
+    {
+      "package": "@omega/hardening",
+      "test_files": 5,
+      "test_cases": 223,
+      "files": [
+        "test/unit/json.test.ts",
+        "test/unit/sanitize.test.ts",
+        "test/unit/tamper.test.ts",
+        "test/unit/types.test.ts",
+        "test/unit/validate.test.ts"
+      ],
+      "coverage_type": "unit"
+    },
+    {
+      "package": "@omega/headless-runner",
+      "test_files": 8,
+      "test_cases": 222,
+      "files": [
+        "test/integration/headless.test.ts",
+        "test/integration/replay.test.ts",
+        "test/unit/cli.test.ts",
+        "test/unit/loader.test.ts",
+        "test/unit/output.test.ts",
+        "test/unit/plan.test.ts",
+        "test/unit/runner.test.ts",
+        "test/unit/types.test.ts"
+      ],
+      "coverage_type": "unit + integration"
+    },
+    {
+      "package": "@omega/integration-nexus-dep",
+      "test_files": 14,
+      "test_cases": 629,
+      "files": [
+        "test/contracts.test.ts",
+        "test/connectors.test.ts",
+        "test/adapters.test.ts",
+        "test/translators.test.ts",
+        "test/performance.test.ts",
+        "test/pipeline.test.ts",
+        "test/router.test.ts",
+        "test/scheduler.test.ts",
+        "test/validation.test.ts"
+      ],
+      "coverage_type": "unit + integration + performance"
+    },
+    {
+      "package": "@omega/mycelium",
+      "test_files": 8,
+      "test_cases": 136,
+      "files": [
+        "test/unit/constants.test.ts",
+        "test/unit/mycelium.test.ts",
+        "test/unit/normalizer.test.ts",
+        "test/unit/types.test.ts",
+        "test/unit/validator.test.ts",
+        "test/invariants/*.test.ts"
+      ],
+      "coverage_type": "unit + invariants",
+      "status": "FROZEN"
+    },
+    {
+      "package": "@omega/mycelium-bio",
+      "test_files": 2,
+      "test_cases": 117,
+      "coverage_type": "unit"
+    },
+    {
+      "package": "@omega/aggregate-dna",
+      "test_files": 1,
+      "test_cases": 36,
+      "coverage_type": "unit"
+    },
+    {
+      "package": "omega-bridge-ta-mycelium",
+      "test_files": 2,
+      "test_cases": 48,
+      "files": [
+        "tests/bridge.test.ts",
+        "tests/analysis_to_dna.test.ts"
+      ],
+      "coverage_type": "unit"
+    },
+    {
+      "package": "omega-observability",
+      "test_files": 1,
+      "test_cases": 101,
+      "coverage_type": "unit"
+    },
+    {
+      "package": "@omega/segment-engine",
+      "test_files": 1,
+      "test_cases": 56,
+      "coverage_type": "unit"
+    },
+    {
+      "package": "@omega/oracle",
+      "test_files": 6,
+      "test_cases": 284,
+      "files": [
+        "test/streaming.test.ts",
+        "test/prompts.test.ts",
+        "test/oracle.test.ts",
+        "test/metrics.test.ts",
+        "test/context.test.ts",
+        "test/cache.test.ts"
+      ],
+      "coverage_type": "unit"
+    },
+    {
+      "package": "@omega/orchestrator-core",
+      "test_files": 11,
+      "test_cases": 185,
+      "coverage_type": "unit + integration"
+    },
+    {
+      "package": "@omega/performance",
+      "test_files": 5,
+      "test_cases": 155,
+      "coverage_type": "unit + benchmark"
+    },
+    {
+      "package": "@omega/proof-pack",
+      "test_files": 3,
+      "test_cases": 111,
+      "files": [
+        "test/unit/verifier.test.ts",
+        "test/unit/serializer.test.ts",
+        "test/unit/bundler.test.ts"
+      ],
+      "coverage_type": "unit"
+    },
+    {
+      "package": "@omega/search",
+      "test_files": 9,
+      "test_cases": 528,
+      "files": [
+        "test/suggest.test.ts",
+        "test/search.test.ts",
+        "test/query-parser.test.ts",
+        "test/index-manager.test.ts",
+        "test/export.test.ts",
+        "test/import.test.ts",
+        "test/engine.test.ts",
+        "test/filters.test.ts",
+        "test/analytics.test.ts"
+      ],
+      "coverage_type": "unit"
+    }
+  ],
+  "coverage_gaps": [
+    {
+      "package": "@omega/mycelium-bio",
+      "reason": "Only 2 test files for 5160 lines of code",
+      "severity": "P3"
+    },
+    {
+      "package": "@omega/aggregate-dna",
+      "reason": "Only 1 test file for 1915 lines of code",
+      "severity": "P3"
+    },
+    {
+      "package": "omega-observability",
+      "reason": "Only 1 test file for 1422 lines of code",
+      "severity": "P4"
+    },
+    {
+      "package": "@omega/segment-engine",
+      "reason": "Only 1 test file for 2999 lines of code",
+      "severity": "P3"
+    }
+  ],
+  "test_patterns": {
+    "naming": "*.test.ts pattern",
+    "structure": "test/unit/, test/integration/, test/invariants/",
+    "framework_usage": {
+      "describe": "yes",
+      "it": "yes",
+      "test": "yes",
+      "expect": "yes"
+    }
+  },
+  "invariant_tests": {
+    "description": "Tests explicitly labeled as invariant verification",
+    "locations": [
+      "packages/genome/test/invariants/",
+      "packages/mycelium/test/invariants/",
+      "packages/contracts-canon/test/unit/invariants.test.ts"
+    ]
+  }
+}

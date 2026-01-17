@@ -493,7 +493,6 @@ export function selfTest(): boolean {
     return false;
   }
 
-  console.log("✅ emotion_field.ts: All tests passed");
   return true;
 }
 

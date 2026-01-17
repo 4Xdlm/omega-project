@@ -1,0 +1,553 @@
+# ═══════════════════════════════════════════════════════════════════════════════
+# OMEGA CONSCIOUSNESS — GATES MASTER
+# Version: 1.0.0
+# Standard: OMEGA-GRADE
+# ═══════════════════════════════════════════════════════════════════════════════
+
+schema_version: "1.0.0"
+project: "OMEGA"
+generated_at: "2026-01-17T00:00:00Z"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# DÉFINITION DES ACTIONS
+# ═══════════════════════════════════════════════════════════════════════════════
+
+actions:
+  BLOCK_RELEASE:
+    description: "Empêche toute release/tag/merge"
+    severity: CRITICAL
+    notification: IMMEDIATE
+    
+  BLOCK_MERGE:
+    description: "Empêche le merge sur main/master"
+    severity: HIGH
+    notification: IMMEDIATE
+    
+  WARN_AND_FINDING:
+    description: "Génère un finding + warning mais ne bloque pas"
+    severity: MEDIUM
+    notification: ASYNC
+    
+  LOG_ONLY:
+    description: "Log seulement, pas de blocage"
+    severity: LOW
+    notification: NONE
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# GATES P0 — STOP SHIP (Bloquantes absolues)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+gates_p0:
+
+  - id: GATE-P0-TRUTH-SYNC
+    name: "Truth Synchronization"
+    priority: P0
+    description: "La réalité documentée DOIT correspondre à la réalité codée"
+    trigger: "pre-release, pre-tag"
+    on_fail: BLOCK_RELEASE
+    
+    checks:
+      - id: CHECK-TRUTH-IDENTITY
+        name: "Identity recorded"
+        description: "Git SHA, tag, branch, dirty status enregistrés"
+        command: "test -f OMEGA_SNAPSHOTS/*/00_IDENTITY/IDENTITY.json"
+        expected: "file exists and valid JSON"
+        
+      - id: CHECK-TRUTH-VERSION
+        name: "Version match"
+        description: "Version package.json == version documentée"
+        command: |
+          PKG_VER=$(jq -r .version package.json)
+          DOC_VER=$(grep -oP 'version:\s*\K[0-9.]+' docs/VERSION.md)
+          [ "$PKG_VER" == "$DOC_VER" ]
+        expected: "versions equal"
+        
+      - id: CHECK-TRUTH-TESTS
+        name: "Test count match"
+        description: "Nombre de tests réels == nombre documenté"
+        command: "validate_test_count()"
+        expected: "counts match"
+        
+      - id: CHECK-TRUTH-HASH
+        name: "Hash integrity"
+        description: "ROOT_HASH reproductible"
+        command: "verify_root_hash()"
+        expected: "hash matches"
+    
+    invariants_enforced:
+      - INV-TRUTH-01
+      - INV-TRUTH-02
+      - INV-TRUTH-03
+      - INV-TRUTH-04
+
+  - id: GATE-P0-BUILD-DETERMINISM
+    name: "Build Determinism"
+    priority: P0
+    description: "Le build et les tests DOIVENT être reproductibles"
+    trigger: "pre-merge, pre-release"
+    on_fail: BLOCK_RELEASE
+    
+    checks:
+      - id: CHECK-BUILD-INSTALL
+        name: "Install success"
+        description: "npm ci / pnpm install --frozen-lockfile réussit"
+        command: "npm ci || pnpm install --frozen-lockfile"
+        expected: "exit code 0"
+        timeout: 300
+        
+      - id: CHECK-BUILD-TYPECHECK
+        name: "TypeScript clean"
+        description: "tsc --noEmit sans erreur"
+        command: "npx tsc --noEmit"
+        expected: "exit code 0"
+        
+      - id: CHECK-BUILD-TESTS
+        name: "Tests pass"
+        description: "npm test réussit"
+        command: "npm test"
+        expected: "exit code 0"
+        timeout: 300
+        
+      - id: CHECK-BUILD-NO-FLAKY
+        name: "No flaky tests"
+        description: "Tests passent 3 fois consécutives"
+        command: "npm test && npm test && npm test"
+        expected: "all 3 pass"
+        optional: true  # Peut être désactivé pour CI rapide
+    
+    invariants_enforced:
+      - INV-TEST-01
+
+  - id: GATE-P0-SECURITY-BASELINE
+    name: "Security Baseline"
+    priority: P0
+    description: "Aucune faille de sécurité critique active"
+    trigger: "pre-merge, pre-release"
+    on_fail: BLOCK_RELEASE
+    
+    checks:
+      - id: CHECK-SEC-SECRETS
+        name: "No secrets"
+        description: "gitleaks ne détecte aucun secret"
+        command: "gitleaks detect --no-git --redact -v"
+        expected: "exit code 0 (no leaks)"
+        fallback: "grep -r 'API_KEY\\|SECRET\\|PASSWORD' src/ && exit 1 || exit 0"
+        
+      - id: CHECK-SEC-DEPS
+        name: "No critical vulns"
+        description: "npm audit n'a pas de HIGH/CRITICAL non whitelistées"
+        command: "npm audit --audit-level=high"
+        expected: "exit code 0 or only whitelisted"
+        whitelist_file: "config/vuln_whitelist.json"
+        
+      - id: CHECK-SEC-INJECTION
+        name: "No eval/new Function"
+        description: "Pas d'injection de code dynamique"
+        command: "grep -rn 'eval(\\|new Function(' src/ && exit 1 || exit 0"
+        expected: "no matches"
+    
+    invariants_enforced:
+      - INV-SEC-01
+      - INV-SEC-02
+      - INV-SEC-04
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# GATES P1 — CRITIQUES (Bloquent merge, warning sur release)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+gates_p1:
+
+  - id: GATE-P1-ARCH-INTEGRITY
+    name: "Architecture Integrity"
+    priority: P1
+    description: "L'architecture respecte les règles établies"
+    trigger: "pre-merge"
+    on_fail: BLOCK_MERGE
+    
+    checks:
+      - id: CHECK-ARCH-CYCLES
+        name: "Dependency cycles controlled"
+        description: "Pas de nouveaux cycles non whitelistés"
+        command: |
+          madge --circular src > /tmp/cycles.txt
+          diff /tmp/cycles.txt config/cycles_whitelist.txt
+        expected: "no new cycles"
+        
+      - id: CHECK-ARCH-LAYERS
+        name: "Layer violations"
+        description: "Pas de dépendance inversée entre couches"
+        command: "validate_layer_deps.ts"
+        expected: "no violations"
+        
+      - id: CHECK-ARCH-EXPORTS
+        name: "Exports documented"
+        description: "Tous les exports publics sont dans public_api.json"
+        command: "validate_exports_documented()"
+        expected: "all documented"
+    
+    invariants_enforced:
+      - INV-ARCH-01
+      - INV-ARCH-02
+      - INV-ARCH-05
+
+  - id: GATE-P1-ROBUSTNESS
+    name: "Robustness Checks"
+    priority: P1
+    description: "Le code est robuste aux entrées invalides"
+    trigger: "pre-merge"
+    on_fail: WARN_AND_FINDING
+    
+    checks:
+      - id: CHECK-ROB-INPUT-VALIDATION
+        name: "Input validation present"
+        description: "Les points d'entrée valident leurs inputs"
+        command: "check_input_validation.ts"
+        expected: "all entry points validated"
+        
+      - id: CHECK-ROB-NO-SILENT-CATCH
+        name: "No silent catches"
+        description: "Pas de catch vide"
+        command: "eslint src/ --rule 'no-empty: error'"
+        expected: "no empty catches"
+        
+      - id: CHECK-ROB-ERROR-CONTEXT
+        name: "Errors have context"
+        description: "Les erreurs ont message + code + cause"
+        command: "check_error_quality.ts"
+        expected: "all errors contextual"
+        optional: true
+    
+    invariants_enforced:
+      - INV-ROB-01
+      - INV-ROB-03
+      - INV-ROB-04
+
+  - id: GATE-P1-KNOWLEDGE-SYNC
+    name: "Knowledge Synchronization"
+    priority: P1
+    description: "La base de connaissance est à jour"
+    trigger: "pre-release"
+    on_fail: WARN_AND_FINDING
+    
+    checks:
+      - id: CHECK-KB-MODULES
+        name: "All modules have fiches"
+        description: "Chaque module a sa documentation"
+        command: "validate_module_fiches.ts"
+        expected: "all modules documented"
+        
+      - id: CHECK-KB-FUNCTIONS
+        name: "Function catalog complete"
+        description: "Toutes les fonctions publiques cataloguées"
+        command: "validate_function_catalog.ts"
+        expected: "catalog complete"
+        
+      - id: CHECK-KB-INDEX
+        name: "KB index valid"
+        description: "kb_index.json valide selon schéma"
+        command: "ajv validate -s schemas/kb_schema.json -d kb_index.json"
+        expected: "valid"
+    
+    invariants_enforced:
+      - INV-KB-01
+      - INV-KB-02
+      - INV-KB-03
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# GATES P2 — MAJEURES (Warning + Finding)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+gates_p2:
+
+  - id: GATE-P2-QUALITY
+    name: "Code Quality"
+    priority: P2
+    description: "La qualité du code respecte les standards"
+    trigger: "pre-merge"
+    on_fail: WARN_AND_FINDING
+    
+    checks:
+      - id: CHECK-QUAL-LINT
+        name: "Lint clean"
+        description: "ESLint sans erreurs (warnings acceptés)"
+        command: "npx eslint src/ --max-warnings 50"
+        expected: "no errors"
+        
+      - id: CHECK-QUAL-COMPLEXITY
+        name: "Complexity under threshold"
+        description: "Pas de fonction avec complexité cyclomatique > 20"
+        command: "check_complexity.ts --max 20"
+        expected: "all under threshold"
+        
+      - id: CHECK-QUAL-COVERAGE
+        name: "Coverage above minimum"
+        description: "Couverture globale > 70%"
+        command: "npm test -- --coverage --coverageThreshold='{\"global\":{\"lines\":70}}'"
+        expected: "coverage >= 70%"
+    
+    invariants_enforced:
+      - INV-TEST-04
+
+  - id: GATE-P2-SECURITY-ADVANCED
+    name: "Advanced Security"
+    priority: P2
+    description: "Vérifications de sécurité avancées"
+    trigger: "pre-release"
+    on_fail: WARN_AND_FINDING
+    
+    checks:
+      - id: CHECK-SEC-PATH-TRAVERSAL
+        name: "Path traversal prevention"
+        description: "Les chemins sont normalisés et validés"
+        command: "check_path_security.ts"
+        expected: "all paths safe"
+        
+      - id: CHECK-SEC-REGEX
+        name: "Regex ReDoS check"
+        description: "Les regex complexes sont safe"
+        command: "check_regex_redos.ts"
+        expected: "no dangerous regex"
+        
+      - id: CHECK-SEC-DEPS-MODERATE
+        name: "Moderate vulnerabilities"
+        description: "Vulns MODERATE documentées ou fixées"
+        command: "npm audit --audit-level=moderate"
+        expected: "all addressed or documented"
+    
+    invariants_enforced:
+      - INV-SEC-05
+      - INV-SEC-06
+
+  - id: GATE-P2-CROSS-PLATFORM
+    name: "Cross-Platform Compatibility"
+    priority: P2
+    description: "Le code fonctionne sur Windows et Linux"
+    trigger: "pre-release"
+    on_fail: WARN_AND_FINDING
+    
+    checks:
+      - id: CHECK-XPLAT-PATHS
+        name: "Path separators"
+        description: "Utilisation de path.join/normalize"
+        command: "check_path_patterns.ts"
+        expected: "no hardcoded separators"
+        
+      - id: CHECK-XPLAT-ENCODING
+        name: "Encoding handled"
+        description: "UTF-8 explicite pour IO"
+        command: "check_encoding_patterns.ts"
+        expected: "encoding specified"
+        
+      - id: CHECK-XPLAT-EOL
+        name: "Line endings"
+        description: "EOL normalisé"
+        command: "check_eol_patterns.ts"
+        expected: "no issues"
+    
+    invariants_enforced:
+      - INV-ROB-05
+
+  - id: GATE-P2-TEMPORAL
+    name: "Temporal Health"
+    priority: P2
+    description: "Pas de dégradation par rapport au snapshot précédent"
+    trigger: "pre-release"
+    on_fail: WARN_AND_FINDING
+    
+    checks:
+      - id: CHECK-TEMP-COVERAGE
+        name: "Coverage not degraded"
+        description: "Couverture >= précédent - 2%"
+        command: "compare_coverage_with_previous()"
+        expected: "no significant drop"
+        
+      - id: CHECK-TEMP-COMPLEXITY
+        name: "Complexity not exploding"
+        description: "Complexité moyenne n'augmente pas de > 10%"
+        command: "compare_complexity_with_previous()"
+        expected: "no explosion"
+        
+      - id: CHECK-TEMP-FINDINGS
+        name: "No new P0/P1"
+        description: "Pas de nouveaux findings P0 ou P1"
+        command: "compare_findings_with_previous()"
+        expected: "no new critical"
+    
+    invariants_enforced:
+      - INV-TEMP-01
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# GATES P3 — MODÉRÉES (Log + Backlog)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+gates_p3:
+
+  - id: GATE-P3-OBSERVABILITY
+    name: "Observability Standards"
+    priority: P3
+    description: "Le système est observable et debuggable"
+    trigger: "pre-release"
+    on_fail: LOG_ONLY
+    
+    checks:
+      - id: CHECK-OBS-LOGS
+        name: "Structured logging"
+        description: "Logs en JSON avec contexte"
+        command: "check_log_patterns.ts"
+        expected: "structured logs"
+        
+      - id: CHECK-OBS-EXIT-CODES
+        name: "Exit codes documented"
+        description: "Codes de sortie distincts et documentés"
+        command: "check_exit_codes.ts"
+        expected: "all documented"
+    
+    invariants_enforced:
+      - INV-OBS-01
+      - INV-OBS-02
+
+  - id: GATE-P3-DOCUMENTATION
+    name: "Documentation Quality"
+    priority: P3
+    description: "La documentation est complète et à jour"
+    trigger: "pre-release"
+    on_fail: LOG_ONLY
+    
+    checks:
+      - id: CHECK-DOC-GLOSSARY
+        name: "Glossary complete"
+        description: "Tous les termes OMEGA définis"
+        command: "check_glossary.ts"
+        expected: "no undefined terms"
+        
+      - id: CHECK-DOC-ADR
+        name: "ADRs for major decisions"
+        description: "Décisions architecturales documentées"
+        command: "check_adr_coverage.ts"
+        expected: "major decisions documented"
+    
+    invariants_enforced:
+      - INV-KB-05
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# CONFIGURATION D'EXÉCUTION
+# ═══════════════════════════════════════════════════════════════════════════════
+
+execution:
+  
+  # Ordre d'exécution des gates
+  order:
+    pre_commit:
+      - GATE-P0-BUILD-DETERMINISM (checks: typecheck only)
+      
+    pre_merge:
+      - GATE-P0-SECURITY-BASELINE
+      - GATE-P0-BUILD-DETERMINISM
+      - GATE-P1-ARCH-INTEGRITY
+      - GATE-P1-ROBUSTNESS
+      - GATE-P2-QUALITY
+      
+    pre_release:
+      - GATE-P0-TRUTH-SYNC
+      - GATE-P0-SECURITY-BASELINE
+      - GATE-P0-BUILD-DETERMINISM
+      - GATE-P1-ARCH-INTEGRITY
+      - GATE-P1-ROBUSTNESS
+      - GATE-P1-KNOWLEDGE-SYNC
+      - GATE-P2-QUALITY
+      - GATE-P2-SECURITY-ADVANCED
+      - GATE-P2-CROSS-PLATFORM
+      - GATE-P2-TEMPORAL
+      - GATE-P3-OBSERVABILITY
+      - GATE-P3-DOCUMENTATION
+  
+  # Timeouts par défaut
+  timeouts:
+    check_default: 60
+    gate_default: 300
+    total_max: 1800
+  
+  # Parallélisation
+  parallel:
+    max_concurrent_checks: 4
+    gates_sequential: true  # Gates en séquence, checks en parallèle
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# OUTPUT FORMAT
+# ═══════════════════════════════════════════════════════════════════════════════
+
+output:
+  
+  # Fichier de résultats
+  results_file: "60_IMMUNITY/gate_results.json"
+  
+  # Rapport markdown
+  report_file: "90_FINDINGS/GATES.md"
+  
+  # Format du rapport
+  report_template: |
+    # OMEGA GATES Report
+    
+    **Generated**: {{timestamp}}
+    **Trigger**: {{trigger}}
+    **Git SHA**: {{git_sha}}
+    
+    ## Summary
+    
+    | Priority | Total | Passed | Failed | Skipped |
+    |----------|-------|--------|--------|---------|
+    | P0       | {{p0_total}} | {{p0_passed}} | {{p0_failed}} | {{p0_skipped}} |
+    | P1       | {{p1_total}} | {{p1_passed}} | {{p1_failed}} | {{p1_skipped}} |
+    | P2       | {{p2_total}} | {{p2_passed}} | {{p2_failed}} | {{p2_skipped}} |
+    | P3       | {{p3_total}} | {{p3_passed}} | {{p3_failed}} | {{p3_skipped}} |
+    
+    ## Overall Verdict: {{verdict}}
+    
+    {{#if blockers}}
+    ## ❌ BLOCKERS
+    
+    {{#each blockers}}
+    ### {{gate_id}}: {{gate_name}}
+    
+    **Status**: FAILED
+    **Action**: {{on_fail}}
+    
+    Failed checks:
+    {{#each failed_checks}}
+    - **{{check_id}}**: {{check_name}}
+      - Expected: {{expected}}
+      - Got: {{actual}}
+      - Command: `{{command}}`
+    {{/each}}
+    
+    {{/each}}
+    {{/if}}
+    
+    {{#each gates}}
+    ## {{gate_id}}: {{gate_name}}
+    
+    **Priority**: {{priority}}
+    **Status**: {{status}}
+    
+    | Check | Status | Duration |
+    |-------|--------|----------|
+    {{#each checks}}
+    | {{check_name}} | {{status}} | {{duration_ms}}ms |
+    {{/each}}
+    
+    {{/each}}
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# META
+# ═══════════════════════════════════════════════════════════════════════════════
+
+meta:
+  total_gates: 12
+  total_checks: 42
+  by_priority:
+    P0: 3 (12 checks)
+    P1: 3 (10 checks)
+    P2: 4 (14 checks)
+    P3: 2 (6 checks)
+  last_updated: "2026-01-17"
+  version: "1.0.0"

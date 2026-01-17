@@ -276,8 +276,9 @@ export function createAnalysisPipeline(): PipelineDefinition {
     .stage<{ fingerprint: string; version: string }, { rootHash: string; nodeCount: number }>(
       "buildDNA",
       async (input, ctx) => {
+        const validateResult = ctx.previousResults["validate"] as { normalizedContent: string };
         const result = await bioAdapter.buildDNA({
-          validatedContent: ctx.previousResults["validate"] as any,
+          validatedContent: validateResult.normalizedContent,
           seed: ctx.seed,
           mode: "auto"
         });

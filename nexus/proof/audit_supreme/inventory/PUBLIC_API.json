@@ -1,0 +1,199 @@
+{
+  "generated_at": "2026-01-17T04:25:00Z",
+  "auditor": "Claude Code (Prompt 11 Ultimate)",
+  "packages": {
+    "@omega/genome": {
+      "version": "1.2.0",
+      "entry_point": "dist/index.js",
+      "exports": {
+        "functions": [
+          {"name": "analyze", "signature": "(input: unknown, options?: AnalyzeOptions) => NarrativeGenome"},
+          {"name": "validateGenome", "signature": "(genome: unknown) => boolean"},
+          {"name": "computeFingerprint", "signature": "(genome: NarrativeGenome) => GenomeFingerprint"},
+          {"name": "isValidFingerprint", "signature": "(fp: unknown) => boolean"},
+          {"name": "compare", "signature": "(a: NarrativeGenome, b: NarrativeGenome) => SimilarityResult"},
+          {"name": "compareDetailed", "signature": "(a: NarrativeGenome, b: NarrativeGenome) => DetailedComparison"},
+          {"name": "cosineSimilarity", "signature": "(a: number[], b: number[]) => number"},
+          {"name": "getVerdict", "signature": "(score: number) => SimilarityVerdict"},
+          {"name": "flattenEmotionAxis", "signature": "(axis: EmotionAxis) => number[]"},
+          {"name": "flattenStyleAxis", "signature": "(axis: StyleAxis) => number[]"},
+          {"name": "flattenStructureAxis", "signature": "(axis: StructureAxis) => number[]"},
+          {"name": "flattenTempoAxis", "signature": "(axis: TempoAxis) => number[]"},
+          {"name": "processWithMycelium", "signature": "(input: GenomeMyceliumInput) => GenomeMyceliumResult"},
+          {"name": "isMyceliumOk", "signature": "(result: GenomeMyceliumResult) => boolean"},
+          {"name": "isMyceliumErr", "signature": "(result: GenomeMyceliumResult) => boolean"},
+          {"name": "quantizeFloat", "signature": "(n: number) => number"},
+          {"name": "quantizeObject", "signature": "(obj: unknown) => unknown"},
+          {"name": "canonicalSerialize", "signature": "(obj: unknown) => string"},
+          {"name": "canonicalBytes", "signature": "(obj: unknown) => Uint8Array"},
+          {"name": "canonicalString", "signature": "(obj: unknown) => string"},
+          {"name": "stripMetadata", "signature": "(genome: NarrativeGenome) => NarrativeGenome"},
+          {"name": "computeFingerprintFromPayload", "signature": "(payload: unknown) => string"},
+          {"name": "validateNumber", "signature": "(n: unknown) => boolean"}
+        ],
+        "types": [
+          "Emotion14", "EmotionAxis", "EmotionTransition", "StyleAxis",
+          "StructureAxis", "TempoAxis", "NarrativeGenome", "GenomeFingerprint",
+          "ExtractionMetadata", "SimilarityResult", "SimilarityVerdict",
+          "DetailedComparison", "SimilarityWeights", "SimilarMatch", "OmegaDNA",
+          "AnalyzeOptions", "GenomeMyceliumInput", "GenomeMyceliumResult",
+          "GenomeMyceliumOk", "GenomeMyceliumErr", "MyceliumSealRef", "IntegrationGate"
+        ],
+        "constants": [
+          "GENOME_VERSION", "EXTRACTOR_VERSION", "DEFAULT_SEED", "DEFAULT_WEIGHTS",
+          "FLOAT_PRECISION", "FLOAT_DECIMALS", "FINGERPRINT_LENGTH",
+          "DISTRIBUTION_SUM_TOLERANCE", "EMOTION14_ORDERED", "MYCELIUM_SEAL_REF",
+          "INTEGRATION_GATES", "ADAPTER_VERSION"
+        ],
+        "classes": ["CanonicalizeError"]
+      },
+      "status": "FROZEN"
+    },
+    "@omega/mycelium": {
+      "version": "1.0.0",
+      "entry_point": "dist/index.js",
+      "exports": {
+        "functions": [
+          {"name": "validate", "signature": "(input: DNAInput) => ValidationResult"},
+          {"name": "isAccepted", "signature": "(result: ValidationResult) => result is AcceptResult"},
+          {"name": "isRejected", "signature": "(result: ValidationResult) => result is RejectResult"},
+          {"name": "validateUTF8", "signature": "(text: string) => boolean"},
+          {"name": "validateSize", "signature": "(text: string) => boolean"},
+          {"name": "validateBinary", "signature": "(text: string) => boolean"},
+          {"name": "validateNotEmpty", "signature": "(text: string) => boolean"},
+          {"name": "validateControlChars", "signature": "(text: string) => boolean"},
+          {"name": "validateNotHTML", "signature": "(text: string) => boolean"},
+          {"name": "validateNotJSON", "signature": "(text: string) => boolean"},
+          {"name": "validateNotXML", "signature": "(text: string) => boolean"},
+          {"name": "validateSeed", "signature": "(seed: unknown) => boolean"},
+          {"name": "validateMode", "signature": "(mode: unknown) => boolean"},
+          {"name": "runHardValidations", "signature": "(input: DNAInput) => ValidationResult"},
+          {"name": "normalizeLineEndings", "signature": "(text: string) => string"},
+          {"name": "runSoftNormalizations", "signature": "(text: string) => string"}
+        ],
+        "types": [
+          "DNAInput", "InputMetadata", "GenomeInput", "ProcessedMetadata",
+          "Rejection", "RejectionDetails", "AcceptResult", "RejectResult",
+          "ValidationResult", "SegmentMode", "RejectionCode", "RejectionCategory"
+        ],
+        "constants": [
+          "MYCELIUM_VERSION", "MIN_LENGTH", "MAX_LENGTH", "MAX_LINE_LENGTH",
+          "MAX_SEGMENTS", "DEFAULT_SEED", "DEFAULT_MODE", "VALID_MODES",
+          "REJECTION_CODES", "REJECTION_MESSAGES", "REJECTION_CATEGORIES"
+        ]
+      },
+      "status": "FROZEN"
+    },
+    "@omega/oracle": {
+      "version": "3.145.0",
+      "entry_point": "dist/index.js",
+      "exports": {
+        "functions": [
+          {"name": "createOracle", "signature": "(config?: OracleConfig) => Oracle"},
+          {"name": "createCache", "signature": "(config?: CacheConfig) => OracleCache"},
+          {"name": "createStreamingOracle", "signature": "(config?: StreamConfig) => StreamingOracle"},
+          {"name": "createContext", "signature": "(config?: ContextConfig) => OracleContext"},
+          {"name": "createMetrics", "signature": "(config?: MetricsConfig) => OracleMetrics"},
+          {"name": "createAnalysisPrompt", "signature": "(params: PromptParams) => string"},
+          {"name": "createNarrativePrompt", "signature": "(params: PromptParams) => string"},
+          {"name": "createComparisonPrompt", "signature": "(params: PromptParams) => string"},
+          {"name": "createSummaryPrompt", "signature": "(params: PromptParams) => string"},
+          {"name": "createRecommendationsPrompt", "signature": "(params: PromptParams) => string"},
+          {"name": "getAvailablePromptTypes", "signature": "() => string[]"},
+          {"name": "validatePromptParams", "signature": "(params: PromptParams) => boolean"},
+          {"name": "estimateTokenCount", "signature": "(text: string) => number"},
+          {"name": "getGlobalMetrics", "signature": "() => OracleMetrics"},
+          {"name": "resetGlobalMetrics", "signature": "() => void"}
+        ],
+        "types": [
+          "OracleConfig", "OracleRequest", "OracleResponse", "OracleStatus",
+          "EmotionalInsight", "NarrativeAnalysis", "OracleErrorType",
+          "PromptParams", "PromptTemplate", "CacheEntry", "CacheConfig", "CacheStats",
+          "StreamChunkType", "StreamChunk", "StartChunk", "TextChunk", "InsightChunk",
+          "NarrativeChunk", "SummaryChunk", "ProgressChunk", "CompleteChunk", "ErrorChunk",
+          "OracleStreamChunk", "StreamConfig", "StreamState", "StreamCallbacks",
+          "ContextEntry", "ContextConfig", "EmotionTrend", "ContextSummary", "ComparisonResult",
+          "MetricType", "Metric", "CounterMetric", "GaugeMetric", "HistogramMetric",
+          "TimerMetric", "MetricsConfig", "TimerContext", "MetricsSnapshot", "PerformanceReport"
+        ],
+        "classes": [
+          "Oracle", "OracleCache", "StreamController", "StreamingOracle",
+          "OracleContext", "OracleMetrics", "OracleError"
+        ],
+        "constants": [
+          "DEFAULT_CONFIG", "DEFAULT_CACHE_CONFIG", "DEFAULT_STREAM_CONFIG",
+          "DEFAULT_CONTEXT_CONFIG", "DEFAULT_METRICS_CONFIG", "PROMPT_REGISTRY"
+        ]
+      }
+    },
+    "@omega/search": {
+      "version": "3.155.0",
+      "entry_point": "dist/index.js",
+      "exports": {
+        "functions": [
+          {"name": "createSearchEngine", "signature": "(config?: SearchConfig) => SearchEngine"},
+          {"name": "createFilterProcessor", "signature": "() => FilterProcessor"},
+          {"name": "createFacetProcessor", "signature": "() => FacetProcessor"},
+          {"name": "createAggregationProcessor", "signature": "() => AggregationProcessor"},
+          {"name": "createSuggester", "signature": "(config?: SuggesterConfig) => SearchSuggester"},
+          {"name": "createIndexManager", "signature": "(config?: IndexManagerConfig) => IndexManager"},
+          {"name": "createSearchExporter", "signature": "() => SearchExporter"},
+          {"name": "createSearchImporter", "signature": "() => SearchImporter"},
+          {"name": "createQueryParser", "signature": "(options?: QueryParserOptions) => QueryParser"},
+          {"name": "parseQuery", "signature": "(query: string) => ParseResult"},
+          {"name": "createSearchAnalytics", "signature": "(config?: AnalyticsConfig) => SearchAnalytics"},
+          {"name": "createUnifiedSearch", "signature": "(options?: UnifiedSearchOptions) => UnifiedSearch"}
+        ],
+        "types": [
+          "SearchDocument", "IndexedDocument", "SearchQuery", "SearchResult",
+          "SearchResponse", "SearchFilter", "SearchHighlight", "IndexStats",
+          "SearchConfig", "SearchErrorType", "FilterOperator", "AdvancedFilter",
+          "FilterGroup", "FacetDefinition", "TermsFacetResult", "RangeFacetResult",
+          "FacetResult", "AggregationDefinition", "AggregationResult",
+          "SuggestionType", "Suggestion", "SuggestRequest", "SuggestResponse",
+          "SuggesterConfig", "IndexSegment", "IndexMetadata", "IndexSnapshot",
+          "IndexManagerConfig", "IndexOperation", "IndexOperationLog", "IndexHealth",
+          "ExportFormat", "ExportOptions", "ExportResult", "ExportTemplate",
+          "ImportFormat", "ImportOptions", "ImportResult", "ImportError", "ImportValidation",
+          "TokenType", "Token", "ASTNodeType", "ASTNode", "ParseResult", "ParseError",
+          "QueryParserOptions", "SearchEventType", "SearchEvent", "QueryStats",
+          "SearchSession", "AnalyticsSummary", "AnalyticsConfig",
+          "UnifiedSearchOptions", "SearchFacade"
+        ],
+        "classes": [
+          "SearchEngine", "FilterProcessor", "FacetProcessor", "AggregationProcessor",
+          "SearchSuggester", "IndexManager", "SearchExporter", "SearchImporter",
+          "QueryParser", "SearchAnalytics", "UnifiedSearch", "SearchError"
+        ],
+        "constants": [
+          "DEFAULT_SEARCH_CONFIG", "DEFAULT_SUGGESTER_CONFIG",
+          "DEFAULT_INDEX_MANAGER_CONFIG", "DEFAULT_EXPORT_OPTIONS",
+          "DEFAULT_IMPORT_OPTIONS", "DEFAULT_PARSER_OPTIONS",
+          "DEFAULT_ANALYTICS_CONFIG", "DEFAULT_UNIFIED_OPTIONS"
+        ]
+      }
+    },
+    "@omega/integration-nexus-dep": {
+      "version": "0.7.0",
+      "entry_point": "dist/index.js",
+      "sub_modules": [
+        "adapters", "connectors", "contracts", "pipeline", "router", "scheduler", "translators"
+      ],
+      "exports": {
+        "note": "Large integration layer with multiple sub-module exports"
+      }
+    },
+    "@omega/orchestrator-core": {
+      "version": "0.1.0",
+      "entry_point": "dist/index.js",
+      "exports": {
+        "note": "Core deterministic execution engine - foundation for other packages"
+      }
+    }
+  },
+  "api_stability": {
+    "frozen": ["@omega/genome", "@omega/mycelium"],
+    "stable": ["@omega/oracle", "@omega/search"],
+    "evolving": ["@omega/integration-nexus-dep", "@omega/orchestrator-core"]
+  }
+}

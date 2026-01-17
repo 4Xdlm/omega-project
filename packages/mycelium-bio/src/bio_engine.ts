@@ -405,7 +405,6 @@ export function selfTest(): boolean {
     return false;
   }
 
-  console.log("✅ bio_engine.ts: All tests passed");
   return true;
 }
 

@@ -427,8 +427,6 @@ export function selfTest(): boolean {
     return false;
   }
 
-  console.log("✅ fingerprint.ts: All tests passed");
-  console.log(`   Sample fragrance: "${fragrance}"`);
   return true;
 }
 

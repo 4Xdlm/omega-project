@@ -21,6 +21,7 @@ import {
   serializeProofPack,
   deserializeProofPack,
 } from '@omega/proof-pack';
+import type { ProofPackManifest } from '@omega/proof-pack';
 import { ALL_INVARIANTS, ALL_MODULES } from '@omega/contracts-canon';
 
 import type { IntegrationTest } from './validator.js';
@@ -228,11 +229,11 @@ export const sealProofPackIntegration: IntegrationTest = {
     const sealed = seal(pack.manifest);
 
     // Unseal and verify
-    const unsealed = unseal(sealed);
+    const unsealed = unseal<ProofPackManifest>(sealed);
 
     if (!unsealed.valid || !unsealed.payload) return false;
 
-    return (unsealed.payload as any).packId === pack.manifest.packId;
+    return unsealed.payload.packId === pack.manifest.packId;
   },
 };
 

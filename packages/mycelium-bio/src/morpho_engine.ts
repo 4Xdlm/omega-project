@@ -14,6 +14,7 @@ import {
   EMOTION_TYPES,
   PHYSICS
 } from "./types.js";
+import { createNeutralRecord, createNeutralIntensities } from "./emotion_field.js";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // UTILITAIRES
@@ -380,8 +381,8 @@ export function computeThickness(branchWeight: number, maxWeight: number = 10): 
 export function selfTest(): boolean {
   // Test HSL bounds
   const mockField: EmotionField = {
-    states: {} as any,
-    normalizedIntensities: {} as any,
+    states: createNeutralRecord(),
+    normalizedIntensities: createNeutralIntensities(),
     dominant: "anger",
     peak: 0.9,
     totalEnergy: 5,
@@ -443,7 +444,6 @@ export function selfTest(): boolean {
     return false;
   }
 
-  console.log("✅ morpho_engine.ts: All tests passed");
   return true;
 }
 

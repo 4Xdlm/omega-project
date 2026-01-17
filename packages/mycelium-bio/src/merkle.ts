@@ -5,8 +5,9 @@
 // Garantie: même nœuds → même rootHash à 100%
 // ═══════════════════════════════════════════════════════════════════════════════
 
-import { MyceliumNode } from "./types.js";
+import { MyceliumNode, IntensityRecord14 } from "./types.js";
 import { canonicalStringify, canonicalHashSync } from "./canonical_json.js";
+import { createNeutralRecord } from "./emotion_field.js";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // TYPES
@@ -280,10 +281,12 @@ export function selfTest(): boolean {
   const mockNodes: MyceliumNode[] = [];
 
   for (let i = 0; i < 4; i++) {
-    const mockIntensities: Record<string, number> = {};
-    for (const t of ["joy", "fear", "anger", "sadness", "surprise", "disgust", "trust", "anticipation", "love", "guilt", "shame", "pride", "hope", "despair"]) {
-      mockIntensities[t] = 1 / 14;
-    }
+    const mockIntensities: IntensityRecord14 = {
+      joy: 1/14, fear: 1/14, anger: 1/14, sadness: 1/14,
+      surprise: 1/14, disgust: 1/14, trust: 1/14, anticipation: 1/14,
+      love: 1/14, guilt: 1/14, shame: 1/14, pride: 1/14,
+      hope: 1/14, despair: 1/14
+    };
 
     mockNodes.push({
       id: `node-${i}`,
@@ -293,8 +296,8 @@ export function selfTest(): boolean {
       branchWeight: 2.5,
       thickness: 0.5,
       emotionField: {
-        states: {} as any,
-        normalizedIntensities: mockIntensities as any,
+        states: createNeutralRecord(),
+        normalizedIntensities: mockIntensities,
         dominant: "joy",
         peak: 0.3,
         totalEnergy: 5,
@@ -373,8 +376,6 @@ export function selfTest(): boolean {
     return false;
   }
 
-  console.log("✅ merkle.ts: All tests passed");
-  console.log(`   Sample root: ${root1.substring(0, 16)}...`);
   return true;
 }
 

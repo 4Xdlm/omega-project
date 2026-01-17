@@ -217,9 +217,6 @@ export function selfTest(): boolean {
     return false;
   }
 
-  console.log("✅ gematria.ts: All tests passed");
-  console.log(`   OMEGA = ${computeGematria("OMEGA")}`);
-  console.log(`   MYCELIUM = ${computeGematria("MYCELIUM")}`);
   return true;
 }
 

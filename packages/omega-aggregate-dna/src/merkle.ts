@@ -262,7 +262,6 @@ export function selfTest(): boolean {
     return false;
   }
 
-  console.log("✅ merkle.ts: All tests passed");
   return true;
 }
 

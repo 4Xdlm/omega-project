@@ -211,7 +211,6 @@ export function selfTest(): boolean {
     }
   }
 
-  console.log("✅ canonical_json.ts: All tests passed");
   return true;
 }
 

@@ -201,10 +201,6 @@ import dnaBuilder from "./dna_builder.js";
  * @returns true si tous les tests passent
  */
 export function runAllTests(): boolean {
-  console.log("\n════════════════════════════════════════════════");
-  console.log("  MYCELIUM BIO — TESTS L4 (NASA-Grade)");
-  console.log("════════════════════════════════════════════════\n");
-
   const results: Array<{ module: string; passed: boolean }> = [];
 
   // Test canonical_json
@@ -271,28 +267,8 @@ export function runAllTests(): boolean {
     results.push({ module: "dna_builder", passed: false });
   }
 
-  // Résumé
-  console.log("\n════════════════════════════════════════════════");
-  console.log("  RÉSUMÉ");
-  console.log("════════════════════════════════════════════════\n");
-
   const passed = results.filter(r => r.passed).length;
   const total = results.length;
-
-  for (const r of results) {
-    console.log(`  ${r.passed ? "✅" : "❌"} ${r.module}`);
-  }
-
-  console.log(`\n  TOTAL: ${passed}/${total}`);
-  console.log("");
-
-  if (passed === total) {
-    console.log("  🎉 TOUS LES TESTS PASSENT — CERTIFICATION L4 VALIDÉE");
-  } else {
-    console.log("  ⚠️  ÉCHECS DÉTECTÉS — CERTIFICATION BLOQUÉE");
-  }
-
-  console.log("\n════════════════════════════════════════════════\n");
 
   return passed === total;
 }

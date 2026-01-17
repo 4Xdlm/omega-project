@@ -80,7 +80,6 @@ export class ProgressEmitter {
     
     // Validation phase (dev safety)
     if (!isValidPhase(phase)) {
-      console.warn(`[omega-observability] Invalid phase: ${phase}`);
       return;
     }
     

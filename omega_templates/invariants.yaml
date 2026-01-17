@@ -1,0 +1,481 @@
+# ═══════════════════════════════════════════════════════════════════════════════
+# OMEGA CONSCIOUSNESS — INVARIANTS MASTER
+# Version: 1.0.0
+# Standard: OMEGA-GRADE
+# ═══════════════════════════════════════════════════════════════════════════════
+
+schema_version: "1.0.0"
+project: "OMEGA"
+generated_at: "2026-01-17T00:00:00Z"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# SECTION 1 — VÉRITÉ & TRAÇABILITÉ (Anti-divergence)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+truth:
+  
+  - id: INV-TRUTH-01
+    title: "Snapshot obligatoire à chaque release"
+    description: "Chaque tag/release doit avoir un OMEGA SNAPSHOT complet généré"
+    severity_floor: P0
+    category: TRUTH
+    check_type: AUTOMATED
+    check_command: "test -d OMEGA_SNAPSHOTS/SNAP_*_${GIT_TAG}"
+    failure_action: BLOCK_RELEASE
+    rationale: "Sans snapshot, l'état du système est non documenté et non vérifiable"
+  
+  - id: INV-TRUTH-02
+    title: "Version doc = version code"
+    description: "La version déclarée dans la documentation doit correspondre à package.json"
+    severity_floor: P0
+    category: TRUTH
+    check_type: AUTOMATED
+    check_command: "jq -r .version package.json == doc_version"
+    failure_action: BLOCK_RELEASE
+    rationale: "Divergence version = mensonge systémique"
+  
+  - id: INV-TRUTH-03
+    title: "Tests déclarés = tests exécutés"
+    description: "Le nombre de tests documenté doit correspondre au nombre réel"
+    severity_floor: P0
+    category: TRUTH
+    check_type: AUTOMATED
+    check_command: "npm test --json | jq .numTotalTests == doc_test_count"
+    failure_action: BLOCK_RELEASE
+    rationale: "Comptage faux = confiance impossible"
+  
+  - id: INV-TRUTH-04
+    title: "Hash intégrité vérifié"
+    description: "Le ROOT_HASH du snapshot doit être reproductible"
+    severity_floor: P0
+    category: TRUTH
+    check_type: AUTOMATED
+    check_command: "compute_root_hash() == stored_root_hash"
+    failure_action: BLOCK_RELEASE
+    rationale: "Hash non reproductible = snapshot corrompu ou altéré"
+  
+  - id: INV-TRUTH-05
+    title: "Invariants déclarés = invariants vérifiés"
+    description: "Chaque invariant listé doit avoir un check automatisé ou manuel documenté"
+    severity_floor: P1
+    category: TRUTH
+    check_type: MANUAL
+    failure_action: WARN_AND_FINDING
+    rationale: "Invariant sans vérification = promesse vide"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# SECTION 2 — ARCHITECTURE & DÉPENDANCES
+# ═══════════════════════════════════════════════════════════════════════════════
+
+architecture:
+  
+  - id: INV-ARCH-01
+    title: "Zéro cycle de dépendance non justifié"
+    description: "Aucun cycle dans le graphe de dépendances sauf whitelist explicite"
+    severity_floor: P1
+    category: ARCHITECTURE
+    check_type: AUTOMATED
+    check_command: "madge --circular src | diff - cycles_whitelist.txt"
+    failure_action: WARN_AND_FINDING
+    whitelist_file: "config/cycles_whitelist.txt"
+    rationale: "Cycles = couplage fort = maintenance difficile"
+  
+  - id: INV-ARCH-02
+    title: "Frontières modules explicites"
+    description: "Chaque module doit avoir ses dépendances IN/OUT documentées"
+    severity_floor: P1
+    category: ARCHITECTURE
+    check_type: AUTOMATED
+    check_command: "validate_module_boundaries()"
+    failure_action: WARN_AND_FINDING
+    rationale: "Frontières floues = responsabilités confuses"
+  
+  - id: INV-ARCH-03
+    title: "API publique stable"
+    description: "Les exports publics suivent semver interne - breaking change = major"
+    severity_floor: P1
+    category: ARCHITECTURE
+    check_type: MANUAL
+    failure_action: WARN_AND_FINDING
+    rationale: "API instable = intégration fragile"
+  
+  - id: INV-ARCH-04
+    title: "Entrypoints documentés"
+    description: "Tous les points d'entrée (CLI, API, IPC) sont listés et documentés"
+    severity_floor: P2
+    category: ARCHITECTURE
+    check_type: AUTOMATED
+    check_command: "validate_entrypoints_documented()"
+    failure_action: WARN_AND_FINDING
+    rationale: "Entrypoint non documenté = surface d'attaque invisible"
+  
+  - id: INV-ARCH-05
+    title: "Couches respectées"
+    description: "Aucune dépendance inversée entre couches (infra → service → interface)"
+    severity_floor: P2
+    category: ARCHITECTURE
+    check_type: AUTOMATED
+    check_command: "validate_layer_dependencies()"
+    failure_action: WARN_AND_FINDING
+    rationale: "Violation de couches = architecture dégradée"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# SECTION 3 — ROBUSTESSE & RÉSILIENCE
+# ═══════════════════════════════════════════════════════════════════════════════
+
+robustness:
+  
+  - id: INV-ROB-01
+    title: "Validation entrées externes obligatoire"
+    description: "Toute donnée provenant de l'extérieur doit être validée avant traitement"
+    severity_floor: P1
+    category: ROBUSTNESS
+    check_type: MANUAL
+    affected_zones:
+      - "API endpoints"
+      - "CLI arguments"
+      - "File parsing"
+      - "Environment variables"
+      - "User input"
+    failure_action: WARN_AND_FINDING
+    rationale: "Entrée non validée = crash ou injection possibles"
+  
+  - id: INV-ROB-02
+    title: "Déterminisme garanti"
+    description: "Même input = même output, sauf horloge/random explicitement seedés"
+    severity_floor: P1
+    category: ROBUSTNESS
+    check_type: AUTOMATED
+    check_command: "run_determinism_tests()"
+    excluded:
+      - "Date/time dependent (must use injected clock)"
+      - "Random (must use seeded RNG)"
+    failure_action: WARN_AND_FINDING
+    rationale: "Non-déterminisme = debugging impossible"
+  
+  - id: INV-ROB-03
+    title: "Erreurs contextualisées"
+    description: "Chaque erreur doit avoir: message clair + code + cause + stack si applicable"
+    severity_floor: P2
+    category: ROBUSTNESS
+    check_type: MANUAL
+    failure_action: WARN_AND_FINDING
+    rationale: "Erreur vague = debugging chronophage"
+  
+  - id: INV-ROB-04
+    title: "Zéro erreur avalée"
+    description: "Aucun catch vide, aucune erreur ignorée silencieusement"
+    severity_floor: P1
+    category: ROBUSTNESS
+    check_type: AUTOMATED
+    check_command: "eslint --rule 'no-empty-catch: error'"
+    failure_action: WARN_AND_FINDING
+    rationale: "Erreur silencieuse = bombe à retardement"
+  
+  - id: INV-ROB-05
+    title: "Cross-platform vérifié"
+    description: "Pas de dépendance OS-spécifique sans abstraction (paths, encoding, EOL)"
+    severity_floor: P2
+    category: ROBUSTNESS
+    check_type: AUTOMATED
+    check_command: "check_cross_platform_patterns()"
+    failure_action: WARN_AND_FINDING
+    rationale: "Bug Windows/Linux = support dégradé"
+  
+  - id: INV-ROB-06
+    title: "Timeouts sur opérations externes"
+    description: "Toute opération IO/Network doit avoir un timeout configuré"
+    severity_floor: P2
+    category: ROBUSTNESS
+    check_type: MANUAL
+    failure_action: WARN_AND_FINDING
+    rationale: "Pas de timeout = blocage potentiel infini"
+  
+  - id: INV-ROB-07
+    title: "Limites explicites"
+    description: "Chaque module critique doit documenter ses limites (taille, volume, concurrence)"
+    severity_floor: P3
+    category: ROBUSTNESS
+    check_type: MANUAL
+    failure_action: WARN_AND_FINDING
+    rationale: "Limite non documentée = surprise en production"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# SECTION 4 — SÉCURITÉ
+# ═══════════════════════════════════════════════════════════════════════════════
+
+security:
+  
+  - id: INV-SEC-01
+    title: "Zéro secret commité"
+    description: "Aucun token, clé API, mot de passe dans le code source"
+    severity_floor: P0
+    category: SECURITY
+    check_type: AUTOMATED
+    check_command: "gitleaks detect --no-git"
+    failure_action: BLOCK_RELEASE
+    rationale: "Secret commité = compromission garantie"
+  
+  - id: INV-SEC-02
+    title: "Vulnérabilités HIGH/CRITICAL traitées"
+    description: "npm audit ne doit pas avoir de HIGH/CRITICAL non whitelistées"
+    severity_floor: P0
+    category: SECURITY
+    check_type: AUTOMATED
+    check_command: "npm audit --audit-level=high"
+    whitelist_file: "config/vuln_whitelist.json"
+    failure_action: BLOCK_RELEASE
+    rationale: "Vulnérabilité critique = risque actif"
+  
+  - id: INV-SEC-03
+    title: "Surfaces critiques testées"
+    description: "Parsers, validators, regex doivent avoir des tests fuzz/stress"
+    severity_floor: P1
+    category: SECURITY
+    check_type: MANUAL
+    affected_zones:
+      - "JSON/YAML parsers"
+      - "Input validators"
+      - "Regex patterns"
+      - "Path handlers"
+    failure_action: WARN_AND_FINDING
+    rationale: "Surface non testée = vulnérabilité latente"
+  
+  - id: INV-SEC-04
+    title: "Pas d'injection possible"
+    description: "Aucun eval(), new Function(), ou équivalent avec données utilisateur"
+    severity_floor: P0
+    category: SECURITY
+    check_type: AUTOMATED
+    check_command: "eslint --rule 'no-eval: error' --rule 'no-new-func: error'"
+    failure_action: BLOCK_RELEASE
+    rationale: "Injection = exécution de code arbitraire"
+  
+  - id: INV-SEC-05
+    title: "Pas de path traversal"
+    description: "Les chemins de fichiers doivent être normalisés et validés"
+    severity_floor: P1
+    category: SECURITY
+    check_type: MANUAL
+    failure_action: WARN_AND_FINDING
+    rationale: "Path traversal = accès fichiers non autorisé"
+  
+  - id: INV-SEC-06
+    title: "Regex sans ReDoS"
+    description: "Les regex complexes doivent être analysées pour risque ReDoS"
+    severity_floor: P2
+    category: SECURITY
+    check_type: AUTOMATED
+    check_command: "check_regex_redos()"
+    failure_action: WARN_AND_FINDING
+    rationale: "ReDoS = déni de service par regex"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# SECTION 5 — TESTS & QUALITÉ
+# ═══════════════════════════════════════════════════════════════════════════════
+
+tests:
+  
+  - id: INV-TEST-01
+    title: "Zéro test flaky"
+    description: "Aucun test ne doit échouer de manière intermittente"
+    severity_floor: P1
+    category: TESTS
+    check_type: AUTOMATED
+    check_command: "npm test -- --repeat 3"
+    failure_action: WARN_AND_FINDING
+    rationale: "Test flaky = confiance nulle"
+  
+  - id: INV-TEST-02
+    title: "Modules critiques = triple couverture"
+    description: "Modules critiques doivent avoir: unit + integration + failure-mode tests"
+    severity_floor: P1
+    category: TESTS
+    check_type: MANUAL
+    critical_modules:
+      - "router"
+      - "parser"
+      - "ledger"
+      - "crypto"
+      - "auth"
+    failure_action: WARN_AND_FINDING
+    rationale: "Module critique sous-testé = risque majeur"
+  
+  - id: INV-TEST-03
+    title: "Bug corrigé = test ajouté"
+    description: "Chaque bugfix doit inclure un test de non-régression"
+    severity_floor: P2
+    category: TESTS
+    check_type: MANUAL
+    failure_action: WARN_AND_FINDING
+    rationale: "Bug sans test = bug qui reviendra"
+  
+  - id: INV-TEST-04
+    title: "Couverture minimale par module"
+    description: "Chaque module doit avoir une couverture > seuil configuré"
+    severity_floor: P2
+    category: TESTS
+    check_type: AUTOMATED
+    check_command: "validate_coverage_thresholds()"
+    thresholds:
+      critical: 90
+      normal: 70
+      utility: 50
+    failure_action: WARN_AND_FINDING
+    rationale: "Couverture basse = angles morts"
+  
+  - id: INV-TEST-05
+    title: "Tests rapides"
+    description: "La suite de tests doit s'exécuter en < 5 minutes"
+    severity_floor: P3
+    category: TESTS
+    check_type: AUTOMATED
+    check_command: "time npm test < 300s"
+    failure_action: WARN_AND_FINDING
+    rationale: "Tests lents = feedback loop cassé"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# SECTION 6 — CONNAISSANCE (KNOWLEDGE BASE)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+knowledge:
+  
+  - id: INV-KB-01
+    title: "Chaque module a sa fiche complète"
+    description: "Chaque module doit avoir: but, API, dépendances, sécurité, résilience"
+    severity_floor: P2
+    category: KNOWLEDGE
+    check_type: AUTOMATED
+    check_command: "validate_module_fiches()"
+    required_sections:
+      - "README.md (but, responsabilités)"
+      - "API.md (exports publics)"
+      - "INTERACTIONS.md (dépendances)"
+      - "SECURITY.md (surfaces d'attaque)"
+      - "RESILIENCE.md (modes d'échec)"
+    failure_action: WARN_AND_FINDING
+    rationale: "Module non documenté = connaissance perdue"
+  
+  - id: INV-KB-02
+    title: "Catalogue fonctions exhaustif"
+    description: "Toutes les fonctions publiques doivent être dans function_catalog.json"
+    severity_floor: P2
+    category: KNOWLEDGE
+    check_type: AUTOMATED
+    check_command: "validate_function_catalog_complete()"
+    failure_action: WARN_AND_FINDING
+    rationale: "Fonction non cataloguée = invisible"
+  
+  - id: INV-KB-03
+    title: "kb_index.json cohérent"
+    description: "L'index KB doit être valide selon le schéma et complet"
+    severity_floor: P2
+    category: KNOWLEDGE
+    check_type: AUTOMATED
+    check_command: "ajv validate -s kb_schema.json -d kb_index.json"
+    failure_action: WARN_AND_FINDING
+    rationale: "Index invalide = navigation impossible"
+  
+  - id: INV-KB-04
+    title: "Relations vérifiables"
+    description: "Chaque relation dans kb_relations.json doit pointer vers des entités existantes"
+    severity_floor: P2
+    category: KNOWLEDGE
+    check_type: AUTOMATED
+    check_command: "validate_kb_relations()"
+    failure_action: WARN_AND_FINDING
+    rationale: "Relation orpheline = graphe corrompu"
+  
+  - id: INV-KB-05
+    title: "Glossaire à jour"
+    description: "Tous les termes spécifiques OMEGA doivent être dans le glossaire"
+    severity_floor: P3
+    category: KNOWLEDGE
+    check_type: MANUAL
+    failure_action: WARN_AND_FINDING
+    rationale: "Terme non défini = confusion garantie"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# SECTION 7 — OBSERVABILITÉ
+# ═══════════════════════════════════════════════════════════════════════════════
+
+observability:
+  
+  - id: INV-OBS-01
+    title: "Logs structurés"
+    description: "Les logs doivent être en JSON avec timestamp, level, message, context"
+    severity_floor: P3
+    category: OBSERVABILITY
+    check_type: MANUAL
+    failure_action: WARN_AND_FINDING
+    rationale: "Log non structuré = analyse impossible"
+  
+  - id: INV-OBS-02
+    title: "Exit codes significatifs"
+    description: "Chaque code de sortie doit être documenté et distinct"
+    severity_floor: P3
+    category: OBSERVABILITY
+    check_type: MANUAL
+    failure_action: WARN_AND_FINDING
+    rationale: "Exit code générique = diagnostic impossible"
+  
+  - id: INV-OBS-03
+    title: "Métriques exposées"
+    description: "Les métriques critiques doivent être accessibles (durée, erreurs, usage)"
+    severity_floor: P3
+    category: OBSERVABILITY
+    check_type: MANUAL
+    failure_action: WARN_AND_FINDING
+    rationale: "Pas de métriques = monitoring aveugle"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# SECTION 8 — TEMPOREL (PRÉDICTION)
+# ═══════════════════════════════════════════════════════════════════════════════
+
+temporal:
+  
+  - id: INV-TEMP-01
+    title: "Tendances surveillées"
+    description: "Chaque snapshot doit comparer avec le précédent et alerter si dégradation"
+    severity_floor: P2
+    category: TEMPORAL
+    check_type: AUTOMATED
+    check_command: "compare_with_previous_snapshot()"
+    alerts:
+      - "coverage_drop > 2%"
+      - "complexity_increase > 10%"
+      - "new_p0p1_findings"
+    failure_action: WARN_AND_FINDING
+    rationale: "Dégradation non détectée = dette silencieuse"
+  
+  - id: INV-TEMP-02
+    title: "Future breakage map maintenue"
+    description: "Les modules critiques doivent avoir des prédictions T+6m, T+2y, T+5y"
+    severity_floor: P3
+    category: TEMPORAL
+    check_type: MANUAL
+    failure_action: WARN_AND_FINDING
+    rationale: "Pas de prédiction = surprise future"
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# META
+# ═══════════════════════════════════════════════════════════════════════════════
+
+meta:
+  total_invariants: 42
+  by_priority:
+    P0: 7
+    P1: 15
+    P2: 14
+    P3: 6
+  by_category:
+    TRUTH: 5
+    ARCHITECTURE: 5
+    ROBUSTNESS: 7
+    SECURITY: 6
+    TESTS: 5
+    KNOWLEDGE: 5
+    OBSERVABILITY: 3
+    TEMPORAL: 2
+  last_updated: "2026-01-17"
+  version: "1.0.0"

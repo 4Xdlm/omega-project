@@ -30,23 +30,26 @@ vi.mock('@omega/gold-internal', () => ({
   ],
 }));
 
-vi.mock('@omega/gold-suite', () => ({
-  SuiteRunner: vi.fn().mockImplementation(() => ({
-    run: vi.fn().mockResolvedValue({
+vi.mock('@omega/gold-suite', () => {
+  const MockSuiteRunner = class {
+    run = vi.fn().mockResolvedValue({
       packages: [
         { name: '@omega/a', tests: 50, passed: 50, failed: 0, duration: 100 },
         { name: '@omega/b', tests: 50, passed: 50, failed: 0, duration: 100 },
       ],
+    });
+  };
+  return {
+    SuiteRunner: MockSuiteRunner,
+    aggregateResults: vi.fn().mockReturnValue({
+      packages: [
+        { name: '@omega/a', tests: 50, passed: 50, failed: 0, duration: 100 },
+        { name: '@omega/b', tests: 50, passed: 50, failed: 0, duration: 100 },
+      ],
+      total: { tests: 100, passed: 100, failed: 0, duration: 200 },
     }),
-  })),
-  aggregateResults: vi.fn().mockReturnValue({
-    packages: [
-      { name: '@omega/a', tests: 50, passed: 50, failed: 0, duration: 100 },
-      { name: '@omega/b', tests: 50, passed: 50, failed: 0, duration: 100 },
-    ],
-    total: { tests: 100, passed: 100, failed: 0, duration: 200 },
-  }),
-}));
+  };
+});
 
 vi.mock('@omega/proof-pack', () => ({
   ProofPackBuilder: vi.fn(),

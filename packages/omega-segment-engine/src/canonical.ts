@@ -117,7 +117,6 @@ export function selfTest(): boolean {
     // OK
   }
 
-  console.log("✅ canonical.ts: All tests passed");
   return true;
 }
 

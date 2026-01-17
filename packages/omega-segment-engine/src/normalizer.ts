@@ -198,7 +198,6 @@ export function selfTest(): boolean {
     return false;
   }
 
-  console.log("✅ normalizer.ts: All tests passed");
   return true;
 }
 

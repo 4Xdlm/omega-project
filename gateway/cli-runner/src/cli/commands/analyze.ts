@@ -247,6 +247,11 @@ function formatJSONWithMeta(
   const intensityMethod = result.intensityMethod ?? 'v2';
   const warnings: string[] = [];
 
+  // LOW_TEXT warning: too short to be reliable
+  if (wordCount < 80) {
+    warnings.push('LOW_TEXT');
+  }
+
   // HIGH_KEYWORD_DENSITY warning
   if (keywordDensity > 0.25) {
     warnings.push('HIGH_KEYWORD_DENSITY');
@@ -256,6 +261,13 @@ function formatJSONWithMeta(
   if (result.overallIntensity >= 0.98 && wordCount > 200) {
     warnings.push('SATURATED_INTENSITY');
   }
+
+  // Quality score (0..1): penalize reliability issues
+  let qualityScore = 1;
+  if (warnings.includes('LOW_TEXT')) qualityScore -= 0.35;
+  if (warnings.includes('HIGH_KEYWORD_DENSITY')) qualityScore -= 0.25;
+  if (warnings.includes('SATURATED_INTENSITY')) qualityScore -= 0.20;
+  qualityScore = Math.max(0, Math.min(1, Math.round(qualityScore * 1000) / 1000));
 
   const output = {
     input: fileMeta ? {
@@ -273,6 +285,7 @@ function formatJSONWithMeta(
         keywordsFound: keywordsFound,
         keywordDensity: keywordDensity,
         intensityMethod: intensityMethod,
+        qualityScore: qualityScore,
       },
       emotions: result.emotions,
       excerpt: result.text,
@@ -329,12 +342,22 @@ function formatMarkdownWithMeta(
 
   // Compute warnings
   const warnings: string[] = [];
+  if (wordCount < 80) {
+    warnings.push('LOW_TEXT');
+  }
   if (keywordDensity > 0.25) {
     warnings.push('HIGH_KEYWORD_DENSITY');
   }
   if (result.overallIntensity >= 0.98 && wordCount > 200) {
     warnings.push('SATURATED_INTENSITY');
   }
+
+  // Quality score (0..1): penalize reliability issues
+  let qualityScore = 1;
+  if (warnings.includes('LOW_TEXT')) qualityScore -= 0.35;
+  if (warnings.includes('HIGH_KEYWORD_DENSITY')) qualityScore -= 0.25;
+  if (warnings.includes('SATURATED_INTENSITY')) qualityScore -= 0.20;
+  qualityScore = Math.max(0, Math.min(1, Math.round(qualityScore * 1000) / 1000));
 
   const lines = [
     '# Analyse Émotionnelle OMEGA',
@@ -360,6 +383,7 @@ function formatMarkdownWithMeta(
   lines.push(`- **Émotion dominante**: ${result.dominantEmotion}`);
   lines.push(`- **Intensité globale**: ${(result.overallIntensity * 100).toFixed(1)}%`);
   lines.push(`- **Méthode intensité**: ${intensityMethod}`);
+  lines.push(`- **Score qualité**: ${(qualityScore * 100).toFixed(0)}%`);
   if (warnings.length > 0) {
     lines.push(`- **Avertissements**: ${warnings.join(', ')}`);
   }

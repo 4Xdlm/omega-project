@@ -1,0 +1,51 @@
+==============================================================
+OMEGA CHAPTER 20 — PROOF RECORD
+NDJSON Events: progress + stats + excerpt
+==============================================================
+
+IMPLEMENTATION SUMMARY
+----------------------
+Added 3 new NDJSON event types (stream-only):
+
+1. progress: {"type":"progress","phase":"start|done","message":"...","t":timestamp_ms}
+   - Emits at start and end of analysis
+   - t = Date.now() timestamp in milliseconds
+
+2. stats: {"type":"stats","bytes":N,"chars":N,"lines":N,"words":N}
+   - Text statistics from parsing phase
+
+3. excerpt: {"type":"excerpt","text":"..."}
+   - Cleaned text sample (max 150 chars)
+   - Whitespace normalized
+
+EVENT ORDER (17 events total):
+  start → input → progress(start) → stats → excerpt → summary
+  → emotion(8x) → progress(done) → metadata → complete
+
+FILES MODIFIED:
+  gateway/cli-runner/src/cli/commands/analyze.ts
+    - Added TextStats interface
+    - Added computeTextStats() function
+    - Added cleanExcerpt() function
+    - Updated formatNDJSON(), formatNDJSONWithArtifacts(), formatNDJSONWithWarning()
+
+==============================================================
+POST-COMMIT VERIFICATION
+==============================================================
+DATE: 2026-01-18T02:24:29+01:00
+HEAD: 98f91b8db68150692ae892961a78e1b48995c45e
+
+git status:
+On branch master
+Your branch is ahead of 'origin/master' by 1 commit.
+  (use "git push" to publish your local commits)
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	nexus/proof/chapter20/
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+NDJSON sample: nexus/proof/chapter20/stream_roman_fr_v2.ndjson
+
+FROZEN check:

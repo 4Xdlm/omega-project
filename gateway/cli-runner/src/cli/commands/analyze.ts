@@ -40,6 +40,53 @@ const EMOTION_KEYWORDS: Record<string, string[]> = {
 };
 
 // ============================================================================
+// LANGUAGE SIGNAL DETECTOR (for LANG_MISMATCH warning)
+// ============================================================================
+
+/**
+ * Heuristic language signal detector (cheap + deterministic).
+ * Used to warn when text likely doesn't match requested --lang.
+ */
+function countLangSignals(text: string, lang: string): number {
+  const t = (text || '').toLowerCase();
+
+  // Character hints (quick win)
+  const charHints: Record<string, RegExp> = {
+    fr: /[àâäçéèêëîïôöùûüœ]/g,
+    es: /[áéíóúñ¿¡]/g,
+    de: /[äöüß]/g,
+    en: /[a-z]/g,
+  };
+
+  // Tiny stopword-ish hints (avoid false positives)
+  const wordHints: Record<string, RegExp[]> = {
+    fr: [/\bje\b/g, /\bpas\b/g, /\bet\b/g, /\bmais\b/g, /\bque\b/g],
+    es: [/\bque\b/g, /\by\b/g, /\bpero\b/g, /\bno\b/g, /\bde\b/g],
+    de: [/\bund\b/g, /\bnicht\b/g, /\bich\b/g, /\bder\b/g, /\bdie\b/g],
+    en: [/\bthe\b/g, /\band\b/g, /\bnot\b/g, /\byou\b/g, /\bof\b/g],
+  };
+
+  const ch = charHints[lang];
+  const wh = wordHints[lang];
+
+  let score = 0;
+
+  if (ch) {
+    const m = t.match(ch);
+    if (m && m.length > 0) score += Math.min(2, m.length);
+  }
+
+  if (wh) {
+    for (const re of wh) {
+      if (re.test(t)) score += 1;
+      if (score >= 3) break;
+    }
+  }
+
+  return score;
+}
+
+// ============================================================================
 // ANALYZE COMMAND DEFINITION
 // ============================================================================
 
@@ -262,11 +309,20 @@ function formatJSONWithMeta(
     warnings.push('SATURATED_INTENSITY');
   }
 
+  // LANG_MISMATCH: text likely not in requested language (heuristic)
+  // Triggers when: long text + low language signals + (some keywords OR suspiciously few keywords)
+  const effectiveLang = lang ?? result.lang ?? 'en';
+  const langSignal = countLangSignals(result.text ?? '', effectiveLang);
+  if (wordCount >= 120 && langSignal < 2 && (keywordDensity >= 0.02 || keywordDensity < 0.005)) {
+    warnings.push('LANG_MISMATCH');
+  }
+
   // Quality score (0..1): penalize reliability issues
   let qualityScore = 1;
   if (warnings.includes('LOW_TEXT')) qualityScore -= 0.35;
   if (warnings.includes('HIGH_KEYWORD_DENSITY')) qualityScore -= 0.25;
   if (warnings.includes('SATURATED_INTENSITY')) qualityScore -= 0.20;
+  if (warnings.includes('LANG_MISMATCH')) qualityScore -= 0.40;
   qualityScore = Math.max(0, Math.min(1, Math.round(qualityScore * 1000) / 1000));
 
   const output = {
@@ -351,12 +407,19 @@ function formatMarkdownWithMeta(
   if (result.overallIntensity >= 0.98 && wordCount > 200) {
     warnings.push('SATURATED_INTENSITY');
   }
+  // LANG_MISMATCH: text likely not in requested language
+  // Triggers when: long text + low language signals + (some keywords OR suspiciously few keywords)
+  const langSignal = countLangSignals(result.text ?? '', effectiveLang);
+  if (wordCount >= 120 && langSignal < 2 && (keywordDensity >= 0.02 || keywordDensity < 0.005)) {
+    warnings.push('LANG_MISMATCH');
+  }
 
   // Quality score (0..1): penalize reliability issues
   let qualityScore = 1;
   if (warnings.includes('LOW_TEXT')) qualityScore -= 0.35;
   if (warnings.includes('HIGH_KEYWORD_DENSITY')) qualityScore -= 0.25;
   if (warnings.includes('SATURATED_INTENSITY')) qualityScore -= 0.20;
+  if (warnings.includes('LANG_MISMATCH')) qualityScore -= 0.40;
   qualityScore = Math.max(0, Math.min(1, Math.round(qualityScore * 1000) / 1000));
 
   const lines = [

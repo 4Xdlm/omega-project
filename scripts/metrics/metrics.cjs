@@ -47,11 +47,39 @@ function countLines(pattern) {
 }
 
 function getGitStats() {
+  const { execSync } = require('node:child_process');
+
+  function sh(cmd, cwd) {
+    return execSync(cmd, {
+      cwd,
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'ignore']
+    }).trim();
+  }
+
+  let root = null;
   try {
-    const commits = execSync('git rev-list --count HEAD', { encoding: 'utf8', cwd: CONFIG.projectRoot }).trim();
-    const tags = execSync('git tag -l | wc -l', { encoding: 'utf8', cwd: CONFIG.projectRoot }).trim();
-    return { commits: parseInt(commits) || 0, tags: parseInt(tags) || 0 };
-  } catch { return { commits: 0, tags: 0 }; }
+    // __dirname is stable even under vitest
+    root = sh('git rev-parse --show-toplevel', __dirname);
+  } catch (e) {
+    return { commits: 0, tags: 0, root: null };
+  }
+
+  let commits = 0;
+  let tags = 0;
+
+  try {
+    const out = sh('git rev-list --count HEAD', root);
+    const n = Number.parseInt(out, 10);
+    commits = Number.isFinite(n) ? n : 0;
+  } catch (e) {}
+
+  try {
+    const out = sh('git tag -l', root);
+    tags = out ? out.split(/\r?\n/).filter(Boolean).length : 0;
+  } catch (e) {}
+
+  return { commits, tags, root };
 }
 
 function collectMetrics() {

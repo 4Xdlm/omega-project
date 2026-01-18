@@ -302,13 +302,54 @@ function formatJSON(result: AnalysisResult): string {
 }
 
 /**
+ * Text statistics for NDJSON stream events.
+ */
+interface TextStats {
+  bytes: number;
+  chars: number;
+  lines: number;
+  words: number;
+}
+
+/**
+ * Compute text statistics from raw input.
+ */
+function computeTextStats(text: string, bytes: number): TextStats {
+  return {
+    bytes,
+    chars: text.length,
+    lines: text.split('\n').length,
+    words: text.split(/\s+/).filter(w => w.length > 0).length,
+  };
+}
+
+/**
+ * Clean and truncate text for excerpt event.
+ * Removes excessive whitespace and truncates to N chars.
+ */
+function cleanExcerpt(text: string, maxChars: number = 150): string {
+  const cleaned = text
+    .replace(/\s+/g, ' ')  // Normalize whitespace
+    .trim();
+  if (cleaned.length <= maxChars) {
+    return cleaned;
+  }
+  return cleaned.slice(0, maxChars) + '...';
+}
+
+/**
  * Format analysis as NDJSON (newline-delimited JSON) for streaming output.
  * Each line is a self-contained JSON object with a "type" field.
+ *
+ * Event order:
+ *   start → input → progress(start) → stats → excerpt → summary
+ *   → emotion(8x) → progress(done) → metadata → complete
  */
 function formatNDJSON(
   result: AnalysisResult & { lang?: string; keywordsFound?: number; intensityMethod?: string },
   fileMeta?: FileInputMeta,
-  lang?: string
+  lang?: string,
+  fullText?: string
 ): string {
   const keywordsFound = result.keywordsFound ?? 0;
   const wordCount = result.wordCount;
@@ -356,7 +397,27 @@ function formatNDJSON(
     }));
   }
 
-  // Event 3: summary
+  // Event 3: progress - start
+  const tStart = Date.now();
+  lines.push(JSON.stringify({ type: 'progress', phase: 'start', message: 'Analyzing text', t: tStart }));
+
+  // Event 4: stats (text statistics)
+  const textForStats = fullText ?? result.text ?? '';
+  const bytesForStats = fileMeta?.bytes ?? Buffer.from(textForStats, 'utf-8').length;
+  const stats = computeTextStats(textForStats, bytesForStats);
+  lines.push(JSON.stringify({
+    type: 'stats',
+    bytes: stats.bytes,
+    chars: stats.chars,
+    lines: stats.lines,
+    words: stats.words,
+  }));
+
+  // Event 5: excerpt (cleaned text sample)
+  const excerptText = cleanExcerpt(fullText ?? result.text ?? '', 150);
+  lines.push(JSON.stringify({ type: 'excerpt', text: excerptText }));
+
+  // Event 6: summary
   lines.push(JSON.stringify({
     type: 'summary',
     wordCount: result.wordCount,
@@ -370,7 +431,7 @@ function formatNDJSON(
     warnings: warnings,
   }));
 
-  // Event 4: emotions (one event per emotion)
+  // Event 7: emotions (one event per emotion)
   for (const e of result.emotions) {
     lines.push(JSON.stringify({
       type: 'emotion',
@@ -380,7 +441,11 @@ function formatNDJSON(
     }));
   }
 
-  // Event 5: metadata
+  // Event 8: progress - done
+  const tDone = Date.now();
+  lines.push(JSON.stringify({ type: 'progress', phase: 'done', message: 'Analysis complete', t: tDone }));
+
+  // Event 9: metadata
   lines.push(JSON.stringify({
     type: 'metadata',
     timestamp: result.timestamp,
@@ -390,7 +455,7 @@ function formatNDJSON(
     langName: getLanguageName(effectiveLang),
   }));
 
-  // Event 6: complete
+  // Event 10: complete
   lines.push(JSON.stringify({ type: 'complete', success: true }));
 
   return lines.join('\n');
@@ -398,13 +463,18 @@ function formatNDJSON(
 
 /**
  * Format NDJSON with artifacts event (for --output both --stream --artifacts).
+ *
+ * Event order:
+ *   start → input → progress(start) → stats → excerpt → summary
+ *   → emotion(8x) → progress(done) → artifacts → metadata → complete
  */
 function formatNDJSONWithArtifacts(
   result: AnalysisResult & { lang?: string; keywordsFound?: number; intensityMethod?: string },
   fileMeta: FileInputMeta | undefined,
   lang: string | undefined,
   jsonPath: string,
-  mdPath: string
+  mdPath: string,
+  fullText?: string
 ): string {
   const keywordsFound = result.keywordsFound ?? 0;
   const wordCount = result.wordCount;
@@ -432,8 +502,10 @@ function formatNDJSONWithArtifacts(
 
   const lines: string[] = [];
 
+  // Event 1: start
   lines.push(JSON.stringify({ type: 'start', timestamp: new Date().toISOString() }));
 
+  // Event 2: input
   if (fileMeta) {
     lines.push(JSON.stringify({
       type: 'input',
@@ -444,6 +516,27 @@ function formatNDJSONWithArtifacts(
     }));
   }
 
+  // Event 3: progress - start
+  const tStart = Date.now();
+  lines.push(JSON.stringify({ type: 'progress', phase: 'start', message: 'Analyzing text', t: tStart }));
+
+  // Event 4: stats
+  const textForStats = fullText ?? result.text ?? '';
+  const bytesForStats = fileMeta?.bytes ?? Buffer.from(textForStats, 'utf-8').length;
+  const stats = computeTextStats(textForStats, bytesForStats);
+  lines.push(JSON.stringify({
+    type: 'stats',
+    bytes: stats.bytes,
+    chars: stats.chars,
+    lines: stats.lines,
+    words: stats.words,
+  }));
+
+  // Event 5: excerpt
+  const excerptText = cleanExcerpt(fullText ?? result.text ?? '', 150);
+  lines.push(JSON.stringify({ type: 'excerpt', text: excerptText }));
+
+  // Event 6: summary
   lines.push(JSON.stringify({
     type: 'summary',
     wordCount: result.wordCount,
@@ -457,6 +550,7 @@ function formatNDJSONWithArtifacts(
     warnings: warnings,
   }));
 
+  // Event 7: emotions
   for (const e of result.emotions) {
     lines.push(JSON.stringify({
       type: 'emotion',
@@ -466,13 +560,18 @@ function formatNDJSONWithArtifacts(
     }));
   }
 
-  // Artifacts event
+  // Event 8: progress - done
+  const tDone = Date.now();
+  lines.push(JSON.stringify({ type: 'progress', phase: 'done', message: 'Analysis complete', t: tDone }));
+
+  // Event 9: artifacts
   lines.push(JSON.stringify({
     type: 'artifacts',
     jsonPath: jsonPath,
     mdPath: mdPath,
   }));
 
+  // Event 10: metadata
   lines.push(JSON.stringify({
     type: 'metadata',
     timestamp: result.timestamp,
@@ -482,6 +581,7 @@ function formatNDJSONWithArtifacts(
     langName: getLanguageName(effectiveLang),
   }));
 
+  // Event 11: complete
   lines.push(JSON.stringify({ type: 'complete', success: true }));
 
   return lines.join('\n');
@@ -489,13 +589,18 @@ function formatNDJSONWithArtifacts(
 
 /**
  * Format NDJSON with warning event (for --output both --stream without --artifacts).
+ *
+ * Event order:
+ *   start → input → progress(start) → stats → excerpt → summary
+ *   → emotion(8x) → progress(done) → warning → metadata → complete
  */
 function formatNDJSONWithWarning(
   result: AnalysisResult & { lang?: string; keywordsFound?: number; intensityMethod?: string },
   fileMeta: FileInputMeta | undefined,
   lang: string | undefined,
   warningCode: string,
-  warningMessage: string
+  warningMessage: string,
+  fullText?: string
 ): string {
   const keywordsFound = result.keywordsFound ?? 0;
   const wordCount = result.wordCount;
@@ -523,8 +628,10 @@ function formatNDJSONWithWarning(
 
   const lines: string[] = [];
 
+  // Event 1: start
   lines.push(JSON.stringify({ type: 'start', timestamp: new Date().toISOString() }));
 
+  // Event 2: input
   if (fileMeta) {
     lines.push(JSON.stringify({
       type: 'input',
@@ -535,6 +642,27 @@ function formatNDJSONWithWarning(
     }));
   }
 
+  // Event 3: progress - start
+  const tStart = Date.now();
+  lines.push(JSON.stringify({ type: 'progress', phase: 'start', message: 'Analyzing text', t: tStart }));
+
+  // Event 4: stats
+  const textForStats = fullText ?? result.text ?? '';
+  const bytesForStats = fileMeta?.bytes ?? Buffer.from(textForStats, 'utf-8').length;
+  const stats = computeTextStats(textForStats, bytesForStats);
+  lines.push(JSON.stringify({
+    type: 'stats',
+    bytes: stats.bytes,
+    chars: stats.chars,
+    lines: stats.lines,
+    words: stats.words,
+  }));
+
+  // Event 5: excerpt
+  const excerptText = cleanExcerpt(fullText ?? result.text ?? '', 150);
+  lines.push(JSON.stringify({ type: 'excerpt', text: excerptText }));
+
+  // Event 6: summary
   lines.push(JSON.stringify({
     type: 'summary',
     wordCount: result.wordCount,
@@ -548,6 +676,7 @@ function formatNDJSONWithWarning(
     warnings: warnings,
   }));
 
+  // Event 7: emotions
   for (const e of result.emotions) {
     lines.push(JSON.stringify({
       type: 'emotion',
@@ -557,13 +686,18 @@ function formatNDJSONWithWarning(
     }));
   }
 
-  // Warning event (artifacts not written)
+  // Event 8: progress - done
+  const tDone = Date.now();
+  lines.push(JSON.stringify({ type: 'progress', phase: 'done', message: 'Analysis complete', t: tDone }));
+
+  // Event 9: warning (artifacts not written)
   lines.push(JSON.stringify({
     type: 'warning',
     code: warningCode,
     message: warningMessage,
   }));
 
+  // Event 10: metadata
   lines.push(JSON.stringify({
     type: 'metadata',
     timestamp: result.timestamp,
@@ -573,6 +707,7 @@ function formatNDJSONWithWarning(
     langName: getLanguageName(effectiveLang),
   }));
 
+  // Event 11: complete
   lines.push(JSON.stringify({ type: 'complete', success: true }));
 
   return lines.join('\n');
@@ -894,10 +1029,10 @@ async function executeAnalyze(args: ParsedArgs): Promise<CLIResult> {
             artifacts.push(jsonPath, mdPath);
 
             // NDJSON with artifacts event
-            output = formatNDJSONWithArtifacts(result, fileMeta, lang, jsonPath, mdPath);
+            output = formatNDJSONWithArtifacts(result, fileMeta, lang, jsonPath, mdPath, text);
           } else {
             // No artifacts dir: NDJSON with warning
-            output = formatNDJSONWithWarning(result, fileMeta, lang, 'ARTIFACTS_DIR_MISSING', 'Use --artifacts <dir> to write analysis.json + analysis.md');
+            output = formatNDJSONWithWarning(result, fileMeta, lang, 'ARTIFACTS_DIR_MISSING', 'Use --artifacts <dir> to write analysis.json + analysis.md', text);
           }
         } else if (savePath) {
           // Save both files (non-stream mode)
@@ -922,7 +1057,7 @@ async function executeAnalyze(args: ParsedArgs): Promise<CLIResult> {
       default:
         // JSON output - check for streaming mode
         if (streamMode) {
-          output = formatNDJSON(result, fileMeta, lang);
+          output = formatNDJSON(result, fileMeta, lang, text);
         } else {
           output = formatJSONWithMeta(result, fileMeta, lang);
         }

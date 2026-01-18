@@ -37,13 +37,13 @@ describe('Compare Command', () => {
     it('should handle empty emotion scores', () => {
       const text1 = '';
       const text2 = '';
-      
+
       const result1 = analyzeText(text1, DEFAULTS.SEED);
       const result2 = analyzeText(text2, DEFAULTS.SEED);
-      
+
       const similarity = calculateSimilarity(result1, result2);
-      
-      expect(similarity).toBe(0); // Both have zero intensity
+
+      expect(similarity).toBe(1); // Identical zero vectors = perfect similarity
     });
   });
 

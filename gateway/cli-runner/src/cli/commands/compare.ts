@@ -52,11 +52,23 @@ export const compareCommand: CLICommand = {
 // ============================================================================
 
 function calculateSimilarity(result1: AnalysisResult, result2: AnalysisResult): number {
+  // Check for identical emotion arrays first
+  let isIdentical = true;
+  for (let i = 0; i < result1.emotions.length; i++) {
+    if (result1.emotions[i].intensity !== result2.emotions[i].intensity) {
+      isIdentical = false;
+      break;
+    }
+  }
+  if (isIdentical) {
+    return 1; // Identical emotion profiles = perfect similarity
+  }
+
   // Cosine similarity on emotion intensities
   let dotProduct = 0;
   let magnitude1 = 0;
   let magnitude2 = 0;
-  
+
   for (let i = 0; i < result1.emotions.length; i++) {
     const i1 = result1.emotions[i].intensity;
     const i2 = result2.emotions[i].intensity;
@@ -64,14 +76,14 @@ function calculateSimilarity(result1: AnalysisResult, result2: AnalysisResult): 
     magnitude1 += i1 * i1;
     magnitude2 += i2 * i2;
   }
-  
+
   magnitude1 = Math.sqrt(magnitude1);
   magnitude2 = Math.sqrt(magnitude2);
-  
+
   if (magnitude1 === 0 || magnitude2 === 0) {
-    return 0;
+    return 0; // One has emotions, one doesn't = no similarity
   }
-  
+
   return Math.round((dotProduct / (magnitude1 * magnitude2)) * 1000) / 1000;
 }
 

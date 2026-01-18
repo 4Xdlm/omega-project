@@ -34,16 +34,23 @@ interface Token {
 function tokenize(args: string[]): Token[] {
   const tokens: Token[] = [];
   let expectingValue = false;
-  
+
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
-    
+
     if (expectingValue) {
-      tokens.push({ type: 'value', value: arg });
-      expectingValue = false;
-      continue;
+      // If the next arg starts with '-', it's a new option, not a value
+      // This allows boolean flags like --stream to work correctly
+      if (arg.startsWith('-')) {
+        expectingValue = false;
+        // Fall through to process as option
+      } else {
+        tokens.push({ type: 'value', value: arg });
+        expectingValue = false;
+        continue;
+      }
     }
-    
+
     if (arg.startsWith('--')) {
       // Long option: --output or --output=json
       if (arg.includes('=')) {
@@ -71,7 +78,7 @@ function tokenize(args: string[]): Token[] {
       tokens.push({ type: 'arg', value: arg });
     }
   }
-  
+
   return tokens;
 }
 

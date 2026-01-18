@@ -1,0 +1,26 @@
+=============================================================
+OMEGA CHAPTER 18 — PROOF RECORD
+STREAM NDJSON + ARTEFACTS MODE (--output both + --artifacts)
+=============================================================
+DATE: 2026-01-18T02:44:00+01:00
+HEAD: b0bc6c7fda113967aa78d5439722215d411b5011
+
+RUN:
+npm run omega -- analyze nexus/user_imputs/test_short_fr.txt --lang fr --intensity v2 --output both --stream --artifacts nexus/proof/chapter18/artifacts_short_fr
+
+EXPECT:
+- NDJSON written to: nexus/proof/chapter18/stream_short_fr_both.ndjson
+- Artifacts written to: nexus/proof/chapter18/artifacts_short_fr
+  - analysis.json
+  - analysis.md
+- NDJSON contains event type "artifacts" with jsonPath + mdPath
+- summary includes warnings + qualityScore (existing fields)
+
+VALIDATION:
+- NDJSON types: start, input, summary, emotion (x8), artifacts, metadata, complete
+- All lines parse as valid JSON with "type" field
+- artifacts event contains jsonPath and mdPath
+
+FROZEN CHECK (must be empty):
+[empty - packages/genome and packages/mycelium untouched]
+=============================================================

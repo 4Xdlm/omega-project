@@ -93,7 +93,7 @@ function countLangSignals(text: string, lang: string): number {
 export const analyzeCommand: CLICommand = {
   name: 'analyze',
   description: 'Analyse émotionnelle d\'un fichier texte',
-  usage: 'analyze <file> [--lang en|fr|es|de] [--intensity v1|v2] [--output json|md|both] [--save <path>] [--stream] [--verbose]',
+  usage: 'analyze <file> [--lang en|fr|es|de] [--intensity v1|v2] [--output json|md|both] [--save <path>] [--stream] [--artifacts <dir>] [--verbose]',
   args: [
     {
       name: 'file',
@@ -137,6 +137,12 @@ export const analyzeCommand: CLICommand = {
       long: '--stream',
       description: 'Sortie NDJSON (streaming line-by-line)',
       hasValue: false,
+    },
+    {
+      short: '-a',
+      long: '--artifacts',
+      description: 'Répertoire pour écrire les artefacts (json + md) en mode stream',
+      hasValue: true,
     },
     {
       short: '-v',
@@ -384,6 +390,188 @@ function formatNDJSON(
   return lines.join('\n');
 }
 
+/**
+ * Format NDJSON with artifacts event (for --output both --stream --artifacts).
+ */
+function formatNDJSONWithArtifacts(
+  result: AnalysisResult & { lang?: string; keywordsFound?: number; intensityMethod?: string },
+  fileMeta: FileInputMeta | undefined,
+  lang: string | undefined,
+  jsonPath: string,
+  mdPath: string
+): string {
+  const keywordsFound = result.keywordsFound ?? 0;
+  const wordCount = result.wordCount;
+  const keywordDensity = wordCount > 0 ? Math.round((keywordsFound / wordCount) * 1000) / 1000 : 0;
+  const intensityMethod = result.intensityMethod ?? 'v2';
+  const effectiveLang = lang ?? result.lang ?? 'en';
+
+  // Compute warnings
+  const warnings: string[] = [];
+  if (wordCount < 80) warnings.push('LOW_TEXT');
+  if (keywordDensity > 0.25) warnings.push('HIGH_KEYWORD_DENSITY');
+  if (result.overallIntensity >= 0.98 && wordCount > 200) warnings.push('SATURATED_INTENSITY');
+  const langSignal = countLangSignals(result.text ?? '', effectiveLang);
+  if (wordCount >= 120 && langSignal < 2 && (keywordDensity >= 0.02 || keywordDensity < 0.005)) {
+    warnings.push('LANG_MISMATCH');
+  }
+
+  // Quality score
+  let qualityScore = 1;
+  if (warnings.includes('LOW_TEXT')) qualityScore -= 0.35;
+  if (warnings.includes('HIGH_KEYWORD_DENSITY')) qualityScore -= 0.25;
+  if (warnings.includes('SATURATED_INTENSITY')) qualityScore -= 0.20;
+  if (warnings.includes('LANG_MISMATCH')) qualityScore -= 0.40;
+  qualityScore = Math.max(0, Math.min(1, Math.round(qualityScore * 1000) / 1000));
+
+  const lines: string[] = [];
+
+  lines.push(JSON.stringify({ type: 'start', timestamp: new Date().toISOString() }));
+
+  if (fileMeta) {
+    lines.push(JSON.stringify({
+      type: 'input',
+      path: fileMeta.path,
+      absolutePath: fileMeta.absolutePath,
+      bytes: fileMeta.bytes,
+      sha256: fileMeta.sha256,
+    }));
+  }
+
+  lines.push(JSON.stringify({
+    type: 'summary',
+    wordCount: result.wordCount,
+    sentenceCount: result.sentenceCount,
+    dominantEmotion: result.dominantEmotion,
+    overallIntensity: result.overallIntensity,
+    keywordsFound: keywordsFound,
+    keywordDensity: keywordDensity,
+    intensityMethod: intensityMethod,
+    qualityScore: qualityScore,
+    warnings: warnings,
+  }));
+
+  for (const e of result.emotions) {
+    lines.push(JSON.stringify({
+      type: 'emotion',
+      emotion: e.emotion,
+      intensity: e.intensity,
+      confidence: e.confidence,
+    }));
+  }
+
+  // Artifacts event
+  lines.push(JSON.stringify({
+    type: 'artifacts',
+    jsonPath: jsonPath,
+    mdPath: mdPath,
+  }));
+
+  lines.push(JSON.stringify({
+    type: 'metadata',
+    timestamp: result.timestamp,
+    seed: result.seed,
+    version: '3.17.0',
+    lang: effectiveLang,
+    langName: getLanguageName(effectiveLang),
+  }));
+
+  lines.push(JSON.stringify({ type: 'complete', success: true }));
+
+  return lines.join('\n');
+}
+
+/**
+ * Format NDJSON with warning event (for --output both --stream without --artifacts).
+ */
+function formatNDJSONWithWarning(
+  result: AnalysisResult & { lang?: string; keywordsFound?: number; intensityMethod?: string },
+  fileMeta: FileInputMeta | undefined,
+  lang: string | undefined,
+  warningCode: string,
+  warningMessage: string
+): string {
+  const keywordsFound = result.keywordsFound ?? 0;
+  const wordCount = result.wordCount;
+  const keywordDensity = wordCount > 0 ? Math.round((keywordsFound / wordCount) * 1000) / 1000 : 0;
+  const intensityMethod = result.intensityMethod ?? 'v2';
+  const effectiveLang = lang ?? result.lang ?? 'en';
+
+  // Compute warnings
+  const warnings: string[] = [];
+  if (wordCount < 80) warnings.push('LOW_TEXT');
+  if (keywordDensity > 0.25) warnings.push('HIGH_KEYWORD_DENSITY');
+  if (result.overallIntensity >= 0.98 && wordCount > 200) warnings.push('SATURATED_INTENSITY');
+  const langSignal = countLangSignals(result.text ?? '', effectiveLang);
+  if (wordCount >= 120 && langSignal < 2 && (keywordDensity >= 0.02 || keywordDensity < 0.005)) {
+    warnings.push('LANG_MISMATCH');
+  }
+
+  // Quality score
+  let qualityScore = 1;
+  if (warnings.includes('LOW_TEXT')) qualityScore -= 0.35;
+  if (warnings.includes('HIGH_KEYWORD_DENSITY')) qualityScore -= 0.25;
+  if (warnings.includes('SATURATED_INTENSITY')) qualityScore -= 0.20;
+  if (warnings.includes('LANG_MISMATCH')) qualityScore -= 0.40;
+  qualityScore = Math.max(0, Math.min(1, Math.round(qualityScore * 1000) / 1000));
+
+  const lines: string[] = [];
+
+  lines.push(JSON.stringify({ type: 'start', timestamp: new Date().toISOString() }));
+
+  if (fileMeta) {
+    lines.push(JSON.stringify({
+      type: 'input',
+      path: fileMeta.path,
+      absolutePath: fileMeta.absolutePath,
+      bytes: fileMeta.bytes,
+      sha256: fileMeta.sha256,
+    }));
+  }
+
+  lines.push(JSON.stringify({
+    type: 'summary',
+    wordCount: result.wordCount,
+    sentenceCount: result.sentenceCount,
+    dominantEmotion: result.dominantEmotion,
+    overallIntensity: result.overallIntensity,
+    keywordsFound: keywordsFound,
+    keywordDensity: keywordDensity,
+    intensityMethod: intensityMethod,
+    qualityScore: qualityScore,
+    warnings: warnings,
+  }));
+
+  for (const e of result.emotions) {
+    lines.push(JSON.stringify({
+      type: 'emotion',
+      emotion: e.emotion,
+      intensity: e.intensity,
+      confidence: e.confidence,
+    }));
+  }
+
+  // Warning event (artifacts not written)
+  lines.push(JSON.stringify({
+    type: 'warning',
+    code: warningCode,
+    message: warningMessage,
+  }));
+
+  lines.push(JSON.stringify({
+    type: 'metadata',
+    timestamp: result.timestamp,
+    seed: result.seed,
+    version: '3.17.0',
+    lang: effectiveLang,
+    langName: getLanguageName(effectiveLang),
+  }));
+
+  lines.push(JSON.stringify({ type: 'complete', success: true }));
+
+  return lines.join('\n');
+}
+
 function formatJSONWithMeta(
   result: AnalysisResult & { lang?: string; keywordsFound?: number; intensityMethod?: string },
   fileMeta?: FileInputMeta,
@@ -597,7 +785,8 @@ async function executeAnalyze(args: ParsedArgs): Promise<CLIResult> {
   const intensityOptionDef = analyzeCommand.options[2]; // --intensity
   const saveOptionDef = analyzeCommand.options[3];    // --save
   const streamOptionDef = analyzeCommand.options[4];  // --stream
-  const verboseOptionDef = analyzeCommand.options[5]; // --verbose
+  const artifactsOptionDef = analyzeCommand.options[5]; // --artifacts
+  const verboseOptionDef = analyzeCommand.options[6]; // --verbose
 
   const outputOption = outputOptionDef ? resolveOption(args, outputOptionDef) : DEFAULTS.OUTPUT_FORMAT;
   const outputFormat = typeof outputOption === 'string' ? outputOption : DEFAULTS.OUTPUT_FORMAT;
@@ -614,6 +803,8 @@ async function executeAnalyze(args: ParsedArgs): Promise<CLIResult> {
   const savePath = typeof saveOption === 'string' ? saveOption : undefined;
 
   const streamMode = streamOptionDef ? resolveOption(args, streamOptionDef) === true : false;
+  const artifactsOption = artifactsOptionDef ? resolveOption(args, artifactsOptionDef) : undefined;
+  const artifactsDir = typeof artifactsOption === 'string' ? artifactsOption : undefined;
   const verbose = verboseOptionDef ? resolveOption(args, verboseOptionDef) === true : false;
 
   // Get language-specific keywords
@@ -657,8 +848,27 @@ async function executeAnalyze(args: ParsedArgs): Promise<CLIResult> {
         const jsonOutput = formatJSONWithMeta(result, fileMeta, lang);
         const mdOutput = formatMarkdownWithMeta(result, fileMeta, lang);
 
-        if (savePath) {
-          // Save both files
+        if (streamMode) {
+          // Stream mode: NDJSON on stdout, artifacts to directory if provided
+          if (artifactsDir) {
+            // Write artifacts to directory
+            const jsonPath = resolve(artifactsDir, 'analysis.json');
+            const mdPath = resolve(artifactsDir, 'analysis.md');
+
+            await mkdir(artifactsDir, { recursive: true });
+            await writeFile(jsonPath, jsonOutput, 'utf-8');
+            await writeFile(mdPath, mdOutput, 'utf-8');
+
+            artifacts.push(jsonPath, mdPath);
+
+            // NDJSON with artifacts event
+            output = formatNDJSONWithArtifacts(result, fileMeta, lang, jsonPath, mdPath);
+          } else {
+            // No artifacts dir: NDJSON with warning
+            output = formatNDJSONWithWarning(result, fileMeta, lang, 'ARTIFACTS_DIR_MISSING', 'Use --artifacts <dir> to write analysis.json + analysis.md');
+          }
+        } else if (savePath) {
+          // Save both files (non-stream mode)
           const basePath = savePath.replace(/\.(json|md)$/i, '');
           const jsonPath = `${basePath}.json`;
           const mdPath = `${basePath}.md`;

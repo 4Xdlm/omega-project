@@ -92,13 +92,13 @@ function countLangSignals(text: string, lang: string): number {
 
 export const analyzeCommand: CLICommand = {
   name: 'analyze',
-  description: 'Analyse émotionnelle d\'un fichier texte',
-  usage: 'analyze <file> [--lang en|fr|es|de] [--intensity v1|v2] [--output json|md|both] [--save <path>] [--stream] [--artifacts <dir>] [--verbose]',
+  description: 'Analyse émotionnelle d\'un fichier texte ou stdin',
+  usage: 'analyze [<file>] [--stdin] [--lang en|fr|es|de] [--intensity v1|v2] [--output json|md|both] [--save <path>] [--stream] [--artifacts <dir>] [--verbose]',
   args: [
     {
       name: 'file',
-      required: true,
-      description: 'Fichier texte à analyser (.txt, .md)',
+      required: false,  // Optional when using --stdin
+      description: 'Fichier texte à analyser (.txt, .md) — optionnel si --stdin',
     },
   ],
   options: [
@@ -148,6 +148,12 @@ export const analyzeCommand: CLICommand = {
       short: '-v',
       long: '--verbose',
       description: 'Mode verbeux',
+      hasValue: false,
+    },
+    {
+      short: '-I',
+      long: '--stdin',
+      description: 'Lire le texte depuis stdin (pipe)',
       hasValue: false,
     },
   ],
@@ -768,17 +774,6 @@ function formatMarkdownWithMeta(
 async function executeAnalyze(args: ParsedArgs): Promise<CLIResult> {
   const startTime = performance.now();
 
-  // Get file argument
-  const filePath = args.args[0];
-  if (!filePath) {
-    return {
-      success: false,
-      exitCode: EXIT_CODES.USAGE,
-      error: 'Error: Missing required argument: file',
-      duration: performance.now() - startTime,
-    };
-  }
-
   // Get options (indices match options array order)
   const outputOptionDef = analyzeCommand.options[0];  // --output
   const langOptionDef = analyzeCommand.options[1];    // --lang
@@ -787,6 +782,21 @@ async function executeAnalyze(args: ParsedArgs): Promise<CLIResult> {
   const streamOptionDef = analyzeCommand.options[4];  // --stream
   const artifactsOptionDef = analyzeCommand.options[5]; // --artifacts
   const verboseOptionDef = analyzeCommand.options[6]; // --verbose
+  const stdinOptionDef = analyzeCommand.options[7];   // --stdin
+
+  // Parse --stdin first to validate input source
+  const stdinMode = stdinOptionDef ? resolveOption(args, stdinOptionDef) === true : false;
+
+  // Get file argument (optional if --stdin)
+  const filePath = args.args[0];
+  if (!filePath && !stdinMode) {
+    return {
+      success: false,
+      exitCode: EXIT_CODES.USAGE,
+      error: 'Error: Missing required argument: file (or use --stdin to read from pipe)',
+      duration: performance.now() - startTime,
+    };
+  }
 
   const outputOption = outputOptionDef ? resolveOption(args, outputOptionDef) : DEFAULTS.OUTPUT_FORMAT;
   const outputFormat = typeof outputOption === 'string' ? outputOption : DEFAULTS.OUTPUT_FORMAT;
@@ -814,11 +824,31 @@ async function executeAnalyze(args: ParsedArgs): Promise<CLIResult> {
     let text: string;
     let fileMeta: FileInputMeta | undefined;
 
-    // Use test fixtures for known test paths, real file reading otherwise
-    if (isTestFixture(filePath)) {
+    if (stdinMode) {
+      // Read from stdin (pipe)
+      text = await readFromStdin();
+      // Create pseudo file metadata for stdin
+      const buffer = Buffer.from(text, 'utf-8');
+      const hash = createHash('sha256');
+      hash.update(buffer);
+      fileMeta = {
+        path: '<stdin>',
+        absolutePath: '<stdin>',
+        bytes: buffer.length,
+        sha256: hash.digest('hex'),
+      };
+
+      if (verbose) {
+        console.error(`[VERBOSE] Source: stdin (pipe)`);
+        console.error(`[VERBOSE] Size: ${fileMeta.bytes} bytes`);
+        console.error(`[VERBOSE] SHA256: ${fileMeta.sha256}`);
+        console.error(`[VERBOSE] Language: ${getLanguageName(lang)} (${lang})`);
+      }
+    } else if (filePath && isTestFixture(filePath)) {
+      // Use test fixtures for known test paths
       text = getTestFixtureContent(filePath);
       fileMeta = undefined;
-    } else {
+    } else if (filePath) {
       // REAL FILE READING - INV-CLI-10
       const fileData = await readRealFile(filePath);
       text = fileData.content;
@@ -830,6 +860,8 @@ async function executeAnalyze(args: ParsedArgs): Promise<CLIResult> {
         console.error(`[VERBOSE] SHA256: ${fileMeta.sha256}`);
         console.error(`[VERBOSE] Language: ${getLanguageName(lang)} (${lang})`);
       }
+    } else {
+      throw new Error('No input source specified');
     }
 
     // Perform analysis (deterministic) with language-specific keywords
@@ -904,8 +936,10 @@ async function executeAnalyze(args: ParsedArgs): Promise<CLIResult> {
       output = `File saved: ${savePath}\n\n${output}`;
     }
 
-    if (verbose && !isTestFixture(filePath)) {
+    if (verbose && filePath && !isTestFixture(filePath)) {
       output = `[VERBOSE] Analyzing file: ${filePath}\n[VERBOSE] Format: ${outputFormat}\n[VERBOSE] Language: ${lang}\n\n${output}`;
+    } else if (verbose && stdinMode) {
+      output = `[VERBOSE] Analyzing stdin\n[VERBOSE] Format: ${outputFormat}\n[VERBOSE] Language: ${lang}\n\n${output}`;
     }
 
     return {
@@ -973,6 +1007,46 @@ async function readRealFile(filePath: string): Promise<{ content: string; meta: 
       sha256,
     },
   };
+}
+
+// ============================================================================
+// STDIN READING
+// ============================================================================
+
+/**
+ * Read text from stdin (pipe).
+ * Enables Unix-style piping: cat file.txt | omega analyze --stdin
+ */
+async function readFromStdin(): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const chunks: Buffer[] = [];
+    const stdin = process.stdin;
+
+    // Set encoding for text
+    stdin.setEncoding('utf-8');
+
+    stdin.on('data', (chunk: string | Buffer) => {
+      if (typeof chunk === 'string') {
+        chunks.push(Buffer.from(chunk, 'utf-8'));
+      } else {
+        chunks.push(chunk);
+      }
+    });
+
+    stdin.on('end', () => {
+      const content = Buffer.concat(chunks).toString('utf-8');
+      resolve(content);
+    });
+
+    stdin.on('error', (err: Error) => {
+      reject(new Error(`Failed to read from stdin: ${err.message}`));
+    });
+
+    // Handle case where stdin is a TTY (not a pipe)
+    if (stdin.isTTY) {
+      reject(new Error('No input piped to stdin. Use: echo "text" | omega analyze --stdin'));
+    }
+  });
 }
 
 // ============================================================================

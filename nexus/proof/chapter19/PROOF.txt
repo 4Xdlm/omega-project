@@ -1,0 +1,33 @@
+=============================================================
+OMEGA CHAPTER 19 — PROOF RECORD
+STDIN PIPING SUPPORT (--stdin)
+=============================================================
+DATE: 2026-01-18T02:55:00+01:00
+HEAD: 8781968b20bbfa7b92305134999ca653f9ca6527
+
+FEATURE:
+- New option: -I / --stdin
+- Reads text from stdin (pipe) instead of file
+- Unix-style: cat file.txt | omega analyze --stdin
+- Works with all output formats (json, md, both, stream)
+
+TESTS:
+1. Simple echo pipe:
+   echo "Je suis heureux" | omega analyze --stdin --lang fr --output json
+   => path: <stdin>, dominantEmotion: joy
+
+2. Cat file pipe with stream:
+   cat nexus/user_imputs/test_short_fr.txt | omega analyze --stdin --lang fr --stream
+   => NDJSON with 13 events
+
+PROOF FILES:
+- nexus/proof/chapter19/stdin_simple.json
+- nexus/proof/chapter19/stdin_stream.ndjson
+
+VALIDATION:
+- stdin_simple.json: path=<stdin>, bytes=47, dominantEmotion=joy
+- stdin_stream.ndjson: 13 event types (start->complete)
+
+FROZEN CHECK (must be empty):
+[empty - packages/genome and packages/mycelium untouched]
+=============================================================

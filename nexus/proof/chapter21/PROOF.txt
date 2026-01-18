@@ -1,0 +1,30 @@
+===============================================================
+OMEGA CHAPTER 21 — PROOF RECORD
+NDJSON schema event (versioned contract)
+===============================================================
+DATE: 2026-01-18T02:35:00+01:00
+ARTIFACT: nexus/proof/chapter21/stream_short_fr_schema.ndjson
+CHECKS:
+- First line type == schema
+- All lines parse as JSON (18 lines)
+- Tests pass (1389 after commit)
+===============================================================
+
+SCHEMA EVENT FORMAT:
+{
+  "type": "schema",
+  "version": "1.0.0",
+  "tool": "omega",
+  "format": "ndjson",
+  "capabilityCommit": "<git commit hash>",
+  "tagRef": "<tag ref or UNKNOWN>",
+  "t": <timestamp_ms>
+}
+
+ENVIRONMENT VARIABLES:
+- OMEGA_CAPABILITY_COMMIT: sets capabilityCommit field
+- OMEGA_TAG_REF: sets tagRef field
+
+EVENT ORDER (18 events):
+  schema → start → input → progress(start) → stats → excerpt
+  → summary → emotion(8x) → progress(done) → metadata → complete

@@ -338,11 +338,27 @@ function cleanExcerpt(text: string, maxChars: number = 150): string {
 }
 
 /**
+ * Build schema event for NDJSON stream.
+ * This is always the first event in any NDJSON stream.
+ */
+function buildSchemaEvent(): object {
+  return {
+    type: 'schema',
+    version: '1.0.0',
+    tool: 'omega',
+    format: 'ndjson',
+    capabilityCommit: process.env.OMEGA_CAPABILITY_COMMIT ?? 'UNKNOWN',
+    tagRef: process.env.OMEGA_TAG_REF ?? 'UNKNOWN',
+    t: Date.now(),
+  };
+}
+
+/**
  * Format analysis as NDJSON (newline-delimited JSON) for streaming output.
  * Each line is a self-contained JSON object with a "type" field.
  *
  * Event order:
- *   start → input → progress(start) → stats → excerpt → summary
+ *   schema → start → input → progress(start) → stats → excerpt → summary
  *   → emotion(8x) → progress(done) → metadata → complete
  */
 function formatNDJSON(
@@ -382,6 +398,9 @@ function formatNDJSON(
   qualityScore = Math.max(0, Math.min(1, Math.round(qualityScore * 1000) / 1000));
 
   const lines: string[] = [];
+
+  // Event 0: schema (always first)
+  lines.push(JSON.stringify(buildSchemaEvent()));
 
   // Event 1: start
   lines.push(JSON.stringify({ type: 'start', timestamp: new Date().toISOString() }));
@@ -465,7 +484,7 @@ function formatNDJSON(
  * Format NDJSON with artifacts event (for --output both --stream --artifacts).
  *
  * Event order:
- *   start → input → progress(start) → stats → excerpt → summary
+ *   schema → start → input → progress(start) → stats → excerpt → summary
  *   → emotion(8x) → progress(done) → artifacts → metadata → complete
  */
 function formatNDJSONWithArtifacts(
@@ -501,6 +520,9 @@ function formatNDJSONWithArtifacts(
   qualityScore = Math.max(0, Math.min(1, Math.round(qualityScore * 1000) / 1000));
 
   const lines: string[] = [];
+
+  // Event 0: schema (always first)
+  lines.push(JSON.stringify(buildSchemaEvent()));
 
   // Event 1: start
   lines.push(JSON.stringify({ type: 'start', timestamp: new Date().toISOString() }));
@@ -591,7 +613,7 @@ function formatNDJSONWithArtifacts(
  * Format NDJSON with warning event (for --output both --stream without --artifacts).
  *
  * Event order:
- *   start → input → progress(start) → stats → excerpt → summary
+ *   schema → start → input → progress(start) → stats → excerpt → summary
  *   → emotion(8x) → progress(done) → warning → metadata → complete
  */
 function formatNDJSONWithWarning(
@@ -627,6 +649,9 @@ function formatNDJSONWithWarning(
   qualityScore = Math.max(0, Math.min(1, Math.round(qualityScore * 1000) / 1000));
 
   const lines: string[] = [];
+
+  // Event 0: schema (always first)
+  lines.push(JSON.stringify(buildSchemaEvent()));
 
   // Event 1: start
   lines.push(JSON.stringify({ type: 'start', timestamp: new Date().toISOString() }));

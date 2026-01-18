@@ -94,7 +94,7 @@ function countLangSignals(text: string, lang: string): number {
 export const analyzeCommand: CLICommand = {
   name: 'analyze',
   description: 'Analyse émotionnelle d\'un fichier texte ou stdin',
-  usage: 'analyze [<file>] [--stdin] [--lang en|fr|es|de] [--intensity v1|v2] [--output json|md|both] [--save <path>] [--stream] [--artifacts <dir>] [--verbose]',
+  usage: 'analyze [<file>] [--stdin] [--lang en|fr|es|de] [--intensity v1|v2] [--output json|md|both] [--save <path>] [--stream] [--events <types>] [--artifacts <dir>] [--verbose]',
   args: [
     {
       name: 'file',

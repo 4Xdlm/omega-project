@@ -18,6 +18,7 @@ export default defineConfig({
       'tests/scribe/*_test.ts',
       'test/**/*.test.ts',
       'gateway/tests/**/*.test.ts',
+      'gateway/cli-runner/tests/**/*.test.ts',
       'packages/mycelium-bio/tests/**/*.test.ts',
       'packages/omega-bridge-ta-mycelium/tests/**/*.test.ts',
       'packages/omega-segment-engine/tests/**/*.test.ts',

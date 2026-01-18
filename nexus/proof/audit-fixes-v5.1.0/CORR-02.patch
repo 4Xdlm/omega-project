@@ -1,0 +1,179 @@
+diff --git a/gateway/cli-runner/tests/commands/analyze.test.ts b/gateway/cli-runner/tests/commands/analyze.test.ts
+index 7e867f1..3aea4e3 100644
+--- a/gateway/cli-runner/tests/commands/analyze.test.ts
++++ b/gateway/cli-runner/tests/commands/analyze.test.ts
+@@ -126,9 +126,173 @@ describe('Analyze Command', () => {
+     it('should handle file not found', async () => {
+       const args = parse(['analyze', 'error_file.txt']);
+       const result = await analyzeCommand.execute(args);
+-      
++
+       expect(result.success).toBe(false);
+       expect(result.error).toContain('Error');
+     });
+   });
++
++  // ==========================================================================
++  // NDJSON STREAMING TESTS (Chapter 24)
++  // ==========================================================================
++
++  describe('NDJSON streaming (--stream)', () => {
++    it('should produce NDJSON output with --stream flag', async () => {
++      const args = parse(['analyze', 'sample_text.txt', '--stream']);
++      const result = await analyzeCommand.execute(args);
++
++      expect(result.success).toBe(true);
++      // NDJSON = newline-delimited JSON
++      const lines = result.output!.split('\n').filter(l => l.trim());
++      expect(lines.length).toBeGreaterThan(0);
++
++      // Each line should be valid JSON
++      for (const line of lines) {
++        expect(() => JSON.parse(line)).not.toThrow();
++      }
++    });
++
++    it('should include schema event as first event', async () => {
++      const args = parse(['analyze', 'sample_text.txt', '--stream']);
++      const result = await analyzeCommand.execute(args);
++
++      const lines = result.output!.split('\n').filter(l => l.trim());
++      const firstEvent = JSON.parse(lines[0]);
++
++      expect(firstEvent.type).toBe('schema');
++      expect(firstEvent.version).toBe('1.2.0');
++      expect(firstEvent.tool).toBe('omega');
++      expect(firstEvent.format).toBe('ndjson');
++    });
++
++    it('should include all 12 event types in full stream', async () => {
++      const args = parse(['analyze', 'sample_text.txt', '--stream']);
++      const result = await analyzeCommand.execute(args);
++
++      const lines = result.output!.split('\n').filter(l => l.trim());
++      const types = lines.map(l => JSON.parse(l).type);
++
++      // Core event types (excluding artifacts/warning which are conditional)
++      expect(types).toContain('schema');
++      expect(types).toContain('start');
++      expect(types).toContain('progress');
++      expect(types).toContain('stats');
++      expect(types).toContain('excerpt');
++      expect(types).toContain('summary');
++      expect(types).toContain('emotion');
++      expect(types).toContain('metadata');
++      expect(types).toContain('complete');
++    });
++
++    it('should emit 8 emotion events (Plutchik)', async () => {
++      const args = parse(['analyze', 'sample_text.txt', '--stream']);
++      const result = await analyzeCommand.execute(args);
++
++      const lines = result.output!.split('\n').filter(l => l.trim());
++      const emotionEvents = lines
++        .map(l => JSON.parse(l))
++        .filter(e => e.type === 'emotion');
++
++      expect(emotionEvents.length).toBe(8);
++
++      const emotions = emotionEvents.map(e => e.emotion);
++      expect(emotions).toContain('joy');
++      expect(emotions).toContain('trust');
++      expect(emotions).toContain('fear');
++      expect(emotions).toContain('surprise');
++      expect(emotions).toContain('sadness');
++      expect(emotions).toContain('disgust');
++      expect(emotions).toContain('anger');
++      expect(emotions).toContain('anticipation');
++    });
++  });
++
++  // ==========================================================================
++  // EVENTS FILTER TESTS (Chapter 24 --events)
++  // ==========================================================================
++
++  describe('NDJSON events filter (--events)', () => {
++    it('should filter to single event type', async () => {
++      const args = parse(['analyze', 'sample_text.txt', '--stream', '--events', 'summary']);
++      const result = await analyzeCommand.execute(args);
++
++      expect(result.success).toBe(true);
++      const lines = result.output!.split('\n').filter(l => l.trim());
++
++      // All events should be type=summary
++      for (const line of lines) {
++        const event = JSON.parse(line);
++        expect(event.type).toBe('summary');
++      }
++    });
++
++    it('should filter to multiple event types', async () => {
++      const args = parse(['analyze', 'sample_text.txt', '--stream', '--events', 'summary,stats']);
++      const result = await analyzeCommand.execute(args);
++
++      expect(result.success).toBe(true);
++      const lines = result.output!.split('\n').filter(l => l.trim());
++      const types = new Set(lines.map(l => JSON.parse(l).type));
++
++      // Only summary and stats
++      expect(types.size).toBeLessThanOrEqual(2);
++      for (const type of types) {
++        expect(['summary', 'stats']).toContain(type);
++      }
++    });
++
++    it('should pass all events with --events all', async () => {
++      const args = parse(['analyze', 'sample_text.txt', '--stream', '--events', 'all']);
++      const result = await analyzeCommand.execute(args);
++
++      expect(result.success).toBe(true);
++      const lines = result.output!.split('\n').filter(l => l.trim());
++
++      // Should have many events (unfiltered)
++      expect(lines.length).toBeGreaterThan(10);
++    });
++
++    it('should handle case-insensitive event types', async () => {
++      const args = parse(['analyze', 'sample_text.txt', '--stream', '--events', 'SUMMARY']);
++      const result = await analyzeCommand.execute(args);
++
++      expect(result.success).toBe(true);
++      const lines = result.output!.split('\n').filter(l => l.trim());
++
++      // Filter is case-insensitive
++      for (const line of lines) {
++        const event = JSON.parse(line);
++        expect(event.type).toBe('summary');
++      }
++    });
++
++    it('should return empty output for non-existent event type', async () => {
++      const args = parse(['analyze', 'sample_text.txt', '--stream', '--events', 'nonexistent']);
++      const result = await analyzeCommand.execute(args);
++
++      expect(result.success).toBe(true);
++      const lines = result.output!.split('\n').filter(l => l.trim());
++
++      // No events match
++      expect(lines.length).toBe(0);
++    });
++
++    it('should filter emotion events correctly', async () => {
++      const args = parse(['analyze', 'sample_text.txt', '--stream', '--events', 'emotion']);
++      const result = await analyzeCommand.execute(args);
++
++      expect(result.success).toBe(true);
++      const lines = result.output!.split('\n').filter(l => l.trim());
++
++      // Should have exactly 8 emotion events
++      expect(lines.length).toBe(8);
++      for (const line of lines) {
++        const event = JSON.parse(line);
++        expect(event.type).toBe('emotion');
++        expect(event.emotion).toBeDefined();
++        expect(event.intensity).toBeDefined();
++        expect(event.confidence).toBeDefined();
++      }
++    });
++  });
+ });

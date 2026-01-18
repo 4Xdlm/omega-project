@@ -242,8 +242,9 @@ export function getVersion(): string {
 export async function main(argv: string[] = process.argv.slice(2)): Promise<void> {
   const result = await run(argv, {
     exitOnComplete: true,
-    stdout: console.log,
-    stderr: console.error,
+    // Use process.stdout/stderr.write for reliable piping behavior
+    stdout: (msg: string) => { process.stdout.write(msg + '\n'); },
+    stderr: (msg: string) => { process.stderr.write(msg + '\n'); },
   });
 
   if (typeof process !== 'undefined' && process.exit) {

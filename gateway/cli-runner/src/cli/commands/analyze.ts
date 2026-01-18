@@ -1188,7 +1188,7 @@ async function executeAnalyze(args: ParsedArgs): Promise<CLIResult> {
       output = `File saved: ${savePath}\n\n${output}`;
     }
 
-    if (verbose && filePath && !isTestFixture(filePath)) {
+    if (verbose && filePath) {
       output = `[VERBOSE] Analyzing file: ${filePath}\n[VERBOSE] Format: ${outputFormat}\n[VERBOSE] Language: ${lang}\n\n${output}`;
     } else if (verbose && stdinMode) {
       output = `[VERBOSE] Analyzing stdin\n[VERBOSE] Format: ${outputFormat}\n[VERBOSE] Language: ${lang}\n\n${output}`;

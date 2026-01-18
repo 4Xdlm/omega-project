@@ -93,7 +93,7 @@ function countLangSignals(text: string, lang: string): number {
 export const analyzeCommand: CLICommand = {
   name: 'analyze',
   description: 'Analyse émotionnelle d\'un fichier texte',
-  usage: 'analyze <file> [--lang en|fr|es|de] [--intensity v1|v2] [--output json|md|both] [--save <path>] [--verbose]',
+  usage: 'analyze <file> [--lang en|fr|es|de] [--intensity v1|v2] [--output json|md|both] [--save <path>] [--stream] [--verbose]',
   args: [
     {
       name: 'file',
@@ -131,6 +131,12 @@ export const analyzeCommand: CLICommand = {
       long: '--save',
       description: 'Chemin pour sauvegarder les résultats',
       hasValue: true,
+    },
+    {
+      short: '-S',
+      long: '--stream',
+      description: 'Sortie NDJSON (streaming line-by-line)',
+      hasValue: false,
     },
     {
       short: '-v',
@@ -281,6 +287,101 @@ function analyzeText(
 
 function formatJSON(result: AnalysisResult): string {
   return JSON.stringify(result, null, 2);
+}
+
+/**
+ * Format analysis as NDJSON (newline-delimited JSON) for streaming output.
+ * Each line is a self-contained JSON object with a "type" field.
+ */
+function formatNDJSON(
+  result: AnalysisResult & { lang?: string; keywordsFound?: number; intensityMethod?: string },
+  fileMeta?: FileInputMeta,
+  lang?: string
+): string {
+  const keywordsFound = result.keywordsFound ?? 0;
+  const wordCount = result.wordCount;
+  const keywordDensity = wordCount > 0 ? Math.round((keywordsFound / wordCount) * 1000) / 1000 : 0;
+  const intensityMethod = result.intensityMethod ?? 'v2';
+  const effectiveLang = lang ?? result.lang ?? 'en';
+
+  // Compute warnings
+  const warnings: string[] = [];
+  if (wordCount < 80) {
+    warnings.push('LOW_TEXT');
+  }
+  if (keywordDensity > 0.25) {
+    warnings.push('HIGH_KEYWORD_DENSITY');
+  }
+  if (result.overallIntensity >= 0.98 && wordCount > 200) {
+    warnings.push('SATURATED_INTENSITY');
+  }
+  const langSignal = countLangSignals(result.text ?? '', effectiveLang);
+  if (wordCount >= 120 && langSignal < 2 && (keywordDensity >= 0.02 || keywordDensity < 0.005)) {
+    warnings.push('LANG_MISMATCH');
+  }
+
+  // Quality score
+  let qualityScore = 1;
+  if (warnings.includes('LOW_TEXT')) qualityScore -= 0.35;
+  if (warnings.includes('HIGH_KEYWORD_DENSITY')) qualityScore -= 0.25;
+  if (warnings.includes('SATURATED_INTENSITY')) qualityScore -= 0.20;
+  if (warnings.includes('LANG_MISMATCH')) qualityScore -= 0.40;
+  qualityScore = Math.max(0, Math.min(1, Math.round(qualityScore * 1000) / 1000));
+
+  const lines: string[] = [];
+
+  // Event 1: start
+  lines.push(JSON.stringify({ type: 'start', timestamp: new Date().toISOString() }));
+
+  // Event 2: input (file metadata)
+  if (fileMeta) {
+    lines.push(JSON.stringify({
+      type: 'input',
+      path: fileMeta.path,
+      absolutePath: fileMeta.absolutePath,
+      bytes: fileMeta.bytes,
+      sha256: fileMeta.sha256,
+    }));
+  }
+
+  // Event 3: summary
+  lines.push(JSON.stringify({
+    type: 'summary',
+    wordCount: result.wordCount,
+    sentenceCount: result.sentenceCount,
+    dominantEmotion: result.dominantEmotion,
+    overallIntensity: result.overallIntensity,
+    keywordsFound: keywordsFound,
+    keywordDensity: keywordDensity,
+    intensityMethod: intensityMethod,
+    qualityScore: qualityScore,
+    warnings: warnings,
+  }));
+
+  // Event 4: emotions (one event per emotion)
+  for (const e of result.emotions) {
+    lines.push(JSON.stringify({
+      type: 'emotion',
+      emotion: e.emotion,
+      intensity: e.intensity,
+      confidence: e.confidence,
+    }));
+  }
+
+  // Event 5: metadata
+  lines.push(JSON.stringify({
+    type: 'metadata',
+    timestamp: result.timestamp,
+    seed: result.seed,
+    version: '3.17.0',
+    lang: effectiveLang,
+    langName: getLanguageName(effectiveLang),
+  }));
+
+  // Event 6: complete
+  lines.push(JSON.stringify({ type: 'complete', success: true }));
+
+  return lines.join('\n');
 }
 
 function formatJSONWithMeta(
@@ -495,7 +596,8 @@ async function executeAnalyze(args: ParsedArgs): Promise<CLIResult> {
   const langOptionDef = analyzeCommand.options[1];    // --lang
   const intensityOptionDef = analyzeCommand.options[2]; // --intensity
   const saveOptionDef = analyzeCommand.options[3];    // --save
-  const verboseOptionDef = analyzeCommand.options[4]; // --verbose
+  const streamOptionDef = analyzeCommand.options[4];  // --stream
+  const verboseOptionDef = analyzeCommand.options[5]; // --verbose
 
   const outputOption = outputOptionDef ? resolveOption(args, outputOptionDef) : DEFAULTS.OUTPUT_FORMAT;
   const outputFormat = typeof outputOption === 'string' ? outputOption : DEFAULTS.OUTPUT_FORMAT;
@@ -511,6 +613,7 @@ async function executeAnalyze(args: ParsedArgs): Promise<CLIResult> {
   const saveOption = saveOptionDef ? resolveOption(args, saveOptionDef) : undefined;
   const savePath = typeof saveOption === 'string' ? saveOption : undefined;
 
+  const streamMode = streamOptionDef ? resolveOption(args, streamOptionDef) === true : false;
   const verbose = verboseOptionDef ? resolveOption(args, verboseOptionDef) === true : false;
 
   // Get language-specific keywords
@@ -575,7 +678,12 @@ async function executeAnalyze(args: ParsedArgs): Promise<CLIResult> {
         output = formatMarkdownWithMeta(result, fileMeta, lang) + '\n\n[DOCX export not implemented in CLI preview]';
         break;
       default:
-        output = formatJSONWithMeta(result, fileMeta, lang);
+        // JSON output - check for streaming mode
+        if (streamMode) {
+          output = formatNDJSON(result, fileMeta, lang);
+        } else {
+          output = formatJSONWithMeta(result, fileMeta, lang);
+        }
     }
 
     // Save single format if requested

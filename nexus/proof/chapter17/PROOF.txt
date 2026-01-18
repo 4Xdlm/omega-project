@@ -1,0 +1,27 @@
+CHAPTER 17 — STREAM NDJSON PROOF
+=================================
+
+Date: 2026-01-18
+Commit: 73b6deb
+Feature: --stream NDJSON output for analyze command
+
+VALIDATION
+----------
+1. NDJSON file: nexus/proof/chapter17/stream_short_fr.ndjson
+2. Lines: 13 (all valid JSON)
+3. Event types present: start, input, summary, emotion (8x), metadata, complete
+4. All lines contain "type" field: PASS
+
+WARNINGS/QUALITY
+----------------
+- test_short_fr.txt (45 words) triggers LOW_TEXT warning
+- qualityScore: 0.65 (penalized -0.35 for LOW_TEXT)
+
+TESTS
+-----
+- Total: 1389 passed
+- FROZEN modules: untouched
+
+COMMAND USED
+------------
+node gateway/cli-runner/dist/cli/runner.js analyze nexus/user_imputs/test_short_fr.txt --lang fr --intensity v2 --output json --stream

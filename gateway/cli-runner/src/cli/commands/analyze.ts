@@ -14,6 +14,7 @@ import { readFile, stat, writeFile, mkdir } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { resolve, dirname } from 'node:path';
 import { getEmotionKeywords, isValidLanguage, getLanguageName, type SupportedLanguage } from '../lang/index.js';
+import { execSync } from 'node:child_process';
 
 // ============================================================================
 // PLUTCHIK EMOTIONS (Canonical Set)
@@ -338,6 +339,22 @@ function cleanExcerpt(text: string, maxChars: number = 150): string {
 }
 
 /**
+ * Get capability commit hash at runtime.
+ * Priority: git HEAD > env OMEGA_CAPABILITY_COMMIT > 'UNKNOWN'
+ */
+function getCapabilityCommit(): string {
+  try {
+    // Best effort: use git HEAD at runtime (works in repo/dev env)
+    const out = execSync('git rev-parse HEAD', { stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim();
+    if (out && out.length >= 7) return out;
+  } catch {
+    // Git not available or not in a repo - fallback to env
+  }
+  if (process.env.OMEGA_CAPABILITY_COMMIT) return process.env.OMEGA_CAPABILITY_COMMIT;
+  return 'UNKNOWN';
+}
+
+/**
  * Build schema event for NDJSON stream.
  * This is always the first event in any NDJSON stream.
  */
@@ -347,7 +364,7 @@ function buildSchemaEvent(): object {
     version: '1.0.0',
     tool: 'omega',
     format: 'ndjson',
-    capabilityCommit: process.env.OMEGA_CAPABILITY_COMMIT ?? 'UNKNOWN',
+    capabilityCommit: getCapabilityCommit(),
     tagRef: process.env.OMEGA_TAG_REF ?? 'UNKNOWN',
     t: Date.now(),
   };

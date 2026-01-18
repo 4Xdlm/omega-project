@@ -339,33 +339,56 @@ function cleanExcerpt(text: string, maxChars: number = 150): string {
 }
 
 /**
- * Get capability commit hash at runtime.
- * Priority: git HEAD > env OMEGA_CAPABILITY_COMMIT > 'UNKNOWN'
+ * Get HEAD commit hash at runtime.
+ * Priority: git HEAD > env OMEGA_HEAD_COMMIT > 'UNKNOWN'
  */
-function getCapabilityCommit(): string {
+function getHeadCommit(): string {
   try {
-    // Best effort: use git HEAD at runtime (works in repo/dev env)
     const out = execSync('git rev-parse HEAD', { stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim();
     if (out && out.length >= 7) return out;
   } catch {
-    // Git not available or not in a repo - fallback to env
+    // Git not available or not in a repo
   }
-  if (process.env.OMEGA_CAPABILITY_COMMIT) return process.env.OMEGA_CAPABILITY_COMMIT;
+  if (process.env.OMEGA_HEAD_COMMIT) return process.env.OMEGA_HEAD_COMMIT;
+  return 'UNKNOWN';
+}
+
+/**
+ * Get tag reference at runtime.
+ * Priority: exact tag match > nearest tag > env OMEGA_TAG_REF > 'UNKNOWN'
+ */
+function getTagRef(): string {
+  try {
+    // Try exact tag match first (stdio config suppresses stderr)
+    const exact = execSync('git describe --tags --exact-match', { stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim();
+    if (exact) return `refs/tags/${exact}`;
+  } catch {
+    // No exact tag match
+  }
+  try {
+    // Try nearest tag
+    const nearest = execSync('git describe --tags', { stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim();
+    if (nearest) return `refs/tags/${nearest}`;
+  } catch {
+    // No tags available
+  }
+  if (process.env.OMEGA_TAG_REF) return process.env.OMEGA_TAG_REF;
   return 'UNKNOWN';
 }
 
 /**
  * Build schema event for NDJSON stream.
  * This is always the first event in any NDJSON stream.
+ * Schema version 1.1.0: headCommit + tagRef (replaces capabilityCommit)
  */
 function buildSchemaEvent(): object {
   return {
     type: 'schema',
-    version: '1.0.0',
+    version: '1.1.0',
     tool: 'omega',
     format: 'ndjson',
-    capabilityCommit: getCapabilityCommit(),
-    tagRef: process.env.OMEGA_TAG_REF ?? 'UNKNOWN',
+    headCommit: getHeadCommit(),
+    tagRef: getTagRef(),
     t: Date.now(),
   };
 }

@@ -115,11 +115,12 @@ describe('Runner', () => {
       expect(names).toContain('health');
       expect(names).toContain('version');
       expect(names).toContain('info');
+      expect(names).toContain('schema');
     });
 
-    it('should return exactly 7 commands', () => {
+    it('should return exactly 8 commands', () => {
       const commands = getAllCommands();
-      expect(commands.length).toBe(7);
+      expect(commands.length).toBe(8);
     });
   });
 

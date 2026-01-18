@@ -140,6 +140,12 @@ export const analyzeCommand: CLICommand = {
       hasValue: false,
     },
     {
+      short: '-E',
+      long: '--events',
+      description: 'Filter NDJSON events (comma-separated). Example: --events summary,stats. Use "all" for no filter.',
+      hasValue: true,
+    },
+    {
       short: '-a',
       long: '--artifacts',
       description: 'Répertoire pour écrire les artefacts (json + md) en mode stream',
@@ -991,9 +997,10 @@ async function executeAnalyze(args: ParsedArgs): Promise<CLIResult> {
   const intensityOptionDef = analyzeCommand.options[2]; // --intensity
   const saveOptionDef = analyzeCommand.options[3];    // --save
   const streamOptionDef = analyzeCommand.options[4];  // --stream
-  const artifactsOptionDef = analyzeCommand.options[5]; // --artifacts
-  const verboseOptionDef = analyzeCommand.options[6]; // --verbose
-  const stdinOptionDef = analyzeCommand.options[7];   // --stdin
+  const eventsOptionDef = analyzeCommand.options[5];  // --events
+  const artifactsOptionDef = analyzeCommand.options[6]; // --artifacts
+  const verboseOptionDef = analyzeCommand.options[7]; // --verbose
+  const stdinOptionDef = analyzeCommand.options[8];   // --stdin
 
   // Parse --stdin first to validate input source
   const stdinMode = stdinOptionDef ? resolveOption(args, stdinOptionDef) === true : false;
@@ -1024,6 +1031,8 @@ async function executeAnalyze(args: ParsedArgs): Promise<CLIResult> {
   const savePath = typeof saveOption === 'string' ? saveOption : undefined;
 
   const streamMode = streamOptionDef ? resolveOption(args, streamOptionDef) === true : false;
+  const eventsRaw = eventsOptionDef ? resolveOption(args, eventsOptionDef) : undefined;
+  const eventsFilter = typeof eventsRaw === 'string' ? eventsRaw.split(',').map(e => e.trim().toLowerCase()) : null;
   const artifactsOption = artifactsOptionDef ? resolveOption(args, artifactsOptionDef) : undefined;
   const artifactsDir = typeof artifactsOption === 'string' ? artifactsOption : undefined;
   const verbose = verboseOptionDef ? resolveOption(args, verboseOptionDef) === true : false;

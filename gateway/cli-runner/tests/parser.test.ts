@@ -6,6 +6,7 @@
 import { describe, it, expect } from 'vitest';
 import { parse, validateArgs, generateHelp } from '../src/cli/parser.js';
 import { analyzeCommand } from '../src/cli/commands/analyze.js';
+import { compareCommand } from '../src/cli/commands/compare.js';
 
 describe('Parser', () => {
   describe('parse()', () => {
@@ -83,9 +84,10 @@ describe('Parser', () => {
     });
 
     it('should reject missing required arguments', () => {
-      const parsed = parse(['analyze']);
-      const result = validateArgs(parsed, analyzeCommand);
-      
+      // Use compareCommand which has required args (file1, file2)
+      const parsed = parse(['compare']);
+      const result = validateArgs(parsed, compareCommand);
+
       expect(result.valid).toBe(false);
       expect(result.errors.length).toBeGreaterThan(0);
     });

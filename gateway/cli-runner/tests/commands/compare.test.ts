@@ -5,7 +5,7 @@
 
 import { describe, it, expect } from 'vitest';
 import { compareCommand, calculateSimilarity } from '../../src/cli/commands/compare.js';
-import { analyzeText } from '../../src/cli/commands/analyze.js';
+import { analyzeText, EMOTION_KEYWORDS } from '../../src/cli/commands/analyze.js';
 import { parse } from '../../src/cli/parser.js';
 import { EXIT_CODES, DEFAULTS } from '../../src/cli/constants.js';
 
@@ -13,8 +13,8 @@ describe('Compare Command', () => {
   describe('calculateSimilarity()', () => {
     it('should return 1 for identical texts', () => {
       const text = 'The happy joyful day was wonderful.';
-      const result1 = analyzeText(text, DEFAULTS.SEED);
-      const result2 = analyzeText(text, DEFAULTS.SEED);
+      const result1 = analyzeText(text, EMOTION_KEYWORDS, DEFAULTS.SEED);
+      const result2 = analyzeText(text, EMOTION_KEYWORDS, DEFAULTS.SEED);
       
       const similarity = calculateSimilarity(result1, result2);
       
@@ -25,8 +25,8 @@ describe('Compare Command', () => {
       const text1 = 'I am happy and joyful!';
       const text2 = 'I am sad and melancholy.';
       
-      const result1 = analyzeText(text1, DEFAULTS.SEED);
-      const result2 = analyzeText(text2, DEFAULTS.SEED);
+      const result1 = analyzeText(text1, EMOTION_KEYWORDS, DEFAULTS.SEED);
+      const result2 = analyzeText(text2, EMOTION_KEYWORDS, DEFAULTS.SEED);
       
       const similarity = calculateSimilarity(result1, result2);
       
@@ -38,8 +38,8 @@ describe('Compare Command', () => {
       const text1 = '';
       const text2 = '';
 
-      const result1 = analyzeText(text1, DEFAULTS.SEED);
-      const result2 = analyzeText(text2, DEFAULTS.SEED);
+      const result1 = analyzeText(text1, EMOTION_KEYWORDS, DEFAULTS.SEED);
+      const result2 = analyzeText(text2, EMOTION_KEYWORDS, DEFAULTS.SEED);
 
       const similarity = calculateSimilarity(result1, result2);
 

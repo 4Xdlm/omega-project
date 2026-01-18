@@ -1333,4 +1333,4 @@ function getTestFixtureContent(filePath: string): string {
 // EXPORTS FOR TESTING
 // ============================================================================
 
-export { analyzeText, formatJSON, formatMarkdown, formatJSONWithMeta, formatMarkdownWithMeta, readRealFile };
+export { analyzeText, formatJSON, formatMarkdown, formatJSONWithMeta, formatMarkdownWithMeta, readRealFile, EMOTION_KEYWORDS };

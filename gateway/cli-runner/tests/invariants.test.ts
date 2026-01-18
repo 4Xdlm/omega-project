@@ -16,7 +16,7 @@
 
 import { describe, it, expect } from 'vitest';
 import { run, getAllCommands } from '../src/cli/runner.js';
-import { analyzeText } from '../src/cli/commands/analyze.js';
+import { analyzeText, EMOTION_KEYWORDS } from '../src/cli/commands/analyze.js';
 import { enforceContract } from '../src/cli/contract.js';
 import { EXIT_CODES, DEFAULTS } from '../src/cli/constants.js';
 
@@ -140,8 +140,8 @@ describe('INVARIANTS CLI_RUNNER', () => {
     it('analyzeText is deterministic', () => {
       const text = 'The happy warrior felt joy and trust in his mission.';
       
-      const result1 = analyzeText(text, DEFAULTS.SEED);
-      const result2 = analyzeText(text, DEFAULTS.SEED);
+      const result1 = analyzeText(text, EMOTION_KEYWORDS, DEFAULTS.SEED);
+      const result2 = analyzeText(text, EMOTION_KEYWORDS, DEFAULTS.SEED);
       
       expect(result1.wordCount).toBe(result2.wordCount);
       expect(result1.sentenceCount).toBe(result2.sentenceCount);
@@ -157,7 +157,7 @@ describe('INVARIANTS CLI_RUNNER', () => {
       
       const results = [];
       for (let i = 0; i < 5; i++) {
-        results.push(analyzeText(text, seed));
+        results.push(analyzeText(text, EMOTION_KEYWORDS, seed));
       }
       
       // All results should be identical
@@ -169,8 +169,8 @@ describe('INVARIANTS CLI_RUNNER', () => {
     it('different seeds can produce different results', () => {
       const text = 'A mix of emotions.';
       
-      const result1 = analyzeText(text, 42);
-      const result2 = analyzeText(text, 999);
+      const result1 = analyzeText(text, EMOTION_KEYWORDS, 42);
+      const result2 = analyzeText(text, EMOTION_KEYWORDS, 999);
       
       // Seeds are stored in result, showing different runs
       expect(result1.seed).toBe(42);

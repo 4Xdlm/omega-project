@@ -140,6 +140,12 @@ export const analyzeCommand: CLICommand = {
       hasValue: false,
     },
     {
+      short: '-E',
+      long: '--events',
+      description: 'Filter NDJSON events (comma-separated). Example: --events summary,stats. Use "all" for no filter.',
+      hasValue: true,
+    },
+    {
       short: '-a',
       long: '--artifacts',
       description: 'Répertoire pour écrire les artefacts (json + md) en mode stream',
@@ -405,6 +411,29 @@ function buildSchemaEvent(): object {
 }
 
 /**
+ * Filter NDJSON lines by event type.
+ * @param lines - Array of JSON strings (each with a "type" field)
+ * @param filter - Array of event types to include, or null/"all" for no filtering
+ * @returns Filtered array of lines
+ */
+function filterNDJSONLines(lines: string[], filter: string[] | null): string[] {
+  // No filter or "all" = return everything
+  if (!filter || filter.length === 0 || filter.includes('all')) {
+    return lines;
+  }
+
+  return lines.filter(line => {
+    try {
+      const event = JSON.parse(line);
+      return filter.includes(event.type);
+    } catch {
+      // If we can't parse, keep the line (safety)
+      return true;
+    }
+  });
+}
+
+/**
  * Format analysis as NDJSON (newline-delimited JSON) for streaming output.
  * Each line is a self-contained JSON object with a "type" field.
  *
@@ -416,7 +445,8 @@ function formatNDJSON(
   result: AnalysisResult & { lang?: string; keywordsFound?: number; intensityMethod?: string },
   fileMeta?: FileInputMeta,
   lang?: string,
-  fullText?: string
+  fullText?: string,
+  eventsFilter?: string[] | null
 ): string {
   const keywordsFound = result.keywordsFound ?? 0;
   const wordCount = result.wordCount;
@@ -528,7 +558,9 @@ function formatNDJSON(
   // Event 10: complete
   lines.push(JSON.stringify({ type: 'complete', success: true }));
 
-  return lines.join('\n');
+  // Apply events filter if specified
+  const filteredLines = filterNDJSONLines(lines, eventsFilter ?? null);
+  return filteredLines.join('\n');
 }
 
 /**
@@ -544,7 +576,8 @@ function formatNDJSONWithArtifacts(
   lang: string | undefined,
   jsonPath: string,
   mdPath: string,
-  fullText?: string
+  fullText?: string,
+  eventsFilter?: string[] | null
 ): string {
   const keywordsFound = result.keywordsFound ?? 0;
   const wordCount = result.wordCount;
@@ -657,7 +690,9 @@ function formatNDJSONWithArtifacts(
   // Event 11: complete
   lines.push(JSON.stringify({ type: 'complete', success: true }));
 
-  return lines.join('\n');
+  // Apply events filter if specified
+  const filteredLines = filterNDJSONLines(lines, eventsFilter ?? null);
+  return filteredLines.join('\n');
 }
 
 /**
@@ -673,7 +708,8 @@ function formatNDJSONWithWarning(
   lang: string | undefined,
   warningCode: string,
   warningMessage: string,
-  fullText?: string
+  fullText?: string,
+  eventsFilter?: string[] | null
 ): string {
   const keywordsFound = result.keywordsFound ?? 0;
   const wordCount = result.wordCount;
@@ -786,7 +822,9 @@ function formatNDJSONWithWarning(
   // Event 11: complete
   lines.push(JSON.stringify({ type: 'complete', success: true }));
 
-  return lines.join('\n');
+  // Apply events filter if specified
+  const filteredLines = filterNDJSONLines(lines, eventsFilter ?? null);
+  return filteredLines.join('\n');
 }
 
 function formatJSONWithMeta(
@@ -991,9 +1029,10 @@ async function executeAnalyze(args: ParsedArgs): Promise<CLIResult> {
   const intensityOptionDef = analyzeCommand.options[2]; // --intensity
   const saveOptionDef = analyzeCommand.options[3];    // --save
   const streamOptionDef = analyzeCommand.options[4];  // --stream
-  const artifactsOptionDef = analyzeCommand.options[5]; // --artifacts
-  const verboseOptionDef = analyzeCommand.options[6]; // --verbose
-  const stdinOptionDef = analyzeCommand.options[7];   // --stdin
+  const eventsOptionDef = analyzeCommand.options[5];  // --events
+  const artifactsOptionDef = analyzeCommand.options[6]; // --artifacts
+  const verboseOptionDef = analyzeCommand.options[7]; // --verbose
+  const stdinOptionDef = analyzeCommand.options[8];   // --stdin
 
   // Parse --stdin first to validate input source
   const stdinMode = stdinOptionDef ? resolveOption(args, stdinOptionDef) === true : false;
@@ -1024,6 +1063,8 @@ async function executeAnalyze(args: ParsedArgs): Promise<CLIResult> {
   const savePath = typeof saveOption === 'string' ? saveOption : undefined;
 
   const streamMode = streamOptionDef ? resolveOption(args, streamOptionDef) === true : false;
+  const eventsRaw = eventsOptionDef ? resolveOption(args, eventsOptionDef) : undefined;
+  const eventsFilter = typeof eventsRaw === 'string' ? eventsRaw.split(',').map(e => e.trim().toLowerCase()) : null;
   const artifactsOption = artifactsOptionDef ? resolveOption(args, artifactsOptionDef) : undefined;
   const artifactsDir = typeof artifactsOption === 'string' ? artifactsOption : undefined;
   const verbose = verboseOptionDef ? resolveOption(args, verboseOptionDef) === true : false;
@@ -1105,10 +1146,10 @@ async function executeAnalyze(args: ParsedArgs): Promise<CLIResult> {
             artifacts.push(jsonPath, mdPath);
 
             // NDJSON with artifacts event
-            output = formatNDJSONWithArtifacts(result, fileMeta, lang, jsonPath, mdPath, text);
+            output = formatNDJSONWithArtifacts(result, fileMeta, lang, jsonPath, mdPath, text, eventsFilter);
           } else {
             // No artifacts dir: NDJSON with warning
-            output = formatNDJSONWithWarning(result, fileMeta, lang, 'ARTIFACTS_DIR_MISSING', 'Use --artifacts <dir> to write analysis.json + analysis.md', text);
+            output = formatNDJSONWithWarning(result, fileMeta, lang, 'ARTIFACTS_DIR_MISSING', 'Use --artifacts <dir> to write analysis.json + analysis.md', text, eventsFilter);
           }
         } else if (savePath) {
           // Save both files (non-stream mode)
@@ -1133,7 +1174,7 @@ async function executeAnalyze(args: ParsedArgs): Promise<CLIResult> {
       default:
         // JSON output - check for streaming mode
         if (streamMode) {
-          output = formatNDJSON(result, fileMeta, lang, text);
+          output = formatNDJSON(result, fileMeta, lang, text, eventsFilter);
         } else {
           output = formatJSONWithMeta(result, fileMeta, lang);
         }

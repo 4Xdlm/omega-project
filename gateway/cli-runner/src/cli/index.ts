@@ -21,6 +21,7 @@ export {
   healthCommand,
   versionCommand,
   infoCommand,
+  schemaCommand,
 } from './commands/index.js';
 
 // Default export for convenience

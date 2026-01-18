@@ -208,6 +208,25 @@ export const CONTRACTS: Record<string, ModuleContract> = {
     requiresAudit: false,
     sideEffects: false,
   },
+
+  schema: {
+    name: 'schema',
+    version: '1.0.0',
+    description: 'Exporte le JSON Schema du format NDJSON',
+    input: {
+      type: 'none',
+      required: false,
+      multiple: false,
+    },
+    output: {
+      type: 'json',
+      formats: ['json'],
+      deterministic: true,
+    },
+    routing: ROUTING.DIRECT,
+    requiresAudit: false,
+    sideEffects: true, // Can write file with --out
+  },
 };
 
 // ============================================================================

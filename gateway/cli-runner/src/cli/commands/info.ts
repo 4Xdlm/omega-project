@@ -79,10 +79,11 @@ async function executeInfo(_args: ParsedArgs): Promise<CLIResult> {
       'health   - Diagnostic système',
       'version  - Affiche la version',
       'info     - Informations système',
+      'schema   - Export JSON Schema NDJSON',
     ],
     routing: {
       NEXUS: ['analyze', 'compare', 'batch'],
-      DIRECT: ['export', 'health', 'version', 'info'],
+      DIRECT: ['export', 'health', 'version', 'info', 'schema'],
     },
     timestamp: new Date().toISOString(),
   };

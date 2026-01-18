@@ -17,6 +17,7 @@ import {
   healthCommand,
   versionCommand,
   infoCommand,
+  schemaCommand,
 } from './commands/index.js';
 
 // ============================================================================
@@ -31,6 +32,7 @@ const COMMANDS: Map<string, CLICommand> = new Map([
   ['health', healthCommand],
   ['version', versionCommand],
   ['info', infoCommand],
+  ['schema', schemaCommand],
 ]);
 
 // ============================================================================

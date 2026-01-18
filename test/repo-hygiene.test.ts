@@ -228,23 +228,25 @@ describe('Documentation', () => {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 describe('Sanctuary Verification', () => {
-  // Helper to filter out allowed package dependency changes
-  const filterPackageChanges = (diff: string): string => {
+  // Helper to filter out allowed package dependency changes and local-only files
+  const filterIgnoredChanges = (diff: string): string => {
     return diff.split('\n')
       .filter(line => !line.match(/package(-lock)?\.json$/))
       .filter(line => !line.match(/node_modules\//))
+      .filter(line => !line.match(/^\.claude\//))  // Local Claude settings
+      .filter(line => !line.match(/settings\.local\./))  // Local settings files
       .join('\n');
   };
 
   it('should not have modified source files in packages/genome', () => {
     const diff = gitCommand('diff --name-only packages/genome');
-    const filteredDiff = filterPackageChanges(diff);
+    const filteredDiff = filterIgnoredChanges(diff);
     expect(filteredDiff).toBe('');
   });
 
   it('should not have modified source files in packages/mycelium', () => {
     const diff = gitCommand('diff --name-only packages/mycelium');
-    const filteredDiff = filterPackageChanges(diff);
+    const filteredDiff = filterIgnoredChanges(diff);
     expect(filteredDiff).toBe('');
   });
 
@@ -255,7 +257,7 @@ describe('Sanctuary Verification', () => {
 
   it('should not have staged source files in sanctuaries', () => {
     const staged = gitCommand('diff --cached --name-only packages/genome packages/mycelium gateway');
-    const filteredStaged = filterPackageChanges(staged);
+    const filteredStaged = filterIgnoredChanges(staged);
     expect(filteredStaged).toBe('');
   });
 });

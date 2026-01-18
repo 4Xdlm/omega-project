@@ -354,41 +354,52 @@ function getHeadCommit(): string {
 }
 
 /**
+ * Tag info with exact match indicator.
+ */
+interface TagInfo {
+  tagRef: string;
+  tagExact: boolean;
+}
+
+/**
  * Get tag reference at runtime.
  * Priority: exact tag match > nearest tag > env OMEGA_TAG_REF > 'UNKNOWN'
+ * Returns both the tagRef and whether it was an exact match.
  */
-function getTagRef(): string {
+function getTagInfo(): TagInfo {
   try {
     // Try exact tag match first (stdio config suppresses stderr)
     const exact = execSync('git describe --tags --exact-match', { stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim();
-    if (exact) return `refs/tags/${exact}`;
+    if (exact) return { tagRef: `refs/tags/${exact}`, tagExact: true };
   } catch {
     // No exact tag match
   }
   try {
     // Try nearest tag
     const nearest = execSync('git describe --tags', { stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim();
-    if (nearest) return `refs/tags/${nearest}`;
+    if (nearest) return { tagRef: `refs/tags/${nearest}`, tagExact: false };
   } catch {
     // No tags available
   }
-  if (process.env.OMEGA_TAG_REF) return process.env.OMEGA_TAG_REF;
-  return 'UNKNOWN';
+  if (process.env.OMEGA_TAG_REF) return { tagRef: process.env.OMEGA_TAG_REF, tagExact: false };
+  return { tagRef: 'UNKNOWN', tagExact: false };
 }
 
 /**
  * Build schema event for NDJSON stream.
  * This is always the first event in any NDJSON stream.
- * Schema version 1.1.0: headCommit + tagRef (replaces capabilityCommit)
+ * Schema version 1.2.0: headCommit + tagRef + tagExact
  */
 function buildSchemaEvent(): object {
+  const tagInfo = getTagInfo();
   return {
     type: 'schema',
-    version: '1.1.0',
+    version: '1.2.0',
     tool: 'omega',
     format: 'ndjson',
     headCommit: getHeadCommit(),
-    tagRef: getTagRef(),
+    tagRef: tagInfo.tagRef,
+    tagExact: tagInfo.tagExact,
     t: Date.now(),
   };
 }

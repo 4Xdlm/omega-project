@@ -25,6 +25,9 @@ export default defineConfig({
       'packages/omega-aggregate-dna/tests/**/*.test.ts',
       'packages/omega-observability/tests/**/*.test.ts',
       'packages/search/tests/**/*.test.ts',
+      'nexus/atlas/tests/**/*.test.ts',
+      'nexus/raw/tests/**/*.test.ts',
+      'nexus/proof-utils/tests/**/*.test.ts',
       '*.test.ts'
     ],
     exclude: [

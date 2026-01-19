@@ -1,0 +1,212 @@
+
+> omega-core@5.0.0 test
+> vitest run
+
+
+[1m[46m RUN [49m[22m [36mv4.0.17 [39m[90mC:/Users/elric/omega-project[39m
+
+[90mstdout[2m | test/ci-cd.test.ts[2m > [22m[2mPhase Check[2m > [22m[2mshould check phase declaration
+[22m[39m[36m[2026-01-18T17:51:54.173Z] [CI] Checking phase declaration...[0m
+[32m[2026-01-18T17:51:54.174Z] [CI] Phase 155 declared[0m
+
+[90mstdout[2m | test/ci-cd.test.ts[2m > [22m[2mPhase Check[2m > [22m[2mshould return current phase number
+[22m[39m[36m[2026-01-18T17:51:54.175Z] [CI] Checking phase declaration...[0m
+[32m[2026-01-18T17:51:54.175Z] [CI] Phase 155 declared[0m
+
+ [32m✓[39m tests/scribe/L2_integration_test.ts [2m([22m[2m15 tests[22m[2m)[22m[32m 40[2mms[22m[39m
+[90mstdout[2m | test/ci-cd.test.ts[2m > [22m[2mSanctuary Check[2m > [22m[2mshould check sanctuary paths
+[22m[39m[36m[2026-01-18T17:51:54.175Z] [CI] Checking sanctuary paths...[0m
+[36m[2026-01-18T17:51:54.175Z] [CI] Running: Check modified files[0m
+[32m[2026-01-18T17:51:54.285Z] [CI] Sanctuary paths intact[0m
+
+ [32m✓[39m test/ci-cd.test.ts [2m([22m[2m25 tests[22m[2m)[22m[32m 121[2mms[22m[39m
+ [32m✓[39m test/gold-final.test.ts [2m([22m[2m50 tests[22m[2m)[22m[32m 135[2mms[22m[39m
+[90mstdout[2m | packages/search/tests/benchmark.test.ts[2m > [22m[2mPhase 5.2 Performance Benchmark[2m > [22m[2mTokenize[2m > [22m[2mtokenize(short)
+[22m[39mtokenize(short): mean=0.0016ms, p95=0.0027ms
+
+ [32m✓[39m test/gold-tooling.test.ts [2m([22m[2m54 tests[22m[2m)[22m[32m 274[2mms[22m[39m
+ [32m✓[39m src/text_analyzer/text_analyzer.test.ts [2m([22m[2m37 tests[22m[2m)[22m[32m 190[2mms[22m[39m
+ [32m✓[39m packages/omega-segment-engine/tests/edge-cases.test.ts [2m([22m[2m35 tests[22m[2m)[22m[32m 72[2mms[22m[39m
+[90mstdout[2m | packages/search/tests/benchmark.test.ts[2m > [22m[2mPhase 5.2 Performance Benchmark[2m > [22m[2mTokenize[2m > [22m[2mtokenize(medium)
+[22m[39mtokenize(medium): mean=0.0091ms, p95=0.0201ms
+
+ [32m✓[39m src/oracle/muse/tests/prng.test.ts [2m([22m[2m21 tests[22m[2m)[22m[32m 22[2mms[22m[39m
+ [32m✓[39m packages/omega-segment-engine/tests/segmenter.test.ts [2m([22m[2m48 tests[22m[2m)[22m[32m 21[2mms[22m[39m
+[90mstdout[2m | packages/search/tests/benchmark.test.ts[2m > [22m[2mPhase 5.2 Performance Benchmark[2m > [22m[2mTokenize[2m > [22m[2mtokenize(long)
+[22m[39mtokenize(long): mean=0.1192ms, p95=0.1923ms
+
+ [32m✓[39m packages/mycelium-bio/tests/invariants.test.ts [2m([22m[2m45 tests[22m[2m)[22m[32m 77[2mms[22m[39m
+[90mstdout[2m | packages/search/tests/benchmark.test.ts[2m > [22m[2mPhase 5.2 Performance Benchmark[2m > [22m[2mQueryParser[2m > [22m[2mparse(query1)
+[22m[39mparse(query1): mean=0.0010ms, p95=0.0020ms
+
+[90mstdout[2m | packages/search/tests/benchmark.test.ts[2m > [22m[2mPhase 5.2 Performance Benchmark[2m > [22m[2mQueryParser[2m > [22m[2mparse(query2)
+[22m[39mparse(query2): mean=0.0018ms, p95=0.0030ms
+
+[90mstdout[2m | packages/search/tests/benchmark.test.ts[2m > [22m[2mPhase 5.2 Performance Benchmark[2m > [22m[2mQueryParser[2m > [22m[2mparse(query3)
+[22m[39mparse(query3): mean=0.0012ms, p95=0.0019ms
+
+ [32m✓[39m packages/mycelium-bio/tests/mycelium_invariants.test.ts [2m([22m[2m45 tests[22m[2m)[22m[32m 100[2mms[22m[39m
+[90mstdout[2m | packages/search/tests/benchmark.test.ts[2m > [22m[2mPhase 5.2 Performance Benchmark[2m > [22m[2mQueryParser[2m > [22m[2mparse(query4)
+[22m[39mparse(query4): mean=0.0026ms, p95=0.0036ms
+
+[90mstdout[2m | packages/search/tests/benchmark.test.ts[2m > [22m[2mPhase 5.2 Performance Benchmark[2m > [22m[2mQueryParser[2m > [22m[2mparse(query5)
+[22m[39mparse(query5): mean=0.0025ms, p95=0.0041ms
+
+[90mstdout[2m | test/atlas-regen.test.ts[2m > [22m[2mAuto-Regen Function[2m > [22m[2mshould run in dry-run mode
+[22m[39m[37m[2026-01-18T17:51:54.686Z] [ATLAS] Atlas Auto-Regen v3.93.0[0m
+[37m[2026-01-18T17:51:54.687Z] [ATLAS] ═══════════════════════════════════════════════════════════════[0m
+[37m[2026-01-18T17:51:54.687Z] [ATLAS] Regenerating atlas metadata...[0m
+[33m[2026-01-18T17:51:54.687Z] [ATLAS] [DRY-RUN] Would write atlas meta[0m
+[37m[2026-01-18T17:51:54.687Z] [ATLAS] Calculating hashes...[0m
+[32m[2026-01-18T17:51:54.688Z] [ATLAS] Merkle Root: e7ac03d14091adec399b7ae993715759a8ef8c9a8b54bf338053000c35c4982f[0m
+[32m[2026-01-18T17:51:54.688Z] [ATLAS] Atlas Meta Hash: 956e4da8847ed76e02e8ffc166f5c85b94a64ebfc6e212742ab0f22776230d0d[0m
+[37m[2026-01-18T17:51:54.688Z] [ATLAS] Total files hashed: 5[0m
+[37m[2026-01-18T17:51:54.688Z] [ATLAS] ═══════════════════════════════════════════════════════════════[0m
+[32m[2026-01-18T17:51:54.688Z] [ATLAS] Atlas regeneration complete[0m
+
+[90mstdout[2m | test/atlas-regen.test.ts[2m > [22m[2mAuto-Regen Function[2m > [22m[2mshould return hashes
+[22m[39m[37m[2026-01-18T17:51:54.689Z] [ATLAS] Atlas Auto-Regen v3.93.0[0m
+[37m[2026-01-18T17:51:54.689Z] [ATLAS] ═══════════════════════════════════════════════════════════════[0m
+[37m[2026-01-18T17:51:54.689Z] [ATLAS] Regenerating atlas metadata...[0m
+[33m[2026-01-18T17:51:54.690Z] [ATLAS] [DRY-RUN] Would write atlas meta[0m
+[37m[2026-01-18T17:51:54.690Z] [ATLAS] Calculating hashes...[0m
+[32m[2026-01-18T17:51:54.691Z] [ATLAS] Merkle Root: e7ac03d14091adec399b7ae993715759a8ef8c9a8b54bf338053000c35c4982f[0m
+[32m[2026-01-18T17:51:54.691Z] [ATLAS] Atlas Meta Hash: 956e4da8847ed76e02e8ffc166f5c85b94a64ebfc6e212742ab0f22776230d0d[0m
+[37m[2026-01-18T17:51:54.691Z] [ATLAS] Total files hashed: 5[0m
+[37m[2026-01-18T17:51:54.691Z] [ATLAS] ═══════════════════════════════════════════════════════════════[0m
+[32m[2026-01-18T17:51:54.691Z] [ATLAS] Atlas regeneration complete[0m
+
+[90mstdout[2m | test/atlas-regen.test.ts[2m > [22m[2mAuto-Regen Function[2m > [22m[2mshould include file hashes
+[22m[39m[37m[2026-01-18T17:51:54.691Z] [ATLAS] Atlas Auto-Regen v3.93.0[0m
+[37m[2026-01-18T17:51:54.691Z] [ATLAS] ═══════════════════════════════════════════════════════════════[0m
+[37m[2026-01-18T17:51:54.691Z] [ATLAS] Regenerating atlas metadata...[0m
+[33m[2026-01-18T17:51:54.692Z] [ATLAS] [DRY-RUN] Would write atlas meta[0m
+[37m[2026-01-18T17:51:54.692Z] [ATLAS] Calculating hashes...[0m
+[32m[2026-01-18T17:51:54.693Z] [ATLAS] Merkle Root: e7ac03d14091adec399b7ae993715759a8ef8c9a8b54bf338053000c35c4982f[0m
+[32m[2026-01-18T17:51:54.693Z] [ATLAS] Atlas Meta Hash: 956e4da8847ed76e02e8ffc166f5c85b94a64ebfc6e212742ab0f22776230d0d[0m
+[37m[2026-01-18T17:51:54.693Z] [ATLAS] Total files hashed: 5[0m
+[37m[2026-01-18T17:51:54.693Z] [ATLAS] ═══════════════════════════════════════════════════════════════[0m
+[32m[2026-01-18T17:51:54.693Z] [ATLAS] Atlas regeneration complete[0m
+
+ [32m✓[39m test/atlas-regen.test.ts [2m([22m[2m25 tests[22m[2m)[22m[32m 17[2mms[22m[39m
+ [32m✓[39m tests/scribe/L1_unit_test.ts [2m([22m[2m52 tests[22m[2m)[22m[32m 12[2mms[22m[39m
+ [32m✓[39m packages/omega-observability/tests/unit.test.ts [2m([22m[2m62 tests[22m[2m)[22m[33m 344[2mms[22m[39m
+ [32m✓[39m gateway/tests/gateway.test.ts [2m([22m[2m16 tests[22m[2m)[22m[32m 128[2mms[22m[39m
+[90mstdout[2m | packages/search/tests/benchmark.test.ts[2m > [22m[2mPhase 5.2 Performance Benchmark[2m > [22m[2mSearch[2m > [22m[2msearch(simple)
+[22m[39msearch(simple): mean=0.0270ms, p95=0.0375ms
+
+[90mstdout[2m | packages/search/tests/benchmark.test.ts[2m > [22m[2mPhase 5.2 Performance Benchmark[2m > [22m[2mSearch[2m > [22m[2msearch(multi-term)
+[22m[39msearch(multi-term): mean=0.0173ms, p95=0.0215ms
+
+ [32m✓[39m test/repo-hygiene.test.ts [2m([22m[2m39 tests[22m[2m)[22m[33m 612[2mms[22m[39m
+ [32m✓[39m tests/scribe/L4_brutal_test.ts [2m([22m[2m18 tests[22m[2m)[22m[32m 17[2mms[22m[39m
+ [32m✓[39m tests/scribe/L3_stress_test.ts [2m([22m[2m17 tests[22m[2m)[22m[32m 14[2mms[22m[39m
+[90mstdout[2m | packages/search/tests/benchmark.test.ts[2m > [22m[2mPhase 5.2 Performance Benchmark[2m > [22m[2mSearch[2m > [22m[2msearch(fuzzy)
+[22m[39msearch(fuzzy): mean=0.1518ms, p95=0.3078ms
+
+ [32m✓[39m packages/omega-aggregate-dna/tests/aggregate.test.ts [2m([22m[2m27 tests[22m[2m)[22m[32m 20[2mms[22m[39m
+[90mstdout[2m | packages/search/tests/benchmark.test.ts[2m > [22m[2mPhase 5.2 Performance Benchmark[2m > [22m[2mSUMMARY
+[22m[39m
+═══════════════════════════════════════════════════════════════════════════════
+PHASE 5.2 BASELINE RESULTS
+═══════════════════════════════════════════════════════════════════════════════
+| Benchmark                           | Mean (ms)   | P95 (ms)    |
+|-------------------------------------|-------------|-------------|
+| tokenize(short)                     |      0.0016 |      0.0027 |
+| tokenize(medium)                    |      0.0091 |      0.0201 |
+| tokenize(long)                      |      0.1192 |      0.1923 |
+| parse(query1)                       |      0.0010 |      0.0020 |
+| parse(query2)                       |      0.0018 |      0.0030 |
+| parse(query3)                       |      0.0012 |      0.0019 |
+| parse(query4)                       |      0.0026 |      0.0036 |
+| parse(query5)                       |      0.0025 |      0.0041 |
+| search(simple)                      |      0.0270 |      0.0375 |
+| search(multi-term)                  |      0.0173 |      0.0215 |
+| search(fuzzy)                       |      0.1518 |      0.3078 |
+═══════════════════════════════════════════════════════════════════════════════
+
+
+ [32m✓[39m packages/search/tests/benchmark.test.ts [2m([22m[2m12 tests[22m[2m)[22m[33m 461[2mms[22m[39m
+ [32m✓[39m gateway/tests/canon_engine.test.ts [2m([22m[2m30 tests[22m[2m)[22m[32m 13[2mms[22m[39m
+ [32m✓[39m packages/omega-bridge-ta-mycelium/tests/bridge.test.ts [2m([22m[2m22 tests[22m[2m)[22m[32m 9[2mms[22m[39m
+ [32m✓[39m src/oracle/muse/tests/strategies.test.ts [2m([22m[2m26 tests[22m[2m)[22m[32m 31[2mms[22m[39m
+ [32m✓[39m src/oracle/muse/tests/invariants.test.ts [2m([22m[2m17 tests[22m[2m)[22m[32m 58[2mms[22m[39m
+[90mstdout[2m | tests/stress/stress.test.ts[2m > [22m[2mSTRESS-D: Mixed Workload[2m > [22m[2mSTRESS-D-03: Rapid fire requests
+[22m[39mRapid fire: 1000 requests in 11ms
+
+ [32m✓[39m tests/stress/stress.test.ts [2m([22m[2m14 tests[22m[2m)[22m[33m 351[2mms[22m[39m
+ [32m✓[39m gateway/tests/truth_gate.test.ts [2m([22m[2m22 tests[22m[2m)[22m[32m 11[2mms[22m[39m
+ [32m✓[39m gateway/tests/hardening/governance.test.ts [2m([22m[2m65 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32m✓[39m tests/e2e/pipeline.test.ts [2m([22m[2m23 tests[22m[2m)[22m[32m 9[2mms[22m[39m
+ [32m✓[39m gateway/tests/ripple_engine.test.ts [2m([22m[2m22 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32m✓[39m gateway/tests/hardening/hardening_checks.test.ts [2m([22m[2m36 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32m✓[39m test/save-protocol.test.ts [2m([22m[2m45 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32m✓[39m src/oracle/muse/tests/scoring.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 11[2mms[22m[39m
+ [32m✓[39m packages/omega-bridge-ta-mycelium/tests/analysis_to_dna.test.ts [2m([22m[2m15 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32m✓[39m test/ultimate-gold.test.ts [2m([22m[2m37 tests[22m[2m)[22m[33m 1004[2mms[22m[39m
+     [33m[2m✓[22m[39m should pass ULTIMATE GOLD certification criteria [33m 358[2mms[22m[39m
+ [32m✓[39m gateway/tests/hardening/decision_trace.test.ts [2m([22m[2m31 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+[90mstdout[2m | test/registry.test.ts[2m > [22m[2mRegistry Functions[2m > [22m[2mshould run rotation in dry-run
+[22m[39m[37m[2026-01-18T17:51:55.172Z] [REGISTRY] Registry Rotation v3.94.0[0m
+[37m[2026-01-18T17:51:55.173Z] [REGISTRY] ═══════════════════════════════════════════════════════════════[0m
+[37m[2026-01-18T17:51:55.173Z] [REGISTRY] Found 2 registries[0m
+[37m[2026-01-18T17:51:55.173Z] [REGISTRY] Keeping: REG-20260115.yaml[0m
+[37m[2026-01-18T17:51:55.173Z] [REGISTRY] Keeping: REG-20260112.yaml[0m
+[37m[2026-01-18T17:51:55.173Z] [REGISTRY] ═══════════════════════════════════════════════════════════════[0m
+[32m[2026-01-18T17:51:55.173Z] [REGISTRY] Rotation complete: 2 kept, 0 archived[0m
+
+ [32m✓[39m test/registry.test.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32m✓[39m test/eol.test.ts [2m([22m[2m27 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32m✓[39m test/error-codes.test.ts [2m([22m[2m37 tests[22m[2m)[22m[32m 9[2mms[22m[39m
+ [32m✓[39m src/oracle/muse/tests/diversity.test.ts [2m([22m[2m19 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32m✓[39m src/oracle/muse/tests/project.test.ts [2m([22m[2m16 tests[22m[2m)[22m[32m 11[2mms[22m[39m
+ [32m✓[39m tests/stress/edgecases.test.ts [2m([22m[2m25 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32m✓[39m src/oracle/muse/tests/physics.test.ts [2m([22m[2m31 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32m✓[39m packages/omega-segment-engine/tests/canonical.test.ts [2m([22m[2m52 tests[22m[2m)[22m[32m 9[2mms[22m[39m
+ [32m✓[39m gateway/tests/emotion_gate.test.ts [2m([22m[2m23 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32m✓[39m src/oracle/muse/tests/assess.test.ts [2m([22m[2m15 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+ [32m✓[39m gateway/tests/profiles.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m test/gates.test.ts [2m([22m[2m29 tests[22m[2m)[22m[33m 1166[2mms[22m[39m
+ [32m✓[39m tests/progress_invariants.test.ts [2m([22m[2m10 tests[22m[2m)[22m[33m 8104[2mms[22m[39m
+     [33m[2m✓[22m[39m should produce identical rootHash with progress ON (20 runs) [33m 895[2mms[22m[39m
+     [33m[2m✓[22m[39m should produce identical rootHash regardless of format (10 runs) [33m 1348[2mms[22m[39m
+     [33m[2m✓[22m[39m should produce identical rootHash with different throttle values (10 runs) [33m 3178[2mms[22m[39m
+     [33m[2m✓[22m[39m should produce identical rootHash: non-stream vs stream+progress (10 runs) [33m 465[2mms[22m[39m
+     [33m[2m✓[22m[39m should produce identical hash across 50 runs with varying progress configs [33m 1766[2mms[22m[39m
+ [32m✓[39m tests/scale_invariants.test.ts [2m([22m[2m14 tests[22m[2m)[22m[33m 27453[2mms[22m[39m
+       [33m[2m✓[22m[39m concurrency=1 produces same rootHash as concurrency=4 [33m 2120[2mms[22m[39m
+       [33m[2m✓[22m[39m concurrency=1 produces same segment_dnas order as concurrency=8 [33m 1815[2mms[22m[39m
+       [33m[2m✓[22m[39m two identical runs produce identical output [33m 1814[2mms[22m[39m
+       [33m[2m✓[22m[39m different seeds produce different hashes [33m 1789[2mms[22m[39m
+       [33m[2m✓[22m[39m sentence mode produces different hash than paragraph mode [33m 1749[2mms[22m[39m
+       [33m[2m✓[22m[39m scene mode produces different segment count than sentence mode [33m 873[2mms[22m[39m
+       [33m[2m✓[22m[39m --no-text and --include-text produce same rootHash [33m 1763[2mms[22m[39m
+       [33m[2m✓[22m[39m segments have text field only when --include-text [33m 1680[2mms[22m[39m
+       [33m[2m✓[22m[39m segment_dnas are ordered by segment_index [33m 875[2mms[22m[39m
+       [33m[2m✓[22m[39m segment_root_hashes in global_dna match segment_dnas order [33m 963[2mms[22m[39m
+       [33m[2m✓[22m[39m handles large file without OOM [33m 9520[2mms[22m[39m
+       [33m[2m✓[22m[39m batch summary is created correctly [33m 869[2mms[22m[39m
+       [33m[2m✓[22m[39m fails gracefully on non-existent input [33m 780[2mms[22m[39m
+       [33m[2m✓[22m[39m fails gracefully on empty directory [33m 823[2mms[22m[39m
+ [32m✓[39m tests/streaming_invariants.test.ts [2m([22m[2m15 tests[22m[2m)[22m[33m 49370[2mms[22m[39m
+       [33m[2m✓[22m[39m paragraph mode: streaming produces same rootHash as non-streaming [33m 2093[2mms[22m[39m
+       [33m[2m✓[22m[39m scene mode: streaming produces same rootHash as non-streaming [33m 1924[2mms[22m[39m
+       [33m[2m✓[22m[39m sentence mode: streaming produces same rootHash as non-streaming [33m 1811[2mms[22m[39m
+       [33m[2m✓[22m[39m different chunk sizes produce identical rootHash [33m 4766[2mms[22m[39m
+       [33m[2m✓[22m[39m chunk size does not affect segment count [33m 2368[2mms[22m[39m
+       [33m[2m✓[22m[39m segment offsets are contiguous and cover input [33m 873[2mms[22m[39m
+       [33m[2m✓[22m[39m streaming offsets match non-streaming offsets [33m 1745[2mms[22m[39m
+       [33m[2m✓[22m[39m auto-stream produces same result as explicit --stream [33m 6199[2mms[22m[39m
+       [33m[2m✓[22m[39m 10 consecutive runs produce identical rootHash [33m 13270[2mms[22m[39m
+       [33m[2m✓[22m[39m streaming + concurrency produces same hash as sequential [33m 3195[2mms[22m[39m
+       [33m[2m✓[22m[39m handles large file (50k lines) without OOM [33m 5780[2mms[22m[39m
+       [33m[2m✓[22m[39m streaming mode flag is correctly set in output [33m 1743[2mms[22m[39m
+       [33m[2m✓[22m[39m handles empty paragraphs correctly [33m 938[2mms[22m[39m
+       [33m[2m✓[22m[39m handles UTF-8 special characters [33m 1773[2mms[22m[39m
+       [33m[2m✓[22m[39m handles Windows line endings (CRLF) [33m 879[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m49 passed[39m[22m[90m (49)[39m
+[2m      Tests [22m [1m[32m1389 passed[39m[22m[90m (1389)[39m
+[2m   Start at [22m 18:51:53
+[2m   Duration [22m 49.74s[2m (transform 5.28s, setup 0ms, import 7.31s, tests 90.39s, environment 5ms)[22m
+

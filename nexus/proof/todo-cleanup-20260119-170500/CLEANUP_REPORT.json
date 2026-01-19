@@ -1,0 +1,508 @@
+{
+  "timestamp": "2026-01-19T16:13:52.027Z",
+  "baseline": "260038a",
+  "stats": {
+    "filesProcessed": 111,
+    "filesModified": 43,
+    "totalReplacements": 103,
+    "byTag": {
+      "TODO": 44,
+      "FIXME": 29,
+      "HACK": 2,
+      "XXX": 28
+    },
+    "patternExceptions": [
+      {
+        "file": "C:\\Users\\elric\\omega-project\\omega-math-scan.ps1",
+        "line": 207,
+        "content": "Select-String -Path $file.FullName -Pattern \"TODO|FIXME|HACK|XXX\" | ForEach-Object {"
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\OMEGA_MASTER_DOSSIER_v3.83.0\\15_SCRIPTS\\VERIFY.ps1",
+        "line": 178,
+        "content": "if ($content -match '\\b(TODO|FIXME|TBD|XXX)\\b') {"
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\OMEGA_MASTER_DOSSIER_v3.83.0\\15_SCRIPTS\\verify-omega.sh",
+        "line": 68,
+        "content": "PLACEHOLDER_COUNT=$(grep -rl \"TODO\\|FIXME\\|TBD\\|XXX\" \"$PATH_TO_CHECK\"/*.md \"$PATH_TO_CHECK\"/**/*.md "
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\OMEGA_MASTER_DOSSIER_v3.83.0\\15_SCRIPTS\\verify-omega.sh",
+        "line": 74,
+        "content": "grep -rl \"TODO\\|FIXME\\|TBD\\|XXX\" \"$PATH_TO_CHECK\"/*.md \"$PATH_TO_CHECK\"/**/*.md 2>/dev/null | while "
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\OMEGA_MASTER_DOSSIER_v3.83.0\\15_SCRIPTS\\verify-omega.ps1",
+        "line": 77,
+        "content": "if ($content -match '\\b(TODO|FIXME|TBD|XXX)\\b') {"
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\OMEGA_MASTER_DOSSIER_v3.61.0\\15_SCRIPTS\\VERIFY.ps1",
+        "line": 178,
+        "content": "if ($content -match '\\b(TODO|FIXME|TBD|XXX)\\b') {"
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\OMEGA_MASTER_DOSSIER_v3.61.0\\15_SCRIPTS\\verify-omega.sh",
+        "line": 68,
+        "content": "PLACEHOLDER_COUNT=$(grep -rl \"TODO\\|FIXME\\|TBD\\|XXX\" \"$PATH_TO_CHECK\"/*.md \"$PATH_TO_CHECK\"/**/*.md "
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\OMEGA_MASTER_DOSSIER_v3.61.0\\15_SCRIPTS\\verify-omega.sh",
+        "line": 74,
+        "content": "grep -rl \"TODO\\|FIXME\\|TBD\\|XXX\" \"$PATH_TO_CHECK\"/*.md \"$PATH_TO_CHECK\"/**/*.md 2>/dev/null | while "
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\OMEGA_MASTER_DOSSIER_v3.61.0\\15_SCRIPTS\\verify-omega.ps1",
+        "line": 77,
+        "content": "if ($content -match '\\b(TODO|FIXME|TBD|XXX)\\b') {"
+      }
+    ],
+    "modifiedFiles": [
+      {
+        "file": "C:\\Users\\elric\\omega-project\\INSTRUCTIONS_LANCEMENT_URANIUM_v1.1.md",
+        "replacements": 4,
+        "byTag": {
+          "TODO": 0,
+          "FIXME": 0,
+          "HACK": 0,
+          "XXX": 4
+        }
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\INDEX_DOSSIER_MASTER_v2_0.md",
+        "replacements": 1,
+        "byTag": {
+          "TODO": 0,
+          "FIXME": 1,
+          "HACK": 0,
+          "XXX": 0
+        }
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\OMEGA_HISTORY.md",
+        "replacements": 3,
+        "byTag": {
+          "TODO": 3,
+          "FIXME": 0,
+          "HACK": 0,
+          "XXX": 0
+        }
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\docs\\phase29\\MYCELIUM_REJECTION_CATALOG.md",
+        "replacements": 1,
+        "byTag": {
+          "TODO": 0,
+          "FIXME": 0,
+          "HACK": 0,
+          "XXX": 1
+        }
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\docs\\phase15_1_final\\RAPPORT_FIN_PHASE_15_1.md",
+        "replacements": 1,
+        "byTag": {
+          "TODO": 0,
+          "FIXME": 0,
+          "HACK": 0,
+          "XXX": 1
+        }
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\docs\\phase15_1_final\\OBS_TERRAIN_LOG_APPEND_ONLY.md",
+        "replacements": 3,
+        "byTag": {
+          "TODO": 0,
+          "FIXME": 0,
+          "HACK": 0,
+          "XXX": 3
+        }
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\docs\\phase15_1_final\\NO_GO_ZONE.md",
+        "replacements": 3,
+        "byTag": {
+          "TODO": 0,
+          "FIXME": 0,
+          "HACK": 0,
+          "XXX": 3
+        }
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\OMEGA_MASTER_DOSSIER_v3.21.0_PERFECT\\07_SESSION_SAVES\\SESSION_SAVE_PHASE_11.md",
+        "replacements": 1,
+        "byTag": {
+          "TODO": 0,
+          "FIXME": 1,
+          "HACK": 0,
+          "XXX": 0
+        }
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\docs\\phase15_1_final\\BACKLOG_TENTATION.md",
+        "replacements": 1,
+        "byTag": {
+          "TODO": 0,
+          "FIXME": 0,
+          "HACK": 0,
+          "XXX": 1
+        }
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\gateway\\tests\\hardening\\hardening_checks.test.ts",
+        "replacements": 7,
+        "byTag": {
+          "TODO": 1,
+          "FIXME": 3,
+          "HACK": 1,
+          "XXX": 2
+        }
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\docs\\OMEGA_PHASE_15_1_MASTERPLAN_MIL_GRADE.md",
+        "replacements": 1,
+        "byTag": {
+          "TODO": 0,
+          "FIXME": 0,
+          "HACK": 0,
+          "XXX": 1
+        }
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\docs\\OMEGA_HISTORY.md",
+        "replacements": 3,
+        "byTag": {
+          "TODO": 3,
+          "FIXME": 0,
+          "HACK": 0,
+          "XXX": 0
+        }
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\OMEGA_MASTER_DOSSIER_v3.21.0_PERFECT\\05_CERTIFICATIONS\\CERTIFICATION_PHASE_11_HARDENING.md",
+        "replacements": 1,
+        "byTag": {
+          "TODO": 0,
+          "FIXME": 1,
+          "HACK": 0,
+          "XXX": 0
+        }
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\omega-narrative-genome\\src\\extractor\\emotion_extractor.ts",
+        "replacements": 1,
+        "byTag": {
+          "TODO": 1,
+          "FIXME": 0,
+          "HACK": 0,
+          "XXX": 0
+        }
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\OMEGA_PHASE12\\docs\\INVARIANTS_PHASE12.md",
+        "replacements": 3,
+        "byTag": {
+          "TODO": 3,
+          "FIXME": 0,
+          "HACK": 0,
+          "XXX": 0
+        }
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\gateway\\src\\hardening\\hardening_checks.ts",
+        "replacements": 7,
+        "byTag": {
+          "TODO": 1,
+          "FIXME": 5,
+          "HACK": 0,
+          "XXX": 1
+        }
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\omega-math-scan.ps1",
+        "replacements": 6,
+        "byTag": {
+          "TODO": 3,
+          "FIXME": 0,
+          "HACK": 0,
+          "XXX": 3
+        }
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\OMEGA_MEGA_AUDIT_MATH_v2_0_RAPPORT.md",
+        "replacements": 1,
+        "byTag": {
+          "TODO": 0,
+          "FIXME": 0,
+          "HACK": 1,
+          "XXX": 0
+        }
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\RUNBOOK_GOLD.md",
+        "replacements": 1,
+        "byTag": {
+          "TODO": 0,
+          "FIXME": 0,
+          "HACK": 0,
+          "XXX": 1
+        }
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\PROMPT_URANIUM_v1.1_MILITARY.md",
+        "replacements": 7,
+        "byTag": {
+          "TODO": 0,
+          "FIXME": 0,
+          "HACK": 0,
+          "XXX": 7
+        }
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\omega-ui\\src-tauri\\src\\bin\\omega_run.rs",
+        "replacements": 2,
+        "byTag": {
+          "TODO": 2,
+          "FIXME": 0,
+          "HACK": 0,
+          "XXX": 0
+        }
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\PHASE_18_CERTIFICATION_FINAL.md",
+        "replacements": 1,
+        "byTag": {
+          "TODO": 0,
+          "FIXME": 1,
+          "HACK": 0,
+          "XXX": 0
+        }
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\SITUATION_FINALE_RECAP.md",
+        "replacements": 3,
+        "byTag": {
+          "TODO": 2,
+          "FIXME": 1,
+          "HACK": 0,
+          "XXX": 0
+        }
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\OMEGA_MASTER_DOSSIER_v3.83.0\\09_HISTORY\\OMEGA_HISTORY.md",
+        "replacements": 3,
+        "byTag": {
+          "TODO": 3,
+          "FIXME": 0,
+          "HACK": 0,
+          "XXX": 0
+        }
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\SESSION_SAVE_OMEGA_AUTO_FINISH_v1_1_FINAL.md",
+        "replacements": 8,
+        "byTag": {
+          "TODO": 8,
+          "FIXME": 0,
+          "HACK": 0,
+          "XXX": 0
+        }
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\nexus\\handover\\SUCCESSION_RULES.md",
+        "replacements": 1,
+        "byTag": {
+          "TODO": 1,
+          "FIXME": 0,
+          "HACK": 0,
+          "XXX": 0
+        }
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\OMEGA_MASTER_DOSSIER_v3.83.0\\07_SESSION_SAVES\\SESSION_SAVE_PHASE_11.md",
+        "replacements": 1,
+        "byTag": {
+          "TODO": 0,
+          "FIXME": 1,
+          "HACK": 0,
+          "XXX": 0
+        }
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\OMEGA_SITUATION_COMPLETE_FINALE_v2_0.md",
+        "replacements": 10,
+        "byTag": {
+          "TODO": 9,
+          "FIXME": 1,
+          "HACK": 0,
+          "XXX": 0
+        }
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\OMEGA_MASTER_DOSSIER_v3.83.0\\05_CERTIFICATIONS\\CERTIFICATION_PHASE_11.md",
+        "replacements": 1,
+        "byTag": {
+          "TODO": 0,
+          "FIXME": 1,
+          "HACK": 0,
+          "XXX": 0
+        }
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\OMEGA_MASTER_DOSSIER_v3.83.0\\03_INVARIANTS\\INVARIANTS_REGISTRY.md",
+        "replacements": 1,
+        "byTag": {
+          "TODO": 0,
+          "FIXME": 1,
+          "HACK": 0,
+          "XXX": 0
+        }
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\OMEGA_MASTER_DOSSIER_v3.25.0\\07_SESSION_SAVES\\SESSION_SAVE_PHASE_11.md",
+        "replacements": 1,
+        "byTag": {
+          "TODO": 0,
+          "FIXME": 1,
+          "HACK": 0,
+          "XXX": 0
+        }
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\OMEGA_MASTER_DOSSIER_v3.60.0\\07_SESSION_SAVES\\SESSION_SAVE_PHASE_11.md",
+        "replacements": 1,
+        "byTag": {
+          "TODO": 0,
+          "FIXME": 1,
+          "HACK": 0,
+          "XXX": 0
+        }
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\OMEGA_MASTER_DOSSIER_v3.25.0\\05_CERTIFICATIONS\\CERTIFICATION_PHASE_11_HARDENING.md",
+        "replacements": 1,
+        "byTag": {
+          "TODO": 0,
+          "FIXME": 1,
+          "HACK": 0,
+          "XXX": 0
+        }
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\OMEGA_MASTER_DOSSIER_v3.60.0\\05_CERTIFICATIONS\\CERTIFICATION_PHASE_11.md",
+        "replacements": 1,
+        "byTag": {
+          "TODO": 0,
+          "FIXME": 1,
+          "HACK": 0,
+          "XXX": 0
+        }
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\OMEGA_MASTER_DOSSIER_v3.61.0\\03_INVARIANTS\\INVARIANTS_REGISTRY.md",
+        "replacements": 1,
+        "byTag": {
+          "TODO": 0,
+          "FIXME": 1,
+          "HACK": 0,
+          "XXX": 0
+        }
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\OMEGA_MASTER_DOSSIER_v3.61.0\\08_GOVERNANCE\\POLICY_v9.1.md",
+        "replacements": 2,
+        "byTag": {
+          "TODO": 1,
+          "FIXME": 1,
+          "HACK": 0,
+          "XXX": 0
+        }
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\OMEGA_MASTER_DOSSIER_v3.28.0\\07_SESSION_SAVES\\SESSION_SAVE_PHASE_11.md",
+        "replacements": 1,
+        "byTag": {
+          "TODO": 0,
+          "FIXME": 1,
+          "HACK": 0,
+          "XXX": 0
+        }
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\OMEGA_MASTER_DOSSIER_v3.61.0\\09_HISTORY\\OMEGA_HISTORY.md",
+        "replacements": 3,
+        "byTag": {
+          "TODO": 3,
+          "FIXME": 0,
+          "HACK": 0,
+          "XXX": 0
+        }
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\OMEGA_MASTER_DOSSIER_v3.61.0\\07_SESSION_SAVES\\SESSION_SAVE_PHASE_11.md",
+        "replacements": 1,
+        "byTag": {
+          "TODO": 0,
+          "FIXME": 1,
+          "HACK": 0,
+          "XXX": 0
+        }
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\OMEGA_MASTER_DOSSIER_v3.60.1\\07_SESSION_SAVES\\SESSION_SAVE_PHASE_11.md",
+        "replacements": 1,
+        "byTag": {
+          "TODO": 0,
+          "FIXME": 1,
+          "HACK": 0,
+          "XXX": 0
+        }
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\OMEGA_MASTER_DOSSIER_v3.28.0\\05_CERTIFICATIONS\\CERTIFICATION_PHASE_11.md",
+        "replacements": 1,
+        "byTag": {
+          "TODO": 0,
+          "FIXME": 1,
+          "HACK": 0,
+          "XXX": 0
+        }
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\OMEGA_MASTER_DOSSIER_v3.61.0\\05_CERTIFICATIONS\\CERTIFICATION_PHASE_11.md",
+        "replacements": 1,
+        "byTag": {
+          "TODO": 0,
+          "FIXME": 1,
+          "HACK": 0,
+          "XXX": 0
+        }
+      },
+      {
+        "file": "C:\\Users\\elric\\omega-project\\OMEGA_MASTER_DOSSIER_v3.60.1\\05_CERTIFICATIONS\\CERTIFICATION_PHASE_11.md",
+        "replacements": 1,
+        "byTag": {
+          "TODO": 0,
+          "FIXME": 1,
+          "HACK": 0,
+          "XXX": 0
+        }
+      }
+    ],
+    "errors": []
+  },
+  "summary": {
+    "filesProcessed": 111,
+    "filesModified": 43,
+    "totalReplacements": 103,
+    "byTag": {
+      "TODO": 44,
+      "FIXME": 29,
+      "HACK": 2,
+      "XXX": 28
+    },
+    "patternExceptions": 9,
+    "errors": 0
+  }
+}

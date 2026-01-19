@@ -1,0 +1,41 @@
+# TODO CLEANUP COMMANDS - 2026-01-19
+# NASA-Grade L4 - OMEGA MODE
+# Baseline: 260038a
+
+# 0) PRE-FLIGHT
+git status
+git rev-parse HEAD
+git log -1 --oneline
+git tag --list | grep docs-todo-scan
+
+# 1) BEFORE SCAN
+rg -n --no-heading --with-filename --column "(TODO|FIXME|HACK|XXX)" . \
+  -g "!node_modules/**" -g "!.git/**" -g "!dist/**" -g "!build/**" -g "!coverage/**" \
+  -g "!.cache/**" -g "!out/**" -g "!tmp/**" -g "!vendor/**" -g "!.next/**" \
+  -g "!.turbo/**" -g "!.pnpm-store/**" -g "!*.lock" -g "!package-lock.json" \
+  > BEFORE_SCAN.txt
+
+# 2) APPLY CLEANUP SCRIPT
+node apply_cleanup.cjs
+
+# 3) RUN TESTS
+npm test
+
+# 4) AFTER SCAN
+rg -n --no-heading --with-filename --column "(TODO|FIXME|HACK|XXX)" . \
+  -g "!node_modules/**" -g "!.git/**" -g "!dist/**" -g "!build/**" -g "!coverage/**" \
+  -g "!.cache/**" -g "!out/**" -g "!tmp/**" -g "!vendor/**" -g "!.next/**" \
+  -g "!.turbo/**" -g "!.pnpm-store/**" -g "!*.lock" -g "!package-lock.json" \
+  > AFTER_SCAN.txt
+
+# 5) FROZEN CHECK
+git diff -- packages/genome packages/mycelium OMEGA_SENTINEL_SUPREME/sentinel
+
+# 6) COMMITS
+git add <modified-files>
+git commit -m "docs(cleanup): replace TODO markers with BACKLOG labels"
+git add nexus/proof/todo-cleanup-20260119-170500
+git commit -m "docs(proof): add todo cleanup proof pack [NASA-L4]"
+git tag docs-todo-cleanup-v1
+git push origin master
+git push origin docs-todo-cleanup-v1

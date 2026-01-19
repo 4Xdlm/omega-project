@@ -1,0 +1,47 @@
+.\OMEGA_MASTER_DOSSIER_v3.21.0_PERFECT\06_CONCEPTS\CNC-300-MEMORY_LAYER.md:370:66:║   5. STRINGS : Échappement JSON standard (\n, \t, \", \\, \uXXXX)                     ║
+.\gateway\tests\hardening\governance.test.ts:47:28:      (PERMISSIONS as any).HACKER = { read: true };
+.\gateway\tests\hardening\governance.test.ts:140:29:      expect(hasPermission('HACKER' as Role, 'read')).toBe(false);
+.\gateway\tests\hardening\governance.test.ts:141:29:      expect(hasPermission('HACKER' as Role, 'write')).toBe(false);
+.\gateway\tests\hardening\governance.test.ts:482:28:      (PERMISSIONS as any).HACKER = { read: true };
+.\gateway\tests\hardening\governance.test.ts:487:25:    // car PERMISSIONS['HACKER'] est undefined
+.\gateway\tests\hardening\governance.test.ts:488:25:    expect(PERMISSIONS['HACKER' as Role]).toBeUndefined();
+.\gateway\src\hardening\hardening_checks.ts:95:29:  BACKLOG: /(?<!\/\/\s*@)\b(TODO|FIXME|PLACEHOLDER|HACK)\b/gi,
+.\gateway\src\hardening\hardening_checks.ts:330:26:      FORBIDDEN_PATTERNS.TODO,
+.\gateway\src\memory\memory_layer_nasa\memory_index.test.ts:453:47:          Object.assign(result.value, { key: "HACKED" });
+.\gateway\src\memory\memory_layer_nasa\memory_index.test.ts:474:40:          (result.value as any).key = "HACKED";
+.\load_test.ts:58:25:    signed.meta.name = 'HACKED';
+.\omega-math-scan.ps1:207:52:      Select-String -Path $file.FullName -Pattern "TODO|FIXME|HACK|XXX" | ForEach-Object {
+.\omega-math-scan.ps1:208:39:        $marker = if ($_.Line -match 'FIXME') { 'FIXME' } 
+.\omega-math-scan.ps1:209:43:                  elseif ($_.Line -match 'HACK') { 'HACK' }
+.\omega-math-scan.ps1:211:27:                  else { 'TODO' }
+.\omega-math-scan.ps1:223:60:      todo_count = ($todos | Where-Object { $_.marker -eq "TODO" }).Count
+.\omega-math-scan.ps1:224:61:      fixme_count = ($todos | Where-Object { $_.marker -eq "FIXME" }).Count
+.\omega-math-scan.ps1:225:60:      hack_count = ($todos | Where-Object { $_.marker -eq "HACK" }).Count
+.\omega-math-scan.ps1:233:21:    Write-Host "    TODO_COUNT: $($todoMetrics.todo_count)"
+.\omega-math-scan.ps1:234:21:    Write-Host "    FIXME_COUNT: $($todoMetrics.fixme_count)"
+.\omega-math-scan.ps1:341:3:| TODO_COUNT | $($todoMetrics.todo_count) |
+.\omega-math-scan.ps1:342:3:| FIXME_COUNT | $($todoMetrics.fixme_count) |
+.\omega-math-scan.ps1:343:3:| HACK_COUNT | $($todoMetrics.hack_count) |
+.\omega-math-scan.ps1:344:3:| XXX_COUNT | $($todoMetrics.xxx_count) |
+.\omega-ui\src-tauri\src\modules\voice_hybrid\replay_store.rs:359:34:        normalized.completion = "HACKED".to_string();
+.\OMEGA_SPRINT15\src\nexus\tests\types.test.ts:91:53:    const invalid = { ...VALID_REQUEST, caller_id: 'HACKER' };
+.\OMEGA_SPRINT15\src\nexus\tests\types.test.ts:322:26:    expect(isCallerType('HACKER')).toBe(false);
+.\OMEGA_MASTER_DOSSIER_v3.61.0\15_SCRIPTS\VERIFY.ps1:178:29:    if ($content -match '\b(TODO|FIXME|TBD|XXX)\b') {
+.\OMEGA_MASTER_DOSSIER_v3.83.0\15_SCRIPTS\VERIFY.ps1:178:29:    if ($content -match '\b(TODO|FIXME|TBD|XXX)\b') {
+.\OMEGA_PHASE13A\observability\tests\metrics_collector.test.ts:56:17:    labels.a = 'HACK';
+.\OMEGA_PHASE13A\observability\tests\metrics_collector.test.ts:59:58:    expect(Object.keys(s.by_label_key)).not.toContain('a=HACK');
+.\OMEGA_MASTER_DOSSIER_v3.60.1\06_CONCEPTS\CNC-300-MEMORY_LAYER.md:370:66:║   5. STRINGS : Échappement JSON standard (\n, \t, \", \\, \uXXXX)                     ║
+.\OMEGA_MASTER_DOSSIER_v3.61.0\06_CONCEPTS\CNC-300-MEMORY_LAYER.md:370:66:║   5. STRINGS : Échappement JSON standard (\n, \t, \", \\, \uXXXX)                     ║
+.\OMEGA_MASTER_DOSSIER_v3.83.0\15_SCRIPTS\verify-omega.sh:68:31:PLACEHOLDER_COUNT=$(grep -rl "TODO\|FIXME\|TBD\|XXX" "$PATH_TO_CHECK"/*.md "$PATH_TO_CHECK"/**/*.md 2>/dev/null | wc -l)
+.\OMEGA_MASTER_DOSSIER_v3.83.0\15_SCRIPTS\verify-omega.sh:74:15:    grep -rl "TODO\|FIXME\|TBD\|XXX" "$PATH_TO_CHECK"/*.md "$PATH_TO_CHECK"/**/*.md 2>/dev/null | while read file; do
+.\OMEGA_MASTER_DOSSIER_v3.61.0\15_SCRIPTS\verify-omega.sh:68:31:PLACEHOLDER_COUNT=$(grep -rl "TODO\|FIXME\|TBD\|XXX" "$PATH_TO_CHECK"/*.md "$PATH_TO_CHECK"/**/*.md 2>/dev/null | wc -l)
+.\OMEGA_MASTER_DOSSIER_v3.61.0\15_SCRIPTS\verify-omega.sh:74:15:    grep -rl "TODO\|FIXME\|TBD\|XXX" "$PATH_TO_CHECK"/*.md "$PATH_TO_CHECK"/**/*.md 2>/dev/null | while read file; do
+.\OMEGA_MASTER_DOSSIER_v3.83.0\15_SCRIPTS\verify-omega.ps1:77:29:    if ($content -match '\b(TODO|FIXME|TBD|XXX)\b') {
+.\OMEGA_MASTER_DOSSIER_v3.61.0\15_SCRIPTS\verify-omega.ps1:77:29:    if ($content -match '\b(TODO|FIXME|TBD|XXX)\b') {
+.\OMEGA_PHASE13A\observability\tests\audit_trail.test.ts:326:52:    const invalid = { ...VALID_EVENT, actor_role: 'HACKER' };
+.\OMEGA_PHASE12\config\tests\config.test.ts:319:44:        (config.audit as any).log_level = "HACKED";
+.\OMEGA_MASTER_DOSSIER_v3.60.0\06_CONCEPTS\CNC-300-MEMORY_LAYER.md:370:66:║   5. STRINGS : Échappement JSON standard (\n, \t, \", \\, \uXXXX)                     ║
+.\OMEGA_MASTER_DOSSIER_v3.83.0\06_CONCEPTS\CNC-300-MEMORY_LAYER.md:370:66:║   5. STRINGS : Échappement JSON standard (\n, \t, \", \\, \uXXXX)                     ║
+.\robustness_test.ts:48:23:    json.meta.name = 'HACKED PROJECT';
+.\OMEGA_MASTER_DOSSIER_v3.25.0\06_CONCEPTS\CNC-300-MEMORY_LAYER.md:370:66:║   5. STRINGS : Échappement JSON standard (\n, \t, \", \\, \uXXXX)                     ║
+.\OMEGA_MASTER_DOSSIER_v3.28.0\06_CONCEPTS\CNC-300-MEMORY_LAYER.md:370:66:║   5. STRINGS : Échappement JSON standard (\n, \t, \", \\, \uXXXX)                     ║

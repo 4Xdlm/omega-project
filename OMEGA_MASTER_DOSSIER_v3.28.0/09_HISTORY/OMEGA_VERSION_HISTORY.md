@@ -144,7 +144,7 @@ gateway/src/memory/memory_layer_nasa/
 │          │                                                                  │
 │          ▼                                                                  │
 │   ┌─────────────┐                                                           │
-│   │  CREATION   │ ← Artifact Generation (Phase 9 — TODO)                    │
+│   │  CREATION   │ ← Artifact Generation (Phase 9 — PENDING)                    │
 │   └─────────────┘                                                           │
 │                                                                             │
 └─────────────────────────────────────────────────────────────────────────────┘

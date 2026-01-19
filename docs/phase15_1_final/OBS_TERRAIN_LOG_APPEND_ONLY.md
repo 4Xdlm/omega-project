@@ -56,7 +56,7 @@
 
 | Champ | Valeur |
 |-------|--------|
-| **Scénario** | SC-XXX-XXX |
+| **Scénario** | SC-PLACEHOLDER-NNN |
 | **Mode** | NORMAL / HOSTILE |
 | **Catégorie hostile** | N/A ou H-INC/H-SEQ/H-SPM/H-TIM/H-HUM/H-MAL/H-BND/H-INJ |
 | **Module** | NEXUS / ORACLE / MUSE / validator / guard / etc. |
@@ -77,7 +77,7 @@
 
 | Métrique | Valeur |
 |----------|--------|
-| Temps exécution | XXX ms |
+| Temps exécution | PLACEHOLDER ms |
 | Erreur présente | Oui / Non |
 | Message erreur | [Si oui, copie exacte] |
 
@@ -102,7 +102,7 @@
 | Champ | Valeur |
 |-------|--------|
 | **Occurrence #** | 1 / 2 / 3+ |
-| **Pattern associé** | N/A ou PAT-XXX |
+| **Pattern associé** | N/A ou PAT-PLACEHOLDER |
 | **Statut validation** | SUSPICION / CANDIDAT / CONFIRMÉ |
 
 ---
@@ -116,9 +116,9 @@
 
 | Champ | Valeur |
 |-------|--------|
-| **Scénario** | SC-XXX-XXX |
+| **Scénario** | SC-PLACEHOLDER-NNN |
 | **Mode** | NORMAL / HOSTILE |
-| **Catégorie hostile** | N/A ou H-XXX |
+| **Catégorie hostile** | N/A ou H-NNN |
 | **Module** | [Module] |
 
 ### Input (COPIE BRUTE)
@@ -137,7 +137,7 @@
 
 | Métrique | Valeur |
 |----------|--------|
-| Temps exécution | XXX ms |
+| Temps exécution | PLACEHOLDER ms |
 | Erreur présente | Oui / Non |
 | Message erreur | [Si applicable] |
 
@@ -161,7 +161,7 @@
 | Champ | Valeur |
 |-------|--------|
 | **Occurrence #** | X |
-| **Pattern associé** | N/A ou PAT-XXX |
+| **Pattern associé** | N/A ou PAT-PLACEHOLDER |
 
 ---
 
@@ -171,15 +171,15 @@
 
 <!--
 ---
-## OBS-XXX | 2026-01-XX | HH:MM:SS UTC | SEALED
+## OBS-PLACEHOLDER | 2026-01-XX | HH:MM:SS UTC | SEALED
 
 ### Métadonnées
 
 | Champ | Valeur |
 |-------|--------|
-| **Scénario** | SC-XXX-XXX |
+| **Scénario** | SC-PLACEHOLDER-NNN |
 | **Mode** | NORMAL / HOSTILE |
-| **Catégorie hostile** | N/A ou H-XXX |
+| **Catégorie hostile** | N/A ou H-NNN |
 | **Module** | [Module] |
 
 ### Input (COPIE BRUTE)
@@ -198,7 +198,7 @@
 
 | Métrique | Valeur |
 |----------|--------|
-| Temps exécution | XXX ms |
+| Temps exécution | PLACEHOLDER ms |
 | Erreur présente | Oui / Non |
 | Message erreur | [Si applicable] |
 
@@ -223,7 +223,7 @@
 | Champ | Valeur |
 |-------|--------|
 | **Occurrence #** | X |
-| **Pattern associé** | N/A ou PAT-XXX |
+| **Pattern associé** | N/A ou PAT-PLACEHOLDER |
 | **Statut** | SUSPICION / CANDIDAT / CONFIRMÉ |
 
 ---
@@ -241,7 +241,7 @@
 
 | Champ | Valeur |
 |-------|--------|
-| **Référence** | OBS-XXX |
+| **Référence** | OBS-PLACEHOLDER |
 | **Erreur** | [Description de l'erreur] |
 | **Correction** | [Information corrigée] |
 | **Note** | L'observation originale reste intacte |
@@ -261,9 +261,9 @@
 
 | Champ | Valeur |
 |-------|--------|
-| **Observation source** | OBS-XXX |
+| **Observation source** | OBS-PLACEHOLDER |
 | **Gravité** | G3 INTEGRITY / G4 CATASTROPHIC |
-| **Invariant concerné** | INV-XXX |
+| **Invariant concerné** | INV-PLACEHOLDER |
 | **Impact** | [Description] |
 | **Action** | ARRÊT D'URGENCE / Escalade Architecte |
 

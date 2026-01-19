@@ -53,7 +53,7 @@
 
 | Champ | Valeur |
 |-------|--------|
-| **Scenario** | SC-XXX |
+| **Scenario** | SC-PLACEHOLDER |
 | **Mode** | NORMAL / HOSTILE |
 | **Module teste** | [Module] |
 
@@ -85,13 +85,13 @@ RIEN — COMPORTEMENT NOMINAL
 <!-- TEMPLATE POUR NOUVELLES ENTREES -->
 <!--
 ---
-## NOEV-XXX | 2026-01-XX | HH:MM:SS UTC | SEALED
+## NOEV-PLACEHOLDER | 2026-01-XX | HH:MM:SS UTC | SEALED
 
 ### Contexte
 
 | Champ | Valeur |
 |-------|--------|
-| **Scenario** | SC-XXX |
+| **Scenario** | SC-PLACEHOLDER |
 | **Mode** | NORMAL / HOSTILE |
 | **Module teste** | [Module] |
 

@@ -40,11 +40,11 @@ Même entrée → Même décision (ACCEPT ou REJECT) → Même code.
 ### 2.1 Format
 
 ```
-REJ-MYC-XXX
+REJ-MYC-PLACEHOLDER
 
 REJ = Rejection
 MYC = Mycelium module
-XXX = Numéro séquentiel (001-999)
+PLACEHOLDER = Numéro séquentiel (001-999)
 ```
 
 ### 2.2 Catégories
@@ -422,7 +422,7 @@ XXX = Numéro séquentiel (001-999)
 interface RejectionResponse {
   accepted: false;
   rejection: {
-    code: string;          // REJ-MYC-XXX
+    code: string;          // REJ-MYC-PLACEHOLDER
     category: string;      // Format | Encoding | Size | Content | Params | System
     message: string;       // Human-readable
     details?: {

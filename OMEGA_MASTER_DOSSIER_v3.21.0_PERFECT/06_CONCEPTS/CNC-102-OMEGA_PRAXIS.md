@@ -52,10 +52,10 @@
 ```
 Fichier: OMEGA_CONCEPT_REGISTRY_FINAL.md
 Mode: Append-only
-RÃ¨gle: UN concept = UNE fiche CNC-XXX
+RÃ¨gle: UN concept = UNE fiche CNC-PLACEHOLDER
 
 Structure obligatoire:
-- ID unique (CNC-XXX)
+- ID unique (CNC-PLACEHOLDER)
 - Nom
 - Statut (CORE/R&D/ARCHIVE)
 - Description
@@ -71,10 +71,10 @@ Violation: Concept non enregistrÃ© = concept inexistant
 ```
 Fichier: OMEGA_HISTORY_LOG.md
 Mode: APPEND-ONLY STRICT
-RÃ¨gle: Chaque Ã©vÃ©nement significatif = une entrÃ©e HLOG-XXX
+RÃ¨gle: Chaque Ã©vÃ©nement significatif = une entrÃ©e HLOG-PLACEHOLDER
 
 Structure obligatoire:
-- ID unique (HLOG-XXX)
+- ID unique (HLOG-PLACEHOLDER)
 - Date ISO 8601
 - Phase
 - Auteur

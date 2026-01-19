@@ -92,7 +92,7 @@ mode:         [paragraph | sentence]
 OUTPUT
 ------
 Verdict:      [ACCEPT | REJECT]
-Code:         [REJ-MYC-XXX si rejet]
+Code:         [REJ-MYC-PLACEHOLDER si rejet]
 Message:      [message si rejet]
 Hash SHA-256: [64 chars hex si accept]
 

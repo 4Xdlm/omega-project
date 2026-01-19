@@ -348,7 +348,7 @@ Directories:
 
 ## PHASES 12-16: ANALYSE DU CODE
 
-### 12. TODO/FIXME/HACK Analysis
+### 12. BACKLOG/BACKLOG_FIX/BACKLOG_TECHDEBT Analysis
 | Scope | Count | Preuve |
 |-------|-------|--------|
 | Scan-scope (6 modules, TS) | 178 | grep |

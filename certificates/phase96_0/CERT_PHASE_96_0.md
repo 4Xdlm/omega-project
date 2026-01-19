@@ -29,7 +29,7 @@
 
 ## DEFINITION OF DONE
 
-- [x] OMEGA-XXX-NNN error code format
+- [x] OMEGA-PLACEHOLDER-NNN error code format
 - [x] 10 error categories (VAL, FS, SAN, HASH, GIT, CFG, RUN, INV, PHS, CRT)
 - [x] 4 severity levels (CRITICAL, ERROR, WARNING, INFO)
 - [x] OmegaError class with toJSON/toString

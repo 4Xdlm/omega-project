@@ -94,8 +94,8 @@ fn run_cli() -> OmegaResult<String> {
     // Create provider based on mode
     let provider: Arc<dyn omega_ui::ai::LLMProvider> = match mode.as_str() {
         "deterministic" => Arc::new(MockDeterministicProvider::default()),
-        "hybrid" => Arc::new(MockDeterministicProvider::default()), // TODO: real hybrid
-        "boost" => Arc::new(MockDeterministicProvider::default()),  // TODO: real boost
+        "hybrid" => Arc::new(MockDeterministicProvider::default()), // BACKLOG: real hybrid
+        "boost" => Arc::new(MockDeterministicProvider::default()),  // BACKLOG: real boost
         _ => Arc::new(MockDeterministicProvider::default()),
     };
     

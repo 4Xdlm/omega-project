@@ -100,7 +100,7 @@ describe('Hash Module', () => {
     });
     
     it('should throw on unknown type', () => {
-      assert.throws(() => getCanonicalPath('XXX-20260112-0001', '.'));
+      assert.throws(() => getCanonicalPath('NNN-20260112-0001', '.'));
     });
     
   });

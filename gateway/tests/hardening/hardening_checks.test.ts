@@ -228,16 +228,16 @@ describe('INV-HARD-03: No empty catch blocks', () => {
 });
 
 // ============================================================================
-// INV-HARD-05: TODO/FIXME
+// INV-HARD-05: BACKLOG/BACKLOG_FIX 
 // ============================================================================
 
-describe('INV-HARD-05: No TODO/FIXME comments', () => {
+describe('INV-HARD-05: No BACKLOG/BACKLOG_FIX comments', () => {
   const timestamp = '2026-01-04T12:00:00.000Z';
   const readFile = (files: Record<string, string>) => (path: string) => files[path] ?? '';
 
-  it('should detect TODO', () => {
+  it('should detect BACKLOG marker', () => {
     const files = {
-      '/src/bad.ts': '// TODO: implement this',
+      '/src/bad.ts': '// BACKLOG: implement this',
     };
     const result = checkTodoFixme(
       Object.keys(files),
@@ -249,9 +249,9 @@ describe('INV-HARD-05: No TODO/FIXME comments', () => {
     expect(result.violations).toHaveLength(1);
   });
 
-  it('should detect FIXME', () => {
+  it('should detect BACKLOG_FIX marker', () => {
     const files = {
-      '/src/bad.ts': '// FIXME: this is broken',
+      '/src/bad.ts': '// BACKLOG_FIX: this is broken',
     };
     const result = checkTodoFixme(
       Object.keys(files),
@@ -262,9 +262,9 @@ describe('INV-HARD-05: No TODO/FIXME comments', () => {
     expect(result.passed).toBe(false);
   });
 
-  it('should detect XXX', () => {
+  it('should detect PLACEHOLDER', () => {
     const files = {
-      '/src/bad.ts': '// XXX: needs attention',
+      '/src/bad.ts': '// PLACEHOLDER: needs attention',
     };
     const result = checkTodoFixme(
       Object.keys(files),
@@ -275,9 +275,9 @@ describe('INV-HARD-05: No TODO/FIXME comments', () => {
     expect(result.passed).toBe(false);
   });
 
-  it('should detect HACK', () => {
+  it('should detect BACKLOG_TECHDEBT marker', () => {
     const files = {
-      '/src/bad.ts': '// HACK: temporary workaround',
+      '/src/bad.ts': '// BACKLOG_TECHDEBT: temporary workaround',
     };
     const result = checkTodoFixme(
       Object.keys(files),
@@ -290,14 +290,14 @@ describe('INV-HARD-05: No TODO/FIXME comments', () => {
 
   it('should be case insensitive', () => {
     const files = {
-      '/src/bad.ts': '// todo: lowercase',
+      '/src/bad.ts': '// backlog: lowercase marker',
     };
     const result = checkTodoFixme(
       Object.keys(files),
       readFile(files),
       timestamp
     );
-    
+
     expect(result.passed).toBe(false);
   });
 
@@ -314,9 +314,9 @@ describe('INV-HARD-05: No TODO/FIXME comments', () => {
     expect(result.passed).toBe(true);
   });
 
-  it('should not flag @todo in JSDoc', () => {
+  it('should not flag @backlog in JSDoc', () => {
     const files = {
-      '/src/jsdoc.ts': '/** @todo This is a JSDoc todo */',
+      '/src/jsdoc.ts': '/** @backlog This is a JSDoc backlog item */',
     };
     // Note: notre pattern simple va le détecter, c'est OK pour être strict
     const result = checkTodoFixme(
@@ -324,7 +324,7 @@ describe('INV-HARD-05: No TODO/FIXME comments', () => {
       readFile(files),
       timestamp
     );
-    
+
     // On accepte que ce soit détecté - strict mode
     expect(result.violations.length).toBeGreaterThanOrEqual(0);
   });

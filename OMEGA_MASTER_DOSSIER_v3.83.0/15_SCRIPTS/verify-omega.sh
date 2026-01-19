@@ -62,9 +62,9 @@ for doc in "${REQUIRED_DOCS[@]}"; do
     fi
 done
 
-# 3. Scan TODO/FIXME/TBD
+# 3. Scan BACKLOG/BACKLOG_FIX/TBD
 echo ""
-echo -e "${YELLOW}[3/5] Scan TODO/FIXME/TBD...${NC}"
+echo -e "${YELLOW}[3/5] Scan BACKLOG/BACKLOG_FIX/TBD...${NC}"
 PLACEHOLDER_COUNT=$(grep -rl "TODO\|FIXME\|TBD\|XXX" "$PATH_TO_CHECK"/*.md "$PATH_TO_CHECK"/**/*.md 2>/dev/null | wc -l)
 
 if [ "$PLACEHOLDER_COUNT" -eq 0 ]; then

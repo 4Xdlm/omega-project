@@ -69,7 +69,7 @@ Environnement cible:
 3. **R7 — Zéro approximation**: PASS / FAIL / NON PROUVÉ
 4. **R8 — Test first**: Phase commence et finit par les tests
 5. **R11 — Doc obligatoire**: Tout livrable = doc + version + hash
-6. **R13 — Zéro dette**: TODO/FIXME/"plus tard" = INTERDIT
+6. **R13 — Zéro dette**: BACKLOG/BACKLOG_FIX/"plus tard" = INTERDIT
 
 ---
 

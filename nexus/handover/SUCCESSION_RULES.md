@@ -117,7 +117,7 @@ This document defines how OMEGA governance continues if the original Architect b
 | Ignorer les FROZEN | Corruption | Diff in genome/mycelium |
 | "C'etait mieux avant" | Non-constructif | Revert without RFC |
 | Skip les tests | False confidence | CI bypass |
-| "On verra plus tard" | Dette explicite | TODO without NCR |
+| "On verra plus tard" | Dette explicite | BACKLOG without NCR |
 
 ### Red Flags in Candidates
 - Wants to "modernize" immediately

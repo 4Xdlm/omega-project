@@ -35,7 +35,7 @@
 | **INV-DEP-01** | Déploiement 1 commande sans interaction | HIGH | 4 tests TS + Pester | ✅ PROUVÉ |
 | **INV-DEP-02** | Merkle root stable (POSIX, UTF-8, no CRLF) | CRITICAL | 4 tests TS | ✅ PROUVÉ |
 | **INV-DEP-03** | Evidence pack complet (7 fichiers) | CRITICAL | 4 tests TS + Pester | ✅ PROUVÉ |
-| **INV-DEP-04** | Replay pack autosuffisant | HIGH | Phase 12.5 | 🔄 TODO |
+| **INV-DEP-04** | Replay pack autosuffisant | HIGH | Phase 12.5 | 🔄 BACKLOG |
 | **INV-DEP-05** | Core inchangé vs Phase 11 | CRITICAL | Pester + diff | ✅ PROUVÉ |
 
 ### Preuve INV-DEP-01
@@ -165,8 +165,8 @@ Champs vérifiés:
 | 12.1 Configuration | INV-CFG-01 à 04, INV-SAFE-01 | 20 | ✅ PASS |
 | 12.2 SAFE MODE | INV-SAFE-02, INV-SAFE-03 | 25 | ✅ PASS |
 | **12.3 Deployment** | **INV-DEP-01..03, INV-DEP-05** | **15** | ✅ **PASS** |
-| 12.4 CI/CD | - | 0 | 🔄 TODO |
-| 12.5 Documentation | INV-DEP-04 | 0 | 🔄 TODO |
+| 12.4 CI/CD | - | 0 | 🔄 BACKLOG |
+| 12.5 Documentation | INV-DEP-04 | 0 | 🔄 BACKLOG |
 
 **TOTAL TESTS PHASE 12 : 60/60 PASS**
 **TOTAL INVARIANTS : 11/12 PROUVÉS**

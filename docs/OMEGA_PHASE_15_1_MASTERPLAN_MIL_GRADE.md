@@ -265,7 +265,7 @@
 | Élément | Format | Obligatoire | Interprétation |
 |---------|--------|-------------|----------------|
 | Timestamp | ISO 8601 | ✅ | ❌ INTERDIT |
-| Scénario ID | SC-XXX | ✅ | ❌ INTERDIT |
+| Scénario ID | SC-PLACEHOLDER | ✅ | ❌ INTERDIT |
 | Input exact | Copie brute | ✅ | ❌ INTERDIT |
 | Output exact | Copie brute | ✅ | ❌ INTERDIT |
 | Temps exécution | ms | ✅ | ❌ INTERDIT |
@@ -433,7 +433,7 @@ RÈGLES:
 
 ```markdown
 ---
-## OBS-XXX | 2026-01-XX | HH:MM:SS UTC | SEALED
+## OBS-PLACEHOLDER | 2026-01-XX | HH:MM:SS UTC | SEALED
 
 [Contenu de l'observation — NE JAMAIS MODIFIER]
 
@@ -446,7 +446,7 @@ RÈGLES:
 ---
 ## CORRECTION | 2026-01-XX | HH:MM:SS UTC | SEALED
 
-RÉFÉRENCE: OBS-XXX
+RÉFÉRENCE: OBS-PLACEHOLDER
 ERREUR: [Description de l'erreur dans l'observation originale]
 CORRECTION: [Information corrigée]
 NOTE: L'observation originale reste intacte.
@@ -777,12 +777,12 @@ Voir Section 5.3 — 15 scénarios obligatoires.
 
 ```markdown
 ---
-## OBS-XXX | 2026-01-XX | HH:MM:SS UTC | SEALED
+## OBS-PLACEHOLDER | 2026-01-XX | HH:MM:SS UTC | SEALED
 
 ### Métadonnées
 | Champ | Valeur |
 |-------|--------|
-| Scénario | SC-XXX |
+| Scénario | SC-PLACEHOLDER |
 | Mode | NORMAL / HOSTILE |
 | Module | NEXUS / ORACLE / MUSE |
 
@@ -799,7 +799,7 @@ Voir Section 5.3 — 15 scénarios obligatoires.
 ### Métriques
 | Métrique | Valeur |
 |----------|--------|
-| Temps | XXX ms |
+| Temps | PLACEHOLDER ms |
 | Erreur | Oui/Non |
 
 ### Classification

@@ -53,10 +53,10 @@ describe('INV-MET-01: Exact Counts', () => {
     const m = new MetricsCollector(cfg);
     const labels: Record<string, string> = { a: '1' };
     m.recordSuccess(5, labels, 1000);
-    labels.a = 'HACK';
+    labels.a = 'BAD_LABEL';
     const s = m.snapshot(1500);
     expect(Object.keys(s.by_label_key)).toContain('a=1');
-    expect(Object.keys(s.by_label_key)).not.toContain('a=HACK');
+    expect(Object.keys(s.by_label_key)).not.toContain('a=BAD_LABEL');
   });
 
   it('by_label_key counts correctly', () => {

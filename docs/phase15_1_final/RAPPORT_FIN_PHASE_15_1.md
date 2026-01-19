@@ -25,7 +25,7 @@
 ║   Observations:       XX                                                              ║
 ║   Patterns:           XX                                                              ║
 ║   Faux positifs:      XX                                                              ║
-║   Score total:        XXX                                                             ║
+║   Score total:        PLACEHOLDER                                                             ║
 ║                                                                                       ║
 ║   Intégrité système:  ✅ PRÉSERVÉE / ❌ COMPROMISE                                    ║
 ║                                                                                       ║
@@ -72,7 +72,7 @@
 
 | ID | Nom | Score | Module | Action |
 |----|-----|-------|--------|--------|
-| PAT-XXX | [Nom] | XX | [Module] | Sprint 15.2 |
+| PAT-PLACEHOLDER | [Nom] | XX | [Module] | Sprint 15.2 |
 
 ---
 
@@ -82,7 +82,7 @@
 
 | ID | Nom | Score | Module | Action |
 |----|-----|-------|--------|--------|
-| PAT-XXX | [Nom] | XX | [Module] | Sprint 15.2 |
+| PAT-PLACEHOLDER | [Nom] | XX | [Module] | Sprint 15.2 |
 
 ---
 
@@ -90,7 +90,7 @@
 
 | ID | Nom | Score | Module | Action |
 |----|-----|-------|--------|--------|
-| PAT-XXX | [Nom] | XX | [Module] | Phase 16 / Backlog |
+| PAT-PLACEHOLDER | [Nom] | XX | [Module] | Phase 16 / Backlog |
 
 ---
 
@@ -98,7 +98,7 @@
 
 | ID | Module | Raison |
 |----|--------|--------|
-| ZP-XXX | [Module] | [Raison] |
+| ZP-PLACEHOLDER | [Module] | [Raison] |
 
 ---
 
@@ -106,7 +106,7 @@
 
 | ID | Description | Décision post-terrain |
 |----|-------------|----------------------|
-| TENT-XXX | [Description] | Implémenter / Reporter / Rejeter |
+| TENT-PLACEHOLDER | [Description] | Implémenter / Reporter / Rejeter |
 
 ---
 

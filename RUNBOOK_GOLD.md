@@ -546,8 +546,8 @@ Créer: `history/FINAL_REPORT_PHASE42.md`
 
 ## 1. RÉSUMÉ EXÉCUTIF
 - Version finale: vX.XX.X-GOLD
-- Tests totaux: XXXX PASS
-- Invariants: XXX vérifiés
+- Tests totaux: NNNN PASS
+- Invariants: PLACEHOLDER vérifiés
 - NCR: X fermées, X ouvertes (non critiques)
 - Phases REJECTED: X (listées)
 

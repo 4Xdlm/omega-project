@@ -55,7 +55,7 @@ describe('load.ts — Secure Loading Orchestrator', () => {
     await writeFile(join(projectRoot, 'omega.json'), JSON.stringify(signed));
 
     // CORROMPRE: modifier sans resigner
-    signed.meta.name = 'HACKED';
+    signed.meta.name = 'TAMPERED';
     await writeFile(join(projectRoot, 'omega.json'), JSON.stringify(signed));
 
     await expect(loadProject(io, projectRoot))

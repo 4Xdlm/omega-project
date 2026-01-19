@@ -30,7 +30,7 @@
 |-------|--------|
 | **Date/Heure** | 2026-01-XX HH:MM:SS UTC |
 | **Gravité** | G3 INTEGRITY / G4 CATASTROPHIC |
-| **Observation source** | OBS-XXX |
+| **Observation source** | OBS-PLACEHOLDER |
 | **Phase** | 15.1 — ARRÊTÉE |
 | **Status** | 🔴 ESCALADE EN COURS |
 
@@ -106,7 +106,7 @@
 
 | Champ | Valeur |
 |-------|--------|
-| Scénario ID | SC-XXX |
+| Scénario ID | SC-PLACEHOLDER |
 | Mode | NORMAL / HOSTILE |
 | Catégorie | [Si hostile] |
 

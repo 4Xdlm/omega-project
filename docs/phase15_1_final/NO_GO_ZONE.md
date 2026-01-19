@@ -32,7 +32,7 @@ Documenter:
 |-------|--------|
 | **ID** | FP-001 |
 | **Date identification** | 2026-01-XX |
-| **Source** | OBS-XXX |
+| **Source** | OBS-PLACEHOLDER |
 
 ### Suspicion initiale
 
@@ -60,7 +60,7 @@ Raison: [Explication]
 |-------|--------|
 | **ID** | FP-002 |
 | **Date identification** | 2026-01-XX |
-| **Source** | OBS-XXX |
+| **Source** | OBS-PLACEHOLDER |
 
 ### Suspicion initiale
 
@@ -85,13 +85,13 @@ Raison: [Raison]
 <!-- TEMPLATE FAUX POSITIF -->
 
 <!--
-## Faux positif #XXX
+## Faux positif #PLACEHOLDER
 
 | Champ | Valeur |
 |-------|--------|
-| **ID** | FP-XXX |
+| **ID** | FP-PLACEHOLDER |
 | **Date identification** | 2026-01-XX |
-| **Source** | OBS-XXX |
+| **Source** | OBS-PLACEHOLDER |
 
 ### Suspicion initiale
 
@@ -171,11 +171,11 @@ Raison: [Raison]
 <!-- TEMPLATE ZONE PROTÉGÉE -->
 
 <!--
-## Zone protégée #XXX
+## Zone protégée #PLACEHOLDER
 
 | Champ | Valeur |
 |-------|--------|
-| **ID** | ZP-XXX |
+| **ID** | ZP-PLACEHOLDER |
 | **Module** | [Module] |
 | **Fichiers** | [Fichiers] |
 
@@ -208,7 +208,7 @@ Raison: [Raison]
 |-------|--------|
 | **ID** | HR-001 |
 | **Date** | 2026-01-XX |
-| **Source** | PAT-XXX / OBS-XXX |
+| **Source** | PAT-PLACEHOLDER / OBS-PLACEHOLDER |
 
 ### Hypothèse initiale
 
@@ -227,13 +227,13 @@ Raison: [Raison]
 <!-- TEMPLATE HYPOTHÈSE REJETÉE -->
 
 <!--
-## Hypothèse rejetée #XXX
+## Hypothèse rejetée #PLACEHOLDER
 
 | Champ | Valeur |
 |-------|--------|
-| **ID** | HR-XXX |
+| **ID** | HR-PLACEHOLDER |
 | **Date** | 2026-01-XX |
-| **Source** | PAT-XXX / OBS-XXX |
+| **Source** | PAT-PLACEHOLDER / OBS-PLACEHOLDER |
 
 ### Hypothèse initiale
 

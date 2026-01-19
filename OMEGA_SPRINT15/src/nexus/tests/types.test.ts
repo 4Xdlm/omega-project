@@ -88,7 +88,7 @@ describe('NexusRequest validation', () => {
   });
 
   it('should reject invalid caller_id', () => {
-    const invalid = { ...VALID_REQUEST, caller_id: 'HACKER' };
+    const invalid = { ...VALID_REQUEST, caller_id: 'INTRUDER' };
     const result = NexusRequestSchema.safeParse(invalid);
     expect(result.success).toBe(false);
   });
@@ -319,7 +319,7 @@ describe('CallerType enum', () => {
   });
 
   it('should reject invalid callers', () => {
-    expect(isCallerType('HACKER')).toBe(false);
+    expect(isCallerType('INTRUDER')).toBe(false);
     expect(isCallerType('')).toBe(false);
     expect(isCallerType(undefined)).toBe(false);
   });

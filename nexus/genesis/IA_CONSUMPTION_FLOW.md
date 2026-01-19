@@ -227,7 +227,7 @@ Vérifié: 2026-01-12T12:32:24Z
 ║   TOUTE AFFIRMATION SANS SOURCE LEDGER = HALLUCINATION                        ║
 ║                                                                               ║
 ║   "Je pense que..." → INTERDIT                                                ║
-║   "Selon ENT-XXXXXX-NNNN..." → CORRECT                                        ║
+║   "Selon ENT-NNNNNN-NNNN..." → CORRECT                                        ║
 ║                                                                               ║
 ╚═══════════════════════════════════════════════════════════════════════════════╝
 ```

@@ -63,7 +63,7 @@ Ce document centralise TOUS les artefacts du scan complet OMEGA v2.0 et fournit 
 - Baseline & environnement
 - Analyse 10 modules (structure, tests, LOC, exports)
 - Tests globaux (1532/1532 PASS)
-- TODO/FIXME analysis
+- BACKLOG/BACKLOG_FIX analysis
 - Git history
 - Hashes SHA-256 complets
 - Certification finale
@@ -116,7 +116,7 @@ Ce document centralise TOUS les artefacts du scan complet OMEGA v2.0 et fournit 
 - RUN_COMMANDS.txt
 - RUN_OUTPUT.txt
 - TEST_REPORT.txt
-- TODO_DISCREPANCY_REPORT.md
+- BACKLOG_DISCREPANCY_REPORT.md
 - DIFF_SUMMARY.md
 - HASHES_SHA256.txt
 - SESSION_SAVE_FINAL.md

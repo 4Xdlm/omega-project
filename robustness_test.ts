@@ -45,7 +45,7 @@ describe('ðŸ›¡ï¸ ROBUSTESSE â€” Chaos Engineering & Edge Cases', (
     const json = JSON.parse(content);
     
     // Modifier le nom SANS recalculer l'intÃ©gritÃ©
-    json.meta.name = 'HACKED PROJECT';
+    json.meta.name = 'TAMPERED PROJECT';
     
     await fs.writeFile(filePath, JSON.stringify(json, null, 2));
 

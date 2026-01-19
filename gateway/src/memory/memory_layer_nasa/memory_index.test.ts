@@ -450,7 +450,7 @@ describe("ATTACK TESTS — INV-MEM-01: Append-Only", () => {
       if (result.success) {
         // ATTACK: Try to mutate the entry
         expect(() => {
-          Object.assign(result.value, { key: "HACKED" });
+          Object.assign(result.value, { key: "TAMPERED" });
         }).toThrow();
         
         // Verify unchanged
@@ -471,7 +471,7 @@ describe("ATTACK TESTS — INV-MEM-01: Append-Only", () => {
       if (result.success) {
         // ATTACK: Direct assignment
         expect(() => {
-          (result.value as any).key = "HACKED";
+          (result.value as any).key = "TAMPERED";
         }).toThrow();
         
         // Verify unchanged

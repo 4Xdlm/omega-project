@@ -47,7 +47,7 @@ Ce backlog sera revu en décision post-terrain.
 |-------|--------|
 | **ID** | TENT-001 |
 | **Date** | 2026-01-XX |
-| **Déclencheur** | OBS-XXX |
+| **Déclencheur** | OBS-PLACEHOLDER |
 
 ### Ce que je voulais faire
 
@@ -81,7 +81,7 @@ Ce backlog sera revu en décision post-terrain.
 |-------|--------|
 | **ID** | TENT-002 |
 | **Date** | 2026-01-XX |
-| **Déclencheur** | OBS-XXX |
+| **Déclencheur** | OBS-PLACEHOLDER |
 
 ### Ce que je voulais faire
 
@@ -112,13 +112,13 @@ Ce backlog sera revu en décision post-terrain.
 <!-- TEMPLATE TENTATION -->
 
 <!--
-## Tentation #XXX
+## Tentation #PLACEHOLDER
 
 | Champ | Valeur |
 |-------|--------|
-| **ID** | TENT-XXX |
+| **ID** | TENT-PLACEHOLDER |
 | **Date** | 2026-01-XX |
-| **Déclencheur** | OBS-XXX |
+| **Déclencheur** | OBS-PLACEHOLDER |
 
 ### Ce que je voulais faire
 
@@ -155,13 +155,13 @@ Quand tu penses ça → Note ici
 
 | Pensée | Action |
 |--------|--------|
-| "Je vais juste corriger ça vite fait" | → TENT-XXX |
-| "C'est un bug évident" | → TENT-XXX |
-| "Ce serait mieux si..." | → TENT-XXX |
-| "En 5 minutes c'est réglé" | → TENT-XXX |
-| "Personne ne verra" | → TENT-XXX |
-| "C'est une amélioration mineure" | → TENT-XXX |
-| "Ça ne change rien aux tests" | → TENT-XXX |
+| "Je vais juste corriger ça vite fait" | → TENT-PLACEHOLDER |
+| "C'est un bug évident" | → TENT-PLACEHOLDER |
+| "Ce serait mieux si..." | → TENT-PLACEHOLDER |
+| "En 5 minutes c'est réglé" | → TENT-PLACEHOLDER |
+| "Personne ne verra" | → TENT-PLACEHOLDER |
+| "C'est une amélioration mineure" | → TENT-PLACEHOLDER |
+| "Ça ne change rien aux tests" | → TENT-PLACEHOLDER |
 
 ---
 

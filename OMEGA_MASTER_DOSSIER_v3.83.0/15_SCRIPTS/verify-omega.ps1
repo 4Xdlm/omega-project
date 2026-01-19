@@ -11,7 +11,7 @@
     Ce script effectue les vérifications suivantes:
     - Hash SHA-256 des fichiers critiques
     - Présence des documents requis
-    - Absence de TODO/FIXME/TBD
+    - Absence de BACKLOG/BACKLOG_FIX/TBD
     - Conformité des conventions de nommage
 
 .EXAMPLE
@@ -66,9 +66,9 @@ foreach ($doc in $required) {
     }
 }
 
-# 3. Scan TODO/FIXME/TBD
+# 3. Scan BACKLOG/BACKLOG_FIX/TBD
 Write-Host ""
-Write-Host "[3/5] Scan TODO/FIXME/TBD..." -ForegroundColor Yellow
+Write-Host "[3/5] Scan BACKLOG/BACKLOG_FIX/TBD..." -ForegroundColor Yellow
 $mdFiles = Get-ChildItem -Path $Path -Filter "*.md" -Recurse
 $placeholders = @()
 

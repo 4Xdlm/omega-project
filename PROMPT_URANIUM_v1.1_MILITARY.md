@@ -230,7 +230,7 @@ REGLES_MILITARY_GRADE:
     - "Promesses non awaited"
     - "try/catch vides"
     - "Magic numbers sans constante"
-    - "Commentaires TODO/FIXME"
+    - "Commentaires BACKLOG/BACKLOG_FIX"
     - "Variables non utilisées"
     - "Imports non utilisés"
 
@@ -240,7 +240,7 @@ REGLES_MILITARY_GRADE:
 
 WORKFLOW_PHASE_MILITARY: |
   ══════════════════════════════════════════════════════════════════════════
-  WORKFLOW PHASE [XXX] — MILITARY GRADE
+  WORKFLOW PHASE [PLACEHOLDER] — MILITARY GRADE
   ══════════════════════════════════════════════════════════════════════════
   
   ┌─────────────────────────────────────────────────────────────────────────┐
@@ -262,7 +262,7 @@ WORKFLOW_PHASE_MILITARY: |
   ├─────────────────────────────────────────────────────────────────────────┤
   │                                                                         │
   │   echo "═══════════════════════════════════════════════════════════"    │
-  │   echo "  PHASE [XXX]: [NOM]"                                           │
+  │   echo "  PHASE [PLACEHOLDER]: [NOM]"                                           │
   │   echo "  Objectif: [OBJECTIF]"                                         │
   │   echo "═══════════════════════════════════════════════════════════"    │
   │                                                                         │
@@ -333,13 +333,13 @@ WORKFLOW_PHASE_MILITARY: |
   │   git add packages/[module]/src/[fichiers]                              │
   │   # JAMAIS git add . ou git add -A                                      │
   │                                                                         │
-  │   git commit -m "feat(phase[XXX]): [description] [tests: N/M pass]"     │
+  │   git commit -m "feat(phase[PLACEHOLDER]): [description] [tests: N/M pass]"     │
   │                                                                         │
   │   Format commit:                                                        │
-  │   - feat(phaseXXX): pour nouvelles features                             │
-  │   - fix(phaseXXX): pour corrections                                     │
-  │   - test(phaseXXX): pour ajout tests                                    │
-  │   - refactor(phaseXXX): pour refactoring                                │
+  │   - feat(phasePLACEHOLDER): pour nouvelles features                             │
+  │   - fix(phasePLACEHOLDER): pour corrections                                     │
+  │   - test(phasePLACEHOLDER): pour ajout tests                                    │
+  │   - refactor(phasePLACEHOLDER): pour refactoring                                │
   │                                                                         │
   └─────────────────────────────────────────────────────────────────────────┘
   
@@ -348,7 +348,7 @@ WORKFLOW_PHASE_MILITARY: |
   ├─────────────────────────────────────────────────────────────────────────┤
   │                                                                         │
   │   # Seulement si fin de bloc ou GOLD                                    │
-  │   git tag -a v3.[XXX].0 -m "Phase [XXX] - [Description]"                │
+  │   git tag -a v3.[PLACEHOLDER].0 -m "Phase [PLACEHOLDER] - [Description]"                │
   │                                                                         │
   │   # Tags GOLD (mais PAS de stop):                                       │
   │   # v3.138.0-GOLD-UI                                                    │
@@ -363,21 +363,21 @@ WORKFLOW_PHASE_MILITARY: |
   ├─────────────────────────────────────────────────────────────────────────┤
   │                                                                         │
   │   # Mettre à jour PHASE_CURRENT                                         │
-  │   echo "Phase Number : [XXX]" > nexus/PHASE_CURRENT.md                  │
+  │   echo "Phase Number : [PLACEHOLDER]" > nexus/PHASE_CURRENT.md                  │
   │   echo "Phase Name   : [NOM]" >> nexus/PHASE_CURRENT.md                 │
   │   echo "Status       : CERTIFIED" >> nexus/PHASE_CURRENT.md             │
   │                                                                         │
   │   # Créer session                                                       │
-  │   # Format: SES-YYYYMMDD-XXXX                                           │
+  │   # Format: SES-YYYYMMDD-NNNN                                           │
   │                                                                         │
   │   # Créer seal                                                          │
-  │   # Format: SEAL-YYYYMMDD-XXXX                                          │
+  │   # Format: SEAL-YYYYMMDD-NNNN                                          │
   │                                                                         │
   │   # Commit save                                                         │
   │   git add nexus/PHASE_CURRENT.md                                        │
   │   git add nexus/proof/sessions/                                         │
   │   git add nexus/proof/seals/                                            │
-  │   git commit -m "save(phase[XXX]): session + seal"                      │
+  │   git commit -m "save(phase[PLACEHOLDER]): session + seal"                      │
   │                                                                         │
   └─────────────────────────────────────────────────────────────────────────┘
   

@@ -891,11 +891,11 @@ src/types.ts:     6bffab35b10b58eb78e9bd9c956cb5bf7dca925601be9ff66964ee8fb1e92f
 ╚═══════════════════════════════════════════════════════════════════════════════╝
 ```
 
-## 5.3 TODO/FIXME Analysis
+## 5.3 BACKLOG/BACKLOG_FIX Analysis
 
 ### Scope Comparison
 
-| Scope | TODO Count | Description |
+| Scope | BACKLOG Count | Description |
 |-------|------------|-------------|
 | **Scan-scope** (6 modules FROZEN, TS) | 178 | Focus modules principaux |
 | **Full repo** (TS only) | 36 | Autres fichiers TS |
@@ -908,19 +908,19 @@ src/types.ts:     6bffab35b10b58eb78e9bd9c956cb5bf7dca925601be9ff66964ee8fb1e92f
 ```
 ╔═══════════════════════════════════════════════════════════════════════════════╗
 ║                                                                               ║
-║   TODO DISCREPANCY EXPLAINED                                                  ║
+║   BACKLOG DISCREPANCY EXPLAINED                                                  ║
 ║                                                                               ║
-║   Scan-scope (6 modules TS):      178 TODO                                   ║
-║   Full repo (All TS):             1390 TODO                                   ║
-║   Écart:                          1212 TODO                                   ║
+║   Scan-scope (6 modules TS):      178 BACKLOG ║
+║   Full repo (All TS):             1390 BACKLOG ║
+║   Écart:                          1212 BACKLOG ║
 ║                                                                               ║
 ║   Explication:                                                                ║
-║   Les 1212 TODO sont dans:                                                    ║
+║   Les 1212 BACKLOG sont dans:                                                    ║
 ║   - Fichiers TS hors scan-scope (autres modules)                             ║
-║   - Documentation MD (162 TODO)                                               ║
+║   - Documentation MD (162 BACKLOG)                                               ║
 ║   - Fichiers historiques                                                     ║
 ║                                                                               ║
-║   Conclusion: Scan-scope affirme correctement "178 TODO"                     ║
+║   Conclusion: Scan-scope affirme correctement "178 BACKLOG"                     ║
 ║               pour le périmètre défini ✅                                     ║
 ║                                                                               ║
 ╚═══════════════════════════════════════════════════════════════════════════════╝
@@ -1288,7 +1288,7 @@ src/types.ts:     6bffab35b10b58eb78e9bd9c956cb5bf7dca925601be9ff66964ee8fb1e92f
 ║      → Normal (interfaces pures)                                              ║
 ║      → Tests couverts par modules utilisant nexus/src                         ║
 ║                                                                               ║
-║   2. TODO Count (178 en scan-scope)                                           ║
+║   2. BACKLOG Count (178 en scan-scope)                                           ║
 ║      ⚠️ Tickets techniques restants                                           ║
 ║      → À résorber progressivement                                             ║
 ║      → Pas bloquant (bien documentés)                                         ║
@@ -1349,14 +1349,14 @@ src/types.ts:     6bffab35b10b58eb78e9bd9c956cb5bf7dca925601be9ff66964ee8fb1e92f
 ║   Élevé  │                                                                    ║
 ║          │    ◆ Implémenter atlas                                             ║
 ║          │    ◆ Implémenter raw                                               ║
-║   Moyen  │                           ◆ Résorber TODO                          ║
+║   Moyen  │                           ◆ Résorber BACKLOG ║
 ║          │                                                                    ║
 ║   Faible │                                        ◆ Refactor docs             ║
 ║          └────────┼────────┼────────┼────────┼────────> Effort               ║
 ║                 Faible    Moyen     Élevé    Très Élevé                       ║
 ║                                                                               ║
 ║   Priorité 1: Atlas/Raw (Quick Wins - haut impact, effort moyen)             ║
-║   Priorité 2: TODO (Long terme - impact moyen, effort élevé)                 ║
+║   Priorité 2: BACKLOG (Long terme - impact moyen, effort élevé)                 ║
 ║                                                                               ║
 ╚═══════════════════════════════════════════════════════════════════════════════╝
 ```
@@ -1382,7 +1382,7 @@ src/types.ts:     6bffab35b10b58eb78e9bd9c956cb5bf7dca925601be9ff66964ee8fb1e92f
 ║      ├─ Compression optionnelle                                              ║
 ║      └─ TTL management                                                        ║
 ║                                                                               ║
-║   3. Résorber 50 TODO prioritaires                         Effort: L         ║
+║   3. Résorber 50 BACKLOG prioritaires                         Effort: L         ║
 ║      ├─ Identifier top 50 par impact                       Impact: M         ║
 ║      └─ Résolution progressive                                               ║
 ║                                                                               ║
@@ -1459,7 +1459,7 @@ src/types.ts:     6bffab35b10b58eb78e9bd9c956cb5bf7dca925601be9ff66964ee8fb1e92f
 | **Commit SESSION_SAVE** | P0 | 2min | Immédiat |
 | **Push vers GitHub** | P0 | 1min | Immédiat |
 | **Planifier atlas implementation** | P1 | 1h | Cette semaine |
-| **Trier 50 TODO critiques** | P2 | 2h | Cette semaine |
+| **Trier 50 BACKLOG critiques** | P2 | 2h | Cette semaine |
 
 ---
 

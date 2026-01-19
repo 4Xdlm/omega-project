@@ -168,7 +168,7 @@ OMEGA Memory Foundation v3.18.0
 ### Code
 - [x] TypeScript strict mode
 - [x] Aucun `any` implicite
-- [x] Aucun TODO/FIXME
+- [x] Aucun BACKLOG/BACKLOG_FIX 
 - [x] Build sans erreurs
 
 ### Tests

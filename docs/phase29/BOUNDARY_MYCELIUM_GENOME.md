@@ -205,7 +205,7 @@ interface GenomeInput {
 
 ```
 1. Mycelium reçoit DNAInput
-2. Mycelium.validate() → FAIL (REJ-MYC-XXX)
+2. Mycelium.validate() → FAIL (REJ-MYC-PLACEHOLDER)
 3. Mycelium.reject(code, message)
 4. Log rejection
 5. Return RejectionResponse

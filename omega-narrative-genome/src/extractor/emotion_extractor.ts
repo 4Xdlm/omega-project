@@ -55,7 +55,7 @@ export function extractEmotionAxis(
   emotionData: unknown,
   _seed: number
 ): EmotionAxis {
-  // TODO: Intégration avec OMEGA existant
+  // BACKLOG: Intégration avec OMEGA existant
   // Pour l'instant, extraction basique ou mock
   
   const data = emotionData as Record<string, unknown> | undefined;

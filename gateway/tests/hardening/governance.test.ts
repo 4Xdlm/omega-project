@@ -44,7 +44,7 @@ describe('INV-GOV-01: Rôles strictement définis', () => {
 
   it('should have immutable role definitions', () => {
     expect(() => {
-      (PERMISSIONS as any).HACKER = { read: true };
+      (PERMISSIONS as any).INTRUDER = { read: true };
     }).toThrow();
   });
 
@@ -137,8 +137,8 @@ describe('INV-GOV-02: Permissions explicites et immuables', () => {
 
   describe('Unknown role handling', () => {
     it('should deny all permissions for unknown role', () => {
-      expect(hasPermission('HACKER' as Role, 'read')).toBe(false);
-      expect(hasPermission('HACKER' as Role, 'write')).toBe(false);
+      expect(hasPermission('INTRUDER' as Role, 'read')).toBe(false);
+      expect(hasPermission('INTRUDER' as Role, 'write')).toBe(false);
     });
   });
 });
@@ -479,13 +479,13 @@ describe('Edge cases & Attack tests', () => {
     
     // Vérifier qu'on ne peut pas ajouter une propriété
     expect(() => {
-      (PERMISSIONS as any).HACKER = { read: true };
+      (PERMISSIONS as any).INTRUDER = { read: true };
     }).toThrow();
     
     // Vérifier que hasPermission refuse les rôles non définis
     // Note: hasPermission retourne false pour un rôle inexistant
-    // car PERMISSIONS['HACKER'] est undefined
-    expect(PERMISSIONS['HACKER' as Role]).toBeUndefined();
+    // car PERMISSIONS['INTRUDER'] est undefined
+    expect(PERMISSIONS['INTRUDER' as Role]).toBeUndefined();
   });
 });
 

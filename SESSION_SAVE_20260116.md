@@ -261,7 +261,7 @@ Tous les timestamps sont en ISO 8601 avec timezone (+01:00).
 ### Technique
 - [x] Code fonctionnel
 - [x] Tests 100% PASS
-- [x] Aucun TODO/FIXME
+- [x] Aucun BACKLOG/BACKLOG_FIX
 - [x] Déterminisme prouvé
 - [x] Encodage correct (UTF-8 no BOM)
 

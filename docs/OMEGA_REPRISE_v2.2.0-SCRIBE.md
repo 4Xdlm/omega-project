@@ -199,7 +199,7 @@ Un livrable est **REJETÉ** si:
 - Contradiction non résolue
 - Terminologie non-Glossaire
 - Sections obligatoires manquantes
-- Contient "TODO" ou "TBD"
+- Contient "BACKLOG" ou "TBD"
 - Ambigu sur point critique
 - Ne définit pas ses tests
 - Viole un invariant

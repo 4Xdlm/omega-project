@@ -211,9 +211,9 @@
 
 | Phase | Module | Description | Status |
 |-------|--------|-------------|--------|
-| 8 | ORACLE | Prédiction narrative | ⚪ TODO |
-| 9 | QUANTUM | Branches alternatives | ⚪ TODO |
-| 10 | UI/UX | Interface utilisateur | ⚪ TODO |
+| 8 | ORACLE | Prédiction narrative | ⚪ BACKLOG |
+| 9 | QUANTUM | Branches alternatives | ⚪ BACKLOG |
+| 10 | UI/UX | Interface utilisateur | ⚪ BACKLOG |
 
 ---
 

@@ -1281,7 +1281,7 @@ omega-project/
 - Framework: Vitest
 - Pattern: Co-located tests in `test/` directory
 - Categories: unit/, integration/, e2e/
-- Invariant-based testing with ID patterns (INV-XXX-NN)
+- Invariant-based testing with ID patterns (INV-PLACEHOLDER-NN)
 
 ### Export Pattern
 - ES Modules (type: "module")

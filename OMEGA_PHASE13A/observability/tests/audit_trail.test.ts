@@ -323,7 +323,7 @@ describe('Input Validation', () => {
   });
   
   it('should reject invalid actor_role', () => {
-    const invalid = { ...VALID_EVENT, actor_role: 'HACKER' };
+    const invalid = { ...VALID_EVENT, actor_role: 'INTRUDER' };
     const result = validateEventInput(invalid);
     expect(result.valid).toBe(false);
     expect(result.errors.some(e => e.includes('Invalid actor_role'))).toBe(true);

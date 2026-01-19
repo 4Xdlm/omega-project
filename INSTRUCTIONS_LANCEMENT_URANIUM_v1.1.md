@@ -148,7 +148,7 @@ QUALITÉ CODE MILITARY:
 - Max 300 lignes/fichier
 - Max 50 lignes/fonction
 - 0 console.log en production
-- 0 TODO/FIXME
+- 0 BACKLOG/BACKLOG_FIX
 - Coverage 80%+
 
 ════════════════════════════════════════════════════════════════════════════════════════
@@ -189,17 +189,17 @@ Pour CHAQUE phase:
 6. COMMIT
    git add apps/omega-ui/src/[fichiers]
    git add packages/[module]/src/[fichiers]
-   git commit -m "feat(phase[XXX]): [description] [tests: N pass]"
+   git commit -m "feat(phase[PLACEHOLDER]): [description] [tests: N pass]"
 
 7. TAG (si milestone)
-   git tag -a v3.[XXX].0 -m "Phase [XXX]"
+   git tag -a v3.[PLACEHOLDER].0 -m "Phase [PLACEHOLDER]"
 
 8. SAVE AUTOMATIQUE
    # Mettre à jour PHASE_CURRENT.md
    # Créer session SES-*
    # Créer seal SEAL-*
    git add nexus/
-   git commit -m "save(phase[XXX]): session + seal"
+   git commit -m "save(phase[PLACEHOLDER]): session + seal"
 
 9. PUSH (toutes les 3-5 phases)
    git push origin master

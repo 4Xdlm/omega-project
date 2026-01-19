@@ -163,7 +163,7 @@ foreach ($doc in $governanceDocs) {
 }
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# 5. SCAN PLACEHOLDERS (TODO/FIXME/TBD)
+# 5. SCAN PLACEHOLDERS (BACKLOG/BACKLOG_FIX/TBD)
 # ═══════════════════════════════════════════════════════════════════════════════
 
 Write-Host ""

@@ -22,7 +22,7 @@ Un document **ULTRA-COMPLET** qui analyse TOUTES les données du mega-audit v2.0
 2. **Métriques Globales** — Tests, code, files, performance
 3. **Analyse par Dimension** — Tests, qualité, docs, Git
 4. **Modules en Profondeur** — 10 modules analysés détaillé
-5. **Qualité & Couverture** — Coverage, TODO, tableaux
+5. **Qualité & Couverture** — Coverage, BACKLOG, tableaux
 6. **Architecture & Dépendances** — Graphes, couplage
 7. **Historique & Évolution** — Timeline, versions, activity
 8. **Proof & Traçabilité** — Hashes, scan freeze, invariants
@@ -116,7 +116,7 @@ genome                 ██████████████░░░░░
 
 ### Points d'Attention
 1. nexus/src — 0 tests (normal, interfaces)
-2. TODO — 178 en scan-scope (à résorber)
+2. BACKLOG — 178 en scan-scope (à résorber)
 3. atlas/raw — Stubs (à implémenter)
 4. Mono-contributeur — Bus factor = 1
 
@@ -124,7 +124,7 @@ genome                 ██████████████░░░░░
 1. ✅ Archiver ce rapport
 2. ✅ Implémenter atlas (court terme)
 3. ✅ Implémenter raw (court terme)
-4. ✅ Résorber 50 TODO critiques
+4. ✅ Résorber 50 BACKLOG critiques
 5. ✅ Audit externe
 
 ---
@@ -158,7 +158,7 @@ genome                 ██████████████░░░░░
 ### Section 5: Qualité & Couverture (100 lignes)
 - Tableau consolidé
 - Graphique qualité
-- TODO/FIXME analysis
+- BACKLOG/BACKLOG_FIX analysis
 
 ### Section 6: Architecture & Dépendances (100 lignes)
 - Architecture globale (ASCII)

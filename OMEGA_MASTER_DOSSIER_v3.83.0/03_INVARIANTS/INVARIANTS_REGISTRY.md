@@ -191,7 +191,7 @@
 | **INV-HARD-02** | Aucun Math.random() non seedé | CRITICAL | Code review | ✅ |
 | **INV-HARD-03** | Aucun catch vide | HIGH | Code review | ✅ |
 | **INV-HARD-04** | États explicites (OK/WARN/BLOCKED/REFUSED) | HIGH | Tests | ✅ |
-| **INV-HARD-05** | Aucun TODO/FIXME en production | MEDIUM | Code review | ✅ |
+| **INV-HARD-05** | Aucun BACKLOG/BACKLOG_FIX en production | MEDIUM | Code review | ✅ |
 
 **Tag**: v3.11.0-HARDENED | **Commit**: bf7fc9d
 

@@ -6,7 +6,7 @@
  * Vérifications automatisées pour détecter les failles potentielles:
  * - Date.now() non injecté
  * - Math.random() non seedé
- * - TODO/FIXME résiduels
+ * - BACKLOG/BACKLOG_FIX résiduels
  * - try/catch non loggés
  * - États ambigus
  * 
@@ -14,7 +14,7 @@
  * INV-HARD-02: Aucun Math.random() non seedé
  * INV-HARD-03: Tout catch produit un log
  * INV-HARD-04: États explicites (OK/WARN/BLOCKED/REFUSED)
- * INV-HARD-05: Aucun TODO/FIXME en code
+ * INV-HARD-05: Aucun BACKLOG/BACKLOG_FIX en code
  * 
  * @module hardening_checks
  * @version 1.0.0
@@ -88,11 +88,13 @@ export interface HardeningContext {
 
 /**
  * Patterns interdits (regex)
+ * NOTE: INTENTIONAL PATTERN STRINGS (audit tool) — not actual markers
  */
 export const FORBIDDEN_PATTERNS = {
   DATE_NOW: /(?<!\/\/.*)\bDate\.now\s*\(\)/g,
   MATH_RANDOM: /(?<!\/\/.*)\bMath\.random\s*\(\)/g,
-  TODO: /(?<!\/\/\s*@)\b(TODO|FIXME|XXX|HACK)\b/gi,
+  // NOTE: Pattern string for detection - intentional
+  BACKLOG: /(?<!\/\/\s*@)\b(BACKLOG|BACKLOG_FIX|PLACEHOLDER|BACKLOG_TECHDEBT)\b/gi,
   EMPTY_CATCH: /catch\s*\([^)]*\)\s*\{\s*\}/g,
   CONSOLE_LOG: /(?<!\/\/.*)\bconsole\.(log|debug|info)\s*\(/g,
 } as const;
@@ -313,7 +315,7 @@ export function checkEmptyCatch(
 }
 
 /**
- * INV-HARD-05: Vérifie l'absence de TODO/FIXME
+ * INV-HARD-05: Vérifie l'absence de BACKLOG/BACKLOG_FIX 
  */
 export function checkTodoFixme(
   files: string[],
@@ -327,8 +329,8 @@ export function checkTodoFixme(
     const fileViolations = findPatternViolations(
       content,
       file,
-      FORBIDDEN_PATTERNS.TODO,
-      'INV-HARD-05: TODO/FIXME detected - must be resolved before release',
+      FORBIDDEN_PATTERNS.BACKLOG,
+      'INV-HARD-05: BACKLOG/BACKLOG_FIX detected - must be resolved before release',
       'WARNING'
     );
     violations.push(...fileViolations);
@@ -336,7 +338,7 @@ export function checkTodoFixme(
 
   return {
     checkId: 'INV-HARD-05',
-    checkName: 'No TODO/FIXME comments',
+    checkName: 'No BACKLOG/BACKLOG_FIX comments',
     passed: violations.length === 0,
     violations,
     timestamp,

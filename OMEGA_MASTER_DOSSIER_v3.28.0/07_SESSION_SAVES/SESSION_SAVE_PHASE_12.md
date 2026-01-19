@@ -119,7 +119,7 @@ OMEGA_PHASE12/
 - [x] Tag `v3.12.0-INDUSTRIALIZED` créé
 - [x] Push sur `origin/master` effectué
 - [x] Code TypeScript strict mode
-- [x] Aucune dette technique (TODO/FIXME)
+- [x] Aucune dette technique (BACKLOG/BACKLOG_FIX)
 
 ---
 

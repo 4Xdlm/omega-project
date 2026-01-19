@@ -367,7 +367,7 @@ type MemoryTier =
 ║      • Floats : représentation décimale, max 15 chiffres significatifs                ║
 ║      • Pas de notation scientifique sauf si > 10^15 ou < 10^-15                       ║
 ║                                                                                       ║
-║   5. STRINGS : Échappement JSON standard (\n, \t, \", \\, \uXXXX)                     ║
+║   5. STRINGS : Échappement JSON standard (\n, \t, \", \\, \uNNNN)                     ║
 ║                                                                                       ║
 ║   6. BOOLEANS : true / false (lowercase)                                              ║
 ║                                                                                       ║

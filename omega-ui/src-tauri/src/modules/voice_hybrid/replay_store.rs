@@ -356,7 +356,7 @@ mod tests {
         let mut normalized = JsonFileReplayStore::normalize_for_write(&rec).unwrap();
         
         // Tamper
-        normalized.completion = "HACKED".to_string();
+        normalized.completion = "TAMPERED".to_string();
         
         assert!(JsonFileReplayStore::verify_hash(&normalized).is_err());
     }

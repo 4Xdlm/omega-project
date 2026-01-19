@@ -198,7 +198,7 @@ Date: 2026-01-04
 - [x] 67/67 tests passent (100%)
 - [x] 11/11 invariants validés (100%)
 - [x] Code TypeScript strict mode
-- [x] Aucune dette technique (0 TODO/FIXME)
+- [x] Aucune dette technique (0 BACKLOG/BACKLOG_FIX)
 - [x] Documentation à jour
 
 ### Déploiement

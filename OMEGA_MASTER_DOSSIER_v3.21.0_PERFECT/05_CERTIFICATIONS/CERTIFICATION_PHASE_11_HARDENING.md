@@ -79,7 +79,7 @@
 | INV-HARD-02 | Aucun Math.random() non seedé | Code review | ✅ PROUVÉ |
 | INV-HARD-03 | Aucun catch vide | Code review | ✅ PROUVÉ |
 | INV-HARD-04 | États explicites (OK/WARN/BLOCKED/REFUSED) | Tests | ✅ PROUVÉ |
-| INV-HARD-05 | Aucun TODO/FIXME en production | Code review | ✅ PROUVÉ |
+| INV-HARD-05 | Aucun BACKLOG/BACKLOG_FIX en production | Code review | ✅ PROUVÉ |
 
 ### Bloc TRACE (INV-TRACE-*)
 

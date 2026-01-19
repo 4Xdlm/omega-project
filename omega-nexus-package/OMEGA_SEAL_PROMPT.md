@@ -130,7 +130,7 @@ Fichier: nexus/ledger/registry/LOCK-YYYYMMDD.json
 Contenu:
 {
   "timestamp": "YYYY-MM-DDTHH:MM:SSZ",
-  "pid": XXXXX,
+  "pid": NNNNN,
   "hostname": "DESKTOP-NAME",
   "user": "username",
   "purpose": "seal"

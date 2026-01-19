@@ -149,7 +149,7 @@ gateway/
 | INV-HARD-02 | Aucun Math.random() non seedé | ✅ PROUVÉ |
 | INV-HARD-03 | Aucun catch vide | ✅ PROUVÉ |
 | INV-HARD-04 | États explicites (OK/WARN/BLOCKED/REFUSED) | ✅ PROUVÉ |
-| INV-HARD-05 | Aucun TODO/FIXME en production | ✅ PROUVÉ |
+| INV-HARD-05 | Aucun BACKLOG/BACKLOG_FIX en production | ✅ PROUVÉ |
 
 ### INV-TRACE-* — Traçabilité
 

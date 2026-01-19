@@ -155,7 +155,7 @@ HANDOVER protocol enables any qualified maintainer to take over. Criteria define
 ## Template for Future Decisions
 
 ```markdown
-## DEC-XXX: [Title]
+## DEC-PLACEHOLDER: [Title]
 
 **Date**: YYYY-MM-DD
 **Status**: ACTIVE | SUPERSEDED

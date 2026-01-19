@@ -316,7 +316,7 @@ describe("INV-CFG-04: Config Object.freeze()", () => {
       }).toThrow();
       
       expect(() => {
-        (config.audit as any).log_level = "HACKED";
+        (config.audit as any).log_level = "TAMPERED";
       }).toThrow();
       
       // Verify values unchanged

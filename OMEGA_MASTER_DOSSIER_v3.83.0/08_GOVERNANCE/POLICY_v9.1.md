@@ -55,8 +55,8 @@ code_rules:
   hash_verification: required
   
 forbidden:
-  - TODO
-  - FIXME
+  - BACKLOG
+  - BACKLOG_FIX
   - TBD
   - "à faire"
   - "plus tard"

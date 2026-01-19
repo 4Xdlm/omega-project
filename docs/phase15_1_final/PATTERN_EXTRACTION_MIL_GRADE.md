@@ -99,7 +99,7 @@ OBSERVATION UNIQUE
 
 | OBS-ID | Date | Contexte |
 |--------|------|----------|
-| OBS-XXX | 2026-01-XX | [Contexte] |
+| OBS-PLACEHOLDER | 2026-01-XX | [Contexte] |
 
 ### Description factuelle
 
@@ -113,7 +113,7 @@ OBSERVATION UNIQUE
 
 <!-- TEMPLATE SUSPICION -->
 <!--
-## SUSP-XXX | Créé: 2026-01-XX
+## SUSP-PLACEHOLDER | Créé: 2026-01-XX
 
 | Champ | Valeur |
 |-------|--------|
@@ -125,7 +125,7 @@ OBSERVATION UNIQUE
 
 | OBS-ID | Date | Contexte |
 |--------|------|----------|
-| OBS-XXX | 2026-01-XX | [Contexte] |
+| OBS-PLACEHOLDER | 2026-01-XX | [Contexte] |
 
 ### Description factuelle
 
@@ -147,7 +147,7 @@ OBSERVATION UNIQUE
 
 ---
 
-## CAND-001 | Créé: 2026-01-XX | Promu de: SUSP-XXX
+## CAND-001 | Créé: 2026-01-XX | Promu de: SUSP-PLACEHOLDER
 
 | Champ | Valeur |
 |-------|--------|
@@ -159,7 +159,7 @@ OBSERVATION UNIQUE
 
 | OBS-ID | Date | Contexte |
 |--------|------|----------|
-| OBS-XXX | 2026-01-XX | [Contexte 1] |
+| OBS-PLACEHOLDER | 2026-01-XX | [Contexte 1] |
 | OBS-YYY | 2026-01-XX | [Contexte 2 — DIFFÉRENT] |
 
 ### Vérification anti-biais
@@ -178,7 +178,7 @@ OBSERVATION UNIQUE
 
 <!-- TEMPLATE CANDIDAT -->
 <!--
-## CAND-XXX | Créé: 2026-01-XX | Promu de: SUSP-XXX
+## CAND-PLACEHOLDER | Créé: 2026-01-XX | Promu de: SUSP-PLACEHOLDER
 
 | Champ | Valeur |
 |-------|--------|
@@ -190,7 +190,7 @@ OBSERVATION UNIQUE
 
 | OBS-ID | Date | Contexte |
 |--------|------|----------|
-| OBS-XXX | 2026-01-XX | [Contexte 1] |
+| OBS-PLACEHOLDER | 2026-01-XX | [Contexte 1] |
 | OBS-YYY | 2026-01-XX | [Contexte 2] |
 
 ### Vérification anti-biais
@@ -216,7 +216,7 @@ OBSERVATION UNIQUE
 
 ---
 
-## PAT-001 | Confirmé: 2026-01-XX | Promu de: CAND-XXX
+## PAT-001 | Confirmé: 2026-01-XX | Promu de: CAND-PLACEHOLDER
 
 | Champ | Valeur |
 |-------|--------|
@@ -229,7 +229,7 @@ OBSERVATION UNIQUE
 
 | OBS-ID | Date | Contexte |
 |--------|------|----------|
-| OBS-XXX | 2026-01-XX | [Contexte 1] |
+| OBS-PLACEHOLDER | 2026-01-XX | [Contexte 1] |
 | OBS-YYY | 2026-01-XX | [Contexte 2 — DIFFÉRENT] |
 | OBS-ZZZ | 2026-01-XX | [Contexte 3 — DIFFÉRENT] |
 
@@ -272,7 +272,7 @@ OBSERVATION UNIQUE
 
 <!-- TEMPLATE PATTERN CONFIRMÉ -->
 <!--
-## PAT-XXX | Confirmé: 2026-01-XX | Promu de: CAND-XXX
+## PAT-PLACEHOLDER | Confirmé: 2026-01-XX | Promu de: CAND-PLACEHOLDER
 
 | Champ | Valeur |
 |-------|--------|
@@ -285,7 +285,7 @@ OBSERVATION UNIQUE
 
 | OBS-ID | Date | Contexte |
 |--------|------|----------|
-| OBS-XXX | | [Contexte 1] |
+| OBS-PLACEHOLDER | | [Contexte 1] |
 | OBS-YYY | | [Contexte 2] |
 | OBS-ZZZ | | [Contexte 3] |
 
@@ -321,7 +321,7 @@ OBSERVATION UNIQUE
 
 ---
 
-## REJ-001 | Rejeté: 2026-01-XX | Source: SUSP-XXX ou CAND-XXX
+## REJ-001 | Rejeté: 2026-01-XX | Source: SUSP-PLACEHOLDER ou CAND-PLACEHOLDER
 
 | Champ | Valeur |
 |-------|--------|
@@ -336,7 +336,7 @@ OBSERVATION UNIQUE
 
 <!-- TEMPLATE REJETÉ -->
 <!--
-## REJ-XXX | Rejeté: 2026-01-XX | Source: SUSP/CAND-XXX
+## REJ-PLACEHOLDER | Rejeté: 2026-01-XX | Source: SUSP/CAND-PLACEHOLDER
 
 | Champ | Valeur |
 |-------|--------|

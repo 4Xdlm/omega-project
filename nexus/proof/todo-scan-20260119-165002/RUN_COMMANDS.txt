@@ -1,0 +1,18 @@
+# TODO SCAN COMMANDS - 2026-01-19
+# NASA-Grade L4 Audit
+
+git status
+git rev-parse HEAD
+git log -1 --oneline
+node -v
+npm -v
+
+# Main scan command:
+rg -n --no-heading --with-filename --column "(TODO|FIXME|HACK|XXX)" . \
+  -g "!node_modules/**" -g "!.git/**" -g "!dist/**" -g "!build/**" -g "!coverage/**" \
+  -g "!.cache/**" -g "!out/**" -g "!tmp/**" -g "!vendor/**" -g "!.next/**" \
+  -g "!.turbo/**" -g "!.pnpm-store/**" -g "!*.lock" -g "!package-lock.json" \
+  -t ts -t js -t md -t json -t yaml
+
+# FROZEN check:
+git diff -- packages/genome packages/mycelium OMEGA_SENTINEL_SUPREME/sentinel

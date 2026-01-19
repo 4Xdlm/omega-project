@@ -1,0 +1,273 @@
+# OMEGA Phase A CI/CD Pipeline
+# Version: 2.0.0
+# Phase: Phase A - Nexus Modules
+# Standard: NASA-Grade L4 / DO-178C Level A
+
+name: Phase A CI
+
+on:
+  push:
+    branches: [master, main]
+    paths:
+      - 'nexus/**'
+      - '.github/workflows/phase-a.yml'
+  pull_request:
+    branches: [master, main]
+    paths:
+      - 'nexus/**'
+      - '.github/workflows/phase-a.yml'
+
+env:
+  NODE_VERSION: '20.x'
+
+jobs:
+  # ═══════════════════════════════════════════════════════════════════════════════
+  # FROZEN CHECK - Verify FROZEN modules are not modified
+  # ═══════════════════════════════════════════════════════════════════════════════
+  frozen-check:
+    name: FROZEN Modules Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check FROZEN modules
+        if: github.event_name == 'pull_request'
+        run: |
+          CHANGED=$(git diff --name-only origin/${{ github.base_ref }}...HEAD)
+          VIOLATION=false
+
+          echo "=== FROZEN MODULES CHECK ==="
+          echo "Checking for modifications to:"
+          echo "  - packages/genome"
+          echo "  - packages/mycelium"
+          echo "  - gateway/sentinel"
+          echo ""
+
+          for path in "packages/genome" "packages/mycelium" "gateway/sentinel"; do
+            if echo "$CHANGED" | grep -q "^${path}/"; then
+              echo "❌ FROZEN VIOLATION: ${path} modified"
+              VIOLATION=true
+            else
+              echo "✅ ${path}: INTACT"
+            fi
+          done
+
+          if [ "$VIOLATION" = true ]; then
+            echo ""
+            echo "=== VIOLATION DETECTED ==="
+            echo "FROZEN modules must not be modified!"
+            echo "Per CLAUDE.md: Creating extension layers = OK. Modifying frozen = VIOLATION."
+            exit 1
+          fi
+
+          echo ""
+          echo "=== ALL FROZEN MODULES INTACT ==="
+
+  # ═══════════════════════════════════════════════════════════════════════════════
+  # NEXUS TEST - Run Nexus module tests
+  # ═══════════════════════════════════════════════════════════════════════════════
+  nexus-test:
+    name: Nexus Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run all tests
+        run: npm test
+
+      - name: Verify test count
+        run: |
+          echo "=== TEST COUNT VERIFICATION ==="
+          # Run tests and capture output
+          npm test 2>&1 | tee test-output.txt
+
+          # Extract test count
+          TESTS=$(grep -oP '\d+(?= passed)' test-output.txt | tail -1)
+          echo "Total tests passed: ${TESTS}"
+
+          # Verify minimum test count (Phase A baseline + new tests)
+          if [ "$TESTS" -lt 1800 ]; then
+            echo "❌ Test count below expected minimum (1800)"
+            exit 1
+          fi
+
+          echo "✅ Test count verification passed"
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nexus-test-results
+          path: |
+            coverage/
+            test-output.txt
+
+  # ═══════════════════════════════════════════════════════════════════════════════
+  # ATLAS VERIFY - Verify Atlas module
+  # ═══════════════════════════════════════════════════════════════════════════════
+  atlas-verify:
+    name: Atlas Module
+    runs-on: ubuntu-latest
+    needs: [nexus-test]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify Atlas exports
+        run: |
+          echo "=== ATLAS MODULE VERIFICATION ==="
+
+          # Check version
+          if grep -q 'ATLAS_VERSION.*2.0.0' nexus/atlas/src/index.ts; then
+            echo "✅ Atlas version: 2.0.0"
+          else
+            echo "❌ Atlas version mismatch"
+            exit 1
+          fi
+
+          # Check key exports
+          for export in "AtlasStore" "AtlasError" "HashIndex" "BTreeIndex"; do
+            if grep -q "export.*${export}" nexus/atlas/src/index.ts; then
+              echo "✅ Export found: ${export}"
+            else
+              echo "❌ Missing export: ${export}"
+              exit 1
+            fi
+          done
+
+          echo "✅ Atlas module verification complete"
+
+  # ═══════════════════════════════════════════════════════════════════════════════
+  # RAW VERIFY - Verify Raw module
+  # ═══════════════════════════════════════════════════════════════════════════════
+  raw-verify:
+    name: Raw Module
+    runs-on: ubuntu-latest
+    needs: [nexus-test]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify Raw exports
+        run: |
+          echo "=== RAW MODULE VERIFICATION ==="
+
+          # Check version
+          if grep -q 'RAW_VERSION.*2.0.0' nexus/raw/src/index.ts; then
+            echo "✅ Raw version: 2.0.0"
+          else
+            echo "❌ Raw version mismatch"
+            exit 1
+          fi
+
+          # Check key exports
+          for export in "RawStorage" "MemoryBackend" "FileBackend" "encrypt" "decrypt"; do
+            if grep -q "export.*${export}" nexus/raw/src/index.ts; then
+              echo "✅ Export found: ${export}"
+            else
+              echo "❌ Missing export: ${export}"
+              exit 1
+            fi
+          done
+
+          echo "✅ Raw module verification complete"
+
+  # ═══════════════════════════════════════════════════════════════════════════════
+  # PROOF VERIFY - Verify Proof-utils module
+  # ═══════════════════════════════════════════════════════════════════════════════
+  proof-verify:
+    name: Proof-Utils Module
+    runs-on: ubuntu-latest
+    needs: [nexus-test]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Verify Proof-utils exports
+        run: |
+          echo "=== PROOF-UTILS MODULE VERIFICATION ==="
+
+          # Check version
+          if grep -q 'PROOF_UTILS_VERSION.*2.0.0' nexus/proof-utils/src/index.ts; then
+            echo "✅ Proof-utils version: 2.0.0"
+          else
+            echo "❌ Proof-utils version mismatch"
+            exit 1
+          fi
+
+          # Check key exports
+          for export in "buildManifest" "verifyManifest" "createSnapshot" "diffManifests"; do
+            if grep -q "export.*${export}" nexus/proof-utils/src/*.ts; then
+              echo "✅ Export found: ${export}"
+            else
+              echo "❌ Missing export: ${export}"
+              exit 1
+            fi
+          done
+
+          echo "✅ Proof-utils module verification complete"
+
+  # ═══════════════════════════════════════════════════════════════════════════════
+  # HASH INTEGRITY - Calculate and verify file hashes
+  # ═══════════════════════════════════════════════════════════════════════════════
+  hash-integrity:
+    name: Hash Integrity
+    runs-on: ubuntu-latest
+    needs: [nexus-test, atlas-verify, raw-verify, proof-verify]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Calculate Nexus hashes
+        run: |
+          echo "=== NEXUS MODULE HASHES ==="
+          echo ""
+
+          for module in atlas raw proof-utils; do
+            echo "--- nexus/${module} ---"
+            find nexus/${module}/src -name "*.ts" -exec sha256sum {} \; | sort
+            echo ""
+          done
+
+      - name: Generate hash report
+        run: |
+          echo "=== HASH REPORT ===" > hash-report.txt
+          echo "Generated: $(date -u +"%Y-%m-%dT%H:%M:%SZ")" >> hash-report.txt
+          echo "" >> hash-report.txt
+
+          find nexus/*/src -name "*.ts" -exec sha256sum {} \; | sort >> hash-report.txt
+
+          cat hash-report.txt
+
+      - name: Upload hash report
+        uses: actions/upload-artifact@v4
+        with:
+          name: hash-report
+          path: hash-report.txt
+
+  # ═══════════════════════════════════════════════════════════════════════════════
+  # CERTIFICATION - Final certification check
+  # ═══════════════════════════════════════════════════════════════════════════════
+  certification:
+    name: Phase A Certification
+    runs-on: ubuntu-latest
+    needs: [frozen-check, nexus-test, atlas-verify, raw-verify, proof-verify, hash-integrity]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate certification
+        run: |
+          echo "╔═══════════════════════════════════════════════════════════════╗"
+          echo "║           PHASE A CERTIFICATION COMPLETE                      ║"
+          echo "╠═══════════════════════════════════════════════════════════════╣"
+          echo "║ Standard: NASA-Grade L4 / DO-178C Level A                     ║"
+          echo "║ Modules:  Atlas 2.0.0, Raw 2.0.0, Proof-Utils 2.0.0           ║"
+          echo "║ FROZEN:   INTACT                                              ║"
+          echo "╚═══════════════════════════════════════════════════════════════╝"

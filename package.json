@@ -9,7 +9,8 @@
     "bench": "npx tsx nexus/bench/run-all.ts bench-results/latest.json",
     "bench:baseline": "npx tsx nexus/bench/run-all.ts bench-results/baseline.json",
     "profile": "npx tsx --inspect nexus/bench/run-all.ts profiling-results/profile-output.json",
-    "profile:analyze": "npx tsx scripts/analyze-profile.ts"
+    "profile:analyze": "npx tsx scripts/analyze-profile.ts",
+    "perf:track": "npx tsx scripts/track-performance.ts"
   },
   "devDependencies": {
     "vitest": "^4.0.17",

@@ -1,7 +1,7 @@
 {
-  "name": "@omega-private/nexus-atlas",
+  "name": "@omega-private/nexus-shared",
   "version": "2.0.0",
-  "description": "OMEGA Atlas — Event indexing and querying system (NASA-Grade L4)",
+  "description": "OMEGA Shared — Common utilities, logging, metrics, tracing (NASA-Grade L4)",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -10,6 +10,18 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.js"
+    },
+    "./logging": {
+      "types": "./dist/logging/index.d.ts",
+      "import": "./dist/logging/index.js"
+    },
+    "./metrics": {
+      "types": "./dist/metrics/index.d.ts",
+      "import": "./dist/metrics/index.js"
+    },
+    "./tracing": {
+      "types": "./dist/tracing/index.d.ts",
+      "import": "./dist/tracing/index.js"
     }
   },
   "files": [
@@ -18,7 +30,6 @@
   ],
   "scripts": {
     "build": "tsc",
-    "test": "vitest run",
     "prepublishOnly": "npm run build"
   },
   "publishConfig": {
@@ -28,19 +39,15 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/omega/omega-project.git",
-    "directory": "nexus/atlas"
+    "directory": "nexus/shared"
   },
-  "keywords": ["omega", "atlas", "indexing", "events", "query", "nasa-grade"],
+  "keywords": ["omega", "shared", "logging", "metrics", "tracing", "nasa-grade"],
   "author": "Omega Team",
   "license": "PROPRIETARY",
   "engines": {
     "node": ">=18.0.0"
   },
-  "peerDependencies": {
-    "@omega-private/nexus-shared": "^2.0.0"
-  },
   "devDependencies": {
-    "vitest": "^4.0.17",
     "typescript": "^5.3.0"
   }
 }

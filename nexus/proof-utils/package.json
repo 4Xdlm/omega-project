@@ -1,16 +1,42 @@
 {
-  "name": "@omega/proof-utils",
+  "name": "@omega-private/proof-utils",
   "version": "2.0.0",
-  "description": "Manifest, snapshot, and diff utilities - NASA-Grade L4",
+  "description": "OMEGA Proof Utils — Cryptographic verification and manifests (NASA-Grade L4)",
   "type": "module",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "scripts": {
     "build": "tsc",
     "test": "vitest run",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "prepublishOnly": "npm run build"
   },
-  "license": "MIT",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "restricted"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/omega/omega-project.git",
+    "directory": "nexus/proof-utils"
+  },
+  "keywords": ["omega", "proof", "manifest", "verification", "sha256", "nasa-grade"],
+  "author": "Omega Team",
+  "license": "PROPRIETARY",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "devDependencies": {
     "vitest": "^4.0.17",
     "typescript": "^5.3.0",

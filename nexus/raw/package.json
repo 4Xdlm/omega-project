@@ -1,15 +1,44 @@
 {
-  "name": "@omega/nexus-raw",
+  "name": "@omega-private/nexus-raw",
   "version": "2.0.0",
-  "description": "Raw storage with compression, encryption, and TTL - NASA-Grade L4",
+  "description": "OMEGA Raw — Blob storage with compression and encryption (NASA-Grade L4)",
   "type": "module",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md"
+  ],
   "scripts": {
     "build": "tsc",
-    "test": "vitest run"
+    "test": "vitest run",
+    "prepublishOnly": "npm run build"
   },
-  "license": "MIT",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "restricted"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/omega/omega-project.git",
+    "directory": "nexus/raw"
+  },
+  "keywords": ["omega", "raw", "storage", "blob", "encryption", "nasa-grade"],
+  "author": "Omega Team",
+  "license": "PROPRIETARY",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "peerDependencies": {
+    "@omega-private/nexus-shared": "^2.0.0"
+  },
   "devDependencies": {
     "vitest": "^4.0.17",
     "typescript": "^5.3.0"

@@ -24,6 +24,7 @@ import type {
 } from './types.js';
 import type { Logger } from '../../shared/logging/index.js';
 import type { MetricsCollector } from '../../shared/metrics/index.js';
+import type { Tracer } from '../../shared/tracing/index.js';
 import {
   AtlasViewNotFoundError,
   AtlasViewAlreadyExistsError,
@@ -43,6 +44,7 @@ export interface AtlasStoreConfig {
   readonly rng?: RNG;
   readonly logger?: Logger;
   readonly metrics?: MetricsCollector;
+  readonly tracer?: Tracer;
 }
 
 // ============================================================
@@ -58,6 +60,7 @@ export class AtlasStore {
   private readonly projections: Map<string, ProjectionDefinition> = new Map();
   private readonly logger?: Logger;
   private readonly metrics?: MetricsCollector;
+  private readonly tracer?: Tracer;
   private readonly insertCounter?: ReturnType<MetricsCollector['counter']>;
   private readonly updateCounter?: ReturnType<MetricsCollector['counter']>;
   private readonly deleteCounter?: ReturnType<MetricsCollector['counter']>;
@@ -73,6 +76,7 @@ export class AtlasStore {
     this.subscriptionManager = new SubscriptionManager(this.rng);
     this.logger = config.logger;
     this.metrics = config.metrics;
+    this.tracer = config.tracer;
 
     if (this.metrics) {
       this.insertCounter = this.metrics.counter('atlas_inserts_total', 'Total view inserts');
@@ -182,9 +186,21 @@ export class AtlasStore {
   // ============================================================
 
   query(query: AtlasQuery = {}): AtlasResult {
-    validateQuery(query);
-    const allViews = [...this.views.values()];
-    return executeQuery(allViews, query);
+    const span = this.tracer?.startSpan('atlas.query');
+    try {
+      validateQuery(query);
+      const allViews = [...this.views.values()];
+      const result = executeQuery(allViews, query);
+      span?.setAttribute('atlas.query.total', result.total);
+      span?.setAttribute('atlas.query.returned', result.views.length);
+      return result;
+    } catch (error) {
+      span?.setStatus('error');
+      span?.setAttribute('error.message', (error as Error).message);
+      throw error;
+    } finally {
+      span?.end();
+    }
   }
 
   findOne(filter: QueryFilter): AtlasView | undefined {

@@ -18,6 +18,7 @@ import type {
 } from './types.js';
 import type { Logger } from '../../shared/logging/index.js';
 import type { MetricsCollector } from '../../shared/metrics/index.js';
+import type { Tracer } from '../../shared/tracing/index.js';
 import {
   RawStorageNotFoundError,
   RawTTLExpiredError,
@@ -42,6 +43,7 @@ export interface RawStorageConfig {
   readonly defaultTTL?: number;
   readonly logger?: Logger;
   readonly metrics?: MetricsCollector;
+  readonly tracer?: Tracer;
 }
 
 // ============================================================
@@ -58,6 +60,7 @@ export class RawStorage {
   private readonly defaultTTL?: number;
   private readonly logger?: Logger;
   private readonly metrics?: MetricsCollector;
+  private readonly tracer?: Tracer;
   private readonly storeCounter?: ReturnType<MetricsCollector['counter']>;
   private readonly retrieveCounter?: ReturnType<MetricsCollector['counter']>;
   private readonly deleteCounter?: ReturnType<MetricsCollector['counter']>;
@@ -73,6 +76,7 @@ export class RawStorage {
     this.defaultTTL = config.defaultTTL;
     this.logger = config.logger;
     this.metrics = config.metrics;
+    this.tracer = config.tracer;
 
     if (this.metrics) {
       this.storeCounter = this.metrics.counter('raw_stores_total', 'Total store operations');
@@ -141,52 +145,63 @@ export class RawStorage {
   // ============================================================
 
   async retrieve(key: string): Promise<Buffer> {
-    // Validate key for security (defense-in-depth)
-    const safeKey = sanitizeKey(key);
+    const span = this.tracer?.startSpan('raw.retrieve');
+    try {
+      // Validate key for security (defense-in-depth)
+      const safeKey = sanitizeKey(key);
+      span?.setAttribute('raw.key', safeKey);
 
-    const entry = await this.backend.retrieve(safeKey);
+      const entry = await this.backend.retrieve(safeKey);
 
-    if (!entry) {
-      throw new RawStorageNotFoundError(`Key not found: ${safeKey}`, { key: safeKey });
-    }
-
-    // Check TTL
-    if (entry.metadata.expiresAt !== null) {
-      const now = this.clock.now();
-      if (now > entry.metadata.expiresAt) {
-        // Entry expired - delete it and throw
-        await this.backend.delete(safeKey);
-        throw new RawTTLExpiredError(`Entry expired: ${safeKey}`, {
-          key: safeKey,
-          expiresAt: entry.metadata.expiresAt,
-          now,
-        });
+      if (!entry) {
+        throw new RawStorageNotFoundError(`Key not found: ${safeKey}`, { key: safeKey });
       }
-    }
 
-    // Verify checksum
-    assertChecksum(entry.data, entry.metadata.checksum, { key });
-
-    let data = entry.data;
-
-    // Decrypt
-    if (entry.metadata.encrypted) {
-      if (!this.keyring) {
-        throw new Error('Entry is encrypted but no keyring configured');
+      // Check TTL
+      if (entry.metadata.expiresAt !== null) {
+        const now = this.clock.now();
+        if (now > entry.metadata.expiresAt) {
+          // Entry expired - delete it and throw
+          await this.backend.delete(safeKey);
+          throw new RawTTLExpiredError(`Entry expired: ${safeKey}`, {
+            key: safeKey,
+            expiresAt: entry.metadata.expiresAt,
+            now,
+          });
+        }
       }
-      const encryptedData = deserializeEncrypted(data.toString('utf-8'));
-      data = decrypt(encryptedData, this.keyring);
+
+      // Verify checksum
+      assertChecksum(entry.data, entry.metadata.checksum, { key });
+
+      let data = entry.data;
+
+      // Decrypt
+      if (entry.metadata.encrypted) {
+        if (!this.keyring) {
+          throw new Error('Entry is encrypted but no keyring configured');
+        }
+        const encryptedData = deserializeEncrypted(data.toString('utf-8'));
+        data = decrypt(encryptedData, this.keyring);
+      }
+
+      // Decompress
+      if (entry.metadata.compressed) {
+        data = await decompress(data);
+      }
+
+      this.logger?.debug('Entry retrieved', { key: safeKey, size: data.length });
+      this.retrieveCounter?.inc();
+      span?.setAttribute('raw.size', data.length);
+
+      return data;
+    } catch (error) {
+      span?.setStatus('error');
+      span?.setAttribute('error.message', (error as Error).message);
+      throw error;
+    } finally {
+      span?.end();
     }
-
-    // Decompress
-    if (entry.metadata.compressed) {
-      data = await decompress(data);
-    }
-
-    this.logger?.debug('Entry retrieved', { key: safeKey, size: data.length });
-    this.retrieveCounter?.inc();
-
-    return data;
   }
 
   // ============================================================

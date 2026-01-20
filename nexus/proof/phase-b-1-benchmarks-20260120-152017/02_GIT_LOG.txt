@@ -1,0 +1,29 @@
+commit 9d67d2f1e9a18d15d81d98a7ebb09fb3cc7a6ebb
+Author: 4Xdlm <elrick9@gmail.com>
+Commit: 4Xdlm <elrick9@gmail.com>
+
+    feat(bench): add benchmark suite with injectable PerfNowFn [PHASE-B.1]
+    
+    Phase B.1 - Benchmark Suite:
+    - nexus/shared/performance/index.ts: ClockFn, PerfNowFn, Stopwatch abstractions
+    - nexus/bench/utils.ts: Benchmark utilities (measure, format, compare)
+    - nexus/bench/atlas.bench.ts: Atlas benchmarks (insert, query, index)
+    - nexus/bench/raw.bench.ts: Raw storage benchmarks (store, retrieve, compress)
+    - nexus/bench/proof.bench.ts: Proof utils benchmarks (build, verify manifest)
+    - nexus/bench/run-all.ts: Benchmark runner
+    - scripts/benchmark.sh, scripts/save-baseline.sh: Benchmark scripts
+    - bench-results/baseline.json: Initial baseline (15 benchmarks)
+    
+    Tests:
+    - tests/performance/abstractions.test.ts: 12 tests (Clock, PerfNow, Stopwatch)
+    - tests/bench/utils.test.ts: 6 tests (benchmark, compare)
+    
+    CRITICAL (VERROU 2 & 3):
+    - Benchmarks = npm run bench (NEVER in CI)
+    - No timing assertions
+    - PerfNowFn INJECTABLE
+    
+    Tests: 2027/2027 PASS (+18 new)
+    FROZEN: 0 bytes modified
+    
+    Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>

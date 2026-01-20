@@ -7,7 +7,9 @@
     "omega": "node gateway/cli-runner/dist/cli/runner.js",
     "omega:build": "cd gateway/cli-runner && npm run build",
     "bench": "npx tsx nexus/bench/run-all.ts bench-results/latest.json",
-    "bench:baseline": "npx tsx nexus/bench/run-all.ts bench-results/baseline.json"
+    "bench:baseline": "npx tsx nexus/bench/run-all.ts bench-results/baseline.json",
+    "profile": "npx tsx --inspect nexus/bench/run-all.ts profiling-results/profile-output.json",
+    "profile:analyze": "npx tsx scripts/analyze-profile.ts"
   },
   "devDependencies": {
     "vitest": "^4.0.17",

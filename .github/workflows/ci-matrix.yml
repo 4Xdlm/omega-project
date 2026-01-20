@@ -1,0 +1,139 @@
+name: CI Matrix
+
+on:
+  push:
+    branches: [master, phase-b-industrial]
+  pull_request:
+    branches: [master]
+
+jobs:
+  test-matrix:
+    name: Test (${{ matrix.os }}, Node ${{ matrix.node }})
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        node: ['18', '20', '22']
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type check
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Tests
+        run: npm test
+
+      - name: Coverage
+        if: matrix.os == 'ubuntu-latest' && matrix.node == '22'
+        run: npm run test:coverage
+
+      - name: Upload coverage
+        if: matrix.os == 'ubuntu-latest' && matrix.node == '22'
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage/lcov.info
+          fail_ci_if_error: false
+
+  frozen-check:
+    name: FROZEN Integrity Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check FROZEN modules
+        run: |
+          # Verify packages/genome unchanged
+          if git diff --quiet HEAD^ HEAD -- packages/genome 2>/dev/null; then
+            echo "✅ packages/genome FROZEN intact"
+          else
+            echo "❌ packages/genome was modified"
+            exit 1
+          fi
+
+          # Verify gateway/sentinel unchanged
+          if git diff --quiet HEAD^ HEAD -- gateway/sentinel 2>/dev/null; then
+            echo "✅ gateway/sentinel FROZEN intact"
+          else
+            echo "❌ gateway/sentinel was modified"
+            exit 1
+          fi
+
+  benchmarks:
+    name: Benchmarks (informational)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run benchmarks
+        run: npm run bench
+        continue-on-error: true
+
+      - name: Upload benchmark results
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-results
+          path: bench-results/
+          if-no-files-found: ignore
+
+  proof-pack:
+    name: Generate Proof Pack
+    runs-on: ubuntu-latest
+    needs: [test-matrix, frozen-check]
+    if: github.ref == 'refs/heads/master'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate proof pack
+        run: |
+          npm run build || true
+          bash scripts/generate-proof-pack.sh ci-${{ github.sha }}
+
+      - name: Upload proof pack
+        uses: actions/upload-artifact@v4
+        with:
+          name: proof-pack-${{ github.sha }}
+          path: nexus/proof/ci-*

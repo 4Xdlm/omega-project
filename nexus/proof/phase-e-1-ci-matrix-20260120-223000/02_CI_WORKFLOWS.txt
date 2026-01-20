@@ -1,0 +1,310 @@
+name: CI Matrix
+
+on:
+  push:
+    branches: [master, phase-b-industrial]
+  pull_request:
+    branches: [master]
+
+jobs:
+  test-matrix:
+    name: Test (${{ matrix.os }}, Node ${{ matrix.node }})
+
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        node: ['18', '20', '22']
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type check
+        run: npm run typecheck
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Tests
+        run: npm test
+
+      - name: Coverage
+        if: matrix.os == 'ubuntu-latest' && matrix.node == '22'
+        run: npm run test:coverage
+
+      - name: Upload coverage
+        if: matrix.os == 'ubuntu-latest' && matrix.node == '22'
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage/lcov.info
+          fail_ci_if_error: false
+
+  frozen-check:
+    name: FROZEN Integrity Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check FROZEN modules
+        run: |
+          # Verify packages/genome unchanged
+          if git diff --quiet HEAD^ HEAD -- packages/genome 2>/dev/null; then
+            echo "✅ packages/genome FROZEN intact"
+          else
+            echo "❌ packages/genome was modified"
+            exit 1
+          fi
+
+          # Verify gateway/sentinel unchanged
+          if git diff --quiet HEAD^ HEAD -- gateway/sentinel 2>/dev/null; then
+            echo "✅ gateway/sentinel FROZEN intact"
+          else
+            echo "❌ gateway/sentinel was modified"
+            exit 1
+          fi
+
+  benchmarks:
+    name: Benchmarks (informational)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run benchmarks
+        run: npm run bench
+        continue-on-error: true
+
+      - name: Upload benchmark results
+        uses: actions/upload-artifact@v4
+        with:
+          name: benchmark-results
+          path: bench-results/
+          if-no-files-found: ignore
+
+  proof-pack:
+    name: Generate Proof Pack
+    runs-on: ubuntu-latest
+    needs: [test-matrix, frozen-check]
+    if: github.ref == 'refs/heads/master'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate proof pack
+        run: |
+          npm run build || true
+          bash scripts/generate-proof-pack.sh ci-${{ github.sha }}
+
+      - name: Upload proof pack
+        uses: actions/upload-artifact@v4
+        with:
+          name: proof-pack-${{ github.sha }}
+          path: nexus/proof/ci-*
+
+
+=== required-checks.yml ===
+
+name: Required Checks
+
+on:
+  pull_request:
+    branches: [master]
+
+jobs:
+  coverage-threshold:
+    name: Coverage Threshold
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run coverage
+        run: npm run test:coverage
+
+      - name: Check threshold
+        run: |
+          if [ -f coverage/coverage-summary.json ]; then
+            COVERAGE=$(cat coverage/coverage-summary.json | jq '.total.lines.pct')
+            echo "Coverage: $COVERAGE%"
+
+            if (( $(echo "$COVERAGE < 80" | bc -l) )); then
+              echo "❌ Coverage $COVERAGE% is below threshold 80%"
+              exit 1
+            else
+              echo "✅ Coverage $COVERAGE% meets threshold"
+            fi
+          else
+            echo "⚠️ Coverage report not found, skipping check"
+          fi
+
+  test-count-regression:
+    name: Test Count Regression Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout current
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Count tests
+        id: count
+        run: |
+          TEST_COUNT=$(npm test 2>&1 | grep -oP '\d+(?= passed)' | head -1 || echo "0")
+          echo "count=$TEST_COUNT" >> $GITHUB_OUTPUT
+          echo "Current test count: $TEST_COUNT"
+
+      - name: Checkout base
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.base_ref }}
+          clean: false
+
+      - name: Install dependencies (base)
+        run: npm ci
+
+      - name: Count tests (base)
+        id: count_base
+        run: |
+          TEST_COUNT_BASE=$(npm test 2>&1 | grep -oP '\d+(?= passed)' | head -1 || echo "0")
+          echo "count=$TEST_COUNT_BASE" >> $GITHUB_OUTPUT
+          echo "Base test count: $TEST_COUNT_BASE"
+
+      - name: Compare
+        run: |
+          CURRENT=${{ steps.count.outputs.count }}
+          BASE=${{ steps.count_base.outputs.count }}
+
+          if [ -z "$CURRENT" ] || [ -z "$BASE" ]; then
+            echo "⚠️ Could not determine test counts"
+            exit 0
+          fi
+
+          if [ "$CURRENT" -lt "$BASE" ]; then
+            echo "❌ Test count regression: $CURRENT < $BASE"
+            exit 1
+          else
+            echo "✅ Test count: $CURRENT (was $BASE)"
+          fi
+
+  api-compatibility:
+    name: API Compatibility Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run API surface tests
+        run: npm test -- tests/api-surface.test.ts || echo "No API surface tests found"
+
+      - name: Check for breaking changes
+        run: |
+          # Compare snapshots
+          if git diff --quiet HEAD^ HEAD -- **/__snapshots__/*.snap 2>/dev/null; then
+            echo "✅ No API breaking changes"
+          else
+            echo "⚠️ API snapshots changed - review carefully"
+            git diff HEAD^ HEAD -- **/__snapshots__/*.snap || true
+          fi
+
+  frozen-modules:
+    name: FROZEN Modules Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Verify FROZEN modules
+        run: |
+          VIOLATIONS=0
+
+          # Check packages/genome
+          if ! git diff --quiet origin/${{ github.base_ref }}..HEAD -- packages/genome 2>/dev/null; then
+            echo "❌ VIOLATION: packages/genome was modified"
+            VIOLATIONS=$((VIOLATIONS + 1))
+          else
+            echo "✅ packages/genome FROZEN intact"
+          fi
+
+          # Check gateway/sentinel
+          if ! git diff --quiet origin/${{ github.base_ref }}..HEAD -- gateway/sentinel 2>/dev/null; then
+            echo "❌ VIOLATION: gateway/sentinel was modified"
+            VIOLATIONS=$((VIOLATIONS + 1))
+          else
+            echo "✅ gateway/sentinel FROZEN intact"
+          fi
+
+          if [ $VIOLATIONS -gt 0 ]; then
+            echo ""
+            echo "❌ $VIOLATIONS FROZEN module violation(s) detected"
+            exit 1
+          fi

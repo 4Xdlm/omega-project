@@ -37,7 +37,17 @@ export default defineConfig({
     ],
     coverage: {
       provider: 'v8',
-      reporter: ['text', 'json', 'html'],
+      reporter: ['text', 'json', 'lcov', 'json-summary'],
+      include: ['nexus/**/*.ts', 'packages/**/*.ts', 'gateway/**/*.ts', 'src/**/*.ts'],
+      exclude: [
+        '**/*.test.ts',
+        '**/*.bench.ts',
+        '**/node_modules/**',
+        '**/dist/**',
+        'nexus/bench/**',
+        'scripts/**',
+        '**/__mocks__/**',
+      ],
     },
     testTimeout: 15000,
   },

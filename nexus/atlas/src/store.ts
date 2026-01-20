@@ -22,6 +22,7 @@ import type {
   ProjectionDefinition,
   Projector,
 } from './types.js';
+import type { Logger } from '../../shared/logging/index.js';
 import {
   AtlasViewNotFoundError,
   AtlasViewAlreadyExistsError,
@@ -39,6 +40,7 @@ import { SubscriptionManager } from './subscriptions.js';
 export interface AtlasStoreConfig {
   readonly clock?: Clock;
   readonly rng?: RNG;
+  readonly logger?: Logger;
 }
 
 // ============================================================
@@ -52,6 +54,7 @@ export class AtlasStore {
   private readonly clock: Clock;
   private readonly rng: RNG;
   private readonly projections: Map<string, ProjectionDefinition> = new Map();
+  private readonly logger?: Logger;
 
   constructor(config: AtlasStoreConfig = {}) {
     this.clock = config.clock ?? { now: () => Date.now() };
@@ -61,6 +64,7 @@ export class AtlasStore {
     };
     this.indexManager = new IndexManager();
     this.subscriptionManager = new SubscriptionManager(this.rng);
+    this.logger = config.logger;
   }
 
   // ============================================================
@@ -84,6 +88,8 @@ export class AtlasStore {
     this.views.set(id, view);
     this.indexManager.addToIndexes(view);
     this.subscriptionManager.notifyInsert(view, view.timestamp);
+
+    this.logger?.debug('View inserted', { viewId: id, version: 1 });
 
     return view;
   }
@@ -116,6 +122,8 @@ export class AtlasStore {
     this.indexManager.updateIndexes(view);
     this.subscriptionManager.notifyUpdate(view, existing, view.timestamp);
 
+    this.logger?.debug('View updated', { viewId: id, version: view.version });
+
     return view;
   }
 
@@ -135,6 +143,8 @@ export class AtlasStore {
     this.views.delete(id);
     this.indexManager.removeFromIndexes(id);
     this.subscriptionManager.notifyDelete(existing, this.clock.now());
+
+    this.logger?.debug('View deleted', { viewId: id });
 
     return existing;
   }

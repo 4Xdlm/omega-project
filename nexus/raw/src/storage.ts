@@ -16,6 +16,7 @@ import type {
   Clock,
   Keyring,
 } from './types.js';
+import type { Logger } from '../../shared/logging/index.js';
 import {
   RawStorageNotFoundError,
   RawTTLExpiredError,
@@ -38,6 +39,7 @@ export interface RawStorageConfig {
   readonly defaultCompress?: boolean;
   readonly defaultEncrypt?: boolean;
   readonly defaultTTL?: number;
+  readonly logger?: Logger;
 }
 
 // ============================================================
@@ -52,6 +54,7 @@ export class RawStorage {
   private readonly defaultCompress: boolean;
   private readonly defaultEncrypt: boolean;
   private readonly defaultTTL?: number;
+  private readonly logger?: Logger;
 
   constructor(config: RawStorageConfig) {
     this.backend = config.backend;
@@ -61,6 +64,7 @@ export class RawStorage {
     this.defaultCompress = config.defaultCompress ?? false;
     this.defaultEncrypt = config.defaultEncrypt ?? false;
     this.defaultTTL = config.defaultTTL;
+    this.logger = config.logger;
   }
 
   // ============================================================
@@ -111,6 +115,8 @@ export class RawStorage {
     });
 
     await this.backend.store(safeKey, processedData, metadata);
+
+    this.logger?.debug('Entry stored', { key: safeKey, size: processedData.length, compressed, encrypted });
   }
 
   // ============================================================
@@ -160,6 +166,8 @@ export class RawStorage {
       data = await decompress(data);
     }
 
+    this.logger?.debug('Entry retrieved', { key: safeKey, size: data.length });
+
     return data;
   }
 
@@ -184,7 +192,13 @@ export class RawStorage {
   async delete(key: string): Promise<boolean> {
     // Validate key for security (defense-in-depth)
     const safeKey = sanitizeKey(key);
-    return this.backend.delete(safeKey);
+    const result = await this.backend.delete(safeKey);
+
+    if (result) {
+      this.logger?.debug('Entry deleted', { key: safeKey });
+    }
+
+    return result;
   }
 
   // ============================================================

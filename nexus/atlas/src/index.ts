@@ -3,26 +3,51 @@
  * Standard: NASA-Grade L4
  *
  * Phase A: Full implementation with query, index, subscriptions
+ *
+ * @packageDocumentation
+ * @module @omega-private/nexus-atlas
+ * @public
  */
 
-// Version
+/**
+ * Atlas module version
+ * @public
+ */
 export const ATLAS_VERSION = '2.0.0' as const;
 
-// Types
+/**
+ * Type definitions
+ * @public
+ */
 export * from './types.js';
 
-// Errors
+/**
+ * Error classes
+ * @public
+ */
 export * from './errors.js';
 
-// Query Engine
+/**
+ * Query engine functions
+ * @public
+ */
 export { executeQuery, validateQuery } from './query.js';
 
-// Index Manager
+/**
+ * Index management
+ * @public
+ */
 export { IndexManager } from './indexManager.js';
 
-// Subscription Manager
+/**
+ * Subscription management
+ * @public
+ */
 export { SubscriptionManager } from './subscriptions.js';
 
-// Main Store
+/**
+ * Main Atlas store
+ * @public
+ */
 export { AtlasStore } from './store.js';
 export type { AtlasStoreConfig } from './store.js';

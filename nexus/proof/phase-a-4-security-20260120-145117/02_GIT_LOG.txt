@@ -1,0 +1,22 @@
+commit cacc0298606d035170c7214fb88d8b741abc3310
+Author: 4Xdlm <elrick9@gmail.com>
+Commit: 4Xdlm <elrick9@gmail.com>
+
+    feat(security): add threat model, security policy, and hardened key validation [PHASE-A.4]
+    
+    Phase A.4 - Sécurité + Threat Model:
+    - docs/THREAT_MODEL.md: 10 threats documented (T1-T10 STRIDE analysis)
+    - docs/SECURITY.md: Security policy, reporting, best practices
+    - tests/security.test.ts: 36 security tests (path traversal, zip slip, info leak)
+    - nexus/raw/src/storage.ts: Defense-in-depth key validation for all backends
+    - tests/edge-cases/special-chars.test.ts: Updated for unicode key rejection
+    
+    Security hardening:
+    - RawStorage now validates keys via sanitizeKey() before any backend operation
+    - Unicode keys rejected (homograph attack prevention)
+    - Path traversal blocked at storage layer (not just FileBackend)
+    
+    Tests: 2009/2009 PASS (+36 security tests)
+    FROZEN: 0 bytes modified
+    
+    Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>

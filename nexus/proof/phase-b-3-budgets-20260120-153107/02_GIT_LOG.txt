@@ -1,0 +1,22 @@
+commit f747d1d9717ad0c8f0697fb930f8f5735ce5ae0d
+Author: 4Xdlm <elrick9@gmail.com>
+Commit: 4Xdlm <elrick9@gmail.com>
+
+    feat(perf): add performance budgets and tracking [PHASE-B.3]
+    
+    Phase B.3 - Performance Budgets:
+    - PERFORMANCE_BUDGETS.md: Budget definitions and policies
+    - scripts/track-performance.ts: Budget tracking tool (npm run perf:track)
+    - tests/performance/budgets.test.ts: 4 measurement tests (no timing assertions)
+    
+    Budget Status (all EXCELLENT):
+    - Atlas operations: <1% of budget
+    - Raw operations: <2% of budget
+    - Proof operations: <3% of budget
+    
+    CRITICAL (VERROU 2): Tests measure but don't assert timing
+    
+    Tests: 2031/2031 PASS (+4 new)
+    FROZEN: 0 bytes modified
+    
+    Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>

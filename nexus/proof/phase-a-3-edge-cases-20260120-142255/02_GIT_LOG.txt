@@ -1,0 +1,17 @@
+commit 8434a3982573693e9f430439299a84bfebbfe3f1
+Author: 4Xdlm <elrick9@gmail.com>
+Commit: 4Xdlm <elrick9@gmail.com>
+
+    test(edge-cases): add extreme sizes, special chars, corruption tests [PHASE-A.3]
+    
+    Phase A.3 - Cas Limites:
+    - tests/edge-cases/extreme-sizes.test.ts: 16 tests (1K-50K items, 1KB-50MB data)
+    - tests/edge-cases/special-chars.test.ts: 20 tests (unicode, binary, escape chars)
+    - tests/edge-cases/corruption.test.ts: 19 tests (manifest tampering, checksum)
+    - tests/edge-cases/partial-restore.test.ts: 12 tests (subset restore, filters)
+    
+    Total: 67 edge-case tests
+    Tests: 1973/1973 PASS (+67 new)
+    FROZEN: 0 bytes modified
+    
+    Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>

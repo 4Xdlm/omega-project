@@ -23,6 +23,7 @@ import type {
   Projector,
 } from './types.js';
 import type { Logger } from '../../shared/logging/index.js';
+import type { MetricsCollector } from '../../shared/metrics/index.js';
 import {
   AtlasViewNotFoundError,
   AtlasViewAlreadyExistsError,
@@ -41,6 +42,7 @@ export interface AtlasStoreConfig {
   readonly clock?: Clock;
   readonly rng?: RNG;
   readonly logger?: Logger;
+  readonly metrics?: MetricsCollector;
 }
 
 // ============================================================
@@ -55,6 +57,11 @@ export class AtlasStore {
   private readonly rng: RNG;
   private readonly projections: Map<string, ProjectionDefinition> = new Map();
   private readonly logger?: Logger;
+  private readonly metrics?: MetricsCollector;
+  private readonly insertCounter?: ReturnType<MetricsCollector['counter']>;
+  private readonly updateCounter?: ReturnType<MetricsCollector['counter']>;
+  private readonly deleteCounter?: ReturnType<MetricsCollector['counter']>;
+  private readonly viewsGauge?: ReturnType<MetricsCollector['gauge']>;
 
   constructor(config: AtlasStoreConfig = {}) {
     this.clock = config.clock ?? { now: () => Date.now() };
@@ -65,6 +72,14 @@ export class AtlasStore {
     this.indexManager = new IndexManager();
     this.subscriptionManager = new SubscriptionManager(this.rng);
     this.logger = config.logger;
+    this.metrics = config.metrics;
+
+    if (this.metrics) {
+      this.insertCounter = this.metrics.counter('atlas_inserts_total', 'Total view inserts');
+      this.updateCounter = this.metrics.counter('atlas_updates_total', 'Total view updates');
+      this.deleteCounter = this.metrics.counter('atlas_deletes_total', 'Total view deletes');
+      this.viewsGauge = this.metrics.gauge('atlas_views_count', 'Current view count');
+    }
   }
 
   // ============================================================
@@ -90,6 +105,8 @@ export class AtlasStore {
     this.subscriptionManager.notifyInsert(view, view.timestamp);
 
     this.logger?.debug('View inserted', { viewId: id, version: 1 });
+    this.insertCounter?.inc();
+    this.viewsGauge?.set(this.views.size);
 
     return view;
   }
@@ -123,6 +140,7 @@ export class AtlasStore {
     this.subscriptionManager.notifyUpdate(view, existing, view.timestamp);
 
     this.logger?.debug('View updated', { viewId: id, version: view.version });
+    this.updateCounter?.inc();
 
     return view;
   }
@@ -145,6 +163,8 @@ export class AtlasStore {
     this.subscriptionManager.notifyDelete(existing, this.clock.now());
 
     this.logger?.debug('View deleted', { viewId: id });
+    this.deleteCounter?.inc();
+    this.viewsGauge?.set(this.views.size);
 
     return existing;
   }

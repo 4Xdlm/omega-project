@@ -17,6 +17,7 @@ import type {
   Keyring,
 } from './types.js';
 import type { Logger } from '../../shared/logging/index.js';
+import type { MetricsCollector } from '../../shared/metrics/index.js';
 import {
   RawStorageNotFoundError,
   RawTTLExpiredError,
@@ -40,6 +41,7 @@ export interface RawStorageConfig {
   readonly defaultEncrypt?: boolean;
   readonly defaultTTL?: number;
   readonly logger?: Logger;
+  readonly metrics?: MetricsCollector;
 }
 
 // ============================================================
@@ -55,6 +57,11 @@ export class RawStorage {
   private readonly defaultEncrypt: boolean;
   private readonly defaultTTL?: number;
   private readonly logger?: Logger;
+  private readonly metrics?: MetricsCollector;
+  private readonly storeCounter?: ReturnType<MetricsCollector['counter']>;
+  private readonly retrieveCounter?: ReturnType<MetricsCollector['counter']>;
+  private readonly deleteCounter?: ReturnType<MetricsCollector['counter']>;
+  private readonly bytesStoredCounter?: ReturnType<MetricsCollector['counter']>;
 
   constructor(config: RawStorageConfig) {
     this.backend = config.backend;
@@ -65,6 +72,14 @@ export class RawStorage {
     this.defaultEncrypt = config.defaultEncrypt ?? false;
     this.defaultTTL = config.defaultTTL;
     this.logger = config.logger;
+    this.metrics = config.metrics;
+
+    if (this.metrics) {
+      this.storeCounter = this.metrics.counter('raw_stores_total', 'Total store operations');
+      this.retrieveCounter = this.metrics.counter('raw_retrieves_total', 'Total retrieve operations');
+      this.deleteCounter = this.metrics.counter('raw_deletes_total', 'Total delete operations');
+      this.bytesStoredCounter = this.metrics.counter('raw_bytes_stored_total', 'Total bytes stored');
+    }
   }
 
   // ============================================================
@@ -117,6 +132,8 @@ export class RawStorage {
     await this.backend.store(safeKey, processedData, metadata);
 
     this.logger?.debug('Entry stored', { key: safeKey, size: processedData.length, compressed, encrypted });
+    this.storeCounter?.inc();
+    this.bytesStoredCounter?.inc(processedData.length);
   }
 
   // ============================================================
@@ -167,6 +184,7 @@ export class RawStorage {
     }
 
     this.logger?.debug('Entry retrieved', { key: safeKey, size: data.length });
+    this.retrieveCounter?.inc();
 
     return data;
   }
@@ -196,6 +214,7 @@ export class RawStorage {
 
     if (result) {
       this.logger?.debug('Entry deleted', { key: safeKey });
+      this.deleteCounter?.inc();
     }
 
     return result;

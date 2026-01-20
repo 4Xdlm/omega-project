@@ -23,6 +23,7 @@ import {
 import { compress, decompress, isGzipCompressed } from './utils/compression.js';
 import { encrypt, decrypt, serializeEncrypted, deserializeEncrypted, systemRNG } from './utils/encryption.js';
 import { computeChecksum, assertChecksum } from './utils/checksum.js';
+import { sanitizeKey } from './utils/paths.js';
 import type { RNG } from './types.js';
 
 // ============================================================
@@ -67,6 +68,9 @@ export class RawStorage {
   // ============================================================
 
   async store(key: string, data: Buffer, options: StoreOptions = {}): Promise<void> {
+    // Validate key for security (defense-in-depth)
+    const safeKey = sanitizeKey(key);
+
     const shouldCompress = options.compress ?? this.defaultCompress;
     const shouldEncrypt = options.encrypt ?? this.defaultEncrypt;
     const ttl = options.ttl ?? this.defaultTTL;
@@ -106,7 +110,7 @@ export class RawStorage {
       custom: options.metadata ? Object.freeze({ ...options.metadata }) : undefined,
     });
 
-    await this.backend.store(key, processedData, metadata);
+    await this.backend.store(safeKey, processedData, metadata);
   }
 
   // ============================================================
@@ -114,10 +118,13 @@ export class RawStorage {
   // ============================================================
 
   async retrieve(key: string): Promise<Buffer> {
-    const entry = await this.backend.retrieve(key);
+    // Validate key for security (defense-in-depth)
+    const safeKey = sanitizeKey(key);
+
+    const entry = await this.backend.retrieve(safeKey);
 
     if (!entry) {
-      throw new RawStorageNotFoundError(`Key not found: ${key}`, { key });
+      throw new RawStorageNotFoundError(`Key not found: ${safeKey}`, { key: safeKey });
     }
 
     // Check TTL
@@ -125,9 +132,9 @@ export class RawStorage {
       const now = this.clock.now();
       if (now > entry.metadata.expiresAt) {
         // Entry expired - delete it and throw
-        await this.backend.delete(key);
-        throw new RawTTLExpiredError(`Entry expired: ${key}`, {
-          key,
+        await this.backend.delete(safeKey);
+        throw new RawTTLExpiredError(`Entry expired: ${safeKey}`, {
+          key: safeKey,
           expiresAt: entry.metadata.expiresAt,
           now,
         });
@@ -175,7 +182,9 @@ export class RawStorage {
   // ============================================================
 
   async delete(key: string): Promise<boolean> {
-    return this.backend.delete(key);
+    // Validate key for security (defense-in-depth)
+    const safeKey = sanitizeKey(key);
+    return this.backend.delete(safeKey);
   }
 
   // ============================================================
@@ -183,7 +192,10 @@ export class RawStorage {
   // ============================================================
 
   async exists(key: string): Promise<boolean> {
-    const entry = await this.backend.retrieve(key);
+    // Validate key for security (defense-in-depth)
+    const safeKey = sanitizeKey(key);
+
+    const entry = await this.backend.retrieve(safeKey);
     if (!entry) {
       return false;
     }
@@ -193,7 +205,7 @@ export class RawStorage {
       const now = this.clock.now();
       if (now > entry.metadata.expiresAt) {
         // Entry expired - delete it
-        await this.backend.delete(key);
+        await this.backend.delete(safeKey);
         return false;
       }
     }

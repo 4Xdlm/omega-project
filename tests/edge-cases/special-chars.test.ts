@@ -170,7 +170,9 @@ describe('Edge Cases — Raw Special Characters', () => {
     });
   });
 
-  test('handles unicode in keys', async () => {
+  test('rejects unicode in keys (security: homograph protection)', async () => {
+    // Unicode keys are rejected to prevent homograph attacks
+    // See THREAT_MODEL.md T7-Unicode Security
     const unicodeKeys = [
       'emoji-🎉-test',
       '中文-key',
@@ -179,12 +181,9 @@ describe('Edge Cases — Raw Special Characters', () => {
     ];
 
     for (const key of unicodeKeys) {
-      await storage.store(key, Buffer.from(`data for ${key}`));
-    }
-
-    for (const key of unicodeKeys) {
-      const data = await storage.retrieve(key);
-      expect(data.toString()).toBe(`data for ${key}`);
+      await expect(
+        storage.store(key, Buffer.from(`data for ${key}`))
+      ).rejects.toThrow(/Invalid characters/);
     }
   });
 

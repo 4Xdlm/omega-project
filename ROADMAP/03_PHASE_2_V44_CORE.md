@@ -1,87 +1,63 @@
-# OMEGA — PHASE 2: V4.4 CORE ENGINE
+# ═══════════════════════════════════════════════════════════════════════════════
+# OMEGA ROADMAP — PHASE 2 — V4.4 CORE & CALIBRATION
+# ═══════════════════════════════════════════════════════════════════════════════
 
-## Statut: ❌ ABSENT
-
----
-
-## OBJECTIF
-
-Implémenter le **moteur mathématique V4.4** conforme à la Vision Scellée.
-Zéro narration. Zéro UI. Pure physique émotionnelle.
+**Version**: 1.0  
+**Date**: 2026-01-21  
+**Status**: ⏸️ EN ATTENTE PHASE 1  
 
 ---
 
-## MODULES À CRÉER
+## 🎯 OBJECTIF PHASE 2
 
-```
-packages/emotion-v44-core/
-├── src/
-│   ├── math/
-│   │   ├── decay.ts           # Loi L4 (décroissance organique)
-│   │   ├── persistenceZ.ts    # Axe Z (mémoire temporelle)
-│   │   ├── oscillation.ts     # cos(ω×t+φ)
-│   │   └── hysteresis.ts      # λ_eff = λ_base × (1 − μ × Z/C)
-│   └── engine/
-│       ├── step.ts            # Une step temporelle
-│       ├── simulate.ts        # Simulation N steps
-│       └── validate.ts        # Vérification invariants
-└── tests/
-    ├── decay.test.ts
-    ├── persistence.test.ts
-    ├── oscillation.test.ts
-    ├── determinism.test.ts
-    └── integration.test.ts
-```
+Implémenter le **moteur physique émotionnel** avec injection des valeurs calibrées.
 
 ---
 
-## LOI CENTRALE (L4)
+## 🔓 AUTORISATION INJECTION
 
-```
-I(t) = E₀ + (I₀ − E₀) × e^(−λ_eff × t) × cos(ω × t + φ)
-
-λ_eff = λ_base × (1 − μ × Z(t)/C)
-```
-
----
-
-## TESTS OBLIGATOIRES
-
-| Test | Description |
-|------|-------------|
-| **Determinism** | Mêmes inputs → mêmes outputs → même hash |
-| **Boundedness** | 0 ≤ Y ≤ 100, -10 ≤ X ≤ +10, pas de NaN/Infinity |
-| **L4 Conformité** | Décroissance organique conforme |
-| **Z Persistence** | Mémoire temporelle mesurable |
-| **16 Emotions** | Tous coefficients présents et corrects |
+Cette phase est la première autorisée à :
+- injecter des valeurs numériques
+- calibrer les symboles définis en Phase 1
+- prouver que l'injection respecte le contrat symbolique
 
 ---
 
-## GATE 2
+## 📦 LIVRABLES
 
-| Critère | Requis |
-|---------|--------|
-| Suite tests V4.4 | 100% PASS |
-| Outputs déterministes | ✅ hashés |
-| Bornes respectées | ✅ |
-| Invariants validés | ✅ |
-
-**Emplacement proof:** `PROOFS/phase2-V44CORE/`
-
----
-
-## PERF AUTORISÉE
-
-✅ **Oui, uniquement:**
-- Vectorisation
-- Typed arrays
-- Stabilité numérique (epsilon, clamp)
-- Buffers
-
-⚠️ **Condition:** Résultats identiques (hash) ou différence mathématiquement justifiée
+| Livrable | Type | Description |
+|----------|------|-------------|
+| `runtime/v44-runtime-injection.ts` | Injection | Système d'injection valeurs |
+| `runtime/v44-validation.ts` | Validation | Vérification injection vs contrat |
+| `core/v44-physics-engine.ts` | Moteur | Implémentation Lois 1-6 |
+| `calibration/v44-seed-values.ts` | Seed values | Valeurs initiales calibrées |
+| `tests/v44-runtime.test.ts` | Tests | Validation runtime |
 
 ---
 
-## PROCHAINE PHASE
+## ✅ CRITÈRES D'ENTRÉE
 
-→ **PHASE 3: INTEGRATION** (si GATE 2 = PASS)
+- [ ] Phase 1 certifiée
+- [ ] Contrat symbolique gelé
+- [ ] Aucune valeur numérique dans le contrat
+
+---
+
+## ✅ CRITÈRES DE SORTIE
+
+- [ ] Injection valide le contrat symbolique
+- [ ] Moteur physique implémenté (Lois 1-6)
+- [ ] Seed values documentées et sourcées
+- [ ] Tests runtime passent (100%)
+- [ ] Benchmarks performance validés
+
+---
+
+## 📚 RÉFÉRENCES
+
+- [Phase 1 — V4.4 Contract](./02_PHASE_1_V44_CONTRACT.md)
+- [DEC-20260121-002 V3](../GOVERNANCE/DECISIONS/DEC-20260121-002_V3_SYMBOLIC_CONTRACT.md)
+
+---
+
+**FIN PHASE 2**

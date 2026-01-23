@@ -77,7 +77,7 @@ function createValidOxygenResult(): OxygenResult {
 function createValidTruthBundle(): TruthBundle {
   const bundle: Omit<TruthBundle, 'bundleHash'> & { bundleHash?: string } = {
     id: 'test-bundle-001',
-    timestamp: new Date().toISOString(),
+    timestamp: '2026-01-23T00:00:00.000Z', // Fixed timestamp for deterministic tests
     sourceHash: 'abc123def456',
     vectorSchemaId: 'OMEGA_EMOTION_14D_v1.0.0',
     targetEmotionField: createValidEmotionField(),

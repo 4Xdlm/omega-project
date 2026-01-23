@@ -1,0 +1,35 @@
+{
+  "name": "@omega/phase7-renderer",
+  "version": "1.2.0",
+  "description": "OMEGA Phase 7 Trunk Renderer - RCE-01 Premium",
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "render": "node dist/cli.js render",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "validate-profile": "node dist/cli.js validate-profile",
+    "generate-fixtures": "node dist/cli.js generate-fixtures"
+  },
+  "keywords": [
+    "omega",
+    "phase7",
+    "renderer",
+    "rce-01",
+    "deterministic"
+  ],
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=20.11.0"
+  },
+  "dependencies": {
+    "playwright": "^1.41.0",
+    "ajv": "^8.12.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "typescript": "^5.3.3",
+    "vitest": "^1.2.0"
+  }
+}

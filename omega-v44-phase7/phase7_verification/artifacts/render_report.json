@@ -1,0 +1,62 @@
+{
+  "report_version": "1.0",
+  "render_profile_id": "RCE-01-PREMIUM",
+  "render_timestamp_utc": "2026-01-23T00:55:45.293Z",
+  "environment": {
+    "docker": {
+      "image_name": "local",
+      "image_digest": "sha256:local-development"
+    },
+    "runtime": {
+      "node": "v24.12.0",
+      "playwright": "1.57.0",
+      "chromium": "143.0.7499.4"
+    },
+    "lockfiles": {
+      "package_lock_sha256": "b57cb26562e9d964ddfd1ec7771483f29a4e683d75965c0203abc7af45ce347d"
+    },
+    "os": {
+      "kernel": "win32",
+      "arch": "x64"
+    }
+  },
+  "inputs": {
+    "trunk_signature_hash": "sha256:a8ab47bde8067ed7e9b0104902063116c677c4d90a1fcbbc8055d0d608bd7114",
+    "render_profile_hash": "sha256:d74f9bb86fd399c44b6d9c2c364ff3cd556f52031ba934ca73923e39498ee5df"
+  },
+  "rendering": {
+    "viewport": {
+      "width": 512,
+      "height": 512
+    },
+    "device_scale_factor": 1,
+    "color_space": "sRGB",
+    "antialiasing": "chromium-default",
+    "fonts": "none",
+    "svg_renderer": "chromium-headless",
+    "gpu": "disabled"
+  },
+  "calibration": {
+    "anisotropy_min": -0.3,
+    "anisotropy_max": 0.3,
+    "opacity_base": 0.7,
+    "opacity_z_coefficient": 0.3,
+    "oxygen_amplitude_max": 0.05,
+    "render_timeout_ms": 50
+  },
+  "outputs": {
+    "svg": {
+      "path": "artifacts/trunk.svg",
+      "sha256": "3685e427f534400e908d4476ff9ddde4d977e82125f71d293a50fd3b916a72ad"
+    },
+    "png": {
+      "path": "artifacts/trunk.png",
+      "sha256": "8524835fb8e66c9cf118be8c97bdc16d76454ca397cae74f5d3fab60da08e31b"
+    }
+  },
+  "determinism": {
+    "expected_behavior": "same_input_same_output",
+    "runs_verified": 1,
+    "status": "PASS"
+  }
+}

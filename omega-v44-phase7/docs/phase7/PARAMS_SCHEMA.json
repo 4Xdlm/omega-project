@@ -1,0 +1,131 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://omega.dev/schemas/render-params-v1.2.json",
+  "title": "OMEGA Phase 7 Render Parameters Schema",
+  "description": "Schema for RCE-01 render profile parameters",
+  "type": "object",
+  "required": [
+    "profile_id",
+    "profile_version",
+    "viewport",
+    "calibration",
+    "rendering"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "profile_id": {
+      "type": "string",
+      "pattern": "^RCE-[0-9]{2}(-[A-Z]+)?$",
+      "description": "Profile identifier (e.g., RCE-01-PREMIUM)"
+    },
+    "profile_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+$",
+      "description": "Profile version (e.g., 1.2)"
+    },
+    "viewport": {
+      "type": "object",
+      "required": ["width", "height"],
+      "additionalProperties": false,
+      "properties": {
+        "width": {
+          "type": "integer",
+          "minimum": 64,
+          "maximum": 4096,
+          "description": "Viewport width in pixels"
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 64,
+          "maximum": 4096,
+          "description": "Viewport height in pixels"
+        }
+      }
+    },
+    "calibration": {
+      "type": "object",
+      "required": [
+        "anisotropy_min",
+        "anisotropy_max",
+        "opacity_base",
+        "opacity_z_coefficient",
+        "oxygen_amplitude_max",
+        "render_timeout_ms"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "anisotropy_min": {
+          "type": "number",
+          "minimum": -1,
+          "maximum": 0,
+          "description": "Minimum anisotropy value"
+        },
+        "anisotropy_max": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Maximum anisotropy value"
+        },
+        "opacity_base": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Base opacity value"
+        },
+        "opacity_z_coefficient": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Z-axis opacity coefficient"
+        },
+        "oxygen_amplitude_max": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 0.5,
+          "description": "Maximum O2 deformation amplitude"
+        },
+        "render_timeout_ms": {
+          "type": "integer",
+          "minimum": 10,
+          "maximum": 5000,
+          "description": "Render timeout in milliseconds"
+        }
+      }
+    },
+    "rendering": {
+      "type": "object",
+      "required": [
+        "device_scale_factor",
+        "color_space",
+        "path_resolution",
+        "base_radius"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "device_scale_factor": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4,
+          "description": "Device pixel ratio"
+        },
+        "color_space": {
+          "type": "string",
+          "enum": ["sRGB"],
+          "description": "Color space (only sRGB supported)"
+        },
+        "path_resolution": {
+          "type": "integer",
+          "minimum": 36,
+          "maximum": 720,
+          "description": "Number of points in disc path"
+        },
+        "base_radius": {
+          "type": "number",
+          "minimum": 10,
+          "maximum": 256,
+          "description": "Base radius of trunk disc"
+        }
+      }
+    }
+  }
+}

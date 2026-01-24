@@ -1,4 +1,4 @@
-﻿name: OMEGA CI/CD NASA-Grade
+name: OMEGA CI/CD NASA-Grade
 
 on:
   push:
@@ -65,7 +65,7 @@ jobs:
           toolchain: stable
 
       - name: Cache Cargo
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             ~/.cargo/bin/
@@ -104,7 +104,7 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
 
       - name: Cache Cargo
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: |
             ~/.cargo/bin/

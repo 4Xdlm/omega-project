@@ -1,0 +1,10 @@
+﻿EXPORT SYMBOL EXTRACTION - HEURISTIC METHOD (REGEX)
+====================================================
+This is NOT a formal AST parse. Results are approximate.
+
+Limitations:
+- May miss: export { X }, export default, re-exports
+- May include: exports in comments or strings
+- Arrow functions detected via 'export const X = ('
+
+For formal AST analysis, use ts-morph or TypeScript compiler API.

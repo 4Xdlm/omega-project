@@ -1,0 +1,19 @@
+Claim,Value,ProofFile,Command,Status
+Tests pass GENESIS FORGE,368/368,scan_forensique/tests/test_output.txt,npm test,PROUVE
+Tests pass OMEGA Core,971/971,PHASE17_CERTIFICATION_FINAL.md,npm test,REFERENCE
+No any types,0,patch_scan/PATCH4_AUDIT_LOG.md,"grep -rn "": any""",PROUVE
+No @ts-ignore,0,patch_scan/PATCH4_AUDIT_LOG.md,"grep -rn ""@ts-ignore""",PROUVE
+No TODO/FIXME,0,patch_scan/PATCH4_AUDIT_LOG.md,"grep -rn ""TODO|FIXME""",PROUVE
+No secrets,0,patch_scan/PATCH4_AUDIT_LOG.md,"grep -rn ""AKIA|sk-|ghp_""",PROUVE
+No injection risks,0,patch_scan/PATCH4_AUDIT_LOG.md,"grep -rn ""eval(|new Function(""",PROUVE
+Build determinism,Identical,patch_scan/PATCH5_DETERMINISM_ARTEFACT.md,Double build + hash compare,PROUVE
+CI/CD configured,Yes,patch_scan/PATCH1_CICD.md,ls .github/workflows/,PROUVE
+0 critical vulns,0,patch_scan/supply_chain/npm_audit.json,npm audit --json,PROUVE
+0 high vulns,0,patch_scan/supply_chain/npm_audit.json,npm audit --json,PROUVE
+Date.now safe,27/27 SAFE,patch_scan/PATCH2_DATENOW.md,Classification,PROUVE
+Classes count,8,scan_forensique/ast/symbols.txt,AST extraction,PROUVE
+Interfaces count,27,scan_forensique/ast/symbols.txt,AST extraction,PROUVE
+Functions count,52,scan_forensique/ast/symbols.txt,AST extraction,PROUVE
+Emotion dimensions,14,src/genesis/types/index.ts:17,Code definition,PROUVE
+MC/DC coverage,UNKNOWN,N/A,Coverage tool required,UNPROVEN
+100% test coverage,UNKNOWN,N/A,Coverage tool required,UNPROVEN

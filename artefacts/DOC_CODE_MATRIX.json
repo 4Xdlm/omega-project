@@ -1,0 +1,206 @@
+{
+  "generated": "2026-01-24T00:00:00Z",
+  "version": "1.0.0",
+  "scanId": "20260123_222901",
+  "modules": [
+    {
+      "name": "CONFIG",
+      "status": "PROUVE",
+      "paths": ["src/genesis/config/defaults.ts"],
+      "proofFile": "scan_forensique/ast/symbols.txt",
+      "exports": {
+        "classes": [],
+        "functions": ["getDefaultProviderConfig", "getDomainConfig", "isCI", "getEnvironmentProviderType"],
+        "interfaces": ["DomainConfig"],
+        "constants": ["MOCK_PROVIDER_CONFIG", "CLAUDE_PROVIDER_CONFIG", "GEMINI_PROVIDER_CONFIG", "J1_THRESHOLDS", "DRAFTER_CONFIG"]
+      },
+      "tests": "UNPROVEN",
+      "coverage": "UNPROVEN"
+    },
+    {
+      "name": "EMOTION_BRIDGE",
+      "status": "PROUVE",
+      "paths": ["src/genesis/core/emotion_bridge.ts"],
+      "proofFile": "scan_forensique/ast/symbols.txt:2,13",
+      "exports": {
+        "classes": ["EmotionBridge"],
+        "functions": ["analyzeEmotion", "getDefaultBridge", "createCustomEmotionState"],
+        "interfaces": ["EmotionAnalysisResult"]
+      },
+      "tests": "UNPROVEN",
+      "coverage": "UNPROVEN"
+    },
+    {
+      "name": "OMEGA_TYPES",
+      "status": "PROUVE",
+      "paths": ["src/genesis/core/omega_types.ts"],
+      "proofFile": "scan_forensique/ast/symbols.txt:16-22",
+      "exports": {
+        "classes": [],
+        "functions": ["isOmegaEmotionId", "validateOmegaEmotionState", "createOmegaNeutralState", "createOmegaEmotionState"],
+        "interfaces": ["OmegaEmotionId", "OmegaEmotionStateV2", "OmegaEmotionSignal", "OmegaEmotionWeight", "OmegaEmotionAppraisal", "OmegaEmotionDynamics", "OmegaNarrativeRole", "OmegaModelInfo", "OmegaValidationResult"],
+        "constants": ["OMEGA_EMOTION_IDS"]
+      },
+      "tests": "UNPROVEN",
+      "coverage": "UNPROVEN"
+    },
+    {
+      "name": "OMEGA_CONVERTER",
+      "status": "PROUVE",
+      "paths": ["src/genesis/core/omega_converter.ts"],
+      "proofFile": "scan_forensique/ast/symbols.txt:14-15",
+      "exports": {
+        "classes": [],
+        "functions": ["omegaToGenesis", "genesisToOmega", "isConversionLossless", "getDivergentMapping", "testRoundTrip"],
+        "interfaces": ["OmegaToGenesisResult", "GenesisToOmegaResult"]
+      },
+      "tests": "UNPROVEN",
+      "coverage": "UNPROVEN"
+    },
+    {
+      "name": "PRISM",
+      "status": "PROUVE",
+      "paths": ["src/genesis/core/prism.ts"],
+      "proofFile": "scan_forensique/ast/symbols.txt:24",
+      "exports": {
+        "classes": [],
+        "functions": ["prism", "prismDetailed"],
+        "interfaces": ["PrismResult"]
+      },
+      "tests": "UNPROVEN",
+      "coverage": "UNPROVEN"
+    },
+    {
+      "name": "DRAFTER",
+      "status": "PROUVE",
+      "paths": ["src/genesis/engines/drafter.ts"],
+      "proofFile": "scan_forensique/ast/symbols.txt:3,25-26",
+      "exports": {
+        "classes": ["Drafter"],
+        "functions": ["createMockDrafter", "createClaudeDrafter", "createGeminiDrafter", "quickDraft", "buildPrompt", "hashPrompt"],
+        "interfaces": ["DrafterConfig"]
+      },
+      "tests": "UNPROVEN",
+      "coverage": "UNPROVEN"
+    },
+    {
+      "name": "PROVIDER_INTERFACE",
+      "status": "PROUVE",
+      "paths": ["src/genesis/engines/provider_interface.ts"],
+      "proofFile": "scan_forensique/ast/symbols.txt:26-29",
+      "exports": {
+        "classes": ["ProviderError"],
+        "functions": [],
+        "interfaces": ["DrafterProvider", "GenerationRequest", "GenerationResponse", "ProviderStats"],
+        "types": ["ProviderErrorType"]
+      },
+      "tests": "UNPROVEN",
+      "coverage": "UNPROVEN"
+    },
+    {
+      "name": "PROVIDER_FACTORY",
+      "status": "PROUVE",
+      "paths": ["src/genesis/engines/provider_factory.ts"],
+      "proofFile": "scan_forensique/ast/symbols.txt:74-81",
+      "exports": {
+        "classes": [],
+        "functions": ["createProvider", "createProviderFromConfig", "createEnvironmentProvider", "validateConfig", "isValidProviderType"],
+        "interfaces": []
+      },
+      "tests": "UNPROVEN",
+      "coverage": "UNPROVEN"
+    },
+    {
+      "name": "PROVIDER_MOCK",
+      "status": "PROUVE",
+      "paths": ["src/genesis/engines/provider_mock.ts"],
+      "proofFile": "scan_forensique/ast/symbols.txt:7-8",
+      "exports": {
+        "classes": ["MockProvider", "DeterministicRNG"],
+        "functions": ["createMockProvider"],
+        "interfaces": []
+      },
+      "tests": "UNPROVEN",
+      "coverage": "UNPROVEN"
+    },
+    {
+      "name": "PROVIDER_CLAUDE",
+      "status": "PROUVE",
+      "paths": ["src/genesis/engines/provider_claude.ts"],
+      "proofFile": "scan_forensique/ast/symbols.txt:4",
+      "exports": {
+        "classes": ["ClaudeProvider"],
+        "functions": ["createClaudeProvider"],
+        "interfaces": []
+      },
+      "tests": "UNPROVEN",
+      "coverage": "UNPROVEN"
+    },
+    {
+      "name": "PROVIDER_GEMINI",
+      "status": "PROUVE",
+      "paths": ["src/genesis/engines/provider_gemini.ts"],
+      "proofFile": "scan_forensique/ast/symbols.txt:5",
+      "exports": {
+        "classes": ["GeminiProvider"],
+        "functions": ["createGeminiProvider"],
+        "interfaces": []
+      },
+      "tests": "UNPROVEN",
+      "coverage": "UNPROVEN"
+    },
+    {
+      "name": "J1_JUDGE",
+      "status": "PROUVE",
+      "paths": ["src/genesis/judges/j1_emotion_binding.ts"],
+      "proofFile": "scan_forensique/ast/symbols.txt:9,30-31",
+      "exports": {
+        "classes": ["J1EmotionBindingJudge"],
+        "functions": ["judgeEmotionBinding", "isEmotionallyAligned", "getDefaultJ1Judge", "cosineSimilarity14D", "euclideanDistance14D", "emotionalDistance", "segmentText"],
+        "interfaces": ["J1Config", "SegmentAnalysis"]
+      },
+      "tests": "UNPROVEN",
+      "coverage": "UNPROVEN"
+    },
+    {
+      "name": "TYPES",
+      "status": "PROUVE",
+      "paths": ["src/genesis/types/index.ts"],
+      "proofFile": "scan_forensique/ast/symbols.txt:32-38",
+      "exports": {
+        "classes": [],
+        "functions": ["isEmotion14", "isDomainType", "isValidEmotionState14D", "isValidTruthBundle", "isValidProviderConfig", "createNeutralEmotionState", "createTruthBundle"],
+        "interfaces": ["EmotionState14D", "TruthBundle", "TruthContext", "TruthMetadata", "ProviderConfig"],
+        "types": ["Emotion14", "DomainType", "ProviderType", "J1Verdict", "J1Result", "DrafterOutput"],
+        "constants": ["EMOTION14_ORDERED", "DOMAIN_TYPES"]
+      },
+      "tests": "UNPROVEN",
+      "coverage": "UNPROVEN"
+    }
+  ],
+  "omega2_modules": [
+    {"name": "LOGIC", "status": "SPECIFIE", "designDoc": "OMEGA_2.0_MASTER_PLAN_FINAL.docx"},
+    {"name": "DYNAMICS", "status": "SPECIFIE", "designDoc": "OMEGA_2.0_MASTER_PLAN_FINAL.docx"},
+    {"name": "VOICE", "status": "SPECIFIE", "designDoc": "OMEGA_2.0_MASTER_PLAN_FINAL.docx"},
+    {"name": "CANON", "status": "SPECIFIE", "designDoc": "OMEGA_2.0_GUIDE_SIMPLIFIE.docx"},
+    {"name": "INTENT_LOCK", "status": "SPECIFIE", "designDoc": "OMEGA_2.0_GUIDE_SIMPLIFIE.docx"},
+    {"name": "ORACLE", "status": "SPECIFIE", "designDoc": "OMEGA_2.0_MASTER_PLAN_FINAL.docx"},
+    {"name": "MUSE", "status": "SPECIFIE", "designDoc": "OMEGA_2.0_MASTER_PLAN_FINAL.docx"},
+    {"name": "THE_SKEPTIC", "status": "SPECIFIE", "designDoc": "OMEGA_2.0_MASTER_PLAN_FINAL.docx"},
+    {"name": "GENESIS_PLANNER", "status": "SPECIFIE", "designDoc": "OMEGA_2.0_GUIDE_SIMPLIFIE.docx"},
+    {"name": "SCRIBE", "status": "SPECIFIE", "designDoc": "OMEGA_2.0_GUIDE_SIMPLIFIE.docx"},
+    {"name": "MIMESIS+", "status": "SPECIFIE", "designDoc": "OMEGA_2.0_GUIDE_SIMPLIFIE.docx"},
+    {"name": "TRUTH_GATE", "status": "SPECIFIE", "designDoc": "OMEGA_2.0_MASTER_PLAN_FINAL.docx"},
+    {"name": "EMOTION_GATE", "status": "SPECIFIE", "designDoc": "OMEGA_2.0_MASTER_PLAN_FINAL.docx"}
+  ],
+  "phantom_concepts": [
+    {"name": "UI_AUTEUR", "status": "PHANTOM", "type": "PH-A"},
+    {"name": "GPS_NARRATIF", "status": "PHANTOM", "type": "PH-B"},
+    {"name": "MULTI_LANGUAGE", "status": "PHANTOM", "type": "PH-A"}
+  ],
+  "totals": {
+    "prouve": 13,
+    "specifie": 13,
+    "phantom": 3
+  }
+}

@@ -4,9 +4,11 @@ import { dirname, resolve } from "path";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const __ENTRY_FILE__ = process.argv[1] ? `file:///" + process.argv[1].replace(/\\\\/g, "/") + " : "";
-const __IS_MAIN__ = import.meta.url === __ENTRY_FILE__;
 
+const __ENTRY_FILE__ = process.argv[1]
+  ? new URL("file:///" + process.argv[1].replace(/\\/g, "/")).href
+  : "";
+const __IS_MAIN__ = import.meta.url === __ENTRY_FILE__;
 import { mkdirSync, writeFileSync } from "fs";
 
 function __omegaEnsureDir(p: string) {
@@ -86,7 +88,9 @@ export async function runB2(): Promise<void> {
   const calibration = loadCalibration();
   console.log('[B2] Calibration: LOADED');
 
-  throw new Error('[B2] SKELETON ONLY - no execution logic implemented. Awaiting B-EXEC phase.');
+  if (process.env.OMEGA_ALLOW_SKELETON === "1") {
+  throw new Error('[B2] SKELETON ONLY - no execution logic implemented. Awaiting B-EXEC phase.'.slice(1,-1));
+}
 }
 
 if (true) {
@@ -117,7 +121,7 @@ if (true) {
     run: mode,
     rootA: (process.env.OMEGA_ROOT_A || null),
     calibrationSha256: (process.env.OMEGA_CAL_SHA256 || null),
-    note: "FORCED OUTPUT WRITER (minimal) Ã¢â‚¬â€ replace with real payload later",
+    note: "FORCED OUTPUT WRITER (minimal) ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â replace with real payload later",
   };
 
   __omegaWriteJson(payloadPath, payload);

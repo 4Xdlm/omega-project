@@ -89,7 +89,7 @@ export async function runB2(): Promise<void> {
   throw new Error('[B2] SKELETON ONLY - no execution logic implemented. Awaiting B-EXEC phase.');
 }
 
-if (__IS_MAIN__) {
+if (true) {
   runB2().catch((err) => {
     console.error(err.message);
     process.exit(1);
@@ -99,7 +99,7 @@ if (__IS_MAIN__) {
 
 
 // __OMEGA_FORCED_OUTPUT_B2__
-if (__IS_MAIN__) {
+if (true) {
   const mode = (process.argv[2] || "").toUpperCase();
   if (mode !== "RUN1" && mode !== "RUN2") {
     console.error("Usage: run_b2.ts RUN1|RUN2");
@@ -117,7 +117,7 @@ if (__IS_MAIN__) {
     run: mode,
     rootA: (process.env.OMEGA_ROOT_A || null),
     calibrationSha256: (process.env.OMEGA_CAL_SHA256 || null),
-    note: "FORCED OUTPUT WRITER (minimal) â€” replace with real payload later",
+    note: "FORCED OUTPUT WRITER (minimal) Ã¢â‚¬â€ replace with real payload later",
   };
 
   __omegaWriteJson(payloadPath, payload);

@@ -119,7 +119,7 @@ export async function runB3(): Promise<void> {
   throw new Error('[B3] SKELETON ONLY - no execution logic implemented. Awaiting B-EXEC phase.');
 }
 
-if (__IS_MAIN__) {
+if (true) {
   runB3().catch((err) => {
     console.error(err.message);
     process.exit(1);
@@ -129,7 +129,7 @@ if (__IS_MAIN__) {
 
 
 // __OMEGA_FORCED_OUTPUT_B3__
-if (__IS_MAIN__) {
+if (true) {
   const outDir = resolve(ROOT_DIR, "nexus", "proof", "phase_b", "b3");
   __omegaEnsureDir(outDir);
 
@@ -145,7 +145,7 @@ const payload = {
     phase: "B3",
     rootA: (process.env.OMEGA_ROOT_A || null),
     calibrationSha256: (process.env.OMEGA_CAL_SHA256 || null),
-    note: "FORCED OUTPUT WRITER (minimal) ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â replace with real crossrun later",
+    note: "FORCED OUTPUT WRITER (minimal) ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â replace with real crossrun later",
   };
 
   __omegaWriteJson(jsonPath, payload);

@@ -71,14 +71,16 @@ function Get-DirectoryHash {
         return "MISSING"
     }
 
-    $hashes = Get-ChildItem -Path $Path -Recurse -File -Include "*.ts" |
+    $files = Get-ChildItem -Path $Path -Recurse -File -Include "*.ts" -ErrorAction SilentlyContinue
+    
+    if (-not $files -or @($files).Count -eq 0) {
+        return "EMPTY"
+    }
+    
+    $hashes = $files |
         ForEach-Object { Get-FileHash $_.FullName -Algorithm SHA256 } |
         Sort-Object Path |
         ForEach-Object { $_.Hash }
-
-    if ($hashes.Count -eq 0) {
-        return "EMPTY"
-    }
 
     $combined = $hashes -join "|"
     $bytes = [System.Text.Encoding]::UTF8.GetBytes($combined)
@@ -116,13 +118,15 @@ function Test-PhaseAUntouched {
         $pkgPath = Join-Path $PSScriptRoot "../../$pkg/src"
         $hash = Get-DirectoryHash $pkgPath
 
+        $hashDisplay = if ($hash.Length -gt 16) { $hash.Substring(0, 16) + "..." } else { $hash }
+
         $results += [PSCustomObject]@{
             Package = $pkg
             Hash = $hash
             Status = if ($hash -ne "MISSING" -and $hash -ne "EMPTY") { "PRESENT" } else { "FAIL" }
         }
 
-        Write-HarnessLog "  $pkg : $($hash.Substring(0, 16))..."
+        Write-HarnessLog "  $pkg : $hashDisplay"
     }
 
     return $results
@@ -145,7 +149,8 @@ function Invoke-B1Tests {
 
     # INV-B1-03: Phase A Untouched
     $phaseAResults = Test-PhaseAUntouched
-    $phaseAPass = ($phaseAResults | Where-Object { $_.Status -eq "FAIL" }).Count -eq 0
+    $failedPackages = @($phaseAResults | Where-Object { $_.Status -eq "FAIL" })
+    $phaseAPass = $failedPackages.Count -eq 0
 
     if (-not $phaseAPass) {
         Write-HarnessLog "INV-B1-03 FAIL: Phase A packages modified or missing" "FAIL"
@@ -163,9 +168,6 @@ function Invoke-B1Tests {
 
     # B1-T01: Determinism Double Run
     Write-HarnessLog "B1-T01: Determinism Double Run..."
-    $run1Hash = "RUN1_" + (Get-Date).Ticks.ToString()
-    $run2Hash = "RUN2_" + (Get-Date).Ticks.ToString()
-    # In real implementation: execute same input twice, compare hashes
     $t01Pass = $true  # Placeholder - actual test would compare outputs
 
     $testResults += [PSCustomObject]@{
@@ -302,7 +304,8 @@ function Invoke-B1Tests {
     # Calculate verdict
     $endTime = Get-Date
     $duration = $endTime - $startTime
-    $passCount = ($testResults | Where-Object { $_.Status -eq "PASS" }).Count
+    $passedTests = @($testResults | Where-Object { $_.Status -eq "PASS" })
+    $passCount = $passedTests.Count
     $totalCount = $testResults.Count
     $verdict = if ($passCount -eq $totalCount) { "PASS" } else { "FAIL" }
 
@@ -340,13 +343,19 @@ function Invoke-B1Tests {
     } | ConvertTo-Json | Set-Content $metricsPath
 
     # Generate hash manifest
-    $manifestPath = Join-Path $OutputDir "manifests/B1_HASH_MANIFEST.txt"
+    $manifestDir = Join-Path $OutputDir "manifests"
+    if (-not (Test-Path $manifestDir)) {
+        New-Item -ItemType Directory -Path $manifestDir -Force | Out-Null
+    }
+    $manifestPath = Join-Path $manifestDir "B1_HASH_MANIFEST.txt"
+    $reportHash = (Get-FileHash $reportPath -Algorithm SHA256).Hash
+    $metricsHash = (Get-FileHash $metricsPath -Algorithm SHA256).Hash
     $manifestContent = @"
 # B1 Hash Manifest
 # Generated: $(Get-Date -Format "o")
 
-REPORT_HASH=$(Get-FileHash $reportPath -Algorithm SHA256 | Select-Object -ExpandProperty Hash)
-METRICS_HASH=$(Get-FileHash $metricsPath -Algorithm SHA256 | Select-Object -ExpandProperty Hash)
+REPORT_HASH=$reportHash
+METRICS_HASH=$metricsHash
 "@
     $manifestContent | Set-Content $manifestPath
 

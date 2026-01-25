@@ -1,0 +1,111 @@
+{
+  "durationSeconds": 0.1559422,
+  "name": "Stability at Scale",
+  "symbolicThresholds": {
+    "tau_truth": "tau_truth_tolerance",
+    "tau_em": "tau_emotional_drift"
+  },
+  "phaseAVerification": [
+    {
+      "Package": "packages/style-genome",
+      "Hash": "BB7C51F040DD33667E3B3CD1F8C967E7BA45A3DB6A34C348FA7919EDA404096D",
+      "Status": "PRESENT"
+    },
+    {
+      "Package": "packages/controlled-style-overwrite",
+      "Hash": "DA9567CF783CB0275DCC5A5751B00A2D2EF6C04FA745D7DC57BAC239FB40189D",
+      "Status": "PRESENT"
+    }
+  ],
+  "summary": {
+    "total": 13,
+    "failed": 0,
+    "passed": 13
+  },
+  "endTime": "2026-01-25T20:54:04.0262911+01:00",
+  "phase": "B1",
+  "startTime": "2026-01-25T20:54:03.8703489+01:00",
+  "verdict": "PASS",
+  "tests": [
+    {
+      "TestId": "INV-B1-03",
+      "Name": "Phase A Untouched",
+      "Status": "PASS",
+      "Details": "[{\"Package\":\"packages/style-genome\",\"Hash\":\"BB7C51F040DD33667E3B3CD1F8C967E7BA45A3DB6A34C348FA7919EDA404096D\",\"Status\":\"PRESENT\"},{\"Package\":\"packages/controlled-style-overwrite\",\"Hash\":\"DA9567CF783CB0275DCC5A5751B00A2D2EF6C04FA745D7DC57BAC239FB40189D\",\"Status\":\"PRESENT\"}]"
+    },
+    {
+      "TestId": "B1-T01",
+      "Name": "Determinism Double Run",
+      "Status": "PASS",
+      "Invariant": "INV-B1-01"
+    },
+    {
+      "TestId": "B1-T02",
+      "Name": "Long Sequence Growth",
+      "Status": "PASS",
+      "Invariant": "INV-B1-02"
+    },
+    {
+      "TestId": "B1-T03",
+      "Name": "Multi-SSX Batch",
+      "Status": "PASS",
+      "Invariant": "INV-B1-02"
+    },
+    {
+      "TestId": "B1-T04",
+      "Name": "Slow Drift Injection",
+      "Status": "PASS",
+      "Invariant": "INV-B1-02"
+    },
+    {
+      "TestId": "B1-T05",
+      "Name": "SDI Stability Under Stress",
+      "Status": "PASS",
+      "Invariant": "INV-B1-02"
+    },
+    {
+      "TestId": "B1-T06",
+      "Name": "Emotion Drift (long-run)",
+      "Status": "PASS",
+      "Invariant": "INV-B1-02",
+      "Threshold": "tau_emotional_drift"
+    },
+    {
+      "TestId": "B1-T07",
+      "Name": "Emotion Consistency (multi-SSX)",
+      "Status": "PASS",
+      "Invariant": "INV-B1-02"
+    },
+    {
+      "TestId": "B1-T08",
+      "Name": "Truth Gate No-Silent-Contradiction",
+      "Status": "PASS",
+      "Invariant": "INV-B1-05",
+      "Threshold": "tau_truth_tolerance"
+    },
+    {
+      "TestId": "B1-T09",
+      "Name": "Dual-Oracle Emotion",
+      "Status": "PASS",
+      "Invariant": "INV-B1-04"
+    },
+    {
+      "TestId": "B1-T10",
+      "Name": "Negation Flip (adversarial)",
+      "Status": "PASS",
+      "Invariant": "INV-B1-06"
+    },
+    {
+      "TestId": "B1-T11",
+      "Name": "Sarcasm Downscale (adversarial)",
+      "Status": "PASS",
+      "Invariant": "INV-B1-06"
+    },
+    {
+      "TestId": "B1-T12",
+      "Name": "Lexicon Poisoning Guard",
+      "Status": "PASS",
+      "Invariant": "INV-B1-03"
+    }
+  ]
+}

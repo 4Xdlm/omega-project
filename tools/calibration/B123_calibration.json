@@ -1,38 +1,38 @@
 {
-  "_meta": {
-    "version": "1.0.0",
-    "description": "Phase B calibration - NO DEFAULTS - all values REQUIRED at runtime",
-    "rule": "Execution MUST FAIL if any value equals 'REQUIRED'"
-  },
-  "stability": {
-    "N_LONG_REPEAT": "REQUIRED",
-    "N_STEPS": "REQUIRED",
-    "STEP_SIZE": "REQUIRED",
-    "DRIFT_THRESHOLD": "REQUIRED",
-    "STABILITY_WINDOW": "REQUIRED"
-  },
-  "collision": {
-    "COLLISION_SAMPLE_SIZE": "REQUIRED",
-    "HASH_TOLERANCE": "REQUIRED",
-    "RETRY_LIMIT": "REQUIRED"
-  },
-  "crossrun": {
-    "CROSSRUN_ITERATIONS": "REQUIRED",
-    "DIVERGENCE_THRESHOLD": "REQUIRED"
-  },
-  "emotion": {
-    "AROUSAL_UNIT": "REQUIRED",
-    "DOMINANCE_NEUTRAL": "REQUIRED",
-    "VALENCE_BASELINE": "REQUIRED"
-  },
-  "adversarial": {
-    "SARCASM_PENALTY": "REQUIRED",
-    "NEGATION_FLIP_FACTOR": "REQUIRED",
-    "LEXICON_POISON_THRESHOLD": "REQUIRED"
-  },
-  "oracle": {
-    "CONSENSUS_THRESHOLD": "REQUIRED",
-    "CONFIDENCE_MIN": "REQUIRED",
-    "EVIDENCE_REQUIRED": "REQUIRED"
-  }
+    "_meta":  {
+                  "version":  "1.0.0",
+                  "description":  "Phase B calibration - NO DEFAULTS - all values REQUIRED at runtime",
+                  "rule":  "Execution MUST FAIL if any value equals \u0027REQUIRED\u0027"
+              },
+    "stability":  {
+                      "N_LONG_REPEAT":  "REQUIRED",
+                      "N_STEPS":  "REQUIRED",
+                      "STEP_SIZE":  "REQUIRED",
+                      "DRIFT_THRESHOLD":  "REQUIRED",
+                      "STABILITY_WINDOW":  "REQUIRED"
+                  },
+    "collision":  {
+                      "COLLISION_SAMPLE_SIZE":  "REQUIRED",
+                      "HASH_TOLERANCE":  "REQUIRED",
+                      "RETRY_LIMIT":  "REQUIRED"
+                  },
+    "crossrun":  {
+                     "CROSSRUN_ITERATIONS":  "REQUIRED",
+                     "DIVERGENCE_THRESHOLD":  "REQUIRED"
+                 },
+    "emotion":  {
+                    "AROUSAL_UNIT":  "REQUIRED",
+                    "DOMINANCE_NEUTRAL":  "REQUIRED",
+                    "VALENCE_BASELINE":  "REQUIRED"
+                },
+    "adversarial":  {
+                        "SARCASM_PENALTY":  "REQUIRED",
+                        "NEGATION_FLIP_FACTOR":  "REQUIRED",
+                        "LEXICON_POISON_THRESHOLD":  "REQUIRED"
+                    },
+    "oracle":  {
+                   "CONSENSUS_THRESHOLD":  "REQUIRED",
+                   "CONFIDENCE_MIN":  "REQUIRED",
+                   "EVIDENCE_REQUIRED":  "REQUIRED"
+               }
 }

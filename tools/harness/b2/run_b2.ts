@@ -4,7 +4,7 @@ import { dirname, resolve } from "path";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const __ENTRY_FILE__ = process.argv[1] ? `file://${process.argv[1].replace(/\\/g, "/")}` : "";
+const __ENTRY_FILE__ = process.argv[1] ? `file:///" + process.argv[1].replace(/\\\\/g, "/") + " : "";
 const __IS_MAIN__ = import.meta.url === __ENTRY_FILE__;
 
 import { mkdirSync, writeFileSync } from "fs";
@@ -117,7 +117,7 @@ if (__IS_MAIN__) {
     run: mode,
     rootA: (process.env.OMEGA_ROOT_A || null),
     calibrationSha256: (process.env.OMEGA_CAL_SHA256 || null),
-    note: "FORCED OUTPUT WRITER (minimal) — replace with real payload later",
+    note: "FORCED OUTPUT WRITER (minimal) â€” replace with real payload later",
   };
 
   __omegaWriteJson(payloadPath, payload);

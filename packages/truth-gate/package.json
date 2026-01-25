@@ -1,0 +1,67 @@
+{
+  "name": "@omega/truth-gate",
+  "version": "0.1.0",
+  "description": "OMEGA Truth Gate - Validation layer with blocking verdicts and deterministic validators",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./gate": {
+      "types": "./dist/gate/index.d.ts",
+      "import": "./dist/gate/index.js"
+    },
+    "./validators": {
+      "types": "./dist/validators/index.d.ts",
+      "import": "./dist/validators/index.js"
+    },
+    "./ledger": {
+      "types": "./dist/ledger/index.d.ts",
+      "import": "./dist/ledger/index.js"
+    },
+    "./policy": {
+      "types": "./dist/policy/index.d.ts",
+      "import": "./dist/policy/index.js"
+    },
+    "./drift": {
+      "types": "./dist/drift/index.d.ts",
+      "import": "./dist/drift/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "eslint src/",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@omega/canon-kernel": "file:../canon-kernel",
+    "@omega/canon-engine": "file:../canon-engine"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.3.0",
+    "vitest": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "dist/",
+    "src/"
+  ],
+  "keywords": [
+    "omega",
+    "truth-gate",
+    "validation",
+    "verdicts",
+    "deterministic",
+    "validators"
+  ],
+  "author": "OMEGA Project",
+  "license": "MIT"
+}

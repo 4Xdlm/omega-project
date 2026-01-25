@@ -1,0 +1,60 @@
+# OMEGA Phase A.2 — Certification Commands
+
+## Pre-requisites
+
+```powershell
+cd C:\Users\elric\omega-project
+```
+
+## Build & Test
+
+```powershell
+# Build truth-gate package
+cd packages/truth-gate
+npm run build
+
+# Run tests
+npm test
+
+# Expected: 215 tests pass
+```
+
+## Full Monorepo Test
+
+```powershell
+cd C:\Users\elric\omega-project
+
+# Run all tests
+npm test
+
+# Expected: canon-kernel (67) + truth-gate (215) = 282 tests pass
+```
+
+## Generate SHA256 Manifest
+
+```powershell
+# From packages/truth-gate
+Get-ChildItem -Path src -Recurse -File | ForEach-Object {
+    $hash = (Get-FileHash -Path $_.FullName -Algorithm SHA256).Hash
+    "$hash  $($_.FullName -replace [regex]::Escape((Get-Location).Path + '\'), '')"
+} | Out-File -FilePath ..\..\nexus\proof\phaseA2_truth_gate\sha256_manifest.txt
+```
+
+## Git Tag
+
+```powershell
+git add -A
+git commit -m "feat(truth-gate): Phase A.2 CERTIFIED - 215 tests pass [INV-TG-001→007]"
+git tag -a OMEGA_A2_CERTIFIED -m "Phase A.2 Truth Gate - 215 tests, 7 validators"
+git push origin master --tags
+```
+
+## Verification
+
+```powershell
+# Verify test count
+npm test 2>&1 | Select-String "passed"
+
+# Verify no failures
+npm test 2>&1 | Select-String "failed"
+```

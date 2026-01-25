@@ -1,0 +1,70 @@
+# OMEGA Phase A.2 — Files Created
+
+## Package Structure
+
+```
+packages/truth-gate/
+├── package.json
+├── tsconfig.json
+├── vitest.config.ts
+├── src/
+│   ├── index.ts
+│   ├── gate/
+│   │   ├── index.ts
+│   │   ├── truth-gate.ts
+│   │   ├── types.ts
+│   │   └── verdict-factory.ts
+│   ├── validators/
+│   │   ├── index.ts
+│   │   ├── base-validator.ts
+│   │   ├── v-canon-schema.ts
+│   │   ├── v-hash-chain.ts
+│   │   ├── v-rail-separation.ts
+│   │   ├── v-emotion-ssot.ts
+│   │   ├── v-no-magic-numbers.ts
+│   │   ├── v-policy-lock.ts
+│   │   └── v-narrative-drift-toxicity.ts
+│   ├── ledger/
+│   │   ├── index.ts
+│   │   ├── types.ts
+│   │   └── verdict-ledger.ts
+│   ├── policy/
+│   │   ├── index.ts
+│   │   ├── types.ts
+│   │   └── policy-manager.ts
+│   └── drift/
+│       ├── index.ts
+│       ├── types.ts
+│       ├── drift-detector.ts
+│       ├── toxicity-detector.ts
+│       └── narrative-analyzer.ts
+└── tests/
+    ├── validators.test.ts
+    ├── truth-gate.test.ts
+    ├── verdict-ledger.test.ts
+    ├── verdict-factory.test.ts
+    ├── policy-manager.test.ts
+    ├── drift-detector.test.ts
+    ├── toxicity-detector.test.ts
+    ├── narrative-analyzer.test.ts
+    ├── integration.test.ts
+    └── determinism.test.ts
+```
+
+## File Count
+
+- Source files: 20
+- Test files: 10
+- Config files: 3
+- **Total**: 33 files
+
+## Dependencies
+
+- @omega/canon-kernel (file:../canon-kernel)
+- @omega/canon-engine (file:../canon-engine)
+
+## Dev Dependencies
+
+- typescript: ^5.3.0
+- vitest: ^1.0.0
+- @types/node: ^20.0.0

@@ -120,11 +120,15 @@ if (__IS_MAIN__) {
   const mdPath   = resolve(outDir, "B3_CROSSRUN_REPORT.md");
   const sigPath  = resolve(outDir, "B3_SIGNATURE_DIGEST.txt");
 
-  const payload = {
+  
+  // FORCE_SIG_WRITE
+  writeFileSync(sigPath, 'B3_SIGNATURE_DIGEST_PLACEHOLDER
+', { encoding: 'utf8' });
+const payload = {
     phase: "B3",
     rootA: (process.env.OMEGA_ROOT_A || null),
     calibrationSha256: (process.env.OMEGA_CAL_SHA256 || null),
-    note: "FORCED OUTPUT WRITER (minimal) — replace with real crossrun later",
+    note: "FORCED OUTPUT WRITER (minimal) â€” replace with real crossrun later",
   };
 
   __omegaWriteJson(jsonPath, payload);

@@ -1,3 +1,8 @@
+import { fileURLToPath } from "url";
+import { dirname, resolve } from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 /**
  * B2 Canon Collision Detection - Harness Runner
  * Status: SKELETON (no execution logic)
@@ -12,7 +17,6 @@
 
 import { readFileSync, existsSync } from 'fs';
 import { resolve } from 'path';
-
 const ROOT_DIR = resolve(__dirname, '../../..');
 const PHASE_A_ROOT_PATH = resolve(ROOT_DIR, 'docs/phase-a/PHASE_A_ROOT_MANIFEST.sha256');
 const CALIBRATION_PATH = resolve(ROOT_DIR, 'tools/calibration/B123_calibration.json');

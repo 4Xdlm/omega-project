@@ -3,6 +3,9 @@ import { dirname, resolve } from "path";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
+const __ENTRY_FILE__ = process.argv[1] ? `file://${process.argv[1].replace(/\\/g, "/")}` : "";
+const __IS_MAIN__ = import.meta.url === __ENTRY_FILE__;
 /**
  * B1 Stability at Scale - Harness Runner
  * Status: SKELETON (no execution logic)
@@ -93,7 +96,7 @@ export async function runB1(): Promise<void> {
   throw new Error('[B1] SKELETON ONLY - no execution logic implemented. Awaiting B-EXEC phase.');
 }
 
-if (require.main === module) {
+if (__IS_MAIN__) {
   runB1().catch((err) => {
     console.error(err.message);
     process.exit(1);

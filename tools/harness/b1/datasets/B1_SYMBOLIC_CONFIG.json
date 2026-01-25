@@ -1,0 +1,37 @@
+{
+  "version": "3.0.0-ULTIMATE",
+  "phase_a_root": "63cdf1b5fd7df8d60dacfb2b41ad9978f0bbc7d188b8295df0fcc0c2a9c1673e",
+  "description": "All numeric parameters are symbolic - no magic numbers",
+  "parameters": {
+    "N_LONG_REPEAT": {
+      "value": 50,
+      "unit": "tokens",
+      "rationale": "Length for long sequence tests, derived from typical paragraph size"
+    },
+    "N_STEPS": {
+      "value": 5,
+      "unit": "iterations",
+      "rationale": "Number of steps for growth tests"
+    },
+    "STEP_SIZE": {
+      "value": 10,
+      "unit": "tokens",
+      "rationale": "Increment per step, based on average sentence length"
+    },
+    "AROUSAL_UNIT": {
+      "value": 1,
+      "unit": "normalized",
+      "rationale": "Binary arousal signal, tanh(AROUSAL_UNIT) = 0.7616 as deterministic baseline"
+    },
+    "DOMINANCE_NEUTRAL": {
+      "value": 0,
+      "unit": "normalized",
+      "rationale": "Neutral baseline for dominance, documented choice"
+    },
+    "SARCASM_PENALTY": {
+      "value": 1,
+      "unit": "factor",
+      "rationale": "Divisor for sarcasm confidence reduction: conf * tanh(1/(1+flags))"
+    }
+  }
+}

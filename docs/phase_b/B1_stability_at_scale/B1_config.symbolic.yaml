@@ -1,0 +1,11 @@
+# OMEGA - B.1 CONFIG (SYMBOLIC)
+# Aucun nombre ici. Valeurs definies au runtime via calibration.
+# Dependency: PHASE_A_ROOT_HASH = 63cdf1b5fd7df8d60dacfb2b41ad9978f0bbc7d188b8295df0fcc0c2a9c1673e
+
+tau_em: "tau_em"           # seuil derive emotionnelle
+tau_truth: "tau_truth"     # seuil tolerance contradiction (default: 0)
+seed_policy: "DETERMINISTIC_SEED_CHAIN"
+oracle_mode: "DUAL_ORACLE" # OFF | ON | DUAL_ORACLE
+ssx_policy: "NO_A6_CPP_REFERENCES"
+gate_logging: "COMPLETE"   # COMPLETE | SUMMARY | OFF
+hash_verification: "STRICT" # STRICT | WARN | OFF

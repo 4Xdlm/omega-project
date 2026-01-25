@@ -1,0 +1,19 @@
+# A6 Emotion Profiles Specification
+# Status: DORMANT (template only)
+
+profiles:
+  # All values are symbolic - actual values from calibration at runtime
+  arousal:
+    unit: CALIBRATION_REQUIRED
+    range: [0, 1]
+  valence:
+    baseline: CALIBRATION_REQUIRED
+    range: [-1, 1]
+  dominance:
+    neutral: CALIBRATION_REQUIRED
+    range: [0, 1]
+
+constraints:
+  # No magic numbers - all from calibration
+  stability_threshold: CALIBRATION_REQUIRED
+  drift_max: CALIBRATION_REQUIRED

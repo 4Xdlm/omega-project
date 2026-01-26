@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://omega-project.dev/schemas/phase-c/policy_ref.schema.json",
+  "title": "PolicyRef",
+  "description": "Reference to a policy/invariant for SENTINEL_JUDGE evaluation",
+  "version": "1.0.0",
+  "type": "object",
+  "required": [
+    "invariantId",
+    "sourcePath",
+    "sourceSha256",
+    "versionTag",
+    "scope",
+    "severity"
+  ],
+  "properties": {
+    "invariantId": {
+      "type": "string",
+      "pattern": "^INV-[A-Z]+-[0-9]+(-[A-Z0-9]+)?$",
+      "description": "Invariant identifier, e.g., INV-C-01, INV-SENT-001",
+      "examples": ["INV-C-01", "INV-SENT-001", "INV-C-GATE-01"]
+    },
+    "sourcePath": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Path to source document containing the invariant",
+      "examples": ["docs/INVARIANTS.md", "docs/phase-c/C_CONTRACT.md"]
+    },
+    "sourceSha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "SHA-256 hash of the source document (lowercase hex)",
+      "examples": ["a1b2c3d4e5f6..."]
+    },
+    "versionTag": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Version tag of the source document",
+      "examples": ["v3.34.0", "v1.0.0"]
+    },
+    "scope": {
+      "type": "string",
+      "enum": ["CANON", "MEMORY", "ARTIFACT", "PROMOTION", "ALL"],
+      "description": "Scope where this policy applies"
+    },
+    "severity": {
+      "type": "string",
+      "enum": ["BLOCKER", "MAJOR", "MINOR"],
+      "description": "Severity of violation: BLOCKER=REJECT, MAJOR=APPEAL/DEFER, MINOR=WARNING"
+    }
+  },
+  "additionalProperties": false
+}

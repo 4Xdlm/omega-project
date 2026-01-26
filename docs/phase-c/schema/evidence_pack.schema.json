@@ -1,0 +1,108 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://omega-project.dev/schemas/phase-c/evidence_pack.schema.json",
+  "title": "EvidencePack",
+  "description": "Container for evidence submitted with a DecisionRequest",
+  "version": "1.0.0",
+  "type": "object",
+  "required": [
+    "inputsDigest",
+    "proofs",
+    "missing"
+  ],
+  "properties": {
+    "inputsDigest": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "SHA-256 of all inputs (sorted, canonical JSON)"
+    },
+    "proofs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Proof"
+      },
+      "description": "List of evidence proofs"
+    },
+    "missing": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/MissingEvidence"
+      },
+      "description": "List of missing evidence items"
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "Proof": {
+      "type": "object",
+      "required": [
+        "proofType",
+        "source",
+        "sourceVersion",
+        "hash",
+        "verdict"
+      ],
+      "properties": {
+        "proofType": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Type of proof, e.g., HASH_CHAIN, J1_VERDICT, GATE_PASS",
+          "examples": ["HASH_CHAIN", "J1_VERDICT", "GATE_PASS", "MANIFEST_CHECK"]
+        },
+        "source": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Source module that produced this proof",
+          "examples": ["genesis-forge/J1_JUDGE", "sentinel/GATE_01"]
+        },
+        "sourceVersion": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Version of the source module",
+          "examples": ["v1.2.1", "v3.34.0"]
+        },
+        "hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "SHA-256 hash of the proof content"
+        },
+        "verdict": {
+          "type": "string",
+          "enum": ["PASS", "FAIL", "WARN", "SKIP"],
+          "description": "Verdict from the source module"
+        },
+        "metrics": {
+          "type": "object",
+          "description": "Optional metrics (no magic numbers - values must reference calibration symbols)",
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "MissingEvidence": {
+      "type": "object",
+      "required": [
+        "evidenceType",
+        "reason",
+        "blocksVerdict"
+      ],
+      "properties": {
+        "evidenceType": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Type of evidence that is missing"
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Reason why evidence is missing"
+        },
+        "blocksVerdict": {
+          "type": "boolean",
+          "description": "If true, this missing evidence triggers DEFER verdict"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

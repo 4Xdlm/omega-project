@@ -1,0 +1,186 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://omega-project.dev/schemas/phase-c/decision_request.schema.json",
+  "title": "DecisionRequest",
+  "description": "Input to SENTINEL_JUDGE for claim evaluation",
+  "version": "1.0.0",
+  "type": "object",
+  "required": [
+    "traceId",
+    "submittedBy",
+    "submittedAt",
+    "claim",
+    "contextRefs",
+    "evidencePack",
+    "policyBundle"
+  ],
+  "properties": {
+    "traceId": {
+      "type": "string",
+      "pattern": "^C-[0-9]{8}-[0-9]{6}-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$",
+      "description": "Unique trace ID, format: C-{YYYYMMDD}-{HHMMSS}-{uuid4}",
+      "examples": ["C-20260126-143022-a1b2c3d4-e5f6-7890-abcd-ef1234567890"]
+    },
+    "submittedBy": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Module ID that submitted this request",
+      "examples": ["FORGE_ADAPTER", "MANUAL", "TEST_HARNESS"]
+    },
+    "submittedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp (VOLATILE - excluded from hash)",
+      "_volatile": true
+    },
+    "claim": {
+      "$ref": "#/definitions/Claim"
+    },
+    "contextRefs": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ContextRef"
+      },
+      "description": "References to context documents"
+    },
+    "evidencePack": {
+      "$ref": "evidence_pack.schema.json"
+    },
+    "policyBundle": {
+      "$ref": "#/definitions/PolicyBundle"
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "Claim": {
+      "type": "object",
+      "required": [
+        "type",
+        "payload",
+        "payloadHash"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "ARTIFACT_CERTIFICATION",
+            "EVIDENCE_VALIDATION",
+            "SEGMENT_ACCEPTANCE",
+            "FACT_PROMOTION",
+            "MEMORY_ENTRY",
+            "CUSTOM"
+          ],
+          "description": "Type of claim being made"
+        },
+        "payload": {
+          "type": "object",
+          "description": "Claim-specific payload data",
+          "additionalProperties": true
+        },
+        "payloadHash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "SHA-256 of canonical JSON payload"
+        }
+      },
+      "additionalProperties": false
+    },
+    "ContextRef": {
+      "type": "object",
+      "required": [
+        "refType",
+        "path",
+        "sha256"
+      ],
+      "properties": {
+        "refType": {
+          "type": "string",
+          "enum": ["PHASE_A", "PHASE_B", "CANON", "MEMORY", "ARTIFACT"],
+          "description": "Type of referenced context"
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Path to the referenced document"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "SHA-256 of the referenced document"
+        },
+        "version": {
+          "type": "string",
+          "description": "Optional version tag"
+        }
+      },
+      "additionalProperties": false
+    },
+    "PolicyBundle": {
+      "type": "object",
+      "required": [
+        "bundleId",
+        "bundleVersion",
+        "bundleSha256",
+        "policies"
+      ],
+      "properties": {
+        "bundleId": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Unique identifier for this bundle"
+        },
+        "bundleVersion": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Version of this bundle"
+        },
+        "bundleSha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "SHA-256 of sorted policies"
+        },
+        "policies": {
+          "type": "array",
+          "items": {
+            "$ref": "policy_ref.schema.json"
+          },
+          "minItems": 1,
+          "description": "At least one policy required"
+        },
+        "calibrationRef": {
+          "$ref": "#/definitions/CalibrationRef"
+        }
+      },
+      "additionalProperties": false
+    },
+    "CalibrationRef": {
+      "type": "object",
+      "required": [
+        "path",
+        "sha256",
+        "version"
+      ],
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Path to calibration file"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "SHA-256 of calibration file"
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Version of calibration"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "_volatileFields": [
+    "submittedAt"
+  ]
+}

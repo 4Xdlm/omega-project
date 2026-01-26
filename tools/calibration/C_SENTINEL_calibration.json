@@ -1,0 +1,73 @@
+{
+  "version": "1.0.0",
+  "phase": "C",
+  "name": "SENTINEL_JUDGE Calibration",
+  "status": "SYMBOLIC",
+  "date": "2026-01-26",
+  "calibrationMode": "RUNTIME_INJECTED",
+  "forbidden": ["magic_numbers", "implicit_defaults"],
+  "description": "All thresholds are SYMBOLIC - no magic numbers. Values must be injected at runtime or via calibration pack.",
+  
+  "thresholds": {
+    "τ_CONFIDENCE_MIN": {
+      "symbol": "τ_CONFIDENCE_MIN",
+      "description": "Minimum confidence score for evidence to be considered valid",
+      "unit": "ratio [0,1]",
+      "value": "UNCALIBRATED",
+      "calibration_source": "REQUIRED"
+    },
+    "τ_EVIDENCE_COMPLETENESS_MIN": {
+      "symbol": "τ_EVIDENCE_COMPLETENESS_MIN",
+      "description": "Minimum ratio of required evidence that must be present",
+      "unit": "ratio [0,1]",
+      "value": "UNCALIBRATED",
+      "calibration_source": "REQUIRED"
+    },
+    "τ_MISSING_COUNT_GT": {
+      "symbol": "τ_MISSING_COUNT_GT",
+      "description": "Maximum number of missing evidence items before DEFER",
+      "unit": "count",
+      "value": "UNCALIBRATED",
+      "calibration_source": "REQUIRED"
+    },
+    "τ_CONFLICT_THRESHOLD": {
+      "symbol": "τ_CONFLICT_THRESHOLD",
+      "description": "Threshold for conflict detection between evidence items",
+      "unit": "ratio [0,1]",
+      "value": "UNCALIBRATED",
+      "calibration_source": "REQUIRED"
+    },
+    "τ_J1_SCORE_MIN": {
+      "symbol": "τ_J1_SCORE_MIN",
+      "description": "Minimum J1 emotion binding score for PASS",
+      "unit": "ratio [0,1]",
+      "value": "UNCALIBRATED",
+      "calibration_source": "REQUIRED"
+    }
+  },
+  
+  "resolution_mechanism": {
+    "type": "RUNTIME_INJECTION",
+    "description": "Thresholds must be provided via runtime configuration or calibration pack",
+    "fallback": "DEFER verdict if symbol is UNCALIBRATED"
+  },
+  
+  "validation_rules": [
+    "No numeric values allowed in this file",
+    "All values must be 'UNCALIBRATED' or 'REQUIRED'",
+    "Implementation must DEFER if threshold is not calibrated",
+    "Calibration pack (future) will provide actual values"
+  ],
+  
+  "future_calibration": {
+    "pack_location": "tools/calibration/C_SENTINEL_calibration_pack_v{VERSION}.json",
+    "pack_schema": "docs/phase-c/schema/CALIBRATION_PACK.schema.json",
+    "pack_validation": "SHA256 checksum required"
+  },
+  
+  "_metadata": {
+    "author": "Claude (AI Principal)",
+    "standard": "NASA-Grade L4 / DO-178C Level A",
+    "invariant": "INV-C-05 (Numbers Policy)"
+  }
+}

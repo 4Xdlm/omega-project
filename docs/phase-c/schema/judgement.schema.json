@@ -1,0 +1,153 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://omega-project.dev/schemas/phase-c/judgement.schema.json",
+  "title": "Judgement",
+  "description": "Output from SENTINEL_JUDGE after claim evaluation",
+  "version": "1.0.0",
+  "type": "object",
+  "required": [
+    "judgementId",
+    "traceId",
+    "verdict",
+    "reasons",
+    "requiredActions",
+    "evidenceRefs",
+    "prevJudgementHash",
+    "judgementHash",
+    "executedAt",
+    "executionDurationMs"
+  ],
+  "properties": {
+    "judgementId": {
+      "type": "string",
+      "pattern": "^J-[0-9]{8}-[0-9]{6}-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$",
+      "description": "Unique judgement ID, format: J-{YYYYMMDD}-{HHMMSS}-{uuid4}",
+      "examples": ["J-20260126-143022-a1b2c3d4-e5f6-7890-abcd-ef1234567890"]
+    },
+    "traceId": {
+      "type": "string",
+      "pattern": "^C-[0-9]{8}-[0-9]{6}-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$",
+      "description": "Links to the original DecisionRequest"
+    },
+    "verdict": {
+      "type": "string",
+      "enum": ["ACCEPT", "REJECT", "DEFER", "APPEAL"],
+      "description": "Final verdict of the judgement"
+    },
+    "reasons": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/ReasonCode"
+      },
+      "minItems": 1,
+      "description": "Reasons for the verdict (at least one required per INV-C-01)"
+    },
+    "requiredActions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/RequiredAction"
+      },
+      "description": "Actions required (especially for DEFER/APPEAL)"
+    },
+    "evidenceRefs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-f0-9]{64}$"
+      },
+      "minItems": 1,
+      "description": "SHA-256 hashes of evidence used (at least one required per INV-C-01)"
+    },
+    "prevJudgementHash": {
+      "type": "string",
+      "pattern": "^([a-f0-9]{64}|GENESIS)$",
+      "description": "Hash of previous judgement in chain, or 'GENESIS' for first"
+    },
+    "judgementHash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "SHA-256 of this judgement (excluding volatile fields and this field itself)"
+    },
+    "executedAt": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp (VOLATILE - excluded from hash)",
+      "_volatile": true
+    },
+    "executionDurationMs": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Execution duration in milliseconds (VOLATILE - excluded from hash)",
+      "_volatile": true
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "ReasonCode": {
+      "type": "object",
+      "required": [
+        "code",
+        "severity"
+      ],
+      "properties": {
+        "code": {
+          "type": "string",
+          "pattern": "^(RC-[0-9]{3}|INV-[A-Z]+-[0-9]+(-[A-Z0-9]+)?-VIOLATION|ERR-C-[A-Z]+-[0-9]+)$",
+          "description": "Reason code, e.g., RC-001, INV-C-01-VIOLATION, ERR-C-GATE-01",
+          "examples": ["RC-001", "INV-C-01-VIOLATION", "ERR-C-GATE-02"]
+        },
+        "severity": {
+          "type": "string",
+          "enum": ["BLOCKER", "MAJOR", "MINOR"],
+          "description": "Severity of this reason"
+        },
+        "invariantRef": {
+          "type": "string",
+          "pattern": "^INV-[A-Z]+-[0-9]+(-[A-Z0-9]+)?$",
+          "description": "Optional reference to violated invariant"
+        }
+      },
+      "additionalProperties": false
+    },
+    "RequiredAction": {
+      "type": "object",
+      "required": [
+        "actionType",
+        "description"
+      ],
+      "properties": {
+        "actionType": {
+          "type": "string",
+          "enum": [
+            "PROVIDE_EVIDENCE",
+            "RECALIBRATE",
+            "ESCALATE",
+            "RESOLVE_CONFLICT",
+            "RETRY",
+            "MANUAL_REVIEW"
+          ],
+          "description": "Type of action required"
+        },
+        "description": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Human-readable description of required action"
+        },
+        "targetModule": {
+          "type": "string",
+          "description": "Optional target module for the action"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "_volatileFields": [
+    "executedAt",
+    "executionDurationMs"
+  ],
+  "_hashExcludedFields": [
+    "executedAt",
+    "executionDurationMs",
+    "judgementHash"
+  ]
+}

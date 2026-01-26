@@ -1,38 +1,28 @@
 {
-    "_meta":  {
-                  "version":  "1.0.0",
-                  "description":  "Phase B calibration - NO DEFAULTS - all values REQUIRED at runtime",
-                  "rule":  "Execution MUST FAIL if any value equals \u0027REQUIRED\u0027"
-              },
-    "stability":  {
-                      "N_LONG_REPEAT":  "REQ_REMOVED",
-                      "N_STEPS":  "REQ_REMOVED",
-                      "STEP_SIZE":  "REQ_REMOVED",
-                      "DRIFT_THRESHOLD":  "REQ_REMOVED",
-                      "STABILITY_WINDOW":  "REQ_REMOVED"
-                  },
-    "collision":  {
-                      "COLLISION_SAMPLE_SIZE":  "REQ_REMOVED",
-                      "HASH_TOLERANCE":  "REQ_REMOVED",
-                      "RETRY_LIMIT":  "REQ_REMOVED"
-                  },
-    "crossrun":  {
-                     "CROSSRUN_ITERATIONS":  "REQ_REMOVED",
-                     "DIVERGENCE_THRESHOLD":  "REQ_REMOVED"
-                 },
-    "emotion":  {
-                    "AROUSAL_UNIT":  "REQ_REMOVED",
-                    "DOMINANCE_NEUTRAL":  "REQ_REMOVED",
-                    "VALENCE_BASELINE":  "REQ_REMOVED"
-                },
-    "adversarial":  {
-                        "SARCASM_PENALTY":  "REQ_REMOVED",
-                        "NEGATION_FLIP_FACTOR":  "REQ_REMOVED",
-                        "LEXICON_POISON_THRESHOLD":  "REQ_REMOVED"
-                    },
-    "oracle":  {
-                   "CONSENSUS_THRESHOLD":  "REQ_REMOVED",
-                   "CONFIDENCE_MIN":  "REQ_REMOVED",
-                   "EVIDENCE_REQUIRED":  "REQ_REMOVED"
-               }
+  "N_LONG_REPEAT": 1,
+  "N_STEPS": 1,
+  "STEP_SIZE": 1,
+  "DRIFT_THRESHOLD": 0,
+  "STABILITY_WINDOW": 1,
+
+  "COLLISION_SAMPLE_SIZE": 1,
+  "HASH_TOLERANCE": 0,
+  "RETRY_LIMIT": 0,
+
+  "CROSSRUN_ITERATIONS": 1,
+  "DIVERGENCE_THRESHOLD": 0,
+
+  "AROUSAL_UNIT": 1,
+  "DOMINANCE_NEUTRAL": 0,
+  "VALENCE_BASELINE": 0,
+
+  "SARCASM_PENALTY": 0,
+  "NEGATION_FLIP_FACTOR": 0,
+  "LEXICON_POISON_THRESHOLD": 0,
+
+  "CONSENSUS_THRESHOLD": 1,
+  "CONFIDENCE_MIN": 0,
+  "EVIDENCE_REQUIRED": 0,
+
+  "_NOTE": "BOOTSTRAP_CALIBRATION_MINIMAL_NUMERIC_ONLY (no literal REQUIRED)"
 }

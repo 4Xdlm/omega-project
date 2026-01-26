@@ -1,0 +1,78 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "B1_PAYLOAD.schema.json",
+  "title": "B1 Stability Payload",
+  "description": "Schema for B1 Stability at Scale test payload",
+  "type": "object",
+  "required": ["phase", "mode", "rootA", "calibration_sha256", "dataset_sha256", "results", "verdict", "invariants"],
+  "additionalProperties": false,
+  "properties": {
+    "phase": {
+      "type": "string",
+      "const": "B1"
+    },
+    "mode": {
+      "type": "string",
+      "enum": ["RUN1", "RUN2"]
+    },
+    "rootA": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "SHA256 hash from PHASE_A_ROOT_MANIFEST"
+    },
+    "calibration_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "SHA256 hash of calibration file"
+    },
+    "dataset_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "SHA256 hash of dataset file"
+    },
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["sample_id", "iterations", "stable", "analysis_hash"],
+        "additionalProperties": false,
+        "properties": {
+          "sample_id": {
+            "type": "string"
+          },
+          "iterations": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "stable": {
+            "type": "boolean"
+          },
+          "analysis_hash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        }
+      }
+    },
+    "verdict": {
+      "type": "string",
+      "enum": ["PASS", "FAIL"]
+    },
+    "invariants": {
+      "type": "object",
+      "required": ["no_throw", "schema_valid", "deterministic"],
+      "additionalProperties": false,
+      "properties": {
+        "no_throw": {
+          "type": "boolean"
+        },
+        "schema_valid": {
+          "type": "boolean"
+        },
+        "deterministic": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

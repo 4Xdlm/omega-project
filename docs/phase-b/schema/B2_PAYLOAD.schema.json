@@ -1,0 +1,75 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "B2_PAYLOAD.schema.json",
+  "title": "B2 Adversarial Payload",
+  "description": "Schema for B2 Adversarial Robustness test payload",
+  "type": "object",
+  "required": ["phase", "mode", "rootA", "calibration_sha256", "dataset_sha256", "results", "verdict", "invariants"],
+  "additionalProperties": false,
+  "properties": {
+    "phase": {
+      "type": "string",
+      "const": "B2"
+    },
+    "mode": {
+      "type": "string",
+      "enum": ["RUN1", "RUN2"]
+    },
+    "rootA": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "calibration_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "dataset_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["sample_id", "type", "no_throw", "analysis_hash"],
+        "additionalProperties": false,
+        "properties": {
+          "sample_id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of adversarial input (sarcasm, negation, edge_case, etc.)"
+          },
+          "no_throw": {
+            "type": "boolean"
+          },
+          "analysis_hash": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        }
+      }
+    },
+    "verdict": {
+      "type": "string",
+      "enum": ["PASS", "FAIL"]
+    },
+    "invariants": {
+      "type": "object",
+      "required": ["no_throw", "schema_valid", "deterministic"],
+      "additionalProperties": false,
+      "properties": {
+        "no_throw": {
+          "type": "boolean"
+        },
+        "schema_valid": {
+          "type": "boolean"
+        },
+        "deterministic": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "B3_REPORT.schema.json",
+  "title": "B3 Cross-Validation Report",
+  "description": "Schema for B3 Cross-Validation report",
+  "type": "object",
+  "required": ["phase", "inputs", "determinism", "signature"],
+  "additionalProperties": false,
+  "properties": {
+    "phase": {
+      "type": "string",
+      "const": "B3"
+    },
+    "inputs": {
+      "type": "object",
+      "required": ["B1_RUN1_sha256", "B1_RUN2_sha256", "B2_RUN1_sha256", "B2_RUN2_sha256"],
+      "additionalProperties": false,
+      "properties": {
+        "B1_RUN1_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "B1_RUN2_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "B2_RUN1_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "B2_RUN2_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "determinism": {
+      "type": "object",
+      "required": ["B1_match", "B2_match"],
+      "additionalProperties": false,
+      "properties": {
+        "B1_match": {
+          "type": "boolean"
+        },
+        "B2_match": {
+          "type": "boolean"
+        }
+      }
+    },
+    "signature": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "verdict": {
+      "type": "string",
+      "enum": ["PASS", "FAIL"]
+    }
+  }
+}

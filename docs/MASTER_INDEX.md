@@ -72,8 +72,9 @@ Ce qui n'est pas dans cet index n'existe pas opérationnellement.
 
 - OMEGA_README.md — Point d'entrée projet
 - OMEGA_MASTER_PLAN_v2.md — Source de vérité technique
-- OMEGA_SUPREME_ROADMAP_v1.1.md — Phases et objectifs
+- roadmap/OMEGA_SUPREME_ROADMAP_v2.0.md — Phases et objectifs
 
 ---
 
 **FIN DU MASTER_INDEX v1.0.0**
+

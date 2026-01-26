@@ -1,146 +1,94 @@
 /**
- * OMEGA Phase C — Canonical JSON Serialization
+ * OMEGA Phase C.1.1 - Canonical JSON
+ * Deterministic JSON serialization for hash stability
  * 
- * Version: 1.0.0
- * Date: 2026-01-26
- * Standard: NASA-Grade L4
- * 
- * Purpose:
- * - Deterministic JSON serialization
- * - Byte-identical output for same input
- * - Recursive key sorting
- * - UTF-8 strict encoding
+ * @module canonical_json
+ * @version 1.0.0
  */
 
-import { SentinelJudgeError, ERROR_CODES } from './types.js';
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// CANONICAL JSON
-// ═══════════════════════════════════════════════════════════════════════════════
+// =============================================================================
+// CANONICAL JSON SERIALIZATION
+// =============================================================================
 
 /**
- * Recursively sorts object keys alphabetically.
- * Arrays are preserved in order, objects are sorted.
- * 
- * @param value - Any JSON-serializable value
- * @returns Value with all object keys sorted recursively
+ * Recursively sort object keys for deterministic serialization
  */
-function sortKeysRecursively(value: unknown): unknown {
-  // Null
-  if (value === null) {
-    return null;
+function sortObject(obj: unknown): unknown {
+  if (obj === null || obj === undefined) {
+    return obj;
   }
-  
-  // Array - preserve order, sort each element
-  if (Array.isArray(value)) {
-    return value.map(sortKeysRecursively);
+
+  if (Array.isArray(obj)) {
+    return obj.map(sortObject);
   }
-  
-  // Object - sort keys
-  if (typeof value === 'object') {
+
+  if (typeof obj === 'object') {
     const sorted: Record<string, unknown> = {};
-    const keys = Object.keys(value as Record<string, unknown>).sort();
+    const keys = Object.keys(obj as Record<string, unknown>).sort();
     for (const key of keys) {
-      sorted[key] = sortKeysRecursively((value as Record<string, unknown>)[key]);
+      sorted[key] = sortObject((obj as Record<string, unknown>)[key]);
     }
     return sorted;
   }
-  
-  // Primitives - return as-is
-  return value;
+
+  return obj;
 }
 
 /**
- * Converts a value to canonical JSON string.
- * 
- * Properties:
- * - Keys are sorted alphabetically at all levels
- * - No whitespace (compact output)
- * - UTF-8 strict encoding
- * - Byte-identical output for same input (regardless of key order)
- * 
- * @param obj - Any JSON-serializable value
- * @returns Canonical JSON string
- * @throws SentinelJudgeError if serialization fails
+ * Serialize object to canonical JSON string
+ * - Keys sorted alphabetically at all levels
+ * - No whitespace
+ * - Deterministic output
  */
-export function canonicalStringify(obj: unknown): string {
-  // Validate input type
-  if (obj === undefined) {
-    throw new SentinelJudgeError(
-      ERROR_CODES.CANONICAL_02,
-      'Cannot serialize undefined value',
-      { inputType: 'undefined' }
-    );
-  }
-  
-  // Handle functions (not JSON-serializable)
-  if (typeof obj === 'function') {
-    throw new SentinelJudgeError(
-      ERROR_CODES.CANONICAL_02,
-      'Cannot serialize function',
-      { inputType: 'function' }
-    );
-  }
-  
-  // Handle BigInt (not JSON-serializable by default)
-  if (typeof obj === 'bigint') {
-    throw new SentinelJudgeError(
-      ERROR_CODES.CANONICAL_02,
-      'Cannot serialize BigInt - convert to string first',
-      { inputType: 'bigint' }
-    );
-  }
-  
-  // Handle Symbol (not JSON-serializable)
-  if (typeof obj === 'symbol') {
-    throw new SentinelJudgeError(
-      ERROR_CODES.CANONICAL_02,
-      'Cannot serialize Symbol',
-      { inputType: 'symbol' }
-    );
-  }
-  
-  try {
-    // Sort keys recursively
-    const sorted = sortKeysRecursively(obj);
-    
-    // Serialize to compact JSON (no whitespace)
-    return JSON.stringify(sorted);
-  } catch (error) {
-    throw new SentinelJudgeError(
-      ERROR_CODES.CANONICAL_01,
-      `Serialization failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
-      { originalError: String(error) }
-    );
-  }
+export function toCanonicalJson(obj: unknown): string {
+  const sorted = sortObject(obj);
+  return JSON.stringify(sorted);
 }
 
 /**
- * Parses a canonical JSON string back to an object.
- * 
- * @param json - JSON string to parse
- * @returns Parsed object
- * @throws SentinelJudgeError if parsing fails
+ * Parse canonical JSON and return sorted object
  */
-export function canonicalParse<T = unknown>(json: string): T {
-  try {
-    return JSON.parse(json) as T;
-  } catch (error) {
-    throw new SentinelJudgeError(
-      ERROR_CODES.CANONICAL_01,
-      `Parse failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
-      { originalError: String(error) }
-    );
-  }
+export function fromCanonicalJson<T = unknown>(json: string): T {
+  const parsed = JSON.parse(json);
+  return sortObject(parsed) as T;
 }
 
 /**
- * Checks if two values produce identical canonical JSON.
- * 
- * @param a - First value
- * @param b - Second value
- * @returns true if canonical representations are byte-identical
+ * Compare two values for deep equality after canonical sorting
  */
 export function canonicalEquals(a: unknown, b: unknown): boolean {
-  return canonicalStringify(a) === canonicalStringify(b);
+  return toCanonicalJson(a) === toCanonicalJson(b);
+}
+
+/**
+ * Create a canonical copy of an object (sorted keys at all levels)
+ */
+export function canonicalize<T>(obj: T): T {
+  return fromCanonicalJson<T>(toCanonicalJson(obj));
+}
+
+// =============================================================================
+// DETERMINISM VERIFICATION
+// =============================================================================
+
+/**
+ * Verify that an object serializes deterministically
+ * Runs multiple serializations and compares results
+ */
+export function verifyDeterminism(obj: unknown, iterations: number = 10): boolean {
+  const first = toCanonicalJson(obj);
+  for (let i = 0; i < iterations; i++) {
+    if (toCanonicalJson(obj) !== first) {
+      return false;
+    }
+  }
+  return true;
+}
+
+/**
+ * Get canonical JSON with formatted output for debugging
+ */
+export function toCanonicalJsonPretty(obj: unknown): string {
+  const sorted = sortObject(obj);
+  return JSON.stringify(sorted, null, 2);
 }

@@ -113,6 +113,12 @@ export function computeSha256(input: string): string {
 }
 
 /**
+ * Shorthand alias for computeSha256.
+ * Commonly used in tests and gates.
+ */
+export const sha256 = computeSha256;
+
+/**
  * Computes SHA-256 hash of a buffer.
  * Returns lowercase hexadecimal string (64 characters).
  * 

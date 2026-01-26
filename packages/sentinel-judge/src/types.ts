@@ -1,410 +1,343 @@
 /**
- * OMEGA Phase C — SENTINEL_JUDGE Types
+ * OMEGA Phase C.1.1 - Types & Schemas
+ * Sentinel Judge Core Types
  * 
- * Version: 1.0.0
- * Date: 2026-01-26
- * Standard: NASA-Grade L4
- * 
- * Aligned with:
- * - docs/phase-c/C_CONTRACT.md v1.1.0
- * - docs/phase-c/schema/*.schema.json v1.0.0
+ * @module types
+ * @version 1.0.0
  */
 
-// ═══════════════════════════════════════════════════════════════════════════════
-// ENUMS
-// ═══════════════════════════════════════════════════════════════════════════════
+// =============================================================================
+// ERROR CODES
+// =============================================================================
 
-/**
- * Gate classification for execution flow control
- */
-export type GateClass = 'REQUIRED' | 'OPTIONAL';
-
-/**
- * Policy when a gate fails
- */
-export type FailPolicy = 'REJECT' | 'DEFER' | 'APPEAL';
-
-/**
- * Final verdict of a judgement
- */
-export type Verdict = 'ACCEPT' | 'REJECT' | 'DEFER' | 'APPEAL';
-
-/**
- * Type of claim being judged
- */
-export type ClaimType =
-  | 'ARTIFACT_CERTIFICATION'
-  | 'EVIDENCE_VALIDATION'
-  | 'SEGMENT_ACCEPTANCE'
-  | 'FACT_PROMOTION'
-  | 'MEMORY_ENTRY'
-  | 'CUSTOM';
-
-/**
- * Type of context reference
- */
-export type ContextRefType = 'PHASE_A' | 'PHASE_B' | 'CANON' | 'MEMORY' | 'ARTIFACT';
-
-/**
- * Scope where a policy applies
- */
-export type PolicyScope = 'CANON' | 'MEMORY' | 'ARTIFACT' | 'PROMOTION' | 'ALL';
-
-/**
- * Severity of a policy violation
- */
-export type Severity = 'BLOCKER' | 'MAJOR' | 'MINOR';
-
-/**
- * Verdict from a proof source
- */
-export type ProofVerdict = 'PASS' | 'FAIL' | 'WARN' | 'SKIP';
-
-/**
- * Type of required action
- */
-export type ActionType =
-  | 'PROVIDE_EVIDENCE'
-  | 'RECALIBRATE'
-  | 'ESCALATE'
-  | 'RESOLVE_CONFLICT'
-  | 'RETRY'
-  | 'MANUAL_REVIEW';
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// CORE INTERFACES — DecisionRequest
-// ═══════════════════════════════════════════════════════════════════════════════
-
-/**
- * Input to SENTINEL_JUDGE for claim evaluation
- */
-export interface DecisionRequest {
-  /** Unique trace ID, format: C-{YYYYMMDD}-{HHMMSS}-{uuid4} */
-  traceId: string;
-  /** Module ID that submitted this request */
-  submittedBy: string;
-  /** ISO 8601 timestamp (VOLATILE - excluded from hash) */
-  submittedAt: string;
-  /** The claim to be evaluated */
-  claim: Claim;
-  /** References to context documents */
-  contextRefs: ContextRef[];
-  /** Evidence pack supporting the claim */
-  evidencePack: EvidencePack;
-  /** Policies to evaluate against */
-  policyBundle: PolicyBundle;
-}
-
-/**
- * A claim to be evaluated
- */
-export interface Claim {
-  /** Type of claim being made */
-  type: ClaimType;
-  /** Claim-specific payload data */
-  payload: Record<string, unknown>;
-  /** SHA-256 of canonical JSON payload */
-  payloadHash: string;
-}
-
-/**
- * Reference to a context document
- */
-export interface ContextRef {
-  /** Type of referenced context */
-  refType: ContextRefType;
-  /** Path to the referenced document */
-  path: string;
-  /** SHA-256 of the referenced document */
-  sha256: string;
-  /** Optional version tag */
-  version?: string;
-}
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// CORE INTERFACES — EvidencePack
-// ═══════════════════════════════════════════════════════════════════════════════
-
-/**
- * Container for evidence submitted with a DecisionRequest
- */
-export interface EvidencePack {
-  /** SHA-256 of all inputs (sorted, canonical JSON) */
-  inputsDigest: string;
-  /** List of evidence proofs */
-  proofs: Proof[];
-  /** List of missing evidence items */
-  missing: MissingEvidence[];
-}
-
-/**
- * A single proof item
- */
-export interface Proof {
-  /** Type of proof, e.g., HASH_CHAIN, J1_VERDICT, GATE_PASS */
-  proofType: string;
-  /** Source module that produced this proof */
-  source: string;
-  /** Version of the source module */
-  sourceVersion: string;
-  /** SHA-256 hash of the proof content */
-  hash: string;
-  /** Verdict from the source module */
-  verdict: ProofVerdict;
-  /** Optional metrics (no magic numbers - values must reference calibration) */
-  metrics?: Record<string, unknown>;
-}
-
-/**
- * Missing evidence declaration
- */
-export interface MissingEvidence {
-  /** Type of evidence that is missing */
-  evidenceType: string;
-  /** Reason why evidence is missing */
-  reason: string;
-  /** If true, this missing evidence triggers DEFER verdict */
-  blocksVerdict: boolean;
-}
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// CORE INTERFACES — PolicyRef & PolicyBundle
-// ═══════════════════════════════════════════════════════════════════════════════
-
-/**
- * Reference to a policy/invariant
- */
-export interface PolicyRef {
-  /** Invariant identifier, e.g., INV-C-01, INV-SENT-001 */
-  invariantId: string;
-  /** Path to source document containing the invariant */
-  sourcePath: string;
-  /** SHA-256 hash of the source document */
-  sourceSha256: string;
-  /** Version tag of the source document */
-  versionTag: string;
-  /** Scope where this policy applies */
-  scope: PolicyScope;
-  /** Severity of violation */
-  severity: Severity;
-}
-
-/**
- * Bundle of policies for evaluation
- */
-export interface PolicyBundle {
-  /** Unique identifier for this bundle */
-  bundleId: string;
-  /** Version of this bundle */
-  bundleVersion: string;
-  /** SHA-256 of sorted policies */
-  bundleSha256: string;
-  /** At least one policy required */
-  policies: PolicyRef[];
-  /** Optional reference to calibration */
-  calibrationRef?: CalibrationRef;
-}
-
-/**
- * Reference to calibration file
- */
-export interface CalibrationRef {
-  /** Path to calibration file */
-  path: string;
-  /** SHA-256 of calibration file */
-  sha256: string;
-  /** Version of calibration */
-  version: string;
-}
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// CORE INTERFACES — Judgement
-// ═══════════════════════════════════════════════════════════════════════════════
-
-/**
- * Output from SENTINEL_JUDGE after claim evaluation
- */
-export interface Judgement {
-  /** Unique judgement ID, format: J-{YYYYMMDD}-{HHMMSS}-{uuid4} */
-  judgementId: string;
-  /** Links to the original DecisionRequest */
-  traceId: string;
-  /** Final verdict of the judgement */
-  verdict: Verdict;
-  /** Reasons for the verdict (at least one required) */
-  reasons: ReasonCode[];
-  /** Actions required (especially for DEFER/APPEAL) */
-  requiredActions: RequiredAction[];
-  /** SHA-256 hashes of evidence used (at least one required) */
-  evidenceRefs: string[];
-  /** Hash of previous judgement in chain, or 'GENESIS' for first */
-  prevJudgementHash: string;
-  /** SHA-256 of this judgement (excluding volatile fields) */
-  judgementHash: string;
-  /** ISO 8601 timestamp (VOLATILE - excluded from hash) */
-  executedAt: string;
-  /** Execution duration in milliseconds (VOLATILE - excluded from hash) */
-  executionDurationMs: number;
-}
-
-/**
- * Reason code for a verdict
- */
-export interface ReasonCode {
-  /** Reason code, e.g., RC-001, INV-C-01-VIOLATION, ERR-C-GATE-01 */
-  code: string;
-  /** Severity of this reason */
-  severity: Severity;
-  /** Optional reference to violated invariant */
-  invariantRef?: string;
-}
-
-/**
- * Required action for DEFER/APPEAL verdicts
- */
-export interface RequiredAction {
-  /** Type of action required */
-  actionType: ActionType;
-  /** Human-readable description of required action */
-  description: string;
-  /** Optional target module for the action */
-  targetModule?: string;
-}
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// GATE DEFINITIONS
-// ═══════════════════════════════════════════════════════════════════════════════
-
-/**
- * Gate definition for request validation
- */
-export interface GateDefinition {
-  /** Gate identifier, e.g., GATE_C_01 */
-  id: string;
-  /** Human-readable description */
-  description: string;
-  /** Gate classification */
-  gateClass: GateClass;
-  /** Policy when this gate fails */
-  failPolicy: FailPolicy;
-  /** Error code when this gate fails */
-  errorCode: string;
-}
-
-/**
- * Result of gate evaluation
- */
-export interface GateResult {
-  /** Whether execution can proceed */
-  proceed: boolean;
-  /** Suggested verdict if proceed is false */
-  suggestedVerdict?: Verdict;
-  /** List of failures */
-  failures: GateFailure[];
-}
-
-/**
- * A single gate failure
- */
-export interface GateFailure {
-  /** Gate that failed */
-  gateId: string;
-  /** Error code */
-  errorCode: string;
-  /** Suggested verdict based on failPolicy */
-  suggestedVerdict: Verdict;
-  /** Human-readable message */
-  message: string;
-}
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// ERROR TYPES
-// ═══════════════════════════════════════════════════════════════════════════════
-
-/**
- * Error codes for SENTINEL_JUDGE
- * Pattern: ERR-C-{CATEGORY}-{NUMBER}
- */
 export const ERROR_CODES = {
-  // Gate errors
-  GATE_01: 'ERR-C-GATE-01',  // Invalid traceId format
-  GATE_02: 'ERR-C-GATE-02',  // Payload hash mismatch
-  GATE_03: 'ERR-C-GATE-03',  // Invalid contextRef sha256
-  GATE_04: 'ERR-C-GATE-04',  // Invalid inputsDigest
-  GATE_05: 'ERR-C-GATE-05',  // Empty policyBundle
-  GATE_06: 'ERR-C-GATE-06',  // Invalid PolicyRef sha256
-  GATE_07: 'ERR-C-GATE-07',  // Magic number detected
-  GATE_08: 'ERR-C-GATE-08',  // Missing blocking evidence
-  GATE_09: 'ERR-C-GATE-09',  // Uncalibrated threshold
-  
-  // Schema errors
-  SCHEMA_01: 'ERR-C-SCHEMA-01',  // Schema validation failed
-  SCHEMA_02: 'ERR-C-SCHEMA-02',  // Schema not found
-  SCHEMA_03: 'ERR-C-SCHEMA-03',  // Invalid schema format
-  
+  // Gate errors (GATE_01 - GATE_08)
+  GATE_01: 'GATE_01',
+  GATE_02: 'GATE_02',
+  GATE_03: 'GATE_03',
+  GATE_04: 'GATE_04',
+  GATE_05: 'GATE_05',
+  GATE_06: 'GATE_06',
+  GATE_07: 'GATE_07',
+  GATE_08: 'GATE_08',
   // Digest errors
-  DIGEST_01: 'ERR-C-DIGEST-01',  // Hash computation failed
-  DIGEST_02: 'ERR-C-DIGEST-02',  // Hash mismatch
-  
-  // Canonical JSON errors
-  CANONICAL_01: 'ERR-C-CANONICAL-01',  // Serialization failed
-  CANONICAL_02: 'ERR-C-CANONICAL-02',  // Invalid input type
+  DIGEST_01: 'DIGEST_01',
+  DIGEST_02: 'DIGEST_02',
+  // Assembly errors
+  ASSEMBLE_01: 'ASSEMBLE_01',
+  ASSEMBLE_02: 'ASSEMBLE_02',
 } as const;
 
 export type ErrorCode = typeof ERROR_CODES[keyof typeof ERROR_CODES];
 
-/**
- * Typed error for SENTINEL_JUDGE
- */
+// =============================================================================
+// PATTERNS
+// =============================================================================
+
+export const PATTERNS = {
+  SHA256: /^[a-f0-9]{64}$/,
+  TRACE_ID: /^C-\d{8}-\d{6}-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/,
+  ISO_TIMESTAMP: /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{3})?Z$/,
+  UUID: /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/,
+  POLICY_ID: /^POL-[A-Z0-9-]+$/,
+  CLAIM_ID: /^CLM-[A-Z0-9-]+$/,
+  PROOF_ID: /^PRF-[A-Z0-9-]+$/,
+} as const;
+
+// =============================================================================
+// SENTINEL JUDGE ERROR
+// =============================================================================
+
 export class SentinelJudgeError extends Error {
-  constructor(
-    public readonly code: ErrorCode,
-    message: string,
-    public readonly details?: Record<string, unknown>
-  ) {
-    super(`[${code}] ${message}`);
+  public readonly code: ErrorCode;
+  public readonly details?: Record<string, unknown>;
+
+  constructor(code: ErrorCode, message: string, details?: Record<string, unknown>) {
+    super(message);
     this.name = 'SentinelJudgeError';
+    this.code = code;
+    this.details = details;
   }
 }
 
-// ═══════════════════════════════════════════════════════════════════════════════
-// VOLATILE FIELDS — Excluded from hash computation
-// ═══════════════════════════════════════════════════════════════════════════════
+// =============================================================================
+// VERDICT TYPES
+// =============================================================================
 
-/**
- * Fields to exclude from hash computation for DecisionRequest
- */
-export const DECISION_REQUEST_VOLATILE_FIELDS: readonly string[] = [
-  'submittedAt',
-] as const;
+export type Verdict = 'PASS' | 'FAIL' | 'REJECT' | 'DEFER' | 'SKIP' | 'INCONCLUSIVE';
 
-/**
- * Fields to exclude from hash computation for Judgement
- */
-export const JUDGEMENT_VOLATILE_FIELDS: readonly string[] = [
-  'executedAt',
-  'executionDurationMs',
-  'judgementHash',
-] as const;
+// =============================================================================
+// PROOF & EVIDENCE TYPES
+// =============================================================================
 
-// ═══════════════════════════════════════════════════════════════════════════════
-// REGEX PATTERNS
-// ═══════════════════════════════════════════════════════════════════════════════
+export interface Proof {
+  readonly proofId: string;
+  readonly proofType: string;
+  readonly hash: string;
+  readonly source: string;
+  readonly timestamp: string;
+  readonly verdict: Verdict;
+  readonly details?: Record<string, unknown>;
+}
 
-/**
- * Regex patterns for validation
- */
-export const PATTERNS = {
-  /** traceId format: C-{YYYYMMDD}-{HHMMSS}-{uuid4} */
-  TRACE_ID: /^C-[0-9]{8}-[0-9]{6}-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/,
-  /** judgementId format: J-{YYYYMMDD}-{HHMMSS}-{uuid4} */
-  JUDGEMENT_ID: /^J-[0-9]{8}-[0-9]{6}-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/,
-  /** SHA-256 hash: 64 lowercase hex characters */
-  SHA256: /^[a-f0-9]{64}$/,
-  /** Invariant ID: INV-{MODULE}-{NUMBER} where MODULE can include sub-identifiers like C-FA, C-GATE, SENT */
-  INVARIANT_ID: /^INV-[A-Z]+(-[A-Z]+)*-[0-9]+$/,
-  /** Reason code: RC-{NUMBER} or INV-*-VIOLATION or ERR-C-* */
-  REASON_CODE: /^(RC-[0-9]{3}|INV-[A-Z]+(-[A-Z]+)*-[0-9]+-VIOLATION|ERR-C-[A-Z]+-[0-9]+)$/,
-  /** Previous judgement hash: 64 hex chars or 'GENESIS' */
-  PREV_JUDGEMENT_HASH: /^([a-f0-9]{64}|GENESIS)$/,
-} as const;
+export interface MissingEvidence {
+  readonly evidenceType: string;
+  readonly reason: string;
+  readonly blocksVerdict: boolean;
+  readonly suggestedAction?: string;
+}
+
+export interface EvidencePack {
+  readonly inputsDigest: string;
+  readonly proofs: readonly Proof[];
+  readonly missing: readonly MissingEvidence[];
+}
+
+// =============================================================================
+// CLAIM TYPES
+// =============================================================================
+
+export interface Claim {
+  readonly claimId: string;
+  readonly payload: unknown;
+  readonly payloadHash: string;
+  readonly timestamp: string;
+  readonly source: string;
+  readonly metadata?: Record<string, unknown>;
+}
+
+// =============================================================================
+// CONTEXT & POLICY TYPES
+// =============================================================================
+
+export interface ContextRef {
+  readonly refId: string;
+  readonly refType: 'CANON' | 'MEMORY' | 'EXTERNAL' | 'POLICY';
+  readonly sha256: string;
+  readonly uri?: string;
+  readonly metadata?: Record<string, unknown>;
+}
+
+export interface PolicyRef {
+  readonly policyId: string;
+  readonly version: string;
+  readonly sourceSha256: string;
+  readonly appliesTo: string[];
+  readonly metadata?: Record<string, unknown>;
+}
+
+export interface PolicyBundle {
+  readonly bundleId: string;
+  readonly policies: readonly PolicyRef[];
+  readonly combinedHash: string;
+  readonly metadata?: Record<string, unknown>;
+}
+
+// =============================================================================
+// GATE TYPES
+// =============================================================================
+
+export interface GateDefinition {
+  readonly gateId: string;
+  readonly description: string;
+  readonly gateClass: 'REQUIRED' | 'ADVISORY';
+  readonly failPolicy: 'REJECT' | 'DEFER' | 'WARN';
+  readonly errorCode: ErrorCode;
+}
+
+export interface GateResult {
+  readonly gateId: string;
+  readonly verdict: 'PASS' | 'REJECT' | 'DEFER';
+  readonly reason?: string;
+  readonly errorCode?: string;
+  readonly timestamp: string;
+}
+
+export interface GateFailure {
+  readonly gateId: string;
+  readonly errorCode: string;
+  readonly reason: string;
+  readonly timestamp: string;
+}
+
+// =============================================================================
+// DECISION REQUEST
+// =============================================================================
+
+export interface DecisionRequest {
+  readonly traceId: string;
+  readonly claim: Claim;
+  readonly contextRefs: readonly ContextRef[];
+  readonly policies: readonly PolicyRef[];
+  readonly evidencePack: EvidencePack;
+  readonly requestedAt: string;
+  readonly metadata?: Record<string, unknown>;
+}
+
+// =============================================================================
+// TYPE GUARDS
+// =============================================================================
+
+export function isInputClaim(value: unknown): value is InputClaim {
+  if (!value || typeof value !== 'object') return false;
+  const v = value as Record<string, unknown>;
+  return (
+    typeof v.claimId === 'string' &&
+    v.payload !== undefined &&
+    typeof v.payloadHash === 'string' &&
+    typeof v.timestamp === 'string' &&
+    typeof v.source === 'string'
+  );
+}
+
+export function isContextRef(value: unknown): value is ContextRef {
+  if (!value || typeof value !== 'object') return false;
+  const v = value as Record<string, unknown>;
+  return (
+    typeof v.refId === 'string' &&
+    ['CANON', 'MEMORY', 'EXTERNAL', 'POLICY'].includes(v.refType as string) &&
+    typeof v.sha256 === 'string'
+  );
+}
+
+export function isPolicyRef(value: unknown): value is PolicyRef {
+  if (!value || typeof value !== 'object') return false;
+  const v = value as Record<string, unknown>;
+  return (
+    typeof v.policyId === 'string' &&
+    typeof v.version === 'string' &&
+    typeof v.sourceSha256 === 'string' &&
+    Array.isArray(v.appliesTo)
+  );
+}
+
+export function isPolicyBundle(value: unknown): value is PolicyBundle {
+  if (!value || typeof value !== 'object') return false;
+  const v = value as Record<string, unknown>;
+  return (
+    typeof v.bundleId === 'string' &&
+    Array.isArray(v.policies) &&
+    typeof v.combinedHash === 'string'
+  );
+}
+
+export function isEvidenceProof(value: unknown): value is EvidenceProof {
+  if (!value || typeof value !== 'object') return false;
+  const v = value as Record<string, unknown>;
+  return (
+    typeof v.proofId === 'string' &&
+    typeof v.proofType === 'string' &&
+    typeof v.hash === 'string' &&
+    typeof v.source === 'string' &&
+    typeof v.timestamp === 'string' &&
+    ['PASS', 'FAIL', 'INCONCLUSIVE'].includes(v.verdict as string)
+  );
+}
+
+export function isMissingEvidence(value: unknown): value is MissingEvidence {
+  if (!value || typeof value !== 'object') return false;
+  const v = value as Record<string, unknown>;
+  return (
+    typeof v.evidenceType === 'string' &&
+    typeof v.reason === 'string' &&
+    typeof v.blocksVerdict === 'boolean'
+  );
+}
+
+export function isEvidencePack(value: unknown): value is EvidencePack {
+  if (!value || typeof value !== 'object') return false;
+  const v = value as Record<string, unknown>;
+  return (
+    typeof v.packId === 'string' &&
+    Array.isArray(v.proofs) &&
+    Array.isArray(v.missing) &&
+    typeof v.inputsDigest === 'string' &&
+    typeof v.collectedAt === 'string'
+  );
+}
+
+export function isGateResult(value: unknown): value is GateResult {
+  if (!value || typeof value !== 'object') return false;
+  const v = value as Record<string, unknown>;
+  return (
+    typeof v.gateId === 'string' &&
+    ['PASS', 'REJECT', 'DEFER'].includes(v.verdict as string) &&
+    typeof v.timestamp === 'string'
+  );
+}
+
+export function isJudgmentRequest(value: unknown): value is JudgmentRequest {
+  if (!value || typeof value !== 'object') return false;
+  const v = value as Record<string, unknown>;
+  return (
+    typeof v.traceId === 'string' &&
+    isInputClaim(v.claim) &&
+    Array.isArray(v.contextRefs) &&
+    isPolicyBundle(v.policyBundle) &&
+    isEvidencePack(v.evidencePack) &&
+    typeof v.requestedAt === 'string'
+  );
+}
+
+// =============================================================================
+// FACTORY FUNCTIONS
+// =============================================================================
+
+export function createGateResult(
+  gateId: string,
+  verdict: 'PASS' | 'REJECT' | 'DEFER',
+  reason?: string,
+  errorCode?: string
+): GateResult {
+  return {
+    gateId,
+    verdict,
+    reason,
+    errorCode,
+    timestamp: new Date().toISOString()
+  };
+}
+
+export function createInputGatesResult(
+  gateResults: readonly GateResult[],
+  mode: 'STRICT' | 'ADVERSARIAL'
+): InputGatesResult {
+  // Determine overall verdict: REJECT > DEFER > PASS
+  let overallVerdict: 'PASS' | 'REJECT' | 'DEFER' = 'PASS';
+  for (const result of gateResults) {
+    if (result.verdict === 'REJECT') {
+      overallVerdict = 'REJECT';
+      break;
+    }
+    if (result.verdict === 'DEFER') {
+      overallVerdict = 'DEFER';
+    }
+  }
+
+  return {
+    overallVerdict,
+    gateResults,
+    executedAt: new Date().toISOString(),
+    mode
+  };
+}
+
+// =============================================================================
+// VALIDATION HELPERS
+// =============================================================================
+
+const SHA256_REGEX = /^[a-f0-9]{64}$/;
+const TRACE_ID_REGEX = /^C-\d{8}-\d{6}-[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/;
+
+export function isValidSha256(hash: string): boolean {
+  return SHA256_REGEX.test(hash);
+}
+
+export function isValidTraceId(traceId: string): boolean {
+  return TRACE_ID_REGEX.test(traceId);
+}
+
+export function isValidTimestamp(timestamp: string): boolean {
+  const date = new Date(timestamp);
+  return !isNaN(date.getTime());
+}

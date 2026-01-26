@@ -1,66 +1,22 @@
 /**
- * OMEGA Phase C — SENTINEL_JUDGE
+ * OMEGA Phase C.1.2 - Sentinel Judge
+ * Input Gates + Evidence Assembler
  * 
- * Version: 1.0.0
- * Date: 2026-01-26
- * Standard: NASA-Grade L4
- * 
- * C.1.1 — Types, Schemas, Canonical JSON, Digest
+ * @module sentinel-judge
+ * @version 1.2.0
  */
 
-// Types
-export * from './types.js';
-export {
-  PATTERNS,
-  ERROR_CODES,
-  DECISION_REQUEST_VOLATILE_FIELDS,
-  JUDGEMENT_VOLATILE_FIELDS,
-  SentinelJudgeError,
-} from './types.js';
+// Types & Schemas (C.1.1)
+export * from './types';
 
-// Canonical JSON
-export {
-  canonicalStringify,
-  canonicalParse,
-  canonicalEquals,
-} from './canonical_json.js';
+// Canonical JSON (C.1.1)
+export * from './canonical_json';
 
-// Digest
-export {
-  stripVolatileFields,
-  stripDecisionRequestVolatile,
-  stripJudgementVolatile,
-  computeSha256,
-  computeSha256Buffer,
-  computeDigest,
-  computeDecisionRequestDigest,
-  computeJudgementDigest,
-  verifyDigest,
-  computePayloadHash,
-} from './digest.js';
+// Digest Utilities (C.1.1)
+export * from './digest';
 
-// Schema
-export {
-  loadSchema,
-  loadAllSchemas,
-  clearSchemaCache,
-  getLoadedSchemaIds,
-  isSchemaLoaded,
-  type SchemaId,
-} from './schema/index.js';
+// Input Gates (C.1.2)
+export * from './gates';
 
-export {
-  validate,
-  validateOrThrow,
-  isValidDecisionRequest,
-  isValidEvidencePack,
-  isValidJudgement,
-  isValidPolicyRef,
-  isValidTraceId,
-  isValidJudgementId,
-  isValidSha256,
-  isValidInvariantId,
-  isValidReasonCode,
-  type ValidationResult,
-  type ValidationError,
-} from './schema/validate.js';
+// Evidence Assembler (C.1.2)
+export * from './assembler';

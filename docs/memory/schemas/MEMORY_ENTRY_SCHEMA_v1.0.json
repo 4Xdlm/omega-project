@@ -1,0 +1,58 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "MEMORY_ENTRY_SCHEMA_v1.0",
+  "type": "object",
+  "required": ["id", "ts_utc", "author", "class", "scope", "payload", "meta"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Z]{3}-[0-9]{8}-[0-9]{4}-[A-Z0-9]{6}$"
+    },
+    "ts_utc": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "author": {
+      "type": "string",
+      "minLength": 1
+    },
+    "class": {
+      "type": "string",
+      "enum": ["FACT", "DECISION", "EVIDENCE", "METRIC", "NOTE"]
+    },
+    "scope": {
+      "type": "string",
+      "minLength": 1
+    },
+    "payload": {
+      "type": "object",
+      "required": ["title", "body"],
+      "properties": {
+        "title": { "type": "string" },
+        "body": { "type": "string" },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["type", "ref"],
+            "properties": {
+              "type": { "type": "string", "enum": ["tag", "commit", "hash", "path", "url"] },
+              "ref": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "meta": {
+      "type": "object",
+      "required": ["schema_version", "sealed"],
+      "properties": {
+        "schema_version": { "type": "string" },
+        "sealed": { "type": "boolean" },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "supersedes": { "type": "string" }
+      }
+    }
+  },
+  "additionalProperties": false
+}

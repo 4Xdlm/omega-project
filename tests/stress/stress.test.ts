@@ -197,7 +197,7 @@ describe("STRESS-D: Mixed Workload", () => {
     }
 
     const duration = performance.now() - start;
-    console.log(`Rapid fire: ${iterations} requests in ${duration.toFixed(0)}ms`);
+    // Performance metric verified by expect() below - no console output in tests
 
     // Should complete within reasonable time
     expect(duration).toBeLessThan(5000); // 5 seconds max

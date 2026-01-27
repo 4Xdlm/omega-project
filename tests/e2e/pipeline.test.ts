@@ -370,9 +370,7 @@ describe("E2E-F: Genome Validation", () => {
     };
 
     const result = validateGenome(mockGenome);
-    if (!result.valid) {
-      console.log("Validation errors:", result.errors);
-    }
+    // Validation errors surfaced via expect() failure - no console output in tests
     expect(result.errors).toEqual([]);
     expect(result.valid).toBe(true);
   });

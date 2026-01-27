@@ -1,10 +1,12 @@
 /**
- * OMEGA Phase C.1.1 - Canonical JSON
+ * OMEGA Phase C.1.2 - Canonical JSON (FIXED)
  * Deterministic JSON serialization for hash stability
  * 
  * @module canonical_json
- * @version 1.0.0
+ * @version 1.2.0
  */
+
+import { SentinelJudgeError, ERROR_CODES } from './types.js';
 
 // =============================================================================
 // CANONICAL JSON SERIALIZATION
@@ -14,8 +16,15 @@
  * Recursively sort object keys for deterministic serialization
  */
 function sortObject(obj: unknown): unknown {
-  if (obj === null || obj === undefined) {
-    return obj;
+  if (obj === null) {
+    return null;
+  }
+  
+  if (obj === undefined) {
+    throw new SentinelJudgeError(
+      ERROR_CODES.CANONICAL_02,
+      'Cannot serialize undefined value'
+    );
   }
 
   if (Array.isArray(obj)) {
@@ -31,6 +40,28 @@ function sortObject(obj: unknown): unknown {
     return sorted;
   }
 
+  // Reject non-serializable types
+  if (typeof obj === 'function') {
+    throw new SentinelJudgeError(
+      ERROR_CODES.CANONICAL_02,
+      'Cannot serialize function'
+    );
+  }
+  
+  if (typeof obj === 'bigint') {
+    throw new SentinelJudgeError(
+      ERROR_CODES.CANONICAL_02,
+      'Cannot serialize BigInt'
+    );
+  }
+  
+  if (typeof obj === 'symbol') {
+    throw new SentinelJudgeError(
+      ERROR_CODES.CANONICAL_02,
+      'Cannot serialize Symbol'
+    );
+  }
+
   return obj;
 }
 
@@ -39,19 +70,36 @@ function sortObject(obj: unknown): unknown {
  * - Keys sorted alphabetically at all levels
  * - No whitespace
  * - Deterministic output
+ * 
+ * Aliases: canonicalStringify (test compatibility)
  */
 export function toCanonicalJson(obj: unknown): string {
   const sorted = sortObject(obj);
   return JSON.stringify(sorted);
 }
 
+// Alias for test compatibility
+export const canonicalStringify = toCanonicalJson;
+
 /**
  * Parse canonical JSON and return sorted object
+ * 
+ * Aliases: canonicalParse (test compatibility)
  */
 export function fromCanonicalJson<T = unknown>(json: string): T {
-  const parsed = JSON.parse(json);
-  return sortObject(parsed) as T;
+  try {
+    const parsed = JSON.parse(json);
+    return sortObject(parsed) as T;
+  } catch (error) {
+    throw new SentinelJudgeError(
+      ERROR_CODES.CANONICAL_01,
+      `Failed to parse JSON: ${error instanceof Error ? error.message : 'Unknown error'}`
+    );
+  }
 }
+
+// Alias for test compatibility
+export const canonicalParse = fromCanonicalJson;
 
 /**
  * Compare two values for deep equality after canonical sorting

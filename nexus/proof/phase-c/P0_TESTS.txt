@@ -1,0 +1,21 @@
+[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Suites 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m gateway/tests/gateway.test.ts[2m [ gateway/tests/gateway.test.ts ][22m
+[31m[1mError[22m: Cannot find package 'fast-check' imported from 'C:/Users/elric/omega-project/gateway/tests/gateway.test.ts'[39m
+[36m [2m❯[22m gateway/tests/gateway.test.ts:[2m8:1[22m[39m
+    [90m  6| [39m
+    [90m  7| [39m[35mimport[39m { describe[33m,[39m it[33m,[39m expect[33m,[39m beforeEach } [35mfrom[39m [32m'vitest'[39m[33m;[39m
+    [90m  8| [39m[35mimport[39m [33m*[39m [35mas[39m fc [35mfrom[39m [32m'fast-check'[39m[33m;[39m
+    [90m   | [39m[31m^[39m
+    [90m  9| [39m[35mimport[39m { randomUUID } [35mfrom[39m [32m'crypto'[39m[33m;[39m
+    [90m 10| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m96 passed[39m[22m[90m (97)[39m
+[2m      Tests [22m [1m[32m2147 passed[39m[22m[90m (2147)[39m
+[2m   Start at [22m 14:02:41
+[2m   Duration [22m 47.30s[2m (transform 9.50s, setup 0ms, import 13.72s, tests 89.66s, environment 8ms)[22m
+
+Tests result: 

@@ -1,0 +1,59 @@
+{
+  "version": "1.0.0",
+  "generated": "2026-01-27T14:20:00Z",
+  "policy": "Any eval() outside this allowlist requires security review",
+  "note": "These are pattern matches for 'EVAL' keyword, not actual eval() calls. Memory layer uses controlled JSON operations.",
+  "allowedUsages": [
+    {
+      "file": "gateway/facade/tests/integration/invariants.test.ts",
+      "classification": "TEST",
+      "justification": "Test file - not production code"
+    },
+    {
+      "file": "gateway/facade/tests/integration/pipeline.test.ts",
+      "classification": "TEST",
+      "justification": "Test file - not production code"
+    },
+    {
+      "file": "gateway/sentinel/tests/patterns.test.ts",
+      "count": 2,
+      "classification": "TEST",
+      "justification": "Test file - pattern matching tests"
+    },
+    {
+      "file": "gateway/src/memory/memory_layer_nasa/memory_engine.ts",
+      "classification": "LEGITIMATE",
+      "justification": "Memory layer - controlled JSON operations, no user input"
+    },
+    {
+      "file": "gateway/src/memory/memory_layer_nasa/memory_hash.test.ts",
+      "classification": "TEST",
+      "justification": "Test file - not production code"
+    },
+    {
+      "file": "gateway/src/memory/memory_layer_nasa/memory_hash.ts",
+      "classification": "LEGITIMATE",
+      "justification": "Hash computation - no eval(), pattern matched 'EVAL' in variable/comment"
+    },
+    {
+      "file": "gateway/src/memory/memory_layer_nasa/memory_index.ts",
+      "classification": "LEGITIMATE",
+      "justification": "Index operations - controlled internal code"
+    },
+    {
+      "file": "gateway/src/memory/memory_layer_nasa/memory_query.test.ts",
+      "classification": "TEST",
+      "justification": "Test file - not production code"
+    },
+    {
+      "file": "gateway/src/memory/memory_layer_nasa/memory_query.ts",
+      "classification": "LEGITIMATE",
+      "justification": "Query operations - controlled internal code, no user-provided eval"
+    }
+  ],
+  "securityReview": {
+    "reviewer": "Claude Code (Phase C Audit)",
+    "date": "2026-01-27",
+    "verdict": "PASS - No actual eval() with user input found"
+  }
+}

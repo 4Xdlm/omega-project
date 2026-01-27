@@ -1,0 +1,176 @@
+# OMEGA CLEANUP EVIDENCE PACK
+**Date**: 2026-01-27
+**Agent**: Claude Code (Opus 4.5)
+**Standard**: NASA-Grade L4
+
+---
+
+## EXECUTIVE SUMMARY
+
+| Metric | Value |
+|--------|-------|
+| LOTs Executed | 4 |
+| Commits Created | 4 |
+| Tests Passed | 2147/2147 |
+| sentinel-judge | 198/198 |
+| Pre-existing Failure | 1 (gateway/fast-check) |
+
+**VERDICT: PASS**
+
+---
+
+## G0 PREFLIGHT
+
+| Check | Result |
+|-------|--------|
+| git status | PASS (untracked-only) |
+| Branch | phase/A4-style-genome |
+| HEAD (before) | bb98a3b7f54921e7ea20a2ffffdbdeb2b35e4c50 |
+| Git LFS | 3.7.1 PASS |
+| npm test baseline | 2147 PASS |
+| Logger exists | PASS (headless-runner) |
+
+### Discrepancy Detected
+- `packages/omega-gateway-universel` referenced in prompt does NOT exist
+- **Decision**: Option A confirmed by Francky — proceed without gateway
+
+---
+
+## LOT EXECUTION
+
+### LOT-1: Git LFS Migration
+**Status**: PASS
+
+| Action | Detail |
+|--------|--------|
+| Command | `git lfs track "*.exe"` |
+| Files Migrated | omega-bridge-win.exe (42MB), releases/v1.7.0-INDUSTRIAL/*.exe |
+| .gitignore | Updated (removed exe from ignore, fixed UTF-16 corruption) |
+| Commit | `2d23edf76f502d0a8d55dce89b5800e1b0e217cf` |
+
+### LOT-2: Console → Logger
+**Status**: PASS
+
+| File | Line | Action |
+|------|------|--------|
+| tests/stress/stress.test.ts | 200 | Removed console.log (verified by expect) |
+| tests/e2e/pipeline.test.ts | 374 | Removed console.log (surfaced via test failure) |
+| Commit | `36b68bf1fd5111150fe174ea0c15d5c149aa83da` |
+
+### LOT-3: Package Renaming
+**Status**: PASS
+
+| Old Name | New Name |
+|----------|----------|
+| omega-bridge-ta-mycelium | @omega/bridge-ta-mycelium |
+| omega-observability | @omega/observability |
+| sentinel-judge | @omega/sentinel-judge |
+| Commit | `8cdad4f14aa0f391e1648715c06d047426af0e19` |
+
+### LOT-4: Add Exports
+**Status**: PASS
+
+| Package | Exports Added |
+|---------|---------------|
+| @omega/headless-runner | `{".": "./src/index.ts"}` |
+| @omega/integration-nexus-dep | `{".": "./src/index.ts"}` |
+| @omega/orchestrator-core | `{".": "./src/index.ts"}` |
+| @omega/sentinel-judge | `{".": "./src/index.ts"}` |
+| @omega/bridge-ta-mycelium | `{".": "./src/bridge/index.ts"}` |
+| @omega/mod-narrative | `{".": "./src/emotionv2-adapter/index.ts"}` |
+| Commit | `6c906eca1c633a55ce90e17ff81f0b42cf35a17c` |
+
+---
+
+## COMMITS
+
+| Hash | Message |
+|------|---------|
+| `2d23edf76f502d0a8d55dce89b5800e1b0e217cf` | chore(lfs): migrate exe binaries to Git LFS |
+| `36b68bf1fd5111150fe174ea0c15d5c149aa83da` | fix(tests): remove console.log from test files |
+| `8cdad4f14aa0f391e1648715c06d047426af0e19` | refactor(packages): rename to @omega/* namespace |
+| `6c906eca1c633a55ce90e17ff81f0b42cf35a17c` | feat(packages): add exports field for dev resolution |
+
+---
+
+## FINAL STATE
+
+### git status --porcelain
+```
+?? nexus/proof/nightwatch_20260127_041611/
+?? nexus/proof/phase-c/POST_STABILIZATION_CLEANUP_2026-01-27.md
+?? nexus/proof/phase-c/WORKSPACE_STABILIZATION_REPORT_2026-01-27.md
+?? nexus/proof/phase-c/OMEGA_CLEANUP_EVIDENCE_2026-01-27.md
+```
+
+### HEAD
+```
+6c906eca1c633a55ce90e17ff81f0b42cf35a17c
+```
+
+---
+
+## SHA256 HASHES
+
+```
+f95b9708130424f49383a22c015ce180568ae8a1302d7353e4ca5c0aef5afe9b  .gitattributes
+09ab92a3f2e73fb9324c5204bd43586afd4ac90ddbfff8126a3124e5be36ac6d  .gitignore
+7e6c261903340a528dece2bd3f855e52c99b18194ef09a7bc74a1c2c61d83b5f  packages/mycelium/package.json
+e3eea6da555e6a55c85bc63df4e17b9dd012a52f23a928272ae78851aa55dd55  packages/sentinel-judge/package.json
+4c3e6567bd5c3229b2a871c279016c0200e073c3f89ae98d16ff04ff9f35fe86  packages/omega-observability/package.json
+1fc4cf357e0b69786937b37ffccd4a2b8c8f9ddf32ea7d410e8124f8b0183139  packages/omega-bridge-ta-mycelium/package.json
+```
+
+---
+
+## TEST RESULTS
+
+### sentinel-judge (OBLIGATOIRE)
+```
+Test Files  6 passed (6)
+     Tests  198 passed (198)
+```
+
+### Root Tests
+```
+Test Files  1 failed | 96 passed (97)
+     Tests  2147 passed (2147)
+```
+
+### Pre-existing Failure (out of scope)
+- `gateway/tests/gateway.test.ts` — Missing `fast-check` dependency
+
+---
+
+## GATE STATUS TABLE
+
+| Gate | Status | Notes |
+|------|--------|-------|
+| G0 PREFLIGHT | PASS | Discrepancy handled via Option A |
+| LOT-1 LFS | PASS | 2 exe files migrated |
+| LOT-2 Console | PASS | 2 hits removed |
+| LOT-3 Rename | PASS | 3 packages renamed |
+| LOT-4 Exports | PASS | 6 packages updated |
+| FINAL | **PASS** | 2147/2147 tests |
+
+---
+
+## CONCLUSION
+
+**PASS**: OMEGA Cleanup completed successfully.
+
+### Achievements
+1. Git LFS configured for exe binaries (42MB+ saved)
+2. Console.log pollution removed from tests
+3. 3 packages renamed to @omega/* namespace
+4. 6 packages now have proper exports field
+5. All tests maintained (2147/2147)
+6. sentinel-judge: 198/198 PASS
+
+### Adjusted Scope (Francky-approved)
+- `omega-gateway-universel` removed from all LOTs (package does not exist)
+
+---
+
+**Report generated by Claude Code (Opus 4.5)**
+**Standard: NASA-Grade L4**

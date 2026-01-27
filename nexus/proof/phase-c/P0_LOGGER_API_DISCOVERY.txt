@@ -1,0 +1,23 @@
+=== LOGGER API DISCOVERY ===
+Date: 2026-01-27
+
+MAIN LOGGER MODULE:
+  Path: nexus/shared/logging/index.ts
+  Exports:
+    - LoggerConfig (interface)
+    - Logger (class)
+    - createLogger(config: LoggerConfig): Logger
+    - createNullLogger(module: string): Logger
+    - createTestLogger(...): Logger
+
+IMPORT PATTERNS FOUND:
+  - import type { Logger } from '../../shared/logging/index.js';
+  - import { createLogger, createNullLogger } from '../../nexus/shared/logging';
+
+SECONDARY LOGGERS (for reference):
+  - packages/headless-runner/src/output.ts: Local Logger for headless-runner
+  - OMEGA_PHASE13A/observability/forensic_logger.ts: Legacy forensic logger
+
+RECOMMENDED USAGE:
+  For gateway/ and nexus/: import { createLogger } from 'relative/path/to/nexus/shared/logging';
+  For packages/: Use local logging patterns or @omega/* imports if available

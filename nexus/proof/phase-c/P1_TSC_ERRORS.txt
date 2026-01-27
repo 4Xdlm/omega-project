@@ -1,0 +1,50 @@
+concurrency_test.ts(23,23): error TS2554: Expected 0 arguments, but got 1.
+gen_analysis.ts(2,25): error TS5097: An import path can only end with a '.ts' extension when 'allowImportingTsExtensions' is enabled.
+gen_analysis.ts(7,32): error TS2353: Object literal may only specify known properties, and 'mode' does not exist in type 'Partial<TextAnalyzerOptions>'.
+gen_analysis.ts(10,35): error TS2339: Property 'total_emotion_hits' does not exist on type 'TextAnalysisResult'.
+gen_analysis.ts(11,35): error TS2339: Property 'dominant_emotion' does not exist on type 'TextAnalysisResult'.
+index.ts(27,26): error TS2305: Module '"./migration"' has no exported member 'needsMigration'.
+index.ts(30,36): error TS2724: '"./lock_manager"' has no exported member named 'forceReleaseLock'. Did you mean 'releaseLock'?
+invariants.ts(78,11): error TS2554: Expected 2 arguments, but got 1.
+invariants.ts(105,13): error TS2554: Expected 2 arguments, but got 1.
+load.ts(172,13): error TS2554: Expected 2-3 arguments, but got 1.
+load_test.ts(34,21): error TS2554: Expected 0 arguments, but got 1.
+load_test.ts(54,36): error TS2345: Argument of type '{ schema_version: string; meta: { id: string; name: string; author: string; created_at: string; updated_at: string; }; state: { status: string; current_chapter: null; }; runs: never[]; }' is not assignable to parameter of type '{ schema_version: "1.0.0"; meta: { name: string; id: string; created_at: string; updated_at: string; author?: string | undefined; description?: string | undefined; }; state: Record<string, unknown>; runs: { ...; }[]; }'.
+  Types of property 'schema_version' are incompatible.
+    Type 'string' is not assignable to type '"1.0.0"'.
+lock_manager_more_test.ts(33,48): error TS2345: Argument of type 'string | QuarantineMetadata' is not assignable to parameter of type 'string'.
+  Type 'QuarantineMetadata' is not assignable to type 'string'.
+mock_runner.ts(8,3): error TS2305: Module '"./types"' has no exported member 'RunEvent'.
+mock_runner.ts(9,3): error TS2305: Module '"./types"' has no exported member 'RunRequest'.
+mock_runner.ts(10,3): error TS2305: Module '"./types"' has no exported member 'HealthLevel'.
+mock_runner.ts(11,3): error TS2305: Module '"./types"' has no exported member 'StageUpdate'.
+mock_runner.ts(12,3): error TS2305: Module '"./types"' has no exported member 'Decision'.
+mock_runner.ts(13,3): error TS2305: Module '"./types"' has no exported member 'JournalEntry'.
+packages/omega-segment-engine/src/stream/index.ts(19,3): error TS2300: Duplicate identifier 'DepEnvelope'.
+packages/omega-segment-engine/src/stream/index.ts(20,3): error TS2300: Duplicate identifier 'DepVerifyResult'.
+packages/omega-segment-engine/src/stream/index.ts(21,3): error TS2300: Duplicate identifier 'DepError'.
+packages/omega-segment-engine/src/stream/index.ts(41,8): error TS2307: Cannot find module './dep' or its corresponding type declarations.
+packages/omega-segment-engine/src/stream/index.ts(49,3): error TS2300: Duplicate identifier 'OmegaCommand'.
+packages/omega-segment-engine/src/stream/index.ts(57,3): error TS2300: Duplicate identifier 'GenesisRequest'.
+packages/omega-segment-engine/src/stream/index.ts(58,3): error TS2300: Duplicate identifier 'CanonFact'.
+packages/omega-segment-engine/src/stream/index.ts(63,3): error TS2300: Duplicate identifier 'OmegaEvent'.
+packages/omega-segment-engine/src/stream/index.ts(71,3): error TS2300: Duplicate identifier 'GenesisPlan'.
+packages/omega-segment-engine/src/stream/index.ts(74,3): error TS2300: Duplicate identifier 'VoiceProfile'.
+packages/omega-segment-engine/src/stream/index.ts(87,8): error TS2307: Cannot find module './protocol' or its corresponding type declarations.
+packages/omega-segment-engine/src/stream/index.ts(106,3): error TS2300: Duplicate identifier 'GatewayConfig'.
+packages/omega-segment-engine/src/stream/index.ts(108,3): error TS2300: Duplicate identifier 'GatewayPolicy'.
+packages/omega-segment-engine/src/stream/index.ts(109,3): error TS2300: Duplicate identifier 'RecorderEntry'.
+packages/omega-segment-engine/src/stream/index.ts(110,3): error TS2300: Duplicate identifier 'DispatchResult'.
+packages/omega-segment-engine/src/stream/index.ts(111,3): error TS2300: Duplicate identifier 'GatewayError'.
+packages/omega-segment-engine/src/stream/index.ts(112,3): error TS2300: Duplicate identifier 'ModuleHandler'.
+packages/omega-segment-engine/src/stream/index.ts(116,8): error TS2307: Cannot find module './gateway' or its corresponding type declarations.
+packages/omega-segment-engine/src/stream/index.ts(122,21): error TS2307: Cannot find module './dep' or its corresponding type declarations.
+packages/omega-segment-engine/src/stream/index.ts(123,26): error TS2307: Cannot find module './protocol' or its corresponding type declarations.
+packages/omega-segment-engine/src/stream/index.ts(124,25): error TS2307: Cannot find module './gateway' or its corresponding type declarations.
+packages/omega-segment-engine/src/stream/index.ts(166,3): error TS2300: Duplicate identifier 'DepEnvelope'.
+packages/omega-segment-engine/src/stream/index.ts(167,3): error TS2300: Duplicate identifier 'DepVerifyResult'.
+packages/omega-segment-engine/src/stream/index.ts(168,3): error TS2300: Duplicate identifier 'DepError'.
+packages/omega-segment-engine/src/stream/index.ts(169,8): error TS2307: Cannot find module './dep' or its corresponding type declarations.
+packages/omega-segment-engine/src/stream/index.ts(172,3): error TS2300: Duplicate identifier 'OmegaCommand'.
+packages/omega-segment-engine/src/stream/index.ts(173,3): error TS2300: Duplicate identifier 'OmegaEvent'.
+packages/omega-segment-engine/src/stream/index.ts(174,3): error TS2300: Duplicate identifier 'GenesisRequest'.

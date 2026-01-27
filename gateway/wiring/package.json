@@ -4,6 +4,10 @@
   "description": "OMEGA Wiring Layer - Gateway ↔ Memory ↔ Query Integration",
   "type": "module",
   "main": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./package.json": "./package.json"
+  },
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest",

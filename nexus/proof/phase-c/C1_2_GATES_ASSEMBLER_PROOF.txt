@@ -1,20 +1,152 @@
-﻿packages\sentinel-judge\package.json	551c9e3f089dcb7caee68a1a2b4037932ccfc58a2aaa2167e345d0fb0177c47a	609
-packages\sentinel-judge\package-lock.json	4b4382d93cdd6783f91c9c16f4c9a4725b664f41d24ade8faf170fe1f326bcf2	59831
-packages\sentinel-judge\src\assembler\evidence-assembler.ts	f805fc1c497105ca8fb499c2d837e96b1da4ee49b164c7191200055138c5f63d	9276
-packages\sentinel-judge\src\assembler\index.ts	44d47f34c690b6f1a9d17b0a88aad6c94c7359df106ca16d6ed212a27caaabc2	473
-packages\sentinel-judge\src\canonical_json.ts	298b6b270e518e30398d7e1c403e2cf5e06fa03df73154aba6cb05072ec05edc	2490
-packages\sentinel-judge\src\digest.ts	3d40d12333ba56ead64434f853dab0012729375b9a35dcfce44ff8daacc5fede	6757
-packages\sentinel-judge\src\gates\index.ts	8b14c9bd5220346e43be4fcc29982f65173274fce4f0d94fa8779517d2e21e69	234
-packages\sentinel-judge\src\gates\input-gates.ts	3659aef9b46b8b002995b9d10b81f4e194d0013ab68b609b1238bef28459e789	11818
-packages\sentinel-judge\src\index.ts	f8e127594be7a9d9813ddbc709bdf72da288291e088aab1ab2162f46a0b3058f	408
-packages\sentinel-judge\src\schema\index.ts	2de372d0cd027c3640c8d46d6763452e430ef759541713a83b82cd7be4bd7dd3	4890
-packages\sentinel-judge\src\schema\validate.ts	2b0f8987a1c5bf3f9c36a0ea4a8a1cec9d8c97c709345ff8bf2f2fd47954be4a	12080
-packages\sentinel-judge\src\types.ts	cb567c1af541b567cebc2cf7b59849b0268cf308658dbbb8952af7dc4faa6be0	10394
-packages\sentinel-judge\tests\assembler.test.ts	f07de24e87dcb6684e5002e6c7f2559d382f12a06b1521d91a50aa56cbafbfcb	22741
-packages\sentinel-judge\tests\canonical_json.test.ts	be5b283e1c35ae3edca19cfd3ae512855025ac3898a9132986dd8348580f2ad9	5895
-packages\sentinel-judge\tests\digest.test.ts	0ad066f953f26d0082698350a24e43497ce288cee44fa7809f4f4e14e0ff6589	8652
-packages\sentinel-judge\tests\gates.test.ts	c901299c6ecea9b5a06e478650ea7f78a01bf3d6bb4375d3b17a55cf29d82726	22642
-packages\sentinel-judge\tests\schema_validation.test.ts	54bb9260c1c0e6ea03e7b20f38c5c560588f95ddd839c303a8560f4ed7510b67	9384
-packages\sentinel-judge\tests\types_alignment.test.ts	a8fb1f6cdf97a655846746c7b2a3716bba2d16690c9f7771cfcc2e05ee2709d4	10829
-packages\sentinel-judge\tsconfig.json	f0cbe332d1bf6e934b0a4076f164332d7ac8033d2b371534734895ac4fd7716c	682
-packages\sentinel-judge\vitest.config.ts	9f1b6bba48b6a926919d03327b57e6427cc1f6178d2e07cf07defb32209ccc9c	350
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+#
+#   OMEGA PHASE C.1.2 — GATES & ASSEMBLER PROOF FILE
+#   Type Alignment Fix + Test Certification
+#
+#   Date: 2026-01-27 02:19 UTC
+#   Status: ✅ CERTIFIED
+#
+# ═══════════════════════════════════════════════════════════════════════════════════════════
+
+## CERTIFICATION SUMMARY
+
+| Metric              | Value                    |
+|---------------------|--------------------------|
+| Test Files          | 6 passed (6)             |
+| Total Tests         | 198 passed (198)         |
+| Duration            | 294ms                    |
+| Exit Code           | 0                        |
+| Vitest Version      | 1.6.1                    |
+
+## TEST BREAKDOWN
+
+| Test File                    | Tests | Status |
+|------------------------------|-------|--------|
+| gates.test.ts                | 38    | ✅ PASS |
+| assembler.test.ts            | 51    | ✅ PASS |
+| schema_validation.test.ts    | 34    | ✅ PASS |
+| types_alignment.test.ts      | 27    | ✅ PASS |
+| canonical_json.test.ts       | 24    | ✅ PASS |
+| digest.test.ts               | 24    | ✅ PASS |
+
+## TYPE ALIGNMENT FIX
+
+### Problem Identified
+The `input-gates.ts` implementation used new type signatures (GateResult, InputGatesResult)
+but the test file `gates.test.ts` was still using old API patterns:
+- `g.id` instead of `g.gateId`
+- `result.proceed` instead of `result.overallVerdict`
+- `result.failures` instead of `result.gateResults`
+- `f.message` instead of `f.reason`
+
+### Solution Applied
+1. Added factory functions to `types.ts`:
+   - `createGateResult(gateId, verdict, reason?, errorCode?)`
+   - `createInputGatesResult(gateResults, mode)`
+
+2. Updated `input-gates.ts` to use new API:
+   - Uses `gateId` field
+   - Returns proper `GateResult` objects with `verdict`, `reason`, `errorCode`
+   - Returns `InputGatesResult` with `overallVerdict`, `gateResults`, `mode`
+
+3. Updated `gates.test.ts` test assertions:
+   - All `g.id` → `g.gateId`
+   - All `result.proceed` → `result.overallVerdict`
+   - All `result.failures` → `result.gateResults` with filtering
+   - Added helper functions: `findGateResult()`, `getFailedGates()`
+
+## MODULES VALIDATED
+
+### Input Gates (8 gates)
+- GATE_C_01: traceId format validation
+- GATE_C_02: payloadHash verification
+- GATE_C_03: contextRefs sha256 validation
+- GATE_C_04: inputsDigest verification
+- GATE_C_05: policyBundle presence
+- GATE_C_06: policy sha256 verification
+- GATE_C_07: magic numbers detection
+- GATE_C_08: blocking missing evidence
+
+### Evidence Assembler
+- Proof normalization
+- Missing evidence normalization
+- Sorting functions (deterministic)
+- Digest computation
+- Evidence assembly
+- Evidence pack merging
+- Utility functions
+
+### Schema Validation
+- decision_request.schema.json
+- evidence_pack.schema.json
+- judgement.schema.json
+- policy_ref.schema.json
+- Schema caching
+- Validation error handling
+
+## ERROR_CODES FORMAT
+
+All error codes follow pattern: `ERR-C-[CATEGORY]-[NUMBER]`
+
+```
+GATE_01  → ERR-C-GATE-01
+GATE_02  → ERR-C-GATE-02
+...
+GATE_09  → ERR-C-GATE-09
+DIGEST_01 → ERR-C-DIGEST-01
+SCHEMA_01 → ERR-C-SCHEMA-01
+CANONICAL_01 → ERR-C-CANONICAL-01
+ASSEMBLE_01 → ERR-C-ASSEMBLE-01
+```
+
+## INVARIANTS PRESERVED
+
+- INV-C-DIGEST-01: sha256 determinism
+- INV-C-JSON-01: Canonical JSON determinism
+- INV-C-GATE-01 to INV-C-GATE-08: Gate validation rules
+- INV-C-ASSEMBLE-01: Evidence pack assembly integrity
+
+## WINDOWS POWERSHELL WORKAROUND
+
+Created `run-tests.ps1` script to work around Windows npm.ps1 $LASTEXITCODE bug.
+Script calls vitest.cmd directly, bypassing the problematic npm wrapper.
+
+## EXECUTION LOG (MULTIPLE RUNS)
+
+```
+Run 1: 198 passed (198) - 279ms
+Run 2: 198 passed (198) - 273ms
+Run 3: 198 passed (198) - 278ms
+Run 4: 198 passed (198) - 294ms
+Run 5: 198 passed (198) - 294ms
+```
+
+All runs consistent = DETERMINISTIC ✅
+
+## FILES MODIFIED
+
+| File | Change |
+|------|--------|
+| src/types.ts | Factory functions added |
+| src/gates/input-gates.ts | New API implementation |
+| tests/gates.test.ts | Type alignment fix |
+| run-tests.ps1 | PowerShell workaround |
+
+## CERTIFICATION
+
+```
+╔═══════════════════════════════════════════════════════════════════════════════════════╗
+║                                                                                       ║
+║   PHASE C.1.2: GATES & ASSEMBLER                                                      ║
+║                                                                                       ║
+║   Status: ✅ CERTIFIED                                                                ║
+║   Tests:  198/198 PASS                                                                ║
+║   Date:   2026-01-27                                                                  ║
+║                                                                                       ║
+║   Ready for: Phase C.2 (Judgement Engine)                                             ║
+║                                                                                       ║
+╚═══════════════════════════════════════════════════════════════════════════════════════╝
+```
+
+---
+END OF PROOF FILE

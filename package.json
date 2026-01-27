@@ -1,7 +1,11 @@
 {
   "name": "omega-core",
   "version": "5.0.0",
+  "private": true,
   "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",

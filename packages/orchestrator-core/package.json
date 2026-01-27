@@ -4,6 +4,10 @@
   "description": "OMEGA Orchestrator Core - Deterministic execution engine",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./package.json": "./package.json"
+  },
   "scripts": {
     "build": "tsc",
     "test": "vitest run",

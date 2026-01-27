@@ -4,6 +4,10 @@
   "description": "OMEGA Bridge: TextAnalyzer → Mycelium Bio",
   "main": "src/bridge/index.ts",
   "type": "module",
+  "exports": {
+    ".": "./src/bridge/index.ts",
+    "./package.json": "./package.json"
+  },
   "scripts": {
     "test": "vitest run",
     "test:watch": "vitest"

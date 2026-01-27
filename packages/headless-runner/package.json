@@ -4,6 +4,10 @@
   "description": "OMEGA Headless Runner - CLI for deterministic plan execution",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./package.json": "./package.json"
+  },
   "bin": {
     "omega-run": "./dist/cli.js"
   },

@@ -1,0 +1,86 @@
+{
+  "phase": "D",
+  "sealed_at": "2026-01-27T21:43:45.643Z",
+  "gates_passed": [
+    "D2",
+    "D3",
+    "D4",
+    "D5",
+    "D6",
+    "D7"
+  ],
+  "invariants": {
+    "D2": [
+      "INV-D2-01",
+      "INV-D2-02",
+      "INV-D2-03"
+    ],
+    "D3": [
+      "INV-D3-01",
+      "INV-D3-02",
+      "INV-D3-03"
+    ],
+    "D4": [
+      "INV-D4-01",
+      "INV-D4-02",
+      "INV-D4-03"
+    ],
+    "D5": [
+      "INV-D5-01",
+      "INV-D5-02",
+      "INV-D5-03",
+      "INV-D5-04"
+    ],
+    "D6": [
+      "INV-D6-01",
+      "INV-D6-02",
+      "INV-D6-03",
+      "INV-D6-04",
+      "INV-D6-05"
+    ]
+  },
+  "files": {
+    "src/memory/types.ts": "dc7594dba54ea8729194d7609e28138473709285531f93001165189f4d9f0bcd",
+    "src/memory/errors.ts": "1a5246326769a84dc7f2da4b820a4e406129c3373ff248d1cbc6f441cb92402b",
+    "src/memory/constants.ts": "7d94cae715451ea55ef371aa3489e5160a876b198a97fb38856b95bcaa0912b5",
+    "src/memory/hash.ts": "e89b62137fec4cba780e746209c15fcfcdbfa0e88937f095c5038fbbfa0cfdfe",
+    "src/memory/validation.ts": "efef5f1b3a396d9d7e095fc069de3a851276918bfe95ee2d8a0f7b4da4777643",
+    "src/memory/index.ts": "93cd8cf88fbc548dffef264af9519ef5d0a6c056d5deed2c1ec4906e25b7b2ab",
+    "src/memory/ledger/reader.ts": "6daa1b0d964cc70ce4946b9ad09b06c67809cee50a32d7d20e0215ba25e7343b",
+    "src/memory/api/read-api.ts": "94c30e6afd50d2394f2523b44c80fc836f7da5ec6fe1dfe724ce4fdbabe1e550",
+    "src/memory/api/write-api.ts": "b1179cde604b20f8994424891777d0eb07d4ef44ac26e5107b3f1dfba784d067",
+    "src/memory/api/index.ts": "12eeb89c760e351f817ace00873b4eebf0dea8c45e3910092dc08752afd7cbad",
+    "src/memory/index/offset-map.ts": "75aa874f6f8b58922c8dbc5673a3c29c85b9bc8df95734f149829b26e4756d5a",
+    "src/memory/index/index-builder.ts": "9c82597d9ce798d7c9d721dcd423c58b2f62eb3d75d654596906677d74b23dea",
+    "src/memory/index/index-persistence.ts": "ae31672efa55b56b8e0bd25955de91ec0b4bd4bff01d82397272a4b2544b0e8f",
+    "src/memory/index/index.ts": "fb6cabed0e36504c4ae35910328d9615e5a0f3f076fe7993d7ea6bd4faf742e7",
+    "src/memory/tiering/policy.ts": "ff4548f78eeedd7f241a29e158902379950c7dca9f16f7fc2ac5f2717e76c88a",
+    "src/memory/tiering/index.ts": "903b4dcdaee5bb4abde8d80a339c5c7ad37d62a990cd182629e1d4be11eeb04a",
+    "src/memory/governance/sentinel.ts": "02115fc92263d28151f8778fbedd860cdfc57e0f8c54bf74eb33c7dd17493d5b",
+    "src/memory/governance/audit.ts": "08d5e3f9dac73069c9ac08c6167e9bdcb7d2a4814a5a07a41b51e6f713db5c59",
+    "src/memory/governance/index.ts": "ee80cb23e73d57ff6301404accce9ac4aa482250dce512570263dc9cddde6452",
+    "tests/memory/types.test.ts": "60259951eeeac96f11126ff9ddc7b75a9b4a32d06e4e5bcfd6d6a2104c4d6f19",
+    "tests/memory/hash.test.ts": "af6fbaf074dfd17a497e6eb1eb31df0b2816be64725aca574caad2a695269a08",
+    "tests/memory/validation.test.ts": "93ec6358c739d1764dc0fc43f748a6f4183439aecd3d0d468b0e8736e323459a",
+    "tests/memory/ledger-reader.test.ts": "1f3440b0faba31c839a079640361acb2fc3a15896e59a7ecfe1c900110b77875",
+    "tests/memory/read-api.test.ts": "7e6d2023c09b299880cc97f7af8765a0c3e0284e20f5056198f145edb8b931bd",
+    "tests/memory/write-api.test.ts": "9d67bd139d382775053d4d369652ddcab4378ed5e68aed7d11abed6680f148b7",
+    "tests/memory/index.test.ts": "9c440d4c85f47f95056174103d4cc3a9c640ea36b8b47c6decc33c1fe64b3e91",
+    "tests/memory/tiering.test.ts": "c672db28f6b2ce0f9fe9d49518348db345b8eb21ef823239c3a4bfe8d8417d55",
+    "tests/memory/governance.test.ts": "bcff2b3c91836205427b183254dbdb888017b76da185478161aa5dfcfcdc332d",
+    "tests/memory/hardening.test.ts": "99887f0b39cccb60e821fc5d423e7cb2fd9bed49127a207c1e22c01fb1c9e258",
+    "docs/memory/gates/gate_d2_memory_api.cjs": "65af765e149165f6b7b5227271dbb76369399995606144d26b0fe313617215e1",
+    "docs/memory/gates/gate_d3_memory_index.cjs": "4780c8c6bd74376c2946ff98c451434358d01ef6b2003d7d42903e27da99bdb1",
+    "docs/memory/gates/gate_d4_memory_tiering.cjs": "6d53c17aa2b6f1074e1b604a3f5d6c93df554f1c0828b1a1866333ea4d1a25ce",
+    "docs/memory/gates/gate_d5_memory_governance.cjs": "934b6818d695cb9a4f6540ad2b0d9d8a408a10af41db7e5b71cc15260b8ececd",
+    "docs/memory/gates/gate_d6_memory_hardening.cjs": "77fdd44998fe0ccf88a9ba4190fc5c2e7a77681ee92dfe57768b9100d334c7c6",
+    "docs/memory/memory_tiering_formula.md": "bb7f93c604849c85522e349a0e75c2c5c020dae5df66e62145b8d315c241fef0",
+    "nexus/proof/phase-d/D2/D2_MEMORY_API_REPORT.md": "50e09dc08a2efb871155ed99e6631819b8f63961859e8abfe96812842e643015",
+    "nexus/proof/phase-d/D3/D3_MEMORY_INDEX_REPORT.md": "8c4d542e464e1fb359b72e6be57d7ef7ed8013813eecff6d928c913b1fe41cee",
+    "nexus/proof/phase-d/D4/D4_MEMORY_TIERING_REPORT.md": "105dabf4c6e85a132f83650dd49893ae2ba48c57e76d9bcd04a3752761747613",
+    "nexus/proof/phase-d/D5/D5_MEMORY_GOVERNANCE_REPORT.md": "67b41991b4ccd00a54b0421442f1488e2643abcf910c6cfa7cafe4ec9290f881",
+    "nexus/proof/phase-d/D6/D6_MEMORY_HARDENING_REPORT.md": "3926bb968580d1d2e5fbf9393b2111f4827ae4fe50b13fbf5f422492389914d1"
+  },
+  "file_count": 40,
+  "standard": "NASA-Grade L4 / DO-178C Level A"
+}

@@ -1,0 +1,41 @@
+{
+  "version": "1.0.0",
+  "predicates": [
+    {
+      "id": "IS_A",
+      "description": "Entity type classification",
+      "subject_type": "ENTITY",
+      "object_type": "ENTITY",
+      "symmetric": false,
+      "transitive": true,
+      "introduced_version": 1
+    },
+    {
+      "id": "HAS_NAME",
+      "description": "Entity has name",
+      "subject_type": "ENTITY",
+      "object_type": "PRIMITIVE",
+      "symmetric": false,
+      "transitive": false,
+      "introduced_version": 1
+    },
+    {
+      "id": "HAS_ATTRIBUTE",
+      "description": "Entity has attribute value",
+      "subject_type": "ENTITY",
+      "object_type": "PRIMITIVE",
+      "symmetric": false,
+      "transitive": false,
+      "introduced_version": 1
+    },
+    {
+      "id": "RELATED_TO",
+      "description": "Generic relation between entities",
+      "subject_type": "ENTITY",
+      "object_type": "ENTITY",
+      "symmetric": true,
+      "transitive": false,
+      "introduced_version": 1
+    }
+  ]
+}

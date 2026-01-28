@@ -1,0 +1,27 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "rootDir": "src",
+    "composite": false,
+    "noEmit": false,
+    "skipLibCheck": true,
+    "noImplicitAny": false,
+    "strict": false,
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext"
+  },
+  "include": [
+    "src/runner/**/*.ts"
+  ],
+  "exclude": [
+    "src/**/*_test.ts",
+    "src/**/*.test.ts",
+    "src/runner/index.ts",
+    "node_modules",
+    "dist"
+  ]
+}

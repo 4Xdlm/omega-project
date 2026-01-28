@@ -13,7 +13,8 @@
     "lint": "echo 'Linting passed (no eslint configured at root)'",
     "ci": "npm run typecheck && npm run lint && npm test",
     "ci:proof": "bash scripts/generate-proof-pack.sh",
-    "build": "bash scripts/build-all.sh",
+    "build": "npx esbuild src/runner/main.ts --bundle --platform=node --target=node20 --format=esm --outfile=dist/runner/main.js --packages=external",
+    "build:clean": "rm -rf dist && npm run build",
     "build:packages": "bash scripts/build-all.sh",
     "publish:packages": "bash scripts/publish.sh",
     "omega": "node gateway/cli-runner/dist/cli/runner.js",
@@ -27,6 +28,7 @@
   "devDependencies": {
     "@types/archiver": "^7.0.0",
     "@vitest/coverage-v8": "^4.0.17",
+    "esbuild": "^0.27.2",
     "tsx": "^4.21.0",
     "vitest": "^4.0.17",
     "zod": "^3.23.8"

@@ -1,0 +1,18 @@
+{
+  "version": "1.0.0",
+  "default": "mock",
+  "providers": {
+    "mock": {
+      "enabled": true
+    },
+    "claude": {
+      "enabled": true,
+      "model": "claude-3-sonnet-20240229",
+      "maxTokens": 4096
+    },
+    "gemini": {
+      "enabled": true,
+      "model": "gemini-1.5-pro"
+    }
+  }
+}

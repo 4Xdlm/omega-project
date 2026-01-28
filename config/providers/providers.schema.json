@@ -1,0 +1,39 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "OMEGA Providers Configuration",
+  "type": "object",
+  "properties": {
+    "version": { "type": "string", "const": "1.0.0" },
+    "default": { "type": "string", "enum": ["mock", "claude", "gemini"] },
+    "providers": {
+      "type": "object",
+      "properties": {
+        "mock": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean" }
+          },
+          "required": ["enabled"]
+        },
+        "claude": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean" },
+            "model": { "type": "string" },
+            "maxTokens": { "type": "integer" }
+          },
+          "required": ["enabled"]
+        },
+        "gemini": {
+          "type": "object",
+          "properties": {
+            "enabled": { "type": "boolean" },
+            "model": { "type": "string" }
+          },
+          "required": ["enabled"]
+        }
+      }
+    }
+  },
+  "required": ["version", "default", "providers"]
+}

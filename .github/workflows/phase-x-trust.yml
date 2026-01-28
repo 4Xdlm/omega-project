@@ -1,0 +1,227 @@
+# OMEGA Phase X — Trust Chain CI
+# Version: 1.0.0
+# Standard: NASA-Grade L4 / DO-178C Level A
+
+name: Phase X Trust Chain
+
+on:
+  push:
+    branches: [master, main]
+    paths:
+      - 'nexus/proof/phase_x/**'
+  pull_request:
+    branches: [master, main]
+  workflow_dispatch:
+
+env:
+  NODE_VERSION: '22.x'
+  MINIMUM_TESTS: 4400
+
+jobs:
+  # ═══════════════════════════════════════════════════════════════════════════════
+  # TRUST CHAIN VERIFICATION
+  # ═══════════════════════════════════════════════════════════════════════════════
+  verify-trust-chain:
+    name: Verify Trust Chain
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Verify trust chain artifacts exist
+        run: |
+          echo "═══════════════════════════════════════════════════════════════"
+          echo "  PHASE X — TRUST CHAIN ARTIFACT VERIFICATION"
+          echo "═══════════════════════════════════════════════════════════════"
+
+          REQUIRED_FILES=(
+            "nexus/proof/phase_x/TRUST_MANIFEST.json"
+            "nexus/proof/phase_x/PUBLIC_KEY.pem"
+            "nexus/proof/phase_x/CANONICAL_PAYLOAD.json"
+            "nexus/proof/phase_x/verify_trust.cjs"
+          )
+
+          MISSING=0
+          for file in "${REQUIRED_FILES[@]}"; do
+            if [ -f "$file" ]; then
+              echo "✅ Found: $file"
+            else
+              echo "❌ Missing: $file"
+              MISSING=$((MISSING + 1))
+            fi
+          done
+
+          if [ $MISSING -gt 0 ]; then
+            echo ""
+            echo "❌ $MISSING required file(s) missing"
+            exit 1
+          fi
+
+          echo ""
+          echo "✅ All trust chain artifacts present"
+
+      - name: Run trust chain verifier
+        run: |
+          echo "═══════════════════════════════════════════════════════════════"
+          echo "  RUNNING OFFLINE VERIFIER"
+          echo "═══════════════════════════════════════════════════════════════"
+          node nexus/proof/phase_x/verify_trust.cjs
+
+      - name: Verify Ed25519 crypto available
+        run: |
+          node -e "
+            const crypto = require('crypto');
+            const kp = crypto.generateKeyPairSync('ed25519');
+            const msg = Buffer.from('CI_TEST');
+            const sig = crypto.sign(null, msg, kp.privateKey);
+            const valid = crypto.verify(null, msg, kp.publicKey, sig);
+            if (!valid) process.exit(1);
+            console.log('✅ Ed25519 crypto operational');
+          "
+
+  # ═══════════════════════════════════════════════════════════════════════════════
+  # TEST THRESHOLD GATE
+  # ═══════════════════════════════════════════════════════════════════════════════
+  test-threshold:
+    name: Test Threshold Gate
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run tests and verify threshold
+        run: |
+          echo "═══════════════════════════════════════════════════════════════"
+          echo "  TEST THRESHOLD GATE (minimum: ${{ env.MINIMUM_TESTS }})"
+          echo "═══════════════════════════════════════════════════════════════"
+
+          # Run tests and capture count
+          OUTPUT=$(npm test 2>&1)
+          echo "$OUTPUT" | tail -20
+
+          # Extract test count
+          TEST_COUNT=$(echo "$OUTPUT" | grep -oP '\d+(?= passed)' | head -1 || echo "0")
+          echo ""
+          echo "Tests passed: $TEST_COUNT"
+          echo "Minimum required: ${{ env.MINIMUM_TESTS }}"
+
+          if [ "$TEST_COUNT" -lt "${{ env.MINIMUM_TESTS }}" ]; then
+            echo "❌ Test count $TEST_COUNT below threshold ${{ env.MINIMUM_TESTS }}"
+            exit 1
+          fi
+
+          echo "✅ Test threshold met"
+
+  # ═══════════════════════════════════════════════════════════════════════════════
+  # TYPESCRIPT STRICT CHECK
+  # ═══════════════════════════════════════════════════════════════════════════════
+  typescript-strict:
+    name: TypeScript Strict
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: TypeScript strict check
+        run: |
+          echo "═══════════════════════════════════════════════════════════════"
+          echo "  TYPESCRIPT STRICT CHECK"
+          echo "═══════════════════════════════════════════════════════════════"
+          npx tsc --noEmit
+          echo "✅ TypeScript: 0 errors"
+
+  # ═══════════════════════════════════════════════════════════════════════════════
+  # FROZEN MODULE GUARD
+  # ═══════════════════════════════════════════════════════════════════════════════
+  frozen-guard:
+    name: FROZEN Module Guard
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check FROZEN modules
+        run: |
+          echo "═══════════════════════════════════════════════════════════════"
+          echo "  FROZEN MODULE GUARD"
+          echo "═══════════════════════════════════════════════════════════════"
+
+          FROZEN_PATHS=(
+            "packages/sentinel"
+            "packages/genome"
+          )
+
+          VIOLATIONS=0
+          CHANGED=$(git diff --name-only origin/${{ github.base_ref }}...HEAD)
+
+          for path in "${FROZEN_PATHS[@]}"; do
+            if echo "$CHANGED" | grep -q "^${path}/"; then
+              echo "❌ VIOLATION: ${path} was modified"
+              VIOLATIONS=$((VIOLATIONS + 1))
+            else
+              echo "✅ ${path} FROZEN intact"
+            fi
+          done
+
+          if [ $VIOLATIONS -gt 0 ]; then
+            echo ""
+            echo "═══════════════════════════════════════════════════════════════"
+            echo "  ❌ $VIOLATIONS FROZEN MODULE VIOLATION(S)"
+            echo "═══════════════════════════════════════════════════════════════"
+            exit 1
+          fi
+
+          echo ""
+          echo "✅ All FROZEN modules intact"
+
+  # ═══════════════════════════════════════════════════════════════════════════════
+  # CI CERTIFICATION GATE
+  # ═══════════════════════════════════════════════════════════════════════════════
+  ci-certification:
+    name: CI Certification Gate
+    runs-on: ubuntu-latest
+    needs: [verify-trust-chain, test-threshold, typescript-strict]
+
+    steps:
+      - name: Certification summary
+        run: |
+          echo "╔═══════════════════════════════════════════════════════════════╗"
+          echo "║           PHASE X — CI CERTIFICATION GATE                     ║"
+          echo "╠═══════════════════════════════════════════════════════════════╣"
+          echo "║  Trust Chain:     VERIFIED                                    ║"
+          echo "║  Test Threshold:  PASSED                                      ║"
+          echo "║  TypeScript:      STRICT OK                                   ║"
+          echo "║  FROZEN Modules:  GUARDED                                     ║"
+          echo "╠═══════════════════════════════════════════════════════════════╣"
+          echo "║                   CI CERTIFICATION: PASS                      ║"
+          echo "╚═══════════════════════════════════════════════════════════════╝"

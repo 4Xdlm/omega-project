@@ -1,0 +1,52 @@
+{
+  "payload": {
+    "version": "1.0.0",
+    "timestamp": "2026-01-29T00:30:00Z",
+    "chain_id": "OMEGA-PHASE-X-TRUST",
+    "entries": [
+      {
+        "phase": "PREFLIGHT",
+        "status": "PASS",
+        "tests": 4440,
+        "node_version": "v24.12.0",
+        "typescript_version": "5.9.3"
+      },
+      {
+        "phase": "SEALED_PHASES",
+        "items": [
+          "A-INFRA",
+          "B-FORGE",
+          "C+CD",
+          "D",
+          "E",
+          "G",
+          "J",
+          "K",
+          "L",
+          "M"
+        ]
+      },
+      {
+        "phase": "FROZEN_MODULES",
+        "items": [
+          "packages/sentinel",
+          "packages/genome"
+        ]
+      },
+      {
+        "phase": "GIT_STATE",
+        "head": "08b872c",
+        "branch": "master"
+      }
+    ]
+  },
+  "signature": {
+    "algorithm": "Ed25519",
+    "value": "26fe9abe236d52a2cab37f86189281b621f43cdf565b08de23a911d192796ff787dff218e816850bf99ba803dea8cd8bb3968af92747429da4e416915fddaa07",
+    "public_key_hex": "302a300506032b657003210060730b6fab0120684119a3ae162d9fe6a537aaeab053a799bafd855bbb0233ba"
+  },
+  "verification": {
+    "status": "VERIFIED",
+    "timestamp": "2026-01-28T23:30:08.939Z"
+  }
+}

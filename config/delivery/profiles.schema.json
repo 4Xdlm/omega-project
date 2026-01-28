@@ -1,0 +1,73 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "omega://schema/delivery/profiles/v1",
+  "title": "OMEGA Delivery Profiles Schema",
+  "description": "Schema for OMEGA Delivery Engine profile configuration",
+  "type": "object",
+  "required": ["version", "profiles"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Semantic version of the profiles"
+    },
+    "profiles": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/DeliveryProfile"
+      },
+      "minItems": 1
+    }
+  },
+  "definitions": {
+    "DeliveryProfile": {
+      "type": "object",
+      "required": ["profileId", "format", "extension", "encoding", "lineEnding"],
+      "additionalProperties": false,
+      "properties": {
+        "profileId": {
+          "type": "string",
+          "pattern": "^(PROF-[A-Za-z0-9_-]+|OMEGA_STD)$",
+          "description": "Unique profile identifier"
+        },
+        "format": {
+          "type": "string",
+          "enum": ["TEXT", "MARKDOWN", "JSON_PACK", "PROOF_PACK", "HASH_CHAIN"],
+          "description": "Delivery format"
+        },
+        "extension": {
+          "type": "string",
+          "pattern": "^\\.[a-z0-9]+$",
+          "description": "File extension including dot"
+        },
+        "encoding": {
+          "type": "string",
+          "const": "UTF-8",
+          "description": "Character encoding (always UTF-8)"
+        },
+        "lineEnding": {
+          "type": "string",
+          "const": "LF",
+          "description": "Line ending (always LF)"
+        },
+        "wrapWidth": {
+          "type": "integer",
+          "minimum": 40,
+          "maximum": 200,
+          "description": "Optional line wrap width"
+        },
+        "headers": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Header lines for envelope"
+        },
+        "footers": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Footer lines for envelope"
+        }
+      }
+    }
+  }
+}

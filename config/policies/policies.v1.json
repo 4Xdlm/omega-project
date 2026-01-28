@@ -1,0 +1,81 @@
+{
+  "version": "1.0.0",
+  "policyId": "POL-v1-a1b2c3d4",
+  "rules": {
+    "allowedGoals": [
+      "DRAFT",
+      "REWRITE",
+      "SUMMARIZE",
+      "STYLE_TRANSFER",
+      "OUTLINE",
+      "DIALOGUE",
+      "SCENE"
+    ],
+    "allowedTones": [
+      "NEUTRAL",
+      "TECHNICAL",
+      "NARRATIVE",
+      "POETIC",
+      "FORMAL",
+      "INSTRUCTIONAL"
+    ],
+    "maxRequestsPerActor": 100
+  },
+  "forbidden": {
+    "patterns": [
+      {
+        "id": "PAT-fact-injection",
+        "regex": "\\[FACT\\]|\\[CANON\\]|\\[TRUTH\\]",
+        "description": "Fact injection markers"
+      },
+      {
+        "id": "PAT-entity-id",
+        "regex": "ENT-[a-z]+-[a-f0-9]+",
+        "description": "Entity ID patterns"
+      },
+      {
+        "id": "PAT-claim-id",
+        "regex": "CLM-[a-f0-9]+",
+        "description": "Claim ID patterns"
+      },
+      {
+        "id": "PAT-predicate",
+        "regex": "HAS_NAME|HAS_AGE|IS_A|KNOWS|RELATED_TO",
+        "description": "Canonical predicates"
+      }
+    ],
+    "vocabularies": [
+      {
+        "id": "VOC-canon-keywords",
+        "words": ["__canon__", "__truth__", "__fact__", "inject_fact", "bypass_gate"],
+        "description": "Canon-related injection keywords"
+      },
+      {
+        "id": "VOC-system-keywords",
+        "words": ["__proto__", "constructor", "prototype"],
+        "description": "System keywords that could be exploited"
+      }
+    ],
+    "structures": [
+      {
+        "id": "STR-fact-object",
+        "pattern": "\"predicate\"\\s*:",
+        "description": "Fact object structure"
+      },
+      {
+        "id": "STR-canon-object",
+        "pattern": "canon:\\s*\\{",
+        "description": "Canon object structure"
+      }
+    ]
+  },
+  "limits": {
+    "maxLength": 50000,
+    "minLength": 1,
+    "maxPayloadSize": 102400
+  },
+  "metadata": {
+    "createdAt": "2024-01-01T00:00:00Z",
+    "author": "OMEGA System"
+  }
+}

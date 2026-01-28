@@ -1,0 +1,153 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "omega://schema/policies/v1",
+  "title": "OMEGA Policy Schema",
+  "description": "Schema for OMEGA Orchestrator policies configuration",
+  "type": "object",
+  "required": ["version", "policyId", "rules", "forbidden", "limits"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Semantic version of the policy"
+    },
+    "policyId": {
+      "type": "string",
+      "pattern": "^POL-v\\d+(\\.\\d+)*-[a-f0-9]{8}$",
+      "description": "Unique policy identifier"
+    },
+    "rules": {
+      "type": "object",
+      "required": ["allowedGoals", "allowedTones", "maxRequestsPerActor"],
+      "additionalProperties": false,
+      "properties": {
+        "allowedGoals": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["DRAFT", "REWRITE", "SUMMARIZE", "STYLE_TRANSFER", "OUTLINE", "DIALOGUE", "SCENE"]
+          },
+          "description": "List of allowed intent goals"
+        },
+        "allowedTones": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["NEUTRAL", "TECHNICAL", "NARRATIVE", "POETIC", "FORMAL", "INSTRUCTIONAL"]
+          },
+          "description": "List of allowed tones"
+        },
+        "maxRequestsPerActor": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Maximum requests per actor per session"
+        }
+      }
+    },
+    "forbidden": {
+      "type": "object",
+      "required": ["patterns", "vocabularies", "structures"],
+      "additionalProperties": false,
+      "properties": {
+        "patterns": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "regex", "description"],
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^PAT-[a-zA-Z0-9_-]+$"
+              },
+              "regex": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "vocabularies": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "words", "description"],
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^VOC-[a-zA-Z0-9_-]+$"
+              },
+              "words": {
+                "type": "array",
+                "items": { "type": "string" }
+              },
+              "description": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "structures": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["id", "pattern", "description"],
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^STR-[a-zA-Z0-9_-]+$"
+              },
+              "pattern": {
+                "type": "string"
+              },
+              "description": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "limits": {
+      "type": "object",
+      "required": ["maxLength", "minLength", "maxPayloadSize"],
+      "additionalProperties": false,
+      "properties": {
+        "maxLength": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100000
+        },
+        "minLength": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "maxPayloadSize": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "author": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

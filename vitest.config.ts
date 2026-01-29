@@ -29,6 +29,7 @@ export default defineConfig({
       'nexus/raw/tests/**/*.test.ts',
       'nexus/proof-utils/tests/**/*.test.ts',
       'packages/schemas/__tests__/**/*.test.ts',
+      'tools/omega-verify/__tests__/**/*.test.ts',
       '*.test.ts'
     ],
     exclude: [

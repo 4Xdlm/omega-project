@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://omega.dev/schemas/trust.v1.schema.json",
+  "title": "OMEGA Trust Payload v1",
+  "description": "Canonical payload for trust chain signing",
+  "type": "object",
+  "properties": {
+    "chain_id": {
+      "type": "string",
+      "pattern": "^OMEGA-[A-Z0-9-]+$",
+      "description": "Unique chain identifier"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "description": "Semantic version"
+    },
+    "phases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "status": { "enum": ["SEALED", "PASS", "PENDING"] },
+          "hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+        },
+        "required": ["id", "status"],
+        "additionalProperties": false
+      },
+      "minItems": 1
+    },
+    "root_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "SHA-256 of canonical content"
+    }
+  },
+  "required": ["chain_id", "version", "phases", "root_hash"],
+  "additionalProperties": false
+}

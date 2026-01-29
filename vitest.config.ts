@@ -28,6 +28,7 @@ export default defineConfig({
       'nexus/atlas/tests/**/*.test.ts',
       'nexus/raw/tests/**/*.test.ts',
       'nexus/proof-utils/tests/**/*.test.ts',
+      'packages/schemas/__tests__/**/*.test.ts',
       '*.test.ts'
     ],
     exclude: [

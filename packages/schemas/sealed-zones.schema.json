@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://omega.dev/schemas/sealed-zones.schema.json",
+  "title": "OMEGA Sealed Zones",
+  "description": "Registry of immutable repository zones",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "zones": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "path": { "type": "string" },
+          "sealed_at": { "type": "string", "format": "date" },
+          "tag": { "type": "string" },
+          "reason": { "type": "string" }
+        },
+        "required": ["path", "sealed_at", "tag", "reason"],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": ["version", "zones"],
+  "additionalProperties": false
+}

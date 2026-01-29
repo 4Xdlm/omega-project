@@ -32,6 +32,7 @@ export default defineConfig({
       'tools/omega-verify/__tests__/**/*.test.ts',
       'packages/hostile/__tests__/**/*.test.ts',
       'packages/trust-version/__tests__/**/*.test.ts',
+      'packages/sbom/__tests__/**/*.test.ts',
       '*.test.ts'
     ],
     exclude: [

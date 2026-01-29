@@ -1,0 +1,29 @@
+{
+  "phase": "sbom",
+  "version": "1.0.0",
+  "timestamp": "2026-01-29T02:19:00Z",
+  "verdict": "PASS",
+  "commit": "efe8161",
+  "artifacts": {
+    "generator.cjs": {
+      "path": "packages/sbom/generator.cjs",
+      "sha256": "31e4dff0f208c78c0f861249cb2a5a6a4754342dc86d29c407a5c907c73ab03e",
+      "size": 13619
+    },
+    "sbom.test.ts": {
+      "path": "packages/sbom/__tests__/sbom.test.ts",
+      "sha256": "e1376192984a6cc848f29ac21eb6bd062cc7108cda1b96aab7852d37d799f17e",
+      "size": 14955
+    },
+    "SBOM.json": {
+      "path": "nexus/proof/phase_sbom/SBOM.json",
+      "sha256": "0aca01511bd35ebd28f86e88159f5cf6c61c7f4a3fc5483c2c7651596b7b8d34",
+      "size": 104833
+    }
+  },
+  "tests": {
+    "L0": { "total": 10, "pass": 10, "fail": 0 },
+    "L1": { "total": 12, "pass": 12, "fail": 0 },
+    "L4": { "total": 3, "pass": 3, "fail": 0 }
+  }
+}

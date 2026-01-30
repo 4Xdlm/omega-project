@@ -23,7 +23,12 @@
     "bench:baseline": "npx tsx nexus/bench/run-all.ts bench-results/baseline.json",
     "profile": "npx tsx --inspect nexus/bench/run-all.ts profiling-results/profile-output.json",
     "profile:analyze": "npx tsx scripts/analyze-profile.ts",
-    "perf:track": "npx tsx scripts/track-performance.ts"
+    "perf:track": "npx tsx scripts/track-performance.ts",
+    "oracle:dist": "npx tsx tools/oracles/oracle_dist_manifest.ts",
+    "oracle:tests": "npx tsx tools/oracles/oracle_test_report.ts",
+    "oracle:runtime": "npx tsx tools/oracles/oracle_runtime_manifest.ts",
+    "ignition": "npx tsx tools/oracles/ignition.ts",
+    "ignition:update-baselines": "npm run oracle:dist && cp artefacts/oracles/dist_manifest.sha256 baselines/oracles/dist_manifest.expected.sha256"
   },
   "devDependencies": {
     "@types/archiver": "^7.0.0",

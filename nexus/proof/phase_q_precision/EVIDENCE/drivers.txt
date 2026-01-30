@@ -1,0 +1,20 @@
+OMEGA Runner v1.0 - NASA-Grade L4 Execution Engine
+
+USAGE:
+  omega <command> [options]
+
+COMMANDS:
+  run       Execute a single intent file
+  batch     Execute all intents in a directory
+  verify    Verify a completed run
+  capsule   Create hermetic capsule from a run
+  help      Show this help message
+
+OPTIONS:
+  --help    Show help for a specific command
+
+EXAMPLES:
+  omega run --intent my-intent.json
+  omega batch --dir intents/
+  omega verify --run artefacts/runs/run_test_1/
+  omega capsule --run artefacts/runs/run_test_1/ --output output.zip

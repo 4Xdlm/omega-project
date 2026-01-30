@@ -1,0 +1,40 @@
+﻿
+> omega-core@5.0.0 test
+> vitest run
+
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90mC:/Users/elric/omega-project[39m
+
+[90mstdout[2m | packages/search/tests/benchmark.test.ts[2m > [22m[2mPhase 5.2 Performance Benchmark[2m > [22m[2mTokenize[2m > [22m[2mtokenize(short)
+[22m[39mtokenize(short): mean=0.0008ms, p95=0.0015ms
+
+[90mstdout[2m | packages/search/tests/benchmark.test.ts[2m > [22m[2mPhase 5.2 Performance Benchmark[2m > [22m[2mTokenize[2m > [22m[2mtokenize(medium)
+[22m[39mtokenize(medium): mean=0.0044ms, p95=0.0056ms
+
+ [32mÔ£ô[39m tests/orchestrator/policy-loader.test.ts [2m([22m[2m23 tests[22m[2m)[22m[32m 104[2mms[22m[39m
+ [32mÔ£ô[39m tests/runner/run-directory.test.ts [2m([22m[2m41 tests[22m[2m)[22m[32m 122[2mms[22m[39m
+[90mstdout[2m | packages/search/tests/benchmark.test.ts[2m > [22m[2mPhase 5.2 Performance Benchmark[2m > [22m[2mTokenize[2m > [22m[2mtokenize(long)
+[22m[39mtokenize(long): mean=0.1132ms, p95=0.1744ms
+
+[90mstdout[2m | packages/search/tests/benchmark.test.ts[2m > [22m[2mPhase 5.2 Performance Benchmark[2m > [22m[2mQueryParser[2m > [22m[2mparse(query1)
+[22m[39mparse(query1): mean=0.0010ms, p95=0.0017ms
+
+[90mstdout[2m | packages/search/tests/benchmark.test.ts[2m > [22m[2mPhase 5.2 Performance Benchmark[2m > [22m[2mQueryParser[2m > [22m[2mparse(query2)
+[22m[39mparse(query2): mean=0.0020ms, p95=0.0029ms
+
+[90mstdout[2m | packages/search/tests/benchmark.test.ts[2m > [22m[2mPhase 5.2 Performance Benchmark[2m > [22m[2mQueryParser[2m > [22m[2mparse(query3)
+[22m[39mparse(query3): mean=0.0014ms, p95=0.0022ms
+
+[90mstdout[2m | packages/search/tests/benchmark.test.ts[2m > [22m[2mPhase 5.2 Performance Benchmark[2m > [22m[2mQueryParser[2m > [22m[2mparse(query4)
+[22m[39mparse(query4): mean=0.0030ms, p95=0.0040ms
+
+ [32mÔ£ô[39m tests/dist-cli.test.ts [2m([22m[2m9 tests[22m[2m)[22m[33m 362[2mms[22m[39m
+[90mstdout[2m | packages/search/tests/benchmark.test.ts[2m > [22m[2mPhase 5.2 Performance Benchmark[2m > [22m[2mQueryParser[2m > [22m[2mparse(query5)
+[22m[39mparse(query5): mean=0.0030ms, p95=0.0043ms
+
+ [32mÔ£ô[39m gateway/cli-runner/tests/commands/health.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 278[2mms[22m[39m
+ [32mÔ£ô[39m test/gold-tooling.test.ts [2m([22m[2m54 tests[22m[2m)[22m[33m 413[2mms[22m[39m
+[90mstdout[2m | packages/search/tests/benchmark.test.ts[2m > [22m[2mPhase 5.2 Performance Benchmark[2m > [22m[2mSearch[2m > [22m[2msearch(simple)
+[22m[39msearch(simple): mean=0.0251ms, p95=0.0409ms
+
+[90mstdout[2m | test/ci-cd.test.ts[2m > [22m[2mPhase Check[2m > [22m[2mshould check phase declaration

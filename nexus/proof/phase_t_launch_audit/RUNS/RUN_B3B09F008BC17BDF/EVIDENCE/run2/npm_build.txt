@@ -1,0 +1,12 @@
+﻿
+> omega-core@5.0.0 build
+> npx esbuild src/runner/main.ts --bundle --platform=node --target=node20 --format=esm --outfile=dist/runner/main.js --packages=external && npx esbuild src/auditpack/index.ts --bundle --platform=node --target=node20 --format=esm --outfile=dist/auditpack/index.js --packages=external
+
+System.Management.Automation.RemoteException
+  dist\runner\main.js  31.5kb
+System.Management.Automation.RemoteException
+Done in 7ms
+System.Management.Automation.RemoteException
+  dist\auditpack\index.js  13.3kb
+System.Management.Automation.RemoteException
+Done in 7ms

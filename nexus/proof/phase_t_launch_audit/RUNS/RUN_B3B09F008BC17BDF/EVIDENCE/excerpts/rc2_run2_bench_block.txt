@@ -1,0 +1,40 @@
+﻿
+> omega-core@5.0.0 test
+> vitest run
+
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90mC:/Users/elric/omega-project[39m
+
+[90mstdout[2m | packages/search/tests/benchmark.test.ts[2m > [22m[2mPhase 5.2 Performance Benchmark[2m > [22m[2mTokenize[2m > [22m[2mtokenize(short)
+[22m[39mtokenize(short): mean=0.0008ms, p95=0.0015ms
+
+[90mstdout[2m | packages/search/tests/benchmark.test.ts[2m > [22m[2mPhase 5.2 Performance Benchmark[2m > [22m[2mTokenize[2m > [22m[2mtokenize(medium)
+[22m[39mtokenize(medium): mean=0.0055ms, p95=0.0060ms
+
+ [32mÔ£ô[39m tests/delivery/profile-loader.test.ts [2m([22m[2m34 tests[22m[2m)[22m[32m 123[2mms[22m[39m
+[90mstdout[2m | packages/search/tests/benchmark.test.ts[2m > [22m[2mPhase 5.2 Performance Benchmark[2m > [22m[2mTokenize[2m > [22m[2mtokenize(long)
+[22m[39mtokenize(long): mean=0.1178ms, p95=0.1803ms
+
+[90mstdout[2m | packages/search/tests/benchmark.test.ts[2m > [22m[2mPhase 5.2 Performance Benchmark[2m > [22m[2mQueryParser[2m > [22m[2mparse(query1)
+[22m[39mparse(query1): mean=0.0011ms, p95=0.0016ms
+
+[90mstdout[2m | packages/search/tests/benchmark.test.ts[2m > [22m[2mPhase 5.2 Performance Benchmark[2m > [22m[2mQueryParser[2m > [22m[2mparse(query2)
+[22m[39mparse(query2): mean=0.0018ms, p95=0.0025ms
+
+[90mstdout[2m | packages/search/tests/benchmark.test.ts[2m > [22m[2mPhase 5.2 Performance Benchmark[2m > [22m[2mQueryParser[2m > [22m[2mparse(query3)
+[22m[39mparse(query3): mean=0.0013ms, p95=0.0022ms
+
+[90mstdout[2m | packages/search/tests/benchmark.test.ts[2m > [22m[2mPhase 5.2 Performance Benchmark[2m > [22m[2mQueryParser[2m > [22m[2mparse(query4)
+[22m[39mparse(query4): mean=0.0027ms, p95=0.0037ms
+
+ [32mÔ£ô[39m test/api-surface.test.ts [2m([22m[2m19 tests[22m[2m)[22m[33m 342[2mms[22m[39m
+[90mstdout[2m | packages/search/tests/benchmark.test.ts[2m > [22m[2mPhase 5.2 Performance Benchmark[2m > [22m[2mQueryParser[2m > [22m[2mparse(query5)
+[22m[39mparse(query5): mean=0.0022ms, p95=0.0035ms
+
+ [32mÔ£ô[39m tests/dist-cli.test.ts [2m([22m[2m9 tests[22m[2m)[22m[33m 346[2mms[22m[39m
+ [32mÔ£ô[39m gateway/cli-runner/tests/commands/health.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 291[2mms[22m[39m
+ [32mÔ£ô[39m test/gold-tooling.test.ts [2m([22m[2m54 tests[22m[2m)[22m[33m 382[2mms[22m[39m
+[90mstdout[2m | packages/search/tests/benchmark.test.ts[2m > [22m[2mPhase 5.2 Performance Benchmark[2m > [22m[2mSearch[2m > [22m[2msearch(simple)
+[22m[39msearch(simple): mean=0.0256ms, p95=0.0423ms
+
+ [32mÔ£ô[39m packages/omega-observability/tests/unit.test.ts [2m([22m[2m62 tests[22m[2m)[22m[33m 339[2mms[22m[39m

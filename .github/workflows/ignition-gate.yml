@@ -1,0 +1,54 @@
+name: IGNITION Gate
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+
+defaults:
+  run:
+    working-directory: .
+
+jobs:
+  ignition:
+    name: "IGNITION Oracle Gate"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Sanity check (ignition script exists)
+        run: |
+          node -e "
+            const p = require('./package.json');
+            if (!p.scripts || !p.scripts.ignition) {
+              console.error('ERROR: Missing scripts.ignition in package.json');
+              process.exit(1);
+            }
+            console.log('OK: ignition script found');
+          "
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run Tests
+        run: npm test
+
+      - name: Run IGNITION
+        run: npm run ignition
+
+      - name: Upload IGNITION artifacts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ignition-evidence
+          path: |
+            artefacts/oracles/
+          retention-days: 30

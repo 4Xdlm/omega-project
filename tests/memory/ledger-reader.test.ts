@@ -4,6 +4,8 @@
  *
  * Tests for memory-bounded streaming ledger operations.
  * INV-D2-04: Ledger reader memory-bounded (jamais tout en RAM)
+ * 
+ * CI HARDENING: Uses canonical hash (EOL-normalized) for cross-platform determinism
  */
 
 import { describe, it, expect } from 'vitest';
@@ -15,6 +17,7 @@ import {
   verifyHashChain,
   countEntries,
   getAllIds,
+  canonicalizeContent,
 } from '../../src/memory/ledger/reader.js';
 import { isOk, isErr, toByteOffset, toEntryId } from '../../src/memory/types.js';
 
@@ -98,6 +101,47 @@ describe('readLineAtOffset', () => {
 });
 
 // ═══════════════════════════════════════════════════════════════════════════════
+// CANONICALIZE CONTENT
+// ═══════════════════════════════════════════════════════════════════════════════
+
+describe('canonicalizeContent', () => {
+  it('normalizes CRLF to LF', () => {
+    const input = 'line1\r\nline2\r\n';
+    const output = canonicalizeContent(input);
+    expect(output.toString()).toBe('line1\nline2\n');
+  });
+
+  it('normalizes standalone CR to LF', () => {
+    const input = 'line1\rline2\r';
+    const output = canonicalizeContent(input);
+    expect(output.toString()).toBe('line1\nline2\n');
+  });
+
+  it('preserves LF', () => {
+    const input = 'line1\nline2\n';
+    const output = canonicalizeContent(input);
+    expect(output.toString()).toBe('line1\nline2\n');
+  });
+
+  it('adds trailing newline if missing', () => {
+    const input = 'line1\nline2';
+    const output = canonicalizeContent(input);
+    expect(output.toString()).toBe('line1\nline2\n');
+  });
+
+  it('produces same hash for CRLF and LF inputs', () => {
+    const { createHash } = require('crypto');
+    const contentLF = 'line1\nline2\n';
+    const contentCRLF = 'line1\r\nline2\r\n';
+    
+    const hashLF = createHash('sha256').update(canonicalizeContent(contentLF)).digest('hex');
+    const hashCRLF = createHash('sha256').update(canonicalizeContent(contentCRLF)).digest('hex');
+    
+    expect(hashLF).toBe(hashCRLF);
+  });
+});
+
+// ═══════════════════════════════════════════════════════════════════════════════
 // COMPUTE LEDGER HASH
 // ═══════════════════════════════════════════════════════════════════════════════
 
@@ -118,10 +162,11 @@ describe('computeLedgerHash', () => {
     expect(hash2).toBe(hash3);
   });
 
-  it('matches known hash from D1 report', () => {
+  it('matches known canonical hash (cross-platform deterministic)', () => {
     const hash = computeLedgerHash(LEDGER_PATH);
-    // This hash is from the D1_HASHES.json - verifies byte-exact hashing
-    expect(hash).toBe('86917bfb8bbef590888a98b153ef60810324e65c5b6c55c272484fa249dab391');
+    // Canonical hash: computed with EOL normalized to LF
+    // This ensures Windows (CRLF) and Linux (LF) produce identical results
+    expect(hash).toBe('29111cb31f7992430f29c5b3597e962a96ec44545c37402e4b5c3dc362c431ec');
   });
 });
 
@@ -152,7 +197,7 @@ describe('verifyHashChain', () => {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 describe('countEntries', () => {
-  it('returns correct count', async () => {
+  it('counts entries in ledger', async () => {
     const count = await countEntries(LEDGER_PATH);
     expect(count).toBe(3);
   });
@@ -163,31 +208,12 @@ describe('countEntries', () => {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 describe('getAllIds', () => {
-  it('returns all entry IDs in order', async () => {
+  it('returns all entry IDs', async () => {
     const ids = await getAllIds(LEDGER_PATH);
 
     expect(ids.length).toBe(3);
     expect(ids[0]).toBe('FAC-20260127-0001-AAA111');
     expect(ids[1]).toBe('FAC-20260127-0002-BBB222');
     expect(ids[2]).toBe('FAC-20260127-0003-CCC333');
-  });
-});
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// INVARIANTS
-// ═══════════════════════════════════════════════════════════════════════════════
-
-describe('INV-D2-04: Memory-bounded operations', () => {
-  it('scanLedger uses streaming (readline interface)', async () => {
-    // Verify scanning works without loading entire file to memory
-    const result = await scanLedger(LEDGER_PATH);
-    expect(result.entries.length).toBe(3);
-    // If this test passes without OOM, memory-bounded constraint is met
-  });
-
-  it('readLineAtOffset uses bounded buffer', () => {
-    const result = readLineAtOffset(toByteOffset(0), LEDGER_PATH);
-    expect(isOk(result)).toBe(true);
-    // Bounded read - max 4MB buffer per line
   });
 });

@@ -74,6 +74,11 @@ certificates/**/*.sha256 text eol=lf
 evidence/**/*.txt text eol=lf
 evidence/**/*.log text eol=lf
 # ═══════════════════════════════════════════════════════════════════════════════
+# LEDGER FILES — NDJSON must be LF for deterministic hashing
+# ═══════════════════════════════════════════════════════════════════════════════
+*.ndjson text eol=lf
+docs/memory/ledgers/*.ndjson text eol=lf
+# ═══════════════════════════════════════════════════════════════════════════════
 # LOCK FILES — Preserve as-is
 # ═══════════════════════════════════════════════════════════════════════════════
 package-lock.json text eol=lf -diff

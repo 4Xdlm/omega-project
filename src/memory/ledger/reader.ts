@@ -4,6 +4,8 @@
  * 
  * Read-only NDJSON ledger operations.
  * Memory-bounded streaming. No full file loads.
+ * 
+ * CI HARDENING: EOL canonicalization for cross-platform determinism
  */
 
 import { createReadStream, statSync, openSync, readSync, closeSync } from 'fs';
@@ -172,16 +174,38 @@ export function readLineAtOffset(
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
+// CANONICAL CONTENT - Cross-platform determinism
+// ═══════════════════════════════════════════════════════════════════════════════
+
+/**
+ * Canonicalize file content for cross-platform hash consistency.
+ * - Normalize all line endings to LF (\n)
+ * - Ensure trailing newline
+ * 
+ * This ensures Windows (CRLF) and Linux (LF) produce identical hashes.
+ */
+export function canonicalizeContent(content: string | Buffer): Buffer {
+  const str = typeof content === 'string' ? content : content.toString('utf8');
+  // Replace CRLF with LF, then ensure trailing LF
+  const normalized = str.replace(/\r\n/g, '\n').replace(/\r/g, '\n');
+  // Ensure exactly one trailing newline
+  const withTrailing = normalized.endsWith('\n') ? normalized : normalized + '\n';
+  return Buffer.from(withTrailing, 'utf8');
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
 // HASH COMPUTATION - Ledger integrity
 // ═══════════════════════════════════════════════════════════════════════════════
 
 /**
  * Compute SHA-256 of entire ledger file.
+ * Uses canonical form (LF line endings) for cross-platform determinism.
  */
 export function computeLedgerHash(ledgerPath: string = getLedgerPath()): HashValue {
   const { readFileSync } = require('fs');
-  const content = readFileSync(ledgerPath);
-  return sha256Hex(content);
+  const rawContent = readFileSync(ledgerPath);
+  const canonicalContent = canonicalizeContent(rawContent);
+  return sha256Hex(canonicalContent);
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════

@@ -15,8 +15,13 @@ jobs:
     name: "IGNITION Oracle Gate"
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout (full history + tags)
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fetch all tags
+        run: git fetch --force --tags
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -35,8 +40,14 @@ jobs:
             console.log('OK: ignition script found');
           "
 
-      - name: Install dependencies
+      - name: Install root dependencies
         run: npm ci
+
+      - name: Install gateway dependencies
+        run: |
+          if [ -d "gateway" ] && [ -f "gateway/package.json" ]; then
+            cd gateway && npm ci
+          fi
 
       - name: Run Tests
         run: npm test

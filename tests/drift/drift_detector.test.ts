@@ -22,7 +22,7 @@ import type { DriftEvent, DriftPolicy } from '../../src/drift/DRIFT_TYPES.spec';
 
 // Load policy for tests
 const POLICY: DriftPolicy = JSON.parse(
-  fs.readFileSync(path.resolve(__dirname, '../../src/drift/E_POLICY.json'), 'utf-8')
+  fs.readFileSync(path.resolve(__dirname, '../../src/governance/drift/E_POLICY.json'), 'utf-8')
 );
 
 // Test manifest reference

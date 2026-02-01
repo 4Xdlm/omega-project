@@ -93,14 +93,14 @@ describe('Phase E-SPEC Validation', () => {
 
   describe('Type specifications', () => {
     it('DRIFT_TYPES.spec.ts exports required types', async () => {
-      const types = await import('../../src/drift/DRIFT_TYPES.spec');
+      const types = await import('../../src/governance/drift/DRIFT_TYPES.spec');
 
       // Type exports exist (runtime check via typeof)
       expect(types).toBeDefined();
     });
 
     it('VALIDATION.spec.ts exports validation constants', async () => {
-      const validation = await import('../../src/drift/VALIDATION.spec');
+      const validation = await import('../../src/governance/drift/VALIDATION.spec');
 
       expect(validation.VALID_DRIFT_TYPES).toBeDefined();
       expect(validation.VALID_ESCALATION_LEVELS).toBeDefined();
@@ -109,7 +109,7 @@ describe('Phase E-SPEC Validation', () => {
     });
 
     it('ESCALATION.spec.ts exports escalation matrix', async () => {
-      const escalation = await import('../../src/drift/ESCALATION.spec');
+      const escalation = await import('../../src/governance/drift/ESCALATION.spec');
 
       expect(escalation.ESCALATION_MATRIX).toBeDefined();
       expect(escalation.ESCALATION_ORDER).toBeDefined();
@@ -119,7 +119,7 @@ describe('Phase E-SPEC Validation', () => {
     });
 
     it('HASH_UTILS.spec.ts exports hash constants', async () => {
-      const hashUtils = await import('../../src/drift/HASH_UTILS.spec');
+      const hashUtils = await import('../../src/governance/drift/HASH_UTILS.spec');
 
       expect(hashUtils.HASH_LENGTH).toBe(64);
       expect(hashUtils.HASH_ALGORITHM).toBe('sha256');

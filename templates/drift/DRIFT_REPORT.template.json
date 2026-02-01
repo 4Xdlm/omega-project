@@ -1,0 +1,42 @@
+{
+  "event_type": "drift_report",
+  "schema_version": "1.0.0",
+  "event_id": "<EVENT_ID>",
+  "timestamp": "<ISO8601>",
+  "baseline_ref": {
+    "tag": "<BASELINE_TAG>",
+    "manifest_sha256": "<BASELINE_MANIFEST_HASH>",
+    "snapshot_date": "<ISO8601>"
+  },
+  "current_ref": {
+    "commit": "<CURRENT_COMMIT>",
+    "manifest_sha256": "<CURRENT_MANIFEST_HASH>"
+  },
+  "observations": [
+    {
+      "type": "<structural|semantic|decisional|usage>",
+      "component": "<COMPONENT_PATH>",
+      "description": "<DESCRIPTION>",
+      "expected": "<EXPECTED_VALUE_OR_HASH>",
+      "observed": "<OBSERVED_VALUE_OR_HASH>",
+      "delta": "<DIFF_DESCRIPTION>",
+      "evidence_refs": ["<EVIDENCE_REF_1>", "<EVIDENCE_REF_2>"]
+    }
+  ],
+  "classification": "<minor|major|critical>",
+  "severity": "<low|medium|high|critical>",
+  "impact_assessment": {
+    "affected_components": ["<COMPONENT_1>", "<COMPONENT_2>"],
+    "affected_invariants": ["<INV_ID_1>", "<INV_ID_2>"],
+    "user_facing": "<true|false>",
+    "data_integrity": "<true|false>"
+  },
+  "requires_human_decision": true,
+  "recommended_actions": [
+    {
+      "action": "<investigate|fix|waive|rollback>",
+      "rationale": "<RATIONALE>"
+    }
+  ],
+  "log_chain_prev_hash": "<PREV_EVENT_HASH_OR_NULL>"
+}

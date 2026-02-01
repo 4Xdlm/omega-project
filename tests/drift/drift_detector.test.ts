@@ -16,7 +16,7 @@ import {
   computeHash,
   validateHash,
   compareHashes
-} from '../../src/drift/detector';
+} from '../../src/governance/drift/detector';
 
 import type { DriftEvent, DriftPolicy } from '../../src/drift/DRIFT_TYPES.spec';
 

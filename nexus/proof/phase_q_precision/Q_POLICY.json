@@ -1,0 +1,40 @@
+{
+  "policy_id": "Q_POLICY_19C10E1FE7800000",
+  "phase": "Q",
+  "run_id": "19C10E1FE7800000",
+  "necessity_policy": {
+    "optional_allowed": true,
+    "tau_optional_max": "τ_optional_max",
+    "tau_optional_max_value": 3,
+    "tau_optional_max_justification": "Based on Q5_NECESSITY.md analysis: 8/9 NECESSARY, 1/9 OPTIONAL (human-readable README)",
+    "optional_must_be": [
+      "non-hashable OR human-readable-only",
+      "no downstream dependency in hash chain",
+      "explicitly justified in Q5_NECESSITY.md"
+    ]
+  },
+  "gap_severity_policy": {
+    "critical_without_waiver": "FAIL",
+    "critical_with_waiver": "ACK_WAIVED",
+    "major": "FAIL",
+    "minor": "ACK_ALLOW",
+    "waiver_requirements": [
+      "WAIVER_*.json file exists",
+      "Listed in WAIVER_MANIFEST.sha256",
+      "References valid RUN_ID",
+      "expires_on_phase defined"
+    ]
+  },
+  "determinism_policy": {
+    "tau_exec_timeout_ms": "τ_exec_timeout_ms",
+    "tau_exec_timeout_ms_value": 60000,
+    "tau_exec_timeout_ms_justification": "Standard CI timeout for single gate execution",
+    "forbidden_runtime_calls": [
+      "new Date()",
+      "Date.now()",
+      "Math.random()",
+      "process.hrtime() for output"
+    ],
+    "required_determinism_source": "EVIDENCE/RUN_ID.txt"
+  }
+}

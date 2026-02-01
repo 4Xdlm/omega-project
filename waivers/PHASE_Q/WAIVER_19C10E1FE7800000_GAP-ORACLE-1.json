@@ -1,0 +1,20 @@
+{
+  "waiver_id": "WAIVER_19C10E1FE7800000_GAP-ORACLE-1",
+  "phase": "Q",
+  "gap_id": "GAP-ORACLE-1",
+  "severity": "critical",
+  "status": "APPROVED",
+  "approved_by": "Francky",
+  "approved_at_run_id": "19C10E1FE7800000",
+  "reason": "ORACLE module planned by design for Phase C SENTINEL. Blocking Phase Q for future-phase modules would create logical dead-end. Phase Q validates Precision/Justesse/Necessity gates only.",
+  "proof_ref": "nexus/proof/phase_q_precision/Q6_MISSING_MODULES.md",
+  "scope_limitations": [
+    "No claim of ORACLE module correctness",
+    "Phase Q SEAL validates executed gates only",
+    "ORACLE implementation deferred to Phase C"
+  ],
+  "expires_on_phase": "C",
+  "hash_policy": {
+    "must_be_listed_in": "waivers/PHASE_Q/WAIVER_MANIFEST.sha256"
+  }
+}

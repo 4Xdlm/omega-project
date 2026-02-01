@@ -64,7 +64,7 @@ function computeSeed(baseSeed: number, iteration: number, draftIndex: number): n
 /**
  * Genere un draft unique
  * STUB: Generation basique basee sur templates + contraintes
- * TODO: Integrer avec LLM pour generation reelle
+ * LLM integration deferred to Phase D+ (GENESIS-LLM-001)
  */
 async function generateOneDraft(
   contract: EmotionTrajectoryContract,

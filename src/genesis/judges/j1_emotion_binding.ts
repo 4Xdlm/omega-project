@@ -40,8 +40,7 @@ export function evaluateEmotionBinding(
     const window = contract.windows[i];
 
     // Extraire la portion de texte correspondant a la fenetre
-    // Pour simplifier, on utilise la distribution globale
-    // TODO: Segmenter le texte par fenetre temporelle
+    // STUB: utilise distribution globale (segmentation Phase D+)
     const windowDistribution = measuredDistribution;
 
     // Distance cosinus

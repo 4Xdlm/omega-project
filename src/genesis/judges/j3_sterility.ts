@@ -14,7 +14,7 @@ import type {
 
 /**
  * Base de donnees de cliches integree (version minimale)
- * TODO: Charger depuis artifacts/cliche_db_v1.json.gz
+ * STUB: Artifacts loading deferred to Phase D+ (GENESIS-CLICHE-001)
  */
 const BUILTIN_CLICHES: ClicheDb = {
   version: '1.0',
@@ -127,7 +127,7 @@ interface ClicheMatchResult {
 }
 
 /**
- * Match les cliches lexicaux (version simple, TODO: Aho-Corasick)
+ * Match les cliches lexicaux (linear scan - Aho-Corasick optimization Phase D+)
  */
 function matchLexicalCliches(text: string, db: ClicheDb): ClicheMatchResult {
   const result: ClicheMatchResult = {
@@ -187,8 +187,7 @@ function matchConceptCliches(text: string, db: ConceptDb): ClicheMatchResult {
   for (const concept of db.concepts) {
     const pattern = concept.template.toLowerCase();
 
-    // Simple substring match for now
-    // TODO: Implement slot matching for more flexible patterns
+    // Simple substring match (slot matching optimization Phase D+)
     if (text.includes(pattern)) {
       result.count++;
       result.matches.push(concept.template);

@@ -25,11 +25,12 @@ export interface PrismResult {
 
 /**
  * Mesure de la distribution emotionnelle d'un texte
- * STUB: A integrer avec le vrai moteur emotion du repo
+ * STUB: Implementation basee sur heuristiques (Phase 1)
+ * Integration moteur emotion OMEGA 14D prevu Phase D+
  */
 export function measureEmotionDistribution(text: string): IntensityRecord14 {
   // STUB: Retourne une distribution basee sur des heuristiques simples
-  // TODO: Integrer avec le vrai moteur emotion OMEGA 14D
+  // Future: Integration moteur emotion OMEGA 14D
 
   // Pour l'instant, distribution uniforme avec leger bruit deterministe
   const hash = simpleHash(text);

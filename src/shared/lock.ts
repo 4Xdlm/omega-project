@@ -53,7 +53,10 @@ export async function acquireLock(filepath: string): Promise<FileLock> {
         },
       };
     } catch (err) {
-      if ((err as NodeJS.ErrnoException).code === 'EEXIST') {
+      const code = (err as NodeJS.ErrnoException).code;
+      // EEXIST: lock file exists (expected)
+      // EPERM: Windows returns this when file is locked by another process
+      if (code === 'EEXIST' || code === 'EPERM') {
         if (Date.now() - start > LOCK_TIMEOUT_MS) {
           throw new LockError(filepath, 'ALREADY_LOCKED');
         }

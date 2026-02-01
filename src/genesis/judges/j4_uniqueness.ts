@@ -13,7 +13,7 @@ import type {
 
 /**
  * Corpus de reference integre (version minimale)
- * TODO: Charger depuis artifacts/corpus_ref_v1.json.gz
+ * STUB: Artifacts loading deferred to Phase D+ (GENESIS-CORPUS-001)
  */
 const BUILTIN_CORPUS: CorpusRef = {
   version: '1.0',

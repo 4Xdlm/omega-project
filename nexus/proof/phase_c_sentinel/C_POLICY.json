@@ -1,0 +1,31 @@
+{
+  "policy_version": "1.1",
+  "phase": "C",
+  "description": "Configuration Phase C - SENTINEL",
+
+  "oracle": {
+    "τ_min_options": 2,
+    "τ_score_floor": 0.0,
+    "τ_score_ceiling": 1.0,
+    "τ_weight_canon_compliance": 0.4,
+    "τ_weight_risk_mitigation": 0.3,
+    "τ_weight_complexity": 0.2,
+    "τ_weight_alignment": 0.1
+  },
+
+  "decision_engine": {
+    "τ_approval_threshold": 0.5,
+    "τ_escalation_threshold": 0.3
+  },
+
+  "waiver_expiration": {
+    "verification_method": "TAG_OR_MANIFEST",
+    "tag_pattern": "phase-{phase}-sealed",
+    "manifest_pattern": "{PHASE}_MANIFEST.sha256"
+  },
+
+  "invariants": {
+    "numbers_policy": "All numeric thresholds defined here, none in code",
+    "determinism": "RUN_ID = SHA256(git_commit)[:16]"
+  }
+}

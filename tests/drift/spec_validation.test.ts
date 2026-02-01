@@ -35,7 +35,8 @@ describe('Phase E-SPEC Validation', () => {
       const policy = JSON.parse(fs.readFileSync(policyPath, 'utf-8'));
 
       expect(policy.policy_id).toBe('E-DRIFT-POLICY');
-      expect(policy.schema_version).toBe('1.0.0');
+      // Schema version 1.1.0 after E.2 extension
+      expect(policy.schema_version).toMatch(/^1\.(0|1)\.0$/);
       expect(policy.thresholds).toBeDefined();
       expect(policy.drift_types).toBeDefined();
       expect(policy.escalation_levels).toBeDefined();
@@ -53,11 +54,12 @@ describe('Phase E-SPEC Validation', () => {
       expect(policy.thresholds.τ_observation_window_ms).toBeTypeOf('number');
     });
 
-    it('defines all 5 drift types', () => {
+    it('defines core drift types (E-SPEC base)', () => {
       const policyPath = path.join(DRIFT_DIR, 'E_POLICY.json');
       const policy = JSON.parse(fs.readFileSync(policyPath, 'utf-8'));
 
-      const expectedTypes = [
+      // Core types from E-SPEC (E.2 may add more)
+      const coreTypes = [
         'SCHEMA_MISMATCH',
         'HASH_DEVIATION',
         'INVARIANT_VIOLATION',
@@ -65,7 +67,10 @@ describe('Phase E-SPEC Validation', () => {
         'CHAIN_BREAK'
       ];
 
-      expect(policy.drift_types).toEqual(expectedTypes);
+      for (const type of coreTypes) {
+        expect(policy.drift_types).toContain(type);
+      }
+      expect(policy.drift_types.length).toBeGreaterThanOrEqual(5);
     });
 
     it('defines all 4 escalation levels', () => {

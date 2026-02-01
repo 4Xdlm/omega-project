@@ -1,6 +1,6 @@
 {
   "policy_id": "E-DRIFT-POLICY",
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "description": "Phase E Drift Detection - Policy-driven thresholds (no magic numbers)",
   "thresholds": {
     "τ_drift_warning": 0.05,
@@ -14,7 +14,9 @@
     "HASH_DEVIATION",
     "INVARIANT_VIOLATION",
     "THRESHOLD_BREACH",
-    "CHAIN_BREAK"
+    "CHAIN_BREAK",
+    "DECISIONAL_DRIFT",
+    "USAGE_DRIFT"
   ],
   "escalation_levels": {
     "INFO": "Log only, no action",
@@ -22,11 +24,23 @@
     "CRITICAL": "Log + alert + flag for review",
     "HALT": "Log + stop execution + require human override"
   },
+  "decisional": {
+    "allowNewCategories": false,
+    "τ_max_ratio_shift": 0.20,
+    "known_verdicts": ["PASS", "FAIL", "SKIP", "WARN"]
+  },
+  "usage": {
+    "τ_max_repetitions": 3,
+    "knownMisusePatterns": ["SKIP:3+", "FAIL:5+"],
+    "τ_min_sequence_length": 2
+  },
   "invariants": [
     "INV-DRIFT-001: Detector MUST be read-only (never modifies BUILD artifacts)",
     "INV-DRIFT-002: All thresholds MUST come from policy (no hardcoded values)",
     "INV-DRIFT-003: Detection MUST be deterministic (same input = same output)",
     "INV-DRIFT-004: Chain breaks MUST escalate to HALT immediately",
-    "INV-DRIFT-005: All drift events MUST include manifest_ref for traceability"
+    "INV-DRIFT-005: All drift events MUST include manifest_ref for traceability",
+    "INV-DRIFT-006: Decisional drift MUST detect new verdict categories when policy forbids",
+    "INV-DRIFT-007: Usage drift MUST detect repetition exceeding τ_max_repetitions"
   ]
 }

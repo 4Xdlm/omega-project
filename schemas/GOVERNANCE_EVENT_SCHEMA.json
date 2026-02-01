@@ -1,0 +1,79 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://omega-project.local/schemas/governance-event.json",
+  "title": "OMEGA Governance Event Schema",
+  "description": "Base schema for all governance events - NASA-Grade L4",
+  "type": "object",
+  "required": [
+    "event_type",
+    "schema_version",
+    "event_id",
+    "timestamp"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "event_type": {
+      "type": "string",
+      "description": "Type of governance event",
+      "enum": [
+        "runtime_event",
+        "drift_report",
+        "regression_result",
+        "misuse_event",
+        "override_event",
+        "incident_event",
+        "rollback_event",
+        "version_contract_event"
+      ]
+    },
+    "schema_version": {
+      "type": "string",
+      "description": "Semantic version of the schema",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "event_id": {
+      "type": "string",
+      "description": "Unique identifier for this event",
+      "minLength": 1
+    },
+    "timestamp": {
+      "type": "string",
+      "description": "ISO8601 timestamp of event creation",
+      "format": "date-time"
+    },
+    "run_id": {
+      "type": "string",
+      "description": "Associated RUN_ID if applicable"
+    },
+    "run_ref": {
+      "type": "object",
+      "description": "Reference to the associated run",
+      "properties": {
+        "phase_tag": {
+          "type": "string",
+          "description": "Git tag of the sealed phase"
+        },
+        "manifest_sha256": {
+          "type": "string",
+          "description": "SHA256 of the phase manifest",
+          "pattern": "^[A-Fa-f0-9]{64}$"
+        }
+      }
+    },
+    "log_chain_prev_hash": {
+      "type": ["string", "null"],
+      "description": "SHA256 hash of the previous event in chain (null for first)",
+      "pattern": "^[A-Fa-f0-9]{64}$"
+    },
+    "event_hash": {
+      "type": "string",
+      "description": "SHA256 hash of this event (computed)",
+      "pattern": "^[A-Fa-f0-9]{64}$"
+    },
+    "requires_human_decision": {
+      "type": "boolean",
+      "description": "Whether this event requires human review",
+      "default": false
+    }
+  }
+}

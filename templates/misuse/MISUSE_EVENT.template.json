@@ -1,0 +1,29 @@
+{
+  "event_type": "misuse_event",
+  "schema_version": "1.0.0",
+  "event_id": "<EVENT_ID>",
+  "timestamp": "<ISO8601>",
+  "case_id": "<CASE_ID>",
+  "pattern_id": "<PATTERN_ID>",
+  "severity": "<low|medium|high|critical>",
+  "detection_method": "<METHOD_DESCRIPTION>",
+  "context": {
+    "source": "<SOURCE_IDENTIFIER>",
+    "run_id": "<RUN_ID_IF_APPLICABLE>",
+    "inputs_hash": "<INPUTS_HASH>"
+  },
+  "evidence": {
+    "description": "<EVIDENCE_DESCRIPTION>",
+    "samples": ["<SAMPLE_1>", "<SAMPLE_2>"],
+    "evidence_refs": ["<EVIDENCE_REF_1>"]
+  },
+  "auto_action_taken": "<none|blocked|quarantined>",
+  "requires_human_decision": true,
+  "recommended_actions": [
+    {
+      "action": "<investigate|block|allow|escalate>",
+      "rationale": "<RATIONALE>"
+    }
+  ],
+  "log_chain_prev_hash": "<PREV_EVENT_HASH_OR_NULL>"
+}

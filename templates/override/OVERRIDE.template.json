@@ -1,0 +1,37 @@
+{
+  "event_type": "override_event",
+  "schema_version": "1.0.0",
+  "event_id": "<EVENT_ID>",
+  "timestamp": "<ISO8601>",
+  "override_id": "<OVERRIDE_ID>",
+  "type": "<hotfix|exception|derogation>",
+  "scope": {
+    "target_rule": "<RULE_OR_INVARIANT_ID>",
+    "target_component": "<COMPONENT_PATH>",
+    "target_verdict": "<ORIGINAL_VERDICT>"
+  },
+  "justification": {
+    "reason": "<DETAILED_REASON>",
+    "impact_assessment": "<IMPACT_DESCRIPTION>",
+    "alternatives_considered": ["<ALT_1>", "<ALT_2>"],
+    "why_alternatives_rejected": "<EXPLANATION>"
+  },
+  "approval": {
+    "approver": "<APPROVER_NAME>",
+    "approver_role": "<ROLE>",
+    "approved_at": "<ISO8601>",
+    "approval_method": "<email|signature|meeting>"
+  },
+  "validity": {
+    "effective_from": "<ISO8601>",
+    "expires_at": "<ISO8601>",
+    "renewable": "<true|false>",
+    "max_renewals": "<NUMBER>"
+  },
+  "manifest_ref": {
+    "tag": "<GIT_TAG>",
+    "manifest_sha256": "<MANIFEST_HASH>"
+  },
+  "override_hash": "<SHA256_OF_THIS_OVERRIDE>",
+  "log_chain_prev_hash": "<PREV_EVENT_HASH_OR_NULL>"
+}

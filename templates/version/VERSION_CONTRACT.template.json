@@ -1,0 +1,41 @@
+{
+  "event_type": "version_contract_event",
+  "schema_version": "1.0.0",
+  "event_id": "<EVENT_ID>",
+  "timestamp": "<ISO8601>",
+  "version": {
+    "current": "<SEMVER>",
+    "previous": "<SEMVER>",
+    "bump_type": "<major|minor|patch>"
+  },
+  "compatibility": {
+    "type": "<backward|breaking>",
+    "backward_compatible": "<true|false>",
+    "data_compatible": "<true|false>",
+    "api_compatible": "<true|false>"
+  },
+  "breaking_changes": [
+    {
+      "component": "<COMPONENT_PATH>",
+      "change_type": "<api|schema|behavior|removal>",
+      "description": "<DESCRIPTION>",
+      "migration_required": "<true|false>",
+      "migration_doc_ref": "<DOC_PATH>"
+    }
+  ],
+  "deprecations": [
+    {
+      "component": "<COMPONENT_PATH>",
+      "deprecated_in": "<SEMVER>",
+      "removal_planned": "<SEMVER>",
+      "replacement": "<REPLACEMENT_PATH>"
+    }
+  ],
+  "migration_path": {
+    "script_ref": "<SCRIPT_PATH_OR_NULL>",
+    "manual_steps": ["<STEP_1>", "<STEP_2>"],
+    "estimated_effort": "<low|medium|high>"
+  },
+  "changelog_ref": "<CHANGELOG_SECTION_REF>",
+  "log_chain_prev_hash": "<PREV_EVENT_HASH_OR_NULL>"
+}

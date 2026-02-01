@@ -1,0 +1,27 @@
+{
+  "event_type": "regression_result",
+  "schema_version": "1.0.0",
+  "event_id": "<EVENT_ID>",
+  "timestamp": "<ISO8601>",
+  "candidate_ref": {
+    "version": "<SEMVER>",
+    "commit": "<COMMIT_HASH>",
+    "branch": "<BRANCH>"
+  },
+  "entries": [
+    {
+      "baseline_tag": "<BASELINE_TAG>",
+      "baseline_version": "<BASELINE_SEMVER>",
+      "tests_total": "<NUMBER>",
+      "tests_passed": "<NUMBER>",
+      "tests_failed": "<NUMBER>",
+      "tests_waived": "<NUMBER>",
+      "status": "<PASS|FAIL|WAIVED>",
+      "waiver_refs": ["<WAIVER_ID_1>"],
+      "failure_refs": ["<FAILURE_REF_1>"]
+    }
+  ],
+  "overall_status": "<PASS|FAIL|WAIVED>",
+  "requires_human_decision": "<true|false>",
+  "log_chain_prev_hash": "<PREV_EVENT_HASH_OR_NULL>"
+}

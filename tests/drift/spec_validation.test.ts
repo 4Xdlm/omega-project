@@ -9,7 +9,7 @@ import { describe, it, expect } from 'vitest';
 import * as fs from 'fs';
 import * as path from 'path';
 
-const DRIFT_DIR = path.resolve(__dirname, '../../src/drift');
+const DRIFT_DIR = path.resolve(__dirname, '../../src/governance/drift');
 
 describe('Phase E-SPEC Validation', () => {
   describe('Specification files exist', () => {

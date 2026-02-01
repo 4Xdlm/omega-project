@@ -1,0 +1,32 @@
+{
+  "policy_id": "E-DRIFT-POLICY",
+  "schema_version": "1.0.0",
+  "description": "Phase E Drift Detection - Policy-driven thresholds (no magic numbers)",
+  "thresholds": {
+    "τ_drift_warning": 0.05,
+    "τ_drift_critical": 0.15,
+    "τ_drift_halt": 0.30,
+    "τ_max_consecutive_drifts": 3,
+    "τ_observation_window_ms": 86400000
+  },
+  "drift_types": [
+    "SCHEMA_MISMATCH",
+    "HASH_DEVIATION",
+    "INVARIANT_VIOLATION",
+    "THRESHOLD_BREACH",
+    "CHAIN_BREAK"
+  ],
+  "escalation_levels": {
+    "INFO": "Log only, no action",
+    "WARNING": "Log + alert, continue execution",
+    "CRITICAL": "Log + alert + flag for review",
+    "HALT": "Log + stop execution + require human override"
+  },
+  "invariants": [
+    "INV-DRIFT-001: Detector MUST be read-only (never modifies BUILD artifacts)",
+    "INV-DRIFT-002: All thresholds MUST come from policy (no hardcoded values)",
+    "INV-DRIFT-003: Detection MUST be deterministic (same input = same output)",
+    "INV-DRIFT-004: Chain breaks MUST escalate to HALT immediately",
+    "INV-DRIFT-005: All drift events MUST include manifest_ref for traceability"
+  ]
+}

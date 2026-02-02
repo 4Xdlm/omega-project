@@ -1,42 +1,42 @@
-{
-  "name": "@omega/decision-engine",
-  "version": "1.0.0",
-  "description": "OMEGA Decision Engine - NASA-Grade L4 compliant decision system",
-  "type": "module",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/index.js",
-      "types": "./dist/index.d.ts"
-    }
-  },
-  "scripts": {
-    "build": "tsc",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "test:coverage": "vitest run --coverage",
-    "typecheck": "tsc --noEmit",
-    "lint": "eslint src tests"
-  },
-  "dependencies": {
-    "@omega/orchestrator-core": "file:../orchestrator-core"
-  },
-  "devDependencies": {
-    "vitest": "^4.0.17",
-    "typescript": "^5.7.3",
-    "@vitest/coverage-v8": "^4.0.17"
-  },
-  "files": [
-    "dist",
-    "src"
-  ],
-  "keywords": [
-    "omega",
-    "decision-engine",
-    "nasa-grade",
-    "deterministic"
-  ],
-  "author": "OMEGA Project",
-  "license": "UNLICENSED"
+﻿{
+    "name":  "@omega/decision-engine",
+    "version":  "1.0.0",
+    "description":  "OMEGA Decision Engine - NASA-Grade L4 compliant decision system",
+    "type":  "module",
+    "main":  "./dist/index.js",
+    "types":  "./dist/index.d.ts",
+    "exports":  {
+                    ".":  {
+                              "import":  "./dist/index.js",
+                              "types":  "./dist/index.d.ts"
+                          }
+                },
+    "scripts":  {
+                    "build":  "tsc",
+                    "test":  "vitest run --config vitest.config.ts --root .",
+                    "test:watch":  "vitest",
+                    "test:coverage":  "vitest run --coverage",
+                    "typecheck":  "tsc -p tsconfig.json --noEmit",
+                    "lint":  "eslint src tests"
+                },
+    "dependencies":  {
+                         "@omega/orchestrator-core":  "file:../orchestrator-core"
+                     },
+    "devDependencies":  {
+                            "vitest":  "^4.0.17",
+                            "typescript":  "^5.7.3",
+                            "@vitest/coverage-v8":  "^4.0.17"
+                        },
+    "files":  [
+                  "dist",
+                  "src"
+              ],
+    "keywords":  [
+                     "omega",
+                     "decision-engine",
+                     "nasa-grade",
+                     "deterministic"
+                 ],
+    "author":  "OMEGA Project",
+    "license":  "UNLICENSED"
 }

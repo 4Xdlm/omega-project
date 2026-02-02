@@ -1,0 +1,123 @@
+OMEGA REPOSITORY TREE
+=====================
+Branch: master
+Commit: 94a8e938b652418f1b967a348f460713729344c7
+
+omega-project/
+├── .ci/                          # CI configuration
+├── .claude/                      # Claude Code config
+├── .github/                      # GitHub workflows
+│   ├── workflows/
+│   └── OMEGA_RELEASE_v1.0.0-GOLD/
+├── apps/
+│   └── omega-ui/                 # Desktop UI (Tauri)
+├── archives/                     # Phase archives
+│   └── phase33_0..phase61_0/
+├── artefacts/                    # Run artifacts
+│   ├── batch_test_intents/
+│   ├── oracles/
+│   └── runs/
+├── baselines/                    # Baseline oracles
+├── bench-results/                # Benchmark results
+├── bin/                          # CLI binaries
+├── certificates/                 # Phase certificates
+│   ├── omega-core/
+│   └── phase29_3..phase97_0/
+├── config/                       # Configuration
+│   ├── canon/
+│   ├── delivery/
+│   ├── policies/
+│   └── providers/
+├── dist/                         # Build output (GENERATED)
+├── docs/                         # Documentation
+│   ├── adr/
+│   ├── architecture/
+│   └── audit/
+├── evidence/                     # Evidence logs
+├── gateway/                      # Gateway Layer (246 files)
+│   ├── chaos/                    # Chaos injection
+│   ├── cli-runner/               # CLI executor
+│   ├── facade/                   # Gateway facade
+│   ├── limiter/                  # Rate limiting
+│   ├── quarantine/               # Quarantine system
+│   ├── resilience/               # Chaos + temporal
+│   ├── schemas/                  # JSON schemas
+│   ├── sentinel/                 # Sentinel (FROZEN)
+│   ├── src/                      # Core logic
+│   ├── tests/                    # Gateway tests
+│   └── wiring/                   # Wiring framework
+├── genesis-forge/                # Genesis Narrative Forge
+│   ├── src/genesis/
+│   └── tests/
+├── GOVERNANCE/                   # Governance docs
+├── nexus/                        # Nexus Subsystem (87 files)
+│   ├── atlas/                    # Index store
+│   ├── bench/                    # Benchmarks
+│   ├── ledger/                   # Event ledger
+│   ├── proof/                    # Proof reports (THIS AUDIT)
+│   ├── proof-utils/              # Proof utilities
+│   ├── raw/                      # Raw storage
+│   ├── shared/                   # Shared utilities
+│   └── tooling/                  # Tools
+├── packages/                     # Core Packages (408 files)
+│   ├── canon-kernel/             # Canonical kernel
+│   ├── contracts-canon/          # Canon contracts
+│   ├── emotion-gate/             # Emotion gate
+│   ├── genome/                   # Genome (SEALED)
+│   ├── gold-cli/                 # Gold CLI
+│   ├── gold-internal/            # Gold internal
+│   ├── gold-master/              # Gold master
+│   ├── gold-suite/               # Gold suite
+│   ├── hardening/                # Security utils
+│   ├── headless-runner/          # Headless runner
+│   ├── hostile/                  # Hostile test
+│   ├── integration-nexus-dep/    # Integration
+│   ├── mod-narrative/            # Narrative mod
+│   ├── mycelium/                 # Mycelium (SEALED)
+│   ├── mycelium-bio/             # Bio engine
+│   ├── omega-aggregate-dna/      # DNA aggregation
+│   ├── omega-bridge-ta-mycelium/ # TA bridge
+│   ├── omega-observability/      # Observability
+│   ├── omega-segment-engine/     # Segmentation
+│   ├── oracle/                   # Oracle engine
+│   ├── orchestrator-core/        # Orchestrator
+│   ├── performance/              # Performance
+│   ├── proof-pack/               # Proof pack
+│   ├── sbom/                     # SBOM
+│   ├── schemas/                  # Schemas
+│   ├── search/                   # Search engine
+│   ├── sentinel-judge/           # Sentinel judge
+│   ├── trust-version/            # Version trust
+│   └── truth-gate/               # Truth gate
+├── schemas/                      # Root schemas
+├── scripts/                      # Utility scripts
+├── sessions/                     # Session saves
+├── src/                          # Root Source (181 files)
+│   ├── auditpack/
+│   ├── canon/
+│   ├── delivery/
+│   ├── gates/
+│   ├── genesis/
+│   ├── governance/
+│   ├── memory/
+│   ├── memory-write-runtime/
+│   ├── oracle/
+│   ├── orchestrator/
+│   ├── providers/
+│   ├── replay/
+│   ├── runner/
+│   ├── scribe/
+│   ├── sentinel/
+│   ├── shared/
+│   └── text_analyzer/
+├── templates/                    # Code templates
+├── test/                         # Root tests
+├── tests/                        # Test suites
+└── tools/                        # Tools
+
+EXCLUSIONS (not audited):
+- node_modules/    (dependencies)
+- dist/            (generated)
+- .git/            (version control)
+- OMEGA_PHASE*/    (legacy archives)
+- omega-v44*/      (legacy versions)

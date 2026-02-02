@@ -21,7 +21,7 @@ Architecture modulaire : Sentinel (ROOT) -> Genome -> DNA/Mycelium (clients).
 ```
 omega-project/
 ├── packages/
-│   ├── sentinel/              # ROOT — FROZEN
+│   ├── sentinel-judge/        # Sentinel Judge — ACTIVE
 │   ├── genome/                # CLIENT — FROZEN
 │   ├── hardening/             # Security utilities
 │   ├── search/                # Search engine
@@ -76,7 +76,7 @@ omega-project/
 ### FROZEN MODULES — NEVER TOUCH
 
 ```
-packages/sentinel/     -> Phase 27 — FROZEN
+gateway/sentinel/      -> Phase 27 — FROZEN
 packages/genome/       -> Phase 28 — SEALED
 ```
 

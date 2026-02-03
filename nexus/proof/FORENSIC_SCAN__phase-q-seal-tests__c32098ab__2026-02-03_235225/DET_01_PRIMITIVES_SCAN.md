@@ -1,0 +1,1252 @@
+﻿# DET_01_PRIMITIVES_SCAN.md
+## Non-Deterministic Primitives in Source (excl. tests)
+
+| Primitive | Count |
+|-----------|-------|| Date.now | 569 |
+| Object.keys | 161 |
+| crypto.random | 7 |
+| fs.readdir | 11 |
+| Math.random | 75 |
+| uuid | 58 |
+| nanoid | 0 |
+| new Date() | 340 |
+
+## Details
+
+### Date.now (569 hits)
+- `apps\omega-ui\src\components\dashboard\RecentAnalyses.tsx:34: const now = Date.now();`
+- `apps\omega-ui\src\components\notifications\useToast.ts:14: return `toast-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;`
+- `apps\omega-ui\src\core\analyzer.ts:20: return `ana-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;`
+- `apps\omega-ui\src\hooks\useOracle.ts:174: return `analysis-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;`
+- `apps\omega-ui\src\hooks\useOracle.ts:336: const startTime = Date.now();`
+- `apps\omega-ui\src\hooks\useOracle.ts:366: timestamp: Date.now(),`
+- `apps\omega-ui\src\hooks\useOracle.ts:367: duration: Date.now() - startTime,`
+- `apps\omega-ui\src\hooks\useOracle.ts:405: const startTime = Date.now();`
+- `apps\omega-ui\src\hooks\useOracle.ts:452: timestamp: Date.now(),`
+- `apps\omega-ui\src\hooks\useOracle.ts:453: duration: Date.now() - startTime,`
+- `apps\omega-ui\src\hooks\useSearch.ts:160: const startTime = Date.now();`
+- `apps\omega-ui\src\hooks\useSearch.ts:229: took: Date.now() - startTime,`
+- `apps\omega-ui\src\stores\uiStore.ts:86: return `notif-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;`
+- `apps\omega-ui\src\views\HistoryView.tsx:48: a.download = `omega-history-${Date.now()}.json`;`
+- `gateway\chaos\src\chaos\chaos.ts:88: this.startTime = Date.now();`
+- `gateway\chaos\src\chaos\chaos.ts:558: uptimeMs: Date.now() - this.startTime,`
+- `gateway\chaos\src\chaos\chaos.ts:666: const timestamp = Date.now().toString(36);`
+- `gateway\chaos\src\chaos\chaos.ts:713: id: `AUD-${Date.now().toString(36)}-${Math.random().toString(36).substring(2, 6)}`,`
+- `gateway\cli-runner\src\cli\commands\analyze.ts:409: t: Date.now(),`
+- `gateway\cli-runner\src\cli\commands\analyze.ts:501: const tStart = Date.now();`
+- `gateway\cli-runner\src\cli\commands\analyze.ts:545: const tDone = Date.now();`
+- `gateway\cli-runner\src\cli\commands\analyze.ts:626: const tStart = Date.now();`
+- `gateway\cli-runner\src\cli\commands\analyze.ts:670: const tDone = Date.now();`
+- `gateway\cli-runner\src\cli\commands\analyze.ts:758: const tStart = Date.now();`
+- `gateway\cli-runner\src\cli\commands\analyze.ts:802: const tDone = Date.now();`
+- `gateway\facade\src\gateway\gateway.ts:203: this.startTime = Date.now();`
+- `gateway\facade\src\gateway\gateway.ts:357: expiresAt: new Date(Date.now() + this.config.quarantineTtlMs).toISOString(),`
+- `gateway\facade\src\gateway\gateway.ts:436: const now = Date.now();`
+- `gateway\facade\src\gateway\gateway.ts:510: const expiresAt = Date.now() + this.config.quarantineTtlMs;`
+- `gateway\facade\src\gateway\gateway.ts:527: if (Date.now() > item.expiresAt) {`
+- `gateway\facade\src\gateway\gateway.ts:580: uptimeMs: Date.now() - this.startTime,`
+- `gateway\facade\src\gateway\gateway.ts:636: const now = Date.now();`
+- `gateway\facade\src\gateway\gateway.ts:655: return `${prefix}-${Date.now().toString(36)}-${this.idCounter.toString(36).padStart(4, '0')}`;`
+- `gateway\facade\src\gateway\gateway.ts:707: requestId: requestId ?? `REQ-${Date.now().toString(36)}-${Math.random().toString(36).substring(2, 6)}`,`
+- `gateway\limiter\src\limiter\limiter.ts:77: this.startTime = Date.now();`
+- `gateway\limiter\src\limiter\limiter.ts:112: const now = Date.now();`
+- `gateway\limiter\src\limiter\limiter.ts:153: const now = Date.now();`
+- `gateway\limiter\src\limiter\limiter.ts:468: const now = Date.now();`
+- `gateway\limiter\src\limiter\limiter.ts:597: uptimeMs: Date.now() - this.startTime,`
+- `gateway\limiter\src\limiter\limiter.ts:646: const now = Date.now();`
+- `gateway\quarantine\src\quarantine\quarantine.ts:71: this.startTime = Date.now();`
+- `gateway\quarantine\src\quarantine\quarantine.ts:127: const expiresAt = new Date(Date.now() + ttl).toISOString();`
+- `gateway\quarantine\src\quarantine\quarantine.ts:340: const now = Date.now();`
+- `gateway\quarantine\src\quarantine\quarantine.ts:540: uptimeMs: Date.now() - this.startTime,`
+- `gateway\quarantine\src\quarantine\quarantine.ts:613: const timestamp = Date.now().toString(36);`
+- `gateway\quarantine\src\quarantine\quarantine.ts:652: id: `AUD-${Date.now().toString(36)}-${Math.random().toString(36).substring(2, 6)}`,`
+- `gateway\resilience\src\adversarial\generator.ts:135: timestamp: Date.now(),`
+- `gateway\resilience\src\adversarial\generator.ts:228: timestamp: Date.now() - typedAttack.delayMs,`
+- `gateway\resilience\src\adversarial\generator.ts:280: ? Date.now() + 86400000`
+- `gateway\resilience\src\adversarial\generator.ts:282: ? Date.now() - 86400000 * 365`
+- `gateway\resilience\src\adversarial\generator.ts:283: : Date.now(),`
+- `gateway\resilience\src\proof\builder.ts:414: buildId: this._metadata.buildId ?? `BUILD_${Date.now()}`,`
+- `gateway\resilience\src\proof\types.ts:291: return (value ?? `CRYSTAL_${++crystalCounter}_${Date.now()}`) as CrystalId;`
+- `gateway\resilience\src\stress\runner.ts:258: this.startTime = Date.now();`
+- `gateway\resilience\src\stress\runner.ts:270: const endTime = Date.now();`
+- `gateway\resilience\src\stress\runner.ts:330: const elapsed = Date.now() - this.startTime;`
+- `gateway\resilience\src\stress\runner.ts:340: const startedAt = Date.now();`
+- `gateway\resilience\src\stress\runner.ts:346: const completedAt = Date.now();`
+- `gateway\resilience\src\stress\runner.ts:372: timestamp: Date.now(),`
+- `gateway\resilience\src\stress\runner.ts:464: runId: config.runId ?? runId(`STRESS_${Date.now()}`),`
+- `gateway\resilience\src\stress\runner.ts:484: scheduledAt: Date.now(),`
+- `gateway\resilience\src\stress\scenarios.ts:326: const startedAt = Date.now();`
+- `gateway\resilience\src\stress\scenarios.ts:328: const completedAt = Date.now();`
+- `gateway\resilience\src\stress\scenarios.ts:345: const startedAt = Date.now();`
+- `gateway\resilience\src\stress\scenarios.ts:349: const completedAt = Date.now();`
+- `gateway\resilience\src\stress\scenarios.ts:366: const startedAt = Date.now();`
+- `gateway\resilience\src\stress\scenarios.ts:368: const completedAt = Date.now();`
+- `gateway\resilience\src\temporal\verifier.ts:55: const startTime = Date.now();`
+- `gateway\resilience\src\temporal\verifier.ts:81: executionTimeMs: Date.now() - startTime,`
+- `gateway\sentinel\src\sentinel\sentinel.ts:63: this.startTime = Date.now();`
+- `gateway\sentinel\src\sentinel\sentinel.ts:390: uptimeMs: Date.now() - this.startTime,`
+- `gateway\src\creation\creation_layer_nasa\creation_engine.ts:139: const startTime = Date.now();`
+- `gateway\src\creation\creation_layer_nasa\creation_engine.ts:305: duration_ms: Date.now() - startTime,`
+- `gateway\src\creation\creation_layer_nasa\creation_engine.ts:324: const startTime = Date.now();`
+- `gateway\src\creation\creation_layer_nasa\creation_engine.ts:409: duration_ms: Date.now() - startTime,`
+- `gateway\src\creation\creation_layer_nasa\creation_request.ts:552: const timestamp = Date.now().toString(36);`
+- `gateway\src\creation\creation_layer_nasa\creation_types.ts:261: * les appels Ã  fetch/fs/Date.now()/Math.random() mais ce n'est`
+- `gateway\src\creation\creation_layer_nasa\template_registry.ts:254: const startTime = Date.now();`
+- `gateway\src\creation\creation_layer_nasa\template_registry.ts:262: durationMs: Date.now() - startTime,`
+- `gateway\src\creation\creation_layer_nasa\template_registry.ts:278: durationMs: Date.now() - startTime,`
+- `gateway\src\creation\creation_layer_nasa\template_registry.ts:290: durationMs: Date.now() - startTime,`
+- `gateway\src\gates\canon_engine.ts:177: const timestamp = Date.now().toString(36);`
+- `gateway\src\gates\emotion_gate.ts:378: const startTime = Date.now();`
+- `gateway\src\gates\emotion_gate.ts:514: processingTimeMs: Date.now() - startTime`
+- `gateway\src\gates\ripple_engine.ts:166: const timestamp = Date.now().toString(36);`
+- `gateway\src\gates\ripple_engine.ts:255: const startTime = Date.now();`
+- `gateway\src\gates\ripple_engine.ts:377: processingTimeMs: Date.now() - startTime`
+- `gateway\src\gates\truth_gate.ts:243: id: `FACT-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,`
+- `gateway\src\gates\truth_gate.ts:299: const startTime = Date.now();`
+- `gateway\src\gates\truth_gate.ts:363: processingTimeMs: Date.now() - startTime`
+- `gateway\src\hardening\governance.ts:459: * INV-HARD-01: Pas de Date.now() implicite`
+- `gateway\src\hardening\hardening_checks.ts:7: * - Date.now() non injectÃ©`
+- `gateway\src\hardening\hardening_checks.ts:13: * INV-HARD-01: Aucun Date.now() non injectÃ©`
+- `gateway\src\hardening\hardening_checks.ts:225: * INV-HARD-01: VÃ©rifie l'absence de Date.now() non injectÃ©`
+- `gateway\src\hardening\hardening_checks.ts:240: 'INV-HARD-01: Date.now() detected - must use injected timestamp',`
+- `gateway\src\hardening\hardening_checks.ts:248: checkName: 'No implicit Date.now()',`
+- `gateway\src\memory\memory_layer_nasa\memory_digest.ts:50: * - Sans dÃ©pendance externe (pas de Date.now(), Math.random(), etc.)`
+- `gateway\src\memory\memory_layer_nasa\memory_query.ts:18: *   2. Aucun accÃ¨s Ã  Date.now() â€” timestamp injectÃ© si nÃ©cessaire`
+- `gateway\src\memory\memory_layer_nasa\memory_query.ts:323: const startTime = Date.now(); // OK ici car mesure, pas logique`
+- `gateway\src\memory\memory_layer_nasa\memory_query.ts:363: execution_ms: Date.now() - startTime,`
+- `gateway\src\memory\memory_layer_nasa\memory_query.ts:389: const startTime = Date.now();`
+- `gateway\src\memory\memory_layer_nasa\memory_query.ts:415: execution_ms: Date.now() - startTime,`
+- `gateway\src\orchestrator.ts:67: const startTime = Date.now();`
+- `gateway\src\orchestrator.ts:105: if (Date.now() >= deadlineEpoch) return this.timeoutExecution(state, key);`
+- `gateway\src\orchestrator.ts:108: const stepStart = Date.now();`
+- `gateway\src\orchestrator.ts:119: const remainingTime = deadlineEpoch - Date.now();`
+- `gateway\src\orchestrator.ts:121: const stepDuration = Date.now() - stepStart;`
+- `gateway\src\orchestrator.ts:140: state.metrics.total_duration_ms = Date.now() - startTime;`
+- `gateway\src\orchestrator.ts:161: state.metrics.total_duration_ms = Date.now() - new Date(state.start_time).getTime();`
+- `gateway\src\orchestrator.ts:170: state.metrics.total_duration_ms = Date.now() - new Date(state.start_time).getTime();`
+- `gateway\src\orchestrator.ts:179: state.metrics.total_duration_ms = Date.now() - new Date(state.start_time).getTime();`
+- `gateway\wiring\src\orchestrator\chronicle.ts:326: return `rec-${++this.recordCounter}-${Date.now().toString(36)}`;`
+- `gateway\wiring\src\orchestrator\registry.ts:138: registeredAt: Date.now(),`
+- `gateway\wiring\src\orchestrator\replay_guard.ts:94: this.clock = clock ?? { now: () => Date.now() };`
+- `gateway\wiring\src\orchestrator\replay_guard.ts:174: this.clock = this.config.clock ?? { now: () => Date.now() };`
+- `gateway\wiring\src\proof\crystallizer.ts:144: const crystalId = `crystal-${++this.crystalCounter}-${Date.now().toString(36)}`;`
+- `gateway\wiring\src\anti_bypass_scanner.ts:148: const startTime = Date.now();`
+- `gateway\wiring\src\anti_bypass_scanner.ts:167: durationMs: Date.now() - startTime,`
+- `gateway\wiring\src\clock.ts:16: * Utilise Date.now() en interne mais encapsulÃ© pour injection`
+- `gateway\wiring\src\clock.ts:20: return Date.now();`
+- `gateway\wiring\src\policy.ts:299: const now = Date.now();`
+- `gateway\wiring\src\types.ts:45: /** Timestamp en ms epoch (via Clock injectable, JAMAIS Date.now() direct) */`
+- `genesis-forge\src\genesis\core\emotion_bridge.ts:192: if (Date.now() - entry.timestamp > this.ttlMs) {`
+- `genesis-forge\src\genesis\core\emotion_bridge.ts:218: timestamp: Date.now(),`
+- `genesis-forge\src\genesis\core\emotion_bridge.ts:394: const startTime = Date.now();`
+- `genesis-forge\src\genesis\core\emotion_bridge.ts:402: durationMs: Date.now() - startTime,`
+- `genesis-forge\src\genesis\core\emotion_bridge.ts:416: durationMs: Date.now() - startTime,`
+- `genesis-forge\src\genesis\core\emotion_bridge.ts:428: durationMs: Date.now() - startTime,`
+- `genesis-forge\src\genesis\core\omega_converter.ts:214: traceId: string = `genesis-${Date.now()}``
+- `genesis-forge\src\genesis\core\omega_converter.ts:246: created_at_ms: Date.now(),`
+- `genesis-forge\src\genesis\core\omega_types.ts:228: created_at_ms: Date.now(),`
+- `genesis-forge\src\genesis\core\omega_types.ts:265: trace_id: options?.traceId ?? `genesis-${Date.now()}`,`
+- `genesis-forge\src\genesis\core\omega_types.ts:266: created_at_ms: Date.now(),`
+- `genesis-forge\src\genesis\engines\drafter.ts:214: const startTime = Date.now();`
+- `genesis-forge\src\genesis\engines\drafter.ts:261: const totalDurationMs = Date.now() - startTime;`
+- `genesis-forge\src\genesis\engines\drafter.ts:292: const startTime = Date.now();`
+- `genesis-forge\src\genesis\engines\drafter.ts:319: durationMs: Date.now() - startTime,`
+- `genesis-forge\src\genesis\engines\provider_claude.ts:191: const startTime = Date.now();`
+- `genesis-forge\src\genesis\engines\provider_claude.ts:225: const durationMs = Date.now() - startTime;`
+- `genesis-forge\src\genesis\engines\provider_claude.ts:253: const durationMs = Date.now() - startTime;`
+- `genesis-forge\src\genesis\engines\provider_gemini.ts:195: const startTime = Date.now();`
+- `genesis-forge\src\genesis\engines\provider_gemini.ts:232: const durationMs = Date.now() - startTime;`
+- `genesis-forge\src\genesis\engines\provider_gemini.ts:258: const durationMs = Date.now() - startTime;`
+- `genesis-forge\src\genesis\engines\provider_mock.ts:262: const startTime = Date.now();`
+- `genesis-forge\src\genesis\engines\provider_mock.ts:271: const durationMs = Date.now() - startTime;`
+- `genesis-forge\src\genesis\engines\provider_mock.ts:289: const durationMs = Date.now() - startTime;`
+- `nexus\atlas\src\errors.ts:21: timestampProvider: () => number = () => Date.now()`
+- `nexus\atlas\src\store.ts:70: this.clock = config.clock ?? { now: () => Date.now() };`
+- `nexus\atlas\src\types.ts:126: now: () => Date.now(),`
+- `nexus\bench\atlas.bench.ts:13: const clock = { now: () => Date.now() };`
+- `nexus\bench\raw.bench.ts:14: const clock = { now: () => Date.now() };`
+- `nexus\proof-utils\src\manifest.ts:4: * CORRECTION #2: Time injection (no direct Date.now())`
+- `nexus\proof-utils\src\manifest.ts:13: timestampProvider: () => number = () => Date.now()`
+- `nexus\proof-utils\src\types.ts:15: now: () => Date.now(),`
+- `nexus\raw\src\errors.ts:21: timestampProvider: () => number = () => Date.now()`
+- `nexus\raw\src\types.ts:193: now: () => Date.now(),`
+- `nexus\shared\errors\OmegaError.ts:27: * Default clock using Date.now()`
+- `nexus\shared\errors\OmegaError.ts:30: export const defaultClock: ClockFn = () => Date.now();`
+- `nexus\shared\logging\index.ts:6: * All timestamps must come from injected clock, never Date.now() directly.`
+- `nexus\shared\logging\index.ts:107: this.clock = config.clock ?? (() => Date.now());`
+- `nexus\shared\metrics\index.ts:6: * All timestamps must come from injected clock, never Date.now() directly.`
+- `nexus\shared\metrics\index.ts:106: clock: ClockFn = () => Date.now()`
+- `nexus\shared\metrics\index.ts:205: clock: ClockFn = () => Date.now()`
+- `nexus\shared\metrics\index.ts:347: clock: ClockFn = () => Date.now(),`
+- `nexus\shared\metrics\index.ts:470: this.clock = config.clock ?? (() => Date.now());`
+- `nexus\shared\performance\index.ts:5: * CRITICAL: Never use performance.now() or Date.now() directly in production`
+- `nexus\shared\performance\index.ts:12: // Clock Abstraction (for Date.now())`
+- `nexus\shared\performance\index.ts:21: let globalClock: ClockFn = () => Date.now();`
+- `nexus\shared\performance\index.ts:44: return impl || (() => Date.now());`
+- `nexus\shared\performance\index.ts:48: * Reset global clock to default (Date.now)`
+- `nexus\shared\performance\index.ts:52: globalClock = () => Date.now();`
+- `nexus\shared\performance\index.ts:70: return Date.now();`
+- `nexus\shared\tracing\index.ts:132: return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;`
+- `nexus\shared\tracing\index.ts:275: this.clock = config.clock ?? (() => Date.now());`
+- `nexus\src\core\types.ts:456: return (value ?? Date.now()) as TimestampMs;`
+- `nexus\src\observatory\observatory.ts:162: id: `ALERT_${++this.alertCounter}_${Date.now()}`,`
+- `nexus\src\observatory\observatory.ts:204: const cutoff = Date.now() - maxAgeMs;`
+- `omega-nexus\src\core\types.ts:456: return (value ?? Date.now()) as TimestampMs;`
+- `omega-nexus\src\observatory\observatory.ts:162: id: `ALERT_${++this.alertCounter}_${Date.now()}`,`
+- `omega-nexus\src\observatory\observatory.ts:204: const cutoff = Date.now() - maxAgeMs;`
+- `omega-phase23\gateway\resilience\src\adversarial\generator.ts:135: timestamp: Date.now(),`
+- `omega-phase23\gateway\resilience\src\adversarial\generator.ts:228: timestamp: Date.now() - typedAttack.delayMs,`
+- `omega-phase23\gateway\resilience\src\adversarial\generator.ts:280: ? Date.now() + 86400000`
+- `omega-phase23\gateway\resilience\src\adversarial\generator.ts:282: ? Date.now() - 86400000 * 365`
+- `omega-phase23\gateway\resilience\src\adversarial\generator.ts:283: : Date.now(),`
+- `omega-phase23\gateway\resilience\src\proof\builder.ts:414: buildId: this._metadata.buildId ?? `BUILD_${Date.now()}`,`
+- `omega-phase23\gateway\resilience\src\proof\types.ts:291: return (value ?? `CRYSTAL_${++crystalCounter}_${Date.now()}`) as CrystalId;`
+- `omega-phase23\gateway\resilience\src\stress\runner.ts:258: this.startTime = Date.now();`
+- `omega-phase23\gateway\resilience\src\stress\runner.ts:270: const endTime = Date.now();`
+- `omega-phase23\gateway\resilience\src\stress\runner.ts:330: const elapsed = Date.now() - this.startTime;`
+- `omega-phase23\gateway\resilience\src\stress\runner.ts:340: const startedAt = Date.now();`
+- `omega-phase23\gateway\resilience\src\stress\runner.ts:346: const completedAt = Date.now();`
+- `omega-phase23\gateway\resilience\src\stress\runner.ts:372: timestamp: Date.now(),`
+- `omega-phase23\gateway\resilience\src\stress\runner.ts:464: runId: config.runId ?? runId(`STRESS_${Date.now()}`),`
+- `omega-phase23\gateway\resilience\src\stress\runner.ts:484: scheduledAt: Date.now(),`
+- `omega-phase23\gateway\resilience\src\stress\scenarios.ts:326: const startedAt = Date.now();`
+- `omega-phase23\gateway\resilience\src\stress\scenarios.ts:328: const completedAt = Date.now();`
+- `omega-phase23\gateway\resilience\src\stress\scenarios.ts:345: const startedAt = Date.now();`
+- `omega-phase23\gateway\resilience\src\stress\scenarios.ts:349: const completedAt = Date.now();`
+- `omega-phase23\gateway\resilience\src\stress\scenarios.ts:366: const startedAt = Date.now();`
+- `omega-phase23\gateway\resilience\src\stress\scenarios.ts:368: const completedAt = Date.now();`
+- `omega-phase23\gateway\resilience\src\temporal\verifier.ts:55: const startTime = Date.now();`
+- `omega-phase23\gateway\resilience\src\temporal\verifier.ts:81: executionTimeMs: Date.now() - startTime,`
+- `omega-ui\scripts\run_first_cycle.ts:28: const startTime = Date.now();`
+- `omega-ui\scripts\run_first_cycle.ts:41: duration_ms: Date.now() - startTime,`
+- `omega-ui\scripts\run_first_cycle.ts:152: const duration = Date.now() - startTime;`
+- `omega-ui\src\components\EmotionSimulator.tsx:39: setHistory(h => [...h.slice(-50), { time: Date.now(), intensity: updated.intensity }]);`
+- `omega-ui\src\components\EmotionSimulator.tsx:78: setEmotion(prev => ({ ...prev, type, last_update: Date.now() }));`
+- `omega-ui\src\components\EmotionSimulator.tsx:82: setEmotion(prev => ({ ...prev, mass, last_update: Date.now() }));`
+- `omega-ui\src\components\RunConsole.tsx:25: const startTime = Date.now();`
+- `omega-ui\src\components\RunConsole.tsx:78: const duration = Date.now() - startTime;`
+- `omega-ui\src\components\TextAnalyzer.tsx:182: const runId = result.run_id || "RUN_" + Date.now();`
+- `omega-ui\src\components\TextAnalyzer.tsx:193: const runId = result.run_id || "RUN_" + Date.now();`
+- `omega-ui\src\hooks\useRunner.ts:34: const startTime = Date.now();`
+- `omega-ui\src\hooks\useRunner.ts:84: const duration = Date.now() - startTime;`
+- `omega-ui\src\lib\emotion_engine.ts:84: last_update: Date.now()`
+- `omega-ui\src\lib\emotion_engine.ts:111: last_update: Date.now()`
+- `omega-ui\src\lib\emotion_engine.ts:116: const now = Date.now();`
+- `omega-ui\src\lib\emotion_engine.ts:130: last_update: Date.now()`
+- `omega-ui\src\lib\emotion_engine.ts:160: last_update: Date.now()`
+- `omega-ui\src\lib\emotion_engine.ts:178: last_update: Date.now()`
+- `omega-ui\src\lib\emotion_engine.ts:189: last_update: Date.now()`
+- `omega-ui\src\lib\emotion_engine.ts:235: last_update: Date.now()`
+- `omega-ui-bootstrap\omega-ui\scripts\run_first_cycle.ts:28: const startTime = Date.now();`
+- `omega-ui-bootstrap\omega-ui\scripts\run_first_cycle.ts:41: duration_ms: Date.now() - startTime,`
+- `omega-ui-bootstrap\omega-ui\scripts\run_first_cycle.ts:152: const duration = Date.now() - startTime;`
+- `omega-ui-bootstrap\omega-ui\src\components\RunConsole.tsx:25: const startTime = Date.now();`
+- `omega-ui-bootstrap\omega-ui\src\components\RunConsole.tsx:78: const duration = Date.now() - startTime;`
+- `omega-ui-bootstrap\omega-ui\src\hooks\useRunner.ts:34: const startTime = Date.now();`
+- `omega-ui-bootstrap\omega-ui\src\hooks\useRunner.ts:84: const duration = Date.now() - startTime;`
+- `omega-v44\src\phase2_core\CoreEngine.ts:68: const timestamp = partial?.timestamp ?? Date.now();`
+- `omega-v44\src\phase4_sentinel\Sentinel.ts:54: const timestamp = Date.now();`
+- `omega-v44\src\phase5_mycelium\Mycelium.ts:71: const timestamp = Date.now();`
+- `omega-v44\src\phase5_mycelium\Mycelium.ts:304: timestamp: Date.now(),`
+- `omega-v44\src\phase5_mycelium\WindowManager.ts:36: const now = referenceTime ?? Date.now();`
+- `omega-v44\src\phase5_mycelium\WindowManager.ts:66: const now = Date.now();`
+- `omega-v44\src\phase5_mycelium\WindowManager.ts:92: const now = referenceTime ?? Date.now();`
+- `omega-v44\src\phase6_cli\OmegaCLI.ts:65: const startTime = Date.now();`
+- `omega-v44\src\phase6_cli\OmegaCLI.ts:127: const durationMs = Date.now() - startTime;`
+- `omega-v44-phase7\phase7_verification\src\renderTrunk.ts:10: * âŒ No Math.random() or Date.now()`
+- `omega-v44-phase7\proof_pack\src\renderTrunk.ts:10: * âŒ No Math.random() or Date.now()`
+- `omega-v44-phase7\src\renderTrunk.ts:10: * âŒ No Math.random() or Date.now()`
+- `OMEGA_PHASE13A\observability\alert_engine.ts:130: const currentTime = now_ms ?? Date.now();`
+- `OMEGA_PHASE13A\observability\alert_engine.ts:252: const currentTime = now_ms ?? Date.now();`
+- `OMEGA_PHASE13A\observability\forensic_logger.ts:284: const opKey = `${operation}:${Date.now()}`;`
+- `OMEGA_PHASE13A\observability\metrics_collector.ts:87: return Date.now();`
+- `OMEGA_PHASE14\ipc\bridge.ts:187: this.startTime = Date.now();`
+- `OMEGA_PHASE14\ipc\bridge.ts:428: uptime_ms: this.startTime > 0 ? Date.now() - this.startTime : 0,`
+- `OMEGA_PHASE14\ipc\health_monitor.ts:61: this.lastSuccess = Date.now();`
+- `OMEGA_PHASE14\ipc\health_monitor.ts:132: this.lastHeartbeat = Date.now();`
+- `OMEGA_PHASE14\ipc\health_monitor.ts:149: this.lastHeartbeat = Date.now();`
+- `OMEGA_PHASE14\ipc\health_monitor.ts:171: return Date.now() - this.lastHeartbeat;`
+- `OMEGA_PHASE14\ipc\health_monitor.ts:209: const start = Date.now();`
+- `OMEGA_PHASE14\ipc\health_monitor.ts:213: const latency = Date.now() - start;`
+- `OMEGA_PHASE14\ipc\protocol.ts:273: _timestamp_ms: Date.now(),`
+- `OMEGA_PHASE14\ipc\protocol.ts:321: const timestamp = Date.now().toString(36);`
+- `OMEGA_PHASE14\ipc\request_tracker.ts:117: created_at: Date.now(),`
+- `OMEGA_PHASE14\ipc\request_tracker.ts:150: const latency = Date.now() - pending.created_at;`
+- `OMEGA_PHASE14\ipc\worker_manager.ts:53: return Date.now() - this.startTime;`
+- `OMEGA_PHASE14\ipc\worker_manager.ts:105: this.startTime = Date.now();`
+- `OMEGA_PHASE14\oracle\oracle_engine.ts:300: const callStart = Date.now();`
+- `OMEGA_PHASE14\oracle\oracle_engine.ts:314: const llmLatency = Date.now() - callStart;`
+- `OMEGA_PHASE14\oracle\oracle_engine.ts:384: const totalLatency = Date.now() - startTime;`
+- `OMEGA_PHASE14\oracle\prompt_builder.ts:25: /** Timestamp (injected, never Date.now() inside) */`
+- `OMEGA_PHASE14\oracle\response_parser.ts:193: created_at_ms: options.created_at_ms ?? raw.created_at_ms ?? Date.now(),`
+- `OMEGA_PHASE19_PERSIST\src\adapters\node-file-adapter.ts:501: `${DELETED_PREFIX}${Date.now()}_${basename(filePath)}``
+- `OMEGA_PHASE19_PERSIST\src\adapters\node-file-adapter.ts:590: const startTime = Date.now();`
+- `OMEGA_PHASE19_PERSIST\src\adapters\node-file-adapter.ts:592: while (Date.now() - startTime < this.config.lockTimeout) {`
+- `OMEGA_PHASE19_PERSIST\src\adapters\node-file-adapter.ts:597: this.locks.set(lockPath, { handle: fd, timestamp: Date.now() });`
+- `OMEGA_PHASE19_PERSIST\src\core\types.ts:309: const timestamp = Date.now().toString(36);`
+- `OMEGA_PHASE20_1_MEMORY_HOOK\src\lifecycle\onShutdown.ts:59: const startTime = Date.now();`
+- `OMEGA_PHASE20_1_MEMORY_HOOK\src\lifecycle\onShutdown.ts:72: duration: Date.now() - startTime,`
+- `OMEGA_PHASE20_1_MEMORY_HOOK\src\lifecycle\onShutdown.ts:88: duration: Date.now() - startTime,`
+- `OMEGA_PHASE20_1_MEMORY_HOOK\src\lifecycle\onShutdown.ts:115: duration: Date.now() - startTime,`
+- `OMEGA_PHASE20_1_MEMORY_HOOK\src\lifecycle\onStart.ts:53: const startTime = Date.now();`
+- `OMEGA_PHASE20_1_MEMORY_HOOK\src\lifecycle\onStart.ts:65: duration: Date.now() - startTime,`
+- `OMEGA_PHASE20_1_MEMORY_HOOK\src\lifecycle\onStart.ts:81: duration: Date.now() - startTime,`
+- `OMEGA_PHASE20_1_MEMORY_HOOK\src\lifecycle\onStart.ts:102: duration: Date.now() - startTime,`
+- `OMEGA_SENTINEL_SUPREME\sentinel\self\falsify-runner.ts:231: const base = Date.now();`
+- `OMEGA_SENTINEL_SUPREME\sentinel\self\seal.ts:402: const timestamp = Date.now().toString(36);`
+- `OMEGA_SENTINEL_SUPREME\sentinel\self\survival-proof.ts:261: runId: `FALS-${seed}-${Date.now()}`,`
+- `OMEGA_SPRINT15\src\nexus\executor.ts:74: const startTime = Date.now();`
+- `OMEGA_SPRINT15\src\nexus\executor.ts:88: duration_ms: Date.now() - startTime,`
+- `OMEGA_SPRINT15\src\nexus\executor.ts:102: duration_ms: Date.now() - startTime,`
+- `OMEGA_SPRINT15\src\nexus\executor.ts:106: const duration_ms = Date.now() - startTime;`
+- `OMEGA_SPRINT15\src\nexus\nexus.ts:85: const startTime = Date.now();`
+- `OMEGA_SPRINT15\src\nexus\nexus.ts:137: const duration_ms = Date.now() - startTime;`
+- `OMEGA_SPRINT15\src\nexus\nexus.ts:249: const timestamp = Date.now().toString(16);`
+- `OMEGA_SPRINT15\src\nexus\nexus.ts:266: const duration_ms = Date.now() - startTime;`
+- `OMEGA_SPRINT15\src\nexus\replay.ts:35: const startTime = Date.now();`
+- `OMEGA_SPRINT15\src\nexus\replay.ts:49: replay_duration_ms: Date.now() - startTime,`
+- `OMEGA_SPRINT15\src\nexus\replay.ts:69: replay_duration_ms: Date.now() - startTime,`
+- `OMEGA_SPRINT15\src\nexus\replay.ts:120: const startTime = Date.now();`
+- `OMEGA_SPRINT15\src\nexus\replay.ts:144: replay_duration_ms: Date.now() - startTime,`
+- `OMEGA_SPRINT15\src\nexus\replay.ts:164: replay_duration_ms: Date.now() - startTime,`
+- `packages\canon-kernel\src\types\transactions.ts:60: timestamp: options?.timestamp ?? Date.now(),`
+- `packages\decision-engine\src\classifier\classifier.ts:33: this.clock = options.clock ?? (() => Date.now());`
+- `packages\decision-engine\src\incident\incident-log.ts:51: this.clock = options.clock ?? (() => Date.now());`
+- `packages\decision-engine\src\queue\escalation-queue.ts:38: this.clock = options.clock ?? (() => Date.now());`
+- `packages\decision-engine\src\review\review-interface.ts:55: this.clock = options.clock ?? (() => Date.now());`
+- `packages\decision-engine\src\sentinel\sentinel.ts:41: this.clock = options.clock ?? (() => Date.now());`
+- `packages\decision-engine\src\sentinel\types.ts:47: /** Clock function for timestamps (default: Date.now) */`
+- `packages\decision-engine\src\sentinel\utils.ts:15: export function generateEventId(prefix: string = 'evt', clock: () => number = Date.now): string {`
+- `packages\decision-engine\src\trace\decision-trace.ts:63: this.clock = options.clock ?? (() => Date.now());`
+- `packages\decision-engine\src\index.ts:56: *   timestamp: Date.now(),`
+- `packages\emotion-gate\src\gate\emotion-gate.ts:52: const timestamp = Date.now().toString(36);`
+- `packages\emotion-gate\src\gate\emotion-gate.ts:166: sequence_id: `seq_${entityId}_${Date.now().toString(36)}`,`
+- `packages\emotion-gate\src\gate\emotion-gate.ts:260: timestamp: Date.now(),`
+- `packages\emotion-gate\src\ledger\verdict-ledger.ts:106: timestamp: Date.now(),`
+- `packages\emotion-gate\src\policy\policy-manager.ts:107: const policyId: EmotionPolicyId = `epol_${Date.now().toString(36)}_${Math.random().toString(36).substring(2, 8)}`;`
+- `packages\emotion-gate\src\policy\policy-manager.ts:267: const newPolicyId: EmotionPolicyId = `epol_${Date.now().toString(36)}_${Math.random().toString(36).substring(2, 8)}`;`
+- `packages\emotion-gate\tests\helpers\test-fixtures.ts:148: timestamp: options.timestamp ?? Date.now(),`
+- `packages\emotion-gate\tests\helpers\test-fixtures.ts:177: sequence_id: `seq_test_${Date.now()}`,`
+- `packages\emotion-gate\tests\helpers\test-fixtures.ts:191: timestamp: Date.now() + i * 1000,`
+- `packages\emotion-gate\tests\helpers\test-fixtures.ts:206: timestamp: Date.now() + i * 1000,`
+- `packages\emotion-gate\tests\helpers\test-fixtures.ts:225: timestamp: Date.now() + i * 1000,`
+- `packages\emotion-gate\tests\helpers\test-fixtures.ts:242: const policyId: EmotionPolicyId = `epol_test_${Date.now()}`;`
+- `packages\emotion-gate\tests\helpers\test-fixtures.ts:274: hash: `rh_test_policy_${Date.now()}` as any,`
+- `packages\emotion-gate\tests\helpers\test-fixtures.ts:309: axiom_id: `axiom_test_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,`
+- `packages\gold-cli\src\runner.ts:148: const startTime = Date.now();`
+- `packages\gold-cli\src\runner.ts:164: const totalDuration = Date.now() - startTime;`
+- `packages\gold-internal\src\certification.ts:27: const timestamp = Date.now().toString(36);`
+- `packages\gold-master\src\certifier.ts:48: const startTime = Date.now();`
+- `packages\gold-master\src\certifier.ts:65: const summary = this.calculateSummary(packages, integrations, Date.now() - startTime);`
+- `packages\gold-master\src\certifier.ts:217: const timestamp = Date.now().toString(36);`
+- `packages\gold-suite\src\aggregator.ts:76: const timestamp = Date.now().toString(36);`
+- `packages\gold-suite\src\runner.ts:97: const startTime = Date.now();`
+- `packages\gold-suite\src\runner.ts:120: duration: Date.now() - startTime,`
+- `packages\gold-suite\src\runner.ts:159: const timestamp = Date.now().toString(36);`
+- `packages\headless-runner\src\runner.ts:60: const clock = config.clock ?? new DeterministicClock(Date.now());`
+- `packages\headless-runner\src\runner.ts:163: const clock = config.clock ?? new DeterministicClock(Date.now());`
+- `packages\integration-nexus-dep\src\adapters\genome.adapter.ts:96: const start = Date.now();`
+- `packages\integration-nexus-dep\src\adapters\genome.adapter.ts:102: latencyMs: Date.now() - start`
+- `packages\integration-nexus-dep\src\adapters\genome.adapter.ts:108: latencyMs: Date.now() - start,`
+- `packages\integration-nexus-dep\src\adapters\mycelium-bio.adapter.ts:107: const start = Date.now();`
+- `packages\integration-nexus-dep\src\adapters\mycelium-bio.adapter.ts:112: latencyMs: Date.now() - start`
+- `packages\integration-nexus-dep\src\adapters\mycelium-bio.adapter.ts:118: latencyMs: Date.now() - start,`
+- `packages\integration-nexus-dep\src\adapters\mycelium-bio.adapter.ts:129: const start = Date.now();`
+- `packages\integration-nexus-dep\src\adapters\mycelium-bio.adapter.ts:144: processingTimeMs: Date.now() - start`
+- `packages\integration-nexus-dep\src\adapters\mycelium-bio.adapter.ts:156: const start = Date.now();`
+- `packages\integration-nexus-dep\src\adapters\mycelium-bio.adapter.ts:171: processingTimeMs: Date.now() - start`
+- `packages\integration-nexus-dep\src\adapters\mycelium.adapter.ts:93: const start = Date.now();`
+- `packages\integration-nexus-dep\src\adapters\mycelium.adapter.ts:98: latencyMs: Date.now() - start`
+- `packages\integration-nexus-dep\src\adapters\mycelium.adapter.ts:104: latencyMs: Date.now() - start,`
+- `packages\integration-nexus-dep\src\adapters\orchestrator.adapter.ts:108: const start = Date.now();`
+- `packages\integration-nexus-dep\src\adapters\orchestrator.adapter.ts:114: latencyMs: Date.now() - start,`
+- `packages\integration-nexus-dep\src\adapters\orchestrator.adapter.ts:120: latencyMs: Date.now() - start,`
+- `packages\integration-nexus-dep\src\adapters\orchestrator.adapter.ts:135: const startMs = Date.now();`
+- `packages\integration-nexus-dep\src\adapters\orchestrator.adapter.ts:163: const durationMs = Date.now() - startMs;`
+- `packages\integration-nexus-dep\src\adapters\orchestrator.adapter.ts:169: run_id: `run-${options.seed}-${Date.now().toString(36)}`,`
+- `packages\integration-nexus-dep\src\adapters\orchestrator.adapter.ts:264: const startMs = Date.now();`
+- `packages\integration-nexus-dep\src\adapters\orchestrator.adapter.ts:278: duration_ms: Date.now() - startMs,`
+- `packages\integration-nexus-dep\src\adapters\orchestrator.adapter.ts:292: duration_ms: Date.now() - startMs,`
+- `packages\integration-nexus-dep\src\contracts\types.ts:219: const timestamp = Date.now().toString(36);`
+- `packages\integration-nexus-dep\src\pipeline\executor.ts:99: const startTimeMs = Date.now();`
+- `packages\integration-nexus-dep\src\pipeline\executor.ts:151: startTime: Date.now()`
+- `packages\integration-nexus-dep\src\pipeline\executor.ts:180: const endTimeMs = Date.now();`
+- `packages\integration-nexus-dep\src\pipeline\executor.ts:213: const startTimeMs = Date.now();`
+- `packages\integration-nexus-dep\src\pipeline\executor.ts:235: const endTimeMs = Date.now();`
+- `packages\integration-nexus-dep\src\pipeline\executor.ts:277: const endTimeMs = Date.now();`
+- `packages\integration-nexus-dep\src\pipeline\executor.ts:326: const now = Date.now();`
+- `packages\integration-nexus-dep\src\pipeline\executor.ts:342: const timestamp = Date.now().toString(36);`
+- `packages\integration-nexus-dep\src\router\dispatcher.ts:134: const startTime = Date.now();`
+- `packages\integration-nexus-dep\src\router\dispatcher.ts:172: const durationMs = Date.now() - startTime;`
+- `packages\integration-nexus-dep\src\router\dispatcher.ts:186: const durationMs = Date.now() - startTime;`
+- `packages\integration-nexus-dep\src\router\dispatcher.ts:233: const executionTimeMs = Date.now() - startTime;`
+- `packages\integration-nexus-dep\src\router\dispatcher.ts:252: executionTimeMs: Date.now() - startTime`
+- `packages\integration-nexus-dep\src\scheduler\scheduler.ts:188: const start = Date.now();`
+- `packages\integration-nexus-dep\src\scheduler\scheduler.ts:190: while (Date.now() - start < timeoutMs) {`
+- `packages\integration-nexus-dep\src\scheduler\scheduler.ts:228: const timestamp = Date.now().toString(36);`
+- `packages\integration-nexus-dep\src\index.ts:83: const timestamp = Date.now().toString(36);`
+- `packages\mycelium-bio\src\dna_builder.ts:90: const startTime = Date.now();`
+- `packages\mycelium-bio\src\dna_builder.ts:144: const processingTimeMs = Date.now() - startTime;`
+- `packages\omega-aggregate-dna\src\aggregate.ts:50: const startTime = Date.now();`
+- `packages\omega-aggregate-dna\src\aggregate.ts:89: processing_time_ms: Date.now() - startTime,`
+- `packages\omega-aggregate-dna\src\aggregate.ts:188: processing_time_ms: Date.now() - startTime,`
+- `packages\omega-observability\src\emitter.ts:52: this.startTime = Date.now();`
+- `packages\omega-observability\src\emitter.ts:89: const now = Date.now();`
+- `packages\omega-observability\src\emitter.ts:158: const elapsed_ms = Date.now() - this.startTime;`
+- `packages\omega-observability\src\emitter.ts:280: return Date.now() - this.startTime;`
+- `packages\omega-observability\src\events.ts:173: const startTime = Date.now();`
+- `packages\omega-observability\src\events.ts:178: const durationMs = Date.now() - startTime;`
+- `packages\oracle\src\cache.ts:104: if (Date.now() > entry.expires) {`
+- `packages\oracle\src\cache.ts:112: entry.lastAccess = Date.now();`
+- `packages\oracle\src\cache.ts:140: expires: Date.now() + effectiveTTL,`
+- `packages\oracle\src\cache.ts:142: lastAccess: Date.now(),`
+- `packages\oracle\src\cache.ts:167: if (Date.now() > entry.expires) {`
+- `packages\oracle\src\cache.ts:201: const now = Date.now();`
+- `packages\oracle\src\cache.ts:304: const now = Date.now();`
+- `packages\oracle\src\metrics.ts:145: this.startTime = Date.now();`
+- `packages\oracle\src\metrics.ts:184: this.timestamps.set(key, Date.now());`
+- `packages\oracle\src\metrics.ts:204: this.timestamps.set(key, Date.now());`
+- `packages\oracle\src\metrics.ts:248: this.timestamps.set(key, Date.now());`
+- `packages\oracle\src\metrics.ts:270: timestamp: this.timestamps.get(key) || Date.now(),`
+- `packages\oracle\src\metrics.ts:283: start: Date.now(),`
+- `packages\oracle\src\metrics.ts:293: const duration = Date.now() - context.start;`
+- `packages\oracle\src\metrics.ts:315: this.timestamps.set(key, Date.now());`
+- `packages\oracle\src\metrics.ts:334: timestamp: this.timestamps.get(key) || Date.now(),`
+- `packages\oracle\src\metrics.ts:398: timestamp: Date.now(),`
+- `packages\oracle\src\metrics.ts:410: const now = Date.now();`
+- `packages\oracle\src\metrics.ts:465: const cutoff = Date.now() - this.config.retentionPeriod;`
+- `packages\oracle\src\metrics.ts:493: this.startTime = Date.now();`
+- `packages\oracle\src\metrics.ts:500: return Date.now() - this.startTime;`
+- `packages\oracle\src\oracle.ts:35: return `oracle-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;`
+- `packages\oracle\src\oracle.ts:81: const startTime = Date.now();`
+- `packages\oracle\src\oracle.ts:114: const processingTime = Date.now() - startTime;`
+- `packages\oracle\src\oracle.ts:131: durationMs: Date.now() - startTime,`
+- `packages\oracle\src\oracle.ts:157: const processingTime = Date.now() - startTime;`
+- `packages\oracle\src\oracle.ts:171: timestamp: Date.now(),`
+- `packages\oracle\src\oracle.ts:349: if (Date.now() > cached.expires) {`
+- `packages\oracle\src\oracle.ts:362: expires: Date.now() + this.config.cacheTTL,`
+- `packages\oracle\src\streaming.ts:287: return `stream-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;`
+- `packages\oracle\src\streaming.ts:294: const now = Date.now();`
+- `packages\oracle\src\streaming.ts:336: this.state.startTime = Date.now();`
+- `packages\oracle\src\streaming.ts:460: processingTime: Date.now() - this.state.startTime,`
+- `packages\oracle\src\streaming.ts:462: timestamp: Date.now(),`
+- `packages\oracle\src\streaming.ts:469: duration: Date.now() - this.state.startTime,`
+- `packages\orchestrator-core\src\util\clock.ts:3: * NEVER use Date.now() directly - always inject a Clock instance.`
+- `packages\orchestrator-core\src\util\clock.ts:31: return Date.now();`
+- `packages\orchestrator-core\src\util\prng.ts:33: * NEVER use Date.now() or similar - this ensures reproducibility.`
+- `packages\performance\src\pool.ts:201: const now = Date.now();`
+- `packages\performance\src\pool.ts:276: this.lastRefill = Date.now();`
+- `packages\performance\src\pool.ts:310: const now = Date.now();`
+- `packages\proof-pack\src\builder.ts:204: const timestamp = Date.now().toString(36);`
+- `packages\search\src\analytics.ts:132: timestamp: Date.now(),`
+- `packages\search\src\analytics.ts:160: timestamp: Date.now(),`
+- `packages\search\src\analytics.ts:186: timestamp: Date.now(),`
+- `packages\search\src\analytics.ts:205: timestamp: Date.now(),`
+- `packages\search\src\analytics.ts:226: timestamp: Date.now(),`
+- `packages\search\src\analytics.ts:249: timestamp: Date.now(),`
+- `packages\search\src\analytics.ts:297: const end = Date.now();`
+- `packages\search\src\analytics.ts:391: const now = Date.now();`
+- `packages\search\src\analytics.ts:505: lastSearched: Date.now(),`
+- `packages\search\src\analytics.ts:511: stats.lastSearched = Date.now();`
+- `packages\search\src\engine.ts:70: timestamp: doc.timestamp || Date.now(),`
+- `packages\search\src\engine.ts:71: indexedAt: Date.now(),`
+- `packages\search\src\engine.ts:148: const startTime = Date.now();`
+- `packages\search\src\engine.ts:227: const durationMs = Date.now() - startTime;`
+- `packages\search\src\export.ts:107: filename: `search_results_${Date.now()}.${FILE_EXTENSIONS[opts.format]}`,`
+- `packages\search\src\export.ts:110: exportedAt: Date.now(),`
+- `packages\search\src\export.ts:138: filename: `documents_${Date.now()}.${FILE_EXTENSIONS[opts.format]}`,`
+- `packages\search\src\export.ts:141: exportedAt: Date.now(),`
+- `packages\search\src\export.ts:175: filename: `${templateName}_${Date.now()}.${FILE_EXTENSIONS[template.format]}`,`
+- `packages\search\src\export.ts:178: exportedAt: Date.now(),`
+- `packages\search\src\import.ts:122: const startTime = Date.now();`
+- `packages\search\src\index-manager.ts:138: this.createdAt = Date.now();`
+- `packages\search\src\index-manager.ts:139: this.updatedAt = Date.now();`
+- `packages\search\src\index-manager.ts:172: const startTime = Date.now();`
+- `packages\search\src\index-manager.ts:185: timestamp: doc.timestamp || Date.now(),`
+- `packages\search\src\index-manager.ts:186: indexedAt: Date.now(),`
+- `packages\search\src\index-manager.ts:191: this.updatedAt = Date.now();`
+- `packages\search\src\index-manager.ts:207: const startTime = Date.now();`
+- `packages\search\src\index-manager.ts:232: const startTime = Date.now();`
+- `packages\search\src\index-manager.ts:243: this.updatedAt = Date.now();`
+- `packages\search\src\index-manager.ts:328: id: `segment-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,`
+- `packages\search\src\index-manager.ts:330: createdAt: Date.now(),`
+- `packages\search\src\index-manager.ts:356: const startTime = Date.now();`
+- `packages\search\src\index-manager.ts:389: this.updatedAt = Date.now();`
+- `packages\search\src\index-manager.ts:404: const startTime = Date.now();`
+- `packages\search\src\index-manager.ts:421: this.lastOptimized = Date.now();`
+- `packages\search\src\index-manager.ts:422: this.updatedAt = Date.now();`
+- `packages\search\src\index-manager.ts:474: ? Date.now() - this.lastOptimized`
+- `packages\search\src\index-manager.ts:550: this.updatedAt = Date.now();`
+- `packages\search\src\index-manager.ts:581: timestamp: Date.now(),`
+- `packages\search\src\index-manager.ts:582: duration: Date.now() - startTime,`
+- `packages\search\src\index-manager.ts:610: this.updatedAt = Date.now();`
+- `packages\search\src\search.ts:98: this.sessionId = `session-${Date.now()}`;`
+- `packages\search\src\search.ts:141: const startTime = Date.now();`
+- `packages\search\src\search.ts:155: const latency = Date.now() - startTime;`
+- `packages\search\src\suggest.ts:213: const startTime = Date.now();`
+- `packages\search\src\suggest.ts:220: took: Date.now() - startTime,`
+- `packages\search\src\suggest.ts:277: took: Date.now() - startTime,`
+- `packages\truth-gate\src\drift\drift-detector.ts:183: const now = Date.now();`
+- `packages\truth-gate\src\gate\verdict-factory.ts:33: timestamp: Date.now(),`
+- `packages\truth-gate\src\gate\verdict-factory.ts:132: const timestamp = Date.now();`
+- `packages\truth-gate\src\ledger\verdict-ledger.ts:31: const timestamp = Date.now();`
+- `packages\truth-gate\src\policy\policy-manager.ts:44: created_at: Date.now(),`
+- `packages\truth-gate\src\policy\policy-manager.ts:101: deactivated_at: Date.now(),`
+- `packages\truth-gate\src\policy\policy-manager.ts:109: activated_at: Date.now(),`
+- `scripts\gate-c1-determinism.ts:24: const testDir = join(tmpdir(), `omega-gate-c1-${Date.now()}`);`
+- `scripts\gate-c3-hostile.ts:47: const testDir = join(tmpdir(), `omega-gate-c3-${Date.now()}`);`
+- `scripts\gate-c4-trace.ts:22: const testDir = join(tmpdir(), `omega-gate-c4-${Date.now()}`);`
+- `scripts\gate-cd-integration.ts:27: const testDir = join(tmpdir(), `omega-gate-cd-${Date.now()}`);`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\self\falsify-runner.ts:231: const base = Date.now();`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\self\seal.ts:402: const timestamp = Date.now().toString(36);`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\self\survival-proof.ts:261: runId: `FALS-${seed}-${Date.now()}`,`
+- `src\canon\id-factory.ts:10: * RÃˆGLE INT-E-06: 0 Math.random/Date.now`
+- `src\genesis\core\forge.ts:40: const startTime = Date.now();`
+- `src\genesis\core\forge.ts:80: const iterStartTime = Date.now();`
+- `src\genesis\core\forge.ts:83: if (Date.now() - startTime > config.budgets.BUDGET_MS_TOTAL_FORGE) {`
+- `src\genesis\core\forge.ts:90: const drafterStart = Date.now();`
+- `src\genesis\core\forge.ts:98: logTiming(proofCtx, 'drafter', 'generateDrafts', Date.now() - drafterStart);`
+- `src\genesis\core\forge.ts:110: const fastGateStart = Date.now();`
+- `src\genesis\core\forge.ts:123: logTiming(proofCtx, 'fastGate', 'evaluate', Date.now() - fastGateStart);`
+- `src\genesis\core\forge.ts:141: const sentinelStart = Date.now();`
+- `src\genesis\core\forge.ts:164: logTiming(proofCtx, 'sentinel', 'evaluate', Date.now() - sentinelStart);`
+- `src\genesis\core\forge.ts:176: durationMs: Date.now() - iterStartTime,`
+- `src\genesis\core\forge.ts:211: if (Date.now() - iterStartTime > config.budgets.BUDGET_MS_TOTAL_ITER) {`
+- `src\genesis\core\forge.ts:213: logTiming(proofCtx, 'iteration', 'budget_exceeded', Date.now() - iterStartTime);`
+- `src\genesis\proofs\hash_utils.ts:83: const timestamp = Date.now().toString(36);`
+- `src\memory\governance\audit.ts:32: const timestamp = Date.now().toString(36);`
+- `src\oracle\muse\suggest\index.ts:70: const startTime = Date.now();`
+- `src\oracle\muse\suggest\index.ts:234: duration_ms: Date.now() - startTime,`
+- `src\oracle\muse\assess.ts:368: const startTime = Date.now();`
+- `src\oracle\muse\assess.ts:412: duration_ms: Date.now() - startTime,`
+- `src\oracle\muse\muse_engine.ts:71: this.currentTraceId = sha256(`${Date.now()}:${input.seed}`).substring(0, 16);`
+- `src\oracle\muse\muse_engine.ts:72: const startTime = Date.now();`
+- `src\oracle\muse\muse_engine.ts:142: duration_ms: Date.now() - startTime,`
+- `src\oracle\muse\muse_engine.ts:159: this.currentTraceId = sha256(`${Date.now()}:assess`).substring(0, 16);`
+- `src\oracle\muse\muse_engine.ts:160: const startTime = Date.now();`
+- `src\oracle\muse\muse_engine.ts:192: duration_ms: Date.now() - startTime,`
+- `src\oracle\muse\muse_engine.ts:209: this.currentTraceId = sha256(`${Date.now()}:${input.seed}`).substring(0, 16);`
+- `src\oracle\muse\muse_engine.ts:210: const startTime = Date.now();`
+- `src\oracle\muse\muse_engine.ts:254: duration_ms: Date.now() - startTime,`
+- `src\oracle\muse\muse_engine.ts:274: timestamp_ms: Date.now(),`
+- `src\oracle\muse\project.ts:297: const startTime = Date.now();`
+- `src\oracle\muse\project.ts:349: duration_ms: Date.now() - startTime,`
+- `src\oracle\emotion_v2.ts:142: created_at_ms: Date.now(),`
+- `src\oracle\emotion_v2.ts:169: trace_id: `test-${Date.now()}`,`
+- `src\oracle\emotion_v2.ts:170: created_at_ms: Date.now(),`
+- `src\orchestrator\forge-adapter.ts:190: const startTime = Date.now();`
+- `src\orchestrator\forge-adapter.ts:236: const processingMs = Date.now() - startTime;`
+- `src\orchestrator\orchestrator.ts:152: const startTime = Date.now();`
+- `src\orchestrator\orchestrator.ts:179: processingMs: Date.now() - startTime,`
+- `src\orchestrator\orchestrator.ts:202: processingMs: Date.now() - startTime,`
+- `src\orchestrator\orchestrator.ts:232: processingMs: Date.now() - startTime,`
+- `src\orchestrator\orchestrator.ts:264: processingMs: Date.now() - startTime,`
+- `src\orchestrator\orchestrator.ts:300: processingMs: Date.now() - startTime,`
+- `src\orchestrator\orchestrator.ts:338: processingMs: Date.now() - startTime,`
+- `src\orchestrator\orchestrator.ts:366: processingMs: Date.now() - startTime,`
+- `src\scribe\record_replay.ts:161: const tempPath = `${file_path}.tmp.${Date.now()}`;`
+- `src\shared\clock.ts:7: * - INV-CLOCK-02: Never Date.now() in critical code`
+- `src\shared\clock.ts:25: nowWallMs: () => Date.now(),`
+- `src\shared\lock.ts:35: const start = Date.now();`
+- `src\shared\lock.ts:60: if (Date.now() - start > LOCK_TIMEOUT_MS) {`
+- `tests\e2e\setup.ts:49: const clock = { now: () => Date.now() };`
+- `tests\e2e\setup.ts:115: const now = Date.now();`
+- `tests\scribe\L2_integration_test.ts:13: const TEST_DIR = '/tmp/scribe_test_' + Date.now();`
+- `tests\scribe\L2_integration_test.ts:43: run_id: 'run_' + Date.now(),`
+- `bench_gen_text.ts:203: const startTime = Date.now();`
+- `bench_gen_text.ts:205: const generateTime = Date.now() - startTime;`
+- `bench_gen_text.ts:208: const writeTime = Date.now() - startTime;`
+- `emotion_engine.ts:117: last_update: Date.now()`
+- `emotion_engine.ts:166: last_update: Date.now()`
+- `emotion_engine.ts:174: const now = Date.now();`
+- `emotion_engine.ts:208: last_update: Date.now()`
+- `emotion_engine.ts:266: last_update: Date.now()`
+- `emotion_engine.ts:293: last_update: Date.now()`
+- `emotion_engine.ts:309: last_update: Date.now()`
+- `emotion_engine.ts:387: last_update: Date.now()`
+- `emotion_engine.ts:434: last_update: Date.now()`
+- `emotion_engine.ts:452: last_update: Date.now()`
+- `lock_manager.ts:51: return Date.now() - payload.timestamp > ttlMs;`
+- `lock_manager.ts:81: timestamp: Date.now(),`
+- `lock_manager_more_test.ts:17: root = join(tmpdir(), `omega-quarantine-${Date.now()}-${Math.random().toString(36).slice(2)}`);`
+- `mock_runner.ts:81: const run_id = `mock_${Date.now()}`;`
+- `mock_runner.ts:82: const ts = () => Date.now();`
+- `quarantine.ts:50: const id = `quarantine_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;`
+- `quarantine.ts:54: timestamp: Date.now(),`
+- `quarantine.ts:55: quarantinedAt: Date.now(),`
+- `quarantine.ts:68: const id = `quarantine_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;`
+- `quarantine.ts:72: timestamp: Date.now(),`
+- `quarantine.ts:73: quarantinedAt: Date.now()`
+- `quarantine.ts:195: const cutoff = Date.now() - cutoffMs;`
+- `quarantine.ts:223: const cutoff = Date.now() - cutoffMs;`
+- `quarantine_more_test.ts:86: quarantinedAt: Date.now() - 1000 * 60 * 60 * 24 * 365,`
+- `run_pipeline_scale.ts:119: return Date.now();`
+- `run_pipeline_scale_v2.ts:139: return Date.now();`
+- `store.ts:187: const run_id = `run_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;`
+
+### Object.keys (161 hits)
+- `apps\omega-ui\src\components\dashboard\EmotionOverview.tsx:38: Object.keys(totals).forEach((emotion) => {`
+- `apps\omega-ui\src\core\analyzer.ts:185: for (const emotion of Object.keys(result)) {`
+- `apps\omega-ui\src\core\dna.ts:179: Object.keys(analysis.aggregateEmotions).length / 14,`
+- `apps\omega-ui\src\hooks\useOracle.ts:198: for (const key of Object.keys(emotions)) {`
+- `gateway\cli-runner\src\cli\commands\analyze.ts:1320: return Object.keys(TEST_FIXTURES).some(fixture => filePath.includes(fixture));`
+- `gateway\cli-runner\src\cli\parser.ts:178: for (const optName of Object.keys(parsed.options)) {`
+- `gateway\sentinel\src\sentinel\sentinel.ts:345: const keys = Object.keys(value);`
+- `gateway\src\creation\creation_layer_nasa\creation_request.ts:111: const keys = Object.keys(obj).sort(); // Tri lexicographique`
+- `gateway\src\creation\creation_layer_nasa\snapshot_context.ts:60: for (const key of Object.keys(obj)) {`
+- `gateway\src\hardening\hardening_checks.ts:491: listFiles: () => Object.keys(mockFiles),`
+- `gateway\src\memory\memory_layer_nasa\canonical_encode.ts:157: const keys = Object.keys(obj).sort();`
+- `gateway\src\memory\memory_layer_nasa\memory_hash.ts:50: const keys = Object.keys(v).sort();`
+- `gateway\wiring\src\adapters\gateway_adapter.ts:278: const configuredModules = new Set(Object.keys(this.config.moduleVersions));`
+- `gateway\wiring\src\canonical_json.ts:99: const keys = Object.keys(value).sort();`
+- `gateway\wiring\src\envelope.ts:153: for (const key of Object.keys(obj)) {`
+- `genesis-forge\src\genesis\core\prism.ts:222: for (const domain of Object.keys(scores) as DomainType[]) {`
+- `genesis-forge\src\genesis\core\prism.ts:290: for (const domain of Object.keys(scores) as DomainType[]) {`
+- `genesis-forge\src\genesis\core\prism.ts:329: for (const domain of Object.keys(scores) as DomainType[]) {`
+- `genesis-forge\src\genesis\core\prism.ts:389: for (const domain of Object.keys(scores) as DomainType[]) {`
+- `nexus\shared\logging\index.ts:201: ...(context && Object.keys(context).length > 0 ? { context } : {}),`
+- `nexus\shared\metrics\index.ts:182: const sorted = Object.keys(labels).sort();`
+- `nexus\shared\metrics\index.ts:323: const sorted = Object.keys(labels).sort();`
+- `nexus\shared\metrics\index.ts:449: const sorted = Object.keys(labels).sort();`
+- `nexus\src\core\crypto.ts:29: const json = JSON.stringify(obj, Object.keys(obj as object).sort());`
+- `omega-narrative-genome\src\comparator\similarity.ts:87: const emotions = Object.keys(axis.distribution).sort();`
+- `omega-narrative-genome\src\hasher\fingerprint.ts:75: const keys = Object.keys(value as Record<string, unknown>).sort();`
+- `omega-nexus\src\core\crypto.ts:38: const keys = Object.keys(value as object).sort();`
+- `omega-ui\src\components\EmotionSimulator.tsx:118: {Object.keys(EMOTION_COLORS).map(t => (`
+- `omega-v44\src\phase1_contract\constants.ts:159: return Object.keys(EMOTIONS_V44).length === 16;`
+- `omega-v44\src\phase1_contract\invariants.ts:114: return INVARIANT_IDS.length === Object.keys(INVARIANTS).length &&`
+- `omega-v44\src\phase1_contract\symbols.ts:113: const symbolKeys = Object.keys(SYMBOLS) as SymbolKey[];`
+- `omega-v44\src\phase1_contract\symbols.ts:114: const docKeys = Object.keys(SYMBOL_DOCS) as SymbolKey[];`
+- `omega-v44\src\phase2_core\hash.ts:71: const keys = Object.keys(value as Record<string, unknown>).sort();`
+- `omega-v44-phase7\phase7_verification\src\utils\validation.ts:28: const json = JSON.stringify(obj, Object.keys(obj as object).sort());`
+- `omega-v44-phase7\phase7_verification\src\utils\validation.ts:238: checkExtraFields('RenderReport', Object.keys(r), ALLOWED_REPORT_FIELDS);`
+- `omega-v44-phase7\phase7_verification\src\utils\validation.ts:285: checkExtraFields('environment', Object.keys(e), ALLOWED_ENVIRONMENT_FIELDS);`
+- `omega-v44-phase7\phase7_verification\src\utils\validation.ts:289: checkExtraFields('environment.docker', Object.keys(e.docker as object), ALLOWED_DOCKER_FIELDS);`
+- `omega-v44-phase7\phase7_verification\src\utils\validation.ts:293: checkExtraFields('environment.runtime', Object.keys(e.runtime as object), ALLOWED_RUNTIME_FIELDS);`
+- `omega-v44-phase7\phase7_verification\src\utils\validation.ts:297: checkExtraFields('environment.lockfiles', Object.keys(e.lockfiles as object), ALLOWED_LOCKFILES_FIELDS);`
+- `omega-v44-phase7\phase7_verification\src\utils\validation.ts:301: checkExtraFields('environment.os', Object.keys(e.os as object), ALLOWED_OS_FIELDS);`
+- `omega-v44-phase7\phase7_verification\src\utils\validation.ts:308: checkExtraFields('inputs', Object.keys(inputs as object), ALLOWED_INPUTS_FIELDS);`
+- `omega-v44-phase7\phase7_verification\src\utils\validation.ts:316: checkExtraFields('rendering', Object.keys(r), ALLOWED_RENDERING_FIELDS);`
+- `omega-v44-phase7\phase7_verification\src\utils\validation.ts:319: checkExtraFields('rendering.viewport', Object.keys(r.viewport as object), ALLOWED_VIEWPORT_FIELDS);`
+- `omega-v44-phase7\phase7_verification\src\utils\validation.ts:327: checkExtraFields('calibration', Object.keys(calibration as object), ALLOWED_CALIBRATION_FIELDS);`
+- `omega-v44-phase7\phase7_verification\src\utils\validation.ts:335: checkExtraFields('outputs', Object.keys(o), ALLOWED_OUTPUTS_FIELDS);`
+- `omega-v44-phase7\phase7_verification\src\utils\validation.ts:338: checkExtraFields('outputs.svg', Object.keys(o.svg as object), ALLOWED_OUTPUT_ITEM_FIELDS);`
+- `omega-v44-phase7\phase7_verification\src\utils\validation.ts:341: checkExtraFields('outputs.png', Object.keys(o.png as object), ALLOWED_OUTPUT_ITEM_FIELDS);`
+- `omega-v44-phase7\phase7_verification\src\utils\validation.ts:349: checkExtraFields('determinism', Object.keys(determinism as object), ALLOWED_DETERMINISM_FIELDS);`
+- `omega-v44-phase7\proof_pack\src\utils\validation.ts:28: const json = JSON.stringify(obj, Object.keys(obj as object).sort());`
+- `omega-v44-phase7\proof_pack\src\utils\validation.ts:238: checkExtraFields('RenderReport', Object.keys(r), ALLOWED_REPORT_FIELDS);`
+- `omega-v44-phase7\proof_pack\src\utils\validation.ts:285: checkExtraFields('environment', Object.keys(e), ALLOWED_ENVIRONMENT_FIELDS);`
+- `omega-v44-phase7\proof_pack\src\utils\validation.ts:289: checkExtraFields('environment.docker', Object.keys(e.docker as object), ALLOWED_DOCKER_FIELDS);`
+- `omega-v44-phase7\proof_pack\src\utils\validation.ts:293: checkExtraFields('environment.runtime', Object.keys(e.runtime as object), ALLOWED_RUNTIME_FIELDS);`
+- `omega-v44-phase7\proof_pack\src\utils\validation.ts:297: checkExtraFields('environment.lockfiles', Object.keys(e.lockfiles as object), ALLOWED_LOCKFILES_FIELDS);`
+- `omega-v44-phase7\proof_pack\src\utils\validation.ts:301: checkExtraFields('environment.os', Object.keys(e.os as object), ALLOWED_OS_FIELDS);`
+- `omega-v44-phase7\proof_pack\src\utils\validation.ts:308: checkExtraFields('inputs', Object.keys(inputs as object), ALLOWED_INPUTS_FIELDS);`
+- `omega-v44-phase7\proof_pack\src\utils\validation.ts:316: checkExtraFields('rendering', Object.keys(r), ALLOWED_RENDERING_FIELDS);`
+- `omega-v44-phase7\proof_pack\src\utils\validation.ts:319: checkExtraFields('rendering.viewport', Object.keys(r.viewport as object), ALLOWED_VIEWPORT_FIELDS);`
+- `omega-v44-phase7\proof_pack\src\utils\validation.ts:327: checkExtraFields('calibration', Object.keys(calibration as object), ALLOWED_CALIBRATION_FIELDS);`
+- `omega-v44-phase7\proof_pack\src\utils\validation.ts:335: checkExtraFields('outputs', Object.keys(o), ALLOWED_OUTPUTS_FIELDS);`
+- `omega-v44-phase7\proof_pack\src\utils\validation.ts:338: checkExtraFields('outputs.svg', Object.keys(o.svg as object), ALLOWED_OUTPUT_ITEM_FIELDS);`
+- `omega-v44-phase7\proof_pack\src\utils\validation.ts:341: checkExtraFields('outputs.png', Object.keys(o.png as object), ALLOWED_OUTPUT_ITEM_FIELDS);`
+- `omega-v44-phase7\proof_pack\src\utils\validation.ts:349: checkExtraFields('determinism', Object.keys(determinism as object), ALLOWED_DETERMINISM_FIELDS);`
+- `omega-v44-phase7\src\utils\validation.ts:28: const json = JSON.stringify(obj, Object.keys(obj as object).sort());`
+- `omega-v44-phase7\src\utils\validation.ts:238: checkExtraFields('RenderReport', Object.keys(r), ALLOWED_REPORT_FIELDS);`
+- `omega-v44-phase7\src\utils\validation.ts:285: checkExtraFields('environment', Object.keys(e), ALLOWED_ENVIRONMENT_FIELDS);`
+- `omega-v44-phase7\src\utils\validation.ts:289: checkExtraFields('environment.docker', Object.keys(e.docker as object), ALLOWED_DOCKER_FIELDS);`
+- `omega-v44-phase7\src\utils\validation.ts:293: checkExtraFields('environment.runtime', Object.keys(e.runtime as object), ALLOWED_RUNTIME_FIELDS);`
+- `omega-v44-phase7\src\utils\validation.ts:297: checkExtraFields('environment.lockfiles', Object.keys(e.lockfiles as object), ALLOWED_LOCKFILES_FIELDS);`
+- `omega-v44-phase7\src\utils\validation.ts:301: checkExtraFields('environment.os', Object.keys(e.os as object), ALLOWED_OS_FIELDS);`
+- `omega-v44-phase7\src\utils\validation.ts:308: checkExtraFields('inputs', Object.keys(inputs as object), ALLOWED_INPUTS_FIELDS);`
+- `omega-v44-phase7\src\utils\validation.ts:316: checkExtraFields('rendering', Object.keys(r), ALLOWED_RENDERING_FIELDS);`
+- `omega-v44-phase7\src\utils\validation.ts:319: checkExtraFields('rendering.viewport', Object.keys(r.viewport as object), ALLOWED_VIEWPORT_FIELDS);`
+- `omega-v44-phase7\src\utils\validation.ts:327: checkExtraFields('calibration', Object.keys(calibration as object), ALLOWED_CALIBRATION_FIELDS);`
+- `omega-v44-phase7\src\utils\validation.ts:335: checkExtraFields('outputs', Object.keys(o), ALLOWED_OUTPUTS_FIELDS);`
+- `omega-v44-phase7\src\utils\validation.ts:338: checkExtraFields('outputs.svg', Object.keys(o.svg as object), ALLOWED_OUTPUT_ITEM_FIELDS);`
+- `omega-v44-phase7\src\utils\validation.ts:341: checkExtraFields('outputs.png', Object.keys(o.png as object), ALLOWED_OUTPUT_ITEM_FIELDS);`
+- `omega-v44-phase7\src\utils\validation.ts:349: checkExtraFields('determinism', Object.keys(determinism as object), ALLOWED_DETERMINISM_FIELDS);`
+- `OMEGA_PHASE13A\observability\audit_trail.ts:117: const keys = Object.keys(obj as Record<string, unknown>).sort();`
+- `OMEGA_PHASE13A\observability\metrics_collector.ts:67: const keys = Object.keys(labels).sort();`
+- `OMEGA_PHASE13A\observability\metrics_collector.ts:301: for (const k of Object.keys(snap.gauges).sort()) {`
+- `OMEGA_PHASE18_MEMORY\src\canon\hash.ts:33: const sortedKeys = Object.keys(obj).sort();`
+- `OMEGA_PHASE19_PERSIST\src\core\canonical.ts:91: const keys = Object.keys(value as Record<string, unknown>).sort();`
+- `OMEGA_PHASE20_INTEGRATION\src\canon-store.ts:69: return JSON.stringify(obj, Object.keys(obj as object).sort());`
+- `OMEGA_PHASE20_INTEGRATION\src\persistence-adapter.ts:81: for (const key of Object.keys(value as Record<string, unknown>).sort()) {`
+- `OMEGA_SENTINEL_SUPREME\sentinel\meta\boundary_ledger.ts:218: for (const category of Object.keys(ledger.summary.byCategory) as BoundaryCategory[]) {`
+- `OMEGA_SENTINEL_SUPREME\sentinel\meta\boundary_ledger.ts:246: const keys = Object.keys(obj as Record<string, unknown>).sort();`
+- `OMEGA_SENTINEL_SUPREME\sentinel\self\seal.ts:167: const keys = Object.keys(obj as Record<string, unknown>).sort();`
+- `OMEGA_SENTINEL_SUPREME\sentinel\self\survival-proof.ts:115: const json = JSON.stringify(canonical, Object.keys(canonical).sort());`
+- `OMEGA_SENTINEL_SUPREME\sentinel\self\survival-proof.ts:132: const json = JSON.stringify(canonical, Object.keys(canonical).sort());`
+- `OMEGA_SPRINT15\src\nexus\audit.ts:88: const keys = Object.keys(data as Record<string, unknown>).sort();`
+- `packages\canon-kernel\src\hash\canonicalize.ts:92: const keys = Object.keys(obj).sort(); // Lexicographic sort`
+- `packages\canon-kernel\src\hash\canonicalize.ts:138: for (const key of Object.keys(obj)) {`
+- `packages\canon-kernel\src\hash\hashable-view.ts:81: included: Object.keys(view),`
+- `packages\decision-engine\src\sentinel\utils.ts:87: for (const key of Object.keys(obj)) {`
+- `packages\decision-engine\src\trace\formatter.ts:99: if (Object.keys(trace.metadata).length > 0) {`
+- `packages\decision-engine\src\util\hash.ts:27: const json = JSON.stringify(value, Object.keys(value as object).sort());`
+- `packages\emotion-gate\src\proof\proof-generator.ts:37: return computeHash(JSON.stringify(obj, Object.keys(obj as object).sort()));`
+- `packages\emotion-gate\src\validators\v-emo-bounds.ts:74: const stateKeys = Object.keys(frame.emotion_state);`
+- `packages\emotion-gate\tests\helpers\test-fixtures.ts:161: for (const key of Object.keys(state) as (keyof EmotionStateV2)[]) {`
+- `packages\emotion-gate\tests\helpers\test-fixtures.ts:221: for (const key of Object.keys(from) as (keyof EmotionStateV2)[]) {`
+- `packages\genome\src\api\similarity.ts:89: const emotions = Object.keys(axis.distribution).sort();`
+- `packages\genome\src\core\canonical.ts:117: const keys = Object.keys(value as Record<string, unknown>).sort();`
+- `packages\genome\src\core\canonicalize.ts:69: const keys = Object.keys(value as Record<string, unknown>).sort();`
+- `packages\gold-cli\src\cli.ts:90: output.success(`Proof pack created with ${Object.keys(pack.content).length} files`);`
+- `packages\hardening\src\types.ts:240: return Object.keys(obj).some((key) => dangerous.includes(key));`
+- `packages\integration-nexus-dep\src\translators\module.ts:116: for (const key of Object.keys(result) as EmotionType[]) {`
+- `packages\integration-nexus-dep\src\translators\module.ts:157: for (const key of Object.keys(result) as Emotion14[]) {`
+- `packages\integration-nexus-dep\src\translators\output.ts:173: return Object.keys(minimal).length > 0 ? minimal : data;`
+- `packages\integration-nexus-dep\src\translators\output.ts:184: fields: Object.keys(obj).length,`
+- `packages\integration-nexus-dep\src\translators\output.ts:185: preview: Object.keys(obj).slice(0, 5)`
+- `packages\mycelium-bio\src\canonical_json.ts:67: const keys = Object.keys(record).sort();`
+- `packages\omega-aggregate-dna\src\aggregate.ts:290: for (const key of Object.keys(state)) {`
+- `packages\omega-aggregate-dna\src\merkle.ts:46: const keys = Object.keys(obj).sort();`
+- `packages\omega-bridge-ta-mycelium\src\bridge\analysis_to_dna.ts:115: for (const emotion of Object.keys(seg.emotions)) {`
+- `packages\omega-bridge-ta-mycelium\src\bridge\text_analyzer_bridge.ts:107: const sortedJson = JSON.stringify(data, Object.keys(data).sort());`
+- `packages\omega-segment-engine\src\canonical.ts:56: const keys = Object.keys(obj).sort();`
+- `packages\oracle\src\prompts.ts:240: return Object.keys(PROMPT_REGISTRY);`
+- `packages\orchestrator-core\src\core\DeterminismGuard.ts:70: const keys1 = Object.keys(obj1).sort();`
+- `packages\orchestrator-core\src\core\DeterminismGuard.ts:71: const keys2 = Object.keys(obj2).sort();`
+- `packages\orchestrator-core\src\util\stableJson.ts:23: const keys = Object.keys(value as Record<string, unknown>).sort();`
+- `packages\search\src\import.ts:417: if (Object.keys(item).length > 0) {`
+- `packages\search\src\import.ts:534: metadata: Object.keys(metadata).length > 0 ? metadata : undefined,`
+- `packages\sentinel-judge\src\schema\index.ts:85: { schemaId, validIds: Object.keys(SCHEMA_FILES) }`
+- `packages\sentinel-judge\src\schema\index.ts:135: for (const schemaId of Object.keys(SCHEMA_FILES) as SchemaId[]) {`
+- `packages\sentinel-judge\src\schema\validate.ts:256: Object.keys((schema.properties as Record<string, unknown>) || {})`
+- `packages\sentinel-judge\src\schema\validate.ts:258: for (const key of Object.keys(obj)) {`
+- `packages\sentinel-judge\src\canonical_json.ts:36: const keys = Object.keys(obj as Record<string, unknown>).sort();`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\meta\boundary_ledger.ts:218: for (const category of Object.keys(ledger.summary.byCategory) as BoundaryCategory[]) {`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\meta\boundary_ledger.ts:246: const keys = Object.keys(obj as Record<string, unknown>).sort();`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\self\seal.ts:167: const keys = Object.keys(obj as Record<string, unknown>).sort();`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\self\survival-proof.ts:115: const json = JSON.stringify(canonical, Object.keys(canonical).sort());`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\self\survival-proof.ts:132: const json = JSON.stringify(canonical, Object.keys(canonical).sort());`
+- `src\delivery\hasher.ts:61: const json = JSON.stringify(obj, Object.keys(obj as object).sort());`
+- `src\genesis\core\translator.ts:277: for (const emotion of Object.keys(sum)) {`
+- `src\genesis\proofs\hash_utils.ts:38: const keys = Object.keys(value as Record<string, unknown>).sort();`
+- `src\governance\drift\decisional.ts:50: Object.keys(baselineDistribution).filter((k) => baselineDistribution[k] > 0)`
+- `src\governance\drift\decisional.ts:52: const currentKeys = Object.keys(currentDistribution);`
+- `src\governance\drift\decisional.ts:110: const allCategories = new Set([...Object.keys(baseline), ...Object.keys(current)]);`
+- `src\governance\drift\detector.ts:168: const sorted = JSON.stringify(eventCopy, Object.keys(eventCopy).sort());`
+- `src\governance\runtime\event_emitter.ts:23: const keys = Object.keys(o).sort();`
+- `src\memory\hash.ts:60: const keys = Object.keys(value as Record<string, unknown>).sort();`
+- `src\memory\validation.ts:251: for (const key of Object.keys(obj)) {`
+- `src\oracle\muse\suggest\strat_reframe_truth.ts:84: const allTypes: ReframeType[] = Object.keys(REFRAME_TYPES) as ReframeType[];`
+- `src\oracle\muse\fingerprint.ts:39: return JSON.stringify(obj, Object.keys(obj as object).sort());`
+- `src\orchestrator\intent-schema.ts:209: const keys = Object.keys(obj as Record<string, unknown>).sort();`
+- `src\scribe\canonicalize.ts:147: for (const key of Object.keys(obj as Record<string, unknown>)) {`
+- `src\sentinel\rules.ts:43: if (typeof payload === 'object' && Object.keys(payload as object).length === 0) {`
+- `src\shared\canonical.ts:54: const keys = Object.keys(obj).sort();`
+- `src\text_analyzer\index.ts:62: for (const key of Object.keys(obj as Record<string, unknown>).sort()) {`
+- `tests\scribe\L1_unit_test.ts:43: return JSON.stringify(obj, Object.keys(obj as object).sort());`
+- `tests\scribe\L1_unit_test.ts:256: const sorted1 = JSON.stringify(obj1, Object.keys(obj1).sort());`
+- `tests\scribe\L1_unit_test.ts:257: const sorted2 = JSON.stringify(obj2, Object.keys(obj2).sort());`
+- `tests\scribe\L1_unit_test.ts:261: expect(Object.keys(obj1).sort()).toEqual(Object.keys(obj2).sort());`
+- `tests\scribe\L1_unit_test.ts:386: expect(Object.keys(parsed)).toEqual(Object.keys(error));`
+- `tests\scribe\L3_stress_test.ts:28: const keys = Object.keys(obj as object).sort();`
+- `tests\scribe\L4_brutal_test.ts:32: const keys = Object.keys(obj as object).sort();`
+- `tools\harness_official\src\lib\hash.ts:15: for (const key of Object.keys(obj as Record<string, unknown>).sort()) {`
+- `lock_manager_test.ts:7: expect(Object.keys(mod).length).toBeGreaterThan(0);`
+- `node_io_test.ts:7: expect(Object.keys(mod).length).toBeGreaterThan(0);`
+- `quarantine_test.ts:7: expect(Object.keys(mod).length).toBeGreaterThan(0);`
+
+### crypto.random (7 hits)
+- `gateway\src\hardening\decision_trace.ts:445: generateId: () => crypto.randomUUID(),`
+- `gateway\src\hardening\governance.ts:443: generateId: () => crypto.randomUUID(),`
+- `gateway\src\memory\memory_layer_nasa\canonical_encode.ts:216: * Note: Utilise crypto.randomUUID() (Node 18+)`
+- `gateway\wiring\src\id_factory.ts:8: // @invariant INV-ADP-07: UUID via factory, pas crypto.randomUUID() direct`
+- `gateway\wiring\src\id_factory.ts:22: return crypto.randomUUID();`
+- `gateway\wiring\src\types.ts:167: * @invariant INV-ADP-07: UUID via factory, pas crypto.randomUUID() direct`
+- `src\genesis\proofs\hash_utils.ts:84: const random = crypto.randomBytes(4).toString('hex');`
+
+### fs.readdir (11 hits)
+- `omega-ui\scripts\run_first_cycle.ts:112: const files = fs.readdirSync(srcDir);`
+- `omega-ui\scripts\run_first_cycle.ts:132: const rootFiles = fs.readdirSync(workspacePath);`
+- `omega-ui-bootstrap\omega-ui\scripts\run_first_cycle.ts:112: const files = fs.readdirSync(srcDir);`
+- `omega-ui-bootstrap\omega-ui\scripts\run_first_cycle.ts:132: const rootFiles = fs.readdirSync(workspacePath);`
+- `packages\integration-nexus-dep\src\connectors\filesystem.ts:72: const entries = await fs.readdir(dirPath, { withFileTypes: true });`
+- `src\scribe\record_replay.ts:310: const files = await fs.readdir(this.rootDir);`
+- `src\sentinel\waiver_check.ts:42: const dirs = fs.readdirSync(proofDir).sort();`
+- `src\sentinel\waiver_check.ts:71: const phaseDirs = fs.readdirSync(waiverDir).sort();`
+- `src\sentinel\waiver_check.ts:77: const waiverFiles = fs.readdirSync(phasePath)`
+- `run_pipeline_scale.ts:155: for (const name of fs.readdirSync(dir)) {`
+- `run_pipeline_scale_v2.ts:189: for (const name of fs.readdirSync(dir)) {`
+
+### Math.random (75 hits)
+- `apps\omega-ui\src\components\notifications\useToast.ts:14: return `toast-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;`
+- `apps\omega-ui\src\core\analyzer.ts:20: return `ana-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;`
+- `apps\omega-ui\src\hooks\useOracle.ts:174: return `analysis-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;`
+- `apps\omega-ui\src\stores\uiStore.ts:86: return `notif-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;`
+- `gateway\chaos\src\chaos\chaos.ts:675: return Math.random();`
+- `gateway\chaos\src\chaos\chaos.ts:713: id: `AUD-${Date.now().toString(36)}-${Math.random().toString(36).substring(2, 6)}`,`
+- `gateway\facade\src\gateway\gateway.ts:707: requestId: requestId ?? `REQ-${Date.now().toString(36)}-${Math.random().toString(36).substring(2, 6)}`,`
+- `gateway\quarantine\src\quarantine\quarantine.ts:615: const random = Math.random().toString(36).substring(2, 6);`
+- `gateway\quarantine\src\quarantine\quarantine.ts:652: id: `AUD-${Date.now().toString(36)}-${Math.random().toString(36).substring(2, 6)}`,`
+- `gateway\resilience\src\stress\runner.ts:205: : startHeap + Math.random() * 1024 * 1024;`
+- `gateway\src\creation\creation_layer_nasa\creation_request.ts:553: const random = Math.random().toString(36).slice(2, 10);`
+- `gateway\src\creation\creation_layer_nasa\creation_types.ts:261: * les appels Ã  fetch/fs/Date.now()/Math.random() mais ce n'est`
+- `gateway\src\gates\canon_engine.ts:178: const random = Math.random().toString(36).substring(2, 9);`
+- `gateway\src\gates\ripple_engine.ts:167: const random = Math.random().toString(36).substring(2, 9);`
+- `gateway\src\gates\truth_gate.ts:243: id: `FACT-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,`
+- `gateway\src\hardening\hardening_checks.ts:8: * - Math.random() non seedÃ©`
+- `gateway\src\hardening\hardening_checks.ts:14: * INV-HARD-02: Aucun Math.random() non seedÃ©`
+- `gateway\src\hardening\hardening_checks.ts:256: * INV-HARD-02: VÃ©rifie l'absence de Math.random() non seedÃ©`
+- `gateway\src\hardening\hardening_checks.ts:271: 'INV-HARD-02: Math.random() detected - must use seeded PRNG',`
+- `gateway\src\hardening\hardening_checks.ts:279: checkName: 'No unseeded Math.random()',`
+- `gateway\src\memory\memory_layer_nasa\memory_digest.ts:50: * - Sans dÃ©pendance externe (pas de Date.now(), Math.random(), etc.)`
+- `nexus\atlas\src\store.ts:72: random: () => Math.random(),`
+- `nexus\atlas\src\store.ts:73: randomId: () => Math.random().toString(36).slice(2),`
+- `nexus\atlas\src\subscriptions.ts:100: constructor(rng: RNG = { random: Math.random, randomId: () => Math.random().toString(36).slice(2) }) {`
+- `nexus\atlas\src\types.ts:157: random: () => Math.random(),`
+- `nexus\atlas\src\types.ts:162: result += chars[Math.floor(Math.random() * chars.length)];`
+- `nexus\shared\tracing\index.ts:132: return `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;`
+- `omega-phase23\gateway\resilience\src\stress\runner.ts:205: : startHeap + Math.random() * 1024 * 1024;`
+- `omega-v44-phase7\phase7_verification\src\renderTrunk.ts:10: * âŒ No Math.random() or Date.now()`
+- `omega-v44-phase7\proof_pack\src\renderTrunk.ts:10: * âŒ No Math.random() or Date.now()`
+- `omega-v44-phase7\src\renderTrunk.ts:10: * âŒ No Math.random() or Date.now()`
+- `OMEGA_PHASE14\ipc\protocol.ts:323: const random = Math.random().toString(36).substring(2, 6);`
+- `OMEGA_PHASE18_MEMORY\src\context\context-tracker.ts:68: const random = sha256(`${entityRef}:${timestamp}:${Math.random()}`).substring(0, 8);`
+- `OMEGA_PHASE18_MEMORY\src\context\context-tracker.ts:74: const random = sha256(`snap:${timestamp}:${Math.random()}`).substring(0, 8);`
+- `OMEGA_PHASE18_MEMORY\src\context\context-tracker.ts:80: const random = sha256(`hist:${timestamp}:${Math.random()}`).substring(0, 8);`
+- `OMEGA_PHASE18_MEMORY\src\intent\intent-lock.ts:75: const random = sha256(`${type}:${timestamp}:${Math.random()}`).substring(0, 8);`
+- `OMEGA_PHASE19_PERSIST\src\core\types.ts:310: const random = Math.random().toString(36).substring(2, 10);`
+- `OMEGA_SENTINEL_SUPREME\sentinel\artifact\artifact.ts:168: uuid += hex[(Math.random() * 4 | 8)]; // Variant`
+- `OMEGA_SENTINEL_SUPREME\sentinel\artifact\artifact.ts:170: uuid += hex[Math.random() * 16 | 0];`
+- `OMEGA_SENTINEL_SUPREME\sentinel\self\seal.ts:403: const random = Math.random().toString(36).substring(2, 8);`
+- `OMEGA_SPRINT15\src\nexus\nexus.ts:250: const random = Math.random().toString(16).substring(2, 10);`
+- `packages\decision-engine\src\incident\incident-log.ts:21: const random = Math.floor(Math.random() * 1e9).toString(36);`
+- `packages\decision-engine\src\queue\escalation-queue.ts:21: const random = Math.floor(Math.random() * 1e9).toString(36);`
+- `packages\decision-engine\src\review\review-interface.ts:22: const random = Math.floor(Math.random() * 1e9).toString(36);`
+- `packages\decision-engine\src\sentinel\utils.ts:17: const random = Math.floor(Math.random() * 1e9).toString(36);`
+- `packages\decision-engine\src\trace\decision-trace.ts:26: const random = Math.floor(Math.random() * 1e9).toString(36);`
+- `packages\emotion-gate\src\gate\emotion-gate.ts:53: const random = Math.random().toString(36).substring(2, 8);`
+- `packages\emotion-gate\src\policy\policy-manager.ts:107: const policyId: EmotionPolicyId = `epol_${Date.now().toString(36)}_${Math.random().toString(36).substring(2, 8)}`;`
+- `packages\emotion-gate\src\policy\policy-manager.ts:267: const newPolicyId: EmotionPolicyId = `epol_${Date.now().toString(36)}_${Math.random().toString(36).substring(2, 8)}`;`
+- `packages\emotion-gate\tests\helpers\test-fixtures.ts:162: const adjustment = (Math.random() - 0.5) * 2 * jitter;`
+- `packages\emotion-gate\tests\helpers\test-fixtures.ts:309: axiom_id: `axiom_test_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,`
+- `packages\gold-cli\src\runner.ts:51: const mockPassed = Math.floor(50 + Math.random() * 100);`
+- `packages\gold-cli\src\runner.ts:58: duration: Math.floor(100 + Math.random() * 500),`
+- `packages\gold-internal\src\certification.ts:28: const random = Math.random().toString(36).slice(2, 8);`
+- `packages\gold-master\src\certifier.ts:218: const random = Math.random().toString(36).slice(2, 8);`
+- `packages\gold-suite\src\aggregator.ts:77: const random = Math.random().toString(36).slice(2, 8);`
+- `packages\gold-suite\src\runner.ts:103: const testCount = 10 + Math.floor(Math.random() * 20);`
+- `packages\gold-suite\src\runner.ts:139: const duration = Math.floor(1 + Math.random() * 10);`
+- `packages\integration-nexus-dep\src\index.ts:84: const random = Math.random().toString(36).substring(2, 8);`
+- `packages\oracle\src\oracle.ts:35: return `oracle-${Date.now()}-${Math.random().toString(36).slice(2, 9)}`;`
+- `packages\oracle\src\streaming.ts:287: return `stream-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;`
+- `packages\orchestrator-core\src\util\prng.ts:3: * NEVER use Math.random() directly in production - use PRNG with explicit seed.`
+- `packages\search\src\index-manager.ts:328: id: `segment-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\artifact\artifact.ts:168: uuid += hex[(Math.random() * 4 | 8)]; // Variant`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\artifact\artifact.ts:170: uuid += hex[Math.random() * 16 | 0];`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\self\seal.ts:403: const random = Math.random().toString(36).substring(2, 8);`
+- `src\canon\canon-api.ts:214: const claimId = `CLM-${timestamp.toString(16)}-${Math.random().toString(16).slice(2, 10)}` as ClaimId;`
+- `src\canon\id-factory.ts:10: * RÃˆGLE INT-E-06: 0 Math.random/Date.now`
+- `src\oracle\muse\prng.ts:9: * RULE: NO Math.random() ANYWHERE IN MUSE.`
+- `tests\e2e\setup.ts:120: value: Math.random(),`
+- `tests\scribe\L4_brutal_test.ts:274: await new Promise(r => setTimeout(r, Math.random() * 10));`
+- `lock_manager_more_test.ts:17: root = join(tmpdir(), `omega-quarantine-${Date.now()}-${Math.random().toString(36).slice(2)}`);`
+- `quarantine.ts:50: const id = `quarantine_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;`
+- `quarantine.ts:68: const id = `quarantine_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;`
+- `store.ts:187: const run_id = `run_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;`
+
+### uuid (58 hits)
+- `gateway\src\creation\creation_layer_nasa\creation_types.ts:402: /** UUID de la requÃªte (fourni par le client) */`
+- `gateway\src\creation\creation_layer_nasa\creation_types.ts:434: // UUID format (relaxed : any non-empty string)`
+- `gateway\src\memory\memory_layer_nasa\canonical_encode.ts:214: * GÃ©nÃ¨re un UUID v4.`
+- `gateway\src\memory\memory_layer_nasa\canonical_encode.ts:218: export function uuid(): string {`
+- `gateway\src\memory\memory_layer_nasa\memory_snapshot.ts:20: import { sha256Hex, uuid, nowUtcIso } from "./canonical_encode";`
+- `gateway\src\memory\memory_layer_nasa\memory_snapshot.ts:114: id: uuid(),`
+- `gateway\src\memory\memory_layer_nasa\memory_store.ts:30: uuid,`
+- `gateway\src\memory\memory_layer_nasa\memory_store.ts:202: id: uuid(),`
+- `gateway\src\memory\memory_layer_nasa\memory_store.ts:325: id: uuid(),`
+- `gateway\src\memory\memory_layer_nasa\types.ts:124: /** UUID unique, gÃ©nÃ©rÃ© Ã  l'Ã©criture */`
+- `gateway\src\memory\memory_layer_nasa\types.ts:197: /** UUID unique */`
+- `gateway\src\memory\memory_layer_nasa\types.ts:314: /** UUID unique du snapshot */`
+- `gateway\src\types.ts:32: export const UUIDSchema = z.string().uuid();`
+- `gateway\src\types.ts:453: export type UUID = string;`
+- `gateway\wiring\src\id_factory.ts:8: // @invariant INV-ADP-07: UUID via factory, pas crypto.randomUUID() direct`
+- `gateway\wiring\src\id_factory.ts:21: // UUID v4 standard`
+- `gateway\wiring\src\types.ts:167: * @invariant INV-ADP-07: UUID via factory, pas crypto.randomUUID() direct`
+- `OMEGA_PHASE12\config\safe_mode.ts:121: * @param uuidProvider - Optional UUID provider for deterministic testing`
+- `OMEGA_SENTINEL_SUPREME\sentinel\artifact\artifact.ts:78: /** Artifact ID (UUID) */`
+- `OMEGA_SENTINEL_SUPREME\sentinel\artifact\artifact.ts:151: // UUID GENERATION`
+- `OMEGA_SENTINEL_SUPREME\sentinel\artifact\artifact.ts:155: * Generate a UUID v4`
+- `OMEGA_SENTINEL_SUPREME\sentinel\artifact\artifact.ts:158: // Simple UUID v4 generator`
+- `OMEGA_SENTINEL_SUPREME\sentinel\artifact\artifact.ts:160: let uuid = '';`
+- `OMEGA_SENTINEL_SUPREME\sentinel\artifact\artifact.ts:164: uuid += '-';`
+- `OMEGA_SENTINEL_SUPREME\sentinel\artifact\artifact.ts:166: uuid += '4'; // Version 4`
+- `OMEGA_SENTINEL_SUPREME\sentinel\artifact\artifact.ts:168: uuid += hex[(Math.random() * 4 | 8)]; // Variant`
+- `OMEGA_SENTINEL_SUPREME\sentinel\artifact\artifact.ts:170: uuid += hex[Math.random() * 16 | 0];`
+- `OMEGA_SENTINEL_SUPREME\sentinel\artifact\artifact.ts:174: return uuid;`
+- `OMEGA_SENTINEL_SUPREME\sentinel\foundation\constants.ts:247: // Certificate ID: UUID v4`
+- `OMEGA_SENTINEL_SUPREME\sentinel\foundation\constants.ts:335: * Validate UUID v4 format`
+- `OMEGA_SENTINEL_SUPREME\sentinel\foundation\constants.ts:337: export function isValidUUIDv4(uuid: string): boolean {`
+- `OMEGA_SENTINEL_SUPREME\sentinel\foundation\constants.ts:338: return VALIDATION_PATTERNS.UUID_V4.test(uuid);`
+- `OMEGA_SPRINT15\src\nexus\audit.ts:296: // Format as UUID-like string`
+- `OMEGA_SPRINT15\src\nexus\nexus.ts:248: // Simple UUID-like generation`
+- `OMEGA_SPRINT15\src\nexus\types.ts:94: /** Unique request identifier (UUID v4) */`
+- `OMEGA_SPRINT15\src\nexus\types.ts:346: * UUID v4 regex pattern`
+- `OMEGA_SPRINT15\src\nexus\types.ts:354: request_id: z.string().regex(UUID_PATTERN, 'Must be valid UUID v4'),`
+- `OMEGA_SPRINT15\src\nexus\types.ts:355: session_id: z.string().regex(UUID_PATTERN, 'Must be valid UUID v4'),`
+- `packages\sentinel-judge\src\types.ts:50: UUID: /^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$/,`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\artifact\artifact.ts:78: /** Artifact ID (UUID) */`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\artifact\artifact.ts:151: // UUID GENERATION`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\artifact\artifact.ts:155: * Generate a UUID v4`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\artifact\artifact.ts:158: // Simple UUID v4 generator`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\artifact\artifact.ts:160: let uuid = '';`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\artifact\artifact.ts:164: uuid += '-';`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\artifact\artifact.ts:166: uuid += '4'; // Version 4`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\artifact\artifact.ts:168: uuid += hex[(Math.random() * 4 | 8)]; // Variant`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\artifact\artifact.ts:170: uuid += hex[Math.random() * 16 | 0];`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\artifact\artifact.ts:174: return uuid;`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\foundation\constants.ts:247: // Certificate ID: UUID v4`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\foundation\constants.ts:335: * Validate UUID v4 format`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\foundation\constants.ts:337: export function isValidUUIDv4(uuid: string): boolean {`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\foundation\constants.ts:338: return VALIDATION_PATTERNS.UUID_V4.test(uuid);`
+- `src\oracle\muse\prng.ts:117: * Generate a deterministic UUID-like string from seed`
+- `types.ts:50: id: z.string().uuid(),`
+- `types.ts:67: run_id: z.string().uuid(),`
+- `types_test.ts:93: test('rejects invalid uuid', () => {`
+- `types_test.ts:95: id: 'not-a-uuid',`
+
+### nanoid (0 hits)
+
+### new Date() (340 hits)
+- `apps\omega-ui\src\components\history\HistoryItem.tsx:45: const now = new Date();`
+- `apps\omega-ui\src\core\analyzer.ts:28: return new Date().toISOString();`
+- `apps\omega-ui\src\core\dna.ts:210: timestamp: new Date().toISOString(),`
+- `apps\omega-ui\src\stores\analysisStore.ts:125: createdAt: new Date().toISOString(),`
+- `apps\omega-ui\src\stores\settingsStore.ts:100: lastUpdated: new Date().toISOString(),`
+- `apps\omega-ui\src\stores\settingsStore.ts:112: set({ theme, lastUpdated: new Date().toISOString() });`
+- `apps\omega-ui\src\stores\settingsStore.ts:116: set({ language, lastUpdated: new Date().toISOString() });`
+- `apps\omega-ui\src\stores\settingsStore.ts:120: set({ analysisDepth, lastUpdated: new Date().toISOString() });`
+- `apps\omega-ui\src\stores\settingsStore.ts:125: set({ minTextLength: validLength, lastUpdated: new Date().toISOString() });`
+- `apps\omega-ui\src\stores\settingsStore.ts:129: set({ showDNAFingerprint, lastUpdated: new Date().toISOString() });`
+- `apps\omega-ui\src\stores\settingsStore.ts:133: set({ autoSave, lastUpdated: new Date().toISOString() });`
+- `apps\omega-ui\src\stores\settingsStore.ts:137: set({ persistSettings, lastUpdated: new Date().toISOString() });`
+- `apps\omega-ui\src\stores\settingsStore.ts:142: set({ maxHistoryItems: validCount, lastUpdated: new Date().toISOString() });`
+- `apps\omega-ui\src\stores\settingsStore.ts:146: set({ defaultExportFormat, lastUpdated: new Date().toISOString() });`
+- `apps\omega-ui\src\stores\settingsStore.ts:150: set({ animationsEnabled, lastUpdated: new Date().toISOString() });`
+- `apps\omega-ui\src\stores\settingsStore.ts:154: set({ soundEnabled, lastUpdated: new Date().toISOString() });`
+- `apps\omega-ui\src\stores\settingsStore.ts:158: set({ developerMode, lastUpdated: new Date().toISOString() });`
+- `apps\omega-ui\src\stores\settingsStore.ts:162: set({ ...defaultSettings, lastUpdated: new Date().toISOString() });`
+- `apps\omega-ui\src\stores\uiStore.ts:132: timestamp: new Date().toISOString(),`
+- `gateway\chaos\src\chaos\chaos.ts:156: registeredAt: new Date().toISOString(),`
+- `gateway\chaos\src\chaos\chaos.ts:203: const timestamp = new Date().toISOString();`
+- `gateway\chaos\src\chaos\chaos.ts:422: startedAt: new Date().toISOString(),`
+- `gateway\chaos\src\chaos\chaos.ts:460: experiment.endedAt = new Date().toISOString();`
+- `gateway\chaos\src\chaos\chaos.ts:556: timestamp: new Date().toISOString(),`
+- `gateway\chaos\src\chaos\chaos.ts:714: timestamp: new Date().toISOString(),`
+- `gateway\cli-runner\src\cli\commands\analyze.ts:295: timestamp: new Date().toISOString(),`
+- `gateway\cli-runner\src\cli\commands\analyze.ts:487: lines.push(JSON.stringify({ type: 'start', timestamp: new Date().toISOString() }));`
+- `gateway\cli-runner\src\cli\commands\analyze.ts:612: lines.push(JSON.stringify({ type: 'start', timestamp: new Date().toISOString() }));`
+- `gateway\cli-runner\src\cli\commands\analyze.ts:744: lines.push(JSON.stringify({ type: 'start', timestamp: new Date().toISOString() }));`
+- `gateway\cli-runner\src\cli\commands\batch.ts:112: lines.push(`*TraitÃ© le ${new Date().toISOString()}*`);`
+- `gateway\cli-runner\src\cli\commands\compare.ts:148: lines.push(`*ComparÃ© le ${new Date().toISOString()}*`);`
+- `gateway\cli-runner\src\cli\commands\export.ts:247: createdAt: new Date().toISOString(),`
+- `gateway\cli-runner\src\cli\commands\export.ts:248: updatedAt: new Date().toISOString(),`
+- `gateway\cli-runner\src\cli\commands\health.ts:223: timestamp: new Date().toISOString(),`
+- `gateway\cli-runner\src\cli\commands\info.ts:88: timestamp: new Date().toISOString(),`
+- `gateway\facade\src\gateway\gateway.ts:578: timestamp: new Date().toISOString(),`
+- `gateway\facade\src\gateway\gateway.ts:682: timestamp: new Date().toISOString(),`
+- `gateway\facade\src\gateway\gateway.ts:709: timestamp: new Date().toISOString(),`
+- `gateway\limiter\src\limiter\limiter.ts:111: const timestamp = new Date().toISOString();`
+- `gateway\limiter\src\limiter\limiter.ts:152: const timestamp = new Date().toISOString();`
+- `gateway\limiter\src\limiter\limiter.ts:591: const timestamp = new Date().toISOString();`
+- `gateway\quarantine\src\quarantine\quarantine.ts:97: const timestamp = new Date().toISOString();`
+- `gateway\quarantine\src\quarantine\quarantine.ts:179: const timestamp = new Date().toISOString();`
+- `gateway\quarantine\src\quarantine\quarantine.ts:279: const timestamp = new Date().toISOString();`
+- `gateway\quarantine\src\quarantine\quarantine.ts:336: const timestamp = new Date().toISOString();`
+- `gateway\quarantine\src\quarantine\quarantine.ts:428: const timestamp = new Date().toISOString();`
+- `gateway\quarantine\src\quarantine\quarantine.ts:507: const timestamp = new Date().toISOString();`
+- `gateway\quarantine\src\quarantine\quarantine.ts:653: timestamp: new Date().toISOString(),`
+- `gateway\resilience\src\proof\builder.ts:116: timestamp: new Date(),`
+- `gateway\resilience\src\proof\builder.ts:308: createdAt: new Date(),`
+- `gateway\resilience\src\temporal\verifier.ts:80: verifiedAt: new Date(),`
+- `gateway\resilience\src\temporal\verifier.ts:248: timestamp: new Date().toISOString(),`
+- `gateway\sentinel\src\sentinel\sentinel.ts:102: const timestamp = new Date().toISOString();`
+- `gateway\sentinel\src\sentinel\sentinel.ts:153: const timestamp = new Date().toISOString();`
+- `gateway\sentinel\src\sentinel\sentinel.ts:199: const timestamp = new Date().toISOString();`
+- `gateway\sentinel\src\sentinel\sentinel.ts:253: const timestamp = new Date().toISOString();`
+- `gateway\sentinel\src\sentinel\sentinel.ts:385: const timestamp = new Date().toISOString();`
+- `gateway\sentinel\src\sentinel\sentinel.ts:519: timestamp: new Date().toISOString(),`
+- `gateway\src\creation\creation_layer_nasa\artifact_builder.ts:186: created_at_utc: new Date().toISOString(),`
+- `gateway\src\creation\creation_layer_nasa\creation_engine.ts:309: created_at_utc: new Date().toISOString(),`
+- `gateway\src\creation\creation_layer_nasa\creation_engine.ts:413: created_at_utc: new Date().toISOString(),`
+- `gateway\src\creation\creation_layer_nasa\creation_errors.ts:191: this.timestamp_utc = new Date().toISOString();`
+- `gateway\src\creation\creation_layer_nasa\template_registry.ts:69: registered_at_utc: new Date().toISOString(),`
+- `gateway\src\gates\canon_engine.ts:239: lastUpdated: new Date().toISOString()`
+- `gateway\src\gates\canon_engine.ts:283: const timestamp = new Date().toISOString();`
+- `gateway\src\gates\emotion_gate.ts:468: timestamp: new Date().toISOString(),`
+- `gateway\src\gates\emotion_gate.ts:493: timestamp: new Date().toISOString()`
+- `gateway\src\gates\ripple_engine.ts:340: timestamp: new Date().toISOString(),`
+- `gateway\src\gates\truth_gate.ts:222: const timestamp = new Date().toISOString();`
+- `gateway\src\gates\truth_gate.ts:332: timestamp: new Date().toISOString(),`
+- `gateway\src\gates\truth_gate.ts:354: lastUpdated: new Date().toISOString(),`
+- `gateway\src\hardening\decision_trace.ts:444: timestamp: () => new Date().toISOString(),`
+- `gateway\src\hardening\governance.ts:442: timestamp: () => new Date().toISOString(),`
+- `gateway\src\hardening\hardening_checks.ts:475: timestamp: () => new Date().toISOString(),`
+- `gateway\src\memory\memory_layer_nasa\canonical_encode.ts:227: return new Date().toISOString();`
+- `gateway\src\memory\memory_layer_nasa\memory_engine.ts:231: const created_at_utc = new Date().toISOString();`
+- `gateway\src\memory\memory_layer_nasa\memory_engine.ts:336: return createSnapshot(allRecords, snapshotHash, new Date().toISOString());`
+- `gateway\src\memory\memory_layer_nasa\memory_engine.ts:493: exported_at_utc: new Date().toISOString(),`
+- `gateway\src\memory\memory_layer_nasa\memory_errors.ts:116: this.timestamp_utc = new Date().toISOString();`
+- `gateway\src\memory\memory_layer_nasa\memory_index.ts:133: indexed_at_utc: new Date().toISOString(),`
+- `gateway\src\memory\memory_layer_nasa\memory_index.ts:284: computed_at_utc: new Date().toISOString(),`
+- `gateway\src\memory\memory_layer_nasa\memory_types.ts:137: timestamp_utc: new Date().toISOString(),`
+- `gateway\src\memory\memory_layer_nasa\memory_types.ts:153: timestamp_utc: new Date().toISOString(),`
+- `gateway\src\gateway.ts:152: const now = new Date().toISOString();`
+- `gateway\src\gateway.ts:392: timestamp: new Date().toISOString(),`
+- `gateway\src\gateway.ts:445: timestamp: new Date().toISOString(),`
+- `gateway\src\gateway.ts:460: timestamp: new Date().toISOString(),`
+- `gateway\src\ledger.ts:30: const timestamp = new Date().toISOString();`
+- `gateway\src\orchestrator.ts:153: state.end_time = new Date().toISOString();`
+- `gateway\src\orchestrator.ts:160: state.end_time = new Date().toISOString();`
+- `gateway\src\orchestrator.ts:169: state.end_time = new Date().toISOString();`
+- `gateway\src\orchestrator.ts:178: state.end_time = new Date().toISOString();`
+- `gateway\src\orchestrator.ts:196: this.audit.append({ event_type, timestamp: new Date().toISOString(), execution_token, payload });`
+- `gateway\src\policy.ts:82: const timestamp = new Date().toISOString();`
+- `gateway\src\snapshot.ts:53: const timestamp = new Date().toISOString();`
+- `genesis-forge\src\genesis\engines\drafter.ts:278: generatedAt: new Date().toISOString(),`
+- `genesis-forge\src\genesis\engines\provider_interface.ts:190: lastRequestAt: new Date().toISOString(),`
+- `genesis-forge\src\genesis\types\index.ts:304: createdAt: new Date().toISOString(),`
+- `nexus\bench\atlas.bench.ts:137: timestamp: new Date().toISOString(),`
+- `nexus\bench\proof.bench.ts:131: timestamp: new Date().toISOString(),`
+- `nexus\bench\raw.bench.ts:145: timestamp: new Date().toISOString(),`
+- `nexus\bench\run-all.ts:62: timestamp: new Date().toISOString(),`
+- `nexus\bench\utils.ts:99: timestamp: new Date().toISOString(),`
+- `nexus\proof\phase5.2\benchmark.ts:182: console.log(`Date: ${new Date().toISOString()}`);`
+- `omega-narrative-genome\src\index.ts:71: extractedAt: new Date().toISOString(),`
+- `omega-phase23\gateway\resilience\src\proof\builder.ts:116: timestamp: new Date(),`
+- `omega-phase23\gateway\resilience\src\proof\builder.ts:308: createdAt: new Date(),`
+- `omega-phase23\gateway\resilience\src\temporal\verifier.ts:80: verifiedAt: new Date(),`
+- `omega-phase23\gateway\resilience\src\temporal\verifier.ts:248: timestamp: new Date().toISOString(),`
+- `omega-ui\scripts\analyze_text.ts:68: timestamp: new Date().toISOString()`
+- `omega-ui\scripts\run_first_cycle.ts:23: const ts = new Date().toLocaleTimeString('en-US', { hour12: false });`
+- `omega-ui\scripts\run_first_cycle.ts:38: timestamp: new Date().toISOString(),`
+- `omega-ui\scripts\run_first_cycle.ts:163: timestamp: new Date().toISOString(),`
+- `omega-ui\scripts\run_first_cycle.ts:183: const ts = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);`
+- `omega-ui\src\components\RunConsole.tsx:19: const timestamp = new Date().toLocaleTimeString('en-US', { hour12: false });`
+- `omega-ui\src\components\RunConsole.tsx:86: timestamp: new Date().toISOString(),`
+- `omega-ui\src\hooks\useRunner.ts:91: timestamp: new Date().toISOString(),`
+- `omega-ui\src\utils\logger.ts:18: timestamp: new Date().toLocaleTimeString('en-US', { hour12: false }),`
+- `omega-ui\src\utils\logger.ts:42: const now = new Date();`
+- `omega-ui-bootstrap\omega-ui\scripts\run_first_cycle.ts:23: const ts = new Date().toLocaleTimeString('en-US', { hour12: false });`
+- `omega-ui-bootstrap\omega-ui\scripts\run_first_cycle.ts:38: timestamp: new Date().toISOString(),`
+- `omega-ui-bootstrap\omega-ui\scripts\run_first_cycle.ts:163: timestamp: new Date().toISOString(),`
+- `omega-ui-bootstrap\omega-ui\scripts\run_first_cycle.ts:183: const ts = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);`
+- `omega-ui-bootstrap\omega-ui\src\components\RunConsole.tsx:19: const timestamp = new Date().toLocaleTimeString('en-US', { hour12: false });`
+- `omega-ui-bootstrap\omega-ui\src\components\RunConsole.tsx:86: timestamp: new Date().toISOString(),`
+- `omega-ui-bootstrap\omega-ui\src\hooks\useRunner.ts:91: timestamp: new Date().toISOString(),`
+- `omega-ui-bootstrap\omega-ui\src\utils\logger.ts:18: timestamp: new Date().toLocaleTimeString('en-US', { hour12: false }),`
+- `omega-ui-bootstrap\omega-ui\src\utils\logger.ts:42: const now = new Date();`
+- `omega-v44-phase7\phase7_verification\src\cli.ts:261: render_timestamp_utc: new Date().toISOString(),`
+- `omega-v44-phase7\proof_pack\src\cli.ts:261: render_timestamp_utc: new Date().toISOString(),`
+- `omega-v44-phase7\src\cli.ts:261: render_timestamp_utc: new Date().toISOString(),`
+- `OMEGA_PHASE12\config\omega.config.loader.ts:52: this.timestamp = new Date().toISOString();`
+- `OMEGA_PHASE12\config\safe_mode.ts:129: this._timeProvider = timeProvider ?? (() => new Date().toISOString());`
+- `OMEGA_PHASE13A\observability\alert_engine.ts:75: return new Date().toISOString();`
+- `OMEGA_PHASE13A\observability\audit_trail.ts:148: const d = date || new Date();`
+- `OMEGA_PHASE13A\observability\forensic_logger.ts:295: timestamp: new Date().toISOString(),`
+- `OMEGA_PHASE18_MEMORY\src\canon\canon-store.ts:77: const defaultClock: ClockFn = () => new Date().toISOString();`
+- `OMEGA_PHASE18_MEMORY\src\context\context-tracker.ts:46: const defaultClock: ClockFn = () => new Date().toISOString();`
+- `OMEGA_PHASE18_MEMORY\src\intent\intent-lock.ts:50: const defaultClock: ClockFn = () => new Date().toISOString();`
+- `OMEGA_PHASE18_MEMORY\src\resolver\conflict-resolver.ts:47: const defaultClock: ClockFn = () => new Date().toISOString();`
+- `OMEGA_PHASE19_PERSIST\src\adapters\indexeddb-adapter.ts:141: const now = new Date().toISOString();`
+- `OMEGA_PHASE19_PERSIST\src\adapters\node-file-adapter.ts:107: const now = new Date().toISOString();`
+- `OMEGA_PHASE19_PERSIST\src\sync\sync-engine.ts:59: const now = new Date().toISOString();`
+- `OMEGA_PHASE19_PERSIST\src\sync\sync-engine.ts:259: detectedAt: new Date().toISOString(),`
+- `OMEGA_PHASE19_PERSIST\src\sync\sync-engine.ts:335: timestamp: new Date().toISOString(),`
+- `OMEGA_PHASE20_1_MEMORY_HOOK\src\lifecycle\safeMode.ts:92: startedAt: new Date().toISOString(),`
+- `OMEGA_PHASE20_1_MEMORY_HOOK\src\memory-hook.ts:124: timestamp: new Date().toISOString(),`
+- `OMEGA_PHASE20_1_MEMORY_HOOK\src\memory-hook.ts:167: timestamp: new Date().toISOString(),`
+- `OMEGA_PHASE20_1_MEMORY_HOOK\src\memory-hook.ts:198: timestamp: new Date().toISOString(),`
+- `OMEGA_PHASE20_1_MEMORY_HOOK\src\memory-hook.ts:223: timestamp: new Date().toISOString(),`
+- `OMEGA_PHASE20_1_MEMORY_HOOK\src\memory-hook.ts:250: timestamp: new Date().toISOString(),`
+- `OMEGA_PHASE20_1_MEMORY_HOOK\src\memory-service.types.ts:131: const createdAt = new Date().toISOString();`
+- `OMEGA_PHASE20_1_MEMORY_HOOK\src\memory-service.types.ts:161: : new Date().toISOString();`
+- `OMEGA_PHASE20_1_MEMORY_HOOK\src\memory-service.types.ts:165: timestamp: new Date().toISOString(),`
+- `OMEGA_PHASE20_INTEGRATION\src\canon-store.ts:98: const createdAt = new Date().toISOString();`
+- `OMEGA_PHASE20_INTEGRATION\src\canon-store.ts:155: : new Date().toISOString();`
+- `OMEGA_PHASE20_INTEGRATION\src\canon-store.ts:159: timestamp: new Date().toISOString(),`
+- `OMEGA_PHASE20_INTEGRATION\src\memory-service.ts:231: detectedAt: new Date().toISOString(),`
+- `OMEGA_PHASE20_INTEGRATION\src\memory-service.ts:252: detectedAt: new Date().toISOString(),`
+- `OMEGA_PHASE20_INTEGRATION\src\persistence-adapter.ts:151: timestamp: new Date().toISOString(),`
+- `OMEGA_SENTINEL_SUPREME\sentinel\artifact\artifact.ts:185: const now = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');`
+- `OMEGA_SENTINEL_SUPREME\sentinel\artifact\artifact.ts:222: const now = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');`
+- `OMEGA_SENTINEL_SUPREME\sentinel\artifact\artifact.ts:246: timestamp: new Date().toISOString().replace(/\.\d{3}Z$/, 'Z'),`
+- `OMEGA_SENTINEL_SUPREME\sentinel\artifact\artifact.ts:265: timestamp: new Date().toISOString().replace(/\.\d{3}Z$/, 'Z'),`
+- `OMEGA_SENTINEL_SUPREME\sentinel\artifact\artifact.ts:283: timestamp: new Date().toISOString().replace(/\.\d{3}Z$/, 'Z'),`
+- `OMEGA_SENTINEL_SUPREME\sentinel\artifact\artifact.ts:300: timestamp: new Date().toISOString().replace(/\.\d{3}Z$/, 'Z'),`
+- `OMEGA_SENTINEL_SUPREME\sentinel\artifact\artifact.ts:369: const now = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');`
+- `OMEGA_SENTINEL_SUPREME\sentinel\artifact\artifact.ts:397: const now = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');`
+- `OMEGA_SENTINEL_SUPREME\sentinel\artifact\artifact.ts:415: const now = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');`
+- `OMEGA_SENTINEL_SUPREME\sentinel\artifact\serialization.ts:158: `# Generated: ${new Date().toISOString()}`,`
+- `OMEGA_SENTINEL_SUPREME\sentinel\crystal\crystallizer.ts:173: lastProven = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');`
+- `OMEGA_SENTINEL_SUPREME\sentinel\crystal\crystallizer.ts:193: const now = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');`
+- `OMEGA_SENTINEL_SUPREME\sentinel\crystal\crystallizer.ts:261: const now = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');`
+- `OMEGA_SENTINEL_SUPREME\sentinel\crystal\grammar.ts:523: const now = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');`
+- `OMEGA_SENTINEL_SUPREME\sentinel\crystal\validator.ts:150: const now = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');`
+- `OMEGA_SENTINEL_SUPREME\sentinel\crystal\validator.ts:598: const now = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');`
+- `OMEGA_SENTINEL_SUPREME\sentinel\falsification\engine.ts:353: timestamp: new Date().toISOString().replace(/\.\d{3}Z$/, 'Z'),`
+- `OMEGA_SENTINEL_SUPREME\sentinel\falsification\engine.ts:373: timestamp: new Date().toISOString().replace(/\.\d{3}Z$/, 'Z'),`
+- `OMEGA_SENTINEL_SUPREME\sentinel\falsification\engine.ts:392: timestamp: new Date().toISOString().replace(/\.\d{3}Z$/, 'Z'),`
+- `OMEGA_SENTINEL_SUPREME\sentinel\falsification\engine.ts:410: timestamp: new Date().toISOString().replace(/\.\d{3}Z$/, 'Z'),`
+- `OMEGA_SENTINEL_SUPREME\sentinel\gravity\engine.ts:243: referenceTime: string = new Date().toISOString()`
+- `OMEGA_SENTINEL_SUPREME\sentinel\gravity\engine.ts:245: const timestamp = input.timestamp ?? new Date().toISOString();`
+- `OMEGA_SENTINEL_SUPREME\sentinel\gravity\engine.ts:286: const now = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');`
+- `OMEGA_SENTINEL_SUPREME\sentinel\gravity\engine.ts:306: const now = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');`
+- `OMEGA_SENTINEL_SUPREME\sentinel\gravity\engine.ts:328: const now = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');`
+- `OMEGA_SENTINEL_SUPREME\sentinel\meta\boundary.ts:301: addedAt: new Date().toISOString(),`
+- `OMEGA_SENTINEL_SUPREME\sentinel\meta\boundary.ts:366: createdAt: new Date().toISOString(),`
+- `OMEGA_SENTINEL_SUPREME\sentinel\meta\boundary.ts:367: updatedAt: new Date().toISOString(),`
+- `OMEGA_SENTINEL_SUPREME\sentinel\meta\boundary.ts:408: updatedAt: new Date().toISOString(),`
+- `OMEGA_SENTINEL_SUPREME\sentinel\meta\export.ts:191: exportedAt: new Date().toISOString(),`
+- `OMEGA_SENTINEL_SUPREME\sentinel\negative\space.ts:235: createdAt: new Date().toISOString().replace(/\.\d{3}Z$/, 'Z')`
+- `OMEGA_SENTINEL_SUPREME\sentinel\negative\space.ts:247: const now = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');`
+- `OMEGA_SENTINEL_SUPREME\sentinel\negative\space.ts:276: const now = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');`
+- `OMEGA_SENTINEL_SUPREME\sentinel\negative\space.ts:302: const now = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');`
+- `OMEGA_SENTINEL_SUPREME\sentinel\refusal\engine.ts:528: timestamp: new Date().toISOString().replace(/\.\d{3}Z$/, 'Z')`
+- `OMEGA_SENTINEL_SUPREME\sentinel\refusal\engine.ts:575: timestamp: new Date().toISOString().replace(/\.\d{3}Z$/, 'Z')`
+- `OMEGA_SENTINEL_SUPREME\sentinel\self\falsify-runner.ts:348: startTime: new Date().toISOString(),`
+- `OMEGA_SENTINEL_SUPREME\sentinel\self\falsify-runner.ts:431: const endTime = new Date().toISOString();`
+- `OMEGA_SENTINEL_SUPREME\sentinel\self\seal.ts:422: sealedAt: input.sealedAt ?? new Date().toISOString(),`
+- `OMEGA_SENTINEL_SUPREME\sentinel\self\survival-proof.ts:156: timestamp: new Date().toISOString(),`
+- `OMEGA_SENTINEL_SUPREME\sentinel\self\survival-proof.ts:215: timestamp: new Date().toISOString(),`
+- `OMEGA_SPRINT15\src\nexus\audit.ts:149: timestamp: new Date().toISOString(),`
+- `OMEGA_SPRINT15\src\nexus\chronicle.ts:53: chronicle_timestamp: new Date().toISOString(),`
+- `OMEGA_SPRINT15\src\nexus\guard.ts:128: const now = new Date();`
+- `OMEGA_SPRINT15\src\nexus\guard.ts:245: const now = new Date();`
+- `OMEGA_SPRINT15\src\nexus\replay.ts:254: replay_timestamp: new Date().toISOString(),`
+- `packages\canon-kernel\src\schema\critical.ts:123: registered_at: new Date().toISOString(),`
+- `packages\emotion-gate\src\ledger\verdict-ledger.ts:333: exported_at: new Date().toISOString(),`
+- `packages\emotion-gate\src\policy\policy-manager.ts:292: exported_at: new Date().toISOString(),`
+- `packages\genome\src\api\analyze.ts:50: extractedAt: new Date().toISOString(),`
+- `packages\gold-cli\src\runner.ts:117: timestamp: new Date().toISOString(),`
+- `packages\gold-cli\src\runner.ts:149: const timestamp = new Date().toISOString();`
+- `packages\gold-internal\src\certification.ts:101: const timestamp = new Date().toISOString();`
+- `packages\gold-internal\src\validator.ts:159: timestamp: new Date().toISOString(),`
+- `packages\gold-master\src\certifier.ts:49: const timestamp = new Date().toISOString();`
+- `packages\gold-master\src\certifier.ts:268: frozenAt: new Date().toISOString(),`
+- `packages\gold-suite\src\runner.ts:51: timestamp: new Date().toISOString(),`
+- `packages\gold-suite\src\runner.ts:63: const timestamp = new Date().toISOString();`
+- `packages\hardening\src\tamper.ts:180: timestamp: string = new Date().toISOString()`
+- `packages\hardening\src\tamper.ts:277: sealedAt: new Date().toISOString(),`
+- `packages\integration-nexus-dep\src\adapters\genome.adapter.ts:133: extractedAt: new Date().toISOString(),`
+- `packages\integration-nexus-dep\src\adapters\mycelium-bio.adapter.ts:169: computedAt: new Date().toISOString(),`
+- `packages\integration-nexus-dep\src\adapters\mycelium.adapter.ts:201: timestamp: new Date().toISOString()`
+- `packages\integration-nexus-dep\src\adapters\mycelium.adapter.ts:214: processedAt: new Date().toISOString(),`
+- `packages\integration-nexus-dep\src\adapters\orchestrator.adapter.ts:134: const startedAt = new Date().toISOString();`
+- `packages\integration-nexus-dep\src\adapters\orchestrator.adapter.ts:162: const completedAt = new Date().toISOString();`
+- `packages\integration-nexus-dep\src\adapters\orchestrator.adapter.ts:263: const startedAt = new Date().toISOString();`
+- `packages\integration-nexus-dep\src\adapters\orchestrator.adapter.ts:270: const completedAt = new Date().toISOString();`
+- `packages\integration-nexus-dep\src\adapters\orchestrator.adapter.ts:281: const completedAt = new Date().toISOString();`
+- `packages\integration-nexus-dep\src\adapters\orchestrator.adapter.ts:318: const now = new Date().toISOString();`
+- `packages\integration-nexus-dep\src\contracts\errors.ts:31: timestamp: new Date().toISOString()`
+- `packages\integration-nexus-dep\src\contracts\types.ts:237: timestamp: new Date().toISOString(),`
+- `packages\integration-nexus-dep\src\pipeline\executor.ts:104: timestamp: new Date().toISOString(),`
+- `packages\integration-nexus-dep\src\pipeline\executor.ts:197: timestamp: new Date().toISOString(),`
+- `packages\integration-nexus-dep\src\pipeline\executor.ts:220: timestamp: new Date().toISOString(),`
+- `packages\integration-nexus-dep\src\pipeline\executor.ts:240: timestamp: new Date().toISOString(),`
+- `packages\integration-nexus-dep\src\pipeline\executor.ts:269: timestamp: new Date().toISOString(),`
+- `packages\integration-nexus-dep\src\pipeline\executor.ts:282: timestamp: new Date().toISOString(),`
+- `packages\integration-nexus-dep\src\router\registry.ts:104: registeredAt: new Date().toISOString()`
+- `packages\integration-nexus-dep\src\scheduler\scheduler.ts:86: createdAt: new Date().toISOString(),`
+- `packages\integration-nexus-dep\src\scheduler\scheduler.ts:147: completedAt: new Date().toISOString()`
+- `packages\integration-nexus-dep\src\scheduler\scheduler.ts:310: currentTime: new Date(),`
+- `packages\integration-nexus-dep\src\scheduler\scheduler.ts:332: startedAt: new Date().toISOString()`
+- `packages\integration-nexus-dep\src\scheduler\scheduler.ts:344: completedAt: new Date().toISOString(),`
+- `packages\integration-nexus-dep\src\scheduler\scheduler.ts:358: timestamp: new Date().toISOString()`
+- `packages\integration-nexus-dep\src\scheduler\scheduler.ts:366: timestamp: new Date().toISOString()`
+- `packages\integration-nexus-dep\src\scheduler\scheduler.ts:373: completedAt: new Date().toISOString(),`
+- `packages\integration-nexus-dep\src\translators\output.ts:210: generatedAt: new Date().toISOString(),`
+- `packages\integration-nexus-dep\src\index.ts:92: return new Date().toISOString();`
+- `packages\mycelium\src\mycelium.ts:88: processedAt: new Date().toISOString(),`
+- `packages\mycelium\src\mycelium.ts:101: timestamp: new Date().toISOString(),`
+- `packages\mycelium\src\validator.ts:41: timestamp: new Date().toISOString(),`
+- `packages\mycelium-bio\src\dna_builder.ts:155: computedAt: new Date().toISOString(),`
+- `packages\omega-aggregate-dna\src\mycelium_adapter.ts:273: computedAt: new Date().toISOString(),`
+- `packages\omega-aggregate-dna\src\mycelium_adapter.ts:345: computedAt: new Date().toISOString(),`
+- `packages\omega-observability\src\events.ts:130: timestamp: new Date().toISOString(),`
+- `packages\proof-pack\src\builder.ts:59: createdAt: new Date().toISOString(),`
+- `packages\proof-pack\src\builder.ts:172: const createdAt = new Date().toISOString();`
+- `packages\proof-pack\src\verifier.ts:81: verifiedAt: new Date().toISOString(),`
+- `packages\search\benchmark.ts:182: console.log(`Date: ${new Date().toISOString()}`);`
+- `packages\sentinel-judge\src\types.ts:270: timestamp: new Date().toISOString()`
+- `packages\sentinel-judge\src\types.ts:292: executedAt: new Date().toISOString(),`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\artifact\artifact.ts:185: const now = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\artifact\artifact.ts:222: const now = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\artifact\artifact.ts:246: timestamp: new Date().toISOString().replace(/\.\d{3}Z$/, 'Z'),`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\artifact\artifact.ts:265: timestamp: new Date().toISOString().replace(/\.\d{3}Z$/, 'Z'),`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\artifact\artifact.ts:283: timestamp: new Date().toISOString().replace(/\.\d{3}Z$/, 'Z'),`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\artifact\artifact.ts:300: timestamp: new Date().toISOString().replace(/\.\d{3}Z$/, 'Z'),`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\artifact\artifact.ts:369: const now = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\artifact\artifact.ts:397: const now = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\artifact\artifact.ts:415: const now = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\artifact\serialization.ts:158: `# Generated: ${new Date().toISOString()}`,`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\crystal\crystallizer.ts:173: lastProven = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\crystal\crystallizer.ts:193: const now = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\crystal\crystallizer.ts:261: const now = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\crystal\grammar.ts:523: const now = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\crystal\validator.ts:150: const now = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\crystal\validator.ts:598: const now = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\falsification\engine.ts:353: timestamp: new Date().toISOString().replace(/\.\d{3}Z$/, 'Z'),`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\falsification\engine.ts:373: timestamp: new Date().toISOString().replace(/\.\d{3}Z$/, 'Z'),`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\falsification\engine.ts:392: timestamp: new Date().toISOString().replace(/\.\d{3}Z$/, 'Z'),`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\falsification\engine.ts:410: timestamp: new Date().toISOString().replace(/\.\d{3}Z$/, 'Z'),`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\gravity\engine.ts:243: referenceTime: string = new Date().toISOString()`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\gravity\engine.ts:245: const timestamp = input.timestamp ?? new Date().toISOString();`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\gravity\engine.ts:286: const now = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\gravity\engine.ts:306: const now = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\gravity\engine.ts:328: const now = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\negative\space.ts:235: createdAt: new Date().toISOString().replace(/\.\d{3}Z$/, 'Z')`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\negative\space.ts:247: const now = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\negative\space.ts:276: const now = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\negative\space.ts:302: const now = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z');`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\refusal\engine.ts:528: timestamp: new Date().toISOString().replace(/\.\d{3}Z$/, 'Z')`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\refusal\engine.ts:575: timestamp: new Date().toISOString().replace(/\.\d{3}Z$/, 'Z')`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\self\falsify-runner.ts:348: startTime: new Date().toISOString(),`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\self\falsify-runner.ts:431: const endTime = new Date().toISOString();`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\self\seal.ts:422: sealedAt: input.sealedAt ?? new Date().toISOString(),`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\self\survival-proof.ts:156: timestamp: new Date().toISOString(),`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\self\survival-proof.ts:215: timestamp: new Date().toISOString(),`
+- `src\delivery\delivery-engine.ts:146: const timestamp = config.timestamp ?? (new Date().toISOString() as ISO8601);`
+- `src\delivery\delivery-engine.ts:228: timestamp = new Date().toISOString() as ISO8601,`
+- `src\delivery\delivery-engine.ts:310: const timestamp = new Date().toISOString() as ISO8601;`
+- `src\delivery\delivery-engine.ts:378: const timestamp = new Date().toISOString() as ISO8601;`
+- `src\delivery\delivery-engine.ts:399: const timestamp = new Date().toISOString() as ISO8601;`
+- `src\delivery\renderer.ts:188: const timestamp = options.timestamp ?? (new Date().toISOString() as ISO8601);`
+- `src\gates\proof-manifest.ts:118: timestamp: timestamp ?? new Date().toISOString(),`
+- `src\gates\quarantine.ts:129: quarantinedAt: timestamp ?? new Date().toISOString(),`
+- `src\genesis\core\translator.ts:46: generatedAt: new Date().toISOString(),`
+- `src\genesis\engines\drafter.ts:95: createdAt: new Date().toISOString(),`
+- `src\genesis\proofs\proof_builder.ts:87: timestamp: new Date().toISOString(),`
+- `src\governance\drift\detector.ts:190: timestamp: new Date().toISOString(),`
+- `src\governance\drift\detector.ts:218: timestamp: new Date().toISOString(),`
+- `src\memory\types.ts:328: return new Date().toISOString() as Timestamp;`
+- `src\orchestrator\forge-adapter.ts:241: generatedAt: new Date().toISOString(),`
+- `src\orchestrator\generation-contract.ts:205: const now = new Date();`
+- `src\orchestrator\generation-contract.ts:287: now: Date = new Date()`
+- `src\orchestrator\intent-ledger.ts:158: timestamp: new Date().toISOString() as ISO8601,`
+- `src\orchestrator\policy-engine.ts:383: checkedAt: new Date().toISOString(),`
+- `src\runner\pipeline.ts:370: const timestamp = options.timestamp ?? new Date().toISOString();`
+- `src\runner\pipeline.ts:502: const timestamp = options.timestamp ?? new Date().toISOString();`
+- `src\scribe\errors.ts:107: this.timestamp = new Date().toISOString();`
+- `src\scribe\mock_provider.ts:221: .replace(/{TIMESTAMP}/g, new Date().toISOString());`
+- `src\scribe\prompt_builder.ts:119: TIMESTAMP: ${new Date().toISOString().split('T')[0]}`
+- `src\scribe\record_replay.ts:144: created_at: new Date().toISOString()`
+- `src\text_analyzer\index.ts:777: timestamp: new Date().toISOString(),`
+- `src\text_analyzer\index.ts:823: timestamp: new Date().toISOString(),`
+- `src\text_analyzer\types.ts:351: this.timestamp = new Date().toISOString();`
+- `tests\scribe\L1_unit_test.ts:298: this.timestamp = new Date().toISOString();`
+- `tests\scribe\L1_unit_test.ts:340: timestamp: new Date().toISOString()`
+- `tests\scribe\L2_integration_test.ts:30: created_utc: new Date().toISOString(),`
+- `tests\scribe\L2_integration_test.ts:138: created_at: new Date().toISOString()`
+- `tests\scribe\L2_integration_test.ts:167: created_at: new Date().toISOString()`
+- `tools\oracles\ignition.ts:80: timestamp: new Date().toISOString(),`
+- `create_project.ts:74: const now = new Date().toISOString();`
+- `errors.ts:101: this.timestamp = new Date().toISOString();`
+- `integrity.ts:41: computed_at: new Date().toISOString()`
+- `load_test.ts:17: created_at: new Date().toISOString(),`
+- `load_test.ts:18: updated_at: new Date().toISOString()`
+- `text_analyzer_adapter.ts:28: run_id: new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19),`
+- `text_analyzer_adapter.ts:29: timestamp: new Date().toISOString(),`
+- `types_test.ts:22: return new Date().toISOString();`
+

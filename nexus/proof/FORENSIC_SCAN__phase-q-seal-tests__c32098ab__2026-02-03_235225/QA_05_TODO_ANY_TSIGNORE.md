@@ -1,0 +1,497 @@
+﻿# QA_05_TODO_ANY_TSIGNORE.md
+
+## Summary
+| Pattern | Count |
+|---------|-------|
+| TODO | 1 |
+| FIXME | 0 |
+| `: any` / `as any` | 471 |
+| @ts-ignore / @ts-nocheck / @ts-expect-error | 4 |
+
+## TODO Occurrences
+- `packages\mod-narrative\src\emotionv2-adapter\provider.ts:205: // TODO: Connect to @omega/genesis-forge EmotionBridge`
+
+
+## FIXME Occurrences
+
+
+## `: any` / `as any` Occurrences
+- `gateway\facade\tests\integration\invariants.test.ts:219: expect((retrieved?.data as any).mutable).toEqual([1, 2]);`
+- `gateway\facade\tests\integration\pipeline.test.ts:277: expect((hookResult as any).status).toBe(GatewayStatus.ALLOWED);`
+- `gateway\quarantine\tests\invariants.test.ts:40: expect((list.items[0] as any).payload).toBeUndefined();`
+- `gateway\quarantine\tests\invariants.test.ts:85: expect((item as any).payload).toBeUndefined();`
+- `gateway\quarantine\tests\invariants.test.ts:86: expect((item as any).secret).toBeUndefined();`
+- `gateway\quarantine\tests\list.test.ts:62: expect((result.items[0] as any).payload).toBeUndefined();`
+- `gateway\resilience\src\chaos\composition.ts:210: seed: 0 as any,`
+- `gateway\resilience\src\temporal\evaluator.ts:117: throw new Error(`Unknown formula type: ${(formula as any).type}`);`
+- `gateway\resilience\tests\stress\stress.test.ts:557: const slowHandler = async (req: any) => {`
+- `gateway\sentinel\tests\check.test.ts:135: let deep: any = { v: 1 };`
+- `gateway\sentinel\tests\invariants.test.ts:73: Symbol.for('test') as any, // Will be ignored in JSON`
+- `gateway\sentinel\tests\structure.test.ts:24: let deep: any = { value: 'end' };`
+- `gateway\src\creation\creation_layer_nasa\creation_engine.test.ts:346: (proposal as any).artifact = null;`
+- `gateway\src\creation\creation_layer_nasa\creation_types.ts:434: // UUID format (relaxed : any non-empty string)`
+- `gateway\src\creation\creation_layer_nasa\snapshot_context.test.ts:281: } as any;`
+- `gateway\src\creation\creation_layer_nasa\snapshot_context.test.ts:394: (entry as any).version = 999;`
+- `gateway\src\creation\creation_layer_nasa\snapshot_context.test.ts:398: (entry?.payload as any).name = "Hacked";`
+- `gateway\src\creation\creation_layer_nasa\snapshot_context.test.ts:640: const methods = Object.keys(ctx).filter(k => typeof (ctx as any)[k] === "function");`
+- `gateway\src\creation\creation_layer_nasa\snapshot_context.test.ts:672: expect(typeof (provider as any)[method]).toBe("function");`
+- `gateway\src\memory\memory_layer_nasa\canonical_encode.test.ts:114: const obj: any = { a: 1 };`
+- `gateway\src\memory\memory_layer_nasa\memory_decay.test.ts:75: expect((entry!.payload as any).hp).toBe(10);`
+- `gateway\src\memory\memory_layer_nasa\memory_digest.test.ts:103: expect((entry!.payload as any).hp).toBe(10);`
+- `gateway\src\memory\memory_layer_nasa\memory_digest.test.ts:479: const summary = result.value.summary as any[];`
+- `gateway\src\memory\memory_layer_nasa\memory_digest.test.ts:509: const summary = result.value.summary as any;`
+- `gateway\src\memory\memory_layer_nasa\memory_engine.test.ts:120: expect((latest?.payload as any).name).toBe("Alice v2");`
+- `gateway\src\memory\memory_layer_nasa\memory_engine.test.ts:127: expect((v1?.payload as any).name).toBe("Alice v1");`
+- `gateway\src\memory\memory_layer_nasa\memory_engine.test.ts:354: provenance: null as any,`
+- `gateway\src\memory\memory_layer_nasa\memory_engine.test.ts:364: provenance: { invalid: true } as any,`
+- `gateway\src\memory\memory_layer_nasa\memory_engine.test.ts:377: expect((record?.provenance.source as any).user_id).toBe("test-user");`
+- `gateway\src\memory\memory_layer_nasa\memory_engine.test.ts:386: expect((record?.provenance.source as any).component).toBe("memory_engine");`
+- `gateway\src\memory\memory_layer_nasa\memory_engine.test.ts:677: expect((engine as any).delete).toBeUndefined();`
+- `gateway\src\memory\memory_layer_nasa\memory_engine.test.ts:678: expect((engine as any).remove).toBeUndefined();`
+- `gateway\src\memory\memory_layer_nasa\memory_engine.test.ts:684: expect((engine as any).update).toBeUndefined();`
+- `gateway\src\memory\memory_layer_nasa\memory_engine.test.ts:685: expect((engine as any).modify).toBeUndefined();`
+- `gateway\src\memory\memory_layer_nasa\memory_engine.test.ts:706: (record as any).payload = { hacked: true };`
+- `gateway\src\memory\memory_layer_nasa\memory_engine.test.ts:735: const circular: any = {};`
+- `gateway\src\memory\memory_layer_nasa\memory_index.test.ts:474: (result.value as any).key = "TAMPERED";`
+- `gateway\src\memory\memory_layer_nasa\memory_index.test.ts:488: expect((index as any).delete).toBeUndefined();`
+- `gateway\src\memory\memory_layer_nasa\memory_index.test.ts:489: expect((index as any).remove).toBeUndefined();`
+- `gateway\src\memory\memory_layer_nasa\memory_index.test.ts:490: expect((index as any).unindex).toBeUndefined();`
+- `gateway\src\memory\memory_layer_nasa\memory_index.test.ts:499: expect((index as any).update).toBeUndefined();`
+- `gateway\src\memory\memory_layer_nasa\memory_index.test.ts:500: expect((index as any).modify).toBeUndefined();`
+- `gateway\src\memory\memory_layer_nasa\memory_index.test.ts:501: expect((index as any).set).toBeUndefined();`
+- `gateway\src\memory\memory_layer_nasa\memory_index.test.ts:528: expect((index as any).byHash).toBeInstanceOf(Map);`
+- `gateway\src\memory\memory_layer_nasa\memory_query.test.ts:182: expect((latest?.payload as any).name).toBe("Alice v3");`
+- `gateway\src\memory\memory_layer_nasa\memory_query.test.ts:197: expect((v2?.payload as any).name).toBe("Alice v2");`
+- `gateway\src\memory\memory_layer_nasa\memory_query.test.ts:534: mutableHistory.push({} as any);`
+- `gateway\src\memory\memory_layer_nasa\memory_query.test.ts:627: expect((engine as any).write).toBeUndefined();`
+- `gateway\src\memory\memory_layer_nasa\memory_query.test.ts:628: expect((engine as any).update).toBeUndefined();`
+- `gateway\src\memory\memory_layer_nasa\memory_query.test.ts:629: expect((engine as any).delete).toBeUndefined();`
+- `gateway\src\memory\memory_layer_nasa\memory_query.test.ts:630: expect((engine as any).insert).toBeUndefined();`
+- `gateway\src\memory\memory_layer_nasa\memory_query.test.ts:657: (result as any).total_count = 999;`
+- `gateway\src\memory\memory_layer_nasa\memory_query.test.ts:665: (result.records as any[]).push({});`
+- `gateway\src\memory\memory_layer_nasa\memory_snapshot.test.ts:78: expect((historyResult.value[0].payload as any).version).toBe(1);`
+- `gateway\src\memory\memory_layer_nasa\memory_snapshot.test.ts:136: expect((result.value.payload as any).step).toBe(3);`
+- `gateway\src\memory\memory_layer_nasa\memory_snapshot.test.ts:161: expect((result.value.payload as any).step).toBe(2);`
+- `gateway\src\memory\memory_layer_nasa\memory_store.test.ts:52: const entry = store.getById(res.entry_id!) as any;`
+- `gateway\src\memory\memory_layer_nasa\memory_store.test.ts:70: expect((e1!.payload as any).hp).toBe(10);`
+- `gateway\src\memory\memory_layer_nasa\memory_store.test.ts:71: expect((e2!.payload as any).hp).toBe(20);`
+- `gateway\src\memory\memory_layer_nasa\memory_store.test.ts:135: expect((v3!.payload as any).step).toBe(3);`
+- `gateway\tests\hardening\decision_trace.test.ts:127: (all as any).push({});`
+- `gateway\tests\hardening\governance.test.ts:47: (PERMISSIONS as any).INTRUDER = { read: true };`
+- `gateway\tests\hardening\governance.test.ts:53: (PERMISSIONS.USER as any).delete = true;`
+- `gateway\tests\hardening\governance.test.ts:248: expect((result as any).reason).toContain('not recognized');`
+- `gateway\tests\hardening\governance.test.ts:261: expect((result as any).reason).toContain('delete');`
+- `gateway\tests\hardening\governance.test.ts:267: expect((result as any).reason).toContain('write');`
+- `gateway\tests\hardening\governance.test.ts:334: (log as any).push({});`
+- `gateway\tests\hardening\governance.test.ts:482: (PERMISSIONS as any).INTRUDER = { read: true };`
+- `gateway\tests\truth_gate.test.ts:81: const input = { text: "Test", canon: null as any, strictMode: false, severityThreshold: 7 };`
+- `gateway\wiring\src\proof\crystal.ts:535: (combined[k] as any).rank = avgRank;`
+- `gateway\wiring\src\proof\crystal.ts:544: .reduce((acc, x) => acc + (x as any).rank, 0);`
+- `gateway\wiring\tests\e2e\e2e_chain_memory.test.ts:50: function createMockMemoryStack(): { stack: MockMemoryStack; calls: any[] } {`
+- `gateway\wiring\tests\e2e\e2e_chain_memory.test.ts:51: const calls: any[] = [];`
+- `gateway\wiring\tests\e2e\e2e_chain_memory.test.ts:113: new MemoryAdapter(mockStack.stack as any, MEMORY_VERSION), {`
+- `gateway\wiring\tests\e2e\e2e_chain_memory.test.ts:160: check: (result) => isOk(result) && typeof (result.value as any)?.hash === 'string',`
+- `gateway\wiring\tests\e2e\e2e_chain_memory.test.ts:211: const val = result.value as any;`
+- `gateway\wiring\tests\e2e\e2e_chain_memory.test.ts:250: check: (result) => isOk(result) && Array.isArray((result.value as any)?.keys),`
+- `gateway\wiring\tests\e2e\e2e_chain_memory.test.ts:257: const keys = (result.value as any)?.keys as string[];`
+- `gateway\wiring\tests\e2e\e2e_chain_query.test.ts:35: function createMockQueryEngine(): { engine: MockQueryEngine; calls: any[] } {`
+- `gateway\wiring\tests\e2e\e2e_chain_query.test.ts:36: const calls: any[] = [];`
+- `gateway\wiring\tests\e2e\e2e_chain_query.test.ts:93: new QueryAdapter(mockEngine.engine as any, QUERY_VERSION), {`
+- `gateway\wiring\tests\e2e\e2e_chain_query.test.ts:133: check: (result) => isOk(result) && Array.isArray((result.value as any)?.results),`
+- `gateway\wiring\tests\e2e\e2e_chain_query.test.ts:138: check: (result) => isOk(result) && typeof (result.value as any)?.total === 'number',`
+- `gateway\wiring\tests\e2e\e2e_chain_query.test.ts:170: check: (result) => isOk(result) && Array.isArray((result.value as any)?.results),`
+- `gateway\wiring\tests\e2e\e2e_chain_query.test.ts:197: check: (result) => isOk(result) && typeof (result.value as any)?.value === 'number',`
+- `gateway\wiring\tests\e2e\e2e_chain_query.test.ts:231: const val = result.value as any;`
+- `gateway\wiring\tests\e2e\e2e_chain_query.test.ts:238: check: (result) => isOk(result) && typeof (result.value as any)?.confidence === 'number',`
+- `gateway\wiring\tests\e2e\e2e_replay_guard.test.ts:209: delete (env as any).replay_protection_key;`
+- `gateway\wiring\tests\chronicle.test.ts:119: snapshot1.push({} as any);`
+- `gateway\wiring\tests\chronicle.test.ts:311: expect((records[0] as any).error_code).toBe('VAL_ERR');`
+- `gateway\wiring\tests\chronicle.test.ts:348: expect((records[1] as any).retryable).toBe(true);`
+- `gateway\wiring\tests\chronicle.test.ts:361: expect((complete as any).success).toBe(true);`
+- `gateway\wiring\tests\chronicle.test.ts:362: expect((complete as any).total_duration_ms).toBe(150);`
+- `gateway\wiring\tests\chronicle.test.ts:372: expect((complete as any).success).toBe(false);`
+- `gateway\wiring\tests\envelope.test.ts:311: delete (env as any).message_id;`
+- `gateway\wiring\tests\envelope.test.ts:330: delete (env as any).payload_schema;`
+- `gateway\wiring\tests\envelope.test.ts:354: (env as any).timestamp = 'not a number';`
+- `gateway\wiring\tests\envelope.test.ts:395: const env = createMinimalValidEnvelope({ kind: 'invalid' as any });`
+- `gateway\wiring\tests\envelope.test.ts:407: delete (env as any).replay_protection_key;`
+- `gateway\wiring\tests\envelope.test.ts:510: (env.payload as any).test = false;`
+- `gateway\wiring\tests\gateway_adapter.test.ts:159: const payload = result.value.envelope.payload as any;`
+- `gateway\wiring\tests\gateway_adapter.test.ts:176: (result.value.envelope.payload as any).injected = 'hack';`
+- `gateway\wiring\tests\policy.test.ts:226: if ((env.payload as any)?.key === 'forbidden') {`
+- `gateway\wiring\tests\proof_crystal.test.ts:163: nodes.push(null as any);`
+- `gateway\wiring\tests\replay_guard.test.ts:155: (env as any).replay_protection_key = undefined;`
+- `nexus\atlas\tests\query.test.ts:276: filter: { field: 'name', operator: 'invalid' as any, value: 'test' },`
+- `nexus\src\certification\engine.ts:157: id: `${module}_TEST_${i + 1}` as any,`
+- `nexus\src\certification\engine.ts:160: invariantId: t.invariantId as any,`
+- `nexus\src\observatory\observatory.ts:194: (alert as any).acknowledged = true;`
+- `omega-narrative-genome\tests\invariants\genome_invariants.test.ts:439: const hash1 = computeFingerprint("test", axes1 as any);`
+- `omega-narrative-genome\tests\invariants\genome_invariants.test.ts:440: const hash2 = computeFingerprint("test", axes2 as any);`
+- `omega-nexus\src\certification\engine.ts:156: id: `${module}_TEST_${i + 1}` as any,`
+- `omega-nexus\src\certification\engine.ts:159: invariantId: t.invariantId as any,`
+- `omega-nexus\src\observatory\observatory.ts:194: (alert as any).acknowledged = true;`
+- `omega-phase23\gateway\resilience\src\chaos\composition.ts:210: seed: 0 as any,`
+- `omega-phase23\gateway\resilience\src\temporal\evaluator.ts:117: throw new Error(`Unknown formula type: ${(formula as any).type}`);`
+- `omega-phase23\gateway\resilience\tests\stress\stress.test.ts:557: const slowHandler = async (req: any) => {`
+- `omega-ui\src\components\DiffViewer.tsx:202: const DeltaTooltip = ({ active, payload, label }: any) => {`
+- `omega-ui\src\components\DiffViewer.tsx:208: {payload.map((p: any, i: number) => (`
+- `omega-ui\src\components\RunViewer.tsx:122: const CustomTooltip = ({ active, payload, label }: any) => {`
+- `omega-ui\src\components\RunViewer.tsx:128: {payload.map((p: any, i: number) => (`
+- `omega-ui\src\components\RunViewer.tsx:139: const DensityTooltip = ({ active, payload, label }: any) => {`
+- `omega-ui\src\components\TextAnalyzer.tsx:250: onChange={(e) => setAnalyzerMode(e.target.value as any)}`
+- `omega-ui\src\components\TextAnalyzer.tsx:271: <select value={segMode} onChange={(e) => setSegMode(e.target.value as any)}>`
+- `OMEGA_PHASE12\config\tests\config.test.ts:315: (config as any).version = "hacked";`
+- `OMEGA_PHASE12\config\tests\config.test.ts:319: (config.audit as any).log_level = "TAMPERED";`
+- `OMEGA_PHASE14\oracle\tests\oracle_engine.test.ts:68: function createMockAudit(): OracleAudit & { events: any[] } {`
+- `OMEGA_PHASE14\oracle\tests\oracle_engine.test.ts:69: const events: any[] = [];`
+- `OMEGA_PHASE14\oracle\tests\oracle_engine.test.ts:83: let audit: OracleAudit & { events: any[] };`
+- `OMEGA_PHASE14\oracle\tests\oracle_engine.test.ts:144: const routeCall = (router.route as any).mock.calls[0][0];`
+- `OMEGA_PHASE14\oracle\tests\oracle_engine.test.ts:201: (errorBridge.call as any).mockRejectedValue(new Error('LLM error'));`
+- `OMEGA_PHASE14\oracle\tests\oracle_engine.test.ts:219: (errorBridge.call as any).mockRejectedValue(new Error('LLM error'));`
+- `OMEGA_PHASE14\oracle\response_parser.ts:121: if (!EMOTION_LABELS.includes(normalized as any)) {`
+- `OMEGA_PHASE14\oracle\response_parser.ts:210: normalized.signals = rawSignals.map((s: any, i: number) => ({`
+- `OMEGA_PHASE14\oracle\response_parser.ts:236: emotions = rawEmotions.map((e: any) => {`
+- `OMEGA_PHASE14\oracle\response_parser.ts:239: label: label as any,`
+- `OMEGA_PHASE14\oracle\response_parser.ts:256: const signals = normalized.signals as any[];`
+- `OMEGA_PHASE14\oracle\response_parser.ts:322: const rawLatency = (raw.model as any)?.latency_ms;`
+- `OMEGA_PHASE14\oracle\response_parser.ts:328: provider_id: options.provider_id ?? (raw.model as any)?.provider_id ?? 'unknown',`
+- `OMEGA_PHASE14\oracle\response_parser.ts:329: model_name: options.model_name ?? (raw.model as any)?.model_name ?? 'unknown',`
+- `OMEGA_PHASE21_QUERY_ENGINE\src\query-engine.ts:149: const aVal = getFieldValue(a, field as any);`
+- `OMEGA_PHASE21_QUERY_ENGINE\src\query-engine.ts:150: const bVal = getFieldValue(b, field as any);`
+- `OMEGA_SENTINEL_SUPREME\sentinel\crystal\crystallizer.ts:352: * Check if an invariant has any proofs`
+- `OMEGA_SENTINEL_SUPREME\sentinel\crystal\crystallizer.ts:359: * Check if an invariant has any impossibilities`
+- `OMEGA_SENTINEL_SUPREME\sentinel\falsification\coverage.ts:163: const byCategory: Record<AttackCategory, DimensionCoverage> = {} as any;`
+- `OMEGA_SENTINEL_SUPREME\sentinel\falsification\coverage.ts:175: const bySeverity: Record<AttackSeverity, DimensionCoverage> = {} as any;`
+- `OMEGA_SENTINEL_SUPREME\sentinel\meta\boundary_ledger.ts:401: * Check if an invariant has any HARD boundaries`
+- `OMEGA_SENTINEL_SUPREME\sentinel\negative\space.ts:472: * Check if space has any CATASTROPHIC violations`
+- `OMEGA_SENTINEL_SUPREME\sentinel\negative\space.ts:479: * Check if space has any CRITICAL or worse violations`
+- `OMEGA_SENTINEL_SUPREME\sentinel\self\seal.ts:310: // BREACHED: any breach detected`
+- `OMEGA_SENTINEL_SUPREME\sentinel\self\seal.ts:528: * Check if seal has any breach.`
+- `OMEGA_SENTINEL_SUPREME\sentinel\tests\axioms.test.ts:121: (axiom as any).name = 'Modified Name';`
+- `OMEGA_SENTINEL_SUPREME\sentinel\tests\boundary_ledger.test.ts:493: (MANDATORY_BOUNDARIES as any).push({} as BoundaryEntry);`
+- `OMEGA_SENTINEL_SUPREME\sentinel\tests\boundary_ledger.test.ts:499: (BOUND_001 as any).title = 'Modified';`
+- `OMEGA_SENTINEL_SUPREME\sentinel\tests\gravity.test.ts:642: expect(compareConfidence('HIGH', 'LOW' as any)).toBe('HIGHER');`
+- `OMEGA_SENTINEL_SUPREME\sentinel\tests\negative.test.ts:184: impossibilityClass: 'INVALID' as any`
+- `OMEGA_SENTINEL_SUPREME\sentinel\tests\negative.test.ts:425: const violations: any[] = [];`
+- `OMEGA_SENTINEL_SUPREME\sentinel\tests\refusal.test.ts:274: createAxiomRefusal('AX-Z' as any, 'Reason');`
+- `OMEGA_SENTINEL_SUPREME\sentinel\tests\regions.test.ts:190: expect(getRegion('INVALID' as any)).toBeUndefined();`
+- `OMEGA_SENTINEL_SUPREME\sentinel\tests\regions.test.ts:195: expect(getRegionName('INVALID' as any)).toBe('Unknown');`
+- `OMEGA_SENTINEL_SUPREME\sentinel\tests\regions.test.ts:206: expect(getRegionOrder('INVALID' as any)).toBe(-1);`
+- `OMEGA_SPRINT15\src\nexus\tests\audit.test.ts:287: (frozen as any).success = false;`
+- `OMEGA_SPRINT15\src\nexus\tests\chronicle.test.ts:139: (chain[0] as any).entry_hash = 'tampered';`
+- `OMEGA_SPRINT15\src\nexus\tests\invariants.test.ts:94: expect((nexus as any).executeDirectly).toBeUndefined();`
+- `OMEGA_SPRINT15\src\nexus\tests\invariants.test.ts:95: expect((nexus as any).callModule).toBeUndefined();`
+- `OMEGA_SPRINT15\src\nexus\tests\invariants.test.ts:157: const response = await nexus.call({ invalid: true } as any);`
+- `OMEGA_SPRINT15\src\nexus\tests\invariants.test.ts:166: module: 'INVALID_MODULE' as any,`
+- `OMEGA_SPRINT15\src\nexus\tests\nexus.test.ts:288: const request = { ...createOracleRequest(), module: 'INVALID' as any };`
+- `OMEGA_SPRINT15\src\nexus\tests\router.test.ts:42: module: module as any,`
+- `packages\emotion-gate\src\policy\policy-manager.ts:228: related_entities: relatedEntities as any, // EntityId type`
+- `packages\emotion-gate\tests\helpers\test-fixtures.ts:146: entity_id: options.entity_id ?? 'ent_test_001' as any,`
+- `packages\emotion-gate\tests\helpers\test-fixtures.ts:150: evidence_refs: (options.evidence_refs ?? []) as any,`
+- `packages\emotion-gate\tests\helpers\test-fixtures.ts:178: entity_id: entity_id ?? frames[0]?.entity_id ?? 'ent_test_001' as any,`
+- `packages\emotion-gate\tests\helpers\test-fixtures.ts:257: ]) as any,`
+- `packages\emotion-gate\tests\helpers\test-fixtures.ts:274: hash: `rh_test_policy_${Date.now()}` as any,`
+- `packages\emotion-gate\tests\helpers\test-fixtures.ts:319: export function createInvalidEmotionState(type: 'negative' | 'over_one' | 'nan' | 'missing'): any {`
+- `packages\emotion-gate\tests\helpers\test-fixtures.ts:333: export function createInvalidFrame(type: 'wrong_source' | 'invalid_state'): any {`
+- `packages\emotion-gate\tests\integration\emotion-gate-integration.test.ts:58: let previousFrame: any = undefined;`
+- `packages\emotion-gate\tests\integration\emotion-gate-integration.test.ts:144: validators: ['eval_bounds', 'eval_axiom_compat'] as any,`
+- `packages\emotion-gate\tests\integration\emotion-gate-integration.test.ts:360: const statsA = ledger.getByEntityId('ent_a' as any);`
+- `packages\emotion-gate\tests\integration\emotion-gate-integration.test.ts:361: const statsB = ledger.getByEntityId('ent_b' as any);`
+- `packages\emotion-gate\tests\unit\ledger.test.ts:117: const entries = ledger.getByEntityId('ent_ledger_001' as any);`
+- `packages\emotion-gate\tests\unit\policy.test.ts:68: const policy = manager.createPolicy('Custom Validators', ['eval_bounds', 'eval_stability'] as any);`
+- `packages\emotion-gate\tests\unit\policy.test.ts:248: validators: ['eval_bounds', 'eval_stability'] as any,`
+- `packages\emotion-gate\tests\unit\proof.test.ts:166: hash: 'rh_different_hash_value' as any,`
+- `packages\emotion-gate\tests\unit\ssot-compliance.test.ts:101: expect((verdict as any).corrected_state).toBeUndefined();`
+- `packages\emotion-gate\tests\unit\ssot-compliance.test.ts:102: expect((verdict as any).calculated_emotion).toBeUndefined();`
+- `packages\emotion-gate\tests\unit\ssot-compliance.test.ts:103: expect((verdict as any).suggested_emotion).toBeUndefined();`
+- `packages\emotion-gate\tests\unit\ssot-compliance.test.ts:115: expect((verdict as any).interpolated_state).toBeUndefined();`
+- `packages\emotion-gate\tests\unit\ssot-compliance.test.ts:116: expect((verdict as any).smoothed_state).toBeUndefined();`
+- `packages\emotion-gate\tests\unit\ssot-compliance.test.ts:127: expect((verdict as any).predicted_state).toBeUndefined();`
+- `packages\emotion-gate\tests\unit\ssot-compliance.test.ts:128: expect((verdict as any).expected_next).toBeUndefined();`
+- `packages\emotion-gate\tests\unit\ssot-compliance.test.ts:264: expect((ledger as any).delete).toBeUndefined();`
+- `packages\emotion-gate\tests\unit\ssot-compliance.test.ts:265: expect((ledger as any).remove).toBeUndefined();`
+- `packages\emotion-gate\tests\unit\ssot-compliance.test.ts:325: (policy as any).name = 'Modified Name';`
+- `packages\emotion-gate\tests\unit\ssot-compliance.test.ts:362: } as any;`
+- `packages\emotion-gate\tests\unit\validators.test.ts:443: related_entities: ['ent_other_001'] as any,`
+- `packages\emotion-gate\tests\unit\validators.test.ts:458: related_entities: ['ent_related_001'] as any,`
+- `packages\emotion-gate\tests\unit\validators.test.ts:474: related_entities: ['ent_related_001'] as any,`
+- `packages\genome\test\invariants\genome.test.ts:432: const hash1 = computeFingerprint("test", axes1 as any);`
+- `packages\genome\test\invariants\genome.test.ts:433: const hash2 = computeFingerprint("test", axes2 as any);`
+- `packages\gold-internal\test\unit\certification.test.ts:300: expect(() => formatReport(report, 'unknown' as any)).toThrow();`
+- `packages\gold-internal\test\unit\validator-error-paths.test.ts:149: const obj: any = null;`
+- `packages\hardening\test\unit\edge-cases.test.ts:50: expect((result.value as any).__proto__).toBeUndefined();`
+- `packages\hardening\test\unit\edge-cases.test.ts:226: const deep: any = {};`
+- `packages\hardening\test\unit\edge-cases.test.ts:239: const deep: any = {};`
+- `packages\hardening\test\unit\json-error-paths.test.ts:122: const obj: any = { a: 1 };`
+- `packages\hardening\test\unit\json-error-paths.test.ts:132: const obj: any = { a: { b: { c: {} } } };`
+- `packages\hardening\test\unit\json-error-paths.test.ts:142: const deep: any = {};`
+- `packages\hardening\test\unit\json-error-paths.test.ts:181: const arr: any[] = [1, 2];`
+- `packages\hardening\test\unit\json-error-paths.test.ts:233: expect(Object.isFrozen((result.value as any).a)).toBe(true);`
+- `packages\hardening\test\unit\json-error-paths.test.ts:234: expect(Object.isFrozen((result.value as any).a.b)).toBe(true);`
+- `packages\hardening\test\unit\json.test.ts:179: expect(Object.isFrozen((result.value as any).a)).toBe(true);`
+- `packages\hardening\test\unit\json.test.ts:180: expect(Object.isFrozen((result.value as any).a.b)).toBe(true);`
+- `packages\hardening\test\unit\sanitize.test.ts:79: expect((result.value as any).a.b.c).toBe('value');`
+- `packages\hardening\test\unit\sanitize.test.ts:96: expect((result.value as any).key).toBe('valuewithnulls');`
+- `packages\hardening\test\unit\tamper.test.ts:294: const invalid = { ...sealed, algorithm: 'md5' as any };`
+- `packages\headless-runner\test\unit\runner.test.ts:300: const result = await noop.execute({}, {} as any);`
+- `packages\headless-runner\test\unit\runner.test.ts:307: const result = await echo.execute({ test: 'value' }, {} as any);`
+- `packages\headless-runner\test\unit\runner.test.ts:314: await expect(fail.execute({}, {} as any)).rejects.toThrow();`
+- `packages\headless-runner\test\unit\runner.test.ts:320: await expect(fail.execute({ message: 'Custom error' }, {} as any)).rejects.toThrow('Custom error');`
+- `packages\hostile\__tests__\hostile.test.ts:113: expect((clean as any).admin).toBeUndefined()`
+- `packages\hostile\__tests__\hostile.test.ts:121: expect((clean as any).pwned).toBeUndefined()`
+- `packages\hostile\__tests__\hostile.test.ts:261: const circular: any = { a: 1 }`
+- `packages\hostile\__tests__\hostile.test.ts:275: let deep: any = { value: 'bottom' }`
+- `packages\integration-nexus-dep\test\integration.test.ts:681: let capturedContext: any;`
+- `packages\integration-nexus-dep\test\integration.test.ts:712: if (EMOTION14_LIST.includes(e as any)) {`
+- `packages\integration-nexus-dep\test\pipeline-error-paths.test.ts:190: const obj: any = null;`
+- `packages\integration-nexus-dep\test\pipeline.test.ts:256: let capturedContext: any;`
+- `packages\integration-nexus-dep\test\pipeline.test.ts:274: let capturedPrevious: any;`
+- `packages\mycelium-bio\tests\invariants.test.ts:627: const uniform: Record<EmotionType, number> = {} as any;`
+- `packages\mycelium-bio\tests\invariants.test.ts:636: const concentrated: Record<EmotionType, number> = {} as any;`
+- `packages\mycelium-bio\tests\mycelium_invariants.test.ts:455: const recomputed = recomputeAllHashes([...dna.nodes] as any);`
+- `packages\mycelium-bio\tests\mycelium_invariants.test.ts:471: const corrupted = [...dna.nodes] as any;`
+- `packages\omega-segment-engine\tests\edge-cases.test.ts:271: const deep: any = {};`
+- `packages\orchestrator-core\test\integration\determinism-double-run.test.ts:205: assertDeterministic(results[0] as any, results[1] as any);`
+- `packages\performance\test\unit\cache-error-paths.test.ts:106: const obj: any = null;`
+- `packages\proof-pack\test\unit\serializer.test.ts:151: expect(() => exportProofPack(pack, 'unknown' as any)).toThrow('Unknown export format');`
+- `packages\sbom\__tests__\sbom.test.ts:337: const normalize = (s: any) => {`
+- `packages\search\test\error-paths.test.ts:130: const result = importer.import('data', { format: 'unknown' as any });`
+- `packages\sentinel-judge\tests\assembler.test.ts:115: } catch (error: any) {`
+- `packages\sentinel-judge\tests\gates.test.ts:613: (request as any).policyBundle = {`
+- `packages\truth-gate\src\gate\verdict-factory.ts:216: (result as any).expected = expected;`
+- `packages\truth-gate\src\gate\verdict-factory.ts:219: (result as any).actual = actual;`
+- `packages\truth-gate\src\ledger\verdict-ledger.ts:119: * Check if transaction has any verdict.`
+- `packages\truth-gate\src\validators\base-validator.ts:70: (ev as any).location = options.location;`
+- `packages\truth-gate\src\validators\base-validator.ts:73: (ev as any).expected = options.expected;`
+- `packages\truth-gate\src\validators\base-validator.ts:76: (ev as any).actual = options.actual;`
+- `packages\truth-gate\tests\integration.test.ts:140: const verdict = gate.validate(tx as any);`
+- `packages\truth-gate\tests\truth-gate.test.ts:83: policy_id: 'P-TEST-v1' as any,`
+- `packages\truth-gate\tests\truth-gate.test.ts:96: hash: 'policy-hash' as any,`
+- `packages\truth-gate\tests\truth-gate.test.ts:171: const newPolicy: PolicyPack = { ...defaultPolicy, policy_id: 'P-NEW-v1' as any };`
+- `packages\truth-gate\tests\validators.test.ts:80: policy_id: 'P-TEST-v1' as any,`
+- `packages\truth-gate\tests\validators.test.ts:93: hash: 'test-hash' as any,`
+- `packages\truth-gate\tests\validators.test.ts:129: rail: 'invalid' as any,`
+- `packages\truth-gate\tests\validators.test.ts:134: const result = validator.validate(tx as any, createTestContext());`
+- `packages\truth-gate\tests\validators.test.ts:152: const result = validator.validate(tx as any, createTestContext());`
+- `packages\truth-gate\tests\validators.test.ts:169: const result = validator.validate(tx as any, createTestContext());`
+- `packages\truth-gate\tests\validators.test.ts:222: const result = validator.validate(tx as any, createTestContext());`
+- `packages\truth-gate\tests\validators.test.ts:228: const tx = createTestTx([createTestOp('entity1', ['field'], 'value')], 'truth', 'wrong-hash' as any);`
+- `packages\truth-gate\tests\validators.test.ts:294: const result = validator.validate(tx as any, createTestContext());`
+- `packages\truth-gate\tests\verdict-factory.test.ts:104: verdict_id: 'vid-1' as any,`
+- `packages\truth-gate\tests\verdict-factory.test.ts:121: verdict_id: 'vid-1' as any,`
+- `packages\truth-gate\tests\verdict-factory.test.ts:252: const proofChain = ['hash1', 'hash2'] as any[];`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\crystal\crystallizer.ts:352: * Check if an invariant has any proofs`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\crystal\crystallizer.ts:359: * Check if an invariant has any impossibilities`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\falsification\coverage.ts:163: const byCategory: Record<AttackCategory, DimensionCoverage> = {} as any;`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\falsification\coverage.ts:175: const bySeverity: Record<AttackSeverity, DimensionCoverage> = {} as any;`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\meta\boundary_ledger.ts:401: * Check if an invariant has any HARD boundaries`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\negative\space.ts:472: * Check if space has any CATASTROPHIC violations`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\negative\space.ts:479: * Check if space has any CRITICAL or worse violations`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\self\seal.ts:310: // BREACHED: any breach detected`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\self\seal.ts:528: * Check if seal has any breach.`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\tests\axioms.test.ts:121: (axiom as any).name = 'Modified Name';`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\tests\boundary_ledger.test.ts:493: (MANDATORY_BOUNDARIES as any).push({} as BoundaryEntry);`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\tests\boundary_ledger.test.ts:499: (BOUND_001 as any).title = 'Modified';`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\tests\gravity.test.ts:642: expect(compareConfidence('HIGH', 'LOW' as any)).toBe('HIGHER');`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\tests\negative.test.ts:184: impossibilityClass: 'INVALID' as any`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\tests\negative.test.ts:425: const violations: any[] = [];`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\tests\refusal.test.ts:274: createAxiomRefusal('AX-Z' as any, 'Reason');`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\tests\regions.test.ts:190: expect(getRegion('INVALID' as any)).toBeUndefined();`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\tests\regions.test.ts:195: expect(getRegionName('INVALID' as any)).toBe('Unknown');`
+- `sprint28_5\OMEGA_SENTINEL_SUPREME\sentinel\tests\regions.test.ts:206: expect(getRegionOrder('INVALID' as any)).toBe(-1);`
+- `src\gates\canon-matcher.ts:68: relatedClaimId: relatedClaimId as any,`
+- `src\gates\quarantine.ts:51: function redactFact(fact: any): any {`
+- `src\genesis\tests\invariants\constitution.test.ts:50: states: states as any,`
+- `src\genesis\tests\invariants\constitution.test.ts:88: bundle.bundleHash = hashTruthBundle(bundle as any);`
+- `src\genesis\tests\invariants\constitution.test.ts:117: (bundle as any).vectorSchemaId = 'INVALID_SCHEMA';`
+- `src\genesis\tests\invariants\constitution.test.ts:118: bundle.bundleHash = hashTruthBundle(bundle as any);`
+- `src\genesis\tests\invariants\constitution.test.ts:170: (field.normalizedIntensities as any).joy = 0.9;`
+- `src\genesis\tests\invariants\constitution.test.ts:364: bundle2.bundleHash = hashTruthBundle(bundle2 as any);`
+- `src\oracle\muse\suggest\strat_beat_next.ts:121: targetEmotion as any,`
+- `src\oracle\muse\suggest\strat_beat_next.ts:151: to: targetEmotion as any,`
+- `src\oracle\muse\suggest\strat_reframe_truth.ts:92: if (!outcomes.includes(currentEmotion as any)) {`
+- `src\oracle\muse\suggest\strat_tension_delta.ts:92: tensionEmotion as any,`
+- `src\oracle\muse\suggest\strat_tension_delta.ts:119: from: fromEmotion as any,`
+- `src\oracle\muse\suggest\strat_tension_delta.ts:120: to: tensionEmotion as any,`
+- `src\oracle\muse\tests\assess.test.ts:53: createEmotionState(emotion as any, weight)`
+- `src\oracle\muse\tests\diversity.test.ts:39: mechanism: mechanism as any,`
+- `src\oracle\muse\tests\diversity.test.ts:65: strategy: strategy as any,`
+- `src\oracle\muse\tests\invariants.test.ts:384: emotion: invalidState as any,`
+- `src\oracle\muse\tests\project.test.ts:51: createEmotionState(emotion as any, weight)`
+- `src\orchestrator\policy-loader.ts:195: patterns: Object.freeze(parsed.forbidden.patterns.map((p: any) =>`
+- `src\orchestrator\policy-loader.ts:202: vocabularies: Object.freeze(parsed.forbidden.vocabularies.map((v: any) =>`
+- `src\orchestrator\policy-loader.ts:209: structures: Object.freeze(parsed.forbidden.structures.map((s: any) =>`
+- `src\runner\main.ts:269: console.error(`   Error: ${(result as any).error ?? 'Unknown error'}`);`
+- `src\scribe\record_replay.ts:95: * @invariant SCRIBE-I08: Any 1-byte change = different hash`
+- `src\scribe\runner.ts:178: validatedRequest.voice_guidance as any`
+- `src\scribe\validators.ts:68: const target = (spec as any)?.target_length;`
+- `src\text_analyzer\text_analyzer.test.ts:171: expect(() => analyze(null as any)).toThrow(TextAnalyzerError);`
+- `src\text_analyzer\text_analyzer.test.ts:175: expect(() => analyze(undefined as any)).toThrow(TextAnalyzerError);`
+- `src\text_analyzer\text_analyzer.test.ts:179: expect(() => analyze(123 as any)).toThrow(TextAnalyzerError);`
+- `test\atlas-regen.test.ts:14: let atlasModule: any;`
+- `test\ci-cd.test.ts:11: let ciModule: any;`
+- `test\eol.test.ts:11: let eolModule: any;`
+- `test\error-codes.test.ts:11: let errModule: any;`
+- `test\error-codes.test.ts:109: expect(valErrors.every((e: any) => e.code.includes('-VAL-'))).toBe(true);`
+- `test\error-codes.test.ts:115: expect(criticalErrors.every((e: any) => e.severity === 'CRITICAL')).toBe(true);`
+- `test\gates.test.ts:34: } catch (error: any) {`
+- `test\gold-final.test.ts:16: let mod: any;`
+- `test\gold-final.test.ts:28: let mod: any;`
+- `test\gold-final.test.ts:40: let mod: any;`
+- `test\gold-final.test.ts:53: let mod: any;`
+- `test\gold-final.test.ts:69: let mod: any;`
+- `test\gold-final.test.ts:85: let mod: any;`
+- `test\gold-final.test.ts:97: let mod: any;`
+- `test\gold-final.test.ts:109: let mod: any;`
+- `test\gold-final.test.ts:126: let mod: any;`
+- `test\gold-tooling.test.ts:19: let cpModule: any;`
+- `test\gold-tooling.test.ts:33: let rbModule: any;`
+- `test\gold-tooling.test.ts:52: let mModule: any;`
+- `test\gold-tooling.test.ts:71: let dgModule: any;`
+- `test\gold-tooling.test.ts:89: let hModule: any;`
+- `test\gold-tooling.test.ts:108: let bModule: any;`
+- `test\gold-tooling.test.ts:122: let vModule: any;`
+- `test\registry.test.ts:11: let registryModule: any;`
+- `test\ultimate-gold.test.ts:16: let mod: any;`
+- `test\ultimate-gold.test.ts:30: let mod: any;`
+- `test\ultimate-gold.test.ts:41: let mod: any;`
+- `test\ultimate-gold.test.ts:57: let mod: any;`
+- `test\ultimate-gold.test.ts:73: let mod: any;`
+- `test\ultimate-gold.test.ts:87: let mod: any;`
+- `test\ultimate-gold.test.ts:101: let mod: any;`
+- `test\ultimate-gold.test.ts:116: let mod: any;`
+- `tests\gates\integration\hostile-audit.test.ts:166: (output as any).passed = false;`
+- `tests\gates\integration\hostile-audit.test.ts:179: (output.proof as any).proofHash = 'tampered';`
+- `tests\gates\integration\hostile-audit.test.ts:189: (verdict as any).verdict = Verdict.FAIL;`
+- `tests\gates\integration\hostile-audit.test.ts:202: (quarantine as any).reason = 'tampered';`
+- `tests\gates\integration\hostile-audit.test.ts:319: expect((reader as any).createClaim).toBeUndefined();`
+- `tests\gates\integration\hostile-audit.test.ts:320: expect((reader as any).updateClaim).toBeUndefined();`
+- `tests\gates\integration\hostile-audit.test.ts:321: expect((reader as any).deleteClaim).toBeUndefined();`
+- `tests\gates\integration\hostile-audit.test.ts:322: expect((reader as any).revokeClaim).toBeUndefined();`
+- `tests\gates\integration\hostile-audit.test.ts:358: const proof = createProofManifest('test', verdict as any, [], 'hash' as ChainHash);`
+- `tests\gates\integration\hostile-audit.test.ts:367: createQuarantineResult(null as any, 'hash' as ChainHash);`
+- `tests\gates\integration\hostile-audit.test.ts:371: createQuarantineResult(undefined as any, 'hash' as ChainHash);`
+- `tests\gates\integration\hostile-audit.test.ts:400: const tamperedProof = { ...output.proof, proofHash: 'tamperedhash' as any };`
+- `tests\gates\integration\hostile-audit.test.ts:533: null as any,`
+- `tests\gates\integration\hostile-audit.test.ts:534: undefined as any,`
+- `tests\gates\integration\hostile-audit.test.ts:551: expect(({} as any).constructor).toBe(Object);`
+- `tests\gates\proof-manifest.test.ts:254: (manifest as any).proofHash = 'modified';`
+- `tests\gates\proof-manifest.test.ts:312: const tampered = { ...manifest, proofHash: 'tamperedHash' as any };`
+- `tests\gates\quarantine.test.ts:39: return createViolation(code as any, createTestFact(), `Test violation: ${code}`);`
+- `tests\gates\quarantine.test.ts:77: expect((result as any).originalText).toBeUndefined();`
+- `tests\gates\quarantine.test.ts:78: expect((result as any).text).toBeUndefined();`
+- `tests\gates\quarantine.test.ts:79: expect((result as any).output).toBeUndefined();`
+- `tests\gates\quarantine.test.ts:126: const proof = createProofManifest(TEST_INPUT, badVerdict as any, [], TEST_CANON_HASH);`
+- `tests\gates\quarantine.test.ts:134: expect(() => createQuarantineResult(null as any, TEST_INPUT_HASH)).toThrow('INV-F7-03');`
+- `tests\gates\quarantine.test.ts:138: expect(() => createQuarantineResult(undefined as any, TEST_INPUT_HASH)).toThrow('INV-F7-03');`
+- `tests\gates\quarantine.test.ts:150: const result = { id: 'Q-test', originalInputHash: TEST_INPUT_HASH } as any;`
+- `tests\gates\quarantine.test.ts:271: expect(validateQuarantineResult(result as any)).toBe(false);`
+- `tests\gates\quarantine.test.ts:284: expect(validateQuarantineResult(fakeResult as any)).toBe(false);`
+- `tests\gates\verdict-engine.test.ts:29: code as any,`
+- `tests\orchestrator\integration\full-pipeline.test.ts:124: const actor1Entries = orchestrator.ledger.getEntriesByActorId('ACT-user-11111111' as any);`
+- `tests\orchestrator\integration\full-pipeline.test.ts:125: const actor2Entries = orchestrator.ledger.getEntriesByActorId('ACT-user-22222222' as any);`
+- `tests\orchestrator\intent-ledger.test.ts:225: const entries = ledger.getEntriesByIntentId('INT-notfound12345678901234567890123456789012345678901234' as any);`
+- `tests\orchestrator\intent-ledger.test.ts:252: const entries = ledger.getEntriesByActorId('ACT-user-11111111' as any);`
+- `tests\orchestrator\intent-ledger.test.ts:469: const history = getIntentHistory(ledger, 'INT-unknown1234567890123456789012345678901234567890123456' as any);`
+- `tests\orchestrator\intent-ledger.test.ts:501: expect(getLatestIntentStatus(ledger, 'INT-unknown' as any)).toBeUndefined();`
+- `tests\orchestrator\intent-normalizer.test.ts:79: expect((result.nested as any).text).toBe('hello');`
+- `tests\orchestrator\intent-normalizer.test.ts:104: } as any);`
+- `tests\orchestrator\intent-normalizer.test.ts:138: format: 'HTML' as any, // Even if wrong`
+- `tests\orchestrator\intent-normalizer.test.ts:148: allowFacts: true as any, // Even if wrong`
+- `tests\orchestrator\intent-normalizer.test.ts:247: expect((result.normalized.payload as any).prompt).toBe('hello world');`
+- `tests\orchestrator\intent-schema.test.ts:220: patterns: ['PAT-test' as any],`
+- `tests\orchestrator\intent-schema.test.ts:221: vocabularies: ['VOC-test' as any],`
+- `tests\orchestrator\intent-schema.test.ts:222: structures: ['STR-test' as any],`
+- `tests\orchestrator\orchestrator.test.ts:234: const status = orchestrator.getIntentStatus('INT-unknown' as any);`
+- `tests\orchestrator\policy-loader.test.ts:153: expect(verifyPolicyHash(hash as any, hash as any)).toBe(true);`
+- `tests\orchestrator\policy-loader.test.ts:159: expect(verifyPolicyHash(hash1 as any, hash2 as any)).toBe(false);`
+- `tests\orchestrator\types.test.ts:202: patterns: ['PAT-test1' as any],`
+- `tests\orchestrator\types.test.ts:203: vocabularies: ['VOC-test1' as any],`
+- `tests\orchestrator\types.test.ts:204: structures: ['STR-test1' as any],`
+- `tests\providers\hostile.test.ts:20: const result = createProvider({ providerId: 'unknown' as any });`
+- `tests\runner\integration\hostile-audit.test.ts:304: expect(({} as any).polluted).toBeUndefined();`
+- `tests\runner\pipeline.test.ts:201: expect((result.data?.manifest as any).profile).toBe('PROF-test');`
+- `tests\scribe\L1_unit_test.ts:113: expect((spec as any)[field]).toBeDefined();`
+- `tests\scribe\L1_unit_test.ts:118: const validatePov = (pov: any) => pov !== null && pov !== undefined && pov.entity_id;`
+- `tests\scribe\L2_integration_test.ts:252: const existingValue = entity ? (entity as any)[newFact.key] : undefined;`
+- `tests\scribe\L2_integration_test.ts:265: const existingValue = entity ? (entity as any)[newFact.key] : undefined;`
+- `tests\scribe\L2_integration_test.ts:281: const entityExists = (canonSnapshot as any)[newFact.subject] !== undefined;`
+- `tests\scribe\L2_integration_test.ts:320: const minWords = (spec.target_length as any).min_words;`
+- `tests\scribe\L3_stress_test.ts:29: const pairs = keys.map(k => `"${k}":${stableStringify((obj as any)[k])}`);`
+- `tests\scribe\L3_stress_test.ts:193: const existingValue = (entity as any)[extractedFact.key];`
+- `tests\scribe\L3_stress_test.ts:257: (spec as any).constraints = constraints;`
+- `tests\scribe\L3_stress_test.ts:264: (spec as any).continuity_claims = claims;`
+- `tests\scribe\L3_stress_test.ts:301: (spec as any).continuity_claims = [];`
+- `tests\scribe\L3_stress_test.ts:302: (spec as any).forbidden_facts = [];`
+- `tests\scribe\L3_stress_test.ts:303: (spec as any).constraints = [];`
+- `tests\scribe\L4_brutal_test.ts:33: const pairs = keys.map(k => `"${k}":${stableStringify((obj as any)[k])}`);`
+- `tests\dist-cli.test.ts:66: expect((e as any).status).toBeDefined();`
+- `tests\scale_invariants.test.ts:88: } catch (err: any) {`
+- `tests\scale_invariants.test.ts:95: function readOutput(outDir: string, inputFile: string): any {`
+- `tests\scale_invariants.test.ts:337: const segmentRootHashes = result.segment_dnas.map((sd: any) => sd.rootHash);`
+- `tests\streaming_invariants.test.ts:92: } catch (err: any) {`
+- `tests\streaming_invariants.test.ts:107: } catch (err: any) {`
+- `tests\streaming_invariants.test.ts:114: function readOutput(outDir: string, inputFile: string): any {`
+- `tests\streaming_invariants.test.ts:227: const results: any[] = [];`
+- `tools\omega-verify\__tests__\verify.test.ts:51: expect(normalize(null as any)).toBe('')`
+- `tools\omega-verify\__tests__\verify.test.ts:52: expect(normalize(undefined as any)).toBe('')`
+- `tools\omega-verify\__tests__\verify.test.ts:53: expect(normalize(123 as any)).toBe('')`
+- `tools\omega-verify\__tests__\verify.test.ts:423: const errors = validatePayloadStructure('not an object' as any)`
+- `tools\oracles\canonicalizer.ts:16: export function canonicalizeVitestJson(raw: any): CanonicalTestReport {`
+- `tools\oracles\oracle_test_report.ts:67: let rawJson: any;`
+- `concurrency_test.ts:18: let io: any;`
+- `integrity.ts:19: ? { ...project, integrity: undefined } as any`
+- `load.ts:87: } catch (primaryError: any) {`
+- `load.ts:143: let parsed: any;`
+- `load.ts:146: } catch (error: any) {`
+- `load.ts:154: } catch (error: any) {`
+- `load.ts:162: } catch (error: any) {`
+- `load_error_contract_test.ts:8: const loadMod: any = await import("./load");`
+- `load_error_contract_test.ts:9: const nodeIoMod: any = await import("./node_io");`
+- `load_error_contract_test.ts:14: let err: any = null;`
+- `migration.ts:17: [key: string]: any;`
+- `migration.ts:102: } catch (err: any) {`
+- `mock_runner.ts:139: name: stage.name as any,`
+- `mock_runner.ts:213: name: stage.name as any,`
+- `node_io.ts:18: } catch (e: any) {`
+- `robustness_test.ts:20: let io: any;`
+- `robustness_test.ts:119: const { integrity, ...withoutIntegrity } = modifiedProject as any;`
+- `run_pipeline_scale.ts:287: MyceliumDNAAdapter: any;`
+- `run_pipeline_scale.ts:314: const segmentAnalyses: any[] = [];`
+- `run_pipeline_scale.ts:342: const segmentDNAs: any[] = [];`
+- `run_pipeline_scale.ts:387: (sum: number, s: any) => sum + s.word_count, 0`
+- `run_pipeline_scale.ts:419: segments: segmentAnalyses.map((sa: any) => ({`
+- `run_pipeline_scale.ts:430: segment_dnas: segmentDNAs.map((sd: any) => ({`
+- `run_pipeline_scale.ts:461: } catch (error: any) {`
+- `run_pipeline_scale_v2.ts:339: MyceliumDNAAdapter: any;`
+- `run_pipeline_scale_v2.ts:347: let segmentation: any;`
+- `run_pipeline_scale_v2.ts:356: const streamSegments: any[] = [];`
+- `run_pipeline_scale_v2.ts:403: segmentTexts = segmentation.segments.map((s: any) => s.text);`
+- `run_pipeline_scale_v2.ts:416: const segmentAnalyses: any[] = [];`
+- `run_pipeline_scale_v2.ts:444: const segmentDNAs: any[] = [];`
+- `run_pipeline_scale_v2.ts:488: (sum: number, s: any) => sum + s.word_count, 0`
+- `run_pipeline_scale_v2.ts:506: char_count: segmentation.segments.reduce((sum: number, s: any) => sum + s.char_count, 0),`
+- `run_pipeline_scale_v2.ts:528: segments: segmentAnalyses.map((sa: any) => ({`
+- `run_pipeline_scale_v2.ts:539: segment_dnas: segmentDNAs.map((sd: any) => ({`
+- `run_pipeline_scale_v2.ts:571: } catch (error: any) {`
+- `save.ts:31: projectOrOptions?: any`
+- `save.ts:35: let data: any;`
+- `save.ts:48: if ('baseRoot' in io && typeof (io as any).baseRoot === 'string') {`
+- `save.ts:49: projectRoot = (io as any).baseRoot;`
+- `save.ts:59: } catch (err: any) {`
+- `save.ts:71: } catch (err: any) {`
+- `save.ts:84: const { integrity, ...dataWithoutIntegrity } = data as any;`
+- `save.ts:105: } catch (err: any) {`
+- `saveProject_error_contract_test.ts:8: const saveMod: any = await import("./save");`
+- `saveProject_error_contract_test.ts:9: const nodeIoMod: any = await import("./node_io");`
+- `saveProject_error_contract_test.ts:15: const badProject: any = {`
+- `saveProject_error_contract_test.ts:20: let err: any = null;`
+- `text_analyzer_adapter.ts:2: export function adaptTextAnalyzerToBridge(textAnalyzerResult: any, source: string): any {`
+
+
+## @ts-ignore / @ts-nocheck / @ts-expect-error Occurrences
+- `gateway\src\memory\memory_layer_nasa\memory_store.test.ts:82: // @ts-expect-error testing invalid source`
+- `OMEGA_PHASE13A\observability\forensic_logger.ts:616: // @ts-expect-error output may be undefined in catch`
+- `OMEGA_PHASE13A\observability\forensic_logger.ts:626: // @ts-expect-error we know output is defined in success case`
+- `packages\schemas\__tests__\validator.test.ts:22: // @ts-expect-error Testing missing field`
+

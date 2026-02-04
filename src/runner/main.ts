@@ -266,7 +266,7 @@ async function handleCapsule(args: ParsedArgs): Promise<number> {
     console.log(`   Size:   ${result.totalBytes} bytes`);
   } else {
     console.error(`❌ Capsule creation failed`);
-    console.error(`   Error: ${(result as any).error ?? 'Unknown error'}`);
+    console.error(`   Error: ${(result as unknown as { error?: string }).error ?? 'Unknown error'}`);
   }
 
   return result.exitCode;

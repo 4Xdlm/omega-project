@@ -89,7 +89,7 @@ function selectReframeTypes(prng: PRNGState, currentEmotion: string): ReframeTyp
   for (const type of allTypes) {
     const outcomes = REFRAME_TYPES[type].outcomes;
     // Add multiple times if outcomes don't include current (= more contrast)
-    if (!outcomes.includes(currentEmotion as any)) {
+    if (!outcomes.includes(currentEmotion as typeof outcomes[number])) {
       weighted.push(type, type);
     } else {
       weighted.push(type);

@@ -15,7 +15,7 @@
  * @phase 14.4
  */
 
-import type { EmotionStateV2 } from '../../emotion_v2';
+import type { EmotionStateV2, EmotionId } from '../../emotion_v2';
 import type {
   NarrativeContext,
   Suggestion,
@@ -118,7 +118,7 @@ function createBeatSuggestion(
   // Validate physics
   const physics = validatePhysics(
     input.emotion,
-    targetEmotion as any,
+    targetEmotion as EmotionId,
     dominant.weight * 0.9
   );
   
@@ -148,7 +148,7 @@ function createBeatSuggestion(
   
   const expectedShift: EmotionShift = {
     from: dominant.id,
-    to: targetEmotion as any,
+    to: targetEmotion as EmotionId,
     intensity_delta: intensityDelta,
     transition_type: physics.gravity_score > 0.5 ? 'natural' : 'forced',
   };

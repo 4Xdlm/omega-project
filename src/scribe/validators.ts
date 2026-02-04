@@ -65,7 +65,7 @@ export function validateSceneSpec(spec: unknown): SceneSpec {
         throw emptyCanonScope();
       }
       if (path.includes('target_length')) {
-        const target = (spec as any)?.target_length;
+        const target = (spec as Record<string, unknown>)?.target_length as { min_words?: number; max_words?: number } | undefined;
         throw invalidLengthSpec(
           target?.min_words ?? 0,
           target?.max_words ?? 0

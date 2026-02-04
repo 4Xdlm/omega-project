@@ -114,7 +114,7 @@ export class LTLEvaluator {
       return this.evaluateBinary(formula, position);
     }
 
-    throw new Error(`Unknown formula type: ${(formula as any).type}`);
+    throw new Error(`Unknown formula type: ${(formula as unknown as { type: string }).type}`);
   }
 
   private evaluateAtom(predicate: string, position: number): boolean {

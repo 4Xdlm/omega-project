@@ -15,7 +15,7 @@
 import { hashCanonical } from '../shared/canonical';
 import { normalizeForCanon } from '../canon';
 import type { ChainHash } from '../canon';
-import type { QuarantineResult, QuarantineId, ProofManifest } from './types';
+import type { QuarantineResult, QuarantineId, ProofManifest, ClassifiedFact } from './types';
 import { Verdict } from './types';
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -48,7 +48,7 @@ export function generateQuarantineId(proof: ProofManifest): QuarantineId {
  * @param fact - Fact to redact
  * @returns Redacted fact with sourceSpan.text replaced
  */
-function redactFact(fact: any): any {
+function redactFact(fact: ClassifiedFact): ClassifiedFact {
   return {
     ...fact,
     sourceSpan: {

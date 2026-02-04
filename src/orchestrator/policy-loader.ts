@@ -192,25 +192,25 @@ export function parsePolicy(content: string): PolicyConfig {
       maxRequestsPerActor: parsed.rules.maxRequestsPerActor,
     }),
     forbidden: Object.freeze({
-      patterns: Object.freeze(parsed.forbidden.patterns.map((p: any) =>
+      patterns: Object.freeze(parsed.forbidden.patterns.map((p: Record<string, unknown>) =>
         Object.freeze({
           id: p.id as PatternId,
-          regex: p.regex,
-          description: p.description,
+          regex: p.regex as string,
+          description: p.description as string,
         })
       )),
-      vocabularies: Object.freeze(parsed.forbidden.vocabularies.map((v: any) =>
+      vocabularies: Object.freeze(parsed.forbidden.vocabularies.map((v: Record<string, unknown>) =>
         Object.freeze({
           id: v.id as VocabularyId,
-          words: Object.freeze([...v.words]),
-          description: v.description,
+          words: Object.freeze([...(v.words as string[])]),
+          description: v.description as string,
         })
       )),
-      structures: Object.freeze(parsed.forbidden.structures.map((s: any) =>
+      structures: Object.freeze(parsed.forbidden.structures.map((s: Record<string, unknown>) =>
         Object.freeze({
           id: s.id as StructureId,
-          pattern: s.pattern,
-          description: s.description,
+          pattern: s.pattern as string,
+          description: s.description as string,
         })
       )),
     }),

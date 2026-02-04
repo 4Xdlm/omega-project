@@ -34,7 +34,7 @@ import {
   computeRequestHash,
   getDefaultRecordStore
 } from './record_replay';
-import { analyzeCompliance, ComplianceResult } from './scoring';
+import { analyzeCompliance, ComplianceResult, type VoiceGuidance } from './scoring';
 import { extractStagedFacts, CanonSnapshot } from './staging';
 import { ScribeProvider, MockScribeProvider } from './mock_provider';
 
@@ -175,7 +175,7 @@ export class ScribeRunner {
     const compliance = analyzeCompliance(
       canonical_output,
       validatedRequest.scene_spec,
-      validatedRequest.voice_guidance as any
+      validatedRequest.voice_guidance as VoiceGuidance
     );
     
     // Validate score bounds — INVARIANT SCRIBE-I10

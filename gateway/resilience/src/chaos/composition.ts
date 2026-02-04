@@ -23,6 +23,7 @@ import {
   perturbationId,
   magnitude,
   durationMs,
+  chaosSeed,
   isPerturbation,
   isComposedPerturbation,
   Magnitude,
@@ -207,7 +208,7 @@ export function identity(): Perturbation {
       repeatInterval: durationMs(0),
       maxRepetitions: 0,
     },
-    seed: 0 as any,
+    seed: chaosSeed(0),
     description: 'Identity perturbation (no effect)',
   };
 }

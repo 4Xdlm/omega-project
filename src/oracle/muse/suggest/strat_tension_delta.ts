@@ -15,7 +15,7 @@
  * @phase 14.4
  */
 
-import type { EmotionStateV2 } from '../../emotion_v2';
+import type { EmotionStateV2, EmotionId } from '../../emotion_v2';
 import type {
   NarrativeContext,
   Suggestion,
@@ -89,7 +89,7 @@ function createTensionSuggestion(
   // Validate physics with trigger
   const physics = validatePhysics(
     input.emotion,
-    tensionEmotion as any,
+    tensionEmotion as EmotionId,
     Math.min(0.9, dominant.weight + 0.2),
     trigger
   );
@@ -116,8 +116,8 @@ function createTensionSuggestion(
     `Scene goal: ${input.context.scene_goal}.`;
   
   const expectedShift: EmotionShift = {
-    from: fromEmotion as any,
-    to: tensionEmotion as any,
+    from: fromEmotion as EmotionId,
+    to: tensionEmotion as EmotionId,
     intensity_delta: intensityDelta,
     transition_type: physics.gravity_score > 0.4 ? 'natural' : 'forced',
   };

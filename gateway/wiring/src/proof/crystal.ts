@@ -532,7 +532,7 @@ export class StatisticalProfiler {
       }
       const avgRank = (rank + rank + (j - i)) / 2;
       for (let k = i; k <= j; k++) {
-        (combined[k] as any).rank = avgRank;
+        (combined[k] as unknown as { rank: number }).rank = avgRank;
       }
       rank += (j - i + 1);
       i = j;
@@ -541,7 +541,7 @@ export class StatisticalProfiler {
     // Sum ranks for group 1
     const R1 = combined
       .filter(x => x.group === 1)
-      .reduce((acc, x) => acc + (x as any).rank, 0);
+      .reduce((acc, x) => acc + ((x as unknown as { rank: number }).rank), 0);
 
     // U statistic
     const U1 = R1 - (n1 * (n1 + 1)) / 2;

@@ -4,7 +4,7 @@
  */
 
 import { describe, it, expect, beforeAll, afterAll, beforeEach } from 'vitest';
-import { writeFileSync, unlinkSync, existsSync, mkdirSync, rmdirSync, readFileSync } from 'fs';
+import { writeFileSync, unlinkSync, existsSync, mkdirSync, rmSync, readFileSync } from 'fs';
 import { join } from 'path';
 import { tmpdir } from 'os';
 import {
@@ -35,7 +35,7 @@ describe('Snapshot', () => {
     try {
       if (existsSync(testFile1)) unlinkSync(testFile1);
       if (existsSync(testFile2)) unlinkSync(testFile2);
-      if (existsSync(testDir)) rmdirSync(testDir, { recursive: true });
+      if (existsSync(testDir)) rmSync(testDir, { recursive: true });
     } catch {
       // Ignore cleanup errors
     }

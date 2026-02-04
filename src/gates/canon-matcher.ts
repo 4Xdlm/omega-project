@@ -20,6 +20,7 @@ import {
   type CanonClaim,
   type EntityId,
   type PredicateType,
+  type ClaimId,
   ClaimStatus,
 } from '../canon';
 import type { ClassifiedFact, CanonViolation, ViolationCode } from './types';
@@ -57,7 +58,7 @@ function createViolation(
   code: ViolationCode,
   fact: ClassifiedFact,
   message: string,
-  relatedClaimId?: string,
+  relatedClaimId?: ClaimId,
   expectedValue?: unknown,
   actualValue?: unknown
 ): CanonViolation {
@@ -65,7 +66,7 @@ function createViolation(
     code,
     fact,
     message,
-    relatedClaimId: relatedClaimId as any,
+    relatedClaimId,
     expectedValue,
     actualValue,
   };

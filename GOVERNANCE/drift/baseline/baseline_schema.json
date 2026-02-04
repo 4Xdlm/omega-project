@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Phase E Baseline Schema",
+  "description": "Expected structure for Phase D observation artifacts consumed by Phase E drift detection",
+  "definitions": {
+    "RuntimeEvent": {
+      "type": "object",
+      "required": [
+        "event_id",
+        "timestamp_utc",
+        "phase",
+        "build_ref",
+        "operation",
+        "input_hash",
+        "output_hash",
+        "verdict"
+      ],
+      "properties": {
+        "event_id": { "type": "string", "minLength": 8 },
+        "timestamp_utc": { "type": "string", "format": "date-time" },
+        "phase": { "type": "string", "enum": ["D"] },
+        "source": { "type": "string" },
+        "build_ref": {
+          "type": "object",
+          "required": ["commit", "tag"],
+          "properties": {
+            "commit": { "type": "string", "minLength": 7 },
+            "tag": { "type": "string", "minLength": 1 }
+          }
+        },
+        "operation": { "type": "string" },
+        "input_hash": { "type": "string" },
+        "output_hash": { "type": "string" },
+        "verdict": {
+          "type": "string",
+          "enum": ["PASS", "FAIL", "DRIFT", "TOOLING_DRIFT", "INCIDENT"]
+        },
+        "notes": { "type": "string" }
+      }
+    },
+    "Snapshot": {
+      "type": "object",
+      "required": [
+        "snapshot_id",
+        "timestamp_utc",
+        "baseline_ref",
+        "last_event_id",
+        "events_count_total",
+        "anomalies",
+        "status"
+      ],
+      "properties": {
+        "snapshot_id": { "type": "string" },
+        "timestamp_utc": { "type": "string", "format": "date-time" },
+        "baseline_ref": { "type": "string", "minLength": 64 },
+        "last_event_id": { "type": "string" },
+        "events_count_total": { "type": "integer", "minimum": 0 },
+        "anomalies": {
+          "type": "object",
+          "required": ["tooling_drift", "product_drift", "incidents"],
+          "properties": {
+            "tooling_drift": { "type": "integer", "minimum": 0 },
+            "product_drift": { "type": "integer", "minimum": 0 },
+            "incidents": { "type": "integer", "minimum": 0 }
+          }
+        },
+        "status": { "type": "string" },
+        "notes": { "type": "string" }
+      }
+    }
+  }
+}

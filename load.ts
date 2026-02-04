@@ -1,7 +1,7 @@
 // ═══════════════════════════════════════════════════════════════════════════
 // OMEGA CANON V1 — LOAD PIPELINE
-// Version: 1.1
-// Date: 18 décembre 2025
+// Version: 1.2 (any types corrected)
+// Date: 04 février 2026
 // ═══════════════════════════════════════════════════════════════════════════
 
 import { OmegaIO } from './io';
@@ -84,7 +84,7 @@ export async function loadProject(
       shouldVerifyIntegrity, 
       shouldValidateInvariants
     );
-  } catch (primaryError: any) {
+  } catch (primaryError: unknown) {
     // ─── ÉCHEC : Tenter backup si disponible ───
     if (tryBackupOnFailure) {
       const backupExists = await io.exists(projectRoot, backupPath);
@@ -140,27 +140,30 @@ async function loadFromPath(
   const content = await io.readFile(projectRoot, filePath);
   
   // ─── ÉTAPE 3: Parser le JSON ───
-  let parsed: any;
+  let parsed: unknown;
   try {
     parsed = JSON.parse(content);
-  } catch (error: any) {
-    throw corruptedData(`Invalid JSON in ${filePath}: ${error.message}`);
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
+    throw corruptedData(`Invalid JSON in ${filePath}: ${message}`);
   }
   
   // ─── ÉTAPE 4: Valider la structure (Zod) ───
   let project: OmegaProject;
   try {
     project = OmegaProjectSchema.parse(parsed);
-  } catch (error: any) {
-    throw corruptedData(`Invalid project structure in ${filePath}: ${error.message}`);
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
+    throw corruptedData(`Invalid project structure in ${filePath}: ${message}`);
   }
   
   // ─── ÉTAPE 5: Valider les invariants ───
   if (shouldValidateInvariants) {
     try {
       validateInvariants(project);
-    } catch (error: any) {
-      throw corruptedData(`Invariant violation in ${filePath}: ${error.message}`);
+    } catch (error: unknown) {
+      const message = error instanceof Error ? error.message : String(error);
+      throw corruptedData(`Invariant violation in ${filePath}: ${message}`);
     }
   }
   

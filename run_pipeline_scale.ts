@@ -17,6 +17,13 @@ import path from "node:path";
 import os from "node:os";
 import { createHash } from "node:crypto";
 import { fileURLToPath } from "node:url";
+import type {
+  SegmentationResult,
+  SegmentAnalysis,
+  SegmentWithDNA,
+  AggregateResult,
+  MyceliumDNAAdapter as MyceliumDNAAdapterType
+} from "./pipeline_types.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -284,7 +291,7 @@ async function processFile(
     prepareDNABuild: Function;
     buildMyceliumDNA: Function;
     aggregateDNA: Function;
-    MyceliumDNAAdapter: any;
+    MyceliumDNAAdapter: MyceliumDNAAdapterType;
   }
 ): Promise<FileResult> {
   const t0 = nowMs();
@@ -301,6 +308,7 @@ async function processFile(
     // PHASE 2: SEGMENT
     // ═══════════════════════════════════════════════════════════════════════════
     const segmentation = modules.segmentText(inputText, {
+
       mode: opts.mode,
       newline_policy: "normalize_lf",
       trim_segments: true,
@@ -311,7 +319,7 @@ async function processFile(
     // ═══════════════════════════════════════════════════════════════════════════
     // PHASE 3: ANALYZE EACH SEGMENT (sequential for now, deterministic)
     // ═══════════════════════════════════════════════════════════════════════════
-    const segmentAnalyses: any[] = [];
+    const segmentAnalyses: SegmentAnalysis[] = [];
 
     for (let i = 0; i < segmentation.segments.length; i++) {
       const seg = segmentation.segments[i];
@@ -339,7 +347,7 @@ async function processFile(
     // ═══════════════════════════════════════════════════════════════════════════
     // PHASE 4: BUILD DNA PER SEGMENT
     // ═══════════════════════════════════════════════════════════════════════════
-    const segmentDNAs: any[] = [];
+    const segmentDNAs: SegmentWithDNA[] = [];
 
     for (const segAnalysis of segmentAnalyses) {
       const dna = modules.buildMyceliumDNA(segAnalysis.dnaInputs.segments, {
@@ -384,7 +392,7 @@ async function processFile(
     // ═══════════════════════════════════════════════════════════════════════════
     
     const totalWordCount = segmentation.segments.reduce(
-      (sum: number, s: any) => sum + s.word_count, 0
+      (sum: number, s) => sum + s.word_count, 0
     );
 
     const output: ScaleOutput = {
@@ -416,7 +424,7 @@ async function processFile(
         coverage_ratio: segmentation.coverage_ratio,
       },
 
-      segments: segmentAnalyses.map((sa: any) => ({
+      segments: segmentAnalyses.map((sa) => ({
         id: sa.segment_id,
         index: sa.segment_index,
         start: sa.start,
@@ -427,7 +435,7 @@ async function processFile(
         ...(opts.includeText ? { text: sa.segment_text } : {}),
       })),
 
-      segment_dnas: segmentDNAs.map((sd: any) => ({
+      segment_dnas: segmentDNAs.map((sd) => ({
         segment_id: sd.segment_id,
         segment_index: sd.segment_index,
         rootHash: sd.dna.rootHash,
@@ -458,7 +466,8 @@ async function processFile(
       success: true,
     };
 
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
     return {
       file: filePath,
       out: "",
@@ -466,7 +475,7 @@ async function processFile(
       rootHash: "",
       segments: 0,
       success: false,
-      error: error.message || String(error),
+      error: message,
     };
   }
 }

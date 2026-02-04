@@ -23,6 +23,14 @@ import path from "node:path";
 import os from "node:os";
 import { createHash } from "node:crypto";
 import { fileURLToPath } from "node:url";
+import type {
+  SegmentationResult,
+  Segment,
+  SegmentAnalysis,
+  SegmentWithDNA,
+  AggregateResult,
+  MyceliumDNAAdapter as MyceliumDNAAdapterType
+} from "./pipeline_types.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -336,7 +344,7 @@ async function processFile(
     prepareDNABuild: Function;
     buildMyceliumDNA: Function;
     aggregateDNA: Function;
-    MyceliumDNAAdapter: any;
+    MyceliumDNAAdapter: MyceliumDNAAdapterType;
   }
 ): Promise<FileResult> {
   const t0 = nowMs();
@@ -344,7 +352,7 @@ async function processFile(
   const useStreaming = shouldUseStreaming(filePath, opts.forceStream, opts.streamThresholdMB);
 
   try {
-    let segmentation: any;
+    let segmentation: SegmentationResult;
     let segmentTexts: string[] = [];
     const tRead = nowMs();
 
@@ -353,7 +361,7 @@ async function processFile(
       // STREAMING MODE
       // ═══════════════════════════════════════════════════════════════════════
       
-      const streamSegments: any[] = [];
+      const streamSegments: Segment[] = [];
       
       for await (const seg of modules.iterateSegmentsStreaming(filePath, {
         mode: opts.mode,
@@ -400,7 +408,7 @@ async function processFile(
         include_empty: false,
       });
       
-      segmentTexts = segmentation.segments.map((s: any) => s.text);
+      segmentTexts = segmentation.segments.map((s) => s.text);
     }
     
     const inputHash = useStreaming 
@@ -413,7 +421,7 @@ async function processFile(
     // PHASE 2-3: ANALYZE & BUILD DNA (same for both modes)
     // ═══════════════════════════════════════════════════════════════════════════
     
-    const segmentAnalyses: any[] = [];
+    const segmentAnalyses: SegmentAnalysis[] = [];
 
     for (let i = 0; i < segmentation.segments.length; i++) {
       const seg = segmentation.segments[i];
@@ -441,7 +449,7 @@ async function processFile(
     const tAna = nowMs();
 
     // Build DNA per segment
-    const segmentDNAs: any[] = [];
+    const segmentDNAs: SegmentWithDNA[] = [];
 
     for (const segAnalysis of segmentAnalyses) {
       const dna = modules.buildMyceliumDNA(segAnalysis.dnaInputs.segments, {
@@ -485,7 +493,7 @@ async function processFile(
     // ═══════════════════════════════════════════════════════════════════════════
     
     const totalWordCount = segmentation.segments.reduce(
-      (sum: number, s: any) => sum + s.word_count, 0
+      (sum: number, s) => sum + s.word_count, 0
     );
 
     const output: ScaleOutput = {
@@ -503,7 +511,7 @@ async function processFile(
       input: {
         file: filePath,
         hash: inputHash,
-        char_count: segmentation.segments.reduce((sum: number, s: any) => sum + s.char_count, 0),
+        char_count: segmentation.segments.reduce((sum: number, s) => s.char_count, 0),
         word_count: totalWordCount,
         size_bytes: fileSizeBytes,
       },
@@ -525,7 +533,7 @@ async function processFile(
         coverage_ratio: segmentation.coverage_ratio ?? 1.0,
       },
 
-      segments: segmentAnalyses.map((sa: any) => ({
+      segments: segmentAnalyses.map((sa) => ({
         id: sa.segment_id,
         index: sa.segment_index,
         start: sa.start,
@@ -536,7 +544,7 @@ async function processFile(
         ...(opts.includeText ? { text: sa.segment_text } : {}),
       })),
 
-      segment_dnas: segmentDNAs.map((sd: any) => ({
+      segment_dnas: segmentDNAs.map((sd) => ({
         segment_id: sd.segment_id,
         segment_index: sd.segment_index,
         rootHash: sd.dna.rootHash,
@@ -568,7 +576,8 @@ async function processFile(
       streaming: useStreaming,
     };
 
-  } catch (error: any) {
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : String(error);
     return {
       file: filePath,
       out: "",
@@ -577,7 +586,7 @@ async function processFile(
       segments: 0,
       success: false,
       streaming: useStreaming,
-      error: error.message || String(error),
+      error: message,
     };
   }
 }

@@ -1,7 +1,7 @@
 // ═══════════════════════════════════════════════════════════════════════════
 // OMEGA CANON V1 — SAVE (Atomic Persistence)
-// Version: 1.2
-// Date: 21 décembre 2025
+// Version: 1.3 (any types corrected)
+// Date: 04 février 2026
 // ═══════════════════════════════════════════════════════════════════════════
 
 import { ioError, invalidSchema } from './errors';
@@ -27,26 +27,26 @@ interface SaveProjectOptions {
  */
 export async function saveProject(
   io: NodeIO,
-  projectRootOrProject: string | any,
-  projectOrOptions?: any
+  projectRootOrProject: string | OmegaProject,
+  projectOrOptions?: OmegaProject | SaveProjectOptions
 ): Promise<void> {
   // Déterminer la signature
   let projectRoot: string;
-  let data: any;
+  let data: OmegaProject;
   let options: SaveProjectOptions = {};
   
   if (typeof projectRootOrProject === 'string') {
     // Signature standard: (io, projectRoot, project)
     projectRoot = projectRootOrProject;
-    data = projectOrOptions;
+    data = projectOrOptions as OmegaProject;
   } else {
     // Signature avec options: (io, project, options)
     data = projectRootOrProject;
-    options = projectOrOptions || {};
+    options = (projectOrOptions as SaveProjectOptions) || {};
     
     // Extraire projectRoot depuis io
-    if ('baseRoot' in io && typeof (io as any).baseRoot === 'string') {
-      projectRoot = (io as any).baseRoot;
+    if ('baseRoot' in io && typeof (io as Record<string, unknown>).baseRoot === 'string') {
+      projectRoot = (io as Record<string, unknown>).baseRoot as string;
     } else {
       projectRoot = '.';
     }
@@ -56,8 +56,9 @@ export async function saveProject(
   if (options.validateBeforeSave) {
     try {
       OmegaProjectSchema.parse(data);
-    } catch (err: any) {
-      throw invalidSchema(err.message || err);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err);
+      throw invalidSchema(message);
     }
   }
   
@@ -68,8 +69,9 @@ export async function saveProject(
     try {
       await acquireLock(projectRoot, { ttlMs: LOCK_TTL_MS, stealStale: true });
       lockId = 'acquired'; // Flag pour indiquer que le lock a été acquis
-    } catch (err: any) {
-      if (err.message && (err.message.includes('LOCKED') || err.message.includes('EXISTS'))) {
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : '';
+      if (message && (message.includes('LOCKED') || message.includes('EXISTS'))) {
          throw ioError("Cannot save: System is locked by another operation.");
       }
       throw err;
@@ -81,7 +83,7 @@ export async function saveProject(
 
     // 2. Calcul intégrité + Écriture atomique
     // Retirer l'ancienne integrity (si présente) pour recalculer proprement
-    const { integrity, ...dataWithoutIntegrity } = data as any;
+    const { integrity, ...dataWithoutIntegrity } = data as OmegaProject & { integrity?: unknown };
     
     // Calculer nouvelle integrity
     const dataWithIntegrity = attachIntegrity(dataWithoutIntegrity);
@@ -102,11 +104,14 @@ export async function saveProject(
       throw err;
     }
 
-  } catch (err: any) {
-    if (err.message && err.message.includes("System is locked")) throw err;
-    if (err.code) throw err;
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : '';
+    if (message && message.includes("System is locked")) throw err;
     
-    throw ioError(`Failed to save project: ${err.message}`, err);
+    const code = (err as { code?: string }).code;
+    if (code) throw err;
+    
+    throw ioError(`Failed to save project: ${message}`, err instanceof Error ? err : new Error(String(err)));
   } finally {
     // 4. Nettoyage
     if (lockId) {

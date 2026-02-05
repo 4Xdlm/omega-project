@@ -1,0 +1,75 @@
+{
+  "module_id": "aggregate-dna",
+  "exports": {
+    "classes": [
+      "AggregateInvariantError"
+    ],
+    "functions": [
+      "aggregateDNA",
+      "assertAggregationInvariants",
+      "assertDeterminism",
+      "assertEmptyValid",
+      "assertMerkleValid",
+      "assertOrderSensitive",
+      "assertSeedAligned",
+      "assertStatsSummed",
+      "computeMerkleRoot",
+      "createMockMyceliumDNA",
+      "generateMerkleProof",
+      "hashObject",
+      "selfTest",
+      "sha256Hex",
+      "stableStringify",
+      "verifyAggregationDeterminism",
+      "verifyMerkleProof"
+    ],
+    "interfaces": [
+      "AggregateAdapter",
+      "AggregateInput",
+      "AggregateResult",
+      "AggregatedDNAArgs",
+      "AggregationData",
+      "AggregationMetadata",
+      "DNACore",
+      "EmotionState",
+      "MerkleProof",
+      "MerkleProofStep",
+      "MyceliumDNA",
+      "MyceliumFingerprint",
+      "MyceliumNode",
+      "TextStats"
+    ],
+    "types": [
+      "EmotionField",
+      "EmotionType"
+    ]
+  },
+  "signatures": [
+    "aggregateDNA<DNA extends DNACore>(input: AggregateInput<DNA>): AggregateResult<DNA>",
+    "assertAggregationInvariants<DNA extends DNACore>(result: AggregateResult<DNA>, adapter: AggregateAdapter<DNA>): void",
+    "assertDeterminism(aggregation1: AggregationMetadata, aggregation2: AggregationMetadata): void",
+    "assertEmptyValid<DNA extends DNACore>(result: DNA, adapter: AggregateAdapter<DNA>): void",
+    "assertMerkleValid(aggregation: AggregationMetadata): void",
+    "assertOrderSensitive(aggregation1: AggregationMetadata, aggregation2: AggregationMetadata): void",
+    "assertSeedAligned(aggregation: AggregationMetadata, expectedSeed: number): void",
+    "assertStatsSummed(result: AggregationMetadata, sources: readonly AggregationMetadata[]): void",
+    "computeMerkleRoot(leaves: readonly string[]): string",
+    "createMockMyceliumDNA(overrides?: Partial<MyceliumDNA>): MyceliumDNA",
+    "generateMerkleProof(leaves: readonly string[], index: number): MerkleProof",
+    "hashObject(obj: unknown): string",
+    "selfTest(): boolean",
+    "sha256Hex(input: string): string",
+    "stableStringify(value: unknown): string",
+    "verifyAggregationDeterminism<DNA extends DNACore>(input: AggregateInput<DNA>): boolean",
+    "verifyMerkleProof(proof: MerkleProof): boolean"
+  ],
+  "constants": [
+    "AGGREGATOR_VERSION",
+    "EMOTION_COUNT",
+    "EMOTION_TYPES",
+    "MODULE_NAME",
+    "MyceliumDNAAdapter",
+    "STANDARD",
+    "VERSION"
+  ]
+}

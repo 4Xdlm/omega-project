@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-02-06T00:00:00.000Z",
+  "generated_by": "OMEGA Blueprint B4 - Metrics & Module Cards",
+  "top_by_files": [
+    { "module": "decision-engine", "files_count": 31 },
+    { "module": "emotion-gate", "files_count": 24 },
+    { "module": "integration-nexus-dep", "files_count": 20 },
+    { "module": "canon-kernel", "files_count": 18 },
+    { "module": "truth-gate", "files_count": 18 }
+  ],
+  "top_by_exports": [
+    { "module": "integration-nexus-dep", "exports_count": 188 },
+    { "module": "emotion-gate", "exports_count": 121 },
+    { "module": "decision-engine", "exports_count": 108 },
+    { "module": "canon-kernel", "exports_count": 101 },
+    { "module": "sentinel-judge", "exports_count": 81 }
+  ],
+  "top_by_deps_in": [
+    { "module": "orchestrator-core", "deps_in_count": 12 },
+    { "module": "gold-cli", "deps_in_count": 3 },
+    { "module": "gold-internal", "deps_in_count": 3 },
+    { "module": "atlas", "deps_in_count": 2 },
+    { "module": "canon-kernel", "deps_in_count": 2 },
+    { "module": "ledger", "deps_in_count": 2 },
+    { "module": "shared", "deps_in_count": 2 }
+  ],
+  "top_by_tests": [
+    { "module": "decision-engine", "test_files_count": 22 },
+    { "module": "integration-nexus-dep", "test_files_count": 14 },
+    { "module": "emotion-gate", "test_files_count": 12 },
+    { "module": "orchestrator-core", "test_files_count": 11 },
+    { "module": "search", "test_files_count": 10 }
+  ],
+  "outliers": [
+    {
+      "module": "mod-narrative",
+      "reason": "2 files, 10 exports, 0 test files - untested module"
+    },
+    {
+      "module": "observability",
+      "reason": "2 files, 28 exports, 0 test files - untested module"
+    },
+    {
+      "module": "oracles",
+      "reason": "6 files, 8 exports, 0 test files - untested module"
+    },
+    {
+      "module": "shared",
+      "reason": "8 files, 53 exports, 0 test files - NEXUS module without direct tests"
+    },
+    {
+      "module": "orchestrator-core",
+      "reason": "12 dependents - highest coupling, critical path"
+    },
+    {
+      "module": "integration-nexus-dep",
+      "reason": "188 exports - largest public API surface"
+    }
+  ],
+  "summary": {
+    "total_modules": 33,
+    "total_files": 247,
+    "total_exports": 1564,
+    "total_test_files": 166,
+    "modules_without_tests": 5,
+    "governance_modules": 4,
+    "build_modules": 26
+  }
+}

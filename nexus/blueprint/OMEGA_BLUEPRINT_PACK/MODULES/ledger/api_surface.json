@@ -1,0 +1,43 @@
+{
+  "module_id": "ledger",
+  "exports": {
+    "classes": [],
+    "functions": [
+      "__clearForTests",
+      "append",
+      "get",
+      "getAll",
+      "getCount",
+      "has",
+      "isValidEventType",
+      "project",
+      "register",
+      "validateEvent"
+    ],
+    "interfaces": [
+      "Entity",
+      "Event",
+      "SourceMetadata",
+      "ValidationResult"
+    ],
+    "types": [
+      "EventType"
+    ]
+  },
+  "signatures": [
+    "__clearForTests(): void",
+    "append(event: Event): void",
+    "get(sourceId: string): SourceMetadata | undefined",
+    "getAll(): readonly Event[]",
+    "getCount(): number",
+    "has(sourceId: string): boolean",
+    "isValidEventType(type: string): type is EventType",
+    "project(entityId: string): Entity | undefined",
+    "register(metadata: SourceMetadata): void",
+    "validateEvent(event: Event): ValidationResult"
+  ],
+  "constants": [
+    "EVENT_TYPES",
+    "LEDGER_VERSION"
+  ]
+}

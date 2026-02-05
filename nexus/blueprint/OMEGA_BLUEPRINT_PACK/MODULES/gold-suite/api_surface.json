@@ -1,0 +1,39 @@
+{
+  "module_id": "gold-suite",
+  "exports": {
+    "classes": [
+      "SuiteRunner"
+    ],
+    "functions": [
+      "aggregateResults",
+      "createSuiteRunner",
+      "formatResultJson",
+      "formatResultMarkdown",
+      "formatResultText"
+    ],
+    "interfaces": [
+      "AggregatedResult",
+      "PackageResult",
+      "SuiteConfig",
+      "SuiteEvent",
+      "SuiteResult",
+      "SuiteRunResult",
+      "SuiteSummary",
+      "TestCase"
+    ],
+    "types": [
+      "SuiteEventHandler",
+      "SuiteEventType"
+    ]
+  },
+  "signatures": [
+    "aggregateResults(run: SuiteRunResult): AggregatedResult",
+    "createSuiteRunner(config?: Partial<SuiteConfig>): SuiteRunner",
+    "formatResultJson(result: AggregatedResult): string",
+    "formatResultMarkdown(result: AggregatedResult): string",
+    "formatResultText(result: AggregatedResult): string"
+  ],
+  "constants": [
+    "DEFAULT_SUITE_CONFIG"
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-02-05T00:00:00.000Z",
+  "rules": [
+    {
+      "id": "RULE-BUILD-IMMUTABLE",
+      "description": "BUILD modules must not depend on TOOL modules. BUILD layer provides stable foundations."
+    },
+    {
+      "id": "RULE-NON-ACTUATION-SURFACE",
+      "description": "NEXUS modules must not actuate BUILD modules. NEXUS observes and queries but does not trigger mutations."
+    },
+    {
+      "id": "RULE-TOOLS-ISOLATION",
+      "description": "TOOL modules may depend on BUILD and NEXUS but not vice versa. Tools are consumers, not providers."
+    },
+    {
+      "id": "RULE-NO-CIRCULAR-DEPS",
+      "description": "No circular dependencies allowed. Dependency graph must be a DAG (Directed Acyclic Graph)."
+    },
+    {
+      "id": "RULE-FROZEN-MODULES",
+      "description": "FROZEN modules (genome, sentinel) cannot be modified. Extensions via new modules only."
+    }
+  ],
+  "violations": [],
+  "metrics": {
+    "total_nodes": 33,
+    "total_edges": 29,
+    "total_modules": 33,
+    "modules_with_deps": 15,
+    "modules_without_deps": 18,
+    "max_depth": 4,
+    "root_modules": [
+      "orchestrator-core",
+      "canon-kernel",
+      "mycelium",
+      "shared"
+    ],
+    "leaf_modules": [
+      "gold-master",
+      "gold-cli"
+    ],
+    "layers": {
+      "BUILD": 26,
+      "NEXUS": 5,
+      "TOOL": 2
+    }
+  },
+  "dependency_summary": {
+    "orchestrator_core": {
+      "dependents": 12,
+      "description": "Core execution engine - most depended upon module"
+    },
+    "canon_kernel": {
+      "dependents": 2,
+      "description": "Universal truth engine - gate modules depend on it"
+    },
+    "shared": {
+      "dependents": 2,
+      "description": "Common utilities for NEXUS layer"
+    },
+    "mycelium": {
+      "dependents": 1,
+      "description": "Input validation guardian"
+    },
+    "gold_internal": {
+      "dependents": 3,
+      "description": "Cross-package validation - intermediate dependency hub"
+    }
+  }
+}

@@ -1,0 +1,15 @@
+graph TD
+  contracts_canon["packages/contracts-canon"]
+  gold_internal["packages/gold-internal"]
+  hardening["packages/hardening"]
+  headless_runner["packages/headless-runner"]
+  orchestrator_core["packages/orchestrator-core"]
+  performance["packages/performance"]
+  proof_pack["packages/proof-pack"]
+
+  gold_internal --> contracts_canon
+  gold_internal --> hardening
+  gold_internal --> headless_runner
+  gold_internal --> orchestrator_core
+  gold_internal --> performance
+  gold_internal --> proof_pack

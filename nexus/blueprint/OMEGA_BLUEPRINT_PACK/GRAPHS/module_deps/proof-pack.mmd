@@ -1,0 +1,7 @@
+graph TD
+  contracts_canon["packages/contracts-canon"]
+  orchestrator_core["packages/orchestrator-core"]
+  proof_pack["packages/proof-pack"]
+
+  proof_pack --> contracts_canon
+  proof_pack --> orchestrator_core

@@ -1,0 +1,29 @@
+{
+  "module_id": "mod-narrative",
+  "exports": {
+    "classes": [],
+    "functions": [
+      "computeEmotionCurve",
+      "computeEmotionalInertia",
+      "createEmotionV2Adapter",
+      "createNullEmotionVector",
+      "findDominantEmotion"
+    ],
+    "interfaces": [
+      "EmotionAnalysisResult",
+      "EmotionCurve",
+      "EmotionCurvePoint",
+      "EmotionV2Provider",
+      "EmotionVector14D"
+    ],
+    "types": []
+  },
+  "signatures": [
+    "computeEmotionCurve(results: EmotionAnalysisResult[]): EmotionCurve",
+    "computeEmotionalInertia(curve: EmotionCurve): number",
+    "createEmotionV2Adapter(): EmotionV2Provider",
+    "createNullEmotionVector(): EmotionVector14D",
+    "findDominantEmotion(vector: EmotionVector14D): string"
+  ],
+  "constants": []
+}

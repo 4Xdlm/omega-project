@@ -1,0 +1,65 @@
+{
+  "module_id": "gold-internal",
+  "exports": {
+    "classes": [],
+    "functions": [
+      "calculateMetrics",
+      "createCertification",
+      "createCrossPackageValidation",
+      "createGoldReport",
+      "determineCertificationLevel",
+      "formatReport",
+      "generateCertificationId",
+      "getExportType",
+      "validateCallable",
+      "validateExport",
+      "validateInstantiable",
+      "validatePackageExports",
+      "validateRequiredExports"
+    ],
+    "interfaces": [
+      "CertificationMetrics",
+      "CrossPackageValidation",
+      "ExportValidation",
+      "GoldCertification",
+      "GoldReport",
+      "IntegrationTest",
+      "IntegrationValidation",
+      "OmegaPackage",
+      "PackageCertification",
+      "PackageValidation"
+    ],
+    "types": [
+      "CertificationLevel",
+      "ReportFormat"
+    ]
+  },
+  "signatures": [
+    "calculateMetrics(results: ExportValidation[]): CertificationMetrics",
+    "createCertification(packageName: string, validations: ExportValidation[]): GoldCertification",
+    "createCrossPackageValidation(source: string, target: string, tests: IntegrationTest[]): CrossPackageValidation",
+    "createGoldReport(certifications: readonly GoldCertification[]): GoldReport",
+    "determineCertificationLevel(metrics: CertificationMetrics): CertificationLevel",
+    "formatReport(report: GoldReport, format: ReportFormat): string",
+    "generateCertificationId(): string",
+    "getExportType(value: unknown): string",
+    "validateCallable(fn: unknown): boolean",
+    "validateExport(name: string, value: unknown): ExportValidation",
+    "validateInstantiable(cls: unknown): boolean",
+    "validatePackageExports(packageName: string, exports: Record<string, unknown>): PackageValidation",
+    "validateRequiredExports(exports: Record<string, unknown>, required: string[]): ExportValidation[]"
+  ],
+  "constants": [
+    "ALL_INTEGRATIONS",
+    "OMEGA_PACKAGES",
+    "contractsHardeningIntegration",
+    "contractsProofPackIntegration",
+    "coreHardeningIntegration",
+    "corePerformanceIntegration",
+    "performanceHardeningIntegration",
+    "performanceProofPackIntegration",
+    "proofPackCoreIntegration",
+    "proofPackHardeningIntegration",
+    "sealProofPackIntegration"
+  ]
+}

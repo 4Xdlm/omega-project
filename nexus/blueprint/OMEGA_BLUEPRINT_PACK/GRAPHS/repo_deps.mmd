@@ -1,0 +1,65 @@
+graph TD
+  aggregate_dna["packages/omega-aggregate-dna"]
+  atlas["nexus/atlas"]
+  bridge_ta_mycelium["packages/omega-bridge-ta-mycelium"]
+  canon_kernel["packages/canon-kernel"]
+  contracts_canon["packages/contracts-canon"]
+  decision_engine["packages/decision-engine"]
+  emotion_gate["packages/emotion-gate"]
+  genome["packages/genome"]
+  gold_cli["packages/gold-cli"]
+  gold_internal["packages/gold-internal"]
+  gold_master["packages/gold-master"]
+  gold_suite["packages/gold-suite"]
+  hardening["packages/hardening"]
+  harness_official["tools/harness_official"]
+  headless_runner["packages/headless-runner"]
+  integration_nexus_dep["packages/integration-nexus-dep"]
+  ledger["nexus/ledger"]
+  mod_narrative["packages/mod-narrative"]
+  mycelium["packages/mycelium"]
+  mycelium_bio["packages/mycelium-bio"]
+  observability["packages/omega-observability"]
+  oracle["packages/oracle"]
+  oracles["tools/oracles"]
+  orchestrator_core["packages/orchestrator-core"]
+  performance["packages/performance"]
+  proof_pack["packages/proof-pack"]
+  proof_utils["nexus/proof-utils"]
+  raw["nexus/raw"]
+  search["packages/search"]
+  segment_engine["packages/omega-segment-engine"]
+  sentinel_judge["packages/sentinel-judge"]
+  shared["nexus/shared"]
+  truth_gate["packages/truth-gate"]
+
+  %% Dependencies (sorted alphabetically by source -> target)
+  atlas --> shared
+  contracts_canon --> orchestrator_core
+  decision_engine --> orchestrator_core
+  emotion_gate --> canon_kernel
+  genome --> mycelium
+  gold_cli --> gold_internal
+  gold_cli --> orchestrator_core
+  gold_cli --> proof_pack
+  gold_internal --> contracts_canon
+  gold_internal --> hardening
+  gold_internal --> headless_runner
+  gold_internal --> orchestrator_core
+  gold_internal --> performance
+  gold_internal --> proof_pack
+  gold_master --> gold_internal
+  gold_master --> gold_suite
+  gold_master --> hardening
+  gold_master --> orchestrator_core
+  gold_master --> performance
+  gold_master --> proof_pack
+  gold_suite --> gold_internal
+  gold_suite --> orchestrator_core
+  hardening --> orchestrator_core
+  headless_runner --> orchestrator_core
+  performance --> orchestrator_core
+  proof_pack --> contracts_canon
+  proof_pack --> orchestrator_core
+  raw --> shared
+  truth_gate --> canon_kernel

@@ -1,0 +1,2183 @@
+{
+  "INV-2STEP-01": {
+    "description": "FINAL requires PROPOSE when twoStepEnabled",
+    "locations": [
+      {"file": "tests/sentinel/sentinel.test.ts", "line": 115}
+    ]
+  },
+  "INV-2STEP-02": {
+    "description": "PROPOSE requires twoStepEnabled",
+    "locations": [
+      {"file": "tests/sentinel/sentinel.test.ts", "line": 107}
+    ]
+  },
+  "INV-ADP-01": {
+    "description": "Memory Write Forwards Hash",
+    "locations": [
+      {"file": "gateway/wiring/src/adapters/memory_adapter.ts", "line": 9},
+      {"file": "gateway/wiring/tests/memory_adapter.test.ts", "line": 9}
+    ]
+  },
+  "INV-ADP-02": {
+    "description": "Memory Read Deterministic",
+    "locations": [
+      {"file": "gateway/wiring/src/adapters/memory_adapter.ts", "line": 10},
+      {"file": "gateway/wiring/tests/memory_adapter.test.ts", "line": 10}
+    ]
+  },
+  "INV-ADP-03": {
+    "description": "Query Search Bounded (timeout + limit)",
+    "locations": [
+      {"file": "gateway/wiring/src/adapters/query_adapter.ts", "line": 9},
+      {"file": "gateway/wiring/tests/query_adapter.test.ts", "line": 9}
+    ]
+  },
+  "INV-ADP-05": {
+    "description": "Error No Leak - no path local, stack, secrets",
+    "locations": [
+      {"file": "gateway/wiring/src/adapters/memory_adapter.ts", "line": 12},
+      {"file": "gateway/wiring/src/adapters/query_adapter.ts", "line": 11},
+      {"file": "gateway/wiring/src/errors.ts", "line": 9},
+      {"file": "gateway/wiring/tests/errors.test.ts", "line": 9}
+    ]
+  },
+  "INV-ADP-06": {
+    "description": "Payload serialized = byte stream identical",
+    "locations": [
+      {"file": "gateway/wiring/src/canonical_json.ts", "line": 8},
+      {"file": "gateway/wiring/tests/canonical_json.test.ts", "line": 8}
+    ]
+  },
+  "INV-ADP-07": {
+    "description": "UUID via factory, not crypto.randomUUID() direct",
+    "locations": [
+      {"file": "gateway/wiring/src/id_factory.ts", "line": 8},
+      {"file": "gateway/wiring/src/types.ts", "line": 167},
+      {"file": "gateway/wiring/tests/id_factory.test.ts", "line": 8}
+    ]
+  },
+  "INV-ADV-01": {
+    "description": "Grammar covers 100% of known vectors",
+    "locations": [
+      {"file": "gateway/resilience/tests/adversarial/grammar.test.ts", "line": 8}
+    ]
+  },
+  "INV-ADV-02": {
+    "description": "Attack not in Grammar implies attack impossible",
+    "locations": [
+      {"file": "gateway/resilience/tests/adversarial/grammar.test.ts", "line": 9}
+    ]
+  },
+  "INV-ADV-03": {
+    "description": "Attack in Grammar implies system REJECT or ABSORB",
+    "locations": [
+      {"file": "gateway/resilience/tests/adversarial/grammar.test.ts", "line": 10}
+    ]
+  },
+  "INV-ADV-04": {
+    "description": "Rejected attack implies state unchanged",
+    "locations": [
+      {"file": "gateway/resilience/tests/adversarial/grammar.test.ts", "line": 11}
+    ]
+  },
+  "INV-ADV-05": {
+    "description": "Attack severity in {LOW, MEDIUM, HIGH, CRITICAL}",
+    "locations": [
+      {"file": "gateway/resilience/tests/adversarial/grammar.test.ts", "line": 12}
+    ]
+  },
+  "INV-BP-01": {
+    "description": "Output stable (deterministic) - modules sorted",
+    "locations": [
+      {"file": "tools/blueprint/src/__tests__/b0-census.test.ts", "line": 11}
+    ]
+  },
+  "INV-BP-02": {
+    "description": "No forbidden paths in modules",
+    "locations": [
+      {"file": "tools/blueprint/src/__tests__/b0-census.test.ts", "line": 20}
+    ]
+  },
+  "INV-BP-03": {
+    "description": "Writes only in nexus/blueprint or tools/blueprint",
+    "locations": [
+      {"file": "tools/blueprint/src/__tests__/b0-census.test.ts", "line": 48}
+    ]
+  },
+  "INV-BP-04": {
+    "description": "Index reconstructible (no dangling refs)",
+    "locations": [
+      {"file": "tools/blueprint/src/__tests__/b0-census.test.ts", "line": 53}
+    ]
+  },
+  "INV-BP-05": {
+    "description": "Text-only graphs (no binaries)",
+    "locations": [
+      {"file": "tools/blueprint/src/__tests__/b1-ast.test.ts", "line": 22}
+    ]
+  },
+  "INV-C-01": {
+    "description": "Default DENY for Phase C",
+    "locations": [
+      {"file": "tests/sentinel/rule-engine.test.ts", "line": 25},
+      {"file": "tests/sentinel/sentinel.test.ts", "line": 47}
+    ]
+  },
+  "INV-C-02": {
+    "description": "rule_id always present",
+    "locations": [
+      {"file": "tests/sentinel/rule-engine.test.ts", "line": 111},
+      {"file": "tests/sentinel/sentinel.test.ts", "line": 52}
+    ]
+  },
+  "INV-C-03": {
+    "description": "trace_id always present",
+    "locations": [
+      {"file": "tests/sentinel/sentinel.test.ts", "line": 53}
+    ]
+  },
+  "INV-CANON-01": {
+    "description": "Source unique (un seul canon actif)",
+    "locations": [
+      {"file": "gateway/src/gates/canon_engine.ts", "line": 9},
+      {"file": "gateway/tests/canon_engine.test.ts", "line": 6}
+    ]
+  },
+  "INV-CANON-02": {
+    "description": "Pas d'ecrasement silencieux (append-only)",
+    "locations": [
+      {"file": "gateway/src/gates/canon_engine.ts", "line": 10},
+      {"file": "gateway/tests/canon_engine.test.ts", "line": 7}
+    ]
+  },
+  "INV-CANON-03": {
+    "description": "Historicite obligatoire (chaque version tracable)",
+    "locations": [
+      {"file": "gateway/src/gates/canon_engine.ts", "line": 11},
+      {"file": "gateway/tests/canon_engine.test.ts", "line": 8}
+    ]
+  },
+  "INV-CANON-04": {
+    "description": "Hash Merkle stable (meme faits = meme hash)",
+    "locations": [
+      {"file": "gateway/src/gates/canon_engine.ts", "line": 12},
+      {"file": "gateway/tests/canon_engine.test.ts", "line": 9}
+    ]
+  },
+  "INV-CANON-05": {
+    "description": "Conflit = exception explicite (jamais silencieux)",
+    "locations": [
+      {"file": "gateway/src/gates/canon_engine.ts", "line": 13},
+      {"file": "gateway/tests/canon_engine.test.ts", "line": 10}
+    ]
+  },
+  "INV-CHA-01": {
+    "description": "Faults only injected when enabled",
+    "locations": [
+      {"file": "gateway/chaos/src/chaos/chaos.ts", "line": 8},
+      {"file": "gateway/chaos/tests/invariants.test.ts", "line": 6}
+    ]
+  },
+  "INV-CHA-02": {
+    "description": "Original behavior preserved when disabled",
+    "locations": [
+      {"file": "gateway/chaos/src/chaos/chaos.ts", "line": 9},
+      {"file": "gateway/chaos/tests/invariants.test.ts", "line": 7}
+    ]
+  },
+  "INV-CHA-03": {
+    "description": "Fault probability respected",
+    "locations": [
+      {"file": "gateway/chaos/src/chaos/chaos.ts", "line": 10},
+      {"file": "gateway/chaos/tests/invariants.test.ts", "line": 8}
+    ]
+  },
+  "INV-CHA-04": {
+    "description": "Experiments isolated",
+    "locations": [
+      {"file": "gateway/chaos/src/chaos/chaos.ts", "line": 11},
+      {"file": "gateway/chaos/tests/invariants.test.ts", "line": 9}
+    ]
+  },
+  "INV-CHA-05": {
+    "description": "Metrics accurate",
+    "locations": [
+      {"file": "gateway/chaos/src/chaos/chaos.ts", "line": 12},
+      {"file": "gateway/chaos/tests/invariants.test.ts", "line": 10},
+      {"file": "gateway/chaos/tests/metrics.test.ts", "line": 5}
+    ]
+  },
+  "INV-CHA-06": {
+    "description": "Safe shutdown",
+    "locations": [
+      {"file": "gateway/chaos/src/chaos/chaos.ts", "line": 13},
+      {"file": "gateway/chaos/tests/invariants.test.ts", "line": 11}
+    ]
+  },
+  "INV-CHAOS-01": {
+    "description": "Closure guaranteed for any composition",
+    "locations": [
+      {"file": "gateway/resilience/tests/chaos/composition.test.ts", "line": 10},
+      {"file": "gateway/resilience/tests/proof/proof.test.ts", "line": 130}
+    ]
+  },
+  "INV-CHAOS-02": {
+    "description": "Boundedness property",
+    "locations": [
+      {"file": "gateway/resilience/tests/chaos/composition.test.ts", "line": 298}
+    ]
+  },
+  "INV-CHAOS-03": {
+    "description": "Determinism - same_seed(p) implies same_effect(p)",
+    "locations": [
+      {"file": "gateway/resilience/tests/chaos/factory.test.ts", "line": 290},
+      {"file": "gateway/resilience/tests/chaos/injector.test.ts", "line": 10}
+    ]
+  },
+  "INV-CHAOS-04": {
+    "description": "Isolation - effect on module_A does not affect module_B",
+    "locations": [
+      {"file": "gateway/resilience/tests/chaos/injector.test.ts", "line": 11}
+    ]
+  },
+  "INV-CHAOS-05": {
+    "description": "Recovery - system returns to nominal state",
+    "locations": [
+      {"file": "gateway/resilience/tests/chaos/injector.test.ts", "line": 12}
+    ]
+  },
+  "INV-CHART-001": {
+    "description": "All 14 emotions must have assigned colors",
+    "locations": [
+      {"file": "apps/omega-ui/tests/charts.test.ts", "line": 188}
+    ]
+  },
+  "INV-CHART-002": {
+    "description": "Plutchik wheel must have 8 primary segments",
+    "locations": [
+      {"file": "apps/omega-ui/tests/charts.test.ts", "line": 197}
+    ]
+  },
+  "INV-CHART-003": {
+    "description": "Bar chart must support sorting by value",
+    "locations": [
+      {"file": "apps/omega-ui/tests/charts.test.ts", "line": 202}
+    ]
+  },
+  "INV-CHART-004": {
+    "description": "Chart must have view toggle capability",
+    "locations": [
+      {"file": "apps/omega-ui/tests/charts.test.ts", "line": 207}
+    ]
+  },
+  "INV-CHART-005": {
+    "description": "Emotion values must be normalized (0-1)",
+    "locations": [
+      {"file": "apps/omega-ui/tests/charts.test.ts", "line": 212}
+    ]
+  },
+  "INV-CHART-006": {
+    "description": "Empty state must be handled gracefully",
+    "locations": [
+      {"file": "apps/omega-ui/tests/charts.test.ts", "line": 220}
+    ]
+  },
+  "INV-CHRON-01": {
+    "description": "Every Dispatch Has Terminal Record",
+    "locations": [
+      {"file": "gateway/wiring/src/orchestrator/chronicle.ts", "line": 15},
+      {"file": "gateway/wiring/tests/chronicle.test.ts", "line": 10}
+    ]
+  },
+  "INV-CHRON-02": {
+    "description": "Causal Chain Integrity",
+    "locations": [
+      {"file": "gateway/wiring/src/orchestrator/chronicle.ts", "line": 16},
+      {"file": "gateway/wiring/tests/chronicle.test.ts", "line": 11}
+    ]
+  },
+  "INV-CLI-01": {
+    "description": "Exit Code Coherent - success=true implies exitCode=0",
+    "locations": [
+      {"file": "gateway/cli-runner/src/cli/runner.ts", "line": 43},
+      {"file": "gateway/cli-runner/tests/invariants.test.ts", "line": 9}
+    ]
+  },
+  "INV-CLI-02": {
+    "description": "No Silent Failure - errors produce stderr message",
+    "locations": [
+      {"file": "gateway/cli-runner/src/cli/runner.ts", "line": 57},
+      {"file": "gateway/cli-runner/tests/invariants.test.ts", "line": 10}
+    ]
+  },
+  "INV-CLI-03": {
+    "description": "Deterministic Output - same input + same seed = same output",
+    "locations": [
+      {"file": "gateway/cli-runner/src/cli/commands/analyze.ts", "line": 203},
+      {"file": "gateway/cli-runner/tests/invariants.test.ts", "line": 11}
+    ]
+  },
+  "INV-CLI-04": {
+    "description": "Duration Always Set - duration > 0 for all commands",
+    "locations": [
+      {"file": "gateway/cli-runner/src/cli/runner.ts", "line": 68},
+      {"file": "gateway/cli-runner/tests/invariants.test.ts", "line": 12}
+    ]
+  },
+  "INV-CLI-05": {
+    "description": "Contract Enforced - routing DIRECT/NEXUS respected",
+    "locations": [
+      {"file": "gateway/cli-runner/src/cli/contract.ts", "line": 261},
+      {"file": "gateway/cli-runner/tests/invariants.test.ts", "line": 13}
+    ]
+  },
+  "INV-CLI-06": {
+    "description": "Help Available - --help returns usage",
+    "locations": [
+      {"file": "gateway/cli-runner/src/cli/runner.ts", "line": 76},
+      {"file": "gateway/cli-runner/tests/invariants.test.ts", "line": 14}
+    ]
+  },
+  "INV-CLI-10": {
+    "description": "Real file I/O for production use",
+    "locations": [
+      {"file": "gateway/cli-runner/src/cli/commands/analyze.ts", "line": 1104}
+    ]
+  },
+  "INV-CLOCK-01": {
+    "description": "Monotonic timestamps",
+    "locations": [
+      {"file": "tests/shared/clock.test.ts", "line": 53}
+    ]
+  },
+  "INV-CONV-01": {
+    "description": "VAD preservation - valence, arousal, dominance preserved exactly",
+    "locations": [
+      {"file": "genesis-forge/src/genesis/core/omega_converter.ts", "line": 102},
+      {"file": "genesis-forge/tests/omega_converter.test.ts", "line": 568}
+    ]
+  },
+  "INV-CONV-02": {
+    "description": "Emotion mapping completeness",
+    "locations": [
+      {"file": "genesis-forge/src/genesis/core/omega_converter.ts", "line": 103},
+      {"file": "genesis-forge/tests/omega_converter.test.ts", "line": 590}
+    ]
+  },
+  "INV-CONV-03": {
+    "description": "Conversion is deterministic",
+    "locations": [
+      {"file": "genesis-forge/src/genesis/core/omega_converter.ts", "line": 104},
+      {"file": "genesis-forge/tests/omega_converter.test.ts", "line": 602}
+    ]
+  },
+  "INV-CORE-001": {
+    "description": "Emotion14 count must be 14",
+    "locations": [
+      {"file": "apps/omega-ui/tests/core.test.ts", "line": 205}
+    ]
+  },
+  "INV-CORE-002": {
+    "description": "Valence must be in range [-1, 1]",
+    "locations": [
+      {"file": "apps/omega-ui/tests/core.test.ts", "line": 209}
+    ]
+  },
+  "INV-CORE-003": {
+    "description": "DNA must have 128 components",
+    "locations": [
+      {"file": "apps/omega-ui/tests/core.test.ts", "line": 216}
+    ]
+  },
+  "INV-CORE-004": {
+    "description": "Confidence must be in range [0, 1]",
+    "locations": [
+      {"file": "apps/omega-ui/tests/core.test.ts", "line": 222}
+    ]
+  },
+  "INV-CORE-005": {
+    "description": "Analysis ID must be unique format",
+    "locations": [
+      {"file": "apps/omega-ui/tests/core.test.ts", "line": 228}
+    ]
+  },
+  "INV-CRE-01": {
+    "description": "Snapshot-Only (read only from snapshot)",
+    "locations": [
+      {"file": "gateway/src/creation/creation_layer_nasa/index.ts", "line": 254},
+      {"file": "gateway/src/creation/creation_layer_nasa/snapshot_context.ts", "line": 12}
+    ]
+  },
+  "INV-CRE-02": {
+    "description": "No Write Authority - returns proposal, no write",
+    "locations": [
+      {"file": "gateway/src/creation/creation_layer_nasa/creation_engine.ts", "line": 12},
+      {"file": "gateway/src/creation/creation_layer_nasa/index.ts", "line": 255}
+    ]
+  },
+  "INV-CRE-03": {
+    "description": "Full Provenance",
+    "locations": [
+      {"file": "gateway/src/creation/creation_layer_nasa/index.ts", "line": 256}
+    ]
+  },
+  "INV-CRE-04": {
+    "description": "Deterministic Output - same input = same output",
+    "locations": [
+      {"file": "gateway/src/creation/creation_layer_nasa/index.ts", "line": 257},
+      {"file": "gateway/src/creation/creation_layer_nasa/template_registry.ts", "line": 12}
+    ]
+  },
+  "INV-CRE-05": {
+    "description": "Derivation Honesty",
+    "locations": [
+      {"file": "gateway/src/creation/creation_layer_nasa/creation_types.ts", "line": 501},
+      {"file": "gateway/src/creation/creation_layer_nasa/index.ts", "line": 258}
+    ]
+  },
+  "INV-CRE-06": {
+    "description": "Template Purity - frozen data, no mutation",
+    "locations": [
+      {"file": "gateway/src/creation/creation_layer_nasa/index.ts", "line": 259},
+      {"file": "gateway/src/creation/creation_layer_nasa/snapshot_context.ts", "line": 13}
+    ]
+  },
+  "INV-CRE-07": {
+    "description": "Request Validation - all requests validated before processing",
+    "locations": [
+      {"file": "gateway/src/creation/creation_layer_nasa/creation_request.ts", "line": 12},
+      {"file": "gateway/src/creation/creation_layer_nasa/index.ts", "line": 260}
+    ]
+  },
+  "INV-CRE-08": {
+    "description": "Bounded Execution - timeout soft limit",
+    "locations": [
+      {"file": "gateway/src/creation/creation_layer_nasa/index.ts", "line": 261},
+      {"file": "gateway/src/creation/creation_layer_nasa/template_registry.ts", "line": 13}
+    ]
+  },
+  "INV-CRE-09": {
+    "description": "Atomic Output / Error Traceability",
+    "locations": [
+      {"file": "gateway/src/creation/creation_layer_nasa/creation_errors.ts", "line": 11},
+      {"file": "gateway/src/creation/creation_layer_nasa/index.ts", "line": 262}
+    ]
+  },
+  "INV-CRE-10": {
+    "description": "Idempotency - request_hash deterministic",
+    "locations": [
+      {"file": "gateway/src/creation/creation_layer_nasa/creation_engine.ts", "line": 13},
+      {"file": "gateway/src/creation/creation_layer_nasa/creation_request.ts", "line": 13},
+      {"file": "gateway/src/creation/creation_layer_nasa/index.ts", "line": 263}
+    ]
+  },
+  "INV-CRE-11": {
+    "description": "Source Verification - existence in snapshot",
+    "locations": [
+      {"file": "gateway/src/creation/creation_layer_nasa/index.ts", "line": 264},
+      {"file": "gateway/src/creation/creation_layer_nasa/snapshot_context.ts", "line": 14}
+    ]
+  },
+  "INV-CRYSTAL-01": {
+    "description": "Immutability - Crystal cannot be modified once formed",
+    "locations": [
+      {"file": "gateway/resilience/tests/proof/proof.test.ts", "line": 8},
+      {"file": "gateway/wiring/src/proof/crystal.ts", "line": 24}
+    ]
+  },
+  "INV-CRYSTAL-02": {
+    "description": "Verifiability - All crystals verifiable offline",
+    "locations": [
+      {"file": "gateway/resilience/tests/proof/proof.test.ts", "line": 9},
+      {"file": "gateway/wiring/src/proof/crystal.ts", "line": 25}
+    ]
+  },
+  "INV-CRYSTAL-03": {
+    "description": "Causality - Temporal order proven cryptographically",
+    "locations": [
+      {"file": "gateway/resilience/tests/proof/proof.test.ts", "line": 10},
+      {"file": "gateway/wiring/src/proof/crystal.ts", "line": 26}
+    ]
+  },
+  "INV-CRYSTAL-04": {
+    "description": "Determinism - Same input = same crystal",
+    "locations": [
+      {"file": "gateway/resilience/tests/proof/proof.test.ts", "line": 11},
+      {"file": "gateway/wiring/src/proof/crystal.ts", "line": 27}
+    ]
+  },
+  "INV-CRYSTAL-05": {
+    "description": "Reproducibility - Same inputs produce same Crystal",
+    "locations": [
+      {"file": "gateway/resilience/tests/proof/proof.test.ts", "line": 12}
+    ]
+  },
+  "INV-DASH-001": {
+    "description": "Stats must include total analyses",
+    "locations": [
+      {"file": "apps/omega-ui/tests/dashboard.test.ts", "line": 195}
+    ]
+  },
+  "INV-DASH-002": {
+    "description": "Stats must include total words",
+    "locations": [
+      {"file": "apps/omega-ui/tests/dashboard.test.ts", "line": 200}
+    ]
+  },
+  "INV-DASH-003": {
+    "description": "Emotion overview must show aggregated data",
+    "locations": [
+      {"file": "apps/omega-ui/tests/dashboard.test.ts", "line": 205}
+    ]
+  },
+  "INV-DASH-004": {
+    "description": "Recent analyses must be sorted by date",
+    "locations": [
+      {"file": "apps/omega-ui/tests/dashboard.test.ts", "line": 210}
+    ]
+  },
+  "INV-DASH-005": {
+    "description": "Empty state must show welcome message",
+    "locations": [
+      {"file": "apps/omega-ui/tests/dashboard.test.ts", "line": 215}
+    ]
+  },
+  "INV-DASH-006": {
+    "description": "Navigation to analyze must be available",
+    "locations": [
+      {"file": "apps/omega-ui/tests/dashboard.test.ts", "line": 221}
+    ]
+  },
+  "INV-DECISION-01": {
+    "description": "REJECTED if canon_check fails",
+    "locations": [
+      {"file": "tests/sentinel/decision_engine.test.ts", "line": 42}
+    ]
+  },
+  "INV-DECISION-02": {
+    "description": "REJECTED if invariant_check fails",
+    "locations": [
+      {"file": "tests/sentinel/decision_engine.test.ts", "line": 64}
+    ]
+  },
+  "INV-DECISION-04": {
+    "description": "Creates trace file",
+    "locations": [
+      {"file": "tests/sentinel/decision_engine.test.ts", "line": 87}
+    ]
+  },
+  "INV-E-01": {
+    "description": "Read-only (no BUILD code access)",
+    "locations": [
+      {"file": "GOVERNANCE/drift/detectors/contract_drift.ts", "line": 8},
+      {"file": "GOVERNANCE/drift/detectors/format_drift.ts", "line": 8},
+      {"file": "GOVERNANCE/drift/detectors/output_drift.ts", "line": 8},
+      {"file": "GOVERNANCE/drift/detectors/performance_drift.ts", "line": 8},
+      {"file": "GOVERNANCE/drift/detectors/semantic_drift.ts", "line": 8},
+      {"file": "GOVERNANCE/drift/detectors/temporal_drift.ts", "line": 8},
+      {"file": "GOVERNANCE/drift/detectors/tooling_drift.ts", "line": 8},
+      {"file": "GOVERNANCE/drift/detectors/variance_drift.ts", "line": 8},
+      {"file": "GOVERNANCE/drift/drift_pipeline.ts", "line": 8},
+      {"file": "GOVERNANCE/drift/types.ts", "line": 7}
+    ]
+  },
+  "INV-E-02": {
+    "description": "Zero side effects",
+    "locations": [
+      {"file": "GOVERNANCE/drift/drift_pipeline.ts", "line": 9},
+      {"file": "GOVERNANCE/drift/drift_utils.ts", "line": 8},
+      {"file": "GOVERNANCE/drift/types.ts", "line": 8}
+    ]
+  },
+  "INV-E-03": {
+    "description": "No BUILD recalculation",
+    "locations": [
+      {"file": "GOVERNANCE/drift/drift_pipeline.ts", "line": 10}
+    ]
+  },
+  "INV-E-04": {
+    "description": "No auto-blocking thresholds (informational only)",
+    "locations": [
+      {"file": "GOVERNANCE/drift/scoring.ts", "line": 13}
+    ]
+  },
+  "INV-E-05": {
+    "description": "Mandatory human escalation",
+    "locations": [
+      {"file": "GOVERNANCE/drift/scoring.ts", "line": 95}
+    ]
+  },
+  "INV-E-06": {
+    "description": "Non-actuating (informational artifact only)",
+    "locations": [
+      {"file": "GOVERNANCE/drift/drift_pipeline.ts", "line": 11},
+      {"file": "GOVERNANCE/drift/types.ts", "line": 175}
+    ]
+  },
+  "INV-E-07": {
+    "description": "Human justification mandatory when score >= 2 (WARNING)",
+    "locations": [
+      {"file": "GOVERNANCE/drift/drift_utils.ts", "line": 101},
+      {"file": "GOVERNANCE/drift/scoring.ts", "line": 14},
+      {"file": "GOVERNANCE/drift/types.ts", "line": 151}
+    ]
+  },
+  "INV-E-08": {
+    "description": "trigger_events must be non-empty",
+    "locations": [
+      {"file": "GOVERNANCE/drift/drift_pipeline.ts", "line": 12},
+      {"file": "GOVERNANCE/drift/drift_utils.ts", "line": 64},
+      {"file": "GOVERNANCE/drift/types.ts", "line": 176}
+    ]
+  },
+  "INV-E-09": {
+    "description": "Strict RUNBOOK mapping",
+    "locations": [
+      {"file": "GOVERNANCE/drift/scoring.ts", "line": 15}
+    ]
+  },
+  "INV-E-10": {
+    "description": "Phase E cannot trigger INCIDENT",
+    "locations": [
+      {"file": "GOVERNANCE/drift/scoring.ts", "line": 16},
+      {"file": "GOVERNANCE/drift/types.ts", "line": 54}
+    ]
+  },
+  "INV-E2E-01": {
+    "description": "Chronicle has start event",
+    "locations": [
+      {"file": "gateway/wiring/tests/e2e/e2e_chain_memory.test.ts", "line": 15}
+    ]
+  },
+  "INV-E2E-02": {
+    "description": "Chronicle has terminal event",
+    "locations": [
+      {"file": "gateway/wiring/tests/e2e/e2e_chain_memory.test.ts", "line": 16}
+    ]
+  },
+  "INV-E2E-03": {
+    "description": "Result is typed",
+    "locations": [
+      {"file": "gateway/wiring/tests/e2e/e2e_chain_memory.test.ts", "line": 17}
+    ]
+  },
+  "INV-E2E-04": {
+    "description": "Determinism proven",
+    "locations": [
+      {"file": "gateway/wiring/tests/e2e/e2e_chain_memory.test.ts", "line": 18}
+    ]
+  },
+  "INV-E2E-05": {
+    "description": "Bypass Scan Pass",
+    "locations": [
+      {"file": "gateway/wiring/src/anti_bypass_scanner.ts", "line": 17},
+      {"file": "gateway/wiring/tests/anti_bypass_scanner.test.ts", "line": 11}
+    ]
+  },
+  "INV-EMO-01": {
+    "description": "Ne cree jamais de fait (read-only)",
+    "locations": [
+      {"file": "gateway/src/gates/emotion_gate.ts", "line": 9},
+      {"file": "gateway/tests/emotion_gate.test.ts", "line": 6}
+    ]
+  },
+  "INV-EMO-02": {
+    "description": "Ne contredit jamais le canon",
+    "locations": [
+      {"file": "gateway/src/gates/emotion_gate.ts", "line": 10},
+      {"file": "gateway/tests/emotion_gate.test.ts", "line": 7}
+    ]
+  },
+  "INV-EMO-03": {
+    "description": "Coherence emotionnelle obligatoire",
+    "locations": [
+      {"file": "gateway/src/gates/emotion_gate.ts", "line": 11},
+      {"file": "gateway/tests/emotion_gate.test.ts", "line": 8}
+    ]
+  },
+  "INV-EMO-04": {
+    "description": "Dette emotionnelle tracable",
+    "locations": [
+      {"file": "gateway/src/gates/emotion_gate.ts", "line": 12},
+      {"file": "gateway/tests/emotion_gate.test.ts", "line": 9}
+    ]
+  },
+  "INV-EMO-05": {
+    "description": "Arc casse = WARN ou FAIL selon severite",
+    "locations": [
+      {"file": "gateway/src/gates/emotion_gate.ts", "line": 13},
+      {"file": "gateway/tests/emotion_gate.test.ts", "line": 10}
+    ]
+  },
+  "INV-ENV-01": {
+    "description": "message_id obligatoire et unique",
+    "locations": [
+      {"file": "gateway/wiring/src/envelope.ts", "line": 8},
+      {"file": "gateway/wiring/src/types.ts", "line": 31},
+      {"file": "gateway/wiring/tests/envelope.test.ts", "line": 9}
+    ]
+  },
+  "INV-ENV-02": {
+    "description": "timestamp via Clock injectable",
+    "locations": [
+      {"file": "gateway/wiring/src/clock.ts", "line": 8},
+      {"file": "gateway/wiring/src/envelope.ts", "line": 9},
+      {"file": "gateway/wiring/src/types.ts", "line": 32},
+      {"file": "gateway/wiring/tests/clock.test.ts", "line": 8},
+      {"file": "gateway/wiring/tests/envelope.test.ts", "line": 10}
+    ]
+  },
+  "INV-ENV-03": {
+    "description": "payload_schema + payload_version obligatoires",
+    "locations": [
+      {"file": "gateway/wiring/src/envelope.ts", "line": 10},
+      {"file": "gateway/wiring/src/types.ts", "line": 33},
+      {"file": "gateway/wiring/tests/envelope.test.ts", "line": 11}
+    ]
+  },
+  "INV-ENV-04": {
+    "description": "champs hors contrat = rejet",
+    "locations": [
+      {"file": "gateway/wiring/src/envelope.ts", "line": 11},
+      {"file": "gateway/wiring/src/types.ts", "line": 34},
+      {"file": "gateway/wiring/tests/envelope.test.ts", "line": 12}
+    ]
+  },
+  "INV-ENV-05": {
+    "description": "meme input = meme replay_protection_key",
+    "locations": [
+      {"file": "gateway/wiring/src/canonical_json.ts", "line": 9},
+      {"file": "gateway/wiring/src/envelope.ts", "line": 12},
+      {"file": "gateway/wiring/src/types.ts", "line": 35},
+      {"file": "gateway/wiring/tests/canonical_json.test.ts", "line": 9},
+      {"file": "gateway/wiring/tests/envelope.test.ts", "line": 13}
+    ]
+  },
+  "INV-G-01": {
+    "description": "NON-ACTUATING (auto_action_taken always none)",
+    "locations": [
+      {"file": "GOVERNANCE/misuse/detectors/override_abuse.ts", "line": 9},
+      {"file": "GOVERNANCE/misuse/detectors/prompt_injection.ts", "line": 4},
+      {"file": "GOVERNANCE/misuse/detectors/replay_attack.ts", "line": 11},
+      {"file": "GOVERNANCE/misuse/detectors/threshold_gaming.ts", "line": 4},
+      {"file": "GOVERNANCE/misuse/misuse_pipeline.ts", "line": 8},
+      {"file": "GOVERNANCE/misuse/misuse_report.ts", "line": 7},
+      {"file": "GOVERNANCE/misuse/misuse_utils.ts", "line": 115},
+      {"file": "GOVERNANCE/misuse/types.ts", "line": 7}
+    ]
+  },
+  "INV-G-02": {
+    "description": "requires_human_decision always true",
+    "locations": [
+      {"file": "GOVERNANCE/misuse/detectors/override_abuse.ts", "line": 10},
+      {"file": "GOVERNANCE/misuse/detectors/prompt_injection.ts", "line": 5},
+      {"file": "GOVERNANCE/misuse/detectors/replay_attack.ts", "line": 12},
+      {"file": "GOVERNANCE/misuse/detectors/threshold_gaming.ts", "line": 5},
+      {"file": "GOVERNANCE/misuse/misuse_pipeline.ts", "line": 9},
+      {"file": "GOVERNANCE/misuse/misuse_report.ts", "line": 8},
+      {"file": "GOVERNANCE/misuse/misuse_utils.ts", "line": 120},
+      {"file": "GOVERNANCE/misuse/types.ts", "line": 8}
+    ]
+  },
+  "INV-G-03": {
+    "description": "Zero side effects (pure functions)",
+    "locations": [
+      {"file": "GOVERNANCE/misuse/detectors/log_tampering.ts", "line": 11},
+      {"file": "GOVERNANCE/misuse/detectors/override_abuse.ts", "line": 11},
+      {"file": "GOVERNANCE/misuse/detectors/prompt_injection.ts", "line": 6},
+      {"file": "GOVERNANCE/misuse/detectors/replay_attack.ts", "line": 13},
+      {"file": "GOVERNANCE/misuse/detectors/threshold_gaming.ts", "line": 6},
+      {"file": "GOVERNANCE/misuse/misuse_pipeline.ts", "line": 10},
+      {"file": "GOVERNANCE/misuse/misuse_report.ts", "line": 9},
+      {"file": "GOVERNANCE/misuse/types.ts", "line": 9}
+    ]
+  },
+  "INV-GOV-01": {
+    "description": "Roles strictement definis",
+    "locations": [
+      {"file": "gateway/tests/hardening/governance.test.ts", "line": 32}
+    ]
+  },
+  "INV-GOV-02": {
+    "description": "Permissions explicites et immuables",
+    "locations": [
+      {"file": "gateway/tests/hardening/governance.test.ts", "line": 71}
+    ]
+  },
+  "INV-GOV-03": {
+    "description": "Validation humaine obligatoire pour actions critiques",
+    "locations": [
+      {"file": "gateway/tests/hardening/governance.test.ts", "line": 147}
+    ]
+  },
+  "INV-GOV-04": {
+    "description": "Refus par defaut (FAIL-SAFE)",
+    "locations": [
+      {"file": "gateway/tests/hardening/governance.test.ts", "line": 203}
+    ]
+  },
+  "INV-GOV-05": {
+    "description": "Tracabilite complete de chaque decision",
+    "locations": [
+      {"file": "gateway/tests/hardening/governance.test.ts", "line": 283}
+    ]
+  },
+  "INV-GW-01": {
+    "description": "Zero Direct Call / Rate limit checked before validation",
+    "locations": [
+      {"file": "gateway/facade/src/gateway/gateway.ts", "line": 9},
+      {"file": "gateway/facade/tests/integration/invariants.test.ts", "line": 6},
+      {"file": "gateway/wiring/src/adapters/gateway_adapter.ts", "line": 19},
+      {"file": "gateway/wiring/src/anti_bypass_scanner.ts", "line": 15},
+      {"file": "gateway/wiring/tests/anti_bypass_scanner.test.ts", "line": 9},
+      {"file": "gateway/wiring/tests/gateway_adapter.test.ts", "line": 9}
+    ]
+  },
+  "INV-GW-02": {
+    "description": "Schema Determinism / Blocked input never reaches output",
+    "locations": [
+      {"file": "gateway/facade/src/gateway/gateway.ts", "line": 10},
+      {"file": "gateway/facade/tests/integration/invariants.test.ts", "line": 7},
+      {"file": "gateway/wiring/src/adapters/gateway_adapter.ts", "line": 20},
+      {"file": "gateway/wiring/src/adapters/gateway_schemas.ts", "line": 15},
+      {"file": "gateway/wiring/tests/gateway_adapter.test.ts", "line": 10},
+      {"file": "gateway/wiring/tests/gateway_schemas.test.ts", "line": 9}
+    ]
+  },
+  "INV-GW-03": {
+    "description": "No Hidden Mutation / Quarantine preserves original data",
+    "locations": [
+      {"file": "gateway/facade/src/gateway/gateway.ts", "line": 11},
+      {"file": "gateway/facade/tests/integration/invariants.test.ts", "line": 8},
+      {"file": "gateway/wiring/src/adapters/gateway_adapter.ts", "line": 21},
+      {"file": "gateway/wiring/tests/gateway_adapter.test.ts", "line": 11}
+    ]
+  },
+  "INV-GW-04": {
+    "description": "Version Pinning / Result contains complete context",
+    "locations": [
+      {"file": "gateway/facade/src/gateway/gateway.ts", "line": 12},
+      {"file": "gateway/facade/tests/integration/invariants.test.ts", "line": 9},
+      {"file": "gateway/facade/tests/integration/pipeline.test.ts", "line": 350},
+      {"file": "gateway/wiring/src/adapters/gateway_adapter.ts", "line": 22},
+      {"file": "gateway/wiring/tests/gateway_adapter.test.ts", "line": 12}
+    ]
+  },
+  "INV-GW-05": {
+    "description": "Rejection Strict / Metrics accurate",
+    "locations": [
+      {"file": "gateway/facade/src/gateway/gateway.ts", "line": 13},
+      {"file": "gateway/facade/tests/integration/invariants.test.ts", "line": 10},
+      {"file": "gateway/wiring/src/adapters/gateway_adapter.ts", "line": 23},
+      {"file": "gateway/wiring/src/adapters/gateway_schemas.ts", "line": 16},
+      {"file": "gateway/wiring/tests/gateway_adapter.test.ts", "line": 13},
+      {"file": "gateway/wiring/tests/gateway_schemas.test.ts", "line": 10}
+    ]
+  },
+  "INV-GW-06": {
+    "description": "Deterministic processing",
+    "locations": [
+      {"file": "gateway/facade/src/gateway/gateway.ts", "line": 14},
+      {"file": "gateway/facade/tests/integration/invariants.test.ts", "line": 11}
+    ]
+  },
+  "INV-H-01": {
+    "description": "5 mandatory conditions (ALL required)",
+    "locations": [
+      {"file": "GOVERNANCE/override/override_pipeline.ts", "line": 11},
+      {"file": "GOVERNANCE/override/override_utils.ts", "line": 421},
+      {"file": "GOVERNANCE/override/types.ts", "line": 7}
+    ]
+  },
+  "INV-H-02": {
+    "description": "Expiration enforced (max 90 days)",
+    "locations": [
+      {"file": "GOVERNANCE/override/override_pipeline.ts", "line": 12},
+      {"file": "GOVERNANCE/override/types.ts", "line": 8}
+    ]
+  },
+  "INV-H-03": {
+    "description": "Single approver required",
+    "locations": [
+      {"file": "GOVERNANCE/override/override_pipeline.ts", "line": 13},
+      {"file": "GOVERNANCE/override/types.ts", "line": 9}
+    ]
+  },
+  "INV-H-04": {
+    "description": "Hash chain maintained",
+    "locations": [
+      {"file": "GOVERNANCE/override/override_pipeline.ts", "line": 14},
+      {"file": "GOVERNANCE/override/types.ts", "line": 10}
+    ]
+  },
+  "INV-H-05": {
+    "description": "No cascade (override cannot authorize override)",
+    "locations": [
+      {"file": "GOVERNANCE/override/override_pipeline.ts", "line": 15},
+      {"file": "GOVERNANCE/override/types.ts", "line": 11},
+      {"file": "GOVERNANCE/override/validators/cascade.ts", "line": 8}
+    ]
+  },
+  "INV-H-06": {
+    "description": "NON-ACTUATING (produces reports only)",
+    "locations": [
+      {"file": "GOVERNANCE/override/override_pipeline.ts", "line": 16},
+      {"file": "GOVERNANCE/override/override_report.ts", "line": 7},
+      {"file": "GOVERNANCE/override/types.ts", "line": 12}
+    ]
+  },
+  "INV-HARD-01": {
+    "description": "No implicit Date.now()",
+    "locations": [
+      {"file": "gateway/tests/hardening/hardening_checks.test.ts", "line": 28}
+    ]
+  },
+  "INV-HARD-02": {
+    "description": "No unseeded Math.random()",
+    "locations": [
+      {"file": "gateway/tests/hardening/hardening_checks.test.ts", "line": 120}
+    ]
+  },
+  "INV-HARD-03": {
+    "description": "No empty catch blocks",
+    "locations": [
+      {"file": "gateway/tests/hardening/hardening_checks.test.ts", "line": 169}
+    ]
+  },
+  "INV-HARD-05": {
+    "description": "No BACKLOG/BACKLOG_FIX comments",
+    "locations": [
+      {"file": "gateway/tests/hardening/hardening_checks.test.ts", "line": 231}
+    ]
+  },
+  "INV-HIST-001": {
+    "description": "History must be sortable by date",
+    "locations": [
+      {"file": "apps/omega-ui/tests/history.test.ts", "line": 195}
+    ]
+  },
+  "INV-HIST-002": {
+    "description": "History must be filterable by emotion",
+    "locations": [
+      {"file": "apps/omega-ui/tests/history.test.ts", "line": 200}
+    ]
+  },
+  "INV-HIST-003": {
+    "description": "Delete must remove only targeted entry",
+    "locations": [
+      {"file": "apps/omega-ui/tests/history.test.ts", "line": 205}
+    ]
+  },
+  "INV-HIST-004": {
+    "description": "Clear must remove all entries",
+    "locations": [
+      {"file": "apps/omega-ui/tests/history.test.ts", "line": 212}
+    ]
+  },
+  "INV-HIST-005": {
+    "description": "Export must produce valid JSON",
+    "locations": [
+      {"file": "apps/omega-ui/tests/history.test.ts", "line": 219}
+    ]
+  },
+  "INV-HIST-006": {
+    "description": "Selection must highlight entry",
+    "locations": [
+      {"file": "apps/omega-ui/tests/history.test.ts", "line": 225}
+    ]
+  },
+  "INV-I-01": {
+    "description": "Semantic version format valid",
+    "locations": [
+      {"file": "GOVERNANCE/versioning/types.ts", "line": 8},
+      {"file": "GOVERNANCE/versioning/version_pipeline.ts", "line": 12},
+      {"file": "GOVERNANCE/versioning/version_utils.ts", "line": 248}
+    ]
+  },
+  "INV-I-02": {
+    "description": "MAJOR bump required for breaking changes",
+    "locations": [
+      {"file": "GOVERNANCE/versioning/types.ts", "line": 9},
+      {"file": "GOVERNANCE/versioning/version_pipeline.ts", "line": 127},
+      {"file": "GOVERNANCE/versioning/version_utils.ts", "line": 266}
+    ]
+  },
+  "INV-I-03": {
+    "description": "Backward compatible by default",
+    "locations": [
+      {"file": "GOVERNANCE/versioning/types.ts", "line": 10},
+      {"file": "GOVERNANCE/versioning/version_pipeline.ts", "line": 132},
+      {"file": "GOVERNANCE/versioning/version_utils.ts", "line": 275}
+    ]
+  },
+  "INV-I-04": {
+    "description": "Schema stability (VER-001)",
+    "locations": [
+      {"file": "GOVERNANCE/versioning/types.ts", "line": 11}
+    ]
+  },
+  "INV-I-05": {
+    "description": "API stability (VER-002)",
+    "locations": [
+      {"file": "GOVERNANCE/versioning/types.ts", "line": 12}
+    ]
+  },
+  "INV-I-06": {
+    "description": "Migration path required (VER-003)",
+    "locations": [
+      {"file": "GOVERNANCE/versioning/types.ts", "line": 13}
+    ]
+  },
+  "INV-I-07": {
+    "description": "Deprecation cycle enforced (VER-004)",
+    "locations": [
+      {"file": "GOVERNANCE/versioning/types.ts", "line": 14}
+    ]
+  },
+  "INV-I-08": {
+    "description": "Changelog mandatory (VER-005)",
+    "locations": [
+      {"file": "GOVERNANCE/versioning/types.ts", "line": 15}
+    ]
+  },
+  "INV-I-09": {
+    "description": "Downgrade prevention",
+    "locations": [
+      {"file": "GOVERNANCE/versioning/types.ts", "line": 16},
+      {"file": "GOVERNANCE/versioning/version_pipeline.ts", "line": 118},
+      {"file": "GOVERNANCE/versioning/version_utils.ts", "line": 174}
+    ]
+  },
+  "INV-I-10": {
+    "description": "NON-ACTUATING (report only)",
+    "locations": [
+      {"file": "GOVERNANCE/versioning/types.ts", "line": 17},
+      {"file": "GOVERNANCE/versioning/version_pipeline.ts", "line": 13},
+      {"file": "GOVERNANCE/versioning/version_report.ts", "line": 7}
+    ]
+  },
+  "INV-INPUT-001": {
+    "description": "TextInput must support disabled state",
+    "locations": [
+      {"file": "apps/omega-ui/tests/input.test.ts", "line": 105}
+    ]
+  },
+  "INV-INPUT-002": {
+    "description": "Stats must include characters, words, sentences",
+    "locations": [
+      {"file": "apps/omega-ui/tests/input.test.ts", "line": 110}
+    ]
+  },
+  "INV-INPUT-003": {
+    "description": "FileDropZone must validate file type",
+    "locations": [
+      {"file": "apps/omega-ui/tests/input.test.ts", "line": 117}
+    ]
+  },
+  "INV-INPUT-004": {
+    "description": "Max file size must be positive",
+    "locations": [
+      {"file": "apps/omega-ui/tests/input.test.ts", "line": 124}
+    ]
+  },
+  "INV-INPUT-005": {
+    "description": "Focus state must be trackable",
+    "locations": [
+      {"file": "apps/omega-ui/tests/input.test.ts", "line": 129}
+    ]
+  },
+  "INV-IPC-001": {
+    "description": "Health status must be valid enum",
+    "locations": [
+      {"file": "apps/omega-ui/tests/ipc.test.ts", "line": 138}
+    ]
+  },
+  "INV-IPC-002": {
+    "description": "Emotion intensity must be 0-1 range",
+    "locations": [
+      {"file": "apps/omega-ui/tests/ipc.test.ts", "line": 144}
+    ]
+  },
+  "INV-IPC-003": {
+    "description": "Valence must be -1 to 1 range",
+    "locations": [
+      {"file": "apps/omega-ui/tests/ipc.test.ts", "line": 150}
+    ]
+  },
+  "INV-IPC-004": {
+    "description": "IPC commands must be string literals",
+    "locations": [
+      {"file": "apps/omega-ui/tests/ipc.test.ts", "line": 156}
+    ]
+  },
+  "INV-IPC-005": {
+    "description": "Error codes must be uppercase with underscores",
+    "locations": [
+      {"file": "apps/omega-ui/tests/ipc.test.ts", "line": 164}
+    ]
+  },
+  "INV-J-01": {
+    "description": "Incident classification valid",
+    "locations": [
+      {"file": "GOVERNANCE/incident/index.ts", "line": 8},
+      {"file": "GOVERNANCE/incident/incident_utils.ts", "line": 186},
+      {"file": "GOVERNANCE/incident/types.ts", "line": 10}
+    ]
+  },
+  "INV-J-02": {
+    "description": "Timestamp required (within 15 min)",
+    "locations": [
+      {"file": "GOVERNANCE/incident/index.ts", "line": 9},
+      {"file": "GOVERNANCE/incident/incident_utils.ts", "line": 191},
+      {"file": "GOVERNANCE/incident/types.ts", "line": 11}
+    ]
+  },
+  "INV-J-03": {
+    "description": "Evidence preservation",
+    "locations": [
+      {"file": "GOVERNANCE/incident/index.ts", "line": 10},
+      {"file": "GOVERNANCE/incident/incident_utils.ts", "line": 206},
+      {"file": "GOVERNANCE/incident/types.ts", "line": 12}
+    ]
+  },
+  "INV-J-04": {
+    "description": "Mandatory post-mortem for MEDIUM+",
+    "locations": [
+      {"file": "GOVERNANCE/incident/index.ts", "line": 11},
+      {"file": "GOVERNANCE/incident/incident_pipeline.ts", "line": 213},
+      {"file": "GOVERNANCE/incident/types.ts", "line": 13},
+      {"file": "GOVERNANCE/incident/validators/rules.ts", "line": 183}
+    ]
+  },
+  "INV-J-05": {
+    "description": "Silence = violation",
+    "locations": [
+      {"file": "GOVERNANCE/incident/index.ts", "line": 12},
+      {"file": "GOVERNANCE/incident/incident_pipeline.ts", "line": 213},
+      {"file": "GOVERNANCE/incident/types.ts", "line": 14},
+      {"file": "GOVERNANCE/incident/validators/rules.ts", "line": 194}
+    ]
+  },
+  "INV-J-06": {
+    "description": "Rollback requires human decision",
+    "locations": [
+      {"file": "GOVERNANCE/incident/index.ts", "line": 13},
+      {"file": "GOVERNANCE/incident/incident_utils.ts", "line": 319},
+      {"file": "GOVERNANCE/incident/types.ts", "line": 15},
+      {"file": "GOVERNANCE/incident/validators/rollback.ts", "line": 6}
+    ]
+  },
+  "INV-J-07": {
+    "description": "Rollback target must be verified stable",
+    "locations": [
+      {"file": "GOVERNANCE/incident/index.ts", "line": 14},
+      {"file": "GOVERNANCE/incident/incident_utils.ts", "line": 330},
+      {"file": "GOVERNANCE/incident/types.ts", "line": 16},
+      {"file": "GOVERNANCE/incident/validators/rollback.ts", "line": 7}
+    ]
+  },
+  "INV-J-08": {
+    "description": "No blame in post-mortem",
+    "locations": [
+      {"file": "GOVERNANCE/incident/index.ts", "line": 15},
+      {"file": "GOVERNANCE/incident/incident_utils.ts", "line": 286},
+      {"file": "GOVERNANCE/incident/postmortem_generator.ts", "line": 7},
+      {"file": "GOVERNANCE/incident/types.ts", "line": 17}
+    ]
+  },
+  "INV-J-09": {
+    "description": "SLA compliance tracked",
+    "locations": [
+      {"file": "GOVERNANCE/incident/index.ts", "line": 16},
+      {"file": "GOVERNANCE/incident/incident_utils.ts", "line": 229},
+      {"file": "GOVERNANCE/incident/types.ts", "line": 18}
+    ]
+  },
+  "INV-J-10": {
+    "description": "NON-ACTUATING (report only)",
+    "locations": [
+      {"file": "GOVERNANCE/incident/index.ts", "line": 17},
+      {"file": "GOVERNANCE/incident/incident_pipeline.ts", "line": 12},
+      {"file": "GOVERNANCE/incident/incident_report.ts", "line": 12},
+      {"file": "GOVERNANCE/incident/types.ts", "line": 19}
+    ]
+  },
+  "INV-LAYOUT-001": {
+    "description": "Navigation must have 4 items",
+    "locations": [
+      {"file": "apps/omega-ui/tests/layout.test.ts", "line": 97}
+    ]
+  },
+  "INV-LAYOUT-002": {
+    "description": "Layout must have header, main, footer",
+    "locations": [
+      {"file": "apps/omega-ui/tests/layout.test.ts", "line": 102}
+    ]
+  },
+  "INV-LAYOUT-003": {
+    "description": "Sidebar panels must include history",
+    "locations": [
+      {"file": "apps/omega-ui/tests/layout.test.ts", "line": 107}
+    ]
+  },
+  "INV-LAYOUT-004": {
+    "description": "Pages count must match nav items",
+    "locations": [
+      {"file": "apps/omega-ui/tests/layout.test.ts", "line": 112}
+    ]
+  },
+  "INV-LAYOUT-005": {
+    "description": "Default sidebar state must be open",
+    "locations": [
+      {"file": "apps/omega-ui/tests/layout.test.ts", "line": 118}
+    ]
+  },
+  "INV-LAYOUT-006": {
+    "description": "Layout components must be defined",
+    "locations": [
+      {"file": "apps/omega-ui/tests/layout.test.ts", "line": 123}
+    ]
+  },
+  "INV-LIM-01": {
+    "description": "Request count never exceeds limit",
+    "locations": [
+      {"file": "gateway/limiter/src/limiter/limiter.ts", "line": 8},
+      {"file": "gateway/limiter/tests/invariants.test.ts", "line": 6}
+    ]
+  },
+  "INV-LIM-02": {
+    "description": "Window reset at correct time",
+    "locations": [
+      {"file": "gateway/limiter/src/limiter/limiter.ts", "line": 9},
+      {"file": "gateway/limiter/tests/invariants.test.ts", "line": 7}
+    ]
+  },
+  "INV-LIM-03": {
+    "description": "Tokens refill at correct rate",
+    "locations": [
+      {"file": "gateway/limiter/src/limiter/limiter.ts", "line": 10},
+      {"file": "gateway/limiter/tests/invariants.test.ts", "line": 8},
+      {"file": "gateway/limiter/tests/token-bucket.test.ts", "line": 5}
+    ]
+  },
+  "INV-LIM-04": {
+    "description": "Per-key isolation",
+    "locations": [
+      {"file": "gateway/limiter/src/limiter/limiter.ts", "line": 11},
+      {"file": "gateway/limiter/tests/invariants.test.ts", "line": 9}
+    ]
+  },
+  "INV-LIM-05": {
+    "description": "Deterministic allow/deny",
+    "locations": [
+      {"file": "gateway/limiter/src/limiter/limiter.ts", "line": 12},
+      {"file": "gateway/limiter/tests/invariants.test.ts", "line": 10}
+    ]
+  },
+  "INV-LIM-06": {
+    "description": "Stats accurate",
+    "locations": [
+      {"file": "gateway/limiter/src/limiter/limiter.ts", "line": 13},
+      {"file": "gateway/limiter/tests/invariants.test.ts", "line": 11},
+      {"file": "gateway/limiter/tests/stats.test.ts", "line": 5}
+    ]
+  },
+  "INV-MEM-01": {
+    "description": "Append-Only",
+    "locations": [
+      {"file": "gateway/src/memory/memory_layer_nasa/memory_store.ts", "line": 119},
+      {"file": "gateway/src/memory/memory_layer_nasa/memory_types.ts", "line": 576},
+      {"file": "gateway/src/memory/memory_layer_nasa/types.ts", "line": 120}
+    ]
+  },
+  "INV-MEM-02": {
+    "description": "Deterministic Retrieval / Source unique",
+    "locations": [
+      {"file": "gateway/src/memory/memory_layer_nasa/memory_store.ts", "line": 120},
+      {"file": "gateway/src/memory/memory_layer_nasa/memory_types.ts", "line": 577}
+    ]
+  },
+  "INV-MEM-03": {
+    "description": "Explicit Linking / Versionnement",
+    "locations": [
+      {"file": "gateway/src/memory/memory_layer_nasa/memory_store.ts", "line": 121},
+      {"file": "gateway/src/memory/memory_layer_nasa/memory_types.ts", "line": 578}
+    ]
+  },
+  "INV-MEM-04": {
+    "description": "Versioned Records (version + timestamp obligatoires)",
+    "locations": [
+      {"file": "gateway/src/memory/memory_layer_nasa/memory_store.ts", "line": 122},
+      {"file": "gateway/src/memory/memory_layer_nasa/memory_types.ts", "line": 12},
+      {"file": "gateway/src/memory/memory_layer_nasa/memory_types.ts", "line": 579}
+    ]
+  },
+  "INV-MEM-05": {
+    "description": "No Hidden Influence / Hash deterministe",
+    "locations": [
+      {"file": "gateway/src/memory/memory_layer_nasa/memory_store.ts", "line": 123},
+      {"file": "gateway/src/memory/memory_layer_nasa/memory_types.ts", "line": 580}
+    ]
+  },
+  "INV-MEM-06": {
+    "description": "Hash Integrity",
+    "locations": [
+      {"file": "gateway/src/memory/memory_layer_nasa/memory_types.ts", "line": 167},
+      {"file": "gateway/src/memory/memory_layer_nasa/memory_types.ts", "line": 581}
+    ]
+  },
+  "INV-MEM-07": {
+    "description": "Full Provenance / Determinisme lecture",
+    "locations": [
+      {"file": "gateway/src/memory/memory_layer_nasa/memory_store.ts", "line": 254},
+      {"file": "gateway/src/memory/memory_layer_nasa/memory_types.ts", "line": 105},
+      {"file": "gateway/src/memory/memory_layer_nasa/memory_types.ts", "line": 168},
+      {"file": "gateway/src/memory/memory_layer_nasa/memory_types.ts", "line": 582}
+    ]
+  },
+  "INV-MEM-08": {
+    "description": "Query Isolation / Chain Integrity",
+    "locations": [
+      {"file": "gateway/src/memory/memory_layer_nasa/memory_store.ts", "line": 386},
+      {"file": "gateway/src/memory/memory_layer_nasa/memory_types.ts", "line": 583}
+    ]
+  },
+  "INV-MEM-09": {
+    "description": "Atomic Writes / Payload Size Limit",
+    "locations": [
+      {"file": "gateway/src/memory/memory_layer_nasa/memory_types.ts", "line": 584}
+    ]
+  },
+  "INV-MEM-10": {
+    "description": "Bounded Queries / Float Determinism",
+    "locations": [
+      {"file": "gateway/src/creation/creation_layer_nasa/creation_request.ts", "line": 43},
+      {"file": "gateway/src/memory/memory_layer_nasa/memory_types.ts", "line": 585}
+    ]
+  },
+  "INV-MEM-11": {
+    "description": "Schema Validation (types stricts)",
+    "locations": [
+      {"file": "gateway/src/memory/memory_layer_nasa/memory_types.ts", "line": 13},
+      {"file": "gateway/src/memory/memory_layer_nasa/memory_types.ts", "line": 586}
+    ]
+  },
+  "INV-MEM-12": {
+    "description": "Max 1 event per entry per run (C05 FIX)",
+    "locations": [
+      {"file": "gateway/src/memory/memory_layer_nasa/memory_tiering.ts", "line": 146}
+    ]
+  },
+  "INV-MEM-13": {
+    "description": "Decay Existence",
+    "locations": [
+      {"file": "gateway/src/memory/memory_layer_nasa/memory_store.test.ts", "line": 341}
+    ]
+  },
+  "INV-MEM-T1": {
+    "description": "Events only (ne modifie rien directement)",
+    "locations": [
+      {"file": "gateway/src/memory/memory_layer_nasa/memory_tiering.ts", "line": 143}
+    ]
+  },
+  "INV-MEM-T2": {
+    "description": "Idempotent (meme input = meme output)",
+    "locations": [
+      {"file": "gateway/src/memory/memory_layer_nasa/memory_tiering.ts", "line": 144}
+    ]
+  },
+  "INV-MEM-T3": {
+    "description": "Deterministe (ordre stable)",
+    "locations": [
+      {"file": "gateway/src/memory/memory_layer_nasa/memory_tiering.ts", "line": 145}
+    ]
+  },
+  "INV-NEXUS-03": {
+    "description": "Observatory Accuracy",
+    "locations": [
+      {"file": "nexus/tooling/tests/observatory/observatory.test.ts", "line": 288}
+    ]
+  },
+  "INV-NOTIF-001": {
+    "description": "Toast must have unique ID",
+    "locations": [
+      {"file": "apps/omega-ui/tests/notifications.test.ts", "line": 170}
+    ]
+  },
+  "INV-NOTIF-002": {
+    "description": "Must support 4 toast types",
+    "locations": [
+      {"file": "apps/omega-ui/tests/notifications.test.ts", "line": 176}
+    ]
+  },
+  "INV-NOTIF-003": {
+    "description": "Must support 6 positions",
+    "locations": [
+      {"file": "apps/omega-ui/tests/notifications.test.ts", "line": 181}
+    ]
+  },
+  "INV-NOTIF-004": {
+    "description": "Max visible must default to 5",
+    "locations": [
+      {"file": "apps/omega-ui/tests/notifications.test.ts", "line": 189}
+    ]
+  },
+  "INV-NOTIF-005": {
+    "description": "Duration must default to 5000ms",
+    "locations": [
+      {"file": "apps/omega-ui/tests/notifications.test.ts", "line": 194}
+    ]
+  },
+  "INV-NOTIF-006": {
+    "description": "Toast must be dismissible by default",
+    "locations": [
+      {"file": "apps/omega-ui/tests/notifications.test.ts", "line": 199}
+    ]
+  },
+  "INV-ORACLE-01": {
+    "description": "recommendation is always null",
+    "locations": [
+      {"file": "tests/sentinel/oracle.test.ts", "line": 43}
+    ]
+  },
+  "INV-ORACLE-001": {
+    "description": "Analysis result must have valid ID",
+    "locations": [
+      {"file": "apps/omega-ui/tests/oracle.test.ts", "line": 398}
+    ]
+  },
+  "INV-ORACLE-02": {
+    "description": "generates at least tau_min_options",
+    "locations": [
+      {"file": "tests/sentinel/oracle.test.ts", "line": 54}
+    ]
+  },
+  "INV-ORACLE-002": {
+    "description": "Emotions must have all 14 keys",
+    "locations": [
+      {"file": "apps/omega-ui/tests/oracle.test.ts", "line": 414}
+    ]
+  },
+  "INV-ORACLE-03": {
+    "description": "each option has explicit canon_compliance",
+    "locations": [
+      {"file": "tests/sentinel/oracle.test.ts", "line": 66}
+    ]
+  },
+  "INV-ORACLE-003": {
+    "description": "Progress percent must be 0-100",
+    "locations": [
+      {"file": "apps/omega-ui/tests/oracle.test.ts", "line": 423}
+    ]
+  },
+  "INV-ORACLE-04": {
+    "description": "deterministic output",
+    "locations": [
+      {"file": "tests/sentinel/oracle.test.ts", "line": 79}
+    ]
+  },
+  "INV-ORACLE-004": {
+    "description": "Depth must be valid option",
+    "locations": [
+      {"file": "apps/omega-ui/tests/oracle.test.ts", "line": 431}
+    ]
+  },
+  "INV-ORACLE-05": {
+    "description": "no magic numbers - all from policy",
+    "locations": [
+      {"file": "tests/sentinel/oracle.test.ts", "line": 95}
+    ]
+  },
+  "INV-ORACLE-005": {
+    "description": "History must respect maxHistory limit",
+    "locations": [
+      {"file": "apps/omega-ui/tests/oracle.test.ts", "line": 438}
+    ]
+  },
+  "INV-ORACLE-006": {
+    "description": "Confidence must be 0-1",
+    "locations": [
+      {"file": "apps/omega-ui/tests/oracle.test.ts", "line": 445}
+    ]
+  },
+  "INV-ORCH-01": {
+    "description": "Single Entry Point",
+    "locations": [
+      {"file": "gateway/wiring/src/orchestrator/orchestrator.ts", "line": 19},
+      {"file": "gateway/wiring/tests/orchestrator.test.ts", "line": 9}
+    ]
+  },
+  "INV-ORCH-02": {
+    "description": "Strict Validation",
+    "locations": [
+      {"file": "gateway/wiring/src/orchestrator/orchestrator.ts", "line": 20},
+      {"file": "gateway/wiring/tests/orchestrator.test.ts", "line": 10}
+    ]
+  },
+  "INV-ORCH-03": {
+    "description": "Policy First",
+    "locations": [
+      {"file": "gateway/wiring/src/orchestrator/orchestrator.ts", "line": 21},
+      {"file": "gateway/wiring/tests/orchestrator.test.ts", "line": 11}
+    ]
+  },
+  "INV-ORCH-04": {
+    "description": "Replay Guard",
+    "locations": [
+      {"file": "gateway/wiring/src/orchestrator/orchestrator.ts", "line": 22},
+      {"file": "gateway/wiring/src/orchestrator/replay_guard.ts", "line": 15},
+      {"file": "gateway/wiring/tests/orchestrator.test.ts", "line": 12},
+      {"file": "gateway/wiring/tests/replay_guard.test.ts", "line": 9}
+    ]
+  },
+  "INV-ORCH-05": {
+    "description": "Version Pinned Registry",
+    "locations": [
+      {"file": "gateway/wiring/src/orchestrator/orchestrator.ts", "line": 23},
+      {"file": "gateway/wiring/src/orchestrator/registry.ts", "line": 13},
+      {"file": "gateway/wiring/tests/orchestrator.test.ts", "line": 13},
+      {"file": "gateway/wiring/tests/registry.test.ts", "line": 9}
+    ]
+  },
+  "INV-ORCH-06": {
+    "description": "Chronicle Completeness",
+    "locations": [
+      {"file": "gateway/wiring/src/orchestrator/chronicle.ts", "line": 14},
+      {"file": "gateway/wiring/src/orchestrator/orchestrator.ts", "line": 24},
+      {"file": "gateway/wiring/tests/chronicle.test.ts", "line": 9},
+      {"file": "gateway/wiring/tests/orchestrator.test.ts", "line": 14}
+    ]
+  },
+  "INV-ORCH-07": {
+    "description": "Error Coding",
+    "locations": [
+      {"file": "gateway/wiring/src/orchestrator/orchestrator.ts", "line": 25},
+      {"file": "gateway/wiring/tests/orchestrator.test.ts", "line": 15}
+    ]
+  },
+  "INV-QUA-01": {
+    "description": "Quarantined item isolated from main system",
+    "locations": [
+      {"file": "gateway/quarantine/src/quarantine/quarantine.ts", "line": 8},
+      {"file": "gateway/quarantine/tests/invariants.test.ts", "line": 6}
+    ]
+  },
+  "INV-QUA-02": {
+    "description": "Metadata always preserved",
+    "locations": [
+      {"file": "gateway/quarantine/src/quarantine/quarantine.ts", "line": 9},
+      {"file": "gateway/quarantine/tests/inspect.test.ts", "line": 5},
+      {"file": "gateway/quarantine/tests/invariants.test.ts", "line": 7}
+    ]
+  },
+  "INV-QUA-03": {
+    "description": "TTL/expiration enforced",
+    "locations": [
+      {"file": "gateway/quarantine/src/quarantine/quarantine.ts", "line": 10},
+      {"file": "gateway/quarantine/tests/invariants.test.ts", "line": 8},
+      {"file": "gateway/quarantine/tests/purge.test.ts", "line": 5}
+    ]
+  },
+  "INV-QUA-04": {
+    "description": "Audit trail immutable",
+    "locations": [
+      {"file": "gateway/quarantine/src/quarantine/quarantine.ts", "line": 11},
+      {"file": "gateway/quarantine/tests/invariants.test.ts", "line": 9},
+      {"file": "gateway/quarantine/tests/stats.test.ts", "line": 5}
+    ]
+  },
+  "INV-QUA-05": {
+    "description": "Release requires validation",
+    "locations": [
+      {"file": "gateway/quarantine/src/quarantine/quarantine.ts", "line": 12},
+      {"file": "gateway/quarantine/tests/invariants.test.ts", "line": 10},
+      {"file": "gateway/quarantine/tests/release.test.ts", "line": 5}
+    ]
+  },
+  "INV-QUA-06": {
+    "description": "Deterministic behavior",
+    "locations": [
+      {"file": "gateway/quarantine/src/quarantine/quarantine.ts", "line": 13},
+      {"file": "gateway/quarantine/tests/invariants.test.ts", "line": 11},
+      {"file": "gateway/quarantine/tests/stats.test.ts", "line": 6}
+    ]
+  },
+  "INV-REG-01": {
+    "description": "No Handler Without Version",
+    "locations": [
+      {"file": "gateway/wiring/src/orchestrator/registry.ts", "line": 14},
+      {"file": "gateway/wiring/tests/registry.test.ts", "line": 10}
+    ]
+  },
+  "INV-REG-02": {
+    "description": "Capability Match Required",
+    "locations": [
+      {"file": "gateway/wiring/src/orchestrator/registry.ts", "line": 15},
+      {"file": "gateway/wiring/tests/registry.test.ts", "line": 11}
+    ]
+  },
+  "INV-REGR-001": {
+    "description": "Snapshot immutability",
+    "locations": [
+      {"file": "GOVERNANCE/regression/baseline_registry.ts", "line": 4},
+      {"file": "GOVERNANCE/regression/regression_pipeline.ts", "line": 4},
+      {"file": "GOVERNANCE/regression/types.ts", "line": 7}
+    ]
+  },
+  "INV-REGR-002": {
+    "description": "Backward compatibility default",
+    "locations": [
+      {"file": "GOVERNANCE/regression/regression_pipeline.ts", "line": 5},
+      {"file": "GOVERNANCE/regression/regression_runner.ts", "line": 4},
+      {"file": "GOVERNANCE/regression/types.ts", "line": 8}
+    ]
+  },
+  "INV-REGR-003": {
+    "description": "Breaking change explicit",
+    "locations": [
+      {"file": "GOVERNANCE/regression/regression_pipeline.ts", "line": 6},
+      {"file": "GOVERNANCE/regression/types.ts", "line": 9},
+      {"file": "GOVERNANCE/regression/waiver_registry.ts", "line": 4}
+    ]
+  },
+  "INV-REGR-004": {
+    "description": "WAIVER human-signed",
+    "locations": [
+      {"file": "GOVERNANCE/regression/regression_pipeline.ts", "line": 7},
+      {"file": "GOVERNANCE/regression/types.ts", "line": 10},
+      {"file": "GOVERNANCE/regression/waiver_registry.ts", "line": 5}
+    ]
+  },
+  "INV-REGR-005": {
+    "description": "Regression test mandatory",
+    "locations": [
+      {"file": "GOVERNANCE/regression/baseline_registry.ts", "line": 5},
+      {"file": "GOVERNANCE/regression/regression_pipeline.ts", "line": 8},
+      {"file": "GOVERNANCE/regression/regression_runner.ts", "line": 5},
+      {"file": "GOVERNANCE/regression/types.ts", "line": 11}
+    ]
+  },
+  "INV-REPLAY-01": {
+    "description": "Key Required",
+    "locations": [
+      {"file": "gateway/wiring/src/orchestrator/replay_guard.ts", "line": 16},
+      {"file": "gateway/wiring/tests/replay_guard.test.ts", "line": 10}
+    ]
+  },
+  "INV-REPLAY-02": {
+    "description": "Strategy Enforced",
+    "locations": [
+      {"file": "gateway/wiring/src/orchestrator/replay_guard.ts", "line": 17},
+      {"file": "gateway/wiring/tests/replay_guard.test.ts", "line": 11}
+    ]
+  },
+  "INV-RIPPLE-01": {
+    "description": "Propagation deterministe (meme input = meme ripples)",
+    "locations": [
+      {"file": "gateway/src/gates/ripple_engine.ts", "line": 9},
+      {"file": "gateway/tests/ripple_engine.test.ts", "line": 6}
+    ]
+  },
+  "INV-RIPPLE-02": {
+    "description": "Attenuation obligatoire (force diminue avec distance)",
+    "locations": [
+      {"file": "gateway/src/gates/ripple_engine.ts", "line": 10},
+      {"file": "gateway/tests/ripple_engine.test.ts", "line": 7}
+    ]
+  },
+  "INV-RIPPLE-03": {
+    "description": "Pas de cycle infini (detection + blocage)",
+    "locations": [
+      {"file": "gateway/src/gates/ripple_engine.ts", "line": 11},
+      {"file": "gateway/tests/ripple_engine.test.ts", "line": 8}
+    ]
+  },
+  "INV-RIPPLE-04": {
+    "description": "Tracabilite complete (chaque ripple trace jusqu'a source)",
+    "locations": [
+      {"file": "gateway/src/gates/ripple_engine.ts", "line": 12},
+      {"file": "gateway/tests/ripple_engine.test.ts", "line": 9}
+    ]
+  },
+  "INV-RIPPLE-05": {
+    "description": "Respect du canon (ripple ne peut contredire)",
+    "locations": [
+      {"file": "gateway/src/gates/ripple_engine.ts", "line": 13},
+      {"file": "gateway/tests/ripple_engine.test.ts", "line": 10}
+    ]
+  },
+  "INV-SCALE-01": {
+    "description": "Concurrency-invariant hash (c=1 === c=N)",
+    "locations": [
+      {"file": "tests/scale_invariants.test.ts", "line": 8}
+    ]
+  },
+  "INV-SCALE-02": {
+    "description": "Batch idempotent (2 runs = same output)",
+    "locations": [
+      {"file": "tests/scale_invariants.test.ts", "line": 9}
+    ]
+  },
+  "INV-SCALE-03": {
+    "description": "Mode-sensitive hash (sentence != paragraph)",
+    "locations": [
+      {"file": "tests/scale_invariants.test.ts", "line": 10}
+    ]
+  },
+  "INV-SCALE-04": {
+    "description": "Text exclusion from hash",
+    "locations": [
+      {"file": "tests/scale_invariants.test.ts", "line": 11}
+    ]
+  },
+  "INV-SCALE-05": {
+    "description": "Ordered aggregation (sort by index before Merkle)",
+    "locations": [
+      {"file": "tests/scale_invariants.test.ts", "line": 12}
+    ]
+  },
+  "INV-SEARCH-001": {
+    "description": "Score must be non-negative",
+    "locations": [
+      {"file": "apps/omega-ui/tests/search.test.ts", "line": 408}
+    ]
+  },
+  "INV-SEARCH-002": {
+    "description": "Results must be array",
+    "locations": [
+      {"file": "apps/omega-ui/tests/search.test.ts", "line": 420}
+    ]
+  },
+  "INV-SEARCH-003": {
+    "description": "Suggestions must be array",
+    "locations": [
+      {"file": "apps/omega-ui/tests/search.test.ts", "line": 425}
+    ]
+  },
+  "INV-SEARCH-004": {
+    "description": "TotalHits must be non-negative",
+    "locations": [
+      {"file": "apps/omega-ui/tests/search.test.ts", "line": 430}
+    ]
+  },
+  "INV-SEARCH-005": {
+    "description": "Query time must be non-negative",
+    "locations": [
+      {"file": "apps/omega-ui/tests/search.test.ts", "line": 440}
+    ]
+  },
+  "INV-SEARCH-006": {
+    "description": "Status must be valid",
+    "locations": [
+      {"file": "apps/omega-ui/tests/search.test.ts", "line": 450}
+    ]
+  },
+  "INV-SET-001": {
+    "description": "Theme must support light, dark, and system",
+    "locations": [
+      {"file": "apps/omega-ui/tests/settings.test.ts", "line": 181}
+    ]
+  },
+  "INV-SET-002": {
+    "description": "Language must support multiple options",
+    "locations": [
+      {"file": "apps/omega-ui/tests/settings.test.ts", "line": 186}
+    ]
+  },
+  "INV-SET-003": {
+    "description": "Min text length must be bounded",
+    "locations": [
+      {"file": "apps/omega-ui/tests/settings.test.ts", "line": 191}
+    ]
+  },
+  "INV-SET-004": {
+    "description": "Settings must persist between sessions",
+    "locations": [
+      {"file": "apps/omega-ui/tests/settings.test.ts", "line": 197}
+    ]
+  },
+  "INV-SET-005": {
+    "description": "Reset must restore all defaults",
+    "locations": [
+      {"file": "apps/omega-ui/tests/settings.test.ts", "line": 202}
+    ]
+  },
+  "INV-SET-006": {
+    "description": "Clear history must require confirmation",
+    "locations": [
+      {"file": "apps/omega-ui/tests/settings.test.ts", "line": 212}
+    ]
+  },
+  "INV-SKEP-01": {
+    "description": "No passage accepted without justification",
+    "locations": [
+      {"file": "gateway/src/profiles.ts", "line": 8},
+      {"file": "gateway/tests/profiles.test.ts", "line": 10}
+    ]
+  },
+  "INV-SKEP-02": {
+    "description": "Narrative comfort detection mandatory",
+    "locations": [
+      {"file": "gateway/src/profiles.ts", "line": 9},
+      {"file": "gateway/tests/profiles.test.ts", "line": 22}
+    ]
+  },
+  "INV-SKEP-03": {
+    "description": "Perfect cause/effect memory",
+    "locations": [
+      {"file": "gateway/src/profiles.ts", "line": 10},
+      {"file": "gateway/tests/profiles.test.ts", "line": 27}
+    ]
+  },
+  "INV-SKEP-04": {
+    "description": "Zero tolerance for Deus Ex Machina",
+    "locations": [
+      {"file": "gateway/src/profiles.ts", "line": 11},
+      {"file": "gateway/tests/profiles.test.ts", "line": 32}
+    ]
+  },
+  "INV-STORE-001": {
+    "description": "Default view must be analyze",
+    "locations": [
+      {"file": "apps/omega-ui/tests/stores.test.ts", "line": 196}
+    ]
+  },
+  "INV-STORE-002": {
+    "description": "Default theme must be dark",
+    "locations": [
+      {"file": "apps/omega-ui/tests/stores.test.ts", "line": 201}
+    ]
+  },
+  "INV-STORE-003": {
+    "description": "Max history must be in range [10, 500]",
+    "locations": [
+      {"file": "apps/omega-ui/tests/stores.test.ts", "line": 206}
+    ]
+  },
+  "INV-STORE-004": {
+    "description": "Notification limit must be 10",
+    "locations": [
+      {"file": "apps/omega-ui/tests/stores.test.ts", "line": 214}
+    ]
+  },
+  "INV-STORE-005": {
+    "description": "Export formats must include json",
+    "locations": [
+      {"file": "apps/omega-ui/tests/stores.test.ts", "line": 219}
+    ]
+  },
+  "INV-STORE-006": {
+    "description": "Precision levels count must be 3",
+    "locations": [
+      {"file": "apps/omega-ui/tests/stores.test.ts", "line": 224}
+    ]
+  },
+  "INV-STR-01": {
+    "description": "Streaming == Non-streaming (rootHash identique)",
+    "locations": [
+      {"file": "tests/streaming_invariants.test.ts", "line": 8}
+    ]
+  },
+  "INV-STR-02": {
+    "description": "chunk_size ne change pas le hash",
+    "locations": [
+      {"file": "tests/streaming_invariants.test.ts", "line": 9}
+    ]
+  },
+  "INV-STR-03": {
+    "description": "Offsets globaux valides",
+    "locations": [
+      {"file": "tests/streaming_invariants.test.ts", "line": 10}
+    ]
+  },
+  "INV-STR-04": {
+    "description": "Auto-stream = --stream explicite",
+    "locations": [
+      {"file": "tests/streaming_invariants.test.ts", "line": 11}
+    ]
+  },
+  "INV-STR-05": {
+    "description": "Determinism multi-runs (10 runs)",
+    "locations": [
+      {"file": "tests/streaming_invariants.test.ts", "line": 12}
+    ]
+  },
+  "INV-STRESS-01": {
+    "description": "Pipeline stable under high load / Hash Stability",
+    "locations": [
+      {"file": "gateway/resilience/tests/stress/stress.test.ts", "line": 8},
+      {"file": "tests/stress/stress.test.ts", "line": 9}
+    ]
+  },
+  "INV-STRESS-02": {
+    "description": "No data corruption under stress / Latency Bound",
+    "locations": [
+      {"file": "gateway/resilience/tests/stress/stress.test.ts", "line": 9},
+      {"file": "tests/stress/stress.test.ts", "line": 10}
+    ]
+  },
+  "INV-STRESS-03": {
+    "description": "All edge cases rejected correctly / Memory Bound",
+    "locations": [
+      {"file": "gateway/resilience/tests/stress/stress.test.ts", "line": 10},
+      {"file": "tests/stress/edgecases.test.ts", "line": 9}
+    ]
+  },
+  "INV-STRESS-04": {
+    "description": "No crash/unhandled exception / Throughput Floor",
+    "locations": [
+      {"file": "gateway/resilience/tests/stress/stress.test.ts", "line": 11},
+      {"file": "tests/stress/edgecases.test.ts", "line": 10},
+      {"file": "tests/stress/stress.test.ts", "line": 11}
+    ]
+  },
+  "INV-STRESS-05": {
+    "description": "Determinism maintained under stress / Zero Drift",
+    "locations": [
+      {"file": "gateway/resilience/tests/stress/stress.test.ts", "line": 12},
+      {"file": "tests/stress/stress.test.ts", "line": 12}
+    ]
+  },
+  "INV-TEMP-01": {
+    "description": "Safety - valid_input implies valid_output",
+    "locations": [
+      {"file": "gateway/resilience/tests/temporal/temporal.test.ts", "line": 8}
+    ]
+  },
+  "INV-TEMP-02": {
+    "description": "Liveness - request_received implies response_sent",
+    "locations": [
+      {"file": "gateway/resilience/tests/temporal/temporal.test.ts", "line": 9}
+    ]
+  },
+  "INV-TEMP-03": {
+    "description": "Fairness - handler_executed for all active handlers",
+    "locations": [
+      {"file": "gateway/resilience/tests/temporal/temporal.test.ts", "line": 10}
+    ]
+  },
+  "INV-TEMP-04": {
+    "description": "Causality - chronicle[i].time < chronicle[i+1].time",
+    "locations": [
+      {"file": "gateway/resilience/tests/temporal/temporal.test.ts", "line": 11}
+    ]
+  },
+  "INV-TEMP-05": {
+    "description": "Recovery - circuit_open implies circuit_half_open eventually",
+    "locations": [
+      {"file": "gateway/resilience/tests/temporal/temporal.test.ts", "line": 12}
+    ]
+  },
+  "INV-THEME-001": {
+    "description": "Must support light, dark, system",
+    "locations": [
+      {"file": "apps/omega-ui/tests/theme.test.ts", "line": 188}
+    ]
+  },
+  "INV-THEME-002": {
+    "description": "Light and dark must have opposite bg colors",
+    "locations": [
+      {"file": "apps/omega-ui/tests/theme.test.ts", "line": 193}
+    ]
+  },
+  "INV-THEME-003": {
+    "description": "Primary color must be consistent",
+    "locations": [
+      {"file": "apps/omega-ui/tests/theme.test.ts", "line": 199}
+    ]
+  },
+  "INV-THEME-004": {
+    "description": "CSS variables must use --omega prefix",
+    "locations": [
+      {"file": "apps/omega-ui/tests/theme.test.ts", "line": 205}
+    ]
+  },
+  "INV-THEME-005": {
+    "description": "Theme must persist in settings",
+    "locations": [
+      {"file": "apps/omega-ui/tests/theme.test.ts", "line": 210}
+    ]
+  },
+  "INV-THEME-006": {
+    "description": "System theme must respond to OS changes",
+    "locations": [
+      {"file": "apps/omega-ui/tests/theme.test.ts", "line": 215}
+    ]
+  },
+  "INV-TRACE-01": {
+    "description": "Hash chain / Toute decision critique est tracee",
+    "locations": [
+      {"file": "gateway/tests/hardening/decision_trace.test.ts", "line": 22},
+      {"file": "tests/sentinel/trace.test.ts", "line": 61}
+    ]
+  },
+  "INV-TRACE-02": {
+    "description": "Traces immuables apres creation",
+    "locations": [
+      {"file": "gateway/tests/hardening/decision_trace.test.ts", "line": 84},
+      {"file": "tests/sentinel/sentinel.test.ts", "line": 63}
+    ]
+  },
+  "INV-TRACE-03": {
+    "description": "Rejeu deterministe possible",
+    "locations": [
+      {"file": "gateway/tests/hardening/decision_trace.test.ts", "line": 144}
+    ]
+  },
+  "INV-TRACE-04": {
+    "description": "Hash d'integrite sur chaque trace",
+    "locations": [
+      {"file": "gateway/tests/hardening/decision_trace.test.ts", "line": 226}
+    ]
+  },
+  "INV-TRACE-05": {
+    "description": "Export forensic complet",
+    "locations": [
+      {"file": "gateway/tests/hardening/decision_trace.test.ts", "line": 314}
+    ]
+  },
+  "INV-TRUTH-01": {
+    "description": "Contradiction detectee = FAIL obligatoire",
+    "locations": [
+      {"file": "gateway/src/gates/truth_gate.ts", "line": 9},
+      {"file": "gateway/tests/truth_gate.test.ts", "line": 6}
+    ]
+  },
+  "INV-TRUTH-02": {
+    "description": "Causalite stricte (effet sans cause = FAIL)",
+    "locations": [
+      {"file": "gateway/src/gates/truth_gate.ts", "line": 10},
+      {"file": "gateway/tests/truth_gate.test.ts", "line": 7}
+    ]
+  },
+  "INV-TRUTH-03": {
+    "description": "Reference inconnue = FAIL en mode strict",
+    "locations": [
+      {"file": "gateway/src/gates/truth_gate.ts", "line": 11},
+      {"file": "gateway/tests/truth_gate.test.ts", "line": 8}
+    ]
+  },
+  "INV-TRUTH-04": {
+    "description": "Verdict deterministe (meme input = meme output)",
+    "locations": [
+      {"file": "gateway/src/gates/truth_gate.ts", "line": 12},
+      {"file": "gateway/tests/truth_gate.test.ts", "line": 9}
+    ]
+  },
+  "INV-UI-001": {
+    "description": "Version format must be semantic",
+    "locations": [
+      {"file": "apps/omega-ui/tests/app.test.ts", "line": 56}
+    ]
+  },
+  "INV-UI-002": {
+    "description": "Phase must be within valid range",
+    "locations": [
+      {"file": "apps/omega-ui/tests/app.test.ts", "line": 62}
+    ]
+  },
+  "INV-UI-003": {
+    "description": "Window dimensions must be positive",
+    "locations": [
+      {"file": "apps/omega-ui/tests/app.test.ts", "line": 68}
+    ]
+  },
+  "INV-UI-004": {
+    "description": "Colors must be valid hex codes",
+    "locations": [
+      {"file": "apps/omega-ui/tests/app.test.ts", "line": 126}
+    ]
+  },
+  "INV-UI-005": {
+    "description": "Tailwind layers must be defined",
+    "locations": [
+      {"file": "apps/omega-ui/tests/app.test.ts", "line": 134}
+    ]
+  },
+  "INV-VIEW-001": {
+    "description": "Analysis must require minimum text length",
+    "locations": [
+      {"file": "apps/omega-ui/tests/views.test.ts", "line": 223}
+    ]
+  },
+  "INV-VIEW-002": {
+    "description": "Loading state must prevent re-analysis",
+    "locations": [
+      {"file": "apps/omega-ui/tests/views.test.ts", "line": 228}
+    ]
+  },
+  "INV-VIEW-003": {
+    "description": "Results must include emotion data",
+    "locations": [
+      {"file": "apps/omega-ui/tests/views.test.ts", "line": 234}
+    ]
+  },
+  "INV-VIEW-004": {
+    "description": "File upload must accept only text files",
+    "locations": [
+      {"file": "apps/omega-ui/tests/views.test.ts", "line": 240}
+    ]
+  },
+  "INV-VIEW-005": {
+    "description": "Clear must reset all state",
+    "locations": [
+      {"file": "apps/omega-ui/tests/views.test.ts", "line": 245}
+    ]
+  },
+  "INV-VIEW-006": {
+    "description": "DNA fingerprint must have 128 components",
+    "locations": [
+      {"file": "apps/omega-ui/tests/views.test.ts", "line": 253}
+    ]
+  },
+  "INV-WIRE-02": {
+    "description": "No Cross-Module Outside Wiring",
+    "locations": [
+      {"file": "gateway/wiring/src/anti_bypass_scanner.ts", "line": 16},
+      {"file": "gateway/wiring/tests/anti_bypass_scanner.test.ts", "line": 10}
+    ]
+  },
+  "INV-WIRE-03": {
+    "description": "Version Pinning (mismatch = reject)",
+    "locations": [
+      {"file": "gateway/wiring/src/adapters/memory_adapter.ts", "line": 11},
+      {"file": "gateway/wiring/src/adapters/query_adapter.ts", "line": 10},
+      {"file": "gateway/wiring/tests/memory_adapter.test.ts", "line": 11},
+      {"file": "gateway/wiring/tests/query_adapter.test.ts", "line": 10}
+    ]
+  },
+  "INV-WIRE-04": {
+    "description": "Erreurs = NexusError (error_code, pas de stack leak)",
+    "locations": [
+      {"file": "gateway/wiring/src/errors.ts", "line": 8},
+      {"file": "gateway/wiring/tests/errors.test.ts", "line": 8}
+    ]
+  },
+  "INV-WIRE-05": {
+    "description": "Replay Safety - meme replay_protection_key",
+    "locations": [
+      {"file": "gateway/wiring/src/replay_cache.ts", "line": 8},
+      {"file": "gateway/wiring/tests/replay_cache.test.ts", "line": 8}
+    ]
+  },
+  "INV-WIRE-06": {
+    "description": "Policy Enforcement - regles non contournables",
+    "locations": [
+      {"file": "gateway/wiring/src/policy.ts", "line": 9},
+      {"file": "gateway/wiring/tests/policy.test.ts", "line": 9}
+    ]
+  },
+  "INV-WIRE-11": {
+    "description": "Policy rules cannot be bypassed",
+    "locations": [
+      {"file": "gateway/wiring/src/policy.ts", "line": 10},
+      {"file": "gateway/wiring/tests/policy.test.ts", "line": 10}
+    ]
+  },
+  "_metadata": {
+    "generated_at": "2026-02-05T23:50:00.000Z",
+    "total_invariants": 251,
+    "sorted_alphabetically": true,
+    "invariant_compliance": "INV-BP-01"
+  }
+}

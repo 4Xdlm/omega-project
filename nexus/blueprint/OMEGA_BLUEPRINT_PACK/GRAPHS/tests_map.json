@@ -1,0 +1,492 @@
+{
+  "canon-kernel": {
+    "test_files": [
+      "packages/canon-kernel/tests/canonicalize.test.ts",
+      "packages/canon-kernel/tests/chain.test.ts",
+      "packages/canon-kernel/tests/id.test.ts",
+      "packages/canon-kernel/tests/txview.test.ts"
+    ],
+    "total_tests": 67
+  },
+  "chaos": {
+    "test_files": [
+      "gateway/chaos/tests/behavior.test.ts",
+      "gateway/chaos/tests/experiments.test.ts",
+      "gateway/chaos/tests/faults.test.ts",
+      "gateway/chaos/tests/injection.test.ts",
+      "gateway/chaos/tests/invariants.test.ts",
+      "gateway/chaos/tests/metrics.test.ts"
+    ],
+    "total_tests": 110
+  },
+  "cli-runner": {
+    "test_files": [
+      "gateway/cli-runner/tests/commands/analyze.test.ts",
+      "gateway/cli-runner/tests/commands/batch.test.ts",
+      "gateway/cli-runner/tests/commands/compare.test.ts",
+      "gateway/cli-runner/tests/commands/export.test.ts",
+      "gateway/cli-runner/tests/commands/health.test.ts",
+      "gateway/cli-runner/tests/contract.test.ts",
+      "gateway/cli-runner/tests/invariants.test.ts",
+      "gateway/cli-runner/tests/parser.test.ts",
+      "gateway/cli-runner/tests/runner.test.ts"
+    ],
+    "total_tests": 143
+  },
+  "contracts-canon": {
+    "test_files": [
+      "packages/contracts-canon/test/unit/invariants.test.ts",
+      "packages/contracts-canon/test/unit/modules.test.ts",
+      "packages/contracts-canon/test/unit/registry.test.ts",
+      "packages/contracts-canon/test/unit/types.test.ts"
+    ],
+    "total_tests": 122
+  },
+  "creation-layer-nasa": {
+    "test_files": [
+      "gateway/src/creation/creation_layer_nasa/artifact_builder.test.ts",
+      "gateway/src/creation/creation_layer_nasa/creation_engine.test.ts",
+      "gateway/src/creation/creation_layer_nasa/creation_errors.test.ts",
+      "gateway/src/creation/creation_layer_nasa/creation_request.test.ts",
+      "gateway/src/creation/creation_layer_nasa/creation_types.test.ts",
+      "gateway/src/creation/creation_layer_nasa/snapshot_context.test.ts",
+      "gateway/src/creation/creation_layer_nasa/template_registry.test.ts"
+    ],
+    "total_tests": 284
+  },
+  "decision-engine": {
+    "test_files": [
+      "packages/decision-engine/tests/classifier/classifier.test.ts",
+      "packages/decision-engine/tests/classifier/invariants.test.ts",
+      "packages/decision-engine/tests/classifier/performance.test.ts",
+      "packages/decision-engine/tests/classifier/rules.test.ts",
+      "packages/decision-engine/tests/classifier/scoring.test.ts",
+      "packages/decision-engine/tests/incident/incident-log.test.ts",
+      "packages/decision-engine/tests/incident/invariants.test.ts",
+      "packages/decision-engine/tests/incident/storage.test.ts",
+      "packages/decision-engine/tests/integration/e2e-flow.test.ts",
+      "packages/decision-engine/tests/integration/regression.test.ts",
+      "packages/decision-engine/tests/integration/stress.test.ts",
+      "packages/decision-engine/tests/queue/escalation-queue.test.ts",
+      "packages/decision-engine/tests/queue/invariants.test.ts",
+      "packages/decision-engine/tests/queue/priority.test.ts",
+      "packages/decision-engine/tests/review/commands.test.ts",
+      "packages/decision-engine/tests/review/invariants.test.ts",
+      "packages/decision-engine/tests/review/review-interface.test.ts",
+      "packages/decision-engine/tests/sentinel/invariants.test.ts",
+      "packages/decision-engine/tests/sentinel/performance.test.ts",
+      "packages/decision-engine/tests/sentinel/sentinel.test.ts",
+      "packages/decision-engine/tests/trace/decision-trace.test.ts",
+      "packages/decision-engine/tests/trace/formatter.test.ts",
+      "packages/decision-engine/tests/trace/invariants.test.ts"
+    ],
+    "total_tests": 559
+  },
+  "emotion-gate": {
+    "test_files": [
+      "packages/emotion-gate/tests/integration/emotion-gate-integration.test.ts",
+      "packages/emotion-gate/tests/unit/drift-metrics.test.ts",
+      "packages/emotion-gate/tests/unit/emotion-gate.test.ts",
+      "packages/emotion-gate/tests/unit/ledger.test.ts",
+      "packages/emotion-gate/tests/unit/policy.test.ts",
+      "packages/emotion-gate/tests/unit/proof.test.ts",
+      "packages/emotion-gate/tests/unit/ssot-compliance.test.ts",
+      "packages/emotion-gate/tests/unit/stability-metrics.test.ts",
+      "packages/emotion-gate/tests/unit/toxicity-metrics.test.ts",
+      "packages/emotion-gate/tests/unit/types.test.ts",
+      "packages/emotion-gate/tests/unit/validators.test.ts"
+    ],
+    "total_tests": 284
+  },
+  "facade": {
+    "test_files": [
+      "gateway/facade/tests/integration/invariants.test.ts",
+      "gateway/facade/tests/integration/pipeline.test.ts",
+      "gateway/facade/tests/unit/metrics.test.ts",
+      "gateway/facade/tests/unit/quarantine.test.ts",
+      "gateway/facade/tests/unit/rate-limit.test.ts",
+      "gateway/facade/tests/unit/validation.test.ts"
+    ],
+    "total_tests": 111
+  },
+  "gateway": {
+    "test_files": [
+      "gateway/tests/canon_engine.test.ts",
+      "gateway/tests/emotion_gate.test.ts",
+      "gateway/tests/gateway.test.ts",
+      "gateway/tests/hardening/decision_trace.test.ts",
+      "gateway/tests/hardening/governance.test.ts",
+      "gateway/tests/hardening/hardening_checks.test.ts",
+      "gateway/tests/profiles.test.ts",
+      "gateway/tests/ripple_engine.test.ts",
+      "gateway/tests/truth_gate.test.ts"
+    ],
+    "total_tests": 252
+  },
+  "genome": {
+    "test_files": [
+      "packages/genome/test/integration/myceliumAdapter.test.ts",
+      "packages/genome/test/invariants/canonical.test.ts",
+      "packages/genome/test/invariants/genome.test.ts",
+      "packages/genome/test/invariants/performance.test.ts",
+      "packages/genome/test/invariants/validation.test.ts"
+    ],
+    "total_tests": 147
+  },
+  "gold-cli": {
+    "test_files": [
+      "packages/gold-cli/test/unit/output.test.ts",
+      "packages/gold-cli/test/unit/parser.test.ts",
+      "packages/gold-cli/test/unit/runner.test.ts"
+    ],
+    "total_tests": 61
+  },
+  "gold-internal": {
+    "test_files": [
+      "packages/gold-internal/test/unit/certification.test.ts",
+      "packages/gold-internal/test/unit/integrations.test.ts",
+      "packages/gold-internal/test/unit/validator-error-paths.test.ts",
+      "packages/gold-internal/test/unit/validator.test.ts"
+    ],
+    "total_tests": 111
+  },
+  "gold-master": {
+    "test_files": [
+      "packages/gold-master/test/certifier.test.ts",
+      "packages/gold-master/test/index.test.ts",
+      "packages/gold-master/test/types.test.ts"
+    ],
+    "total_tests": 41
+  },
+  "gold-suite": {
+    "test_files": [
+      "packages/gold-suite/test/unit/aggregator.test.ts",
+      "packages/gold-suite/test/unit/runner.test.ts"
+    ],
+    "total_tests": 30
+  },
+  "hardening": {
+    "test_files": [
+      "packages/hardening/test/unit/edge-cases.test.ts",
+      "packages/hardening/test/unit/json-error-paths.test.ts",
+      "packages/hardening/test/unit/json.test.ts",
+      "packages/hardening/test/unit/sanitize.test.ts",
+      "packages/hardening/test/unit/tamper.test.ts",
+      "packages/hardening/test/unit/types.test.ts",
+      "packages/hardening/test/unit/validate.test.ts"
+    ],
+    "total_tests": 273
+  },
+  "headless-runner": {
+    "test_files": [
+      "packages/headless-runner/test/integration/headless.test.ts",
+      "packages/headless-runner/test/integration/replay.test.ts",
+      "packages/headless-runner/test/unit/cli.test.ts",
+      "packages/headless-runner/test/unit/loader.test.ts",
+      "packages/headless-runner/test/unit/output.test.ts",
+      "packages/headless-runner/test/unit/replay.test.ts",
+      "packages/headless-runner/test/unit/runner.test.ts",
+      "packages/headless-runner/test/unit/types.test.ts"
+    ],
+    "total_tests": 174
+  },
+  "integration-nexus-dep": {
+    "test_files": [
+      "packages/integration-nexus-dep/test/adapters.test.ts",
+      "packages/integration-nexus-dep/test/connectors.test.ts",
+      "packages/integration-nexus-dep/test/contracts.test.ts",
+      "packages/integration-nexus-dep/test/determinism.test.ts",
+      "packages/integration-nexus-dep/test/e2e.test.ts",
+      "packages/integration-nexus-dep/test/edge-cases.test.ts",
+      "packages/integration-nexus-dep/test/integration.test.ts",
+      "packages/integration-nexus-dep/test/performance.test.ts",
+      "packages/integration-nexus-dep/test/pipeline-error-paths.test.ts",
+      "packages/integration-nexus-dep/test/pipeline.test.ts",
+      "packages/integration-nexus-dep/test/red-team.test.ts",
+      "packages/integration-nexus-dep/test/router.test.ts",
+      "packages/integration-nexus-dep/test/scheduler.test.ts",
+      "packages/integration-nexus-dep/test/stress.test.ts",
+      "packages/integration-nexus-dep/test/translators.test.ts"
+    ],
+    "total_tests": 487
+  },
+  "limiter": {
+    "test_files": [
+      "gateway/limiter/tests/fixed-window.test.ts",
+      "gateway/limiter/tests/invariants.test.ts",
+      "gateway/limiter/tests/leaky-bucket.test.ts",
+      "gateway/limiter/tests/sliding-window.test.ts",
+      "gateway/limiter/tests/stats.test.ts",
+      "gateway/limiter/tests/token-bucket.test.ts"
+    ],
+    "total_tests": 87
+  },
+  "memory-layer-nasa": {
+    "test_files": [
+      "gateway/src/memory/memory_layer_nasa/canonical_encode.test.ts",
+      "gateway/src/memory/memory_layer_nasa/memory_decay.test.ts",
+      "gateway/src/memory/memory_layer_nasa/memory_digest.test.ts",
+      "gateway/src/memory/memory_layer_nasa/memory_engine.test.ts",
+      "gateway/src/memory/memory_layer_nasa/memory_errors.test.ts",
+      "gateway/src/memory/memory_layer_nasa/memory_hash.test.ts",
+      "gateway/src/memory/memory_layer_nasa/memory_hybrid.test.ts",
+      "gateway/src/memory/memory_layer_nasa/memory_index.test.ts",
+      "gateway/src/memory/memory_layer_nasa/memory_query.test.ts",
+      "gateway/src/memory/memory_layer_nasa/memory_snapshot.test.ts",
+      "gateway/src/memory/memory_layer_nasa/memory_store.test.ts",
+      "gateway/src/memory/memory_layer_nasa/memory_tiering.test.ts",
+      "gateway/src/memory/memory_layer_nasa/memory_types.test.ts"
+    ],
+    "total_tests": 478
+  },
+  "mycelium": {
+    "test_files": [
+      "packages/mycelium/test/invariants/cat-a.test.ts",
+      "packages/mycelium/test/invariants/cat-b.test.ts",
+      "packages/mycelium/test/invariants/cat-c.test.ts",
+      "packages/mycelium/test/invariants/cat-d.test.ts",
+      "packages/mycelium/test/invariants/cat-e.test.ts",
+      "packages/mycelium/test/invariants/cat-f.test.ts",
+      "packages/mycelium/test/invariants/cat-g.test.ts",
+      "packages/mycelium/test/invariants/cat-h.test.ts"
+    ],
+    "total_tests": 97
+  },
+  "mycelium-bio": {
+    "test_files": [
+      "packages/mycelium-bio/tests/invariants.test.ts",
+      "packages/mycelium-bio/tests/mycelium_invariants.test.ts"
+    ],
+    "total_tests": 90
+  },
+  "omega-aggregate-dna": {
+    "test_files": [
+      "packages/omega-aggregate-dna/tests/aggregate.test.ts"
+    ],
+    "total_tests": 28
+  },
+  "omega-bridge-ta-mycelium": {
+    "test_files": [
+      "packages/omega-bridge-ta-mycelium/tests/analysis_to_dna.test.ts",
+      "packages/omega-bridge-ta-mycelium/tests/bridge.test.ts"
+    ],
+    "total_tests": 37
+  },
+  "omega-observability": {
+    "test_files": [
+      "packages/omega-observability/tests/unit.test.ts"
+    ],
+    "total_tests": 62
+  },
+  "omega-segment-engine": {
+    "test_files": [
+      "packages/omega-segment-engine/tests/canonical.test.ts",
+      "packages/omega-segment-engine/tests/edge-cases.test.ts",
+      "packages/omega-segment-engine/tests/segmenter.test.ts"
+    ],
+    "total_tests": 135
+  },
+  "omega-ui": {
+    "test_files": [
+      "apps/omega-ui/tests/app.test.ts",
+      "apps/omega-ui/tests/charts.test.ts",
+      "apps/omega-ui/tests/core.test.ts",
+      "apps/omega-ui/tests/dashboard.test.ts",
+      "apps/omega-ui/tests/history.test.ts",
+      "apps/omega-ui/tests/input.test.ts",
+      "apps/omega-ui/tests/ipc.test.ts",
+      "apps/omega-ui/tests/layout.test.ts",
+      "apps/omega-ui/tests/notifications.test.ts",
+      "apps/omega-ui/tests/oracle.test.ts",
+      "apps/omega-ui/tests/search.test.ts",
+      "apps/omega-ui/tests/settings.test.ts",
+      "apps/omega-ui/tests/stores.test.ts",
+      "apps/omega-ui/tests/theme.test.ts",
+      "apps/omega-ui/tests/views.test.ts"
+    ],
+    "total_tests": 267
+  },
+  "oracle": {
+    "test_files": [
+      "packages/oracle/test/cache.test.ts",
+      "packages/oracle/test/context.test.ts",
+      "packages/oracle/test/metrics.test.ts",
+      "packages/oracle/test/oracle.test.ts",
+      "packages/oracle/test/prompts.test.ts",
+      "packages/oracle/test/streaming.test.ts"
+    ],
+    "total_tests": 217
+  },
+  "orchestrator-core": {
+    "test_files": [
+      "packages/orchestrator-core/test/integration/determinism-double-run.test.ts",
+      "packages/orchestrator-core/test/integration/error-handling.test.ts",
+      "packages/orchestrator-core/test/integration/execute-plan.test.ts",
+      "packages/orchestrator-core/test/unit/ArtifactRegistry.test.ts",
+      "packages/orchestrator-core/test/unit/DeterminismGuard.test.ts",
+      "packages/orchestrator-core/test/unit/Executor.test.ts",
+      "packages/orchestrator-core/test/unit/Plan.test.ts",
+      "packages/orchestrator-core/test/unit/RunContext.test.ts",
+      "packages/orchestrator-core/test/unit/clock.test.ts",
+      "packages/orchestrator-core/test/unit/hash.test.ts",
+      "packages/orchestrator-core/test/unit/stableJson.test.ts"
+    ],
+    "total_tests": 158
+  },
+  "performance": {
+    "test_files": [
+      "packages/performance/test/unit/benchmark.test.ts",
+      "packages/performance/test/unit/cache-error-paths.test.ts",
+      "packages/performance/test/unit/cache.test.ts",
+      "packages/performance/test/unit/pool.test.ts",
+      "packages/performance/test/unit/stats.test.ts",
+      "packages/performance/test/unit/timer.test.ts"
+    ],
+    "total_tests": 140
+  },
+  "proof-pack": {
+    "test_files": [
+      "packages/proof-pack/test/unit/builder.test.ts",
+      "packages/proof-pack/test/unit/serializer.test.ts",
+      "packages/proof-pack/test/unit/verifier.test.ts"
+    ],
+    "total_tests": 83
+  },
+  "quarantine": {
+    "test_files": [
+      "gateway/quarantine/tests/inspect.test.ts",
+      "gateway/quarantine/tests/invariants.test.ts",
+      "gateway/quarantine/tests/list.test.ts",
+      "gateway/quarantine/tests/purge.test.ts",
+      "gateway/quarantine/tests/quarantine.test.ts",
+      "gateway/quarantine/tests/release.test.ts",
+      "gateway/quarantine/tests/stats.test.ts"
+    ],
+    "total_tests": 149
+  },
+  "resilience": {
+    "test_files": [
+      "gateway/resilience/tests/adversarial/grammar.test.ts",
+      "gateway/resilience/tests/chaos/composition.test.ts",
+      "gateway/resilience/tests/chaos/factory.test.ts",
+      "gateway/resilience/tests/chaos/injector.test.ts",
+      "gateway/resilience/tests/chaos/types.test.ts",
+      "gateway/resilience/tests/proof/proof.test.ts",
+      "gateway/resilience/tests/stress/stress.test.ts",
+      "gateway/resilience/tests/temporal/temporal.test.ts"
+    ],
+    "total_tests": 342
+  },
+  "schemas": {
+    "test_files": [
+      "packages/schemas/__tests__/validator.test.ts"
+    ],
+    "total_tests": 33
+  },
+  "search": {
+    "test_files": [
+      "packages/search/test/analytics.test.ts",
+      "packages/search/test/edge-cases.test.ts",
+      "packages/search/test/engine.test.ts",
+      "packages/search/test/error-paths.test.ts",
+      "packages/search/test/export.test.ts",
+      "packages/search/test/filters.test.ts",
+      "packages/search/test/import.test.ts",
+      "packages/search/test/index-manager.test.ts",
+      "packages/search/test/query-parser.test.ts",
+      "packages/search/test/search.test.ts",
+      "packages/search/test/suggest.test.ts"
+    ],
+    "total_tests": 487
+  },
+  "sentinel": {
+    "test_files": [
+      "gateway/sentinel/tests/check.test.ts",
+      "gateway/sentinel/tests/invariants.test.ts",
+      "gateway/sentinel/tests/patterns.test.ts",
+      "gateway/sentinel/tests/payload.test.ts",
+      "gateway/sentinel/tests/report.test.ts",
+      "gateway/sentinel/tests/structure.test.ts"
+    ],
+    "total_tests": 155
+  },
+  "sentinel-judge": {
+    "test_files": [
+      "packages/sentinel-judge/tests/assembler.test.ts",
+      "packages/sentinel-judge/tests/canonical_json.test.ts",
+      "packages/sentinel-judge/tests/digest.test.ts",
+      "packages/sentinel-judge/tests/gates.test.ts",
+      "packages/sentinel-judge/tests/schema_validation.test.ts",
+      "packages/sentinel-judge/tests/types_alignment.test.ts"
+    ],
+    "total_tests": 209
+  },
+  "tools-blueprint": {
+    "test_files": [
+      "tools/blueprint/src/__tests__/b0-census.test.ts",
+      "tools/blueprint/src/__tests__/b1-ast.test.ts"
+    ],
+    "total_tests": 11
+  },
+  "tools-omega-verify": {
+    "test_files": [
+      "tools/omega-verify/__tests__/verify.test.ts"
+    ],
+    "total_tests": 44
+  },
+  "trust-version": {
+    "test_files": [
+      "packages/trust-version/__tests__/version.test.ts"
+    ],
+    "total_tests": 45
+  },
+  "truth-gate": {
+    "test_files": [
+      "packages/truth-gate/tests/determinism.test.ts",
+      "packages/truth-gate/tests/drift-detector.test.ts",
+      "packages/truth-gate/tests/integration.test.ts",
+      "packages/truth-gate/tests/narrative-analyzer.test.ts",
+      "packages/truth-gate/tests/policy-manager.test.ts",
+      "packages/truth-gate/tests/toxicity-detector.test.ts",
+      "packages/truth-gate/tests/truth-gate.test.ts",
+      "packages/truth-gate/tests/validators.test.ts",
+      "packages/truth-gate/tests/verdict-factory.test.ts",
+      "packages/truth-gate/tests/verdict-ledger.test.ts"
+    ],
+    "total_tests": 215
+  },
+  "wiring": {
+    "test_files": [
+      "gateway/wiring/tests/anti_bypass_scanner.test.ts",
+      "gateway/wiring/tests/canonical_json.test.ts",
+      "gateway/wiring/tests/chronicle.test.ts",
+      "gateway/wiring/tests/clock.test.ts",
+      "gateway/wiring/tests/e2e/e2e_chain_memory.test.ts",
+      "gateway/wiring/tests/e2e/e2e_chain_query.test.ts",
+      "gateway/wiring/tests/e2e/e2e_replay_guard.test.ts",
+      "gateway/wiring/tests/envelope.test.ts",
+      "gateway/wiring/tests/errors.test.ts",
+      "gateway/wiring/tests/gateway_adapter.test.ts",
+      "gateway/wiring/tests/gateway_schemas.test.ts",
+      "gateway/wiring/tests/id_factory.test.ts",
+      "gateway/wiring/tests/memory_adapter.test.ts",
+      "gateway/wiring/tests/orchestrator.test.ts",
+      "gateway/wiring/tests/policy.test.ts",
+      "gateway/wiring/tests/proof_crystal.test.ts",
+      "gateway/wiring/tests/query_adapter.test.ts",
+      "gateway/wiring/tests/registry.test.ts",
+      "gateway/wiring/tests/replay_cache.test.ts",
+      "gateway/wiring/tests/replay_guard.test.ts",
+      "gateway/wiring/tests/types.test.ts"
+    ],
+    "total_tests": 572
+  },
+  "_metadata": {
+    "generated_at": "2026-02-05T23:50:00.000Z",
+    "total_modules": 43,
+    "total_test_files": 265,
+    "total_tests": 7161,
+    "sorted_alphabetically": true,
+    "invariant_compliance": "INV-BP-01"
+  }
+}

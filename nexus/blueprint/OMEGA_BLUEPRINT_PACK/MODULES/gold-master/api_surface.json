@@ -1,0 +1,34 @@
+{
+  "module_id": "gold-master",
+  "exports": {
+    "classes": [
+      "GoldMasterCertifier"
+    ],
+    "functions": [
+      "createFreezeManifest",
+      "createGoldMasterCertifier",
+      "verifyFreezeManifest"
+    ],
+    "interfaces": [
+      "FreezeManifest",
+      "FrozenPackage",
+      "GoldMasterConfig",
+      "GoldMasterResult",
+      "GoldMasterSummary",
+      "IntegrationCertification",
+      "PackageCertification"
+    ],
+    "types": [
+      "GoldMasterLevel",
+      "GoldMasterStatus"
+    ]
+  },
+  "signatures": [
+    "createFreezeManifest(result: GoldMasterResult): FreezeManifest",
+    "createGoldMasterCertifier(config?: Partial<GoldMasterConfig>): GoldMasterCertifier",
+    "verifyFreezeManifest(manifest: FreezeManifest): boolean"
+  ],
+  "constants": [
+    "DEFAULT_GOLD_MASTER_CONFIG"
+  ]
+}

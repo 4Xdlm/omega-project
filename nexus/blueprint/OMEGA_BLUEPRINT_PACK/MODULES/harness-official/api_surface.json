@@ -1,0 +1,33 @@
+{
+  "module_id": "harness-official",
+  "exports": {
+    "classes": [],
+    "functions": [
+      "canonicalJson",
+      "checkAllGates",
+      "ensureDir",
+      "fileExists",
+      "loadCalibration",
+      "loadRootA",
+      "mustReadUtf8",
+      "sha256",
+      "writeUtf8"
+    ],
+    "interfaces": [
+      "GateResult"
+    ],
+    "types": []
+  },
+  "signatures": [
+    "canonicalJson(obj: unknown): string",
+    "checkAllGates(): GateResult[]",
+    "ensureDir(path: string): void",
+    "fileExists(path: string): boolean",
+    "loadCalibration(): { N_LONG_REPEAT: number; sha256: string }",
+    "loadRootA(): string",
+    "mustReadUtf8(path: string): string",
+    "sha256(input: string): string",
+    "writeUtf8(path: string, content: string): void"
+  ],
+  "constants": []
+}

@@ -1,0 +1,71 @@
+{
+  "module_id": "observability",
+  "exports": {
+    "classes": [
+      "ProgressEmitter"
+    ],
+    "functions": [
+      "clearEventHistory",
+      "createCallbackEmitter",
+      "createCiEmitter",
+      "createCliEmitter",
+      "createNoopEmitter",
+      "createTestEmitter",
+      "emitEvent",
+      "formatBytes",
+      "formatCli",
+      "formatDoneSummary",
+      "formatDuration",
+      "formatJsonl",
+      "formatNumber",
+      "formatRate",
+      "getEventHistory",
+      "isValidPhase",
+      "setEventCallback",
+      "setRecordHistory",
+      "trackDuration",
+      "truncateId"
+    ],
+    "interfaces": [
+      "ObsEvent",
+      "PipelineStats",
+      "ProgressEvent",
+      "ProgressOptions"
+    ],
+    "types": [
+      "ObsEventCallback",
+      "ObsSeverity",
+      "ProgressCallback",
+      "ProgressFormat",
+      "ProgressPhase"
+    ]
+  },
+  "signatures": [
+    "clearEventHistory(): void",
+    "createCallbackEmitter(callback: ProgressCallback, options?: ProgressOptions): ProgressEmitter",
+    "createCiEmitter(): ProgressEmitter",
+    "createCliEmitter(throttle_ms?: number): ProgressEmitter",
+    "createNoopEmitter(): ProgressEmitter",
+    "createTestEmitter(): [ProgressEmitter, ProgressEvent[]]",
+    "emitEvent(source: string, message: string, severity?: ObsSeverity, data?: Record<string, unknown>): void",
+    "formatBytes(bytes: number): string",
+    "formatCli(event: Readonly<ProgressEvent>, prevEvent?: Readonly<ProgressEvent>): string",
+    "formatDoneSummary(stats: PipelineStats): string",
+    "formatDuration(ms: number): string",
+    "formatJsonl(event: Readonly<ProgressEvent>): string",
+    "formatNumber(n: number): string",
+    "formatRate(count: number, ms: number, unit?: string): string",
+    "getEventHistory(): readonly ObsEvent[]",
+    "isValidPhase(phase: string): phase is ProgressPhase",
+    "setEventCallback(callback: ObsEventCallback | undefined): void",
+    "setRecordHistory(enabled: boolean): void",
+    "trackDuration(source: string, operation: string): () => void",
+    "truncateId(id: string): string"
+  ],
+  "constants": [
+    "DEFAULT_PROGRESS_OPTIONS",
+    "MODULE_NAME",
+    "VALID_PHASES",
+    "VERSION"
+  ]
+}

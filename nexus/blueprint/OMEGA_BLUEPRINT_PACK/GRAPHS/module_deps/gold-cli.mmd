@@ -1,0 +1,9 @@
+graph TD
+  gold_cli["packages/gold-cli"]
+  gold_internal["packages/gold-internal"]
+  orchestrator_core["packages/orchestrator-core"]
+  proof_pack["packages/proof-pack"]
+
+  gold_cli --> gold_internal
+  gold_cli --> orchestrator_core
+  gold_cli --> proof_pack

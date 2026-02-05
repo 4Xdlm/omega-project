@@ -1,0 +1,44 @@
+{
+  "module_id": "gold-cli",
+  "exports": {
+    "classes": [
+      "ConsoleWriter",
+      "SilentWriter",
+      "StringWriter"
+    ],
+    "functions": [
+      "createConsoleWriter",
+      "createPackageCertifications",
+      "createSilentWriter",
+      "createStringWriter",
+      "discoverPackages",
+      "generateHelp",
+      "generateProofPack",
+      "generateVersion",
+      "parseArgs"
+    ],
+    "interfaces": [
+      "CliOptions",
+      "GoldRunResult",
+      "OutputWriter",
+      "PackageInfo",
+      "PackageTestResult",
+      "ParsedArgs"
+    ],
+    "types": []
+  },
+  "signatures": [
+    "createConsoleWriter(): OutputWriter",
+    "createPackageCertifications(packages: readonly PackageInfo[], options: CliOptions): PackageTestResult[]",
+    "createSilentWriter(): OutputWriter",
+    "createStringWriter(): StringWriter",
+    "discoverPackages(cwd: string): readonly PackageInfo[]",
+    "generateHelp(): string",
+    "generateProofPack(results: readonly PackageTestResult[]): GoldRunResult",
+    "generateVersion(): string",
+    "parseArgs(args: readonly string[]): ParsedArgs"
+  ],
+  "constants": [
+    "DEFAULT_CLI_OPTIONS"
+  ]
+}

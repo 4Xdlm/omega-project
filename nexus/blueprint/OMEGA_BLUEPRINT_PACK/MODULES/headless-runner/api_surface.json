@@ -1,0 +1,90 @@
+{
+  "module_id": "headless-runner",
+  "exports": {
+    "classes": [
+      "InMemoryOutputWriter",
+      "InMemoryRecordingStore",
+      "PlanLoadError"
+    ],
+    "functions": [
+      "compareResults",
+      "createCliExecutor",
+      "createCollectingConsole",
+      "createDefaultAdapters",
+      "createLogger",
+      "createRecording",
+      "createReplayContext",
+      "exportRecording",
+      "filterRecordings",
+      "formatDuration",
+      "formatLogEntries",
+      "formatResult",
+      "generateOutputPaths",
+      "importRecording",
+      "parseArgs",
+      "parsePlanJson",
+      "planFileToPlan",
+      "planToPlanFile",
+      "summarizeRecording",
+      "validatePlanFile",
+      "validateRecording",
+      "writeOutputFiles"
+    ],
+    "interfaces": [
+      "CliExecutor",
+      "CliResult",
+      "ConsoleOutput",
+      "HeadlessRunResult",
+      "LogEntry",
+      "Logger",
+      "OutputFiles",
+      "OutputWriter",
+      "ParsedArgs",
+      "PlanFile",
+      "PlanFileHooks",
+      "PlanFileStep",
+      "RecordingMetadata",
+      "RecordingQuery",
+      "RecordingStore",
+      "RecordingSummary",
+      "ReplayDifference",
+      "ReplayOptions",
+      "ReplayResult",
+      "RunRecording",
+      "RunnerConfig",
+      "RunnerOptions"
+    ],
+    "types": [
+      "ExitCode"
+    ]
+  },
+  "signatures": [
+    "compareResults(original: HeadlessRunResult, replay: HeadlessRunResult): ReplayDifference[]",
+    "createCliExecutor(deps: object): CliExecutor",
+    "createCollectingConsole(): ConsoleOutput & { getOutput(): string; getErrors(): string }",
+    "createDefaultAdapters(): AdapterRegistry",
+    "createLogger(clock: Clock, minLevel?: string): Logger",
+    "createRecording(runId: string, result: HeadlessRunResult, plan: OrchestratorPlan): RunRecording",
+    "createReplayContext(recording: RunRecording, options?: ReplayOptions): RunContextOptions",
+    "exportRecording(recording: RunRecording): string",
+    "filterRecordings(recordings: Map<string, RunRecording>, query: RecordingQuery): Map<string, RunRecording>",
+    "formatDuration(ms: number): string",
+    "formatLogEntries(entries: readonly LogEntry[]): string",
+    "formatResult(result: HeadlessRunResult): string",
+    "generateOutputPaths(outputDir: string, runId: string): OutputFiles",
+    "importRecording(json: string): RunRecording",
+    "parseArgs(args: readonly string[]): ParsedArgs",
+    "parsePlanJson(json: string, path: string): PlanFile",
+    "planFileToPlan(file: PlanFile, planId?: string): OrchestratorPlan",
+    "planToPlanFile(plan: OrchestratorPlan, version?: string): PlanFile",
+    "summarizeRecording(id: string, recording: RunRecording): RecordingSummary",
+    "validatePlanFile(data: unknown, path: string): PlanFile",
+    "validateRecording(recording: RunRecording): boolean",
+    "writeOutputFiles(files: OutputFiles, result: HeadlessRunResult): void"
+  ],
+  "constants": [
+    "CLI_VERSION",
+    "ExitCode",
+    "HELP_TEXT"
+  ]
+}

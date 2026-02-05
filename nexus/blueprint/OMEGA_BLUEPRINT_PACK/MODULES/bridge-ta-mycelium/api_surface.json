@@ -1,0 +1,55 @@
+{
+  "module_id": "bridge-ta-mycelium",
+  "exports": {
+    "classes": [],
+    "functions": [
+      "analyzeResultToSegments",
+      "areBridgeDataEqual",
+      "buildBridgeData",
+      "findDominantFromVector",
+      "isOmegaEmotion",
+      "parseAnalyzeResult",
+      "prepareDNABuild",
+      "safeParseAnalyzeResult",
+      "validateDNAInputs",
+      "vectorMagnitude",
+      "vectorToArray",
+      "vectorToIntensityRecord"
+    ],
+    "interfaces": [
+      "AnalysisToDNAOptions",
+      "DNABuildInput",
+      "EmotionVector14D",
+      "MyceliumBridgeData",
+      "TextSegment"
+    ],
+    "types": [
+      "AnalysisMeta",
+      "AnalyzeResult",
+      "EmotionHit",
+      "KeywordCount",
+      "OmegaEmotion14D"
+    ]
+  },
+  "signatures": [
+    "analyzeResultToSegments(result: AnalyzeResult, options?: AnalysisToDNAOptions): TextSegment[]",
+    "areBridgeDataEqual(a: MyceliumBridgeData, b: MyceliumBridgeData): boolean",
+    "buildBridgeData(analysis: AnalyzeResult): MyceliumBridgeData",
+    "findDominantFromVector(vector: EmotionVector14D): OmegaEmotion14D",
+    "isOmegaEmotion(emotion: string): emotion is OmegaEmotion14D",
+    "parseAnalyzeResult(data: unknown): AnalyzeResult",
+    "prepareDNABuild(result: AnalyzeResult, options?: AnalysisToDNAOptions): DNABuildInput",
+    "safeParseAnalyzeResult(data: unknown): AnalyzeResult | null",
+    "validateDNAInputs(inputs: DNABuildInput): { valid: boolean; errors: string[] }",
+    "vectorMagnitude(vector: EmotionVector14D): number",
+    "vectorToArray(vector: EmotionVector14D): number[]",
+    "vectorToIntensityRecord(vector: EmotionVector14D): Record<OmegaEmotion14D, number>"
+  ],
+  "constants": [
+    "AnalysisMetaSchema",
+    "AnalyzeResultSchema",
+    "EmotionHitSchema",
+    "KeywordCountSchema",
+    "OMEGA_EMOTIONS_14D"
+  ]
+}

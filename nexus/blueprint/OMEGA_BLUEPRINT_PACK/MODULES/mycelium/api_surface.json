@@ -1,0 +1,74 @@
+{
+  "module_id": "mycelium",
+  "exports": {
+    "classes": [],
+    "functions": [
+      "isAccepted",
+      "isRejected",
+      "normalizeLineEndings",
+      "runHardValidations",
+      "runSoftNormalizations",
+      "validate",
+      "validateBinary",
+      "validateControlChars",
+      "validateMode",
+      "validateNotEmpty",
+      "validateNotHTML",
+      "validateNotJSON",
+      "validateNotXML",
+      "validateSeed",
+      "validateSize",
+      "validateUTF8"
+    ],
+    "interfaces": [
+      "AcceptResult",
+      "DNAInput",
+      "GenomeInput",
+      "InputMetadata",
+      "ProcessedMetadata",
+      "RejectResult",
+      "Rejection",
+      "RejectionDetails",
+      "ValidationContext"
+    ],
+    "types": [
+      "RejectionCategory",
+      "RejectionCode",
+      "SegmentMode",
+      "ValidationResult"
+    ]
+  },
+  "signatures": [
+    "isAccepted(result: ValidationResult): result is AcceptResult",
+    "isRejected(result: ValidationResult): result is RejectResult",
+    "normalizeLineEndings(content: string): string",
+    "runHardValidations(input: DNAInput): Rejection | null",
+    "runSoftNormalizations(content: string): string",
+    "validate(input: DNAInput): ValidationResult",
+    "validateBinary(content: string): Rejection | null",
+    "validateControlChars(content: string): Rejection | null",
+    "validateMode(mode: string | undefined): Rejection | null",
+    "validateNotEmpty(content: string): Rejection | null",
+    "validateNotHTML(content: string): Rejection | null",
+    "validateNotJSON(content: string): Rejection | null",
+    "validateNotXML(content: string): Rejection | null",
+    "validateSeed(seed: number | undefined): Rejection | null",
+    "validateSize(content: string): Rejection | null",
+    "validateUTF8(content: string): Rejection | null"
+  ],
+  "constants": [
+    "ALLOWED_CONTROL_CHARS",
+    "DEFAULT_MODE",
+    "DEFAULT_SEED",
+    "MAGIC_BYTES",
+    "MAX_LENGTH",
+    "MAX_LINE_LENGTH",
+    "MAX_SEGMENTS",
+    "MIN_LENGTH",
+    "MYCELIUM_VERSION",
+    "REJECTION_CATEGORIES",
+    "REJECTION_CODES",
+    "REJECTION_MESSAGES",
+    "VALID_MODES"
+  ]
+}

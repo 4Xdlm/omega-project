@@ -1,0 +1,67 @@
+{
+  "module_id": "atlas",
+  "exports": {
+    "classes": [
+      "AtlasError",
+      "AtlasIndexAlreadyExistsError",
+      "AtlasIndexCorruptError",
+      "AtlasIndexError",
+      "AtlasIndexNotFoundError",
+      "AtlasProjectionError",
+      "AtlasProjectionFailedError",
+      "AtlasQueryError",
+      "AtlasQueryFieldNotFoundError",
+      "AtlasQueryInvalidFilterError",
+      "AtlasQueryInvalidOperatorError",
+      "AtlasStore",
+      "AtlasSubscriptionCallbackError",
+      "AtlasSubscriptionError",
+      "AtlasSubscriptionNotFoundError",
+      "AtlasViewAlreadyExistsError",
+      "AtlasViewError",
+      "AtlasViewNotFoundError",
+      "AtlasViewVersionConflictError",
+      "IndexManager",
+      "SubscriptionManager"
+    ],
+    "functions": [
+      "executeQuery",
+      "isAtlasError",
+      "seededRNG",
+      "validateQuery"
+    ],
+    "interfaces": [
+      "AtlasQuery",
+      "AtlasResult",
+      "AtlasStoreConfig",
+      "AtlasView",
+      "Clock",
+      "IndexDefinition",
+      "IndexStats",
+      "LedgerEvent",
+      "ProjectionDefinition",
+      "QueryFilter",
+      "RNG",
+      "SortSpec",
+      "Subscription",
+      "SubscriptionEvent"
+    ],
+    "types": [
+      "FilterOperator",
+      "IndexType",
+      "Projector",
+      "SubscriptionCallback"
+    ]
+  },
+  "signatures": [
+    "executeQuery(views: Map<string, AtlasView>, query: AtlasQuery): AtlasResult",
+    "isAtlasError(error: unknown): error is AtlasError",
+    "seededRNG(seed: number): RNG",
+    "validateQuery(query: AtlasQuery): void"
+  ],
+  "constants": [
+    "ATLAS_VERSION",
+    "systemClock",
+    "systemRNG"
+  ]
+}

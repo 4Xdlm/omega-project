@@ -1,0 +1,7 @@
+graph TD
+  gold_internal["packages/gold-internal"]
+  gold_suite["packages/gold-suite"]
+  orchestrator_core["packages/orchestrator-core"]
+
+  gold_suite --> gold_internal
+  gold_suite --> orchestrator_core

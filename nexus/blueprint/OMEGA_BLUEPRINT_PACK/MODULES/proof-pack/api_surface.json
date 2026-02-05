@@ -1,0 +1,73 @@
+{
+  "module_id": "proof-pack",
+  "exports": {
+    "classes": [
+      "ProofPackBuilder"
+    ],
+    "functions": [
+      "compareManifests",
+      "computeRootHash",
+      "createPhaseProofPack",
+      "createProofPackBuilder",
+      "deserializeManifest",
+      "deserializeProofPack",
+      "exportProofPack",
+      "formatVerificationReport",
+      "fromArchiveEntries",
+      "getFailedEvidence",
+      "importProofPack",
+      "isFullyVerified",
+      "serializeManifest",
+      "serializeProofPack",
+      "toArchiveEntries",
+      "validateManifest",
+      "verifyEvidence",
+      "verifyManifest",
+      "verifyProofPack"
+    ],
+    "interfaces": [
+      "ArchiveEntry",
+      "EvidenceEntry",
+      "EvidenceFile",
+      "EvidenceVerificationResult",
+      "PackVerificationResult",
+      "ProofPackBundle",
+      "ProofPackDifference",
+      "ProofPackManifest",
+      "ProofPackMetadata",
+      "ProofPackOptions",
+      "VerificationSummary"
+    ],
+    "types": [
+      "EvidenceType",
+      "ExportFormat"
+    ]
+  },
+  "signatures": [
+    "compareManifests(a: ProofPackManifest, b: ProofPackManifest): ProofPackDifference[]",
+    "computeRootHash(manifest: ProofPackManifest): string",
+    "createPhaseProofPack(phase: string, options: ProofPackOptions): ProofPackBuilder",
+    "createProofPackBuilder(options: ProofPackOptions): ProofPackBuilder",
+    "deserializeManifest(json: string): ProofPackManifest",
+    "deserializeProofPack(json: string): ProofPackBundle",
+    "exportProofPack(bundle: ProofPackBundle, format: ExportFormat): string",
+    "formatVerificationReport(result: PackVerificationResult): string",
+    "fromArchiveEntries(entries: readonly ArchiveEntry[]): ProofPackBundle",
+    "getFailedEvidence(result: PackVerificationResult): EvidenceVerificationResult[]",
+    "importProofPack(json: string): ProofPackBundle",
+    "isFullyVerified(result: PackVerificationResult): boolean",
+    "serializeManifest(manifest: ProofPackManifest): string",
+    "serializeProofPack(bundle: ProofPackBundle): string",
+    "toArchiveEntries(bundle: ProofPackBundle): readonly ArchiveEntry[]",
+    "validateManifest(manifest: unknown): { valid: boolean; errors: string[] }",
+    "verifyEvidence(entry: EvidenceEntry, content: string): EvidenceVerificationResult",
+    "verifyManifest(manifest: ProofPackManifest): boolean",
+    "verifyProofPack(bundle: ProofPackBundle): PackVerificationResult"
+  ],
+  "constants": [
+    "DEFAULT_STANDARD",
+    "GENERATOR_VERSION",
+    "MANIFEST_VERSION",
+    "MIME_TYPES"
+  ]
+}

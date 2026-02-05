@@ -1,0 +1,15 @@
+graph TD
+  gold_internal["packages/gold-internal"]
+  gold_master["packages/gold-master"]
+  gold_suite["packages/gold-suite"]
+  hardening["packages/hardening"]
+  orchestrator_core["packages/orchestrator-core"]
+  performance["packages/performance"]
+  proof_pack["packages/proof-pack"]
+
+  gold_master --> gold_internal
+  gold_master --> gold_suite
+  gold_master --> hardening
+  gold_master --> orchestrator_core
+  gold_master --> performance
+  gold_master --> proof_pack

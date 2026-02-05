@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OMEGA Phase D Runtime Event",
+  "description": "Evenement d'observation runtime Phase D (gouvernance passive)",
+  "type": "object",
+  "required": [
+    "event_id",
+    "timestamp_utc",
+    "phase",
+    "build_ref",
+    "operation",
+    "verdict",
+    "input_hash",
+    "output_hash"
+  ],
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "minLength": 8,
+      "description": "Identifiant unique evenement (format: RTE_YYYYMMDD_HHMMSS_hash)"
+    },
+    "timestamp_utc": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp UTC ISO 8601"
+    },
+    "phase": {
+      "type": "string",
+      "enum": ["D"],
+      "description": "Phase OMEGA (D = Runtime Governance)"
+    },
+    "source": {
+      "type": "string",
+      "description": "Source de l'evenement"
+    },
+    "build_ref": {
+      "type": "object",
+      "required": ["commit", "tag"],
+      "properties": {
+        "commit": { "type": "string", "minLength": 7 },
+        "tag": { "type": "string", "minLength": 1 }
+      },
+      "additionalProperties": false,
+      "description": "Reference BUILD certifie observe"
+    },
+    "operation": {
+      "type": "string",
+      "description": "Type d'operation observee"
+    },
+    "input_hash": {
+      "type": "string",
+      "description": "Hash des inputs"
+    },
+    "output_hash": {
+      "type": "string",
+      "description": "Hash des outputs normatifs (exit code + stdout)"
+    },
+    "verdict": {
+      "type": "string",
+      "enum": ["PASS", "FAIL", "DRIFT", "TOOLING_DRIFT", "INCIDENT"],
+      "description": "Verdict observation"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Notes complementaires (optionnel)"
+    }
+  },
+  "additionalProperties": false
+}

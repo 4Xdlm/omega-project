@@ -1,0 +1,98 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "omega-plugin-request-v1.0.0",
+  "title": "OMEGA Plugin Request",
+  "description": "Schema for request OMEGA → Gateway → Plugin. INV-PNP-04.",
+  "type": "object",
+  "required": [
+    "request_id",
+    "run_id",
+    "timestamp",
+    "payload",
+    "context",
+    "policy"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "request_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "run_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "payload": { "$ref": "#/$defs/PluginPayload" },
+    "context": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    },
+    "policy": {
+      "type": "object",
+      "required": ["deterministic_only", "timeout_ms", "max_retries"],
+      "additionalProperties": false,
+      "properties": {
+        "deterministic_only": { "type": "boolean" },
+        "timeout_ms": { "type": "integer", "minimum": 100 },
+        "max_retries": { "type": "integer", "minimum": 0, "maximum": 5 }
+      }
+    }
+  },
+  "$defs": {
+    "PluginPayload": {
+      "oneOf": [
+        { "$ref": "#/$defs/TextPayload" },
+        { "$ref": "#/$defs/JSONPayload" },
+        { "$ref": "#/$defs/BinaryRefPayload" },
+        { "$ref": "#/$defs/DatasetSlicePayload" }
+      ]
+    },
+    "TextPayload": {
+      "type": "object",
+      "required": ["kind", "content", "encoding", "metadata"],
+      "additionalProperties": false,
+      "properties": {
+        "kind": { "const": "text" },
+        "content": { "type": "string" },
+        "encoding": { "const": "utf-8" },
+        "metadata": { "type": "object", "additionalProperties": { "type": "string" } }
+      }
+    },
+    "JSONPayload": {
+      "type": "object",
+      "required": ["kind", "data", "schema_ref"],
+      "additionalProperties": false,
+      "properties": {
+        "kind": { "const": "json" },
+        "data": { "type": "object" },
+        "schema_ref": { "type": "string", "minLength": 1 }
+      }
+    },
+    "BinaryRefPayload": {
+      "type": "object",
+      "required": ["kind", "artifact_id", "artifact_hash", "mime_type"],
+      "additionalProperties": false,
+      "properties": {
+        "kind": { "const": "binary_ref" },
+        "artifact_id": { "type": "string", "minLength": 1 },
+        "artifact_hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "mime_type": { "type": "string", "minLength": 1 }
+      }
+    },
+    "DatasetSlicePayload": {
+      "type": "object",
+      "required": ["kind", "slice_ids", "source", "filters"],
+      "additionalProperties": false,
+      "properties": {
+        "kind": { "const": "dataset_slice" },
+        "slice_ids": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+        "source": { "type": "string", "minLength": 1 },
+        "filters": { "type": "object", "additionalProperties": { "type": "string" } }
+      }
+    }
+  }
+}

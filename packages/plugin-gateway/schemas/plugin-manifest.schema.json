@@ -1,0 +1,151 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "omega-plugin-manifest-v1.0.0",
+  "title": "OMEGA Plugin Manifest",
+  "description": "Schema for validating plugin manifests. INV-PNP-04: typed IO, runtime validated.",
+  "type": "object",
+  "required": [
+    "plugin_id",
+    "name",
+    "vendor",
+    "description",
+    "version",
+    "api_version",
+    "supported_omega_api_versions",
+    "capabilities",
+    "io",
+    "limits",
+    "determinism",
+    "evidence",
+    "entrypoint"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "plugin_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9_-]{2,63}$",
+      "description": "Stable slug identifier"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "vendor": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1024
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "api_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "supported_omega_api_versions": {
+      "type": "string",
+      "minLength": 1,
+      "description": "SemVer range (e.g. '>=1.0.0 <2.0.0')"
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "read_text",
+          "read_json",
+          "read_binary_ref",
+          "read_dataset_slice",
+          "write_suggestion",
+          "write_report"
+        ]
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "io": {
+      "type": "object",
+      "required": ["inputs", "outputs"],
+      "additionalProperties": false,
+      "properties": {
+        "inputs": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/IODescriptor" }
+        },
+        "outputs": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/IODescriptor" }
+        }
+      }
+    },
+    "limits": {
+      "type": "object",
+      "required": ["max_bytes", "max_ms", "max_concurrency"],
+      "additionalProperties": false,
+      "properties": {
+        "max_bytes": { "type": "integer", "minimum": 1 },
+        "max_ms": { "type": "integer", "minimum": 100 },
+        "max_concurrency": { "type": "integer", "minimum": 1, "maximum": 100 }
+      }
+    },
+    "determinism": {
+      "type": "object",
+      "required": ["mode", "notes"],
+      "additionalProperties": false,
+      "properties": {
+        "mode": { "type": "string", "enum": ["deterministic", "probabilistic"] },
+        "notes": { "type": "string" }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "required": ["log_level", "redactions"],
+      "additionalProperties": false,
+      "properties": {
+        "log_level": { "type": "string", "enum": ["full", "summary", "minimal"] },
+        "redactions": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "entrypoint": {
+      "type": "object",
+      "required": ["type", "file", "export"],
+      "additionalProperties": false,
+      "properties": {
+        "type": { "type": "string", "const": "worker" },
+        "file": { "type": "string", "minLength": 1 },
+        "export": { "type": "string", "minLength": 1 }
+      }
+    }
+  },
+  "$defs": {
+    "IODescriptor": {
+      "type": "object",
+      "required": ["kind", "schema_ref", "limits"],
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "type": "string",
+          "enum": ["text", "json", "binary_ref", "dataset_slice"]
+        },
+        "schema_ref": { "type": "string", "minLength": 1 },
+        "limits": {
+          "type": "object",
+          "required": ["max_bytes"],
+          "additionalProperties": false,
+          "properties": {
+            "max_bytes": { "type": "integer", "minimum": 1 }
+          }
+        }
+      }
+    }
+  }
+}

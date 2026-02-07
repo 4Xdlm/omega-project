@@ -1,50 +1,17 @@
 {
-  "name": "omega-core",
-  "version": "5.0.0",
+  "name": "omega-plugin-sdk-delivery",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
-  "workspaces": [
-    "packages/*"
-  ],
   "scripts": {
     "test": "vitest run",
-    "test:coverage": "vitest run --coverage",
-    "typecheck": "echo 'Type checking passed (no tsc configured at root)'",
-    "lint": "echo 'Linting passed (no eslint configured at root)'",
-    "ci": "npm run typecheck && npm run lint && npm test",
-    "ci:proof": "bash scripts/generate-proof-pack.sh",
-    "build": "npx esbuild src/runner/main.ts --bundle --platform=node --target=node20 --format=esm --outfile=dist/runner/main.js --packages=external && npx esbuild src/auditpack/index.ts --bundle --platform=node --target=node20 --format=esm --outfile=dist/auditpack/index.js --packages=external",
-    "build:clean": "rm -rf dist && npm run build",
-    "build:packages": "bash scripts/build-all.sh",
-    "publish:packages": "bash scripts/publish.sh",
-    "omega": "node gateway/cli-runner/dist/cli/runner.js",
-    "omega:build": "cd gateway/cli-runner && npm run build",
-    "bench": "npx tsx nexus/bench/run-all.ts bench-results/latest.json",
-    "bench:baseline": "npx tsx nexus/bench/run-all.ts bench-results/baseline.json",
-    "profile": "npx tsx --inspect nexus/bench/run-all.ts profiling-results/profile-output.json",
-    "profile:analyze": "npx tsx scripts/analyze-profile.ts",
-    "perf:track": "npx tsx scripts/track-performance.ts",
-    "oracle:dist": "npx tsx tools/oracles/oracle_dist_manifest.ts",
-    "oracle:tests": "npx tsx tools/oracles/oracle_test_report.ts",
-    "oracle:runtime": "npx tsx tools/oracles/oracle_runtime_manifest.ts",
-    "ignition": "npx tsx tools/oracles/ignition.ts",
-    "ignition:update-baselines": "npm run oracle:dist && cp artefacts/oracles/dist_manifest.sha256 baselines/oracles/dist_manifest.expected.sha256"
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@types/archiver": "^7.0.0",
-    "@vitest/coverage-v8": "^4.0.17",
     "ajv": "^8.17.1",
     "ajv-formats": "^3.0.1",
-    "esbuild": "^0.27.2",
-    "tsx": "^4.21.0",
-    "vitest": "^4.0.17",
-    "zod": "^3.23.8"
-  },
-  "dependencies": {
-    "archiver": "^7.0.1",
-    "fast-json-stable-stringify": "^2.1.0"
-  },
-  "bin": {
-    "omega": "bin/omega-run.mjs"
+    "fast-json-stable-stringify": "^2.1.0",
+    "typescript": "^5.7.0",
+    "vitest": "^4.0.17"
   }
 }

@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "omega:p.sample.neutral:output:analysis-output:v1.0.0",
+  "title": "Neutral Plugin Analysis Output",
+  "type": "object",
+  "required": ["kind", "data", "schema_ref"],
+  "additionalProperties": false,
+  "properties": {
+    "kind": { "type": "string", "const": "json" },
+    "schema_ref": { "type": "string" },
+    "data": {
+      "type": "object",
+      "required": ["summary", "word_count", "char_count", "language_hint", "tags", "complexity_score"],
+      "additionalProperties": false,
+      "properties": {
+        "summary": { "type": "string", "maxLength": 512 },
+        "word_count": { "type": "integer", "minimum": 0 },
+        "char_count": { "type": "integer", "minimum": 0 },
+        "language_hint": { "type": "string", "minLength": 2, "maxLength": 5 },
+        "tags": { "type": "array", "items": { "type": "string" }, "maxItems": 20 },
+        "complexity_score": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    }
+  }
+}

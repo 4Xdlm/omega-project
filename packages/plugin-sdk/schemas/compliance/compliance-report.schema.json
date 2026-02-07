@@ -1,0 +1,42 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "omega:compliance-report:v1.0.0",
+  "title": "OMEGA Plugin Compliance Report",
+  "type": "object",
+  "required": ["plugin_id", "timestamp", "passed", "checks", "summary"],
+  "additionalProperties": false,
+  "properties": {
+    "plugin_id": { "type": "string" },
+    "timestamp": { "type": "string" },
+    "passed": { "type": "boolean" },
+    "checks": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/CheckResult" },
+      "minItems": 10,
+      "maxItems": 10
+    },
+    "summary": {
+      "type": "object",
+      "required": ["total", "passed_count", "failed_count"],
+      "properties": {
+        "total": { "type": "integer" },
+        "passed_count": { "type": "integer" },
+        "failed_count": { "type": "integer" }
+      }
+    }
+  },
+  "definitions": {
+    "CheckResult": {
+      "type": "object",
+      "required": ["id", "name", "law", "passed", "detail"],
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "law": { "type": "string" },
+        "passed": { "type": "boolean" },
+        "detail": { "type": "string" },
+        "duration_ms": { "type": "number" }
+      }
+    }
+  }
+}

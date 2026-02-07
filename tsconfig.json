@@ -2,11 +2,23 @@
   "compilerOptions": {
     "target": "ES2022",
     "module": "ESNext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "strict": true,
+    "noImplicitAny": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": false,
+    "declaration": true,
+    "sourceMap": true,
+    "outDir": "dist",
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "outDir": "dist"
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true
   },
-  "include": ["*.ts"]
+  "include": [
+    "packages/plugin-sdk/src/**/*.ts",
+    "plugins/p.sample.neutral/src/**/*.ts",
+    "plugins/p.sample.neutral/tests/**/*.ts"
+  ],
+  "exclude": ["node_modules", "dist"]
 }

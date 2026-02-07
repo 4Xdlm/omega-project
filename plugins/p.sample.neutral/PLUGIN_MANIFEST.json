@@ -1,0 +1,18 @@
+{
+  "plugin_id": "p.sample.neutral",
+  "name": "OMEGA Neutral Sample Plugin",
+  "vendor": "omega-internal",
+  "description": "Reference plugin proving the full pipeline. Text analysis only. Zero side-effects.",
+  "version": "1.0.0",
+  "api_version": "1.0.0",
+  "supported_omega_api_versions": ">=1.0.0",
+  "capabilities": ["read_text", "write_report"],
+  "io": {
+    "inputs": [{ "kind": "text", "schema_ref": "omega:p.sample.neutral:input:text-input:v1.0.0", "limits": { "max_bytes": 1048576 } }],
+    "outputs": [{ "kind": "json", "schema_ref": "omega:p.sample.neutral:output:analysis-output:v1.0.0", "limits": { "max_bytes": 65536 } }]
+  },
+  "limits": { "max_bytes": 1048576, "max_ms": 5000, "max_concurrency": 1 },
+  "determinism": { "mode": "deterministic", "notes": "Pure function. Same text = same analysis." },
+  "evidence": { "log_level": "full", "redactions": [] },
+  "entrypoint": { "type": "worker", "file": "src/index.ts", "export": "handleRequest" }
+}

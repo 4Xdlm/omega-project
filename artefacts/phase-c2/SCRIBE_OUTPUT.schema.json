@@ -1,0 +1,147 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ScribeOutput",
+  "description": "OMEGA Scribe Engine output -- governed text with evidence chain",
+  "type": "object",
+  "required": [
+    "output_id", "output_hash", "plan_id", "plan_hash", "skeleton_hash",
+    "final_prose", "rewrite_history", "gate_result", "oracle_result",
+    "segment_to_paragraph_map"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "output_id": { "type": "string", "minLength": 1 },
+    "output_hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "plan_id": { "type": "string", "minLength": 1 },
+    "plan_hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "skeleton_hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "final_prose": {
+      "type": "object",
+      "required": ["prose_id", "prose_hash", "skeleton_id", "paragraphs", "total_word_count", "total_sentence_count", "pass_number"],
+      "additionalProperties": false,
+      "properties": {
+        "prose_id": { "type": "string", "minLength": 1 },
+        "prose_hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "skeleton_id": { "type": "string", "minLength": 1 },
+        "paragraphs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "paragraph_id", "segment_ids", "text", "word_count", "sentence_count",
+              "avg_sentence_length", "emotion", "intensity", "rhetorical_devices",
+              "sensory_anchors", "motif_refs", "canon_refs"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "paragraph_id": { "type": "string", "minLength": 1 },
+              "segment_ids": { "type": "array", "items": { "type": "string" } },
+              "text": { "type": "string" },
+              "word_count": { "type": "integer", "minimum": 0 },
+              "sentence_count": { "type": "integer", "minimum": 0 },
+              "avg_sentence_length": { "type": "number", "minimum": 0 },
+              "emotion": { "type": "string", "minLength": 1 },
+              "intensity": { "type": "number", "minimum": 0, "maximum": 1 },
+              "rhetorical_devices": { "type": "array", "items": { "type": "string" } },
+              "sensory_anchors": { "type": "array", "items": { "type": "string" } },
+              "motif_refs": { "type": "array", "items": { "type": "string" } },
+              "canon_refs": { "type": "array", "items": { "type": "string" } }
+            }
+          }
+        },
+        "total_word_count": { "type": "integer", "minimum": 0 },
+        "total_sentence_count": { "type": "integer", "minimum": 0 },
+        "pass_number": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "rewrite_history": {
+      "type": "object",
+      "required": ["candidates", "accepted_pass", "total_passes", "rewrite_hash"],
+      "additionalProperties": false,
+      "properties": {
+        "candidates": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["pass_number", "prose", "gate_result", "oracle_result", "accepted", "rejection_reason"],
+            "additionalProperties": false,
+            "properties": {
+              "pass_number": { "type": "integer", "minimum": 0 },
+              "prose": { "type": "object" },
+              "gate_result": { "type": "object" },
+              "oracle_result": { "type": "object" },
+              "accepted": { "type": "boolean" },
+              "rejection_reason": { "type": ["string", "null"] }
+            }
+          }
+        },
+        "accepted_pass": { "type": "integer" },
+        "total_passes": { "type": "integer", "minimum": 0 },
+        "rewrite_hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+      }
+    },
+    "gate_result": {
+      "type": "object",
+      "required": ["verdict", "gate_results", "first_failure", "total_violations"],
+      "additionalProperties": false,
+      "properties": {
+        "verdict": { "type": "string", "enum": ["PASS", "FAIL"] },
+        "gate_results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["gate_id", "verdict", "violations", "metrics", "timestamp_deterministic"],
+            "additionalProperties": false,
+            "properties": {
+              "gate_id": {
+                "type": "string",
+                "enum": ["TRUTH_GATE", "NECESSITY_GATE", "BANALITY_GATE", "STYLE_GATE", "EMOTION_GATE", "DISCOMFORT_GATE", "QUALITY_GATE"]
+              },
+              "verdict": { "type": "string", "enum": ["PASS", "FAIL"] },
+              "violations": { "type": "array" },
+              "metrics": { "type": "object" },
+              "timestamp_deterministic": { "type": "string" }
+            }
+          }
+        },
+        "first_failure": { "type": ["string", "null"] },
+        "total_violations": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "oracle_result": {
+      "type": "object",
+      "required": ["verdict", "oracle_results", "weakest_oracle", "combined_score"],
+      "additionalProperties": false,
+      "properties": {
+        "verdict": { "type": "string", "enum": ["PASS", "FAIL"] },
+        "oracle_results": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["oracle_id", "verdict", "score", "findings", "evidence_hash"],
+            "additionalProperties": false,
+            "properties": {
+              "oracle_id": {
+                "type": "string",
+                "enum": ["ORACLE_TRUTH", "ORACLE_NECESSITY", "ORACLE_STYLE", "ORACLE_EMOTION", "ORACLE_BANALITY", "ORACLE_CROSSREF"]
+              },
+              "verdict": { "type": "string", "enum": ["PASS", "FAIL"] },
+              "score": { "type": "number", "minimum": 0, "maximum": 1 },
+              "findings": { "type": "array", "items": { "type": "string" } },
+              "evidence_hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+            }
+          }
+        },
+        "weakest_oracle": { "type": ["string", "null"] },
+        "combined_score": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "segment_to_paragraph_map": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": { "type": "string" }
+      }
+    }
+  }
+}

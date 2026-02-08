@@ -1,0 +1,142 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GenesisPlan",
+  "description": "OMEGA Genesis Planner output — deterministic narrative structure plan",
+  "type": "object",
+  "required": [
+    "plan_id", "plan_hash", "version", "intent_hash", "canon_hash",
+    "constraints_hash", "genome_hash", "emotion_hash", "arcs", "seed_registry",
+    "tension_curve", "emotion_trajectory", "scene_count", "beat_count", "estimated_word_count"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "plan_id": { "type": "string", "minLength": 1 },
+    "plan_hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "version": { "type": "string", "enum": ["1.0.0"] },
+    "intent_hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "canon_hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "constraints_hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "genome_hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "emotion_hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "arcs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["arc_id", "theme", "progression", "scenes", "justification"],
+        "additionalProperties": false,
+        "properties": {
+          "arc_id": { "type": "string", "minLength": 1 },
+          "theme": { "type": "string", "minLength": 1 },
+          "progression": { "type": "string", "minLength": 1 },
+          "justification": { "type": "string", "minLength": 1 },
+          "scenes": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": [
+                "scene_id", "arc_id", "objective", "conflict", "conflict_type",
+                "emotion_target", "emotion_intensity", "seeds_planted", "seeds_bloomed",
+                "subtext", "sensory_anchor", "constraints", "beats",
+                "target_word_count", "justification"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "scene_id": { "type": "string", "minLength": 1 },
+                "arc_id": { "type": "string", "minLength": 1 },
+                "objective": { "type": "string", "minLength": 1 },
+                "conflict": { "type": "string", "minLength": 1 },
+                "conflict_type": {
+                  "type": "string",
+                  "enum": ["internal", "external", "relational", "societal", "existential"]
+                },
+                "emotion_target": { "type": "string", "minLength": 1 },
+                "emotion_intensity": { "type": "number", "minimum": 0, "maximum": 1 },
+                "seeds_planted": { "type": "array", "items": { "type": "string" } },
+                "seeds_bloomed": { "type": "array", "items": { "type": "string" } },
+                "subtext": {
+                  "type": "object",
+                  "required": ["character_thinks", "reader_knows", "tension_type", "implied_emotion"],
+                  "additionalProperties": false,
+                  "properties": {
+                    "character_thinks": { "type": "string", "minLength": 1 },
+                    "reader_knows": { "type": "string", "minLength": 1 },
+                    "tension_type": {
+                      "type": "string",
+                      "enum": ["dramatic_irony", "suspense", "hidden_motive", "unspoken_desire", "suppressed_emotion"]
+                    },
+                    "implied_emotion": { "type": "string", "minLength": 1 }
+                  }
+                },
+                "sensory_anchor": { "type": "string", "minLength": 1 },
+                "constraints": { "type": "array", "items": { "type": "string" } },
+                "beats": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "beat_id", "action", "intention", "pivot",
+                      "tension_delta", "information_revealed", "information_withheld"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                      "beat_id": { "type": "string", "minLength": 1 },
+                      "action": { "type": "string", "minLength": 1 },
+                      "intention": { "type": "string", "minLength": 1 },
+                      "pivot": { "type": "boolean" },
+                      "tension_delta": { "type": "integer", "enum": [-1, 0, 1] },
+                      "information_revealed": { "type": "array", "items": { "type": "string" } },
+                      "information_withheld": { "type": "array", "items": { "type": "string" } }
+                    }
+                  }
+                },
+                "target_word_count": { "type": "integer", "minimum": 1 },
+                "justification": { "type": "string", "minLength": 1 }
+              }
+            }
+          }
+        }
+      }
+    },
+    "seed_registry": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "type", "description", "planted_in", "blooms_in"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "minLength": 1 },
+          "type": {
+            "type": "string",
+            "enum": ["thematic", "character", "plot", "symbol", "emotional"]
+          },
+          "description": { "type": "string", "minLength": 1 },
+          "planted_in": { "type": "string", "minLength": 1 },
+          "blooms_in": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "tension_curve": {
+      "type": "array",
+      "items": { "type": "number" }
+    },
+    "emotion_trajectory": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["position", "emotion", "intensity"],
+        "additionalProperties": false,
+        "properties": {
+          "position": { "type": "number", "minimum": 0, "maximum": 1 },
+          "emotion": { "type": "string", "minLength": 1 },
+          "intensity": { "type": "number", "minimum": 0, "maximum": 1 }
+        }
+      }
+    },
+    "scene_count": { "type": "integer", "minimum": 1 },
+    "beat_count": { "type": "integer", "minimum": 1 },
+    "estimated_word_count": { "type": "integer", "minimum": 1 }
+  }
+}

@@ -1,0 +1,144 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ForgeReport",
+  "description": "OMEGA Forge Phase C.5 — Trajectory Compliance Report Schema",
+  "type": "object",
+  "required": [
+    "forge_id", "input_hash", "verdict", "metrics", "benchmark",
+    "prescriptions_summary", "invariants_checked", "invariants_passed",
+    "invariants_failed", "config_hash", "report_hash", "timestamp_deterministic"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "forge_id": { "type": "string", "pattern": "^FORGE-" },
+    "input_hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "verdict": { "type": "string", "enum": ["PASS", "FAIL"] },
+    "metrics": { "$ref": "#/definitions/ForgeMetrics" },
+    "benchmark": { "$ref": "#/definitions/ForgeProfile" },
+    "prescriptions_summary": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/Prescription" }
+    },
+    "invariants_checked": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/F5InvariantId" }
+    },
+    "invariants_passed": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/F5InvariantId" }
+    },
+    "invariants_failed": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/F5InvariantId" }
+    },
+    "config_hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "report_hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "timestamp_deterministic": { "type": "string", "format": "date-time" }
+  },
+  "definitions": {
+    "F5InvariantId": {
+      "type": "string",
+      "enum": [
+        "F5-INV-01", "F5-INV-02", "F5-INV-03", "F5-INV-04",
+        "F5-INV-05", "F5-INV-06", "F5-INV-07", "F5-INV-08",
+        "F5-INV-09", "F5-INV-10", "F5-INV-11", "F5-INV-12",
+        "F5-INV-13", "F5-INV-14"
+      ]
+    },
+    "ForgeMetrics": {
+      "type": "object",
+      "required": [
+        "total_paragraphs", "emotion_coverage", "trajectory_compliance",
+        "avg_cosine_distance", "avg_euclidean_distance",
+        "forced_transitions", "feasibility_failures", "law4_violations",
+        "flux_balance_error",
+        "M1", "M2", "M3", "M4", "M5", "M6", "M7", "M8", "M9", "M10", "M11", "M12",
+        "emotion_score", "quality_score", "composite_score",
+        "dead_zones_count", "prescriptions_count", "critical_prescriptions"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "total_paragraphs": { "type": "number", "minimum": 0 },
+        "emotion_coverage": { "type": "number", "minimum": 0, "maximum": 1 },
+        "trajectory_compliance": { "type": "number", "minimum": 0, "maximum": 1 },
+        "avg_cosine_distance": { "type": "number", "minimum": 0 },
+        "avg_euclidean_distance": { "type": "number", "minimum": 0 },
+        "forced_transitions": { "type": "number", "minimum": 0 },
+        "feasibility_failures": { "type": "number", "minimum": 0 },
+        "law4_violations": { "type": "number", "minimum": 0 },
+        "flux_balance_error": { "type": "number", "minimum": 0 },
+        "M1": { "type": "number" }, "M2": { "type": "number" },
+        "M3": { "type": "number" }, "M4": { "type": "number" },
+        "M5": { "type": "number" }, "M6": { "type": "number" },
+        "M7": { "type": "number" }, "M8": { "type": "number" },
+        "M9": { "type": "number" }, "M10": { "type": "number" },
+        "M11": { "type": "number" }, "M12": { "type": "number" },
+        "emotion_score": { "type": "number", "minimum": 0, "maximum": 1 },
+        "quality_score": { "type": "number", "minimum": 0, "maximum": 1 },
+        "composite_score": { "type": "number", "minimum": 0, "maximum": 1 },
+        "dead_zones_count": { "type": "number", "minimum": 0 },
+        "prescriptions_count": { "type": "number", "minimum": 0 },
+        "critical_prescriptions": { "type": "number", "minimum": 0 }
+      }
+    },
+    "ForgeProfile": {
+      "type": "object",
+      "required": [
+        "score", "trajectory_compliance", "law_compliance",
+        "canon_compliance", "necessity_score", "style_emergence",
+        "strengths", "weaknesses", "profile_hash"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "score": { "$ref": "#/definitions/ForgeScore" },
+        "trajectory_compliance": { "type": "number" },
+        "law_compliance": { "type": "number" },
+        "canon_compliance": { "type": "number" },
+        "necessity_score": { "type": "number" },
+        "style_emergence": { "type": "number" },
+        "strengths": { "type": "array", "items": { "type": "string" } },
+        "weaknesses": { "type": "array", "items": { "type": "string" } },
+        "profile_hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+      }
+    },
+    "ForgeScore": {
+      "type": "object",
+      "required": ["emotion_compliance", "quality_score", "composite"],
+      "additionalProperties": false,
+      "properties": {
+        "emotion_compliance": { "type": "number", "minimum": 0, "maximum": 1 },
+        "quality_score": { "type": "number", "minimum": 0, "maximum": 1 },
+        "composite": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "Prescription": {
+      "type": "object",
+      "required": [
+        "prescription_id", "domain", "priority", "paragraph_indices",
+        "law_violated", "metric_violated", "diagnostic", "action",
+        "current_value", "target_value"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "prescription_id": { "type": "string", "pattern": "^PRESC-" },
+        "domain": {
+          "type": "string",
+          "enum": [
+            "law_1_inertia", "law_2_dissipation", "law_3_feasibility",
+            "law_4_organic_decay", "law_5_flux", "law_6_synthesis",
+            "canon_compliance", "necessity", "style", "complexity",
+            "dead_zone", "forced_transition"
+          ]
+        },
+        "priority": { "type": "string", "enum": ["CRITICAL", "HIGH", "MEDIUM", "LOW"] },
+        "paragraph_indices": { "type": "array", "items": { "type": "number" } },
+        "law_violated": { "type": ["string", "null"] },
+        "metric_violated": { "type": ["string", "null"] },
+        "diagnostic": { "type": "string", "minLength": 1 },
+        "action": { "type": "string", "minLength": 1 },
+        "current_value": { "type": "number" },
+        "target_value": { "type": "number" }
+      }
+    }
+  }
+}

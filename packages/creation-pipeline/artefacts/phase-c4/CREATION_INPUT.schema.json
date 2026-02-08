@@ -1,0 +1,313 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "CREATION_INPUT.schema.json",
+  "title": "IntentPack",
+  "description": "OMEGA Creation Pipeline Phase C.4 — Pipeline input schema (IntentPack). Standard: NASA-Grade L4.",
+  "type": "object",
+  "required": ["intent", "canon", "constraints", "genome", "emotion", "metadata"],
+  "additionalProperties": false,
+  "properties": {
+    "intent": {
+      "$ref": "#/definitions/Intent"
+    },
+    "canon": {
+      "$ref": "#/definitions/Canon"
+    },
+    "constraints": {
+      "$ref": "#/definitions/Constraints"
+    },
+    "genome": {
+      "$ref": "#/definitions/StyleGenomeInput"
+    },
+    "emotion": {
+      "$ref": "#/definitions/EmotionTarget"
+    },
+    "metadata": {
+      "$ref": "#/definitions/IntentPackMetadata"
+    }
+  },
+  "definitions": {
+    "Intent": {
+      "type": "object",
+      "description": "Narrative intent specifying the creative goal.",
+      "required": ["title", "premise", "themes", "core_emotion", "target_audience", "message", "target_word_count"],
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Title of the narrative."
+        },
+        "premise": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Core premise of the story."
+        },
+        "themes": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "minItems": 1,
+          "description": "Thematic threads to weave through the narrative."
+        },
+        "core_emotion": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The dominant emotional register of the narrative."
+        },
+        "target_audience": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Intended audience for the narrative."
+        },
+        "message": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The underlying message or thesis of the narrative."
+        },
+        "target_word_count": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Target word count for the final output."
+        }
+      }
+    },
+    "CanonCategory": {
+      "type": "string",
+      "enum": ["character", "world", "event", "rule", "relationship"],
+      "description": "Category classification for a canon entry."
+    },
+    "CanonEntry": {
+      "type": "object",
+      "description": "A single canonical fact or constraint.",
+      "required": ["id", "category", "statement", "immutable"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Unique identifier for this canon entry."
+        },
+        "category": {
+          "$ref": "#/definitions/CanonCategory"
+        },
+        "statement": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The canonical statement or fact."
+        },
+        "immutable": {
+          "type": "boolean",
+          "description": "Whether this canon entry can be overridden."
+        }
+      }
+    },
+    "Canon": {
+      "type": "object",
+      "description": "Collection of canonical entries defining ground truth for the narrative.",
+      "required": ["entries"],
+      "additionalProperties": false,
+      "properties": {
+        "entries": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/CanonEntry" },
+          "description": "Array of canon entries."
+        }
+      }
+    },
+    "POV": {
+      "type": "string",
+      "enum": ["first", "third-limited", "third-omniscient", "second", "mixed"],
+      "description": "Point of view constraint."
+    },
+    "Tense": {
+      "type": "string",
+      "enum": ["past", "present", "mixed"],
+      "description": "Tense constraint for the narrative."
+    },
+    "Constraints": {
+      "type": "object",
+      "description": "Structural and stylistic constraints for generation.",
+      "required": [
+        "pov", "tense", "banned_words", "banned_topics",
+        "max_dialogue_ratio", "min_sensory_anchors_per_scene",
+        "max_scenes", "min_scenes", "forbidden_cliches"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "pov": {
+          "$ref": "#/definitions/POV"
+        },
+        "tense": {
+          "$ref": "#/definitions/Tense"
+        },
+        "banned_words": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Words that must not appear in the output."
+        },
+        "banned_topics": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Topics that must not appear in the output."
+        },
+        "max_dialogue_ratio": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Maximum ratio of dialogue to total text."
+        },
+        "min_sensory_anchors_per_scene": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Minimum sensory anchor count per scene."
+        },
+        "max_scenes": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Maximum number of scenes allowed."
+        },
+        "min_scenes": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Minimum number of scenes required."
+        },
+        "forbidden_cliches": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Cliche patterns to avoid in the narrative."
+        }
+      }
+    },
+    "StyleGenomeInput": {
+      "type": "object",
+      "description": "Target style genome parameters for the narrative.",
+      "required": [
+        "target_burstiness", "target_lexical_richness",
+        "target_avg_sentence_length", "target_dialogue_ratio",
+        "target_description_density", "signature_traits"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "target_burstiness": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Target burstiness score (sentence length variance)."
+        },
+        "target_lexical_richness": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Target lexical richness (type-token ratio)."
+        },
+        "target_avg_sentence_length": {
+          "type": "number",
+          "minimum": 1,
+          "description": "Target average sentence length in words."
+        },
+        "target_dialogue_ratio": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Target dialogue-to-prose ratio."
+        },
+        "target_description_density": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Target description density score."
+        },
+        "signature_traits": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1 },
+          "description": "Signature stylistic traits to target."
+        }
+      }
+    },
+    "EmotionWaypoint": {
+      "type": "object",
+      "description": "A point on the emotional trajectory curve.",
+      "required": ["position", "emotion", "intensity"],
+      "additionalProperties": false,
+      "properties": {
+        "position": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Normalized position in narrative (0.0 = start, 1.0 = end)."
+        },
+        "emotion": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Target emotion at this waypoint."
+        },
+        "intensity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Emotion intensity at this waypoint (0.0 to 1.0)."
+        }
+      }
+    },
+    "EmotionTarget": {
+      "type": "object",
+      "description": "Emotional arc specification for the narrative.",
+      "required": ["arc_emotion", "waypoints", "climax_position", "resolution_emotion"],
+      "additionalProperties": false,
+      "properties": {
+        "arc_emotion": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The overarching emotion of the narrative arc."
+        },
+        "waypoints": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/EmotionWaypoint" },
+          "minItems": 1,
+          "description": "Ordered emotion waypoints along the narrative."
+        },
+        "climax_position": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Normalized position of the emotional climax."
+        },
+        "resolution_emotion": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The emotion at narrative resolution."
+        }
+      }
+    },
+    "IntentPackMetadata": {
+      "type": "object",
+      "description": "Metadata for the intent pack.",
+      "required": ["pack_id", "pack_version", "author", "created_at", "description"],
+      "additionalProperties": false,
+      "properties": {
+        "pack_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Unique identifier for this intent pack."
+        },
+        "pack_version": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Version of this intent pack."
+        },
+        "author": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Author of the intent pack."
+        },
+        "created_at": {
+          "type": "string",
+          "description": "ISO 8601 timestamp of creation."
+        },
+        "description": {
+          "type": "string",
+          "description": "Human-readable description of the intent."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,386 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "CREATION_REPORT.schema.json",
+  "title": "CreationReport",
+  "description": "OMEGA Creation Pipeline Phase C.4 — Creation report schema (CreationReport). Standard: NASA-Grade L4.",
+  "type": "object",
+  "required": [
+    "pipeline_id", "output_hash", "intent_hash", "verdict",
+    "unified_gates", "metrics", "evidence_hash", "proof_pack_hash",
+    "pipeline_trace", "invariants_checked", "invariants_passed",
+    "invariants_failed", "config_hash", "timestamp_deterministic"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "pipeline_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for this pipeline execution."
+    },
+    "output_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "SHA-256 hash of the final pipeline output."
+    },
+    "intent_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "SHA-256 hash of the input IntentPack."
+    },
+    "verdict": {
+      "$ref": "#/definitions/C4Verdict",
+      "description": "Final pipeline verdict: PASS or FAIL."
+    },
+    "unified_gates": {
+      "$ref": "#/definitions/UnifiedGateChainResult",
+      "description": "Aggregated gate chain results across all phases."
+    },
+    "metrics": {
+      "$ref": "#/definitions/CreationMetrics",
+      "description": "Aggregated metrics from the creation pipeline run."
+    },
+    "evidence_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "SHA-256 hash of the E2E evidence chain."
+    },
+    "proof_pack_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "SHA-256 hash of the proof pack."
+    },
+    "pipeline_trace": {
+      "$ref": "#/definitions/PipelineTrace",
+      "description": "Stage-by-stage execution trace of the pipeline."
+    },
+    "invariants_checked": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/C4InvariantId" },
+      "description": "List of invariant IDs that were checked during the pipeline run."
+    },
+    "invariants_passed": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/C4InvariantId" },
+      "description": "List of invariant IDs that passed validation."
+    },
+    "invariants_failed": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/C4InvariantId" },
+      "description": "List of invariant IDs that failed validation."
+    },
+    "config_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "SHA-256 hash of the C4Config used for this pipeline run."
+    },
+    "timestamp_deterministic": {
+      "type": "string",
+      "description": "Deterministic ISO 8601 timestamp of report generation. Injected, not system clock."
+    }
+  },
+  "definitions": {
+    "C4Verdict": {
+      "type": "string",
+      "enum": ["PASS", "FAIL"],
+      "description": "Pipeline verdict enum."
+    },
+    "C4InvariantId": {
+      "type": "string",
+      "enum": [
+        "C4-INV-01", "C4-INV-02", "C4-INV-03", "C4-INV-04",
+        "C4-INV-05", "C4-INV-06", "C4-INV-07", "C4-INV-08",
+        "C4-INV-09", "C4-INV-10", "C4-INV-11", "C4-INV-12"
+      ],
+      "description": "C4 invariant identifiers."
+    },
+    "UnifiedGateId": {
+      "type": "string",
+      "enum": [
+        "U_TRUTH", "U_NECESSITY", "U_CROSSREF", "U_BANALITY",
+        "U_STYLE", "U_EMOTION", "U_DISCOMFORT", "U_QUALITY"
+      ],
+      "description": "Unified gate identifiers."
+    },
+    "PipelineStageId": {
+      "type": "string",
+      "enum": ["F0", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8"],
+      "description": "Pipeline stage identifiers."
+    },
+    "UnifiedGateViolation": {
+      "type": "object",
+      "description": "A single gate violation record.",
+      "required": ["gate_id", "invariant", "location", "message", "severity", "source_phase"],
+      "additionalProperties": false,
+      "properties": {
+        "gate_id": {
+          "$ref": "#/definitions/UnifiedGateId"
+        },
+        "invariant": {
+          "$ref": "#/definitions/C4InvariantId"
+        },
+        "location": {
+          "type": "string",
+          "description": "Location in the output where the violation was detected."
+        },
+        "message": {
+          "type": "string",
+          "description": "Human-readable description of the violation."
+        },
+        "severity": {
+          "type": "string",
+          "enum": ["FATAL", "ERROR"],
+          "description": "Severity of the violation."
+        },
+        "source_phase": {
+          "type": "string",
+          "enum": ["C1", "C2", "C3", "C4"],
+          "description": "The phase that produced this violation."
+        }
+      }
+    },
+    "UnifiedGateResult": {
+      "type": "object",
+      "description": "Result of a single unified gate evaluation.",
+      "required": ["gate_id", "verdict", "violations", "metrics", "timestamp_deterministic"],
+      "additionalProperties": false,
+      "properties": {
+        "gate_id": {
+          "$ref": "#/definitions/UnifiedGateId"
+        },
+        "verdict": {
+          "$ref": "#/definitions/C4Verdict"
+        },
+        "violations": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/UnifiedGateViolation" },
+          "description": "List of violations detected by this gate."
+        },
+        "metrics": {
+          "type": "object",
+          "additionalProperties": { "type": "number" },
+          "description": "Numeric metrics produced by this gate."
+        },
+        "timestamp_deterministic": {
+          "type": "string",
+          "description": "Deterministic ISO 8601 timestamp of evaluation."
+        }
+      }
+    },
+    "UnifiedGateChainResult": {
+      "type": "object",
+      "description": "Aggregated result of the entire unified gate chain.",
+      "required": ["verdict", "gate_results", "first_failure", "total_violations"],
+      "additionalProperties": false,
+      "properties": {
+        "verdict": {
+          "$ref": "#/definitions/C4Verdict"
+        },
+        "gate_results": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/UnifiedGateResult" },
+          "description": "Ordered results from each gate in the chain."
+        },
+        "first_failure": {
+          "oneOf": [
+            { "$ref": "#/definitions/UnifiedGateId" },
+            { "type": "null" }
+          ],
+          "description": "The first gate that failed, or null if all passed."
+        },
+        "total_violations": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total number of violations across all gates."
+        }
+      }
+    },
+    "StageResult": {
+      "type": "object",
+      "description": "Result of a single pipeline stage execution.",
+      "required": ["stage", "verdict", "input_hash", "output_hash", "duration_ms", "details", "timestamp_deterministic"],
+      "additionalProperties": false,
+      "properties": {
+        "stage": {
+          "$ref": "#/definitions/PipelineStageId"
+        },
+        "verdict": {
+          "$ref": "#/definitions/C4Verdict"
+        },
+        "input_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "SHA-256 hash of the stage input."
+        },
+        "output_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "SHA-256 hash of the stage output."
+        },
+        "duration_ms": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Stage execution duration in milliseconds."
+        },
+        "details": {
+          "type": "string",
+          "description": "Human-readable details of stage execution."
+        },
+        "timestamp_deterministic": {
+          "type": "string",
+          "description": "Deterministic ISO 8601 timestamp of stage execution."
+        }
+      }
+    },
+    "PipelineTrace": {
+      "type": "object",
+      "description": "Complete pipeline execution trace.",
+      "required": ["stages", "total_stages", "passed_stages", "first_failure"],
+      "additionalProperties": false,
+      "properties": {
+        "stages": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/StageResult" },
+          "description": "Ordered stage execution results."
+        },
+        "total_stages": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total number of stages executed."
+        },
+        "passed_stages": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of stages that passed."
+        },
+        "first_failure": {
+          "oneOf": [
+            { "$ref": "#/definitions/PipelineStageId" },
+            { "type": "null" }
+          ],
+          "description": "The first stage that failed, or null if all passed."
+        }
+      }
+    },
+    "CreationMetrics": {
+      "type": "object",
+      "description": "Aggregated metrics from the creation pipeline run.",
+      "required": [
+        "total_words", "total_paragraphs", "total_segments",
+        "total_arcs", "total_scenes",
+        "genesis_duration_ms", "scribe_duration_ms", "style_duration_ms",
+        "gates_duration_ms", "total_duration_ms",
+        "rewrite_passes", "tournament_rounds",
+        "ia_detection_score", "genre_specificity",
+        "voice_stability", "genome_max_deviation",
+        "evidence_nodes", "proof_files",
+        "invariants_checked", "invariants_passed"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "total_words": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total word count in the final output."
+        },
+        "total_paragraphs": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total paragraph count in the final output."
+        },
+        "total_segments": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total segments produced by the Scribe Engine."
+        },
+        "total_arcs": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total narrative arcs in the plan."
+        },
+        "total_scenes": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total scenes in the plan."
+        },
+        "genesis_duration_ms": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Duration of the Genesis Planner stage in ms."
+        },
+        "scribe_duration_ms": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Duration of the Scribe Engine stage in ms."
+        },
+        "style_duration_ms": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Duration of the Style Emergence Engine stage in ms."
+        },
+        "gates_duration_ms": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Duration of the unified gate evaluation in ms."
+        },
+        "total_duration_ms": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Total pipeline duration in ms."
+        },
+        "rewrite_passes": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of rewrite passes performed by the Scribe Engine."
+        },
+        "tournament_rounds": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of tournament rounds in the Style Emergence Engine."
+        },
+        "ia_detection_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "AI detection score (lower = more human-like)."
+        },
+        "genre_specificity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Genre specificity score."
+        },
+        "voice_stability": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Voice stability across the narrative."
+        },
+        "genome_max_deviation": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Maximum deviation from the target style genome."
+        },
+        "evidence_nodes": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total nodes in the Merkle evidence tree."
+        },
+        "proof_files": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total files in the proof pack."
+        },
+        "invariants_checked": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of invariants checked."
+        },
+        "invariants_passed": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of invariants that passed."
+        }
+      }
+    }
+  }
+}

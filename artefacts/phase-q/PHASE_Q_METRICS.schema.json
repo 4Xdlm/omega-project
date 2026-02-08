@@ -1,0 +1,205 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "OMEGA Phase Q Report Schema",
+  "description": "JSON Schema for Phase Q evaluation report (QReport type)",
+  "type": "object",
+  "required": [
+    "version",
+    "phase",
+    "timestamp_deterministic",
+    "config_hash",
+    "testset_hash",
+    "scores",
+    "case_results",
+    "report_hash"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "phase": {
+      "type": "string",
+      "const": "Q"
+    },
+    "timestamp_deterministic": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "config_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "testset_hash": {
+      "type": "string"
+    },
+    "scores": {
+      "$ref": "#/definitions/AggregateScores"
+    },
+    "case_results": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/CaseResult"
+      }
+    },
+    "report_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  },
+  "definitions": {
+    "Verdict": {
+      "type": "string",
+      "enum": ["PASS", "FAIL"]
+    },
+    "OracleId": {
+      "type": "string",
+      "enum": ["ORACLE-A", "ORACLE-B", "ORACLE-C"]
+    },
+    "InvariantId": {
+      "type": "string",
+      "enum": ["Q-INV-01", "Q-INV-02", "Q-INV-03", "Q-INV-04", "Q-INV-05", "Q-INV-06"]
+    },
+    "CaseCategory": {
+      "type": "string",
+      "enum": ["precision", "necessity", "contradiction", "stability", "adversarial", "cross-ref"]
+    },
+    "EvidenceStep": {
+      "type": "object",
+      "required": ["step", "input_hash", "output_hash", "rule_applied", "verdict", "timestamp_deterministic"],
+      "additionalProperties": false,
+      "properties": {
+        "step": { "type": "string" },
+        "input_hash": { "type": "string" },
+        "output_hash": { "type": "string" },
+        "rule_applied": { "type": "string" },
+        "verdict": { "$ref": "#/definitions/Verdict" },
+        "timestamp_deterministic": { "type": "string" }
+      }
+    },
+    "EvidenceChain": {
+      "type": "object",
+      "required": ["case_id", "steps", "chain_hash"],
+      "additionalProperties": false,
+      "properties": {
+        "case_id": { "type": "string" },
+        "steps": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/EvidenceStep" }
+        },
+        "chain_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "Violation": {
+      "type": "object",
+      "required": ["invariant_id", "message", "severity"],
+      "additionalProperties": false,
+      "properties": {
+        "invariant_id": { "$ref": "#/definitions/InvariantId" },
+        "message": { "type": "string" },
+        "severity": { "type": "string", "enum": ["CRITICAL", "HIGH"] },
+        "details": { "type": "string" }
+      }
+    },
+    "OracleResult": {
+      "type": "object",
+      "required": ["oracle_id", "verdict", "metrics", "evidence", "violations"],
+      "additionalProperties": false,
+      "properties": {
+        "oracle_id": { "$ref": "#/definitions/OracleId" },
+        "verdict": { "$ref": "#/definitions/Verdict" },
+        "metrics": {
+          "type": "object",
+          "additionalProperties": {
+            "type": ["number", "string", "boolean"]
+          }
+        },
+        "evidence": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/EvidenceStep" }
+        },
+        "violations": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/Violation" }
+        }
+      }
+    },
+    "CaseResult": {
+      "type": "object",
+      "required": ["case_id", "category", "oracle_a", "oracle_b", "oracle_c", "final_verdict", "evidence_chain", "result_hash"],
+      "additionalProperties": false,
+      "properties": {
+        "case_id": { "type": "string" },
+        "category": { "$ref": "#/definitions/CaseCategory" },
+        "oracle_a": { "$ref": "#/definitions/OracleResult" },
+        "oracle_b": { "$ref": "#/definitions/OracleResult" },
+        "oracle_c": { "$ref": "#/definitions/OracleResult" },
+        "final_verdict": { "$ref": "#/definitions/Verdict" },
+        "evidence_chain": { "$ref": "#/definitions/EvidenceChain" },
+        "result_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "CategoryScore": {
+      "type": "object",
+      "required": ["passed", "failed", "total"],
+      "additionalProperties": false,
+      "properties": {
+        "passed": { "type": "integer", "minimum": 0 },
+        "failed": { "type": "integer", "minimum": 0 },
+        "total": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "InvariantScore": {
+      "type": "object",
+      "required": ["violations"],
+      "additionalProperties": false,
+      "properties": {
+        "violations": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "AggregateScores": {
+      "type": "object",
+      "required": ["total_cases", "passed", "failed", "pass_rate", "by_category", "by_invariant"],
+      "additionalProperties": false,
+      "properties": {
+        "total_cases": { "type": "integer", "minimum": 0 },
+        "passed": { "type": "integer", "minimum": 0 },
+        "failed": { "type": "integer", "minimum": 0 },
+        "pass_rate": { "type": "number", "minimum": 0, "maximum": 1 },
+        "by_category": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "precision": { "$ref": "#/definitions/CategoryScore" },
+            "necessity": { "$ref": "#/definitions/CategoryScore" },
+            "contradiction": { "$ref": "#/definitions/CategoryScore" },
+            "stability": { "$ref": "#/definitions/CategoryScore" },
+            "adversarial": { "$ref": "#/definitions/CategoryScore" },
+            "cross-ref": { "$ref": "#/definitions/CategoryScore" }
+          },
+          "required": ["precision", "necessity", "contradiction", "stability", "adversarial", "cross-ref"]
+        },
+        "by_invariant": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "Q-INV-01": { "$ref": "#/definitions/InvariantScore" },
+            "Q-INV-02": { "$ref": "#/definitions/InvariantScore" },
+            "Q-INV-03": { "$ref": "#/definitions/InvariantScore" },
+            "Q-INV-04": { "$ref": "#/definitions/InvariantScore" },
+            "Q-INV-05": { "$ref": "#/definitions/InvariantScore" },
+            "Q-INV-06": { "$ref": "#/definitions/InvariantScore" }
+          },
+          "required": ["Q-INV-01", "Q-INV-02", "Q-INV-03", "Q-INV-04", "Q-INV-05", "Q-INV-06"]
+        }
+      }
+    }
+  }
+}

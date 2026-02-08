@@ -1,0 +1,28 @@
+{
+  "ABLATION_STRATEGY": {
+    "alternatives": ["single-segment", "pair-segment", "random-k"],
+    "derivation": "Single-segment ablation is the minimal deterministic unit of analysis",
+    "rule": "Q-INV-02: default to single-segment for determinism",
+    "unit": "strategy",
+    "value": "single-segment"
+  },
+  "NECESSITY_MIN_RATIO": {
+    "derivation": "Empirical: below 0.85 indicates padding/filler content",
+    "rule": "Q-INV-02: at least 85% segments must be necessary",
+    "unit": "ratio",
+    "value": 0.85
+  },
+  "STABILITY_FACTOR": {
+    "derivation": "Conservative bound: 3x allows reasonable propagation without global collapse",
+    "rule": "Q-INV-04: delta_segments <= STABILITY_FACTOR * changed_fields",
+    "unit": "multiplier",
+    "value": 3
+  },
+  "UNSUPPORTED_MAX": {
+    "derivation": "Fail-closed: any unsupported claim is a precision failure",
+    "override": "WAIVER required (human-signed)",
+    "rule": "Q-INV-01: zero unsupported claims in strict mode",
+    "unit": "count",
+    "value": 0
+  }
+}

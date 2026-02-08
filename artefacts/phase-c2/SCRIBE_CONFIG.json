@@ -1,0 +1,86 @@
+{
+  "REWRITE_MAX_PASSES": {
+    "value": 3,
+    "unit": "passes",
+    "rule": "S4: maximum rewrite iterations before forced accept/reject",
+    "derivation": "Empirical: 3 passes sufficient for convergence. >3 = diminishing returns."
+  },
+  "NECESSITY_MIN_RATIO": {
+    "value": 0.85,
+    "unit": "ratio",
+    "rule": "S-INV-04: at least 85% segments must be necessary (ablation test)",
+    "derivation": "Phase Q calibration: below 0.85 indicates padding/filler"
+  },
+  "BANALITY_MAX_COUNT": {
+    "value": 0,
+    "unit": "count",
+    "rule": "S-INV-08: zero cliches, zero IA-speak, zero banned words",
+    "derivation": "Zero tolerance: any banality = weak text = FAIL"
+  },
+  "STYLE_DEVIATION_MAX": {
+    "value": 0.3,
+    "unit": "ratio (0-1)",
+    "rule": "Style genome deviation must not exceed 30% on any axis",
+    "derivation": "Voice consistency requires tight bounds. >30% = voice drift."
+  },
+  "EMOTION_PIVOT_TOLERANCE": {
+    "value": 0.2,
+    "unit": "intensity_delta",
+    "rule": "S-INV-06: emotion pivot must be within +/-0.2 of target intensity",
+    "derivation": "Emotional precision: allows natural variation without drift"
+  },
+  "DISCOMFORT_MIN_FRICTION": {
+    "value": 1,
+    "unit": "friction_points_per_scene",
+    "rule": "Every scene must contain at least 1 controlled friction point",
+    "derivation": "Anti-fade: comfortable prose = forgettable prose"
+  },
+  "QUALITY_MIN_DENSITY": {
+    "value": 0.7,
+    "unit": "ratio",
+    "rule": "Information density must exceed 70% (meaningful content / total words)",
+    "derivation": "Below 0.7 = verbose. Above = dense enough to reward close reading."
+  },
+  "TRUTH_MAX_UNSUPPORTED": {
+    "value": 0,
+    "unit": "count",
+    "rule": "S-INV-03: zero unsupported factual claims",
+    "derivation": "Phase Q standard: every claim maps to canon or plan"
+  },
+  "IA_SPEAK_PATTERNS": {
+    "value": [
+      "it is worth noting", "it should be noted", "in conclusion", "furthermore",
+      "moreover", "needless to say", "as previously mentioned", "it goes without saying",
+      "at the end of the day", "in terms of", "with regard to", "it is important to",
+      "it is clear that", "one might argue", "delve into", "tapestry of",
+      "symphony of", "dance of", "testament to", "echoed through"
+    ],
+    "unit": "patterns",
+    "rule": "S-INV-08: IA-speak expressions forbidden in output text",
+    "derivation": "AI-generated text detector: these patterns betray non-human origin"
+  },
+  "CLICHE_REGISTRY": {
+    "value": [
+      "dark and stormy night", "heart pounding", "blood ran cold",
+      "butterflies in stomach", "light at the end of the tunnel", "tip of the iceberg",
+      "hit the nail on the head", "time stood still", "silence was deafening",
+      "breath caught in throat", "tears streamed down", "world came crashing down",
+      "cold sweat", "sigh of relief", "knot in stomach"
+    ],
+    "unit": "patterns",
+    "rule": "S-INV-08: cliche expressions forbidden in output text",
+    "derivation": "Quality standard: cliches indicate lazy, predictable writing"
+  },
+  "MIN_SENSORY_PER_SCENE": {
+    "value": 2,
+    "unit": "anchors",
+    "rule": "Each scene must have at least 2 sensory anchors in output text",
+    "derivation": "Concrete imagery requirement: abstract prose = weak prose"
+  },
+  "MOTIF_RECURRENCE_MIN": {
+    "value": 2,
+    "unit": "occurrences",
+    "rule": "S-INV-05: each seed must appear in at least 2 paragraphs (plant + bloom)",
+    "derivation": "Chekhov's gun: a motif planted must bloom visibly"
+  }
+}

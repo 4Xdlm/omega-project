@@ -1,0 +1,234 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "StyledOutput",
+  "description": "OMEGA Style Emergence Engine output — Phase C.3",
+  "type": "object",
+  "required": [
+    "output_id", "output_hash", "scribe_output_id", "scribe_output_hash",
+    "plan_id", "paragraphs", "global_profile", "ia_detection",
+    "genre_detection", "banality_result", "tournament", "total_word_count"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "output_id": { "type": "string", "pattern": "^EOUT-" },
+    "output_hash": { "type": "string", "minLength": 64, "maxLength": 64 },
+    "scribe_output_id": { "type": "string" },
+    "scribe_output_hash": { "type": "string" },
+    "plan_id": { "type": "string" },
+    "paragraphs": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/StyledParagraph" }
+    },
+    "global_profile": { "$ref": "#/definitions/StyleProfile" },
+    "ia_detection": { "$ref": "#/definitions/IADetectionResult" },
+    "genre_detection": { "$ref": "#/definitions/GenreDetectionResult" },
+    "banality_result": { "$ref": "#/definitions/BanalityResult" },
+    "tournament": { "$ref": "#/definitions/TournamentResult" },
+    "total_word_count": { "type": "integer", "minimum": 0 }
+  },
+  "definitions": {
+    "EVerdict": { "type": "string", "enum": ["PASS", "FAIL"] },
+    "EInvariantId": {
+      "type": "string",
+      "enum": ["E-INV-01","E-INV-02","E-INV-03","E-INV-04","E-INV-05","E-INV-06","E-INV-07","E-INV-08","E-INV-09","E-INV-10"]
+    },
+    "SyntacticStructure": {
+      "type": "string",
+      "enum": ["SVO","inversion","fragment","question","exclamation","compound","complex","imperative","passive"]
+    },
+    "StyledParagraph": {
+      "type": "object",
+      "required": ["paragraph_id","original_paragraph_id","text","word_count","sentence_count","selected_variant_id","style_profile"],
+      "additionalProperties": false,
+      "properties": {
+        "paragraph_id": { "type": "string" },
+        "original_paragraph_id": { "type": "string" },
+        "text": { "type": "string" },
+        "word_count": { "type": "integer", "minimum": 0 },
+        "sentence_count": { "type": "integer", "minimum": 0 },
+        "selected_variant_id": { "type": "string" },
+        "style_profile": { "$ref": "#/definitions/StyleProfile" }
+      }
+    },
+    "CadenceProfile": {
+      "type": "object",
+      "required": ["avg_sentence_length","sentence_length_stddev","coefficient_of_variation","short_ratio","long_ratio","sentence_count"],
+      "additionalProperties": false,
+      "properties": {
+        "avg_sentence_length": { "type": "number" },
+        "sentence_length_stddev": { "type": "number" },
+        "coefficient_of_variation": { "type": "number" },
+        "short_ratio": { "type": "number" },
+        "long_ratio": { "type": "number" },
+        "sentence_count": { "type": "integer" }
+      }
+    },
+    "LexicalProfile": {
+      "type": "object",
+      "required": ["type_token_ratio","hapax_legomena_ratio","rare_word_ratio","consecutive_rare_count","avg_word_length","vocabulary_size"],
+      "additionalProperties": false,
+      "properties": {
+        "type_token_ratio": { "type": "number" },
+        "hapax_legomena_ratio": { "type": "number" },
+        "rare_word_ratio": { "type": "number" },
+        "consecutive_rare_count": { "type": "integer" },
+        "avg_word_length": { "type": "number" },
+        "vocabulary_size": { "type": "integer" }
+      }
+    },
+    "SyntacticProfile": {
+      "type": "object",
+      "required": ["structure_distribution","unique_structures","dominant_structure","dominant_ratio","diversity_index"],
+      "additionalProperties": false,
+      "properties": {
+        "structure_distribution": { "type": "object" },
+        "unique_structures": { "type": "integer" },
+        "dominant_structure": { "$ref": "#/definitions/SyntacticStructure" },
+        "dominant_ratio": { "type": "number" },
+        "diversity_index": { "type": "number" }
+      }
+    },
+    "DensityProfile": {
+      "type": "object",
+      "required": ["description_density","dialogue_ratio","sensory_density","action_density","introspection_density"],
+      "additionalProperties": false,
+      "properties": {
+        "description_density": { "type": "number" },
+        "dialogue_ratio": { "type": "number" },
+        "sensory_density": { "type": "number" },
+        "action_density": { "type": "number" },
+        "introspection_density": { "type": "number" }
+      }
+    },
+    "CoherenceProfile": {
+      "type": "object",
+      "required": ["style_drift","max_local_drift","voice_stability","outlier_paragraphs"],
+      "additionalProperties": false,
+      "properties": {
+        "style_drift": { "type": "number" },
+        "max_local_drift": { "type": "number" },
+        "voice_stability": { "type": "number" },
+        "outlier_paragraphs": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "GenomeDeviation": {
+      "type": "object",
+      "required": ["burstiness_delta","lexical_richness_delta","sentence_length_delta","dialogue_ratio_delta","description_density_delta","max_deviation","avg_deviation","all_within_tolerance"],
+      "additionalProperties": false,
+      "properties": {
+        "burstiness_delta": { "type": "number" },
+        "lexical_richness_delta": { "type": "number" },
+        "sentence_length_delta": { "type": "number" },
+        "dialogue_ratio_delta": { "type": "number" },
+        "description_density_delta": { "type": "number" },
+        "max_deviation": { "type": "number" },
+        "avg_deviation": { "type": "number" },
+        "all_within_tolerance": { "type": "boolean" }
+      }
+    },
+    "StyleProfile": {
+      "type": "object",
+      "required": ["profile_id","profile_hash","cadence","lexical","syntactic","density","coherence","genome_deviation","timestamp_deterministic"],
+      "additionalProperties": false,
+      "properties": {
+        "profile_id": { "type": "string" },
+        "profile_hash": { "type": "string", "minLength": 64, "maxLength": 64 },
+        "cadence": { "$ref": "#/definitions/CadenceProfile" },
+        "lexical": { "$ref": "#/definitions/LexicalProfile" },
+        "syntactic": { "$ref": "#/definitions/SyntacticProfile" },
+        "density": { "$ref": "#/definitions/DensityProfile" },
+        "coherence": { "$ref": "#/definitions/CoherenceProfile" },
+        "genome_deviation": { "$ref": "#/definitions/GenomeDeviation" },
+        "timestamp_deterministic": { "type": "string" }
+      }
+    },
+    "DetectionFinding": {
+      "type": "object",
+      "required": ["pattern","paragraph_id","context","severity"],
+      "additionalProperties": false,
+      "properties": {
+        "pattern": { "type": "string" },
+        "paragraph_id": { "type": "string" },
+        "context": { "type": "string" },
+        "severity": { "type": "string", "enum": ["HIGH","MEDIUM","LOW"] }
+      }
+    },
+    "IADetectionResult": {
+      "type": "object",
+      "required": ["score","patterns_found","pattern_count","verdict","details"],
+      "additionalProperties": false,
+      "properties": {
+        "score": { "type": "number", "minimum": 0, "maximum": 1 },
+        "patterns_found": { "type": "array", "items": { "type": "string" } },
+        "pattern_count": { "type": "integer" },
+        "verdict": { "$ref": "#/definitions/EVerdict" },
+        "details": { "type": "array", "items": { "$ref": "#/definitions/DetectionFinding" } }
+      }
+    },
+    "GenreDetectionResult": {
+      "type": "object",
+      "required": ["genre_scores","top_genre","top_score","specificity","verdict","genre_markers_found"],
+      "additionalProperties": false,
+      "properties": {
+        "genre_scores": { "type": "object" },
+        "top_genre": { "type": "string" },
+        "top_score": { "type": "number" },
+        "specificity": { "type": "number" },
+        "verdict": { "$ref": "#/definitions/EVerdict" },
+        "genre_markers_found": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "BanalityResult": {
+      "type": "object",
+      "required": ["cliche_count","ia_speak_count","generic_transition_count","total_banality","verdict","findings"],
+      "additionalProperties": false,
+      "properties": {
+        "cliche_count": { "type": "integer" },
+        "ia_speak_count": { "type": "integer" },
+        "generic_transition_count": { "type": "integer" },
+        "total_banality": { "type": "integer" },
+        "verdict": { "$ref": "#/definitions/EVerdict" },
+        "findings": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "VariantScore": {
+      "type": "object",
+      "required": ["variant_id","genome_compliance","anti_ia_score","anti_genre_score","anti_banality_score","cadence_score","lexical_score","composite_score"],
+      "additionalProperties": false,
+      "properties": {
+        "variant_id": { "type": "string" },
+        "genome_compliance": { "type": "number" },
+        "anti_ia_score": { "type": "number" },
+        "anti_genre_score": { "type": "number" },
+        "anti_banality_score": { "type": "number" },
+        "cadence_score": { "type": "number" },
+        "lexical_score": { "type": "number" },
+        "composite_score": { "type": "number" }
+      }
+    },
+    "TournamentRound": {
+      "type": "object",
+      "required": ["paragraph_id","variants","scores","selected_variant_id","selection_reason"],
+      "properties": {
+        "paragraph_id": { "type": "string" },
+        "variants": { "type": "array" },
+        "scores": { "type": "array", "items": { "$ref": "#/definitions/VariantScore" } },
+        "selected_variant_id": { "type": "string" },
+        "selection_reason": { "type": "string" }
+      }
+    },
+    "TournamentResult": {
+      "type": "object",
+      "required": ["tournament_id","tournament_hash","rounds","total_variants_generated","total_rounds","avg_composite_score"],
+      "additionalProperties": false,
+      "properties": {
+        "tournament_id": { "type": "string" },
+        "tournament_hash": { "type": "string", "minLength": 64, "maxLength": 64 },
+        "rounds": { "type": "array", "items": { "$ref": "#/definitions/TournamentRound" } },
+        "total_variants_generated": { "type": "integer" },
+        "total_rounds": { "type": "integer" },
+        "avg_composite_score": { "type": "number" }
+      }
+    }
+  }
+}

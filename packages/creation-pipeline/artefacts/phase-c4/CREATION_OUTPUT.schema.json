@@ -1,0 +1,730 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "CREATION_OUTPUT.schema.json",
+  "title": "CreationResult",
+  "description": "OMEGA Creation Pipeline Phase C.4 — Pipeline output schema (CreationResult). Standard: NASA-Grade L4.",
+  "type": "object",
+  "required": [
+    "pipeline_id", "output_hash", "intent_hash", "final_text",
+    "genesis_plan", "scribe_output", "style_output", "unified_gates",
+    "evidence", "proof_pack", "report", "pipeline_trace", "verdict"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "pipeline_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Unique identifier for this pipeline execution."
+    },
+    "output_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "SHA-256 hash of the final output."
+    },
+    "intent_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "SHA-256 hash of the input IntentPack."
+    },
+    "final_text": {
+      "$ref": "#/definitions/StyledOutput",
+      "description": "The final styled output text from the pipeline."
+    },
+    "genesis_plan": {
+      "$ref": "#/definitions/GenesisPlan",
+      "description": "The narrative structure plan produced by the Genesis Planner (C.1)."
+    },
+    "scribe_output": {
+      "$ref": "#/definitions/ScribeOutput",
+      "description": "The prose output produced by the Scribe Engine (C.2)."
+    },
+    "style_output": {
+      "$ref": "#/definitions/StyledOutput",
+      "description": "The style-enhanced output produced by the Style Emergence Engine (C.3)."
+    },
+    "unified_gates": {
+      "$ref": "#/definitions/UnifiedGateChainResult",
+      "description": "Aggregated gate chain results across all phases."
+    },
+    "evidence": {
+      "$ref": "#/definitions/E2EEvidenceChain",
+      "description": "End-to-end Merkle evidence chain for the pipeline."
+    },
+    "proof_pack": {
+      "$ref": "#/definitions/ProofPack",
+      "description": "Cryptographic proof pack for the pipeline execution."
+    },
+    "report": {
+      "$ref": "#/definitions/CreationReport",
+      "description": "The full creation report for this pipeline run."
+    },
+    "pipeline_trace": {
+      "$ref": "#/definitions/PipelineTrace",
+      "description": "Stage-by-stage execution trace of the pipeline."
+    },
+    "verdict": {
+      "$ref": "#/definitions/C4Verdict",
+      "description": "Final pipeline verdict: PASS or FAIL."
+    }
+  },
+  "definitions": {
+    "C4Verdict": {
+      "type": "string",
+      "enum": ["PASS", "FAIL"],
+      "description": "Pipeline verdict enum."
+    },
+    "C4InvariantId": {
+      "type": "string",
+      "enum": [
+        "C4-INV-01", "C4-INV-02", "C4-INV-03", "C4-INV-04",
+        "C4-INV-05", "C4-INV-06", "C4-INV-07", "C4-INV-08",
+        "C4-INV-09", "C4-INV-10", "C4-INV-11", "C4-INV-12"
+      ],
+      "description": "C4 invariant identifiers."
+    },
+    "UnifiedGateId": {
+      "type": "string",
+      "enum": [
+        "U_TRUTH", "U_NECESSITY", "U_CROSSREF", "U_BANALITY",
+        "U_STYLE", "U_EMOTION", "U_DISCOMFORT", "U_QUALITY"
+      ],
+      "description": "Unified gate identifiers."
+    },
+    "PipelineStageId": {
+      "type": "string",
+      "enum": ["F0", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8"],
+      "description": "Pipeline stage identifiers."
+    },
+    "StyledOutput": {
+      "type": "object",
+      "description": "Styled output from the Style Emergence Engine. Opaque reference — validated by C.3 schema.",
+      "properties": {},
+      "additionalProperties": true
+    },
+    "GenesisPlan": {
+      "type": "object",
+      "description": "Narrative structure plan from the Genesis Planner. Opaque reference — validated by C.1 schema.",
+      "properties": {},
+      "additionalProperties": true
+    },
+    "ScribeOutput": {
+      "type": "object",
+      "description": "Prose output from the Scribe Engine. Opaque reference — validated by C.2 schema.",
+      "properties": {},
+      "additionalProperties": true
+    },
+    "UnifiedGateViolation": {
+      "type": "object",
+      "description": "A single gate violation record.",
+      "required": ["gate_id", "invariant", "location", "message", "severity", "source_phase"],
+      "additionalProperties": false,
+      "properties": {
+        "gate_id": {
+          "$ref": "#/definitions/UnifiedGateId"
+        },
+        "invariant": {
+          "$ref": "#/definitions/C4InvariantId"
+        },
+        "location": {
+          "type": "string",
+          "description": "Location in the output where the violation was detected."
+        },
+        "message": {
+          "type": "string",
+          "description": "Human-readable description of the violation."
+        },
+        "severity": {
+          "type": "string",
+          "enum": ["FATAL", "ERROR"],
+          "description": "Severity of the violation."
+        },
+        "source_phase": {
+          "type": "string",
+          "enum": ["C1", "C2", "C3", "C4"],
+          "description": "The phase that produced this violation."
+        }
+      }
+    },
+    "UnifiedGateResult": {
+      "type": "object",
+      "description": "Result of a single unified gate evaluation.",
+      "required": ["gate_id", "verdict", "violations", "metrics", "timestamp_deterministic"],
+      "additionalProperties": false,
+      "properties": {
+        "gate_id": {
+          "$ref": "#/definitions/UnifiedGateId"
+        },
+        "verdict": {
+          "$ref": "#/definitions/C4Verdict"
+        },
+        "violations": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/UnifiedGateViolation" },
+          "description": "List of violations detected by this gate."
+        },
+        "metrics": {
+          "type": "object",
+          "additionalProperties": { "type": "number" },
+          "description": "Numeric metrics produced by this gate."
+        },
+        "timestamp_deterministic": {
+          "type": "string",
+          "description": "Deterministic ISO 8601 timestamp of evaluation."
+        }
+      }
+    },
+    "UnifiedGateChainResult": {
+      "type": "object",
+      "description": "Aggregated result of the entire unified gate chain.",
+      "required": ["verdict", "gate_results", "first_failure", "total_violations"],
+      "additionalProperties": false,
+      "properties": {
+        "verdict": {
+          "$ref": "#/definitions/C4Verdict"
+        },
+        "gate_results": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/UnifiedGateResult" },
+          "description": "Ordered results from each gate in the chain."
+        },
+        "first_failure": {
+          "oneOf": [
+            { "$ref": "#/definitions/UnifiedGateId" },
+            { "type": "null" }
+          ],
+          "description": "The first gate that failed, or null if all passed."
+        },
+        "total_violations": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total number of violations across all gates."
+        }
+      }
+    },
+    "MerkleNode": {
+      "type": "object",
+      "description": "A single node in the Merkle evidence tree.",
+      "required": ["hash", "left", "right", "label", "depth"],
+      "additionalProperties": false,
+      "properties": {
+        "hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "SHA-256 hash of this node."
+        },
+        "left": {
+          "oneOf": [
+            { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+            { "type": "null" }
+          ],
+          "description": "Hash of the left child node, or null for leaves."
+        },
+        "right": {
+          "oneOf": [
+            { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+            { "type": "null" }
+          ],
+          "description": "Hash of the right child node, or null for leaves."
+        },
+        "label": {
+          "type": "string",
+          "description": "Human-readable label for this node."
+        },
+        "depth": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Depth of this node in the tree (0 = root)."
+        }
+      }
+    },
+    "MerkleTree": {
+      "type": "object",
+      "description": "Complete Merkle tree for evidence integrity.",
+      "required": ["root_hash", "nodes", "leaf_count", "depth"],
+      "additionalProperties": false,
+      "properties": {
+        "root_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "Root hash of the Merkle tree."
+        },
+        "nodes": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/MerkleNode" },
+          "description": "All nodes in the tree."
+        },
+        "leaf_count": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Number of leaf nodes."
+        },
+        "depth": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Maximum depth of the tree."
+        }
+      }
+    },
+    "ParagraphTrace": {
+      "type": "object",
+      "description": "Full traceability record for a single paragraph.",
+      "required": [
+        "paragraph_id", "text_hash", "intent_hash", "plan_hash",
+        "segment_ids", "scene_ids", "arc_ids", "canon_refs",
+        "seed_refs", "proof_path"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "paragraph_id": {
+          "type": "string",
+          "description": "Unique identifier for the paragraph."
+        },
+        "text_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "SHA-256 hash of the paragraph text."
+        },
+        "intent_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "Hash of the intent that produced this paragraph."
+        },
+        "plan_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "Hash of the plan that produced this paragraph."
+        },
+        "segment_ids": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Segment IDs this paragraph belongs to."
+        },
+        "scene_ids": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Scene IDs this paragraph belongs to."
+        },
+        "arc_ids": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Arc IDs this paragraph belongs to."
+        },
+        "canon_refs": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Canon entry IDs referenced by this paragraph."
+        },
+        "seed_refs": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Seed IDs referenced by this paragraph."
+        },
+        "proof_path": {
+          "type": "array",
+          "items": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+          "description": "Merkle proof path from this leaf to the root."
+        }
+      }
+    },
+    "StageResult": {
+      "type": "object",
+      "description": "Result of a single pipeline stage execution.",
+      "required": ["stage", "verdict", "input_hash", "output_hash", "duration_ms", "details", "timestamp_deterministic"],
+      "additionalProperties": false,
+      "properties": {
+        "stage": {
+          "$ref": "#/definitions/PipelineStageId"
+        },
+        "verdict": {
+          "$ref": "#/definitions/C4Verdict"
+        },
+        "input_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "SHA-256 hash of the stage input."
+        },
+        "output_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "SHA-256 hash of the stage output."
+        },
+        "duration_ms": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Stage execution duration in milliseconds."
+        },
+        "details": {
+          "type": "string",
+          "description": "Human-readable details of stage execution."
+        },
+        "timestamp_deterministic": {
+          "type": "string",
+          "description": "Deterministic ISO 8601 timestamp of stage execution."
+        }
+      }
+    },
+    "E2EEvidenceChain": {
+      "type": "object",
+      "description": "End-to-end evidence chain linking all pipeline stages.",
+      "required": [
+        "pipeline_id", "merkle_tree", "paragraph_traces", "stage_results",
+        "genesis_evidence_hash", "scribe_evidence_hash", "style_evidence_hash",
+        "chain_hash"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "pipeline_id": {
+          "type": "string",
+          "description": "Pipeline execution ID."
+        },
+        "merkle_tree": {
+          "$ref": "#/definitions/MerkleTree"
+        },
+        "paragraph_traces": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/ParagraphTrace" },
+          "description": "Per-paragraph traceability records."
+        },
+        "stage_results": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/StageResult" },
+          "description": "Results from each pipeline stage."
+        },
+        "genesis_evidence_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "Hash of the C.1 Genesis evidence chain."
+        },
+        "scribe_evidence_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "Hash of the C.2 Scribe evidence chain."
+        },
+        "style_evidence_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "Hash of the C.3 Style evidence chain."
+        },
+        "chain_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "SHA-256 hash of the entire evidence chain."
+        }
+      }
+    },
+    "ProofPackFile": {
+      "type": "object",
+      "description": "A file entry in the proof pack manifest.",
+      "required": ["path", "sha256", "size_bytes", "role"],
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "type": "string",
+          "description": "Relative file path within the proof pack."
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "SHA-256 hash of the file contents."
+        },
+        "size_bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "File size in bytes."
+        },
+        "role": {
+          "type": "string",
+          "enum": ["input", "intermediate", "output", "evidence", "report"],
+          "description": "Role of this file in the proof pack."
+        }
+      }
+    },
+    "ProofPackManifest": {
+      "type": "object",
+      "description": "Manifest listing all files in the proof pack.",
+      "required": ["manifest_version", "pipeline_id", "root_hash", "files", "created_at", "total_files", "total_bytes"],
+      "additionalProperties": false,
+      "properties": {
+        "manifest_version": {
+          "type": "string",
+          "description": "Version of the manifest format."
+        },
+        "pipeline_id": {
+          "type": "string",
+          "description": "Pipeline execution ID."
+        },
+        "root_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "Root hash of the proof pack Merkle tree."
+        },
+        "files": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/ProofPackFile" },
+          "description": "Files included in the proof pack."
+        },
+        "created_at": {
+          "type": "string",
+          "description": "ISO 8601 timestamp of proof pack creation."
+        },
+        "total_files": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total number of files in the proof pack."
+        },
+        "total_bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total size of all files in bytes."
+        }
+      }
+    },
+    "ProofPack": {
+      "type": "object",
+      "description": "Cryptographic proof pack for pipeline execution verification.",
+      "required": ["manifest", "root_hash", "merkle_tree", "verifiable"],
+      "additionalProperties": false,
+      "properties": {
+        "manifest": {
+          "$ref": "#/definitions/ProofPackManifest"
+        },
+        "root_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "Root hash of the proof pack."
+        },
+        "merkle_tree": {
+          "$ref": "#/definitions/MerkleTree"
+        },
+        "verifiable": {
+          "type": "boolean",
+          "description": "Whether the proof pack can be independently verified."
+        }
+      }
+    },
+    "PipelineTrace": {
+      "type": "object",
+      "description": "Complete pipeline execution trace.",
+      "required": ["stages", "total_stages", "passed_stages", "first_failure"],
+      "additionalProperties": false,
+      "properties": {
+        "stages": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/StageResult" },
+          "description": "Ordered stage execution results."
+        },
+        "total_stages": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total number of stages executed."
+        },
+        "passed_stages": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of stages that passed."
+        },
+        "first_failure": {
+          "oneOf": [
+            { "$ref": "#/definitions/PipelineStageId" },
+            { "type": "null" }
+          ],
+          "description": "The first stage that failed, or null if all passed."
+        }
+      }
+    },
+    "CreationMetrics": {
+      "type": "object",
+      "description": "Aggregated metrics from the creation pipeline run.",
+      "required": [
+        "total_words", "total_paragraphs", "total_segments",
+        "total_arcs", "total_scenes",
+        "genesis_duration_ms", "scribe_duration_ms", "style_duration_ms",
+        "gates_duration_ms", "total_duration_ms",
+        "rewrite_passes", "tournament_rounds",
+        "ia_detection_score", "genre_specificity",
+        "voice_stability", "genome_max_deviation",
+        "evidence_nodes", "proof_files",
+        "invariants_checked", "invariants_passed"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "total_words": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total word count in the final output."
+        },
+        "total_paragraphs": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total paragraph count in the final output."
+        },
+        "total_segments": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total segments produced by the Scribe Engine."
+        },
+        "total_arcs": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total narrative arcs in the plan."
+        },
+        "total_scenes": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total scenes in the plan."
+        },
+        "genesis_duration_ms": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Duration of the Genesis Planner stage in ms."
+        },
+        "scribe_duration_ms": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Duration of the Scribe Engine stage in ms."
+        },
+        "style_duration_ms": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Duration of the Style Emergence Engine stage in ms."
+        },
+        "gates_duration_ms": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Duration of the unified gate evaluation in ms."
+        },
+        "total_duration_ms": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Total pipeline duration in ms."
+        },
+        "rewrite_passes": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of rewrite passes performed by the Scribe Engine."
+        },
+        "tournament_rounds": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of tournament rounds in the Style Emergence Engine."
+        },
+        "ia_detection_score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "AI detection score (lower = more human-like)."
+        },
+        "genre_specificity": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Genre specificity score."
+        },
+        "voice_stability": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Voice stability across the narrative."
+        },
+        "genome_max_deviation": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Maximum deviation from the target style genome."
+        },
+        "evidence_nodes": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total nodes in the Merkle evidence tree."
+        },
+        "proof_files": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total files in the proof pack."
+        },
+        "invariants_checked": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of invariants checked."
+        },
+        "invariants_passed": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of invariants that passed."
+        }
+      }
+    },
+    "CreationReport": {
+      "type": "object",
+      "description": "Full creation pipeline report.",
+      "required": [
+        "pipeline_id", "output_hash", "intent_hash", "verdict",
+        "unified_gates", "metrics", "evidence_hash", "proof_pack_hash",
+        "pipeline_trace", "invariants_checked", "invariants_passed",
+        "invariants_failed", "config_hash", "timestamp_deterministic"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "pipeline_id": {
+          "type": "string",
+          "description": "Pipeline execution ID."
+        },
+        "output_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "SHA-256 hash of the final output."
+        },
+        "intent_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "SHA-256 hash of the input IntentPack."
+        },
+        "verdict": {
+          "$ref": "#/definitions/C4Verdict"
+        },
+        "unified_gates": {
+          "$ref": "#/definitions/UnifiedGateChainResult"
+        },
+        "metrics": {
+          "$ref": "#/definitions/CreationMetrics"
+        },
+        "evidence_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "SHA-256 hash of the evidence chain."
+        },
+        "proof_pack_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "SHA-256 hash of the proof pack."
+        },
+        "pipeline_trace": {
+          "$ref": "#/definitions/PipelineTrace"
+        },
+        "invariants_checked": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/C4InvariantId" },
+          "description": "List of invariant IDs that were checked."
+        },
+        "invariants_passed": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/C4InvariantId" },
+          "description": "List of invariant IDs that passed."
+        },
+        "invariants_failed": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/C4InvariantId" },
+          "description": "List of invariant IDs that failed."
+        },
+        "config_hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "SHA-256 hash of the pipeline configuration."
+        },
+        "timestamp_deterministic": {
+          "type": "string",
+          "description": "Deterministic ISO 8601 timestamp of report generation."
+        }
+      }
+    }
+  }
+}

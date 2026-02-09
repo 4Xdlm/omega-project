@@ -1,0 +1,27 @@
+{
+  "name": "@omega/release",
+  "version": "1.0.0",
+  "description": "OMEGA Production Hardening & Release — Phase G.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "omega-release": "dist/cli/main.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:verbose": "vitest run --reporter=verbose",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@omega/canon-kernel": "file:../canon-kernel"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3",
+    "vitest": "^4.0.17"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

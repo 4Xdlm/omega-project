@@ -1,0 +1,93 @@
+name: OMEGA Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g., 1.0.0)'
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  validate:
+    name: Validate Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: packages/omega-release
+
+      - name: TypeScript check
+        run: npx tsc --noEmit
+        working-directory: packages/omega-release
+
+      - name: Run tests
+        run: npm test
+        working-directory: packages/omega-release
+
+      - name: Version coherence check
+        run: |
+          FILE_VERSION=$(cat VERSION)
+          PKG_VERSION=$(node -p "require('./packages/omega-release/package.json').version")
+          echo "VERSION file: $FILE_VERSION"
+          echo "package.json: $PKG_VERSION"
+          if [ "$FILE_VERSION" != "$PKG_VERSION" ]; then
+            echo "ERROR: Version mismatch!"
+            exit 1
+          fi
+
+  build:
+    name: Build Release Artifacts
+    needs: validate
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        platform: [win-x64, linux-x64, macos-arm64]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Build artifact
+        run: |
+          VERSION=$(cat VERSION)
+          echo "Building omega-${VERSION}-${{ matrix.platform }}"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: omega-${{ matrix.platform }}
+          path: releases/
+
+  release:
+    name: Create GitHub Release
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: release-artifacts/
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: release-artifacts/**/*
+          generate_release_notes: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

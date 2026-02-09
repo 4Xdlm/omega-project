@@ -88,3 +88,46 @@ export {
 // CLI
 export { parseGovArgs, getGovHelpText } from './cli/parser.js';
 export type { GovCommand, GovParsedArgs } from './cli/parser.js';
+
+// Phase F — CI Module
+export {
+  // Types & config
+  CI_EXIT_PASS, CI_EXIT_FAIL, CI_EXIT_USAGE,
+  CI_EXIT_BASELINE_NOT_FOUND, CI_EXIT_IO, CI_EXIT_INVARIANT_BREACH,
+  DEFAULT_CI_CONFIG, createCIConfig,
+  // Baseline
+  readRegistry, writeRegistry, findBaseline, listBaselines,
+  baselineExists, validateBaselinePath, registerBaseline,
+  checkBaselineIntegrity, readBaselineManifest,
+  generateBaselineCertificate, baselineCertificateToMarkdown,
+  // Replay
+  replayCompare, compareDirectories, hashFileNormalized,
+  // Gates
+  GATE_ORDER, GATE_DEFINITIONS,
+  executeG0, executeG1, executeG2, executeG3, executeG4, executeG5,
+  executeGates,
+  // Reporter
+  generateJSONReport, generateMarkdownReport,
+  buildSummary, buildRecommendations,
+  // Badge
+  generateBadge, generateUnknownBadge,
+} from './ci/index.js';
+
+export type {
+  CIResult, CIReport, CISummary, CIConfig,
+  BaselineRegistry, BaselineEntry, BaselineManifest, BaselineIntentEntry, BaselineThresholds,
+  ReplayResult, ReplayDifference, ReplayOptions,
+  GateId, GateVerdict, GateResult, GateCheck, GateContext,
+  OrchestratorResult,
+  ReportFormat, ReportOutput,
+  BadgeStatus, BadgeConfig, BadgeResult,
+} from './ci/index.js';
+
+// Phase F — CI Invariants
+export {
+  checkBaselineImmutable, checkReplaySameSeed, checkReplayByteIdentical,
+  checkGatesSequential, checkThresholdsFromConfig, checkCertificateIncludesGates,
+  checkReportPureFunction, checkBaselineRegisteredImmutable,
+  checkBadgeReflectsVerdict, checkCIDeterministic,
+  checkAvailableCIInvariants,
+} from './invariants/ci-invariants.js';

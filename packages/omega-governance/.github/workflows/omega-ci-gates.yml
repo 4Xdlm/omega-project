@@ -1,0 +1,68 @@
+name: OMEGA CI Gates
+
+on:
+  push:
+    branches: [master, main]
+    paths:
+      - 'packages/omega-governance/**'
+  pull_request:
+    branches: [master, main]
+    paths:
+      - 'packages/omega-governance/**'
+
+jobs:
+  ci-gates:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        working-directory: packages/omega-governance
+        run: npm install
+
+      - name: Build canon-kernel
+        working-directory: packages/canon-kernel
+        run: npx tsc
+
+      - name: TypeCheck
+        working-directory: packages/omega-governance
+        run: npx tsc --noEmit
+
+      - name: Run Tests
+        working-directory: packages/omega-governance
+        run: npx vitest run --reporter=verbose
+
+      - name: Verify Test Count >= 312
+        working-directory: packages/omega-governance
+        run: |
+          COUNT=$(npx vitest run 2>&1 | grep -oP '\d+ passed' | grep -oP '\d+')
+          echo "Test count: $COUNT"
+          if [ "$COUNT" -lt 312 ]; then
+            echo "FAIL: Expected >= 312 tests, got $COUNT"
+            exit 1
+          fi
+          echo "PASS: $COUNT tests >= 312 minimum"
+
+      - name: Generate Evidence Hash
+        working-directory: packages/omega-governance
+        run: |
+          find src -name "*.ts" -exec sha256sum {} \; | sort > evidence-hashes.txt
+          sha256sum evidence-hashes.txt
+
+      - name: Upload Evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: omega-governance-evidence
+          path: |
+            packages/omega-governance/evidence-hashes.txt
+          retention-days: 90

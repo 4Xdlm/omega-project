@@ -3,7 +3,7 @@
  * Phase D.2 — Argument parsing (no external dependencies)
  */
 
-export type GovCommand = 'compare' | 'drift' | 'bench' | 'certify' | 'history' | 'help' | 'version';
+export type GovCommand = 'compare' | 'drift' | 'bench' | 'certify' | 'history' | 'baseline' | 'replay' | 'ci' | 'badge' | 'help' | 'version';
 
 export interface GovParsedArgs {
   readonly command: GovCommand;
@@ -17,6 +17,14 @@ export interface GovParsedArgs {
   readonly since?: string;
   readonly until?: string;
   readonly format?: 'json' | 'md';
+  // Phase F additions
+  readonly action?: string;
+  readonly baselinesDir?: string;
+  readonly baselineVersion?: string;
+  readonly baselineDir?: string;
+  readonly seed?: string;
+  readonly badgeOut?: string;
+  readonly resultFile?: string;
 }
 
 /** Parse CLI arguments into structured args */
@@ -46,7 +54,7 @@ function parseGovSubcommand(args: readonly string[]): GovParsedArgs {
   }
 
   const command = args[0] as GovCommand;
-  const validCommands: GovCommand[] = ['compare', 'drift', 'bench', 'certify', 'history'];
+  const validCommands: GovCommand[] = ['compare', 'drift', 'bench', 'certify', 'history', 'baseline', 'replay', 'ci', 'badge'];
 
   if (!validCommands.includes(command)) {
     return { command: 'help' };
@@ -72,6 +80,14 @@ function parseGovSubcommand(args: readonly string[]): GovParsedArgs {
     since: flags['since'],
     until: flags['until'],
     format: flags['format'] as 'json' | 'md' | undefined,
+    // Phase F
+    action: flags['action'],
+    baselinesDir: flags['baselines-dir'],
+    baselineVersion: flags['baseline-version'],
+    baselineDir: flags['baseline-dir'],
+    seed: flags['seed'],
+    badgeOut: flags['badge-out'],
+    resultFile: flags['result-file'],
   };
 }
 
@@ -102,6 +118,21 @@ export function getGovHelpText(): string {
     '  --format <json|md>      Output format (default: json)',
     '  --help                  Show this help',
     '  --version               Show version',
+    '',
+    'Phase F — CI Commands:',
+    '  baseline  Manage baselines (--action register|list|check|certify)',
+    '  replay    Compare baseline vs candidate replay',
+    '  ci        Run CI gates G0-G5',
+    '  badge     Generate CI status badge',
+    '',
+    'Phase F Options:',
+    '  --action <verb>         Baseline action (register, list, check, certify)',
+    '  --baselines-dir <dir>   Baselines directory',
+    '  --baseline-version <v>  Baseline version',
+    '  --baseline-dir <dir>    Baseline run directory',
+    '  --seed <seed>           Seed for replay',
+    '  --badge-out <path>      Badge SVG output path',
+    '  --result-file <path>    CI result JSON file (for badge)',
     '',
     'Exit Codes:',
     '  0  SUCCESS',

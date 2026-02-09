@@ -33,3 +33,18 @@ The governance CLI uses no external argument parsing libraries. All parsing is d
 
 ## A10: canon-kernel Dependency
 This package depends on `@omega/canon-kernel` for hash utilities. It does NOT depend on `@omega/runner` at runtime to avoid circular dependency risks — instead it re-declares the necessary types from the ProofPack format.
+
+## A11: Baseline Immutability (Phase F)
+Once a baseline is registered, it cannot be modified or re-registered. The `registerBaseline()` function throws if the version already exists. This is enforced at the registry level.
+
+## A12: Replay Engine (Phase F)
+The replay engine does NOT re-execute the pipeline. It reads two existing ProofPacks (baseline + candidate) and compares them byte-by-byte. CRLF normalization is applied before hashing.
+
+## A13: Gate Execution Order (Phase F)
+Gates execute strictly sequentially: G0 -> G1 -> G2 -> G3 -> G4 -> G5. In fail-fast mode (default), the first failing gate causes all subsequent gates to be marked SKIPPED. No parallel execution.
+
+## A14: CI Configuration (Phase F)
+All CI thresholds are centralized in `CIConfig`. No gate implementation contains hardcoded values. This enables per-environment configuration.
+
+## A15: Badge Generation (Phase F)
+Badge SVG is generated in-process (no external API calls). The shield URL is for reference only and is not fetched during CI execution.

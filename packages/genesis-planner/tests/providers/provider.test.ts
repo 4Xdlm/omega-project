@@ -9,7 +9,7 @@ import { join } from 'node:path';
 import { canonicalize, sha256 } from '@omega/canon-kernel';
 import { createMockProvider } from '../../src/providers/mock-provider.js';
 import { createCacheProvider } from '../../src/providers/cache-provider.js';
-import { createLlmProvider } from '../../src/providers/llm-provider.js';
+import { createLlmProvider, stripMarkdownFences } from '../../src/providers/llm-provider.js';
 import { createProvider } from '../../src/providers/factory.js';
 import type { ProviderContext, ProviderResponse } from '../../src/providers/types.js';
 import { createGenesisPlan } from '../../src/planner.js';
@@ -249,6 +249,42 @@ describe('LLM Provider — Structure', () => {
     expect(typeof provider.generateArcs).toBe('function');
     expect(typeof provider.enrichScenes).toBe('function');
     expect(typeof provider.detailBeats).toBe('function');
+  });
+});
+
+// ═══════════════════════ GROUP 4b — MARKDOWN FENCE STRIPPING (TF-4) ═══════════════════════
+
+describe('stripMarkdownFences', () => {
+  it('should return clean JSON unchanged', () => {
+    const input = '[{"arc_id":"ARC-001"}]';
+    expect(stripMarkdownFences(input)).toBe(input);
+  });
+
+  it('should strip ```json ... ``` fences', () => {
+    const input = '```json\n[{"arc_id":"ARC-001"}]\n```';
+    expect(stripMarkdownFences(input)).toBe('[{"arc_id":"ARC-001"}]');
+  });
+
+  it('should strip ``` ... ``` fences (no language tag)', () => {
+    const input = '```\n[{"arc_id":"ARC-001"}]\n```';
+    expect(stripMarkdownFences(input)).toBe('[{"arc_id":"ARC-001"}]');
+  });
+
+  it('should handle leading/trailing whitespace', () => {
+    const input = '  ```json\n  {"key": "val"}  \n```  ';
+    expect(stripMarkdownFences(input)).toBe('{"key": "val"}');
+  });
+
+  it('should preserve multiline JSON inside fences', () => {
+    const input = '```json\n[\n  {"id": 1},\n  {"id": 2}\n]\n```';
+    const result = stripMarkdownFences(input);
+    const parsed = JSON.parse(result);
+    expect(parsed).toEqual([{ id: 1 }, { id: 2 }]);
+  });
+
+  it('should trim plain text with whitespace', () => {
+    const input = '  {"key": "val"}  ';
+    expect(stripMarkdownFences(input)).toBe('{"key": "val"}');
   });
 });
 

@@ -1,13 +1,14 @@
 /**
  * OMEGA Runner — Intent Validator
- * Hardening Sprint H1 — NCR-G1B-001
+ * Hardening Sprint H1 — NCR-G1B-001 + Sprint S-HARDEN TF-2
  *
  * Validates intent objects before pipeline execution.
  * SYNCHRONOUS. DETERMINISTIC. No I/O. No external dependencies.
  *
  * Rules:
- *   V-01..V-05 — Structural validation (simplified format)
- *   S-01..S-05 — Security validation (anti-injection)
+ *   V-06     — Simplified format explicitly rejected (TF-2 fix)
+ *   V-F1..F3 — Formal IntentPack structural validation
+ *   V-00     — Unknown format / non-object guard
  */
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -25,31 +26,6 @@ export interface IntentValidationResult {
   readonly errors: readonly IntentValidationError[];
 }
 
-// ─── Constants ────────────────────────────────────────────────────────────────
-
-const MAX_TITLE_LENGTH = 500;
-const MAX_PREMISE_LENGTH = 2000;
-const MAX_THEME_LENGTH = 100;
-const MAX_THEMES_COUNT = 20;
-const MAX_EMOTION_LENGTH = 100;
-const MIN_PARAGRAPHS = 1;
-const MAX_PARAGRAPHS = 1000;
-
-/** Zero-width and directional override characters */
-const ZERO_WIDTH_CHARS = /[\u200B\u200C\u200D\uFEFF\u202E\u202D]/;
-
-/** Control characters (U+0000–U+001F) except newline (U+000A) and carriage return (U+000D) */
-const CONTROL_CHARS = /[\u0000-\u0009\u000B\u000C\u000E-\u001F]/;
-
-/** Path traversal patterns */
-const PATH_TRAVERSAL = /\.\.[/\\]/;
-
-/** XSS script tag pattern (case-insensitive) */
-const XSS_SCRIPT = /<script/i;
-
-/** SQL injection patterns (case-insensitive) */
-const SQL_INJECTION = /\b(DROP|DELETE|INSERT|UPDATE)\s/i;
-
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
 function err(rule: string, field: string, message: string): IntentValidationError {
@@ -58,142 +34,6 @@ function err(rule: string, field: string, message: string): IntentValidationErro
 
 function isObject(v: unknown): v is Record<string, unknown> {
   return v !== null && typeof v === 'object' && !Array.isArray(v);
-}
-
-// ─── Security rules (applied to every string value) ──────────────────────────
-
-function checkSecurityRules(value: string, field: string, errors: IntentValidationError[]): void {
-  if (XSS_SCRIPT.test(value)) {
-    errors.push(err('S-01', field, 'Contains <script tag (XSS)'));
-  }
-  if (PATH_TRAVERSAL.test(value)) {
-    errors.push(err('S-02', field, 'Contains path traversal sequence (../ or ..\\)'));
-  }
-  if (SQL_INJECTION.test(value)) {
-    errors.push(err('S-03', field, 'Contains SQL injection keyword'));
-  }
-  if (CONTROL_CHARS.test(value)) {
-    errors.push(err('S-04', field, 'Contains control character'));
-  }
-  if (ZERO_WIDTH_CHARS.test(value)) {
-    errors.push(err('S-05', field, 'Contains zero-width or directional override character'));
-  }
-}
-
-// ─── Structural rules ────────────────────────────────────────────────────────
-
-function validateTitle(obj: Record<string, unknown>, errors: IntentValidationError[]): void {
-  const title = obj['title'];
-  if (title === undefined || title === null) {
-    errors.push(err('V-01', 'title', 'Missing required field'));
-    return;
-  }
-  if (typeof title !== 'string') {
-    errors.push(err('V-01', 'title', 'Must be a string'));
-    return;
-  }
-  if (title.length === 0) {
-    errors.push(err('V-01', 'title', 'Must not be empty'));
-    return;
-  }
-  if (title.length > MAX_TITLE_LENGTH) {
-    errors.push(err('V-01', 'title', `Must be ≤${MAX_TITLE_LENGTH} characters (got ${title.length})`));
-    return;
-  }
-  checkSecurityRules(title, 'title', errors);
-}
-
-function validatePremise(obj: Record<string, unknown>, errors: IntentValidationError[]): void {
-  const premise = obj['premise'];
-  if (premise === undefined || premise === null) {
-    errors.push(err('V-02', 'premise', 'Missing required field'));
-    return;
-  }
-  if (typeof premise !== 'string') {
-    errors.push(err('V-02', 'premise', 'Must be a string'));
-    return;
-  }
-  if (premise.length === 0) {
-    errors.push(err('V-02', 'premise', 'Must not be empty'));
-    return;
-  }
-  if (premise.length > MAX_PREMISE_LENGTH) {
-    errors.push(err('V-02', 'premise', `Must be ≤${MAX_PREMISE_LENGTH} characters (got ${premise.length})`));
-    return;
-  }
-  checkSecurityRules(premise, 'premise', errors);
-}
-
-function validateThemes(obj: Record<string, unknown>, errors: IntentValidationError[]): void {
-  const themes = obj['themes'];
-  if (themes === undefined || themes === null) {
-    errors.push(err('V-03', 'themes', 'Missing required field'));
-    return;
-  }
-  if (!Array.isArray(themes)) {
-    errors.push(err('V-03', 'themes', 'Must be an array'));
-    return;
-  }
-  if (themes.length === 0) {
-    errors.push(err('V-03', 'themes', 'Must contain at least 1 element'));
-    return;
-  }
-  if (themes.length > MAX_THEMES_COUNT) {
-    errors.push(err('V-03', 'themes', `Must contain ≤${MAX_THEMES_COUNT} elements (got ${themes.length})`));
-    return;
-  }
-  for (let i = 0; i < themes.length; i++) {
-    const t = themes[i];
-    if (typeof t !== 'string') {
-      errors.push(err('V-03', `themes[${i}]`, 'Each theme must be a string'));
-      continue;
-    }
-    if (t.length > MAX_THEME_LENGTH) {
-      errors.push(err('V-03', `themes[${i}]`, `Must be ≤${MAX_THEME_LENGTH} characters (got ${t.length})`));
-      continue;
-    }
-    checkSecurityRules(t, `themes[${i}]`, errors);
-  }
-}
-
-function validateCoreEmotion(obj: Record<string, unknown>, errors: IntentValidationError[]): void {
-  const emotion = obj['core_emotion'];
-  if (emotion === undefined || emotion === null) {
-    errors.push(err('V-04', 'core_emotion', 'Missing required field'));
-    return;
-  }
-  if (typeof emotion !== 'string') {
-    errors.push(err('V-04', 'core_emotion', 'Must be a string'));
-    return;
-  }
-  if (emotion.length === 0) {
-    errors.push(err('V-04', 'core_emotion', 'Must not be empty'));
-    return;
-  }
-  if (emotion.length > MAX_EMOTION_LENGTH) {
-    errors.push(err('V-04', 'core_emotion', `Must be ≤${MAX_EMOTION_LENGTH} characters (got ${emotion.length})`));
-    return;
-  }
-  checkSecurityRules(emotion, 'core_emotion', errors);
-}
-
-function validateParagraphs(obj: Record<string, unknown>, errors: IntentValidationError[]): void {
-  const paragraphs = obj['paragraphs'];
-  if (paragraphs === undefined || paragraphs === null) {
-    errors.push(err('V-05', 'paragraphs', 'Missing required field'));
-    return;
-  }
-  if (typeof paragraphs !== 'number') {
-    errors.push(err('V-05', 'paragraphs', 'Must be a number'));
-    return;
-  }
-  if (!Number.isInteger(paragraphs)) {
-    errors.push(err('V-05', 'paragraphs', 'Must be an integer'));
-    return;
-  }
-  if (paragraphs < MIN_PARAGRAPHS || paragraphs > MAX_PARAGRAPHS) {
-    errors.push(err('V-05', 'paragraphs', `Must be between ${MIN_PARAGRAPHS} and ${MAX_PARAGRAPHS} (got ${paragraphs})`));
-  }
 }
 
 // ─── Format detection ─────────────────────────────────────────────────────────
@@ -255,11 +95,10 @@ export function validateIntent(parsed: unknown): IntentValidationResult {
   const errors: IntentValidationError[] = [];
 
   if (format === 'simplified') {
-    validateTitle(parsed, errors);
-    validatePremise(parsed, errors);
-    validateThemes(parsed, errors);
-    validateCoreEmotion(parsed, errors);
-    validateParagraphs(parsed, errors);
+    // TF-2 fix: Simplified format passes validation but fails silently in creation-pipeline.
+    // Reject it explicitly and direct users to formal IntentPack format.
+    errors.push(err('V-06', '(root)',
+      'Simplified intent format is not supported. Use formal IntentPack with {intent, canon, constraints, genome, emotion, metadata}'));
   } else if (format === 'formal') {
     validateFormal(parsed, errors);
   } else {

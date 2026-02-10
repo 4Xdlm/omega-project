@@ -16,6 +16,17 @@ You generate narrative structures as valid JSON.
 You MUST return ONLY valid JSON — no markdown, no commentary, no wrapping.
 Temperature is set to 0 for maximum determinism.`;
 
+/**
+ * Strip markdown code fences from LLM response (TF-4 fix).
+ * Some models wrap JSON in ```json ... ``` even when told not to.
+ */
+export function stripMarkdownFences(text: string): string {
+  const trimmed = text.trim();
+  const fenced = trimmed.match(/^```(?:json)?\s*\n?([\s\S]*?)\n?\s*```$/);
+  if (fenced) return fenced[1].trim();
+  return trimmed;
+}
+
 function callClaudeSync(prompt: string, config: ProviderConfig): string {
   if (!config.apiKey) {
     throw new Error('LLM provider requires ANTHROPIC_API_KEY');
@@ -33,44 +44,51 @@ function callClaudeSync(prompt: string, config: ProviderConfig): string {
     messages: [{ role: 'user', content: prompt }],
   });
 
-  // Inline Node.js script for synchronous HTTP call
+  // Inline Node.js script — reads requestBody + apiKey from stdin (TF-1 fix)
   const script = `
     const https = require('https');
-    const data = process.argv[1];
-    const apiKey = process.argv[2];
-    const req = https.request({
-      hostname: 'api.anthropic.com',
-      path: '/v1/messages',
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
-      },
-    }, (res) => {
-      let body = '';
-      res.on('data', (chunk) => body += chunk);
-      res.on('end', () => {
-        if (res.statusCode !== 200) {
-          process.stderr.write('API error ' + res.statusCode + ': ' + body);
-          process.exit(1);
-        }
-        const parsed = JSON.parse(body);
-        const text = parsed.content[0].text;
-        process.stdout.write(text);
+    let stdinBuf = '';
+    process.stdin.on('data', (chunk) => stdinBuf += chunk);
+    process.stdin.on('end', () => {
+      const input = JSON.parse(stdinBuf);
+      const data = input.body;
+      const apiKey = input.apiKey;
+      const req = https.request({
+        hostname: 'api.anthropic.com',
+        path: '/v1/messages',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': apiKey,
+          'anthropic-version': '2023-06-01',
+        },
+      }, (res) => {
+        let body = '';
+        res.on('data', (chunk) => body += chunk);
+        res.on('end', () => {
+          if (res.statusCode !== 200) {
+            process.stderr.write('API error ' + res.statusCode + ': ' + body);
+            process.exit(1);
+          }
+          const parsed = JSON.parse(body);
+          const text = parsed.content[0].text;
+          process.stdout.write(text);
+        });
       });
+      req.on('error', (e) => { process.stderr.write(e.message); process.exit(1); });
+      req.write(data);
+      req.end();
     });
-    req.on('error', (e) => { process.stderr.write(e.message); process.exit(1); });
-    req.write(data);
-    req.end();
   `.replace(/\n/g, ' ');
 
+  const stdinPayload = JSON.stringify({ body: requestBody, apiKey: config.apiKey });
+
   const result = execSync(
-    `node -e "${script.replace(/"/g, '\\"')}" "${requestBody.replace(/"/g, '\\"')}" "${config.apiKey}"`,
-    { encoding: 'utf8', timeout: 60000, maxBuffer: 10 * 1024 * 1024 },
+    `node -e "${script.replace(/"/g, '\\"')}"`,
+    { encoding: 'utf8', timeout: 60000, maxBuffer: 10 * 1024 * 1024, input: stdinPayload },
   );
 
-  return result;
+  return stripMarkdownFences(result);
 }
 
 function writeCacheEntry(cacheDir: string, key: string, response: ProviderResponse): void {

@@ -25,6 +25,7 @@ import { modelSubtext } from './generators/subtext-modeler.js';
 import { createEvidenceChainBuilder } from './evidence.js';
 import { generateReport } from './report.js';
 import { createProvider } from './providers/index.js';
+import { buildArcPrompt, buildScenePrompt, buildBeatPrompt, parseWithRepair } from './providers/prompt-builder.js';
 
 function mergeValidationErrors(
   ...results: { verdict: string; errors: readonly { invariant: string; path: string; message: string; severity: string }[] }[]
@@ -115,10 +116,14 @@ export function createGenesisPlan(
   if (provider.mode === 'mock') {
     rawArcs = generateArcs(intent, canon, constraints);
   } else {
-    const arcPrompt = JSON.stringify({ intent, canon, constraints });
+    const arcPrompt = buildArcPrompt(intent, canon, constraints);
     const arcCtx = { intentHash, seed: planIdSeed, step: 'arcs' as const };
     const arcResponse = provider.generateArcs(arcPrompt, arcCtx);
-    rawArcs = JSON.parse(arcResponse.content) as Arc[];
+    const parsed = parseWithRepair(arcResponse.content);
+    if (!parsed || !Array.isArray(parsed)) {
+      throw new Error('LLM arc generation returned invalid JSON');
+    }
+    rawArcs = parsed as Arc[];
   }
   const arcsHash = sha256(canonicalize(rawArcs));
   evidence.addStep('generate-arcs', intentHash, arcsHash, 'Arc generation from intent', 'PASS');
@@ -132,13 +137,14 @@ export function createGenesisPlan(
     }
   } else {
     for (let i = 0; i < rawArcs.length; i++) {
-      const scenePrompt = JSON.stringify({
-        arc: rawArcs[i], arcIndex: i, totalArcs: rawArcs.length,
-        canon, constraints, emotionTarget,
-      });
+      const scenePrompt = buildScenePrompt(rawArcs[i], i, rawArcs.length, canon, constraints, emotionTarget);
       const sceneCtx = { intentHash, seed: planIdSeed, step: 'scenes' as const };
       const sceneResponse = provider.enrichScenes(scenePrompt, sceneCtx);
-      const scenes = JSON.parse(sceneResponse.content) as Scene[];
+      const parsed = parseWithRepair(sceneResponse.content);
+      if (!parsed || !Array.isArray(parsed)) {
+        throw new Error(`LLM scene generation returned invalid JSON for arc ${rawArcs[i].arc_id}`);
+      }
+      const scenes = parsed as Scene[];
       arcsWithScenes.push({ ...rawArcs[i], scenes });
     }
   }
@@ -160,10 +166,14 @@ export function createGenesisPlan(
     for (const arc of arcsWithScenes) {
       const scenesWithBeats: Scene[] = [];
       for (let si = 0; si < arc.scenes.length; si++) {
-        const beatPrompt = JSON.stringify({ scene: arc.scenes[si], sceneIndex: si, config });
+        const beatPrompt = buildBeatPrompt(arc.scenes[si], si, config);
         const beatCtx = { intentHash, seed: planIdSeed, step: 'beats' as const };
         const beatResponse = provider.detailBeats(beatPrompt, beatCtx);
-        const beats = JSON.parse(beatResponse.content) as readonly import('./types.js').Beat[];
+        const parsed = parseWithRepair(beatResponse.content);
+        if (!parsed || !Array.isArray(parsed)) {
+          throw new Error(`LLM beat generation returned invalid JSON for scene ${arc.scenes[si].scene_id}`);
+        }
+        const beats = parsed as readonly import('./types.js').Beat[];
         scenesWithBeats.push({ ...arc.scenes[si], beats });
       }
       arcsWithBeats.push({ ...arc, scenes: scenesWithBeats });

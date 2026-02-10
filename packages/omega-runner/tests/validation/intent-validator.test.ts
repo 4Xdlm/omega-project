@@ -26,219 +26,107 @@ function hasRule(result: IntentValidationResult, rule: string): boolean {
   return result.errors.some(e => e.rule === rule);
 }
 
-// ─── GROUPE 1 — Format simplifié valide ──────────────────────────────────────
+// ─── GROUPE 1 — Format simplifié rejeté (TF-2 fix) ──────────────────────────
 
-describe('GROUPE 1 — Simplified format valid', () => {
-  it('accepts a minimal valid intent', () => {
+describe('GROUPE 1 — Simplified format rejected (TF-2)', () => {
+  it('rejects simplified format with V-06 error', () => {
     const result = validateIntent(validSimplified());
-    expect(result.valid).toBe(true);
-    expect(result.errors).toHaveLength(0);
+    expect(result.valid).toBe(false);
+    expect(hasRule(result, 'V-06')).toBe(true);
   });
 
-  it('accepts paragraphs = 1 (lower bound)', () => {
+  it('rejects even well-formed simplified intent', () => {
     const result = validateIntent(validSimplified({ paragraphs: 1 }));
-    expect(result.valid).toBe(true);
+    expect(result.valid).toBe(false);
+    expect(hasRule(result, 'V-06')).toBe(true);
   });
 
-  it('accepts paragraphs = 1000 (upper bound)', () => {
-    const result = validateIntent(validSimplified({ paragraphs: 1000 }));
-    expect(result.valid).toBe(true);
+  it('V-06 error message mentions IntentPack', () => {
+    const result = validateIntent(validSimplified());
+    const v06 = result.errors.find(e => e.rule === 'V-06');
+    expect(v06).toBeDefined();
+    expect(v06!.message).toContain('IntentPack');
   });
 
-  it('returns format = simplified', () => {
+  it('returns format = simplified even when rejected', () => {
     const result = validateIntent(validSimplified());
     expect(result.format).toBe('simplified');
   });
 });
 
-// ─── GROUPE 2 — Règles structurelles V-01→V-05 ──────────────────────────────
+// ─── GROUPE 2 — Simplified format always rejected (V-01→V-05 no longer tested individually) ──
 
-describe('GROUPE 2 — Structural rules V-01→V-05', () => {
-  // V-01: title
-  it('V-01: rejects empty title', () => {
+describe('GROUPE 2 — Simplified format always rejected via V-06', () => {
+  it('rejects simplified even with invalid title (V-06 takes precedence)', () => {
     const result = validateIntent(validSimplified({ title: '' }));
     expect(result.valid).toBe(false);
-    expect(hasRule(result, 'V-01')).toBe(true);
+    expect(hasRule(result, 'V-06')).toBe(true);
   });
 
-  it('V-01: rejects missing title', () => {
+  it('rejects simplified even with missing title', () => {
     const obj = validSimplified();
     delete obj['title'];
     const result = validateIntent(obj);
     expect(result.valid).toBe(false);
-    expect(hasRule(result, 'V-01')).toBe(true);
+    expect(hasRule(result, 'V-06')).toBe(true);
   });
 
-  it('V-01: rejects title > 500 chars', () => {
-    const result = validateIntent(validSimplified({ title: 'x'.repeat(501) }));
-    expect(result.valid).toBe(false);
-    expect(hasRule(result, 'V-01')).toBe(true);
-  });
-
-  it('V-01: rejects title non-string (number)', () => {
-    const result = validateIntent(validSimplified({ title: 42 }));
-    expect(result.valid).toBe(false);
-    expect(hasRule(result, 'V-01')).toBe(true);
-  });
-
-  // V-02: premise
-  it('V-02: rejects empty premise', () => {
+  it('rejects simplified with bad premise', () => {
     const result = validateIntent(validSimplified({ premise: '' }));
     expect(result.valid).toBe(false);
-    expect(hasRule(result, 'V-02')).toBe(true);
+    expect(hasRule(result, 'V-06')).toBe(true);
   });
 
-  it('V-02: rejects premise > 2000 chars', () => {
-    const result = validateIntent(validSimplified({ premise: 'y'.repeat(2001) }));
-    expect(result.valid).toBe(false);
-    expect(hasRule(result, 'V-02')).toBe(true);
-  });
-
-  // V-03: themes
-  it('V-03: rejects empty themes ([])', () => {
+  it('rejects simplified with bad themes', () => {
     const result = validateIntent(validSimplified({ themes: [] }));
     expect(result.valid).toBe(false);
-    expect(hasRule(result, 'V-03')).toBe(true);
+    expect(hasRule(result, 'V-06')).toBe(true);
   });
 
-  it('V-03: rejects themes non-array', () => {
-    const result = validateIntent(validSimplified({ themes: 'not-array' }));
-    expect(result.valid).toBe(false);
-    expect(hasRule(result, 'V-03')).toBe(true);
-  });
-
-  it('V-03: rejects themes with > 20 elements', () => {
-    const themes = Array.from({ length: 21 }, (_, i) => `theme${i}`);
-    const result = validateIntent(validSimplified({ themes }));
-    expect(result.valid).toBe(false);
-    expect(hasRule(result, 'V-03')).toBe(true);
-  });
-
-  it('V-03: rejects theme element > 100 chars', () => {
-    const result = validateIntent(validSimplified({ themes: ['x'.repeat(101)] }));
-    expect(result.valid).toBe(false);
-    expect(hasRule(result, 'V-03')).toBe(true);
-  });
-
-  it('V-03: rejects themes with non-string element', () => {
-    const result = validateIntent(validSimplified({ themes: [42] }));
-    expect(result.valid).toBe(false);
-    expect(hasRule(result, 'V-03')).toBe(true);
-  });
-
-  // V-04: core_emotion
-  it('V-04: rejects empty core_emotion', () => {
+  it('rejects simplified with bad core_emotion', () => {
     const result = validateIntent(validSimplified({ core_emotion: '' }));
     expect(result.valid).toBe(false);
-    expect(hasRule(result, 'V-04')).toBe(true);
+    expect(hasRule(result, 'V-06')).toBe(true);
   });
 
-  it('V-04: rejects missing core_emotion', () => {
-    const obj = validSimplified();
-    delete obj['core_emotion'];
-    const result = validateIntent(obj);
-    expect(result.valid).toBe(false);
-    expect(hasRule(result, 'V-04')).toBe(true);
-  });
-
-  // V-05: paragraphs
-  it('V-05: rejects paragraphs = 0', () => {
+  it('rejects simplified with bad paragraphs', () => {
     const result = validateIntent(validSimplified({ paragraphs: 0 }));
     expect(result.valid).toBe(false);
-    expect(hasRule(result, 'V-05')).toBe(true);
-  });
-
-  it('V-05: rejects paragraphs = -1', () => {
-    const result = validateIntent(validSimplified({ paragraphs: -1 }));
-    expect(result.valid).toBe(false);
-    expect(hasRule(result, 'V-05')).toBe(true);
-  });
-
-  it('V-05: rejects paragraphs = 999999', () => {
-    const result = validateIntent(validSimplified({ paragraphs: 999999 }));
-    expect(result.valid).toBe(false);
-    expect(hasRule(result, 'V-05')).toBe(true);
-  });
-
-  it('V-05: rejects paragraphs non-integer (3.5)', () => {
-    const result = validateIntent(validSimplified({ paragraphs: 3.5 }));
-    expect(result.valid).toBe(false);
-    expect(hasRule(result, 'V-05')).toBe(true);
-  });
-
-  it('V-05: rejects paragraphs non-number ("five")', () => {
-    const result = validateIntent(validSimplified({ paragraphs: 'five' }));
-    expect(result.valid).toBe(false);
-    expect(hasRule(result, 'V-05')).toBe(true);
+    expect(hasRule(result, 'V-06')).toBe(true);
   });
 });
 
-// ─── GROUPE 3 — Règles sécurité S-01→S-05 ───────────────────────────────────
+// ─── GROUPE 3 — Simplified format rejected before security checks ────────────
 
-describe('GROUPE 3 — Security rules S-01→S-05', () => {
-  // S-01: XSS
-  it('S-01: rejects <script> in title', () => {
+describe('GROUPE 3 — Simplified always rejected (V-06 preempts S-01→S-05)', () => {
+  it('rejects simplified with XSS in title (V-06)', () => {
     const result = validateIntent(validSimplified({ title: 'Hello <script>alert(1)</script>' }));
     expect(result.valid).toBe(false);
-    expect(hasRule(result, 'S-01')).toBe(true);
+    expect(hasRule(result, 'V-06')).toBe(true);
   });
 
-  it('S-01: rejects <SCRIPT> in premise (case-insensitive)', () => {
-    const result = validateIntent(validSimplified({ premise: 'Test <SCRIPT>alert(1)</SCRIPT>' }));
-    expect(result.valid).toBe(false);
-    expect(hasRule(result, 'S-01')).toBe(true);
-  });
-
-  // S-02: Path traversal
-  it('S-02: rejects ../ in title', () => {
+  it('rejects simplified with path traversal (V-06)', () => {
     const result = validateIntent(validSimplified({ title: '../../etc/passwd' }));
     expect(result.valid).toBe(false);
-    expect(hasRule(result, 'S-02')).toBe(true);
+    expect(hasRule(result, 'V-06')).toBe(true);
   });
 
-  it('S-02: rejects ..\\ in core_emotion', () => {
-    const result = validateIntent(validSimplified({ core_emotion: '..\\windows\\system32' }));
-    expect(result.valid).toBe(false);
-    expect(hasRule(result, 'S-02')).toBe(true);
-  });
-
-  // S-03: SQL injection
-  it('S-03: rejects DROP TABLE in title', () => {
+  it('rejects simplified with SQL injection (V-06)', () => {
     const result = validateIntent(validSimplified({ title: "'; DROP TABLE users;--" }));
     expect(result.valid).toBe(false);
-    expect(hasRule(result, 'S-03')).toBe(true);
+    expect(hasRule(result, 'V-06')).toBe(true);
   });
 
-  it('S-03: rejects DELETE FROM in premise', () => {
-    const result = validateIntent(validSimplified({ premise: 'DELETE FROM users WHERE 1=1' }));
-    expect(result.valid).toBe(false);
-    expect(hasRule(result, 'S-03')).toBe(true);
-  });
-
-  // S-04: Control characters
-  it('S-04: rejects null byte (U+0000) in title', () => {
+  it('rejects simplified with control char (V-06)', () => {
     const result = validateIntent(validSimplified({ title: 'Hello\u0000World' }));
     expect(result.valid).toBe(false);
-    expect(hasRule(result, 'S-04')).toBe(true);
+    expect(hasRule(result, 'V-06')).toBe(true);
   });
 
-  // S-05: Zero-width characters
-  it('S-05: rejects zero-width space (U+200B) in title', () => {
+  it('rejects simplified with zero-width char (V-06)', () => {
     const result = validateIntent(validSimplified({ title: 'Normal\u200BTitle' }));
     expect(result.valid).toBe(false);
-    expect(hasRule(result, 'S-05')).toBe(true);
-  });
-
-  it('S-05: rejects RTL override (U+202E) in title', () => {
-    const result = validateIntent(validSimplified({ title: 'Normal\u202ETitle' }));
-    expect(result.valid).toBe(false);
-    expect(hasRule(result, 'S-05')).toBe(true);
-  });
-
-  it('S-05: rejects BOM (U+FEFF) in premise', () => {
-    const result = validateIntent(validSimplified({ premise: '\uFEFFA story about nothing' }));
-    expect(result.valid).toBe(false);
-    expect(hasRule(result, 'S-05')).toBe(true);
+    expect(hasRule(result, 'V-06')).toBe(true);
   });
 });
 
@@ -333,7 +221,7 @@ describe('GROUPE 5 — Edge cases', () => {
     expect(hasRule(result, 'V-00')).toBe(true);
   });
 
-  it('accumulates multiple errors (no short-circuit)', () => {
+  it('simplified format produces exactly one V-06 error (no short-circuit into V-01→V-05)', () => {
     const result = validateIntent({
       title: '',
       premise: '',
@@ -342,7 +230,8 @@ describe('GROUPE 5 — Edge cases', () => {
       paragraphs: -1,
     });
     expect(result.valid).toBe(false);
-    expect(result.errors.length).toBeGreaterThanOrEqual(5);
+    expect(result.errors.length).toBe(1);
+    expect(hasRule(result, 'V-06')).toBe(true);
   });
 });
 
@@ -361,7 +250,7 @@ describe('GROUPE 6 — Determinism', () => {
   });
 
   it('result contains no timestamp or random values', () => {
-    const result = validateIntent(validSimplified({ title: '<script>xss' }));
+    const result = validateIntent(validSimplified());
     const json = JSON.stringify(result);
     // No Date patterns
     expect(json).not.toMatch(/\d{4}-\d{2}-\d{2}T/);
@@ -370,24 +259,24 @@ describe('GROUPE 6 — Determinism', () => {
   });
 });
 
-// ─── GROUPE 7 — Security in themes array ─────────────────────────────────────
+// ─── GROUPE 7 — Simplified format with bad themes (V-06 preempts) ────────────
 
-describe('GROUPE 7 — Security rules in array fields', () => {
-  it('S-01: rejects <script> in themes element', () => {
+describe('GROUPE 7 — Simplified always rejected (V-06 preempts theme security)', () => {
+  it('rejects simplified with XSS in themes (V-06)', () => {
     const result = validateIntent(validSimplified({ themes: ['<script>'] }));
     expect(result.valid).toBe(false);
-    expect(hasRule(result, 'S-01')).toBe(true);
+    expect(hasRule(result, 'V-06')).toBe(true);
   });
 
-  it('S-03: rejects SQL injection in themes element', () => {
+  it('rejects simplified with SQL injection in themes (V-06)', () => {
     const result = validateIntent(validSimplified({ themes: ['DROP TABLE x'] }));
     expect(result.valid).toBe(false);
-    expect(hasRule(result, 'S-03')).toBe(true);
+    expect(hasRule(result, 'V-06')).toBe(true);
   });
 
-  it('S-05: rejects zero-width chars in themes element', () => {
+  it('rejects simplified with zero-width in themes (V-06)', () => {
     const result = validateIntent(validSimplified({ themes: ['test\u200B'] }));
     expect(result.valid).toBe(false);
-    expect(hasRule(result, 'S-05')).toBe(true);
+    expect(hasRule(result, 'V-06')).toBe(true);
   });
 });

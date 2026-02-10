@@ -45,7 +45,12 @@ export function executeRunFull(args: ParsedArgs): number {
       { stage: '10-genesis', filename: 'genesis-plan.json', content: canonicalJSON(creation.genesis_plan) },
       { stage: '20-scribe', filename: 'scribe-output.json', content: canonicalJSON(creation.scribe_output) },
       { stage: '30-style', filename: 'styled-output.json', content: canonicalJSON(creation.style_output) },
-      { stage: '40-creation', filename: 'creation-result.json', content: canonicalJSON(creation) },
+      { stage: '40-creation', filename: 'creation-result.json', content: canonicalJSON({
+        pipeline_id: creation.pipeline_id,
+        output_hash: creation.output_hash,
+        intent_hash: creation.intent_hash,
+        verdict: creation.verdict,
+      }) },
       { stage: '50-forge', filename: 'forge-report.json', content: canonicalJSON(forge.forge_report) },
     ];
 

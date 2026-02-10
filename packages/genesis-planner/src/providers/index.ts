@@ -4,7 +4,8 @@
  */
 
 export { createMockProvider } from './mock-provider.js';
-export { createLlmProvider } from './llm-provider.js';
+export { createLlmProvider, stripMarkdownFences } from './llm-provider.js';
+export { buildArcPrompt, buildScenePrompt, buildBeatPrompt, parseWithRepair } from './prompt-builder.js';
 export { createCacheProvider } from './cache-provider.js';
 export { createProvider } from './factory.js';
 export type {

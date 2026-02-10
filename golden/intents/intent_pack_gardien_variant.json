@@ -1,0 +1,59 @@
+{
+  "intent": {
+    "title": "Le Gardien de l'Abime",
+    "premise": "A lighthouse keeper discovers the light keeps something in the deep ocean asleep, but now the creature is evolving to withstand the light.",
+    "themes": ["isolation", "duty", "forbidden knowledge", "adaptation"],
+    "core_emotion": "despair",
+    "target_audience": "adult literary fiction",
+    "message": "Even the strongest barriers eventually fail",
+    "target_word_count": 5000
+  },
+  "canon": {
+    "entries": [
+      { "id": "CANON-001", "category": "world", "statement": "Lighthouse on remote island, 200km from mainland", "immutable": true },
+      { "id": "CANON-002", "category": "character", "statement": "Keeper Elias has been alone for 3 years", "immutable": true },
+      { "id": "CANON-003", "category": "rule", "statement": "The light must never go out", "immutable": true },
+      { "id": "CANON-004", "category": "event", "statement": "Previous keepers disappeared without explanation", "immutable": true },
+      { "id": "CANON-005", "category": "world", "statement": "Ocean around island is abnormally deep", "immutable": true },
+      { "id": "CANON-006", "category": "rule", "statement": "The creature has begun adapting to the light frequency", "immutable": true }
+    ]
+  },
+  "constraints": {
+    "pov": "third-limited",
+    "tense": "past",
+    "banned_words": ["suddenly", "literally", "basically"],
+    "banned_topics": [],
+    "max_dialogue_ratio": 0.1,
+    "min_sensory_anchors_per_scene": 2,
+    "max_scenes": 8,
+    "min_scenes": 4,
+    "forbidden_cliches": ["dark and stormy night", "heart pounding", "blood ran cold"]
+  },
+  "genome": {
+    "target_burstiness": 0.7,
+    "target_lexical_richness": 0.8,
+    "target_avg_sentence_length": 15,
+    "target_dialogue_ratio": 0.1,
+    "target_description_density": 0.6,
+    "signature_traits": ["concrete imagery", "short declarative cuts", "sensory immersion", "parataxis"]
+  },
+  "emotion": {
+    "arc_emotion": "despair",
+    "waypoints": [
+      { "position": 0.0, "emotion": "trust", "intensity": 0.3 },
+      { "position": 0.3, "emotion": "fear", "intensity": 0.5 },
+      { "position": 0.5, "emotion": "fear", "intensity": 0.7 },
+      { "position": 0.8, "emotion": "despair", "intensity": 0.95 },
+      { "position": 1.0, "emotion": "despair", "intensity": 0.8 }
+    ],
+    "climax_position": 0.8,
+    "resolution_emotion": "despair"
+  },
+  "metadata": {
+    "pack_id": "PACK-GOLDEN-003",
+    "pack_version": "1.0.0",
+    "author": "Francky",
+    "created_at": "2026-02-10T00:00:00.000Z",
+    "description": "Le Gardien variant — Adaptation theme (Precision test)"
+  }
+}

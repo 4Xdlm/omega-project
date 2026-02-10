@@ -1,0 +1,51 @@
+{
+  "intent": {
+    "title": "Le Choix",
+    "premise": "A woman must choose between two doors",
+    "themes": ["choice"],
+    "core_emotion": "anticipation",
+    "target_audience": "general",
+    "message": "Every choice is a death",
+    "target_word_count": 1000
+  },
+  "canon": {
+    "entries": [
+      { "id": "CANON-001", "category": "world", "statement": "Two doors in a white room", "immutable": true }
+    ]
+  },
+  "constraints": {
+    "pov": "first",
+    "tense": "present",
+    "banned_words": [],
+    "banned_topics": [],
+    "max_dialogue_ratio": 0.0,
+    "min_sensory_anchors_per_scene": 1,
+    "max_scenes": 4,
+    "min_scenes": 2,
+    "forbidden_cliches": []
+  },
+  "genome": {
+    "target_burstiness": 0.5,
+    "target_lexical_richness": 0.5,
+    "target_avg_sentence_length": 10,
+    "target_dialogue_ratio": 0.0,
+    "target_description_density": 0.5,
+    "signature_traits": ["minimalist"]
+  },
+  "emotion": {
+    "arc_emotion": "anticipation",
+    "waypoints": [
+      { "position": 0.0, "emotion": "anticipation", "intensity": 0.3 },
+      { "position": 1.0, "emotion": "sadness", "intensity": 0.6 }
+    ],
+    "climax_position": 0.7,
+    "resolution_emotion": "sadness"
+  },
+  "metadata": {
+    "pack_id": "PACK-GOLDEN-002",
+    "pack_version": "1.0.0",
+    "author": "Francky",
+    "created_at": "2026-02-10T00:00:00.000Z",
+    "description": "Le Choix — Golden Run Scenario (Minimal)"
+  }
+}

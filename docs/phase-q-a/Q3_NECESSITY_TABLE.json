@@ -1,0 +1,181 @@
+{
+  "phase": "Q-A",
+  "evaluated_at": "2026-02-10T01:30:00.000Z",
+  "head": "923df7c8",
+  "total_packages": 8,
+  "verdicts": {
+    "ESSENTIAL": 8,
+    "REDUNDANT": 0,
+    "UNJUSTIFIED": 0,
+    "INCONCLUSIVE": 0
+  },
+  "packages": [
+    {
+      "name": "genesis-planner",
+      "npm_name": "@omega/genesis-planner",
+      "phase": "C.1",
+      "tests": 154,
+      "invariants": 10,
+      "role": "Transforms narrative inputs into structured GenesisPlan with arcs, scenes, beats, seeds, and evidence chain",
+      "inputs": ["Intent", "Canon", "Constraints", "StyleGenomeInput", "EmotionTarget", "GConfig"],
+      "outputs": ["GenesisPlan", "GenesisReport", "ValidationResult", "GEvidenceChain", "GenesisMetrics"],
+      "remove_effect": {
+        "breaks": ["scribe-engine", "style-emergence-engine", "creation-pipeline", "omega-forge", "omega-runner"],
+        "breaks_detail": "stage-genesis fails in creation-pipeline; 10+ type imports fail in scribe-engine; 5 type imports fail in style-emergence; EmotionWaypoint re-export breaks in omega-forge; GConfig/createDefaultConfig missing in omega-runner",
+        "unchanged": ["canon-kernel", "omega-governance", "omega-release"]
+      },
+      "dependencies_in": ["@omega/canon-kernel"],
+      "dependencies_out": ["@omega/scribe-engine", "@omega/style-emergence-engine", "@omega/creation-pipeline", "@omega/omega-forge", "@omega/omega-runner"],
+      "necessity_verdict": "ESSENTIAL",
+      "notes": ["Sole narrative plan generator", "30+ public exports", "Evidence chain with 14 hashed steps"],
+      "evidence": ["packages/genesis-planner/package.json", "packages/genesis-planner/src/index.ts", "packages/genesis-planner/src/planner.ts", "packages/genesis-planner/src/types.ts"]
+    },
+    {
+      "name": "scribe-engine",
+      "npm_name": "@omega/scribe-engine",
+      "phase": "C.2",
+      "tests": 232,
+      "invariants": 8,
+      "role": "Transforms GenesisPlan into prose via segmentation, skeleton, weaving, and multi-pass rewrite with 7 gates + 6 oracles",
+      "inputs": ["GenesisPlan", "Canon", "StyleGenomeInput", "EmotionTarget", "Constraints", "SConfig"],
+      "outputs": ["ScribeOutput", "ProseDoc", "ProseParagraph", "ScribeReport", "SVerdict"],
+      "remove_effect": {
+        "breaks": ["creation-pipeline", "style-emergence-engine", "omega-forge", "omega-runner"],
+        "breaks_detail": "F2 stage fails in creation-pipeline; 7 type imports fail in style-emergence; quality envelope broken in omega-forge; pipeline incomplete in omega-runner",
+        "unchanged": ["canon-kernel", "genesis-planner", "omega-governance", "omega-release"]
+      },
+      "dependencies_in": ["@omega/canon-kernel", "@omega/genesis-planner"],
+      "dependencies_out": ["@omega/creation-pipeline", "@omega/style-emergence-engine", "@omega/omega-forge", "@omega/omega-runner"],
+      "necessity_verdict": "ESSENTIAL",
+      "notes": ["27 public exports", "7 gates (TRUTH, NECESSITY, BANALITY, STYLE, EMOTION, DISCOMFORT, QUALITY)", "6 oracles"],
+      "evidence": ["packages/scribe-engine/package.json", "packages/scribe-engine/src/index.ts", "packages/scribe-engine/src/engine.ts", "packages/scribe-engine/src/types.ts"]
+    },
+    {
+      "name": "style-emergence-engine",
+      "npm_name": "@omega/style-emergence-engine",
+      "phase": "C.3",
+      "tests": 241,
+      "invariants": 10,
+      "role": "Profiles prose style, runs tournament self-play variants, detects AI/genre/banality, harmonizes voice, produces styled output",
+      "inputs": ["ScribeOutput", "StyleGenomeInput", "Constraints", "EConfig"],
+      "outputs": ["StyledOutput", "StyleReport", "StyledParagraph[]", "StyleProfile", "IADetectionResult", "GenreDetectionResult", "BanalityResult", "TournamentResult", "EEvidenceChain"],
+      "remove_effect": {
+        "breaks": ["creation-pipeline", "omega-forge", "omega-runner"],
+        "breaks_detail": "F3 stage compilation fails in creation-pipeline; all 8 unified gates fail; M6/M7 metrics unavailable in omega-forge; pipeline incomplete in omega-runner",
+        "unchanged": ["canon-kernel", "genesis-planner", "scribe-engine", "omega-governance", "omega-release"]
+      },
+      "dependencies_in": ["@omega/canon-kernel", "@omega/genesis-planner", "@omega/scribe-engine"],
+      "dependencies_out": ["@omega/creation-pipeline", "@omega/omega-forge", "@omega/omega-runner"],
+      "necessity_verdict": "ESSENTIAL",
+      "notes": ["Tournament self-play is unique", "5 metric analyzers, 3 detectors, harmonizer", "SEALED per commit bd5f3a67"],
+      "evidence": ["packages/style-emergence-engine/package.json", "packages/style-emergence-engine/src/index.ts", "packages/style-emergence-engine/src/engine.ts", "packages/style-emergence-engine/src/types.ts"]
+    },
+    {
+      "name": "creation-pipeline",
+      "npm_name": "@omega/creation-pipeline",
+      "phase": "C.4",
+      "tests": 318,
+      "invariants": 12,
+      "role": "Orchestrates E2E flow (F0-F8) chaining C.1/C.2/C.3 with unified gates, evidence chain, and proof pack into CreationResult",
+      "inputs": ["IntentPack", "C4Config", "GConfig", "SConfig", "EConfig"],
+      "outputs": ["CreationResult", "CreationReport", "ProofPack", "E2EEvidenceChain", "UnifiedGateChainResult"],
+      "remove_effect": {
+        "breaks": ["omega-forge", "omega-runner"],
+        "breaks_detail": "omega-runner runCreate/runFull have no alternative; omega-forge requires CreationResult as mandatory input; CLI commands omega-create and omega-run-full non-functional",
+        "unchanged": ["canon-kernel", "genesis-planner", "scribe-engine", "style-emergence-engine", "omega-governance", "omega-release"]
+      },
+      "dependencies_in": ["@omega/canon-kernel", "@omega/genesis-planner", "@omega/scribe-engine", "@omega/style-emergence-engine"],
+      "dependencies_out": ["@omega/omega-forge", "@omega/omega-runner"],
+      "necessity_verdict": "ESSENTIAL",
+      "notes": ["92 exports in index.ts", "8 unified gates", "Fail-closed semantics (C4-INV-07)", "Binding layer between C.1/C.2/C.3 and D.1/C.5"],
+      "evidence": ["packages/creation-pipeline/package.json", "packages/creation-pipeline/src/index.ts", "packages/creation-pipeline/src/engine.ts", "packages/creation-pipeline/src/types.ts"]
+    },
+    {
+      "name": "omega-forge",
+      "npm_name": "@omega/omega-forge",
+      "phase": "C.5",
+      "tests": 304,
+      "invariants": 14,
+      "role": "Validates CreationResult against OMEGA V4.4 physics laws (L1-L6), quality metrics (M1-M12), trajectory compliance, dead zones, prescriptions",
+      "inputs": ["CreationResult", "GenesisPlan", "StyledParagraph[]", "ProseDoc", "IntentPack", "F5Config", "CanonicalEmotionTable"],
+      "outputs": ["ForgeResult", "TrajectoryAnalysis", "LawComplianceReport", "QualityEnvelope", "Prescription[]", "DeadZone[]", "ForgeProfile", "ForgeReport", "F5EvidenceChain"],
+      "remove_effect": {
+        "breaks": ["omega-runner"],
+        "breaks_detail": "runForge/runFull missing; ForgeResult/F5Config/CanonicalEmotionTable types unavailable; CLI run-forge command non-functional; SBOM incomplete",
+        "unchanged": ["canon-kernel", "genesis-planner", "scribe-engine", "style-emergence-engine", "creation-pipeline", "omega-governance", "omega-release"]
+      },
+      "dependencies_in": ["@omega/canon-kernel", "@omega/genesis-planner", "@omega/scribe-engine", "@omega/style-emergence-engine", "@omega/creation-pipeline"],
+      "dependencies_out": ["@omega/omega-runner"],
+      "necessity_verdict": "ESSENTIAL",
+      "notes": ["37 exports", "6 physics laws (L1-L6)", "14 Plutchik emotions", "M1-M12 quality metrics", "Prescription generation", "Domain-specific to OMEGA V4.4"],
+      "evidence": ["packages/omega-forge/package.json", "packages/omega-forge/src/index.ts", "packages/omega-forge/src/engine.ts", "packages/omega-forge/src/physics/", "packages/omega-forge/src/quality/"]
+    },
+    {
+      "name": "omega-runner",
+      "npm_name": "@omega/runner",
+      "phase": "D.1+H1",
+      "tests": 207,
+      "invariants": 13,
+      "role": "CLI entry point orchestrating full pipeline (C.1-C.5) with ProofPack generation, Merkle verification, intent validation, and 12 invariant checks",
+      "inputs": ["IntentPack", "GConfig", "SConfig", "EConfig", "C4Config", "F5Config", "CanonicalEmotionTable", "ParsedArgs"],
+      "outputs": ["ProofPack (disk)", "VerifyResult", "ConsolidatedReport", "exit codes 0-6"],
+      "remove_effect": {
+        "breaks": [],
+        "breaks_detail": "No package depends on omega-runner. But: CLI binary disappears, ProofPack generation stops, invariant checking lost, intent validation (H1) lost, verification capability gone",
+        "unchanged": ["canon-kernel", "genesis-planner", "scribe-engine", "style-emergence-engine", "creation-pipeline", "omega-forge", "omega-governance", "omega-release"]
+      },
+      "dependencies_in": ["@omega/canon-kernel", "@omega/genesis-planner", "@omega/scribe-engine", "@omega/style-emergence-engine", "@omega/creation-pipeline", "@omega/omega-forge"],
+      "dependencies_out": [],
+      "necessity_verdict": "ESSENTIAL",
+      "notes": ["Terminal node (no reverse deps)", "Sole CLI entry point", "Phase D.1 delivery vehicle", "Intent validation (H1 hardening, 10 rules)", "12 invariants (INV-RUN-01 through INV-RUN-12)"],
+      "evidence": ["packages/omega-runner/package.json", "packages/omega-runner/src/index.ts", "packages/omega-runner/src/types.ts", "packages/omega-runner/src/orchestrator/runFull.ts", "packages/omega-runner/src/validation/intent-validator.ts"]
+    },
+    {
+      "name": "omega-governance",
+      "npm_name": "@omega/governance",
+      "phase": "D.2+F",
+      "tests": 335,
+      "invariants": 18,
+      "role": "Read-only observer analyzing ProofPacks for drift detection, certification, benchmarking, and CI gate enforcement (G0-G5)",
+      "inputs": ["ProofPack directories", "GovConfig", "BaselineRegistry", "NDJSON event logs"],
+      "outputs": ["DriftReport", "Certificate", "CompareResult", "BenchReport", "CIReport", "BadgeResult"],
+      "remove_effect": {
+        "breaks": [],
+        "breaks_detail": "No package depends on omega-governance. But: CI gates (G0-G5) stop, drift detection gone, certification chain broken, baseline immutability enforcement lost, 18 invariants unverifiable",
+        "unchanged": ["canon-kernel", "genesis-planner", "scribe-engine", "style-emergence-engine", "creation-pipeline", "omega-forge", "omega-runner", "omega-release"]
+      },
+      "dependencies_in": ["@omega/canon-kernel"],
+      "dependencies_out": [],
+      "necessity_verdict": "ESSENTIAL",
+      "notes": ["Terminal leaf (no reverse deps)", "canon-kernel dependency declared but UNUSED in source code (phantom dependency)", "Sole drift/certification/CI module", "18 invariants (8 GOV + 10 F)"],
+      "evidence": ["packages/omega-governance/package.json", "packages/omega-governance/src/index.ts", "packages/omega-governance/src/governance/", "packages/omega-governance/src/ci/"]
+    },
+    {
+      "name": "omega-release",
+      "npm_name": "@omega/release",
+      "phase": "G.0",
+      "tests": 218,
+      "invariants": 10,
+      "role": "Production release orchestrator: SemVer versioning, changelog tracking, artifact building, installation verification, self-testing, rollback planning",
+      "inputs": ["SemVer", "ChangelogEntry", "ReleaseConfig", "InstallConfig", "file system paths", "CLI argv"],
+      "outputs": ["ReleaseResult", "ReleaseManifest", "SBOM", "SelfTestResult", "InstallResult", "RollbackPlan", "InvariantResult"],
+      "remove_effect": {
+        "breaks": [],
+        "breaks_detail": "No package depends on omega-release. But: release workflow stops, no SemVer parser/validator, no changelog management, no artifact building, 10 invariants (INV-G0-01 through INV-G0-10) unverifiable",
+        "unchanged": ["canon-kernel", "genesis-planner", "scribe-engine", "style-emergence-engine", "creation-pipeline", "omega-forge", "omega-runner", "omega-governance"]
+      },
+      "dependencies_in": ["@omega/canon-kernel"],
+      "dependencies_out": [],
+      "necessity_verdict": "ESSENTIAL",
+      "notes": ["Terminal leaf (no reverse deps)", "25 exports", "5 CLI commands (version, changelog, build, selftest, rollback)", "Phase G.0 certification requirement"],
+      "evidence": ["packages/omega-release/package.json", "packages/omega-release/src/index.ts", "packages/omega-release/src/version/parser.ts", "packages/omega-release/src/invariants/release-invariants.ts"]
+    }
+  ],
+  "coupling_analysis": {
+    "circular_dependencies": false,
+    "graph_type": "strict DAG",
+    "high_fan_in": ["omega-forge (5 deps)", "omega-runner (6 deps)"],
+    "leaf_nodes": ["omega-runner", "omega-governance", "omega-release"],
+    "phantom_dependencies": ["omega-governance declares @omega/canon-kernel but has zero imports"]
+  }
+}

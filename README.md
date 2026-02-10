@@ -151,22 +151,23 @@ Summary:
 
 | Attack | Target | Verdict |
 |--------|--------|---------|
-| SQL injection via intent title | Validation | FAIL |
-| XSS via themes | Validation | FAIL |
-| Path traversal via emotion | Validation | FAIL |
-| Negative paragraphs | Bounds check | FAIL |
-| Extreme paragraphs (999999) | Bounds check | FAIL |
-| Empty intent | Required fields | FAIL |
-| Malformed JSON | Parse | PASS |
-| ProofPack hash tampered | omega verify | PASS |
-| Unicode adversarial | Normalization | FAIL |
-| Seed mismatch replay | Determinism | FAIL |
+| SQL injection via intent title | Validation | PASS (exit 2) |
+| XSS via themes | Validation | PASS (exit 2) |
+| Path traversal via emotion | Validation | PASS (exit 2) |
+| Negative paragraphs | Bounds check | PASS (exit 2) |
+| Extreme paragraphs (999999) | Bounds check | PASS (exit 2) |
+| Empty intent | Required fields | PASS (exit 2) |
+| Malformed JSON | Parse | PASS (exit 1) |
+| ProofPack hash tampered | omega verify | PASS (exit 6) |
+| Unicode adversarial | Normalization | PASS (exit 2) |
+| Seed mismatch replay | Determinism | FAIL (mock limitation) |
 
-**2/10 PASS, 8/10 FAIL.** All FAILs stem from absent intent validation (NCR-G1B-001).
-JSON parsing and ProofPack integrity verification work correctly.
+**9/10 PASS, 1/10 FAIL.** The single FAIL is a known limitation of mock generators
+(seed does not affect content). All validation attacks are now rejected at exit code 2
+before any pipeline stage executes.
 
-OMEGA either rejects bad input at parse level or processes it through
-a deterministic pipeline with valid integrity chains. It never silently corrupts.
+OMEGA rejects invalid input at validation, rejects malformed JSON at parse,
+detects tampered hashes at verification, and never silently corrupts.
 
 ---
 

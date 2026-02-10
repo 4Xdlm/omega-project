@@ -7,8 +7,9 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import type { IntentPack } from '@omega/creation-pipeline';
 import type { ParsedArgs, StageId } from '../../types.js';
-import { EXIT_SUCCESS, EXIT_IO_ERROR, EXIT_GENERIC_ERROR } from '../../types.js';
+import { EXIT_SUCCESS, EXIT_IO_ERROR, EXIT_GENERIC_ERROR, EXIT_USAGE_ERROR } from '../../types.js';
 import { createLogger } from '../../logger/index.js';
+import { validateIntent } from '../../validation/index.js';
 import { orchestrateCreate } from '../../orchestrator/runCreate.js';
 import { canonicalJSON } from '../../proofpack/canonical.js';
 import { hashString } from '../../proofpack/hash.js';
@@ -21,7 +22,14 @@ export function executeRunCreate(args: ParsedArgs): number {
 
   try {
     const intentRaw = readFileSync(args.intent!, 'utf8');
-    const intent = JSON.parse(intentRaw) as IntentPack;
+    const parsed = JSON.parse(intentRaw);
+    const validation = validateIntent(parsed);
+    if (!validation.valid) {
+      const reasons = validation.errors.map(e => `[${e.rule}] ${e.field}: ${e.message}`).join('; ');
+      logger.error(`Intent validation failed: ${reasons}`);
+      return EXIT_USAGE_ERROR;
+    }
+    const intent = parsed as IntentPack;
     const seed = args.seed ?? '';
     const timestamp = '2026-01-01T00:00:00.000Z';
 

@@ -110,5 +110,33 @@ in the pipeline. The two PASSes demonstrate that:
 2. ProofPack integrity verification works (tampered hashes detected)
 
 The 8 FAILs all stem from the same root cause: no input validation layer exists
-between intent file reading and pipeline execution. This is a known gap documented
-for future phases.
+between intent file reading and pipeline execution.
+
+---
+
+## Post-Hardening Results (Sprint H1)
+
+Sprint H1 added an intent validation layer (`intent-validator.ts`) with 10 rules:
+- V-01→V-05: structural validation (required fields, types, bounds)
+- S-01→S-05: security validation (XSS, path traversal, SQL injection, control chars, zero-width chars)
+
+Invalid intents now produce exit code 2 (USAGE_ERROR) before any pipeline stage executes.
+
+| Attack | Pre-Hardening | Post-Hardening | Delta |
+|--------|---------------|----------------|-------|
+| ATK-01 SQL Injection | FAIL (exit 0) | PASS (exit 2) | FIXED |
+| ATK-02 XSS | FAIL (exit 0) | PASS (exit 2) | FIXED |
+| ATK-03 Path Traversal | FAIL (exit 0) | PASS (exit 2) | FIXED |
+| ATK-04 Negative Paragraphs | FAIL (exit 0) | PASS (exit 2) | FIXED |
+| ATK-05 Extreme Paragraphs | FAIL (exit 0) | PASS (exit 2) | FIXED |
+| ATK-06 Empty Intent | FAIL (exit 0) | PASS (exit 2) | FIXED |
+| ATK-07 Malformed JSON | PASS (exit 1) | PASS (exit 1) | STILL_PASS |
+| ATK-08 Hash Tampered | PASS (exit 6) | PASS (exit 6) | STILL_PASS |
+| ATK-09 Unicode Adversarial | FAIL (exit 0) | PASS (exit 2) | FIXED |
+| ATK-10 Seed Mismatch | FAIL (exit 0) | FAIL (exit 0) | N/A — mock limitation |
+
+### Hardening Summary
+- Pre-hardening: 2 PASS, 8 FAIL
+- Post-hardening: 9 PASS, 1 FAIL
+- NCR-G1B-001 status: PARTIALLY_CLOSED
+- Remaining FAIL: ATK-10 (seed mismatch) — known limitation of mock generators, not a validation gap. Seed does not affect content generation because mock generators return static output. This will be resolved when real LLM generators are integrated.

@@ -24,6 +24,7 @@ import { mapEmotions } from './generators/emotion-mapper.js';
 import { modelSubtext } from './generators/subtext-modeler.js';
 import { createEvidenceChainBuilder } from './evidence.js';
 import { generateReport } from './report.js';
+import { createProvider } from './providers/index.js';
 
 function mergeValidationErrors(
   ...results: { verdict: string; errors: readonly { invariant: string; path: string; message: string; severity: string }[] }[]
@@ -106,29 +107,67 @@ export function createGenesisPlan(
     'SHA-256 hash of all 5 inputs', 'PASS',
   );
 
+  // Provider selection (P.1-LLM)
+  const provider = createProvider();
+
   // Step 3: GENERATE arcs
-  const rawArcs = generateArcs(intent, canon, constraints);
+  let rawArcs: readonly Arc[];
+  if (provider.mode === 'mock') {
+    rawArcs = generateArcs(intent, canon, constraints);
+  } else {
+    const arcPrompt = JSON.stringify({ intent, canon, constraints });
+    const arcCtx = { intentHash, seed: planIdSeed, step: 'arcs' as const };
+    const arcResponse = provider.generateArcs(arcPrompt, arcCtx);
+    rawArcs = JSON.parse(arcResponse.content) as Arc[];
+  }
   const arcsHash = sha256(canonicalize(rawArcs));
   evidence.addStep('generate-arcs', intentHash, arcsHash, 'Arc generation from intent', 'PASS');
 
   // Step 4: GENERATE scenes per arc
   let arcsWithScenes: Arc[] = [];
-  for (let i = 0; i < rawArcs.length; i++) {
-    const scenes = generateScenes(rawArcs[i], i, rawArcs.length, canon, constraints, emotionTarget);
-    arcsWithScenes.push({ ...rawArcs[i], scenes });
+  if (provider.mode === 'mock') {
+    for (let i = 0; i < rawArcs.length; i++) {
+      const scenes = generateScenes(rawArcs[i], i, rawArcs.length, canon, constraints, emotionTarget);
+      arcsWithScenes.push({ ...rawArcs[i], scenes });
+    }
+  } else {
+    for (let i = 0; i < rawArcs.length; i++) {
+      const scenePrompt = JSON.stringify({
+        arc: rawArcs[i], arcIndex: i, totalArcs: rawArcs.length,
+        canon, constraints, emotionTarget,
+      });
+      const sceneCtx = { intentHash, seed: planIdSeed, step: 'scenes' as const };
+      const sceneResponse = provider.enrichScenes(scenePrompt, sceneCtx);
+      const scenes = JSON.parse(sceneResponse.content) as Scene[];
+      arcsWithScenes.push({ ...rawArcs[i], scenes });
+    }
   }
   const scenesHash = sha256(canonicalize(arcsWithScenes));
   evidence.addStep('generate-scenes', arcsHash, scenesHash, 'Scene generation per arc', 'PASS');
 
   // Step 5: GENERATE beats per scene
   const arcsWithBeats: Arc[] = [];
-  for (const arc of arcsWithScenes) {
-    const scenesWithBeats: Scene[] = [];
-    for (let si = 0; si < arc.scenes.length; si++) {
-      const beats = generateBeats(arc.scenes[si], si, config);
-      scenesWithBeats.push({ ...arc.scenes[si], beats });
+  if (provider.mode === 'mock') {
+    for (const arc of arcsWithScenes) {
+      const scenesWithBeats: Scene[] = [];
+      for (let si = 0; si < arc.scenes.length; si++) {
+        const beats = generateBeats(arc.scenes[si], si, config);
+        scenesWithBeats.push({ ...arc.scenes[si], beats });
+      }
+      arcsWithBeats.push({ ...arc, scenes: scenesWithBeats });
     }
-    arcsWithBeats.push({ ...arc, scenes: scenesWithBeats });
+  } else {
+    for (const arc of arcsWithScenes) {
+      const scenesWithBeats: Scene[] = [];
+      for (let si = 0; si < arc.scenes.length; si++) {
+        const beatPrompt = JSON.stringify({ scene: arc.scenes[si], sceneIndex: si, config });
+        const beatCtx = { intentHash, seed: planIdSeed, step: 'beats' as const };
+        const beatResponse = provider.detailBeats(beatPrompt, beatCtx);
+        const beats = JSON.parse(beatResponse.content) as readonly import('./types.js').Beat[];
+        scenesWithBeats.push({ ...arc.scenes[si], beats });
+      }
+      arcsWithBeats.push({ ...arc, scenes: scenesWithBeats });
+    }
   }
   arcsWithScenes = arcsWithBeats;
   const beatsHash = sha256(canonicalize(arcsWithScenes));

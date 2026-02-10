@@ -51,3 +51,7 @@ export { createGenesisPlan } from './planner.js';
 
 // Report
 export { generateReport, reportToMarkdown } from './report.js';
+
+// Providers (P.1-LLM)
+export { createProvider, createMockProvider, createLlmProvider, createCacheProvider } from './providers/index.js';
+export type { NarrativeProvider, ProviderConfig, ProviderResponse, ProviderContext, ProviderMode } from './providers/types.js';

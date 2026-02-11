@@ -40,6 +40,7 @@ function main(): void {
   const outDir = resolve(getArg('--out') ?? '');
   const mode = (getArg('--mode') ?? 'mock') as 'mock' | 'llm' | 'cache';
   const model = getArg('--model') ?? process.env.OMEGA_SCRIBE_MODEL ?? 'claude-sonnet-4-20250514';
+  const cacheDir = getArg('--cache-dir');
 
   if (!runDir || !outDir) {
     console.error('Usage: npx tsx src/cli/scribe-llm.ts --run <dir> --out <dir> [--mode mock|llm|cache] [--model <model>]');
@@ -77,7 +78,7 @@ function main(): void {
     model,
     temperature: 0.75,
     maxTokens: 8192,
-    cacheDir: join(outDir, '.cache'),
+    cacheDir: cacheDir ? resolve(cacheDir) : join(outDir, '.cache'),
   };
 
   if (mode === 'llm' && !providerConfig.apiKey) {

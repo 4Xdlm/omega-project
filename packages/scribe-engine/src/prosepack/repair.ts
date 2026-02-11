@@ -21,6 +21,7 @@ import type { ScribeProvider, ScribeContext } from '../providers/types.js';
 import type { ProsePack, ProsePackScene, ProseViolation, ProseConstraintConfig } from '../prosepack/types.js';
 import type { GenesisPlan, Scene } from '../types.js';
 import { SCRIBE_SYSTEM_PROMPT } from '../providers/master-prompt.js';
+import { analyzeSceneProse } from '../prosepack/normalize.js';
 
 // ─── Types ───────────────────────────────────────────────────────
 
@@ -247,16 +248,24 @@ export function repairProsePack(
       const validation = validateRepairedScene(response.prose, targetWC, config);
 
       if (validation.pass) {
-        // Repair successful — build new scene
+        // Repair successful — build new scene with full re-analysis
+        // INV-REPAIR-OBS-01: recompute all features + violations on repaired text
         const newParagraphs = response.prose.split(/\n\s*\n/).map(p => p.trim()).filter(p => p.length > 0);
-        const sentenceCount = (response.prose.match(/[.!?]+(?:\s|$)/g) ?? []).length;
+        const fullText = newParagraphs.join('\n\n');
+        const analysis = analyzeSceneProse(scene.scene_id, fullText, targetWC, config);
 
         const repairedScene: ProsePackScene = {
           ...scene,
           paragraphs: newParagraphs,
-          word_count: validation.wordCount,
-          sentence_count: sentenceCount,
-          violations: [], // cleared after successful repair
+          word_count: analysis.word_count,
+          sentence_count: analysis.sentence_count,
+          pov_detected: analysis.pov_detected as any,
+          tense_detected: analysis.tense_detected as any,
+          sensory_anchor_count: analysis.sensory_anchor_count,
+          dialogue_ratio: analysis.dialogue_ratio,
+          banned_word_hits: analysis.banned_word_hits,
+          cliche_hits: analysis.cliche_hits,
+          violations: analysis.violations, // recomputed, not wiped
         };
 
         repairedScenes.push(repairedScene);

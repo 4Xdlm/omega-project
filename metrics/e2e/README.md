@@ -1,0 +1,2 @@
+﻿E2E verdict (EVC-1.0): HARD PASS / SOFT FAIL (run e2e_001 has 1 soft violation). Source of truth: metrics/e2e/E2E_VERDICT.json (SHA256: 15E566AF21C3FB461B2CB646BDA0BBDA1C5CA4292F0A3108C8407B27E655AC0C).
+Tag validation-e2e-hard-pass points to the original E2E feature commit; strict pass is NOT achieved (pass_strict=false).

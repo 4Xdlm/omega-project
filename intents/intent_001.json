@@ -1,0 +1,61 @@
+{
+  "intent": {
+    "title": "La Ville sous la Cendre",
+    "premise": "In a city buried under volcanic ash for centuries, a cartographer discovers that the streets rearrange themselves at night, and the map she draws each morning is the only thing keeping the city from collapsing into the void beneath.",
+    "themes": ["memory", "impermanence", "responsibility"],
+    "core_emotion": "anticipation",
+    "message": "What we refuse to forget can become a prison",
+    "target_word_count": 4000,
+    "target_audience": "adult literary fiction"
+  },
+  "canon": {
+    "entries": [
+      {"id": "CANON-001", "category": "world", "statement": "The city of Cendreville has been buried under volcanic ash for 400 years but remains inhabited underground", "immutable": true},
+      {"id": "CANON-002", "category": "character", "statement": "Cartographer Lena draws a new map every dawn, working from memory and observation", "immutable": true},
+      {"id": "CANON-003", "category": "rule", "statement": "Streets that are not mapped by sunrise cease to exist", "immutable": true},
+      {"id": "CANON-004", "category": "event", "statement": "Three districts have already been lost to unmapping in the last decade", "immutable": true},
+      {"id": "CANON-005", "category": "world", "statement": "Beneath the city lies a void that absorbs forgotten places", "immutable": true},
+      {"id": "CANON-006", "category": "character", "statement": "Lena's predecessor disappeared after trying to map the void itself", "immutable": true}
+    ]
+  },
+  "constraints": {
+    "pov": "third-limited",
+    "tense": "past",
+    "min_scenes": 5,
+    "max_scenes": 9,
+    "banned_words": ["suddenly", "literally", "basically", "actually", "really"],
+    "banned_topics": [],
+    "forbidden_cliches": ["heart pounding", "blood ran cold", "time stood still", "a chill ran down"],
+    "max_dialogue_ratio": 0.15,
+    "min_sensory_anchors_per_scene": 2
+  },
+  "genome": {
+    "signature_traits": ["layered imagery", "architectural precision", "sensory density", "recursive motifs"],
+    "target_avg_sentence_length": 16,
+    "target_burstiness": 0.65,
+    "target_lexical_richness": 0.82,
+    "target_dialogue_ratio": 0.12,
+    "target_description_density": 0.55
+  },
+  "emotion": {
+    "arc_emotion": "anticipation",
+    "resolution_emotion": "acceptance",
+    "climax_position": 0.75,
+    "waypoints": [
+      {"position": 0.0, "emotion": "trust", "intensity": 0.3},
+      {"position": 0.2, "emotion": "anticipation", "intensity": 0.5},
+      {"position": 0.4, "emotion": "surprise", "intensity": 0.6},
+      {"position": 0.6, "emotion": "fear", "intensity": 0.7},
+      {"position": 0.75, "emotion": "anticipation", "intensity": 0.9},
+      {"position": 0.9, "emotion": "sadness", "intensity": 0.6},
+      {"position": 1.0, "emotion": "acceptance", "intensity": 0.5}
+    ]
+  },
+  "metadata": {
+    "pack_id": "PACK-E2E-001",
+    "pack_version": "1.0.0",
+    "author": "Francky",
+    "description": "E2E Stress Test — SF Psychologique",
+    "created_at": "2026-02-11T12:00:00.000Z"
+  }
+}

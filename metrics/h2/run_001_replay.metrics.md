@@ -6,15 +6,15 @@
 | Source | C:\Users\elric\omega-project\golden\h2\run_001_replay |
 | Artifacts Hash | `b285fa9653c276af...` |
 | Timestamp | 2026-02-10T23:00:00.000Z |
-| **Status** | **FAIL** |
-| **Global Score** | **0.7859** |
+| **Status** | **WARN** |
+| **Global Score** | **0.8515** |
 
 ## Category Scores
 
 | Category | Score | Weight |
 |----------|-------|--------|
 | Structural | 0.8965 | 0.40 |
-| Semantic | 0.6595 | 0.35 |
+| Semantic | 0.8 | 0.35 |
 | Dynamic | 0 | 0.25 |
 
 ## Structural Metrics (S1-S8)
@@ -35,7 +35,7 @@
 | Metric | Score |
 |--------|-------|
 | intent_theme_coverage | 1 |
-| theme_fidelity | 0.06349206349206349 |
+| theme_fidelity | 1 |
 | canon_respect | 1 |
 | canon_violation_count | 0 |
 | emotion_trajectory_alignment | 1 |
@@ -51,4 +51,4 @@
 | noise_floor_ratio | SKIP |
 
 ---
-Report Hash: `2979eed86ee39c56aa7d516c72c04aeaa097c8afeaab88ebb2c91188ab7bece8`
+Report Hash: `18838b9fce851ad76088dc2924ce6a68c9ceb544c6d152ac8c8c1e6ed8b6bd19`

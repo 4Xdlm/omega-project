@@ -1,0 +1,42 @@
+{
+  "name": "@omega/omega-metrics",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "omega-metrics": "./dist/cli/main.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@omega/canon-kernel": "file:../canon-kernel"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.3.0",
+    "vitest": "^4.0.17"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "omega": {
+    "module": "omega-metrics",
+    "version": "0.1.0",
+    "profile": "L4",
+    "standard": "NASA-Grade / DO-178C Level A",
+    "phase": "R-METRICS",
+    "metrics_count": 17
+  }
+}

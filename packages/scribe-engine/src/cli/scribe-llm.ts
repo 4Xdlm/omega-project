@@ -14,6 +14,7 @@ import { buildSkeleton } from '../skeleton.js';
 import { weaveLLM } from '../weaver-llm.js';
 import { createScribeProvider } from '../providers/factory.js';
 import { normalizeToProsePack } from '../prosepack/normalize.js';
+import { repairProsePack } from '../prosepack/repair.js';
 import type { ProseConstraintConfig } from '../prosepack/types.js';
 import type { ScribeProviderConfig } from '../providers/types.js';
 import type { GenesisPlan } from '../types.js';
@@ -153,8 +154,24 @@ function main(): void {
 
   writeFileSync(join(outDir, 'ProsePack.json'), JSON.stringify(prosePack, null, 2), 'utf8');
 
-  const status = prosePack.score.hard_pass ? (prosePack.score.soft_pass ? 'PASS' : 'WARN') : 'FAIL';
+  let status = prosePack.score.hard_pass ? (prosePack.score.soft_pass ? 'PASS' : 'WARN') : 'FAIL';
   console.log(`[scribe-llm] ProsePack: ${status} | satisfaction=${prosePack.score.constraint_satisfaction.toFixed(3)} | hard=${prosePack.score.hard_violations} soft=${prosePack.score.soft_violations}`);
+
+  // Auto-repair if HARD violations detected and provider available (not mock)
+  if (!prosePack.score.hard_pass && mode !== 'mock') {
+    console.log(`[scribe-llm] Initiating auto-repair (${prosePack.score.hard_violations} HARD violations)...`);
+    const { repairedPack, report: repairReport } = repairProsePack(prosePack, plan, provider, sha256(plan.plan_hash));
+
+    writeFileSync(join(outDir, 'ProsePack.json'), JSON.stringify(repairedPack, null, 2), 'utf8');
+    writeFileSync(join(outDir, 'repair-report.json'), JSON.stringify(repairReport, null, 2), 'utf8');
+
+    // Update prose text file with repaired content
+    const repairedText = repairedPack.scenes.flatMap(s => s.paragraphs).join('\n\n');
+    writeFileSync(join(outDir, 'scribe-prose-repaired.txt'), repairedText, 'utf8');
+
+    status = repairedPack.score.hard_pass ? (repairedPack.score.soft_pass ? 'PASS' : 'WARN') : 'FAIL';
+    console.log(`[scribe-llm] Post-repair: ${status} | satisfaction=${repairedPack.score.constraint_satisfaction.toFixed(3)} | repaired=${repairReport.scenes_repaired}/${repairReport.scenes_needing_repair} | still_failing=${repairReport.scenes_still_failing}`);
+  }
 
   console.log(`[scribe-llm] Files written to: ${outDir}`);
 }

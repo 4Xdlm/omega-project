@@ -80,9 +80,28 @@ function buildRepairPrompt(
   lines.push('');
 
   // Violations to fix
-  lines.push(`═══ VIOLATIONS TO FIX ═══`);
-  for (const v of violations) {
-    lines.push(`[${v.severity}] ${v.rule}: ${v.message}`);
+  const hardVs = violations.filter(v => v.severity === 'HARD');
+  const softVs = violations.filter(v => v.severity === 'SOFT');
+
+  if (hardVs.length > 0) {
+    lines.push(`═══ HARD VIOLATIONS — MUST FIX ═══`);
+    for (const v of hardVs) {
+      lines.push(`[HARD] ${v.rule}: ${v.message}`);
+    }
+    lines.push('');
+  }
+
+  if (softVs.length > 0) {
+    lines.push(`═══ SOFT VIOLATIONS — FIX WITHOUT DEGRADING HARD COMPLIANCE ═══`);
+    for (const v of softVs) {
+      lines.push(`[SOFT] ${v.rule}: ${v.message}`);
+      if (v.rule === 'dialogue_ratio') {
+        lines.push(`  → STRATEGY: Convert excess dialogue into indirect speech, reported speech, actions, or sensory perceptions.`);
+        lines.push(`  → Keep the SAME information and emotional beats. Change the FORM, not the CONTENT.`);
+        lines.push(`  → Target: dialogue ratio below ${v.threshold}`);
+      }
+    }
+    lines.push('');
   }
   lines.push('');
 
@@ -191,26 +210,36 @@ function validateRepairedScene(
 
 // ─── Main Repair Loop ────────────────────────────────────────────
 
+export interface RepairOptions {
+  /** When true, also repair SOFT violations (e.g. dialogue_ratio). Default: false */
+  readonly repairSoftViolations?: boolean;
+}
+
 export function repairProsePack(
   prosePack: ProsePack,
   plan: GenesisPlan,
   provider: ScribeProvider,
   seed: string,
+  options: RepairOptions = {},
 ): { repairedPack: ProsePack; report: RepairReport } {
   const config = prosePack.constraints;
+  const repairSoft = options.repairSoftViolations ?? false;
   const repairs: RepairResult[] = [];
   const repairedScenes: ProsePackScene[] = [];
 
-  // Identify scenes needing repair (HARD violations only)
+  // Identify scenes needing repair
+  // HARD violations always trigger repair
+  // SOFT violations trigger repair only when repairSoftViolations=true
   const failSceneIds = new Set<string>();
   for (const scene of prosePack.scenes) {
     const hardViolations = scene.violations.filter(v => v.severity === 'HARD');
-    if (hardViolations.length > 0) {
+    const softViolations = scene.violations.filter(v => v.severity === 'SOFT');
+    if (hardViolations.length > 0 || (repairSoft && softViolations.length > 0)) {
       failSceneIds.add(scene.scene_id);
     }
   }
 
-  console.log(`[repair] ${failSceneIds.size} scenes need repair out of ${prosePack.scenes.length}`);
+  console.log(`[repair] ${failSceneIds.size} scenes need repair out of ${prosePack.scenes.length} (repairSoft=${repairSoft})`);
 
   for (let i = 0; i < prosePack.scenes.length; i++) {
     const scene = prosePack.scenes[i];
@@ -222,7 +251,11 @@ export function repairProsePack(
     }
 
     const hardViolations = scene.violations.filter(v => v.severity === 'HARD');
-    console.log(`[repair] Repairing ${scene.scene_id} (${hardViolations.length} HARD violations)...`);
+    const softViolations = scene.violations.filter(v => v.severity === 'SOFT');
+    const repairViolations = repairSoft
+      ? [...hardViolations, ...softViolations]
+      : hardViolations;
+    console.log(`[repair] Repairing ${scene.scene_id} (${hardViolations.length} HARD + ${repairSoft ? softViolations.length : 0} SOFT violations)...`);
 
     // Get adjacent scene text for continuity
     const prevScene = i > 0 ? prosePack.scenes[i - 1] : null;
@@ -230,8 +263,8 @@ export function repairProsePack(
     const prevText = prevScene ? prevScene.paragraphs.join('\n\n') : '';
     const nextText = nextScene ? nextScene.paragraphs.join('\n\n') : '';
 
-    // Build repair prompt
-    const prompt = buildRepairPrompt(scene, plan, config, prevText, nextText, hardViolations);
+    // Build repair prompt — includes HARD + SOFT when repairSoft active
+    const prompt = buildRepairPrompt(scene, plan, config, prevText, nextText, repairViolations);
 
     // Call provider (1 attempt)
     try {
@@ -274,7 +307,7 @@ export function repairProsePack(
           original_scene: scene,
           repaired_scene: repairedScene,
           attempt_made: true,
-          repair_reason: hardViolations.map(v => v.rule).join(', '),
+          repair_reason: repairViolations.map(v => `[${v.severity}]${v.rule}`).join(', '),
           new_word_count: validation.wordCount,
           still_failing: false,
         });
@@ -288,7 +321,7 @@ export function repairProsePack(
           original_scene: scene,
           repaired_scene: null,
           attempt_made: true,
-          repair_reason: hardViolations.map(v => v.rule).join(', '),
+          repair_reason: repairViolations.map(v => `[${v.severity}]${v.rule}`).join(', '),
           new_word_count: validation.wordCount,
           still_failing: true,
         });
@@ -303,7 +336,7 @@ export function repairProsePack(
         original_scene: scene,
         repaired_scene: null,
         attempt_made: true,
-        repair_reason: `provider error: ${err.message}`,
+        repair_reason: `provider error: ${err.message} (violations: ${repairViolations.map(v => v.rule).join(',')})`,
         new_word_count: null,
         still_failing: true,
       });

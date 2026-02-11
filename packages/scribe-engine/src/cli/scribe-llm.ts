@@ -13,6 +13,8 @@ import { segmentPlan } from '../segmenter.js';
 import { buildSkeleton } from '../skeleton.js';
 import { weaveLLM } from '../weaver-llm.js';
 import { createScribeProvider } from '../providers/factory.js';
+import { normalizeToProsePack } from '../prosepack/normalize.js';
+import type { ProseConstraintConfig } from '../prosepack/types.js';
 import type { ScribeProviderConfig } from '../providers/types.js';
 import type { GenesisPlan } from '../types.js';
 
@@ -123,6 +125,36 @@ function main(): void {
     timestamp: new Date().toISOString(),
   };
   writeFileSync(join(outDir, 'scribe-summary.json'), JSON.stringify(summary, null, 2), 'utf8');
+
+  // Build ProsePack v1
+  console.log(`[scribe-llm] Building ProsePack v1...`);
+  const constraintConfig: ProseConstraintConfig = {
+    pov: constraints.pov ?? 'third-limited',
+    tense: constraints.tense ?? 'past',
+    min_scenes: constraints.min_scenes ?? 1,
+    max_scenes: constraints.max_scenes ?? 99,
+    banned_words: constraints.banned_words ?? [],
+    forbidden_cliches: constraints.forbidden_cliches ?? [],
+    max_dialogue_ratio: constraints.max_dialogue_ratio ?? 1.0,
+    min_sensory_anchors_per_scene: constraints.min_sensory_anchors_per_scene ?? 1,
+    word_count_tolerance: 0.50, // ±50% — LLM tends to undershoot targets
+  };
+
+  const prosePack = normalizeToProsePack(prose, plan, constraintConfig, {
+    run_id: summary.prose_hash.slice(0, 16),
+    plan_id: plan.plan_id,
+    plan_hash: plan.plan_hash,
+    skeleton_hash: skeleton.skeleton_hash,
+    model,
+    provider_mode: mode,
+    temperature: 0.75,
+    created_utc: new Date().toISOString(),
+  });
+
+  writeFileSync(join(outDir, 'ProsePack.json'), JSON.stringify(prosePack, null, 2), 'utf8');
+
+  const status = prosePack.score.hard_pass ? (prosePack.score.soft_pass ? 'PASS' : 'WARN') : 'FAIL';
+  console.log(`[scribe-llm] ProsePack: ${status} | satisfaction=${prosePack.score.constraint_satisfaction.toFixed(3)} | hard=${prosePack.score.hard_violations} soft=${prosePack.score.soft_violations}`);
 
   console.log(`[scribe-llm] Files written to: ${outDir}`);
 }

@@ -8,7 +8,7 @@
 | Phase | E2E Stress Test (post P.3 / R-METRICS) |
 | Branch | master |
 | Commit | 78d0d0ec |
-| Tag | `validation-e2e-3runs-pass` |
+| Tag | `validation-e2e-hard-pass` (remplace `validation-e2e-3runs-pass` supprimé) |
 | Previous HEAD | a2b43449 |
 
 ## Objective
@@ -147,14 +147,26 @@ packages/omega-runner/e2e-run.ts  (diagnostic runner with console output)
 
 ## Verdict
 
-**E2E STRESS TEST: PASS**
+**E2E STRESS TEST: HARD PASS / SOFT FAIL (1/3)**
 
-3/3 unknown stories, 3 genres, satisfaction=1.000 post-repair, prose byte-identical on cache replay.
+- hard_pass: 3/3, hard_violations: 0 on all runs
+- soft_pass: 2/3 (run_001 FAIL: dialogue_ratio 0.227 > max 0.15)
+- replay SHA256: 3/3 byte-identical
+- Tag `validation-e2e-3runs-pass` DELETED (claimed full pass, artefact says soft_fail)
+- Tag `validation-e2e-hard-pass` created on 78d0d0ec (truth)
+
+### Score Detail (from ProsePack.json)
+
+| Run | constraint_satisfaction | hard_pass | hard_violations | soft_pass | soft_violations |
+|-----|----------------------|-----------|-----------------|-----------|------------------|
+| 001 | 1 | true | 0 | false | 1 (dialogue_ratio 0.227>0.15) |
+| 002 | 1 | true | 0 | true | 0 |
+| 003 | 1 | true | 0 | true | 0 |
 
 ---
 
 **Commit**: 78d0d0ec
-**Tag**: validation-e2e-3runs-pass
+**Tag**: validation-e2e-hard-pass
 **Architecte Suprême**: Francky
 **IA Principal**: Claude (Opus 4.6)
 **Date**: 2026-02-11

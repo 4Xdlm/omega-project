@@ -14,7 +14,7 @@ import { buildSkeleton } from '../skeleton.js';
 import { weaveLLM } from '../weaver-llm.js';
 import { createScribeProvider } from '../providers/factory.js';
 import { normalizeToProsePack } from '../prosepack/normalize.js';
-import { repairProsePack } from '../prosepack/repair.js';
+import { repairProsePack, type RepairOptions } from '../prosepack/repair.js';
 import type { ProseConstraintConfig } from '../prosepack/types.js';
 import type { ScribeProviderConfig } from '../providers/types.js';
 import type { GenesisPlan } from '../types.js';
@@ -44,6 +44,7 @@ function main(): void {
   const mode = (getArg('--mode') ?? 'mock') as 'mock' | 'llm' | 'cache';
   const model = getArg('--model') ?? process.env.OMEGA_SCRIBE_MODEL ?? 'claude-sonnet-4-20250514';
   const cacheDir = getArg('--cache-dir');
+  const repairSoft = args.includes('--repair-soft');
 
   if (!runDir || !outDir) {
     console.error('Usage: npx tsx src/cli/scribe-llm.ts --run <dir> --out <dir> [--mode mock|llm|cache] [--model <model>]');
@@ -157,10 +158,12 @@ function main(): void {
   let status = prosePack.score.hard_pass ? (prosePack.score.soft_pass ? 'PASS' : 'WARN') : 'FAIL';
   console.log(`[scribe-llm] ProsePack: ${status} | satisfaction=${prosePack.score.constraint_satisfaction.toFixed(3)} | hard=${prosePack.score.hard_violations} soft=${prosePack.score.soft_violations}`);
 
-  // Auto-repair if HARD violations detected and provider available (not mock)
-  if (!prosePack.score.hard_pass && mode !== 'mock') {
-    console.log(`[scribe-llm] Initiating auto-repair (${prosePack.score.hard_violations} HARD violations)...`);
-    const { repairedPack, report: repairReport } = repairProsePack(prosePack, plan, provider, sha256(plan.plan_hash));
+  // Auto-repair if violations detected and provider available (not mock)
+  const needsRepair = !prosePack.score.hard_pass || (repairSoft && !prosePack.score.soft_pass);
+  if (needsRepair && mode !== 'mock') {
+    const repairOpts: RepairOptions = { repairSoftViolations: repairSoft };
+    console.log(`[scribe-llm] Initiating auto-repair (${prosePack.score.hard_violations} HARD + ${repairSoft ? prosePack.score.soft_violations + ' SOFT' : '0 SOFT'} violations, repairSoft=${repairSoft})...`);
+    const { repairedPack, report: repairReport } = repairProsePack(prosePack, plan, provider, sha256(plan.plan_hash), repairOpts);
 
     writeFileSync(join(outDir, 'ProsePack.json'), JSON.stringify(repairedPack, null, 2), 'utf8');
     writeFileSync(join(outDir, 'repair-report.json'), JSON.stringify(repairReport, null, 2), 'utf8');

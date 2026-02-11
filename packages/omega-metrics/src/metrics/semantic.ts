@@ -49,7 +49,10 @@ export function intentThemeCoverage(plan: GenesisPlan, intent: IntentPack): numb
 
 /**
  * M2 — theme_fidelity (weight: 0.15)
- * Jaccard coefficient between intent theme tokens and plan theme+progression tokens
+ * Overlap coefficient between intent theme tokens and plan theme+progression tokens.
+ * Formula: |A ∩ B| / min(|A|, |B|)
+ * Measures whether the smaller set (intent themes) is contained in the larger (plan).
+ * More appropriate than Jaccard when sets have very different sizes.
  */
 export function themeFidelity(plan: GenesisPlan, intent: IntentPack): number {
   const intentTokens = new Set<string>();
@@ -71,8 +74,8 @@ export function themeFidelity(plan: GenesisPlan, intent: IntentPack): number {
     if (planTokens.has(t)) intersection++;
   }
 
-  const union = new Set([...intentTokens, ...planTokens]).size;
-  return union > 0 ? intersection / union : 0;
+  const minSize = Math.min(intentTokens.size, planTokens.size);
+  return minSize > 0 ? intersection / minSize : 0;
 }
 
 // ─── M3: canon_respect ──────────────────────────────────────────────────────

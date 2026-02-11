@@ -13,10 +13,14 @@ Returns 1.0 if intent has no themes.
 
 ## M2 — theme_fidelity (weight: 0.15)
 
-**Formula**: Jaccard coefficient = `|A ∩ B| / |A ∪ B|`
+**Formula**: Overlap coefficient = `|A ∩ B| / min(|A|, |B|)`
 
 Set A: tokenized keywords from `intent.themes[]`
 Set B: tokenized keywords from `arc.theme` + `arc.progression`
+
+Overlap coefficient is preferred over Jaccard because intent themes (3-5 tokens)
+are much smaller than plan descriptions (100+ tokens). Jaccard would penalize
+the plan for containing additional relevant words beyond the intent themes.
 
 Tokenization: lowercase, remove non-alpha, filter words > 2 chars, remove stop-words
 (English + French stop-word list).

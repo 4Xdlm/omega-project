@@ -1,0 +1,61 @@
+{
+  "intent": {
+    "title": "Les Trois Horlogers",
+    "premise": "In a village where time flows differently for each inhabitant, three clockmakers compete to build the one clock that will synchronize everyone, not knowing that unified time will erase the village's ability to dream.",
+    "themes": ["conformity", "sacrifice", "the cost of progress"],
+    "core_emotion": "sadness",
+    "message": "Efficiency without wonder is a slow extinction",
+    "target_word_count": 3500,
+    "target_audience": "adult literary fiction"
+  },
+  "canon": {
+    "entries": [
+      {"id": "CANON-001", "category": "world", "statement": "The village of Horlogis exists in a temporal anomaly where each person experiences time at a different speed", "immutable": true},
+      {"id": "CANON-002", "category": "character", "statement": "Clockmaker Abel builds clocks from bone and sinew that measure emotional time", "immutable": true},
+      {"id": "CANON-003", "category": "character", "statement": "Clockmaker Brice constructs mechanical clocks of absolute mathematical precision", "immutable": true},
+      {"id": "CANON-004", "category": "character", "statement": "Clockmaker Céleste creates clocks from glass and water that follow lunar cycles", "immutable": true},
+      {"id": "CANON-005", "category": "rule", "statement": "The village council has decreed that one clock must be chosen by the solstice or trade with the outside world will cease", "immutable": true},
+      {"id": "CANON-006", "category": "event", "statement": "The last attempt at synchronization, fifty years ago, caused a week of collective amnesia", "immutable": true}
+    ]
+  },
+  "constraints": {
+    "pov": "third-omniscient",
+    "tense": "past",
+    "min_scenes": 5,
+    "max_scenes": 8,
+    "banned_words": ["suddenly", "literally", "basically", "very", "really"],
+    "banned_topics": [],
+    "forbidden_cliches": ["the clock was ticking", "time stood still", "against the clock", "only time will tell"],
+    "max_dialogue_ratio": 0.20,
+    "min_sensory_anchors_per_scene": 2
+  },
+  "genome": {
+    "signature_traits": ["fable register", "parallel structure", "symbolic density", "measured rhythm"],
+    "target_avg_sentence_length": 18,
+    "target_burstiness": 0.55,
+    "target_lexical_richness": 0.85,
+    "target_dialogue_ratio": 0.15,
+    "target_description_density": 0.50
+  },
+  "emotion": {
+    "arc_emotion": "anticipation",
+    "resolution_emotion": "sadness",
+    "climax_position": 0.70,
+    "waypoints": [
+      {"position": 0.0, "emotion": "joy", "intensity": 0.4},
+      {"position": 0.2, "emotion": "anticipation", "intensity": 0.5},
+      {"position": 0.4, "emotion": "anticipation", "intensity": 0.7},
+      {"position": 0.55, "emotion": "anger", "intensity": 0.6},
+      {"position": 0.70, "emotion": "fear", "intensity": 0.8},
+      {"position": 0.85, "emotion": "sadness", "intensity": 0.9},
+      {"position": 1.0, "emotion": "sadness", "intensity": 0.7}
+    ]
+  },
+  "metadata": {
+    "pack_id": "PACK-E2E-003",
+    "pack_version": "1.0.0",
+    "author": "Francky",
+    "description": "E2E Stress Test — Fable Philosophique",
+    "created_at": "2026-02-11T12:00:00.000Z"
+  }
+}

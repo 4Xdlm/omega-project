@@ -182,6 +182,15 @@ function buildRepairPrompt(
   }
   lines.push('');
 
+  // Final reminder — dialogue budget takes priority over word count expansion
+  if (config.max_dialogue_ratio > 0) {
+    lines.push(`═══ FINAL REMINDER — CRITICAL ═══`);
+    lines.push(`When expanding to reach ${minWords}+ words, add ONLY narration, description, interiority, and sensory detail.`);
+    lines.push(`Do NOT use dialogue to reach the word count target. Maximum ${(config.max_dialogue_ratio * 100).toFixed(0)}% dialogue words.`);
+    lines.push(`If in doubt: narrate, describe, feel — never speak.`);
+    lines.push('');
+  }
+
   lines.push(`Write the COMPLETE scene now. Minimum ${minWords} words. Pure prose, no headers.`);
 
   return lines.join('\n');

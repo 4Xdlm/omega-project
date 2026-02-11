@@ -110,31 +110,33 @@ export function computeDialogueRatio(text: string): number {
 
 // ─── Scene Builder ───────────────────────────────────────────────
 
-function buildScene(
-  sceneId: string,
-  paragraphs: readonly ProseParagraph[],
-  plan: GenesisPlan,
-  config: ProseConstraintConfig,
-): ProsePackScene {
-  // Find scene in plan
-  let planScene: Scene | null = null;
-  let arcId = '';
-  for (const arc of plan.arcs) {
-    for (const s of arc.scenes) {
-      if (s.scene_id === sceneId) {
-        planScene = s;
-        arcId = arc.arc_id;
-        break;
-      }
-    }
-    if (planScene) break;
-  }
+// ─── Scene Prose Analyzer (shared by normalize + repair) ─────────
 
-  const texts = paragraphs.map(p => p.text);
-  const fullText = texts.join('\n\n');
+export interface SceneProseAnalysis {
+  readonly word_count: number;
+  readonly sentence_count: number;
+  readonly pov_detected: 'first' | 'third-limited' | 'unknown';
+  readonly tense_detected: 'past' | 'present' | 'unknown';
+  readonly sensory_anchor_count: number;
+  readonly dialogue_ratio: number;
+  readonly banned_word_hits: readonly string[];
+  readonly cliche_hits: readonly string[];
+  readonly violations: readonly ProseViolation[];
+}
+
+/**
+ * Analyze scene prose text and produce features + violations.
+ * Single source of truth — used by both normalize and repair.
+ * INV-REPAIR-OBS-01: No silent wipe of violations.
+ */
+export function analyzeSceneProse(
+  sceneId: string,
+  fullText: string,
+  targetWordCount: number,
+  config: ProseConstraintConfig,
+): SceneProseAnalysis {
   const wordCount = fullText.split(/\s+/).filter(w => w.length > 0).length;
   const sentenceCount = (fullText.match(/[.!?]+(?:\s|$)/g) ?? []).length;
-  const targetWordCount = planScene?.target_word_count ?? 500;
 
   const povDetected = detectPOV(fullText);
   const tenseDetected = detectTense(fullText);
@@ -143,10 +145,9 @@ function buildScene(
   const sensoryCount = countSensoryAnchors(fullText);
   const dialogueRatio = computeDialogueRatio(fullText);
 
-  // Build violations
   const violations: ProseViolation[] = [];
 
-  // HARD: word count ±30%
+  // HARD: word count ±tolerance
   const minWords = Math.floor(targetWordCount * (1 - config.word_count_tolerance));
   const maxWords = Math.ceil(targetWordCount * (1 + config.word_count_tolerance));
   if (wordCount < minWords || wordCount > maxWords) {
@@ -240,19 +241,58 @@ function buildScene(
   }
 
   return {
-    scene_id: sceneId,
-    arc_id: arcId,
-    paragraphs: texts,
     word_count: wordCount,
     sentence_count: sentenceCount,
-    target_word_count: targetWordCount,
-    pov_detected: povDetected as any,
-    tense_detected: tenseDetected as any,
+    pov_detected: povDetected,
+    tense_detected: tenseDetected,
     sensory_anchor_count: sensoryCount,
     dialogue_ratio: dialogueRatio,
     banned_word_hits: bannedHits,
     cliche_hits: clicheHits,
     violations,
+  };
+}
+
+function buildScene(
+  sceneId: string,
+  paragraphs: readonly ProseParagraph[],
+  plan: GenesisPlan,
+  config: ProseConstraintConfig,
+): ProsePackScene {
+  // Find scene in plan
+  let planScene: Scene | null = null;
+  let arcId = '';
+  for (const arc of plan.arcs) {
+    for (const s of arc.scenes) {
+      if (s.scene_id === sceneId) {
+        planScene = s;
+        arcId = arc.arc_id;
+        break;
+      }
+    }
+    if (planScene) break;
+  }
+
+  const texts = paragraphs.map(p => p.text);
+  const fullText = texts.join('\n\n');
+  const targetWordCount = planScene?.target_word_count ?? 500;
+
+  const analysis = analyzeSceneProse(sceneId, fullText, targetWordCount, config);
+
+  return {
+    scene_id: sceneId,
+    arc_id: arcId,
+    paragraphs: texts,
+    word_count: analysis.word_count,
+    sentence_count: analysis.sentence_count,
+    target_word_count: targetWordCount,
+    pov_detected: analysis.pov_detected as any,
+    tense_detected: analysis.tense_detected as any,
+    sensory_anchor_count: analysis.sensory_anchor_count,
+    dialogue_ratio: analysis.dialogue_ratio,
+    banned_word_hits: analysis.banned_word_hits,
+    cliche_hits: analysis.cliche_hits,
+    violations: analysis.violations,
   };
 }
 

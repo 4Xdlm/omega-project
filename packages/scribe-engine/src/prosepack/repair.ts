@@ -113,9 +113,24 @@ function buildRepairPrompt(
   lines.push(`Acceptable range: ${minWords} to ${maxWords} words`);
   lines.push(`Previous attempt produced: ${failScene.word_count} words (INSUFFICIENT)`);
   lines.push(`You MUST write at least ${minWords} words. Count carefully.`);
-  lines.push(`Expand descriptions, deepen interiority, add sensory layers, extend dialogue.`);
+  lines.push(`Expand descriptions, deepen interiority, add sensory layers.`);
   lines.push(`Do NOT pad with filler. Every word must earn its place.`);
   lines.push('');
+
+  // Dialogue Budget Law — ALWAYS enforced, even on HARD-only repairs
+  if (config.max_dialogue_ratio > 0) {
+    lines.push(`═══ DIALOGUE BUDGET LAW — NON-NEGOTIABLE ═══`);
+    lines.push(`Maximum dialogue ratio: ${config.max_dialogue_ratio} (${(config.max_dialogue_ratio * 100).toFixed(0)}% of words)`);
+    lines.push(`Current scene dialogue ratio: ${failScene.dialogue_ratio.toFixed(3)}`);
+    lines.push(`RULES:`);
+    lines.push(`  1. Do NOT add new dialogue lines unless absolutely required by a beat.`);
+    lines.push(`  2. Prefer indirect speech, reported speech, actions, and sensory perceptions over direct quotes.`);
+    lines.push(`  3. If expanding word count, expand NARRATION and DESCRIPTION, not dialogue.`);
+    lines.push(`  4. When dialogue exists, keep it minimal: 1-2 short exchanges per scene maximum.`);
+    lines.push(`  5. Convert any existing dialogue that exceeds the budget into indirect speech.`);
+    lines.push(`  6. Target: dialogue words ≤ ${(config.max_dialogue_ratio * 100).toFixed(0)}% of total words.`);
+    lines.push('');
+  }
 
   // Scene context
   lines.push(`═══ SCENE CONTEXT ═══`);

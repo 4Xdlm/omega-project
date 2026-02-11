@@ -117,6 +117,13 @@ function buildRepairPrompt(
   lines.push(`Do NOT pad with filler. Every word must earn its place.`);
   lines.push('');
 
+  // Tense & POV enforcement — ALWAYS present in repair prompt
+  lines.push(`═══ TENSE & POV — NON-NEGOTIABLE ═══`);
+  lines.push(`Tense: ${config.tense.toUpperCase()} — Every verb MUST be in the ${config.tense} tense.`);
+  lines.push(`POV: ${config.pov} — Strict ${config.pov} point of view throughout.`);
+  lines.push(`VIOLATION OF TENSE OR POV = AUTOMATIC REJECTION.`);
+  lines.push('');
+
   // Dialogue Budget Law — ALWAYS enforced, even on HARD-only repairs
   if (config.max_dialogue_ratio > 0) {
     lines.push(`═══ DIALOGUE BUDGET LAW — NON-NEGOTIABLE ═══`);

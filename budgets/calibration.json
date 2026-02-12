@@ -93,6 +93,12 @@
     }
   },
 
+  "REPAIR": {
+    "MAX_ATTEMPTS": 2,
+    "WC_DEFICIT_RATIO_MIN": 0.10,
+    "RETRY_ONLY_RULES": ["word_count_range"]
+  },
+
   "DETERMINISM": {
     "seed_base": 42,
     "prng_algorithm": "xorshift128",

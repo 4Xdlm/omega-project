@@ -1,0 +1,48 @@
+{
+  "$schema": "OMEGA-CHAOS-CONFIG-1.0",
+  "description": "Chaos engineering profiles for PR-3 fault injection testing",
+
+  "profiles": {
+    "light": {
+      "CHAOS_RATE": 0.05,
+      "failure_types": ["rate_limit_429", "timeout"],
+      "description": "Minimal chaos - 5% injection rate, basic transient failures only"
+    },
+
+    "medium": {
+      "CHAOS_RATE": 0.15,
+      "failure_types": ["rate_limit_429", "timeout", "invalid_json", "api_error_500"],
+      "description": "Moderate chaos - 15% injection rate, common failure scenarios"
+    },
+
+    "heavy": {
+      "CHAOS_RATE": 0.30,
+      "failure_types": [
+        "rate_limit_429",
+        "timeout",
+        "invalid_json",
+        "api_error_500",
+        "network_error",
+        "empty_response"
+      ],
+      "description": "Aggressive chaos - 30% injection rate, all failure types including silent failures"
+    },
+
+    "hellfire": {
+      "CHAOS_RATE": 0.50,
+      "failure_types": [
+        "rate_limit_429",
+        "timeout",
+        "invalid_json",
+        "api_error_500",
+        "network_error",
+        "empty_response"
+      ],
+      "description": "Maximum chaos - 50% injection rate, stress test for extreme resilience"
+    }
+  },
+
+  "usage": "Load with --chaos <path-to-this-file> --chaos-profile <profile-name>",
+  "default_profile": "medium",
+  "deterministic_seed": 42
+}

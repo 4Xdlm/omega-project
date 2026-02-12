@@ -1,0 +1,73 @@
+{
+  "$schema": "OMEGA-RUN-COST-1.0",
+  "description": "Example run-cost.json produced by BudgetTracker.finalize()",
+
+  "total_calls": 12,
+  "total_cost_usd": 0.456,
+  "total_latency_ms": 45000,
+  "budget_verdict": "PASS",
+
+  "violations": [],
+
+  "calls": [
+    {
+      "call_index": 0,
+      "scene_id": "SCN-01-001",
+      "model": "claude-sonnet-4-20250514",
+      "input_tokens": 2500,
+      "output_tokens": 800,
+      "latency_ms": 3500,
+      "cost_usd": 0.0195,
+      "timestamp": "2026-02-12T14:30:00.000Z"
+    },
+    {
+      "call_index": 1,
+      "scene_id": "SCN-01-002",
+      "model": "claude-sonnet-4-20250514",
+      "input_tokens": 2800,
+      "output_tokens": 900,
+      "latency_ms": 4000,
+      "cost_usd": 0.0219,
+      "timestamp": "2026-02-12T14:30:04.000Z"
+    },
+    {
+      "call_index": 2,
+      "scene_id": "SCN-01-003",
+      "model": "claude-sonnet-4-20250514",
+      "input_tokens": 3000,
+      "output_tokens": 1000,
+      "latency_ms": 4500,
+      "cost_usd": 0.024,
+      "timestamp": "2026-02-12T14:30:08.500Z"
+    }
+  ],
+
+  "_notes": [
+    "budget_verdict = PASS if no violations, FAIL if any violation",
+    "Violations checked:",
+    "  - cost_per_call: call.cost_usd > max_per_call_usd",
+    "  - cost_per_run: total_cost_usd > max_per_run_usd",
+    "  - latency_per_call: call.latency_ms > max_call_latency_ms",
+    "  - latency_per_run: total_latency_ms > max_run_latency_ms",
+    "  - calibration_null: any required calibration field is null"
+  ],
+
+  "_example_violations": {
+    "cost_per_call": {
+      "type": "cost_per_call",
+      "value": 0.55,
+      "limit": 0.50,
+      "call_index": 5
+    },
+    "cost_per_run": {
+      "type": "cost_per_run",
+      "value": 12.50,
+      "limit": 10.00
+    },
+    "calibration_null": {
+      "type": "calibration_null",
+      "value": "CALIBRATION_NULL: field BUDGET_LIMITS.test-model.max_per_call_usd is null",
+      "limit": "N/A"
+    }
+  }
+}

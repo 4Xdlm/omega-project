@@ -1,0 +1,21 @@
+{
+  "schema_version": "PR-PREFLIGHT-1.0",
+  "branch": "sprint/pr-l5-hardening",
+  "head": "dff372fd719318fa79673592cdacefc4ce4a0957",
+  "vitest_pass": true,
+  "vitest_baseline": 232,
+  "vitest_pr_added": 107,
+  "vitest_total": 339,
+  "vitest_failed": 0,
+  "inventory": {
+    "cache_writer": "packages/scribe-engine/src/providers/llm-provider.ts:113-115",
+    "llm_caller": "packages/scribe-engine/src/providers/llm-provider.ts:85-88",
+    "factory": "packages/scribe-engine/src/providers/factory.ts",
+    "cli": "packages/scribe-engine/src/cli/scribe-llm.ts",
+    "repair": "packages/scribe-engine/src/prosepack/repair.ts"
+  },
+  "timestamp": "2026-02-12T14:31:30.000Z",
+  "post_implementation_timestamp": "2026-02-12T14:48:07.000Z",
+  "verdict": "PASS",
+  "notes": "Baseline 232/232 PASS. PR sprint complete: 339/339 PASS (232 baseline + 107 PR)."
+}

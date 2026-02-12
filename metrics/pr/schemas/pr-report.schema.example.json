@@ -1,0 +1,91 @@
+{
+  "$schema": "OMEGA-PR-REPORT-1.0",
+  "description": "Example PR_REPORT.json produced by stress100.ts after N runs",
+
+  "schema_version": "STRESS-REPORT-1.0",
+  "total_runs": 100,
+
+  "hard_pass_rate": 0.85,
+  "soft_pass_rate": 0.95,
+  "mean_hard_score": 0.800,
+  "std_hard_score": 0.050,
+  "mean_soft_score": 0.850,
+  "std_soft_score": 0.040,
+
+  "variance_verdict": "PASS",
+  "variance_violations": [],
+  "downgrade_flag": null,
+
+  "runs": [
+    {
+      "run_id": 1,
+      "hard_pass": true,
+      "soft_pass": true,
+      "hard_score": 0.82,
+      "soft_score": 0.88,
+      "latency_ms": 5200,
+      "timestamp": "2026-02-12T14:30:00.000Z"
+    },
+    {
+      "run_id": 2,
+      "hard_pass": true,
+      "soft_pass": true,
+      "hard_score": 0.78,
+      "soft_score": 0.85,
+      "latency_ms": 5100,
+      "timestamp": "2026-02-12T14:30:05.200Z"
+    },
+    {
+      "run_id": 3,
+      "hard_pass": false,
+      "soft_pass": false,
+      "hard_score": 0.68,
+      "soft_score": 0.75,
+      "latency_ms": 5300,
+      "timestamp": "2026-02-12T14:30:10.300Z"
+    }
+  ],
+
+  "timestamp": "2026-02-12T14:45:00.000Z",
+
+  "_notes": [
+    "variance_verdict = PASS if all metrics within envelope, else FAIL",
+    "Metrics checked against VARIANCE_ENVELOPES in calibration.json:",
+    "  - hard_pass_rate: min/target/max",
+    "  - soft_pass_rate: min/target/max",
+    "  - mean_hard_score: min/target/max",
+    "  - std_hard_score: min/target/max (lower is better)",
+    "  - mean_soft_score: min/target/max",
+    "  - std_soft_score: min/target/max (lower is better)",
+    "downgrade_flag = DOWNGRADE_VARIANCE if variance out but hard_pass_rate OK"
+  ],
+
+  "_example_violations": [
+    {
+      "metric": "hard_pass_rate",
+      "value": 0.68,
+      "envelope": { "min": 0.75, "target": 0.85, "max": 1.0 },
+      "severity": "out_of_bounds"
+    },
+    {
+      "metric": "std_hard_score",
+      "value": 0.18,
+      "envelope": { "min": 0.0, "target": 0.05, "max": 0.15 },
+      "severity": "out_of_bounds"
+    },
+    {
+      "metric": "mean_hard_score",
+      "value": 0.77,
+      "envelope": { "min": 0.70, "target": 0.80, "max": 0.95 },
+      "severity": "below_target"
+    }
+  ],
+
+  "_example_with_downgrade": {
+    "hard_pass_rate": 0.85,
+    "std_hard_score": 0.20,
+    "variance_verdict": "FAIL",
+    "downgrade_flag": "DOWNGRADE_VARIANCE",
+    "_reason": "Hard pass rate OK but variance out → downgrade instead of hard fail"
+  }
+}

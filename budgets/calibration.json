@@ -1,0 +1,109 @@
+{
+  "$schema": "OMEGA-CALIBRATION-1.0",
+  "description": "NASA-Grade L4 calibration parameters for PR sprint — zero nulls, fail-closed",
+
+  "LOCK_TIMEOUT_MS": 10000,
+  "LOCK_SPIN_MS": 50,
+  "LOCK_STALE_MS": 30000,
+
+  "BACKOFF_BASE_MS": 1000,
+  "BACKOFF_MAX_MS": 30000,
+  "MAX_RETRIES": 3,
+
+  "BUDGET_LIMITS": {
+    "claude-sonnet-4-20250514": {
+      "input_cost_per_1k": 0.003,
+      "output_cost_per_1k": 0.015,
+      "max_per_call_usd": 0.50,
+      "max_per_run_usd": 10.00
+    },
+    "claude-opus-4-20250514": {
+      "input_cost_per_1k": 0.015,
+      "output_cost_per_1k": 0.075,
+      "max_per_call_usd": 2.00,
+      "max_per_run_usd": 40.00
+    },
+    "claude-haiku-4-20250312": {
+      "input_cost_per_1k": 0.0008,
+      "output_cost_per_1k": 0.004,
+      "max_per_call_usd": 0.10,
+      "max_per_run_usd": 2.00
+    }
+  },
+
+  "LATENCY_LIMITS": {
+    "max_call_latency_ms": 60000,
+    "max_run_latency_ms": 600000,
+    "warn_call_latency_ms": 30000
+  },
+
+  "VARIANCE_ENVELOPES": {
+    "hard_pass_rate": {
+      "min": 0.75,
+      "target": 0.85,
+      "max": 1.0
+    },
+    "soft_pass_rate": {
+      "min": 0.85,
+      "target": 0.95,
+      "max": 1.0
+    },
+    "mean_hard_score": {
+      "min": 0.70,
+      "target": 0.80,
+      "max": 0.95
+    },
+    "std_hard_score": {
+      "min": 0.0,
+      "target": 0.05,
+      "max": 0.15
+    },
+    "mean_soft_score": {
+      "min": 0.75,
+      "target": 0.85,
+      "max": 0.98
+    },
+    "std_soft_score": {
+      "min": 0.0,
+      "target": 0.04,
+      "max": 0.12
+    }
+  },
+
+  "STRESS_N": 100,
+  "PASS_RATIO_MIN": 0.75,
+  "CONCURRENCY_N": 10,
+
+  "CHAOS_PROFILES": {
+    "light": {
+      "CHAOS_RATE": 0.05,
+      "failure_types": ["rate_limit_429", "timeout"]
+    },
+    "medium": {
+      "CHAOS_RATE": 0.15,
+      "failure_types": ["rate_limit_429", "timeout", "invalid_json", "api_error_500"]
+    },
+    "heavy": {
+      "CHAOS_RATE": 0.30,
+      "failure_types": ["rate_limit_429", "timeout", "invalid_json", "api_error_500", "network_error", "empty_response"]
+    },
+    "hellfire": {
+      "CHAOS_RATE": 0.50,
+      "failure_types": ["rate_limit_429", "timeout", "invalid_json", "api_error_500", "network_error", "empty_response"]
+    }
+  },
+
+  "DETERMINISM": {
+    "seed_base": 42,
+    "prng_algorithm": "xorshift128",
+    "time_freeze": "2026-01-01T00:00:00.000Z"
+  },
+
+  "PROOFPACK": {
+    "compression_level": 9,
+    "include_source": true,
+    "include_tests": true,
+    "include_evidence": true,
+    "stable_zip_ordering": true
+  }
+}

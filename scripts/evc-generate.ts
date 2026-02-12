@@ -70,12 +70,12 @@ function getGitHead(): string {
 }
 
 // Discover runs: via RUNSET file (preferred) or directory scan (fallback)
-interface RunsetEntry { id: string; path: string; }
+interface RunsetEntry { id: string; path: string; replay_path?: string; }
 interface Runset { schema_version: string; runs: RunsetEntry[]; }
 
 const RUNSET_PATH = join(METRICS_E2E, 'E2E_RUNSET.json');
 const RUN_PATTERN = /^e2e_(\d{3})$/;
-const runEntries: { id: string; dir: string }[] = [];
+const runEntries: { id: string; dir: string; replayDir?: string }[] = [];
 
 if (!existsSync(METRICS_E2E)) {
   console.error(`[EVC] FATAL: ${METRICS_E2E} does not exist`);
@@ -87,14 +87,18 @@ if (existsSync(RUNSET_PATH)) {
   const runset: Runset = JSON.parse(readFileSync(RUNSET_PATH, 'utf8'));
   console.log(`[EVC] Using RUNSET (${runset.runs.length} entries)`);
   for (const r of runset.runs) {
-    runEntries.push({ id: r.id, dir: resolve(PROJECT, r.path) });
+    runEntries.push({
+      id: r.id,
+      dir: resolve(PROJECT, r.path),
+      replayDir: r.replay_path ? resolve(PROJECT, r.replay_path) : undefined,
+    });
   }
 } else {
   // Fallback: directory scan for e2e_NNN
   const entries = readdirSync(METRICS_E2E, { withFileTypes: true });
   for (const entry of entries) {
     if (entry.isDirectory() && RUN_PATTERN.test(entry.name)) {
-      runEntries.push({ id: entry.name, dir: join(METRICS_E2E, entry.name) });
+      runEntries.push({ id: entry.name, dir: join(METRICS_E2E, entry.name), replayDir: undefined });
     }
   }
   runEntries.sort((a, b) => a.id.localeCompare(b.id));
@@ -113,10 +117,13 @@ let allFilesPresent = true;
 for (const entry of runEntries) {
   const ppPath = join(entry.dir, 'ProsePack.json');
   const origPath = join(entry.dir, 'scribe-prose.json');
-  // Replay dir: try <dir>_replay first, then <id>_replay in METRICS_E2E
+  // Replay dir: explicit from RUNSET > <dir>_replay > <id>_replay in METRICS_E2E
+  const replayDirExplicit = entry.replayDir;
   const replayDirSibling = entry.dir + '_replay';
   const replayDirById = join(METRICS_E2E, `${entry.id}_replay`);
-  const replayDir = existsSync(replayDirSibling) ? replayDirSibling : replayDirById;
+  const replayDir = replayDirExplicit && existsSync(replayDirExplicit)
+    ? replayDirExplicit
+    : existsSync(replayDirSibling) ? replayDirSibling : replayDirById;
   const replayPath = join(replayDir, 'scribe-prose.json');
 
   // Check all files exist

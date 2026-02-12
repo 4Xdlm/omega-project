@@ -1,18 +1,18 @@
 {
   "schema_version": "EVC-1.0",
-  "created_at": "2026-02-12T00:29:40.188Z",
-  "head": "74f0b33c1e8562041f5b2030112f061b0ff40036",
+  "created_at": "2026-02-12T00:41:22.963Z",
+  "head": "2944425de4a5f9f04a20b4edeb18a75c2f9640c0",
   "runs": [
     {
       "run_id": "e2e_001",
       "hard_pass": true,
-      "soft_pass": false,
+      "soft_pass": true,
       "constraint_satisfaction": 1,
-      "total_violations": 1,
+      "total_violations": 0,
       "hard_violations": 0,
-      "soft_violations": 1,
-      "sha256_original": "FB484E7569546712B192D27A2261E0C730B36A4A9F62D48CCFA03CA1363B22A8",
-      "sha256_replay": "FB484E7569546712B192D27A2261E0C730B36A4A9F62D48CCFA03CA1363B22A8",
+      "soft_violations": 0,
+      "sha256_original": "F6787CDD6DD94BBC8463D44E816AC65338F3F876F4C6664BFB6E0D207E82F9A3",
+      "sha256_replay": "F6787CDD6DD94BBC8463D44E816AC65338F3F876F4C6664BFB6E0D207E82F9A3",
       "sha256_match": true
     },
     {
@@ -42,12 +42,13 @@
   ],
   "global": {
     "pass_hard": true,
-    "pass_soft": false,
+    "pass_soft": true,
     "pass_replay": true,
-    "pass_strict": false
+    "pass_strict": true
   },
   "allowed_tags": [
     "validation-e2e-hard-pass",
-    "validation-e2e-replay-pass"
+    "validation-e2e-replay-pass",
+    "validation-e2e-strict-pass"
   ]
 }

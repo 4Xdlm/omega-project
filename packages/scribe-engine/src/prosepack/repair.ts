@@ -386,18 +386,27 @@ export function repairProsePack(
           violations: analysis.violations, // recomputed, not wiped
         };
 
+        // INV-REPAIR-ORACLE-01: still_failing derived from analyzeSceneProse (single oracle)
+        // NOT from validateRepairedScene (which only checks word_count + banned_words)
+        const hardAfterRepair = analysis.violations.filter(v => v.severity === 'HARD');
+        const stillFailing = hardAfterRepair.length > 0;
+
         repairedScenes.push(repairedScene);
         repairs.push({
-          repaired: true,
+          repaired: !stillFailing,
           original_scene: scene,
           repaired_scene: repairedScene,
           attempt_made: true,
           repair_reason: repairViolations.map(v => `[${v.severity}]${v.rule}`).join(', '),
           new_word_count: validation.wordCount,
-          still_failing: false,
+          still_failing: stillFailing,
         });
 
-        console.log(`[repair] ✅ ${scene.scene_id}: ${scene.word_count} → ${validation.wordCount} words`);
+        if (stillFailing) {
+          console.log(`[repair] ⚠️ ${scene.scene_id}: ${scene.word_count} → ${validation.wordCount} words (HARD violations remain: ${hardAfterRepair.map(v => v.rule).join(', ')})`);
+        } else {
+          console.log(`[repair] ✅ ${scene.scene_id}: ${scene.word_count} → ${validation.wordCount} words`);
+        }
       } else {
         // Repair failed — try micro-bump on ORIGINAL scene before giving up
         const origText = scene.paragraphs.join('\n\n');

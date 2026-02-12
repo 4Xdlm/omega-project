@@ -69,37 +69,55 @@ function getGitHead(): string {
   }
 }
 
-// Discover runs: directories matching e2e_NNN (not _replay)
+// Discover runs: via RUNSET file (preferred) or directory scan (fallback)
+interface RunsetEntry { id: string; path: string; }
+interface Runset { schema_version: string; runs: RunsetEntry[]; }
+
+const RUNSET_PATH = join(METRICS_E2E, 'E2E_RUNSET.json');
 const RUN_PATTERN = /^e2e_(\d{3})$/;
-const runDirs: string[] = [];
+const runEntries: { id: string; dir: string }[] = [];
 
 if (!existsSync(METRICS_E2E)) {
   console.error(`[EVC] FATAL: ${METRICS_E2E} does not exist`);
   process.exit(1);
 }
 
-const entries = readdirSync(METRICS_E2E, { withFileTypes: true });
-for (const entry of entries) {
-  if (entry.isDirectory() && RUN_PATTERN.test(entry.name)) {
-    runDirs.push(entry.name);
+if (existsSync(RUNSET_PATH)) {
+  // INV-EVC-RUNSET-01: Use explicit runset, no history deletion
+  const runset: Runset = JSON.parse(readFileSync(RUNSET_PATH, 'utf8'));
+  console.log(`[EVC] Using RUNSET (${runset.runs.length} entries)`);
+  for (const r of runset.runs) {
+    runEntries.push({ id: r.id, dir: resolve(PROJECT, r.path) });
   }
+} else {
+  // Fallback: directory scan for e2e_NNN
+  const entries = readdirSync(METRICS_E2E, { withFileTypes: true });
+  for (const entry of entries) {
+    if (entry.isDirectory() && RUN_PATTERN.test(entry.name)) {
+      runEntries.push({ id: entry.name, dir: join(METRICS_E2E, entry.name) });
+    }
+  }
+  runEntries.sort((a, b) => a.id.localeCompare(b.id));
 }
-runDirs.sort();
 
-if (runDirs.length === 0) {
-  console.error('[EVC] FATAL: no e2e run directories found');
+if (runEntries.length === 0) {
+  console.error('[EVC] FATAL: no e2e run entries found');
   process.exit(1);
 }
 
-console.log(`[EVC] Found ${runDirs.length} runs: ${runDirs.join(', ')}`);
+console.log(`[EVC] Found ${runEntries.length} runs: ${runEntries.map(r => r.id).join(', ')}`);
 
 const runs: RunVerdict[] = [];
 let allFilesPresent = true;
 
-for (const dir of runDirs) {
-  const ppPath = join(METRICS_E2E, dir, 'ProsePack.json');
-  const origPath = join(METRICS_E2E, dir, 'scribe-prose.json');
-  const replayPath = join(METRICS_E2E, `${dir}_replay`, 'scribe-prose.json');
+for (const entry of runEntries) {
+  const ppPath = join(entry.dir, 'ProsePack.json');
+  const origPath = join(entry.dir, 'scribe-prose.json');
+  // Replay dir: try <dir>_replay first, then <id>_replay in METRICS_E2E
+  const replayDirSibling = entry.dir + '_replay';
+  const replayDirById = join(METRICS_E2E, `${entry.id}_replay`);
+  const replayDir = existsSync(replayDirSibling) ? replayDirSibling : replayDirById;
+  const replayPath = join(replayDir, 'scribe-prose.json');
 
   // Check all files exist
   for (const [label, path] of [['ProsePack', ppPath], ['original', origPath], ['replay', replayPath]]) {
@@ -118,7 +136,7 @@ for (const dir of runDirs) {
   const hashReplay = sha256File(replayPath);
 
   const verdict: RunVerdict = {
-    run_id: dir,
+    run_id: entry.id,
     hard_pass: score.hard_pass,
     soft_pass: score.soft_pass,
     constraint_satisfaction: score.constraint_satisfaction,
@@ -130,7 +148,7 @@ for (const dir of runDirs) {
     sha256_match: hashOrig === hashReplay,
   };
 
-  console.log(`[EVC] ${dir}: hard=${verdict.hard_pass} soft=${verdict.soft_pass} replay=${verdict.sha256_match}`);
+  console.log(`[EVC] ${entry.id}: hard=${verdict.hard_pass} soft=${verdict.soft_pass} replay=${verdict.sha256_match}`);
   runs.push(verdict);
 }
 

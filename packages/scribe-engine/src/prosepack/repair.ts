@@ -1,19 +1,21 @@
 /**
  * OMEGA Scribe Engine — Repair Loop
- * Phase P.3 — Auto-repair HARD FAIL scenes (1 cycle max, fail-closed)
+ * Phase P.3 — Auto-repair HARD FAIL scenes (bounded multi-attempt, fail-closed)
  *
  * Strategy:
  *   1. Read ProsePack, identify HARD violations
  *   2. For each FAIL scene: rebuild prompt with explicit length enforcement
- *   3. Regen scene via provider (1 attempt only)
- *   4. Re-validate. If still FAIL → keep original + document NCR
- *   5. Rebuild ProsePack with repaired scenes
+ *   3. Regen scene via provider (up to MAX_REPAIR_ATTEMPTS, default 2)
+ *   4. On retry: enrich prompt with feedback from previous attempt
+ *   5. Re-validate. If still FAIL after all attempts → keep original + document NCR
+ *   6. Rebuild ProsePack with repaired scenes
  *
  * Invariants:
- *   - Max 1 regen per scene (no infinite loop)
+ *   - INV-REPAIR-BOUND-01: Max MAX_REPAIR_ATTEMPTS regens per scene (no infinite loop)
+ *   - INV-REPAIR-ORACLE-01: still_failing derived from analyzeSceneProse (single oracle)
  *   - Non-FAIL scenes are NEVER touched
  *   - Continuity preserved (adjacent scene context in prompt)
- *   - Full evidence trail (original + repair attempt + outcome)
+ *   - Full evidence trail (original + all attempts + outcome)
  */
 
 import { sha256 } from '@omega/canon-kernel';
@@ -201,7 +203,52 @@ function buildRepairPrompt(
 // append deterministic sensory-texture sentences (no LLM, no new facts).
 // This eliminates absurd HARD FAILs at the boundary.
 
-const MICRO_BUMP_THRESHOLD = 20;
+// INV-WC-MICRO-01: Threshold for deterministic micro-bump (atmospheric texture)
+// 50 words covers repair near-misses (5-8% of typical scene minimum)
+const MICRO_BUMP_THRESHOLD = 50;
+
+// INV-REPAIR-BOUND-01: Maximum repair attempts per scene (bounded, no infinite loop)
+const MAX_REPAIR_ATTEMPTS = 2;
+
+// ─── Retry Prompt Enrichment ─────────────────────────────────────
+// On attempt 2+, prepend feedback from previous attempt to help LLM converge
+
+function buildRetryFeedback(attempt: number, prevWordCount: number, minWords: number, maxWords: number, prevViolations: ProseViolation[]): string {
+  const lines: string[] = [];
+  lines.push(`═══ REPAIR ATTEMPT ${attempt} — PREVIOUS ATTEMPT FAILED ═══`);
+  lines.push('');
+  lines.push(`Your previous repair produced ${prevWordCount} words.`);
+  
+  const wcViolation = prevViolations.find(v => v.rule === 'word_count_range');
+  if (wcViolation && prevWordCount < minWords) {
+    const deficit = minWords - prevWordCount;
+    lines.push(`This is ${deficit} words SHORT of the minimum (${minWords}).`);
+    lines.push(`You MUST write at least ${minWords} words this time. Aim for ${Math.round((minWords + maxWords) / 2)} words.`);
+    lines.push(`STRATEGY: Expand descriptions, deepen character interiority, add sensory layers, develop atmosphere.`);
+    lines.push(`Do NOT summarize. Do NOT compress. Write LONG, RICH, DETAILED prose.`);
+  } else if (wcViolation && prevWordCount > maxWords) {
+    const excess = prevWordCount - maxWords;
+    lines.push(`This is ${excess} words OVER the maximum (${maxWords}).`);
+    lines.push(`You MUST write no more than ${maxWords} words this time. Aim for ${Math.round((minWords + maxWords) / 2)} words.`);
+    lines.push(`STRATEGY: Tighten prose, remove redundancy, merge similar descriptions.`);
+  }
+  
+  const tenseViolation = prevViolations.find(v => v.rule === 'tense_conformity');
+  if (tenseViolation) {
+    lines.push(`CRITICAL: Your previous attempt had TENSE violations. Every verb MUST be in the correct tense.`);
+  }
+  
+  const povViolation = prevViolations.find(v => v.rule === 'pov_conformity');
+  if (povViolation) {
+    lines.push(`CRITICAL: Your previous attempt had POV violations. Maintain strict POV throughout.`);
+  }
+  
+  lines.push('');
+  lines.push(`This is attempt ${attempt} of ${MAX_REPAIR_ATTEMPTS}. There will be NO further attempts.`);
+  lines.push(`═══ END FEEDBACK ═══`);
+  lines.push('');
+  return lines.join('\n');
+}
 
 function microBumpText(text: string, currentWords: number, minWords: number): { text: string; bumped: boolean; addedWords: number } {
   const deficit = minWords - currentWords;
@@ -334,95 +381,117 @@ export function repairProsePack(
     const nextText = nextScene ? nextScene.paragraphs.join('\n\n') : '';
 
     // Build repair prompt — includes HARD + SOFT when repairSoft active
-    const prompt = buildRepairPrompt(scene, plan, config, prevText, nextText, repairViolations);
+    const basePrompt = buildRepairPrompt(scene, plan, config, prevText, nextText, repairViolations);
 
-    // Call provider (1 attempt)
+    // INV-REPAIR-BOUND-01: Bounded multi-attempt repair (max MAX_REPAIR_ATTEMPTS)
+    const found = findPlanScene(plan, scene.scene_id);
+    const targetWC = found?.scene.target_word_count ?? scene.target_word_count;
+    const minWC = Math.floor(targetWC * (1 - config.word_count_tolerance));
+    const maxWC = Math.ceil(targetWC * (1 + config.word_count_tolerance));
+
+    let repairSucceeded = false;
+    let lastValidation: { pass: boolean; wordCount: number; violations: ProseViolation[] } | null = null;
+    let lastRepairedText: string = '';
+
     try {
-      const response = provider.generateSceneProse(prompt, {
-        sceneId: `${scene.scene_id}-repair`,
-        arcId: scene.arc_id,
-        skeletonHash: prosePack.meta.skeleton_hash,
-        seed: seed + '-repair',
-      });
-
-      // Validate repair
-      const found = findPlanScene(plan, scene.scene_id);
-      const targetWC = found?.scene.target_word_count ?? scene.target_word_count;
-      let repairedText = response.prose;
-      let validation = validateRepairedScene(repairedText, targetWC, config);
-
-      // INV-WC-MICRO-01: if word count is barely below min, apply micro-bump
-      if (!validation.pass && validation.violations.some(v => v.rule === 'word_count_range')) {
-        const minWC = Math.floor(targetWC * (1 - config.word_count_tolerance));
-        const bump = microBumpText(repairedText, validation.wordCount, minWC);
-        if (bump.bumped) {
-          repairedText = bump.text;
-          // Re-validate after bump
-          const recheck = validateRepairedScene(repairedText, targetWC, config);
-          validation.pass = recheck.pass;
-          validation.wordCount = recheck.wordCount;
-          validation.violations = recheck.violations;
+      for (let attempt = 1; attempt <= MAX_REPAIR_ATTEMPTS; attempt++) {
+        // On attempt 2+, enrich prompt with feedback from previous failure
+        let prompt = basePrompt;
+        if (attempt > 1 && lastValidation) {
+          const feedback = buildRetryFeedback(attempt, lastValidation.wordCount, minWC, maxWC, lastValidation.violations);
+          prompt = feedback + '\n' + basePrompt;
+          console.log(`[repair] 🔄 ${scene.scene_id}: retry attempt ${attempt}/${MAX_REPAIR_ATTEMPTS} (prev=${lastValidation.wordCount} words, need ${minWC}+)`);
         }
-      }
 
-      if (validation.pass) {
-        // Repair successful — build new scene with full re-analysis
-        // INV-REPAIR-OBS-01: recompute all features + violations on repaired text
-        const newParagraphs = repairedText.split(/\n\s*\n/).map(p => p.trim()).filter(p => p.length > 0);
-        const fullText = newParagraphs.join('\n\n');
-        const analysis = analyzeSceneProse(scene.scene_id, fullText, targetWC, config);
-
-        const repairedScene: ProsePackScene = {
-          ...scene,
-          paragraphs: newParagraphs,
-          word_count: analysis.word_count,
-          sentence_count: analysis.sentence_count,
-          pov_detected: analysis.pov_detected as any,
-          tense_detected: analysis.tense_detected as any,
-          sensory_anchor_count: analysis.sensory_anchor_count,
-          dialogue_ratio: analysis.dialogue_ratio,
-          banned_word_hits: analysis.banned_word_hits,
-          cliche_hits: analysis.cliche_hits,
-          violations: analysis.violations, // recomputed, not wiped
-        };
-
-        // INV-REPAIR-ORACLE-01: still_failing derived from analyzeSceneProse (single oracle)
-        // NOT from validateRepairedScene (which only checks word_count + banned_words)
-        const hardAfterRepair = analysis.violations.filter(v => v.severity === 'HARD');
-        const stillFailing = hardAfterRepair.length > 0;
-
-        repairedScenes.push(repairedScene);
-        repairs.push({
-          repaired: !stillFailing,
-          original_scene: scene,
-          repaired_scene: repairedScene,
-          attempt_made: true,
-          repair_reason: repairViolations.map(v => `[${v.severity}]${v.rule}`).join(', '),
-          new_word_count: validation.wordCount,
-          still_failing: stillFailing,
+        const response = provider.generateSceneProse(prompt, {
+          sceneId: `${scene.scene_id}-repair${attempt > 1 ? `-attempt${attempt}` : ''}`,
+          arcId: scene.arc_id,
+          skeletonHash: prosePack.meta.skeleton_hash,
+          seed: seed + `-repair${attempt > 1 ? `-a${attempt}` : ''}`,
         });
 
-        if (stillFailing) {
-          console.log(`[repair] ⚠️ ${scene.scene_id}: ${scene.word_count} → ${validation.wordCount} words (HARD violations remain: ${hardAfterRepair.map(v => v.rule).join(', ')})`);
-        } else {
-          console.log(`[repair] ✅ ${scene.scene_id}: ${scene.word_count} → ${validation.wordCount} words`);
+        // Validate repair
+        let repairedText = response.prose;
+        let validation = validateRepairedScene(repairedText, targetWC, config);
+
+        // INV-WC-MICRO-01: if word count is barely below min, apply micro-bump
+        if (!validation.pass && validation.violations.some(v => v.rule === 'word_count_range')) {
+          const bump = microBumpText(repairedText, validation.wordCount, minWC);
+          if (bump.bumped) {
+            repairedText = bump.text;
+            const recheck = validateRepairedScene(repairedText, targetWC, config);
+            validation = recheck;
+          }
         }
-      } else {
-        // Repair failed — try micro-bump on ORIGINAL scene before giving up
+
+        lastValidation = validation;
+        lastRepairedText = repairedText;
+
+        if (validation.pass) {
+          // Repair successful — build new scene with full re-analysis
+          // INV-REPAIR-OBS-01: recompute all features + violations on repaired text
+          const newParagraphs = repairedText.split(/\n\s*\n/).map(p => p.trim()).filter(p => p.length > 0);
+          const fullText = newParagraphs.join('\n\n');
+          const analysis = analyzeSceneProse(scene.scene_id, fullText, targetWC, config);
+
+          const repairedScene: ProsePackScene = {
+            ...scene,
+            paragraphs: newParagraphs,
+            word_count: analysis.word_count,
+            sentence_count: analysis.sentence_count,
+            pov_detected: analysis.pov_detected as any,
+            tense_detected: analysis.tense_detected as any,
+            sensory_anchor_count: analysis.sensory_anchor_count,
+            dialogue_ratio: analysis.dialogue_ratio,
+            banned_word_hits: analysis.banned_word_hits,
+            cliche_hits: analysis.cliche_hits,
+            violations: analysis.violations,
+          };
+
+          // INV-REPAIR-ORACLE-01: still_failing derived from analyzeSceneProse (single oracle)
+          const hardAfterRepair = analysis.violations.filter(v => v.severity === 'HARD');
+          const stillFailing = hardAfterRepair.length > 0;
+
+          repairedScenes.push(repairedScene);
+          repairs.push({
+            repaired: !stillFailing,
+            original_scene: scene,
+            repaired_scene: repairedScene,
+            attempt_made: true,
+            repair_reason: `${repairViolations.map(v => `[${v.severity}]${v.rule}`).join(', ')} (attempt ${attempt}/${MAX_REPAIR_ATTEMPTS})`,
+            new_word_count: validation.wordCount,
+            still_failing: stillFailing,
+          });
+
+          if (stillFailing) {
+            console.log(`[repair] ⚠️ ${scene.scene_id}: ${scene.word_count} → ${validation.wordCount} words (HARD violations remain: ${hardAfterRepair.map(v => v.rule).join(', ')}) [attempt ${attempt}]`);
+          } else {
+            console.log(`[repair] ✅ ${scene.scene_id}: ${scene.word_count} → ${validation.wordCount} words${attempt > 1 ? ` [attempt ${attempt}]` : ''}`);
+          }
+          repairSucceeded = true;
+          break; // Exit retry loop on success
+        }
+
+        // Attempt failed — if more attempts remain, continue loop
+        if (attempt < MAX_REPAIR_ATTEMPTS) {
+          console.log(`[repair] ⚠️ ${scene.scene_id}: attempt ${attempt} produced ${validation.wordCount} words (need ${minWC}-${maxWC}), retrying...`);
+        }
+      } // end retry loop
+
+      // All attempts exhausted — fallback path
+      if (!repairSucceeded) {
+        // Try micro-bump on ORIGINAL scene before giving up
         const origText = scene.paragraphs.join('\n\n');
         const origWords = origText.split(/\s+/).filter(w => w.length > 0).length;
-        const minWCOrig = Math.floor(targetWC * (1 - config.word_count_tolerance));
-        const origBump = microBumpText(origText, origWords, minWCOrig);
+        const origBump = microBumpText(origText, origWords, minWC);
 
         if (origBump.bumped) {
-          // Re-analyze bumped original
           const bumpedParagraphs = origBump.text.split(/\n\s*\n/).map(p => p.trim()).filter(p => p.length > 0);
           const bumpedFullText = bumpedParagraphs.join('\n\n');
           const bumpedAnalysis = analyzeSceneProse(scene.scene_id, bumpedFullText, targetWC, config);
           const bumpedHard = bumpedAnalysis.violations.filter(v => v.severity === 'HARD');
 
           if (bumpedHard.length === 0) {
-            // Micro-bump saved the original!
             const bumpedScene: ProsePackScene = {
               ...scene,
               paragraphs: bumpedParagraphs,
@@ -442,7 +511,7 @@ export function repairProsePack(
               original_scene: scene,
               repaired_scene: bumpedScene,
               attempt_made: true,
-              repair_reason: `micro-bump(${origBump.addedWords}w) on original after LLM repair failed`,
+              repair_reason: `micro-bump(${origBump.addedWords}w) on original after ${MAX_REPAIR_ATTEMPTS} LLM attempts failed`,
               new_word_count: bumpedAnalysis.word_count,
               still_failing: false,
             });
@@ -458,12 +527,12 @@ export function repairProsePack(
           original_scene: scene,
           repaired_scene: null,
           attempt_made: true,
-          repair_reason: repairViolations.map(v => `[${v.severity}]${v.rule}`).join(', '),
-          new_word_count: validation.wordCount,
+          repair_reason: `${repairViolations.map(v => `[${v.severity}]${v.rule}`).join(', ')} (${MAX_REPAIR_ATTEMPTS} attempts exhausted)`,
+          new_word_count: lastValidation?.wordCount ?? null,
           still_failing: true,
         });
 
-        console.log(`[repair] ❌ ${scene.scene_id}: repair produced ${validation.wordCount} words, still failing`);
+        console.log(`[repair] ❌ ${scene.scene_id}: ${MAX_REPAIR_ATTEMPTS} attempts exhausted, last=${lastValidation?.wordCount} words, still failing`);
       }
     } catch (err: any) {
       // Provider error — keep original

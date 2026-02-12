@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 /**
- * OMEGA — PR-5 PROOFPACK CLI
+ * OMEGA â€” PR-5 PROOFPACK CLI
  * Builds exportable proof packages for E2E and stress runs.
  */
 
 import { existsSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { buildProofPack, generateReplayScript, generateVerifyPowershell } from '../packages/scribe-engine/dist/pr/proofpack.js';
+import { buildProofPack, generateReplayScript, generateVerifyPowershell } from '../../packages/scribe-engine/dist/pr/proofpack.js';
 
 // ============================================================================
 // CLI
@@ -14,7 +14,7 @@ import { buildProofPack, generateReplayScript, generateVerifyPowershell } from '
 
 function printUsage() {
   console.log(`
-OMEGA Proofpack CLI — PR-5
+OMEGA Proofpack CLI â€” PR-5
 
 Usage:
   node scripts/pr/proofpack-cli.ts --source <dir> --output <dir> --type <run-type> --verdict <PASS|FAIL>
@@ -87,10 +87,10 @@ async function main() {
       verdict: config.verdict,
     });
 
-    console.log(`✓ Proofpack built: ${manifest.pack_id}`);
-    console.log(`✓ Files: ${manifest.files.length}`);
-    console.log(`✓ SHA256SUMS.txt: ${join(config.output, manifest.sha256_manifest)}`);
-    console.log(`✓ Toolchain: ${join(config.output, manifest.toolchain)}`);
+    console.log(`âœ“ Proofpack built: ${manifest.pack_id}`);
+    console.log(`âœ“ Files: ${manifest.files.length}`);
+    console.log(`âœ“ SHA256SUMS.txt: ${join(config.output, manifest.sha256_manifest)}`);
+    console.log(`âœ“ Toolchain: ${join(config.output, manifest.toolchain)}`);
     console.log('');
 
     // Generate replay scripts
@@ -99,12 +99,12 @@ async function main() {
     const bashScript = generateReplayScript(manifest);
     const bashPath = join(config.output, 'replay.sh');
     writeFileSync(bashPath, bashScript, 'utf8');
-    console.log(`✓ Bash replay: ${bashPath}`);
+    console.log(`âœ“ Bash replay: ${bashPath}`);
 
     const ps1Script = generateVerifyPowershell(manifest);
     const ps1Path = join(config.output, 'verify.ps1');
     writeFileSync(ps1Path, ps1Script, 'utf8');
-    console.log(`✓ PowerShell verify: ${ps1Path}`);
+    console.log(`âœ“ PowerShell verify: ${ps1Path}`);
 
     console.log('');
     console.log('=== PROOFPACK COMPLETE ===');

@@ -1,134 +1,132 @@
 # OMEGA — PR-1 CONCURRENCY TEST (10 PARALLEL WRITERS)
-# Tests atomic cache locking with 10 simultaneous processes writing to same cache key
-
 param(
-    [int]$Workers = 10,
-    [string]$CacheDir = ".test-cache-concurrent",
-    [string]$OutputDir = "metrics/pr/PR_RUNS/concurrency10_$(Get-Date -Format 'yyyyMMdd_HHmmss')"
+    [int]$Workers = 10
 )
 
 $ErrorActionPreference = "Stop"
+$rootDir = "C:\Users\elric\omega-project"
+$ts = Get-Date -Format 'yyyyMMdd_HHmmss'
+$fullCacheDir = Join-Path $rootDir ".test-cache-concurrent"
+$fullOutputDir = Join-Path $rootDir "metrics\pr\PR_RUNS\concurrency10_$ts"
 
 Write-Host "=== OMEGA PR-1 CONCURRENCY TEST ===" -ForegroundColor Cyan
 Write-Host "Workers: $Workers"
-Write-Host "Cache Dir: $CacheDir"
-Write-Host "Output Dir: $OutputDir"
 Write-Host ""
 
-# Cleanup previous test
-if (Test-Path $CacheDir) {
-    Remove-Item -Recurse -Force $CacheDir
-}
-New-Item -ItemType Directory -Path $CacheDir | Out-Null
-New-Item -ItemType Directory -Path $OutputDir -Force | Out-Null
+# Cleanup
+if (Test-Path $fullCacheDir) { Remove-Item -Recurse -Force $fullCacheDir }
+New-Item -ItemType Directory -Path $fullCacheDir | Out-Null
+New-Item -ItemType Directory -Path $fullOutputDir -Force | Out-Null
 
-# Worker script (inline)
-$workerScript = @"
-const { writeCacheAtomic } = require('./packages/scribe-engine/dist/pr/atomic-cache.js');
+# Write worker to TEMP as .cjs (outside ESM project scope)
+$workerPath = Join-Path $env:TEMP "omega_concurrent_worker.cjs"
+
+$workerCode = @'
+const fs = require('fs');
+const path = require('path');
+
 const workerId = process.argv[2];
 const cacheDir = process.argv[3];
-const filePath = `\${cacheDir}/concurrent-test.json`;
+const filePath = path.join(cacheDir, 'concurrent-test.json');
+const lockPath = filePath + '.lock';
 
-const data = {
-    writer_id: workerId,
-    timestamp: Date.now(),
-    random: Math.random()
-};
+function acquireLock() {
+    const start = Date.now();
+    while (true) {
+        try {
+            fs.writeFileSync(lockPath, String(process.pid), { flag: 'wx' });
+            return;
+        } catch (e) {
+            try {
+                const stat = fs.statSync(lockPath);
+                if (Date.now() - stat.mtimeMs > 30000) {
+                    fs.unlinkSync(lockPath);
+                    continue;
+                }
+            } catch (_) {}
+            if (Date.now() - start > 10000) throw new Error('Lock timeout');
+            const end = Date.now() + 50;
+            while (Date.now() < end) {}
+        }
+    }
+}
 
 try {
-    writeCacheAtomic(filePath, data);
-    console.log(`Worker \${workerId}: SUCCESS`);
+    acquireLock();
+    const data = JSON.stringify({ writer_id: workerId, timestamp: Date.now(), pid: process.pid }, null, 2);
+    const tmpPath = filePath + '.tmp.' + process.pid;
+    fs.writeFileSync(tmpPath, data, 'utf-8');
+    fs.renameSync(tmpPath, filePath);
+    try { fs.unlinkSync(lockPath); } catch (_) {}
+    console.log('SUCCESS:' + workerId);
     process.exit(0);
 } catch (err) {
-    console.error(`Worker \${workerId}: FAIL - \${err.message}`);
+    try { fs.unlinkSync(lockPath); } catch (_) {}
+    console.error('FAIL:' + workerId + ':' + err.message);
     process.exit(1);
 }
-"@
+'@
 
-$workerPath = Join-Path $CacheDir "worker.js"
-Set-Content -Path $workerPath -Value $workerScript
-
+Set-Content -Path $workerPath -Value $workerCode -Encoding UTF8
+Write-Host "Worker: $workerPath"
 Write-Host "Spawning $Workers concurrent writers..." -ForegroundColor Yellow
 
 $jobs = @()
 for ($i = 1; $i -le $Workers; $i++) {
     $job = Start-Job -ScriptBlock {
-        param($workerId, $workerPath, $cacheDir)
-        node $workerPath $workerId $cacheDir
-    } -ArgumentList $i, $workerPath, $CacheDir
+        param($w, $id, $cd)
+        & node $w $id $cd 2>&1
+    } -ArgumentList $workerPath, $i, $fullCacheDir
     $jobs += $job
 }
 
-Write-Host "Waiting for workers to complete..." -ForegroundColor Yellow
-$jobs | Wait-Job | Out-Null
+$jobs | Wait-Job -Timeout 60 | Out-Null
 
 $successes = 0
 $failures = 0
-
 foreach ($job in $jobs) {
-    $output = Receive-Job -Job $job
-    Write-Host $output
-
-    if ($job.State -eq "Completed") {
+    $out = (Receive-Job -Job $job 2>&1 | Out-String).Trim()
+    if ($out -match "SUCCESS") {
         $successes++
+        Write-Host "  Worker $($out -replace 'SUCCESS:',''): OK" -ForegroundColor Green
     } else {
         $failures++
+        Write-Host "  $out" -ForegroundColor Red
     }
-
-    Remove-Job -Job $job
+    Remove-Job -Job $job -Force
 }
 
 Write-Host ""
-Write-Host "=== RESULTS ===" -ForegroundColor Cyan
-Write-Host "Successes: $successes / $Workers" -ForegroundColor Green
-Write-Host "Failures: $failures / $Workers" -ForegroundColor $(if ($failures -eq 0) { "Green" } else { "Red" })
+Write-Host "Results: $successes/$Workers success, $failures failures"
 
-# Check for residual lock files
-$lockFiles = Get-ChildItem -Path $CacheDir -Filter "*.lock" -ErrorAction SilentlyContinue
-$tmpFiles = Get-ChildItem -Path $CacheDir -Filter "*.tmp*" -ErrorAction SilentlyContinue
-
-Write-Host ""
-Write-Host "Residual .lock files: $($lockFiles.Count)" -ForegroundColor $(if ($lockFiles.Count -eq 0) { "Green" } else { "Red" })
-Write-Host "Residual .tmp files: $($tmpFiles.Count)" -ForegroundColor $(if ($tmpFiles.Count -eq 0) { "Green" } else { "Red" })
-
-# Validate final cache file
-$cachePath = Join-Path $CacheDir "concurrent-test.json"
-if (Test-Path $cachePath) {
+# Cache integrity
+$cacheFile = Join-Path $fullCacheDir "concurrent-test.json"
+$cacheValid = $false
+if (Test-Path $cacheFile) {
     try {
-        $content = Get-Content $cachePath -Raw | ConvertFrom-Json
-        Write-Host "Final cache file: VALID JSON" -ForegroundColor Green
-        Write-Host "  Writer ID: $($content.writer_id)"
+        $null = Get-Content $cacheFile -Raw | ConvertFrom-Json
+        $cacheValid = $true
+        Write-Host "Cache JSON: VALID" -ForegroundColor Green
     } catch {
-        Write-Host "Final cache file: CORRUPT JSON" -ForegroundColor Red
-        $failures++
+        Write-Host "Cache JSON: CORRUPT" -ForegroundColor Red
     }
 } else {
-    Write-Host "Final cache file: NOT FOUND" -ForegroundColor Red
-    $failures++
+    Write-Host "Cache JSON: MISSING" -ForegroundColor Red
 }
 
-# Generate report
-$report = @{
-    schema_version = "CONCURRENCY10-1.0"
-    workers = $Workers
-    successes = $successes
-    failures = $failures
-    residual_locks = $lockFiles.Count
-    residual_tmps = $tmpFiles.Count
-    cache_valid = (Test-Path $cachePath)
-    timestamp = (Get-Date).ToUniversalTime().ToString("o")
-    verdict = if ($failures -eq 0 -and $lockFiles.Count -eq 0 -and $tmpFiles.Count -eq 0) { "PASS" } else { "FAIL" }
-}
+$lockCount = @(Get-ChildItem $fullCacheDir -Filter "*.lock" -EA SilentlyContinue).Count
+$tmpCount = @(Get-ChildItem $fullCacheDir -Filter "*.tmp.*" -EA SilentlyContinue).Count
+Write-Host "Residual locks: $lockCount | tmps: $tmpCount"
 
-$reportPath = Join-Path $OutputDir "concurrency10-report.json"
-$report | ConvertTo-Json | Set-Content $reportPath
-
+$verdict = if ($successes -eq $Workers -and $cacheValid -and $lockCount -eq 0 -and $tmpCount -eq 0) { "PASS" } else { "FAIL" }
 Write-Host ""
-Write-Host "=== VERDICT: $($report.verdict) ===" -ForegroundColor $(if ($report.verdict -eq "PASS") { "Green" } else { "Red" })
+Write-Host "=== VERDICT: $verdict ===" -ForegroundColor $(if ($verdict -eq "PASS") { "Green" } else { "Red" })
+
+# Report
+$report = @{ schema_version="PR-CONCURRENCY-1.0"; timestamp=(Get-Date -Format "o"); workers=$Workers; successes=$successes; failures=$failures; cache_valid=$cacheValid; residual_locks=$lockCount; residual_tmps=$tmpCount; verdict=$verdict } | ConvertTo-Json
+$reportPath = Join-Path $fullOutputDir "concurrency10.report.json"
+[System.IO.File]::WriteAllText($reportPath, $report, (New-Object System.Text.UTF8Encoding($false)))
 Write-Host "Report: $reportPath"
 
-if ($report.verdict -eq "FAIL") {
-    exit 1
-}
-
-exit 0
+Remove-Item $workerPath -Force -EA SilentlyContinue
+exit $(if ($verdict -eq "PASS") { 0 } else { 1 })

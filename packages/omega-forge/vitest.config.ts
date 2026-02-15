@@ -14,6 +14,7 @@ export default defineConfig({
       '@omega/creation-pipeline': path.resolve(__dirname, '../creation-pipeline/src/index.ts'),
       '@omega/genesis-planner': path.resolve(__dirname, '../genesis-planner/src/index.ts'),
       '@omega/scribe-engine': path.resolve(__dirname, '../scribe-engine/src/index.ts'),
+      '@omega/signal-registry': path.resolve(__dirname, '../signal-registry/src/index.ts'),
       '@omega/style-emergence-engine': path.resolve(__dirname, '../style-emergence-engine/src/index.ts'),
     },
   },

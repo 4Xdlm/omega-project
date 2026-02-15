@@ -20,6 +20,7 @@ export default defineConfig({
       '@omega/genesis-planner': path.resolve(__dirname, '../genesis-planner/src/index.ts'),
       '@omega/genome': path.resolve(__dirname, '../genome/src/index.ts'),
       '@omega/omega-forge': path.resolve(__dirname, '../omega-forge/src/index.ts'),
+      '@omega/signal-registry': path.resolve(__dirname, '../signal-registry/src/index.ts'),
     },
   },
 });

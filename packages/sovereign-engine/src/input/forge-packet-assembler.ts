@@ -90,6 +90,36 @@ export function assembleForgePacket(input: ForgePacketInput): ForgePacket {
   // Build prescribed 14D trajectory (via omega-forge SSOT)
   const prescribed = buildScenePrescribedTrajectoryLocal(plan, scene);
 
+  // CONSUMER GATE: Validate omega-forge output contains required signals
+  const REQUIRED_SIGNALS = [
+    'emotion.trajectory.prescribed.14d',
+    'emotion.trajectory.prescribed.xyz',
+  ];
+  const OPTIONAL_SIGNALS = [
+    'emotion.physics_profile',
+    'emotion.transition_map',
+    'emotion.forbidden_transitions',
+    'emotion.decay_expectations',
+  ];
+
+  // Build capabilities from actual data
+  const capabilities: Record<string, boolean> = {
+    'emotion.trajectory.prescribed.14d': prescribed.length > 0 && prescribed[0].target_14d !== undefined,
+    'emotion.trajectory.prescribed.xyz': prescribed.length > 0 && prescribed[0].target_omega !== undefined,
+    'emotion.physics_profile': false, // Not yet in prescribed (future ForgeEmotionBrief integration)
+    'emotion.transition_map': false,
+    'emotion.forbidden_transitions': false,
+    'emotion.decay_expectations': false,
+  };
+
+  const consumerCheck = validateConsumerRequirements(REQUIRED_SIGNALS, OPTIONAL_SIGNALS, capabilities);
+  if (!consumerCheck.valid) {
+    throw new Error(`Consumer Gate FAIL: ${consumerCheck.errors.join('; ')}`);
+  }
+  if (consumerCheck.warnings.length > 0) {
+    console.warn(`Consumer Gate warnings: ${consumerCheck.warnings.join('; ')}`);
+  }
+
   // Group into 4 quartiles
   const quartiles = groupIntoQuartiles(prescribed);
 
@@ -211,7 +241,7 @@ function buildScenePrescribedTrajectoryLocal(
     sceneEndPct,
     totalParagraphs,
     DEFAULT_CANONICAL_TABLE,
-    100, // persistence_ceiling — TODO: from config
+    SOVEREIGN_CONFIG.PERSISTENCE_CEILING,
   );
 
   // Convert PrescribedState (omega-forge) → PrescribedParagraph (sovereign backward compat)

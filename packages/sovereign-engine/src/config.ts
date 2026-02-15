@@ -121,6 +121,13 @@ export const SOVEREIGN_CONFIG = {
   OPENING_REPETITION_MAX: 0.10,
 
   /**
+   * Plafond de persistance (C parameter) pour trajectoire émotionnelle.
+   * Contrôle le déclin exponentiel des émotions prescrites.
+   * Valeur standard : 100 paragraphes.
+   */
+  PERSISTENCE_CEILING: 100,
+
+  /**
    * Minimum de syncopes par scène.
    * Syncope = phrase ≤5 mots après phrase ≥25 mots.
    */

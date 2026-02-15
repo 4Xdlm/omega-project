@@ -45,6 +45,8 @@ import type { SymbolMap } from './symbol/symbol-map-types.js';
 import type { MacroSScore } from './oracle/s-score.js';
 import { SOVEREIGN_CONFIG } from './config.js';
 import { bridgeSignatureFromSymbolMap } from './input/signature-bridge.js';
+import { runPhysicsAudit, type PhysicsAuditResult } from './oracle/physics-audit.js';
+import { DEFAULT_CANONICAL_TABLE } from '@omega/omega-forge';
 
 export interface SovereignForgeResult {
   readonly final_prose: string;
@@ -54,6 +56,7 @@ export interface SovereignForgeResult {
   readonly loop_result: SovereignLoopResult;
   readonly passes_executed: number;
   readonly symbol_map?: SymbolMap;
+  readonly physics_audit?: PhysicsAuditResult; // Sprint 3.1: Physics Audit (informatif)
 }
 
 export async function runSovereignForge(
@@ -77,14 +80,36 @@ export async function runSovereignForge(
   // Extracts recurrent motifs → style_genome.imagery.recurrent_motifs
   const enrichedPacket = bridgeSignatureFromSymbolMap(packet, symbolMap);
 
-  // Prompt avec symbol map injecté
-  const prompt = buildSovereignPrompt(enrichedPacket, symbolMap);
+  // ★ NOUVEAU Sprint 3.1: Compute ForgeEmotionBrief (SSOT omega-forge)
+  // For now, emotionBrief is optional — will be computed when packet structure supports it
+  // Sprint 3 will wire this properly once forge-packet-assembler adds forge_brief field
+  const emotionBrief = undefined; // TODO Sprint 3: extract from enrichedPacket.forge_brief
+
+  // Prompt avec symbol map + physics section injecté
+  const prompt = buildSovereignPrompt(enrichedPacket, symbolMap, emotionBrief);
 
   const initialDraft = await provider.generateDraft(
     prompt.sections.map((s) => s.content).join('\n\n'),
     SOVEREIGN_CONFIG.DRAFT_MODES[0],
     enrichedPacket.seeds.llm_seed,
   );
+
+  // ★ NOUVEAU Sprint 3.1: Physics Audit (post-generation, informatif)
+  // Runs after draft generation, before sovereign loop
+  // Physics audit provides prescriptions for the correction loop
+  let physicsAudit: PhysicsAuditResult | undefined;
+  if (emotionBrief && SOVEREIGN_CONFIG.PHYSICS_AUDIT_ENABLED) {
+    physicsAudit = runPhysicsAudit(
+      initialDraft,
+      emotionBrief,
+      DEFAULT_CANONICAL_TABLE,
+      SOVEREIGN_CONFIG.PERSISTENCE_CEILING,
+      {
+        enabled: SOVEREIGN_CONFIG.PHYSICS_AUDIT_ENABLED,
+        ...SOVEREIGN_CONFIG.PHYSICS_AUDIT_WEIGHTS,
+      },
+    );
+  }
 
   const loop_result = await runSovereignLoop(initialDraft, enrichedPacket, provider);
 
@@ -102,6 +127,7 @@ export async function runSovereignForge(
         loop_result,
         passes_executed: loop_result.passes_executed,
         symbol_map: symbolMap,
+        physics_audit: physicsAudit,
       };
     }
     // V1 says SEAL but V3 says REJECT/PITCH → V3 wins, continue to duel+polish
@@ -147,5 +173,6 @@ export async function runSovereignForge(
     loop_result,
     passes_executed: loop_result.passes_executed + SOVEREIGN_CONFIG.MAX_DRAFTS,
     symbol_map: symbolMap,
+    physics_audit: physicsAudit,
   };
 }

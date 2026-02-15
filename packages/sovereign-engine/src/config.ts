@@ -161,6 +161,31 @@ export const SOVEREIGN_CONFIG = {
   PHYSICS_TOP_K_PRESCRIPTIONS: 2,
 
   // ═══════════════════════════════════════════════════════════════════════════════
+  // PHYSICS AUDIT — POST-GENERATION (INFORMATIF)
+  // ═══════════════════════════════════════════════════════════════════════════════
+
+  /**
+   * Activer le Physics Audit post-génération.
+   * MODE: INFORMATIF (n'affecte pas le verdict SEAL/REJECT).
+   * Sprint 3 — Commit 3.1.
+   */
+  PHYSICS_AUDIT_ENABLED: true,
+
+  /**
+   * Poids des composants du physics_score (0-100).
+   * - Trajectory compliance: 40%
+   * - Law compliance: 30%
+   * - Dead zones: 20%
+   * - Forced transitions: 10%
+   */
+  PHYSICS_AUDIT_WEIGHTS: {
+    trajectory_weight: 0.40,
+    law_weight: 0.30,
+    dead_zone_weight: 0.20,
+    forced_transition_weight: 0.10,
+  } as const,
+
+  // ═══════════════════════════════════════════════════════════════════════════════
   // RHYTHM — MUSICAL ENGINE
   // ═══════════════════════════════════════════════════════════════════════════════
 

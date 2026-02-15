@@ -168,8 +168,9 @@ export const SOVEREIGN_CONFIG = {
    * Activer le Physics Audit post-génération.
    * MODE: INFORMATIF (n'affecte pas le verdict SEAL/REJECT).
    * Sprint 3 — Commit 3.1.
+   * DEFAULT: false (safe OFF until calibrated).
    */
-  PHYSICS_AUDIT_ENABLED: true,
+  PHYSICS_AUDIT_ENABLED: false,
 
   /**
    * Poids des composants du physics_score (0-100).

@@ -146,7 +146,6 @@ export function runPhysicsAudit(
   });
 
   // 8. Générer audit_hash (déterministe)
-  const audit_id = `audit-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
   // Guard all values to ensure they're safe for canonicalize (no NaN/Infinity)
   const auditPayload = {
     trajectory_cosine: Number.isFinite(deviations.average_cosine) ? Math.round(deviations.average_cosine * 1000) / 1000 : 0,
@@ -158,6 +157,7 @@ export function runPhysicsAudit(
     physics_score: Number.isFinite(physicsScore) ? physicsScore : 0,
   };
   const audit_hash = sha256(canonicalize(auditPayload));
+  const audit_id = `audit-${audit_hash.substring(0, 12)}`;
 
   return {
     audit_id,

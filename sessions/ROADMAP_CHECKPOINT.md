@@ -588,6 +588,59 @@ sessions/ROADMAP_CHECKPOINT.md (MODIFIED)
 - Tests sovereign: 254 → 257 (+3 proofpack tests)
 - New artifacts: MANIFEST, HASHES, EVIDENCE
 
+### Commit 8.2 — Gate ProofPack fail-closed
+
+**Date**: 2026-02-15
+**Roadmap Sprint**: HARDEN-GATE-PP-01
+**Status**: ✅ COMPLETE
+
+roadmap_item: HARDEN-GATE-PP-01
+deviation: none
+evidence: scripts/gate-proofpack.ts + tests GP-PP-01..04 + gate:all integration
+
+**Features Implemented**:
+- Created gate:proofpack script with fail-closed verification
+- Exported `verifyProofPack()` function for testing
+- Checks presence of MANIFEST.json, HASHES.sha256, EVIDENCE.md
+- Verifies HASHES.sha256 contains required critical files (ROADMAP_CHECKPOINT, IDL, registry.ts)
+- Wired gate:proofpack into gate:all (last position)
+
+**Files Created**:
+```
+scripts/gate-proofpack.ts (CREATED — gate script + testable function)
+packages/sovereign-engine/tests/gates/gate-proofpack.test.ts (CREATED — 4 tests)
+packages/sovereign-engine/tests/fixtures/proofpack-valid/ (CREATED — test fixture)
+```
+
+**Files Modified**:
+```
+package.json (MODIFIED — add gate:proofpack, wire into gate:all)
+sessions/ROADMAP_CHECKPOINT.md (MODIFIED)
+```
+
+**Tests**:
+- GP-PP-01: FAIL if MANIFEST.json absent
+- GP-PP-02: FAIL if HASHES.sha256 absent
+- GP-PP-03: FAIL if ROADMAP_CHECKPOINT.md absent from HASHES
+- GP-PP-04: PASS on valid proofpack fixture
+
+**Gate Behavior**:
+- Fail-closed: exits 1 if any required file missing
+- Explicit error messages for each missing component
+- Verifies content of HASHES.sha256 (not just presence)
+
+**Checkpoint Hash**: *(to be computed after commit)*
+
+**Compliance**:
+- RULE-ROADMAP-01: ✅ Checkpoint updated
+- RULE-ROADMAP-02: ✅ Structured fields (roadmap_item, deviation, evidence)
+- FAIL-CLOSED: ✅ Fails on missing artifacts
+- RULE-DEPS-01: ✅ No new dependencies
+
+**Impact**:
+- Tests sovereign: 257 → 261 (+4 gate proofpack tests)
+- Gates: 5 → 6 (added gate:proofpack)
+
 ---
 
-**Sprint 8 Status**: 1/3 COMMITS COMPLETE (8.1 ✅, 8.2 ❌, 8.3 ❌)
+**Sprint 8 Status**: 2/3 COMMITS COMPLETE (8.1 ✅, 8.2 ✅, 8.3 ❌)

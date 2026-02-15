@@ -59,6 +59,51 @@ sessions/ROADMAP_CHECKPOINT.md (CREATED)
 - MODE: INFORMATIF (logged but no effect on composite)
 - DEFAULT: OFF (`PHYSICS_COMPLIANCE_ENABLED: false`)
 
+### Commit 5.2 — gate:roadmap + ADR-002 Hashing Policy
+
+**Date**: 2026-02-15
+**Roadmap Sprint**: Governance / Traceability Enforcement
+**Status**: ✅ COMPLETE
+
+**Features Implemented**:
+- Created `gate:roadmap` script with SHA-256 hash verification
+- Implemented ADR-002: Hashing Policy for Governance Documents
+- Added `npm run gate:roadmap` and `npm run gate:roadmap:update` commands
+- Integrated gate into `npm run gate:all` CI pipeline
+- Created 3 gate tests (GATE-RD-01 to GATE-RD-03)
+
+**Files Modified**:
+```
+packages/sovereign-engine/scripts/gate-roadmap.ts (CREATED)
+packages/sovereign-engine/tests/gates/gate-roadmap.test.ts (CREATED)
+package.json (MODIFIED — add gate:roadmap scripts)
+docs/adr/ADR-002-HASHING-POLICY.md (CREATED)
+.roadmap-hash.json (CREATED — hash reference)
+sessions/ROADMAP_CHECKPOINT.md (MODIFIED)
+```
+
+**Tests**:
+- GATE-RD-01: gate passes when hash matches
+- GATE-RD-02: hash file structure validation
+- GATE-RD-03: gate update command creates/updates hash
+
+**Gate Behavior**:
+- Verify mode: `npm run gate:roadmap` (fails if hash mismatch)
+- Update mode: `npm run gate:roadmap:update` (writes new hash)
+- Skips gracefully if roadmap file missing
+
+**Checkpoint Hash**: *(to be computed after commit)*
+
+**Compliance**:
+- RULE-ROADMAP-01: ✅ Checkpoint updated
+- ADR-002: ✅ Hash policy documented and enforced
+- DO-178C Level A: ✅ Traceability from roadmap to code
+
+**Notes**:
+- SHA-256 provides integrity, not authenticity
+- Manual update required after roadmap changes (fail-closed)
+- Hash file gitignored for local workflows
+
 ---
 
 ## Roadmap Coverage
@@ -66,7 +111,8 @@ sessions/ROADMAP_CHECKPOINT.md (CREATED)
 | Roadmap Sprint | Commit | Status |
 |---------------|--------|--------|
 | 3.4 Physics Compliance | 5.1 | ✅ COMPLETE |
+| Governance / Traceability | 5.2 | ✅ COMPLETE |
 
 ---
 
-**Next**: Commit 5.2 — gate:roadmap + ADR-002 Hashing Policy
+**Next**: Commit 5.3 — Calibration Runner

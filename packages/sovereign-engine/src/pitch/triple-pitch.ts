@@ -18,13 +18,22 @@
  * ═══════════════════════════════════════════════════════════════════════════════
  */
 
-import type { DeltaReport, CorrectionPitch, PitchItem } from '../types.js';
+import type { DeltaReport, CorrectionPitch, PitchItem, CorrectionOp } from '../types.js';
+import type { Prescription } from '../prescriptions/types.js';
 import { SOVEREIGN_CONFIG } from '../config.js';
 
-export function generateTriplePitch(delta: DeltaReport): readonly [CorrectionPitch, CorrectionPitch, CorrectionPitch] {
+export function generateTriplePitch(
+  delta: DeltaReport,
+  prescriptions?: readonly Prescription[],
+): readonly [CorrectionPitch, CorrectionPitch, CorrectionPitch] {
   const pitchA = generateEmotionalPitch(delta);
   const pitchB = generateStructuralPitch(delta);
   const pitchC = generateMusicalPitch(delta);
+
+  // Sprint 4.3: Inject physics prescriptions as surgical PitchItems
+  if (prescriptions && prescriptions.length > 0) {
+    injectPrescriptionsIntoPitches(pitchA, pitchB, prescriptions);
+  }
 
   return [pitchA, pitchB, pitchC];
 }
@@ -201,4 +210,77 @@ function generateMusicalPitch(delta: DeltaReport): CorrectionPitch {
     items,
     total_expected_gain,
   };
+}
+
+/**
+ * Inject physics prescriptions into existing pitches.
+ * Mapping:
+ *   dead_zone + trajectory → Pitch A (emotional)
+ *   forced_transition + feasibility → Pitch B (structural)
+ *
+ * Respects MAX_PITCH_ITEMS limit.
+ * Mutates pitchA/pitchB items arrays (they're readonly in interface,
+ * but we're building them internally — cast needed).
+ */
+function injectPrescriptionsIntoPitches(
+  pitchA: CorrectionPitch,
+  pitchB: CorrectionPitch,
+  prescriptions: readonly Prescription[],
+): void {
+  const maxItems = SOVEREIGN_CONFIG.MAX_PITCH_ITEMS;
+
+  for (const presc of prescriptions) {
+    const item: PitchItem = {
+      id: `surgical_${presc.prescription_id}`,
+      zone: `Seg${presc.segment_index}`,
+      op: mapPrescriptionToOp(presc.type),
+      reason: `[PHYSICS] ${presc.diagnosis}`,
+      instruction: presc.action,
+      expected_gain: { axe: mapPrescriptionToAxe(presc.type), delta: severityToDelta(presc.severity) },
+    };
+
+    if (presc.type === 'dead_zone' || presc.type === 'trajectory') {
+      if ((pitchA.items as PitchItem[]).length < maxItems) {
+        (pitchA.items as PitchItem[]).push(item);
+      }
+    } else {
+      // forced_transition, feasibility
+      if ((pitchB.items as PitchItem[]).length < maxItems) {
+        (pitchB.items as PitchItem[]).push(item);
+      }
+    }
+  }
+
+  // Recalculate total_expected_gain
+  (pitchA as any).total_expected_gain = pitchA.items.reduce((s, i) => s + i.expected_gain.delta, 0);
+  (pitchB as any).total_expected_gain = pitchB.items.reduce((s, i) => s + i.expected_gain.delta, 0);
+}
+
+function mapPrescriptionToOp(kind: string): CorrectionOp {
+  switch (kind) {
+    case 'dead_zone': return 'increase_interiority_signal';
+    case 'trajectory': return 'shift_emotion_register';
+    case 'forced_transition': return 'add_micro_rupture_event';
+    case 'feasibility': return 'add_consequence_line';
+    default: return 'shift_emotion_register';
+  }
+}
+
+function mapPrescriptionToAxe(kind: string): string {
+  switch (kind) {
+    case 'dead_zone': return 'emotion_coherence';
+    case 'trajectory': return 'tension_14d';
+    case 'forced_transition': return 'tension_14d';
+    case 'feasibility': return 'tension_14d';
+    default: return 'tension_14d';
+  }
+}
+
+function severityToDelta(severity: string): number {
+  switch (severity) {
+    case 'critical': return 12;
+    case 'high': return 8;
+    case 'medium': return 5;
+    default: return 5;
+  }
 }

@@ -31,6 +31,7 @@ import { judgeAesthetic } from '../oracle/aesthetic-oracle.js';
 import { generateTriplePitch } from './triple-pitch.js';
 import { selectBestPitch } from './pitch-oracle.js';
 import { applyPatch } from './patch-engine.js';
+import { generatePrescriptions } from '../prescriptions/index.js';
 import { SOVEREIGN_CONFIG } from '../config.js';
 
 export async function runSovereignLoop(
@@ -64,7 +65,12 @@ export async function runSovereignLoop(
   for (let pass = 0; pass < max_passes; pass++) {
     const delta = generateDeltaReport(packet, currentProse, physicsAudit);
 
-    const triple_pitch = generateTriplePitch(delta);
+    // Sprint 4.3: Generate prescriptions from physics audit if enabled
+    const prescriptions = SOVEREIGN_CONFIG.PRESCRIPTIONS_ENABLED && physicsAudit
+      ? generatePrescriptions(physicsAudit, SOVEREIGN_CONFIG.PRESCRIPTIONS_TOP_K)
+      : undefined;
+
+    const triple_pitch = generateTriplePitch(delta, prescriptions);
 
     const pitch_result = selectBestPitch(triple_pitch);
     const selected_pitch = triple_pitch.find((p) => p.pitch_id === pitch_result.selected_pitch_id);

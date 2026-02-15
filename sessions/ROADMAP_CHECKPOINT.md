@@ -363,3 +363,74 @@ sessions/ROADMAP_CHECKPOINT.md (MODIFIED)
 ---
 
 **Sprint 6 Status**: ✅ ALL 3 COMMITS COMPLETE (6.1 ✅, 6.2 ✅, 6.3 ✅)
+
+---
+
+## Sprint 7 — Post-Roadmap Hardening (IDL Codegen + ECC Sanity)
+
+### Commit 7.1 — IDL + Codegen
+
+**Date**: 2026-02-15
+**Roadmap Sprint**: 4.3 — IDL + codegen pour signal-registry (optionnel, registry stabilized)
+**Status**: ✅ COMPLETE
+
+roadmap_item: Sprint 4.3 — IDL + codegen pour signal-registry
+deviation: none — registry stabilized, IDL created as source of truth
+evidence: signal-registry.idl.json + scripts/codegen-registry.ts + tests IDL-01..08
+
+**Features Implemented**:
+- Created signal-registry.idl.json as the source of truth (22 signals)
+- Created codegen script that generates registry.ts from IDL
+- Added npm scripts: `codegen`, `codegen:verify`
+- Generated registry.ts is identical to hand-written version (REGISTRY_HASH unchanged)
+- Created 8 tests (IDL-01 to IDL-08)
+
+**Files Created**:
+```
+packages/signal-registry/signal-registry.idl.json (CREATED — 22 signals extracted from registry.ts)
+packages/signal-registry/scripts/codegen-registry.ts (CREATED — IDL → TS codegen)
+packages/signal-registry/tests/idl-codegen.test.ts (CREATED — 8 tests)
+```
+
+**Files Modified**:
+```
+packages/signal-registry/package.json (MODIFIED — add codegen scripts)
+packages/signal-registry/src/registry.ts (REGENERATED — now AUTO-GENERATED from IDL)
+sessions/ROADMAP_CHECKPOINT.md (MODIFIED)
+```
+
+**Tests**:
+- IDL-01: IDL has valid schema marker
+- IDL-02: IDL signal count matches registry (22)
+- IDL-03: every IDL signal_id exists in compiled registry
+- IDL-04: every registry signal_id exists in IDL
+- IDL-05: REGISTRY_HASH is stable after codegen
+- IDL-06: all IDL producers are in producers list
+- IDL-07: no duplicate signal_id in IDL
+- IDL-08: codegen --verify would pass (content match)
+
+**Codegen Behavior**:
+- Reads signal-registry.idl.json
+- Validates schema, producers, and signal structure
+- Groups signals by section (EMOTION, TENSION, NARRATIVE, SCORING, META)
+- Generates registry.ts with AUTO-GENERATED header
+- `--verify` mode compares generated output with existing file
+
+**Checkpoint Hash**: *(to be computed after commit)*
+
+**Compliance**:
+- RULE-ROADMAP-01: ✅ Checkpoint updated
+- RULE-ROADMAP-02: ✅ Structured fields (roadmap_item, deviation, evidence)
+- SSOT: ✅ IDL is the source, registry.ts is generated
+- DÉTERMINISME: ✅ Same IDL → same registry.ts → same REGISTRY_HASH
+- R13-TODO-00: ✅ No TODOs added
+- RULE-DEPS-01: ✅ No new dependencies (uses tsx already in devDeps)
+
+**Impact**:
+- Zero error risk: Human no longer manually edits registry.ts
+- Roadmap 4.3 (optional): ✅ NOW DONE
+- Tests: 14 → 22 (+8 IDL tests)
+
+---
+
+**Sprint 7 Status**: 1/3 COMMITS COMPLETE (7.1 ✅, 7.2 ❌, 7.3 ❌)

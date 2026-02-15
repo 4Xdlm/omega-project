@@ -1,0 +1,162 @@
+{
+  "$schema": "omega-signal-registry-idl-v1",
+  "version": "1.0.0",
+  "producers": ["omega-forge", "sovereign-engine", "config"],
+  "signals": [
+    {
+      "signal_id": "emotion.trajectory.prescribed.14d",
+      "producer": "omega-forge",
+      "stability": "stable",
+      "required_params": ["persistence_ceiling"],
+      "dimensions": 14,
+      "description": "Prescribed 14D emotion trajectory per paragraph"
+    },
+    {
+      "signal_id": "emotion.trajectory.prescribed.xyz",
+      "producer": "omega-forge",
+      "stability": "stable",
+      "required_params": ["persistence_ceiling", "canonical_table"],
+      "description": "Prescribed XYZ (Omega tridimensional) trajectory per paragraph"
+    },
+    {
+      "signal_id": "emotion.physics_profile",
+      "producer": "omega-forge",
+      "stability": "stable",
+      "required_params": ["canonical_table"],
+      "description": "Physical parameters (M, lambda, kappa) per active emotion"
+    },
+    {
+      "signal_id": "emotion.transition_map",
+      "producer": "omega-forge",
+      "stability": "stable",
+      "required_params": ["canonical_table"],
+      "description": "Pre-computed transition constraints between quartiles"
+    },
+    {
+      "signal_id": "emotion.decay_expectations",
+      "producer": "omega-forge",
+      "stability": "stable",
+      "required_params": ["canonical_table"],
+      "description": "Expected intensity decay after emotional peaks (Law 2)"
+    },
+    {
+      "signal_id": "emotion.blend_zones",
+      "producer": "omega-forge",
+      "stability": "stable",
+      "required_params": [],
+      "description": "Paragraphs where 2+ emotions coexist above threshold"
+    },
+    {
+      "signal_id": "emotion.energy_budget",
+      "producer": "omega-forge",
+      "stability": "stable",
+      "required_params": [],
+      "description": "Total emotional energy in/out for conservation check (Law 5)"
+    },
+    {
+      "signal_id": "emotion.forbidden_transitions",
+      "producer": "omega-forge",
+      "stability": "stable",
+      "required_params": ["canonical_table"],
+      "description": "Emotion pairs whose direct transition violates Law 3"
+    },
+    {
+      "signal_id": "emotion.laws.compliance",
+      "producer": "omega-forge",
+      "stability": "experimental",
+      "required_params": ["canonical_table"],
+      "description": "Pre-computed compliance check for 6 physical laws"
+    },
+    {
+      "signal_id": "emotion.dead_zones",
+      "producer": "omega-forge",
+      "stability": "experimental",
+      "required_params": ["persistence_ceiling"],
+      "description": "Detected emotional dead zones in trajectory"
+    },
+    {
+      "signal_id": "emotion.prescriptions",
+      "producer": "omega-forge",
+      "stability": "experimental",
+      "required_params": [],
+      "description": "Surgical correction prescriptions from diagnosis engine"
+    },
+    {
+      "signal_id": "emotion.quality.m1_m12",
+      "producer": "omega-forge",
+      "stability": "experimental",
+      "required_params": [],
+      "description": "Quality metrics M1 through M12 envelope"
+    },
+    {
+      "signal_id": "tension.curve",
+      "producer": "sovereign-engine",
+      "stability": "stable",
+      "required_params": [],
+      "description": "Tension curve across scene paragraphs"
+    },
+    {
+      "signal_id": "tension.rupture",
+      "producer": "sovereign-engine",
+      "stability": "stable",
+      "required_params": [],
+      "description": "Detected tension rupture point"
+    },
+    {
+      "signal_id": "beats.coverage",
+      "producer": "sovereign-engine",
+      "stability": "stable",
+      "required_params": [],
+      "description": "Beat coverage ratio in generated prose"
+    },
+    {
+      "signal_id": "style.genome",
+      "producer": "sovereign-engine",
+      "stability": "stable",
+      "required_params": [],
+      "description": "Style genome compliance metrics"
+    },
+    {
+      "signal_id": "symbol.map",
+      "producer": "sovereign-engine",
+      "stability": "stable",
+      "required_params": ["language"],
+      "description": "Symbolic map for narrative coherence"
+    },
+    {
+      "signal_id": "scoring.ecc",
+      "producer": "sovereign-engine",
+      "stability": "stable",
+      "required_params": [],
+      "description": "Emotional Coherence Composite score"
+    },
+    {
+      "signal_id": "scoring.rci",
+      "producer": "sovereign-engine",
+      "stability": "stable",
+      "required_params": [],
+      "description": "Rhythm & Craft Index score"
+    },
+    {
+      "signal_id": "scoring.sii",
+      "producer": "sovereign-engine",
+      "stability": "stable",
+      "required_params": [],
+      "description": "Sensory Immersion Index score"
+    },
+    {
+      "signal_id": "scoring.ifi",
+      "producer": "sovereign-engine",
+      "stability": "stable",
+      "required_params": [],
+      "description": "Innovation & Freshness Index score"
+    },
+    {
+      "signal_id": "meta.language",
+      "producer": "config",
+      "stability": "stable",
+      "required_params": [],
+      "description": "Language of the run (fr or en)"
+    }
+  ]
+}

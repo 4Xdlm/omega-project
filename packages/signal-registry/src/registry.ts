@@ -1,6 +1,8 @@
 /**
  * OMEGA Signal Registry — Immutable Signal Catalog
  * SSOT for all inter-engine signals.
+ * AUTO-GENERATED from signal-registry.idl.json v1.0.0
+ * DO NOT EDIT MANUALLY — run: npx tsx scripts/codegen-registry.ts
  */
 
 import type { SignalDescriptor } from './types.js';

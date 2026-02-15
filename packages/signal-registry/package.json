@@ -7,7 +7,9 @@
   "scripts": {
     "build": "tsc",
     "test": "vitest run",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "codegen": "npx tsx scripts/codegen-registry.ts",
+    "codegen:verify": "npx tsx scripts/codegen-registry.ts --verify"
   },
   "dependencies": {
     "@omega/canon-kernel": "file:../canon-kernel"

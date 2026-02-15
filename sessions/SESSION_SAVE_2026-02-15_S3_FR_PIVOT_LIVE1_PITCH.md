@@ -31,6 +31,18 @@ Réponse produite sous contrainte OMEGA — NASA-grade — aucune approximation 
 | **Tests** | **471 PASS, 0 FAIL** (167 sovereign-engine + 304 omega-forge) |
 | **Commit** | `501b0e4e feat(S3): FR emotion keywords + language field + node PATH fix` |
 | **Bloqueur** | LIVE5 complet (5 runs) bloqué par épuisement crédits API |
+| **Gate SEAL** | composite ≥ 92 AND min_axis ≥ 85 AND ecc ≥ 88 (non atteint : composite 91.41, min_axis 78.7) |
+| **Gate PITCH** | composite ≥ 85 AND min_axis ≥ 75 (**ATTEINT** : 3/3 runs) |
+
+### Définition normative des verdicts (source : `s-score.ts` lignes 97-103)
+
+| Verdict | Condition | Signification |
+|---------|-----------|---------------|
+| **SEAL** | composite ≥ 92 AND min_axis ≥ 85 AND ecc ≥ 88 | Prose publiable, phase scellable |
+| **PITCH** | composite ≥ 85 AND min_axis ≥ 75 | Prose de qualité, corrections mineures possibles |
+| **REJECT** | composite < 85 OR min_axis < 75 | Prose insuffisante, réécriture nécessaire |
+
+Le seuil 92 est l'objectif **SEAL** (publication). Les 3 runs obtiennent **PITCH** (zone jaune), pas SEAL (zone verte). Le composite 91.41 est à 0.59 points du SEAL.
 
 ### Scores prouvés (3 runs FR avec thermomètre opérationnel)
 
@@ -63,7 +75,9 @@ Avant le pivot, 6 runs de calibration avaient été effectuées en **anglais** (
 
 > "6 runs dépensées à calibrer un moteur FR pour scorer de la prose EN = l'inverse de l'objectif."
 
-Le genesis-plan.json contient des `signature_words` VIDES. Le symbol_map.json génère des `signature_hooks` en FRANÇAIS. La prose était en ANGLAIS. Résultat : signature = 60 (0/8 hooks FR matchés en prose EN), et tout le pipeline de scoring émotionnel FR (keywords, marqueurs corporels, lexique sensoriel) évaluait du texte anglais.
+L'`intent.json` du golden run contient des `signature_traits` en anglais conceptuel (`["concrete imagery", "short declarative cuts", "sensory immersion", "parataxis"]`), pas des mots FR détectables. Le `genesis-plan.json` n'a aucun champ signature. Le SymbolMap génère des `signature_hooks` en FRANÇAIS (ex: "racines enchevêtrées"). La prose était en ANGLAIS. Résultat : signature = 60 (0/8 hooks FR matchés en prose EN), et tout le pipeline de scoring émotionnel FR (keywords, marqueurs corporels, lexique sensoriel) évaluait du texte anglais.
+
+**Preuve** : `golden/h2/run_001/runs/69b752ce50eaedac/00-intent/intent.json`, champ `genome.signature_traits`.
 
 ### 1.2 Décision de Francky
 
@@ -91,7 +105,7 @@ Le genesis-plan.json contient des `signature_words` VIDES. Le symbol_map.json g�
 
 ### 2.1 Vue d'ensemble
 
-Le Sovereign Engine est le module de **génération et évaluation de prose littéraire premium** d'OMEGA. Il implémente un pipeline en 12 étapes, de l'assemblage du ForgePacket jusqu'au verdict PITCH/REJECT, avec un objectif de composite ≥ 92/100.
+Le Sovereign Engine est le module de **génération et évaluation de prose littéraire premium** d'OMEGA. Il implémente un pipeline en 12 étapes, de l'assemblage du ForgePacket jusqu'au verdict PITCH/REJECT, avec un objectif de composite ≥ 92/100 pour SEAL (publication), ≥ 85 pour PITCH (qualité suffisante, correction mineure possible).
 
 ```
 ForgePacket → SymbolMap → Prompt → Draft → S-ORACLE (9 axes, 4 macro-axes) → Verdict
@@ -363,13 +377,15 @@ Scoring : 12 points de malus par pattern IA détecté.
 
 | Élément | Avant (EN) | Après (FR) |
 |---------|------------|------------|
-| signature_hooks exemples | "tangled roots", "thermal anchoring" | "hook1", "hook2" (placeholder, LLM génère en FR) |
-| taboos exemples | "sudden revelations" | "taboo1" (placeholder) |
-| forbidden_moves exemples | "emotional exposition", "weather as mood" | "move1", "move2", "move3" (placeholder) |
+| signature_hooks exemples | "tangled roots", "thermal anchoring" | "hook1", "hook2" (placeholders neutres, voir Décision ci-dessous) |
+| taboos exemples | "sudden revelations" | "taboo1" (placeholder neutre) |
+| forbidden_moves exemples | "emotional exposition", "weather as mood" | "move1", "move2", "move3" (placeholders neutres) |
 | anti_cliche exemples | "heart pounding", "pulse thickening" | "cœur battant", "pouls" (FR) |
 | Instruction LANGUE | "CRITICAL — LANGUAGE: ALL content MUST be in ENGLISH" | "CRITIQUE — LANGUE : TOUT le contenu DOIT être en FRANÇAIS" |
 
 **Méthode** : Édition chirurgicale via Filesystem:edit_file avec contournement UTF-8 (copie vers environnement Claude → sed → write back).
+
+**Décision de design — placeholders neutres** : Les exemples `hook1/hook2`, `taboo1`, `move1/move2/move3` sont délibérément neutres pour éviter le biais de génération. Le LLM (Claude Sonnet) produit ses propres expressions FR contextuelles à chaque appel, guidé par l'instruction LANGUE explicite et le contrat émotionnel du ForgePacket. Les exemples servent de gabarit structurel (format JSON attendu), pas de contenu sémantique. Les expressions `anti_cliche` en FR ("cœur battant", "pouls") sont volontairement concrètes car elles représentent des cas réels à éviter, pas des gabarits.
 
 ### 3.2 Étape 2 — Architecture `packet.language` + RunIdRecord
 
@@ -469,12 +485,17 @@ Convergence Claude + ChatGPT : le contrat sensoriel dans la section `sensory` re
 | Run 0 RUN_ID | `metrics/s/LIVE5_FR_STABILITY/run_000/RUN_ID.json` | Contient `language: "fr"`, `judge_language: "fr"` |
 | Run 0 Prose | `metrics/s/LIVE5_FR_STABILITY/run_000/final_prose.txt` | 100% FR vérifié |
 
-### 5.2 Runs FR avec build stale (comparaison)
+### 5.2 Table canonique des runs FR (ordre chronologique)
 
-| Artefact | Chemin | Composite | tension_14d |
-|----------|--------|-----------|-------------|
-| LIVE2_FR (build EN stale) | `metrics/s/LIVE2_FR/run_000/` | 84.77 | 58.7 |
-| LIVE1_FR (partial FR) | `metrics/s/LIVE1_FR/run_000/` | 87.48 | 87.3 |
+| # | Run Label | Date/Heure | omega-forge dist | sovereign src | Composite | tension_14d | Verdict | Out Path |
+|---|-----------|------------|------------------|---------------|-----------|-------------|---------|----------|
+| 1 | LIVE1_FR | 2026-02-14 ~20:00 | stale EN (< 19:14) | FR patched | 87.48 | 87.3 | PITCH | `metrics/s/LIVE1_FR/run_000/` |
+| 2 | LIVE2_FR | 2026-02-14 17:43:42 | stale EN (< 19:14) | pre-FR | 84.77 | 58.7 | PITCH | `metrics/s/LIVE2_FR/run_000/` |
+| 3 | LIVE5_FR_STABILITY/run_000 | 2026-02-15 07:12 | FR rebuilt (21:44:21) | FR patched | **91.41** | 91.7 | PITCH | `metrics/s/LIVE5_FR_STABILITY/run_000/` |
+| 4 | LIVE5_FR_STABILITY/run_001 | 2026-02-15 ~07:25 | FR rebuilt | FR patched | **90.09** | 88.4 | PITCH | `metrics/s/LIVE5_FR_STABILITY/run_001/` |
+| 5 | LIVE5_FR_STABILITY/run_002 | 2026-02-15 ~07:38 | FR rebuilt | FR patched | **86.71** | 84.1 | PITCH | `metrics/s/LIVE5_FR_STABILITY/run_002/` |
+
+**Note** : LIVE1/LIVE2 sont antérieurs au rebuild omega-forge. Le saut tension_14d 58.7→91.7 correspond au passage du dist EN stale au dist FR rebuildé. Le label LIVE2 précède chronologiquement LIVE1 (anomalie de nommage conservée pour traçabilité). Le commit message référence "LIVE1-FR 92.35" qui correspond au score V1 (non V3) du run LIVE1_FR.
 
 ### 5.3 Détail scoring meilleur run (run_000)
 

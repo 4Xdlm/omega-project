@@ -92,6 +92,7 @@ export { assembleForgePacket, type ForgePacketInput } from './input/forge-packet
 export { validateForgePacket, autoFillPacket } from './input/pre-write-validator.js';
 export { simulateSceneBattle } from './input/pre-write-simulator.js';
 export { buildSovereignPrompt } from './input/prompt-assembler-v2.js';
+export { buildEmotionBriefFromPacket } from './input/emotion-brief-bridge.js';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // DELTA

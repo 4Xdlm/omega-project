@@ -15,10 +15,10 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const srcDir = path.resolve(__dirname, '../src');
 
 const FORBIDDEN_PATTERNS = [
-  /TODO:/i,
-  /FIXME:/i,
-  /HACK:/i,
-  /XXX:/i,
+  /\bTODO\b/i,
+  /\bFIXME\b/i,
+  /\bHACK\b/i,
+  /\bXXX\b/i,
 ];
 
 function scanDirectory(dir: string): { file: string; line: number; match: string }[] {

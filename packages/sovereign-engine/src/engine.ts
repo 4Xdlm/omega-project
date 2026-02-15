@@ -47,6 +47,7 @@ import { SOVEREIGN_CONFIG } from './config.js';
 import { bridgeSignatureFromSymbolMap } from './input/signature-bridge.js';
 import { runPhysicsAudit, type PhysicsAuditResult } from './oracle/physics-audit.js';
 import { generatePrescriptions } from './prescriptions/index.js';
+import { buildEmotionBriefFromPacket } from './input/emotion-brief-bridge.js';
 import { DEFAULT_CANONICAL_TABLE } from '@omega/omega-forge';
 
 export interface SovereignForgeResult {
@@ -82,10 +83,14 @@ export async function runSovereignForge(
   // Extracts recurrent motifs → style_genome.imagery.recurrent_motifs
   const enrichedPacket = bridgeSignatureFromSymbolMap(packet, symbolMap);
 
-  // ★ NOUVEAU Sprint 3.1: Compute ForgeEmotionBrief (SSOT omega-forge)
-  // For now, emotionBrief is optional — will be computed when packet structure supports it
-  // Sprint 3 will wire this properly once forge-packet-assembler adds forge_brief field
-  const emotionBrief = undefined; // TODO Sprint 3: extract from enrichedPacket.forge_brief
+  // ★ Sprint 4: Compute ForgeEmotionBrief from packet emotion_contract (SSOT omega-forge)
+  let emotionBrief: import('@omega/omega-forge').ForgeEmotionBrief | undefined;
+  try {
+    emotionBrief = buildEmotionBriefFromPacket(enrichedPacket);
+  } catch {
+    // If emotion_contract incomplete, physics audit gracefully skipped (ENABLED check handles it)
+    emotionBrief = undefined;
+  }
 
   // Prompt avec symbol map + physics section injecté
   const prompt = buildSovereignPrompt(enrichedPacket, symbolMap, emotionBrief);

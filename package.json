@@ -7,7 +7,9 @@
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "gate:no-shadow": "powershell -File scripts/gate-no-shadow.ps1",
-    "gate:all": "npm run gate:no-shadow"
+    "gate:no-todo": "cd packages/sovereign-engine && npx tsx scripts/gate-no-todo.ts",
+    "gate:active": "cd packages/sovereign-engine && npx tsx scripts/gate-active.ts",
+    "gate:all": "npm run gate:no-shadow && npm run gate:no-todo && npm run gate:active"
   },
   "devDependencies": {
     "ajv": "^8.17.1",

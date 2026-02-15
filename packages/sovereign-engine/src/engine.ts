@@ -127,7 +127,7 @@ export async function runSovereignForge(
 
   if (loop_result.verdict === 'SEAL') {
     // V3 is the AUTHORITY — check macro-axes before accepting SEAL
-    const seal_score_v3 = await judgeAestheticV3(enrichedPacket, loop_result.final_prose, provider, symbolMap);
+    const seal_score_v3 = await judgeAestheticV3(enrichedPacket, loop_result.final_prose, provider, symbolMap, physicsAudit);
 
     if (seal_score_v3.verdict === 'SEAL') {
       // V1 SEAL + V3 SEAL = genuine SEAL
@@ -164,7 +164,7 @@ export async function runSovereignForge(
   final_prose = enforceSignature(enrichedPacket, final_prose);
 
   // ★ NOUVEAU v3: Utiliser judgeAestheticV3 avec macro-axes
-  const final_score_v3 = await judgeAestheticV3(enrichedPacket, final_prose, provider, symbolMap);
+  const final_score_v3 = await judgeAestheticV3(enrichedPacket, final_prose, provider, symbolMap, physicsAudit);
 
   // Convertir en SScore pour backward compatibility
   const final_score: SScore = {

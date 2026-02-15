@@ -75,14 +75,16 @@ export async function judgeAesthetic(
 /**
  * Juge esthétique v3 avec macro-axes
  * @param symbolMap - SymbolMap optionnel (peut être null si pas encore généré)
+ * @param physicsAudit - PhysicsAuditResult optionnel (Sprint 3.4 — physics_compliance)
  */
 export async function judgeAestheticV3(
   packet: ForgePacket,
   prose: string,
   provider: SovereignProvider,
   _symbolMap: SymbolMap | null, // symbolMap pour usage futur
+  physicsAudit?: import('./physics-audit.js').PhysicsAuditResult,
 ): Promise<MacroSScore> {
-  const ecc = await computeECC(packet, prose, provider);
+  const ecc = await computeECC(packet, prose, provider, physicsAudit);
   const rci = computeRCI(packet, prose);
   const sii = await computeSII(packet, prose, provider);
   const ifi = await computeIFI(packet, prose, provider);

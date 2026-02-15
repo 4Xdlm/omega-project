@@ -187,6 +187,20 @@ export const SOVEREIGN_CONFIG = {
   } as const,
 
   /**
+   * Physics Compliance axis — Sprint 5 / Roadmap 3.4.
+   * MODE: INFORMATIF (weight=0, n'affecte pas le composite ECC).
+   * DEFAULT: false (safe OFF until calibration confirms correlation).
+   */
+  PHYSICS_COMPLIANCE_ENABLED: false,
+
+  /**
+   * Poids de physics_compliance dans ECC.
+   * 0 = INFORMATIF (logged but no effect on score).
+   * Restera 0 jusqu'à preuve de corrélation via calibration.
+   */
+  PHYSICS_COMPLIANCE_WEIGHT: 0,
+
+  /**
    * Prescriptions chirurgicales — DEFAULT-OFF-01.
    * Activé quand calibré via runs réels.
    */

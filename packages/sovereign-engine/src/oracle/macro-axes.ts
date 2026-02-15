@@ -32,6 +32,8 @@ import { scoreSignature } from './axes/signature.js';
 import { scoreAntiCliche } from './axes/anti-cliche.js';
 import { scoreNecessity } from './axes/necessity.js';
 import { scoreSensoryDensity } from './axes/sensory-density.js';
+import { scorePhysicsCompliance } from './axes/physics-compliance.js';
+import type { PhysicsAuditResult } from './physics-audit.js';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // TYPES — MACRO AXES
@@ -74,14 +76,16 @@ export async function computeECC(
   packet: ForgePacket,
   prose: string,
   provider: SovereignProvider,
+  physicsAudit?: PhysicsAuditResult,
 ): Promise<MacroAxisScore> {
-  // 1. Appeler les 4 sous-composants
+  // 1. Appeler les sous-composants (4 originaux + physics_compliance)
   const tension_14d = scoreTension14D(packet, prose);
   const emotion_coherence = scoreEmotionCoherence(packet, prose);
   const interiority = await scoreInteriority(packet, prose, provider);
   const impact = await scoreImpact(packet, prose, provider);
+  const physics_compliance = scorePhysicsCompliance(physicsAudit); // Sprint 3.4 — informatif (weight=0)
 
-  const sub_scores = [tension_14d, emotion_coherence, interiority, impact];
+  const sub_scores = [tension_14d, emotion_coherence, interiority, impact, physics_compliance];
 
   // 2. Calculer le score brut avec poids internes
   const raw =

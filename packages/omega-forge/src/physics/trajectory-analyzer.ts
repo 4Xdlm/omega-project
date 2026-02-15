@@ -141,26 +141,33 @@ export function analyzeEmotionFromText(text: string, language: 'fr' | 'en' | 'au
   return state as EmotionState14D;
 }
 
-/** Build prescribed trajectory from IntentPack emotion targets + GenesisPlan */
-export function buildPrescribedTrajectory(
-  intent: IntentPack,
-  _plan: GenesisPlan,
+/**
+ * Core trajectory builder — private, shared by all public wrappers.
+ * @param waypoints — emotion waypoints to interpolate
+ * @param totalParagraphs — number of paragraphs to generate
+ * @param table — canonical emotion table
+ * @param C — persistence ceiling
+ * @param positionMapper — maps local position [0,1] to global position
+ */
+function buildTrajectoryFromWaypoints(
+  waypoints: readonly { readonly position: number; readonly emotion: string; readonly intensity: number }[],
   totalParagraphs: number,
   table: CanonicalEmotionTable,
   C: number,
+  positionMapper: (localPos: number) => number,
 ): readonly PrescribedState[] {
-  const waypoints = intent.emotion.waypoints;
   if (waypoints.length === 0 || totalParagraphs === 0) return [];
 
   const states: PrescribedState[] = [];
 
   for (let i = 0; i < totalParagraphs; i++) {
-    const position = totalParagraphs > 1 ? i / (totalParagraphs - 1) : 0;
+    const localPosition = totalParagraphs > 1 ? i / (totalParagraphs - 1) : 0;
+    const globalPosition = positionMapper(localPosition);
 
     let prevWP = waypoints[0];
     let nextWP = waypoints[waypoints.length - 1];
     for (let w = 0; w < waypoints.length - 1; w++) {
-      if (waypoints[w].position <= position && waypoints[w + 1].position >= position) {
+      if (waypoints[w].position <= globalPosition && waypoints[w + 1].position >= globalPosition) {
         prevWP = waypoints[w];
         nextWP = waypoints[w + 1];
         break;
@@ -168,7 +175,7 @@ export function buildPrescribedTrajectory(
     }
 
     const range = nextWP.position - prevWP.position;
-    const t = range > 0 ? (position - prevWP.position) / range : 0;
+    const t = range > 0 ? (globalPosition - prevWP.position) / range : 0;
     const intensity = prevWP.intensity + t * (nextWP.intensity - prevWP.intensity);
 
     const emotionName = t < 0.5 ? prevWP.emotion : nextWP.emotion;
@@ -183,11 +190,58 @@ export function buildPrescribedTrajectory(
       paragraph_index: i,
       target_14d,
       target_omega,
-      source: `waypoint_interpolation[${prevWP.position}-${nextWP.position}]`,
+      source: `waypoint_interpolation[${prevWP.position.toFixed(3)}-${nextWP.position.toFixed(3)}]`,
     });
   }
 
   return states;
+}
+
+/** Build prescribed trajectory from IntentPack emotion targets + GenesisPlan */
+export function buildPrescribedTrajectory(
+  intent: IntentPack,
+  _plan: GenesisPlan,
+  totalParagraphs: number,
+  table: CanonicalEmotionTable,
+  C: number,
+): readonly PrescribedState[] {
+  const waypoints = intent.emotion.waypoints;
+  return buildTrajectoryFromWaypoints(
+    waypoints,
+    totalParagraphs,
+    table,
+    C,
+    (localPos) => localPos, // identity — global trajectory
+  );
+}
+
+/** Build prescribed trajectory for a specific scene range.
+ *  Used by sovereign-engine to get scene-scoped trajectory WITH XYZ. */
+export function buildScenePrescribedTrajectory(
+  waypoints: readonly { readonly position: number; readonly emotion: string; readonly intensity: number }[],
+  sceneStartPct: number,
+  sceneEndPct: number,
+  totalParagraphs: number,
+  table: CanonicalEmotionTable,
+  C: number,
+): readonly PrescribedState[] {
+  // Filter waypoints in scene range (or use full set)
+  const sceneWaypoints = waypoints.filter(
+    (wp) => wp.position >= sceneStartPct && wp.position <= sceneEndPct,
+  );
+
+  // Fallback: if no waypoints in range, use nearest
+  const effectiveWaypoints = sceneWaypoints.length >= 2
+    ? sceneWaypoints
+    : waypoints;
+
+  return buildTrajectoryFromWaypoints(
+    effectiveWaypoints,
+    totalParagraphs,
+    table,
+    C,
+    (localPos) => sceneStartPct + localPos * (sceneEndPct - sceneStartPct), // lerp
+  );
 }
 
 /** Build actual trajectory from styled paragraphs */

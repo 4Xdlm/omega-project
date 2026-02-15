@@ -37,7 +37,7 @@ export { feasibilityThreshold, checkFeasibility, verifyLaw3 } from './physics/la
 export { theoreticalDecay, computeLambdaEff, detectZetaRegime, computeOmega, analyzeDecaySegment } from './physics/law-4-organic-decay.js';
 export { computeFluxConservation, verifyLaw5 } from './physics/law-5-flux-conservation.js';
 export { computeSynthesisMass, checkSynthesis, detectSynthesis, verifyLaw6 } from './physics/law-6-synthesis.js';
-export { analyzeEmotionFromText, buildPrescribedTrajectory, buildActualTrajectory, computeDeviations } from './physics/trajectory-analyzer.js';
+export { analyzeEmotionFromText, buildPrescribedTrajectory, buildScenePrescribedTrajectory, buildActualTrajectory, computeDeviations } from './physics/trajectory-analyzer.js';
 
 // Quality
 export { computeM1, computeM2 } from './quality/canon-compliance.js';

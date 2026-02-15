@@ -127,6 +127,43 @@ export const SOVEREIGN_CONFIG = {
    */
   PERSISTENCE_CEILING: 100,
 
+  // ═══════════════════════════════════════════════════════════════════════════════
+  // PHYSICS COMPILER — CONSTRAINT BUDGET
+  // ═══════════════════════════════════════════════════════════════════════════════
+
+  /**
+   * Budget tokens pour la section PHYSICS (compiled) dans le prompt.
+   * 800 tokens ≈ ~600 mots ≈ section concise et dense.
+   * OBLIGATOIRE. Fail-closed si absent.
+   */
+  PHYSICS_PROMPT_BUDGET_TOKENS: 800,
+
+  /**
+   * Identifiant du tokenizer utilisé pour le comptage.
+   * 'chars_div_4' = approximation conservative (1 token ≈ 4 chars).
+   * Déterministe et portable cross-OS.
+   */
+  PHYSICS_PROMPT_TOKENIZER_ID: 'chars_div_4',
+
+  /**
+   * Nombre max d'émotions actives incluses dans le prompt compilé.
+   */
+  PHYSICS_TOP_K_EMOTIONS: 3,
+
+  /**
+   * Nombre max de transitions critiques incluses.
+   */
+  PHYSICS_TOP_K_TRANSITIONS: 3,
+
+  /**
+   * Nombre max de prescriptions incluses.
+   */
+  PHYSICS_TOP_K_PRESCRIPTIONS: 2,
+
+  // ═══════════════════════════════════════════════════════════════════════════════
+  // RHYTHM — MUSICAL ENGINE
+  // ═══════════════════════════════════════════════════════════════════════════════
+
   /**
    * Minimum de syncopes par scène.
    * Syncope = phrase ≤5 mots après phrase ≥25 mots.

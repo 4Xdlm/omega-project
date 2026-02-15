@@ -103,7 +103,7 @@ export function assembleForgePacket(input: ForgePacketInput): ForgePacket {
   ];
 
   // Build capabilities from actual data
-  const capabilities: Record<string, boolean> = {
+  const capabilityFlags: Record<string, boolean> = {
     'emotion.trajectory.prescribed.14d': prescribed.length > 0 && prescribed[0].target_14d !== undefined,
     'emotion.trajectory.prescribed.xyz': prescribed.length > 0 && prescribed[0].target_omega !== undefined,
     'emotion.physics_profile': false, // Not yet in prescribed (future ForgeEmotionBrief integration)
@@ -111,8 +111,11 @@ export function assembleForgePacket(input: ForgePacketInput): ForgePacket {
     'emotion.forbidden_transitions': false,
     'emotion.decay_expectations': false,
   };
+  const activeCapabilities = Object.entries(capabilityFlags)
+    .filter(([_, active]) => active)
+    .map(([signal]) => signal);
 
-  const consumerCheck = validateConsumerRequirements(REQUIRED_SIGNALS, OPTIONAL_SIGNALS, capabilities);
+  const consumerCheck = validateConsumerRequirements(REQUIRED_SIGNALS, OPTIONAL_SIGNALS, activeCapabilities);
   if (!consumerCheck.valid) {
     throw new Error(`Consumer Gate FAIL: ${consumerCheck.errors.join('; ')}`);
   }

@@ -88,12 +88,27 @@ export async function computeECC(
   const sub_scores = [tension_14d, emotion_coherence, interiority, impact, physics_compliance];
 
   // 2. Calculer le score brut avec poids internes
-  const raw =
-    (tension_14d.score * 3.0 +
-      emotion_coherence.score * 2.5 +
-      interiority.score * 2.0 +
-      impact.score * 2.0) /
-    9.5;
+  // Sprint 6.2 (Roadmap 4.2): physics_compliance weight configurable
+  const base_weights = {
+    tension_14d: 3.0,
+    emotion_coherence: 2.5,
+    interiority: 2.0,
+    impact: 2.0,
+  };
+  const base_total = 9.5;
+
+  // If physics_compliance weight > 0, include in calculation
+  const pc_weight = physics_compliance.weight;
+  const total_weight = pc_weight > 0 ? base_total + pc_weight : base_total;
+
+  const raw_sum =
+    tension_14d.score * base_weights.tension_14d +
+    emotion_coherence.score * base_weights.emotion_coherence +
+    interiority.score * base_weights.interiority +
+    impact.score * base_weights.impact +
+    (pc_weight > 0 ? physics_compliance.score * pc_weight : 0);
+
+  const raw = raw_sum / total_weight;
 
   // 3. Calculer les bonus/malus (TOUS 100% CALC)
   const bonuses: BonusMalus[] = [];

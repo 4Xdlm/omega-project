@@ -218,8 +218,10 @@ sessions/ROADMAP_CHECKPOINT.md (MODIFIED — this entry)
 **Status**: ✅ COMPLETE
 
 roadmap_item: Sprint 4.1 — Quality M1-M12 rapport annexe
-deviation: partial — bridge pattern instead of direct buildQualityEnvelope call (types incompatible)
+deviation: proposed
 evidence: quality-bridge.ts + engine.ts wiring + tests QM-01..06
+
+**Deviation Note**: Bridge pattern used instead of direct buildQualityEnvelope call due to type incompatibility (StyledOutput, GenesisPlan, ScribeOutput not available in sovereign-engine context).
 
 **Features Implemented**:
 - Quality bridge: prose + ForgePacket → QualityM12Report

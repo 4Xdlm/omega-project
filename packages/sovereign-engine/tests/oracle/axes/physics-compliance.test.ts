@@ -6,6 +6,7 @@
 import { describe, it, expect } from 'vitest';
 import { scorePhysicsCompliance } from '../../../src/oracle/axes/physics-compliance.js';
 import type { PhysicsAuditResult } from '../../../src/oracle/physics-audit.js';
+import { SOVEREIGN_CONFIG } from '../../../src/config.js';
 
 describe('scorePhysicsCompliance', () => {
   it('PC-01: audit undefined → neutral score 50, weight=0', () => {
@@ -102,6 +103,46 @@ describe('scorePhysicsCompliance', () => {
     // Validate ranges
     expect(result.score).toBeGreaterThanOrEqual(0);
     expect(result.score).toBeLessThanOrEqual(100);
-    expect(result.weight).toBe(0); // INFORMATIF
+    expect(result.weight).toBe(0); // INFORMATIF by default
+  });
+
+  it('PC-05: weight reads from config (default 0)', () => {
+    const audit: PhysicsAuditResult = {
+      audit_id: 'test-audit-003',
+      prose_length: 600,
+      paragraph_count: 4,
+      actual_trajectory: [],
+      physics_score: 85.0,
+      trajectory_compliance: 90.0,
+      law_compliance: 85.0,
+      dead_zone_score: 80.0,
+      forced_transition_score: 85.0,
+      segments: [],
+      audit_log: [],
+    };
+
+    const result = scorePhysicsCompliance(audit);
+    expect(result.weight).toBe(SOVEREIGN_CONFIG.PHYSICS_COMPLIANCE_WEIGHT);
+    expect(result.weight).toBe(0); // Default per config
+  });
+
+  it('PC-06: score reflects audit physics_score', () => {
+    const audit: PhysicsAuditResult = {
+      audit_id: 'test-audit-004',
+      prose_length: 700,
+      paragraph_count: 5,
+      actual_trajectory: [],
+      physics_score: 73.5,
+      trajectory_compliance: 75.0,
+      law_compliance: 70.0,
+      dead_zone_score: 75.0,
+      forced_transition_score: 74.0,
+      segments: [],
+      audit_log: [],
+    };
+
+    const result = scorePhysicsCompliance(audit);
+    expect(result.score).toBe(73.5);
+    expect(result.details).toContain('73.5');
   });
 });

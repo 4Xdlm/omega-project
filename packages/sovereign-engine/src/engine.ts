@@ -46,6 +46,7 @@ import type { MacroSScore } from './oracle/s-score.js';
 import { SOVEREIGN_CONFIG } from './config.js';
 import { bridgeSignatureFromSymbolMap } from './input/signature-bridge.js';
 import { runPhysicsAudit, type PhysicsAuditResult } from './oracle/physics-audit.js';
+import { generatePrescriptions } from './prescriptions/index.js';
 import { DEFAULT_CANONICAL_TABLE } from '@omega/omega-forge';
 
 export interface SovereignForgeResult {
@@ -57,6 +58,7 @@ export interface SovereignForgeResult {
   readonly passes_executed: number;
   readonly symbol_map?: SymbolMap;
   readonly physics_audit?: PhysicsAuditResult; // Sprint 3.1: Physics Audit (informatif)
+  readonly prescriptions?: import('./prescriptions/types.js').Prescription[]; // Sprint 3.3: Prescriptions chirurgicales
 }
 
 export async function runSovereignForge(
@@ -111,6 +113,11 @@ export async function runSovereignForge(
     );
   }
 
+  // ★ NOUVEAU Sprint 3.3: Prescriptions chirurgicales top-K
+  const prescriptions = SOVEREIGN_CONFIG.PRESCRIPTIONS_ENABLED
+    ? generatePrescriptions(physicsAudit, SOVEREIGN_CONFIG.PRESCRIPTIONS_TOP_K)
+    : undefined;
+
   const loop_result = await runSovereignLoop(initialDraft, enrichedPacket, provider, physicsAudit);
 
   if (loop_result.verdict === 'SEAL') {
@@ -128,6 +135,7 @@ export async function runSovereignForge(
         passes_executed: loop_result.passes_executed,
         symbol_map: symbolMap,
         physics_audit: physicsAudit,
+        prescriptions,
       };
     }
     // V1 says SEAL but V3 says REJECT/PITCH → V3 wins, continue to duel+polish
@@ -174,5 +182,6 @@ export async function runSovereignForge(
     passes_executed: loop_result.passes_executed + SOVEREIGN_CONFIG.MAX_DRAFTS,
     symbol_map: symbolMap,
     physics_audit: physicsAudit,
+    prescriptions,
   };
 }

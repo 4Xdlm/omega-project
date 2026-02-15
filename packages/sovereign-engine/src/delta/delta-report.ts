@@ -21,6 +21,8 @@ import { computeStyleDelta } from './delta-style.js';
 import { computeClicheDelta } from './delta-cliche.js';
 import { buildPhysicsDelta } from './delta-physics.js';
 import type { PhysicsAuditResult } from '../oracle/physics-audit.js';
+import { generatePrescriptions, buildPrescriptionsDelta } from '../prescriptions/index.js';
+import { SOVEREIGN_CONFIG } from '../config.js';
 
 export function generateDeltaReport(
   packet: ForgePacket,
@@ -41,6 +43,12 @@ export function generateDeltaReport(
 
   const physics_delta = buildPhysicsDelta(physicsAudit);
 
+  // Sprint 3.3: Prescriptions chirurgicales top-K
+  const prescriptions = SOVEREIGN_CONFIG.PRESCRIPTIONS_ENABLED
+    ? generatePrescriptions(physicsAudit, SOVEREIGN_CONFIG.PRESCRIPTIONS_TOP_K)
+    : [];
+  const prescriptions_delta = buildPrescriptionsDelta(prescriptions);
+
   const report_data = {
     scene_id: packet.scene_id,
     timestamp: new Date().toISOString(),
@@ -50,7 +58,7 @@ export function generateDeltaReport(
     cliche_delta,
     global_distance,
     physics_delta,
-    // prescriptions_delta: rempli en Sprint 3.3
+    prescriptions_delta,
   };
 
   const report_hash = sha256(canonicalize(report_data));

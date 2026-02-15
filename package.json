@@ -11,7 +11,8 @@
     "gate:active": "cd packages/sovereign-engine && npx tsx scripts/gate-active.ts",
     "gate:roadmap": "cd packages/sovereign-engine && npx tsx scripts/gate-roadmap.ts",
     "gate:roadmap:update": "cd packages/sovereign-engine && npx tsx scripts/gate-roadmap.ts --update",
-    "gate:all": "npm run gate:no-shadow && npm run gate:no-todo && npm run gate:active && npm run gate:roadmap"
+    "gate:idl": "cd packages/signal-registry && npm run codegen:verify",
+    "gate:all": "npm run gate:no-shadow && npm run gate:no-todo && npm run gate:active && npm run gate:roadmap && npm run gate:idl"
   },
   "devDependencies": {
     "ajv": "^8.17.1",

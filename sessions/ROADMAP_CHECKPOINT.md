@@ -375,7 +375,7 @@ sessions/ROADMAP_CHECKPOINT.md (MODIFIED)
 **Status**: ✅ COMPLETE
 
 roadmap_item: Sprint 4.3 — IDL + codegen pour signal-registry
-deviation: none — registry stabilized, IDL created as source of truth
+deviation: none
 evidence: signal-registry.idl.json + scripts/codegen-registry.ts + tests IDL-01..08
 
 **Features Implemented**:
@@ -431,6 +431,45 @@ sessions/ROADMAP_CHECKPOINT.md (MODIFIED)
 - Roadmap 4.3 (optional): ✅ NOW DONE
 - Tests: 14 → 22 (+8 IDL tests)
 
+### Commit 7.2 — Gate IDL-drift
+
+**Date**: 2026-02-15
+**Roadmap Sprint**: 4.3 — IDL + codegen (gate enforcement)
+**Status**: ✅ COMPLETE
+
+roadmap_item: Sprint 4.3 — IDL + codegen (gate enforcement)
+deviation: none
+evidence: gate:idl wired in gate:all + root package.json
+
+**Features Implemented**:
+- Added gate:idl to root package.json
+- Wired gate:idl into gate:all CI pipeline
+- Gate runs `npm run codegen:verify` to detect manual edits to registry.ts
+
+**Files Modified**:
+```
+package.json (MODIFIED — add gate:idl, wire into gate:all)
+sessions/ROADMAP_CHECKPOINT.md (MODIFIED)
+```
+
+**Gate Behavior**:
+- Executes `cd packages/signal-registry && npm run codegen:verify`
+- Compares generated registry.ts with existing file
+- Exit 0 if match (pass), exit 1 if drift detected (fail)
+- Prevents manual edits to registry.ts without updating IDL
+
+**Checkpoint Hash**: *(to be computed after commit)*
+
+**Compliance**:
+- RULE-ROADMAP-01: ✅ Checkpoint updated
+- RULE-ROADMAP-02: ✅ Structured fields (roadmap_item, deviation, evidence)
+- Gates: 4 → 5 (added gate:idl)
+
+**Notes**:
+- Double protection: Tests (IDL-03/04) verify content, gate verifies format
+- Any manual edit to registry.ts will fail gate:idl
+- To add/modify signals: edit IDL → run codegen → tests pass
+
 ---
 
-**Sprint 7 Status**: 1/3 COMMITS COMPLETE (7.1 ✅, 7.2 ❌, 7.3 ❌)
+**Sprint 7 Status**: 2/3 COMMITS COMPLETE (7.1 ✅, 7.2 ✅, 7.3 ❌)

@@ -1,0 +1,210 @@
+{
+  "score_id": "MACRO_SCN-01-001-4f6a52_1771118601399",
+  "score_hash": "4d6da3982525f217320df90a7cc3bb7606ee9a5d8df8b487599c06ee174698a5",
+  "scene_id": "SCN-01-001-4f6a52",
+  "seed": "LIVE-RUN-0-1771117890859_SCN-01-001-4f6a52",
+  "macro_axes": {
+    "ecc": {
+      "name": "ecc",
+      "score": 92.6664412827621,
+      "weight": 0.6,
+      "method": "HYBRID",
+      "sub_scores": [
+        {
+          "name": "tension_14d",
+          "score": 87.27706406207996,
+          "weight": 3,
+          "method": "CALC",
+          "details": "Avg similarity: 68.2%, Q-scores: 76, 50, 58, 89"
+        },
+        {
+          "name": "emotion_coherence",
+          "score": 100,
+          "weight": 2.5,
+          "method": "CALC",
+          "details": "Brutal jumps: 0/6, avg dist: 1.42, max dist: 2.00"
+        },
+        {
+          "name": "interiority",
+          "score": 92,
+          "weight": 2,
+          "method": "LLM",
+          "details": "LLM-judged interiority depth (POV: third_limited)"
+        },
+        {
+          "name": "impact",
+          "score": 78,
+          "weight": 2,
+          "method": "LLM",
+          "details": "LLM-judged opening/closing impact"
+        }
+      ],
+      "bonuses": [
+        {
+          "type": "entropy",
+          "value": 3,
+          "triggered": true,
+          "detail": "Entropy stddev=0.440, bonus applied"
+        },
+        {
+          "type": "projection",
+          "value": 0,
+          "triggered": false,
+          "detail": "Projection conditions not met"
+        },
+        {
+          "type": "open_loop",
+          "value": 0,
+          "triggered": false,
+          "detail": "Last paragraphs arousal=0.00, resolved"
+        }
+      ],
+      "reasons": {
+        "top_contributors": [
+          "emotion_coherence=100.0",
+          "interiority=92.0",
+          "tension_14d=87.3"
+        ],
+        "top_penalties": [
+          "impact=78.0",
+          "tension_14d=87.3"
+        ]
+      }
+    },
+    "rci": {
+      "name": "rci",
+      "score": 80.87247658145168,
+      "weight": 0.15,
+      "method": "CALC",
+      "sub_scores": [
+        {
+          "name": "rhythm",
+          "score": 67.67957758841112,
+          "weight": 1,
+          "method": "CALC",
+          "details": "CV_sent=0.43, CV_para=0.43, range=29, monotony=1, opening_rep=14%"
+        },
+        {
+          "name": "signature",
+          "score": 100,
+          "weight": 1,
+          "method": "CALC",
+          "details": "Signature hit rate: 83%, forbidden: 0, abstraction: 0% (target: 30%)"
+        },
+        {
+          "name": "hook_presence",
+          "score": 77.08333333333334,
+          "weight": 0.2,
+          "method": "CALC",
+          "details": "Symbol map hooks verified"
+        }
+      ],
+      "bonuses": [],
+      "reasons": {
+        "top_contributors": [
+          "signature=100.0",
+          "hook_presence=77.1",
+          "rhythm=67.7"
+        ],
+        "top_penalties": [
+          "rhythm=67.7"
+        ]
+      }
+    },
+    "sii": {
+      "name": "sii",
+      "score": 85.96181102362205,
+      "weight": 0.15,
+      "method": "HYBRID",
+      "sub_scores": [
+        {
+          "name": "anti_cliche",
+          "score": 100,
+          "weight": 1,
+          "method": "CALC",
+          "details": "Total matches: 0 (clichés: 0×15=0, AI: 0×12=0, filter: 0×3=0, penalty: -0)"
+        },
+        {
+          "name": "necessity",
+          "score": 85,
+          "weight": 1,
+          "method": "LLM",
+          "details": "LLM-judged necessity (11 beats, goal: Advance memory — stage 1/3)"
+        },
+        {
+          "name": "sensory_density",
+          "score": 63.55905511811024,
+          "weight": 1.5,
+          "method": "HYBRID",
+          "details": "CALC: 55, LLM: 72, density: 5.5/100w"
+        }
+      ],
+      "bonuses": [],
+      "reasons": {
+        "top_contributors": [
+          "anti_cliche=100.0",
+          "necessity=85.0",
+          "sensory_density=63.6"
+        ],
+        "top_penalties": [
+          "sensory_density=63.6",
+          "necessity=85.0"
+        ]
+      }
+    },
+    "ifi": {
+      "name": "ifi",
+      "score": 68.57900262467192,
+      "weight": 0.1,
+      "method": "HYBRID",
+      "sub_scores": [
+        {
+          "name": "sensory_richness",
+          "score": 60,
+          "weight": 0.3,
+          "method": "CALC",
+          "details": "Categories present"
+        },
+        {
+          "name": "corporeal_anchoring",
+          "score": 66.66666666666666,
+          "weight": 0.35,
+          "method": "CALC",
+          "details": "Corporeal markers"
+        },
+        {
+          "name": "focalisation",
+          "score": 63.55905511811024,
+          "weight": 0.35,
+          "method": "HYBRID",
+          "details": "CALC: 55, LLM: 72, density: 5.5/100w"
+        }
+      ],
+      "bonuses": [
+        {
+          "type": "entropy",
+          "value": 5,
+          "triggered": true,
+          "detail": "3/4 quartiles have corporeal markers"
+        }
+      ],
+      "reasons": {
+        "top_contributors": [
+          "corporeal_anchoring=66.7",
+          "focalisation=63.6",
+          "sensory_richness=60.0"
+        ],
+        "top_penalties": [
+          "sensory_richness=60.0",
+          "focalisation=63.6",
+          "corporeal_anchoring=66.7"
+        ]
+      }
+    }
+  },
+  "composite": 87.4829081728855,
+  "min_axis": 68.57900262467192,
+  "verdict": "REJECT",
+  "ecc_score": 92.6664412827621,
+  "emotion_weight_pct": 60
+}

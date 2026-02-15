@@ -2,6 +2,4 @@
 set NODE_OPTIONS=--experimental-vm-modules
 set PATH=C:\Program Files\nodejs;%PATH%
 cd /d C:\Users\elric\omega-project\packages\sovereign-engine
-echo Running sovereign-engine tests...
-"C:\Program Files\nodejs\node.exe" ..\..\node_modules\vitest\vitest.mjs run
-echo EXIT=%errorlevel%
+"C:\Program Files\nodejs\node.exe" ..\..\node_modules\tsx\dist\cli.mjs scripts/diag-fr.mjs

@@ -1,0 +1,20 @@
+=== NORMALIZE TEST ===
+  "colère" -> "colere"
+  "dégoût" -> "degout"
+  "mémoire" -> "memoire"
+  "peur" -> "peur"
+  "angoisse" -> "angoisse"
+  "tremblait" -> "tremblait"
+  "joie" -> "joie"
+  "confiance" -> "confiance"
+  "enracinait" -> "enracinait"
+  "obscurité" -> "obscurite"
+
+=== MATCH TEST ===
+  HIT: "peur" -> "peur" matches fear:peur
+  HIT: "tremblait" -> "tremblait" matches fear:trembl
+  HIT: "colère." -> "colere" matches anger:coler
+  HIT: "joie" -> "joie" matches joy:joie
+  HIT: "confiance" -> "confiance" matches trust:confian
+
+DONE

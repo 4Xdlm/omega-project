@@ -1,0 +1,74 @@
+{
+  "score_id": "SSCORE_SCN-01-001-4f6a52_1771044450637",
+  "score_hash": "e3eb7ed5d3d087e9b1ac63d4a4dd4c5c1ee58da251d4517ab56f720fa7531120",
+  "scene_id": "SCN-01-001-4f6a52",
+  "seed": "LIVE-RUN-0-1771044363677_SCN-01-001-4f6a52",
+  "axes": {
+    "interiority": {
+      "name": "interiority",
+      "score": 92,
+      "weight": 2,
+      "method": "LLM",
+      "details": "LLM-judged interiority depth (POV: third_limited)"
+    },
+    "tension_14d": {
+      "name": "tension_14d",
+      "score": 54.82482904638631,
+      "weight": 3,
+      "method": "CALC",
+      "details": "Avg similarity: 45.4%, Q-scores: 0, 0, 82, 100"
+    },
+    "sensory_density": {
+      "name": "sensory_density",
+      "score": 52.90433815350389,
+      "weight": 1.5,
+      "method": "HYBRID",
+      "details": "CALC: 28, LLM: 78, density: 2.8/100w"
+    },
+    "necessity": {
+      "name": "necessity",
+      "score": 30,
+      "weight": 1,
+      "method": "LLM",
+      "details": "LLM-judged necessity (11 beats, goal: Advance memory — stage 1/3)"
+    },
+    "anti_cliche": {
+      "name": "anti_cliche",
+      "score": 80,
+      "weight": 1,
+      "method": "CALC",
+      "details": "Total matches: 1 (clichés: 0, AI: 0, filter: 1)"
+    },
+    "rhythm": {
+      "name": "rhythm",
+      "score": 53.99303574019442,
+      "weight": 1,
+      "method": "CALC",
+      "details": "Gini=0.22, syncopes=2, compressions=2, monotony_seqs=2, opening_rep=28%"
+    },
+    "signature": {
+      "name": "signature",
+      "score": 93.33333333333334,
+      "weight": 1,
+      "method": "CALC",
+      "details": "Signature hit rate: 25%, forbidden: 0, abstraction: 0% (target: 30%)"
+    },
+    "impact": {
+      "name": "impact",
+      "score": 87,
+      "weight": 2,
+      "method": "LLM",
+      "details": "LLM-judged opening/closing impact"
+    },
+    "emotion_coherence": {
+      "name": "emotion_coherence",
+      "score": 100,
+      "weight": 2.5,
+      "method": "CALC",
+      "details": "Brutal jumps: 0/14, avg dist: 0.75, max dist: 1.73"
+    }
+  },
+  "composite": 73.94382422952951,
+  "verdict": "REJECT",
+  "emotion_weight_pct": 63.33333333333333
+}

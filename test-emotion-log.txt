@@ -1,0 +1,21 @@
+node:internal/modules/esm/resolve:262
+    throw new ERR_UNSUPPORTED_DIR_IMPORT(path, basePath, String(resolved));
+          ^
+
+Error [ERR_UNSUPPORTED_DIR_IMPORT]: Directory import 'C:\Users\elric\omega-project\packages\canon-kernel\dist\types' is not supported resolving ES modules imported from C:\Users\elric\omega-project\packages\canon-kernel\dist\index.js
+    at finalizeResolution (node:internal/modules/esm/resolve:262:11)
+    at moduleResolve (node:internal/modules/esm/resolve:864:10)
+    at defaultResolve (node:internal/modules/esm/resolve:990:11)
+    at #cachedDefaultResolve (node:internal/modules/esm/loader:718:20)
+    at #resolveAndMaybeBlockOnLoaderThread (node:internal/modules/esm/loader:735:38)
+    at ModuleLoader.resolveSync (node:internal/modules/esm/loader:764:52)
+    at #resolve (node:internal/modules/esm/loader:700:17)
+    at ModuleLoader.getOrCreateModuleJob (node:internal/modules/esm/loader:620:35)
+    at ModuleJob.syncLink (node:internal/modules/esm/module_job:143:33)
+    at ModuleJob.link (node:internal/modules/esm/module_job:228:17) {
+  code: 'ERR_UNSUPPORTED_DIR_IMPORT',
+  url: 'file:///C:/Users/elric/omega-project/packages/canon-kernel/dist/types'
+}
+
+Node.js v24.12.0
+EXIT=1

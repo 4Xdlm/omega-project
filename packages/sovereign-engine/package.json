@@ -1,0 +1,49 @@
+{
+  "name": "@omega/sovereign-engine",
+  "version": "1.0.0",
+  "description": "OMEGA Sovereign Style Engine — NASA-Grade literary prose generator with 14D emotion guidance and 92/100 threshold",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@omega/canon-kernel": "file:../canon-kernel",
+    "@omega/genesis-planner": "file:../genesis-planner",
+    "@omega/genome": "file:../genome",
+    "@omega/omega-forge": "file:../omega-forge"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.3.0",
+    "vitest": "^4.0.17"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "files": [
+    "dist/",
+    "src/"
+  ],
+  "keywords": [
+    "omega",
+    "sovereign",
+    "style-engine",
+    "literary",
+    "14D-emotion",
+    "nasa-grade",
+    "prose-generation"
+  ],
+  "author": "OMEGA Project — Francky (Architect)",
+  "license": "MIT"
+}

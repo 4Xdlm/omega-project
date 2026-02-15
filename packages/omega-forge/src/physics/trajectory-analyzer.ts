@@ -33,24 +33,101 @@ const EMOTION_KEYWORDS: Readonly<Record<Emotion14, readonly string[]>> = {
   contempt: ['contempt', 'scorn', 'disdain', 'mock', 'deride', 'sneer', 'belittle', 'dismiss', 'arrogant', 'superior'],
 };
 
-/** Analyze emotion from paragraph text using keyword matching */
-export function analyzeEmotionFromText(text: string): EmotionState14D {
-  const lower = text.toLowerCase();
-  const words = lower.split(/\s+/);
+/**
+ * FR emotion keywords — STEM-based for conjugation coverage.
+ * All entries are NFKD-normalized (no diacritics).
+ * Uses short stems so startsWith() catches conjugated forms:
+ *   "trembl" matches tremblait/tremblant/tremblement/trembler
+ *   "pleur" matches pleurait/pleurs/pleurais
+ * Also includes literary/evocative terms for premium FR prose.
+ */
+const EMOTION_KEYWORDS_FR: Readonly<Record<Emotion14, readonly string[]>> = {
+  joy: ['joie', 'heureux', 'heureuse', 'souri', 'rire', 'jubil', 'content', 'ravis', 'plaisir',
+    'enchant', 'allegresse', 'bonheur', 'felicit', 'epanoui', 'radieux', 'radieuse',
+    'luminos', 'eclat', 'rejou', 'exult', 'delectat', 'savour'],
+  trust: ['confian', 'fier', 'fiere', 'serein', 'sereine', 'apais', 'assuran', 'foi', 'loyal',
+    'stable', 'securit', 'certitud', 'ancr', 'enracin', 'socle', 'fondation', 'solidit',
+    'fidel', 'fiable', 'robuste', 'constance', 'immuabl', 'inebranl', 'aplomb'],
+  fear: ['peur', 'effroi', 'terreur', 'paniqu', 'angoiss', 'inquiet', 'crain', 'menac', 'trembl',
+    'frayeur', 'epouvant', 'ombr', 'tenebr', 'abim', 'gouffr', 'vertig', 'frisson',
+    'redout', 'horrif', 'effray', 'anxieu', 'obscur', 'sinistr', 'hant'],
+  surprise: ['surpris', 'stupeu', 'etonn', 'choc', 'soudain', 'brusqu', 'inattendu', 'abasourdi',
+    'stupefai', 'sursaut', 'ahuri', 'sidere', 'boulevers', 'interdite', 'interdits',
+    'decontenanc', 'ebahi', 'medus', 'renvers'],
+  sadness: ['triste', 'chagrin', 'melanc', 'pleur', 'larme', 'abattu', 'abattue', 'deuil',
+    'douleur', 'solitud', 'desespo', 'peine', 'afflict', 'accabl', 'cendr', 'eros',
+    'absenc', 'vide', 'perd', 'disparu', 'oubli', 'effac', 'nostalg', 'soupi'],
+  disgust: ['degout', 'repuls', 'ecoeur', 'nausee', 'immond', 'infect', 'pourri', 'rance',
+    'rebut', 'repugn', 'aversi', 'abject', 'fetid', 'puant', 'corromp', 'souill',
+    'immondice', 'sordid', 'ignobl'],
+  anger: ['coler', 'rage', 'fureur', 'furieu', 'haine', 'agacem', 'irrit', 'explos', 'emport',
+    'hostil', 'rancoe', 'rancun', 'viol', 'brutal', 'destruct', 'vindic',
+    'hargneu', 'feroce', 'incendi', 'dechai', 'fulmin'],
+  anticipation: ['attent', 'anticip', 'pressent', 'prevoi', 'imminen', 'prepar', 'espoir',
+    'apprehens', 'guett', 'impatien', 'suspens', 'vigilan', 'surveill', 'presag',
+    'augur', 'bientot', 'prochain', 'approch', 'avenir'],
+  love: ['amour', 'aimer', 'tendress', 'affection', 'cherir', 'desir', 'passion', 'intim',
+    'enlac', 'chaleur', 'devou', 'adorat', 'etreint', 'caress', 'paume', 'ardeur',
+    'embras', 'proximite', 'union', 'lien', 'attache', 'douceur', 'proteg'],
+  submission: ['soumiss', 'obeir', 'docil', 'ceder', 'plier', 'capitul', 'consenti', 'subir',
+    'resign', 'accept', 'abdiqu', 'effac', 'inclin', 'courb', 'prostern', 'humili'],
+  awe: ['admirat', 'reveren', 'sublim', 'vertig', 'grandios', 'sacr', 'fascin', 'epoustoufl',
+    'majest', 'emerveil', 'immens', 'infini', 'demesur', 'transcend', 'mystere',
+    'prodig', 'splend', 'magnifi', 'extraordin'],
+  disapproval: ['desapprob', 'reproch', 'blam', 'condemn', 'critiqu', 'mepris', 'desaccord',
+    'severit', 'reprimand', 'censur', 'desavou', 'oppos', 'protest', 'refus',
+    'rejet', 'rebuff', 'object'],
+  remorse: ['remord', 'regret', 'culpabil', 'honte', 'pardonn', 'excus', 'repent', 'faute',
+    'desol', 'contrit', 'expiat', 'rachet', 'autopunit', 'reproch',
+    'tortur', 'ronge', 'pesant'],
+  contempt: ['mepris', 'dedain', 'ironi', 'sarcasm', 'condescend', 'rican', 'rabaiss',
+    'insignifi', 'minabl', 'derision', 'hautain', 'arrog', 'suffisan',
+    'toiser', 'narquoi', 'cingl', 'morgue'],
+};
+
+/**
+ * Normalize a word for emotion matching: strip diacritics, lowercase, letters only.
+ * "colère" → "colere", "dégoût" → "degout", "mémoire" → "memoire"
+ */
+function normalizeToken(word: string): string {
+  return word
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[\u2019\u2018]/g, "'")
+    .toLowerCase()
+    .replace(/[^a-z]/g, '');
+}
+
+/** Analyze emotion from paragraph text using keyword matching.
+ *  Supports FR and EN via language parameter.
+ *  Default 'auto' = union EN+FR (backward compatible). */
+export function analyzeEmotionFromText(text: string, language: 'fr' | 'en' | 'auto' = 'auto'): EmotionState14D {
+  const words = text.split(/\s+/);
 
   const counts: Record<string, number> = {};
   for (const key of EMOTION_14_KEYS) {
     counts[key] = 0;
   }
 
+  // Select keyword tables based on language
+  const tables: Readonly<Record<Emotion14, readonly string[]>>[] = [];
+  if (language === 'en' || language === 'auto') tables.push(EMOTION_KEYWORDS);
+  if (language === 'fr' || language === 'auto') tables.push(EMOTION_KEYWORDS_FR);
+
   for (const word of words) {
-    const cleaned = word.replace(/[^a-z]/g, '');
+    const cleaned = normalizeToken(word);
+    if (cleaned.length === 0) continue;
     for (const key of EMOTION_14_KEYS) {
-      for (const kw of EMOTION_KEYWORDS[key]) {
-        if (cleaned === kw || cleaned.startsWith(kw)) {
-          counts[key]++;
-          break;
+      let matched = false;
+      for (const table of tables) {
+        for (const kw of table[key]) {
+          if (cleaned === kw || cleaned.startsWith(kw)) {
+            counts[key]++;
+            matched = true;
+            break;
+          }
         }
+        if (matched) break;
       }
     }
   }

@@ -1,0 +1,61 @@
+[ 1:20:49,65] Starting LIVE1 FR (re-run with confirmed FR dist)...
+═══════════════════════════════════════════════════════════
+OMEGA SOVEREIGN STYLE ENGINE — LIVE5-STABILITY
+═══════════════════════════════════════════════════════════
+
+Configuration:
+  Run Path:      ..\..\golden\e2e\run_001\runs\13535cccff86620f
+  Out Path:      ..\..\metrics\s\LIVE1_FR
+  Count:         1
+  Scene Index:   0
+  Judge Stable:  true
+  Model:         claude-sonnet-4-20250514
+  Output dir: C:\Users\elric\omega-project\metrics\s\LIVE1_FR\run_000 (exists=true)
+
+[Run 0] Starting Sovereign Forge...
+  Scene: SCN-01-001-4f6a52
+  Model: claude-sonnet-4-20250514
+  Judge Stable: true
+[Run 0] SUCCESS
+  S-Score V1 (composite): 92.35
+  Verdict: REJECT
+  Passes: 5
+  --- V3 MACRO-AXES ---
+    ECC: 96.7 (w=0.60, floor=88)
+    RCI: 86.7 (w=0.15, floor=85)
+    SII: 81.4 (w=0.15, floor=85)
+    IFI: 91.1 (w=0.10, floor=85)
+  V3 Composite: 92.35 | Min Axis: 81.4 | ECC: 96.7
+  V3 Verdict: PITCH
+  --- ECC Detail ---
+    tension_14d: 94.0 (w=3)
+    emotion_coherence: 100.0 (w=2.5)
+    interiority: 92.0 (w=2)
+    impact: 87.0 (w=2)
+    bonus entropy: +3 — Entropy stddev=0.152, bonus applied
+  --- V1 Initial Axes ---
+    interiority: 92.0 (w=2, LLM)
+    tension_14d: 84.4 (w=3, CALC)
+    sensory_density: 53.6 (w=1.5, HYBRID)
+    necessity: 85.0 (w=1, LLM)
+    anti_cliche: 100.0 (w=1, CALC)
+    rhythm: 63.7 (w=1, CALC)
+    signature: 100.0 (w=1, CALC)
+    impact: 82.0 (w=2, LLM)
+    emotion_coherence: 100.0 (w=2.5, CALC)
+  V1 Initial Composite: 85.34
+
+═══════════════════════════════════════════════════════════
+LIVE5-STABILITY SUMMARY
+═══════════════════════════════════════════════════════════
+Total Runs:       1
+Successful:       1
+Failed:           0
+S-Score Range:    92.35 - 92.35 (Δ 0.00)
+S-Score Mean:     92.35
+All SEAL:         NO
+Gate Pass:        NO
+═══════════════════════════════════════════════════════════
+
+[SUCCESS] All runs completed successfully.
+[ 1:32:31,99] EXIT_CODE=0

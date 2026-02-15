@@ -65,6 +65,7 @@ export interface EmotionContract {
 export interface EmotionQuartile {
   readonly quartile: 'Q1' | 'Q2' | 'Q3' | 'Q4';
   readonly target_14d: Record<string, number>;
+  readonly target_omega?: { readonly X: number; readonly Y: number; readonly Z: number }; // NOUVEAU — XYZ space
   readonly valence: number;
   readonly arousal: number;
   readonly dominant: string;

@@ -32,9 +32,14 @@ import {
   computeArousal,
   dominantEmotion,
   EMOTION_14_KEYS,
+  buildScenePrescribedTrajectory,
+  DEFAULT_CANONICAL_TABLE,
   type EmotionState14D,
   type Emotion14,
+  type PrescribedState,
+  type OmegaState,
 } from '@omega/omega-forge';
+import { validateConsumerRequirements } from '@omega/signal-registry';
 
 import type {
   ForgePacket,
@@ -82,8 +87,8 @@ export interface ForgePacketInput {
 export function assembleForgePacket(input: ForgePacketInput): ForgePacket {
   const { plan, scene, style_profile, kill_lists, canon, continuity, run_id, language = 'fr' } = input;
 
-  // Build prescribed 14D trajectory
-  const prescribed = buildScenePrescribedTrajectory(plan, scene);
+  // Build prescribed 14D trajectory (via omega-forge SSOT)
+  const prescribed = buildScenePrescribedTrajectoryLocal(plan, scene);
 
   // Group into 4 quartiles
   const quartiles = groupIntoQuartiles(prescribed);
@@ -145,18 +150,19 @@ export function assembleForgePacket(input: ForgePacketInput): ForgePacket {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// PRESCRIBED TRAJECTORY
+// PRESCRIBED TRAJECTORY (SSOT via omega-forge)
 // ═══════════════════════════════════════════════════════════════════════════════
 
 interface PrescribedParagraph {
   readonly paragraph_index: number;
   readonly target_14d: EmotionState14D;
+  readonly target_omega?: OmegaState;  // NOUVEAU — conserve XYZ
   readonly valence: number;
   readonly arousal: number;
   readonly dominant: Emotion14;
 }
 
-function buildScenePrescribedTrajectory(
+function buildScenePrescribedTrajectoryLocal(
   plan: GenesisPlan,
   scene: Scene,
 ): readonly PrescribedParagraph[] {
@@ -198,53 +204,25 @@ function buildScenePrescribedTrajectory(
           },
         ];
 
-  // Build trajectory for each paragraph
-  const states: PrescribedParagraph[] = [];
+  // Use omega-forge SSOT to build trajectory with 14D + XYZ
+  const prescribed = buildScenePrescribedTrajectory(
+    waypoints,
+    sceneStartPct,
+    sceneEndPct,
+    totalParagraphs,
+    DEFAULT_CANONICAL_TABLE,
+    100, // persistence_ceiling — TODO: from config
+  );
 
-  for (let i = 0; i < totalParagraphs; i++) {
-    const position =
-      totalParagraphs > 1 ? i / (totalParagraphs - 1) : 0;
-    const globalPosition = sceneStartPct + position * (sceneEndPct - sceneStartPct);
-
-    // Find surrounding waypoints
-    let prevWP = waypoints[0];
-    let nextWP = waypoints[waypoints.length - 1];
-
-    for (let w = 0; w < waypoints.length - 1; w++) {
-      if (waypoints[w].position <= globalPosition && waypoints[w + 1].position >= globalPosition) {
-        prevWP = waypoints[w];
-        nextWP = waypoints[w + 1];
-        break;
-      }
-    }
-
-    // Interpolate intensity
-    const range = nextWP.position - prevWP.position;
-    const t = range > 0 ? (globalPosition - prevWP.position) / range : 0;
-    const intensity = prevWP.intensity + t * (nextWP.intensity - prevWP.intensity);
-
-    // Select emotion
-    const emotionName = t < 0.5 ? prevWP.emotion : nextWP.emotion;
-    const emotion14 = EMOTION_14_KEYS.includes(emotionName as Emotion14)
-      ? (emotionName as Emotion14)
-      : 'anticipation';
-
-    // Build 14D state
-    const target_14d = singleEmotionState(emotion14, Math.min(1, intensity));
-    const valence = computeValence(target_14d);
-    const arousal = computeArousal(target_14d);
-    const dominant = dominantEmotion(target_14d);
-
-    states.push({
-      paragraph_index: i,
-      target_14d,
-      valence,
-      arousal,
-      dominant,
-    });
-  }
-
-  return states;
+  // Convert PrescribedState (omega-forge) → PrescribedParagraph (sovereign backward compat)
+  return prescribed.map((ps) => ({
+    paragraph_index: ps.paragraph_index,
+    target_14d: ps.target_14d,
+    target_omega: ps.target_omega,  // PRESERVE XYZ
+    valence: computeValence(ps.target_14d),
+    arousal: computeArousal(ps.target_14d),
+    dominant: dominantEmotion(ps.target_14d),
+  }));
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -255,6 +233,7 @@ interface QuartileGroup {
   readonly quartile: 'Q1' | 'Q2' | 'Q3' | 'Q4';
   readonly paragraphs: readonly PrescribedParagraph[];
   readonly avg_14d: EmotionState14D;
+  readonly avg_omega?: OmegaState; // NOUVEAU — moyenne XYZ du quartile
   readonly avg_valence: number;
   readonly avg_arousal: number;
   readonly dominant: Emotion14;
@@ -294,10 +273,25 @@ function groupIntoQuartiles(
     const avg_arousal = computeArousal(avg_14d as EmotionState14D);
     const dominant = dominantEmotion(avg_14d as EmotionState14D);
 
+    // Average Omega (XYZ) if available
+    let avg_omega: OmegaState | undefined = undefined;
+    const omegaParagraphs = paragraphs.filter((p) => p.target_omega !== undefined);
+    if (omegaParagraphs.length > 0) {
+      const sumX = omegaParagraphs.reduce((acc, p) => acc + p.target_omega!.X, 0);
+      const sumY = omegaParagraphs.reduce((acc, p) => acc + p.target_omega!.Y, 0);
+      const sumZ = omegaParagraphs.reduce((acc, p) => acc + p.target_omega!.Z, 0);
+      avg_omega = {
+        X: sumX / omegaParagraphs.length,
+        Y: sumY / omegaParagraphs.length,
+        Z: sumZ / omegaParagraphs.length,
+      };
+    }
+
     return {
       quartile: q,
       paragraphs,
       avg_14d: avg_14d as EmotionState14D,
+      avg_omega,
       avg_valence,
       avg_arousal,
       dominant,
@@ -358,6 +352,7 @@ function buildEmotionQuartile(group: QuartileGroup): EmotionQuartile {
   return {
     quartile: group.quartile,
     target_14d,
+    target_omega: group.avg_omega, // PRESERVE XYZ
     valence: group.avg_valence,
     arousal: group.avg_arousal,
     dominant: group.dominant,

@@ -1,0 +1,357 @@
+=== GIT STATUS ===
+ M packages/omega-forge/src/physics/trajectory-analyzer.ts
+ M run-tests.bat
+?? api-result.txt
+?? diag-fr.bat
+?? diag-log.txt
+?? docs/CLAUDE_CODE_PROMPT_LIVE5_CLI.md
+?? exec-path.txt
+?? execpath-result.txt
+?? fix-lang.js
+?? fr-err.txt
+?? fr-out.txt
+?? fr-test-out.txt
+?? git-commit.bat
+?? git-log.txt
+?? launch-live1.js
+?? live1-err2.txt
+?? live1-fr-log.txt
+?? live1-fr-v2.bat
+?? live1-fr.bat
+?? live1-log.txt
+?? live1-log2.txt
+?? live1-log3.txt
+?? live1-log4.txt
+?? live1-stderr.txt
+?? live1-stdout.txt
+?? live2-fr.bat
+?? live2-log.txt
+?? live5-fr.bat
+?? live5-log.txt
+?? metrics/s/
+?? packages/sovereign-engine/
+?? path-out.txt
+?? rebuild-forge.bat
+?? rebuild-log.txt
+?? run-fr-test.bat
+?? run-test.bat
+?? run-tests-forge.bat
+?? run-tests.js
+?? t-err.txt
+?? t-out.txt
+?? test-api-log.txt
+?? test-api.bat
+?? test-api.cjs
+?? test-emotion-fr.mjs
+?? test-emotion-log.txt
+?? test-emotion-target.bat
+?? test-emotion.bat
+?? test-err.txt
+?? test-error.txt
+?? test-execpath.bat
+?? test-forge-log.txt
+?? test-forge.bat
+?? test-fr-diag-log.txt
+?? test-fr-diag.bat
+?? test-fr-emotion.bat
+?? test-fr-emotion.cjs
+?? test-fr-emotion.mjs
+?? test-fr-emotion.ts
+?? test-fr-err.txt
+?? test-fr-full-output.txt
+?? test-fr-full.bat
+?? test-fr-log.txt
+?? test-fr-output.txt
+?? test-fr-standalone.cjs
+?? test-fr.bat
+?? test-log-forge.txt
+?? test-log.txt
+?? test-node.txt
+?? test-normalize.mjs
+?? test-out.txt
+?? test-output.txt
+?? test-path.bat
+?? test-results.txt
+?? test-stderr.txt
+?? test-stdout.txt
+?? test-stem-err.txt
+?? test-stem-out.txt
+?? test-stem.cjs
+?? test2.txt
+?? tsc-out.txt
+=== GIT ADD ===
+=== GIT COMMIT ===
+Error: failed to find `git rev-parse --git-dir --show-toplevel`: executable file not found in %PATH%
+Error reading `git config`: executable file not found in %PATH%
+Error getting Git version: executable file not found in %PATH%
+[master 501b0e4e] feat(S3): FR emotion keywords + language field + node PATH fix [LIVE1-FR 92.35 PITCH]
+ 266 files changed, 21168 insertions(+), 15 deletions(-)
+ create mode 100644 api-result.txt
+ create mode 100644 diag-fr.bat
+ create mode 100644 diag-log.txt
+ create mode 100644 docs/CLAUDE_CODE_PROMPT_LIVE5_CLI.md
+ create mode 100644 exec-path.txt
+ create mode 100644 execpath-result.txt
+ create mode 100644 fix-lang.js
+ create mode 100644 fr-err.txt
+ create mode 100644 fr-out.txt
+ create mode 100644 fr-test-out.txt
+ create mode 100644 git-commit.bat
+ create mode 100644 git-log.txt
+ create mode 100644 launch-live1.js
+ create mode 100644 live1-err2.txt
+ create mode 100644 live1-fr-log.txt
+ create mode 100644 live1-fr-v2.bat
+ create mode 100644 live1-fr.bat
+ create mode 100644 live1-log.txt
+ create mode 100644 live1-log2.txt
+ create mode 100644 live1-log3.txt
+ create mode 100644 live1-log4.txt
+ create mode 100644 live1-stderr.txt
+ create mode 100644 live1-stdout.txt
+ create mode 100644 live2-fr.bat
+ create mode 100644 live2-log.txt
+ create mode 100644 live5-fr.bat
+ create mode 100644 live5-log.txt
+ create mode 100644 metrics/s/LIVE1_DIAG_AFTER_PATCH/FAIL.json
+ create mode 100644 metrics/s/LIVE1_FR/SUMMARY.json
+ create mode 100644 metrics/s/LIVE1_FR/run_000/RUN_ID.json
+ create mode 100644 metrics/s/LIVE1_FR/run_000/SHA256SUMS.txt
+ create mode 100644 metrics/s/LIVE1_FR/run_000/S_SCORE_FINAL.json
+ create mode 100644 metrics/s/LIVE1_FR/run_000/S_SCORE_INITIAL.json
+ create mode 100644 metrics/s/LIVE1_FR/run_000/S_SCORE_V3.json
+ create mode 100644 metrics/s/LIVE1_FR/run_000/final_prose.txt
+ create mode 100644 metrics/s/LIVE1_FR/run_000/symbol_map.json
+ create mode 100644 metrics/s/LIVE2_FR/SUMMARY.json
+ create mode 100644 metrics/s/LIVE2_FR/run_000/RUN_ID.json
+ create mode 100644 metrics/s/LIVE2_FR/run_000/SHA256SUMS.txt
+ create mode 100644 metrics/s/LIVE2_FR/run_000/S_SCORE_FINAL.json
+ create mode 100644 metrics/s/LIVE2_FR/run_000/S_SCORE_INITIAL.json
+ create mode 100644 metrics/s/LIVE2_FR/run_000/S_SCORE_V3.json
+ create mode 100644 metrics/s/LIVE2_FR/run_000/final_prose.txt
+ create mode 100644 metrics/s/LIVE2_FR/run_000/symbol_map.json
+ create mode 100644 metrics/s/LIVE5_BOOST/SUMMARY.json
+ create mode 100644 metrics/s/LIVE5_BOOST/run_000/RUN_ID.json
+ create mode 100644 metrics/s/LIVE5_BOOST/run_000/SHA256SUMS.txt
+ create mode 100644 metrics/s/LIVE5_BOOST/run_000/S_SCORE_FINAL.json
+ create mode 100644 metrics/s/LIVE5_BOOST/run_000/S_SCORE_INITIAL.json
+ create mode 100644 metrics/s/LIVE5_BOOST/run_000/S_SCORE_V3.json
+ create mode 100644 metrics/s/LIVE5_BOOST/run_000/final_prose.txt
+ create mode 100644 metrics/s/LIVE5_BOOST/run_000/symbol_map.json
+ create mode 100644 metrics/s/LIVE5_DIAG/SUMMARY.json
+ create mode 100644 metrics/s/LIVE5_DIAG/run_000/RUN_ID.json
+ create mode 100644 metrics/s/LIVE5_DIAG/run_000/SHA256SUMS.txt
+ create mode 100644 metrics/s/LIVE5_DIAG/run_000/S_SCORE_FINAL.json
+ create mode 100644 metrics/s/LIVE5_DIAG/run_000/S_SCORE_INITIAL.json
+ create mode 100644 metrics/s/LIVE5_DIAG/run_000/S_SCORE_V3.json
+ create mode 100644 metrics/s/LIVE5_DIAG/run_000/final_prose.txt
+ create mode 100644 metrics/s/LIVE5_DIAG/run_000/symbol_map.json
+ create mode 100644 metrics/s/LIVE5_FR/FAIL.json
+ create mode 100644 metrics/s/LIVE5_FR_STABILITY/FAIL.json
+ create mode 100644 metrics/s/LIVE5_FR_STABILITY/run_000/RUN_ID.json
+ create mode 100644 metrics/s/LIVE5_FR_STABILITY/run_000/SHA256SUMS.txt
+ create mode 100644 metrics/s/LIVE5_FR_STABILITY/run_000/S_SCORE_FINAL.json
+ create mode 100644 metrics/s/LIVE5_FR_STABILITY/run_000/S_SCORE_INITIAL.json
+ create mode 100644 metrics/s/LIVE5_FR_STABILITY/run_000/S_SCORE_V3.json
+ create mode 100644 metrics/s/LIVE5_FR_STABILITY/run_000/final_prose.txt
+ create mode 100644 metrics/s/LIVE5_FR_STABILITY/run_000/symbol_map.json
+ create mode 100644 metrics/s/LIVE5_FR_STABILITY/run_001/RUN_ID.json
+ create mode 100644 metrics/s/LIVE5_FR_STABILITY/run_001/SHA256SUMS.txt
+ create mode 100644 metrics/s/LIVE5_FR_STABILITY/run_001/S_SCORE_FINAL.json
+ create mode 100644 metrics/s/LIVE5_FR_STABILITY/run_001/S_SCORE_INITIAL.json
+ create mode 100644 metrics/s/LIVE5_FR_STABILITY/run_001/S_SCORE_V3.json
+ create mode 100644 metrics/s/LIVE5_FR_STABILITY/run_001/final_prose.txt
+ create mode 100644 metrics/s/LIVE5_FR_STABILITY/run_001/symbol_map.json
+ create mode 100644 metrics/s/LIVE5_FR_STABILITY/run_002/RUN_ID.json
+ create mode 100644 metrics/s/LIVE5_FR_STABILITY/run_002/SHA256SUMS.txt
+ create mode 100644 metrics/s/LIVE5_FR_STABILITY/run_002/S_SCORE_FINAL.json
+ create mode 100644 metrics/s/LIVE5_FR_STABILITY/run_002/S_SCORE_INITIAL.json
+ create mode 100644 metrics/s/LIVE5_FR_STABILITY/run_002/S_SCORE_V3.json
+ create mode 100644 metrics/s/LIVE5_FR_STABILITY/run_002/final_prose.txt
+ create mode 100644 metrics/s/LIVE5_FR_STABILITY/run_002/symbol_map.json
+ create mode 100644 metrics/s/LIVE5_MOVESAB/SUMMARY.json
+ create mode 100644 metrics/s/LIVE5_MOVESAB/run_000/RUN_ID.json
+ create mode 100644 metrics/s/LIVE5_MOVESAB/run_000/SHA256SUMS.txt
+ create mode 100644 metrics/s/LIVE5_MOVESAB/run_000/S_SCORE_FINAL.json
+ create mode 100644 metrics/s/LIVE5_MOVESAB/run_000/S_SCORE_INITIAL.json
+ create mode 100644 metrics/s/LIVE5_MOVESAB/run_000/S_SCORE_V3.json
+ create mode 100644 metrics/s/LIVE5_MOVESAB/run_000/final_prose.txt
+ create mode 100644 metrics/s/LIVE5_MOVESAB/run_000/symbol_map.json
+ create mode 100644 metrics/s/LIVE5_RCIFIX/SUMMARY.json
+ create mode 100644 metrics/s/LIVE5_RCIFIX/run_000/RUN_ID.json
+ create mode 100644 metrics/s/LIVE5_RCIFIX/run_000/SHA256SUMS.txt
+ create mode 100644 metrics/s/LIVE5_RCIFIX/run_000/S_SCORE_FINAL.json
+ create mode 100644 metrics/s/LIVE5_RCIFIX/run_000/S_SCORE_INITIAL.json
+ create mode 100644 metrics/s/LIVE5_RCIFIX/run_000/S_SCORE_V3.json
+ create mode 100644 metrics/s/LIVE5_RCIFIX/run_000/final_prose.txt
+ create mode 100644 metrics/s/LIVE5_RCIFIX/run_000/symbol_map.json
+ create mode 100644 metrics/s/LIVE5_SIGBRIDGE/SUMMARY.json
+ create mode 100644 metrics/s/LIVE5_SIGBRIDGE/run_000/RUN_ID.json
+ create mode 100644 metrics/s/LIVE5_SIGBRIDGE/run_000/SHA256SUMS.txt
+ create mode 100644 metrics/s/LIVE5_SIGBRIDGE/run_000/S_SCORE_FINAL.json
+ create mode 100644 metrics/s/LIVE5_SIGBRIDGE/run_000/S_SCORE_INITIAL.json
+ create mode 100644 metrics/s/LIVE5_SIGBRIDGE/run_000/S_SCORE_V3.json
+ create mode 100644 metrics/s/LIVE5_SIGBRIDGE/run_000/final_prose.txt
+ create mode 100644 metrics/s/LIVE5_SIGBRIDGE/run_000/symbol_map.json
+ create mode 100644 metrics/s/LIVE5_SIIFIX/SUMMARY.json
+ create mode 100644 metrics/s/LIVE5_SIIFIX/run_000/RUN_ID.json
+ create mode 100644 metrics/s/LIVE5_SIIFIX/run_000/SHA256SUMS.txt
+ create mode 100644 metrics/s/LIVE5_SIIFIX/run_000/S_SCORE_FINAL.json
+ create mode 100644 metrics/s/LIVE5_SIIFIX/run_000/S_SCORE_INITIAL.json
+ create mode 100644 metrics/s/LIVE5_SIIFIX/run_000/S_SCORE_V3.json
+ create mode 100644 metrics/s/LIVE5_SIIFIX/run_000/final_prose.txt
+ create mode 100644 metrics/s/LIVE5_SIIFIX/run_000/symbol_map.json
+ create mode 100644 metrics/s/LIVE5_V3AUTH/SUMMARY.json
+ create mode 100644 metrics/s/LIVE5_V3AUTH/run_000/RUN_ID.json
+ create mode 100644 metrics/s/LIVE5_V3AUTH/run_000/SHA256SUMS.txt
+ create mode 100644 metrics/s/LIVE5_V3AUTH/run_000/S_SCORE_FINAL.json
+ create mode 100644 metrics/s/LIVE5_V3AUTH/run_000/S_SCORE_INITIAL.json
+ create mode 100644 metrics/s/LIVE5_V3AUTH/run_000/S_SCORE_V3.json
+ create mode 100644 metrics/s/LIVE5_V3AUTH/run_000/final_prose.txt
+ create mode 100644 metrics/s/LIVE5_V3AUTH/run_000/symbol_map.json
+ create mode 100644 packages/sovereign-engine/CLAUDE_CODE_PROMPT_MOVES_AB.md
+ create mode 100644 packages/sovereign-engine/package-lock.json
+ create mode 100644 packages/sovereign-engine/package.json
+ create mode 100644 packages/sovereign-engine/run-tests.ps1
+ create mode 100644 packages/sovereign-engine/scripts/diag-fr.mjs
+ create mode 100644 packages/sovereign-engine/scripts/sovereign-live.ts
+ create mode 100644 packages/sovereign-engine/scripts/test-fr-emotion.ts
+ create mode 100644 packages/sovereign-engine/scripts/test-path.ts
+ create mode 100644 packages/sovereign-engine/src/config.ts
+ create mode 100644 packages/sovereign-engine/src/data/ai-patterns.json
+ create mode 100644 packages/sovereign-engine/src/data/cliche-blacklist.json
+ create mode 100644 packages/sovereign-engine/src/data/filter-words.json
+ create mode 100644 packages/sovereign-engine/src/data/sensory-lexicon.json
+ create mode 100644 packages/sovereign-engine/src/delta/delta-cliche.ts
+ create mode 100644 packages/sovereign-engine/src/delta/delta-emotion.ts
+ create mode 100644 packages/sovereign-engine/src/delta/delta-report.ts
+ create mode 100644 packages/sovereign-engine/src/delta/delta-style.ts
+ create mode 100644 packages/sovereign-engine/src/delta/delta-tension.ts
+ create mode 100644 packages/sovereign-engine/src/duel/draft-modes.ts
+ create mode 100644 packages/sovereign-engine/src/duel/duel-engine.ts
+ create mode 100644 packages/sovereign-engine/src/engine.ts
+ create mode 100644 packages/sovereign-engine/src/index.ts
+ create mode 100644 packages/sovereign-engine/src/input/emotion-adapter.ts
+ create mode 100644 packages/sovereign-engine/src/input/forge-packet-assembler.ts
+ create mode 100644 packages/sovereign-engine/src/input/pre-write-simulator.ts
+ create mode 100644 packages/sovereign-engine/src/input/pre-write-validator.ts
+ create mode 100644 packages/sovereign-engine/src/input/prompt-assembler-v2.ts
+ create mode 100644 packages/sovereign-engine/src/input/signature-bridge.ts
+ create mode 100644 packages/sovereign-engine/src/oracle/aesthetic-oracle.ts
+ create mode 100644 packages/sovereign-engine/src/oracle/axes/anti-cliche.ts
+ create mode 100644 packages/sovereign-engine/src/oracle/axes/emotion-coherence.ts
+ create mode 100644 packages/sovereign-engine/src/oracle/axes/impact.ts
+ create mode 100644 packages/sovereign-engine/src/oracle/axes/interiority.ts
+ create mode 100644 packages/sovereign-engine/src/oracle/axes/necessity.ts
+ create mode 100644 packages/sovereign-engine/src/oracle/axes/rhythm.ts
+ create mode 100644 packages/sovereign-engine/src/oracle/axes/sensory-density.ts
+ create mode 100644 packages/sovereign-engine/src/oracle/axes/signature.ts
+ create mode 100644 packages/sovereign-engine/src/oracle/axes/tension-14d.ts
+ create mode 100644 packages/sovereign-engine/src/oracle/macro-axes.ts
+ create mode 100644 packages/sovereign-engine/src/oracle/s-score.ts
+ create mode 100644 packages/sovereign-engine/src/pitch/correction-catalog.ts
+ create mode 100644 packages/sovereign-engine/src/pitch/patch-engine.ts
+ create mode 100644 packages/sovereign-engine/src/pitch/pitch-oracle.ts
+ create mode 100644 packages/sovereign-engine/src/pitch/sovereign-loop.ts
+ create mode 100644 packages/sovereign-engine/src/pitch/triple-pitch.ts
+ create mode 100644 packages/sovereign-engine/src/polish/anti-cliche-sweep.ts
+ create mode 100644 packages/sovereign-engine/src/polish/musical-engine.ts
+ create mode 100644 packages/sovereign-engine/src/polish/signature-enforcement.ts
+ create mode 100644 packages/sovereign-engine/src/runtime/anthropic-provider.ts
+ create mode 100644 packages/sovereign-engine/src/runtime/golden-loader.ts
+ create mode 100644 packages/sovereign-engine/src/runtime/live-types.ts
+ create mode 100644 packages/sovereign-engine/src/runtime/path-safety.ts
+ create mode 100644 packages/sovereign-engine/src/runtime/run-id.ts
+ create mode 100644 packages/sovereign-engine/src/runtime/sha256sums.ts
+ create mode 100644 packages/sovereign-engine/src/symbol/emotion-to-imagery.ts
+ create mode 100644 packages/sovereign-engine/src/symbol/symbol-map-oracle.ts
+ create mode 100644 packages/sovereign-engine/src/symbol/symbol-map-types.ts
+ create mode 100644 packages/sovereign-engine/src/symbol/symbol-mapper.ts
+ create mode 100644 packages/sovereign-engine/src/types.ts
+ create mode 100644 packages/sovereign-engine/test-fr-emotion.ts
+ create mode 100644 packages/sovereign-engine/test-fr-full.ts
+ create mode 100644 packages/sovereign-engine/test-fr-quick.ts
+ create mode 100644 packages/sovereign-engine/tests/config.test.ts
+ create mode 100644 packages/sovereign-engine/tests/delta/delta-cliche.test.ts
+ create mode 100644 packages/sovereign-engine/tests/fixtures/mock-packet.ts
+ create mode 100644 packages/sovereign-engine/tests/fixtures/mock-prose.ts
+ create mode 100644 packages/sovereign-engine/tests/fixtures/mock-provider.ts
+ create mode 100644 packages/sovereign-engine/tests/fixtures/mock-style-profile.ts
+ create mode 100644 packages/sovereign-engine/tests/fixtures/mock-symbol-map.ts
+ create mode 100644 packages/sovereign-engine/tests/oracle/axes/anti-cliche.test.ts
+ create mode 100644 packages/sovereign-engine/tests/oracle/axes/emotion-coherence.test.ts
+ create mode 100644 packages/sovereign-engine/tests/oracle/axes/ifi-distribution.test.ts
+ create mode 100644 packages/sovereign-engine/tests/oracle/axes/rci-hooks.test.ts
+ create mode 100644 packages/sovereign-engine/tests/oracle/axes/rhythm-v2.test.ts
+ create mode 100644 packages/sovereign-engine/tests/oracle/axes/rhythm.test.ts
+ create mode 100644 packages/sovereign-engine/tests/oracle/axes/signature.test.ts
+ create mode 100644 packages/sovereign-engine/tests/oracle/axes/tension-14d.test.ts
+ create mode 100644 packages/sovereign-engine/tests/oracle/macro-axes.test.ts
+ create mode 100644 packages/sovereign-engine/tests/oracle/macro-s-score.test.ts
+ create mode 100644 packages/sovereign-engine/tests/oracle/s-score.test.ts
+ create mode 100644 packages/sovereign-engine/tests/pitch/correction-catalog.test.ts
+ create mode 100644 packages/sovereign-engine/tests/pitch/pitch-oracle.test.ts
+ create mode 100644 packages/sovereign-engine/tests/polish/sweep-noop.test.ts
+ create mode 100644 packages/sovereign-engine/tests/runtime/golden-loader.test.ts
+ create mode 100644 packages/sovereign-engine/tests/runtime/path-safety.test.ts
+ create mode 100644 packages/sovereign-engine/tests/runtime/run-id.test.ts
+ create mode 100644 packages/sovereign-engine/tests/runtime/sha256sums.test.ts
+ create mode 100644 packages/sovereign-engine/tests/runtime/sovereign-live.test.ts
+ create mode 100644 packages/sovereign-engine/tests/symbol/emotion-to-imagery.test.ts
+ create mode 100644 packages/sovereign-engine/tests/symbol/symbol-map-oracle.test.ts
+ create mode 100644 packages/sovereign-engine/tsconfig.json
+ create mode 100644 packages/sovereign-engine/vitest.config.ts
+ create mode 100644 path-out.txt
+ create mode 100644 rebuild-forge.bat
+ create mode 100644 rebuild-log.txt
+ create mode 100644 run-fr-test.bat
+ create mode 100644 run-test.bat
+ create mode 100644 run-tests-forge.bat
+ create mode 100644 run-tests.js
+ create mode 100644 t-err.txt
+ create mode 100644 t-out.txt
+ create mode 100644 test-api-log.txt
+ create mode 100644 test-api.bat
+ create mode 100644 test-api.cjs
+ create mode 100644 test-emotion-fr.mjs
+ create mode 100644 test-emotion-log.txt
+ create mode 100644 test-emotion-target.bat
+ create mode 100644 test-emotion.bat
+ create mode 100644 test-err.txt
+ create mode 100644 test-error.txt
+ create mode 100644 test-execpath.bat
+ create mode 100644 test-forge-log.txt
+ create mode 100644 test-forge.bat
+ create mode 100644 test-fr-diag-log.txt
+ create mode 100644 test-fr-diag.bat
+ create mode 100644 test-fr-emotion.bat
+ create mode 100644 test-fr-emotion.cjs
+ create mode 100644 test-fr-emotion.mjs
+ create mode 100644 test-fr-emotion.ts
+ create mode 100644 test-fr-err.txt
+ create mode 100644 test-fr-full-output.txt
+ create mode 100644 test-fr-full.bat
+ create mode 100644 test-fr-log.txt
+ create mode 100644 test-fr-output.txt
+ create mode 100644 test-fr-standalone.cjs
+ create mode 100644 test-fr.bat
+ create mode 100644 test-log-forge.txt
+ create mode 100644 test-log.txt
+ create mode 100644 test-node.txt
+ create mode 100644 test-normalize.mjs
+ create mode 100644 test-out.txt
+ create mode 100644 test-output.txt
+ create mode 100644 test-path.bat
+ create mode 100644 test-results.txt
+ create mode 100644 test-stderr.txt
+ create mode 100644 test-stdout.txt
+ create mode 100644 test-stem-err.txt
+ create mode 100644 test-stem-out.txt
+ create mode 100644 test-stem.cjs
+ create mode 100644 test2.txt
+ create mode 100644 tsc-out.txt
+=== GIT LOG ===
+501b0e4e feat(S3): FR emotion keywords + language field + node PATH fix [LIVE1-FR 92.35 PITCH]
+b38806eb docs: roadmap v5.0 + Phase S specs [Phase Q SEALED, PR L5 SEALED, Phase S ACTIVE]
+a3904ee3 feat(repair): INV-REPAIR-BOUND-01 multi-attempt(2) + MICRO_BUMP=50 — run003 now PASS, 3/3 goldens hard_pass=true [338/339 tests, 1 pre-existing]
+EXIT=0

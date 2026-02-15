@@ -18,7 +18,8 @@
     "typecheck": "tsc --noEmit",
     "gate:no-todo": "tsx scripts/gate-no-todo.ts",
     "gate:active": "tsx scripts/gate-active.ts",
-    "gate:all": "npm run gate:no-todo && npm run gate:active"
+    "gate:all": "npm run gate:no-todo && npm run gate:active",
+    "calibrate": "tsx scripts/run-calibration.ts"
   },
   "dependencies": {
     "@omega/canon-kernel": "file:../canon-kernel",

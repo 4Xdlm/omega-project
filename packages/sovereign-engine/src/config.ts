@@ -435,6 +435,27 @@ export const SOVEREIGN_CONFIG = {
 
   RCI_PERFECT_PENALTY: -5, // Malus si Gini+syncope+compression "trop parfaits"
 
+  // ═══════════════════════════════════════════════════════════════════════════════
+  // CALIBRATION RUNNER — Sprint 5 Commit 5.3
+  // ═══════════════════════════════════════════════════════════════════════════════
+
+  /**
+   * Nombre de runs pour la phase de calibration.
+   * Phase "20 LIVE runs" du roadmap.
+   */
+  CALIBRATION_RUNS: 20,
+
+  /**
+   * Scène(s) utilisée(s) pour la calibration.
+   * Peut être étendu pour multi-scene calibration.
+   */
+  CALIBRATION_SCENES: ['test_scene_001'] as const,
+
+  /**
+   * Output path pour calibration report (relatif à cwd).
+   */
+  CALIBRATION_OUTPUT_PATH: './calibration-report.json',
+
 } as const;
 
 /**

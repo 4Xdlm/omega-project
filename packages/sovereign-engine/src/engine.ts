@@ -49,6 +49,7 @@ import { runPhysicsAudit, type PhysicsAuditResult } from './oracle/physics-audit
 import { generatePrescriptions } from './prescriptions/index.js';
 import { buildEmotionBriefFromPacket } from './input/emotion-brief-bridge.js';
 import { DEFAULT_CANONICAL_TABLE } from '@omega/omega-forge';
+import { buildQualityReport, type QualityM12Report } from './quality/quality-bridge.js';
 
 export interface SovereignForgeResult {
   readonly final_prose: string;
@@ -60,6 +61,7 @@ export interface SovereignForgeResult {
   readonly symbol_map?: SymbolMap;
   readonly physics_audit?: PhysicsAuditResult; // Sprint 3.1: Physics Audit (informatif)
   readonly prescriptions?: import('./prescriptions/types.js').Prescription[]; // Sprint 3.3: Prescriptions chirurgicales
+  readonly quality_m12?: QualityM12Report; // Sprint 6.1 (Roadmap 4.1): Quality M1-M12 rapport annexe (INFORMATIF)
 }
 
 export async function runSovereignForge(
@@ -131,6 +133,9 @@ export async function runSovereignForge(
 
     if (seal_score_v3.verdict === 'SEAL') {
       // V1 SEAL + V3 SEAL = genuine SEAL
+      // Sprint 6.1: Quality M1-M12 rapport annexe (INFORMATIF)
+      const quality_m12 = buildQualityReport(loop_result.final_prose, enrichedPacket);
+
       return {
         final_prose: loop_result.final_prose,
         s_score: loop_result.s_score_final,
@@ -141,6 +146,7 @@ export async function runSovereignForge(
         symbol_map: symbolMap,
         physics_audit: physicsAudit,
         prescriptions,
+        quality_m12,
       };
     }
     // V1 says SEAL but V3 says REJECT/PITCH → V3 wins, continue to duel+polish
@@ -178,6 +184,9 @@ export async function runSovereignForge(
     emotion_weight_pct: final_score_v3.emotion_weight_pct,
   };
 
+  // Sprint 6.1: Quality M1-M12 rapport annexe (INFORMATIF)
+  const quality_m12 = buildQualityReport(final_prose, enrichedPacket);
+
   return {
     final_prose,
     s_score: final_score,
@@ -188,5 +197,6 @@ export async function runSovereignForge(
     symbol_map: symbolMap,
     physics_audit: physicsAudit,
     prescriptions,
+    quality_m12,
   };
 }

@@ -206,3 +206,69 @@ sessions/ROADMAP_CHECKPOINT.md (MODIFIED — this entry)
 ---
 
 **Sprint 5 Status**: ✅ ALL 3 COMMITS + HOTFIX 5.4 COMPLETE
+
+---
+
+## Sprint 6 — Roadmap Sprint 4 (Quality + Activation + Compat)
+
+### Commit 6.1 — Quality M1-M12 Bridge
+
+**Date**: 2026-02-15
+**Roadmap Sprint**: 4.1 — Quality M1-M12 rapport annexe
+**Status**: ✅ COMPLETE
+
+roadmap_item: Sprint 4.1 — Quality M1-M12 rapport annexe
+deviation: partial — bridge pattern instead of direct buildQualityEnvelope call (types incompatible)
+evidence: quality-bridge.ts + engine.ts wiring + tests QM-01..06
+
+**Features Implemented**:
+- Quality bridge: prose + ForgePacket → QualityM12Report
+- 6/12 metrics computed via omega-forge SSOT: M1, M2, M3, M5, M9, M10
+- 6/12 metrics degraded (types unavailable): M4, M6, M7, M8, M11, M12
+- Wired into SovereignForgeResult as quality_m12
+- Feature flag: QUALITY_M12_ENABLED: false (DEFAULT-OFF)
+
+**Files Modified**:
+```
+packages/sovereign-engine/src/quality/quality-bridge.ts (CREATED)
+packages/sovereign-engine/src/config.ts (MODIFIED — add QUALITY_M12_ENABLED)
+packages/sovereign-engine/src/engine.ts (MODIFIED — wire quality report)
+packages/sovereign-engine/src/index.ts (MODIFIED — export types)
+packages/sovereign-engine/tests/quality/quality-bridge.test.ts (CREATED)
+sessions/ROADMAP_CHECKPOINT.md (MODIFIED)
+```
+
+**Tests**:
+- QM-01: returns disabled report when QUALITY_M12_ENABLED=false
+- QM-02: quality_score_partial is 0 when disabled
+- QM-03: report_hash is deterministic
+- QM-04: degraded metrics have reason
+- QM-05: computed_count + degraded_count = 12
+- QM-06: quality_score_partial is in 0-1 range
+
+**Computed Metrics (6/12)**:
+- M1 (contradiction_rate): Uses paragraphs + canon → SSOT omega-forge
+- M2 (canon_compliance): Uses paragraphs + canon → SSOT omega-forge
+- M3 (coherence_span): Uses paragraphs → SSOT omega-forge
+- M5 (memory_integrity): Uses paragraphs → SSOT omega-forge
+- M9 (semantic_density): Uses paragraphs → SSOT omega-forge
+- M10 (reading_levels): Uses paragraphs → SSOT omega-forge
+
+**Degraded Metrics (6/12)**:
+- M4: GenesisPlan not available
+- M6/M7: StyledOutput not available
+- M8: ScribeOutput not available
+- M11: StyledOutput.banality_result not available
+- M12: Depends on all M1-M11
+
+**Checkpoint Hash**: *(to be computed after commit)*
+
+**Compliance**:
+- RULE-ROADMAP-01: ✅ Checkpoint updated
+- RULE-ROADMAP-02: ✅ Structured fields (roadmap_item, deviation, evidence)
+- SSOT: ✅ Imports from omega-forge, no duplication
+- DEFAULT-OFF: ✅ QUALITY_M12_ENABLED: false
+
+---
+
+**Sprint 6 Status**: 1/3 COMMITS COMPLETE (6.1 ✅, 6.2 ❌, 6.3 ❌)

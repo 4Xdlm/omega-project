@@ -456,6 +456,17 @@ export const SOVEREIGN_CONFIG = {
    */
   CALIBRATION_OUTPUT_PATH: './calibration-report.json',
 
+  // ═══════════════════════════════════════════════════════════════════════════════
+  // QUALITY M1-M12 RAPPORT — Sprint 6 Commit 6.1 (Roadmap 4.1)
+  // ═══════════════════════════════════════════════════════════════════════════════
+
+  /**
+   * Enable Quality M1-M12 rapport annexe.
+   * MODE: INFORMATIF (does not affect scoring/verdict).
+   * DEFAULT: OFF (Sprint 4.1 - awaiting correlation analysis).
+   */
+  QUALITY_M12_ENABLED: false,
+
 } as const;
 
 /**

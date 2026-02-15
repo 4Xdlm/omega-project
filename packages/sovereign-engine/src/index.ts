@@ -200,3 +200,14 @@ export type {
 } from './oracle/macro-axes.js';
 
 export type { MacroSScore } from './oracle/s-score.js';
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// QUALITY M1-M12 (Sprint 6.1 / Roadmap 4.1)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+export { buildQualityReport } from './quality/quality-bridge.js';
+export type {
+  QualityM12Report,
+  QualityM12Metrics,
+  MetricResult,
+} from './quality/quality-bridge.js';

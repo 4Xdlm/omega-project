@@ -151,6 +151,47 @@ npm run calibrate -- --runs=10 # Custom run count
 - Phase "20 LIVE runs" preparation for real LLM calibration
 - Report validates physics audit integration
 
+### Hotfix 5.4 — RULE-ROADMAP-02 Enforcement
+
+**Date**: 2026-02-15
+**Roadmap Sprint**: Governance Hardening
+**Status**: ✅ COMPLETE
+
+roadmap_item: Hotfix 5.4 — RULE-ROADMAP-02 gate hardening
+deviation: none
+evidence: gate-roadmap.ts hardened with checkpoint parsing + tests GR-01..05
+
+**Features Implemented**:
+- Hardened gate:roadmap to parse ROADMAP_CHECKPOINT.md structure
+- Validates: roadmap_item, deviation (none|proposed), evidence
+- Backward compatible with existing checkpoint format
+- Added 5 tests (GR-01 to GR-05)
+- RULE-ROADMAP-02 formalized as enforcement rule
+
+**Files Modified**:
+```
+packages/sovereign-engine/scripts/gate-roadmap.ts (MODIFIED — added checkpoint parsing)
+packages/sovereign-engine/tests/gates/gate-roadmap.test.ts (MODIFIED — added GR-01..05)
+sessions/ROADMAP_CHECKPOINT.md (MODIFIED — this entry)
+```
+
+**Tests**:
+- GR-01: PASS — valid checkpoint with all fields
+- GR-02: FAIL — checkpoint without roadmap_item
+- GR-03: FAIL — checkpoint with invalid deviation
+- GR-04: FAIL — checkpoint without evidence
+- GR-05: PASS — backward compat with existing format
+
+**Compliance**:
+- RULE-ROADMAP-01: ✅ Checkpoint updated
+- RULE-ROADMAP-02: ✅ Structured fields enforced
+- Backward compatibility: ✅ Existing format "Roadmap Sprint" still works
+
+**Notes**:
+- Hash verification logic preserved (no breaking changes)
+- Deviation field is optional (warning only) for backward compat
+- Future commits MUST include all three fields: roadmap_item, deviation, evidence
+
 ---
 
 ## Roadmap Coverage
@@ -160,7 +201,8 @@ npm run calibrate -- --runs=10 # Custom run count
 | 3.4 Physics Compliance | 5.1 | ✅ COMPLETE |
 | Governance / Traceability | 5.2 | ✅ COMPLETE |
 | Calibration / 20 LIVE Runs | 5.3 | ✅ COMPLETE |
+| Governance Hardening | Hotfix 5.4 | ✅ COMPLETE |
 
 ---
 
-**Sprint 5 Status**: ✅ ALL 3 COMMITS COMPLETE — Ready for tag v2.0.0-sprint5
+**Sprint 5 Status**: ✅ ALL 3 COMMITS + HOTFIX 5.4 COMPLETE

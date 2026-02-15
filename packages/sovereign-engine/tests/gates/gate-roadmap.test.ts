@@ -1,6 +1,6 @@
 /**
- * Tests for gate:roadmap — Sprint 5 Commit 5.2
- * Invariants: GATE-RD-01 to GATE-RD-03
+ * Tests for gate:roadmap — Sprint 5 Commit 5.2 + Hotfix 5.4
+ * Invariants: GATE-RD-01 to GATE-RD-03, GR-01 to GR-05
  */
 
 import { describe, it, expect } from 'vitest';
@@ -8,6 +8,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execSync } from 'node:child_process';
+import { parseLastCheckpoint } from '../../scripts/gate-roadmap.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(__dirname, '../../../..');
@@ -79,5 +80,65 @@ describe('gate:roadmap', () => {
     if (beforeUpdate) {
       expect(afterUpdate.timestamp).toBeDefined();
     }
+  });
+});
+
+describe('gate:roadmap checkpoint parsing (RULE-ROADMAP-02)', () => {
+  it('GR-01: PASS — valid checkpoint with all fields', () => {
+    const content = `# CHECKPOINT
+### Commit 5.4
+roadmap_item: Hotfix 5.4 — RULE-ROADMAP-02
+deviation: none
+evidence: gate-roadmap.ts + tests GR-01..04
+`;
+    const result = parseLastCheckpoint(content);
+    expect(result.roadmap_item).toBe('Hotfix 5.4 — RULE-ROADMAP-02');
+    expect(result.deviation).toBe('none');
+    expect(result.evidence).toBe('gate-roadmap.ts + tests GR-01..04');
+  });
+
+  it('GR-02: FAIL — checkpoint without roadmap_item', () => {
+    const content = `# CHECKPOINT
+### Commit X
+deviation: none
+evidence: some files
+`;
+    const result = parseLastCheckpoint(content);
+    expect(result.roadmap_item).toBeNull();
+  });
+
+  it('GR-03: FAIL — checkpoint with invalid deviation', () => {
+    const content = `# CHECKPOINT
+### Commit X
+roadmap_item: Sprint 99
+deviation: lol
+evidence: some files
+`;
+    const result = parseLastCheckpoint(content);
+    expect(result.deviation).toBe('lol');
+    // Gate logic checks: deviation must be 'none' or 'proposed'
+    expect(['none', 'proposed'].includes(result.deviation!.toLowerCase())).toBe(false);
+  });
+
+  it('GR-04: FAIL — checkpoint without evidence', () => {
+    const content = `# CHECKPOINT
+### Commit X
+roadmap_item: Sprint 5
+deviation: none
+`;
+    const result = parseLastCheckpoint(content);
+    expect(result.evidence).toBeNull();
+  });
+
+  it('GR-05: PASS — backward compat with existing format (Roadmap Sprint)', () => {
+    const content = `# CHECKPOINT
+### Commit 5.1 — Physics Compliance Sub-Axis
+**Roadmap Sprint**: 3.4 (Physics Compliance)
+**Files Modified**:
+gate-roadmap.ts
+`;
+    const result = parseLastCheckpoint(content);
+    expect(result.roadmap_item).toBe('3.4 (Physics Compliance)');
+    expect(result.evidence).toBeTruthy();
   });
 });

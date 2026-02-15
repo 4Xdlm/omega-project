@@ -524,3 +524,70 @@ sessions/ROADMAP_CHECKPOINT.md (MODIFIED)
 ---
 
 **Sprint 7 Status**: ✅ ALL 3 COMMITS COMPLETE (7.1 ✅, 7.2 ✅, 7.3 ✅)
+
+---
+
+## Sprint 8 — Hardening Minimum (Release Discipline + Proof Pack + Calibration CI)
+
+### Commit 8.1 — ProofPack Generator
+
+**Date**: 2026-02-15
+**Roadmap Sprint**: HARDEN-PP-01
+**Status**: ✅ COMPLETE
+
+roadmap_item: HARDEN-PP-01
+deviation: none
+evidence: scripts/proofpack/generate-proofpack.ts + tests PP-01..03 + npm run proofpack:generate
+
+**Features Implemented**:
+- Created deterministic ProofPack generator (MANIFEST.json, HASHES.sha256, EVIDENCE.md)
+- Exported `generateProofPack()` function with CLI wrapper
+- Generates in `proofpacks/<tag_or_run_id>/` with stable output
+- SHA-256 hashes sorted lexicographically for determinism
+- BOM-safe JSON parsing for package.json files
+
+**Files Created**:
+```
+scripts/proofpack/generate-proofpack.ts (CREATED — generator + CLI)
+packages/sovereign-engine/tests/proofpack/generate-proofpack.test.ts (CREATED — 3 tests)
+proofpacks/local/ (GENERATED — MANIFEST + HASHES + EVIDENCE)
+```
+
+**Files Modified**:
+```
+package.json (MODIFIED — add proofpack:generate, proofpack:clean)
+sessions/ROADMAP_CHECKPOINT.md (MODIFIED)
+```
+
+**Tests**:
+- PP-01: generateProofPack creates all 3 files (MANIFEST, HASHES, EVIDENCE)
+- PP-02: HASHES.sha256 sorted lexicographically by path
+- PP-03: Generation does not modify files outside outDir
+
+**ProofPack Contents**:
+- MANIFEST.json: schema_version, git info, node version, packages, gates list
+- HASHES.sha256: SHA-256 hashes of critical files (ROADMAP_CHECKPOINT, IDL, registry.ts, MANIFEST canonical)
+- EVIDENCE.md: Reproduction steps and file listing
+
+**Determinism**:
+- BOM removal for package.json parsing
+- Lexicographic path sorting in HASHES.sha256
+- Canonical MANIFEST hash (excludes created_utc timestamp)
+
+**Checkpoint Hash**: *(to be computed after commit)*
+
+**Compliance**:
+- RULE-ROADMAP-01: ✅ Checkpoint updated
+- RULE-ROADMAP-02: ✅ Structured fields (roadmap_item, deviation, evidence)
+- DÉTERMINISME: ✅ Sorted hashes, BOM-safe, canonical manifest
+- FAIL-CLOSED: ✅ Warns on missing files
+- NO-MAGIC: ✅ No inline constants
+- RULE-DEPS-01: ✅ No new dependencies (uses existing tsx)
+
+**Impact**:
+- Tests sovereign: 254 → 257 (+3 proofpack tests)
+- New artifacts: MANIFEST, HASHES, EVIDENCE
+
+---
+
+**Sprint 8 Status**: 1/3 COMMITS COMPLETE (8.1 ✅, 8.2 ❌, 8.3 ❌)

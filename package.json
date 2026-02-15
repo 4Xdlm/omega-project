@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "test": "vitest run",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "gate:no-shadow": "powershell -File scripts/gate-no-shadow.ps1",
+    "gate:all": "npm run gate:no-shadow"
   },
   "devDependencies": {
     "ajv": "^8.17.1",

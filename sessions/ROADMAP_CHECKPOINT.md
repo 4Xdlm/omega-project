@@ -470,6 +470,57 @@ sessions/ROADMAP_CHECKPOINT.md (MODIFIED)
 - Any manual edit to registry.ts will fail gate:idl
 - To add/modify signals: edit IDL → run codegen → tests pass
 
+### Commit 7.3 — ECC Weights Sanity Test
+
+**Date**: 2026-02-15
+**Roadmap Sprint**: Post-roadmap — ChatGPT audit finding (ECC weights sanity)
+**Status**: ✅ COMPLETE
+
+roadmap_item: Post-roadmap — ChatGPT audit finding (ECC weights sanity)
+deviation: none
+evidence: tests/oracle/macro-axes-ecc-sanity.test.ts + ECC-SAN-01..04
+
+**Features Implemented**:
+- Created ECC weights sanity tests (4 tests: ECC-SAN-01 to ECC-SAN-04)
+- Verifies physics_compliance integration doesn't corrupt ECC calculation
+- Tests cover: score range validation, physics weight=0 behavior, sub_scores structure
+
+**Files Created**:
+```
+packages/sovereign-engine/tests/oracle/macro-axes-ecc-sanity.test.ts (CREATED — 4 tests)
+```
+
+**Files Modified**:
+```
+sessions/ROADMAP_CHECKPOINT.md (MODIFIED)
+```
+
+**Tests**:
+- ECC-SAN-01: ECC score is 0-100 range without physics
+- ECC-SAN-02: ECC score is 0-100 range WITH physics audit
+- ECC-SAN-03: ECC with physics_compliance weight=0 ignores physics score
+- ECC-SAN-04: ECC sub_scores includes physics_compliance
+
+**Test Logic**:
+- ECC-SAN-01: Verifies normal ECC calculation produces valid 0-100 scores
+- ECC-SAN-02: Verifies ECC with physics audit still produces valid 0-100 scores
+- ECC-SAN-03: **Critical**: With weight=0 (default), physics_score should NOT affect ECC
+  - Tests: no physics, perfect physics (100), bad physics (0) → all produce SAME ECC score
+  - This validates the conditional inclusion logic in macro-axes.ts
+- ECC-SAN-04: Verifies physics_compliance appears in sub_scores with weight=0
+
+**Checkpoint Hash**: *(to be computed after commit)*
+
+**Compliance**:
+- RULE-ROADMAP-01: ✅ Checkpoint updated
+- RULE-ROADMAP-02: ✅ Structured fields (roadmap_item, deviation, evidence)
+- ChatGPT audit: ✅ RESOLVED (ECC weights sanity confirmed)
+- DÉTERMINISME: ✅ Uses MockSovereignProvider for deterministic tests
+
+**Impact**:
+- Tests sovereign: 250 → 254 (+4 ECC sanity)
+- ChatGPT audit finding: ✅ ADDRESSED
+
 ---
 
-**Sprint 7 Status**: 2/3 COMMITS COMPLETE (7.1 ✅, 7.2 ✅, 7.3 ❌)
+**Sprint 7 Status**: ✅ ALL 3 COMMITS COMPLETE (7.1 ✅, 7.2 ✅, 7.3 ✅)

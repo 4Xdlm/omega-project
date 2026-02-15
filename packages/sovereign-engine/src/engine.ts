@@ -111,7 +111,7 @@ export async function runSovereignForge(
     );
   }
 
-  const loop_result = await runSovereignLoop(initialDraft, enrichedPacket, provider);
+  const loop_result = await runSovereignLoop(initialDraft, enrichedPacket, provider, physicsAudit);
 
   if (loop_result.verdict === 'SEAL') {
     // V3 is the AUTHORITY — check macro-axes before accepting SEAL

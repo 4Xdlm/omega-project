@@ -19,8 +19,14 @@ import { computeEmotionDelta } from './delta-emotion.js';
 import { computeTensionDelta } from './delta-tension.js';
 import { computeStyleDelta } from './delta-style.js';
 import { computeClicheDelta } from './delta-cliche.js';
+import { buildPhysicsDelta } from './delta-physics.js';
+import type { PhysicsAuditResult } from '../oracle/physics-audit.js';
 
-export function generateDeltaReport(packet: ForgePacket, prose: string): DeltaReport {
+export function generateDeltaReport(
+  packet: ForgePacket,
+  prose: string,
+  physicsAudit?: PhysicsAuditResult,
+): DeltaReport {
   const emotion_delta = computeEmotionDelta(packet, prose);
   const tension_delta = computeTensionDelta(packet, prose);
   const style_delta = computeStyleDelta(packet, prose);
@@ -33,6 +39,8 @@ export function generateDeltaReport(packet: ForgePacket, prose: string): DeltaRe
     cliche_delta,
   );
 
+  const physics_delta = buildPhysicsDelta(physicsAudit);
+
   const report_data = {
     scene_id: packet.scene_id,
     timestamp: new Date().toISOString(),
@@ -41,6 +49,8 @@ export function generateDeltaReport(packet: ForgePacket, prose: string): DeltaRe
     style_delta,
     cliche_delta,
     global_distance,
+    physics_delta,
+    // prescriptions_delta: rempli en Sprint 3.3
   };
 
   const report_hash = sha256(canonicalize(report_data));

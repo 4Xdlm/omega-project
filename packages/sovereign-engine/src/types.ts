@@ -216,6 +216,8 @@ export interface DeltaReport {
   readonly style_delta: StyleDelta;
   readonly cliche_delta: ClicheDelta;
   readonly global_distance: number;
+  readonly physics_delta?: PhysicsDelta;           // Sprint 3.2
+  readonly prescriptions_delta?: PrescriptionsDelta; // Sprint 3.3 (placeholder en 3.2)
 }
 
 export interface EmotionDelta {
@@ -269,6 +271,36 @@ export interface ClicheMatch {
   readonly pattern: string;
   readonly location: string;
   readonly category: string;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// DELTA-PHYSICS + PRESCRIPTIONS — SPRINT 3.2+3.3 (INFORMATIF)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+export interface PhysicsDelta {
+  readonly enabled: boolean;
+  readonly physics_score: number;
+  readonly trajectory_compliance: {
+    readonly cosine_avg: number;
+    readonly euclidean_avg: number;
+  };
+  readonly violations: {
+    readonly dead_zones_count: number;
+    readonly forced_transitions_count: number;
+    readonly feasibility_failures_count: number;
+  };
+  readonly delta_hash: string;
+}
+
+export interface PrescriptionsDelta {
+  readonly enabled: boolean;
+  readonly count: number;
+  readonly severity_histogram: {
+    readonly critical: number;
+    readonly high: number;
+    readonly medium: number;
+  };
+  readonly delta_hash: string;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════

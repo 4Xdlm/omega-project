@@ -186,6 +186,18 @@ export const SOVEREIGN_CONFIG = {
     forced_transition_weight: 0.10,
   } as const,
 
+  /**
+   * Prescriptions chirurgicales — DEFAULT-OFF-01.
+   * Activé quand calibré via runs réels.
+   */
+  PRESCRIPTIONS_ENABLED: false,
+
+  /**
+   * Nombre max de prescriptions top-K dans le delta.
+   * Architecte decision: 5 (Sprint 3).
+   */
+  PRESCRIPTIONS_TOP_K: 5,
+
   // ═══════════════════════════════════════════════════════════════════════════════
   // RHYTHM — MUSICAL ENGINE
   // ═══════════════════════════════════════════════════════════════════════════════

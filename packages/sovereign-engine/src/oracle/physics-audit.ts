@@ -61,6 +61,20 @@ export interface PhysicsAuditConfig {
 }
 
 /**
+ * Validate physics audit config. FAIL-CLOSED.
+ * INV: sum(weights) must equal 1.0 (tolerance 1e-9).
+ */
+export function validatePhysicsAuditConfig(config: PhysicsAuditConfig): void {
+  const sum = config.trajectory_weight + config.law_weight
+    + config.dead_zone_weight + config.forced_transition_weight;
+  if (Math.abs(sum - 1.0) > 1e-9) {
+    throw new Error(
+      `PHYSICS_AUDIT CONFIG INVALID: sum(weights)=${sum}, expected 1.0 [PHYS-CFG-01]`
+    );
+  }
+}
+
+/**
  * Run Physics Audit (post-generation)
  *
  * Analyse la prose générée pour détecter les violations des lois physiques émotionnelles.
@@ -83,6 +97,8 @@ export function runPhysicsAudit(
     // Audit désactivé → retourner résultat vide
     return createEmptyAuditResult();
   }
+
+  validatePhysicsAuditConfig(config);
 
   // 1. Construire trajectoire réelle depuis la prose (SSOT: omega-forge)
   // buildActualTrajectory expects StyledParagraph[], so we split prose into paragraphs

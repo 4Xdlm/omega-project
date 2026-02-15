@@ -37,6 +37,7 @@ export async function runSovereignLoop(
   initialProse: string,
   packet: ForgePacket,
   provider: SovereignProvider,
+  physicsAudit?: import('../oracle/physics-audit.js').PhysicsAuditResult,
 ): Promise<SovereignLoopResult> {
   const max_passes = SOVEREIGN_CONFIG.MAX_CORRECTION_PASSES;
 
@@ -61,7 +62,7 @@ export async function runSovereignLoop(
   let bestScore = s_score_initial;
 
   for (let pass = 0; pass < max_passes; pass++) {
-    const delta = generateDeltaReport(packet, currentProse);
+    const delta = generateDeltaReport(packet, currentProse, physicsAudit);
 
     const triple_pitch = generateTriplePitch(delta);
 

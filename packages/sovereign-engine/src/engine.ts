@@ -52,6 +52,7 @@ import { DEFAULT_CANONICAL_TABLE } from '@omega/omega-forge';
 import { buildQualityReport, type QualityM12Report } from './quality/quality-bridge.js';
 
 export interface SovereignForgeResult {
+  readonly version: '2.0.0'; // Sprint 6.3 (Roadmap 4.4): Version field for compat guard
   readonly final_prose: string;
   readonly s_score: SScore;
   readonly macro_score: MacroSScore | null; // v3: 4 macro-axes ECC/RCI/SII/IFI
@@ -137,6 +138,7 @@ export async function runSovereignForge(
       const quality_m12 = buildQualityReport(loop_result.final_prose, enrichedPacket);
 
       return {
+        version: '2.0.0',
         final_prose: loop_result.final_prose,
         s_score: loop_result.s_score_final,
         macro_score: seal_score_v3,
@@ -188,6 +190,7 @@ export async function runSovereignForge(
   const quality_m12 = buildQualityReport(final_prose, enrichedPacket);
 
   return {
+    version: '2.0.0',
     final_prose,
     s_score: final_score,
     macro_score: final_score_v3,

@@ -211,3 +211,9 @@ export type {
   QualityM12Metrics,
   MetricResult,
 } from './quality/quality-bridge.js';
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// COMPAT GUARD (Sprint 6.3 / Roadmap 4.4)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+export { assertVersion2 } from './compat/version-guard.js';

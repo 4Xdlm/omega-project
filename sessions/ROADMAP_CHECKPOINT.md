@@ -271,6 +271,95 @@ sessions/ROADMAP_CHECKPOINT.md (MODIFIED)
 - SSOT: ✅ Imports from omega-forge, no duplication
 - DEFAULT-OFF: ✅ QUALITY_M12_ENABLED: false
 
+### Commit 6.2 — Activation physics_compliance
+
+**Date**: 2026-02-15
+**Roadmap Sprint**: 4.2 — Activation physics_compliance (weight configurable)
+**Status**: ✅ COMPLETE
+
+roadmap_item: Sprint 4.2 — Activation physics_compliance (weight configurable)
+deviation: none
+evidence: physics-compliance.ts config wiring + macro-axes.ts ECC integration + tests PC-05..06
+
+**Features Implemented**:
+- Modified physics-compliance.ts to read weight from SOVEREIGN_CONFIG.PHYSICS_COMPLIANCE_WEIGHT
+- Modified macro-axes.ts ECC calculation to conditionally include physics_compliance when weight > 0
+- Added tests PC-05 (weight reads from config) and PC-06 (score reflects audit)
+- Weight defaults to 0 (INFORMATIF mode), can be activated post-calibration
+
+**Files Modified**:
+```
+packages/sovereign-engine/src/oracle/axes/physics-compliance.ts (MODIFIED — read weight from config)
+packages/sovereign-engine/src/oracle/macro-axes.ts (MODIFIED — ECC includes PC when weight > 0)
+packages/sovereign-engine/tests/oracle/axes/physics-compliance.test.ts (MODIFIED — add PC-05, PC-06)
+sessions/ROADMAP_CHECKPOINT.md (MODIFIED)
+```
+
+**Tests**:
+- PC-05: weight reads from SOVEREIGN_CONFIG.PHYSICS_COMPLIANCE_WEIGHT (default 0)
+- PC-06: score reflects audit physics_score
+
+**ECC Calculation Logic**:
+- Base weights: tension_14d=3.0, emotion_coherence=2.5, interiority=2.0, impact=2.0 (total=9.5)
+- If physics_compliance.weight > 0: add to total_weight, add weighted score to raw_sum
+- If physics_compliance.weight = 0: excluded from calculation (INFORMATIF)
+
+**Checkpoint Hash**: *(to be computed after commit)*
+
+**Compliance**:
+- RULE-ROADMAP-01: ✅ Checkpoint updated
+- RULE-ROADMAP-02: ✅ Structured fields (roadmap_item, deviation, evidence)
+- Activation ready: ✅ Weight configurable, no hardcoded values
+
 ---
 
-**Sprint 6 Status**: 1/3 COMMITS COMPLETE (6.1 ✅, 6.2 ❌, 6.3 ❌)
+### Commit 6.3 — Compat Guard v1/v2
+
+**Date**: 2026-02-15
+**Roadmap Sprint**: 4.4 — Compat guard v1/v2 (date window)
+**Status**: ✅ COMPLETE
+
+roadmap_item: Sprint 4.4 — Compat guard v1/v2 (date window)
+deviation: none
+evidence: version-guard.ts + engine.ts version field + tests VG-01..05
+
+**Features Implemented**:
+- Added `version: '2.0.0'` field to SovereignForgeResult interface
+- Added version field to both engine.ts return paths
+- Created assertVersion2() compat guard with date-based grace period
+- Exported assertVersion2 from index.ts
+- Created 5 tests (VG-01 to VG-05)
+
+**Files Modified**:
+```
+packages/sovereign-engine/src/engine.ts (MODIFIED — add version field to interface and returns)
+packages/sovereign-engine/src/compat/version-guard.ts (CREATED)
+packages/sovereign-engine/src/index.ts (MODIFIED — export assertVersion2)
+packages/sovereign-engine/tests/compat/version-guard.test.ts (CREATED)
+sessions/ROADMAP_CHECKPOINT.md (MODIFIED)
+```
+
+**Tests**:
+- VG-01: v2.0.0 passes silently
+- VG-02: undefined warns before cutoff (backward compat)
+- VG-03: undefined fails after cutoff (2026-03-01)
+- VG-04: wrong version fails immediately
+- VG-05: guard structure validation
+
+**Guard Behavior**:
+- `version='2.0.0'` → pass silently ✅
+- `version=undefined` + before 2026-03-01 → warning only ⚠️
+- `version=undefined` + after 2026-03-01 → hard fail ❌
+- `version=other` → hard fail ❌
+
+**Checkpoint Hash**: *(to be computed after commit)*
+
+**Compliance**:
+- RULE-ROADMAP-01: ✅ Checkpoint updated
+- RULE-ROADMAP-02: ✅ Structured fields (roadmap_item, deviation, evidence)
+- Backward compatibility: ✅ Grace period until 2026-03-01
+- Date injectable: ✅ currentDate parameter for deterministic testing
+
+---
+
+**Sprint 6 Status**: ✅ ALL 3 COMMITS COMPLETE (6.1 ✅, 6.2 ✅, 6.3 ✅)

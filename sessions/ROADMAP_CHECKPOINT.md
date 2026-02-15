@@ -641,6 +641,66 @@ sessions/ROADMAP_CHECKPOINT.md (MODIFIED)
 - Tests sovereign: 257 → 261 (+4 gate proofpack tests)
 - Gates: 5 → 6 (added gate:proofpack)
 
+### Commit 8.3 — Calibration Corpus Figé + CI
+
+**Date**: 2026-02-15
+**Roadmap Sprint**: HARDEN-CAL-CI-01
+**Status**: ✅ COMPLETE
+
+roadmap_item: HARDEN-CAL-CI-01
+deviation: none
+evidence: calibration-corpus/ (5 cases) + tests/calibration/calibration-ci.test.ts (5 tests)
+
+**Features Implemented**:
+- Created fixed calibration corpus (5 cases: CAL-CASE-01 to CAL-CASE-05)
+- Each case: stable run_id, seed, prose >= 8 paragraphs
+- Created CI test suite validating corpus structure and pipeline execution
+- Tests execute judgeAesthetic on each case (no LIVE LLM, uses MockSovereignProvider)
+- Validates corpus readability, paragraph count, and scoring output
+
+**Files Created**:
+```
+packages/sovereign-engine/tests/fixtures/calibration-corpus/CAL-CASE-01.json (CREATED)
+packages/sovereign-engine/tests/fixtures/calibration-corpus/CAL-CASE-02.json (CREATED)
+packages/sovereign-engine/tests/fixtures/calibration-corpus/CAL-CASE-03.json (CREATED)
+packages/sovereign-engine/tests/fixtures/calibration-corpus/CAL-CASE-04.json (CREATED)
+packages/sovereign-engine/tests/fixtures/calibration-corpus/CAL-CASE-05.json (CREATED)
+packages/sovereign-engine/tests/calibration/calibration-ci.test.ts (CREATED — 5 tests)
+```
+
+**Files Modified**:
+```
+sessions/ROADMAP_CHECKPOINT.md (MODIFIED)
+proofpacks/local/ (REGENERATED — includes corpus in hashes)
+```
+
+**Tests**:
+- CAL-CI-01: Case 01 corpus valid structure + judgeAesthetic runs
+- CAL-CI-02: Case 02 corpus valid structure + judgeAesthetic runs
+- CAL-CI-03: Case 03 corpus valid structure + judgeAesthetic runs
+- CAL-CI-04: Case 04 corpus valid structure + judgeAesthetic runs
+- CAL-CI-05: Case 05 corpus valid structure + judgeAesthetic runs
+
+**Corpus Themes**:
+- CAL-CASE-01: Peur → Espoir (8 paragraphes)
+- CAL-CASE-02: Joie explosive (8 paragraphes)
+- CAL-CASE-03: Colère → Calme (8 paragraphes)
+- CAL-CASE-04: Tristesse avec espoir distant (8 paragraphes)
+- CAL-CASE-05: Surprise → Compréhension (8 paragraphes)
+
+**Checkpoint Hash**: *(to be computed after commit)*
+
+**Compliance**:
+- RULE-ROADMAP-01: ✅ Checkpoint updated
+- RULE-ROADMAP-02: ✅ Structured fields (roadmap_item, deviation, evidence)
+- DÉTERMINISME: ✅ Fixed corpus, stable run_id/seed
+- NO LIVE LLM: ✅ MockSovereignProvider used
+- >= 8 paragraphs: ✅ All cases validated
+
+**Impact**:
+- Tests sovereign: 261 → 266 (+5 calibration CI tests)
+- Corpus: 0 → 5 fixed cases
+
 ---
 
-**Sprint 8 Status**: 2/3 COMMITS COMPLETE (8.1 ✅, 8.2 ✅, 8.3 ❌)
+**Sprint 8 Status**: ✅ ALL 3 COMMITS COMPLETE (8.1 ✅, 8.2 ✅, 8.3 ✅)

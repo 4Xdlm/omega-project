@@ -30,12 +30,19 @@
 import { sha256, canonicalize } from '@omega/canon-kernel';
 import type { ForgePacket, SovereignPrompt, PromptSection } from '../types.js';
 import type { SymbolMap } from '../symbol/symbol-map-types.js';
+import { compilePhysicsSection } from '../constraints/constraint-compiler.js';
+import type { ForgeEmotionBrief } from '@omega/omega-forge';
+import { SOVEREIGN_CONFIG } from '../config.js';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // MAIN ASSEMBLER
 // ═══════════════════════════════════════════════════════════════════════════════
 
-export function buildSovereignPrompt(packet: ForgePacket, symbolMap?: SymbolMap): SovereignPrompt {
+export function buildSovereignPrompt(
+  packet: ForgePacket,
+  symbolMap?: SymbolMap,
+  emotionBrief?: ForgeEmotionBrief,
+): SovereignPrompt {
   const sections: PromptSection[] = [
     buildMissionSection(packet),
     buildEmotionContractSection(packet),
@@ -54,6 +61,26 @@ export function buildSovereignPrompt(packet: ForgePacket, symbolMap?: SymbolMap)
   // Add prescriptive sections for RCI + IFI floors
   sections.push(buildRhythmPrescriptionSection(packet));
   sections.push(buildCorporealAnchoringSection(packet));
+
+  // PHYSICS (COMPILED) — inject if ForgeEmotionBrief provided
+  if (emotionBrief) {
+    const physicsConfig = {
+      physics_prompt_budget_tokens: SOVEREIGN_CONFIG.PHYSICS_PROMPT_BUDGET_TOKENS,
+      physics_prompt_tokenizer_id: SOVEREIGN_CONFIG.PHYSICS_PROMPT_TOKENIZER_ID,
+      top_k_emotions: SOVEREIGN_CONFIG.PHYSICS_TOP_K_EMOTIONS,
+      top_k_transitions: SOVEREIGN_CONFIG.PHYSICS_TOP_K_TRANSITIONS,
+      top_k_prescriptions: SOVEREIGN_CONFIG.PHYSICS_TOP_K_PRESCRIPTIONS,
+    };
+
+    const compiled = compilePhysicsSection(emotionBrief, physicsConfig);
+
+    sections.push({
+      section_id: 'physics_compiled',
+      title: 'PHYSICS (COMPILED)',
+      content: compiled.text,
+      priority: 'critical',
+    });
+  }
 
   // Add Symbol Map sections if provided
   if (symbolMap) {

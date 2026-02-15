@@ -18,7 +18,9 @@
     "typecheck": "tsc --noEmit",
     "gate:no-todo": "tsx scripts/gate-no-todo.ts",
     "gate:active": "tsx scripts/gate-active.ts",
-    "gate:all": "npm run gate:no-todo && npm run gate:active",
+    "gate:roadmap": "tsx scripts/gate-roadmap.ts",
+    "gate:roadmap:update": "tsx scripts/gate-roadmap.ts --update",
+    "gate:all": "npm run gate:no-todo && npm run gate:active && npm run gate:roadmap",
     "calibrate": "tsx scripts/run-calibration.ts"
   },
   "dependencies": {

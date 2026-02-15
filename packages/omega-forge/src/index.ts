@@ -39,6 +39,14 @@ export { computeFluxConservation, verifyLaw5 } from './physics/law-5-flux-conser
 export { computeSynthesisMass, checkSynthesis, detectSynthesis, verifyLaw6 } from './physics/law-6-synthesis.js';
 export { analyzeEmotionFromText, buildPrescribedTrajectory, buildScenePrescribedTrajectory, buildActualTrajectory, computeDeviations } from './physics/trajectory-analyzer.js';
 
+// Emotion Brief
+export { computeForgeEmotionBrief } from './physics/emotion-brief.js';
+export type {
+  ForgeEmotionBrief, BriefParams, QuartileTarget,
+  EmotionPhysicsProfile, TransitionConstraint, ForbiddenTransition,
+  DecayExpectation, BlendZone, EnergyBudget,
+} from './physics/emotion-brief-types.js';
+
 // Quality
 export { computeM1, computeM2 } from './quality/canon-compliance.js';
 export { computeM3, computeM4, computeM5 } from './quality/structure-metrics.js';

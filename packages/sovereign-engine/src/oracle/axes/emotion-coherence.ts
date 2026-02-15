@@ -29,7 +29,7 @@ import {
 import type { ForgePacket, AxisScore } from '../../types.js';
 import { SOVEREIGN_CONFIG } from '../../config.js';
 
-export function scoreEmotionCoherence(_packet: ForgePacket, prose: string): AxisScore {
+export function scoreEmotionCoherence(packet: ForgePacket, prose: string): AxisScore {
   const paragraphs = prose.split(/\n\s*\n/).filter((p) => p.trim().length > 0);
 
   if (paragraphs.length < 2) {
@@ -42,7 +42,7 @@ export function scoreEmotionCoherence(_packet: ForgePacket, prose: string): Axis
     };
   }
 
-  const states = paragraphs.map((p) => analyzeEmotionFromText(p));
+  const states = paragraphs.map((p) => analyzeEmotionFromText(p, packet.language));
 
   const distances: number[] = [];
   for (let i = 0; i < states.length - 1; i++) {

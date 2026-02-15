@@ -96,7 +96,7 @@ export async function computeECC(
   let total_bonus = 0;
 
   // a) ENTROPY bonus
-  const entropy_bonus = computeEntropyBonus(prose);
+  const entropy_bonus = computeEntropyBonus(prose, packet);
   bonuses.push(entropy_bonus);
   if (entropy_bonus.triggered) {
     total_bonus += entropy_bonus.value;
@@ -110,7 +110,7 @@ export async function computeECC(
   }
 
   // c) OPEN_LOOP bonus
-  const openloop_bonus = computeOpenLoopBonus(prose);
+  const openloop_bonus = computeOpenLoopBonus(prose, packet);
   bonuses.push(openloop_bonus);
   if (openloop_bonus.triggered) {
     total_bonus += openloop_bonus.value;
@@ -136,7 +136,7 @@ export async function computeECC(
   };
 }
 
-function computeEntropyBonus(prose: string): BonusMalus {
+function computeEntropyBonus(prose: string, packet: ForgePacket): BonusMalus {
   const paragraphs = prose.split(/\n\s*\n/).filter((p) => p.trim().length > 0);
   if (paragraphs.length < 2) {
     return {
@@ -148,7 +148,7 @@ function computeEntropyBonus(prose: string): BonusMalus {
   }
 
   const arousals = paragraphs.map((p) => {
-    const emotion = analyzeEmotionFromText(p);
+    const emotion = analyzeEmotionFromText(p, packet.language);
     // Arousal approximé par la somme des émotions à haute activation
     const high_activation = (emotion.fear || 0) + (emotion.anger || 0) + (emotion.joy || 0) + (emotion.surprise || 0);
     const low_activation = (emotion.sadness || 0) + (emotion.trust || 0) + (emotion.disgust || 0);
@@ -206,7 +206,7 @@ function computeProjectionBonus(interiority_score: number, packet: ForgePacket):
   };
 }
 
-function computeOpenLoopBonus(prose: string): BonusMalus {
+function computeOpenLoopBonus(prose: string, packet: ForgePacket): BonusMalus {
   const paragraphs = prose.split(/\n\s*\n/).filter((p) => p.trim().length > 0);
   if (paragraphs.length < 3) {
     return {
@@ -219,7 +219,7 @@ function computeOpenLoopBonus(prose: string): BonusMalus {
 
   // Analyser les 2 derniers paragraphes
   const lastParagraphs = paragraphs.slice(-2);
-  const lastEmotions = lastParagraphs.map((p) => analyzeEmotionFromText(p));
+  const lastEmotions = lastParagraphs.map((p) => analyzeEmotionFromText(p, packet.language));
 
   const avgArousal =
     lastEmotions.reduce((sum, e) => {

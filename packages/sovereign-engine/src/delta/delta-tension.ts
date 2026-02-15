@@ -19,7 +19,7 @@ import { SOVEREIGN_CONFIG } from '../config.js';
 export function computeTensionDelta(packet: ForgePacket, prose: string): TensionDelta {
   const paragraphs = prose.split(/\n\s*\n/).filter((p) => p.trim().length > 0);
   const arousals = paragraphs.map((p) => {
-    const state = analyzeEmotionFromText(p);
+    const state = analyzeEmotionFromText(p, packet.language);
     return computeArousal(state);
   });
 

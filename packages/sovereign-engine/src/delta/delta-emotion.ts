@@ -49,7 +49,7 @@ export function computeEmotionDelta(packet: ForgePacket, prose: string): Emotion
     const actualText = quartileGroups[i];
 
     // Analyze actual emotion from text
-    const actualState = analyzeEmotionFromText(actualText);
+    const actualState = analyzeEmotionFromText(actualText, packet.language);
 
     // Distance metrics
     const euclidean_distance = euclideanDistance14D(target.target_14d as any, actualState);
@@ -85,7 +85,7 @@ export function computeEmotionDelta(packet: ForgePacket, prose: string): Emotion
 
   // Terminal distance
   const terminalTarget = packet.emotion_contract.terminal_state;
-  const terminalActual = analyzeEmotionFromText(quartileGroups[3]);
+  const terminalActual = analyzeEmotionFromText(quartileGroups[3], packet.language);
   const terminal_distance = euclideanDistance14D(terminalTarget.target_14d as any, terminalActual);
 
   // Rupture detection

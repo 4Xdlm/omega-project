@@ -50,7 +50,7 @@ export function scoreTension14D(packet: ForgePacket, prose: string): AxisScore {
     const endIdx = Math.ceil(endFrac * total);
 
     const quartileText = paragraphs.slice(startIdx, endIdx).join('\n\n');
-    const actualState = analyzeEmotionFromText(quartileText);
+    const actualState = analyzeEmotionFromText(quartileText, packet.language);
     const targetState = packet.emotion_contract.curve_quartiles[i].target_14d;
 
     const similarity = cosineSimilarity14D(targetState as any, actualState as any);
@@ -79,7 +79,7 @@ export function scoreTension14D(packet: ForgePacket, prose: string): AxisScore {
       const startIdx = Math.floor(startFrac * total);
       const endIdx = Math.ceil(endFrac * total);
       const text = paragraphs.slice(startIdx, endIdx).join('\n\n');
-      return analyzeEmotionFromText(text);
+      return analyzeEmotionFromText(text, packet.language);
     });
 
     let maxDist = 0;

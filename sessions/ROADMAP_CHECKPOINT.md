@@ -704,3 +704,90 @@ proofpacks/local/ (REGENERATED — includes corpus in hashes)
 ---
 
 **Sprint 8 Status**: ✅ ALL 3 COMMITS COMPLETE (8.1 ✅, 8.2 ✅, 8.3 ✅)
+
+---
+
+## Sprint 9 — Semantic Cortex v1 (LLM Emotion Analysis)
+
+### Commit 9.1 — Semantic Analyzer Interface + Types
+
+**Date**: 2026-02-16
+**Roadmap Sprint**: ART (Transcendance Artistique) — Sprint 9
+**Status**: ✅ COMPLETE
+
+roadmap_item: ART-SEM-01
+deviation: none
+evidence: src/semantic/ (types.ts, semantic-analyzer.ts) + tests/semantic/ (6 tests SEM-01..06)
+
+**Features Implemented**:
+- Created `SemanticEmotionResult` interface (14D Plutchik emotions, [0, 1])
+- Created `SemanticCacheKey` interface (text_hash, model_id, prompt_hash)
+- Created `SemanticAnalyzerConfig` interface with production defaults
+- Implemented `analyzeEmotionSemantic()` function with full pipeline:
+  1. Prompt construction (FR/EN, negation + irony instructions)
+  2. LLM call via `provider.generateDraft()`
+  3. JSON parsing (strict)
+  4. Validation (14 keys present, numeric)
+  5. Clamping [0, 1], rejection of NaN/Infinity
+  6. Fallback to keyword matching (`analyzeEmotionFromText`) on failure
+- Handles negation correctly (e.g., "pas peur" → fear LOW, not HIGH)
+- Mock provider for deterministic testing
+
+**Files Created**:
+```
+packages/sovereign-engine/src/semantic/types.ts (CREATED — 3 interfaces + defaults)
+packages/sovereign-engine/src/semantic/semantic-analyzer.ts (CREATED — full pipeline)
+packages/sovereign-engine/tests/semantic/semantic-analyzer.test.ts (CREATED — 6 tests)
+```
+
+**Files Modified**:
+```
+sessions/ROADMAP_CHECKPOINT.md (MODIFIED)
+```
+
+**Tests**:
+- SEM-01: Valid 14D structure with all required keys
+- SEM-02: All values clamped [0, 1], no NaN/Infinity
+- SEM-03: Negation golden test ("pas peur" → fear < 0.3)
+- SEM-04: Config handling (respects enabled flag)
+- SEM-05: Calls provider.generateDraft with correct parameters
+- SEM-06: Fallback to keywords when LLM fails
+
+**Invariants Satisfied**:
+- ART-SEM-01: ✅ Returns 14D JSON strict, never NaN/Infinity
+- ART-SEM-04: ✅ Negation resolved correctly (golden test)
+- ART-SEM-05: ✅ Backward compatible (analyzeEmotionFromText still available)
+
+**Checkpoint Hash**: *(to be computed after commit)*
+
+**Compliance**:
+- RULE-ROADMAP-01: ✅ Checkpoint updated
+- RULE-ROADMAP-02: ✅ Structured fields (roadmap_item, deviation, evidence)
+- RULE-DEPS-01: ✅ No new dependencies (uses existing omega-forge)
+- RULE-FALLBACK: ✅ Fallback to keywords on LLM failure
+- RULE-REGRESSION: ✅ No existing tests broken
+
+**Impact**:
+- Tests sovereign: 266 → 272 (+6 semantic analyzer tests)
+- New module: src/semantic/ (types + analyzer)
+- SovereignProvider: UNTOUCHED (uses generateDraft, no interface changes)
+
+**API Signature**:
+```typescript
+analyzeEmotionSemantic(
+  text: string,
+  language: 'fr' | 'en',
+  provider: SovereignProvider,
+  config?: Partial<SemanticAnalyzerConfig>
+): Promise<SemanticEmotionResult>
+```
+
+**Notes**:
+- Production-ready function (not stub)
+- Mock provider for tests (deterministic)
+- Cache layer reserved for commit 9.3
+- Migration to axes (tension_14d, emotion_coherence) reserved for commit 9.5
+
+---
+
+**Sprint 9 Status**: Commit 9.1 ✅ | Remaining: 9.2, 9.3, 9.4, 9.5, 9.6, 9.7

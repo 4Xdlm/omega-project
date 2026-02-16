@@ -39,6 +39,8 @@ import { scoreShowDontTell } from './axes/show-dont-tell.js';
 import { scoreAuthenticityAxis } from './axes/authenticity.js';
 // Sprint 12: metaphor_novelty for SII
 import { scoreMetaphorNoveltyAxis } from './axes/metaphor-novelty.js';
+// Sprint 13: voice_conformity for RCI
+import { scoreVoiceConformity } from './axes/voice-conformity.js';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // TYPES — MACRO AXES
@@ -356,7 +358,11 @@ function buildAAIReasons(sub_scores: readonly AxisScore[]): ScoreReasons {
 /**
  * INV-RCI-HOOKS-01: RCI includes hook verification weight ≥0.15
  */
-export function computeRCI(packet: ForgePacket, prose: string): MacroAxisScore {
+export async function computeRCI(
+  packet: ForgePacket,
+  prose: string,
+  provider?: SovereignProvider
+): Promise<MacroAxisScore> {
   // 1. Sous-composants
   const rhythm = scoreRhythm(packet, prose);
   const signature = scoreSignature(packet, prose);
@@ -371,10 +377,18 @@ export function computeRCI(packet: ForgePacket, prose: string): MacroAxisScore {
     details: `Symbol map hooks verified`,
   };
 
-  const sub_scores = [rhythm, signature, hook_presence];
+  // 3. Sprint 13: Voice Conformity (optionnel, si provider fourni)
+  const sub_scores: AxisScore[] = [rhythm, signature, hook_presence];
+  let voice_conformity: AxisScore | undefined;
 
-  // 3. Fusionner avec poids internes (NEW: rhythm×0.45 + signature×0.35 + hooks×0.20)
-  const rci_raw = rhythm.score * 0.45 + signature.score * 0.35 + hookScore * 0.20;
+  if (provider) {
+    voice_conformity = await scoreVoiceConformity(packet, prose, provider);
+    sub_scores.push(voice_conformity);
+  }
+
+  // 4. Fusionner avec poids automatiques basés sur weights des axes
+  const totalWeight = sub_scores.reduce((sum, s) => sum + s.weight, 0);
+  const rci_raw = sub_scores.reduce((sum, s) => sum + (s.score * s.weight), 0) / totalWeight;
 
   // 4. GARDE-FOU anti-métronomique
   const bonuses: BonusMalus[] = [];

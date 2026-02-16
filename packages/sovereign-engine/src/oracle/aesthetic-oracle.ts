@@ -85,7 +85,7 @@ export async function judgeAestheticV3(
   physicsAudit?: import('./physics-audit.js').PhysicsAuditResult,
 ): Promise<MacroSScore> {
   const ecc = await computeECC(packet, prose, provider, physicsAudit);
-  const rci = computeRCI(packet, prose);
+  const rci = await computeRCI(packet, prose, provider);
   const sii = await computeSII(packet, prose, provider);
   const ifi = await computeIFI(packet, prose, provider);
   const aai = await computeAAI(packet, prose, provider);

@@ -163,6 +163,7 @@ export interface StyleProfile {
     readonly density_target_per_100_words: number;
     readonly banned_metaphors: readonly string[];
   };
+  readonly voice?: import('./voice/voice-genome.js').VoiceGenome;
 }
 
 export interface KillLists {

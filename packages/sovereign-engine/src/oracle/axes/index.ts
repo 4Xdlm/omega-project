@@ -16,3 +16,4 @@ export { scoreMetaphorNoveltyAxis } from './metaphor-novelty.js';
 export { scoreSensoryDensity } from './sensory-density.js';
 export { scoreShowDontTell } from './show-dont-tell.js';
 export { scoreAuthenticityAxis } from './authenticity.js';
+export { scoreVoiceConformity } from './voice-conformity.js';

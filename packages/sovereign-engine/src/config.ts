@@ -212,6 +212,15 @@ export const SOVEREIGN_CONFIG = {
    */
   PRESCRIPTIONS_TOP_K: 5,
 
+  /**
+   * Semantic Cortex — LLM-based emotion analysis for tension_14d + emotion_coherence.
+   * Sprint 9 — Commit 9.5 (Migration tension_14d + emotion_coherence).
+   * DEFAULT: true (replaces keyword-based with semantic analysis).
+   * If false → fallback to analyzeEmotionFromText (keywords).
+   * Requires SovereignProvider for LLM calls.
+   */
+  SEMANTIC_CORTEX_ENABLED: true,
+
   // ═══════════════════════════════════════════════════════════════════════════════
   // RHYTHM — MUSICAL ENGINE
   // ═══════════════════════════════════════════════════════════════════════════════

@@ -40,11 +40,11 @@ export async function judgeAesthetic(
   prose: string,
   provider: SovereignProvider,
 ): Promise<SScore> {
-  const tension_14d = scoreTension14D(packet, prose);
+  const tension_14d = await scoreTension14D(packet, prose, provider);
   const anti_cliche = scoreAntiCliche(packet, prose);
   const rhythm = scoreRhythm(packet, prose);
   const signature = scoreSignature(packet, prose);
-  const emotion_coherence = scoreEmotionCoherence(packet, prose);
+  const emotion_coherence = await scoreEmotionCoherence(packet, prose, provider);
 
   const interiority = await scoreInteriority(packet, prose, provider);
   const sensory_density = await scoreSensoryDensity(packet, prose, provider);

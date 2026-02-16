@@ -32,10 +32,49 @@ import {
   euclideanDistance14D,
 } from '@omega/omega-forge';
 
-import type { ForgePacket, AxisScore } from '../../types.js';
+import type { ForgePacket, AxisScore, SovereignProvider } from '../../types.js';
 import { SOVEREIGN_CONFIG } from '../../config.js';
+import { analyzeEmotionSemantic } from '../../semantic/semantic-analyzer.js';
+import type { SemanticEmotionResult } from '../../semantic/types.js';
 
-export function scoreTension14D(packet: ForgePacket, prose: string): AxisScore {
+/**
+ * Analyzes emotion using semantic (if enabled + provider) or fallback to keywords.
+ */
+async function analyzeEmotion(
+  text: string,
+  language: 'fr' | 'en',
+  provider?: SovereignProvider,
+): Promise<SemanticEmotionResult> {
+  if (SOVEREIGN_CONFIG.SEMANTIC_CORTEX_ENABLED && provider) {
+    // Use semantic LLM-based analysis
+    return await analyzeEmotionSemantic(text, language, provider);
+  }
+  // Fallback to keyword-based analysis
+  const keywordResult = analyzeEmotionFromText(text, language);
+  // Convert to SemanticEmotionResult (same structure)
+  return {
+    joy: keywordResult.joy,
+    trust: keywordResult.trust,
+    fear: keywordResult.fear,
+    surprise: keywordResult.surprise,
+    sadness: keywordResult.sadness,
+    disgust: keywordResult.disgust,
+    anger: keywordResult.anger,
+    anticipation: keywordResult.anticipation,
+    love: keywordResult.love,
+    submission: keywordResult.submission,
+    awe: keywordResult.awe,
+    disapproval: keywordResult.disapproval,
+    remorse: keywordResult.remorse,
+    contempt: keywordResult.contempt,
+  };
+}
+
+export async function scoreTension14D(
+  packet: ForgePacket,
+  prose: string,
+  provider?: SovereignProvider,
+): Promise<AxisScore> {
   const paragraphs = prose.split(/\n\s*\n/).filter((p) => p.trim().length > 0);
   const total = paragraphs.length;
 
@@ -50,7 +89,7 @@ export function scoreTension14D(packet: ForgePacket, prose: string): AxisScore {
     const endIdx = Math.ceil(endFrac * total);
 
     const quartileText = paragraphs.slice(startIdx, endIdx).join('\n\n');
-    const actualState = analyzeEmotionFromText(quartileText, packet.language);
+    const actualState = await analyzeEmotion(quartileText, packet.language, provider);
     const targetState = packet.emotion_contract.curve_quartiles[i].target_14d;
 
     const similarity = cosineSimilarity14D(targetState as any, actualState as any);
@@ -74,13 +113,15 @@ export function scoreTension14D(packet: ForgePacket, prose: string): AxisScore {
   }
 
   if (packet.emotion_contract.rupture.exists) {
-    const actualStates = quartiles.map((q, _idx) => {
-      const [startFrac, endFrac] = bounds[q];
-      const startIdx = Math.floor(startFrac * total);
-      const endIdx = Math.ceil(endFrac * total);
-      const text = paragraphs.slice(startIdx, endIdx).join('\n\n');
-      return analyzeEmotionFromText(text, packet.language);
-    });
+    const actualStates = await Promise.all(
+      quartiles.map(async (q, _idx) => {
+        const [startFrac, endFrac] = bounds[q];
+        const startIdx = Math.floor(startFrac * total);
+        const endIdx = Math.ceil(endFrac * total);
+        const text = paragraphs.slice(startIdx, endIdx).join('\n\n');
+        return await analyzeEmotion(text, packet.language, provider);
+      }),
+    );
 
     let maxDist = 0;
     let ruptureIdx = -1;

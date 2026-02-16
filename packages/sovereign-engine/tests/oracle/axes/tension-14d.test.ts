@@ -74,7 +74,7 @@ const mockPacket: Partial<ForgePacket> = {
 } as ForgePacket;
 
 describe('scoreTension14D', () => {
-  it('texte avec émotion montante conforme → score élevé (>70)', () => {
+  it('texte avec émotion montante conforme → score élevé (>70)', async () => {
     const textRising = `La peur s'insinuait dans chaque recoin de son esprit.
 
 Elle savait qu'ils approchaient. Son cœur cognait contre ses côtes.
@@ -83,7 +83,7 @@ La terreur pure la submergeait maintenant. Impossible de fuir.
 
 Puis ce fut le vide. La tristesse froide. L'acceptation.`;
 
-    const result = scoreTension14D(mockPacket as ForgePacket, textRising);
+    const result = await scoreTension14D(mockPacket as ForgePacket, textRising);
 
     expect(result.name).toBe('tension_14d');
     expect(result.score).toBeGreaterThanOrEqual(0); // Complex 14D matching varies with text length
@@ -91,7 +91,7 @@ Puis ce fut le vide. La tristesse froide. L'acceptation.`;
     expect(result.method).toBe('CALC');
   });
 
-  it('texte plat (même émotion partout) → score bas (<50)', () => {
+  it('texte plat (même émotion partout) → score bas (<50)', async () => {
     const textFlat = `Elle était triste.
 
 La tristesse l'envahissait.
@@ -100,12 +100,12 @@ Encore plus de tristesse.
 
 Toujours triste.`;
 
-    const result = scoreTension14D(mockPacket as ForgePacket, textFlat);
+    const result = await scoreTension14D(mockPacket as ForgePacket, textFlat);
 
     expect(result.score).toBeLessThan(50);
   });
 
-  it('DÉTERMINISME — même texte + même packet = même score (3 appels)', () => {
+  it('DÉTERMINISME — même texte + même packet = même score (3 appels)', async () => {
     const text = `La peur montait.
 
 L'angoisse culminait.
@@ -114,17 +114,17 @@ Le calme revenait.
 
 La tristesse demeurait.`;
 
-    const score1 = scoreTension14D(mockPacket as ForgePacket, text);
-    const score2 = scoreTension14D(mockPacket as ForgePacket, text);
-    const score3 = scoreTension14D(mockPacket as ForgePacket, text);
+    const score1 = await scoreTension14D(mockPacket as ForgePacket, text);
+    const score2 = await scoreTension14D(mockPacket as ForgePacket, text);
+    const score3 = await scoreTension14D(mockPacket as ForgePacket, text);
 
     expect(score1.score).toBe(score2.score);
     expect(score2.score).toBe(score3.score);
     expect(score1.details).toBe(score2.details);
   });
 
-  it('texte vide → score bas', () => {
-    const result = scoreTension14D(mockPacket as ForgePacket, '');
+  it('texte vide → score bas', async () => {
+    const result = await scoreTension14D(mockPacket as ForgePacket, '');
 
     expect(result.score).toBeLessThan(20);
   });

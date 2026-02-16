@@ -26,10 +26,49 @@ import {
   euclideanDistance14D,
 } from '@omega/omega-forge';
 
-import type { ForgePacket, AxisScore } from '../../types.js';
+import type { ForgePacket, AxisScore, SovereignProvider } from '../../types.js';
 import { SOVEREIGN_CONFIG } from '../../config.js';
+import { analyzeEmotionSemantic } from '../../semantic/semantic-analyzer.js';
+import type { SemanticEmotionResult } from '../../semantic/types.js';
 
-export function scoreEmotionCoherence(packet: ForgePacket, prose: string): AxisScore {
+/**
+ * Analyzes emotion using semantic (if enabled + provider) or fallback to keywords.
+ */
+async function analyzeEmotion(
+  text: string,
+  language: 'fr' | 'en',
+  provider?: SovereignProvider,
+): Promise<SemanticEmotionResult> {
+  if (SOVEREIGN_CONFIG.SEMANTIC_CORTEX_ENABLED && provider) {
+    // Use semantic LLM-based analysis
+    return await analyzeEmotionSemantic(text, language, provider);
+  }
+  // Fallback to keyword-based analysis
+  const keywordResult = analyzeEmotionFromText(text, language);
+  // Convert to SemanticEmotionResult (same structure)
+  return {
+    joy: keywordResult.joy,
+    trust: keywordResult.trust,
+    fear: keywordResult.fear,
+    surprise: keywordResult.surprise,
+    sadness: keywordResult.sadness,
+    disgust: keywordResult.disgust,
+    anger: keywordResult.anger,
+    anticipation: keywordResult.anticipation,
+    love: keywordResult.love,
+    submission: keywordResult.submission,
+    awe: keywordResult.awe,
+    disapproval: keywordResult.disapproval,
+    remorse: keywordResult.remorse,
+    contempt: keywordResult.contempt,
+  };
+}
+
+export async function scoreEmotionCoherence(
+  packet: ForgePacket,
+  prose: string,
+  provider?: SovereignProvider,
+): Promise<AxisScore> {
   const paragraphs = prose.split(/\n\s*\n/).filter((p) => p.trim().length > 0);
 
   if (paragraphs.length < 2) {
@@ -42,7 +81,9 @@ export function scoreEmotionCoherence(packet: ForgePacket, prose: string): AxisS
     };
   }
 
-  const states = paragraphs.map((p) => analyzeEmotionFromText(p, packet.language));
+  const states = await Promise.all(
+    paragraphs.map((p) => analyzeEmotion(p, packet.language, provider)),
+  );
 
   const distances: number[] = [];
   for (let i = 0; i < states.length - 1; i++) {

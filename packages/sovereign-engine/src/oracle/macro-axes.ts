@@ -79,8 +79,8 @@ export async function computeECC(
   physicsAudit?: PhysicsAuditResult,
 ): Promise<MacroAxisScore> {
   // 1. Appeler les sous-composants (4 originaux + physics_compliance)
-  const tension_14d = scoreTension14D(packet, prose);
-  const emotion_coherence = scoreEmotionCoherence(packet, prose);
+  const tension_14d = await scoreTension14D(packet, prose, provider);
+  const emotion_coherence = await scoreEmotionCoherence(packet, prose, provider);
   const interiority = await scoreInteriority(packet, prose, provider);
   const impact = await scoreImpact(packet, prose, provider);
   const physics_compliance = scorePhysicsCompliance(physicsAudit); // Sprint 3.4 — informatif (weight=0)

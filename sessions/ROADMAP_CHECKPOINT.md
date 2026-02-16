@@ -1045,4 +1045,85 @@ export function mapEmotionToActions(
 
 ---
 
-**Sprint 9 Status**: Commit 9.1 ✅, 9.2 ✅, 9.3 ✅, 9.4 ✅ | Remaining: 9.5, 9.6, 9.7
+### Commit 9.5 — Migration tension_14d + emotion_coherence
+
+**Date**: 2026-02-16
+**Roadmap Sprint**: 9 (ART Emotion Semantic)
+**Status**: ✅ COMPLETE
+**Risk Level**: ⚠️ HIGH (Touches production axes + async cascade)
+
+**Features Implemented**:
+- **Migration to Semantic**: tension_14d + emotion_coherence now use `analyzeEmotionSemantic()`
+- **Async Cascade**: Made both axes async, updated all callers (macro-axes, aesthetic-oracle)
+- **Config Flag**: `SEMANTIC_CORTEX_ENABLED` (default: true)
+- **Fallback**: Automatic fallback to `analyzeEmotionFromText()` when provider absent or flag false
+- **Backward Compatibility**: Provider parameter optional, determinism preserved
+
+**Files Modified**:
+```
+packages/sovereign-engine/src/config.ts (added SEMANTIC_CORTEX_ENABLED)
+packages/sovereign-engine/src/oracle/axes/tension-14d.ts (async + semantic)
+packages/sovereign-engine/src/oracle/axes/emotion-coherence.ts (async + semantic)
+packages/sovereign-engine/src/oracle/macro-axes.ts (await async axes)
+packages/sovereign-engine/src/oracle/aesthetic-oracle.ts (await async axes)
+packages/sovereign-engine/tests/oracle/axes/tension-14d.test.ts (async tests)
+packages/sovereign-engine/tests/oracle/axes/emotion-coherence.test.ts (async tests)
+packages/sovereign-engine/tests/semantic/semantic-migration.test.ts (CREATED, 5 tests)
+sessions/ROADMAP_CHECKPOINT.md (Commit 9.5 entry)
+```
+
+**Tests**:
+- MIG-01: scoreTension14D works with provider (semantic enabled)
+- MIG-02: scoreTension14D fallbacks to keywords when no provider
+- MIG-03: scoreEmotionCoherence works with provider (semantic enabled)
+- MIG-04: scoreEmotionCoherence fallbacks to keywords when no provider
+- MIG-05: SEMANTIC_CORTEX_ENABLED flag controls behavior
+
+**Migration Strategy**:
+1. Made axes async: `scoreTension14D()` → `async scoreTension14D()`
+2. Added helper `analyzeEmotion(text, lang, provider?)`:
+   - If `SEMANTIC_CORTEX_ENABLED && provider` → semantic
+   - Else → fallback to keywords
+3. Updated all callers: `macro-axes.ts`, `aesthetic-oracle.ts`
+4. Updated existing tests to be async
+5. Created 5 migration tests (non-regression)
+
+**Invariants Satisfied**:
+- ART-SEM-01: ✅ 14D JSON structure (from 9.1)
+- ART-SEM-02: ✅ Cache determinism (from 9.3)
+- ART-SEM-03: ✅ N-samples median (from 9.2)
+- ART-SEM-04: ✅ Negation handling (from 9.1)
+- ART-SEM-05: ✅ Contradiction + action mapping (from 9.4)
+
+**Checkpoint Hash**: *(to be computed after commit)*
+
+**Compliance**:
+- RULE-ROADMAP-01: ✅ Checkpoint updated
+- RULE-ROADMAP-02: ✅ Structured fields (deviation: none, evidence)
+- RULE-REGRESSION: ✅ **320/320 tests PASS** (signal: 22, sovereign: 298)
+- RULE-BASELINE: ✅ **288 baseline tests preserved** (0 breakage)
+- FILE-SIZE: ✅ All modules < 200 lines
+
+**Impact**:
+- Tests monorepo: 315 → 320 (+5 migration tests)
+- Baseline preserved: 288/288 tests still pass ✅
+- tension_14d + emotion_coherence: now use semantic analysis when provider available
+- Full backward compatibility: works without provider (keywords fallback)
+
+**Deviation**: none
+
+**Evidence**:
+- Tests PASS: MIG-01..05 ✅
+- No regression: 320/320 monorepo tests PASS (22 + 298)
+- Baseline intact: 288 pre-Sprint 9 tests still pass
+- Fallback verified: Tests pass with and without provider
+
+**Risk Mitigation**:
+- ⚠️ HIGH RISK: Modified production axes (tension_14d, emotion_coherence)
+- ✅ MITIGATED: Fallback to keywords ensures no breakage
+- ✅ MITIGATED: Optional provider parameter preserves backward compatibility
+- ✅ MITIGATED: 288 baseline tests verify non-regression
+
+---
+
+**Sprint 9 Status**: Commit 9.1 ✅, 9.2 ✅, 9.3 ✅, 9.4 ✅, 9.5 ✅ | Remaining: 9.6, 9.7

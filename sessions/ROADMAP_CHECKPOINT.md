@@ -872,4 +872,92 @@ generateStructuredJSON(prompt: string): Promise<unknown>
 
 ---
 
-**Sprint 9 Status**: Commit 9.1 ✅, 9.2 ✅ | Remaining: 9.3, 9.4, 9.5, 9.6, 9.7
+### Commit 9.3 — Semantic Cache Layer
+
+**Date**: 2026-02-16
+**Roadmap Sprint**: 9 (ART Emotion Semantic)
+**Status**: ✅ COMPLETE
+
+**Features Implemented**:
+- Created `SemanticCache` class with TTL-based expiration (default: 1 hour)
+- Cache key: SHA-256 of (text_hash + model_id + prompt_hash) — deterministic
+- Global singleton cache in `semantic-analyzer.ts`
+- Cache hit → early return (no LLM call)
+- Cache statistics tracking (hits, misses, size)
+- Exported `getCacheStats()` and `clearCache()` for monitoring/testing
+
+**Files Modified**:
+```
+packages/sovereign-engine/src/semantic/semantic-cache.ts (CREATED — 147 lines)
+packages/sovereign-engine/src/semantic/semantic-analyzer.ts (MODIFIED — 180 lines)
+packages/sovereign-engine/tests/semantic/semantic-cache.test.ts (CREATED — 171 lines)
+packages/sovereign-engine/tests/semantic/semantic-analyzer.test.ts (MODIFIED — cache clearing in beforeEach)
+sessions/ROADMAP_CHECKPOINT.md (MODIFIED)
+```
+
+**Tests**:
+- CACHE-01: Cache miss returns null and increments miss counter
+- CACHE-02: Cache hit returns stored result and increments hit counter
+- CACHE-03: Same inputs produce same cache key (determinism)
+- CACHE-04: Expired entries return null (TTL enforcement)
+- CACHE-05: clear() resets cache and statistics
+
+**Cache Pipeline Integration**:
+1. Build prompt and compute prompt_hash (SHA-256)
+2. If cache_enabled: compute cache key, check cache → return if hit
+3. Call provider.generateStructuredJSON() N times
+4. Aggregate samples (median per dimension)
+5. If cache_enabled: store result in cache
+6. Return result
+
+**Invariants Satisfied**:
+- ART-SEM-01: ✅ Returns 14D JSON strict (cached or fresh)
+- ART-SEM-02: ✅ Cache hit → same (text_hash, model_id, prompt_hash) → same result
+- ART-SEM-03: ✅ N-samples median (from 9.2)
+- ART-SEM-04: ✅ Negation resolved (from 9.1)
+
+**Checkpoint Hash**: *(to be computed after commit)*
+
+**Compliance**:
+- RULE-ROADMAP-01: ✅ Checkpoint updated
+- RULE-ROADMAP-02: ✅ Structured fields (roadmap_item, deviation, evidence)
+- RULE-DEPS-01: ✅ No new dependencies (uses canon-kernel sha256)
+- RULE-REGRESSION: ✅ No existing tests broken (282/282 PASS)
+- FILE-SIZE: ✅ All modules < 200 lines
+
+**Impact**:
+- Tests sovereign: 277 → 282 (+5 new CACHE-01..05)
+- Memory management: In-memory cache with TTL, no LRU eviction (manual clear() required)
+- Performance: Cache hit avoids LLM calls (significant latency reduction)
+
+**API Changes**:
+```typescript
+// NEW export in semantic-analyzer.ts
+export function getCacheStats(): CacheStats
+export function clearCache(): void
+
+// NEW class in semantic-cache.ts
+class SemanticCache {
+  constructor(ttlSeconds: number = 3600)
+  computeCacheKey(text: string, modelId: string, promptHash: string): string
+  get(key: string): SemanticEmotionResult | null
+  set(key: string, result: SemanticEmotionResult): void
+  clear(): void
+  stats(): CacheStats
+}
+```
+
+**Bug Fixes**:
+- Fixed incorrect import: `sha256` was imported from `@omega/omega-forge` instead of `@omega/canon-kernel` (omega-forge doesn't export sha256)
+- Added `clearCache()` in test `beforeEach()` to prevent cache interference between tests
+- Created separate provider instances per test to avoid shared state issues
+
+**Notes**:
+- Cache enabled by default (DEFAULT_SEMANTIC_CONFIG.cache_enabled: true)
+- Tests use cache_enabled: false to ensure deterministic provider mocking
+- Cache key includes prompt_hash to invalidate cache when prompt template changes
+- Global singleton pattern ensures cache persistence across multiple analyzer calls
+
+---
+
+**Sprint 9 Status**: Commit 9.1 ✅, 9.2 ✅, 9.3 ✅ | Remaining: 9.4, 9.5, 9.6, 9.7

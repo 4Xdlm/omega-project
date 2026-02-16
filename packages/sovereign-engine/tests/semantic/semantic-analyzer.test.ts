@@ -14,8 +14,8 @@
  * ═══════════════════════════════════════════════════════════════════════════════
  */
 
-import { describe, it, expect, vi } from 'vitest';
-import { analyzeEmotionSemantic } from '../../src/semantic/semantic-analyzer.js';
+import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { analyzeEmotionSemantic, clearCache } from '../../src/semantic/semantic-analyzer.js';
 import type { SovereignProvider } from '../../src/types.js';
 import type { SemanticEmotionResult } from '../../src/semantic/types.js';
 import { DEFAULT_SEMANTIC_CONFIG } from '../../src/semantic/types.js';
@@ -92,10 +92,14 @@ class FailingMockProvider implements SovereignProvider {
 }
 
 describe('Semantic Emotion Analyzer (ART-SEM-01)', () => {
-  const provider = new MockSemanticProvider();
+  beforeEach(() => {
+    // Clear cache before each test to avoid interference
+    clearCache();
+  });
 
   it('SEM-01: returns valid 14D structure with all required keys', async () => {
-    const result = await analyzeEmotionSemantic('Le soleil brille.', 'fr', provider);
+    const provider = new MockSemanticProvider();
+    const result = await analyzeEmotionSemantic('Le soleil brille.', 'fr', provider, { cache_enabled: false });
 
     // All 14 keys must be present
     expect(result).toHaveProperty('joy');
@@ -131,6 +135,7 @@ describe('Semantic Emotion Analyzer (ART-SEM-01)', () => {
   });
 
   it('SEM-02: all values clamped to [0, 1], no NaN or Infinity', async () => {
+    const provider = new MockSemanticProvider();
     // Mock returns values outside [0, 1] and edge cases
     provider.setMockResponse({
       joy: 1.5,           // Above 1 → should clamp to 1
@@ -149,7 +154,7 @@ describe('Semantic Emotion Analyzer (ART-SEM-01)', () => {
       contempt: 0.99,     // Valid
     });
 
-    const result = await analyzeEmotionSemantic('Test text.', 'en', provider);
+    const result = await analyzeEmotionSemantic('Test text.', 'en', provider, { cache_enabled: false });
 
     // Check clamping
     expect(result.joy).toBe(1.0);         // Clamped from 1.5
@@ -173,6 +178,7 @@ describe('Semantic Emotion Analyzer (ART-SEM-01)', () => {
   });
 
   it('SEM-03: negation golden test — "pas peur" → fear LOW (< 0.3)', async () => {
+    const provider = new MockSemanticProvider();
     // Mock LLM correctly resolves negation
     provider.setMockResponse({
       joy: 0.1,
@@ -194,7 +200,8 @@ describe('Semantic Emotion Analyzer (ART-SEM-01)', () => {
     const result = await analyzeEmotionSemantic(
       "Il n'avait pas peur, il savait ce qu'il faisait.",
       'fr',
-      provider
+      provider,
+      { cache_enabled: false }
     );
 
     // ART-SEM-04: Negation correctly resolved → fear should be LOW
@@ -202,6 +209,7 @@ describe('Semantic Emotion Analyzer (ART-SEM-01)', () => {
   });
 
   it('SEM-04: mixed emotions golden — "souriait malgré tristesse" → joy AND sadness > 0.3', async () => {
+    const provider = new MockSemanticProvider();
     // Mock LLM correctly detects BOTH joy and sadness simultaneously
     provider.setMockResponse({
       joy: 0.45,          // MEDIUM joy (smiling)
@@ -223,7 +231,8 @@ describe('Semantic Emotion Analyzer (ART-SEM-01)', () => {
     const result = await analyzeEmotionSemantic(
       "Elle souriait malgré sa tristesse, comme si rien n'était.",
       'fr',
-      provider
+      provider,
+      { cache_enabled: false }
     );
 
     // ART-SEM-04: Mixed emotions correctly detected (contradiction)
@@ -232,6 +241,7 @@ describe('Semantic Emotion Analyzer (ART-SEM-01)', () => {
   });
 
   it('SEM-04b: config handling — respects enabled flag (BONUS)', async () => {
+    const provider = new MockSemanticProvider();
     const result = await analyzeEmotionSemantic(
       'The shadow loomed with dread and terror.',
       'en',
@@ -259,7 +269,7 @@ describe('Semantic Emotion Analyzer (ART-SEM-01)', () => {
     }
 
     const spyProvider = new SpyProvider();
-    await analyzeEmotionSemantic('Test text.', 'en', spyProvider);
+    await analyzeEmotionSemantic('Test text.', 'en', spyProvider, { cache_enabled: false });
 
     // Verify provider.generateStructuredJSON was called
     expect(capturedPrompt).toContain('Analyze emotions');
@@ -275,7 +285,7 @@ describe('Semantic Emotion Analyzer (ART-SEM-01)', () => {
       'The dark shadow filled him with dread and terror.',
       'en',
       failingProvider,
-      { fallback_to_keywords: true }
+      { fallback_to_keywords: true, cache_enabled: false }
     );
 
     // Result should still be valid (from keyword fallback)
@@ -302,7 +312,7 @@ describe('Semantic Emotion Analyzer (ART-SEM-01)', () => {
     }
 
     const multiProvider = new MultiSampleProvider();
-    const result = await analyzeEmotionSemantic('Test.', 'en', multiProvider, { n_samples: 3 });
+    const result = await analyzeEmotionSemantic('Test.', 'en', multiProvider, { n_samples: 3, cache_enabled: false });
 
     // Verify N calls made
     expect(callCount).toBe(3);
@@ -335,6 +345,7 @@ describe('Semantic Emotion Analyzer (ART-SEM-01)', () => {
     await analyzeEmotionSemantic('Test.', 'en', highVarianceProvider, {
       n_samples: 3,
       variance_tolerance: 5.0, // Low tolerance to trigger warning
+      cache_enabled: false,
     });
 
     // Verify warning was issued (joy variance should exceed 5%)
@@ -357,15 +368,16 @@ describe('Semantic Emotion Analyzer (ART-SEM-01)', () => {
     }
 
     const typeProvider = new TypeCheckProvider();
-    await analyzeEmotionSemantic('Test.', 'en', typeProvider);
+    await analyzeEmotionSemantic('Test.', 'en', typeProvider, { cache_enabled: false });
 
     // generateStructuredJSON should return object, not string
     expect(receivedType).toBe('object');
   });
 
   it('SEM-10: determinism — n_samples=1 always returns same result for same input', async () => {
-    const result1 = await analyzeEmotionSemantic('Fixed text.', 'en', provider, { n_samples: 1 });
-    const result2 = await analyzeEmotionSemantic('Fixed text.', 'en', provider, { n_samples: 1 });
+    const provider = new MockSemanticProvider();
+    const result1 = await analyzeEmotionSemantic('Fixed text.', 'en', provider, { n_samples: 1, cache_enabled: false });
+    const result2 = await analyzeEmotionSemantic('Fixed text.', 'en', provider, { n_samples: 1, cache_enabled: false });
 
     // Same input → same output (mock provider deterministic)
     expect(result1.joy).toBe(result2.joy);

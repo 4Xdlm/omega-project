@@ -94,3 +94,30 @@ export const DEFAULT_SEMANTIC_CONFIG: SemanticAnalyzerConfig = {
   variance_tolerance: 5.0,
   min_improvement_threshold: 2.0,
 };
+
+/**
+ * Emotion contradiction detected in semantic analysis.
+ * Occurs when 2+ emotions exceed threshold simultaneously.
+ *
+ * @remarks
+ * Used by emotion-contradiction.ts to detect conflicting emotional states.
+ * Threshold default: 0.4 (40% intensity).
+ */
+export interface EmotionContradiction {
+  readonly emotions: ReadonlyArray<keyof SemanticEmotionResult>;
+  readonly intensities: readonly number[];
+  readonly instruction_fr: string;
+}
+
+/**
+ * Action mapping from emotion to physical manifestations.
+ * Maps semantic emotion results to concrete behavioral descriptors.
+ *
+ * @remarks
+ * Used by emotion-to-action.ts to suggest "show don't tell" actions.
+ */
+export interface ActionMapping {
+  readonly emotion: keyof SemanticEmotionResult;
+  readonly intensity: number;
+  readonly actions: readonly string[];
+}

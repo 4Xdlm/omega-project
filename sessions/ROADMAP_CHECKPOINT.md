@@ -960,4 +960,89 @@ class SemanticCache {
 
 ---
 
-**Sprint 9 Status**: Commit 9.1 ✅, 9.2 ✅, 9.3 ✅ | Remaining: 9.4, 9.5, 9.6, 9.7
+### Commit 9.4 — Emotion Contradiction + Action Mapping
+
+**Date**: 2026-02-16
+**Roadmap Sprint**: 9 (ART Emotion Semantic)
+**Status**: ✅ COMPLETE
+
+**Features Implemented**:
+- **Emotion Contradiction Detection**: Identifies 2+ emotions > threshold (default: 0.4)
+- **Action Mapping**: Maps 14 Plutchik emotions to concrete French physical actions
+- Pairwise contradiction generation with French instructions
+- "Show don't tell" action descriptors (6+ per emotion)
+
+**Files Created**:
+```
+packages/sovereign-engine/src/semantic/emotion-contradiction.ts (151 lines)
+packages/sovereign-engine/src/semantic/emotion-to-action.ts (195 lines)
+packages/sovereign-engine/tests/semantic/emotion-contradiction.test.ts (159 lines, 5 tests)
+packages/sovereign-engine/tests/semantic/emotion-to-action.test.ts (172 lines, 6 tests)
+```
+
+**Files Modified**:
+```
+packages/sovereign-engine/src/semantic/types.ts (added EmotionContradiction, ActionMapping)
+sessions/ROADMAP_CHECKPOINT.md (Commit 9.4 entry)
+```
+
+**Tests**:
+- CONTRA-01: Detects contradiction when 2+ emotions > 0.4
+- CONTRA-02: No contradiction when emotions < threshold
+- CONTRA-03: Generates correct French instruction
+- CONTRA-04: Detects multiple pairwise contradictions (3+ emotions)
+- CONTRA-05: Respects custom threshold parameter
+- ACTION-01: Maps all 14 emotions to action lists
+- ACTION-02: max_actions limit applied correctly
+- ACTION-03: Returns emotions sorted by intensity descending
+- ACTION-04: Returns correct action descriptors per emotion
+- ACTION-05: Handles edge case (all emotions zero)
+- ACTION-06: Each emotion has 5+ action descriptors
+
+**API Exported**:
+```typescript
+// emotion-contradiction.ts
+export function detectContradictions(
+  result: SemanticEmotionResult,
+  threshold?: number
+): EmotionContradiction[]
+
+// emotion-to-action.ts
+export const EMOTION_ACTION_MAP: Record<keyof SemanticEmotionResult, readonly string[]>
+export function mapEmotionToActions(
+  result: SemanticEmotionResult,
+  max_actions?: number
+): ActionMapping[]
+```
+
+**Invariants Satisfied**:
+- ART-SEM-01: ✅ 14D JSON structure maintained
+- ART-SEM-02: ✅ Cache determinism (from 9.3)
+- ART-SEM-03: ✅ N-samples median (from 9.2)
+- ART-SEM-04: ✅ Negation handling (from 9.1)
+- ART-SEM-05: ✅ Contradiction detection + action mapping
+
+**Checkpoint Hash**: *(to be computed after commit)*
+
+**Compliance**:
+- RULE-ROADMAP-01: ✅ Checkpoint updated
+- RULE-ROADMAP-02: ✅ Structured fields (roadmap_item, deviation: none, evidence)
+- RULE-DEPS-01: ✅ No new dependencies
+- RULE-REGRESSION: ✅ 315/315 tests PASS (signal: 22, sovereign: 293)
+- FILE-SIZE: ✅ All modules < 200 lines
+
+**Impact**:
+- Tests monorepo: 304 → 315 (+11 new tests)
+- Semantic module: Full emotion analysis pipeline with contradiction detection
+- Action mapping: Foundation for "show don't tell" guidance in Polish-V2
+
+**Deviation**: none
+
+**Evidence**:
+- Tests PASS: CONTRA-01..05 ✅, ACTION-01..06 ✅
+- No regression: 315/315 monorepo tests PASS
+- Module size: emotion-contradiction.ts (151 lines), emotion-to-action.ts (195 lines)
+
+---
+
+**Sprint 9 Status**: Commit 9.1 ✅, 9.2 ✅, 9.3 ✅, 9.4 ✅ | Remaining: 9.5, 9.6, 9.7

@@ -391,6 +391,7 @@ export interface SovereignProvider {
   applyPatch(prose: string, pitch: CorrectionPitch, constraints: { readonly canon: readonly string[]; readonly beats: readonly string[] }): Promise<string>;
   generateDraft(prompt: string, mode: string, seed: string): Promise<string>;
   generateStructuredJSON(prompt: string): Promise<unknown>;
+  rewriteSentence(sentence: string, reason: string, context: { readonly prev_sentence: string; readonly next_sentence: string }): Promise<string>;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════

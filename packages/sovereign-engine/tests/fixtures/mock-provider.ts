@@ -93,4 +93,14 @@ export class MockSovereignProvider implements SovereignProvider {
       contempt: 0.5,
     };
   }
+
+  async rewriteSentence(
+    sentence: string,
+    reason: string,
+    _context: { readonly prev_sentence: string; readonly next_sentence: string },
+  ): Promise<string> {
+    // Deterministic mock: prefix with correction marker
+    // Length stays within ±20% (marker is short)
+    return `[CORR:${reason}] ${sentence}`;
+  }
 }

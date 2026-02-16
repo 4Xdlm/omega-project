@@ -19,10 +19,11 @@ const createMockMacroAxis = (name: string, score: number, weight: number): Macro
 describe('computeMacroSScore', () => {
   it('tous macro-axes à 100 → composite 100, SEAL', () => {
     const macroAxes: MacroAxesScores = {
-      ecc: createMockMacroAxis('ecc', 100, 0.60),
-      rci: createMockMacroAxis('rci', 100, 0.15),
+      ecc: createMockMacroAxis('ecc', 100, 0.33),
+      rci: createMockMacroAxis('rci', 100, 0.17),
       sii: createMockMacroAxis('sii', 100, 0.15),
       ifi: createMockMacroAxis('ifi', 100, 0.10),
+      aai: createMockMacroAxis('aai', 100, 0.25),
     };
 
     const result = computeMacroSScore(macroAxes, 'test_scene', 'test_seed');
@@ -34,10 +35,11 @@ describe('computeMacroSScore', () => {
 
   it('tous macro-axes à 0 → composite 0, REJECT', () => {
     const macroAxes: MacroAxesScores = {
-      ecc: createMockMacroAxis('ecc', 0, 0.60),
-      rci: createMockMacroAxis('rci', 0, 0.15),
+      ecc: createMockMacroAxis('ecc', 0, 0.33),
+      rci: createMockMacroAxis('rci', 0, 0.17),
       sii: createMockMacroAxis('sii', 0, 0.15),
       ifi: createMockMacroAxis('ifi', 0, 0.10),
+      aai: createMockMacroAxis('aai', 0, 0.25),
     };
 
     const result = computeMacroSScore(macroAxes, 'test_scene', 'test_seed');
@@ -49,26 +51,28 @@ describe('computeMacroSScore', () => {
 
   it('ECC 60% du composite vérifié', () => {
     const macroAxes: MacroAxesScores = {
-      ecc: createMockMacroAxis('ecc', 100, 0.60),
-      rci: createMockMacroAxis('rci', 0, 0.15),
+      ecc: createMockMacroAxis('ecc', 100, 0.33),
+      rci: createMockMacroAxis('rci', 0, 0.17),
       sii: createMockMacroAxis('sii', 0, 0.15),
       ifi: createMockMacroAxis('ifi', 0, 0.10),
+      aai: createMockMacroAxis('aai', 0, 0.25),
     };
 
     const result = computeMacroSScore(macroAxes, 'test_scene', 'test_seed');
 
-    // composite = 100*0.6 + 0*0.15 + 0*0.15 + 0*0.1 = 60
-    expect(result.composite).toBe(60);
+    // composite = 100*0.33 + 0*0.17 + 0*0.15 + 0*0.1 + 0*0.25 = 33
+    expect(result.composite).toBe(33);
     expect(result.ecc_score).toBe(100);
-    expect(result.emotion_weight_pct).toBe(60);
+    expect(result.emotion_weight_pct).toBe(33);
   });
 
   it('composite 92 + min_axis 85 + ECC 88 → SEAL', () => {
     const macroAxes: MacroAxesScores = {
-      ecc: createMockMacroAxis('ecc', 92, 0.60),
-      rci: createMockMacroAxis('rci', 92, 0.15),
+      ecc: createMockMacroAxis('ecc', 92, 0.33),
+      rci: createMockMacroAxis('rci', 92, 0.17),
       sii: createMockMacroAxis('sii', 92, 0.15),
       ifi: createMockMacroAxis('ifi', 92, 0.10),
+      aai: createMockMacroAxis('aai', 92, 0.25),
     };
 
     const result = computeMacroSScore(macroAxes, 'test_scene', 'test_seed');
@@ -85,10 +89,11 @@ describe('computeMacroSScore', () => {
     // X*0.4 ≥ 39.8
     // X ≥ 99.5
     const macroAxes: MacroAxesScores = {
-      ecc: createMockMacroAxis('ecc', 87, 0.60),
-      rci: createMockMacroAxis('rci', 100, 0.15),
+      ecc: createMockMacroAxis('ecc', 87, 0.33),
+      rci: createMockMacroAxis('rci', 100, 0.17),
       sii: createMockMacroAxis('sii', 100, 0.15),
       ifi: createMockMacroAxis('ifi', 100, 0.10),
+      aai: createMockMacroAxis('aai', 100, 0.25),
     };
 
     const result = computeMacroSScore(macroAxes, 'test_scene', 'test_seed');
@@ -102,10 +107,11 @@ describe('computeMacroSScore', () => {
 
   it('composite 91.9 → PITCH pas SEAL', () => {
     const macroAxes: MacroAxesScores = {
-      ecc: createMockMacroAxis('ecc', 91, 0.60),
-      rci: createMockMacroAxis('rci', 94, 0.15),
+      ecc: createMockMacroAxis('ecc', 91, 0.33),
+      rci: createMockMacroAxis('rci', 94, 0.17),
       sii: createMockMacroAxis('sii', 94, 0.15),
       ifi: createMockMacroAxis('ifi', 94, 0.10),
+      aai: createMockMacroAxis('aai', 94, 0.25),
     };
 
     const result = computeMacroSScore(macroAxes, 'test_scene', 'test_seed');
@@ -119,10 +125,11 @@ describe('computeMacroSScore', () => {
 
   it('composite 84 → REJECT', () => {
     const macroAxes: MacroAxesScores = {
-      ecc: createMockMacroAxis('ecc', 84, 0.60),
-      rci: createMockMacroAxis('rci', 84, 0.15),
+      ecc: createMockMacroAxis('ecc', 84, 0.33),
+      rci: createMockMacroAxis('rci', 84, 0.17),
       sii: createMockMacroAxis('sii', 84, 0.15),
       ifi: createMockMacroAxis('ifi', 84, 0.10),
+      aai: createMockMacroAxis('aai', 84, 0.25),
     };
 
     const result = computeMacroSScore(macroAxes, 'test_scene', 'test_seed');
@@ -133,10 +140,11 @@ describe('computeMacroSScore', () => {
 
   it('min_axis 74 → PITCH même si composite 90', () => {
     const macroAxes: MacroAxesScores = {
-      ecc: createMockMacroAxis('ecc', 95, 0.60),
-      rci: createMockMacroAxis('rci', 74, 0.15), // min_axis = 74
+      ecc: createMockMacroAxis('ecc', 95, 0.33),
+      rci: createMockMacroAxis('rci', 74, 0.17), // min_axis = 74
       sii: createMockMacroAxis('sii', 90, 0.15),
       ifi: createMockMacroAxis('ifi', 90, 0.10),
+      aai: createMockMacroAxis('aai', 90, 0.25),
     };
 
     const result = computeMacroSScore(macroAxes, 'test_scene', 'test_seed');
@@ -146,27 +154,29 @@ describe('computeMacroSScore', () => {
     expect(result.verdict).toBe('REJECT');
   });
 
-  it('ZONE YELLOW: composite 87, min_axis 76, ECC 89 → PITCH', () => {
+  it('ZONE YELLOW: composite 86, min_axis 76, ECC 90 → PITCH', () => {
     const macroAxes: MacroAxesScores = {
-      ecc: createMockMacroAxis('ecc', 89, 0.60),
-      rci: createMockMacroAxis('rci', 85, 0.15),
+      ecc: createMockMacroAxis('ecc', 90, 0.33),
+      rci: createMockMacroAxis('rci', 86, 0.17),
       sii: createMockMacroAxis('sii', 76, 0.15), // min_axis
-      ifi: createMockMacroAxis('ifi', 85, 0.10),
+      ifi: createMockMacroAxis('ifi', 86, 0.10),
+      aai: createMockMacroAxis('aai', 88, 0.25),
     };
 
     const result = computeMacroSScore(macroAxes, 'test_scene', 'test_seed');
 
-    // composite = 89*0.6 + 85*0.15 + 76*0.15 + 85*0.1 = 53.4 + 12.75 + 11.4 + 8.5 = 86.05
-    // composite ≥ 85, min_axis ≥ 75, mais ECC < 88 ou composite < 92 → PITCH
+    // composite = 90*0.33 + 86*0.17 + 76*0.15 + 86*0.10 + 88*0.25 = 29.7 + 14.62 + 11.4 + 8.6 + 22 = 86.32
+    // composite ≥ 85, min_axis ≥ 75, mais composite < 92 → PITCH
     expect(result.verdict).toBe('PITCH');
   });
 
   it('DÉTERMINISME — mêmes axes = même score', () => {
     const macroAxes: MacroAxesScores = {
-      ecc: createMockMacroAxis('ecc', 92, 0.60),
-      rci: createMockMacroAxis('rci', 88, 0.15),
+      ecc: createMockMacroAxis('ecc', 92, 0.33),
+      rci: createMockMacroAxis('rci', 88, 0.17),
       sii: createMockMacroAxis('sii', 90, 0.15),
       ifi: createMockMacroAxis('ifi', 85, 0.10),
+      aai: createMockMacroAxis('aai', 90, 0.25),
     };
 
     const score1 = computeMacroSScore(macroAxes, 'test_scene', 'seed1');

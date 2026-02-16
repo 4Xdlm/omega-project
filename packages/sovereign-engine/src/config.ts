@@ -381,18 +381,20 @@ export const SOVEREIGN_CONFIG = {
   } as const,
 
   // ═══════════════════════════════════════════════════════════════════════════════
-  // MACRO-AXES v3 — CONSOLIDATION 9→4
+  // MACRO-AXES v3.1 — CONSOLIDATION 9→5 (Sprint 11: +AAI)
   // ═══════════════════════════════════════════════════════════════════════════════
 
   MACRO_WEIGHTS: {
-    ecc: 0.60, // Emotional Control Core
-    rci: 0.15, // Rhythmic Control Index
-    sii: 0.15, // Signature Integrity Index
-    ifi: 0.10, // Immersion Force Index
+    ecc: 0.33, // Emotional Control Core (ajusté depuis 0.60)
+    rci: 0.17, // Rhythmic Control Index (ajusté depuis 0.15)
+    sii: 0.15, // Signature Integrity Index (inchangé)
+    ifi: 0.10, // Immersion Force Index (inchangé)
+    aai: 0.25, // Authenticity & Art Index (NOUVEAU Sprint 11)
   } as const,
 
   MACRO_AXIS_FLOOR: 85,
   ECC_FLOOR: 88,
+  AAI_FLOOR: 85, // Sprint 11: Authenticity & Art Index floor
   MACRO_REJECT_BELOW: 85,
 
   ZONES: {

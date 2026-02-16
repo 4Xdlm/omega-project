@@ -52,7 +52,8 @@ describe('SOVEREIGN_CONFIG — MACRO v3', () => {
       SOVEREIGN_CONFIG.MACRO_WEIGHTS.ecc +
       SOVEREIGN_CONFIG.MACRO_WEIGHTS.rci +
       SOVEREIGN_CONFIG.MACRO_WEIGHTS.sii +
-      SOVEREIGN_CONFIG.MACRO_WEIGHTS.ifi;
+      SOVEREIGN_CONFIG.MACRO_WEIGHTS.ifi +
+      SOVEREIGN_CONFIG.MACRO_WEIGHTS.aai; // Sprint 11
     expect(sum).toBe(1.0);
   });
 
@@ -76,8 +77,8 @@ describe('SOVEREIGN_CONFIG — MACRO v3', () => {
     expect(SOVEREIGN_CONFIG.SYMBOL_MAX_REGEN).toBe(2);
   });
 
-  it('MACRO_WEIGHTS.ecc = 0.60 (60% emotion)', () => {
-    expect(SOVEREIGN_CONFIG.MACRO_WEIGHTS.ecc).toBe(0.60);
+  it('MACRO_WEIGHTS.ecc = 0.33 (33% emotion, Sprint 11 adjusted)', () => {
+    expect(SOVEREIGN_CONFIG.MACRO_WEIGHTS.ecc).toBe(0.33);
   });
 
   it('ZONES.GREEN défini correctement', () => {

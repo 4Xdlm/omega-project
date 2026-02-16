@@ -33,7 +33,7 @@ import { scoreNecessity } from './axes/necessity.js';
 import { scoreImpact } from './axes/impact.js';
 
 import { computeSScore, computeMacroSScore, type MacroSScore } from './s-score.js';
-import { computeECC, computeRCI, computeSII, computeIFI, type MacroAxesScores } from './macro-axes.js';
+import { computeECC, computeRCI, computeSII, computeIFI, computeAAI, type MacroAxesScores } from './macro-axes.js';
 
 export async function judgeAesthetic(
   packet: ForgePacket,
@@ -88,8 +88,9 @@ export async function judgeAestheticV3(
   const rci = computeRCI(packet, prose);
   const sii = await computeSII(packet, prose, provider);
   const ifi = await computeIFI(packet, prose, provider);
+  const aai = await computeAAI(packet, prose, provider);
 
-  const macroAxes: MacroAxesScores = { ecc, rci, sii, ifi };
+  const macroAxes: MacroAxesScores = { ecc, rci, sii, ifi, aai };
 
   return computeMacroSScore(macroAxes, packet.scene_id, packet.seeds.llm_seed);
 }

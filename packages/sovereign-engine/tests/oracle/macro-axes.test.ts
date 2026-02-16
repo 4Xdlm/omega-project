@@ -14,7 +14,7 @@ describe('computeRCI', () => {
     expect(result.name).toBe('rci');
     expect(result.score).toBeGreaterThanOrEqual(0);
     expect(result.score).toBeLessThanOrEqual(100);
-    expect(result.weight).toBe(0.15);
+    expect(result.weight).toBe(0.17); // Sprint 11 adjusted
     expect(result.method).toBe('CALC');
   });
 

@@ -34,6 +34,9 @@ import { scoreNecessity } from './axes/necessity.js';
 import { scoreSensoryDensity } from './axes/sensory-density.js';
 import { scorePhysicsCompliance } from './axes/physics-compliance.js';
 import type { PhysicsAuditResult } from './physics-audit.js';
+// Sprint 11: New axes for AAI
+import { scoreShowDontTell } from './axes/show-dont-tell.js';
+import { scoreAuthenticityAxis } from './axes/authenticity.js';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // TYPES — MACRO AXES
@@ -62,10 +65,11 @@ export interface ScoreReasons {
 }
 
 export interface MacroAxesScores {
-  readonly ecc: MacroAxisScore; // Emotional Control Core — 60%
-  readonly rci: MacroAxisScore; // Rhythmic Control Index — 15%
+  readonly ecc: MacroAxisScore; // Emotional Control Core — 33%
+  readonly rci: MacroAxisScore; // Rhythmic Control Index — 17%
   readonly sii: MacroAxisScore; // Signature Integrity Index — 15%
   readonly ifi: MacroAxisScore; // Immersion Force Index — 10%
+  readonly aai: MacroAxisScore; // Authenticity & Art Index — 25% (Sprint 11)
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -280,6 +284,66 @@ function buildECCReasons(sub_scores: readonly AxisScore[], bonuses: readonly Bon
   return {
     top_contributors,
     top_penalties: penalties.slice(0, 3),
+  };
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// AAI — AUTHENTICITY & ART INDEX (25%, floor 85) — SPRINT 11
+// ═══════════════════════════════════════════════════════════════════════════════
+
+/**
+ * AAI (Authenticity & Art Index) — Sprint 11
+ * Composition : show_dont_tell × 0.60 + authenticity × 0.40
+ * Poids global : 25%
+ * Plancher : 85
+ *
+ * @param packet - ForgePacket
+ * @param prose - Prose à évaluer
+ * @param provider - SovereignProvider pour LLM adversarial
+ * @returns MacroAxisScore AAI
+ */
+export async function computeAAI(
+  packet: ForgePacket,
+  prose: string,
+  provider: SovereignProvider,
+): Promise<MacroAxisScore> {
+  // 1. Sous-composants
+  const show_dont_tell = await scoreShowDontTell(packet, prose, provider);
+  const authenticity = await scoreAuthenticityAxis(packet, prose, provider);
+
+  const sub_scores = [show_dont_tell, authenticity];
+
+  // 2. Score pondéré (show_dont_tell 60%, authenticity 40%)
+  // Justification: showing (×3.0) > authenticity (×2.0) en poids d'axe
+  const aai_raw = show_dont_tell.score * 0.60 + authenticity.score * 0.40;
+
+  // 3. Score final (clamped [0..100], pas de bonus/malus)
+  const score_final = Math.max(0, Math.min(100, aai_raw));
+
+  // 4. ScoreReasons
+  const reasons = buildAAIReasons(sub_scores);
+
+  return {
+    name: 'aai',
+    score: score_final,
+    weight: SOVEREIGN_CONFIG.MACRO_WEIGHTS.aai,
+    method: 'HYBRID', // CALC + LLM
+    sub_scores,
+    bonuses: [],
+    reasons,
+  };
+}
+
+function buildAAIReasons(sub_scores: readonly AxisScore[]): ScoreReasons {
+  const sorted = [...sub_scores].sort((a, b) => b.score - a.score);
+  const top_contributors = sorted.slice(0, 2).map((s) => `${s.axis_id}=${s.score.toFixed(1)}`);
+
+  const low_scores = [...sub_scores].sort((a, b) => a.score - b.score);
+  const top_penalties = low_scores.slice(0, 2).map((s) => `${s.axis_id}=${s.score.toFixed(1)}`);
+
+  return {
+    top_contributors,
+    top_penalties,
   };
 }
 

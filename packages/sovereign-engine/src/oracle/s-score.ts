@@ -107,18 +107,20 @@ export function computeMacroSScore(
     macroAxes.ecc.score * SOVEREIGN_CONFIG.MACRO_WEIGHTS.ecc +
     macroAxes.rci.score * SOVEREIGN_CONFIG.MACRO_WEIGHTS.rci +
     macroAxes.sii.score * SOVEREIGN_CONFIG.MACRO_WEIGHTS.sii +
-    macroAxes.ifi.score * SOVEREIGN_CONFIG.MACRO_WEIGHTS.ifi;
+    macroAxes.ifi.score * SOVEREIGN_CONFIG.MACRO_WEIGHTS.ifi +
+    macroAxes.aai.score * SOVEREIGN_CONFIG.MACRO_WEIGHTS.aai; // Sprint 11
 
   const min_axis = Math.min(
     macroAxes.ecc.score,
     macroAxes.rci.score,
     macroAxes.sii.score,
     macroAxes.ifi.score,
+    macroAxes.aai.score, // Sprint 11
   );
 
-  // ZONES
+  // ZONES (Sprint 11: +AAI floor check)
   const verdict: 'SEAL' | 'PITCH' | 'REJECT' =
-    composite >= 92 && min_axis >= 85 && macroAxes.ecc.score >= 88
+    composite >= 92 && min_axis >= 85 && macroAxes.ecc.score >= 88 && macroAxes.aai.score >= 85
       ? 'SEAL'
       : composite >= 85 && min_axis >= 75
         ? 'PITCH'

@@ -1,0 +1,148 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90mC:/Users/elric/omega-project/packages/sovereign-engine[39m
+
+ [31m❯[39m tests/config.test.ts [2m([22m[2m18 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[32m 7[2mms[22m[39m
+     [32m✓[39m SOVEREIGN_THRESHOLD = 92 (non-negotiable)[32m 1[2mms[22m[39m
+     [32m✓[39m EMOTION_WEIGHT_PCT = 63.3%[32m 0[2mms[22m[39m
+     [32m✓[39m MAX_CORRECTION_PASSES = 2[32m 0[2mms[22m[39m
+     [32m✓[39m GINI_OPTIMAL = 0.45[32m 0[2mms[22m[39m
+     [32m✓[39m AXIS_FLOOR = 50[32m 0[2mms[22m[39m
+     [32m✓[39m REJECT_BELOW = 60[32m 0[2mms[22m[39m
+     [32m✓[39m poids émotionnels totalisent 9.5 / 15.0[32m 0[2mms[22m[39m
+     [32m✓[39m poids totaux = 15.0[32m 0[2mms[22m[39m
+[31m     [31m×[31m MACRO_WEIGHTS sum = 1.0[39m[32m 3[2mms[22m[39m
+     [32m✓[39m MACRO_AXIS_FLOOR = 85[32m 0[2mms[22m[39m
+     [32m✓[39m ECC_FLOOR = 88[32m 0[2mms[22m[39m
+     [32m✓[39m ECC_MAX_TOTAL_BONUS = 3 (anti-gaming cap)[32m 0[2mms[22m[39m
+     [32m✓[39m CORPOREAL_MARKERS contient 31 éléments (FR PREMIUM)[32m 0[2mms[22m[39m
+     [32m✓[39m SYMBOL_MAX_REGEN = 2[32m 0[2mms[22m[39m
+[31m     [31m×[31m MACRO_WEIGHTS.ecc = 0.60 (60% emotion)[39m[32m 0[2mms[22m[39m
+     [32m✓[39m ZONES.GREEN défini correctement[32m 0[2mms[22m[39m
+     [32m✓[39m ZONES.YELLOW défini correctement[32m 0[2mms[22m[39m
+     [32m✓[39m RCI_PERFECT_PENALTY = -5[32m 0[2mms[22m[39m
+ [32m✓[39m tests/runtime/sha256sums.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 17[2mms[22m[39m
+ [32m✓[39m tests/gates/gate-proofpack.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 10[2mms[22m[39m
+[90mstdout[2m | tests/proofpack/generate-proofpack.test.ts[2m > [22m[2mProofPack Generator (HARDEN-PP-01)[2m > [22m[2mPP-01: generateProofPack creates MANIFEST.json + HASHES.sha256 + EVIDENCE.md
+[22m[39m[proofpack] Generating proof pack in: C:\Users\elric\omega-project\packages\sovereign-engine\tests\proofpack\temp-proofpack-test
+[proofpack] ✅ MANIFEST.json created
+[proofpack] ✅ HASHES.sha256 created
+[proofpack] ✅ EVIDENCE.md created
+[proofpack] ✅ Proof pack complete: C:\Users\elric\omega-project\packages\sovereign-engine\tests\proofpack\temp-proofpack-test
+
+ [32m✓[39m tests/oracle/axes/rhythm-v2.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+ [31m❯[39m tests/oracle/macro-s-score.test.ts [2m([22m[2m10 tests[22m[2m | [22m[31m10 failed[39m[2m)[22m[32m 7[2mms[22m[39m
+[31m     [31m×[31m tous macro-axes à 100 → composite 100, SEAL[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m tous macro-axes à 0 → composite 0, REJECT[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m ECC 60% du composite vérifié[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m composite 92 + min_axis 85 + ECC 88 → SEAL[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m composite 92 + ECC 87 → PITCH (pas SEAL car ECC < 88)[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m composite 91.9 → PITCH pas SEAL[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m composite 84 → REJECT[39m[32m 1[2mms[22m[39m
+[31m     [31m×[31m min_axis 74 → PITCH même si composite 90[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m ZONE YELLOW: composite 87, min_axis 76, ECC 89 → PITCH[39m[32m 0[2mms[22m[39m
+[31m     [31m×[31m DÉTERMINISME — mêmes axes = même score[39m[32m 0[2mms[22m[39m
+[90mstdout[2m | tests/proofpack/generate-proofpack.test.ts[2m > [22m[2mProofPack Generator (HARDEN-PP-01)[2m > [22m[2mPP-02: HASHES.sha256 is sorted lexicographically (paths)
+[22m[39m[proofpack] Generating proof pack in: C:\Users\elric\omega-project\packages\sovereign-engine\tests\proofpack\temp-proofpack-test
+[proofpack] ✅ MANIFEST.json created
+[proofpack] ✅ HASHES.sha256 created
+[proofpack] ✅ EVIDENCE.md created
+[proofpack] ✅ Proof pack complete: C:\Users\elric\omega-project\packages\sovereign-engine\tests\proofpack\temp-proofpack-test
+
+ [32m✓[39m tests/oracle/axes/rhythm.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32m✓[39m tests/runtime/golden-loader.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32m✓[39m tests/input/emotion-brief-bridge.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+[90mstdout[2m | tests/proofpack/generate-proofpack.test.ts[2m > [22m[2mProofPack Generator (HARDEN-PP-01)[2m > [22m[2mPP-03: generation does not modify any file outside outDir
+[22m[39m[proofpack] Generating proof pack in: C:\Users\elric\omega-project\packages\sovereign-engine\tests\proofpack\temp-proofpack-test
+[proofpack] ✅ MANIFEST.json created
+[proofpack] ✅ HASHES.sha256 created
+[proofpack] ✅ EVIDENCE.md created
+[proofpack] ✅ Proof pack complete: C:\Users\elric\omega-project\packages\sovereign-engine\tests\proofpack\temp-proofpack-test
+
+ [32m✓[39m tests/oracle/physics-audit.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 12[2mms[22m[39m
+ [32m✓[39m tests/input/prompt-physics-section.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32m✓[39m tests/proofpack/generate-proofpack.test.ts [2m([22m[2m3 tests[22m[2m)[22m[33m 387[2mms[22m[39m
+[90mstdout[2m | tests/semantic/semantic-analyzer.test.ts[2m > [22m[2mSemantic Emotion Analyzer (ART-SEM-01)[2m > [22m[2mSEM-07: N-samples > 1 computes median per dimension
+[22m[39m[SEMANTIC] Variance tolerance exceeded (>5%):
+joy: Ïƒ=16.33% (median=50.0%)
+trust: Ïƒ=16.33% (median=40.0%)
+fear: Ïƒ=16.33% (median=30.0%)
+surprise: Ïƒ=9.43% (median=40.0%)
+sadness: Ïƒ=16.33% (median=30.0%)
+
+ [32m✓[39m tests/semantic/semantic-analyzer.test.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 10[2mms[22m[39m
+ [32m✓[39m tests/calibration/pipeline-e2e.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 16[2mms[22m[39m
+ [32m✓[39m tests/pitch/triple-pitch-prescriptions.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 15[2mms[22m[39m
+ [32m✓[39m tests/silence/show-dont-tell.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/signature.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/rci-hooks.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [31m❯[39m tests/oracle/macro-axes.test.ts [2m([22m[2m11 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[32m 17[2mms[22m[39m
+[31m     [31m×[31m RCI calculé avec rhythm + signature fusionnés[39m[32m 6[2mms[22m[39m
+     [32m✓[39m RCI a 3 sous-composants: rhythm, signature, hook_presence[32m 1[2mms[22m[39m
+     [32m✓[39m RCI avec texte plat → score bas[32m 1[2mms[22m[39m
+     [32m✓[39m RCI a des ScoreReasons (top contributors + penalties)[32m 1[2mms[22m[39m
+     [32m✓[39m RCI bonuses array présent (peut être vide)[32m 1[2mms[22m[39m
+     [32m✓[39m DÉTERMINISME — RCI même texte = même score (3 appels)[32m 2[2mms[22m[39m
+     [32m✓[39m RCI poids correctement répartis (0.45 rhythm, 0.35 signature, 0.20 hooks)[32m 1[2mms[22m[39m
+     [32m✓[39m RCI score capé à [0, 100][32m 1[2mms[22m[39m
+     [32m✓[39m MacroAxisScore a tous les champs requis[32m 1[2mms[22m[39m
+     [32m✓[39m ScoreReasons a top_contributors et top_penalties[32m 1[2mms[22m[39m
+     [32m✓[39m BonusMalus a type, value, triggered, detail[32m 1[2mms[22m[39m
+[90mstdout[2m | tests/calibration/semantic-cortex-calibration.test.ts[2m > [22m[2mSemantic Cortex Calibration (ART-SEM-03)[2m > [22m[2mCAL-SC-06: Generate calibration report
+[22m[39m[CALIBRATION] Report generated: C:\Users\elric\omega-project\packages\sovereign-engine\CALIBRATION_SEMANTIC_CORTEX.md
+[CALIBRATION] Average delta composite: 2.46
+
+ [32m✓[39m tests/oracle/macro-axes-ecc-sanity.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 9[2mms[22m[39m
+ [32m✓[39m tests/calibration/calibration-ci.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 13[2mms[22m[39m
+ [32m✓[39m tests/polish/re-score-guard.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 11[2mms[22m[39m
+ [32m✓[39m tests/polish/paragraph-patch.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 11[2mms[22m[39m
+ [32m✓[39m tests/calibration/semantic-cortex-calibration.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 28[2mms[22m[39m
+ [32m✓[39m tests/constraints/constraint-compiler.test.ts [2m([22m[2m13 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [31m❯[39m tests/polish/polish-active.test.ts [2m([22m[2m5 tests[22m[2m | [22m[31m4 failed[39m[2m)[22m[32m 15[2mms[22m[39m
+     [32m✓[39m NOOP-01: polishRhythm() on prose with 4 identical-length sentences → prose DIFFERENT (ART-POL-04)[32m 1[2mms[22m[39m
+[31m     [31m×[31m NOOP-02: sweepCliches() on prose with known cliché → prose DIFFERENT (ART-POL-05)[39m[32m 6[2mms[22m[39m
+[31m     [31m×[31m NOOP-03: enforceSignature() on prose without signature words → prose DIFFERENT (ART-POL-06)[39m[32m 3[2mms[22m[39m
+[31m     [31m×[31m NOOP-04: all 3 functions respect reScoreGuard (correction rejected = prose original returned)[39m[32m 2[2mms[22m[39m
+[31m     [31m×[31m NOOP-05: non-regression — functions handle normal prose without errors[39m[32m 2[2mms[22m[39m
+ [32m✓[39m tests/oracle/macro-axes-aai.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/emotion-coherence.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32m✓[39m tests/runtime/path-safety.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/tension-14d.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/compat/version-guard.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/runtime/sovereign-live.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/authenticity/ia-smell-patterns.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/polish/sentence-surgeon.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/semantic/emotion-to-action.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/runtime/run-id.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/physics-compliance.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/semantic/semantic-migration.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/show-dont-tell.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/prescriptions/generate-prescriptions.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/anti-cliche.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/authenticity.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/delta/delta-physics.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/ifi-distribution.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32m✓[39m tests/symbol/emotion-to-imagery.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/pitch/correction-catalog.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/symbol/symbol-map-oracle.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/quality/quality-bridge.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32m✓[39m tests/semantic/emotion-contradiction.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/constraints/constraint-compiler-emotion.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/oracle/s-score.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/delta/delta-cliche.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/constraints/compiler-golden.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/calibration/calibration-runner.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m tests/constraints/consumer-gate-enforce.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m tests/authenticity/adversarial-judge-cache.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m tests/polish/sentence-surgeon-types.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m tests/pitch/pitch-oracle.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 1[2mms[22m[39m
+ [32m✓[39m tests/semantic/semantic-cache.test.ts [2m([22m[2m5 tests[22m[2m)[22m[33m 1118[2mms[22m[39m
+     [33m[2m✓[22m[39m CACHE-04: expired entries return null (TTL enforcement) [33m 1114[2mms[22m[39m
+ [32m✓[39m tests/gates/gate-roadmap.test.ts [2m([22m[2m8 tests[22m[2m)[22m[33m 1944[2mms[22m[39m
+     [33m[2m✓[22m[39m GATE-RD-01: gate passes when hash matches [33m 1070[2mms[22m[39m
+     [33m[2m✓[22m[39m GATE-RD-03: gate update command creates/updates hash [33m 871[2mms[22m[39m
+
+[2m Test Files [22m [1m[31m4 failed[39m[22m[2m | [22m[1m[32m55 passed[39m[22m[90m (59)[39m
+[2m      Tests [22m [1m[31m17 failed[39m[22m[2m | [22m[1m[32m321 passed[39m[22m[90m (338)[39m
+[2m   Start at [22m 21:44:52
+[2m   Duration [22m 2.30s[2m (transform 8.00s, setup 0ms, import 13.62s, tests 3.81s, environment 5ms)[22m
+

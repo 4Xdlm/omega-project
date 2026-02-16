@@ -1,0 +1,386 @@
+
+> @omega/sovereign-engine@1.0.0 test
+> vitest run --reporter=verbose
+
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90mC:/Users/elric/omega-project/packages/sovereign-engine[39m
+
+ [32m✓[39m tests/runtime/sha256sums.test.ts[2m > [22mgenerateSHA256SUMS[2m > [22mgenerates SHA256SUMS.txt for directory with files[32m 9[2mms[22m[39m
+ [32m✓[39m tests/runtime/sha256sums.test.ts[2m > [22mgenerateSHA256SUMS[2m > [22msorts files alphabetically[32m 2[2mms[22m[39m
+ [32m✓[39m tests/runtime/sha256sums.test.ts[2m > [22mgenerateSHA256SUMS[2m > [22mskips SHA256SUMS.txt itself[32m 2[2mms[22m[39m
+ [32m✓[39m tests/runtime/sha256sums.test.ts[2m > [22mverifySHA256SUMS[2m > [22mverifies valid SHA256SUMS.txt[32m 2[2mms[22m[39m
+ [32m✓[39m tests/runtime/sha256sums.test.ts[2m > [22mverifySHA256SUMS[2m > [22mdetects missing SHA256SUMS.txt[32m 1[2mms[22m[39m
+ [32m✓[39m tests/runtime/sha256sums.test.ts[2m > [22mverifySHA256SUMS[2m > [22mdetects hash mismatch[32m 2[2mms[22m[39m
+ [32m✓[39m tests/gates/gate-proofpack.test.ts[2m > [22mGate ProofPack (HARDEN-GATE-PP-01)[2m > [22mGP-PP-01: FAIL if MANIFEST absent[32m 3[2mms[22m[39m
+ [32m✓[39m tests/gates/gate-proofpack.test.ts[2m > [22mGate ProofPack (HARDEN-GATE-PP-01)[2m > [22mGP-PP-02: FAIL if HASHES absent[32m 1[2mms[22m[39m
+ [32m✓[39m tests/gates/gate-proofpack.test.ts[2m > [22mGate ProofPack (HARDEN-GATE-PP-01)[2m > [22mGP-PP-03: FAIL if ROADMAP_CHECKPOINT.md absent from HASHES[32m 2[2mms[22m[39m
+ [32m✓[39m tests/gates/gate-proofpack.test.ts[2m > [22mGate ProofPack (HARDEN-GATE-PP-01)[2m > [22mGP-PP-04: PASS on valid proofpack fixture[32m 1[2mms[22m[39m
+ [32m✓[39m tests/runtime/golden-loader.test.ts[2m > [22mloadGoldenRun[2m > [22mloads golden run and constructs ForgePacketInput[32m 2[2mms[22m[39m
+ [32m✓[39m tests/runtime/golden-loader.test.ts[2m > [22mloadGoldenRun[2m > [22mextracts correct scene at index 0[32m 1[2mms[22m[39m
+ [32m✓[39m tests/runtime/golden-loader.test.ts[2m > [22mloadGoldenRun[2m > [22mthrows on invalid runPath[32m 0[2mms[22m[39m
+ [32m✓[39m tests/runtime/golden-loader.test.ts[2m > [22mloadGoldenRun[2m > [22mthrows on invalid sceneIndex[32m 0[2mms[22m[39m
+ [32m✓[39m tests/runtime/golden-loader.test.ts[2m > [22mloadGoldenRun[2m > [22mbuilds StyleProfile from genome[32m 0[2mms[22m[39m
+ [32m✓[39m tests/runtime/golden-loader.test.ts[2m > [22mloadGoldenRun[2m > [22mbuilds KillLists from constraints[32m 0[2mms[22m[39m
+ [32m✓[39m tests/runtime/golden-loader.test.ts[2m > [22mloadGoldenRun[2m > [22mcanon entries are loaded from intent.json[32m 0[2mms[22m[39m
+ [32m✓[39m tests/runtime/golden-loader.test.ts[2m > [22mloadGoldenRun[2m > [22mcontinuity is empty for first scene[32m 1[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/rhythm-v2.test.ts[2m > [22mscoreRhythm V2 (CV-based)[2m > [22mCV computation is deterministic[32m 2[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/rhythm-v2.test.ts[2m > [22mscoreRhythm V2 (CV-based)[2m > [22muniform prose (all same length) → CV near 0 → low score[32m 1[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/rhythm-v2.test.ts[2m > [22mscoreRhythm V2 (CV-based)[2m > [22mvaried prose → CV in optimal range → high score[32m 1[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/rhythm-v2.test.ts[2m > [22mscoreRhythm V2 (CV-based)[2m > [22mvery chaotic prose → CV too high → penalty[32m 0[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/rhythm-v2.test.ts[2m > [22mscoreRhythm V2 (CV-based)[2m > [22mbreathing: prose with both long and short sentences → bonus[32m 0[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/rhythm-v2.test.ts[2m > [22mscoreRhythm V2 (CV-based)[2m > [22mlength range: prose with wide range → high score[32m 1[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/rhythm-v2.test.ts[2m > [22mscoreRhythm V2 (CV-based)[2m > [22mscore is always [0, 100][32m 1[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/rhythm-v2.test.ts[2m > [22mscoreRhythm V2 (CV-based)[2m > [22mmonotone prose penalty[32m 0[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/rhythm-v2.test.ts[2m > [22mscoreRhythm V2 (CV-based)[2m > [22mCV output format in details[32m 0[2mms[22m[39m
+[90mstdout[2m | tests/proofpack/generate-proofpack.test.ts[2m > [22m[2mProofPack Generator (HARDEN-PP-01)[2m > [22m[2mPP-01: generateProofPack creates MANIFEST.json + HASHES.sha256 + EVIDENCE.md
+[22m[39m[proofpack] Generating proof pack in: C:\Users\elric\omega-project\packages\sovereign-engine\tests\proofpack\temp-proofpack-test
+[proofpack] ✅ MANIFEST.json created
+[proofpack] ✅ HASHES.sha256 created
+[proofpack] ✅ EVIDENCE.md created
+[proofpack] ✅ Proof pack complete: C:\Users\elric\omega-project\packages\sovereign-engine\tests\proofpack\temp-proofpack-test
+
+ [32m✓[39m tests/oracle/axes/rhythm.test.ts[2m > [22mscoreRhythm[2m > [22mtexte avec Gini ~0.45 (optimal) → score élevé (>10)[32m 2[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/rhythm.test.ts[2m > [22mscoreRhythm[2m > [22mtexte monotone (phrases toutes identiques) → score bas (<40)[32m 0[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/rhythm.test.ts[2m > [22mscoreRhythm[2m > [22mtexte avec syncopes → bonus appliqué[32m 0[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/rhythm.test.ts[2m > [22mscoreRhythm[2m > [22mtexte avec répétition d'ouverture → pénalité[32m 0[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/rhythm.test.ts[2m > [22mscoreRhythm[2m > [22mDÉTERMINISME — même texte = même score (3 appels)[32m 2[2mms[22m[39m
+ [32m✓[39m tests/runtime/path-safety.test.ts[2m > [22mscanForAbsolutePaths[2m > [22mdetects Windows absolute paths[32m 1[2mms[22m[39m
+ [32m✓[39m tests/runtime/path-safety.test.ts[2m > [22mscanForAbsolutePaths[2m > [22mdetects Linux /home/ paths[32m 0[2mms[22m[39m
+ [32m✓[39m tests/runtime/path-safety.test.ts[2m > [22mscanForAbsolutePaths[2m > [22mdetects macOS /Users/ paths[32m 0[2mms[22m[39m
+ [32m✓[39m tests/runtime/path-safety.test.ts[2m > [22mscanForAbsolutePaths[2m > [22mreturns empty array for relative paths[32m 0[2mms[22m[39m
+ [32m✓[39m tests/runtime/path-safety.test.ts[2m > [22mscanForAbsolutePaths[2m > [22mreturns empty array for safe content[32m 0[2mms[22m[39m
+ [32m✓[39m tests/runtime/path-safety.test.ts[2m > [22mvalidateFilePathSafety[2m > [22mvalidates safe temporary file[32m 1[2mms[22m[39m
+ [32m✓[39m tests/runtime/path-safety.test.ts[2m > [22mvalidateFilePathSafety[2m > [22mdetects unsafe temporary file with absolute path[32m 1[2mms[22m[39m
+ [32m✓[39m tests/runtime/path-safety.test.ts[2m > [22mvalidateFilePathSafety[2m > [22mreturns safe for non-existent file[32m 0[2mms[22m[39m
+[90mstdout[2m | tests/proofpack/generate-proofpack.test.ts[2m > [22m[2mProofPack Generator (HARDEN-PP-01)[2m > [22m[2mPP-02: HASHES.sha256 is sorted lexicographically (paths)
+[22m[39m[proofpack] Generating proof pack in: C:\Users\elric\omega-project\packages\sovereign-engine\tests\proofpack\temp-proofpack-test
+[proofpack] ✅ MANIFEST.json created
+[proofpack] ✅ HASHES.sha256 created
+[proofpack] ✅ EVIDENCE.md created
+[proofpack] ✅ Proof pack complete: C:\Users\elric\omega-project\packages\sovereign-engine\tests\proofpack\temp-proofpack-test
+
+ [32m✓[39m tests/proofpack/generate-proofpack.test.ts[2m > [22mProofPack Generator (HARDEN-PP-01)[2m > [22mPP-01: generateProofPack creates MANIFEST.json + HASHES.sha256 + EVIDENCE.md[32m 130[2mms[22m[39m
+ [32m✓[39m tests/semantic/semantic-cache.test.ts[2m > [22mSemantic Cache (ART-SEM-02)[2m > [22mCACHE-01: cache miss returns null and increments miss counter[32m 1[2mms[22m[39m
+ [32m✓[39m tests/semantic/semantic-cache.test.ts[2m > [22mSemantic Cache (ART-SEM-02)[2m > [22mCACHE-02: cache hit returns stored result and increments hit counter[32m 1[2mms[22m[39m
+ [32m✓[39m tests/semantic/semantic-cache.test.ts[2m > [22mSemantic Cache (ART-SEM-02)[2m > [22mCACHE-03: same inputs produce same cache key (determinism)[32m 1[2mms[22m[39m
+ [32m✓[39m tests/oracle/physics-audit.test.ts[2m > [22mphysics-audit[2m > [22mAUDIT-01: disabled returns empty result[32m 3[2mms[22m[39m
+ [32m✓[39m tests/oracle/physics-audit.test.ts[2m > [22mphysics-audit[2m > [22mAUDIT-02: enabled returns valid audit result[32m 3[2mms[22m[39m
+ [32m✓[39m tests/oracle/physics-audit.test.ts[2m > [22mphysics-audit[2m > [22mAUDIT-03: detects dead zones in prose[32m 1[2mms[22m[39m
+ [32m✓[39m tests/oracle/physics-audit.test.ts[2m > [22mphysics-audit[2m > [22mAUDIT-04: detects forced transitions[32m 1[2mms[22m[39m
+ [32m✓[39m tests/oracle/physics-audit.test.ts[2m > [22mphysics-audit[2m > [22mAUDIT-05: high score for compliant prose[32m 1[2mms[22m[39m
+ [32m✓[39m tests/oracle/physics-audit.test.ts[2m > [22mphysics-audit[2m > [22mAUDIT-06: deterministic (same input → same hash)[32m 1[2mms[22m[39m
+ [32m✓[39m tests/oracle/physics-audit.test.ts[2m > [22mphysics-audit[2m > [22mAUDIT-07: no LLM call (pure computation)[32m 1[2mms[22m[39m
+[90mstdout[2m | tests/proofpack/generate-proofpack.test.ts[2m > [22m[2mProofPack Generator (HARDEN-PP-01)[2m > [22m[2mPP-03: generation does not modify any file outside outDir
+[22m[39m[proofpack] Generating proof pack in: C:\Users\elric\omega-project\packages\sovereign-engine\tests\proofpack\temp-proofpack-test
+[proofpack] ✅ MANIFEST.json created
+[proofpack] ✅ HASHES.sha256 created
+[proofpack] ✅ EVIDENCE.md created
+[proofpack] ✅ Proof pack complete: C:\Users\elric\omega-project\packages\sovereign-engine\tests\proofpack\temp-proofpack-test
+
+ [32m✓[39m tests/proofpack/generate-proofpack.test.ts[2m > [22mProofPack Generator (HARDEN-PP-01)[2m > [22mPP-02: HASHES.sha256 is sorted lexicographically (paths)[32m 115[2mms[22m[39m
+ [32m✓[39m tests/proofpack/generate-proofpack.test.ts[2m > [22mProofPack Generator (HARDEN-PP-01)[2m > [22mPP-03: generation does not modify any file outside outDir[32m 133[2mms[22m[39m
+[90mstdout[2m | tests/semantic/semantic-analyzer.test.ts[2m > [22m[2mSemantic Emotion Analyzer (ART-SEM-01)[2m > [22m[2mSEM-07: N-samples > 1 computes median per dimension
+[22m[39m[SEMANTIC] Variance tolerance exceeded (>5%):
+joy: Ïƒ=16.33% (median=50.0%)
+trust: Ïƒ=16.33% (median=40.0%)
+fear: Ïƒ=16.33% (median=30.0%)
+surprise: Ïƒ=9.43% (median=40.0%)
+sadness: Ïƒ=16.33% (median=30.0%)
+
+ [32m✓[39m tests/semantic/semantic-analyzer.test.ts[2m > [22mSemantic Emotion Analyzer (ART-SEM-01)[2m > [22mSEM-01: returns valid 14D structure with all required keys[32m 1[2mms[22m[39m
+ [32m✓[39m tests/semantic/semantic-analyzer.test.ts[2m > [22mSemantic Emotion Analyzer (ART-SEM-01)[2m > [22mSEM-02: all values clamped to [0, 1], no NaN or Infinity[32m 1[2mms[22m[39m
+ [32m✓[39m tests/semantic/semantic-analyzer.test.ts[2m > [22mSemantic Emotion Analyzer (ART-SEM-01)[2m > [22mSEM-03: negation golden test â€” "pas peur" â†’ fear LOW (< 0.3)[32m 0[2mms[22m[39m
+ [32m✓[39m tests/semantic/semantic-analyzer.test.ts[2m > [22mSemantic Emotion Analyzer (ART-SEM-01)[2m > [22mSEM-04: mixed emotions golden â€” "souriait malgrÃ© tristesse" â†’ joy AND sadness > 0.3[32m 0[2mms[22m[39m
+ [32m✓[39m tests/semantic/semantic-analyzer.test.ts[2m > [22mSemantic Emotion Analyzer (ART-SEM-01)[2m > [22mSEM-04b: config handling â€” respects enabled flag (BONUS)[32m 0[2mms[22m[39m
+ [32m✓[39m tests/semantic/semantic-analyzer.test.ts[2m > [22mSemantic Emotion Analyzer (ART-SEM-01)[2m > [22mSEM-05: calls provider.generateStructuredJSON with correct parameters[32m 0[2mms[22m[39m
+ [32m✓[39m tests/semantic/semantic-analyzer.test.ts[2m > [22mSemantic Emotion Analyzer (ART-SEM-01)[2m > [22mSEM-06: fallback to keywords when LLM fails[32m 0[2mms[22m[39m
+ [32m✓[39m tests/semantic/semantic-analyzer.test.ts[2m > [22mSemantic Emotion Analyzer (ART-SEM-01)[2m > [22mSEM-07: N-samples > 1 computes median per dimension[32m 1[2mms[22m[39m
+ [32m✓[39m tests/semantic/semantic-analyzer.test.ts[2m > [22mSemantic Emotion Analyzer (ART-SEM-01)[2m > [22mSEM-08: variance tolerance warning for high std deviation[32m 2[2mms[22m[39m
+ [32m✓[39m tests/semantic/semantic-analyzer.test.ts[2m > [22mSemantic Emotion Analyzer (ART-SEM-01)[2m > [22mSEM-09: generateStructuredJSON returns parsed JSON directly[32m 0[2mms[22m[39m
+ [32m✓[39m tests/semantic/semantic-analyzer.test.ts[2m > [22mSemantic Emotion Analyzer (ART-SEM-01)[2m > [22mSEM-10: determinism â€” n_samples=1 always returns same result for same input[32m 0[2mms[22m[39m
+ [32m✓[39m tests/calibration/pipeline-e2e.test.ts[2m > [22mcalibration — physics pipeline e2e[2m > [22mCAL-01: physics audit runs on valid packet + prose[32m 5[2mms[22m[39m
+ [32m✓[39m tests/calibration/pipeline-e2e.test.ts[2m > [22mcalibration — physics pipeline e2e[2m > [22mCAL-02: delta report includes physics_delta when audit provided[32m 6[2mms[22m[39m
+ [32m✓[39m tests/calibration/pipeline-e2e.test.ts[2m > [22mcalibration — physics pipeline e2e[2m > [22mCAL-03: prescriptions generated from audit results[32m 1[2mms[22m[39m
+ [32m✓[39m tests/calibration/pipeline-e2e.test.ts[2m > [22mcalibration — physics pipeline e2e[2m > [22mCAL-04: deterministic — same inputs produce same hashes[32m 2[2mms[22m[39m
+ [32m✓[39m tests/calibration/pipeline-e2e.test.ts[2m > [22mcalibration — physics pipeline e2e[2m > [22mCAL-05: delta without audit → physics_delta disabled or absent[32m 1[2mms[22m[39m
+ [32m✓[39m tests/pitch/triple-pitch-prescriptions.test.ts[2m > [22mtriple-pitch with prescriptions[2m > [22mPITCH-PRESC-01: no prescriptions → same as before[32m 7[2mms[22m[39m
+ [32m✓[39m tests/pitch/triple-pitch-prescriptions.test.ts[2m > [22mtriple-pitch with prescriptions[2m > [22mPITCH-PRESC-02: prescriptions inject surgical items[32m 3[2mms[22m[39m
+ [32m✓[39m tests/pitch/triple-pitch-prescriptions.test.ts[2m > [22mtriple-pitch with prescriptions[2m > [22mPITCH-PRESC-03: respects MAX_PITCH_ITEMS[32m 3[2mms[22m[39m
+ [32m✓[39m tests/pitch/triple-pitch-prescriptions.test.ts[2m > [22mtriple-pitch with prescriptions[2m > [22mPITCH-PRESC-04: surgical items have correct structure[32m 2[2mms[22m[39m
+ [32m✓[39m tests/silence/show-dont-tell.test.ts[2m > [22mShow Don't Tell Detector (ART-SDT-01)[2m > [22mSDT-01: "Il était triste" → violation critical détectée[32m 3[2mms[22m[39m
+ [32m✓[39m tests/silence/show-dont-tell.test.ts[2m > [22mShow Don't Tell Detector (ART-SDT-01)[2m > [22mSDT-02: "Ses épaules s'affaissèrent" → AUCUNE violation (showing)[32m 0[2mms[22m[39m
+ [32m✓[39m tests/silence/show-dont-tell.test.ts[2m > [22mShow Don't Tell Detector (ART-SDT-01)[2m > [22mSDT-03: "Il était médecin" → PAS de violation (false positive guard)[32m 0[2mms[22m[39m
+ [32m✓[39m tests/silence/show-dont-tell.test.ts[2m > [22mShow Don't Tell Detector (ART-SDT-01)[2m > [22mSDT-04: show_ratio calculé correctement sur prose mixte[32m 0[2mms[22m[39m
+ [32m✓[39m tests/silence/show-dont-tell.test.ts[2m > [22mShow Don't Tell Detector (ART-SDT-01)[2m > [22mSDT-05: ≥ 30 patterns chargés et fonctionnels (ART-SDT-01)[32m 2[2mms[22m[39m
+ [32m✓[39m tests/input/emotion-brief-bridge.test.ts[2m > [22memotion-brief-bridge[2m > [22mbuilds ForgeEmotionBrief from valid packet[32m 3[2mms[22m[39m
+ [32m✓[39m tests/input/emotion-brief-bridge.test.ts[2m > [22memotion-brief-bridge[2m > [22mdeterministic: same packet → same brief hash[32m 1[2mms[22m[39m
+ [32m✓[39m tests/input/emotion-brief-bridge.test.ts[2m > [22memotion-brief-bridge[2m > [22mfail-closed on missing quartiles[32m 1[2mms[22m[39m
+ [32m✓[39m tests/input/emotion-brief-bridge.test.ts[2m > [22memotion-brief-bridge[2m > [22mwaypoints cover 0.0 to 1.0[32m 0[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/signature.test.ts[2m > [22mscoreSignature[2m > [22mtexte avec mots signature présents → score élevé[32m 1[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/signature.test.ts[2m > [22mscoreSignature[2m > [22mtexte sans aucun mot signature → score bas[32m 0[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/signature.test.ts[2m > [22mscoreSignature[2m > [22mtexte avec mots interdits → pénalité[32m 0[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/signature.test.ts[2m > [22mscoreSignature[2m > [22mDÉTERMINISME — même texte = même score (3 appels)[32m 1[2mms[22m[39m
+ [32m✓[39m tests/runtime/run-id.test.ts[2m > [22mgenerateDeterministicSeed[2m > [22mgenerates deterministic seed from inputs[32m 1[2mms[22m[39m
+ [32m✓[39m tests/runtime/run-id.test.ts[2m > [22mgenerateDeterministicSeed[2m > [22mgenerates different seeds for different inputs[32m 0[2mms[22m[39m
+ [32m✓[39m tests/runtime/run-id.test.ts[2m > [22mgenerateDeterministicSeed[2m > [22mseed format is 64-char lowercase hex[32m 0[2mms[22m[39m
+ [32m✓[39m tests/runtime/run-id.test.ts[2m > [22mgenerateDeterministicSeed[2m > [22mdeterminism — same inputs produce same seed across calls[32m 0[2mms[22m[39m
+ [32m✓[39m tests/runtime/run-id.test.ts[2m > [22mbuildRunIdRecord[2m > [22mbuilds valid RunIdRecord[32m 1[2mms[22m[39m
+ [32m✓[39m tests/runtime/run-id.test.ts[2m > [22mbuildRunIdRecord[2m > [22mjudge_config reflects judgeStable=true[32m 0[2mms[22m[39m
+ [32m✓[39m tests/runtime/run-id.test.ts[2m > [22mbuildRunIdRecord[2m > [22mjudge_config reflects judgeStable=false[32m 0[2mms[22m[39m
+ [32m✓[39m tests/runtime/run-id.test.ts[2m > [22mbuildRunIdRecord[2m > [22mmacro_axes includes ECC/RCI/SII/IFI from V3 score[32m 0[2mms[22m[39m
+ [32m✓[39m tests/runtime/run-id.test.ts[2m > [22mbuildRunIdRecord[2m > [22mincludes language=fr by default[32m 0[2mms[22m[39m
+ [32m✓[39m tests/runtime/run-id.test.ts[2m > [22mbuildRunIdRecord[2m > [22mincludes engine_version and timestamp[32m 0[2mms[22m[39m
+ [32m✓[39m tests/runtime/run-id.test.ts[2m > [22mbuildRunIdRecord[2m > [22mdefaults language to fr[32m 0[2mms[22m[39m
+ [32m✓[39m tests/runtime/run-id.test.ts[2m > [22mbuildRunIdRecord[2m > [22maccepts explicit language parameter[32m 0[2mms[22m[39m
+ [32m✓[39m tests/oracle/macro-axes-aai.test.ts[2m > [22mAAI Macro-Axis (ART-SCORE-01)[2m > [22mMACRO-AAI-01: AAI calculé correctement (weighted mean SDT + AUTH)[32m 4[2mms[22m[39m
+ [32m✓[39m tests/oracle/macro-axes-aai.test.ts[2m > [22mAAI Macro-Axis (ART-SCORE-01)[2m > [22mMACRO-AAI-02: plancher 85 respecté (score < 85 → flag)[32m 1[2mms[22m[39m
+ [32m✓[39m tests/oracle/macro-axes-aai.test.ts[2m > [22mAAI Macro-Axis (ART-SCORE-01)[2m > [22mMACRO-AAI-03: redistribution poids totale = 100%[32m 0[2mms[22m[39m
+[90mstdout[2m | tests/calibration/semantic-cortex-calibration.test.ts[2m > [22m[2mSemantic Cortex Calibration (ART-SEM-03)[2m > [22m[2mCAL-SC-06: Generate calibration report
+[22m[39m[CALIBRATION] Report generated: C:\Users\elric\omega-project\packages\sovereign-engine\CALIBRATION_SEMANTIC_CORTEX.md
+[CALIBRATION] Average delta composite: 2.46
+
+ [32m✓[39m tests/oracle/axes/rci-hooks.test.ts[2m > [22mRCI hook verification[2m > [22mINV-RCI-HOOKS-01: RCI includes hook_presence sub-score with weight 0.20[32m 2[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/rci-hooks.test.ts[2m > [22mRCI hook verification[2m > [22mall hooks present in prose → high hook_presence score[32m 1[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/rci-hooks.test.ts[2m > [22mRCI hook verification[2m > [22mno hooks present in prose → low hook_presence score[32m 0[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/rci-hooks.test.ts[2m > [22mRCI hook verification[2m > [22mRCI weight blend: rhythm×0.45 + signature×0.35 + hooks×0.20[32m 1[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/rci-hooks.test.ts[2m > [22mRCI hook verification[2m > [22mRCI score is always [0, 100][32m 1[2mms[22m[39m
+ [32m✓[39m tests/oracle/macro-axes.test.ts[2m > [22mcomputeRCI[2m > [22mRCI calculé avec rhythm + signature fusionnés[32m 3[2mms[22m[39m
+ [32m✓[39m tests/oracle/macro-axes.test.ts[2m > [22mcomputeRCI[2m > [22mRCI a 3 sous-composants: rhythm, signature, hook_presence[32m 1[2mms[22m[39m
+ [32m✓[39m tests/oracle/macro-axes.test.ts[2m > [22mcomputeRCI[2m > [22mRCI avec texte plat → score bas[32m 1[2mms[22m[39m
+ [32m✓[39m tests/oracle/macro-axes.test.ts[2m > [22mcomputeRCI[2m > [22mRCI a des ScoreReasons (top contributors + penalties)[32m 1[2mms[22m[39m
+ [32m✓[39m tests/oracle/macro-axes.test.ts[2m > [22mcomputeRCI[2m > [22mRCI bonuses array présent (peut être vide)[32m 1[2mms[22m[39m
+ [32m✓[39m tests/oracle/macro-axes.test.ts[2m > [22mcomputeRCI[2m > [22mDÉTERMINISME — RCI même texte = même score (3 appels)[32m 2[2mms[22m[39m
+ [32m✓[39m tests/oracle/macro-axes.test.ts[2m > [22mcomputeRCI[2m > [22mRCI poids correctement répartis (0.45 rhythm, 0.35 signature, 0.20 hooks)[32m 1[2mms[22m[39m
+ [32m✓[39m tests/oracle/macro-axes.test.ts[2m > [22mcomputeRCI[2m > [22mRCI score capé à [0, 100][32m 1[2mms[22m[39m
+ [32m✓[39m tests/oracle/macro-axes.test.ts[2m > [22mMacroAxisScore structure[2m > [22mMacroAxisScore a tous les champs requis[32m 1[2mms[22m[39m
+ [32m✓[39m tests/oracle/macro-axes.test.ts[2m > [22mMacroAxisScore structure[2m > [22mScoreReasons a top_contributors et top_penalties[32m 1[2mms[22m[39m
+ [32m✓[39m tests/oracle/macro-axes.test.ts[2m > [22mMacroAxisScore structure[2m > [22mBonusMalus a type, value, triggered, detail[32m 1[2mms[22m[39m
+ [32m✓[39m tests/calibration/semantic-cortex-calibration.test.ts[2m > [22mSemantic Cortex Calibration (ART-SEM-03)[2m > [22mCAL-SC-01: Run CAL-CASE-01 with keywords and semantic[32m 10[2mms[22m[39m
+ [32m✓[39m tests/calibration/semantic-cortex-calibration.test.ts[2m > [22mSemantic Cortex Calibration (ART-SEM-03)[2m > [22mCAL-SC-02: Run CAL-CASE-02 with keywords and semantic[32m 4[2mms[22m[39m
+ [32m✓[39m tests/calibration/semantic-cortex-calibration.test.ts[2m > [22mSemantic Cortex Calibration (ART-SEM-03)[2m > [22mCAL-SC-03: Run CAL-CASE-03 with keywords and semantic[32m 4[2mms[22m[39m
+ [32m✓[39m tests/calibration/semantic-cortex-calibration.test.ts[2m > [22mSemantic Cortex Calibration (ART-SEM-03)[2m > [22mCAL-SC-04: Run CAL-CASE-04 with keywords and semantic[32m 3[2mms[22m[39m
+ [32m✓[39m tests/calibration/semantic-cortex-calibration.test.ts[2m > [22mSemantic Cortex Calibration (ART-SEM-03)[2m > [22mCAL-SC-05: Run CAL-CASE-05 with keywords and semantic[32m 3[2mms[22m[39m
+ [32m✓[39m tests/calibration/semantic-cortex-calibration.test.ts[2m > [22mSemantic Cortex Calibration (ART-SEM-03)[2m > [22mCAL-SC-06: Generate calibration report[32m 1[2mms[22m[39m
+ [32m✓[39m tests/oracle/macro-axes-ecc-sanity.test.ts[2m > [22mECC Weights Sanity (ChatGPT Audit)[2m > [22mECC-SAN-01: ECC score is 0-100 range without physics[32m 3[2mms[22m[39m
+ [32m✓[39m tests/oracle/macro-axes-ecc-sanity.test.ts[2m > [22mECC Weights Sanity (ChatGPT Audit)[2m > [22mECC-SAN-02: ECC score is 0-100 range WITH physics audit[32m 1[2mms[22m[39m
+ [32m✓[39m tests/oracle/macro-axes-ecc-sanity.test.ts[2m > [22mECC Weights Sanity (ChatGPT Audit)[2m > [22mECC-SAN-03: ECC with physics_compliance weight=0 ignores physics score[32m 3[2mms[22m[39m
+ [32m✓[39m tests/oracle/macro-axes-ecc-sanity.test.ts[2m > [22mECC Weights Sanity (ChatGPT Audit)[2m > [22mECC-SAN-04: ECC sub_scores includes physics_compliance[32m 1[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/ifi-distribution.test.ts[2m > [22mIFI distribution bonus[2m > [22mINV-IFI-DISTRIB-01: IFI includes distribution bonus[32m 2[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/ifi-distribution.test.ts[2m > [22mIFI distribution bonus[2m > [22mall 4 quartiles have corporeal markers → +10 bonus[32m 0[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/ifi-distribution.test.ts[2m > [22mIFI distribution bonus[2m > [22mweight rebalance: 0.30 + 0.35 + 0.35[32m 1[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/ifi-distribution.test.ts[2m > [22mIFI distribution bonus[2m > [22mIFI score is always [0, 100] even with bonus[32m 1[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/ifi-distribution.test.ts[2m > [22mIFI distribution bonus[2m > [22mfew paragraphs → no distribution bonus[32m 0[2mms[22m[39m
+ [32m✓[39m tests/polish/re-score-guard.test.ts[2m > [22mRe-Score Guard (ART-POL-01)[2m > [22mGUARD-01: correction improves composite AND all axes above floor → accepted[32m 4[2mms[22m[39m
+ [32m✓[39m tests/polish/re-score-guard.test.ts[2m > [22mRe-Score Guard (ART-POL-01)[2m > [22mGUARD-02: correction degrades composite → rejected (ART-POL-01)[32m 2[2mms[22m[39m
+ [32m✓[39m tests/polish/re-score-guard.test.ts[2m > [22mRe-Score Guard (ART-POL-01)[2m > [22mGUARD-03: correction neutral (delta < min_improvement) → rejected[32m 1[2mms[22m[39m
+ [32m✓[39m tests/polish/re-score-guard.test.ts[2m > [22mRe-Score Guard (ART-POL-01)[2m > [22mGUARD-04: improves composite BUT breaks axis floor → rejected (ART-POL-01)[32m 2[2mms[22m[39m
+ [32m✓[39m tests/polish/paragraph-patch.test.ts[2m > [22mParagraph-Level Patch (ART-POL-01)[2m > [22mPARA-01: patch paragraph index 2 (3rd) → only that paragraph is modified[32m 5[2mms[22m[39m
+ [32m✓[39m tests/polish/paragraph-patch.test.ts[2m > [22mParagraph-Level Patch (ART-POL-01)[2m > [22mPARA-02: paragraphs 0, 1, 3 (all except index 2) are unchanged after patch[32m 2[2mms[22m[39m
+ [32m✓[39m tests/polish/paragraph-patch.test.ts[2m > [22mParagraph-Level Patch (ART-POL-01)[2m > [22mPARA-03: patch that degrades score → revert, return original prose, accepted: false[32m 3[2mms[22m[39m
+ [32m✓[39m tests/calibration/calibration-ci.test.ts[2m > [22mCalibration CI Suite (HARDEN-CAL-CI-01)[2m > [22mCAL-CI-01: Case 01 corpus valid structure[32m 4[2mms[22m[39m
+ [32m✓[39m tests/calibration/calibration-ci.test.ts[2m > [22mCalibration CI Suite (HARDEN-CAL-CI-01)[2m > [22mCAL-CI-02: Case 02 corpus valid structure[32m 2[2mms[22m[39m
+ [32m✓[39m tests/calibration/calibration-ci.test.ts[2m > [22mCalibration CI Suite (HARDEN-CAL-CI-01)[2m > [22mCAL-CI-03: Case 03 corpus valid structure[32m 2[2mms[22m[39m
+ [32m✓[39m tests/calibration/calibration-ci.test.ts[2m > [22mCalibration CI Suite (HARDEN-CAL-CI-01)[2m > [22mCAL-CI-04: Case 04 corpus valid structure[32m 1[2mms[22m[39m
+ [32m✓[39m tests/calibration/calibration-ci.test.ts[2m > [22mCalibration CI Suite (HARDEN-CAL-CI-01)[2m > [22mCAL-CI-05: Case 05 corpus valid structure[32m 2[2mms[22m[39m
+ [32m✓[39m tests/polish/sentence-surgeon.test.ts[2m > [22mSentence Surgeon (ART-POL-01, ART-POL-02, ART-POL-03)[2m > [22mSURG-01: prose with 1 weak sentence → sentence corrected[32m 1[2mms[22m[39m
+ [32m✓[39m tests/polish/sentence-surgeon.test.ts[2m > [22mSentence Surgeon (ART-POL-01, ART-POL-02, ART-POL-03)[2m > [22mSURG-02: correction that degrades → reverted (ART-POL-01)[32m 0[2mms[22m[39m
+ [32m✓[39m tests/polish/sentence-surgeon.test.ts[2m > [22mSentence Surgeon (ART-POL-01, ART-POL-02, ART-POL-03)[2m > [22mSURG-03: 20 weak sentences → max 15 corrections applied (ART-POL-02)[32m 0[2mms[22m[39m
+ [32m✓[39m tests/polish/sentence-surgeon.test.ts[2m > [22mSentence Surgeon (ART-POL-01, ART-POL-02, ART-POL-03)[2m > [22mSURG-04: dry_run=true → all patches rejected, prose unchanged[32m 0[2mms[22m[39m
+ [32m✓[39m tests/polish/sentence-surgeon.test.ts[2m > [22mSentence Surgeon (ART-POL-01, ART-POL-02, ART-POL-03)[2m > [22mSURG-05: SurgeonResult contains complete MicroPatch traceability (ART-POL-03)[32m 1[2mms[22m[39m
+ [32m✓[39m tests/polish/polish-active.test.ts[2m > [22mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22mNOOP-01: polishRhythm() on prose with 4 identical-length sentences → prose DIFFERENT (ART-POL-04)[32m 1[2mms[22m[39m
+ [32m✓[39m tests/polish/polish-active.test.ts[2m > [22mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22mNOOP-02: sweepCliches() on prose with known cliché → prose DIFFERENT (ART-POL-05)[32m 12[2mms[22m[39m
+ [32m✓[39m tests/polish/polish-active.test.ts[2m > [22mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22mNOOP-03: enforceSignature() on prose without signature words → prose DIFFERENT (ART-POL-06)[32m 7[2mms[22m[39m
+ [32m✓[39m tests/polish/polish-active.test.ts[2m > [22mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22mNOOP-04: all 3 functions respect reScoreGuard (correction rejected = prose original returned)[32m 5[2mms[22m[39m
+ [32m✓[39m tests/polish/polish-active.test.ts[2m > [22mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22mNOOP-05: non-regression — functions handle normal prose without errors[32m 9[2mms[22m[39m
+ [32m✓[39m tests/compat/version-guard.test.ts[2m > [22mVersion Compat Guard (Roadmap 4.4)[2m > [22mVG-01: v2.0.0 passes silently[32m 1[2mms[22m[39m
+ [32m✓[39m tests/compat/version-guard.test.ts[2m > [22mVersion Compat Guard (Roadmap 4.4)[2m > [22mVG-02: undefined warns before cutoff (backward compat)[32m 2[2mms[22m[39m
+ [32m✓[39m tests/compat/version-guard.test.ts[2m > [22mVersion Compat Guard (Roadmap 4.4)[2m > [22mVG-03: undefined fails after cutoff[32m 0[2mms[22m[39m
+ [32m✓[39m tests/compat/version-guard.test.ts[2m > [22mVersion Compat Guard (Roadmap 4.4)[2m > [22mVG-04: wrong version fails immediately[32m 0[2mms[22m[39m
+ [32m✓[39m tests/compat/version-guard.test.ts[2m > [22mVersion Compat Guard (Roadmap 4.4)[2m > [22mVG-05: guard structure validation[32m 0[2mms[22m[39m
+ [32m✓[39m tests/semantic/emotion-to-action.test.ts[2m > [22mEmotion to Action Mapping (ART-SEM-05)[2m > [22mACTION-01: maps all 14 emotions to action lists[32m 1[2mms[22m[39m
+ [32m✓[39m tests/semantic/emotion-to-action.test.ts[2m > [22mEmotion to Action Mapping (ART-SEM-05)[2m > [22mACTION-02: max_actions limit is applied correctly[32m 0[2mms[22m[39m
+ [32m✓[39m tests/semantic/emotion-to-action.test.ts[2m > [22mEmotion to Action Mapping (ART-SEM-05)[2m > [22mACTION-03: returns emotions sorted by intensity (descending)[32m 0[2mms[22m[39m
+ [32m✓[39m tests/semantic/emotion-to-action.test.ts[2m > [22mEmotion to Action Mapping (ART-SEM-05)[2m > [22mACTION-04: returns correct action descriptors for each emotion[32m 1[2mms[22m[39m
+ [32m✓[39m tests/semantic/emotion-to-action.test.ts[2m > [22mEmotion to Action Mapping (ART-SEM-05)[2m > [22mACTION-05: handles edge case with all emotions at zero[32m 0[2mms[22m[39m
+ [32m✓[39m tests/semantic/emotion-to-action.test.ts[2m > [22mEmotion to Action Mapping (ART-SEM-05)[2m > [22mACTION-06: each emotion has at least 5 action descriptors[32m 0[2mms[22m[39m
+ [32m✓[39m tests/prescriptions/sdt-auth-prescriptions.test.ts[2m > [22mSDT + AUTH Prescriptions (Sprint 11.5)[2m > [22mLOOP-SDT-01: prose with telling → correction prescription generated[32m 3[2mms[22m[39m
+ [32m✓[39m tests/prescriptions/sdt-auth-prescriptions.test.ts[2m > [22mSDT + AUTH Prescriptions (Sprint 11.5)[2m > [22mLOOP-AUTH-01: prose with IA smell → prescription generated[32m 1[2mms[22m[39m
+ [32m✓[39m tests/prescriptions/generate-prescriptions.test.ts[2m > [22mgeneratePrescriptions[2m > [22maudit disabled → empty prescriptions[32m 1[2mms[22m[39m
+ [32m✓[39m tests/prescriptions/generate-prescriptions.test.ts[2m > [22mgeneratePrescriptions[2m > [22maudit undefined → empty prescriptions[32m 0[2mms[22m[39m
+ [32m✓[39m tests/prescriptions/generate-prescriptions.test.ts[2m > [22mgeneratePrescriptions[2m > [22mtop-K filtering — audit avec 10 prescriptions, topK=5[32m 1[2mms[22m[39m
+ [32m✓[39m tests/prescriptions/generate-prescriptions.test.ts[2m > [22mgeneratePrescriptions[2m > [22mseverity sorting — critical > high > medium, then by expected_gain desc[32m 0[2mms[22m[39m
+ [32m✓[39m tests/prescriptions/generate-prescriptions.test.ts[2m > [22mbuildPrescriptionsDelta[2m > [22mempty prescriptions → enabled=false + stable hash[32m 1[2mms[22m[39m
+ [32m✓[39m tests/prescriptions/generate-prescriptions.test.ts[2m > [22mbuildPrescriptionsDelta[2m > [22mprescriptions présentes → enabled=true + correct histogram[32m 0[2mms[22m[39m
+ [32m✓[39m tests/prescriptions/generate-prescriptions.test.ts[2m > [22mbuildPrescriptionsDelta[2m > [22mdeterministic hash — same prescriptions → same delta_hash [PRESC-01][32m 0[2mms[22m[39m
+ [32m✓[39m tests/symbol/symbol-map-oracle.test.ts[2m > [22mvalidateSymbolMap[2m > [22msymbol map valide → { valid: true }[32m 1[2mms[22m[39m
+ [32m✓[39m tests/symbol/symbol-map-oracle.test.ts[2m > [22mvalidateSymbolMap[2m > [22mCHECK 1: sensory quota ≠ 1.0 → FAIL[32m 0[2mms[22m[39m
+ [32m✓[39m tests/symbol/symbol-map-oracle.test.ts[2m > [22mvalidateSymbolMap[2m > [22mCHECK 2: lexical field dans kill_list → FAIL[32m 0[2mms[22m[39m
+ [32m✓[39m tests/symbol/symbol-map-oracle.test.ts[2m > [22mvalidateSymbolMap[2m > [22mCHECK 3: replacement est un cliché → FAIL[32m 0[2mms[22m[39m
+ [32m✓[39m tests/symbol/symbol-map-oracle.test.ts[2m > [22mvalidateSymbolMap[2m > [22mCHECK 4: imagery mode invalide → FAIL[32m 0[2mms[22m[39m
+ [32m✓[39m tests/symbol/symbol-map-oracle.test.ts[2m > [22mvalidateSymbolMap[2m > [22mCHECK 4: imagery trop loin du seed CALC (2 diff) → FAIL[32m 0[2mms[22m[39m
+ [32m✓[39m tests/symbol/symbol-map-oracle.test.ts[2m > [22mvalidateSymbolMap[2m > [22mCHECK 5: < 3 lexical fields distincts → FAIL[32m 0[2mms[22m[39m
+ [32m✓[39m tests/symbol/symbol-map-oracle.test.ts[2m > [22mvalidateSymbolMap[2m > [22mCHECK 6: short_ratio range < 0.15 → ERROR[32m 0[2mms[22m[39m
+ [32m✓[39m tests/symbol/symbol-map-oracle.test.ts[2m > [22mvalidateSymbolMap[2m > [22mCHECK 7: interiority delta > 0.5 → ERROR[32m 0[2mms[22m[39m
+ [32m✓[39m tests/symbol/symbol-map-oracle.test.ts[2m > [22mvalidateSymbolMap[2m > [22mCHECK 8: < 3 forbidden moves → ERROR[32m 0[2mms[22m[39m
+ [32m✓[39m tests/symbol/symbol-map-oracle.test.ts[2m > [22mvalidateSymbolMap[2m > [22mCHECK 9: commandment > 150 chars → ERROR[32m 0[2mms[22m[39m
+ [32m✓[39m tests/symbol/symbol-map-oracle.test.ts[2m > [22mvalidateSymbolMap[2m > [22msymbol map avec FATAL + ERROR → valid false[32m 0[2mms[22m[39m
+ [32m✓[39m tests/oracle/s-score.test.ts[2m > [22mcomputeSScore[2m > [22mtous axes à 100 → composite = 100[32m 1[2mms[22m[39m
+ [32m✓[39m tests/oracle/s-score.test.ts[2m > [22mcomputeSScore[2m > [22mtous axes à 0 → composite = 0[32m 0[2mms[22m[39m
+ [32m✓[39m tests/oracle/s-score.test.ts[2m > [22mcomputeSScore[2m > [22mpoids émotionnels = 63.3% du total[32m 0[2mms[22m[39m
+ [32m✓[39m tests/oracle/s-score.test.ts[2m > [22mcomputeSScore[2m > [22maxe à 49 (< AXIS_FLOOR) → verdict REJECT même si composite > 92[32m 0[2mms[22m[39m
+ [32m✓[39m tests/oracle/s-score.test.ts[2m > [22mcomputeSScore[2m > [22mcomposite 91.9 → verdict REJECT (seuil 92 absolu)[32m 0[2mms[22m[39m
+ [32m✓[39m tests/oracle/s-score.test.ts[2m > [22mcomputeSScore[2m > [22mcomposite 92.0 exactement → verdict SEAL[32m 0[2mms[22m[39m
+ [32m✓[39m tests/oracle/s-score.test.ts[2m > [22mcomputeSScore[2m > [22mDÉTERMINISME — mêmes axes = même score[32m 0[2mms[22m[39m
+ [32m✓[39m tests/pitch/correction-catalog.test.ts[2m > [22mCORRECTION_CATALOG[2m > [22mcontient exactement 12 opérations[32m 1[2mms[22m[39m
+ [32m✓[39m tests/pitch/correction-catalog.test.ts[2m > [22mCORRECTION_CATALOG[2m > [22mchaque op a description, primary_axis, expected_delta[32m 1[2mms[22m[39m
+ [32m✓[39m tests/pitch/correction-catalog.test.ts[2m > [22mCORRECTION_CATALOG[2m > [22mtoutes les ops sont uniques[32m 0[2mms[22m[39m
+ [32m✓[39m tests/pitch/correction-catalog.test.ts[2m > [22mCORRECTION_CATALOG[2m > [22mgetOperationDescriptor retourne l'op correcte[32m 0[2mms[22m[39m
+ [32m✓[39m tests/pitch/correction-catalog.test.ts[2m > [22mCORRECTION_CATALOG[2m > [22mgetOperationsByPrimaryAxis filtre correctement[32m 0[2mms[22m[39m
+ [32m✓[39m tests/authenticity/ia-smell-patterns.test.ts[2m > [22mIA Smell Patterns (ART-AUTH-01)[2m > [22mAUTH-01: texte artificiel IA → ≥ 10/15 patterns détectés[32m 3[2mms[22m[39m
+ [32m✓[39m tests/authenticity/ia-smell-patterns.test.ts[2m > [22mIA Smell Patterns (ART-AUTH-01)[2m > [22mAUTH-04: 15 patterns tous testés (≥13/15 fonctionnels)[32m 1[2mms[22m[39m
+ [32m✓[39m tests/config.test.ts[2m > [22mSOVEREIGN_CONFIG[2m > [22mSOVEREIGN_THRESHOLD = 92 (non-negotiable)[32m 1[2mms[22m[39m
+ [32m✓[39m tests/config.test.ts[2m > [22mSOVEREIGN_CONFIG[2m > [22mEMOTION_WEIGHT_PCT = 63.3%[32m 0[2mms[22m[39m
+ [32m✓[39m tests/config.test.ts[2m > [22mSOVEREIGN_CONFIG[2m > [22mMAX_CORRECTION_PASSES = 2[32m 0[2mms[22m[39m
+ [32m✓[39m tests/config.test.ts[2m > [22mSOVEREIGN_CONFIG[2m > [22mGINI_OPTIMAL = 0.45[32m 0[2mms[22m[39m
+ [32m✓[39m tests/config.test.ts[2m > [22mSOVEREIGN_CONFIG[2m > [22mAXIS_FLOOR = 50[32m 0[2mms[22m[39m
+ [32m✓[39m tests/config.test.ts[2m > [22mSOVEREIGN_CONFIG[2m > [22mREJECT_BELOW = 60[32m 0[2mms[22m[39m
+ [32m✓[39m tests/config.test.ts[2m > [22mSOVEREIGN_CONFIG[2m > [22mpoids émotionnels totalisent 9.5 / 15.0[32m 0[2mms[22m[39m
+ [32m✓[39m tests/config.test.ts[2m > [22mSOVEREIGN_CONFIG[2m > [22mpoids totaux = 15.0[32m 0[2mms[22m[39m
+ [32m✓[39m tests/config.test.ts[2m > [22mSOVEREIGN_CONFIG — MACRO v3[2m > [22mMACRO_WEIGHTS sum = 1.0[32m 0[2mms[22m[39m
+ [32m✓[39m tests/config.test.ts[2m > [22mSOVEREIGN_CONFIG — MACRO v3[2m > [22mMACRO_AXIS_FLOOR = 85[32m 0[2mms[22m[39m
+ [32m✓[39m tests/config.test.ts[2m > [22mSOVEREIGN_CONFIG — MACRO v3[2m > [22mECC_FLOOR = 88[32m 0[2mms[22m[39m
+ [32m✓[39m tests/config.test.ts[2m > [22mSOVEREIGN_CONFIG — MACRO v3[2m > [22mECC_MAX_TOTAL_BONUS = 3 (anti-gaming cap)[32m 0[2mms[22m[39m
+ [32m✓[39m tests/config.test.ts[2m > [22mSOVEREIGN_CONFIG — MACRO v3[2m > [22mCORPOREAL_MARKERS contient 31 éléments (FR PREMIUM)[32m 0[2mms[22m[39m
+ [32m✓[39m tests/config.test.ts[2m > [22mSOVEREIGN_CONFIG — MACRO v3[2m > [22mSYMBOL_MAX_REGEN = 2[32m 0[2mms[22m[39m
+ [32m✓[39m tests/config.test.ts[2m > [22mSOVEREIGN_CONFIG — MACRO v3[2m > [22mMACRO_WEIGHTS.ecc = 0.33 (33% emotion, Sprint 11 adjusted)[32m 0[2mms[22m[39m
+ [32m✓[39m tests/config.test.ts[2m > [22mSOVEREIGN_CONFIG — MACRO v3[2m > [22mZONES.GREEN défini correctement[32m 0[2mms[22m[39m
+ [32m✓[39m tests/config.test.ts[2m > [22mSOVEREIGN_CONFIG — MACRO v3[2m > [22mZONES.YELLOW défini correctement[32m 0[2mms[22m[39m
+ [32m✓[39m tests/config.test.ts[2m > [22mSOVEREIGN_CONFIG — MACRO v3[2m > [22mRCI_PERFECT_PENALTY = -5[32m 0[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/emotion-coherence.test.ts[2m > [22mscoreEmotionCoherence[2m > [22mtransitions smoothes entre paragraphes → score élevé[32m 2[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/emotion-coherence.test.ts[2m > [22mscoreEmotionCoherence[2m > [22msauts brutaux entre paragraphes → score bas[32m 1[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/emotion-coherence.test.ts[2m > [22mscoreEmotionCoherence[2m > [22mtexte très court (1 paragraphe) → score par défaut[32m 0[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/emotion-coherence.test.ts[2m > [22mscoreEmotionCoherence[2m > [22mDÉTERMINISME — même texte = même score (3 appels)[32m 1[2mms[22m[39m
+ [32m✓[39m tests/semantic/semantic-migration.test.ts[2m > [22mSemantic Migration (ART-SEM-01, ART-SEM-05)[2m > [22mMIG-01: scoreTension14D works with provider (semantic enabled)[32m 2[2mms[22m[39m
+ [32m✓[39m tests/semantic/semantic-migration.test.ts[2m > [22mSemantic Migration (ART-SEM-01, ART-SEM-05)[2m > [22mMIG-02: scoreTension14D fallbacks to keywords when no provider[32m 1[2mms[22m[39m
+ [32m✓[39m tests/semantic/semantic-migration.test.ts[2m > [22mSemantic Migration (ART-SEM-01, ART-SEM-05)[2m > [22mMIG-03: scoreEmotionCoherence works with provider (semantic enabled)[32m 1[2mms[22m[39m
+ [32m✓[39m tests/semantic/semantic-migration.test.ts[2m > [22mSemantic Migration (ART-SEM-01, ART-SEM-05)[2m > [22mMIG-04: scoreEmotionCoherence fallbacks to keywords when no provider[32m 1[2mms[22m[39m
+ [32m✓[39m tests/semantic/semantic-migration.test.ts[2m > [22mSemantic Migration (ART-SEM-01, ART-SEM-05)[2m > [22mMIG-05: SEMANTIC_CORTEX_ENABLED flag controls behavior[32m 1[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/show-dont-tell.test.ts[2m > [22mShow Don't Tell Axis (ART-SDT-02)[2m > [22mAXE-SDT-01: retourne score [0,100], poids 3.0, méthode HYBRID[32m 3[2mms[22m[39m
+ [32m✓[39m tests/input/prompt-physics-section.test.ts[2m > [22mprompt-assembler physics integration[2m > [22mphysics section compiles successfully for prompt[32m 3[2mms[22m[39m
+ [32m✓[39m tests/input/prompt-physics-section.test.ts[2m > [22mprompt-assembler physics integration[2m > [22mphysics section is deterministic for prompt injection[32m 1[2mms[22m[39m
+ [32m✓[39m tests/input/prompt-physics-section.test.ts[2m > [22mprompt-assembler physics integration[2m > [22mbuildSovereignPrompt signature accepts emotionBrief (backward compat)[32m 0[2mms[22m[39m
+ [32m✓[39m tests/constraints/constraint-compiler.test.ts[2m > [22mconstraint-compiler[2m > [22mproduces valid CompiledPhysicsSection[32m 1[2mms[22m[39m
+ [32m✓[39m tests/constraints/constraint-compiler.test.ts[2m > [22mconstraint-compiler[2m > [22mCOMPILE-01: budget respected[32m 0[2mms[22m[39m
+ [32m✓[39m tests/constraints/constraint-compiler.test.ts[2m > [22mconstraint-compiler[2m > [22mCOMPILE-02: determinism (same brief → same hash)[32m 0[2mms[22m[39m
+ [32m✓[39m tests/constraints/constraint-compiler.test.ts[2m > [22mconstraint-compiler[2m > [22mno raw vectors in output[32m 0[2mms[22m[39m
+ [32m✓[39m tests/constraints/constraint-compiler.test.ts[2m > [22mconstraint-compiler[2m > [22mthrows if budget <= 0[32m 0[2mms[22m[39m
+ [32m✓[39m tests/constraints/constraint-compiler.test.ts[2m > [22mconstraint-compiler[2m > [22mthrows if tokenizer_id empty[32m 0[2mms[22m[39m
+ [32m✓[39m tests/constraints/constraint-compiler.test.ts[2m > [22mconstraint-compiler[2m > [22mthrows if CRITICAL exceeds tiny budget[32m 0[2mms[22m[39m
+ [32m✓[39m tests/constraints/constraint-compiler.test.ts[2m > [22mconstraint-compiler[2m > [22mtight budget: CRITICAL always included first[32m 0[2mms[22m[39m
+ [32m✓[39m tests/constraints/constraint-compiler.test.ts[2m > [22mconstraint-compiler[2m > [22mevery constraint has source_signal_ids[32m 0[2mms[22m[39m
+ [32m✓[39m tests/constraints/constraint-compiler.test.ts[2m > [22mtoken-counter[2m > [22mreturns positive for non-empty[32m 0[2mms[22m[39m
+ [32m✓[39m tests/constraints/constraint-compiler.test.ts[2m > [22mtoken-counter[2m > [22mis deterministic[32m 0[2mms[22m[39m
+ [32m✓[39m tests/constraints/constraint-compiler.test.ts[2m > [22mtoken-counter[2m > [22mthrows on empty tokenizerId[32m 0[2mms[22m[39m
+ [32m✓[39m tests/constraints/constraint-compiler.test.ts[2m > [22mtoken-counter[2m > [22mthrows on unknown tokenizerId[32m 0[2mms[22m[39m
+ [32m✓[39m tests/oracle/macro-s-score.test.ts[2m > [22mcomputeMacroSScore[2m > [22mtous macro-axes à 100 → composite 100, SEAL[32m 2[2mms[22m[39m
+ [32m✓[39m tests/oracle/macro-s-score.test.ts[2m > [22mcomputeMacroSScore[2m > [22mtous macro-axes à 0 → composite 0, REJECT[32m 0[2mms[22m[39m
+ [32m✓[39m tests/oracle/macro-s-score.test.ts[2m > [22mcomputeMacroSScore[2m > [22mECC 60% du composite vérifié[32m 0[2mms[22m[39m
+ [32m✓[39m tests/oracle/macro-s-score.test.ts[2m > [22mcomputeMacroSScore[2m > [22mcomposite 92 + min_axis 85 + ECC 88 → SEAL[32m 0[2mms[22m[39m
+ [32m✓[39m tests/oracle/macro-s-score.test.ts[2m > [22mcomputeMacroSScore[2m > [22mcomposite 92 + ECC 87 → PITCH (pas SEAL car ECC < 88)[32m 0[2mms[22m[39m
+ [32m✓[39m tests/oracle/macro-s-score.test.ts[2m > [22mcomputeMacroSScore[2m > [22mcomposite 91.9 → PITCH pas SEAL[32m 0[2mms[22m[39m
+ [32m✓[39m tests/oracle/macro-s-score.test.ts[2m > [22mcomputeMacroSScore[2m > [22mcomposite 84 → REJECT[32m 0[2mms[22m[39m
+ [32m✓[39m tests/oracle/macro-s-score.test.ts[2m > [22mcomputeMacroSScore[2m > [22mmin_axis 74 → PITCH même si composite 90[32m 0[2mms[22m[39m
+ [32m✓[39m tests/oracle/macro-s-score.test.ts[2m > [22mcomputeMacroSScore[2m > [22mZONE YELLOW: composite 86, min_axis 76, ECC 90 → PITCH[32m 0[2mms[22m[39m
+ [32m✓[39m tests/oracle/macro-s-score.test.ts[2m > [22mcomputeMacroSScore[2m > [22mDÉTERMINISME — mêmes axes = même score[32m 0[2mms[22m[39m
+ [32m✓[39m tests/constraints/compiler-golden.test.ts[2m > [22mcompiler-golden[2m > [22mgolden hash is stable[32m 3[2mms[22m[39m
+ [32m✓[39m tests/gates/gate-roadmap.test.ts[2m > [22mgate:roadmap[2m > [22mGATE-RD-01: gate passes when hash matches[33m 1044[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/anti-cliche.test.ts[2m > [22mscoreAntiCliche[2m > [22mtexte sans aucun cliché → score 100[32m 1[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/anti-cliche.test.ts[2m > [22mscoreAntiCliche[2m > [22mtexte avec 1 cliché → score 85 (graduated: 100 - 1×15)[32m 0[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/anti-cliche.test.ts[2m > [22mscoreAntiCliche[2m > [22mtexte avec 6+ clichés → score 10 (graduated: 100 - 6×15 = 10)[32m 0[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/anti-cliche.test.ts[2m > [22mscoreAntiCliche[2m > [22mtexte avec AI patterns → pénalité[32m 0[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/anti-cliche.test.ts[2m > [22mscoreAntiCliche[2m > [22mtexte avec filter words → pénalité[32m 0[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/anti-cliche.test.ts[2m > [22mscoreAntiCliche[2m > [22mcase insensitive matching[32m 0[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/anti-cliche.test.ts[2m > [22mscoreAntiCliche[2m > [22mDÉTERMINISME — même texte = même score (3 appels)[32m 0[2mms[22m[39m
+ [32m✓[39m tests/quality/quality-bridge.test.ts[2m > [22mQuality M1-M12 Bridge (Roadmap 4.1)[2m > [22mQM-01: returns disabled report when QUALITY_M12_ENABLED=false[32m 1[2mms[22m[39m
+ [32m✓[39m tests/quality/quality-bridge.test.ts[2m > [22mQuality M1-M12 Bridge (Roadmap 4.1)[2m > [22mQM-02: quality_score_partial is 0 when disabled[32m 0[2mms[22m[39m
+ [32m✓[39m tests/quality/quality-bridge.test.ts[2m > [22mQuality M1-M12 Bridge (Roadmap 4.1)[2m > [22mQM-03: report_hash is deterministic[32m 0[2mms[22m[39m
+ [32m✓[39m tests/quality/quality-bridge.test.ts[2m > [22mQuality M1-M12 Bridge (Roadmap 4.1)[2m > [22mQM-04: degraded metrics have reason[32m 0[2mms[22m[39m
+ [32m✓[39m tests/quality/quality-bridge.test.ts[2m > [22mQuality M1-M12 Bridge (Roadmap 4.1)[2m > [22mQM-05: computed_count + degraded_count = 12[32m 0[2mms[22m[39m
+ [32m✓[39m tests/quality/quality-bridge.test.ts[2m > [22mQuality M1-M12 Bridge (Roadmap 4.1)[2m > [22mQM-06: quality_score_partial is in 0-1 range[32m 0[2mms[22m[39m
+ [32m✓[39m tests/symbol/emotion-to-imagery.test.ts[2m > [22mcomputeImagerySeed[2m > [22mvalence négative + arousal élevé → obscurité + mécanique[32m 1[2mms[22m[39m
+ [32m✓[39m tests/symbol/emotion-to-imagery.test.ts[2m > [22mcomputeImagerySeed[2m > [22mvalence négative + arousal bas → souterrain + minéral[32m 0[2mms[22m[39m
+ [32m✓[39m tests/symbol/emotion-to-imagery.test.ts[2m > [22mcomputeImagerySeed[2m > [22mvalence positive + arousal élevé → lumière + aérien[32m 0[2mms[22m[39m
+ [32m✓[39m tests/symbol/emotion-to-imagery.test.ts[2m > [22mcomputeImagerySeed[2m > [22mvalence positive + arousal bas → végétal + chaleur[32m 0[2mms[22m[39m
+ [32m✓[39m tests/symbol/emotion-to-imagery.test.ts[2m > [22mcomputeImagerySeed[2m > [22mvalence neutre + arousal élevé → mécanique + liquide[32m 0[2mms[22m[39m
+ [32m✓[39m tests/symbol/emotion-to-imagery.test.ts[2m > [22mcomputeImagerySeed[2m > [22mvalence neutre + arousal bas → organique + minéral[32m 0[2mms[22m[39m
+ [32m✓[39m tests/symbol/emotion-to-imagery.test.ts[2m > [22mcomputeImagerySeed[2m > [22marousal > 0.7 → short_ratio 0.6, fragmenté[32m 0[2mms[22m[39m
+ [32m✓[39m tests/symbol/emotion-to-imagery.test.ts[2m > [22mcomputeImagerySeed[2m > [22marousal 0.5 → short_ratio 0.3, standard[32m 0[2mms[22m[39m
+ [32m✓[39m tests/symbol/emotion-to-imagery.test.ts[2m > [22mcomputeImagerySeed[2m > [22marousal 0.2 → short_ratio 0.1, dense[32m 0[2mms[22m[39m
+ [32m✓[39m tests/symbol/emotion-to-imagery.test.ts[2m > [22mcomputeImagerySeed[2m > [22msadness → interiority 0.8[32m 0[2mms[22m[39m
+ [32m✓[39m tests/symbol/emotion-to-imagery.test.ts[2m > [22mcomputeImagerySeed[2m > [22manger → interiority 0.3[32m 0[2mms[22m[39m
+ [32m✓[39m tests/symbol/emotion-to-imagery.test.ts[2m > [22mcomputeImagerySeed[2m > [22mDÉTERMINISME — même input 3 fois → même output[32m 0[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/tension-14d.test.ts[2m > [22mscoreTension14D[2m > [22mtexte avec émotion montante conforme → score élevé (>70)[32m 2[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/tension-14d.test.ts[2m > [22mscoreTension14D[2m > [22mtexte plat (même émotion partout) → score bas (<50)[32m 1[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/tension-14d.test.ts[2m > [22mscoreTension14D[2m > [22mDÉTERMINISME — même texte + même packet = même score (3 appels)[32m 1[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/tension-14d.test.ts[2m > [22mscoreTension14D[2m > [22mtexte vide → score bas[32m 0[2mms[22m[39m
+ [32m✓[39m tests/semantic/emotion-contradiction.test.ts[2m > [22mEmotion Contradiction Detector (ART-SEM-05)[2m > [22mCONTRA-01: detects contradiction when 2+ emotions > threshold[32m 1[2mms[22m[39m
+ [32m✓[39m tests/semantic/emotion-contradiction.test.ts[2m > [22mEmotion Contradiction Detector (ART-SEM-05)[2m > [22mCONTRA-02: no contradiction when emotions below threshold[32m 0[2mms[22m[39m
+ [32m✓[39m tests/semantic/emotion-contradiction.test.ts[2m > [22mEmotion Contradiction Detector (ART-SEM-05)[2m > [22mCONTRA-03: generates correct instruction_fr[32m 0[2mms[22m[39m
+ [32m✓[39m tests/semantic/emotion-contradiction.test.ts[2m > [22mEmotion Contradiction Detector (ART-SEM-05)[2m > [22mCONTRA-04: detects multiple contradictions with 3+ active emotions[32m 0[2mms[22m[39m
+ [32m✓[39m tests/semantic/emotion-contradiction.test.ts[2m > [22mEmotion Contradiction Detector (ART-SEM-05)[2m > [22mCONTRA-05: respects custom threshold parameter[32m 0[2mms[22m[39m
+ [32m✓[39m tests/runtime/sovereign-live.test.ts[2m > [22msovereign-live CLI structure[2m > [22mCLI script file exists and is readable[32m 1[2mms[22m[39m
+ [32m✓[39m tests/runtime/sovereign-live.test.ts[2m > [22msovereign-live CLI structure[2m > [22mCLI script imports required modules[32m 0[2mms[22m[39m
+ [32m✓[39m tests/runtime/sovereign-live.test.ts[2m > [22msovereign-live CLI structure[2m > [22mCLI script exports main function[32m 0[2mms[22m[39m
+ [32m✓[39m tests/runtime/sovereign-live.test.ts[2m > [22msovereign-live CLI structure[2m > [22mCLI script validates required arguments[32m 0[2mms[22m[39m
+ [32m✓[39m tests/runtime/sovereign-live.test.ts[2m > [22msovereign-live fail-closed behavior[2m > [22mCLI script writes FAIL.json on error[32m 0[2mms[22m[39m
+ [32m✓[39m tests/runtime/sovereign-live.test.ts[2m > [22msovereign-live fail-closed behavior[2m > [22mCLI script validates path safety[32m 0[2mms[22m[39m
+ [32m✓[39m tests/delta/delta-physics.test.ts[2m > [22mbuildPhysicsDelta[2m > [22maudit disabled → enabled=false + stable hash[32m 1[2mms[22m[39m
+ [32m✓[39m tests/delta/delta-physics.test.ts[2m > [22mbuildPhysicsDelta[2m > [22maudit undefined → enabled=false + stable hash[32m 0[2mms[22m[39m
+ [32m✓[39m tests/delta/delta-physics.test.ts[2m > [22mbuildPhysicsDelta[2m > [22maudit normal → enabled=true + correct metrics[32m 0[2mms[22m[39m
+ [32m✓[39m tests/delta/delta-physics.test.ts[2m > [22mbuildPhysicsDelta[2m > [22mNaN/Infinity dans cosine/euclidean → sanitize à 0[32m 0[2mms[22m[39m
+ [32m✓[39m tests/delta/delta-physics.test.ts[2m > [22mbuildPhysicsDelta[2m > [22mhash déterministe — même input → même hash [DELTA-PHYS-01][32m 1[2mms[22m[39m
+ [32m✓[39m tests/delta/delta-physics.test.ts[2m > [22mbuildPhysicsDelta[2m > [22mviolations counters correct[32m 0[2mms[22m[39m
+ [32m✓[39m tests/delta/delta-physics.test.ts[2m > [22mbuildPhysicsDelta[2m > [22mno omega-forge calls — unit pur (vérifié par isolation)[32m 0[2mms[22m[39m
+ [32m✓[39m tests/constraints/constraint-compiler-emotion.test.ts[2m > [22mConstraint Compiler — Emotion Integration (ART-SEM-05)[2m > [22mCOMPILE-NEW-01: prompt compiled contains physical actions when emotions present in packet[32m 1[2mms[22m[39m
+ [32m✓[39m tests/constraints/constraint-compiler-emotion.test.ts[2m > [22mConstraint Compiler — Emotion Integration (ART-SEM-05)[2m > [22mCOMPILE-NEW-02: prompt contains contradiction instructions when contradictions detected[32m 0[2mms[22m[39m
+ [32m✓[39m tests/constraints/constraint-compiler-emotion.test.ts[2m > [22mConstraint Compiler — Emotion Integration (ART-SEM-05)[2m > [22mCOMPILE-NEW-03: budget 800 tokens respected even with actions + contradictions added[32m 0[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/authenticity.test.ts[2m > [22mAuthenticity Axis (ART-AUTH-01)[2m > [22mAXE-AUTH-01: retourne score [0,100], poids 2.0, méthode HYBRID[32m 3[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/physics-compliance.test.ts[2m > [22mscorePhysicsCompliance[2m > [22mPC-01: audit undefined → neutral score 50, weight=0[32m 1[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/physics-compliance.test.ts[2m > [22mscorePhysicsCompliance[2m > [22mPC-02: audit disabled → neutral score 50, weight=0[32m 0[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/physics-compliance.test.ts[2m > [22mscorePhysicsCompliance[2m > [22mPC-03: audit with physics_score → wraps score, weight=0[32m 0[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/physics-compliance.test.ts[2m > [22mscorePhysicsCompliance[2m > [22mPC-04: structure validation — AxisScore format[32m 0[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/physics-compliance.test.ts[2m > [22mscorePhysicsCompliance[2m > [22mPC-05: weight reads from config (default 0)[32m 0[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/physics-compliance.test.ts[2m > [22mscorePhysicsCompliance[2m > [22mPC-06: score reflects audit physics_score[32m 0[2mms[22m[39m
+ [32m✓[39m tests/delta/delta-cliche.test.ts[2m > [22mcomputeClicheDelta[2m > [22mtexte propre → 0 matchs[32m 1[2mms[22m[39m
+ [32m✓[39m tests/delta/delta-cliche.test.ts[2m > [22mcomputeClicheDelta[2m > [22mtexte avec clichés → matchs détectés avec localisation[32m 0[2mms[22m[39m
+ [32m✓[39m tests/delta/delta-cliche.test.ts[2m > [22mcomputeClicheDelta[2m > [22mtexte avec AI patterns → matchs séparés[32m 0[2mms[22m[39m
+ [32m✓[39m tests/calibration/calibration-runner.test.ts[2m > [22mcalibration runner[2m > [22mCAL-RUN-01: config contains calibration entries[32m 1[2mms[22m[39m
+ [32m✓[39m tests/calibration/calibration-runner.test.ts[2m > [22mcalibration runner[2m > [22mCAL-RUN-02: calibration script file exists and has correct structure[32m 0[2mms[22m[39m
+ [32m✓[39m tests/calibration/calibration-runner.test.ts[2m > [22mcalibration runner[2m > [22mCAL-RUN-03: calibration output path is defined correctly[32m 0[2mms[22m[39m
+ [32m✓[39m tests/polish/sentence-surgeon-types.test.ts[2m > [22mSentence Surgeon Types (ART-POL-01, ART-POL-02)[2m > [22mTYPE-01: compiles TypeScript and all exports visible[32m 1[2mms[22m[39m
+ [32m✓[39m tests/polish/sentence-surgeon-types.test.ts[2m > [22mSentence Surgeon Types (ART-POL-01, ART-POL-02)[2m > [22mTYPE-02: DEFAULT_MAX_CORRECTIONS enforces hard limit (ART-POL-02)[32m 0[2mms[22m[39m
+ [32m✓[39m tests/polish/sentence-surgeon-types.test.ts[2m > [22mSentence Surgeon Types (ART-POL-01, ART-POL-02)[2m > [22mTYPE-03: DEFAULT_MAX_PASSES enforces hard limit (ART-POL-02)[32m 0[2mms[22m[39m
+ [32m✓[39m tests/polish/sentence-surgeon-types.test.ts[2m > [22mSentence Surgeon Types (ART-POL-01, ART-POL-02)[2m > [22mTYPE-04: DEFAULT_MIN_IMPROVEMENT positive threshold (ART-POL-01)[32m 0[2mms[22m[39m
+ [32m✓[39m tests/authenticity/adversarial-judge-cache.test.ts[2m > [22mAdversarial Judge Cache (ART-AUTH-02)[2m > [22mAUTH-02: cache → 2 appels identiques → 1 seule requête provider[32m 1[2mms[22m[39m
+ [32m✓[39m tests/authenticity/adversarial-judge-cache.test.ts[2m > [22mAdversarial Judge Cache (ART-AUTH-02)[2m > [22mAUTH-03: fraud_score reproductible (même texte = même score via cache)[32m 0[2mms[22m[39m
+ [32m✓[39m tests/constraints/consumer-gate-enforce.test.ts[2m > [22mconsumer-gate-enforce[2m > [22mPASS when all required present[32m 1[2mms[22m[39m
+ [32m✓[39m tests/constraints/consumer-gate-enforce.test.ts[2m > [22mconsumer-gate-enforce[2m > [22mFAIL when required missing[32m 0[2mms[22m[39m
+ [32m✓[39m tests/constraints/consumer-gate-enforce.test.ts[2m > [22mconsumer-gate-enforce[2m > [22mDEGRADE-EXPLICIT when optional missing[32m 0[2mms[22m[39m
+ [32m✓[39m tests/constraints/consumer-gate-enforce.test.ts[2m > [22mconsumer-gate-enforce[2m > [22mFAIL when unknown signal in required[32m 0[2mms[22m[39m
+ [32m✓[39m tests/pitch/pitch-oracle.test.ts[2m > [22mselectBestPitch[2m > [22msélectionne le pitch avec le meilleur score pondéré[32m 1[2mms[22m[39m
+ [32m✓[39m tests/pitch/pitch-oracle.test.ts[2m > [22mselectBestPitch[2m > [22mDÉTERMINISME — mêmes pitches = même sélection[32m 0[2mms[22m[39m
+ [32m✓[39m tests/semantic/semantic-cache.test.ts[2m > [22mSemantic Cache (ART-SEM-02)[2m > [22mCACHE-04: expired entries return null (TTL enforcement)[33m 1103[2mms[22m[39m
+ [32m✓[39m tests/semantic/semantic-cache.test.ts[2m > [22mSemantic Cache (ART-SEM-02)[2m > [22mCACHE-05: clear() resets cache and statistics[32m 1[2mms[22m[39m
+ [32m✓[39m tests/gates/gate-roadmap.test.ts[2m > [22mgate:roadmap[2m > [22mGATE-RD-02: hash file structure validation[32m 1[2mms[22m[39m
+ [32m✓[39m tests/gates/gate-roadmap.test.ts[2m > [22mgate:roadmap[2m > [22mGATE-RD-03: gate update command creates/updates hash[33m 870[2mms[22m[39m
+ [32m✓[39m tests/gates/gate-roadmap.test.ts[2m > [22mgate:roadmap checkpoint parsing (RULE-ROADMAP-02)[2m > [22mGR-01: PASS — valid checkpoint with all fields[32m 0[2mms[22m[39m
+ [32m✓[39m tests/gates/gate-roadmap.test.ts[2m > [22mgate:roadmap checkpoint parsing (RULE-ROADMAP-02)[2m > [22mGR-02: FAIL — checkpoint without roadmap_item[32m 0[2mms[22m[39m
+ [32m✓[39m tests/gates/gate-roadmap.test.ts[2m > [22mgate:roadmap checkpoint parsing (RULE-ROADMAP-02)[2m > [22mGR-03: FAIL — checkpoint with invalid deviation[32m 0[2mms[22m[39m
+ [32m✓[39m tests/gates/gate-roadmap.test.ts[2m > [22mgate:roadmap checkpoint parsing (RULE-ROADMAP-02)[2m > [22mGR-04: FAIL — checkpoint without evidence[32m 0[2mms[22m[39m
+ [32m✓[39m tests/gates/gate-roadmap.test.ts[2m > [22mgate:roadmap checkpoint parsing (RULE-ROADMAP-02)[2m > [22mGR-05: PASS — backward compat with existing format (Roadmap Sprint)[32m 0[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m60 passed[39m[22m[90m (60)[39m
+[2m      Tests [22m [1m[32m340 passed[39m[22m[90m (340)[39m
+[2m   Start at [22m 21:56:08
+[2m   Duration [22m 2.30s[2m (transform 8.07s, setup 0ms, import 13.19s, tests 3.78s, environment 5ms)[22m
+

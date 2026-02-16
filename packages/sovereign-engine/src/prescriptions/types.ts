@@ -11,7 +11,7 @@ export interface Prescription {
   readonly prescription_id: string;
   readonly segment_index: number;
   readonly severity: 'critical' | 'high' | 'medium';
-  readonly type: 'dead_zone' | 'forced_transition' | 'feasibility' | 'trajectory';
+  readonly type: 'dead_zone' | 'forced_transition' | 'feasibility' | 'trajectory' | 'telling' | 'ia_smell';
   readonly diagnosis: string;
   readonly action: string;
   readonly expected_gain: number; // 0-100

@@ -5,10 +5,10 @@
 
 import { describe, it, expect } from 'vitest';
 import { scoreVoiceConformity } from '../../../src/oracle/axes/voice-conformity.js';
-import type { ForgePacket } from '../../../src/types.js';
+import type { ForgePacket, SovereignProvider } from '../../../src/types.js';
 import type { VoiceGenome } from '../../../src/voice/voice-genome.js';
 
-const mockProvider: any = {
+const mockProvider: Partial<SovereignProvider> = {
   model_id: 'test-model',
   callLLM: async () => ({ result: 'mock' }),
 };

@@ -118,11 +118,15 @@ export function computeMacroSScore(
     macroAxes.aai.score, // Sprint 11
   );
 
-  // ZONES (Sprint 11: +AAI floor check)
+  // ZONES (Sprint 12: Threshold 93, floor checks)
   const verdict: 'SEAL' | 'PITCH' | 'REJECT' =
-    composite >= 92 && min_axis >= 85 && macroAxes.ecc.score >= 88 && macroAxes.aai.score >= 85
+    composite >= SOVEREIGN_CONFIG.ZONES.GREEN.min_composite &&
+    min_axis >= SOVEREIGN_CONFIG.ZONES.GREEN.min_axis &&
+    macroAxes.ecc.score >= SOVEREIGN_CONFIG.MACRO_FLOORS.ecc &&
+    macroAxes.aai.score >= SOVEREIGN_CONFIG.MACRO_FLOORS.aai
       ? 'SEAL'
-      : composite >= 85 && min_axis >= 75
+      : composite >= SOVEREIGN_CONFIG.ZONES.YELLOW.min_composite &&
+        min_axis >= SOVEREIGN_CONFIG.ZONES.YELLOW.min_axis
         ? 'PITCH'
         : 'REJECT';
 

@@ -21,11 +21,12 @@
 export const SOVEREIGN_CONFIG = {
   /**
    * Seuil absolu de sceau souverain.
-   * Si composite < 92 → REJECT.
-   * Si 91.9 → REJECT.
+   * Si composite < 93 → REJECT.
+   * Si 92.9 → REJECT.
    * Non négociable.
+   * Sprint 12: Rehaussé de 92 → 93 (Scoring V3.1).
    */
-  SOVEREIGN_THRESHOLD: 92,
+  SOVEREIGN_THRESHOLD: 93,
 
   /**
    * Seuil de rejet absolu.
@@ -392,13 +393,21 @@ export const SOVEREIGN_CONFIG = {
     aai: 0.25, // Authenticity & Art Index (NOUVEAU Sprint 11)
   } as const,
 
+  MACRO_FLOORS: {
+    ecc: 88, // Emotional Control Core — plancher spécial
+    rci: 85, // Rhythmic Control Index
+    sii: 85, // Signature Integrity Index
+    ifi: 85, // Immersion Force Index
+    aai: 85, // Authenticity & Art Index
+  } as const,
+
   MACRO_AXIS_FLOOR: 85,
   ECC_FLOOR: 88,
   AAI_FLOOR: 85, // Sprint 11: Authenticity & Art Index floor
   MACRO_REJECT_BELOW: 85,
 
   ZONES: {
-    GREEN: { min_composite: 92, min_axis: 85, min_ecc: 88 },
+    GREEN: { min_composite: 93, min_axis: 85, min_ecc: 88 }, // Sprint 12: 92 → 93
     YELLOW: { min_composite: 85, min_axis: 75 },
     RED: { max_composite: 84 },
   } as const,

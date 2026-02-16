@@ -6,8 +6,8 @@ import { describe, it, expect } from 'vitest';
 import { SOVEREIGN_CONFIG } from '../src/config.js';
 
 describe('SOVEREIGN_CONFIG', () => {
-  it('SOVEREIGN_THRESHOLD = 92 (non-negotiable)', () => {
-    expect(SOVEREIGN_CONFIG.SOVEREIGN_THRESHOLD).toBe(92);
+  it('SOVEREIGN_THRESHOLD = 93 (Sprint 12: rehaussé)', () => {
+    expect(SOVEREIGN_CONFIG.SOVEREIGN_THRESHOLD).toBe(93);
   });
 
   it('EMOTION_WEIGHT_PCT = 63.3%', () => {
@@ -82,7 +82,7 @@ describe('SOVEREIGN_CONFIG — MACRO v3', () => {
   });
 
   it('ZONES.GREEN défini correctement', () => {
-    expect(SOVEREIGN_CONFIG.ZONES.GREEN.min_composite).toBe(92);
+    expect(SOVEREIGN_CONFIG.ZONES.GREEN.min_composite).toBe(93); // Sprint 12: 92 → 93
     expect(SOVEREIGN_CONFIG.ZONES.GREEN.min_axis).toBe(85);
     expect(SOVEREIGN_CONFIG.ZONES.GREEN.min_ecc).toBe(88);
   });

@@ -37,6 +37,8 @@ import type { PhysicsAuditResult } from './physics-audit.js';
 // Sprint 11: New axes for AAI
 import { scoreShowDontTell } from './axes/show-dont-tell.js';
 import { scoreAuthenticityAxis } from './axes/authenticity.js';
+// Sprint 12: metaphor_novelty for SII
+import { scoreMetaphorNoveltyAxis } from './axes/metaphor-novelty.js';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // TYPES — MACRO AXES
@@ -507,15 +509,17 @@ export async function computeSII(
   prose: string,
   provider: SovereignProvider,
 ): Promise<MacroAxisScore> {
-  // 1. Sous-composants
+  // 1. Sous-composants (Sprint 12: +metaphor_novelty)
   const anti_cliche = scoreAntiCliche(packet, prose);
   const necessity = await scoreNecessity(packet, prose, provider);
-  const sensory_density = await scoreSensoryDensity(packet, prose, provider);
+  const metaphor_novelty = await scoreMetaphorNoveltyAxis(packet, prose, provider);
 
-  const sub_scores = [anti_cliche, necessity, sensory_density];
+  const sub_scores = [anti_cliche, necessity, metaphor_novelty];
 
-  // 2. Score pondéré (necessity = most stable signal, sensory overlap with IFI reduced)
-  const sii_raw = anti_cliche.score * 0.35 + necessity.score * 0.45 + sensory_density.score * 0.20;
+  // 2. Score pondéré (Sprint 12 V3.1: anti_cliche×1.0 + necessity×1.0 + metaphor_novelty×1.5)
+  const total_weight = 1.0 + 1.0 + 1.5; // 3.5
+  const sii_raw =
+    (anti_cliche.score * 1.0 + necessity.score * 1.0 + metaphor_novelty.score * 1.5) / total_weight;
 
   // 3. Score final (pas de bonus/malus)
   const score_final = Math.max(0, Math.min(100, sii_raw));

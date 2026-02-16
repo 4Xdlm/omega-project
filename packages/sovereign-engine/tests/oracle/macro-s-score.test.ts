@@ -66,19 +66,19 @@ describe('computeMacroSScore', () => {
     expect(result.emotion_weight_pct).toBe(33);
   });
 
-  it('composite 92 + min_axis 85 + ECC 88 → SEAL', () => {
+  it('composite 93 + min_axis 85 + ECC 88 → SEAL', () => {
     const macroAxes: MacroAxesScores = {
-      ecc: createMockMacroAxis('ecc', 92, 0.33),
-      rci: createMockMacroAxis('rci', 92, 0.17),
-      sii: createMockMacroAxis('sii', 92, 0.15),
-      ifi: createMockMacroAxis('ifi', 92, 0.10),
-      aai: createMockMacroAxis('aai', 92, 0.25),
+      ecc: createMockMacroAxis('ecc', 93, 0.33),
+      rci: createMockMacroAxis('rci', 93, 0.17),
+      sii: createMockMacroAxis('sii', 93, 0.15),
+      ifi: createMockMacroAxis('ifi', 93, 0.10),
+      aai: createMockMacroAxis('aai', 93, 0.25),
     };
 
     const result = computeMacroSScore(macroAxes, 'test_scene', 'test_seed');
 
-    expect(result.composite).toBe(92);
-    expect(result.min_axis).toBe(92);
+    expect(result.composite).toBe(93);
+    expect(result.min_axis).toBe(93);
     expect(result.verdict).toBe('SEAL');
   });
 

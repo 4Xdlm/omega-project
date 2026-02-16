@@ -84,22 +84,22 @@ describe('computeSScore', () => {
     expect(result.verdict).toBe('REJECT');
   });
 
-  it('composite 92.0 exactement → verdict SEAL', () => {
-    const axesFor92 = {
-      interiority: { name: 'interiority', score: 92, weight: 2.0, method: 'LLM', details: '' },
-      tension_14d: { name: 'tension_14d', score: 92, weight: 3.0, method: 'CALC', details: '' },
-      sensory_density: { name: 'sensory_density', score: 92, weight: 1.5, method: 'HYBRID', details: '' },
-      necessity: { name: 'necessity', score: 92, weight: 1.0, method: 'LLM', details: '' },
-      anti_cliche: { name: 'anti_cliche', score: 92, weight: 1.0, method: 'CALC', details: '' },
-      rhythm: { name: 'rhythm', score: 92, weight: 1.0, method: 'CALC', details: '' },
-      signature: { name: 'signature', score: 92, weight: 1.0, method: 'CALC', details: '' },
-      impact: { name: 'impact', score: 92, weight: 2.0, method: 'LLM', details: '' },
-      emotion_coherence: { name: 'emotion_coherence', score: 92, weight: 2.5, method: 'CALC', details: '' },
+  it('composite 93.0 exactement → verdict SEAL', () => {
+    const axesFor93 = {
+      interiority: { name: 'interiority', score: 93, weight: 2.0, method: 'LLM', details: '' },
+      tension_14d: { name: 'tension_14d', score: 93, weight: 3.0, method: 'CALC', details: '' },
+      sensory_density: { name: 'sensory_density', score: 93, weight: 1.5, method: 'HYBRID', details: '' },
+      necessity: { name: 'necessity', score: 93, weight: 1.0, method: 'LLM', details: '' },
+      anti_cliche: { name: 'anti_cliche', score: 93, weight: 1.0, method: 'CALC', details: '' },
+      rhythm: { name: 'rhythm', score: 93, weight: 1.0, method: 'CALC', details: '' },
+      signature: { name: 'signature', score: 93, weight: 1.0, method: 'CALC', details: '' },
+      impact: { name: 'impact', score: 93, weight: 2.0, method: 'LLM', details: '' },
+      emotion_coherence: { name: 'emotion_coherence', score: 93, weight: 2.5, method: 'CALC', details: '' },
     };
 
-    const result = computeSScore(axesFor92, 'test_scene', 'test_seed');
+    const result = computeSScore(axesFor93, 'test_scene', 'test_seed');
 
-    expect(result.composite).toBe(92);
+    expect(result.composite).toBe(93);
     expect(result.verdict).toBe('SEAL');
   });
 

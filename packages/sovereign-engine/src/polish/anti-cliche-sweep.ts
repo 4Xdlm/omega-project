@@ -4,32 +4,67 @@
  * ═══════════════════════════════════════════════════════════════════════════════
  *
  * Module: polish/anti-cliche-sweep.ts
- * Version: 1.0.0
+ * Version: 2.0.0 (Sprint 10 Commit 10.6)
  * Standard: NASA-Grade L4 / DO-178C Level A
+ * Invariant: ART-POL-05
  *
- * Final cliché scan + replacement.
- * Bounded corrections (max 5 replacements per sweep).
+ * Final cliché scan + replacement via surgeonPass().
+ * Detects clichés from blacklist, applies bounded corrections (max 5).
+ * All corrections validated via reScoreGuard.
  *
  * ═══════════════════════════════════════════════════════════════════════════════
  */
 
-import type { ForgePacket } from '../types.js';
+import type { ForgePacket, SovereignProvider } from '../types.js';
 import { computeClicheDelta } from '../delta/delta-cliche.js';
+import { surgeonPass, DEFAULT_SURGEON_CONFIG } from './sentence-surgeon.js';
+import { judgeAestheticV3 } from '../oracle/aesthetic-oracle.js';
 
 /**
- * Sweep clichés from prose.
+ * Sweep clichés from prose via surgeonPass().
+ * ART-POL-05: Corrections validated via reScoreGuard.
  *
- * INV-SWEEP-NOMOD-01: Returns prose UNCHANGED (no string replacement).
- * Rationale: Destructive replacement with "[CLICHE_REMOVED]" destroys rhythm,
- * coherence, and all downstream scores. The anti_cliche scoring axis handles
- * penalties via scoring, not text surgery. Quality is enforced via scoring.
+ * @param packet - Forge packet with constraints
+ * @param prose - Input prose to sweep
+ * @param provider - SovereignProvider for LLM operations
+ * @returns Swept prose (or original if no corrections accepted)
+ *
+ * @remarks
+ * Algorithm:
+ * 1. Detect clichés via computeClicheDelta (uses blacklist)
+ * 2. If clichés detected → call surgeonPass() with reason='cliche'
+ * 3. surgeonPass() uses reScoreGuard internally → no regression possible
+ * 4. Return modified prose (or original if no corrections accepted)
+ *
+ * Previous version returned prose unchanged (no-op) to avoid destructive
+ * replacement. New version uses surgeonPass() which preserves coherence.
  */
-export function sweepCliches(packet: ForgePacket, prose: string): string {
+export async function sweepCliches(
+  packet: ForgePacket,
+  prose: string,
+  provider: SovereignProvider,
+): Promise<string> {
   const clicheDelta = computeClicheDelta(packet, prose);
 
-  // NEVER mutilate prose. The anti_cliche scoring axis handles penalties.
-  // Destructive replacement with "[CLICHE_REMOVED]" destroys rhythm,
-  // coherence, and all downstream scores.
-  // Return prose unchanged — quality is enforced via scoring, not text surgery.
-  return prose;
+  // If no clichés detected, return prose unchanged
+  if (clicheDelta.cliche_count === 0) {
+    return prose;
+  }
+
+  // Create scorer for surgeonPass
+  const scorer = async (p: string): Promise<number> => {
+    const result = await judgeAestheticV3(packet, p, provider, {}, null);
+    return result.composite;
+  };
+
+  // Apply surgeonPass to remove clichés
+  const config = {
+    ...DEFAULT_SURGEON_CONFIG,
+    max_corrections_per_pass: 5, // Limit corrections (as per original comment)
+    min_improvement: 2.0,
+  };
+
+  const result = await surgeonPass(prose, packet, provider, scorer, config);
+
+  return result.prose_after;
 }

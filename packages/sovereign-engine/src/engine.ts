@@ -167,9 +167,9 @@ export async function runSovereignForge(
 
   let final_prose = duel_result.final_prose;
 
-  final_prose = polishRhythm(enrichedPacket, final_prose);
-  final_prose = sweepCliches(enrichedPacket, final_prose);
-  final_prose = enforceSignature(enrichedPacket, final_prose);
+  final_prose = await polishRhythm(enrichedPacket, final_prose, provider);
+  final_prose = await sweepCliches(enrichedPacket, final_prose, provider);
+  final_prose = await enforceSignature(enrichedPacket, final_prose, provider);
 
   // ★ NOUVEAU v3: Utiliser judgeAestheticV3 avec macro-axes
   const final_score_v3 = await judgeAestheticV3(enrichedPacket, final_prose, provider, symbolMap, physicsAudit);

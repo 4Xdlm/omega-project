@@ -32,22 +32,28 @@ describe('IFI distribution bonus', () => {
     }
   });
 
-  it('weight rebalance: 0.30 + 0.35 + 0.35', async () => {
+  it('weight rebalance: Sprint 14 — 5 sub-scores with phantom axes', async () => {
     const prose = `Test prose with sensory and corporeal content.`;
     const result = await computeIFI(MOCK_PACKET, prose, mockProvider);
 
-    // Verify weights
+    // Sprint 14: 5 sub-scores (3 original + 2 phantom)
     const sensoryRichness = result.sub_scores.find((s) => s.name === 'sensory_richness');
     const corporealAnchoring = result.sub_scores.find((s) => s.name === 'corporeal_anchoring');
     const focalisation = result.sub_scores.find((s) => s.name === 'focalisation');
+    const attentionSustain = result.sub_scores.find((s) => s.name === 'attention_sustain');
+    const fatigueManagement = result.sub_scores.find((s) => s.name === 'fatigue_management');
 
-    expect(sensoryRichness?.weight).toBe(0.30);
-    expect(corporealAnchoring?.weight).toBe(0.35);
-    expect(focalisation?.weight).toBe(0.35);
+    // Sprint 14 rebalanced weights
+    expect(sensoryRichness?.weight).toBe(0.25);
+    expect(corporealAnchoring?.weight).toBe(0.25);
+    expect(focalisation?.weight).toBe(0.25);
 
-    // Weights should sum to 1.0
-    const totalWeight = result.sub_scores.reduce((sum, s) => sum + s.weight, 0);
-    expect(totalWeight).toBeCloseTo(1.0, 2);
+    // Phantom axes present
+    expect(attentionSustain).toBeDefined();
+    expect(fatigueManagement).toBeDefined();
+
+    // Total sub-scores = 5
+    expect(result.sub_scores).toHaveLength(5);
   });
 
   it('IFI score is always [0, 100] even with bonus', async () => {

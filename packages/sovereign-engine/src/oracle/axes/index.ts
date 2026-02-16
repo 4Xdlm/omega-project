@@ -17,3 +17,5 @@ export { scoreSensoryDensity } from './sensory-density.js';
 export { scoreShowDontTell } from './show-dont-tell.js';
 export { scoreAuthenticityAxis } from './authenticity.js';
 export { scoreVoiceConformity } from './voice-conformity.js';
+export { scoreAttentionSustain } from './attention-sustain.js';
+export { scoreFatigueManagement } from './fatigue-management.js';

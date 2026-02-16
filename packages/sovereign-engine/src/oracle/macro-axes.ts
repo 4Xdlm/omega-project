@@ -41,6 +41,9 @@ import { scoreAuthenticityAxis } from './axes/authenticity.js';
 import { scoreMetaphorNoveltyAxis } from './axes/metaphor-novelty.js';
 // Sprint 13: voice_conformity for RCI
 import { scoreVoiceConformity } from './axes/voice-conformity.js';
+// Sprint 14: phantom axes for IFI
+import { scoreAttentionSustain } from './axes/attention-sustain.js';
+import { scoreFatigueManagement } from './axes/fatigue-management.js';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // TYPES — MACRO AXES
@@ -589,33 +592,44 @@ export async function computeIFI(
   const sensory_axis = await scoreSensoryDensity(packet, prose, provider);
   const focalisation = sensory_axis.score;
 
-  // Sub-scores fictifs pour audit
+  // 3b. Sprint 14: Phantom axes (CALC, no provider needed)
+  const attention_axis = scoreAttentionSustain(packet, prose);
+  const fatigue_axis = scoreFatigueManagement(packet, prose);
+
+  // Sub-scores for audit (Sprint 14: 5 sub-scores)
   const sub_scores: AxisScore[] = [
     {
       name: 'sensory_richness',
       score: sensory_richness,
-      weight: 0.30,
+      weight: 0.25,
       method: 'CALC',
       details: `Categories present`,
     },
     {
       name: 'corporeal_anchoring',
       score: corporeal_anchoring,
-      weight: 0.35,
+      weight: 0.25,
       method: 'CALC',
       details: `Corporeal markers`,
     },
     {
       name: 'focalisation',
       score: focalisation,
-      weight: 0.35,
+      weight: 0.25,
       method: 'HYBRID',
       details: sensory_axis.details,
     },
+    attention_axis,
+    fatigue_axis,
   ];
 
-  // 4. Score pondéré (NEW: 0.30 + 0.35 + 0.35, focalisation reduced from 0.40)
-  const ifi_raw = sensory_richness * 0.30 + corporeal_anchoring * 0.35 + focalisation * 0.35;
+  // 4. Score pondéré (Sprint 14: 0.25+0.25+0.25+0.125+0.125 = 1.0)
+  const ifi_raw =
+    sensory_richness * 0.25 +
+    corporeal_anchoring * 0.25 +
+    focalisation * 0.25 +
+    attention_axis.score * 0.125 +
+    fatigue_axis.score * 0.125;
 
   // 5. NEW: Distribution bonus (quartile coverage)
   const distributionBonus = computeDistributionBonus(prose);

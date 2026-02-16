@@ -1207,4 +1207,79 @@ sessions/ROADMAP_CHECKPOINT.md (Commit 9.6 entry)
 
 ---
 
-**Sprint 9 Status**: Commit 9.1 ✅, 9.2 ✅, 9.3 ✅, 9.4 ✅, 9.5 ✅, 9.6 ✅ | Remaining: 9.7
+### Commit 9.7 — Gates + ProofPack Sprint 9
+
+**Date**: 2026-02-16
+**Roadmap Sprint**: 9 (ART Emotion Semantic)
+**Status**: ✅ COMPLETE
+
+**Features Implemented**:
+- **Gates Verification**: Ran gate:all to verify Sprint 9 compliance
+- **ProofPack Generation**: Generated Sprint 9 ProofPack in proofpacks/local/
+- **Sprint Closure**: Final commit for Sprint 9 (ART Semantic Emotion Analysis)
+
+**Files Modified**:
+```
+proofpacks/local/MANIFEST.json (REGENERATED)
+proofpacks/local/HASHES.sha256 (REGENERATED)
+proofpacks/local/EVIDENCE.md (REGENERATED)
+sessions/ROADMAP_CHECKPOINT.md (Commit 9.7 entry)
+```
+
+**Gates Verification**:
+- gate:no-shadow: ✅ PASS
+- gate:no-todo: ✅ PASS — No TODO/FIXME/HACK found
+- gate:active: ✅ PASS — gate:no-todo correctly detected poison
+- gate:roadmap: ✅ PASS — Hash matches reference, RULE-ROADMAP-02 verified
+- gate:idl: ✅ PASS — registry.ts matches IDL (22 signals)
+- gate:proofpack: ✅ PASS — All required files present
+
+**ProofPack Contents**:
+- MANIFEST.json: 38 packages, 6 gates, git commit 4955a0ff (Commit 9.6)
+- HASHES.sha256: Critical files hashed (ROADMAP_CHECKPOINT, IDL, registry.ts, MANIFEST canonical)
+- EVIDENCE.md: Reproduction steps and file listing
+
+**Sprint 9 Summary**:
+- **Commits**: 7 commits (9.1 through 9.7)
+- **Tests**: 326 total (22 signal-registry + 304 sovereign-engine)
+- **New Tests**: +44 (282 → 326 from Sprint 8)
+- **Baseline Preserved**: 288 pre-Sprint 9 tests intact
+- **Files Added**: 14 new files (types, analyzer, cache, aggregation, validation, prompts, contradiction, action mapping, migration, calibration)
+- **Calibration**: ✅ STABLE (+2.46 composite delta)
+- **Recommendation**: Proceed with SEMANTIC_CORTEX_ENABLED=true
+
+**Invariants Satisfied**:
+- ART-SEM-01: ✅ 14D JSON structure, no NaN/Infinity
+- ART-SEM-02: ✅ Cache determinism (text_hash + model_id + prompt_hash)
+- ART-SEM-03: ✅ N-samples median + calibration report
+- ART-SEM-04: ✅ Negation handling ("pas peur" → fear LOW)
+- ART-SEM-05: ✅ Contradiction detection + action mapping
+
+**Checkpoint Hash**: *(to be computed after commit)*
+
+**Compliance**:
+- RULE-ROADMAP-01: ✅ Checkpoint updated
+- RULE-ROADMAP-02: ✅ Structured fields (deviation: none, evidence)
+- RULE-REGRESSION: ✅ **326/326 tests PASS** (signal: 22, sovereign: 304)
+- RULE-BASELINE: ✅ **288 baseline tests preserved** (0 breakage)
+- GATE-ALL: ✅ All 6 gates pass
+
+**Impact**:
+- Sprint 9 complete: Semantic emotion analysis fully integrated
+- tension_14d + emotion_coherence: now use LLM semantic analysis
+- Fallback to keywords: ensures backward compatibility
+- Cache layer: reduces LLM calls, TTL-based expiration
+- Calibration: stable migration verified on 5 CAL-CASE
+- ProofPack: Sprint 9 artifacts sealed
+
+**Deviation**: none
+
+**Evidence**:
+- Gates: 6/6 PASS ✅
+- Tests: 326/326 PASS ✅
+- ProofPack: MANIFEST + HASHES + EVIDENCE ✅
+- Git commit: 4955a0ff (Commit 9.6)
+
+---
+
+**Sprint 9 Status**: ✅ ALL 7 COMMITS COMPLETE (9.1 ✅, 9.2 ✅, 9.3 ✅, 9.4 ✅, 9.5 ✅, 9.6 ✅, 9.7 ✅)

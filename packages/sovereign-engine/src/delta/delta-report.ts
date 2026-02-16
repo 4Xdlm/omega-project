@@ -14,7 +14,14 @@
  */
 
 import { sha256, canonicalize } from '@omega/canon-kernel';
-import type { ForgePacket, DeltaReport } from '../types.js';
+import type {
+  ForgePacket,
+  DeltaReport,
+  EmotionDelta,
+  TensionDelta,
+  StyleDelta,
+  ClicheDelta,
+} from '../types.js';
 import { computeEmotionDelta } from './delta-emotion.js';
 import { computeTensionDelta } from './delta-tension.js';
 import { computeStyleDelta } from './delta-style.js';
@@ -71,10 +78,10 @@ export function generateDeltaReport(
 }
 
 function computeGlobalDistance(
-  emotion: any,
-  tension: any,
-  style: any,
-  cliche: any,
+  emotion: EmotionDelta,
+  tension: TensionDelta,
+  style: StyleDelta,
+  cliche: ClicheDelta,
 ): number {
   const emotionWeight = 0.4;
   const tensionWeight = 0.3;

@@ -60,6 +60,28 @@ export interface MetricResult {
   readonly reason?: string; // Why degraded
 }
 
+/**
+ * Minimal paragraph structure for omega-forge M metrics.
+ * Simplified from StyledParagraph - only includes fields needed by M1-M12.
+ */
+interface MinimalParagraph {
+  readonly paragraph_id: string;
+  readonly original_paragraph_id: string;
+  readonly text: string;
+  readonly word_count: number;
+  readonly sentence_count: number;
+  readonly selected_variant_id: string;
+  readonly style_profile: null;
+}
+
+/**
+ * Minimal canon structure for omega-forge M metrics.
+ * Compatible with omega-forge M1/M2 expectations.
+ */
+interface MinimalCanon {
+  readonly entries: readonly { readonly statement: string }[];
+}
+
 // ═══════════════════════════════════════════════════════════════════════════════
 // BRIDGE LOGIC
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -68,7 +90,7 @@ export interface MetricResult {
  * Build minimal StyledParagraph-like objects from prose.
  * These are compatible with M metrics that only need text + word/sentence counts.
  */
-function proseToParagraphs(prose: string): any[] {
+function proseToParagraphs(prose: string): MinimalParagraph[] {
   const rawParagraphs = prose.split(/\n\n+/).filter((p) => p.trim().length > 0);
 
   return rawParagraphs.map((text, i) => ({
@@ -86,7 +108,7 @@ function proseToParagraphs(prose: string): any[] {
  * Build Canon object from ForgePacket for M1/M2.
  * omega-forge M metrics expect: { entries: Array<{ statement: string }> }
  */
-function packetToCanon(packet: ForgePacket): any {
+function packetToCanon(packet: ForgePacket): MinimalCanon {
   return {
     entries: packet.canon.map((c) => ({
       statement: c.statement,

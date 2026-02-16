@@ -1,5 +1,51 @@
 # ROADMAP CHANGELOG — OMEGA
 
+## ART v1.0 — 2026-02-16
+
+### Changement majeur
+Nouvelle roadmap enfant : Phase ART — Transcendance Artistique (Sprints 9-20).
+Succède à Roadmap OMNIPOTENT v1.1 (Sprints 1-8, COMPLETE).
+
+### Origine
+Analyse comparative 3 IA (Claude, ChatGPT, Gemini) — 23 idées évaluées :
+- 7 retenues, 7 adaptées, 9 rejetées
+- Tri basé sur lecture code source (pas marketing)
+
+### Contenu
+- Sprint 9 : Semantic Cortex (remplacement keyword matching par LLM semantic)
+- Sprint 10 : Polish-V2 (3 no-op remplacés par corrections réelles)
+- Sprint 11 : Silence Oracle (show-dont-tell) + Adversarial Judge (anti-IA smell)
+- Sprint 12 : Métaphores + Scoring V3.1 (5 macro-axes, 14 axes, seuil 93) + Tag
+- Sprints 13-16 : Voice Genome, Reader Phantom, Phonetic Engine, Temporal Architect
+- Sprints 17-20 : Benchmark humain, Calibration, Consolidation, Certification
+
+### Métriques prévues
+- Invariants : +22 (ART-SEM, ART-POL, ART-SDT, ART-AUTH, ART-META, ART-SCORE)
+- Gates : +1 (GATE-SC Semantic Cache determinism)
+- Axes : 10 → 14+ (show_dont_tell, authenticity, metaphor_novelty, restraint)
+- Macro-axes : 4 → 5 (+ AAI: Authenticity & Art Index)
+- Seuil SEAL : 92 → 93
+- Scoring : V3 → V3.1
+- Sessions estimées : 18-31
+
+### Décisions clés
+- ECC V4 hégémonique (Gemini) : REJETÉ
+- Genesis Self-Feeding Loop : REJETÉ (viole BUILD/GOVERNANCE)
+- 27 axes / 7 macro-axes : REJETÉ (trop d'axes)
+- Multi-agent spécialisés : REJETÉ (coût ×4, gain non prouvé)
+- Cache semantic obligatoire : ADOPTÉ (ChatGPT recommendation)
+
+### Documents de référence
+- OMEGA_ROADMAP_ART_v1.md (roadmap complète)
+- OMEGA_ANALYSE_COMPARATIVE_TOTALE.md (tri des 23 idées)
+- BLUEPRINT_ENGINE_WRITING_x_EMOTION.md (état technique)
+
+### Statut
+- OMNIPOTENT v1.1 : COMPLETE (Sprints 1-8, 288 tests, 6/6 gates, v2.0.0)
+- ART v1.0 : PRÊT À EXÉCUTER
+
+---
+
 ## v5.0 — 2026-02-13
 
 ### Changement majeur

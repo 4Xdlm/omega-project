@@ -32,10 +32,11 @@ describe('compiler-golden', () => {
     const brief = computeForgeEmotionBrief(GOLDEN_BRIEF_PARAMS);
     const compiled = compilePhysicsSection(brief, GOLDEN_CONFIG);
 
-    // GOLDEN HASH — FROZEN (Sprint 2 — Commit 2.3)
+    // GOLDEN HASH — UPDATED (Sprint 10 — Commit 10.5)
+    // Updated to reflect emotion-to-action and contradiction integration.
     // This value is deterministic proof of correct constraint compilation.
     // If this hash changes, it indicates a regression in the compiler.
-    const GOLDEN_HASH = '7a31ae3f4c82f1d6f46337fb878544309fd1728304c5bb2e7e6e894c608b7b0e';
+    const GOLDEN_HASH = '9cd782620de7ebab3125dd340496882ac81513a26794ec4fb4fc4ad37db2049e';
 
     expect(compiled.section_hash).toBe(GOLDEN_HASH);
   });

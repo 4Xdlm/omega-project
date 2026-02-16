@@ -29,6 +29,9 @@ import type {
   PhysicsCompilerConfig,
 } from './types.js';
 import { countTokens } from './token-counter.js';
+import { EMOTION_ACTION_MAP } from '../semantic/emotion-to-action.js';
+import { detectContradictions } from '../semantic/emotion-contradiction.js';
+import type { SemanticEmotionResult } from '../semantic/types.js';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // MAIN COMPILER
@@ -93,6 +96,14 @@ export function compilePhysicsSection(
   // MED: Anti-dead-zone
   const deadZoneConstraint = compileAntiDeadZone(brief, isFr);
   if (deadZoneConstraint) allConstraints.push(deadZoneConstraint);
+
+  // HIGH: Emotion-to-action mapping (show don't tell)
+  const actionConstraint = compileEmotionActions(brief.physics_profiles, cfg.top_k_emotions, isFr);
+  if (actionConstraint) allConstraints.push(actionConstraint);
+
+  // HIGH: Contradiction handling (if contradictions detected)
+  const contradictionConstraint = compileContradictions(brief.physics_profiles, isFr);
+  if (contradictionConstraint) allConstraints.push(contradictionConstraint);
 
   // ── PASS 2: Budget-aware selection ──
   const selected = selectWithinBudget(allConstraints, budget, tokenizerId);
@@ -259,6 +270,89 @@ function compileAntiDeadZone(brief: ForgeEmotionBrief, fr: boolean): CompiledCon
       ? `## Anti-zone-morte\n\nChaque quartile doit contenir au moins un mouvement émotionnel. Pas de paragraphes "neutres" consécutifs.`
       : `## Anti-dead-zone\n\nEvery quartile must contain at least one emotional movement. No consecutive neutral paragraphs.`,
     source_signal_ids: ['emotion.dead_zones'],
+  };
+}
+
+function compileEmotionActions(
+  profiles: readonly EmotionPhysicsProfile[],
+  topK: number,
+  fr: boolean,
+): CompiledConstraint | null {
+  if (profiles.length === 0) return null;
+
+  // Get top K emotions by mass
+  const topEmotions = [...profiles]
+    .sort((a, b) => b.mass - a.mass)
+    .slice(0, Math.min(topK, 3)); // Limit to top 3 for brevity
+
+  if (topEmotions.length === 0) return null;
+
+  // Get actions for each emotion
+  const actionLines: string[] = [];
+  for (const profile of topEmotions) {
+    const emotionKey = profile.emotion as keyof typeof EMOTION_ACTION_MAP;
+    const actions = EMOTION_ACTION_MAP[emotionKey];
+    if (actions && actions.length > 0) {
+      // Take first 3 actions for each emotion
+      const actionList = actions.slice(0, 3).join(', ');
+      actionLines.push(`- **${profile.emotion}** : ${actionList}`);
+    }
+  }
+
+  if (actionLines.length === 0) return null;
+
+  const text = fr
+    ? `## Actions corporelles (MONTRE, ne NOMME pas)\n\nAu lieu de NOMMER l'émotion, MONTRE-la via ces actions :\n\n${actionLines.join('\n')}\n\nUtilise des détails physiques observables plutôt que des états internes.`
+    : `## Physical actions (SHOW, don't TELL)\n\nInstead of NAMING the emotion, SHOW it through these actions:\n\n${actionLines.join('\n')}\n\nUse observable physical details rather than internal states.`;
+
+  return {
+    id: 'PHYS-ACTIONS',
+    priority: 'HIGH',
+    text,
+    source_signal_ids: ['emotion.action_mapping'],
+  };
+}
+
+function compileContradictions(
+  profiles: readonly EmotionPhysicsProfile[],
+  fr: boolean,
+): CompiledConstraint | null {
+  // Build a mock SemanticEmotionResult from physics profiles
+  // Use normalized mass as proxy for intensity
+  const totalMass = profiles.reduce((sum, p) => sum + p.mass, 0);
+  if (totalMass === 0) return null;
+
+  const emotionResult: SemanticEmotionResult = {
+    joy: 0, trust: 0, fear: 0, surprise: 0, sadness: 0,
+    disgust: 0, anger: 0, anticipation: 0, love: 0, submission: 0,
+    awe: 0, disapproval: 0, remorse: 0, contempt: 0,
+  };
+
+  // Populate with normalized intensities
+  for (const profile of profiles) {
+    const emotionKey = profile.emotion as keyof SemanticEmotionResult;
+    if (emotionKey in emotionResult) {
+      emotionResult[emotionKey] = profile.mass / totalMass;
+    }
+  }
+
+  // Detect contradictions
+  const contradictions = detectContradictions(emotionResult, 0.15); // Lower threshold for physics profiles
+
+  if (contradictions.length === 0) return null;
+
+  // Build instruction text
+  const contradictionLines = contradictions.map((c) => `- ${c.instruction_fr}`);
+
+  const text = fr
+    ? `## Gestion des contradictions émotionnelles\n\nPlusieurs émotions contradictoires coexistent :\n\n${contradictionLines.join('\n')}\n\nNe pas résoudre artificiellement — laisser la tension narrative exister.`
+    : `## Handling emotional contradictions\n\nMultiple contradictory emotions coexist:\n\n${contradictionLines.join('\n')}\n\nDo not artificially resolve — let the narrative tension exist.`;
+
+  return {
+    id: 'PHYS-CONTRADICTIONS',
+    priority: 'HIGH',
+    text,
+    source_signal_ids: ['emotion.contradictions'],
   };
 }
 

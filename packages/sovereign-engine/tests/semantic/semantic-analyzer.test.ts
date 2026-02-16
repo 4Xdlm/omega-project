@@ -14,7 +14,7 @@
  * ═══════════════════════════════════════════════════════════════════════════════
  */
 
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { analyzeEmotionSemantic } from '../../src/semantic/semantic-analyzer.js';
 import type { SovereignProvider } from '../../src/types.js';
 import type { SemanticEmotionResult } from '../../src/semantic/types.js';
@@ -24,7 +24,7 @@ import { DEFAULT_SEMANTIC_CONFIG } from '../../src/semantic/types.js';
  * Mock provider that returns valid 14D JSON.
  */
 class MockSemanticProvider implements SovereignProvider {
-  private mockResponse: string = JSON.stringify({
+  private mockResponse: unknown = {
     joy: 0.1,
     trust: 0.2,
     fear: 0.3,
@@ -39,9 +39,9 @@ class MockSemanticProvider implements SovereignProvider {
     disapproval: 0.65,
     remorse: 0.75,
     contempt: 0.85,
-  });
+  };
 
-  setMockResponse(response: string): void {
+  setMockResponse(response: unknown): void {
     this.mockResponse = response;
   }
 
@@ -66,6 +66,10 @@ class MockSemanticProvider implements SovereignProvider {
   }
 
   async generateDraft(_prompt: string, _mode: string, _seed: string): Promise<string> {
+    return JSON.stringify(this.mockResponse);
+  }
+
+  async generateStructuredJSON(_prompt: string): Promise<unknown> {
     return this.mockResponse;
   }
 }
@@ -80,6 +84,9 @@ class FailingMockProvider implements SovereignProvider {
   async scoreImpact(): Promise<number> { return 75; }
   async applyPatch(prose: string): Promise<string> { return prose; }
   async generateDraft(): Promise<string> {
+    throw new Error('Mock LLM failure');
+  }
+  async generateStructuredJSON(): Promise<unknown> {
     throw new Error('Mock LLM failure');
   }
 }
@@ -125,7 +132,7 @@ describe('Semantic Emotion Analyzer (ART-SEM-01)', () => {
 
   it('SEM-02: all values clamped to [0, 1], no NaN or Infinity', async () => {
     // Mock returns values outside [0, 1] and edge cases
-    provider.setMockResponse(JSON.stringify({
+    provider.setMockResponse({
       joy: 1.5,           // Above 1 → should clamp to 1
       trust: -0.3,        // Below 0 → should clamp to 0
       fear: 0.5,          // Valid
@@ -140,7 +147,7 @@ describe('Semantic Emotion Analyzer (ART-SEM-01)', () => {
       disapproval: 0.33,  // Valid
       remorse: 0.66,      // Valid
       contempt: 0.99,     // Valid
-    }));
+    });
 
     const result = await analyzeEmotionSemantic('Test text.', 'en', provider);
 
@@ -167,7 +174,7 @@ describe('Semantic Emotion Analyzer (ART-SEM-01)', () => {
 
   it('SEM-03: negation golden test — "pas peur" → fear LOW (< 0.3)', async () => {
     // Mock LLM correctly resolves negation
-    provider.setMockResponse(JSON.stringify({
+    provider.setMockResponse({
       joy: 0.1,
       trust: 0.1,
       fear: 0.15,         // LOW fear (negation resolved)
@@ -182,7 +189,7 @@ describe('Semantic Emotion Analyzer (ART-SEM-01)', () => {
       disapproval: 0.0,
       remorse: 0.0,
       contempt: 0.0,
-    }));
+    });
 
     const result = await analyzeEmotionSemantic(
       "Il n'avait pas peur, il savait ce qu'il faisait.",
@@ -196,7 +203,7 @@ describe('Semantic Emotion Analyzer (ART-SEM-01)', () => {
 
   it('SEM-04: mixed emotions golden — "souriait malgré tristesse" → joy AND sadness > 0.3', async () => {
     // Mock LLM correctly detects BOTH joy and sadness simultaneously
-    provider.setMockResponse(JSON.stringify({
+    provider.setMockResponse({
       joy: 0.45,          // MEDIUM joy (smiling)
       trust: 0.1,
       fear: 0.05,
@@ -211,7 +218,7 @@ describe('Semantic Emotion Analyzer (ART-SEM-01)', () => {
       disapproval: 0.0,
       remorse: 0.15,
       contempt: 0.0,
-    }));
+    });
 
     const result = await analyzeEmotionSemantic(
       "Elle souriait malgré sa tristesse, comme si rien n'était.",
@@ -239,28 +246,25 @@ describe('Semantic Emotion Analyzer (ART-SEM-01)', () => {
     expect(Number.isFinite(result.fear)).toBe(true);
   });
 
-  it('SEM-05: calls provider.generateDraft with correct parameters', async () => {
+  it('SEM-05: calls provider.generateStructuredJSON with correct parameters', async () => {
     let capturedPrompt = '';
-    let capturedMode = '';
-    let capturedSeed = '';
+    let callCount = 0;
 
     class SpyProvider extends MockSemanticProvider {
-      async generateDraft(prompt: string, mode: string, seed: string): Promise<string> {
+      async generateStructuredJSON(prompt: string): Promise<unknown> {
         capturedPrompt = prompt;
-        capturedMode = mode;
-        capturedSeed = seed;
-        return super.generateDraft(prompt, mode, seed);
+        callCount++;
+        return super.generateStructuredJSON(prompt);
       }
     }
 
     const spyProvider = new SpyProvider();
     await analyzeEmotionSemantic('Test text.', 'en', spyProvider);
 
-    // Verify provider.generateDraft was called with correct params
+    // Verify provider.generateStructuredJSON was called
     expect(capturedPrompt).toContain('Analyze emotions');
     expect(capturedPrompt).toContain('Test text.');
-    expect(capturedMode).toBe('semantic_analysis');
-    expect(capturedSeed).toBe('omega-semantic');
+    expect(callCount).toBe(1); // n_samples=1 by default
   });
 
   it('SEM-06: fallback to keywords when LLM fails', async () => {
@@ -281,5 +285,101 @@ describe('Semantic Emotion Analyzer (ART-SEM-01)', () => {
 
     // Keyword matching should detect "dread" and "terror" → fear > 0
     expect(result.fear).toBeGreaterThan(0);
+  });
+
+  it('SEM-07: N-samples > 1 computes median per dimension', async () => {
+    let callCount = 0;
+    const mockResponses = [
+      { joy: 0.3, trust: 0.2, fear: 0.1, surprise: 0.4, sadness: 0.5, disgust: 0.0, anger: 0.1, anticipation: 0.2, love: 0.3, submission: 0.4, awe: 0.5, disapproval: 0.6, remorse: 0.7, contempt: 0.8 },
+      { joy: 0.5, trust: 0.4, fear: 0.3, surprise: 0.2, sadness: 0.1, disgust: 0.0, anger: 0.1, anticipation: 0.2, love: 0.3, submission: 0.4, awe: 0.5, disapproval: 0.6, remorse: 0.7, contempt: 0.8 },
+      { joy: 0.7, trust: 0.6, fear: 0.5, surprise: 0.4, sadness: 0.3, disgust: 0.0, anger: 0.1, anticipation: 0.2, love: 0.3, submission: 0.4, awe: 0.5, disapproval: 0.6, remorse: 0.7, contempt: 0.8 },
+    ];
+
+    class MultiSampleProvider extends MockSemanticProvider {
+      async generateStructuredJSON(_prompt: string): Promise<unknown> {
+        return mockResponses[callCount++];
+      }
+    }
+
+    const multiProvider = new MultiSampleProvider();
+    const result = await analyzeEmotionSemantic('Test.', 'en', multiProvider, { n_samples: 3 });
+
+    // Verify N calls made
+    expect(callCount).toBe(3);
+
+    // Verify median calculation (joy: [0.3, 0.5, 0.7] → median = 0.5)
+    expect(result.joy).toBe(0.5);
+
+    // Verify median calculation (fear: [0.1, 0.3, 0.5] → median = 0.3)
+    expect(result.fear).toBe(0.3);
+  });
+
+  it('SEM-08: variance tolerance warning for high std deviation', async () => {
+    let callCount = 0;
+    const mockResponses = [
+      { joy: 0.1, trust: 0.2, fear: 0.1, surprise: 0.1, sadness: 0.1, disgust: 0.0, anger: 0.1, anticipation: 0.2, love: 0.3, submission: 0.4, awe: 0.5, disapproval: 0.6, remorse: 0.7, contempt: 0.8 },
+      { joy: 0.5, trust: 0.4, fear: 0.3, surprise: 0.2, sadness: 0.1, disgust: 0.0, anger: 0.1, anticipation: 0.2, love: 0.3, submission: 0.4, awe: 0.5, disapproval: 0.6, remorse: 0.7, contempt: 0.8 },
+      { joy: 0.9, trust: 0.6, fear: 0.5, surprise: 0.4, sadness: 0.3, disgust: 0.0, anger: 0.1, anticipation: 0.2, love: 0.3, submission: 0.4, awe: 0.5, disapproval: 0.6, remorse: 0.7, contempt: 0.8 },
+    ];
+
+    class HighVarianceProvider extends MockSemanticProvider {
+      async generateStructuredJSON(_prompt: string): Promise<unknown> {
+        return mockResponses[callCount++];
+      }
+    }
+
+    // Spy on console.warn
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+
+    const highVarianceProvider = new HighVarianceProvider();
+    await analyzeEmotionSemantic('Test.', 'en', highVarianceProvider, {
+      n_samples: 3,
+      variance_tolerance: 5.0, // Low tolerance to trigger warning
+    });
+
+    // Verify warning was issued (joy variance should exceed 5%)
+    expect(warnSpy).toHaveBeenCalledWith(
+      expect.stringContaining('[SEMANTIC] Variance tolerance exceeded')
+    );
+
+    warnSpy.mockRestore();
+  });
+
+  it('SEM-09: generateStructuredJSON returns parsed JSON directly', async () => {
+    let receivedType: string = '';
+
+    class TypeCheckProvider extends MockSemanticProvider {
+      async generateStructuredJSON(_prompt: string): Promise<unknown> {
+        const result = await super.generateStructuredJSON(_prompt);
+        receivedType = typeof result;
+        return result;
+      }
+    }
+
+    const typeProvider = new TypeCheckProvider();
+    await analyzeEmotionSemantic('Test.', 'en', typeProvider);
+
+    // generateStructuredJSON should return object, not string
+    expect(receivedType).toBe('object');
+  });
+
+  it('SEM-10: determinism — n_samples=1 always returns same result for same input', async () => {
+    const result1 = await analyzeEmotionSemantic('Fixed text.', 'en', provider, { n_samples: 1 });
+    const result2 = await analyzeEmotionSemantic('Fixed text.', 'en', provider, { n_samples: 1 });
+
+    // Same input → same output (mock provider deterministic)
+    expect(result1.joy).toBe(result2.joy);
+    expect(result1.fear).toBe(result2.fear);
+    expect(result1.sadness).toBe(result2.sadness);
+
+    // Verify all 14 dimensions match
+    const keys: Array<keyof SemanticEmotionResult> = [
+      'joy', 'trust', 'fear', 'surprise', 'sadness', 'disgust', 'anger',
+      'anticipation', 'love', 'submission', 'awe', 'disapproval', 'remorse', 'contempt',
+    ];
+
+    for (const key of keys) {
+      expect(result1[key]).toBe(result2[key]);
+    }
   });
 });

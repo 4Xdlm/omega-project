@@ -390,6 +390,7 @@ export interface SovereignProvider {
   scoreImpact(opening: string, closing: string, context: { readonly story_premise: string }): Promise<number>;
   applyPatch(prose: string, pitch: CorrectionPitch, constraints: { readonly canon: readonly string[]; readonly beats: readonly string[] }): Promise<string>;
   generateDraft(prompt: string, mode: string, seed: string): Promise<string>;
+  generateStructuredJSON(prompt: string): Promise<unknown>;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════

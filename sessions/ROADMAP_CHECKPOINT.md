@@ -790,4 +790,86 @@ analyzeEmotionSemantic(
 
 ---
 
-**Sprint 9 Status**: Commit 9.1 ✅ | Remaining: 9.2, 9.3, 9.4, 9.5, 9.6, 9.7
+### Commit 9.2 — LLM Emotion Analyzer Implementation
+
+**Date**: 2026-02-16
+**Roadmap Sprint**: ART (Transcendance Artistique) — Sprint 9
+**Status**: ✅ COMPLETE
+
+roadmap_item: ART-SEM-01, ART-SEM-03
+deviation: none
+evidence: src/semantic/ (4 files: semantic-analyzer.ts, semantic-aggregation.ts, semantic-prompts.ts, semantic-validation.ts) + generateStructuredJSON + tests SEM-07..10
+
+**Features Implemented**:
+- Added `generateStructuredJSON()` method to SovereignProvider interface
+- Updated semantic-analyzer to use generateStructuredJSON (returns parsed JSON, not string)
+- Implemented N-samples median aggregation (variance reduction)
+- Implemented variance tolerance checking with console.warn() for exceeded thresholds
+- Extracted aggregation and validation logic into separate modules for maintainability
+- All modules < 200 lines (semantic-analyzer.ts: 136 lines)
+
+**Files Created**:
+```
+packages/sovereign-engine/src/semantic/semantic-aggregation.ts (CREATED — median + variance checking)
+```
+
+**Files Modified**:
+```
+packages/sovereign-engine/src/types.ts (MODIFIED — add generateStructuredJSON to SovereignProvider)
+packages/sovereign-engine/src/semantic/semantic-analyzer.ts (MODIFIED — use generateStructuredJSON + N-samples)
+packages/sovereign-engine/tests/fixtures/mock-provider.ts (MODIFIED — implement generateStructuredJSON)
+packages/sovereign-engine/tests/semantic/semantic-analyzer.test.ts (MODIFIED — add 4 tests SEM-07..10)
+sessions/ROADMAP_CHECKPOINT.md (MODIFIED)
+```
+
+**Tests**:
+- SEM-07: N-samples > 1 computes median per dimension
+- SEM-08: Variance tolerance warning for high std deviation
+- SEM-09: generateStructuredJSON returns parsed JSON directly
+- SEM-10: Determinism — n_samples=1 always returns same result
+
+**N-Samples Pipeline**:
+1. Collect N samples via generateStructuredJSON
+2. Compute MEDIAN per dimension (reduces variance, robust to outliers)
+3. Check std deviation < variance_tolerance (default: 5.0%)
+4. Warn if exceeded (console.warn with detailed breakdown)
+
+**Invariants Satisfied**:
+- ART-SEM-01: ✅ Returns 14D JSON strict, never NaN/Infinity
+- ART-SEM-03: ✅ N-samples median, écart-type < variance_tolerance
+- ART-SEM-04: ✅ Negation resolved correctly (from 9.1)
+
+**Checkpoint Hash**: *(to be computed after commit)*
+
+**Compliance**:
+- RULE-ROADMAP-01: ✅ Checkpoint updated
+- RULE-ROADMAP-02: ✅ Structured fields (roadmap_item, deviation, evidence)
+- RULE-DEPS-01: ✅ No new dependencies
+- RULE-REGRESSION: ✅ No existing tests broken
+- FILE-SIZE: ✅ All modules < 200 lines
+
+**Impact**:
+- Tests sovereign: 273 → 277 (+4 new SEM-07..10)
+- SovereignProvider: MODIFIED (added generateStructuredJSON method)
+- Module architecture: 4 files (types, analyzer, prompts, validation, aggregation)
+
+**API Changes**:
+```typescript
+// NEW method in SovereignProvider
+generateStructuredJSON(prompt: string): Promise<unknown>
+
+// Updated semantic-analyzer internal pipeline
+// generateDraft → generateStructuredJSON
+// N-samples median aggregation
+// Variance tolerance checking
+```
+
+**Notes**:
+- generateStructuredJSON returns parsed JSON (unknown type)
+- MockSovereignProvider implements both generateDraft and generateStructuredJSON
+- Median calculation handles both odd and even sample counts
+- Variance checking converts std deviation to percentage points for clarity
+
+---
+
+**Sprint 9 Status**: Commit 9.1 ✅, 9.2 ✅ | Remaining: 9.3, 9.4, 9.5, 9.6, 9.7

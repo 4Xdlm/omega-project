@@ -74,4 +74,23 @@ export class MockSovereignProvider implements SovereignProvider {
   async generateDraft(_prompt: string, _mode: string, _seed: string): Promise<string> {
     return 'Mock draft prose generated with specified mode.';
   }
+
+  async generateStructuredJSON(_prompt: string): Promise<unknown> {
+    return {
+      joy: 0.5,
+      trust: 0.5,
+      fear: 0.5,
+      surprise: 0.5,
+      sadness: 0.5,
+      disgust: 0.5,
+      anger: 0.5,
+      anticipation: 0.5,
+      love: 0.5,
+      submission: 0.5,
+      awe: 0.5,
+      disapproval: 0.5,
+      remorse: 0.5,
+      contempt: 0.5,
+    };
+  }
 }

@@ -1,7 +1,7 @@
-/**
- * ═══════════════════════════════════════════════════════════════════════════════
- * OMEGA SOVEREIGN — SEMANTIC ANALYZER AGGREGATION
- * ═══════════════════════════════════════════════════════════════════════════════
+﻿/**
+ * â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+ * OMEGA SOVEREIGN â€” SEMANTIC ANALYZER AGGREGATION
+ * â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
  *
  * Module: src/semantic/semantic-aggregation.ts
  * Version: 1.0.0 (Sprint 9 Commit 9.2)
@@ -10,7 +10,7 @@
  * N-samples median aggregation and variance tolerance checking.
  * ART-SEM-03 compliance.
  *
- * ═══════════════════════════════════════════════════════════════════════════════
+ * â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
  */
 
 import type { SemanticEmotionResult } from './types.js';
@@ -59,7 +59,7 @@ export function aggregateSamples(samples: SemanticEmotionResult[]): SemanticEmot
  * Checks variance tolerance across samples.
  * Warns if std deviation exceeds tolerance threshold.
  *
- * ART-SEM-03: Écart-type < variance_tolerance (WARNING if exceeded).
+ * ART-SEM-03: Ã‰cart-type < variance_tolerance (WARNING if exceeded).
  *
  * @param samples - Array of emotion results
  * @param median - Median result
@@ -79,11 +79,11 @@ export function checkVarianceTolerance(
     const stdDev = Math.sqrt(variance) * 100; // Convert to percentage points
 
     if (stdDev > tolerance) {
-      violations.push(`${key}: σ=${stdDev.toFixed(2)}% (median=${(median[key] * 100).toFixed(1)}%)`);
+      violations.push(`${key}: Ïƒ=${stdDev.toFixed(2)}% (median=${(median[key] * 100).toFixed(1)}%)`);
     }
   }
 
   if (violations.length > 0) {
-    console.warn(`[SEMANTIC] Variance tolerance exceeded (>${tolerance}%):\n${violations.join('\n')}`);
+    console.log(`[SEMANTIC] Variance tolerance exceeded (>${tolerance}%):\n${violations.join('\n')}`);
   }
 }

@@ -1,7 +1,7 @@
-/**
- * ═══════════════════════════════════════════════════════════════════════════════
- * OMEGA SOVEREIGN — SEMANTIC ANALYZER TESTS
- * ═══════════════════════════════════════════════════════════════════════════════
+﻿/**
+ * â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+ * OMEGA SOVEREIGN â€” SEMANTIC ANALYZER TESTS
+ * â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
  *
  * Module: tests/semantic/semantic-analyzer.test.ts
  * Version: 1.0.0 (Sprint 9 Commit 9.1)
@@ -11,7 +11,7 @@
  * Tests for LLM-based semantic emotion analysis.
  * 6 mandatory tests: SEM-01 to SEM-06.
  *
- * ═══════════════════════════════════════════════════════════════════════════════
+ * â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
  */
 
 import { describe, it, expect, vi, beforeEach } from 'vitest';
@@ -138,13 +138,13 @@ describe('Semantic Emotion Analyzer (ART-SEM-01)', () => {
     const provider = new MockSemanticProvider();
     // Mock returns values outside [0, 1] and edge cases
     provider.setMockResponse({
-      joy: 1.5,           // Above 1 → should clamp to 1
-      trust: -0.3,        // Below 0 → should clamp to 0
+      joy: 1.5,           // Above 1 â†’ should clamp to 1
+      trust: -0.3,        // Below 0 â†’ should clamp to 0
       fear: 0.5,          // Valid
-      surprise: 2.0,      // Above 1 → should clamp to 1
+      surprise: 2.0,      // Above 1 â†’ should clamp to 1
       sadness: 0.0,       // Valid edge
       disgust: 1.0,       // Valid edge
-      anger: -1.0,        // Below 0 → should clamp to 0
+      anger: -1.0,        // Below 0 â†’ should clamp to 0
       anticipation: 0.75, // Valid
       love: 0.25,         // Valid
       submission: 0.1,    // Valid
@@ -177,7 +177,7 @@ describe('Semantic Emotion Analyzer (ART-SEM-01)', () => {
     }
   });
 
-  it('SEM-03: negation golden test — "pas peur" → fear LOW (< 0.3)', async () => {
+  it('SEM-03: negation golden test â€” "pas peur" â†’ fear LOW (< 0.3)', async () => {
     const provider = new MockSemanticProvider();
     // Mock LLM correctly resolves negation
     provider.setMockResponse({
@@ -204,11 +204,11 @@ describe('Semantic Emotion Analyzer (ART-SEM-01)', () => {
       { cache_enabled: false }
     );
 
-    // ART-SEM-04: Negation correctly resolved → fear should be LOW
+    // ART-SEM-04: Negation correctly resolved â†’ fear should be LOW
     expect(result.fear).toBeLessThan(0.3);
   });
 
-  it('SEM-04: mixed emotions golden — "souriait malgré tristesse" → joy AND sadness > 0.3', async () => {
+  it('SEM-04: mixed emotions golden â€” "souriait malgrÃ© tristesse" â†’ joy AND sadness > 0.3', async () => {
     const provider = new MockSemanticProvider();
     // Mock LLM correctly detects BOTH joy and sadness simultaneously
     provider.setMockResponse({
@@ -229,7 +229,7 @@ describe('Semantic Emotion Analyzer (ART-SEM-01)', () => {
     });
 
     const result = await analyzeEmotionSemantic(
-      "Elle souriait malgré sa tristesse, comme si rien n'était.",
+      "Elle souriait malgrÃ© sa tristesse, comme si rien n'Ã©tait.",
       'fr',
       provider,
       { cache_enabled: false }
@@ -240,7 +240,7 @@ describe('Semantic Emotion Analyzer (ART-SEM-01)', () => {
     expect(result.sadness).toBeGreaterThan(0.3);
   });
 
-  it('SEM-04b: config handling — respects enabled flag (BONUS)', async () => {
+  it('SEM-04b: config handling â€” respects enabled flag (BONUS)', async () => {
     const provider = new MockSemanticProvider();
     const result = await analyzeEmotionSemantic(
       'The shadow loomed with dread and terror.',
@@ -280,7 +280,7 @@ describe('Semantic Emotion Analyzer (ART-SEM-01)', () => {
   it('SEM-06: fallback to keywords when LLM fails', async () => {
     const failingProvider = new FailingMockProvider();
 
-    // Should not throw — fallback to keywords
+    // Should not throw â€” fallback to keywords
     const result = await analyzeEmotionSemantic(
       'The dark shadow filled him with dread and terror.',
       'en',
@@ -293,7 +293,7 @@ describe('Semantic Emotion Analyzer (ART-SEM-01)', () => {
     expect(typeof result.fear).toBe('number');
     expect(Number.isFinite(result.fear)).toBe(true);
 
-    // Keyword matching should detect "dread" and "terror" → fear > 0
+    // Keyword matching should detect "dread" and "terror" â†’ fear > 0
     expect(result.fear).toBeGreaterThan(0);
   });
 
@@ -317,10 +317,10 @@ describe('Semantic Emotion Analyzer (ART-SEM-01)', () => {
     // Verify N calls made
     expect(callCount).toBe(3);
 
-    // Verify median calculation (joy: [0.3, 0.5, 0.7] → median = 0.5)
+    // Verify median calculation (joy: [0.3, 0.5, 0.7] â†’ median = 0.5)
     expect(result.joy).toBe(0.5);
 
-    // Verify median calculation (fear: [0.1, 0.3, 0.5] → median = 0.3)
+    // Verify median calculation (fear: [0.1, 0.3, 0.5] â†’ median = 0.3)
     expect(result.fear).toBe(0.3);
   });
 
@@ -339,7 +339,7 @@ describe('Semantic Emotion Analyzer (ART-SEM-01)', () => {
     }
 
     // Spy on console.warn
-    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    const logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
 
     const highVarianceProvider = new HighVarianceProvider();
     await analyzeEmotionSemantic('Test.', 'en', highVarianceProvider, {
@@ -349,11 +349,11 @@ describe('Semantic Emotion Analyzer (ART-SEM-01)', () => {
     });
 
     // Verify warning was issued (joy variance should exceed 5%)
-    expect(warnSpy).toHaveBeenCalledWith(
+    expect(logSpy).toHaveBeenCalledWith(
       expect.stringContaining('[SEMANTIC] Variance tolerance exceeded')
     );
 
-    warnSpy.mockRestore();
+    logSpy.mockRestore();
   });
 
   it('SEM-09: generateStructuredJSON returns parsed JSON directly', async () => {
@@ -374,12 +374,12 @@ describe('Semantic Emotion Analyzer (ART-SEM-01)', () => {
     expect(receivedType).toBe('object');
   });
 
-  it('SEM-10: determinism — n_samples=1 always returns same result for same input', async () => {
+  it('SEM-10: determinism â€” n_samples=1 always returns same result for same input', async () => {
     const provider = new MockSemanticProvider();
     const result1 = await analyzeEmotionSemantic('Fixed text.', 'en', provider, { n_samples: 1, cache_enabled: false });
     const result2 = await analyzeEmotionSemantic('Fixed text.', 'en', provider, { n_samples: 1, cache_enabled: false });
 
-    // Same input → same output (mock provider deterministic)
+    // Same input â†’ same output (mock provider deterministic)
     expect(result1.joy).toBe(result2.joy);
     expect(result1.fear).toBe(result2.fear);
     expect(result1.sadness).toBe(result2.sadness);
@@ -395,3 +395,4 @@ describe('Semantic Emotion Analyzer (ART-SEM-01)', () => {
     }
   });
 });
+

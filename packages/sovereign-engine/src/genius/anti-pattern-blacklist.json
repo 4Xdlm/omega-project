@@ -1,0 +1,51 @@
+{
+  "version": "AS_PATTERNS_V1",
+  "spec_version": "GENIUS_ENGINE_SPEC_v1.2.0",
+  "description": "Anti-pattern blacklist for GENIUS Layer 0 AS gate and prompt contract injection",
+  "patterns": [
+    "Il est important de noter que",
+    "tisserande des mots",
+    "dans un élan de",
+    "une tapisserie de",
+    "symphonie de",
+    "danse macabre de",
+    "un souffle de vie",
+    "au plus profond de son être",
+    "un frisson parcourut",
+    "le silence était assourdissant",
+    "le temps semblait s'être arrêté",
+    "une larme coula le long de sa joue",
+    "son cœur battait la chamade",
+    "un sourire énigmatique",
+    "les ténèbres l'enveloppèrent",
+    "une boule se forma dans sa gorge",
+    "le destin en avait décidé autrement",
+    "ses yeux brillaient d'une lueur",
+    "un tourbillon d'émotions",
+    "les mots lui manquaient",
+    "le poids du monde sur ses épaules",
+    "une vague de chaleur",
+    "son regard se perdit dans le vide",
+    "un nœud se forma dans son estomac",
+    "la réalité le frappa de plein fouet",
+    "comme un coup de tonnerre",
+    "le monde s'écroula autour de",
+    "un voile de tristesse",
+    "ses pensées tourbillonnaient",
+    "une aura de mystère"
+  ],
+  "regex_patterns": [
+    "(?:tout|chaque)\\s+(?:fibre|cellule)\\s+de\\s+(?:son|leur)\\s+être",
+    "les?\\s+mots?\\s+(?:dansai(?:en)?t|virevoltai(?:en)?t)",
+    "(?:une?|la|le)\\s+(?:mer|océan|vague)\\s+(?:de|d')\\s+(?:sentiments?|émotions?)",
+    "(?:son|leur)\\s+(?:âme|cœur)\\s+(?:se\\s+)?(?:brisa|déchira|fendit)",
+    "(?:tel(?:le)?|comme)\\s+un(?:e)?\\s+(?:papillon|oiseau|phénix)\\s+(?:qui\\s+)?(?:renaît|s'envole|déploie)",
+    "les?\\s+(?:étoiles?|astres?)\\s+(?:semblai(?:en)?t|parai?ssai(?:en)?t)\\s+(?:briller|danser|chanter)",
+    "(?:son|leur)\\s+regard\\s+(?:transperça|pénétra|perça)\\s+(?:son|leur|l')\\s+(?:âme|être)"
+  ],
+  "categories": {
+    "emotional_cliche": [0, 1, 2, 3, 7, 8, 9, 10, 11, 12, 18, 19, 21, 23],
+    "metaphor_dead": [4, 5, 6, 13, 14, 17, 20, 22, 25, 26, 27, 29],
+    "ai_tell_pattern": [15, 16, 24, 28]
+  }
+}

@@ -1,0 +1,236 @@
+{
+  "$schema": "OMEGA_GENIUS_ENGINE_SSOT",
+  "version": "1.2.0",
+  "date": "2026-02-17",
+  "status": "SPEC_ONLY",
+
+  "formulas": {
+    "Q_text": "sqrt(M * G) * delta_AS",
+    "M": "(ECC * RCI * SII * IFI * AAI) ^ (1/5)",
+    "G": "(D * S * I * R * V) ^ (1/5)",
+    "delta_AS": "1 if AS >= 85 else 0",
+    "C_llm": "(Conformity * Stability * Creativity * Honesty) ^ (1/4)",
+    "Q_system": "Q_text * C_llm",
+    "SI_tension": "min(S, I) / max(S, I)",
+    "S_shift_balance": "1 - abs(shift_moyen - target) / range"
+  },
+
+  "layers": {
+    "layer0": {
+      "name": "Authenticity Gate",
+      "type": "binary_kill_switch",
+      "metric": "AS",
+      "threshold": 85,
+      "behavior": "if AS < 85 → REJECT immediate, skip Layer 1+2"
+    },
+    "layer1": {
+      "name": "Emotion (M)",
+      "type": "geometric_mean",
+      "axes": ["ECC", "RCI", "SII", "IFI", "AAI"],
+      "status": "EXISTING_UNCHANGED"
+    },
+    "layer2": {
+      "name": "Genius (G)",
+      "type": "geometric_mean",
+      "axes": ["D", "S", "I", "R", "V"],
+      "status": "NEW"
+    },
+    "layer3": {
+      "name": "Q_text",
+      "type": "composite",
+      "formula": "sqrt(M * G) * delta_AS"
+    }
+  },
+
+  "axes_genius": {
+    "D": {
+      "name": "Densité",
+      "physics": "Masse gravitationnelle narrative",
+      "components": ["compression_proxy", "sentence_utility_ratio", "verbiage_penalty"],
+      "type": "CALC",
+      "forbidden_inputs": ["SII.necessity_score"],
+      "allowed_inputs": ["raw_text", "POS_tags", "stopword_list"],
+      "verbiage_penalty_triggers": [
+        "stopword_ratio > threshold",
+        "syntactic_pattern_repeat >= 3 consecutive",
+        "abstract_segments_without_sensory > threshold"
+      ],
+      "verbiage_penalty_exception": "No penalty on abstract if NarrativeShape requires it (e.g. Contemplative). 14D > D penalty."
+    },
+    "S": {
+      "name": "Surprise",
+      "physics": "Entropie contrôlée",
+      "components": ["lexical_diversity", "entropy_locale", "semantic_shift", "anti_clustering"],
+      "type": "CALC_HYBRID",
+      "forbidden_inputs": ["SII.metaphor_novelty"],
+      "allowed_inputs": ["raw_text", "token_windows", "local_embedding_model"],
+      "semantic_shift": {
+        "definition": "distance cosinus entre embeddings de phrases consécutives",
+        "measures": "thematic/image/focus novelty between sentences",
+        "does_NOT_measure": ["causal_logic (reserved to I)", "LLM_cheating (reserved to Honesty)"],
+        "embedding_requirement": "LOCAL_FIXED_MODEL_ONLY",
+        "embedding_model_default": "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
+        "embedding_tokenizer_default": "sentencepiece-v0.1.99",
+        "text_normalization_default": "NFKC+trim+collapse_spaces",
+        "provider_api_forbidden": true
+      },
+      "diagnostic_S_shift_balance": {
+        "formula": "1 - abs(shift_moyen - target) / range",
+        "target_default": 0.35,
+        "range_default": 0.25,
+        "warning_threshold": 0.6,
+        "blocking": false
+      }
+    },
+    "I": {
+      "name": "Inévitabilité",
+      "physics": "Gravité causale",
+      "components": ["causal_consistency", "setup_payoff", "non_contradiction"],
+      "type": "CALC_PROXY_V1",
+      "forbidden_inputs": ["TemporalEngine.scores", "ECC.tension_14d"],
+      "allowed_inputs": ["extracted_events", "extracted_markers", "causal_keywords"],
+      "validation": "shuffle_paragraphs_must_drop_I"
+    },
+    "R": {
+      "name": "Résonance",
+      "physics": "Ondes stationnaires",
+      "components": ["motif_echo", "thematic_depth", "symbol_density"],
+      "type": "CALC_HYBRID",
+      "forbidden_inputs": [],
+      "allowed_inputs": ["SymbolMap_Oracle_outputs"],
+      "forbidden_actions": ["create_new_symbol_taxonomy"],
+      "scoring_only": true
+    },
+    "V": {
+      "name": "Voix",
+      "physics": "Signature spectrale",
+      "components": ["rhythm_distribution", "lexical_fingerprint", "register_drift", "silence_ratio"],
+      "type": "CALC",
+      "forbidden_inputs": ["RCI.voice_conformity_score"],
+      "allowed_inputs": ["raw_text", "voice_genome_as_reference"],
+      "floor_dynamic": {
+        "original": 70,
+        "continuation": 85,
+        "enhancement": 75
+      }
+    }
+  },
+
+  "gates": {
+    "SEAL_RUN": {
+      "conditions": [
+        { "metric": "delta_AS", "operator": "==", "value": 1 },
+        { "metric": "Q_text", "operator": ">=", "value": 93 },
+        { "metric": "M", "operator": ">=", "value": 88 },
+        { "metric": "G", "operator": ">=", "value": 92 },
+        { "metric": "ECC", "operator": ">=", "value": 88 },
+        { "metric": "RCI", "operator": ">=", "value": 85 },
+        { "metric": "SII", "operator": ">=", "value": 85 },
+        { "metric": "IFI", "operator": ">=", "value": 85 },
+        { "metric": "AAI", "operator": ">=", "value": 85 },
+        { "metric": "D", "operator": ">=", "value": 80 },
+        { "metric": "S", "operator": ">=", "value": 80 },
+        { "metric": "I", "operator": ">=", "value": 75 },
+        { "metric": "R", "operator": ">=", "value": 75 },
+        { "metric": "V", "operator": ">=", "value": "V_FLOOR_BY_MODE" }
+      ]
+    },
+    "SEAL_STABLE": {
+      "conditions": [
+        { "metric": "seal_run_count", "operator": ">=", "value": 4, "over": 5 },
+        { "metric": "q_text_stddev", "operator": "<=", "value": 3.0, "over": 5 },
+        { "metric": "q_text_min", "operator": ">=", "value": 80, "over": 5 }
+      ]
+    }
+  },
+
+  "modes": {
+    "original": {
+      "constraints": "universal",
+      "V_floor": 70,
+      "voice_genome": "generic_omega",
+      "rhythm_override": false
+    },
+    "continuation": {
+      "constraints": "author_fingerprint_override",
+      "V_floor": 85,
+      "voice_genome": "extracted_from_reference",
+      "rhythm_override": true,
+      "rhythm_tolerance": 0.10,
+      "non_negotiable": ["AS", "I_causal", "Honesty", "M_emotion"]
+    },
+    "enhancement": {
+      "constraints": "universal_with_author_guide",
+      "V_floor": 75,
+      "voice_genome": "author_as_guide",
+      "rhythm_override": false
+    }
+  },
+
+  "prompt_contract": {
+    "sections_priority_order": [
+      "[0] ANTI-PATTERN (kill switch)",
+      "[1] STRUCTURE NARRATIVE",
+      "[2] DISCIPLINE LEXICALE",
+      "[3] RYTHME",
+      "[4] CONTRAT ÉMOTIONNEL 14D",
+      "[5] VOICE TARGET",
+      "[6] OBJECTIFS SOFT",
+      "[7] LIBERTÉ CRÉATIVE + EXEMPLARS"
+    ],
+    "conflict_resolution_hierarchy": [
+      "1. Authenticité (AS)",
+      "2. Contrat émotionnel 14D",
+      "3. Structure / Inévitabilité",
+      "4. Rythme",
+      "5. Lexique"
+    ],
+    "escape_hatch": {
+      "mechanism": "NONCOMPLIANCE declaration",
+      "format": "NONCOMPLIANCE: [section] | [raison 1 ligne]",
+      "parsed_by": "OMEGA post-processor",
+      "archived_in": "process.noncompliance_declarations[]",
+      "max_per_run": 1,
+      "penalty_above_1": "Honesty H5 penalty",
+      "auto_pitch_above": 2
+    },
+    "narrative_shapes": ["ThreatReveal", "SlowBurn", "Spiral", "StaticPressure", "Contemplative"],
+    "shape_vs_14D_conflict": "14D_WINS_ALWAYS"
+  },
+
+  "C_llm": {
+    "components": ["Conformity", "Stability", "Creativity", "Honesty"],
+    "honesty_penalties": {
+      "H1": "contradictions logiques internes",
+      "H2": "faux liens causaux (marqueurs sans événement)",
+      "H3": "show/tell violations",
+      "H4": "symbol bullshit (déclarés mais non détectés)",
+      "H5": "excessive NONCOMPLIANCE (>1 par run)"
+    },
+    "piloting": {
+      "mono_pass": { "C_llm_min": 0.85 },
+      "multi_pass": { "C_llm_range": [0.60, 0.85] },
+      "max_assist": { "C_llm_max": 0.60 }
+    },
+    "benchmark": {
+      "core_prompts": 7,
+      "rotating_prompts": 3,
+      "core_version": "BENCHMARK_CORE_V1"
+    }
+  },
+
+  "anti_doublon": {
+    "correlation_thresholds": {
+      "D_vs_SII_necessity": 0.90,
+      "S_vs_SII_metaphor_novelty": 0.85,
+      "I_vs_ECC_temporal_pacing": 0.85,
+      "R_vs_emotion_to_imagery": 0.85,
+      "V_vs_RCI_voice_conformity": 0.85
+    },
+    "min_corpus_for_correlation": 50,
+    "future_v2": "partial_correlation_after_confounders"
+  },
+
+  "invariants_count": 30,
+  "invariants_range": "GENIUS-01 to GENIUS-30"
+}

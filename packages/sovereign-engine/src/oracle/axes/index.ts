@@ -19,3 +19,4 @@ export { scoreAuthenticityAxis } from './authenticity.js';
 export { scoreVoiceConformity } from './voice-conformity.js';
 export { scoreAttentionSustain } from './attention-sustain.js';
 export { scoreFatigueManagement } from './fatigue-management.js';
+export { scoreEuphonyBasic } from './euphony-basic.js';

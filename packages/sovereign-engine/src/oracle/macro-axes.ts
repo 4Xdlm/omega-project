@@ -44,6 +44,8 @@ import { scoreVoiceConformity } from './axes/voice-conformity.js';
 // Sprint 14: phantom axes for IFI
 import { scoreAttentionSustain } from './axes/attention-sustain.js';
 import { scoreFatigueManagement } from './axes/fatigue-management.js';
+// Sprint 15: euphony for RCI
+import { scoreEuphonyBasic } from './axes/euphony-basic.js';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // TYPES — MACRO AXES
@@ -381,7 +383,10 @@ export async function computeRCI(
   };
 
   // 3. Sprint 13: Voice Conformity (optionnel, si provider fourni)
-  const sub_scores: AxisScore[] = [rhythm, signature, hook_presence];
+  // 4. Sprint 15: Euphony basic
+  const euphony = scoreEuphonyBasic(packet, prose);
+
+  const sub_scores: AxisScore[] = [rhythm, signature, hook_presence, euphony];
   let voice_conformity: AxisScore | undefined;
 
   if (provider) {

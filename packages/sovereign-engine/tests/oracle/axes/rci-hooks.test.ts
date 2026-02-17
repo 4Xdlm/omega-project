@@ -13,8 +13,8 @@ describe('RCI hook verification', async () => {
     const prose = `The iron gates stood silent. Shadows crept along metal walls.`;
     const result = await computeRCI(MOCK_PACKET, prose);
 
-    // Should have 3 sub-scores: rhythm, signature, hook_presence
-    expect(result.sub_scores.length).toBe(3);
+    // Sprint 15: 4 sub-scores (rhythm, signature, hook_presence, euphony_basic)
+    expect(result.sub_scores.length).toBe(4);
     const hookScore = result.sub_scores.find((s) => s.name === 'hook_presence');
     expect(hookScore).toBeDefined();
     expect(hookScore?.weight).toBe(0.20);

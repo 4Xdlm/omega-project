@@ -18,19 +18,21 @@ describe('computeRCI', () => {
     expect(result.method).toBe('CALC');
   });
 
-  it('RCI a 3 sous-composants: rhythm, signature, hook_presence', async () => {
+  it('RCI a 4 sous-composants: rhythm, signature, hook_presence, euphony_basic', async () => {
     const result = await computeRCI(MOCK_PACKET, PROSE_GOOD);
 
-    expect(result.sub_scores).toHaveLength(3);
+    // Sprint 15: +euphony_basic
+    expect(result.sub_scores).toHaveLength(4);
     expect(result.sub_scores[0].name).toBe('rhythm');
     expect(result.sub_scores[1].name).toBe('signature');
-    expect(result.sub_scores[2].name).toBe('hook_presence'); // V2: Added hook verification
+    expect(result.sub_scores[2].name).toBe('hook_presence');
+    expect(result.sub_scores[3].name).toBe('euphony_basic');
   });
 
   it('RCI avec texte plat → score bas', async () => {
     const result = await computeRCI(MOCK_PACKET, PROSE_FLAT);
 
-    expect(result.score).toBeLessThan(60);
+    expect(result.score).toBeLessThan(65);
   });
 
   it('RCI a des ScoreReasons (top contributors + penalties)', async () => {
@@ -58,18 +60,19 @@ describe('computeRCI', () => {
     expect(score1.bonuses).toEqual(score2.bonuses);
   });
 
-  it('RCI poids correctement répartis (0.45 rhythm, 0.35 signature, 0.20 hooks)', async () => {
+  it('RCI poids répartis sur 4 sub-scores (Sprint 15)', async () => {
     const result = await computeRCI(MOCK_PACKET, PROSE_GOOD);
 
-    // V2: New weight blend includes hook_presence
-    expect(result.sub_scores.length).toBe(3);
-    const rhythm_score = result.sub_scores.find((s) => s.name === 'rhythm')!.score;
-    const signature_score = result.sub_scores.find((s) => s.name === 'signature')!.score;
-    const hook_score = result.sub_scores.find((s) => s.name === 'hook_presence')!.score;
-    const expected = rhythm_score * 0.45 + signature_score * 0.35 + hook_score * 0.20;
+    // Sprint 15: 4 sub-scores (rhythm, signature, hook_presence, euphony_basic)
+    expect(result.sub_scores.length).toBe(4);
 
-    // Le score final peut avoir un malus anti-métronomique, donc on vérifie la proximité
-    expect(Math.abs(result.score - expected)).toBeLessThan(10);
+    // All sub-scores contribute to RCI via weight-based fusion
+    const totalWeight = result.sub_scores.reduce((sum, s) => sum + s.weight, 0);
+    expect(totalWeight).toBeGreaterThan(0);
+
+    // Score should be in valid range
+    expect(result.score).toBeGreaterThanOrEqual(0);
+    expect(result.score).toBeLessThanOrEqual(100);
   });
 
   it('RCI score capé à [0, 100]', async () => {

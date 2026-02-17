@@ -20,3 +20,4 @@ export { scoreVoiceConformity } from './voice-conformity.js';
 export { scoreAttentionSustain } from './attention-sustain.js';
 export { scoreFatigueManagement } from './fatigue-management.js';
 export { scoreEuphonyBasic } from './euphony-basic.js';
+export { scoreTemporalPacingAxis } from './temporal-pacing.js';

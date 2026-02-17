@@ -46,6 +46,8 @@ import { scoreAttentionSustain } from './axes/attention-sustain.js';
 import { scoreFatigueManagement } from './axes/fatigue-management.js';
 // Sprint 15: euphony for RCI
 import { scoreEuphonyBasic } from './axes/euphony-basic.js';
+// Sprint 16: temporal pacing for ECC
+import { scoreTemporalPacingAxis } from './axes/temporal-pacing.js';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // TYPES — MACRO AXES
@@ -98,7 +100,10 @@ export async function computeECC(
   const impact = await scoreImpact(packet, prose, provider);
   const physics_compliance = scorePhysicsCompliance(physicsAudit); // Sprint 3.4 — informatif (weight=0)
 
-  const sub_scores = [tension_14d, emotion_coherence, interiority, impact, physics_compliance];
+  // Sprint 16: temporal_pacing (CALC, no LLM)
+  const temporal_pacing = scoreTemporalPacingAxis(packet, prose);
+
+  const sub_scores = [tension_14d, emotion_coherence, interiority, impact, physics_compliance, temporal_pacing];
 
   // 2. Calculer le score brut avec poids internes
   // Sprint 6.2 (Roadmap 4.2): physics_compliance weight configurable

@@ -10,3 +10,9 @@ export type { BlueprintV2, AxisDefinition, MacroAxisDefinition, DataFlowStep, Sc
 
 export { generateAuditReport, AUDIT_QUESTIONS } from './audit-report.js';
 export type { AuditReport, ExecutiveSummary, ArchitectureOverview, InvariantStatus, RiskAssessment, RiskEntry } from './audit-report.js';
+
+export { runCertificationGates } from './certification.js';
+export type { CertificationGate, CertificationVerdict, CertificationSummary } from './certification.js';
+
+export { generateRoadmapV2, ROADMAP_V2_ITEMS, ROADMAP_V2_PHASES } from './roadmap-art-v2.js';
+export type { RoadmapV2, RoadmapItem, RoadmapPhase } from './roadmap-art-v2.js';

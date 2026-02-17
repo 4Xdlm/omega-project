@@ -129,4 +129,36 @@ describe('Anti-Doublon Lint Checks', () => {
       expect(content).not.toMatch(/import.*RCI[^_]/); // RCI but not as part of another word
     }
   });
+
+  // LINT-G07: genius-calibrator.ts does not modify Q_text or seal
+  it('LINT-G07: genius-calibrator has no seal/Q_text mutation', () => {
+    const content = readFileIfExists(getGeniusPath('genius-calibrator.ts'));
+    if (content) {
+      expect(content).not.toMatch(/seal_granted\s*=/);
+      expect(content).not.toMatch(/\.seal_run\s*=/);
+      expect(content).not.toMatch(/Q_text\s*[\+\-\*]?=/);
+      expect(content).not.toMatch(/verdict\s*=/);
+    }
+  });
+
+  // LINT-G08: noncompliance-parser.ts is self-contained
+  it('LINT-G08: noncompliance-parser imports nothing from scorers', () => {
+    const content = readFileIfExists(getGeniusPath('noncompliance-parser.ts'));
+    if (content) {
+      expect(content).not.toMatch(/from.*scorers/i);
+      expect(content).not.toMatch(/from.*genius-metrics/i);
+    }
+  });
+
+  // LINT-G09: genius-calibrator.ts has no hardcoded normative constants
+  it('LINT-G09: genius-calibrator uses SSOT loader, no hardcoded thresholds', () => {
+    const content = readFileIfExists(getGeniusPath('genius-calibrator.ts'));
+    if (content) {
+      expect(content).toMatch(/from.*genius-ssot-loader/);
+      expect(content).not.toMatch(/=\s*0\.05\b/);
+      expect(content).not.toMatch(/=\s*0\.15\b/);
+      expect(content).not.toMatch(/=\s*0\.20\b/);
+      expect(content).not.toMatch(/sigma_max\s*=\s*15\b/);
+    }
+  });
 });

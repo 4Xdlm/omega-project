@@ -200,6 +200,11 @@
 
   "C_llm": {
     "components": ["Conformity", "Stability", "Creativity", "Honesty"],
+    "T_base": 4000,
+    "P_base": 3,
+    "sigma_max": 15,
+    "S_cible": 85,
+    "h_denominator": 5,
     "honesty_penalties": {
       "H1": "contradictions logiques internes",
       "H2": "faux liens causaux (marqueurs sans événement)",
@@ -207,6 +212,16 @@
       "H4": "symbol bullshit (déclarés mais non détectés)",
       "H5": "excessive NONCOMPLIANCE (>1 par run)"
     },
+    "honesty_weights": {
+      "H1": 0.05,
+      "H2": 0.05,
+      "H3": 0.05,
+      "H4": 0.15,
+      "H5": 0.20
+    },
+    "stopword_showTell_threshold": 0.55,
+    "incoh_penalty_factor": 0.1,
+    "incoh_penalty_max": 0.5,
     "piloting": {
       "mono_pass": { "C_llm_min": 0.85 },
       "multi_pass": { "C_llm_range": [0.60, 0.85] },

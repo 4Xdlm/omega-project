@@ -1,0 +1,96 @@
+{
+  "version": "BENCHMARK_CORE_V1",
+  "prompts": [
+    {
+      "id": "CORE-01",
+      "name": "Tension nocturne",
+      "instruction": "Écrire une scène de 200 mots. Un personnage entre dans un bâtiment abandonné la nuit.",
+      "hard_constraints": [
+        "Au moins 3 verbes sensoriels distincts (voir/entendre/toucher/sentir/goûter)",
+        "Aucune phrase de plus de 30 mots",
+        "Au moins 1 comparaison avec 'comme' ou 'tel'",
+        "Zéro adverbe en -ment consécutif"
+      ],
+      "narrative_shape": "ThreatReveal",
+      "genre": "thriller"
+    },
+    {
+      "id": "CORE-02",
+      "name": "Contemplation matinale",
+      "instruction": "Écrire une scène de 200 mots. Un vieux pêcheur regarde le lever du soleil sur un lac.",
+      "hard_constraints": [
+        "Au moins 2 sens différents sollicités (vue + un autre parmi : ouïe, odorat, toucher, goût)",
+        "Aucun dialogue (zéro guillemet ou tiret dialogué)",
+        "Au moins 1 comparaison avec 'comme', 'tel', 'semblable', 'pareil'",
+        "Variation de longueur de phrase (ratio max/min > 2)"
+      ],
+      "narrative_shape": "Contemplative",
+      "genre": "littéraire"
+    },
+    {
+      "id": "CORE-03",
+      "name": "Confrontation",
+      "instruction": "Écrire une scène de 200 mots. Deux personnages s'affrontent verbalement dans un bureau.",
+      "hard_constraints": [
+        "Au moins 2 répliques de dialogue",
+        "Au moins 1 geste physique par personnage",
+        "Aucune phrase commençant par 'Il y avait'",
+        "Au moins 1 détail d'environnement"
+      ],
+      "narrative_shape": "StaticPressure",
+      "genre": "drame"
+    },
+    {
+      "id": "CORE-04",
+      "name": "Poursuite",
+      "instruction": "Écrire une scène de 200 mots. Un personnage court pour échapper à un danger.",
+      "hard_constraints": [
+        "Au moins 5 verbes d'action distincts",
+        "Rythme : 60% phrases courtes (< 15 mots)",
+        "Au moins 1 son décrit explicitement",
+        "Aucune phrase commençant par le même mot 3 fois"
+      ],
+      "narrative_shape": "ThreatReveal",
+      "genre": "action"
+    },
+    {
+      "id": "CORE-05",
+      "name": "Souvenir douloureux",
+      "instruction": "Écrire un passage de 200 mots. Un personnage se souvient d'un événement traumatisant.",
+      "hard_constraints": [
+        "Alternance temporelle passé/présent (au moins 2 changements de temps verbal)",
+        "Au moins 1 détail sensoriel lié au souvenir (son, odeur, texture, image)",
+        "Zéro occurrence de : 'il ressentait', 'elle éprouvait', 'il se sentait' (show don't tell)",
+        "Au moins 1 objet physique connecté au souvenir"
+      ],
+      "narrative_shape": "SlowBurn",
+      "genre": "psychologique"
+    },
+    {
+      "id": "CORE-06",
+      "name": "Découverte",
+      "instruction": "Écrire une scène de 200 mots. Un personnage découvre quelque chose d'inattendu dans une forêt.",
+      "hard_constraints": [
+        "Au moins 3 éléments naturels distincts nommés (arbre, mousse, ruisseau, etc.)",
+        "Au moins 1 réaction physique du personnage (geste, souffle, frisson, etc.)",
+        "Zéro phrase commençant par 'Il y avait' ou 'C'était'",
+        "Au moins 3 verbes de mouvement distincts (marcher, avancer, se pencher, etc.)"
+      ],
+      "narrative_shape": "Spiral",
+      "genre": "mystère"
+    },
+    {
+      "id": "CORE-07",
+      "name": "Adieu",
+      "instruction": "Écrire une scène de 200 mots. Un personnage dit au revoir à un lieu qu'il ne reverra jamais.",
+      "hard_constraints": [
+        "Au moins 2 détails du lieu avec charge émotionnelle",
+        "Aucun mot de la liste : 'nostalgie', 'mélancolie', 'tristesse'",
+        "Au moins 1 geste rituel ou habitude",
+        "Dernière phrase ≤ 10 mots"
+      ],
+      "narrative_shape": "SlowBurn",
+      "genre": "littéraire"
+    }
+  ]
+}

@@ -16,3 +16,6 @@ export type { CertificationGate, CertificationVerdict, CertificationSummary } fr
 
 export { generateRoadmapV2, ROADMAP_V2_ITEMS, ROADMAP_V2_PHASES } from './roadmap-art-v2.js';
 export type { RoadmapV2, RoadmapItem, RoadmapPhase } from './roadmap-art-v2.js';
+
+export { parseSealLock } from './seal-lock.js';
+export type { SealLock, SealTarget, MinimalMarkers } from './seal-lock.js';

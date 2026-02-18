@@ -7,6 +7,25 @@
 import { canonicalize, sha256 } from '@omega/canon-kernel';
 import type { F5Config, F5ConfigSymbol } from './types.js';
 
+/**
+ * Default persistence ceiling (C) for emotion saturation model.
+ * Z_max = C. If Z approaches C → burnout.
+ */
+export const DEFAULT_PERSISTENCE_CEILING = 100;
+
+/**
+ * Behavior classification thresholds for EmotionPhysicsProfile.behavior_fr.
+ * Used by computeForgeEmotionBrief to deterministically label emotion dynamics.
+ */
+export const DEFAULT_BEHAVIOR_THRESHOLDS = {
+  M_LOW: 4,
+  M_HIGH: 6,
+  LAMBDA_HIGH: 0.15,
+  LAMBDA_LOW: 0.08,
+  KAPPA_HIGH: 1.5,
+  KAPPA_LOW: 0.7,
+} as const;
+
 export function createDefaultF5Config(): F5Config {
   return {
     TAU_COSINE_DEVIATION: {

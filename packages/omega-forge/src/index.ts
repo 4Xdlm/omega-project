@@ -22,7 +22,7 @@ export type {
 export { EMOTION_14_KEYS, EMOTION_POLARITY } from './types.js';
 
 // Config
-export { createDefaultF5Config, resolveF5ConfigValue, validateF5Config, hashF5Config } from './config.js';
+export { createDefaultF5Config, resolveF5ConfigValue, validateF5Config, hashF5Config, DEFAULT_PERSISTENCE_CEILING, DEFAULT_BEHAVIOR_THRESHOLDS } from './config.js';
 
 // Normalizer
 export { normalizeLF, normalizeWhitespace, normalizeJSON, normalize } from './normalizer.js';

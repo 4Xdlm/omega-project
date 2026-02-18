@@ -246,6 +246,20 @@
     "future_v2": "partial_correlation_after_confounders"
   },
 
+  "omnipotent": {
+    "physics_corr_strong_min": 0.50,
+    "physics_corr_weak_max": 0.30,
+    "calibration_runs_required": 20,
+    "correlation_method_primary": "spearman",
+    "correlation_method_secondary": "pearson",
+    "decision_rules": {
+      "A": "rho_S >= strong_min AND rho_Q >= strong_min AND rho_S > 0 AND rho_Q > 0",
+      "B": "abs(rho_S) <= weak_max AND abs(rho_Q) <= weak_max",
+      "C": "rho_S <= -strong_min OR rho_Q <= -strong_min",
+      "GREY_ZONE": "else → B with explicit justification"
+    }
+  },
+
   "invariants_count": 30,
   "invariants_range": "GENIUS-01 to GENIUS-30"
 }

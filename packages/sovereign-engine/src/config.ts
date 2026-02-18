@@ -171,7 +171,7 @@ export const SOVEREIGN_CONFIG = {
    * Sprint 3 — Commit 3.1.
    * DEFAULT: false (safe OFF until calibrated).
    */
-  PHYSICS_AUDIT_ENABLED: false,
+  PHYSICS_AUDIT_ENABLED: true,
 
   /**
    * Poids des composants du physics_score (0-100).

@@ -485,7 +485,7 @@ export const SOVEREIGN_CONFIG = {
    * MODE: INFORMATIF (does not affect scoring/verdict).
    * DEFAULT: OFF (Sprint 4.1 - awaiting correlation analysis).
    */
-  QUALITY_M12_ENABLED: false,
+  QUALITY_M12_ENABLED: true,
 
 } as const;
 

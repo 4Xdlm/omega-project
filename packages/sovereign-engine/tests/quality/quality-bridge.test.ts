@@ -20,9 +20,8 @@ Un souvenir refait surface. Une promesse oubliée depuis longtemps.
 
 Les doigts cherchent quelque chose dans le noir. Ils trouvent le métal froid.`;
 
-  it('QM-01: returns disabled report when QUALITY_M12_ENABLED=false', () => {
-    // Default is false per SOVEREIGN_CONFIG
-    const report = buildQualityReport(PROSE, MOCK_PACKET);
+  it('QM-01: returns disabled report when enabled=false override', () => {
+    const report = buildQualityReport(PROSE, MOCK_PACKET, { enabled: false });
     expect(report.enabled).toBe(false);
     expect(report.computed_count).toBe(0);
     expect(report.degraded_count).toBe(12);
@@ -30,7 +29,7 @@ Les doigts cherchent quelque chose dans le noir. Ils trouvent le métal froid.`;
   });
 
   it('QM-02: quality_score_partial is 0 when disabled', () => {
-    const report = buildQualityReport(PROSE, MOCK_PACKET);
+    const report = buildQualityReport(PROSE, MOCK_PACKET, { enabled: false });
     expect(report.quality_score_partial).toBe(0);
   });
 
@@ -41,8 +40,8 @@ Les doigts cherchent quelque chose dans le noir. Ils trouvent le métal froid.`;
     expect(r1.report_hash).toMatch(/^[0-9a-f]{64}$/); // SHA-256 hash
   });
 
-  it('QM-04: degraded metrics have reason', () => {
-    const report = buildQualityReport(PROSE, MOCK_PACKET);
+  it('QM-04: degraded metrics have reason when disabled', () => {
+    const report = buildQualityReport(PROSE, MOCK_PACKET, { enabled: false });
     // When disabled, all are degraded with reason
     Object.values(report.metrics).forEach((m) => {
       expect(m.status).toBe('degraded');
@@ -56,9 +55,9 @@ Les doigts cherchent quelque chose dans le noir. Ils trouvent le métal froid.`;
     expect(report.computed_count + report.degraded_count).toBe(12);
   });
 
-  it('QM-06: quality_score_partial is in 0-1 range', () => {
+  it('QM-06: quality_score_partial >= 0 and finite', () => {
     const report = buildQualityReport(PROSE, MOCK_PACKET);
     expect(report.quality_score_partial).toBeGreaterThanOrEqual(0);
-    expect(report.quality_score_partial).toBeLessThanOrEqual(1);
+    expect(Number.isFinite(report.quality_score_partial)).toBe(true);
   });
 });

@@ -121,8 +121,13 @@ function packetToCanon(packet: ForgePacket): MinimalCanon {
  * Calls omega-forge SSOT metrics where possible.
  * Marks degraded where types are insufficient.
  */
-export function buildQualityReport(prose: string, packet: ForgePacket): QualityM12Report {
-  if (!SOVEREIGN_CONFIG.QUALITY_M12_ENABLED) {
+export function buildQualityReport(
+  prose: string,
+  packet: ForgePacket,
+  options?: { enabled?: boolean },
+): QualityM12Report {
+  const isEnabled = options?.enabled ?? SOVEREIGN_CONFIG.QUALITY_M12_ENABLED;
+  if (!isEnabled) {
     return {
       enabled: false,
       metrics: buildDisabledMetrics(),

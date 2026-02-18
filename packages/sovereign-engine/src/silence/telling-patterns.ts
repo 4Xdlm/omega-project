@@ -312,6 +312,27 @@ export const TELLING_PATTERNS_FR: readonly TellingPattern[] = [
 ];
 
 /**
+ * Lexique fermé d'adjectifs émotionnels français (40+ mots).
+ * Utilisé pour la validation des patterns et la couverture du spectre émotionnel.
+ */
+export const EMOTION_LEXICON_FR: readonly string[] = [
+  // Émotions primaires
+  'triste', 'heureux', 'heureuse', 'furieux', 'furieuse', 'effrayé', 'effrayée',
+  'anxieux', 'anxieuse', 'nerveux', 'nerveuse', 'soulagé', 'soulagée', 'désespéré',
+  'désespérée', 'inquiet', 'inquiète', 'terrifié', 'terrifiée', 'ravi', 'ravie',
+  // Émotions secondaires
+  'en colère', 'nostalgique', 'mélancolique', 'paniqué', 'paniquée',
+  'jaloux', 'jalouse', 'honteux', 'honteuse', 'coupable', 'fier', 'fière',
+  'frustré', 'frustrée', 'amer', 'amère', 'résigné', 'résignée',
+  // Émotions complexes
+  'euphorique', 'accablé', 'accablée', 'abattu', 'abattue', 'exalté', 'exaltée',
+  'confus', 'confuse', 'perplexe', 'dégoûté', 'dégoûtée', 'émerveillé', 'émerveillée',
+  'bouleversé', 'bouleversée', 'déchiré', 'déchirée', 'tourmenté', 'tourmentée',
+  'apaisé', 'apaisée', 'serein', 'sereine', 'agité', 'agitée',
+  'impatient', 'impatiente', 'irrité', 'irritée', 'outré', 'outrée', 'déçu', 'déçue',
+];
+
+/**
  * Vérifie qu'une violation ne correspond pas à un false positive connu.
  */
 export function isNotFalsePositive(sentence: string, pattern: TellingPattern): boolean {

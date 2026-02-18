@@ -38,6 +38,46 @@ export interface TellingResult {
 }
 
 /**
+ * Calcule le score show-dont-tell à partir d'un TellingResult.
+ * Fonction pure, déterministe.
+ *
+ * Algorithme :
+ * - 0 violations critical → score 100
+ * - 1 violation critical → 75
+ * - 2 violations critical → 50
+ * - 3+ → max(0, 100 - violations_critical × 20)
+ * - ajustement high (-5 chaque, max -20)
+ * - ajustement medium (-2 chaque, max -10)
+ * Clamp [0, 100]
+ *
+ * @param result - TellingResult avec violations
+ * @returns Score [0, 100]
+ */
+export function scoreShowDontTell(result: TellingResult): number {
+  const critical_count = result.violations.filter((v) => v.severity === 'critical').length;
+  const high_count = result.violations.filter((v) => v.severity === 'high').length;
+  const medium_count = result.violations.filter((v) => v.severity === 'medium').length;
+
+  let score = 100;
+
+  if (critical_count === 0) {
+    score = 100;
+  } else if (critical_count === 1) {
+    score = 75;
+  } else if (critical_count === 2) {
+    score = 50;
+  } else {
+    score = Math.max(0, 100 - critical_count * 20);
+  }
+
+  // Ajustements pour high et medium
+  score = Math.max(0, score - Math.min(high_count * 5, 20));
+  score = Math.max(0, score - Math.min(medium_count * 2, 10));
+
+  return score;
+}
+
+/**
  * Détecte les violations "telling" dans une prose.
  * ART-SDT-01: 80%+ précision avec false positive guards.
  *
@@ -77,10 +117,6 @@ export function detectTelling(prose: string): TellingResult {
   }
 
   // Compute metrics
-  const critical_count = violations.filter((v) => v.severity === 'critical').length;
-  const high_count = violations.filter((v) => v.severity === 'high').length;
-  const medium_count = violations.filter((v) => v.severity === 'medium').length;
-
   const telling_count = violations.length;
   const total_emotional_expressions = telling_count; // Approximation: violations = expressions
 
@@ -89,28 +125,15 @@ export function detectTelling(prose: string): TellingResult {
       ? Math.max(0, 1 - telling_count / total_emotional_expressions)
       : 1.0; // Pas d'expression émotionnelle = showing par défaut
 
-  // Compute score
-  // Algorithme :
-  // - 0 violations critical → score 100
-  // - 1 violation critical → 75
-  // - 2 violations critical → 50
-  // - 3+ → max(0, 100 - violations_critical × 20)
-  // - ajustement high (-5 chaque) / medium (-2 chaque)
-  let score = 100;
-
-  if (critical_count === 0) {
-    score = 100;
-  } else if (critical_count === 1) {
-    score = 75;
-  } else if (critical_count === 2) {
-    score = 50;
-  } else {
-    score = Math.max(0, 100 - critical_count * 20);
-  }
-
-  // Ajustements pour high et medium
-  score = Math.max(0, score - high_count * 5);
-  score = Math.max(0, score - medium_count * 2);
+  // Compute score via standalone function
+  const score = scoreShowDontTell({
+    violations,
+    show_ratio,
+    telling_count,
+    total_emotional_expressions,
+    worst_violations: [],
+    score: 0,
+  });
 
   // Worst violations (top 5 by severity then pattern weight)
   const sorted = [...violations].sort((a, b) => {

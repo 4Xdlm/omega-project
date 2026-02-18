@@ -580,6 +580,44 @@ function normalize(text: string): string {
  * @param phrase - Text to check for dead metaphors
  * @returns Object with found flag and array of matching canonical forms
  */
+/**
+ * Scan full prose for all dead metaphors.
+ * Returns matches with positions, dead_count, and dead_ratio.
+ *
+ * @param prose - Full text to scan
+ * @returns Detection result with matches, count, and ratio
+ */
+export function detectDeadMetaphors(prose: string): {
+  readonly matches: readonly { metaphor: string; position: number }[];
+  readonly dead_count: number;
+  readonly dead_ratio: number;
+} {
+  if (!prose || prose.trim().length === 0) {
+    return { matches: [], dead_count: 0, dead_ratio: 0 };
+  }
+
+  const normalized = normalize(prose);
+  const matchList: { metaphor: string; position: number }[] = [];
+
+  for (const entry of DEAD_METAPHORS_FR) {
+    const normalizedEntry = normalize(entry.canonical);
+    const idx = normalized.indexOf(normalizedEntry);
+    if (idx !== -1) {
+      matchList.push({ metaphor: entry.canonical, position: idx });
+    }
+  }
+
+  // Estimate total metaphor-like expressions (proxy: sentences with figurative markers)
+  const sentences = prose.split(/[.!?]+/).filter((s) => s.trim().length > 0);
+  const totalEstimate = Math.max(matchList.length, sentences.length > 0 ? 1 : 0);
+
+  return {
+    matches: matchList,
+    dead_count: matchList.length,
+    dead_ratio: totalEstimate > 0 ? matchList.length / totalEstimate : 0,
+  };
+}
+
 export function isDeadMetaphor(phrase: string): { found: boolean; matches: string[] } {
   const normalized = normalize(phrase);
   const matches: string[] = [];

@@ -94,6 +94,8 @@ export interface GeniusMetricsOutput {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 const Q_TEXT_SEAL_THRESHOLD = 93;
+const M_SEAL_FLOOR = 88;
+const G_SEAL_FLOOR = 92;
 
 // Floors v1 (GENIUS_ENGINE_SPEC §9)
 const FLOORS = {
@@ -221,19 +223,33 @@ export function computeGeniusMetrics(input: GeniusMetricsInput): GeniusMetricsOu
     }
   }
 
-  // ── STEP 7: SEAL verdict ──
+  // ── STEP 7: SEAL verdict (GENIUS-04: M ≥ 88, G ≥ 92 added) ──
+  const M_pass = M >= M_SEAL_FLOOR;
+  const G_pass = G >= G_SEAL_FLOOR;
+
+  if (M > 0 && !M_pass) {
+    warnings.push(`M_FLOOR_FAIL: M=${M.toFixed(1)} < ${M_SEAL_FLOOR}`);
+  }
+  if (G > 0 && !G_pass) {
+    warnings.push(`G_FLOOR_FAIL: G=${G.toFixed(1)} < ${G_SEAL_FLOOR}`);
+  }
+
   let verdict: 'SEAL' | 'PITCH' | 'REJECT';
   let seal_run = false;
   let seal_reason: string;
 
-  if (Q_text >= Q_TEXT_SEAL_THRESHOLD && floorCheck.pass) {
+  if (Q_text >= Q_TEXT_SEAL_THRESHOLD && floorCheck.pass && M_pass && G_pass) {
     verdict = 'SEAL';
     seal_run = true;
     seal_reason = 'ALL_PASS';
-  } else if (Q_text >= Q_TEXT_SEAL_THRESHOLD && !floorCheck.pass) {
+  } else if (Q_text >= Q_TEXT_SEAL_THRESHOLD && (!floorCheck.pass || !M_pass || !G_pass)) {
     verdict = 'PITCH';
     seal_run = false;
-    seal_reason = `FLOOR_VIOLATIONS: ${floorCheck.failures.join(', ')}`;
+    const allFailures: string[] = [];
+    if (!floorCheck.pass) allFailures.push(...floorCheck.failures);
+    if (!M_pass) allFailures.push(`M=${M.toFixed(1)} < ${M_SEAL_FLOOR}`);
+    if (!G_pass) allFailures.push(`G=${G.toFixed(1)} < ${G_SEAL_FLOOR}`);
+    seal_reason = `FLOOR_VIOLATIONS: ${allFailures.join(', ')}`;
   } else if (Q_text > 0) {
     verdict = 'PITCH';
     seal_run = false;
@@ -277,4 +293,120 @@ export function computeGeniusMetrics(input: GeniusMetricsInput): GeniusMetricsOu
 export function computeQText(M: number, G: number, AS_pass: boolean): number {
   if (!AS_pass) return 0;
   return Math.sqrt(M * G);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// SEAL CONDITIONS — GENIUS-04
+// ═══════════════════════════════════════════════════════════════════════════════
+
+export interface SealConditionsResult {
+  readonly seal_run: boolean;
+  readonly verdict: 'SEAL' | 'PITCH' | 'REJECT';
+  readonly seal_reason: string;
+  readonly failures: readonly string[];
+}
+
+/**
+ * Check SEAL conditions independently.
+ * GENIUS-04: Q_text ≥ 93, M ≥ 88, G ≥ 92, all DSIRV floors pass.
+ */
+export function checkSealConditions(input: {
+  readonly Q_text: number;
+  readonly M: number;
+  readonly G: number;
+  readonly floorPass: boolean;
+  readonly floorFailures?: readonly string[];
+}): SealConditionsResult {
+  const failures: string[] = [];
+
+  if (input.Q_text < Q_TEXT_SEAL_THRESHOLD) {
+    failures.push(`Q_text=${input.Q_text.toFixed(1)} < ${Q_TEXT_SEAL_THRESHOLD}`);
+  }
+  if (input.M < M_SEAL_FLOOR) {
+    failures.push(`M=${input.M.toFixed(1)} < ${M_SEAL_FLOOR}`);
+  }
+  if (input.G < G_SEAL_FLOOR) {
+    failures.push(`G=${input.G.toFixed(1)} < ${G_SEAL_FLOOR}`);
+  }
+  if (!input.floorPass) {
+    failures.push(...(input.floorFailures ?? ['FLOOR_FAIL']));
+  }
+
+  if (failures.length === 0) {
+    return { seal_run: true, verdict: 'SEAL', seal_reason: 'ALL_PASS', failures };
+  }
+
+  if (input.Q_text > 0) {
+    return { seal_run: false, verdict: 'PITCH', seal_reason: failures.join('; '), failures };
+  }
+
+  return { seal_run: false, verdict: 'REJECT', seal_reason: failures.join('; '), failures };
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// STABILITY ASSESSMENT — GENIUS-04
+// ═══════════════════════════════════════════════════════════════════════════════
+
+export interface StabilityAssessment {
+  readonly seal_stable: boolean;
+  readonly gate_finale: boolean;
+  readonly seal_count: number;
+  readonly total_runs: number;
+  readonly q_text_values: readonly number[];
+  readonly q_text_sigma: number;
+  readonly q_text_min: number;
+  readonly q_text_max: number;
+}
+
+const SEAL_STABLE_MIN_SEALS = 4;
+const Q_TEXT_SIGMA_MAX = 3.0;
+const Q_TEXT_MIN_FLOOR = 80;
+
+/**
+ * Assess stability across N pipeline runs.
+ *
+ * SEAL_STABLE: ≥ 4/5 seal_run + σ(Q_text) ≤ 3.0 + min(Q_text) ≥ 80
+ * GATE_FINALE: ≥ 1 seal_run across all runs
+ *
+ * DETERMINISM: Same runs → same assessment.
+ */
+export function assessStability(runs: readonly GeniusMetricsOutput[]): StabilityAssessment {
+  const n = runs.length;
+  if (n === 0) {
+    return {
+      seal_stable: false,
+      gate_finale: false,
+      seal_count: 0,
+      total_runs: 0,
+      q_text_values: [],
+      q_text_sigma: 0,
+      q_text_min: 0,
+      q_text_max: 0,
+    };
+  }
+
+  const sealCount = runs.filter(r => r.layer3_verdict.seal_run).length;
+  const qTextValues = runs.map(r => r.layer3_verdict.Q_text);
+  const mean = qTextValues.reduce((a, b) => a + b, 0) / n;
+  const variance = qTextValues.reduce((sum, q) => sum + (q - mean) ** 2, 0) / n;
+  const sigma = Math.sqrt(variance);
+  const qMin = Math.min(...qTextValues);
+  const qMax = Math.max(...qTextValues);
+
+  const gate_finale = sealCount >= 1;
+  const seal_stable =
+    sealCount >= SEAL_STABLE_MIN_SEALS &&
+    sigma <= Q_TEXT_SIGMA_MAX &&
+    qMin >= Q_TEXT_MIN_FLOOR;
+
+  return {
+    seal_stable,
+    gate_finale,
+    seal_count: sealCount,
+    total_runs: n,
+    q_text_values: qTextValues,
+    q_text_sigma: sigma,
+    q_text_min: qMin,
+    q_text_max: qMax,
+  };
 }

@@ -168,6 +168,104 @@ export function computeVoiceDrift(target: VoiceGenome, actual: VoiceGenome): {
   };
 }
 
+/**
+ * Vérifie si un genome généré respecte le genome cible.
+ * Tolérance = ±tolerance par paramètre (default 0.10).
+ */
+export function checkGenomeConformity(
+  generated: VoiceGenome,
+  target: VoiceGenome,
+  tolerance: number = 0.10
+): {
+  readonly conformity_score: number;  // [0, 100]
+  readonly violations: readonly { param: string; expected: number; actual: number; delta_pct: number }[];
+} {
+  const driftResult = computeVoiceDrift(target, generated);
+  const conformity_score = Math.max(0, Math.min(100, (1 - driftResult.drift) * 100));
+
+  const violations: { param: string; expected: number; actual: number; delta_pct: number }[] = [];
+  const params = Object.keys(driftResult.per_param) as (keyof VoiceGenome)[];
+
+  for (const param of params) {
+    if (driftResult.per_param[param] > tolerance) {
+      violations.push({
+        param,
+        expected: target[param],
+        actual: generated[param],
+        delta_pct: driftResult.per_param[param] * 100,
+      });
+    }
+  }
+
+  return { conformity_score, violations };
+}
+
+/**
+ * Score de cohérence vocale [0, 100].
+ *
+ * Mode ORIGINAL : découper la prose en 3 tiers, mesurer le genome de chaque,
+ * calculer les distances entre paires, score = 100 × (1 - avg_drift).
+ *
+ * Mode CONTINUATION : mesurer le genome de la prose et le comparer au target.
+ * Si mode continuation et pas de target_genome → throw Error.
+ */
+export function scoreVoiceConsistency(
+  prose: string,
+  mode: 'original' | 'continuation',
+  target_genome?: VoiceGenome
+): number {
+  if (mode === 'continuation') {
+    if (!target_genome) {
+      throw new Error('scoreVoiceConsistency: mode continuation requires target_genome');
+    }
+    const actual = measureVoice(prose);
+    const result = checkGenomeConformity(actual, target_genome);
+    return result.conformity_score;
+  }
+
+  // Mode original: internal consistency across 3 tiers
+  const paragraphs = prose.split(/\n\n+/).filter(p => p.trim().length > 0);
+  let tiers: string[];
+
+  if (paragraphs.length >= 3) {
+    const third = Math.ceil(paragraphs.length / 3);
+    tiers = [
+      paragraphs.slice(0, third).join('\n\n'),
+      paragraphs.slice(third, third * 2).join('\n\n'),
+      paragraphs.slice(third * 2).join('\n\n'),
+    ];
+  } else {
+    // Less than 3 paragraphs: split by characters
+    const len = prose.length;
+    const third = Math.ceil(len / 3);
+    tiers = [
+      prose.slice(0, third),
+      prose.slice(third, third * 2),
+      prose.slice(third * 2),
+    ];
+  }
+
+  // Filter out empty tiers
+  tiers = tiers.filter(t => t.trim().length > 0);
+  if (tiers.length < 2) {
+    // Not enough content to compare — return neutral score
+    return 70;
+  }
+
+  const genomes = tiers.map(t => measureVoice(t));
+
+  // Compute pairwise drifts
+  const drifts: number[] = [];
+  for (let i = 0; i < genomes.length; i++) {
+    for (let j = i + 1; j < genomes.length; j++) {
+      drifts.push(computeVoiceDrift(genomes[i], genomes[j]).drift);
+    }
+  }
+
+  const avgDrift = drifts.reduce((a, b) => a + b, 0) / drifts.length;
+  return Math.max(0, Math.min(100, (1 - avgDrift) * 100));
+}
+
 // --- Helpers ---
 
 function splitSentences(prose: string): string[] {

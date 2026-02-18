@@ -9,7 +9,8 @@
  * Usage:
  *   pnpm --filter sovereign-engine run omnipotent:live-calibrate -- \
  *     --provider anthropic --model claude-sonnet-4-20250514 \
- *     --out nexus/proof/omnipotent_live_calibration
+ *     --out nexus/proof/omnipotent_live_calibration \
+ *     --run ../../golden/e2e/run_001/runs/13535cccff86620f
  *
  * Environment:
  *   ANTHROPIC_API_KEY — Required for Anthropic provider
@@ -30,6 +31,10 @@ import {
   type CalibrationRunJSON,
   type CalibrationRunScores,
 } from '../src/calibration/omnipotent-calibration-utils.js';
+import { runSovereignForge } from '../src/engine.js';
+import { loadGoldenRun } from '../src/runtime/golden-loader.js';
+import { createAnthropicProvider } from '../src/runtime/anthropic-provider.js';
+import type { AnthropicProviderConfig } from '../src/runtime/live-types.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -42,6 +47,8 @@ function parseArgs(): {
   model: string;
   out: string;
   seeds: number[];
+  run: string;
+  scene: number;
 } {
   const args = process.argv.slice(2);
   const getArg = (name: string): string | undefined => {
@@ -52,6 +59,8 @@ function parseArgs(): {
   const provider = getArg('provider') ?? 'anthropic';
   const model = getArg('model') ?? 'claude-sonnet-4-20250514';
   const out = getArg('out') ?? 'nexus/proof/omnipotent_live_calibration';
+  const run = getArg('run') ?? '../../golden/e2e/run_001/runs/13535cccff86620f';
+  const scene = parseInt(getArg('scene') ?? '0', 10);
   const seedsStr = getArg('seeds') ?? '1..20';
 
   // Parse seeds range (e.g., "1..20" → [1,2,...,20])
@@ -65,7 +74,7 @@ function parseArgs(): {
     seeds = seedsStr.split(',').map((s) => parseInt(s.trim(), 10));
   }
 
-  return { provider, model, out, seeds };
+  return { provider, model, out, seeds, run, scene };
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -116,8 +125,44 @@ function checkProviderConfig(provider: string): void {
 // MAIN
 // ═══════════════════════════════════════════════════════════════════════════════
 
+// ═══════════════════════════════════════════════════════════════════════════════
+// SCORE EXTRACTION
+// ═══════════════════════════════════════════════════════════════════════════════
+
+/**
+ * Extract all calibration scores from a SovereignForgeResult.
+ * Computes M (geometric mean of 5 macro-axes), G (V1 composite proxy),
+ * Q_text = sqrt(M * G) * delta_AS per GENIUS_SSOT formula.
+ */
+function extractScores(result: Awaited<ReturnType<typeof runSovereignForge>>): CalibrationRunScores {
+  const physics_score = result.physics_audit?.physics_score ?? 0;
+  const S_score = result.macro_score?.composite ?? result.s_score?.composite ?? 0;
+
+  // Macro-axes from V3
+  const ECC = result.macro_score?.macro_axes.ecc.score ?? 0;
+  const RCI = result.macro_score?.macro_axes.rci.score ?? 0;
+  const SII = result.macro_score?.macro_axes.sii.score ?? 0;
+  const IFI = result.macro_score?.macro_axes.ifi.score ?? 0;
+  const AAI = result.macro_score?.macro_axes.aai.score ?? 0;
+
+  // AS = Authenticity Score (AAI is the closest macro-axis proxy)
+  const AS = AAI;
+  const delta_as = AS >= 85 ? 1 : 0;
+
+  // M = (ECC * RCI * SII * IFI * AAI) ^ (1/5) — SSOT formula
+  const M = Math.pow(Math.max(0.01, ECC) * Math.max(0.01, RCI) * Math.max(0.01, SII) * Math.max(0.01, IFI) * Math.max(0.01, AAI), 1 / 5);
+
+  // G = V1 composite as proxy (GENIUS D/S/I/R/V axes not yet implemented)
+  const G = result.s_score?.composite ?? 0;
+
+  // Q_text = sqrt(M * G) * delta_AS
+  const Q_text = Math.sqrt(Math.max(0, M) * Math.max(0, G)) * delta_as;
+
+  return { physics_score, S_score, Q_text, M, G, delta_as, AS, ECC, RCI, SII, IFI, AAI };
+}
+
 async function main(): Promise<void> {
-  const { provider, model, out, seeds } = parseArgs();
+  const { provider, model, out, seeds, run, scene } = parseArgs();
   const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
   const outDir = path.resolve(process.cwd(), out, timestamp);
 
@@ -138,47 +183,126 @@ async function main(): Promise<void> {
   // Check provider config
   checkProviderConfig(provider);
 
+  // Resolve golden run path
+  const runPath = path.resolve(process.cwd(), run);
+  if (!fs.existsSync(runPath)) {
+    console.error(`FAIL-CLOSED: Golden run path not found: ${runPath}`);
+    process.exit(1);
+  }
+
   // Create output directory
   fs.mkdirSync(outDir, { recursive: true });
 
   console.log('OMNIPOTENT LIVE CALIBRATION');
   console.log('==========================');
   console.log(`Provider: ${provider} / ${model}`);
+  console.log(`Golden run: ${runPath}`);
+  console.log(`Scene index: ${scene}`);
   console.log(`Seeds: ${seeds[0]}..${seeds[seeds.length - 1]} (${seeds.length} runs)`);
   console.log(`Output: ${outDir}`);
   console.log(`Thresholds: strong_min=${thresholds.physics_corr_strong_min}, weak_max=${thresholds.physics_corr_weak_max}`);
   console.log('');
 
+  // ── CREATE PROVIDER ────────────────────────────────────────────────────────
+
+  const apiKey = process.env.ANTHROPIC_API_KEY ?? process.env.OPENAI_API_KEY ?? '';
+  const providerConfig: AnthropicProviderConfig = {
+    apiKey,
+    model,
+    judgeStable: true,
+    draftTemperature: 0.75,
+    judgeTemperature: 0.0,
+    judgeTopP: 1.0,
+    judgeMaxTokens: 4096,
+  };
+
   // ── RUN PIPELINE ──────────────────────────────────────────────────────────
-  // NOTE: This is a placeholder. The actual pipeline integration requires:
-  // 1. Creating a real SovereignProvider backed by the Anthropic/OpenAI API
-  // 2. Creating a ForgePacketInput from a golden scenario
-  // 3. Calling runSovereignForge() for each seed
-  // 4. Extracting all scores from the result
-  //
-  // Francky will provide the golden scenario and API key before execution.
-  // The framework below handles everything AFTER the runs complete.
-  // ──────────────────────────────────────────────────────────────────────────
 
-  console.log('Waiting for LIVE runs...');
-  console.log('(Configure provider API key and golden scenario to execute)');
-  console.log('');
+  for (const seed of seeds) {
+    const seedStr = String(seed).padStart(2, '0');
+    const runId = `CALIB-RUN-${seedStr}-${Date.now()}`;
 
-  // Placeholder: In production, this loop calls runSovereignForge() per seed.
-  // For now, we demonstrate the framework with the existing runs infrastructure.
-  // After the runs complete, the script reads run_XX.json files from outDir.
+    console.log(`\n[Run ${seedStr}/${seeds.length}] Starting Sovereign Forge...`);
+
+    try {
+      // Load golden scenario
+      const forgeInput = loadGoldenRun(runPath, scene, runId);
+
+      // Create fresh provider for each run
+      const llmProvider = createAnthropicProvider(providerConfig);
+
+      // Execute full pipeline
+      const t0 = Date.now();
+      const result = await runSovereignForge(forgeInput, llmProvider);
+      const durationMs = Date.now() - t0;
+
+      // Extract scores
+      const scores = extractScores(result);
+      const verdict = result.verdict;
+
+      // Build canonical run JSON
+      const promptHash = sha256(JSON.stringify(forgeInput.scene));
+      const outputHash = sha256(result.final_prose);
+
+      const runJSON: CalibrationRunJSON = {
+        schema: 'omnipotent.calibration.v1',
+        seed,
+        provider,
+        model,
+        timestamp: new Date().toISOString(),
+        prompt_hash: promptHash,
+        output_hash: outputHash,
+        scores,
+        verdict,
+        physics_audit: {
+          forced_transitions: result.physics_audit?.forced_transitions ?? 0,
+          dead_zones: Array.isArray(result.physics_audit?.dead_zones) ? result.physics_audit!.dead_zones.length : 0,
+          feasibility_failures: result.physics_audit?.feasibility_failures ?? 0,
+          trajectory_compliance: (result.physics_audit?.physics_score ?? 0) / 100,
+        },
+        run_hash: sha256(canonicalize(scores)),
+      };
+
+      // Write run file
+      const runFileName = `run_${seedStr}.json`;
+      const runContent = JSON.stringify(runJSON, null, 2);
+      fs.writeFileSync(path.join(outDir, runFileName), runContent, 'utf-8');
+
+      console.log(`[Run ${seedStr}] DONE in ${(durationMs / 1000).toFixed(1)}s`);
+      console.log(`  physics=${scores.physics_score.toFixed(1)} S=${scores.S_score.toFixed(1)} Q=${scores.Q_text.toFixed(1)} M=${scores.M.toFixed(1)} verdict=${verdict}`);
+      console.log(`  ECC=${scores.ECC.toFixed(1)} RCI=${scores.RCI.toFixed(1)} SII=${scores.SII.toFixed(1)} IFI=${scores.IFI.toFixed(1)} AAI=${scores.AAI.toFixed(1)}`);
+    } catch (err: unknown) {
+      const errMsg = err instanceof Error ? err.message : String(err);
+      console.error(`[Run ${seedStr}] FAILED: ${errMsg}`);
+
+      // Write error run file (fail-open for individual runs — continue calibration)
+      const errorJSON = {
+        schema: 'omnipotent.calibration.v1',
+        seed,
+        provider,
+        model,
+        timestamp: new Date().toISOString(),
+        error: errMsg,
+      };
+      fs.writeFileSync(path.join(outDir, `run_${seedStr}_ERROR.json`), JSON.stringify(errorJSON, null, 2), 'utf-8');
+    }
+  }
+
+  console.log('\n── POST-RUN ANALYSIS ──────────────────────────────────────');
 
   // ── POST-RUN ANALYSIS ─────────────────────────────────────────────────────
-  // If run files already exist (from a previous execution), analyze them.
 
   const runFiles = fs.readdirSync(outDir).filter((f) => f.match(/^run_\d+\.json$/)).sort();
 
   if (runFiles.length === 0) {
-    console.log('No run files found. Execute the pipeline first, then re-run analysis.');
-    console.log('');
-    console.log('Expected format: run_01.json, run_02.json, ... run_20.json');
-    console.log('Schema: omnipotent.calibration.v1');
-    process.exit(0);
+    console.error('FAIL-CLOSED: No successful run files produced. All runs failed.');
+    process.exit(1);
+  }
+
+  // Warn if some runs failed
+  const errorFiles = fs.readdirSync(outDir).filter((f) => f.includes('_ERROR.json'));
+  if (errorFiles.length > 0) {
+    console.log(`WARNING: ${errorFiles.length} runs failed. Analyzing ${runFiles.length} successful runs.`);
   }
 
   console.log(`Found ${runFiles.length} run files. Analyzing...`);

@@ -42,6 +42,17 @@ export interface SemanticEmotionResult {
 }
 
 /**
+ * Canonical list of 14 Plutchik dimensions.
+ * 8 primary + 6 secondary emotions.
+ * Used for validation, iteration, and key enumeration.
+ */
+export const PLUTCHIK_DIMENSIONS: ReadonlyArray<keyof SemanticEmotionResult> = [
+  'joy', 'trust', 'fear', 'surprise', 'sadness',
+  'disgust', 'anger', 'anticipation', 'love', 'submission',
+  'awe', 'disapproval', 'remorse', 'contempt',
+] as const;
+
+/**
  * Cache key for semantic analysis results.
  * Deterministic: same (text, model, prompt) → same cache key.
  *

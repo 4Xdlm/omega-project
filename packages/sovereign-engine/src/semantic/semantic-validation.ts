@@ -14,15 +14,12 @@
  */
 
 import type { SemanticEmotionResult } from './types.js';
+import { PLUTCHIK_DIMENSIONS } from './types.js';
 
 /**
  * 14 Plutchik emotion keys for validation.
  */
-const EMOTION_14_KEYS: ReadonlyArray<keyof SemanticEmotionResult> = [
-  'joy', 'trust', 'fear', 'surprise', 'sadness',
-  'disgust', 'anger', 'anticipation', 'love', 'submission',
-  'awe', 'disapproval', 'remorse', 'contempt',
-] as const;
+const EMOTION_14_KEYS: ReadonlyArray<keyof SemanticEmotionResult> = PLUTCHIK_DIMENSIONS;
 
 /**
  * Validates that parsed JSON contains all 14 emotion keys.
@@ -77,4 +74,21 @@ export function clampEmotionValues(parsed: Record<string, unknown>): SemanticEmo
   }
 
   return result as SemanticEmotionResult;
+}
+
+/**
+ * Validates and clamps raw parsed data to a SemanticEmotionResult.
+ * Combined validate + clamp in a single call.
+ * Returns null on any failure (missing keys, non-numeric, NaN/Infinity).
+ *
+ * @param parsed - Raw parsed data (typically from LLM JSON output)
+ * @returns Valid SemanticEmotionResult or null if invalid
+ */
+export function validate14D(parsed: unknown): SemanticEmotionResult | null {
+  try {
+    validateEmotionKeys(parsed);
+    return clampEmotionValues(parsed as Record<string, unknown>);
+  } catch {
+    return null;
+  }
 }

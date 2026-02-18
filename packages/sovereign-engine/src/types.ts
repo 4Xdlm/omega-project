@@ -37,6 +37,10 @@ export interface ForgePacket {
   readonly continuity: ForgeContinuity;
   readonly seeds: ForgeSeeds;
   readonly generation: ForgeGeneration;
+  // OMNIPOTENT Sprint 1 — ForgeEmotionBrief integration
+  readonly forge_brief?: import('@omega/omega-forge').ForgeEmotionBrief;
+  readonly degraded_signals?: readonly string[];
+  readonly capabilities?: readonly string[];
 }
 
 export interface ForgeIntent {

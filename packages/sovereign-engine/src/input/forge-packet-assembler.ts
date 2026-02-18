@@ -33,11 +33,13 @@ import {
   dominantEmotion,
   EMOTION_14_KEYS,
   buildScenePrescribedTrajectory,
+  computeForgeEmotionBrief,
   DEFAULT_CANONICAL_TABLE,
   type EmotionState14D,
   type Emotion14,
   type PrescribedState,
   type OmegaState,
+  type ForgeEmotionBrief,
 } from '@omega/omega-forge';
 import { validateConsumerRequirements } from '@omega/signal-registry';
 
@@ -90,7 +92,17 @@ export function assembleForgePacket(input: ForgePacketInput): ForgePacket {
   // Build prescribed 14D trajectory (via omega-forge SSOT)
   const prescribed = buildScenePrescribedTrajectoryLocal(plan, scene);
 
-  // CONSUMER GATE: Validate omega-forge output contains required signals
+  // Compute ForgeEmotionBrief (SSOT rich payload from omega-forge)
+  const briefParams = buildBriefParams(plan, scene, language);
+  let forge_brief: ForgeEmotionBrief | undefined;
+  try {
+    forge_brief = computeForgeEmotionBrief(briefParams);
+  } catch {
+    // Brief computation may fail for edge cases — degrade gracefully
+    forge_brief = undefined;
+  }
+
+  // CONSUMER GATE: Validate capabilities against signal registry
   const REQUIRED_SIGNALS = [
     'emotion.trajectory.prescribed.14d',
     'emotion.trajectory.prescribed.xyz',
@@ -102,18 +114,15 @@ export function assembleForgePacket(input: ForgePacketInput): ForgePacket {
     'emotion.decay_expectations',
   ];
 
-  // Build capabilities from actual data
-  const capabilityFlags: Record<string, boolean> = {
-    'emotion.trajectory.prescribed.14d': prescribed.length > 0 && prescribed[0].target_14d !== undefined,
-    'emotion.trajectory.prescribed.xyz': prescribed.length > 0 && prescribed[0].target_omega !== undefined,
-    'emotion.physics_profile': false, // Not yet in prescribed (future ForgeEmotionBrief integration)
-    'emotion.transition_map': false,
-    'emotion.forbidden_transitions': false,
-    'emotion.decay_expectations': false,
-  };
-  const activeCapabilities = Object.entries(capabilityFlags)
-    .filter(([_, active]) => active)
-    .map(([signal]) => signal);
+  // Use brief capabilities if available, otherwise fall back to manual detection
+  const activeCapabilities: string[] = forge_brief
+    ? [...forge_brief.capabilities]
+    : Object.entries({
+        'emotion.trajectory.prescribed.14d': prescribed.length > 0 && prescribed[0].target_14d !== undefined,
+        'emotion.trajectory.prescribed.xyz': prescribed.length > 0 && prescribed[0].target_omega !== undefined,
+      })
+      .filter(([_, active]) => active)
+      .map(([signal]) => signal);
 
   const consumerCheck = validateConsumerRequirements(REQUIRED_SIGNALS, OPTIONAL_SIGNALS, activeCapabilities);
   if (!consumerCheck.valid) {
@@ -122,6 +131,7 @@ export function assembleForgePacket(input: ForgePacketInput): ForgePacket {
   if (consumerCheck.warnings.length > 0) {
     console.warn(`Consumer Gate warnings: ${consumerCheck.warnings.join('; ')}`);
   }
+  const degraded_signals = consumerCheck.degraded_signals;
 
   // Group into 4 quartiles
   const quartiles = groupIntoQuartiles(prescribed);
@@ -179,6 +189,10 @@ export function assembleForgePacket(input: ForgePacketInput): ForgePacket {
   return {
     ...packet_data,
     packet_hash,
+    // OMNIPOTENT Sprint 1: ForgeEmotionBrief integration
+    forge_brief,
+    degraded_signals,
+    capabilities: activeCapabilities,
   };
 }
 
@@ -614,5 +628,52 @@ function buildIntent(scene: Scene, plan: GenesisPlan): ForgeIntent {
     pov: 'third_limited',
     tense: 'past',
     target_word_count: scene.target_word_count,
+  };
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// FORGE EMOTION BRIEF PARAMS (OMNIPOTENT Sprint 1)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+function buildBriefParams(
+  plan: GenesisPlan,
+  scene: Scene,
+  language: 'fr' | 'en',
+): import('@omega/omega-forge').BriefParams {
+  const avgWordsPerParagraph = 80;
+  const totalParagraphs = Math.max(
+    3,
+    Math.round(scene.target_word_count / avgWordsPerParagraph),
+  );
+
+  const sceneIndex = plan.arcs
+    .flatMap((arc) => arc.scenes)
+    .findIndex((s) => s.scene_id === scene.scene_id);
+
+  const sceneCount = plan.scene_count;
+  const sceneStartPct = sceneIndex / sceneCount;
+  const sceneEndPct = (sceneIndex + 1) / sceneCount;
+
+  const sceneWaypoints = plan.emotion_trajectory.filter(
+    (wp) => wp.position >= sceneStartPct && wp.position <= sceneEndPct,
+  );
+
+  const waypoints =
+    sceneWaypoints.length > 0
+      ? sceneWaypoints
+      : [
+          { position: sceneStartPct, emotion: scene.emotion_target, intensity: scene.emotion_intensity },
+          { position: sceneEndPct, emotion: scene.emotion_target, intensity: scene.emotion_intensity },
+        ];
+
+  return {
+    waypoints,
+    sceneStartPct,
+    sceneEndPct,
+    totalParagraphs,
+    canonicalTable: DEFAULT_CANONICAL_TABLE,
+    persistenceCeiling: SOVEREIGN_CONFIG.PERSISTENCE_CEILING,
+    language,
+    producerBuildHash: sha256(canonicalize({ generator: 'sovereign-engine', version: '1.0.0' })),
   };
 }

@@ -20,6 +20,7 @@ export interface CompiledPhysicsSection {
   readonly token_count: number;
   readonly tokenizer_id: string;
   readonly used_signal_ids: readonly string[];
+  readonly excluded_signal_ids: readonly string[];
   readonly constraints: readonly CompiledConstraint[];
   readonly section_hash: string;
 }

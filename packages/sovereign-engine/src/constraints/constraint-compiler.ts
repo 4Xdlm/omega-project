@@ -116,12 +116,15 @@ export function compilePhysicsSection(
   const token_count = countTokens(text, tokenizerId);
   const section_hash = sha256(canonicalize({ text }));
   const used_signal_ids = [...new Set(selected.flatMap((c) => c.source_signal_ids))].sort();
+  const all_signal_ids = [...new Set(allConstraints.flatMap((c) => c.source_signal_ids))].sort();
+  const excluded_signal_ids = all_signal_ids.filter((id) => !used_signal_ids.includes(id));
 
   return {
     text,
     token_count,
     tokenizer_id: tokenizerId,
     used_signal_ids,
+    excluded_signal_ids,
     constraints: selected,
     section_hash,
   };

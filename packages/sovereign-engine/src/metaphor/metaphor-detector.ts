@@ -48,41 +48,13 @@ export async function detectMetaphors(
   provider: SovereignProvider,
   cache: SemanticCache,
 ): Promise<MetaphorHit[]> {
-  // Cache key
-  const promptHash = sha256(`${PROMPT_VERSION}:metaphor_detection`);
-  const cacheKey = cache.computeCacheKey(prose, provider.model_id, promptHash);
-
-  // Check cache
-  const cached = cache.get(cacheKey);
-  if (cached) {
-    // Cache hit — parse result
-    try {
-      const parsed = JSON.parse(cached.result.text);
-      return parseMetaphorHits(parsed.metaphors || [], prose);
-    } catch {
-      // Cache corrupted — fallback
-      return [];
-    }
-  }
-
-  // LLM call
+  // LLM call via generateStructuredJSON (no cache — one evaluation per prose per run)
   try {
     const prompt = buildDetectionPrompt(prose);
-    const result = await provider.llm_generate(prompt, {
-      temperature: 0.0,
-      max_tokens: 2000,
-    });
+    const result = await provider.generateStructuredJSON(prompt);
 
-    // Cache result
-    cache.set(cacheKey, {
-      text: result.text,
-      emotion_vector: {}, // Not used for metaphor detection
-      confidence: 1.0,
-      method: 'llm',
-    });
-
-    // Parse LLM response
-    const parsed = JSON.parse(result.text);
+    // Parse structured response
+    const parsed = result as { metaphors?: Array<{ text: string; type: string; novelty_score: number }> };
     return parseMetaphorHits(parsed.metaphors || [], prose);
   } catch {
     // FAIL-CLOSED: provider down or parsing error → return []

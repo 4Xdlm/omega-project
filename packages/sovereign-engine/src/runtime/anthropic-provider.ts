@@ -201,5 +201,38 @@ export function createAnthropicProvider(config: AnthropicProviderConfig): Sovere
       const response = callClaudeSync(systemPrompt, userPrompt, config, false);
       return stripFences(response);
     },
+
+    async generateStructuredJSON(prompt: string): Promise<unknown> {
+      const systemPrompt = `You are a structured data extraction engine. Return ONLY valid JSON, no markdown fences, no commentary.`;
+      const response = callClaudeSync(systemPrompt, prompt, config, true);
+      const cleaned = stripFences(response);
+      try {
+        return JSON.parse(cleaned);
+      } catch {
+        throw new Error(`Failed to parse structured JSON from LLM: ${cleaned.slice(0, 200)}`);
+      }
+    },
+
+    async rewriteSentence(
+      sentence: string,
+      reason: string,
+      context: { readonly prev_sentence: string; readonly next_sentence: string },
+    ): Promise<string> {
+      const systemPrompt = `Tu es un chirurgien littéraire français. Tu réécris UNE SEULE phrase pour corriger un défaut précis. Règles strictes :
+- La phrase réécrite DOIT rester en français littéraire premium
+- La longueur doit rester dans ±20% de l'original
+- Le sens narratif doit être préservé
+- Retourne UNIQUEMENT la phrase réécrite, rien d'autre`;
+      const userPrompt = `Contexte précédent : "${context.prev_sentence}"
+Phrase à corriger : "${sentence}"
+Contexte suivant : "${context.next_sentence}"
+
+Défaut à corriger : ${reason}
+
+Phrase réécrite :`;
+
+      const response = callClaudeSync(systemPrompt, userPrompt, config, false);
+      return stripFences(response);
+    },
   };
 }

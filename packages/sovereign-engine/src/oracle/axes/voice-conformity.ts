@@ -6,17 +6,17 @@
  * Macro-axe: RCI
  */
 
-import type { ForgePacket, AxisScore, SovereignProvider } from '../../types.js';
+import type { ForgePacket, AxisScore } from '../../types.js';
 import { measureVoice, computeVoiceDrift } from '../../voice/voice-genome.js';
 
 export async function scoreVoiceConformity(
   packet: ForgePacket,
   prose: string,
-  provider: SovereignProvider
 ): Promise<AxisScore> {
   // Si pas de genome dans packet, retourner score neutre
   if (!packet.style_genome || !packet.style_genome.voice) {
     return {
+      name: 'voice_conformity',
       axis_id: 'voice_conformity',
       score: 70,
       weight: 1.0,
@@ -53,6 +53,7 @@ export async function scoreVoiceConformity(
   }));
 
   return {
+    name: 'voice_conformity',
     axis_id: 'voice_conformity',
     score,
     weight: 1.0,

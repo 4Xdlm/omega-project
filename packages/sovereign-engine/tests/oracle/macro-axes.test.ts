@@ -18,15 +18,16 @@ describe('computeRCI', () => {
     expect(result.method).toBe('CALC');
   });
 
-  it('RCI a 4 sous-composants: rhythm, signature, hook_presence, euphony_basic', async () => {
+  it('RCI a 5 sous-composants: rhythm, signature, hook_presence, euphony_basic, voice_conformity', async () => {
     const result = await computeRCI(MOCK_PACKET, PROSE_GOOD);
 
-    // Sprint 15: +euphony_basic
-    expect(result.sub_scores).toHaveLength(4);
+    // Sprint 15: +euphony_basic, RCI-FIX: +voice_conformity (always included)
+    expect(result.sub_scores).toHaveLength(5);
     expect(result.sub_scores[0].name).toBe('rhythm');
     expect(result.sub_scores[1].name).toBe('signature');
     expect(result.sub_scores[2].name).toBe('hook_presence');
     expect(result.sub_scores[3].name).toBe('euphony_basic');
+    expect(result.sub_scores[4].name).toBe('voice_conformity');
   });
 
   it('RCI avec texte plat → score bas', async () => {
@@ -60,11 +61,11 @@ describe('computeRCI', () => {
     expect(score1.bonuses).toEqual(score2.bonuses);
   });
 
-  it('RCI poids répartis sur 4 sub-scores (Sprint 15)', async () => {
+  it('RCI poids répartis sur 5 sub-scores (Sprint 15 + RCI-FIX)', async () => {
     const result = await computeRCI(MOCK_PACKET, PROSE_GOOD);
 
-    // Sprint 15: 4 sub-scores (rhythm, signature, hook_presence, euphony_basic)
-    expect(result.sub_scores.length).toBe(4);
+    // Sprint 15: +euphony_basic, RCI-FIX: +voice_conformity (always included)
+    expect(result.sub_scores.length).toBe(5);
 
     // All sub-scores contribute to RCI via weight-based fusion
     const totalWeight = result.sub_scores.reduce((sum, s) => sum + s.weight, 0);

@@ -387,17 +387,13 @@ export async function computeRCI(
     details: `Symbol map hooks verified`,
   };
 
-  // 3. Sprint 13: Voice Conformity (optionnel, si provider fourni)
+  // 3. Sprint 13: Voice Conformity (100% CALC — always included)
+  const voice_conformity = await scoreVoiceConformity(packet, prose);
+
   // 4. Sprint 15: Euphony basic
   const euphony = scoreEuphonyBasic(packet, prose);
 
-  const sub_scores: AxisScore[] = [rhythm, signature, hook_presence, euphony];
-  let voice_conformity: AxisScore | undefined;
-
-  if (provider) {
-    voice_conformity = await scoreVoiceConformity(packet, prose, provider);
-    sub_scores.push(voice_conformity);
-  }
+  const sub_scores: AxisScore[] = [rhythm, signature, hook_presence, euphony, voice_conformity];
 
   // 4. Fusionner avec poids automatiques basés sur weights des axes
   const totalWeight = sub_scores.reduce((sum, s) => sum + s.weight, 0);
@@ -478,7 +474,7 @@ function computeHookPresence(prose: string, packet: ForgePacket): number {
   ])];
 
   if (allHooksRaw.length === 0) {
-    return 75; // Neutral, no penalty
+    return 85; // Neutral — at floor, no penalty
   }
 
   // Normalize prose: strip diacritics, tokenize

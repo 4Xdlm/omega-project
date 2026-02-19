@@ -5,13 +5,8 @@
 
 import { describe, it, expect } from 'vitest';
 import { scoreVoiceConformity } from '../../../src/oracle/axes/voice-conformity.js';
-import type { ForgePacket, SovereignProvider } from '../../../src/types.js';
+import type { ForgePacket } from '../../../src/types.js';
 import type { VoiceGenome } from '../../../src/voice/voice-genome.js';
-
-const mockProvider: Partial<SovereignProvider> = {
-  model_id: 'test-model',
-  callLLM: async () => ({ result: 'mock' }),
-};
 
 function createMockPacket(voiceGenome?: VoiceGenome): ForgePacket {
   return {
@@ -75,7 +70,7 @@ C'est tout. Rien de plus.
     `.trim();
 
     const packet = createMockPacket(targetGenome);
-    const result = await scoreVoiceConformity(packet, conformingProse, mockProvider);
+    const result = await scoreVoiceConformity(packet, conformingProse);
 
     // Score devrait être élevé (faible drift)
     expect(result.score).toBeGreaterThan(70);
@@ -108,7 +103,7 @@ existence contingente et perpétuellement suspendue entre l'être et le néant.
     `.trim();
 
     const packet = createMockPacket(targetGenome);
-    const result = await scoreVoiceConformity(packet, divergentProse, mockProvider);
+    const result = await scoreVoiceConformity(packet, divergentProse);
 
     // Score devrait être bas (fort drift)
     expect(result.score).toBeLessThan(50);
@@ -136,8 +131,8 @@ Ses pensées tourbillonnaient. Personne ne l'attendait.
 
     const packet = createMockPacket(targetGenome);
 
-    const result1 = await scoreVoiceConformity(packet, prose, mockProvider);
-    const result2 = await scoreVoiceConformity(packet, prose, mockProvider);
+    const result1 = await scoreVoiceConformity(packet, prose);
+    const result2 = await scoreVoiceConformity(packet, prose);
 
     // Déterminisme : même score
     expect(result1.score).toBe(result2.score);

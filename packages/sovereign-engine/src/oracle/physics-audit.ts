@@ -162,15 +162,14 @@ export function runPhysicsAudit(
   });
 
   // 8. Générer audit_hash (déterministe)
-  // Guard all values to ensure they're safe for canonicalize (no NaN/Infinity)
   const auditPayload = {
-    trajectory_cosine: Number.isFinite(deviations.average_cosine) ? Math.round(deviations.average_cosine * 1000) / 1000 : 0,
-    trajectory_euclidean: Number.isFinite(deviations.average_euclidean) ? Math.round(deviations.average_euclidean * 1000) / 1000 : 0,
+    trajectory_cosine: Math.round(deviations.avg_cosine_distance * 1000) / 1000,
+    trajectory_euclidean: Math.round(deviations.avg_euclidean_distance * 1000) / 1000,
     law_violations: lawCompliance.violations.length,
     dead_zones: deadZones.length,
     forced_transitions: forcedTransitions.length,
     feasibility_failures: feasibilityFailures.length,
-    physics_score: Number.isFinite(physicsScore) ? physicsScore : 0,
+    physics_score: physicsScore,
   };
   const audit_hash = sha256(canonicalize(auditPayload));
   const audit_id = `audit-${audit_hash.substring(0, 12)}`;
@@ -187,7 +186,7 @@ export function runPhysicsAudit(
     dead_zones: deadZones,
     forced_transitions: forcedTransitions.length,
     feasibility_failures: feasibilityFailures.length,
-    trajectory_deviations: deviations.per_paragraph,
+    trajectory_deviations: deviations.deviations,
     physics_score: physicsScore,
   };
 }
@@ -204,7 +203,7 @@ export function runPhysicsAudit(
  * - Forced transitions → 10%
  */
 function computePhysicsScore(params: {
-  deviations: { average_cosine: number; average_euclidean: number };
+  deviations: { avg_cosine_distance: number; avg_euclidean_distance: number };
   lawCompliance: LawComplianceReport;
   deadZones: readonly DeadZone[];
   forcedCount: number;
@@ -213,13 +212,14 @@ function computePhysicsScore(params: {
 }): number {
   const { deviations, lawCompliance, deadZones, forcedCount, feasibilityCount, config } = params;
 
-  // Guard against NaN/Infinity
-  const safeCosine = Number.isFinite(deviations.average_cosine) ? deviations.average_cosine : 0;
-  const safeEuclidean = Number.isFinite(deviations.average_euclidean) ? deviations.average_euclidean : 10;
+  // avg_cosine_distance = mean(1 - cosineSimilarity): 0 = perfect match, 1 = orthogonal
+  // avg_euclidean_distance = mean euclidean in R14: 0 = identical, higher = worse
+  const cosDist = deviations.avg_cosine_distance;
+  const eucDist = deviations.avg_euclidean_distance;
 
-  // Trajectory score (0-100)
-  const cosineScore = safeCosine * 100; // 0.85 → 85
-  const euclideanScore = Math.max(0, 100 - safeEuclidean * 10); // <2 → >80
+  // Trajectory score (0-100): lower distance → higher score
+  const cosineScore = (1 - cosDist) * 100; // distance 0 → 100, distance 1 → 0
+  const euclideanScore = Math.max(0, 100 - eucDist * 10); // distance <2 → >80
   const trajectoryScore = (cosineScore + euclideanScore) / 2;
 
   // Law compliance score (0-100)
@@ -256,10 +256,14 @@ function createEmptyAuditResult(): PhysicsAuditResult {
       prescribed: [],
       actual: [],
       deviations: {
-        per_paragraph: [],
-        average_cosine: 1.0,
-        average_euclidean: 0.0,
-        max_deviation: 0.0,
+        paragraph_states: [],
+        prescribed_states: [],
+        deviations: [],
+        avg_cosine_distance: 0,
+        avg_euclidean_distance: 0,
+        max_deviation_index: 0,
+        compliant_ratio: 1.0,
+        trajectory_hash: '',
       },
     },
     law_compliance: {

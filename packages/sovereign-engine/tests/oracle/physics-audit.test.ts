@@ -198,7 +198,47 @@ describe('physics-audit', () => {
     expect(result1.physics_score).toBe(result2.physics_score);
   });
 
-  it('AUDIT-07: no LLM call (pure computation)', () => {
+  it('AUDIT-07: different prose → different physics_score (not constant)', () => {
+    const brief = computeForgeEmotionBrief(BRIEF_PARAMS);
+
+    // Prose A: emotional arc matching brief (trust → fear → sadness)
+    const proseA = `
+      La confiance s'installe, sereine et douce, un sentiment de sécurité.
+      Puis l'inquiétude naît, une ombre au fond des yeux.
+      La peur monte, glaciale, comme une vague noire.
+      L'angoisse étreint le cœur, violente et sourde.
+      La terreur explose, un cri étouffé dans la nuit.
+      Puis la peur recule, laissant place au vide.
+      La tristesse s'installe, grise et lourde.
+      Le silence final, résigné.
+    `;
+
+    // Prose B: completely flat/neutral, no emotion keywords
+    const proseB = `
+      Le mur est blanc.
+      La table est en bois.
+      Le plafond mesure trois mètres.
+      La porte est rectangulaire.
+      Le sol est plat.
+      La fenêtre donne sur la rue.
+      Le couloir fait dix pas.
+      Fin du relevé.
+    `;
+
+    const resultA = runPhysicsAudit(proseA, brief, DEFAULT_CANONICAL_TABLE, SOVEREIGN_CONFIG.PERSISTENCE_CEILING, AUDIT_CONFIG);
+    const resultB = runPhysicsAudit(proseB, brief, DEFAULT_CANONICAL_TABLE, SOVEREIGN_CONFIG.PERSISTENCE_CEILING, AUDIT_CONFIG);
+
+    // Both in valid range
+    expect(resultA.physics_score).toBeGreaterThanOrEqual(0);
+    expect(resultA.physics_score).toBeLessThanOrEqual(100);
+    expect(resultB.physics_score).toBeGreaterThanOrEqual(0);
+    expect(resultB.physics_score).toBeLessThanOrEqual(100);
+
+    // CRITICAL: scores must DIFFER (the whole point of this bug fix)
+    expect(resultA.physics_score).not.toBe(resultB.physics_score);
+  });
+
+  it('AUDIT-08: no LLM call (pure computation)', () => {
     const brief = computeForgeEmotionBrief(BRIEF_PARAMS);
     const prose = `
       Confiance, peur, tristesse.

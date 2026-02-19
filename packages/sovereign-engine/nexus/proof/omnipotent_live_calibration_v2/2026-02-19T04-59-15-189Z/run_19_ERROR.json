@@ -1,0 +1,8 @@
+{
+  "schema": "omnipotent.calibration.v1",
+  "seed": 19,
+  "provider": "anthropic",
+  "model": "claude-sonnet-4-20250514",
+  "timestamp": "2026-02-19T04:59:20.029Z",
+  "error": "Claude API call failed: Command failed: \"C:\\Program Files\\nodejs\\node.exe\" -e \"     const https = require('https');     let stdinBuf = '';     process.stdin.on('data', (chunk) => stdinBuf += chunk);     process.stdin.on('end', () => {       const input = JSON.parse(stdinBuf);       const data = input.body;       const apiKey = input.apiKey;       const req = https.request({         hostname: 'api.anthropic.com',         path: '/v1/messages',         method: 'POST',         headers: {           'Content-Type': 'application/json',           'x-api-key': apiKey,           'anthropic-version': '2023-06-01',         },       }, (res) => {         let body = '';         res.on('data', (chunk) => body += chunk);         res.on('end', () => {           if (res.statusCode !== 200) {             process.stderr.write('API error ' + res.statusCode + ': ' + body);             process.exit(1);           }           const parsed = JSON.parse(body);           const text = parsed.content[0].text;           process.stdout.write(text);         });       });       req.on('error', (e) => { process.stderr.write(e.message); process.exit(1); });       req.write(data);       req.end();     });   \"\nAPI error 401: {\"type\":\"error\",\"error\":{\"type\":\"authentication_error\",\"message\":\"invalid x-api-key\"},\"request_id\":\"req_011CYGqWvkKyoq34GNJ1PsQS\"}"
+}

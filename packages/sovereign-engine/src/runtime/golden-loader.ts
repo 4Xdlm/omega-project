@@ -18,6 +18,7 @@ import * as path from 'node:path';
 import type { GenesisPlan, Scene } from '@omega/genesis-planner';
 import type { ForgePacketInput } from '../input/forge-packet-assembler.js';
 import type { StyleProfile, KillLists, CanonEntry, ForgeContinuity } from '../types.js';
+import type { VoiceGenome } from '../voice/voice-genome.js';
 
 /**
  * Structure of intent.json from golden run
@@ -149,6 +150,31 @@ function buildStyleProfile(genome: IntentJSON['genome']): StyleProfile {
       density_target_per_100_words: 3.0,
       banned_metaphors: [],
     },
+    voice: buildVoiceGenome(genome),
+  };
+}
+
+/**
+ * Build VoiceGenome from intent.json genome — Option A (partial mapping).
+ * 4 fields mapped deterministically from intent genome, 6 use defaults.
+ * Justification: 4 fields have direct semantic equivalents in intent.json.
+ */
+function buildVoiceGenome(genome: IntentJSON['genome']): VoiceGenome {
+  // normalize: maps value from [min, max] to [0, 1], clamped
+  const norm = (v: number, min: number, max: number) =>
+    max === min ? 0.5 : Math.max(0, Math.min(1, (v - min) / (max - min)));
+
+  return {
+    phrase_length_mean: norm(genome.target_avg_sentence_length, 5, 40),
+    dialogue_ratio: Math.max(0, Math.min(1, genome.target_dialogue_ratio)),
+    metaphor_density: 0.4,       // no direct mapping — default
+    language_register: Math.max(0, Math.min(1, genome.target_lexical_richness)),
+    irony_level: 0.2,            // no direct mapping — default
+    ellipsis_rate: 0.3,          // no direct mapping — default
+    abstraction_ratio: 0.4,      // no direct mapping — default
+    punctuation_style: 0.5,      // no direct mapping — default
+    paragraph_rhythm: Math.max(0, Math.min(1, genome.target_burstiness)),
+    opening_variety: 0.7,        // no direct mapping — default
   };
 }
 

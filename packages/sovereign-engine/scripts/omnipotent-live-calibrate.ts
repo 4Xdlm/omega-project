@@ -331,7 +331,7 @@ async function main(): Promise<void> {
       console.error(`[Run ${seedStr}] FAILED: ${errMsg}`);
 
       // Classify error: provider vs engine
-      const isProviderFail = errMsg.includes('credit balance') || errMsg.includes('rate limit') || errMsg.includes('quota') || errMsg.includes('billing');
+      const isProviderFail = errMsg.includes('credit balance') || errMsg.includes('rate limit') || errMsg.includes('quota') || errMsg.includes('billing') || errMsg.includes('overloaded') || errMsg.includes('Overloaded') || errMsg.includes('529');
       const errorJSON = {
         schema: 'omnipotent.calibration.v1',
         seed,

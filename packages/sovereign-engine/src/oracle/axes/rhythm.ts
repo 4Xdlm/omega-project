@@ -44,41 +44,43 @@ export function scoreRhythm(packet: ForgePacket, prose: string): AxisScore {
   let score = 0;
 
   // ═══ 1. SENTENCE LENGTH VARIANCE (35 pts) ═══
-  // Literary prose with dramatic fragments ("Breathes.", "Trust fractures.") 
-  // naturally has high CV (0.7-1.1). Optimal range widened for literary style.
+  // French literary prose with dramatic fragments ("Il respira.", "Silence.")
+  // naturally produces high CV (0.8-1.2). Peak shifted to 0.75, range widened.
+  // INV-RCI-RHYTHM-FR-01: Rhythm CV calibrated for French literary prose.
   const sentenceCV = computeCV(wordCounts);
-  if (sentenceCV >= 0.35 && sentenceCV <= 1.10) {
-    // Optimal range, peak at 0.65
-    const distFromPeak = Math.abs(sentenceCV - 0.65);
-    const maxDist = 0.45; // Distance from 0.65 to far edge (1.10)
+  if (sentenceCV >= 0.30 && sentenceCV <= 1.30) {
+    // Optimal range, peak at 0.75 (French literary: dramatic fragments + flowing descriptions)
+    const distFromPeak = Math.abs(sentenceCV - 0.75);
+    const maxDist = 0.55; // Distance from 0.75 to far edge (1.30)
     const cvScore = 35 * (1 - distFromPeak / maxDist);
     score += Math.max(0, cvScore);
-  } else if (sentenceCV < 0.35) {
+  } else if (sentenceCV < 0.30) {
     // Too uniform → linear falloff
-    const falloff = (sentenceCV / 0.35) * 20;
+    const falloff = (sentenceCV / 0.30) * 20;
     score += falloff;
   } else {
-    // Extreme chaos (CV > 1.10) → linear falloff
-    const excess = sentenceCV - 1.10;
-    const falloff = Math.max(0, 15 - excess * 40);
+    // Extreme chaos (CV > 1.30) → linear falloff
+    const excess = sentenceCV - 1.30;
+    const falloff = Math.max(0, 15 - excess * 30);
     score += falloff;
   }
 
   // ═══ 2. PARAGRAPH LENGTH VARIANCE (15 pts) ═══
+  // INV-RCI-RHYTHM-FR-02: Paragraph CV calibrated for French literary prose.
   if (paragraphWordCounts.length >= 2) {
     const paragraphCV = computeCV(paragraphWordCounts);
-    if (paragraphCV >= 0.20 && paragraphCV <= 1.00) {
-      // Wide optimal range for literary prose with dramatic 1-line paragraphs
-      const distFromPeak = Math.abs(paragraphCV - 0.55);
-      const maxDist = 0.45;
+    if (paragraphCV >= 0.15 && paragraphCV <= 1.20) {
+      // Wide optimal range — French literary uses dramatic 1-line paragraphs freely
+      const distFromPeak = Math.abs(paragraphCV - 0.60);
+      const maxDist = 0.60;
       const paraScore = 15 * (1 - distFromPeak / maxDist);
       score += Math.max(0, paraScore);
-    } else if (paragraphCV < 0.20) {
-      const falloff = (paragraphCV / 0.20) * 10;
+    } else if (paragraphCV < 0.15) {
+      const falloff = (paragraphCV / 0.15) * 10;
       score += falloff;
     } else {
-      const excess = paragraphCV - 1.00;
-      const falloff = Math.max(0, 10 - excess * 25);
+      const excess = paragraphCV - 1.20;
+      const falloff = Math.max(0, 10 - excess * 20);
       score += falloff;
     }
   } else {
@@ -87,18 +89,19 @@ export function scoreRhythm(packet: ForgePacket, prose: string): AxisScore {
   }
 
   // ═══ 3. LENGTH RANGE (15 pts) ═══
+  // INV-RCI-RHYTHM-FR-03: Length range threshold lowered for French (shorter avg sentence).
   if (wordCounts.length >= 2) {
     const minLen = Math.min(...wordCounts);
     const maxLen = Math.max(...wordCounts);
     const range = maxLen - minLen;
 
-    if (range >= 20) {
+    if (range >= 15) {
       score += 15;
-    } else if (range >= 10) {
-      // Proportional: 10-19 words
-      score += (range / 20) * 15;
+    } else if (range >= 7) {
+      // Proportional: 7-14 words
+      score += (range / 15) * 15;
     }
-    // range < 10 → 0 pts
+    // range < 7 → 0 pts
   }
 
   // ═══ 4. MONOTONY AVOIDANCE (15 pts) ═══

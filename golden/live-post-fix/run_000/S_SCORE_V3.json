@@ -1,0 +1,311 @@
+{
+  "score_id": "MACRO_SCN-01-001-4f6a52_1771337515363",
+  "score_hash": "02e1112f118cde878c94111cd4513d4c4356bcc7a3e000cdb3a534a5b00121d7",
+  "scene_id": "SCN-01-001-4f6a52",
+  "seed": "LIVE-RUN-0-1771336023564_SCN-01-001-4f6a52",
+  "macro_axes": {
+    "ecc": {
+      "name": "ecc",
+      "score": 88.79647612008327,
+      "weight": 0.33,
+      "method": "HYBRID",
+      "sub_scores": [
+        {
+          "name": "tension_14d",
+          "score": 60.35550771359702,
+          "weight": 3,
+          "method": "CALC",
+          "details": "Avg similarity: 48.2%, Q-scores: 49, 25, 59, 59"
+        },
+        {
+          "name": "emotion_coherence",
+          "score": 100,
+          "weight": 2.5,
+          "method": "CALC",
+          "details": "Brutal jumps: 0/14, avg dist: 0.78, max dist: 1.37"
+        },
+        {
+          "name": "interiority",
+          "score": 92,
+          "weight": 2,
+          "method": "LLM",
+          "details": "LLM-judged interiority depth (POV: third_limited)"
+        },
+        {
+          "name": "impact",
+          "score": 100,
+          "weight": 2,
+          "method": "LLM",
+          "details": "LLM-judged opening/closing impact"
+        },
+        {
+          "name": "physics_compliance",
+          "score": 50,
+          "weight": 0,
+          "method": "CALC",
+          "details": "Physics audit disabled or unavailable"
+        },
+        {
+          "name": "temporal_pacing",
+          "score": 75,
+          "weight": 1,
+          "method": "CALC",
+          "details": "No temporal_contract — neutral score"
+        }
+      ],
+      "bonuses": [
+        {
+          "type": "entropy",
+          "value": 3,
+          "triggered": true,
+          "detail": "Entropy stddev=0.271, bonus applied"
+        },
+        {
+          "type": "projection",
+          "value": 0,
+          "triggered": false,
+          "detail": "Projection conditions not met"
+        },
+        {
+          "type": "open_loop",
+          "value": 0,
+          "triggered": false,
+          "detail": "Last paragraphs arousal=0.00, resolved"
+        }
+      ],
+      "reasons": {
+        "top_contributors": [
+          "emotion_coherence=100.0",
+          "impact=100.0",
+          "interiority=92.0"
+        ],
+        "top_penalties": [
+          "physics_compliance=50.0",
+          "tension_14d=60.4"
+        ]
+      }
+    },
+    "rci": {
+      "name": "rci",
+      "score": 80.5953764181552,
+      "weight": 0.17,
+      "method": "CALC",
+      "sub_scores": [
+        {
+          "name": "rhythm",
+          "score": 68.37646748107456,
+          "weight": 1,
+          "method": "CALC",
+          "details": "CV_sent=0.46, CV_para=0.38, range=26, monotony=2, opening_rep=11%"
+        },
+        {
+          "name": "signature",
+          "score": 100,
+          "weight": 1,
+          "method": "CALC",
+          "details": "Signature hit rate: 83%, forbidden: 0, abstraction: 0% (target: 30%)"
+        },
+        {
+          "name": "hook_presence",
+          "score": 70.83333333333334,
+          "weight": 0.2,
+          "method": "CALC",
+          "details": "Symbol map hooks verified"
+        },
+        {
+          "name": "euphony_basic",
+          "score": 85.95744680851064,
+          "weight": 1,
+          "method": "CALC",
+          "details": "cacophonies=72, severity=46.8, monotony_patterns=0, variation=100.0"
+        },
+        {
+          "axis_id": "voice_conformity",
+          "score": 70,
+          "weight": 1,
+          "method": "CALC",
+          "details": "No voice genome specified in packet — neutral score",
+          "reasons": {
+            "top_contributors": [],
+            "top_penalties": []
+          }
+        }
+      ],
+      "bonuses": [],
+      "reasons": {
+        "top_contributors": [
+          "signature=100.0",
+          "euphony_basic=86.0",
+          "hook_presence=70.8",
+          "undefined=70.0",
+          "rhythm=68.4"
+        ],
+        "top_penalties": [
+          "rhythm=68.4"
+        ]
+      }
+    },
+    "sii": {
+      "name": "sii",
+      "score": 88.06122448979592,
+      "weight": 0.15,
+      "method": "HYBRID",
+      "sub_scores": [
+        {
+          "name": "anti_cliche",
+          "score": 100,
+          "weight": 1,
+          "method": "CALC",
+          "details": "Total matches: 0 (clichés: 0×15=0, AI: 0×12=0, filter: 0×3=0, penalty: -0)"
+        },
+        {
+          "name": "necessity",
+          "score": 85,
+          "weight": 1,
+          "method": "LLM",
+          "details": "LLM-judged necessity (11 beats, goal: Advance memory — stage 1/3)"
+        },
+        {
+          "axis_id": "metaphor_novelty",
+          "score": 82.14285714285714,
+          "weight": 1.5,
+          "method": "HYBRID",
+          "details": {
+            "dead_count": 0,
+            "total_metaphors": 14,
+            "dead_ratio": 0,
+            "avg_novelty": 82.14285714285714
+          }
+        }
+      ],
+      "bonuses": [],
+      "reasons": {
+        "top_contributors": [
+          "anti_cliche=100.0",
+          "necessity=85.0",
+          "undefined=82.1"
+        ],
+        "top_penalties": [
+          "undefined=82.1",
+          "necessity=85.0"
+        ]
+      }
+    },
+    "ifi": {
+      "name": "ifi",
+      "score": 90.7094017094017,
+      "weight": 0.1,
+      "method": "HYBRID",
+      "sub_scores": [
+        {
+          "name": "sensory_richness",
+          "score": 80,
+          "weight": 0.25,
+          "method": "CALC",
+          "details": "Categories present"
+        },
+        {
+          "name": "corporeal_anchoring",
+          "score": 83.33333333333334,
+          "weight": 0.25,
+          "method": "CALC",
+          "details": "Corporeal markers"
+        },
+        {
+          "name": "focalisation",
+          "score": 59.5042735042735,
+          "weight": 0.25,
+          "method": "HYBRID",
+          "details": "CALC: 47, LLM: 72, density: 4.7/100w"
+        },
+        {
+          "name": "attention_sustain",
+          "score": 100,
+          "weight": 1,
+          "method": "CALC",
+          "details": "Attention sustained — no low_attention zones"
+        },
+        {
+          "name": "fatigue_management",
+          "score": 100,
+          "weight": 1,
+          "method": "CALC",
+          "details": "Fatigue managed — no high_fatigue zones, breath_bonus=5"
+        }
+      ],
+      "bonuses": [
+        {
+          "type": "entropy",
+          "value": 10,
+          "triggered": true,
+          "detail": "All 4 quartiles have corporeal markers"
+        }
+      ],
+      "reasons": {
+        "top_contributors": [
+          "attention_sustain=100.0",
+          "fatigue_management=100.0",
+          "corporeal_anchoring=83.3",
+          "sensory_richness=80.0",
+          "focalisation=59.5"
+        ],
+        "top_penalties": [
+          "focalisation=59.5",
+          "sensory_richness=80.0",
+          "corporeal_anchoring=83.3",
+          "attention_sustain=100.0",
+          "fatigue_management=100.0"
+        ]
+      }
+    },
+    "aai": {
+      "name": "aai",
+      "score": 95.6,
+      "weight": 0.25,
+      "method": "HYBRID",
+      "sub_scores": [
+        {
+          "axis_id": "show_dont_tell",
+          "score": 100,
+          "weight": 3,
+          "method": "HYBRID",
+          "details": {
+            "violations_count": 0,
+            "show_ratio": 1,
+            "worst_violations": []
+          }
+        },
+        {
+          "axis_id": "authenticity",
+          "score": 89,
+          "weight": 2,
+          "method": "HYBRID",
+          "details": {
+            "calc_score": 89,
+            "fraud_score": null,
+            "pattern_hits": [
+              "NO_INTERRUPTION",
+              "HYPER_POLITE"
+            ]
+          }
+        }
+      ],
+      "bonuses": [],
+      "reasons": {
+        "top_contributors": [
+          "show_dont_tell=100.0",
+          "authenticity=89.0"
+        ],
+        "top_penalties": [
+          "authenticity=89.0",
+          "show_dont_tell=100.0"
+        ]
+      }
+    }
+  },
+  "composite": 89.18417495512341,
+  "min_axis": 80.5953764181552,
+  "verdict": "PITCH",
+  "ecc_score": 88.79647612008327,
+  "emotion_weight_pct": 33
+}

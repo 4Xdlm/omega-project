@@ -30,6 +30,7 @@ import {
   stddev,
   type CalibrationRunJSON,
   type CalibrationRunScores,
+  type MacroSubScore,
 } from '../src/calibration/omnipotent-calibration-utils.js';
 import { runSovereignForge } from '../src/engine.js';
 import { loadGoldenRun } from '../src/runtime/golden-loader.js';
@@ -158,7 +159,57 @@ function extractScores(result: Awaited<ReturnType<typeof runSovereignForge>>): C
   // Q_text = sqrt(M * G) * delta_AS
   const Q_text = Math.sqrt(Math.max(0, M) * Math.max(0, G)) * delta_as;
 
-  return { physics_score, S_score, Q_text, M, G, delta_as, AS, ECC, RCI, SII, IFI, AAI };
+  // L3 instrumentation: capture RCI sub-scores for diagnostic
+  const rci_sub_scores: MacroSubScore[] = (result.macro_score?.macro_axes.rci.sub_scores ?? []).map(s => ({
+    name: s.name,
+    score: s.score,
+    weight: s.weight,
+  }));
+
+  return { physics_score, S_score, Q_text, M, G, delta_as, AS, ECC, RCI, SII, IFI, AAI, rci_sub_scores };
+}
+
+/**
+ * Build RCI sub-score diagnostic table for REPORT.md.
+ * Shows per-seed breakdown of rhythm, signature, hook_presence, euphony_basic, voice_conformity.
+ */
+function buildRCISubScoreTable(runs: CalibrationRunJSON[]): string {
+  // Collect all sub-score names from first run that has them
+  const firstWithSub = runs.find(r => r.scores.rci_sub_scores && r.scores.rci_sub_scores.length > 0);
+  if (!firstWithSub || !firstWithSub.scores.rci_sub_scores) {
+    return '_No RCI sub-scores captured (pre-L3 runs)._';
+  }
+  const subNames = firstWithSub.scores.rci_sub_scores.map(s => s.name);
+
+  // Header
+  let table = `| Seed | RCI | ${subNames.join(' | ')} |\n`;
+  table += `|------|-----|${subNames.map(() => '-----').join('|')}|\n`;
+
+  // Data rows
+  for (const run of runs) {
+    const subs = run.scores.rci_sub_scores ?? [];
+    const subValues = subNames.map(name => {
+      const found = subs.find(s => s.name === name);
+      return found ? found.score.toFixed(1) : 'N/A';
+    });
+    table += `| ${run.seed} | ${run.scores.RCI.toFixed(1)} | ${subValues.join(' | ')} |\n`;
+  }
+
+  // Summary stats
+  table += `\n### RCI Sub-Score Statistics\n\n`;
+  table += `| Sub-Score | Mean | Std | Min | Max | Weight |\n`;
+  table += `|-----------|------|-----|-----|-----|--------|\n`;
+  for (const name of subNames) {
+    const values = runs
+      .map(r => (r.scores.rci_sub_scores ?? []).find(s => s.name === name)?.score)
+      .filter((v): v is number => v !== undefined);
+    if (values.length > 0) {
+      const w = firstWithSub.scores.rci_sub_scores!.find(s => s.name === name)?.weight ?? 0;
+      table += `| ${name} | ${mean(values).toFixed(1)} | ${stddev(values).toFixed(1)} | ${Math.min(...values).toFixed(1)} | ${Math.max(...values).toFixed(1)} | ${w.toFixed(2)} |\n`;
+    }
+  }
+
+  return table;
 }
 
 async function main(): Promise<void> {
@@ -271,11 +322,16 @@ async function main(): Promise<void> {
       console.log(`[Run ${seedStr}] DONE in ${(durationMs / 1000).toFixed(1)}s`);
       console.log(`  physics=${scores.physics_score.toFixed(1)} S=${scores.S_score.toFixed(1)} Q=${scores.Q_text.toFixed(1)} M=${scores.M.toFixed(1)} verdict=${verdict}`);
       console.log(`  ECC=${scores.ECC.toFixed(1)} RCI=${scores.RCI.toFixed(1)} SII=${scores.SII.toFixed(1)} IFI=${scores.IFI.toFixed(1)} AAI=${scores.AAI.toFixed(1)}`);
+      if (scores.rci_sub_scores && scores.rci_sub_scores.length > 0) {
+        const subStr = scores.rci_sub_scores.map(s => `${s.name}=${s.score.toFixed(1)}`).join(' ');
+        console.log(`  RCI_SUB: ${subStr}`);
+      }
     } catch (err: unknown) {
       const errMsg = err instanceof Error ? err.message : String(err);
       console.error(`[Run ${seedStr}] FAILED: ${errMsg}`);
 
-      // Write error run file (fail-open for individual runs — continue calibration)
+      // Classify error: provider vs engine
+      const isProviderFail = errMsg.includes('credit balance') || errMsg.includes('rate limit') || errMsg.includes('quota') || errMsg.includes('billing');
       const errorJSON = {
         schema: 'omnipotent.calibration.v1',
         seed,
@@ -283,8 +339,16 @@ async function main(): Promise<void> {
         model,
         timestamp: new Date().toISOString(),
         error: errMsg,
+        error_class: isProviderFail ? 'PROVIDER_FAIL' : 'ENGINE_FAIL',
       };
       fs.writeFileSync(path.join(outDir, `run_${seedStr}_ERROR.json`), JSON.stringify(errorJSON, null, 2), 'utf-8');
+
+      // FAIL-CLOSED: stop batch immediately on provider billing/quota failure
+      if (isProviderFail) {
+        console.error(`\n⛔ PROVIDER_FAIL detected (${errMsg.slice(0, 80)}...). Stopping batch.`);
+        console.error(`   Completed: ${seedStr}/${seeds.length} seeds. Rerun with valid credits.`);
+        break;
+      }
     }
   }
 
@@ -376,6 +440,10 @@ ${runsTable}
 | physics_score | ${mean(physicsScores).toFixed(2)} | ${stddev(physicsScores).toFixed(2)} | ${Math.min(...physicsScores).toFixed(2)} | ${Math.max(...physicsScores).toFixed(2)} |
 | S_score | ${mean(sScores).toFixed(2)} | ${stddev(sScores).toFixed(2)} | ${Math.min(...sScores).toFixed(2)} | ${Math.max(...sScores).toFixed(2)} |
 | Q_text | ${mean(qTextScores).toFixed(2)} | ${stddev(qTextScores).toFixed(2)} | ${Math.min(...qTextScores).toFixed(2)} | ${Math.max(...qTextScores).toFixed(2)} |
+
+## RCI Sub-Scores Diagnostic
+
+${buildRCISubScoreTable(runs)}
 `;
 
   fs.writeFileSync(path.join(outDir, 'REPORT.md'), report, 'utf-8');

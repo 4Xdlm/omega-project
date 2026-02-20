@@ -163,6 +163,12 @@ export function decideScenario(
 // RUN JSON VALIDATION
 // ═══════════════════════════════════════════════════════════════════════════════
 
+export interface MacroSubScore {
+  readonly name: string;
+  readonly score: number;
+  readonly weight: number;
+}
+
 export interface CalibrationRunScores {
   readonly physics_score: number;
   readonly S_score: number;
@@ -176,6 +182,7 @@ export interface CalibrationRunScores {
   readonly SII: number;
   readonly IFI: number;
   readonly AAI: number;
+  readonly rci_sub_scores?: readonly MacroSubScore[];
 }
 
 export interface CalibrationRunJSON {

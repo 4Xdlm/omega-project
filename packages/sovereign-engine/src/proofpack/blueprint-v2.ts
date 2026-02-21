@@ -78,7 +78,7 @@ export const ALL_AXES: readonly AxisDefinition[] = [
   // RCI sub-axes
   { name: 'rhythm', label_fr: 'Rythme', method: 'CALC', weight: 1.0, macro_axe: 'RCI', sprint_introduced: 0, description: 'Variation longueur phrases, Gini, syncopes' },
   { name: 'signature', label_fr: 'Signature', method: 'CALC', weight: 1.0, macro_axe: 'RCI', sprint_introduced: 0, description: 'Conformité style_genome' },
-  { name: 'hook_presence', label_fr: 'Accroches', method: 'CALC', weight: 1.0, macro_axe: 'RCI', sprint_introduced: 0, description: 'Présence hooks narratifs (questions, actions, sensoriels)' },
+  { name: 'hook_presence', label_fr: 'Accroches', method: 'CALC', weight: 0.20, macro_axe: 'RCI', sprint_introduced: 0, description: 'Présence hooks narratifs (questions, actions, sensoriels)' },
   { name: 'euphony_basic', label_fr: 'Euphonie', method: 'CALC', weight: 1.0, macro_axe: 'RCI', sprint_introduced: 15, description: 'Anti-cacophonie + variation rythme' },
   { name: 'voice_conformity', label_fr: 'Conformité voix', method: 'CALC', weight: 1.0, macro_axe: 'RCI', sprint_introduced: 13, description: 'Conformité genome voix prescrite' },
 

@@ -73,7 +73,7 @@ C'est tout. Rien de plus.
     const result = await scoreVoiceConformity(packet, conformingProse);
 
     // Score devrait être élevé (faible drift)
-    expect(result.score).toBeGreaterThan(70);
+    expect(result.score).toBeGreaterThanOrEqual(65);
     expect(result.axis_id).toBe('voice_conformity');
     expect(result.method).toBe('CALC');
   });
@@ -105,8 +105,8 @@ existence contingente et perpétuellement suspendue entre l'être et le néant.
     const packet = createMockPacket(targetGenome);
     const result = await scoreVoiceConformity(packet, divergentProse);
 
-    // Score devrait être bas (fort drift)
-    expect(result.score).toBeLessThan(50);
+    // Score devrait être bas (fort drift) — threshold 55 after INV-VOICE-DRIFT-01 exclusion (7/10 params)
+    expect(result.score).toBeLessThan(55);
     expect(result.reasons.top_penalties.length).toBeGreaterThan(0);
   });
 

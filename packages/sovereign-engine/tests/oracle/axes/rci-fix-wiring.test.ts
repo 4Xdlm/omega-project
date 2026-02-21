@@ -69,6 +69,6 @@ describe('RCI Wiring Fix [RCI-FIX]', () => {
 
     // 5 sub_scores: rhythm(1.0) + signature(1.0) + hook(0.20) + euphony(1.0) + voice(1.0) = 4.20
     expect(result.sub_scores).toHaveLength(5);
-    expect(totalWeight).toBeCloseTo(5.0, 1);
+    expect(totalWeight).toBeCloseTo(4.20, 1);
   });
 });

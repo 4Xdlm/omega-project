@@ -7,7 +7,7 @@
  */
 
 import type { ForgePacket, AxisScore } from '../../types.js';
-import { measureVoice, computeVoiceDrift } from '../../voice/voice-genome.js';
+import { measureVoice, computeVoiceDrift, NON_APPLICABLE_VOICE_PARAMS } from '../../voice/voice-genome.js';
 
 export async function scoreVoiceConformity(
   packet: ForgePacket,
@@ -31,7 +31,7 @@ export async function scoreVoiceConformity(
 
   const targetGenome = packet.style_genome.voice;
   const actualGenome = measureVoice(prose);
-  const driftResult = computeVoiceDrift(targetGenome, actualGenome);
+  const driftResult = computeVoiceDrift(targetGenome, actualGenome, NON_APPLICABLE_VOICE_PARAMS);
 
   // Score = (1 - drift) × 100, clamp [0, 100]
   const rawScore = (1 - driftResult.drift) * 100;
@@ -58,7 +58,7 @@ export async function scoreVoiceConformity(
     score,
     weight: 1.0,
     method: 'CALC',
-    details: `Drift: ${(driftResult.drift * 100).toFixed(2)}%, Conforming: ${driftResult.conforming}`,
+    details: `Drift: ${(driftResult.drift * 100).toFixed(2)}%, Conforming: ${driftResult.conforming}, N_applicable: ${driftResult.n_applicable}/10, Excluded: [${driftResult.excluded.join(', ')}]`,
     reasons: {
       top_contributors: topContributors,
       top_penalties: topPenalties,

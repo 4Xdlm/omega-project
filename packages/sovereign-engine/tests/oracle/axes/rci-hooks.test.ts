@@ -17,7 +17,7 @@ describe('RCI hook verification', async () => {
     expect(result.sub_scores.length).toBe(5);
     const hookScore = result.sub_scores.find((s) => s.name === 'hook_presence');
     expect(hookScore).toBeDefined();
-    expect(hookScore?.weight).toBe(1.0);
+    expect(hookScore?.weight).toBe(0.20);
     expect(hookScore?.method).toBe('CALC');
   });
 
@@ -58,7 +58,7 @@ describe('RCI hook verification', async () => {
 
     // The weights in sub_scores are for documentation, actual blend uses hardcoded values
     // Just verify the weights are set correctly
-    expect(hookScore?.weight).toBe(1.0);
+    expect(hookScore?.weight).toBe(0.20);
   });
 
   it('RCI score is always [0, 100]', async () => {

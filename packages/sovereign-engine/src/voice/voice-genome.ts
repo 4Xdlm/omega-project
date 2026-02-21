@@ -128,12 +128,35 @@ export function measureVoice(prose: string): VoiceGenome {
 }
 
 /**
- * Calculer le drift entre 2 genomes
+ * Params excluded from drift calculation — structurally unreliable heuristics.
+ * INV-VOICE-DRIFT-01: Non-applicable params do not contribute to drift RMS.
+ *
+ * - irony_level: heuristic "negation + !" returns ~0 always → permanent drift
+ * - metaphor_density: keyword matching catches only comparative metaphors → misses 75%+
+ * - dialogue_ratio: scene-dependent, narrative scenes penalized for being narrative
+ *
+ * These params are still MEASURED and LOGGED, but excluded from the scoring drift.
  */
-export function computeVoiceDrift(target: VoiceGenome, actual: VoiceGenome): {
+export const NON_APPLICABLE_VOICE_PARAMS: ReadonlySet<keyof VoiceGenome> = new Set([
+  'irony_level',
+  'metaphor_density',
+  'dialogue_ratio',
+]);
+
+/**
+ * Calculer le drift entre 2 genomes
+ * @param excludeParams - params to exclude from drift RMS (still reported in per_param)
+ */
+export function computeVoiceDrift(
+  target: VoiceGenome,
+  actual: VoiceGenome,
+  excludeParams: ReadonlySet<keyof VoiceGenome> = new Set(),
+): {
   drift: number;           // 0-1, distance euclidienne normalisée
-  per_param: Record<keyof VoiceGenome, number>;  // drift par paramètre
+  per_param: Record<keyof VoiceGenome, number>;  // drift par paramètre (ALL params)
   conforming: boolean;     // drift < 0.10
+  n_applicable: number;    // number of params used in drift calc
+  excluded: readonly (keyof VoiceGenome)[];  // params excluded from drift
 } {
   const params: (keyof VoiceGenome)[] = [
     'phrase_length_mean',
@@ -150,21 +173,31 @@ export function computeVoiceDrift(target: VoiceGenome, actual: VoiceGenome): {
 
   const per_param: Record<keyof VoiceGenome, number> = {} as any;
   let sumSquares = 0;
+  let nApplicable = 0;
+  const excluded: (keyof VoiceGenome)[] = [];
 
   for (const param of params) {
     const diff = Math.abs(target[param] - actual[param]);
     per_param[param] = diff;
-    sumSquares += diff * diff;
+
+    if (excludeParams.has(param)) {
+      excluded.push(param);
+    } else {
+      sumSquares += diff * diff;
+      nApplicable++;
+    }
   }
 
-  // Distance euclidienne normalisée (√10 = max si tous à 1)
-  const drift = Math.sqrt(sumSquares / params.length);
+  // Distance euclidienne normalisée sur params applicables uniquement
+  const drift = nApplicable > 0 ? Math.sqrt(sumSquares / nApplicable) : 0;
   const conforming = drift < 0.10;
 
   return {
     drift,
     per_param,
     conforming,
+    n_applicable: nApplicable,
+    excluded,
   };
 }
 

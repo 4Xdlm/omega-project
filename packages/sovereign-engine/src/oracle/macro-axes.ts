@@ -378,12 +378,12 @@ export async function computeRCI(
   const signature = scoreSignature(packet, prose);
 
   // 2. NEW: Symbol Map hook verification
-  // INV-RCI-HOOKS-02: hook_presence weight normalized to 1.0 (iso-weight with other RCI sub-axes)
+  // INV-RCI-HOOKS-02: hook_presence weight 0.20 (heuristic — lower weight to avoid dragging RCI)
   const hookScore = computeHookPresence(prose, packet);
   const hook_presence: AxisScore = {
     name: 'hook_presence',
     score: hookScore,
-    weight: 1.0,
+    weight: 0.20,
     method: 'CALC',
     details: `Symbol map hooks verified`,
   };

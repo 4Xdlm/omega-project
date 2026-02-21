@@ -4,10 +4,15 @@
  * ═══════════════════════════════════════════════════════════════════════════════
  *
  * Module: genius/genius-metrics.ts
- * Sprint: GENIUS-02
+ * Sprint: GENIUS-02 → GENIUS-SOVEREIGN-INTEGRATION
  * Standard: NASA-Grade L4 / DO-178C Level A
  *
  * Pipeline: AS gate → D,S,I,R,V → G = (D×S×I×R×V)^(1/5) → Q_text = √(M×G) × δ_AS
+ *
+ * DUAL MODE (A+ integration):
+ *   - legacy:  G computed from SE scorers only (geometric mean)
+ *   - dual:    G_old (SE) + G_new (omega-p0) computed side-by-side, verdict uses G_old
+ *   - omegaP0: G computed from omega-p0 only (calibrated weighted sum)
  *
  * Invariants:
  * - GENIUS-01: AS < 85 → REJECT, skip M and G
@@ -16,6 +21,7 @@
  * - GENIUS-04: V=65 original → SEAL refused
  * - GENIUS-06: Q_system returned but never influences seal_granted
  * - GENIUS-15: Output JSON conforms to canonical schema
+ * - ART-GENIUS-DUAL: Dual mode computes both G values without altering legacy verdict
  *
  * FAIL-FAST: AS evaluated FIRST. If AS < 85 → no G computation.
  * ═══════════════════════════════════════════════════════════════════════════════
@@ -28,6 +34,13 @@ import { computeInevitability, type NarrativeEvent } from './scorers/inevitabili
 import { computeResonance, type SymbolMapOutput } from './scorers/resonance-scorer.js';
 import { computeVoice, type GeniusMode, type VoiceGenome, type AuthorFingerprint } from './scorers/voice-scorer.js';
 import { getEmbeddingModelInfo } from './embeddings/local-embedding-model.js';
+import {
+  computeOmegaP0Scores,
+  buildDualProof,
+  type GeniusScorerMode,
+  type OmegaP0Result,
+  type DualProofRecord,
+} from './omega-p0-adapter.js';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // TYPES — INPUT
@@ -52,10 +65,12 @@ export interface GeniusMetricsInput {
   readonly symbolMapOutputs?: readonly SymbolMapOutput[];
   readonly extractedEvents?: readonly NarrativeEvent[];
   readonly emotionScores?: EmotionLayerResult;
+  /** Scorer mode: legacy (default), dual, or omegaP0 */
+  readonly scorerMode?: GeniusScorerMode;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// TYPES — OUTPUT (canonical schema GENIUS-15)
+// TYPES — OUTPUT (canonical schema GENIUS-15 + dual extension)
 // ═══════════════════════════════════════════════════════════════════════════════
 
 export interface GeniusMetricsOutput {
@@ -79,6 +94,19 @@ export interface GeniusMetricsOutput {
       readonly shift_moyen: number;
     };
   };
+  /** Dual comparison data — present only when scorerMode is 'dual' or 'omegaP0' */
+  readonly layer2_dual?: {
+    readonly G_new: number;
+    readonly axes_new: {
+      readonly D: number;
+      readonly S: number;
+      readonly I: number;
+      readonly R: number;
+      readonly V: number;
+    };
+    readonly delta_G: number;
+    readonly proof: DualProofRecord;
+  };
   readonly layer3_verdict: {
     readonly Q_text: number;
     readonly seal_run: boolean;
@@ -86,6 +114,7 @@ export interface GeniusMetricsOutput {
     readonly verdict: 'SEAL' | 'PITCH' | 'REJECT';
   };
   readonly embedding_model_version: string;
+  readonly scorer_mode: GeniusScorerMode;
   readonly warnings: readonly string[];
 }
 
@@ -148,14 +177,18 @@ function checkFloors(
  * Compute GENIUS metrics: AS → D,S,I,R,V → G → Q_text.
  *
  * FAIL-FAST: If AS < 85, returns REJECT immediately.
- * G = (D×S×I×R×V)^(1/5)
- * Q_text = √(M×G) × δ_AS (δ_AS = 1 if AS ≥ 85, else 0)
+ *
+ * Scorer modes:
+ *   - legacy:  G = (D×S×I×R×V)^(1/5) from SE scorers
+ *   - dual:    G_old (SE) + G_new (omega-p0), verdict uses G_old
+ *   - omegaP0: G = 0.35R+0.25D+0.20V+0.15S+0.05I from omega-p0
  *
  * DETERMINISM: Same input → same output (GENIUS-25).
  */
 export function computeGeniusMetrics(input: GeniusMetricsInput): GeniusMetricsOutput {
   const warnings: string[] = [];
   const embeddingInfo = getEmbeddingModelInfo();
+  const scorerMode: GeniusScorerMode = input.scorerMode ?? 'legacy';
 
   // ── STEP 1: Layer 0 — AS kill switch (GENIUS-01) ──
   const asResult = computeAS(input.text);
@@ -180,28 +213,73 @@ export function computeGeniusMetrics(input: GeniusMetricsInput): GeniusMetricsOu
         verdict: 'REJECT',
       },
       embedding_model_version: embeddingInfo.version,
+      scorer_mode: scorerMode,
       warnings: ['REJECT: AS gate failed'],
     };
   }
 
-  // ── STEP 2: Compute D, S, I, R, V ──
-  const dResult = computeDensity(input.text);
-  const sResult = computeSurprise(input.text);
-  const iResult = computeInevitability(input.text, input.extractedEvents);
-  const rResult = computeResonance(input.text, input.symbolMapOutputs);
-  const vResult = computeVoice(input.text, input.mode, input.voiceGenome, input.authorFingerprint);
+  // ── STEP 2: Compute D, S, I, R, V (legacy SE scorers — always run in legacy/dual) ──
+  let D: number, S: number, I: number, R: number, V: number;
+  let S_shift_balance = 0;
+  let shift_moyen = 0;
 
-  const D = dResult.D;
-  const S = sResult.S;
-  const I = iResult.I;
-  const R = rResult.R;
-  const V = vResult.V;
+  if (scorerMode === 'legacy' || scorerMode === 'dual') {
+    const dResult = computeDensity(input.text);
+    const sResult = computeSurprise(input.text);
+    const iResult = computeInevitability(input.text, input.extractedEvents);
+    const rResult = computeResonance(input.text, input.symbolMapOutputs);
+    const vResult = computeVoice(input.text, input.mode, input.voiceGenome, input.authorFingerprint);
 
-  // Collect warnings from scorers
-  warnings.push(...sResult.warnings);
+    D = dResult.D;
+    S = sResult.S;
+    I = iResult.I;
+    R = rResult.R;
+    V = vResult.V;
+    S_shift_balance = sResult.diagnostics.S_shift_balance;
+    shift_moyen = sResult.diagnostics.shift_moyen;
+    warnings.push(...sResult.warnings);
+  } else {
+    // omegaP0 mode: use omega-p0 axes directly
+    const p0 = computeOmegaP0Scores(input.text);
+    D = p0.axes.D;
+    S = p0.axes.S;
+    I = p0.axes.I;
+    R = p0.axes.R;
+    V = p0.axes.V;
+  }
 
-  // ── STEP 3: G = geometric mean ──
-  const G = geometricMean5(D, S, I, R, V);
+  // ── STEP 3: G computation ──
+  let G: number;
+
+  if (scorerMode === 'omegaP0') {
+    // Calibrated weighted sum
+    G = 0.25 * D + 0.15 * S + 0.05 * I + 0.35 * R + 0.20 * V;
+  } else {
+    // Legacy geometric mean (legacy + dual)
+    G = geometricMean5(D, S, I, R, V);
+  }
+
+  // ── STEP 3b: Dual comparison (only in dual mode) ──
+  let layer2_dual: GeniusMetricsOutput['layer2_dual'] | undefined;
+
+  if (scorerMode === 'dual') {
+    const p0Result = computeOmegaP0Scores(input.text);
+    const proof = buildDualProof(
+      input.text,
+      G,
+      { D, S, I, R, V },
+      '', // verdict_old filled below after verdict computation
+      p0Result,
+      scorerMode,
+    );
+
+    layer2_dual = {
+      G_new: p0Result.G_new,
+      axes_new: { ...p0Result.axes },
+      delta_G: p0Result.G_new - G,
+      proof,
+    };
+  }
 
   // ── STEP 4: SI_tension diagnostic ──
   const SI_tension = Math.max(S, I) > 0 ? Math.min(S, I) / Math.max(S, I) : 0;
@@ -260,6 +338,18 @@ export function computeGeniusMetrics(input: GeniusMetricsInput): GeniusMetricsOu
     seal_reason = M > 0 ? 'G_ZERO' : 'M_MISSING';
   }
 
+  // ── STEP 7b: Patch dual proof with verdict_old (now known) ──
+  if (layer2_dual) {
+    const patchedProof: DualProofRecord = {
+      ...layer2_dual.proof,
+      verdict_old: verdict,
+    };
+    layer2_dual = {
+      ...layer2_dual,
+      proof: patchedProof,
+    };
+  }
+
   return {
     layer0_gate: {
       AS_score: asResult.AS_score,
@@ -271,10 +361,11 @@ export function computeGeniusMetrics(input: GeniusMetricsInput): GeniusMetricsOu
       axes: { D, S, I, R, V },
       diagnostics: {
         SI_tension,
-        S_shift_balance: sResult.diagnostics.S_shift_balance,
-        shift_moyen: sResult.diagnostics.shift_moyen,
+        S_shift_balance,
+        shift_moyen,
       },
     },
+    ...(layer2_dual ? { layer2_dual } : {}),
     layer3_verdict: {
       Q_text,
       seal_run,
@@ -282,6 +373,7 @@ export function computeGeniusMetrics(input: GeniusMetricsInput): GeniusMetricsOu
       verdict,
     },
     embedding_model_version: embeddingInfo.version,
+    scorer_mode: scorerMode,
     warnings,
   };
 }

@@ -25,22 +25,24 @@ describe('Voice Drift Param Exclusion (INV-VOICE-DRIFT-01)', () => {
     opening_variety: 0.7,
   };
 
-  it('DRIFT-EXCL-01: NON_APPLICABLE_VOICE_PARAMS contains exactly 3 broken params', () => {
-    expect(NON_APPLICABLE_VOICE_PARAMS.size).toBe(3);
+  it('DRIFT-EXCL-01: NON_APPLICABLE_VOICE_PARAMS contains exactly 4 broken/structural params', () => {
+    expect(NON_APPLICABLE_VOICE_PARAMS.size).toBe(4);
     expect(NON_APPLICABLE_VOICE_PARAMS.has('irony_level')).toBe(true);
     expect(NON_APPLICABLE_VOICE_PARAMS.has('metaphor_density')).toBe(true);
     expect(NON_APPLICABLE_VOICE_PARAMS.has('dialogue_ratio')).toBe(true);
+    expect(NON_APPLICABLE_VOICE_PARAMS.has('punctuation_style')).toBe(true);
   });
 
-  it('DRIFT-EXCL-02: drift with exclusion uses 7 params, not 10', () => {
+  it('DRIFT-EXCL-02: drift with exclusion uses 6 params, not 10', () => {
     const actual = measureVoice('Il marchait. Le vent soufflait. Les arbres pliaient.');
     const result = computeVoiceDrift(target, actual, NON_APPLICABLE_VOICE_PARAMS);
 
-    expect(result.n_applicable).toBe(7);
-    expect(result.excluded.length).toBe(3);
+    expect(result.n_applicable).toBe(6);
+    expect(result.excluded.length).toBe(4);
     expect(result.excluded).toContain('irony_level');
     expect(result.excluded).toContain('metaphor_density');
     expect(result.excluded).toContain('dialogue_ratio');
+    expect(result.excluded).toContain('punctuation_style');
   });
 
   it('DRIFT-EXCL-03: drift with exclusion ≤ drift without exclusion (removes penalty)', () => {
@@ -51,7 +53,7 @@ describe('Voice Drift Param Exclusion (INV-VOICE-DRIFT-01)', () => {
 
     // Filtered should be ≤ full (removing bad params reduces drift)
     // Not strictly guaranteed but expected given that excluded params have high drift
-    expect(filteredDrift.n_applicable).toBe(7);
+    expect(filteredDrift.n_applicable).toBe(6);
     expect(fullDrift.n_applicable).toBe(10);
 
     // Both report all 10 params in per_param

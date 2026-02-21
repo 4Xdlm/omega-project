@@ -1,0 +1,58 @@
+{
+  "schema": "omnipotent.calibration.v1",
+  "seed": 2,
+  "provider": "anthropic",
+  "model": "claude-sonnet-4-20250514",
+  "timestamp": "2026-02-21T10:29:27.564Z",
+  "prompt_hash": "0a331d04f95375ec1479aa4a0a775fcfca3b599d785f4a6abf0261bd7815793d",
+  "output_hash": "982030e82374289c41bfaf1b037ad7b02efe12b911eee33a23cbf94c17d482cd",
+  "scores": {
+    "physics_score": 85.01,
+    "S_score": 89.16764839087702,
+    "Q_text": 89.18790161655366,
+    "M": 89.20815944247666,
+    "G": 89.16764839087702,
+    "delta_as": 1,
+    "AS": 95.6,
+    "ECC": 88.26238657003611,
+    "RCI": 78.75518971374429,
+    "SII": 85.01785714285714,
+    "IFI": 100,
+    "AAI": 95.6,
+    "rci_sub_scores": [
+      {
+        "name": "rhythm",
+        "score": 64.51640502096275,
+        "weight": 1
+      },
+      {
+        "name": "signature",
+        "score": 100,
+        "weight": 1
+      },
+      {
+        "name": "hook_presence",
+        "score": 72.91666666666666,
+        "weight": 0.2
+      },
+      {
+        "name": "euphony_basic",
+        "score": 82.15,
+        "weight": 1
+      },
+      {
+        "name": "voice_conformity",
+        "score": 69.52205844342994,
+        "weight": 1
+      }
+    ]
+  },
+  "verdict": "REJECT",
+  "physics_audit": {
+    "forced_transitions": 0,
+    "dead_zones": 0,
+    "feasibility_failures": 0,
+    "trajectory_compliance": 0.8501000000000001
+  },
+  "run_hash": "6915b19eb72aa8c634ce7b6f7310f90261080cc9d7a6e4ba8c6f2c559b868f61"
+}

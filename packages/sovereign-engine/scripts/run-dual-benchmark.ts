@@ -32,6 +32,10 @@
  * PATCH v1.1 — Auto-retry on ENGINE_FAIL (refusal/parse errors)
  *   On ENGINE_FAIL: retry up to MAX_RETRIES times with seed+RETRY_SEED_OFFSET*attempt
  *   On PROVIDER_FAIL: hard stop (credits/auth — no retry)
+ *
+ * PATCH v1.2 — Resume mode (--resume-dir)
+ *   --resume-dir <existing_path> : write into existing directory (no new timestamp)
+ *   slotIndex = seed number in resume mode → no filename collision with existing runs
  * ═══════════════════════════════════════════════════════════════════════════════
  */
 
@@ -113,6 +117,7 @@ function parseArgs(): {
   provider: string;
   model: string;
   out: string;
+  resumeDir: string | undefined;
   seeds: number[];
   run: string;
   scene: number;
@@ -126,6 +131,7 @@ function parseArgs(): {
   const provider = getArg('provider') ?? 'anthropic';
   const model = getArg('model') ?? 'claude-sonnet-4-20250514';
   const out = getArg('out') ?? 'nexus/proof/genius-dual-comparison';
+  const resumeDir = getArg('resume-dir'); // [PATCH v1.2] use existing dir, no timestamp
   const run = getArg('run') ?? '../../golden/e2e/run_001/runs/13535cccff86620f';
   const scene = parseInt(getArg('scene') ?? '0', 10);
   const seedsStr = getArg('seeds') ?? '1..50';
@@ -140,7 +146,7 @@ function parseArgs(): {
     seeds = seedsStr.split(',').map((s) => parseInt(s.trim(), 10));
   }
 
-  return { provider, model, out, seeds, run, scene };
+  return { provider, model, out, resumeDir, seeds, run, scene };
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -449,9 +455,12 @@ async function runOneSeed(
 // ═══════════════════════════════════════════════════════════════════════════════
 
 async function main(): Promise<void> {
-  const { provider, model, out, seeds, run, scene } = parseArgs();
-  const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-  const outDir = path.resolve(process.cwd(), out, timestamp);
+  const { provider, model, out, resumeDir, seeds, run, scene } = parseArgs();
+  // [PATCH v1.2] Resume mode: use existing dir directly (no timestamp suffix)
+  const isResume = !!resumeDir;
+  const outDir = isResume
+    ? path.resolve(process.cwd(), resumeDir)
+    : path.resolve(process.cwd(), out, new Date().toISOString().replace(/[:.]/g, '-'));
 
   checkProvider(provider);
 
@@ -461,11 +470,16 @@ async function main(): Promise<void> {
     process.exit(1);
   }
 
+  if (isResume && !fs.existsSync(outDir)) {
+    console.error(`FAIL-CLOSED: --resume-dir not found: ${outDir}`);
+    process.exit(1);
+  }
+
   fs.mkdirSync(outDir, { recursive: true });
 
   console.log('');
   console.log('═══════════════════════════════════════════════════════════');
-  console.log('  OMEGA GENIUS — DUAL BENCHMARK Phase 4f v1.1');
+  console.log(`  OMEGA GENIUS — DUAL BENCHMARK Phase 4f v1.2${isResume ? ' [RESUME]' : ''}`);
   console.log('═══════════════════════════════════════════════════════════');
   console.log(`  Provider : ${provider} / ${model}`);
   console.log(`  Golden   : ${runPath}`);
@@ -496,8 +510,9 @@ async function main(): Promise<void> {
 
   for (let i = 0; i < seeds.length; i++) {
     const seed = seeds[i]!;
-    const slotIndex = i + 1;
-    console.log(`\n[Run ${String(slotIndex).padStart(2, '0')}/${seeds.length}] Launching pipeline (seed=${seed})...`);
+    // [PATCH v1.2] In resume mode, slotIndex = seed to avoid overwriting existing run_XX.json
+    const slotIndex = isResume ? seed : i + 1;
+    console.log(`\n[Run ${String(slotIndex).padStart(2, '0')}/${isResume ? seeds[seeds.length-1] : seeds.length}] Launching pipeline (seed=${seed})...`);
 
     const result = await runOneSeed(
       seed, slotIndex, seeds.length,

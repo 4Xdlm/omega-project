@@ -28,6 +28,10 @@
  * Standard: NASA-Grade L4 / DO-178C Level A
  * Sunset Contract: N=50 runs, decision gate at N_min=30
  *   → BASCULE if: median(G_new - G_old) >= 0 AND regressions == 0 AND determinism PASS
+ *
+ * PATCH v1.1 — Auto-retry on ENGINE_FAIL (refusal/parse errors)
+ *   On ENGINE_FAIL: retry up to MAX_RETRIES times with seed+RETRY_SEED_OFFSET*attempt
+ *   On PROVIDER_FAIL: hard stop (credits/auth — no retry)
  * ═══════════════════════════════════════════════════════════════════════════════
  */
 
@@ -50,36 +54,40 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const SCHEMA = 'genius.dual.benchmark.v1';
 const PHI = 1.6180339887;
-const N_MIN_DECISION = 30;   // Sunset contract: min runs before migration decision
-const N_TARGET = 50;          // Sunset contract: target runs
+const N_MIN_DECISION = 30;      // Sunset contract: min runs before migration decision
+const N_TARGET = 50;             // Sunset contract: target runs
+const MAX_RETRIES = 2;           // [PATCH v1.1] Max retries per seed on ENGINE_FAIL
+const RETRY_SEED_OFFSET = 100;   // [PATCH v1.1] Retry seed = original_seed + offset*attempt
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // TYPES
 // ═══════════════════════════════════════════════════════════════════════════════
 
 export interface PhiMetrics {
-  readonly observer_only: true;           // INVARIANT: never influences verdict
-  readonly phi_reference: number;          // 1.618...
+  readonly observer_only: true;
+  readonly phi_reference: number;
   readonly sentence_count: number;
-  readonly sentence_lengths: readonly number[];   // word count per sentence
-  readonly ratios: readonly number[];             // ratio_k = len[k+1] / len[k]
+  readonly sentence_lengths: readonly number[];
+  readonly ratios: readonly number[];
   readonly ratio_mean: number;
   readonly ratio_std: number;
-  readonly distance_to_phi_mean: number;   // |ratio_mean - phi|
+  readonly distance_to_phi_mean: number;
 }
 
 export interface DualBenchmarkRun {
   readonly schema: typeof SCHEMA;
   readonly seed: number;
+  readonly actual_seed: number;   // [PATCH v1.1] seed actually used (may differ on retry)
+  readonly retry_attempt: number; // [PATCH v1.1] 0 = first attempt, 1+ = retry
   readonly provider: string;
   readonly model: string;
   readonly timestamp: string;
-  readonly text_hash: string;    // SHA-256 of final_prose
+  readonly text_hash: string;
   readonly scores: {
     readonly M: number;
     readonly G_old: number;
     readonly G_new: number;
-    readonly delta: number;        // G_new - G_old
+    readonly delta: number;
     readonly Q_text_legacy: number;
     readonly verdict_legacy: string;
     readonly axes_old: { D: number; S: number; I: number; R: number; V: number };
@@ -92,6 +100,7 @@ export interface DualBenchmarkRun {
 export interface DualBenchmarkPhiRun {
   readonly schema: 'genius.phi.shadow.v1';
   readonly seed: number;
+  readonly actual_seed: number;
   readonly text_hash: string;
   readonly phi_metrics: PhiMetrics;
 }
@@ -149,19 +158,14 @@ function canonicalize(obj: unknown): string {
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // PHI METRICS — SHADOW ONLY
-// Observer-only. Never modifies scoring pipeline.
-// Spec: HYP_PHI_SHADOW_SPEC.md
-// Measure: mots/phrase — deterministic, no external dependency
 // ═══════════════════════════════════════════════════════════════════════════════
 
 function computePhiMetrics(text: string): PhiMetrics {
-  // Split into sentences on . ! ? — deterministic regex
   const raw = text.match(/[^.!?]+[.!?]+/g) ?? [];
   const sentence_lengths = raw.map((s) =>
     s.trim().split(/\s+/).filter((w) => w.length > 0).length
   );
 
-  // ratio_k = len[k+1] / len[k] — only when len[k] > 0
   const ratios: number[] = [];
   for (let k = 0; k < sentence_lengths.length - 1; k++) {
     if (sentence_lengths[k] > 0) {
@@ -170,13 +174,10 @@ function computePhiMetrics(text: string): PhiMetrics {
   }
 
   const n = ratios.length;
-  const ratio_mean =
-    n > 0 ? ratios.reduce((a, b) => a + b, 0) / n : 0;
+  const ratio_mean = n > 0 ? ratios.reduce((a, b) => a + b, 0) / n : 0;
   const ratio_std =
     n > 1
-      ? Math.sqrt(
-          ratios.reduce((s, r) => s + (r - ratio_mean) ** 2, 0) / n
-        )
+      ? Math.sqrt(ratios.reduce((s, r) => s + (r - ratio_mean) ** 2, 0) / n)
       : 0;
   const distance_to_phi_mean = Math.abs(ratio_mean - PHI);
 
@@ -213,7 +214,7 @@ function checkProvider(provider: string): void {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// SCORE EXTRACTION (from SovereignForgeResult → M for genius metrics)
+// SCORE EXTRACTION
 // ═══════════════════════════════════════════════════════════════════════════════
 
 function extractM(result: Awaited<ReturnType<typeof runSovereignForge>>): number {
@@ -256,61 +257,33 @@ function stddev(values: number[]): number {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// MAIN
+// RUN ONE SEED — with auto-retry on ENGINE_FAIL
+// [PATCH v1.1] Returns true if successful, false if all retries exhausted
 // ═══════════════════════════════════════════════════════════════════════════════
 
-async function main(): Promise<void> {
-  const { provider, model, out, seeds, run, scene } = parseArgs();
-  const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-  const outDir = path.resolve(process.cwd(), out, timestamp);
+async function runOneSeed(
+  seed: number,
+  slotIndex: number,   // Position in output (1-based, for filename)
+  totalSeeds: number,
+  outDir: string,
+  providerConfig: AnthropicProviderConfig,
+  runPath: string,
+  scene: number,
+  provider: string,
+  model: string,
+): Promise<'SUCCESS' | 'ENGINE_FAIL_EXHAUSTED' | 'PROVIDER_FAIL'> {
+  const slotStr = String(slotIndex).padStart(2, '0');
 
-  checkProvider(provider);
+  for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+    const actualSeed = seed + attempt * RETRY_SEED_OFFSET;
+    const retryLabel = attempt === 0 ? '' : ` [RETRY ${attempt}/${MAX_RETRIES} seed=${actualSeed}]`;
 
-  const runPath = path.resolve(process.cwd(), run);
-  if (!fs.existsSync(runPath)) {
-    console.error(`FAIL-CLOSED: Golden run path not found: ${runPath}`);
-    process.exit(1);
-  }
-
-  fs.mkdirSync(outDir, { recursive: true });
-
-  console.log('');
-  console.log('═══════════════════════════════════════════════════════════');
-  console.log('  OMEGA GENIUS — DUAL BENCHMARK Phase 4f');
-  console.log('═══════════════════════════════════════════════════════════');
-  console.log(`  Provider : ${provider} / ${model}`);
-  console.log(`  Golden   : ${runPath}`);
-  console.log(`  Scene    : ${scene}`);
-  console.log(`  Seeds    : ${seeds[0]}..${seeds[seeds.length - 1]} (${seeds.length} runs)`);
-  console.log(`  Mode     : GENIUS_SCORER_MODE=dual`);
-  console.log(`  Phi      : shadow observer-only (mots/phrase)`);
-  console.log(`  Output   : ${outDir}`);
-  console.log(`  Sunset   : N_min=${N_MIN_DECISION}, N_target=${N_TARGET}`);
-  console.log('═══════════════════════════════════════════════════════════');
-  console.log('');
-
-  const apiKey = process.env.ANTHROPIC_API_KEY ?? process.env.OPENAI_API_KEY ?? '';
-  const providerConfig: AnthropicProviderConfig = {
-    apiKey,
-    model,
-    judgeStable: true,
-    draftTemperature: 0.75,
-    judgeTemperature: 0.0,
-    judgeTopP: 1.0,
-    judgeMaxTokens: 4096,
-  };
-
-  // ── RUN LOOP ─────────────────────────────────────────────────────────────────
-
-  for (const seed of seeds) {
-    const seedStr = String(seed).padStart(2, '0');
-    console.log(`\n[Run ${seedStr}/${seeds.length}] Launching pipeline...`);
+    if (attempt > 0) {
+      console.log(`  ↻ Retry attempt ${attempt}/${MAX_RETRIES} with seed=${actualSeed}...`);
+    }
 
     try {
-      // 1. Load golden scenario
-      const forgeInput = loadGoldenRun(runPath, scene, `DUAL-BENCH-${seedStr}-${Date.now()}`);
-
-      // 2. Generate prose via full sovereign pipeline
+      const forgeInput = loadGoldenRun(runPath, scene, `DUAL-BENCH-${slotStr}-${Date.now()}`);
       const llmProvider = createAnthropicProvider(providerConfig);
       const t0 = Date.now();
       const result = await runSovereignForge(forgeInput, llmProvider);
@@ -320,7 +293,6 @@ async function main(): Promise<void> {
       const textHash = sha256(prose);
       const M = extractM(result);
 
-      // 3. Dual scoring (G_old SE + G_new omega-p0) — GENIUS scorer
       const geniusOut = computeGeniusMetrics({
         text: prose,
         mode: 'original',
@@ -337,10 +309,8 @@ async function main(): Promise<void> {
         scorerMode: 'dual',
       });
 
-      // 4. Phi shadow metrics — observer-only
       const phiMetrics = computePhiMetrics(prose);
 
-      // 5. Build run record
       const G_old = geniusOut.layer2_genius.G;
       const G_new = geniusOut.layer2_dual?.G_new ?? 0;
       const delta = G_new - G_old;
@@ -348,6 +318,8 @@ async function main(): Promise<void> {
       const runRecord: DualBenchmarkRun = {
         schema: SCHEMA,
         seed,
+        actual_seed: actualSeed,
+        retry_attempt: attempt,
         provider,
         model,
         timestamp: new Date().toISOString(),
@@ -377,31 +349,31 @@ async function main(): Promise<void> {
       const phiRecord: DualBenchmarkPhiRun = {
         schema: 'genius.phi.shadow.v1',
         seed,
+        actual_seed: actualSeed,
         text_hash: textHash,
         phi_metrics: phiMetrics,
       };
 
-      // 6. Write files
       fs.writeFileSync(
-        path.join(outDir, `run_${seedStr}.json`),
+        path.join(outDir, `run_${slotStr}.json`),
         JSON.stringify(runRecord, null, 2),
         'utf-8'
       );
       fs.writeFileSync(
-        path.join(outDir, `phi_${seedStr}.json`),
+        path.join(outDir, `phi_${slotStr}.json`),
         JSON.stringify(phiRecord, null, 2),
         'utf-8'
       );
 
-      // 7. Console summary
       const dualStatus = geniusOut.layer2_dual ? 'OK' : 'NO_DUAL';
-      console.log(`[Run ${seedStr}] DONE in ${(durationMs / 1000).toFixed(1)}s`);
+      console.log(`[Run ${slotStr}/${totalSeeds}] DONE in ${(durationMs / 1000).toFixed(1)}s${retryLabel}`);
       console.log(`  M=${M.toFixed(1)} G_old=${G_old.toFixed(1)} G_new=${G_new.toFixed(1)} delta=${delta >= 0 ? '+' : ''}${delta.toFixed(2)} Q=${geniusOut.layer3_verdict.Q_text.toFixed(1)} verdict=${geniusOut.layer3_verdict.verdict} dual=${dualStatus}`);
       console.log(`  phi: ratio_mean=${phiMetrics.ratio_mean.toFixed(3)} dist_phi=${phiMetrics.distance_to_phi_mean.toFixed(3)} n_sentences=${phiMetrics.sentence_count}`);
 
+      return 'SUCCESS';
+
     } catch (err: unknown) {
       const errMsg = err instanceof Error ? err.message : String(err);
-      console.error(`[Run ${seedStr}] FAILED: ${errMsg}`);
 
       const isProviderFail =
         errMsg.includes('credit balance') ||
@@ -417,27 +389,128 @@ async function main(): Promise<void> {
         errMsg.includes('401') ||
         errMsg.includes('invalid x-api-key');
 
-      const errorJSON = {
-        schema: SCHEMA,
-        seed,
-        provider,
-        model,
-        timestamp: new Date().toISOString(),
-        error: errMsg,
-        error_class: isProviderFail ? 'PROVIDER_FAIL' : 'ENGINE_FAIL',
-      };
-      fs.writeFileSync(
-        path.join(outDir, `run_${seedStr}_ERROR.json`),
-        JSON.stringify(errorJSON, null, 2),
-        'utf-8'
-      );
-
       if (isProviderFail) {
+        // Hard stop — no retry on provider failures
+        const errorJSON = {
+          schema: SCHEMA,
+          seed,
+          actual_seed: actualSeed,
+          retry_attempt: attempt,
+          provider,
+          model,
+          timestamp: new Date().toISOString(),
+          error: errMsg,
+          error_class: 'PROVIDER_FAIL',
+        };
+        fs.writeFileSync(
+          path.join(outDir, `run_${slotStr}_ERROR.json`),
+          JSON.stringify(errorJSON, null, 2),
+          'utf-8'
+        );
         console.error(`\n⛔ PROVIDER_FAIL (${errMsg.slice(0, 80)}). Stopping batch.`);
-        console.error(`   Completed: ${seedStr}/${seeds.length} seeds.`);
-        break;
+        return 'PROVIDER_FAIL';
       }
+
+      // ENGINE_FAIL (refusal, parse error, etc.) — retry if attempts remain
+      console.error(`[Run ${slotStr}] ENGINE_FAIL attempt ${attempt}/${MAX_RETRIES}: ${errMsg.slice(0, 120)}`);
+
+      if (attempt === MAX_RETRIES) {
+        // All retries exhausted — write error and continue to next seed
+        const errorJSON = {
+          schema: SCHEMA,
+          seed,
+          actual_seed: actualSeed,
+          retry_attempt: attempt,
+          provider,
+          model,
+          timestamp: new Date().toISOString(),
+          error: errMsg,
+          error_class: 'ENGINE_FAIL_EXHAUSTED',
+          retries_attempted: MAX_RETRIES,
+        };
+        fs.writeFileSync(
+          path.join(outDir, `run_${slotStr}_ERROR.json`),
+          JSON.stringify(errorJSON, null, 2),
+          'utf-8'
+        );
+        console.error(`  ✗ All ${MAX_RETRIES} retries exhausted for seed ${seed}. Skipping.`);
+        return 'ENGINE_FAIL_EXHAUSTED';
+      }
+      // else: loop continues with attempt+1
     }
+  }
+
+  // Should never reach here
+  return 'ENGINE_FAIL_EXHAUSTED';
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// MAIN
+// ═══════════════════════════════════════════════════════════════════════════════
+
+async function main(): Promise<void> {
+  const { provider, model, out, seeds, run, scene } = parseArgs();
+  const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+  const outDir = path.resolve(process.cwd(), out, timestamp);
+
+  checkProvider(provider);
+
+  const runPath = path.resolve(process.cwd(), run);
+  if (!fs.existsSync(runPath)) {
+    console.error(`FAIL-CLOSED: Golden run path not found: ${runPath}`);
+    process.exit(1);
+  }
+
+  fs.mkdirSync(outDir, { recursive: true });
+
+  console.log('');
+  console.log('═══════════════════════════════════════════════════════════');
+  console.log('  OMEGA GENIUS — DUAL BENCHMARK Phase 4f v1.1');
+  console.log('═══════════════════════════════════════════════════════════');
+  console.log(`  Provider : ${provider} / ${model}`);
+  console.log(`  Golden   : ${runPath}`);
+  console.log(`  Scene    : ${scene}`);
+  console.log(`  Seeds    : ${seeds[0]}..${seeds[seeds.length - 1]} (${seeds.length} runs)`);
+  console.log(`  Mode     : GENIUS_SCORER_MODE=dual`);
+  console.log(`  Phi      : shadow observer-only (mots/phrase)`);
+  console.log(`  Output   : ${outDir}`);
+  console.log(`  Sunset   : N_min=${N_MIN_DECISION}, N_target=${N_TARGET}`);
+  console.log(`  Retries  : MAX_RETRIES=${MAX_RETRIES}, offset=${RETRY_SEED_OFFSET}`);
+  console.log('═══════════════════════════════════════════════════════════');
+  console.log('');
+
+  const apiKey = process.env.ANTHROPIC_API_KEY ?? process.env.OPENAI_API_KEY ?? '';
+  const providerConfig: AnthropicProviderConfig = {
+    apiKey,
+    model,
+    judgeStable: true,
+    draftTemperature: 0.75,
+    judgeTemperature: 0.0,
+    judgeTopP: 1.0,
+    judgeMaxTokens: 4096,
+  };
+
+  // ── RUN LOOP ─────────────────────────────────────────────────────────────────
+
+  let providerFailed = false;
+
+  for (let i = 0; i < seeds.length; i++) {
+    const seed = seeds[i]!;
+    const slotIndex = i + 1;
+    console.log(`\n[Run ${String(slotIndex).padStart(2, '0')}/${seeds.length}] Launching pipeline (seed=${seed})...`);
+
+    const result = await runOneSeed(
+      seed, slotIndex, seeds.length,
+      outDir, providerConfig, runPath, scene,
+      provider, model,
+    );
+
+    if (result === 'PROVIDER_FAIL') {
+      console.error(`   Completed: ${slotIndex}/${seeds.length} seeds.`);
+      providerFailed = true;
+      break;
+    }
+    // ENGINE_FAIL_EXHAUSTED → logged, continue
   }
 
   // ── POST-RUN ANALYSIS ─────────────────────────────────────────────────────
@@ -482,23 +555,20 @@ async function main(): Promise<void> {
 
   const medianDelta = median(deltas);
 
-  // Regression: G_new drops by >2 relative to G_old on a run that was PITCH or SEAL legacy
   const regressions = runs.filter((r) => {
     const legacyGood = r.scores.verdict_legacy === 'SEAL' || r.scores.verdict_legacy === 'PITCH';
     return legacyGood && r.scores.G_new < r.scores.G_old - 2;
   });
 
-  // Determinism check: no duplicate text_hash with different run_hash (within batch)
   const hashMap = new Map<string, string>();
-  let determinismPass = true;
+  const determinismPass = true;
   for (const r of runs) {
-    const existing = hashMap.get(r.scores.G_old.toFixed(4));
-    if (existing === undefined) {
+    if (!hashMap.has(r.scores.G_old.toFixed(4))) {
       hashMap.set(r.scores.G_old.toFixed(4), r.run_hash);
     }
-    // Same seed should produce same hash if truly deterministic across runs
-    // (temperature=0.75 → not fully deterministic by design; this checks internal consistency)
   }
+
+  const retriedRuns = runs.filter((r) => r.retry_attempt > 0);
 
   // ── SUNSET DECISION ──────────────────────────────────────────────────────
 
@@ -533,7 +603,7 @@ async function main(): Promise<void> {
   const runsTable = runs
     .map(
       (r) =>
-        `| ${r.seed} | ${r.scores.M.toFixed(1)} | ${r.scores.G_old.toFixed(1)} | ${r.scores.G_new.toFixed(1)} | ${r.scores.delta >= 0 ? '+' : ''}${r.scores.delta.toFixed(2)} | ${r.scores.Q_text_legacy.toFixed(1)} | ${r.scores.verdict_legacy} |`
+        `| ${r.seed} | ${r.actual_seed} | ${r.retry_attempt} | ${r.scores.M.toFixed(1)} | ${r.scores.G_old.toFixed(1)} | ${r.scores.G_new.toFixed(1)} | ${r.scores.delta >= 0 ? '+' : ''}${r.scores.delta.toFixed(2)} | ${r.scores.Q_text_legacy.toFixed(1)} | ${r.scores.verdict_legacy} |`
     )
     .join('\n');
 
@@ -544,10 +614,12 @@ async function main(): Promise<void> {
     )
     .join('\n');
 
-  const report = `# OMEGA GENIUS — DUAL BENCHMARK REPORT (Phase 4f)
+  const report = `# OMEGA GENIUS — DUAL BENCHMARK REPORT (Phase 4f v1.1)
 # Date: ${new Date().toISOString()}
 # Provider: ${provider} / ${model}
 # Runs: ${runs.length} successful / ${seeds.length} attempted
+# Retried: ${retriedRuns.length} run(s) (ENGINE_FAIL → auto-retry)
+# Provider stopped early: ${providerFailed ? 'YES (credit exhaustion)' : 'NO'}
 # Schema: ${SCHEMA}
 
 ---
@@ -577,9 +649,19 @@ async function main(): Promise<void> {
 
 ---
 
+## RETRIES (${retriedRuns.length})
+
+${
+  retriedRuns.length === 0
+    ? '_None. All seeds resolved on first attempt._'
+    : retriedRuns
+        .map((r) => `- Slot ${r.seed}: original_seed=${r.seed} actual_seed=${r.actual_seed} retry_attempt=${r.retry_attempt}`)
+        .join('\n')
+}
+
+---
+
 ## PHI SHADOW METRICS — OBSERVER ONLY
-*Hypothesis HYP-PHI-01: ratio adjacent sentences → Gauss centred on φ≈1.618 in human prose*
-*This data has zero influence on verdict or scoring pipeline.*
 
 | Metric | Value |
 |--------|-------|
@@ -587,7 +669,7 @@ async function main(): Promise<void> {
 | Mean of ratio_mean across runs | ${phiMeanOfMeans.toFixed(4)} |
 | Mean distance to φ | ${phiMeanDistance.toFixed(4)} |
 | φ reference | ${PHI} |
-| PHI_HYPOTHESIS | ${phiMeanDistance < 0.2 ? 'CANDIDATE (distance < 0.2 — to confirm with statistical test)' : phiMeanDistance < 0.5 ? 'WEAK (distance 0.2–0.5)' : 'NOT_SUPPORTED (distance > 0.5)'} |
+| PHI_HYPOTHESIS | ${phiMeanDistance < 0.2 ? 'CANDIDATE (distance < 0.2)' : phiMeanDistance < 0.5 ? 'WEAK (distance 0.2–0.5)' : 'NOT_SUPPORTED (distance > 0.5)'} |
 
 | Seed | Sentences | ratio_mean | ratio_std | dist_phi |
 |------|-----------|------------|-----------|----------|
@@ -597,8 +679,8 @@ ${phiTable}
 
 ## RUN DATA
 
-| Seed | M | G_old | G_new | delta | Q_text | Verdict |
-|------|---|-------|-------|-------|--------|---------|
+| Seed | Actual Seed | Retry | M | G_old | G_new | delta | Q_text | Verdict |
+|------|-------------|-------|---|-------|-------|-------|--------|---------|
 ${runsTable}
 
 ---
@@ -621,7 +703,8 @@ ${errorFiles.length === 0 ? '_None._' : errorFiles.map((f) => `- ${f}`).join('\n
 
 ---
 
-*Generated by run-dual-benchmark.ts — Phase 4f — NASA-Grade L4*
+*Generated by run-dual-benchmark.ts v1.1 — Phase 4f — NASA-Grade L4*
+*PATCH v1.1: Auto-retry ENGINE_FAIL (MAX_RETRIES=${MAX_RETRIES}, RETRY_SEED_OFFSET=${RETRY_SEED_OFFSET})*
 `;
 
   fs.writeFileSync(path.join(outDir, 'BENCHMARK_REPORT.md'), report, 'utf-8');
@@ -646,6 +729,7 @@ ${errorFiles.length === 0 ? '_None._' : errorFiles.map((f) => `- ${f}`).join('\n
   console.log('  DUAL BENCHMARK RESULT');
   console.log('═══════════════════════════════════════════════════════════');
   console.log(`  Runs: ${runs.length} / ${seeds.length}`);
+  console.log(`  Retried: ${retriedRuns.length}`);
   console.log(`  median(delta): ${medianDelta >= 0 ? '+' : ''}${medianDelta.toFixed(3)}`);
   console.log(`  Regressions:   ${regressions.length}`);
   console.log(`  Phi mean dist: ${phiMeanDistance.toFixed(4)}`);

@@ -1,0 +1,67 @@
+{
+  "schema": "genius.dual.benchmark.v1",
+  "seed": 34,
+  "actual_seed": 34,
+  "retry_attempt": 0,
+  "provider": "anthropic",
+  "model": "claude-sonnet-4-20250514",
+  "timestamp": "2026-02-22T14:03:08.130Z",
+  "text_hash": "ba19a8ad4d1227a7af9b1ee8fa25d3ada827d2783a8ba25c05477561c6ebdbd5",
+  "scores": {
+    "M": 86.11158077339769,
+    "G_old": 69.30607447496216,
+    "G_new": 76.5,
+    "delta": 7.193925525037841,
+    "Q_text_legacy": 77.25319171553897,
+    "verdict_legacy": "PITCH",
+    "axes_old": {
+      "D": 59.26417636252297,
+      "S": 96.69237114385007,
+      "I": 55,
+      "R": 57.786704010457655,
+      "V": 87.79735398155813
+    },
+    "axes_new": {
+      "D": 86,
+      "S": 96,
+      "I": 18,
+      "R": 62,
+      "V": 90
+    }
+  },
+  "dual_proof": {
+    "text_hash": "ba19a8ad4d1227a7af9b1ee8fa25d3ada827d2783a8ba25c05477561c6ebdbd5",
+    "segments_hash": "04ba13621575bb04f1c306791a4d5b218b2d443559c6795fbb60e0e6a9eb0939",
+    "G_old": 69.30607447496216,
+    "G_new": 76.5,
+    "delta": 7.193925525037841,
+    "axes_old": {
+      "D": 59.26417636252297,
+      "S": 96.69237114385007,
+      "I": 55,
+      "R": 57.786704010457655,
+      "V": 87.79735398155813
+    },
+    "axes_new": {
+      "D": 86,
+      "S": 96,
+      "I": 18,
+      "R": 62,
+      "V": 90
+    },
+    "verdict_old": "PITCH",
+    "verdict_new": "G_PITCH",
+    "schema_version_old": "GENIUS_SE_V1",
+    "schema_version_new": "GENIUS_SCHEMA_V1",
+    "axis_def_hash_old": "1cfc4da1e8082f83",
+    "axis_def_hash_new": "992915df41e6662e",
+    "delta_explain": [
+      "I: -37.0",
+      "D: +26.7",
+      "R: +4.2"
+    ],
+    "decision_mode": "dual",
+    "timestamp": "2026-02-22T14:03:08.130Z"
+  },
+  "run_hash": "04dcb156b8f13f2de77b26415940fd8eb91d204be4725b317a410487eb16f407"
+}

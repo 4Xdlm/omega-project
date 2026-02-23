@@ -56,9 +56,10 @@ export function generateDeltaReport(
     : [];
   const prescriptions_delta = buildPrescriptionsDelta(prescriptions);
 
+  const timestamp = new Date().toISOString();
   const report_data = {
     scene_id: packet.scene_id,
-    timestamp: new Date().toISOString(),
+    timestamp,
     emotion_delta,
     tension_delta,
     style_delta,
@@ -68,10 +69,12 @@ export function generateDeltaReport(
     prescriptions_delta,
   };
 
-  const report_hash = sha256(canonicalize(report_data));
+  // timestamp is non-deterministic — exclude from hash (INV-S-ORACLE-01)
+  const { timestamp: _ts, ...hashable_report } = report_data;
+  const report_hash = sha256(canonicalize(hashable_report));
 
   return {
-    report_id: `DELTA_${packet.scene_id}_${Date.now()}`,
+    report_id: `DELTA_${packet.scene_id}_${packet.run_id}`,
     report_hash,
     ...report_data,
   };
@@ -100,3 +103,4 @@ function computeGlobalDistance(
     clicheWeight * clicheDist
   );
 }
+

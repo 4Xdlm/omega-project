@@ -78,6 +78,13 @@ export const SOVEREIGN_CONFIG = {
   MAX_CORRECTION_PASSES: 2,
 
   /**
+   * Seuil de distance globale au-delà duquel une correction est nécessaire.
+   * global_distance > DELTA_THRESHOLD → needs_correction = true.
+   * Sprint S0-B — delta-computer.
+   */
+  DELTA_THRESHOLD: 0.3,
+
+  /**
    * Nombre maximum d'items par pitch.
    * Chaque pitch contient max 8 corrections chirurgicales.
    */

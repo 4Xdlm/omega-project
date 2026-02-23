@@ -26,13 +26,17 @@
  */
 
 import type { ForgePacket, SovereignLoopResult, SovereignProvider, CorrectionPitch } from '../types.js';
+import type { DeltaComputerOutput } from '../delta/delta-computer.js';
+import type { PitchOp } from './triple-pitch-engine.js';
 import { generateDeltaReport } from '../delta/delta-report.js';
 import { judgeAesthetic } from '../oracle/aesthetic-oracle.js';
 import { generateTriplePitch } from './triple-pitch.js';
-import { selectBestPitch } from './pitch-oracle.js';
-import { applyPatch } from './patch-engine.js';
+import { generateTriplePitch as generateOfflineTriplePitch } from './triple-pitch-engine.js';
+import { selectBestPitch, selectBestPitchStrategy } from './pitch-oracle.js';
+import { applyPatch, applyOfflinePatch } from './patch-engine.js';
 import { generatePrescriptions } from '../prescriptions/index.js';
 import { SOVEREIGN_CONFIG } from '../config.js';
+import { computeDelta } from '../delta/delta-computer.js';
 
 export async function runSovereignLoop(
   initialProse: string,
@@ -116,5 +120,89 @@ export async function runSovereignLoop(
     passes_executed: max_passes,
     verdict,
     verdict_reason,
+  };
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// Sprint S0-C — Offline Sovereign Loop (deterministic, 0 LLM)
+// delta.needs_correction → pitch → oracle → patch → max 2 passes [INV-S-BOUND-01]
+// ═══════════════════════════════════════════════════════════════════════════════
+
+export interface LoopPass {
+  readonly pass_number: number;
+  readonly strategy_id: string;
+  readonly ops_applied: readonly PitchOp[];
+}
+
+export interface OfflineSovereignLoopResult {
+  readonly final_prose: string;
+  readonly nb_passes: 0 | 1 | 2;
+  readonly loop_trace: readonly LoopPass[];
+  readonly was_corrected: boolean;
+}
+
+export function runOfflineSovereignLoop(
+  prose: string,
+  packet: ForgePacket,
+  delta: DeltaComputerOutput,
+): OfflineSovereignLoopResult {
+  if (!delta.needs_correction) {
+    return {
+      final_prose: prose,
+      nb_passes: 0,
+      loop_trace: [],
+      was_corrected: false,
+    };
+  }
+
+  const maxPasses = SOVEREIGN_CONFIG.MAX_CORRECTION_PASSES;
+  let currentProse = prose;
+  const trace: LoopPass[] = [];
+
+  for (let pass = 0; pass < maxPasses; pass++) {
+    // Recompute delta for current prose
+    const currentDelta = pass === 0
+      ? delta
+      : computeDelta({ packet, prose: currentProse });
+
+    // Generate triple pitch
+    const pitchOutput = generateOfflineTriplePitch(
+      currentDelta.report,
+      `${packet.run_id}_pass_${pass}`,
+    );
+
+    // Oracle selects best strategy
+    const decision = selectBestPitchStrategy(
+      pitchOutput.strategies,
+      currentDelta.report,
+    );
+
+    // Apply patch
+    const patchResult = applyOfflinePatch(
+      currentProse,
+      decision.selected_strategy,
+      packet,
+    );
+
+    currentProse = patchResult.patched_prose;
+
+    trace.push({
+      pass_number: pass + 1,
+      strategy_id: decision.selected_strategy.id,
+      ops_applied: patchResult.ops_applied,
+    });
+
+    // Check if correction is still needed
+    const postDelta = computeDelta({ packet, prose: currentProse });
+    if (!postDelta.needs_correction) {
+      break;
+    }
+  }
+
+  return {
+    final_prose: currentProse,
+    nb_passes: trace.length as 0 | 1 | 2,
+    loop_trace: trace,
+    was_corrected: true,
   };
 }

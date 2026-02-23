@@ -184,7 +184,9 @@ export function assembleForgePacket(input: ForgePacketInput): ForgePacket {
     generation,
   };
 
-  const packet_hash = sha256(canonicalize(packet_data));
+  // generation.timestamp is non-deterministic — exclude from hash (INV-S-ASSEMBLE-03)
+const { generation: _gen, ...hashable_data } = packet_data;
+const packet_hash = sha256(canonicalize(hashable_data));
 
   return {
     ...packet_data,
@@ -677,3 +679,4 @@ function buildBriefParams(
     producerBuildHash: sha256(canonicalize({ generator: 'sovereign-engine', version: '1.0.0' })),
   };
 }
+

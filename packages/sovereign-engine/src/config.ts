@@ -11,8 +11,29 @@
  * SOVEREIGN_THRESHOLD = 92 is NON-NEGOTIABLE.
  * Emotion weight = 63.3% (interiority 2.0 + tension_14d 3.0 + emotion_coherence 2.5 + impact 2.0).
  *
+ * DELTA_THRESHOLD: calibrated from goldens — see calibration/delta-threshold.json
+ *
  * ═══════════════════════════════════════════════════════════════════════════════
  */
+
+import { readFileSync } from 'node:fs';
+import { resolve, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// CALIBRATED RUNTIME CONFIG — loaded from sealed artifacts (fail-closed)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+const _cfgDir = dirname(fileURLToPath(import.meta.url));
+
+function getRuntimeConfig(): { delta_threshold: number } {
+  const dtPath = resolve(_cfgDir, '../calibration/delta-threshold.json');
+  const raw: { value: number } = JSON.parse(readFileSync(dtPath, 'utf8'));
+  if (typeof raw.value !== 'number' || !Number.isFinite(raw.value)) {
+    throw new Error(`[FAIL-CLOSED] calibration/delta-threshold.json: invalid value: ${raw.value}`);
+  }
+  return { delta_threshold: raw.value };
+}
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // SOVEREIGN THRESHOLDS — ABSOLUTE
@@ -82,7 +103,7 @@ export const SOVEREIGN_CONFIG = {
    * global_distance > DELTA_THRESHOLD → needs_correction = true.
    * Sprint S0-B — delta-computer.
    */
-  DELTA_THRESHOLD: 0.3,
+  DELTA_THRESHOLD: getRuntimeConfig().delta_threshold,
 
   /**
    * Nombre maximum d'items par pitch.
@@ -502,3 +523,4 @@ export const SOVEREIGN_CONFIG = {
  * - EMOTION_WEIGHT_PCT = 63.3
  * - MAX_CORRECTION_PASSES = 2
  */
+

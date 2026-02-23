@@ -162,7 +162,7 @@ describe('Genius Metrics Integration', () => {
     expect(computeQText(90, 90, true)).toBeGreaterThan(0);
   });
 
-  it('geometric mean G is computed from 5 axes', () => {
+  it('G is computed via omegaP0 calibrated weighted sum (post-bascule)', () => {
     const input: GeniusMetricsInput = {
       text: CLEAN_PROSE,
       mode: 'original',
@@ -170,7 +170,7 @@ describe('Genius Metrics Integration', () => {
     };
     const result = computeGeniusMetrics(input);
     const { D, S, I, R, V } = result.layer2_genius.axes;
-    const expectedG = Math.pow(D * S * I * R * V, 1 / 5);
+    const expectedG = 0.25 * D + 0.15 * S + 0.05 * I + 0.35 * R + 0.20 * V;
     expect(result.layer2_genius.G).toBeCloseTo(expectedG, 5);
   });
 

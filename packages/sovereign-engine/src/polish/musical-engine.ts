@@ -83,6 +83,85 @@ export async function polishRhythm(
  * @param sentences - Array of sentences
  * @returns Array of sentence indices that need variation
  */
+// ═══════════════════════════════════════════════════════════════════════════════
+// Sprint S2 — Offline Musical Polish (deterministic, 0 LLM) [INV-S-MUSICAL-01]
+// ═══════════════════════════════════════════════════════════════════════════════
+
+export interface CorrectionLogEntry {
+  readonly sentence_index: number;
+  readonly reason: string;
+}
+
+export interface MusicalPolishResult {
+  readonly polished_prose: string;
+  readonly corrections_applied: number; // max 1 [INV-S-MUSICAL-01]
+  readonly correction_log: readonly CorrectionLogEntry[];
+}
+
+/**
+ * OFFLINE deterministic musical polish.
+ * Detects phrase too long (> 40 words) OR too short (< 3 words) → split/merge suggestion.
+ * Max 1 correction per call [INV-S-MUSICAL-01].
+ *
+ * OFFLINE-HEURISTIC: No LLM involved.
+ */
+export function applyMusicalPolishOffline(
+  prose: string,
+  _packet: ForgePacket,
+): MusicalPolishResult {
+  const sentences = prose.split(/(?<=[.!?])\s+/).filter((s) => s.trim().length > 0);
+  const wordCounts = sentences.map((s) => s.split(/\s+/).filter((w) => w.length > 0).length);
+
+  const log: CorrectionLogEntry[] = [];
+  let correctedProse = prose;
+
+  // Find first problematic sentence (max 1 correction)
+  for (let i = 0; i < wordCounts.length && log.length === 0; i++) {
+    if (wordCounts[i] > 40) {
+      // Too long — split at mid-point comma or semicolon
+      const sentence = sentences[i];
+      const midPoint = Math.floor(sentence.length / 2);
+      const splitCandidates = [', ', '; ', ' — ', ' – '];
+      let bestSplit = -1;
+      let bestDist = Infinity;
+
+      for (const delim of splitCandidates) {
+        let idx = sentence.indexOf(delim, midPoint - 30);
+        if (idx === -1) idx = sentence.lastIndexOf(delim, midPoint + 30);
+        if (idx !== -1) {
+          const dist = Math.abs(idx - midPoint);
+          if (dist < bestDist) {
+            bestDist = dist;
+            bestSplit = idx;
+          }
+        }
+      }
+
+      if (bestSplit !== -1) {
+        const splitDelim = sentence.substring(bestSplit, bestSplit + 2);
+        const part1 = sentence.substring(0, bestSplit).trim() + '.';
+        const part2 = sentence.substring(bestSplit + splitDelim.length).trim();
+        correctedProse = correctedProse.replace(sentence, `${part1} ${part2}`);
+        log.push({ sentence_index: i, reason: `too_long (${wordCounts[i]} words) — split` });
+      }
+    } else if (wordCounts[i] < 3 && i < wordCounts.length - 1 && wordCounts[i + 1] < 3) {
+      // Two consecutive very short sentences — merge
+      const merged = sentences[i].replace(/[.!?]$/, '') + ' ' + sentences[i + 1];
+      correctedProse = correctedProse.replace(
+        sentences[i] + /\s+/.source + sentences[i + 1],
+        merged,
+      );
+      log.push({ sentence_index: i, reason: `too_short (${wordCounts[i]} words) — merge candidate` });
+    }
+  }
+
+  return {
+    polished_prose: correctedProse,
+    corrections_applied: log.length,
+    correction_log: log,
+  };
+}
+
 function detectMonotony(sentences: string[]): number[] {
   const indices: number[] = [];
 

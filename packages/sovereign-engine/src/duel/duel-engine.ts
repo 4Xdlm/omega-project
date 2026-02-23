@@ -18,6 +18,8 @@ import type { ForgePacket, SovereignProvider, DuelResult, Draft } from '../types
 import { judgeAesthetic, judgeAestheticV3 } from '../oracle/aesthetic-oracle.js';
 import type { SymbolMap } from '../symbol/symbol-map-types.js';
 import { SOVEREIGN_CONFIG } from '../config.js';
+import { scoreV2 } from '../oracle/s-oracle-v2.js';
+import { sha256, canonicalize } from '@omega/canon-kernel';
 
 export async function runDuel(
   packet: ForgePacket,
@@ -76,5 +78,55 @@ export async function runDuel(
     winner_score: winner.score.composite,
     fusion_applied: false,
     final_prose: winner.prose,
+  };
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// Sprint S2 — Offline Duel Engine (deterministic, 0 LLM) [INV-S-DUEL-01]
+// ═══════════════════════════════════════════════════════════════════════════════
+
+export interface OfflineDuelResult {
+  readonly winner: string;
+  readonly winner_index: 0 | 1;
+  readonly scores: readonly [number, number];
+  readonly duel_trace: string;
+  readonly winner_hash: string;
+}
+
+/**
+ * OFFLINE deterministic duel: scores both proses using scoreV2, selects winner.
+ * Tie-break: index 0 wins.
+ */
+export function duelProses(
+  prose_a: string,
+  prose_b: string,
+  packet: ForgePacket,
+  seed: string,
+): OfflineDuelResult {
+  const scoreA = scoreV2(prose_a, packet);
+  const scoreB = scoreV2(prose_b, packet);
+
+  const compositeA = scoreA.composite;
+  const compositeB = scoreB.composite;
+
+  // Tie-break: index 0
+  const winnerIndex: 0 | 1 = compositeA >= compositeB ? 0 : 1;
+  const winner = winnerIndex === 0 ? prose_a : prose_b;
+
+  const trace = `score_a=${compositeA.toFixed(2)}, score_b=${compositeB.toFixed(2)}, winner_index=${winnerIndex}, seed=${seed}`;
+
+  const hashable = {
+    score_a: compositeA,
+    score_b: compositeB,
+    winner_index: winnerIndex,
+    seed,
+  };
+
+  return {
+    winner,
+    winner_index: winnerIndex,
+    scores: [compositeA, compositeB],
+    duel_trace: trace,
+    winner_hash: sha256(canonicalize(hashable)),
   };
 }

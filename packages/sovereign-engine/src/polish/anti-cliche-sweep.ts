@@ -20,6 +20,60 @@ import { computeClicheDelta } from '../delta/delta-cliche.js';
 import { surgeonPass, DEFAULT_SURGEON_CONFIG } from './sentence-surgeon.js';
 import { judgeAestheticV3 } from '../oracle/aesthetic-oracle.js';
 
+// ═══════════════════════════════════════════════════════════════════════════════
+// Sprint S2 — Offline Anti-Cliché Sweep (deterministic, 0 LLM) [INV-S-NOCLICHE-01]
+// ═══════════════════════════════════════════════════════════════════════════════
+
+export interface ClicheSweepResult {
+  readonly swept_prose: string;
+  readonly nb_replacements: number;
+}
+
+/**
+ * OFFLINE deterministic cliché removal.
+ * Removes all matches from packet.kill_lists.banned_cliches via regex.
+ *
+ * OFFLINE-HEURISTIC: No LLM involved. Regex-based removal.
+ */
+export function sweepClichesOffline(
+  prose: string,
+  packet: ForgePacket,
+): ClicheSweepResult {
+  let swept = prose;
+  let replacements = 0;
+
+  for (const cliche of packet.kill_lists.banned_cliches) {
+    const escaped = cliche.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(escaped, 'gi');
+    const matches = swept.match(regex);
+    if (matches) {
+      replacements += matches.length;
+      swept = swept.replace(regex, '');
+    }
+  }
+
+  // Also sweep AI patterns
+  for (const pattern of packet.kill_lists.banned_ai_patterns) {
+    const escaped = pattern.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const regex = new RegExp(escaped, 'gi');
+    const matches = swept.match(regex);
+    if (matches) {
+      replacements += matches.length;
+      swept = swept.replace(regex, '');
+    }
+  }
+
+  // Clean up double spaces
+  swept = swept.replace(/  +/g, ' ').replace(/\n /g, '\n').trim();
+
+  // If no replacements, return original prose exactly
+  if (replacements === 0) {
+    return { swept_prose: prose, nb_replacements: 0 };
+  }
+
+  return { swept_prose: swept, nb_replacements: replacements };
+}
+
 /**
  * Sweep clichés from prose via surgeonPass().
  * ART-POL-05: Corrections validated via reScoreGuard.

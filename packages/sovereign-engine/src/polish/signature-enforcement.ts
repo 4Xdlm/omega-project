@@ -21,6 +21,44 @@ import { SOVEREIGN_CONFIG } from '../config.js';
 import { surgeonPass, DEFAULT_SURGEON_CONFIG } from './sentence-surgeon.js';
 import { judgeAestheticV3 } from '../oracle/aesthetic-oracle.js';
 
+// ═══════════════════════════════════════════════════════════════════════════════
+// Sprint S2 — Offline Signature Enforcer (deterministic, 0 LLM) [INV-S-GENOME-01]
+// ═══════════════════════════════════════════════════════════════════════════════
+
+export interface SignatureEnforcementResult {
+  readonly enforced_prose: string;
+  readonly enforced: boolean;
+}
+
+/**
+ * OFFLINE deterministic signature enforcement.
+ * Checks if ≥1 genome marker is present. If not, appends signature note.
+ *
+ * OFFLINE-HEURISTIC: No LLM involved.
+ */
+export function enforceSignatureOffline(
+  prose: string,
+  packet: ForgePacket,
+): SignatureEnforcementResult {
+  const signatureWords = packet.style_genome.lexicon.signature_words;
+  if (signatureWords.length === 0) {
+    return { enforced_prose: prose, enforced: false };
+  }
+
+  const proseLower = prose.toLowerCase();
+  const hasMarker = signatureWords.some((w) => proseLower.includes(w.toLowerCase()));
+
+  if (hasMarker) {
+    return { enforced_prose: prose, enforced: false };
+  }
+
+  // No marker found — append first signature word as sensory note
+  const marker = signatureWords[0];
+  const enforcedProse = prose.trimEnd() + `\n\n[Signature: ${marker}]`;
+
+  return { enforced_prose: enforcedProse, enforced: true };
+}
+
 /**
  * Enforce signature word density via surgeonPass().
  * ART-POL-06: Corrections validated via reScoreGuard.

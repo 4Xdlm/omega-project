@@ -1,20 +1,20 @@
 /**
  * ═══════════════════════════════════════════════════════════════════════════════
- * OMEGA SOVEREIGN STYLE ENGINE — S-ORACLE V2 (9 axes, OFFLINE)
+ * OMEGA SOVEREIGN STYLE ENGINE — S-ORACLE V2 (9 axes, HYBRID)
  * ═══════════════════════════════════════════════════════════════════════════════
  *
  * Module: oracle/s-oracle-v2.ts
  * Version: 2.0.0
  * Standard: NASA-Grade L4 / DO-178C Level A
  *
- * 9 axes, ALL CALC — 0 LLM — fully deterministic.
+ * 9 axes: 5 LLM-judge (async) + 4 CALC — deterministic via SHA256 cache.
  * Score composite = Σ(raw × weight) / Σ(weight) × 100
  *
  * INV-S-EMOTION-60: poids émotion ≥ 60%
  * INV-S-ORACLE-01: déterminisme total
  *
- * OFFLINE-HEURISTIC: All axes use text-based heuristics.
- * Axes that were LLM-based in V1 use keyword/regex approximations.
+ * HYBRID: 5 axes LLM-judged in async mode (tension_14d, interiorite, impact,
+ * densite_sensorielle, necessite_m8), 4 axes CALC (coherence, anti_cliche, rythme, signature).
  *
  * ═══════════════════════════════════════════════════════════════════════════════
  */
@@ -79,10 +79,10 @@ const TOTAL_WEIGHT = AXES.reduce((s, a) => s + a.weight, 0); // 15.0
 const EMOTION_WEIGHT = AXES.filter((a) => a.isEmotion).reduce((s, a) => s + a.weight, 0); // 9.5
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// AXIS SCORERS — all CALC, OFFLINE-HEURISTIC
+// AXIS SCORERS — OFFLINE FALLBACK (used by scoreV2 sync mode)
 // ═══════════════════════════════════════════════════════════════════════════════
 
-/** AXE 1: tension_14d — OFFLINE-HEURISTIC: keyword-based 14D analysis */
+/** AXE 1: tension_14d — OFFLINE FALLBACK (async: LLM-judge) */
 function scoreTension14dOffline(prose: string, packet: ForgePacket): number {
   const paragraphs = prose.split(/\n\s*\n/).filter((p) => p.trim().length > 0);
   const total = paragraphs.length;
@@ -109,7 +109,7 @@ function scoreTension14dOffline(prose: string, packet: ForgePacket): number {
   return Math.max(0, Math.min(1, avg));
 }
 
-/** AXE 2: coherence_emotionnelle — OFFLINE-HEURISTIC: 14D paragraph transitions */
+/** AXE 2: coherence_emotionnelle — CALC: 14D paragraph transitions */
 function scoreCoherenceEmotionnelle(prose: string, packet: ForgePacket): number {
   const paragraphs = prose.split(/\n\s*\n/).filter((p) => p.trim().length > 0);
   if (paragraphs.length < 2) return 0.5;
@@ -130,7 +130,7 @@ function scoreCoherenceEmotionnelle(prose: string, packet: ForgePacket): number 
   return 0;
 }
 
-/** AXE 3: interiorite — OFFLINE-HEURISTIC: interior monologue markers */
+/** AXE 3: interiorite — OFFLINE FALLBACK (async: LLM-judge) */
 function scoreInteriorite(prose: string): number {
   const markers = [
     'pensait', 'songeait', 'se demandait', 'se disait', 'réfléchissait',
@@ -161,7 +161,7 @@ function scoreInteriorite(prose: string): number {
   return 0.20;
 }
 
-/** AXE 4: impact_ouverture_cloture — OFFLINE-HEURISTIC: opening/closing strength */
+/** AXE 4: impact_ouverture_cloture — OFFLINE FALLBACK (async: LLM-judge) */
 function scoreImpact(prose: string): number {
   const sentences = prose.split(/[.!?]+/).map((s) => s.trim()).filter((s) => s.length > 0);
   if (sentences.length < 2) return 0.3;
@@ -201,7 +201,7 @@ function scoreDensiteSensorielle(prose: string, packet: ForgePacket): number {
   return Math.max(0, Math.min(1, density / target));
 }
 
-/** AXE 6: necessite_m8 — OFFLINE-HEURISTIC: essential vs redundant words ratio */
+/** AXE 6: necessite_m8 — OFFLINE FALLBACK (async: LLM-judge) */
 function scoreNecessite(prose: string): number {
   const redundantPatterns = [
     /\b(très|vraiment|absolument|totalement|complètement|extrêmement)\b/gi,
@@ -348,19 +348,20 @@ export function scoreV2(
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// ASYNC API — LLM JUDGES (replaces OFFLINE-HEURISTIC axes)
+// ASYNC API — LLM JUDGES (5 axes)
 // ═══════════════════════════════════════════════════════════════════════════════
 
 /**
- * scoreV2Async: like scoreV2 but replaces interiorite, impact, necessite
- * axes with real LLM-judge scores when a judge is provided.
+ * scoreV2Async: like scoreV2 but replaces 5 axes with LLM-judge scores.
  *
  * Axes replaced:
- * - AXE 3: interiorite (OFFLINE-HEURISTIC → LLM-judge)
- * - AXE 4: impact_ouverture_cloture (OFFLINE-HEURISTIC → LLM-judge "impact")
- * - AXE 6: necessite_m8 (OFFLINE-HEURISTIC → LLM-judge "necessite")
+ * - AXE 1: tension_14d (LLM-judge "tension_14d")
+ * - AXE 3: interiorite (LLM-judge "interiorite")
+ * - AXE 4: impact_ouverture_cloture (LLM-judge "impact")
+ * - AXE 5: densite_sensorielle (LLM-judge "densite_sensorielle")
+ * - AXE 6: necessite_m8 (LLM-judge "necessite")
  *
- * All other axes remain CALC/OFFLINE-HEURISTIC (unchanged).
+ * Remaining CALC axes: coherence_emotionnelle, anti_cliche, rythme_musical, signature.
  */
 export async function scoreV2Async(
   prose: string,
@@ -371,25 +372,27 @@ export async function scoreV2Async(
 ): Promise<SScoreV2> {
   // Compute offline scores first
   const offlineScores: number[] = [
-    scoreTension14dOffline(prose, packet),
+    0, // placeholder for tension_14d (index 0) — LLM-JUDGE
     scoreCoherenceEmotionnelle(prose, packet),
-    0, // placeholder for interiorite (index 2)
-    0, // placeholder for impact (index 3)
+    0, // placeholder for interiorite (index 2) — LLM-JUDGE
+    0, // placeholder for impact (index 3) — LLM-JUDGE
     0, // placeholder for densite_sensorielle (index 4) — LLM-JUDGE
-    0, // placeholder for necessite (index 5)
+    0, // placeholder for necessite (index 5) — LLM-JUDGE
     scoreAntiCliqueOffline(prose, packet),
     scoreRythmeMusical(prose),
     scoreSignatureOffline(prose, packet),
   ];
 
-  // Replace axes with LLM judge scores
-  const [interioriteResult, impactResult, densiteResult, necessiteResult] = await Promise.all([
+  // Replace 5 axes with LLM judge scores
+  const [tension14dResult, interioriteResult, impactResult, densiteResult, necessiteResult] = await Promise.all([
+    judge.judge('tension_14d', prose, seed),
     judge.judge('interiorite', prose, seed),
     judge.judge('impact', prose, seed),
     judge.judge('densite_sensorielle', prose, seed),
     judge.judge('necessite', prose, seed),
   ]);
 
+  offlineScores[0] = tension14dResult.score;   // tension_14d
   offlineScores[2] = interioriteResult.score;  // interiorite
   offlineScores[3] = impactResult.score;       // impact_ouverture_cloture
   offlineScores[4] = densiteResult.score;      // densite_sensorielle

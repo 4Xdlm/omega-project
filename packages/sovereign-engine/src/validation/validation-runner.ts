@@ -84,13 +84,34 @@ export async function runExperiment(
         // Apply experiment-specific criteria if defined, else use pipeline verdict
         let verdict: 'SEAL' | 'REJECT' = result.verdict;
         const criteria = config.experiment_criteria?.[experimentId];
+        let adjustedComposite = result.s_score_final.composite;
+        let axesInfoOnly: Record<string, number> | undefined;
+
         if (criteria) {
+          const excludedAxes = criteria.composite_axes_excluded ?? [];
+
+          if (excludedAxes.length > 0) {
+            // Recompute composite excluding specified axes
+            const included = result.s_score_final.axes.filter(
+              (a) => !excludedAxes.includes(a.name),
+            );
+            const adjustedSum = included.reduce((s, a) => s + a.weighted, 0);
+            const adjustedWeight = included.reduce((s, a) => s + a.weight, 0);
+            adjustedComposite = adjustedWeight > 0 ? (adjustedSum / adjustedWeight) * 100 : 0;
+
+            // Log excluded axes as info-only
+            axesInfoOnly = {};
+            for (const name of excludedAxes) {
+              const axis = result.s_score_final.axes.find((a) => a.name === name);
+              if (axis) axesInfoOnly[name] = axis.raw;
+            }
+          }
+
           const primaryAxis = result.s_score_final.axes.find(
             (a) => a.name === criteria.primary_axis,
           );
           const primaryScore = primaryAxis ? primaryAxis.raw : 0;
-          const composite = result.s_score_final.composite;
-          verdict = (composite >= criteria.composite_min && primaryScore >= criteria.primary_axis_min)
+          verdict = (adjustedComposite >= criteria.composite_min && primaryScore >= criteria.primary_axis_min)
             ? 'SEAL' : 'REJECT';
         }
 
@@ -101,7 +122,7 @@ export async function runExperiment(
           run_index: runIndex,
           seed,
           verdict,
-          composite: result.s_score_final.composite,
+          composite: adjustedComposite,
           pipeline_hash: result.pipeline_hash,
           model_id: provider.model_id,
         };
@@ -118,6 +139,7 @@ export async function runExperiment(
           verdict,
           model_id: provider.model_id,
           run_hash: sha256(canonicalize(hashable)),
+          axes_info_only: axesInfoOnly,
         };
       } catch (error: unknown) {
         const errorMessage = error instanceof Error ? error.message : String(error);

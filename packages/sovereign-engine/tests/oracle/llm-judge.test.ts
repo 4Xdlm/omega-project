@@ -242,4 +242,39 @@ describe('LLMJudge — Phase VALIDATION', () => {
     expect(cached).not.toBeNull();
     expect(cached!.score).toBe(0.68);
   });
+
+  // T12: tension_14d judge → score dans [0,1]
+  it('T12: tension_14d judge → valid score returned', async () => {
+    globalThis.fetch = mockJudgeResponse(0.78, 'tension narrative forte');
+    const judge = new LLMJudge(TEST_MODEL, TEST_API_KEY, cache, { retryBaseMs: 1, rateLimitMs: 0, timeoutMs: 5000 });
+
+    const result = await judge.judge('tension_14d', 'Le couteau glissa. Elle retint son souffle.', 'seed_t14d');
+
+    expect(result.score).toBe(0.78);
+    expect(result.reason).toBe('tension narrative forte');
+  });
+
+  // T13: tension_14d same prose+seed → same score (cache determinism)
+  it('T13: tension_14d cache key deterministic', async () => {
+    globalThis.fetch = mockJudgeResponse(0.65, 'tension modérée');
+    const judge = new LLMJudge(TEST_MODEL, TEST_API_KEY, cache, { retryBaseMs: 1, rateLimitMs: 0, timeoutMs: 5000 });
+
+    await judge.judge('tension_14d', 'Prose tendue.', 'seed_t14d_det');
+
+    const expectedKey = sha256('tension_14d' + 'Prose tendue.' + 'seed_t14d_det');
+    const cached = cache.get(expectedKey);
+    expect(cached).not.toBeNull();
+    expect(cached!.score).toBe(0.65);
+  });
+
+  // T14: necessite judge with recalibrated prompt → score passes through
+  it('T14: necessite recalibrated → score 0.82 returned (no clamp)', async () => {
+    globalThis.fetch = mockJudgeResponse(0.82, 'prose dense et économe');
+    const judge = new LLMJudge(TEST_MODEL, TEST_API_KEY, cache, { retryBaseMs: 1, rateLimitMs: 0, timeoutMs: 5000 });
+
+    const result = await judge.judge('necessite', 'Chaque mot irremplaçable.', 'seed_nec_v2');
+
+    expect(result.score).toBe(0.82);
+    expect(result.reason).toBe('prose dense et économe');
+  });
 });

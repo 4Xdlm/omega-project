@@ -56,6 +56,7 @@ export interface ExperimentCriteria {
   readonly primary_axis: string;
   readonly primary_axis_min: number;
   readonly composite_min: number;
+  readonly composite_axes_excluded?: readonly string[];
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -85,6 +86,7 @@ export interface RunResult {
   readonly error?: string;
   readonly model_id: string;
   readonly run_hash: string;
+  readonly axes_info_only?: Record<string, number>;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════

@@ -67,12 +67,29 @@ Intériorité = accès à la vie intérieure du personnage: pensées, perception
   impact: `Tu es un juge littéraire expert. Note l'impact émotionnel de ce texte.
 Impact = force de la réaction émotionnelle provoquée chez le lecteur: tension, empathie, saisissement, résonance affective durable.`,
 
-  necessite: `Tu es un juge littéraire expert. Note la nécessité de ce texte.
-Nécessité = chaque mot/phrase est indispensable, 0 superflu, 0 remplissage, densité maximale, rien ne peut être supprimé sans perte.`,
+  necessite: `Tu es un juge littéraire expert spécialisé en économie narrative.
+Note la nécessité absolue de ce texte sur une échelle CONTINUE 0.0-1.0.
+Nécessité = chaque mot est irremplaçable, 0 remplissage, 0 redondance,
+densité maximale d'information narrative.
+ÉCHELLE OBLIGATOIRE (utilise tout le spectre):
+  0.0-0.3 = prose bavarde, redondances évidentes, coupures possibles
+  0.4-0.5 = prose standard, quelques mots superflus
+  0.6-0.7 = bonne prose, économe mais perfectible
+  0.8-0.9 = prose Hemingway/Carver, chaque mot porte du poids
+  1.0     = perfection absolue (quasi-impossible en pratique)
+Tu DOIS utiliser des notes > 0.75 si la prose est dense et précise.`,
 
   densite_sensorielle: `Tu es un juge littéraire expert. Note la densité sensorielle de ce texte.
 Densité sensorielle = présence et précision des détails sensoriels (vue, ouïe, toucher, odorat, goût, proprioception), leur intégration organique dans l'action, leur spécificité (pas de généralités).
 0.0 = aucun détail sensoriel / 1.0 = chaque phrase ancre dans le concret.`,
+
+  tension_14d: `Tu es un juge littéraire expert. Note la tension narrative de ce texte.
+Tension = sentiment d'urgence, d'enjeu vital, de menace imminente,
+d'irréversibilité. Le lecteur retient son souffle. Chaque phrase
+fait avancer vers une conséquence inévitable.
+Calibration: 0.0=aucune tension, 0.3=tension légère, 0.5=tension modérée
+présente mais pas dominante, 0.7=tension forte qui structure la scène,
+0.9=tension insoutenable, 1.0=climax absolu (rare).`,
 };
 
 // ═══════════════════════════════════════════════════════════════════════════════

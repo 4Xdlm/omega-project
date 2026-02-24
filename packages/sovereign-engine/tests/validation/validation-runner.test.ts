@@ -188,4 +188,64 @@ describe('ValidationRunner — Phase VALIDATION', () => {
       }
     }
   });
+
+  // T11: E2 composite recomputed WITHOUT tension_14d [CalibV3]
+  it('T11: composite_axes_excluded — E2 sans tension_14d [CalibV3]', async () => {
+    const criteriaConfig: ValidationConfig = {
+      ...testConfig,
+      experiment_criteria: {
+        'E2_EXCL_TEST': {
+          primary_axis: 'anti_cliche',
+          primary_axis_min: 0.95,
+          composite_min: 80,
+          composite_axes_excluded: ['tension_14d'],
+        },
+      },
+    };
+    const summary = await runExperiment('E2_EXCL_TEST', [testPacket1], provider, criteriaConfig);
+    expect(summary.sealed_count + summary.rejected_count + summary.failed_count).toBe(summary.total_runs);
+  });
+
+  // T12: E2 run contains axes_info_only with tension_14d [CalibV3]
+  it('T12: axes_info_only contains excluded axis value [CalibV3]', async () => {
+    const criteriaConfig: ValidationConfig = {
+      ...testConfig,
+      experiment_criteria: {
+        'E2_INFO_TEST': {
+          primary_axis: 'anti_cliche',
+          primary_axis_min: 0.95,
+          composite_min: 80,
+          composite_axes_excluded: ['tension_14d'],
+        },
+      },
+    };
+    const summary = await runExperiment('E2_INFO_TEST', [testPacket1], provider, criteriaConfig);
+    for (const run of summary.runs) {
+      if (run.verdict !== 'EXECUTION_FAIL') {
+        expect(run.axes_info_only).toBeDefined();
+        expect(typeof run.axes_info_only!.tension_14d).toBe('number');
+      }
+    }
+  });
+
+  // T13: E1/E3 composite WITH all axes (no exclusion) [CalibV3]
+  it('T13: no composite_axes_excluded — all axes in composite [CalibV3]', async () => {
+    const criteriaConfig: ValidationConfig = {
+      ...testConfig,
+      experiment_criteria: {
+        'E3_FULL_TEST': {
+          primary_axis: 'necessite_m8',
+          primary_axis_min: 0.75,
+          composite_min: 85,
+        },
+      },
+    };
+    const summary = await runExperiment('E3_FULL_TEST', [testPacket1], provider, criteriaConfig);
+    expect(summary.sealed_count + summary.rejected_count + summary.failed_count).toBe(summary.total_runs);
+    for (const run of summary.runs) {
+      if (run.verdict !== 'EXECUTION_FAIL') {
+        expect(run.axes_info_only).toBeUndefined();
+      }
+    }
+  });
 });

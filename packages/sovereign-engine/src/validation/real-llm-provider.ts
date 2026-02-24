@@ -120,10 +120,10 @@ export class AnthropicLLMProvider implements LLMProvider {
         }),
       });
 
-      if (response.status === 429) {
+      if (response.status === 429 || response.status === 529 || response.status === 503) {
         const backoff = Math.pow(2, attempt) * this.retryBaseMs;
         await new Promise((r) => setTimeout(r, backoff));
-        lastError = new Error(`Rate limited (429) on attempt ${attempt + 1}`);
+        lastError = new Error(`Retryable error (${response.status}) on attempt ${attempt + 1}`);
         continue;
       }
 

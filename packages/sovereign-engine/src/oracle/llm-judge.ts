@@ -170,8 +170,8 @@ Réponds UNIQUEMENT en JSON: {"score": <0.0-1.0>, "reason": "<max 100 chars>"}`;
 
         const message = error instanceof Error ? error.message : String(error);
 
-        // Retry on 429 or 503
-        if (message.includes('429') || message.includes('503')) {
+        // Retry on 429, 503, or 529 (API overloaded)
+        if (message.includes('429') || message.includes('503') || message.includes('529')) {
           const backoff = this.retryBaseMs * (attempt + 1);
           await new Promise((r) => setTimeout(r, backoff));
           lastError = error instanceof Error ? error : new Error(message);

@@ -4,9 +4,10 @@
  * ═══════════════════════════════════════════════════════════════════════════════
  *
  * Usage: npm run validate:phase-s
- * Output: validation/ValidationPack_phase-s_offline_<YYYYMMDD>_<HEAD7>/
+ * Output: validation/ValidationPack_phase-s_<mode>_<YYYYMMDD>_<HEAD7>/
  *
  * Mode: OFFLINE — 0 appel LLM — 0 token — infrastructure certifiable
+ * Mode: REAL   — Anthropic Messages API — model locked — rate limited
  *
  * ═══════════════════════════════════════════════════════════════════════════════
  */
@@ -18,8 +19,9 @@ import { execSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { sha256, canonicalize } from '@omega/canon-kernel';
 import { MockLLMProvider } from '../src/validation/mock-llm-provider.js';
+import { AnthropicLLMProvider } from '../src/validation/real-llm-provider.js';
 import { runExperiment } from '../src/validation/validation-runner.js';
-import type { ValidationConfig, ExperimentSummary } from '../src/validation/validation-types.js';
+import type { ValidationConfig, ExperimentSummary, LLMProvider } from '../src/validation/validation-types.js';
 import type { ForgePacket } from '../src/types.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -63,24 +65,38 @@ async function main(): Promise<void> {
   const startTime = Date.now();
   const pkgRoot = path.resolve(__dirname, '..');
 
-  console.log('[validation] Phase VALIDATION — Offline Mock Runner');
-  console.log('[validation] Mode: OFFLINE — 0 LLM — 0 token');
-  console.log('');
-
   // 1. Load config
   const configPath = path.join(pkgRoot, 'validation', 'validation-config.json');
   const config: ValidationConfig = JSON.parse(fs.readFileSync(configPath, 'utf8'));
-  console.log(`[validation] Config loaded: mode=${config.mode}, runs_per_exp=${config.run_count_per_experiment}`);
 
-  // 2. Load fixture proses
+  const isReal = config.mode === 'real';
+  console.log(`[validation] Phase VALIDATION — ${isReal ? 'REAL LLM Runner' : 'Offline Mock Runner'}`);
+  console.log(`[validation] Mode: ${isReal ? 'REAL — Anthropic API' : 'OFFLINE — 0 LLM — 0 token'}`);
+  console.log(`[validation] Config: mode=${config.mode}, runs_per_exp=${config.run_count_per_experiment}`);
+  console.log('');
+
+  // 2. Load fixture proses (used by offline mode)
   const prosesPath = path.join(pkgRoot, 'validation', 'cases', 'fixture-prose.json');
   const prosesData = JSON.parse(fs.readFileSync(prosesPath, 'utf8'));
   const proseCorpus: string[] = prosesData.proses.map((p: { text: string }) => p.text);
-  console.log(`[validation] Prose corpus loaded: ${proseCorpus.length} proses`);
 
-  // 3. Create provider
-  const provider = new MockLLMProvider(proseCorpus);
-  console.log(`[validation] Provider: ${provider.model_id}`);
+  // 3. Create provider based on mode
+  let provider: LLMProvider;
+  if (isReal) {
+    const apiKey = process.env.ANTHROPIC_API_KEY;
+    if (!apiKey || apiKey.trim().length === 0) {
+      console.error('[validation] FATAL: ANTHROPIC_API_KEY is not set or empty');
+      console.error('[validation] Set the environment variable and retry.');
+      process.exit(1);
+    }
+    provider = new AnthropicLLMProvider(config.llm_provider.model_lock, apiKey);
+    console.log(`[validation] Provider: AnthropicLLMProvider (model=${provider.model_id})`);
+    console.log(`[validation] Rate limit: 3000ms between calls`);
+  } else {
+    provider = new MockLLMProvider(proseCorpus);
+    console.log(`[validation] Provider: MockLLMProvider (${proseCorpus.length} proses)`);
+  }
+  console.log('');
 
   // 4. Load case files
   const goldensPath = path.join(pkgRoot, 'validation', 'cases', 'goldens.json');
@@ -116,7 +132,7 @@ async function main(): Promise<void> {
   // 6. Generate ValidationPack
   const head7 = getGitHead();
   const dateStr = getDate();
-  const packName = `ValidationPack_phase-s_offline_${dateStr}_${head7}`;
+  const packName = `ValidationPack_phase-s_${config.mode}_${dateStr}_${head7}`;
   const packDir = path.join(pkgRoot, 'validation', packName);
   ensureDir(packDir);
   ensureDir(path.join(packDir, 'reports'));

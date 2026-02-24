@@ -30,27 +30,29 @@ const provider = new MockLLMProvider(TEST_CORPUS);
 const packet = createTestPacket();
 
 describe('MockLLMProvider — Phase VALIDATION', () => {
-  // T01: generateDraft returns non-empty string
-  it('T01: generateDraft returns non-empty string', async () => {
-    const prose = await provider.generateDraft(packet, 'seed_001');
-    expect(prose).toBeTruthy();
-    expect(typeof prose).toBe('string');
-    expect(prose.length).toBeGreaterThan(0);
+  // T01: generateDraft returns LLMProviderResult with non-empty prose
+  it('T01: generateDraft returns LLMProviderResult with non-empty prose', async () => {
+    const result = await provider.generateDraft(packet, 'seed_001');
+    expect(result.prose).toBeTruthy();
+    expect(typeof result.prose).toBe('string');
+    expect(result.prose.length).toBeGreaterThan(0);
+    expect(result.prompt_hash).toMatch(/^[a-f0-9]{64}$/);
   });
 
-  // T02: same seed + same packet → same prose [INV-VAL-01]
-  it('T02: determinism — same seed + same packet → same prose [INV-VAL-01]', async () => {
-    const p1 = await provider.generateDraft(packet, 'seed_determ');
-    const p2 = await provider.generateDraft(packet, 'seed_determ');
-    expect(p1).toBe(p2);
+  // T02: same seed + same packet → same prose + same prompt_hash [INV-VAL-01]
+  it('T02: determinism — same seed + same packet → same result [INV-VAL-01]', async () => {
+    const r1 = await provider.generateDraft(packet, 'seed_determ');
+    const r2 = await provider.generateDraft(packet, 'seed_determ');
+    expect(r1.prose).toBe(r2.prose);
+    expect(r1.prompt_hash).toBe(r2.prompt_hash);
   });
 
   // T03: different seed → potentially different prose
   it('T03: different seed → ≥2 distinct proses', async () => {
     const results = new Set<string>();
     for (let i = 0; i < 20; i++) {
-      const prose = await provider.generateDraft(packet, `seed_diff_${i}`);
-      results.add(prose);
+      const result = await provider.generateDraft(packet, `seed_diff_${i}`);
+      results.add(result.prose);
     }
     expect(results.size).toBeGreaterThanOrEqual(2);
   });
@@ -80,7 +82,8 @@ describe('MockLLMProvider — Phase VALIDATION', () => {
       return Promise.reject(new Error('fetch should not be called'));
     }) as typeof globalThis.fetch;
     try {
-      await provider.generateDraft(packet, 'net_test');
+      const result = await provider.generateDraft(packet, 'net_test');
+      expect(result.prose).toBeTruthy();
       await provider.judgeLLMAxis('test', 'axis', 'seed');
       expect(fetchCalled).toBe(false);
     } finally {

@@ -18,8 +18,10 @@
  * ═══════════════════════════════════════════════════════════════════════════════
  */
 
+import { sha256, canonicalize } from '@omega/canon-kernel';
 import type { ForgePacket } from '../types.js';
-import type { LLMProvider } from './validation-types.js';
+import type { LLMProvider, LLMProviderResult } from './validation-types.js';
+import { buildProseDirective, buildFinalPrompt } from './prose-directive-builder.js';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // CONFIG
@@ -63,9 +65,12 @@ export class AnthropicLLMProvider implements LLMProvider {
   // LLMProvider INTERFACE
   // ═══════════════════════════════════════════════════════════════════════════
 
-  async generateDraft(packet: ForgePacket, seed: string): Promise<string> {
-    const prompt = buildGenerationPrompt(packet, seed);
-    return this.callAnthropic([{ role: 'user', content: prompt }], MAX_GENERATION_TOKENS);
+  async generateDraft(packet: ForgePacket, seed: string): Promise<LLMProviderResult> {
+    const directive = buildProseDirective(packet);
+    const prompt = buildFinalPrompt(directive);
+    const promptHash = sha256(canonicalize({ model_id: this.model_id, user_prompt: prompt }));
+    const prose = await this.callAnthropic([{ role: 'user', content: prompt }], MAX_GENERATION_TOKENS);
+    return { prose, prompt_hash: promptHash };
   }
 
   async judgeLLMAxis(prose: string, axis: string, seed: string): Promise<number> {
@@ -160,50 +165,6 @@ export class AnthropicLLMProvider implements LLMProvider {
 // ═══════════════════════════════════════════════════════════════════════════════
 // PROMPT BUILDERS
 // ═══════════════════════════════════════════════════════════════════════════════
-
-function buildGenerationPrompt(packet: ForgePacket, seed: string): string {
-  const intent = packet.intent;
-  const emotion = packet.emotion_contract;
-  const q1 = emotion.curve_quartiles[0];
-  const beats = packet.beats.map((b) => `- ${b.action}`).join('\n');
-  const killWords = packet.kill_lists.banned_filter_words.slice(0, 10).join(', ');
-  const cliches = packet.kill_lists.banned_cliches.slice(0, 10).join(', ');
-
-  return `Tu es un écrivain littéraire français de haut niveau. Génère une prose littéraire en français pour la scène suivante.
-
-CONTEXTE:
-- Objectif narratif: ${intent.story_goal}
-- Objectif de scène: ${intent.scene_goal}
-- Type de conflit: ${intent.conflict_type}
-- POV: ${intent.pov}
-- Temps verbal: ${intent.tense}
-- Mots cibles: ${intent.target_word_count}
-
-ÉMOTION:
-- Dominante: ${q1.dominant}
-- Valence: ${q1.valence}
-- Arousal: ${q1.arousal}
-- Instruction: ${q1.narrative_instruction}
-- Tension: pente ${emotion.tension.slope_target}, pic à ${emotion.tension.pic_position_pct}%
-
-BEATS:
-${beats}
-
-STYLE:
-- Univers: ${packet.style_genome.universe}
-- Mots-signature: ${packet.style_genome.lexicon.signature_words.join(', ')}
-
-CONTRAINTES:
-- Mots interdits: ${killWords}
-- Clichés interdits: ${cliches}
-- Langue: français uniquement
-- Pas de dialogue excessif
-- Prose littéraire immersive et sensorielle
-
-SEED: ${seed}
-
-Écris UNIQUEMENT la prose, sans explication, sans titre, sans commentaire.`;
-}
 
 function buildJudgePrompt(prose: string, axis: string, seed: string): string {
   return `Tu es un juge littéraire expert. Évalue la prose suivante sur l'axe "${axis}".

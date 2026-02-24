@@ -19,9 +19,9 @@
  * ═══════════════════════════════════════════════════════════════════════════════
  */
 
-import { sha256 } from '@omega/canon-kernel';
+import { sha256, canonicalize } from '@omega/canon-kernel';
 import type { ForgePacket } from '../types.js';
-import type { LLMProvider } from './validation-types.js';
+import type { LLMProvider, LLMProviderResult } from './validation-types.js';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // MOCK LLM PROVIDER — 100% OFFLINE, DETERMINISTIC
@@ -41,10 +41,13 @@ export class MockLLMProvider implements LLMProvider {
    * Index = parseInt(sha256(seed + packet_id).slice(0, 4), 16) % corpus.length
    * AUCUN appel réseau [INV-VAL-03]
    */
-  async generateDraft(packet: ForgePacket, seed: string): Promise<string> {
+  async generateDraft(packet: ForgePacket, seed: string): Promise<LLMProviderResult> {
     const hash = sha256(seed + packet.packet_id);
     const index = parseInt(hash.slice(0, 4), 16) % this.corpus.length;
-    return this.corpus[index];
+    return {
+      prose: this.corpus[index],
+      prompt_hash: sha256(canonicalize({ model_id: this.model_id, seed, packet_id: packet.packet_id })),
+    };
   }
 
   /**
@@ -65,7 +68,7 @@ export class MockLLMProvider implements LLMProvider {
 export class RealLLMProvider implements LLMProvider {
   readonly model_id = 'PENDING_REAL_RUN' as const;
 
-  async generateDraft(_packet: ForgePacket, _seed: string): Promise<string> {
+  async generateDraft(_packet: ForgePacket, _seed: string): Promise<LLMProviderResult> {
     throw new Error('RealLLMProvider: not implemented in offline mode');
   }
 

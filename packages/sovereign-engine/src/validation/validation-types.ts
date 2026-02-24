@@ -63,8 +63,13 @@ export interface ExperimentCriteria {
 // LLM PROVIDER INTERFACE
 // ═══════════════════════════════════════════════════════════════════════════════
 
+export interface LLMProviderResult {
+  readonly prose: string;
+  readonly prompt_hash: string;
+}
+
 export interface LLMProvider {
-  generateDraft(packet: ForgePacket, seed: string): Promise<string>;
+  generateDraft(packet: ForgePacket, seed: string): Promise<LLMProviderResult>;
   judgeLLMAxis(prose: string, axis: string, seed: string): Promise<number>;
   readonly model_id: string;
 }
@@ -86,6 +91,7 @@ export interface RunResult {
   readonly error?: string;
   readonly model_id: string;
   readonly run_hash: string;
+  readonly prompt_hash: string;
   readonly axes_info_only?: Record<string, number>;
 }
 
@@ -111,6 +117,7 @@ export interface ExperimentSummary {
     readonly mean_improvement: number | null;
   };
   readonly model_id: string;
+  readonly composite_p75: number;
   readonly runs: readonly RunResult[];
   readonly summary_hash: string;
 }

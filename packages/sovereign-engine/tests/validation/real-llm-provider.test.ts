@@ -109,7 +109,8 @@ describe('AnthropicLLMProvider — Phase VALIDATION (Real)', () => {
     const provider = new AnthropicLLMProvider(TEST_MODEL, TEST_API_KEY);
     const result = await provider.generateDraft(packet, 'seed_real_01');
 
-    expect(result).toBe(mockProse);
+    expect(result.prose).toBe(mockProse);
+    expect(result.prompt_hash).toMatch(/^[a-f0-9]{64}$/);
     expect(globalThis.fetch).toHaveBeenCalledTimes(1);
 
     // Verify API call shape
@@ -152,7 +153,7 @@ describe('AnthropicLLMProvider — Phase VALIDATION (Real)', () => {
     const provider = new AnthropicLLMProvider(TEST_MODEL, TEST_API_KEY, { retryBaseMs: 10, rateLimitMs: 0 });
     const result = await provider.generateDraft(packet, 'seed_429');
 
-    expect(result).toBe(mockProse);
+    expect(result.prose).toBe(mockProse);
     expect(globalThis.fetch).toHaveBeenCalledTimes(2);
   });
 

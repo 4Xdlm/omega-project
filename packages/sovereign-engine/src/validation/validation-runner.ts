@@ -71,7 +71,9 @@ export async function runExperiment(
     for (let runIndex = 0; runIndex < runsPerCase; runIndex++) {
       // INV-VAL-01: deterministic seed
       const seed = sha256(experimentId + packet.packet_id + String(runIndex));
-      const prose = await provider.generateDraft(packet, seed);
+      const draftResult = await provider.generateDraft(packet, seed);
+      const prose = draftResult.prose;
+      const promptHash = draftResult.prompt_hash;
 
       let run: RunResult;
 
@@ -139,6 +141,7 @@ export async function runExperiment(
           verdict,
           model_id: provider.model_id,
           run_hash: sha256(canonicalize(hashable)),
+          prompt_hash: promptHash,
           axes_info_only: axesInfoOnly,
         };
       } catch (error: unknown) {
@@ -168,6 +171,7 @@ export async function runExperiment(
           error: errorMessage,
           model_id: provider.model_id,
           run_hash: sha256(canonicalize(hashable)),
+          prompt_hash: promptHash,
         };
       }
 
@@ -232,6 +236,15 @@ function computeSummary(
   const meanCorr14d =
     corr14d.length > 0 ? corr14d.reduce((a, b) => a + b, 0) / corr14d.length : 0;
 
+  // Composite P75 — 75th percentile of all non-failed run composites
+  const allComposites = runs
+    .filter((r) => r.verdict !== 'EXECUTION_FAIL')
+    .map((r) => r.s_score_final.composite)
+    .sort((a, b) => a - b);
+  const compositeP75 = allComposites.length > 0
+    ? allComposites[Math.ceil(allComposites.length * 0.75) - 1]
+    : 0;
+
   // INV-VAL-07: baseline null propagation
   const baselineValue = config.baseline.value;
   const meanImprovement =
@@ -251,6 +264,7 @@ function computeSummary(
     pct_above_92: pctAbove92,
     mean_s_score_sealed: meanSScoreSealed,
     mean_corr_14d: meanCorr14d,
+    composite_p75: compositeP75,
     model_id: modelId,
     baseline_value: baselineValue,
     mean_improvement: meanImprovement,
@@ -274,6 +288,7 @@ function computeSummary(
       value: baselineValue,
       mean_improvement: meanImprovement,
     },
+    composite_p75: compositeP75,
     model_id: modelId,
     runs,
     summary_hash: sha256(canonicalize(hashable)),

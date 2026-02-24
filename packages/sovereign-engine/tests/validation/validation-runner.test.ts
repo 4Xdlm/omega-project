@@ -248,4 +248,27 @@ describe('ValidationRunner — Phase VALIDATION', () => {
       }
     }
   });
+
+  // T14: composite_p75 computed correctly [CalibV4]
+  it('T14: composite_p75 = 75th percentile of non-failed composites [CalibV4]', async () => {
+    const summary = await runExperiment('TEST_P75', [testPacket1, testPacket2], provider, testConfig);
+    expect(typeof summary.composite_p75).toBe('number');
+    // Verify P75: sort composites, take 75th percentile
+    const composites = summary.runs
+      .filter((r) => r.verdict !== 'EXECUTION_FAIL')
+      .map((r) => r.s_score_final.composite)
+      .sort((a, b) => a - b);
+    const expectedP75 = composites.length > 0
+      ? composites[Math.ceil(composites.length * 0.75) - 1]
+      : 0;
+    expect(summary.composite_p75).toBe(expectedP75);
+  });
+
+  // T15: prompt_hash present in RunResult [CalibV4]
+  it('T15: prompt_hash present in all RunResults [CalibV4]', async () => {
+    const summary = await runExperiment('TEST_PROMPT_HASH', [testPacket1], provider, testConfig);
+    for (const run of summary.runs) {
+      expect(run.prompt_hash).toMatch(/^[a-f0-9]{64}$/);
+    }
+  });
 });

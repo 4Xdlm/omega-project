@@ -375,7 +375,7 @@ export async function scoreV2Async(
     scoreCoherenceEmotionnelle(prose, packet),
     0, // placeholder for interiorite (index 2)
     0, // placeholder for impact (index 3)
-    scoreDensiteSensorielle(prose, packet),
+    0, // placeholder for densite_sensorielle (index 4) — LLM-JUDGE
     0, // placeholder for necessite (index 5)
     scoreAntiCliqueOffline(prose, packet),
     scoreRythmeMusical(prose),
@@ -383,15 +383,17 @@ export async function scoreV2Async(
   ];
 
   // Replace axes with LLM judge scores
-  const [interioriteResult, impactResult, necessiteResult] = await Promise.all([
+  const [interioriteResult, impactResult, densiteResult, necessiteResult] = await Promise.all([
     judge.judge('interiorite', prose, seed),
     judge.judge('impact', prose, seed),
+    judge.judge('densite_sensorielle', prose, seed),
     judge.judge('necessite', prose, seed),
   ]);
 
-  offlineScores[2] = interioriteResult.score; // interiorite
-  offlineScores[3] = impactResult.score;      // impact_ouverture_cloture
-  offlineScores[5] = necessiteResult.score;   // necessite_m8
+  offlineScores[2] = interioriteResult.score;  // interiorite
+  offlineScores[3] = impactResult.score;       // impact_ouverture_cloture
+  offlineScores[4] = densiteResult.score;      // densite_sensorielle
+  offlineScores[5] = necessiteResult.score;    // necessite_m8
 
   const axes: AxisScoreV2[] = AXES.map((def, i) => ({
     name: def.name,

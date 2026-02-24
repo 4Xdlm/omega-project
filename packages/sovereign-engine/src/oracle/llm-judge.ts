@@ -69,6 +69,10 @@ Impact = force de la réaction émotionnelle provoquée chez le lecteur: tension
 
   necessite: `Tu es un juge littéraire expert. Note la nécessité de ce texte.
 Nécessité = chaque mot/phrase est indispensable, 0 superflu, 0 remplissage, densité maximale, rien ne peut être supprimé sans perte.`,
+
+  densite_sensorielle: `Tu es un juge littéraire expert. Note la densité sensorielle de ce texte.
+Densité sensorielle = présence et précision des détails sensoriels (vue, ouïe, toucher, odorat, goût, proprioception), leur intégration organique dans l'action, leur spécificité (pas de généralités).
+0.0 = aucun détail sensoriel / 1.0 = chaque phrase ancre dans le concret.`,
 };
 
 // ═══════════════════════════════════════════════════════════════════════════════

@@ -81,7 +81,18 @@ export async function runExperiment(
           ? await runSovereignPipelineAsync(prose, packet, judge, seed)
           : runSovereignPipeline(prose, packet);
 
-        const verdict: 'SEAL' | 'REJECT' = result.verdict;
+        // Apply experiment-specific criteria if defined, else use pipeline verdict
+        let verdict: 'SEAL' | 'REJECT' = result.verdict;
+        const criteria = config.experiment_criteria?.[experimentId];
+        if (criteria) {
+          const primaryAxis = result.s_score_final.axes.find(
+            (a) => a.name === criteria.primary_axis,
+          );
+          const primaryScore = primaryAxis ? primaryAxis.raw : 0;
+          const composite = result.s_score_final.composite;
+          verdict = (composite >= criteria.composite_min && primaryScore >= criteria.primary_axis_min)
+            ? 'SEAL' : 'REJECT';
+        }
 
         // Compute run_hash from deterministic fields only
         const hashable = {

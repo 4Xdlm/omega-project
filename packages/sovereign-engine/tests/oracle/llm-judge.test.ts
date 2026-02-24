@@ -218,4 +218,28 @@ describe('LLMJudge — Phase VALIDATION', () => {
     expect(cached).not.toBeNull();
     expect(cached!.score).toBe(0.90);
   });
+
+  // T10: densite_sensorielle judge → score dans [0,1]
+  it('T10: densite_sensorielle judge → valid score returned', async () => {
+    globalThis.fetch = mockJudgeResponse(0.73, 'bonne densité sensorielle');
+    const judge = new LLMJudge(TEST_MODEL, TEST_API_KEY, cache, { retryBaseMs: 1, rateLimitMs: 0, timeoutMs: 5000 });
+
+    const result = await judge.judge('densite_sensorielle', 'Le fer brûlait sous ses doigts, odeur âcre de rouille.', 'seed_ds');
+
+    expect(result.score).toBe(0.73);
+    expect(result.reason).toBe('bonne densité sensorielle');
+  });
+
+  // T11: densite_sensorielle same prose+seed → same score (cache determinism)
+  it('T11: densite_sensorielle cache key deterministic', async () => {
+    globalThis.fetch = mockJudgeResponse(0.68, 'densité correcte');
+    const judge = new LLMJudge(TEST_MODEL, TEST_API_KEY, cache, { retryBaseMs: 1, rateLimitMs: 0, timeoutMs: 5000 });
+
+    await judge.judge('densite_sensorielle', 'Prose sensorielle.', 'seed_ds_det');
+
+    const expectedKey = sha256('densite_sensorielle' + 'Prose sensorielle.' + 'seed_ds_det');
+    const cached = cache.get(expectedKey);
+    expect(cached).not.toBeNull();
+    expect(cached!.score).toBe(0.68);
+  });
 });

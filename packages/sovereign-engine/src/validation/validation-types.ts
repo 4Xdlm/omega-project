@@ -49,6 +49,13 @@ export interface ValidationConfig {
     readonly reports_dir: string;
     readonly logs_dir: string;
   };
+  readonly experiment_criteria?: Record<string, ExperimentCriteria>;
+}
+
+export interface ExperimentCriteria {
+  readonly primary_axis: string;
+  readonly primary_axis_min: number;
+  readonly composite_min: number;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════

@@ -140,4 +140,52 @@ describe('ValidationRunner — Phase VALIDATION', () => {
       expect(actualHash, `Hash mismatch for ${relPath}`).toBe(expectedHash);
     }
   });
+
+  // T09: experiment criteria override — E2 uses anti_cliche criteria [CalibV2]
+  it('T09: experiment criteria override — E2 anti_cliche [CalibV2]', async () => {
+    const criteriaConfig: ValidationConfig = {
+      ...testConfig,
+      experiment_criteria: {
+        'E2_TEST': {
+          primary_axis: 'anti_cliche',
+          primary_axis_min: 0.95,
+          composite_min: 80,
+        },
+      },
+    };
+    const summary = await runExperiment('E2_TEST', [testPacket1], provider, criteriaConfig);
+    expect(summary.sealed_count + summary.rejected_count + summary.failed_count).toBe(summary.total_runs);
+    for (const run of summary.runs) {
+      if (run.verdict === 'SEAL') {
+        const acAxis = run.s_score_final.axes.find((a) => a.name === 'anti_cliche');
+        expect(acAxis).toBeDefined();
+        expect(acAxis!.raw).toBeGreaterThanOrEqual(0.95);
+        expect(run.s_score_final.composite).toBeGreaterThanOrEqual(80);
+      }
+    }
+  });
+
+  // T10: experiment criteria override — E1 uses tension_14d criteria [CalibV2]
+  it('T10: experiment criteria override — E1 tension_14d [CalibV2]', async () => {
+    const criteriaConfig: ValidationConfig = {
+      ...testConfig,
+      experiment_criteria: {
+        'E1_TEST': {
+          primary_axis: 'tension_14d',
+          primary_axis_min: 0.65,
+          composite_min: 85,
+        },
+      },
+    };
+    const summary = await runExperiment('E1_TEST', [testPacket1], provider, criteriaConfig);
+    expect(summary.sealed_count + summary.rejected_count + summary.failed_count).toBe(summary.total_runs);
+    for (const run of summary.runs) {
+      if (run.verdict === 'SEAL') {
+        const tensionAxis = run.s_score_final.axes.find((a) => a.name === 'tension_14d');
+        expect(tensionAxis).toBeDefined();
+        expect(tensionAxis!.raw).toBeGreaterThanOrEqual(0.65);
+        expect(run.s_score_final.composite).toBeGreaterThanOrEqual(85);
+      }
+    }
+  });
 });

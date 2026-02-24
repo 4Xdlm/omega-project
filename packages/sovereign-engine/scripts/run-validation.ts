@@ -20,6 +20,8 @@ import { createHash } from 'node:crypto';
 import { sha256, canonicalize } from '@omega/canon-kernel';
 import { MockLLMProvider } from '../src/validation/mock-llm-provider.js';
 import { AnthropicLLMProvider } from '../src/validation/real-llm-provider.js';
+import { LLMJudge } from '../src/oracle/llm-judge.js';
+import { JudgeCache } from '../src/validation/judge-cache.js';
 import { runExperiment } from '../src/validation/validation-runner.js';
 import type { ValidationConfig, ExperimentSummary, LLMProvider } from '../src/validation/validation-types.js';
 import type { ForgePacket } from '../src/types.js';
@@ -96,6 +98,21 @@ async function main(): Promise<void> {
     provider = new MockLLMProvider(proseCorpus);
     console.log(`[validation] Provider: MockLLMProvider (${proseCorpus.length} proses)`);
   }
+
+  // 3b. Create LLM judge + cache (real mode only)
+  let judge: LLMJudge | undefined;
+  let judgeCache: JudgeCache | undefined;
+  if (isReal) {
+    const judgeCachePath = path.join(pkgRoot, 'validation', 'judge-cache.json');
+    judgeCache = new JudgeCache(judgeCachePath);
+    const apiKey = process.env.ANTHROPIC_API_KEY!;
+    judge = new LLMJudge(config.llm_provider.model_lock, apiKey, judgeCache, {
+      timeoutMs: 30000,
+      retryBaseMs: 2000,
+      rateLimitMs: 1000,
+    });
+    console.log(`[validation] LLM Judge: ${config.llm_provider.model_lock} (cache: ${judgeCachePath})`);
+  }
   console.log('');
 
   // 4. Load case files
@@ -120,11 +137,14 @@ async function main(): Promise<void> {
   for (const exp of experiments) {
     console.log(`[validation] Running ${exp.id}: ${exp.description}`);
     const expStart = Date.now();
-    const summary = await runExperiment(exp.id, exp.cases, provider, config);
+    const summary = await runExperiment(exp.id, exp.cases, provider, config, judge);
     const expDuration = Date.now() - expStart;
     summaries.push(summary);
     console.log(`  Total: ${summary.total_runs} | SEAL: ${summary.sealed_count} | REJECT: ${summary.rejected_count} | FAIL: ${summary.failed_count}`);
     console.log(`  Reject rate: ${(summary.reject_rate * 100).toFixed(1)}% | Mean S-Score (sealed): ${summary.mean_s_score_sealed.toFixed(2)} | Mean Corr 14D: ${summary.mean_corr_14d.toFixed(4)}`);
+    if (summary.mean_corr_14d < 0.50) {
+      console.log(`  ⚠ WARNING: corr_14d ${summary.mean_corr_14d.toFixed(4)} < 0.50 threshold`);
+    }
     console.log(`  Duration: ${expDuration}ms | Hash: ${summary.summary_hash.slice(0, 16)}...`);
     console.log('');
   }
@@ -197,6 +217,13 @@ async function main(): Promise<void> {
   // Write EVIDENCE.md
   const evidence = generateEvidence(summaries, config, runMeta, packName);
   fs.writeFileSync(path.join(packDir, 'EVIDENCE.md'), evidence, 'utf8');
+
+  // Persist judge cache if used
+  if (judgeCache) {
+    judgeCache.persist();
+    const cacheStats = judgeCache.stats();
+    console.log(`[validation] Judge cache persisted: ${cacheStats.entries} entries, hit rate ${(cacheStats.hitRate * 100).toFixed(1)}%`);
+  }
 
   const totalDuration = Date.now() - startTime;
   console.log(`[validation] ValidationPack written: ${packDir}`);

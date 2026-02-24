@@ -21,6 +21,7 @@
 
 import type { ForgePacket, DeltaReport } from '../types.js';
 import type { DeltaComputerOutput } from '../delta/delta-computer.js';
+import type { LLMJudge } from './llm-judge.js';
 import { sha256, canonicalize } from '@omega/canon-kernel';
 import { computeStyleDelta } from '../delta/delta-style.js';
 import { computeClicheDelta } from '../delta/delta-cliche.js';
@@ -320,6 +321,97 @@ export function scoreV2(
   }
 
   // Axis floor check: any axis raw < 0.50 → REJECT
+  for (const axis of axes) {
+    if (axis.raw * 100 < 50) {
+      verdict = 'REJECT';
+      rejectionReason = `axis_floor_violation: ${axis.name}`;
+      break;
+    }
+  }
+
+  const hashable = {
+    axes: axes.map((a) => ({ name: a.name, raw: a.raw, weighted: a.weighted })),
+    composite,
+    emotion_weight_ratio: emotionWeightRatio,
+    verdict,
+  };
+
+  return {
+    axes,
+    composite,
+    emotion_weight_ratio: emotionWeightRatio,
+    verdict,
+    rejection_reason: rejectionReason,
+    s_score_hash: sha256(canonicalize(hashable)),
+    scored_at: new Date().toISOString(),
+  };
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// ASYNC API — LLM JUDGES (replaces OFFLINE-HEURISTIC axes)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+/**
+ * scoreV2Async: like scoreV2 but replaces interiorite, impact, necessite
+ * axes with real LLM-judge scores when a judge is provided.
+ *
+ * Axes replaced:
+ * - AXE 3: interiorite (OFFLINE-HEURISTIC → LLM-judge)
+ * - AXE 4: impact_ouverture_cloture (OFFLINE-HEURISTIC → LLM-judge "impact")
+ * - AXE 6: necessite_m8 (OFFLINE-HEURISTIC → LLM-judge "necessite")
+ *
+ * All other axes remain CALC/OFFLINE-HEURISTIC (unchanged).
+ */
+export async function scoreV2Async(
+  prose: string,
+  packet: ForgePacket,
+  judge: LLMJudge,
+  seed: string,
+  delta?: DeltaComputerOutput,
+): Promise<SScoreV2> {
+  // Compute offline scores first
+  const offlineScores: number[] = [
+    scoreTension14dOffline(prose, packet),
+    scoreCoherenceEmotionnelle(prose, packet),
+    0, // placeholder for interiorite (index 2)
+    0, // placeholder for impact (index 3)
+    scoreDensiteSensorielle(prose, packet),
+    0, // placeholder for necessite (index 5)
+    scoreAntiCliqueOffline(prose, packet),
+    scoreRythmeMusical(prose),
+    scoreSignatureOffline(prose, packet),
+  ];
+
+  // Replace axes with LLM judge scores
+  const [interioriteResult, impactResult, necessiteResult] = await Promise.all([
+    judge.judge('interiorite', prose, seed),
+    judge.judge('impact', prose, seed),
+    judge.judge('necessite', prose, seed),
+  ]);
+
+  offlineScores[2] = interioriteResult.score; // interiorite
+  offlineScores[3] = impactResult.score;      // impact_ouverture_cloture
+  offlineScores[5] = necessiteResult.score;   // necessite_m8
+
+  const axes: AxisScoreV2[] = AXES.map((def, i) => ({
+    name: def.name,
+    weight: def.weight,
+    raw: offlineScores[i],
+    weighted: offlineScores[i] * def.weight,
+  }));
+
+  const sumWeighted = axes.reduce((s, a) => s + a.weighted, 0);
+  const composite = (sumWeighted / TOTAL_WEIGHT) * 100;
+  const emotionWeightRatio = EMOTION_WEIGHT / TOTAL_WEIGHT;
+
+  let verdict: 'SEAL' | 'REJECT' = 'SEAL';
+  let rejectionReason: string | undefined;
+
+  if (composite < 92) {
+    verdict = 'REJECT';
+    rejectionReason = 'composite_below_threshold';
+  }
+
   for (const axis of axes) {
     if (axis.raw * 100 < 50) {
       verdict = 'REJECT';

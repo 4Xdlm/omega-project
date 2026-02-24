@@ -25,10 +25,11 @@ import type { ClicheSweepResult } from '../polish/anti-cliche-sweep.js';
 import type { MusicalPolishResult } from '../polish/musical-engine.js';
 import type { SignatureEnforcementResult } from '../polish/signature-enforcement.js';
 import type { OfflineDuelResult } from '../duel/duel-engine.js';
+import type { LLMJudge } from '../oracle/llm-judge.js';
 
 import { computeDelta } from '../delta/delta-computer.js';
 import { runOfflineSovereignLoop } from '../pitch/sovereign-loop.js';
-import { scoreV2 } from '../oracle/s-oracle-v2.js';
+import { scoreV2, scoreV2Async } from '../oracle/s-oracle-v2.js';
 import { sweepClichesOffline } from '../polish/anti-cliche-sweep.js';
 import { applyMusicalPolishOffline } from '../polish/musical-engine.js';
 import { enforceSignatureOffline } from '../polish/signature-enforcement.js';
@@ -104,6 +105,89 @@ export function runSovereignPipeline(
   const finalScore = scoreV2(currentProse, packet, finalDelta);
 
   // Step 9: Pipeline hash (excludes run_at)
+  const hashable = {
+    delta_hash: deltaOutput.report_hash,
+    loop_passes: loopResult.nb_passes,
+    initial_composite: initialScore.composite,
+    final_composite: finalScore.composite,
+    cliche_replacements: clicheResult.nb_replacements,
+    musical_corrections: musicalResult.corrections_applied,
+    signature_enforced: signatureResult.enforced,
+    verdict: finalScore.verdict,
+  };
+
+  return {
+    forge_packet: packet,
+    delta_report: deltaOutput.report,
+    sovereign_loop: loopResult,
+    s_score_initial: initialScore,
+    duel_result: duelResult,
+    anti_cliche: clicheResult,
+    musical_polish: musicalResult,
+    signature: signatureResult,
+    s_score_final: finalScore,
+    verdict: finalScore.verdict,
+    pipeline_hash: sha256(canonicalize(hashable)),
+    run_at: new Date().toISOString(),
+  };
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// ASYNC API — LLM JUDGES
+// ═══════════════════════════════════════════════════════════════════════════════
+
+/**
+ * runSovereignPipelineAsync: same as runSovereignPipeline but uses
+ * LLM judges for interiorite, impact, necessite axes via scoreV2Async.
+ * All other steps (delta, loop, polish) remain offline/deterministic.
+ */
+export async function runSovereignPipelineAsync(
+  prose: string,
+  packet: ForgePacket,
+  judge: LLMJudge,
+  seed: string,
+): Promise<SovereignRunResult> {
+  // Step 1: Delta computation
+  const deltaOutput: DeltaComputerOutput = computeDelta({ packet, prose });
+
+  // Step 2: Sovereign correction loop (offline)
+  const loopResult: OfflineSovereignLoopResult = runOfflineSovereignLoop(
+    prose,
+    packet,
+    deltaOutput,
+  );
+
+  let currentProse = loopResult.final_prose;
+
+  // Step 3: Initial S-Score (with LLM judges)
+  const initialScore = await scoreV2Async(currentProse, packet, judge, seed, deltaOutput);
+
+  // Step 4: Duel if score < 92
+  let duelResult: OfflineDuelResult | undefined;
+  if (initialScore.composite < 92) {
+    const variantDelta = { ...deltaOutput, needs_correction: true };
+    const variantLoop = runOfflineSovereignLoop(prose, packet, variantDelta);
+    duelResult = duelProses(currentProse, variantLoop.final_prose, packet, packet.seeds.llm_seed);
+    currentProse = duelResult.winner;
+  }
+
+  // Step 5: Anti-cliché sweep
+  const clicheResult = sweepClichesOffline(currentProse, packet);
+  currentProse = clicheResult.swept_prose;
+
+  // Step 6: Musical polish
+  const musicalResult = applyMusicalPolishOffline(currentProse, packet);
+  currentProse = musicalResult.polished_prose;
+
+  // Step 7: Signature enforcement
+  const signatureResult = enforceSignatureOffline(currentProse, packet);
+  currentProse = signatureResult.enforced_prose;
+
+  // Step 8: Final S-Score (with LLM judges)
+  const finalDelta = computeDelta({ packet, prose: currentProse });
+  const finalScore = await scoreV2Async(currentProse, packet, judge, seed + '_final', finalDelta);
+
+  // Step 9: Pipeline hash
   const hashable = {
     delta_hash: deltaOutput.report_hash,
     loop_passes: loopResult.nb_passes,

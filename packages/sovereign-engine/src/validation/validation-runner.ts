@@ -21,10 +21,11 @@
  */
 
 import { sha256, canonicalize } from '@omega/canon-kernel';
-import { runSovereignPipeline } from '../pipeline/sovereign-pipeline.js';
+import { runSovereignPipeline, runSovereignPipelineAsync } from '../pipeline/sovereign-pipeline.js';
 import type { ForgePacket } from '../types.js';
 import type { SScoreV2 } from '../oracle/s-oracle-v2.js';
 import type { OfflineSovereignLoopResult } from '../pitch/sovereign-loop.js';
+import type { LLMJudge } from '../oracle/llm-judge.js';
 import type {
   LLMProvider,
   ValidationConfig,
@@ -61,6 +62,7 @@ export async function runExperiment(
   cases: readonly ForgePacket[],
   provider: LLMProvider,
   config: ValidationConfig,
+  judge?: LLMJudge,
 ): Promise<ExperimentSummary> {
   const runsPerCase = Math.ceil(config.run_count_per_experiment / cases.length);
   const runs: RunResult[] = [];
@@ -74,7 +76,10 @@ export async function runExperiment(
       let run: RunResult;
 
       try {
-        const result = runSovereignPipeline(prose, packet);
+        // Use async pipeline with LLM judges if judge is provided
+        const result = judge
+          ? await runSovereignPipelineAsync(prose, packet, judge, seed)
+          : runSovereignPipeline(prose, packet);
 
         const verdict: 'SEAL' | 'REJECT' = result.verdict;
 

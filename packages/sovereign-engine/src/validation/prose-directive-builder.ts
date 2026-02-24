@@ -54,18 +54,27 @@ interface EmotionRule {
   readonly threshold: number;
   readonly instruction: string;
   readonly forbidden: readonly string[];
+  readonly moderate_threshold?: number;
+  readonly moderate_instruction?: string;
+  readonly moderate_forbidden?: readonly string[];
 }
 
 const EMOTION_INSTRUCTIONS: Readonly<Record<string, EmotionRule>> = {
   fear: {
     threshold: 0.7,
-    instruction: "Insuffle une menace latente \u2014 le danger n'est pas nomm\u00e9 mais pr\u00e9sent dans chaque d\u00e9tail sensoriel. Le personnage per\u00e7oit avant de comprendre.",
-    forbidden: ['expliquer la peur directement', 'adjectifs g\u00e9n\u00e9riques (terrible, horrible)'],
+    instruction: "Dilate le temps. Choisis UN d\u00e9tail physique ou m\u00e9canique (un voyant, un chiffre, un son m\u00e9tallique, une texture) et d\u00e9cris-le avec une pr\u00e9cision clinique pendant que l'enjeu irr\u00e9versible approche. Ne r\u00e9sous rien. Ne nomme pas la peur. Laisse l'action suspendue au bord du point de rupture. Chaque phrase doit peser son silence.",
+    forbidden: ['acc\u00e9l\u00e9rer le rythme en listant des actions \u00e0 la cha\u00eene', 'nommer les \u00e9motions (terreur, panique, angoisse)', "r\u00e9soudre l'enjeu avant Q4", 'vocabulaire anxiog\u00e8ne explicite'],
+    moderate_threshold: 0.5,
+    moderate_instruction: "Quelque chose d'irr\u00e9versible se pr\u00e9pare mais n'est pas encore visible. Ancre dans un d\u00e9tail concret qui sera charg\u00e9 de sens plus tard. Le personnage per\u00e7oit sans nommer. Le lecteur pressent.",
+    moderate_forbidden: ['expliquer ce qui va se passer', 'dialogue explicatif', 'int\u00e9riorit\u00e9 bavarde'],
   },
   anticipation: {
     threshold: 0.7,
-    instruction: "Chaque phrase doit rapprocher d'une cons\u00e9quence fatale. Phrases courtes. Le temps se contracte. L'irr\u00e9versible approche.",
-    forbidden: ['descriptions de paysage sans enjeu', 'digressions int\u00e9rieures longues'],
+    instruction: "Dilate le temps. Choisis UN d\u00e9tail physique ou m\u00e9canique (un voyant, un chiffre, un son m\u00e9tallique, une texture) et d\u00e9cris-le avec une pr\u00e9cision clinique pendant que l'enjeu irr\u00e9versible approche. Ne r\u00e9sous rien. Ne nomme pas la peur. Laisse l'action suspendue au bord du point de rupture. Chaque phrase doit peser son silence.",
+    forbidden: ['acc\u00e9l\u00e9rer le rythme en listant des actions \u00e0 la cha\u00eene', 'nommer les \u00e9motions (terreur, panique, angoisse)', "r\u00e9soudre l'enjeu avant Q4", 'vocabulaire anxiog\u00e8ne explicite'],
+    moderate_threshold: 0.5,
+    moderate_instruction: "Quelque chose d'irr\u00e9versible se pr\u00e9pare mais n'est pas encore visible. Ancre dans un d\u00e9tail concret qui sera charg\u00e9 de sens plus tard. Le personnage per\u00e7oit sans nommer. Le lecteur pressent.",
+    moderate_forbidden: ['expliquer ce qui va se passer', 'dialogue explicatif', 'int\u00e9riorit\u00e9 bavarde'],
   },
   sadness: {
     threshold: 0.6,
@@ -240,6 +249,9 @@ export function buildFinalPrompt(directive: ProseDirective): string {
   lines.push(
     "\u00c9cris la sc\u00e8ne maintenant. Commence directement par l'action ou",
     "la sensation \u2014 jamais par une description de cadre neutre.",
+    "NE PAS inclure les labels de quartile (Q1, Q2, Q3, Q4), les niveaux",
+    "de tension, ou les annotations structurelles dans ta prose.",
+    "\u00c9cris UNIQUEMENT la prose litt\u00e9raire, sans m\u00e9ta-commentaire.",
     "Ton texte sera \u00e9valu\u00e9 sur: tension, int\u00e9riorit\u00e9, densit\u00e9 sensorielle,",
     "n\u00e9cessit\u00e9 de chaque mot, impact \u00e9motionnel.",
   );
@@ -279,8 +291,12 @@ function buildQuartileDirective(quartile: EmotionQuartile, packet: ForgePacket):
   if (rule && emotionIntensity >= rule.threshold) {
     instruction = rule.instruction;
     forbidden = [...rule.forbidden];
+  } else if (rule && rule.moderate_threshold && rule.moderate_instruction && emotionIntensity >= rule.moderate_threshold) {
+    // Moderate intensity — use lighter tension instruction
+    instruction = rule.moderate_instruction;
+    forbidden = [...(rule.moderate_forbidden ?? [])];
   } else if (rule) {
-    // Below threshold — use lighter version
+    // Below all thresholds — use fallback with narrative_instruction
     instruction = `\u00c9motion ${dominantEmotion} (intensit\u00e9 ${emotionIntensity.toFixed(2)}) : ${quartile.narrative_instruction}`;
     forbidden = [];
   } else {

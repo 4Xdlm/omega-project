@@ -83,13 +83,29 @@ Tu DOIS utiliser des notes > 0.75 si la prose est dense et précise.`,
 Densité sensorielle = présence et précision des détails sensoriels (vue, ouïe, toucher, odorat, goût, proprioception), leur intégration organique dans l'action, leur spécificité (pas de généralités).
 0.0 = aucun détail sensoriel / 1.0 = chaque phrase ancre dans le concret.`,
 
-  tension_14d: `Tu es un juge littéraire expert. Note la tension narrative de ce texte.
-Tension = sentiment d'urgence, d'enjeu vital, de menace imminente,
-d'irréversibilité. Le lecteur retient son souffle. Chaque phrase
-fait avancer vers une conséquence inévitable.
-Calibration: 0.0=aucune tension, 0.3=tension légère, 0.5=tension modérée
-présente mais pas dominante, 0.7=tension forte qui structure la scène,
-0.9=tension insoutenable, 1.0=climax absolu (rare).`,
+  tension_14d: `Tu es un juge littéraire expert spécialisé en tension narrative.
+Note la tension de ce texte sur une échelle CONTINUE 0.0-1.0.
+
+DÉFINITION CRITIQUE — tension L4:
+La tension maximale n'est PAS l'action, la violence, ou le vocabulaire anxiogène.
+La tension L4 = la dilatation du temps face à l'irréversible.
+Un texte tendu fait retenir le souffle par la PRÉCISION CLINIQUE d'un
+désastre imminent — pas par les mots 'terreur', 'panique', 'danger'.
+
+ÉCHELLE OBLIGATOIRE (utilise tout le spectre):
+  0.0-0.2 = aucun enjeu, aucune conséquence possible, temps neutre
+  0.3-0.4 = légère attente, quelque chose pourrait se passer
+  0.5-0.6 = enjeu présent, conséquence possible mais non fatale
+  0.7-0.8 = conséquence irréversible imminente, le temps se dilate,
+             chaque détail physique porte l'irrémédiable
+  0.9-1.0 = le lecteur retient son souffle — tension maximale atteinte
+             par la sobriété et la précision, pas par l'exclamation
+
+RÈGLE ANTI-BIAIS (obligatoire):
+  Une prose sobre, froide, chirurgicale PEUT avoir une tension de 0.9+
+  si l'enjeu est irréversible et le temps dilaté.
+  Un texte avec des mots 'terrifiant/urgent/danger' explicites
+  NE MÉRITE PAS automatiquement un score élevé.`,
 };
 
 // ═══════════════════════════════════════════════════════════════════════════════

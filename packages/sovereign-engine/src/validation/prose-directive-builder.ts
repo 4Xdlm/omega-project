@@ -62,16 +62,16 @@ interface EmotionRule {
 const EMOTION_INSTRUCTIONS: Readonly<Record<string, EmotionRule>> = {
   fear: {
     threshold: 0.7,
-    instruction: "Dilate le temps. Choisis UN d\u00e9tail physique ou m\u00e9canique (un voyant, un chiffre, un son m\u00e9tallique, une texture) et d\u00e9cris-le avec une pr\u00e9cision clinique pendant que l'enjeu irr\u00e9versible approche. Ne r\u00e9sous rien. Ne nomme pas la peur. Laisse l'action suspendue au bord du point de rupture. Chaque phrase doit peser son silence.",
-    forbidden: ['acc\u00e9l\u00e9rer le rythme en listant des actions \u00e0 la cha\u00eene', 'nommer les \u00e9motions (terreur, panique, angoisse)', "r\u00e9soudre l'enjeu avant Q4", 'vocabulaire anxiog\u00e8ne explicite'],
+    instruction: "CONTRAINTE STRUCTURELLE OBLIGATOIRE:\n[1] Ouvre par UNE perception sensorielle interne du personnage (battement, froid dans la gorge, souffle retenu, pulsation) en moins de 10 mots.\n[2] D\u00e9cris L'ACTION ou L'OBJET central avec pr\u00e9cision technique (chiffre, mati\u00e8re, son) \u2014 sans adjectif \u00e9valuatif.\n[3] INTERDIS-TOI de r\u00e9soudre l'enjeu dans ce quartile. La derni\u00e8re phrase doit laisser l'action suspendue.",
+    forbidden: ["r\u00e9soudre l'enjeu dans ce quartile", 'adjectifs \u00e9valuatifs (terrible, magnifique, horrible)', 'nommer les \u00e9motions du personnage', "plus de 3 actions cons\u00e9cutives sans ancrage sensoriel", "phrase de transition narrative ('Ensuite', 'Alors', 'Puis')"],
     moderate_threshold: 0.5,
     moderate_instruction: "Quelque chose d'irr\u00e9versible se pr\u00e9pare mais n'est pas encore visible. Ancre dans un d\u00e9tail concret qui sera charg\u00e9 de sens plus tard. Le personnage per\u00e7oit sans nommer. Le lecteur pressent.",
     moderate_forbidden: ['expliquer ce qui va se passer', 'dialogue explicatif', 'int\u00e9riorit\u00e9 bavarde'],
   },
   anticipation: {
     threshold: 0.7,
-    instruction: "Dilate le temps. Choisis UN d\u00e9tail physique ou m\u00e9canique (un voyant, un chiffre, un son m\u00e9tallique, une texture) et d\u00e9cris-le avec une pr\u00e9cision clinique pendant que l'enjeu irr\u00e9versible approche. Ne r\u00e9sous rien. Ne nomme pas la peur. Laisse l'action suspendue au bord du point de rupture. Chaque phrase doit peser son silence.",
-    forbidden: ['acc\u00e9l\u00e9rer le rythme en listant des actions \u00e0 la cha\u00eene', 'nommer les \u00e9motions (terreur, panique, angoisse)', "r\u00e9soudre l'enjeu avant Q4", 'vocabulaire anxiog\u00e8ne explicite'],
+    instruction: "CONTRAINTE STRUCTURELLE OBLIGATOIRE:\n[1] Ouvre par UNE perception sensorielle interne du personnage (battement, froid dans la gorge, souffle retenu, pulsation) en moins de 10 mots.\n[2] D\u00e9cris L'ACTION ou L'OBJET central avec pr\u00e9cision technique (chiffre, mati\u00e8re, son) \u2014 sans adjectif \u00e9valuatif.\n[3] INTERDIS-TOI de r\u00e9soudre l'enjeu dans ce quartile. La derni\u00e8re phrase doit laisser l'action suspendue.",
+    forbidden: ["r\u00e9soudre l'enjeu dans ce quartile", 'adjectifs \u00e9valuatifs (terrible, magnifique, horrible)', 'nommer les \u00e9motions du personnage', "plus de 3 actions cons\u00e9cutives sans ancrage sensoriel", "phrase de transition narrative ('Ensuite', 'Alors', 'Puis')"],
     moderate_threshold: 0.5,
     moderate_instruction: "Quelque chose d'irr\u00e9versible se pr\u00e9pare mais n'est pas encore visible. Ancre dans un d\u00e9tail concret qui sera charg\u00e9 de sens plus tard. Le personnage per\u00e7oit sans nommer. Le lecteur pressent.",
     moderate_forbidden: ['expliquer ce qui va se passer', 'dialogue explicatif', 'int\u00e9riorit\u00e9 bavarde'],
@@ -303,6 +303,20 @@ function buildQuartileDirective(quartile: EmotionQuartile, packet: ForgePacket):
     // No specific rule — use narrative_instruction from packet
     instruction = `\u00c9motion ${dominantEmotion} (intensit\u00e9 ${emotionIntensity.toFixed(2)}) : ${quartile.narrative_instruction}`;
     forbidden = [];
+  }
+
+  // Secondary tension check: if fear/anticipation are significant but NOT dominant,
+  // append tension foreshadowing to instruction [CalibV6]
+  if (dominantEmotion !== 'fear' && dominantEmotion !== 'anticipation') {
+    const fearVal = target14d['fear'] ?? 0;
+    const anticVal = target14d['anticipation'] ?? 0;
+    const maxTension = Math.max(fearVal, anticVal);
+    if (maxTension >= 0.5) {
+      instruction += "\nTENSION SECONDAIRE OBLIGATOIRE: un enjeu irr\u00e9versible sous-tend cette \u00e9motion. Ancre un d\u00e9tail physique pr\u00e9cis (chiffre, mati\u00e8re, son) qui porte le poids de la cons\u00e9quence. Le temps se contracte sous la surface.";
+      forbidden = [...forbidden, "ignorer la tension sous-jacente", "r\u00e9soudre l'enjeu sans marqueur physique"];
+    } else if (maxTension >= 0.3) {
+      instruction += "\nTENSION LATENTE: quelque chose d'irr\u00e9versible couve. Un d\u00e9tail concret doit ancrer cette menace sans la nommer.";
+    }
   }
 
   return {

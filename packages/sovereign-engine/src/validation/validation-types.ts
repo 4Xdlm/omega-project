@@ -93,6 +93,9 @@ export interface RunResult {
   readonly run_hash: string;
   readonly prompt_hash: string;
   readonly axes_info_only?: Record<string, number>;
+  // INV-LOOP-01: rollback monotone metadata
+  readonly loop_rollback: boolean;
+  readonly loop_delta_composite: number; // always >= 0
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════

@@ -119,14 +119,17 @@ describe('ProseDirectiveBuilder — CalibV4', () => {
     expect(computeTensionLevel(0.44)).toBe('LEGERE');
   });
 
-  // T07: instruction contains keyword of dominant emotion
-  it('T07: instruction contains keyword of dominant emotion', () => {
+  // T07: instruction contains structural constraint for fear (V6 mechanical template)
+  it('T07: instruction contains structural constraint for dominant fear', () => {
     // Default test packet has Q1 dominant=fear with fear=0.7
     const directive = buildProseDirective(packet);
     const q1 = directive.structure[0];
     expect(q1.dominant_emotion).toBe('fear');
-    // The instruction for fear should contain "menace" (from EMOTION_INSTRUCTIONS)
-    expect(q1.instruction.toLowerCase()).toMatch(/menace|danger|peur/);
+    // V6: fear >= 0.7 triggers CONTRAINTE STRUCTURELLE OBLIGATOIRE with [1][2][3]
+    expect(q1.instruction).toContain('CONTRAINTE STRUCTURELLE OBLIGATOIRE');
+    expect(q1.instruction).toContain('[1]');
+    expect(q1.instruction).toContain('[2]');
+    expect(q1.instruction).toContain('[3]');
   });
 
   // T08: buildFinalPrompt contains Q1/Q2/Q3/Q4 sections

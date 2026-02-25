@@ -83,10 +83,16 @@ export async function runExperiment(
           ? await runSovereignPipelineAsync(prose, packet, judge, seed)
           : runSovereignPipeline(prose, packet);
 
+        // INV-LOOP-01: Rollback monotone — never accept a regression
+        // s_score_final >= s_score_initial always
+        const isRegression = result.s_score_final.composite < result.s_score_initial.composite;
+        const effectiveScore = isRegression ? result.s_score_initial : result.s_score_final;
+        const loopDelta = effectiveScore.composite - result.s_score_initial.composite; // always >= 0
+
         // Apply experiment-specific criteria if defined, else use pipeline verdict
-        let verdict: 'SEAL' | 'REJECT' = result.verdict;
+        let verdict: 'SEAL' | 'REJECT' = effectiveScore.verdict;
         const criteria = config.experiment_criteria?.[experimentId];
-        let adjustedComposite = result.s_score_final.composite;
+        let adjustedComposite = effectiveScore.composite;
         let axesInfoOnly: Record<string, number> | undefined;
 
         if (criteria) {
@@ -94,7 +100,7 @@ export async function runExperiment(
 
           if (excludedAxes.length > 0) {
             // Recompute composite excluding specified axes
-            const included = result.s_score_final.axes.filter(
+            const included = effectiveScore.axes.filter(
               (a) => !excludedAxes.includes(a.name),
             );
             const adjustedSum = included.reduce((s, a) => s + a.weighted, 0);
@@ -104,12 +110,12 @@ export async function runExperiment(
             // Log excluded axes as info-only
             axesInfoOnly = {};
             for (const name of excludedAxes) {
-              const axis = result.s_score_final.axes.find((a) => a.name === name);
+              const axis = effectiveScore.axes.find((a) => a.name === name);
               if (axis) axesInfoOnly[name] = axis.raw;
             }
           }
 
-          const primaryAxis = result.s_score_final.axes.find(
+          const primaryAxis = effectiveScore.axes.find(
             (a) => a.name === criteria.primary_axis,
           );
           const primaryScore = primaryAxis ? primaryAxis.raw : 0;
@@ -137,12 +143,14 @@ export async function runExperiment(
           prose_generated: prose,
           s_score_initial: result.s_score_initial,
           sovereign_loop: result.sovereign_loop,
-          s_score_final: result.s_score_final,
+          s_score_final: effectiveScore,
           verdict,
           model_id: provider.model_id,
           run_hash: sha256(canonicalize(hashable)),
           prompt_hash: promptHash,
           axes_info_only: axesInfoOnly,
+          loop_rollback: isRegression,
+          loop_delta_composite: loopDelta,
         };
       } catch (error: unknown) {
         const errorMessage = error instanceof Error ? error.message : String(error);
@@ -172,6 +180,8 @@ export async function runExperiment(
           model_id: provider.model_id,
           run_hash: sha256(canonicalize(hashable)),
           prompt_hash: promptHash,
+          loop_rollback: false,
+          loop_delta_composite: 0,
         };
       }
 

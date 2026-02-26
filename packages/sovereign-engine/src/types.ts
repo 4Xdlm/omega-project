@@ -400,6 +400,27 @@ export interface SovereignProvider {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
+// FORENSIC ROLLBACK — INV-FORENSIC-01
+// ═══════════════════════════════════════════════════════════════════════════════
+
+export interface ForensicRollbackEntry {
+  readonly pass_index: number;
+  readonly delta_composite: number;
+  readonly trigger_axes: readonly {
+    readonly axis: string;
+    readonly score_before: number;
+    readonly score_after: number;
+    readonly delta: number;
+  }[];
+  readonly judge_latency_ms: number;
+}
+
+export interface ForensicData {
+  readonly rollback_count: number;
+  readonly rollbacks: readonly ForensicRollbackEntry[];
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
 // SOVEREIGN LOOP OUTPUT
 // ═══════════════════════════════════════════════════════════════════════════════
 
@@ -411,6 +432,7 @@ export interface SovereignLoopResult {
   readonly passes_executed: number;
   readonly verdict: 'SEAL' | 'REJECT';
   readonly verdict_reason: string;
+  readonly forensic_data: ForensicData;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════

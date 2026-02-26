@@ -25,7 +25,7 @@
  * ═══════════════════════════════════════════════════════════════════════════════
  */
 
-import type { ForgePacket, SovereignLoopResult, SovereignProvider, CorrectionPitch } from '../types.js';
+import type { ForgePacket, SovereignLoopResult, SovereignProvider, CorrectionPitch, ForensicData, ForensicRollbackEntry } from '../types.js';
 import type { DeltaComputerOutput } from '../delta/delta-computer.js';
 import type { PitchOp } from './triple-pitch-engine.js';
 import { generateDeltaReport } from '../delta/delta-report.js';
@@ -60,11 +60,13 @@ export async function runSovereignLoop(
       passes_executed: 0,
       verdict: 'SEAL',
       verdict_reason: `Initial score ${s_score_initial.composite.toFixed(1)} ≥ ${SOVEREIGN_CONFIG.SOVEREIGN_THRESHOLD}`,
+      forensic_data: { rollback_count: 0, rollbacks: [] },
     };
   }
 
   let bestProse = currentProse;
   let bestScore = s_score_initial;
+  const forensicRollbacks: ForensicRollbackEntry[] = [];
 
   for (let pass = 0; pass < max_passes; pass++) {
     const delta = generateDeltaReport(packet, currentProse, physicsAudit);
@@ -86,11 +88,30 @@ export async function runSovereignLoop(
     pitches_applied.push(selected_pitch);
     currentProse = patched_prose;
 
+    const judgeStart = Date.now();
     const s_score_current = await judgeAesthetic(packet, currentProse, provider);
+    const judgeLatencyMs = Date.now() - judgeStart;
 
     if (s_score_current.composite > bestScore.composite) {
       bestProse = currentProse;
       bestScore = s_score_current;
+    } else if (s_score_current.composite < bestScore.composite) {
+      const currentAxes = Object.values(s_score_current.axes);
+      const bestAxes = Object.values(bestScore.axes);
+      const triggerAxes = currentAxes
+        .map((ax, i) => ({
+          axis: ax.name,
+          score_before: bestAxes[i]?.score ?? 0,
+          score_after: ax.score,
+          delta: ax.score - (bestAxes[i]?.score ?? 0),
+        }))
+        .filter(a => a.delta < 0);
+      forensicRollbacks.push({
+        pass_index: pass,
+        delta_composite: s_score_current.composite - bestScore.composite,
+        trigger_axes: triggerAxes,
+        judge_latency_ms: judgeLatencyMs,
+      });
     }
 
     if (s_score_current.verdict === 'SEAL') {
@@ -102,6 +123,7 @@ export async function runSovereignLoop(
         passes_executed: pass + 1,
         verdict: 'SEAL',
         verdict_reason: `Sealed after ${pass + 1} pass(es): score ${s_score_current.composite.toFixed(1)}`,
+        forensic_data: { rollback_count: forensicRollbacks.length, rollbacks: forensicRollbacks },
       };
     }
   }
@@ -120,6 +142,7 @@ export async function runSovereignLoop(
     passes_executed: max_passes,
     verdict,
     verdict_reason,
+    forensic_data: { rollback_count: forensicRollbacks.length, rollbacks: forensicRollbacks },
   };
 }
 
@@ -139,6 +162,7 @@ export interface OfflineSovereignLoopResult {
   readonly nb_passes: 0 | 1 | 2;
   readonly loop_trace: readonly LoopPass[];
   readonly was_corrected: boolean;
+  readonly forensic_data?: ForensicData;
 }
 
 export function runOfflineSovereignLoop(
@@ -152,6 +176,7 @@ export function runOfflineSovereignLoop(
       nb_passes: 0,
       loop_trace: [],
       was_corrected: false,
+      forensic_data: { rollback_count: 0, rollbacks: [] },
     };
   }
 
@@ -204,5 +229,6 @@ export function runOfflineSovereignLoop(
     nb_passes: trace.length as 0 | 1 | 2,
     loop_trace: trace,
     was_corrected: true,
+    forensic_data: { rollback_count: 0, rollbacks: [] },
   };
 }

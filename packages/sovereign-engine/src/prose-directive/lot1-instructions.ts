@@ -3,6 +3,7 @@
 // Source: OMEGA_SUPREME_ROADMAP_v6_0 — W1 Lot 1
 
 import { sha256, canonicalize } from '@omega/canon-kernel';
+import { isInstructionEnabled } from './instruction-toggle-table.js';
 
 export interface PDBInstruction {
   readonly id: string;
@@ -51,13 +52,9 @@ export const LOT1_INSTRUCTIONS: readonly PDBInstruction[] = [
 // Hash deterministe du lot — tracabilite DO-178C
 export const LOT1_HASH = sha256(canonicalize(LOT1_INSTRUCTIONS as readonly PDBInstruction[]));
 
-// W1-ABLATION: LOT1-04 désactivé — régression E3=0% (Contemplative/SlowBurn incompatible pente +0.15/Q)
-// Les 3 autres (LOT1-01/02/03) restent actifs.
-const LOT1_DISABLED_IDS: ReadonlySet<string> = new Set(['LOT1-04']);
-
-export function getLot1AsPromptBlock(): string {
+export function getLot1AsPromptBlock(activeShape?: string): string {
   return LOT1_INSTRUCTIONS
-    .filter(i => !LOT1_DISABLED_IDS.has(i.id))
+    .filter(i => isInstructionEnabled(i.id, activeShape))
     .map(i => `[${i.id}] ${i.label}:\n${i.content}`)
     .join('\n\n');
 }

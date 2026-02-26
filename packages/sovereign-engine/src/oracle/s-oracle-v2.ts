@@ -31,6 +31,8 @@ import {
   cosineSimilarity14D,
   euclideanDistance14D,
 } from '@omega/omega-forge';
+import { applySomaGate } from './calc-judges/soma-gate.js';
+import { applyBudgetGate } from './calc-judges/budget-gate.js';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // TYPES
@@ -280,6 +282,36 @@ function scoreSignatureOffline(prose: string, packet: ForgePacket): number {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
+// HARD GATE REJECT BUILDER
+// ═══════════════════════════════════════════════════════════════════════════════
+
+function buildHardGateReject(reason: string): SScoreV2 {
+  const axes: AxisScoreV2[] = AXES.map((def) => ({
+    name: def.name,
+    weight: def.weight,
+    raw: 0,
+    weighted: 0,
+  }));
+
+  const hashable = {
+    axes: axes.map((a) => ({ name: a.name, raw: a.raw, weighted: a.weighted })),
+    composite: 0,
+    emotion_weight_ratio: EMOTION_WEIGHT / TOTAL_WEIGHT,
+    verdict: 'REJECT' as const,
+  };
+
+  return {
+    axes,
+    composite: 0,
+    emotion_weight_ratio: EMOTION_WEIGHT / TOTAL_WEIGHT,
+    verdict: 'REJECT',
+    rejection_reason: reason,
+    s_score_hash: sha256(canonicalize(hashable)),
+    scored_at: new Date().toISOString(),
+  };
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
 // PUBLIC API
 // ═══════════════════════════════════════════════════════════════════════════════
 
@@ -288,6 +320,21 @@ export function scoreV2(
   packet: ForgePacket,
   delta?: DeltaComputerOutput,
 ): SScoreV2 {
+  // ═══ HARD GATES — court-circuitent tout calcul ═══
+
+  // INV-SOMA-01: anatomie générique → REJECT immédiat
+  const somaResult = applySomaGate(prose);
+  if (!somaResult.passed) {
+    return buildHardGateReject('INV-SOMA-01: anatomie générique détectée');
+  }
+
+  // INV-BUDGET-01: révélation prématurée → REJECT immédiat
+  const budgetResult = applyBudgetGate(prose);
+  if (!budgetResult.passed) {
+    return buildHardGateReject(`INV-BUDGET-01: ${budgetResult.violation_type} en Q${budgetResult.violation_quartile}`);
+  }
+
+  // ═══ SCORING NORMAL ═══
   const rawScores: number[] = [
     scoreTension14dOffline(prose, packet),
     scoreCoherenceEmotionnelle(prose, packet),

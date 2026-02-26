@@ -34,6 +34,7 @@ import { compilePhysicsSection } from '../constraints/constraint-compiler.js';
 import type { ForgeEmotionBrief } from '@omega/omega-forge';
 import { SOVEREIGN_CONFIG } from '../config.js';
 import { getLot1AsPromptBlock } from '../prose-directive/lot1-instructions.js';
+import { getLot2AsPromptBlock } from '../prose-directive/lot2-instructions.js';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // MAIN ASSEMBLER
@@ -65,6 +66,9 @@ export function buildSovereignPrompt(
 
   // LOT 1 — PDB instructions (W1)
   sections.push(buildLot1InstructionsSection());
+
+  // LOT 2 — PDB instructions (W2)
+  sections.push(buildLot2InstructionsSection());
 
   // PHYSICS (COMPILED) — inject if ForgeEmotionBrief provided
   if (emotionBrief) {
@@ -722,6 +726,22 @@ function buildLot1InstructionsSection(): PromptSection {
   return {
     section_id: 'lot1_pdb_instructions',
     title: 'LOT 1 — PDB Instructions',
+    content,
+    priority: 'high',
+  };
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// LOT 2 — PDB INSTRUCTIONS (W2)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+function buildLot2InstructionsSection(): PromptSection {
+  const block = getLot2AsPromptBlock();
+  const content = `# PROSE DIRECTIVE — LOT 2 (PDB INSTRUCTIONS)\n\n${block}\n\nCOMPLIANCE IS MANDATORY. NONCOMPLIANCE = REJECTION.\n`;
+
+  return {
+    section_id: 'lot2_pdb_instructions',
+    title: 'LOT 2 — PDB Instructions',
     content,
     priority: 'high',
   };

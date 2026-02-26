@@ -23,7 +23,9 @@
     "gate:all": "npm run gate:no-todo && npm run gate:active && npm run gate:roadmap",
     "calibrate": "tsx scripts/run-calibration.ts",
     "omnipotent:live-calibrate": "tsx scripts/omnipotent-live-calibrate.ts",
-    "validate:phase-s": "tsx scripts/run-validation.ts"
+    "validate:phase-s": "tsx scripts/run-validation.ts",
+    "ablation:w1": "tsx scripts/run-ablation-w1.ts",
+    "ablation:w1:analyze": "tsx scripts/analyze-ablation-w1.ts"
   },
   "dependencies": {
     "@omega/canon-kernel": "file:../canon-kernel",

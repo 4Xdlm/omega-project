@@ -47,12 +47,14 @@ describe('InstructionToggleTable — SSOT PDB toggles', () => {
     expect(isInstructionEnabled('LOT99-01')).toBe(false);
   });
 
-  // Test 6: INSTRUCTION_TOGGLE_TABLE contient exactement 7 entrées (4 LOT1 + 3 LOT2)
-  it('INSTRUCTION_TOGGLE_TABLE contient 7 entrées (4 LOT1 + 3 LOT2)', () => {
-    expect(INSTRUCTION_TOGGLE_TABLE).toHaveLength(7);
+  // Test 6: INSTRUCTION_TOGGLE_TABLE contient exactement 11 entrées (4 LOT1 + 3 LOT2 + 4 LOT3)
+  it('INSTRUCTION_TOGGLE_TABLE contient 11 entrées (4 LOT1 + 3 LOT2 + 4 LOT3)', () => {
+    expect(INSTRUCTION_TOGGLE_TABLE).toHaveLength(11);
     const lot1 = INSTRUCTION_TOGGLE_TABLE.filter(e => e.lot === 'LOT1');
     const lot2 = INSTRUCTION_TOGGLE_TABLE.filter(e => e.lot === 'LOT2');
+    const lot3 = INSTRUCTION_TOGGLE_TABLE.filter(e => e.lot === 'LOT3');
     expect(lot1).toHaveLength(4);
     expect(lot2).toHaveLength(3);
+    expect(lot3).toHaveLength(4);
   });
 });

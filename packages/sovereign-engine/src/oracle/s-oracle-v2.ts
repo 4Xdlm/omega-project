@@ -33,6 +33,9 @@ import {
 } from '@omega/omega-forge';
 import { applySomaGate } from './calc-judges/soma-gate.js';
 import { applyBudgetGate } from './calc-judges/budget-gate.js';
+import { GENESIS_V2_ENABLED } from './genesis-v2/genesis-runner.js';
+import { applyParadoxGate } from './genesis-v2/paradox-gate.js';
+import type { TranscendentPlanJSON } from './genesis-v2/transcendent-planner.js';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // TYPES
@@ -319,8 +322,18 @@ export function scoreV2(
   prose: string,
   packet: ForgePacket,
   delta?: DeltaComputerOutput,
+  transcendent_plan?: TranscendentPlanJSON,
 ): SScoreV2 {
   // ═══ HARD GATES — court-circuitent tout calcul ═══
+
+  // INV-PARADOX-01/02/03: paradox gate (Genesis v2 only)
+  if (GENESIS_V2_ENABLED && transcendent_plan) {
+    const paradoxResult = applyParadoxGate(prose, transcendent_plan);
+    if (!paradoxResult.passed) {
+      const reasons = paradoxResult.violations.map(v => v.invariant).join('+');
+      return buildHardGateReject(`paradox_gate: ${reasons}`);
+    }
+  }
 
   // INV-SOMA-01: anatomie générique → REJECT immédiat
   const somaResult = applySomaGate(prose);

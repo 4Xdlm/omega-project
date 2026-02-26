@@ -35,6 +35,7 @@ import type { ForgeEmotionBrief } from '@omega/omega-forge';
 import { SOVEREIGN_CONFIG } from '../config.js';
 import { getLot1AsPromptBlock } from '../prose-directive/lot1-instructions.js';
 import { getLot2AsPromptBlock } from '../prose-directive/lot2-instructions.js';
+import { getLot3AsPromptBlock } from '../prose-directive/lot3-instructions.js';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // MAIN ASSEMBLER
@@ -69,6 +70,9 @@ export function buildSovereignPrompt(
 
   // LOT 2 — PDB instructions (W2)
   sections.push(buildLot2InstructionsSection());
+
+  // LOT 3 — PDB instructions (W3a — Genesis v2)
+  sections.push(buildLot3InstructionsSection());
 
   // PHYSICS (COMPILED) — inject if ForgeEmotionBrief provided
   if (emotionBrief) {
@@ -742,6 +746,22 @@ function buildLot2InstructionsSection(): PromptSection {
   return {
     section_id: 'lot2_pdb_instructions',
     title: 'LOT 2 — PDB Instructions',
+    content,
+    priority: 'high',
+  };
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// LOT 3 — PDB INSTRUCTIONS (W3a — Genesis v2)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+function buildLot3InstructionsSection(): PromptSection {
+  const block = getLot3AsPromptBlock();
+  const content = `# PROSE DIRECTIVE — LOT 3 (PDB INSTRUCTIONS — GENESIS V2)\n\n${block}\n\nCOMPLIANCE IS MANDATORY. NONCOMPLIANCE = REJECTION.\n`;
+
+  return {
+    section_id: 'lot3_pdb_instructions',
+    title: 'LOT 3 — PDB Instructions (Genesis v2)',
     content,
     priority: 'high',
   };

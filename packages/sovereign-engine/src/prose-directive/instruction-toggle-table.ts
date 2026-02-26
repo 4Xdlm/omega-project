@@ -86,6 +86,47 @@ export const INSTRUCTION_TOGGLE_TABLE: readonly InstructionToggleEntry[] = [
     ban_reason: null,
     ban_commit: null,
   },
+  // ═══ LOT 3 ═══
+  {
+    id: 'LOT3-01',
+    lot: 'LOT3',
+    enabled_by_default: true,
+    kill_switch_env: 'OMEGA_DISABLE_LOT3_01',
+    conflicts_with_shapes: [],
+    risk_class: 'MEDIUM',
+    ban_reason: null,
+    ban_commit: null,
+  },
+  {
+    id: 'LOT3-02',
+    lot: 'LOT3',
+    enabled_by_default: true,
+    kill_switch_env: 'OMEGA_DISABLE_LOT3_02',
+    conflicts_with_shapes: [],
+    risk_class: 'MEDIUM',
+    ban_reason: null,
+    ban_commit: null,
+  },
+  {
+    id: 'LOT3-03',
+    lot: 'LOT3',
+    enabled_by_default: true,
+    kill_switch_env: 'OMEGA_DISABLE_LOT3_03',
+    conflicts_with_shapes: [],
+    risk_class: 'MEDIUM',
+    ban_reason: null,
+    ban_commit: null,
+  },
+  {
+    id: 'LOT3-04',
+    lot: 'LOT3',
+    enabled_by_default: true,
+    kill_switch_env: 'OMEGA_DISABLE_LOT3_04',
+    conflicts_with_shapes: [],
+    risk_class: 'MEDIUM',
+    ban_reason: null,
+    ban_commit: null,
+  },
 ] as const;
 
 // Résolution: est-ce que l'instruction est active pour une shape donnée?

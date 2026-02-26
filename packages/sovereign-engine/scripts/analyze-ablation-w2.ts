@@ -10,6 +10,9 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const pkgRoot = path.resolve(__dirname, '..');
 const validationDir = path.join(pkgRoot, 'validation');
 
+// Seuil adoption calibrable via env (R7 — no magic constant)
+const ABLATION_ADOPT_DELTA_MIN = parseFloat(process.env.ABLATION_ADOPT_DELTA_MIN ?? '5');
+
 // Baseline W1 (no-lot4)
 const BASELINE_SEAL_RATE = 40.0;
 const AXES = [
@@ -60,6 +63,7 @@ if (packs.length === 0) {
 const latestPack = packs[0].dir;
 const packDir = path.join(validationDir, latestPack);
 console.log(`[analyze-w2] Pack analysé: ${latestPack}`);
+console.log(`[analyze-w2] ABLATION_ADOPT_DELTA_MIN=${ABLATION_ADOPT_DELTA_MIN}`);
 console.log('');
 
 // Lire les summaries
@@ -82,7 +86,7 @@ console.log('');
 console.log(`  Baseline W1 (no-lot4): ${BASELINE_SEAL_RATE.toFixed(1)}% SEAL rate`);
 console.log(`  W2 LOT 2:              ${globalSealRate.toFixed(1)}% SEAL rate`);
 console.log(`  Delta SEAL rate:       ${sealRateDelta >= 0 ? '+' : ''}${sealRateDelta.toFixed(1)}%`);
-console.log(`  Verdict:               ${sealRateDelta >= 5 ? 'ADOPTÉ (delta >= +5%)' : sealRateDelta >= 0 ? 'PARTIEL (delta < +5%)' : 'REJETÉ (régression)'}`);
+console.log(`  Verdict:               ${sealRateDelta >= ABLATION_ADOPT_DELTA_MIN ? `ADOPTÉ (delta >= +${ABLATION_ADOPT_DELTA_MIN}%)` : sealRateDelta >= 0 ? `PARTIEL (delta < +${ABLATION_ADOPT_DELTA_MIN}%)` : 'REJETÉ (régression)'}`);
 console.log('');
 console.log('  Résultats par expérience:');
 console.log('  +----------------------------------+-------+--------+--------+----------+');
@@ -104,10 +108,10 @@ console.log('');
 
 // Décision ablation
 console.log('  Décision LOT 2:');
-if (sealRateDelta >= 5) {
-  console.log('  LOT 2 ADOPTÉ — delta >= +5% -> passer W3');
+if (sealRateDelta >= ABLATION_ADOPT_DELTA_MIN) {
+  console.log(`  LOT 2 ADOPTÉ — delta >= +${ABLATION_ADOPT_DELTA_MIN}% -> passer W3`);
 } else if (sealRateDelta >= 0) {
-  console.log('  LOT 2 PARTIEL — delta < +5% -> analyser hard gates individuellement');
+  console.log(`  LOT 2 PARTIEL — delta < +${ABLATION_ADOPT_DELTA_MIN}% -> analyser hard gates individuellement`);
   console.log('    Action: vérifier si soma-gate ou budget-gate trop agressifs');
 } else {
   console.log('  LOT 2 REJETÉ — régression détectée -> analyser hard gates');
@@ -125,7 +129,8 @@ const report = {
   baseline_seal_rate: BASELINE_SEAL_RATE,
   w2_seal_rate: globalSealRate,
   delta_seal_rate: sealRateDelta,
-  verdict: sealRateDelta >= 5 ? 'ADOPTE' : sealRateDelta >= 0 ? 'PARTIEL' : 'REJETE',
+  verdict: sealRateDelta >= ABLATION_ADOPT_DELTA_MIN ? 'ADOPTE' : sealRateDelta >= 0 ? 'PARTIEL' : 'REJETE',
+  ablation_adopt_delta_min: ABLATION_ADOPT_DELTA_MIN,
   hard_gates: ['INV-SOMA-01', 'INV-BUDGET-01', 'INV-RETEN-01'],
   lot2_instructions: ['LOT2-01', 'LOT2-02', 'LOT2-03'],
   experiments: summaries,

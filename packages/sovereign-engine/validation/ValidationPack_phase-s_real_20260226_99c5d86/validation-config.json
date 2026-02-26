@@ -1,0 +1,47 @@
+{
+  "mode": "real",
+  "llm_provider": {
+    "name": "claude",
+    "mode": "real",
+    "model_lock": "claude-sonnet-4-20250514"
+  },
+  "run_count_per_experiment": 10,
+  "seed_strategy": "sha256",
+  "thresholds": {
+    "target_reject_rate_min": 0.20,
+    "target_reject_rate_max": 0.60,
+    "target_s_score": 88,
+    "target_corr_14d": 0.60,
+    "target_mean_improvement": 10
+  },
+  "baseline": {
+    "source_commit": "fd217a99",
+    "mode": "real",
+    "corpus": "Phase S",
+    "value": 39.3
+  },
+  "paths": {
+    "inputs_dir": "validation/cases",
+    "outputs_dir": "validation/outputs",
+    "reports_dir": "validation/reports",
+    "logs_dir": "validation/logs"
+  },
+  "experiment_criteria": {
+    "E1_continuity_impossible": {
+      "primary_axis": "tension_14d",
+      "primary_axis_min": 0.65,
+      "composite_min": 85
+    },
+    "E2_non_classifiable": {
+      "primary_axis": "anti_cliche",
+      "primary_axis_min": 0.95,
+      "composite_min": 80,
+      "composite_axes_excluded": ["tension_14d"]
+    },
+    "E3_absolute_necessity": {
+      "primary_axis": "necessite_m8",
+      "primary_axis_min": 0.75,
+      "composite_min": 85
+    }
+  }
+}

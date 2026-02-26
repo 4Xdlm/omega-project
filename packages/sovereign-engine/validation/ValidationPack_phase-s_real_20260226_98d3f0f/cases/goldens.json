@@ -1,0 +1,3958 @@
+{
+  "corpus_version": "1.0.0",
+  "experiment_contexts": [
+    "E1_continuity_impossible",
+    "E3_absolute_necessity"
+  ],
+  "packets": [
+    {
+      "packet_id": "FORGE_golden_01_run_val_001",
+      "packet_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "scene_id": "golden_scene_01",
+      "run_id": "run_val_001",
+      "quality_tier": "sovereign",
+      "language": "fr",
+      "intent": {
+        "story_goal": "Elise confronts the fear of returning to a place that holds traumatic memories",
+        "scene_goal": "Establish fear through environmental oppression and sensory threat",
+        "conflict_type": "internal",
+        "pov": "third_limited",
+        "tense": "past",
+        "target_word_count": 600
+      },
+      "emotion_contract": {
+        "curve_quartiles": [
+          {
+            "quartile": "Q1",
+            "target_14d": {
+              "joy": 0.03,
+              "trust": 0.1,
+              "fear": 0.2,
+              "surprise": 0.05,
+              "sadness": 0.08,
+              "disgust": 0.03,
+              "anger": 0.04,
+              "anticipation": 0.25,
+              "love": 0.03,
+              "submission": 0.03,
+              "awe": 0.1,
+              "disapproval": 0.02,
+              "remorse": 0.02,
+              "contempt": 0.02
+            },
+            "valence": -0.2,
+            "arousal": 0.6,
+            "dominant": "fear",
+            "narrative_instruction": "La terreur oppressante monte par les indices environnementaux — chaque détail sensoriel est une menace sourde."
+          },
+          {
+            "quartile": "Q2",
+            "target_14d": {
+              "joy": 0.01,
+              "trust": 0.03,
+              "fear": 0.35,
+              "surprise": 0.05,
+              "sadness": 0.12,
+              "disgust": 0.06,
+              "anger": 0.08,
+              "anticipation": 0.15,
+              "love": 0.01,
+              "submission": 0.04,
+              "awe": 0.04,
+              "disapproval": 0.03,
+              "remorse": 0.02,
+              "contempt": 0.01
+            },
+            "valence": -0.4,
+            "arousal": 0.7,
+            "dominant": "fear",
+            "narrative_instruction": "La peur s'intensifie par l'escalade des menaces sensorielles — les sons deviennent hostiles, l'espace se referme."
+          },
+          {
+            "quartile": "Q3",
+            "target_14d": {
+              "joy": 0.005,
+              "trust": 0.01,
+              "fear": 0.72,
+              "surprise": 0.04,
+              "sadness": 0.03,
+              "disgust": 0.04,
+              "anger": 0.02,
+              "anticipation": 0.03,
+              "love": 0.005,
+              "submission": 0.02,
+              "awe": 0.02,
+              "disapproval": 0.03,
+              "remorse": 0.02,
+              "contempt": 0.01
+            },
+            "valence": -0.5,
+            "arousal": 0.4,
+            "dominant": "fear",
+            "narrative_instruction": "La peur culmine — le personnage affronte la menace dans sa chair. Chaque geste est une question de survie."
+          },
+          {
+            "quartile": "Q4",
+            "target_14d": {
+              "joy": 0.01,
+              "trust": 0.05,
+              "fear": 0.18,
+              "surprise": 0.01,
+              "sadness": 0.3,
+              "disgust": 0.03,
+              "anger": 0.03,
+              "anticipation": 0.06,
+              "love": 0.04,
+              "submission": 0.1,
+              "awe": 0.04,
+              "disapproval": 0.02,
+              "remorse": 0.12,
+              "contempt": 0.01
+            },
+            "valence": -0.6,
+            "arousal": 0.3,
+            "dominant": "sadness",
+            "narrative_instruction": "L'effroi résiduel se dépose en acceptation résignée — le danger est passé mais la marque reste."
+          }
+        ],
+        "intensity_range": {
+          "min": 0.3,
+          "max": 0.8
+        },
+        "tension": {
+          "slope_target": "arc",
+          "pic_position_pct": 0.65,
+          "faille_position_pct": 0.8,
+          "silence_zones": []
+        },
+        "terminal_state": {
+          "target_14d": {
+            "joy": 0.01,
+            "trust": 0.05,
+            "fear": 0.18,
+            "surprise": 0.01,
+            "sadness": 0.3,
+            "disgust": 0.03,
+            "anger": 0.03,
+            "anticipation": 0.06,
+            "love": 0.04,
+            "submission": 0.1,
+            "awe": 0.04,
+            "disapproval": 0.02,
+            "remorse": 0.12,
+            "contempt": 0.01
+          },
+          "valence": -0.6,
+          "arousal": 0.3,
+          "dominant": "sadness",
+          "reader_state": "Heavy, residual unease — the fear has faded into resigned sadness"
+        },
+        "rupture": {
+          "exists": true,
+          "position_pct": 0.7,
+          "before_dominant": "fear",
+          "after_dominant": "sadness",
+          "delta_valence": -0.3
+        },
+        "valence_arc": {
+          "start": -0.2,
+          "end": -0.6,
+          "direction": "darkening"
+        }
+      },
+      "beats": [
+        {
+          "beat_id": "BEAT_01_001",
+          "beat_order": 0,
+          "action": "Elise pousse la porte lourde de l'appartement condamné — elle a 30 minutes avant que le gardien ne revienne verrouiller.",
+          "dialogue": "",
+          "subtext_type": "progression",
+          "emotion_instruction": "",
+          "sensory_tags": [
+            "sight",
+            "touch"
+          ],
+          "canon_refs": [
+            "CANON_GOLDEN_001"
+          ]
+        },
+        {
+          "beat_id": "BEAT_01_002",
+          "beat_order": 1,
+          "action": "Elise se fige en entendant un craquement à l'étage — quelqu'un d'autre est dans l'immeuble, et la porte d'entrée s'est refermée derrière elle.",
+          "dialogue": "",
+          "subtext_type": "pivot",
+          "emotion_instruction": "",
+          "sensory_tags": [
+            "sound",
+            "sight"
+          ],
+          "canon_refs": []
+        },
+        {
+          "beat_id": "BEAT_01_003",
+          "beat_order": 2,
+          "action": "Elise découvre dans le couloir les traces de griffures sur le mur — la marque que sa mère a laissée la nuit où tout a basculé.",
+          "dialogue": "",
+          "subtext_type": "symbolic",
+          "emotion_instruction": "",
+          "sensory_tags": [
+            "sight",
+            "interoception"
+          ],
+          "canon_refs": [
+            "CANON_GOLDEN_002"
+          ]
+        }
+      ],
+      "subtext": {
+        "layers": [
+          {
+            "layer_id": "LAYER_01_001",
+            "type": "symbolic",
+            "statement": "The apartment is a prison of memory",
+            "visibility": "implicit"
+          }
+        ],
+        "tension_type": "internal",
+        "tension_intensity": 0.7
+      },
+      "sensory": {
+        "density_target": 8,
+        "categories": [
+          {
+            "category": "sight",
+            "min_count": 3,
+            "signature_words": [
+              "ombre",
+              "lumière",
+              "fissure"
+            ]
+          },
+          {
+            "category": "sound",
+            "min_count": 2,
+            "signature_words": [
+              "silence",
+              "écho",
+              "craquement"
+            ]
+          },
+          {
+            "category": "touch",
+            "min_count": 1,
+            "signature_words": [
+              "froid",
+              "rugueux",
+              "humide"
+            ]
+          },
+          {
+            "category": "smell",
+            "min_count": 1,
+            "signature_words": [
+              "poussière",
+              "renfermé"
+            ]
+          },
+          {
+            "category": "taste",
+            "min_count": 0,
+            "signature_words": []
+          },
+          {
+            "category": "proprioception",
+            "min_count": 0,
+            "signature_words": []
+          },
+          {
+            "category": "interoception",
+            "min_count": 1,
+            "signature_words": [
+              "noeud",
+              "vertige"
+            ]
+          }
+        ],
+        "recurrent_motifs": [
+          "feu",
+          "obscurité"
+        ],
+        "banned_metaphors": []
+      },
+      "style_genome": {
+        "version": "1.0.0",
+        "universe": "contemporary_thriller",
+        "lexicon": {
+          "signature_words": [
+            "ombre",
+            "cendre",
+            "fer",
+            "pierre",
+            "flamme",
+            "poussière",
+            "mur",
+            "fissure",
+            "escalier",
+            "souffle"
+          ],
+          "forbidden_words": [
+            "nice",
+            "very",
+            "really",
+            "soudainement",
+            "mystérieusement"
+          ],
+          "abstraction_max_ratio": 0.35,
+          "concrete_min_ratio": 0.65
+        },
+        "rhythm": {
+          "avg_sentence_length_target": 15,
+          "gini_target": 0.45,
+          "max_consecutive_similar": 3,
+          "min_syncopes_per_scene": 2,
+          "min_compressions_per_scene": 1
+        },
+        "tone": {
+          "dominant_register": "sombre",
+          "intensity_range": [
+            0.4,
+            0.9
+          ]
+        },
+        "imagery": {
+          "recurrent_motifs": [
+            "feu",
+            "obscurité"
+          ],
+          "density_target_per_100_words": 8,
+          "banned_metaphors": []
+        }
+      },
+      "kill_lists": {
+        "banned_words": [
+          "soudain",
+          "soudainement",
+          "suddenly",
+          "just",
+          "very",
+          "really",
+          "nice"
+        ],
+        "banned_cliches": [
+          "coeur battait",
+          "frisson parcourut",
+          "larmes coulèrent",
+          "sang se glaça",
+          "souffle coupé",
+          "poings serrés"
+        ],
+        "banned_ai_patterns": [
+          "dans l'air flottait",
+          "un silence pesant",
+          "une ombre passa",
+          "le temps semblait",
+          "un frisson parcourut"
+        ],
+        "banned_filter_words": [
+          "il sentit",
+          "elle remarqua",
+          "il réalisa",
+          "elle pensa",
+          "il nota",
+          "elle vit",
+          "il entendit"
+        ]
+      },
+      "canon": [
+        {
+          "id": "CANON_GOLDEN_001",
+          "statement": "Elise lives alone in the old apartment on Rue des Ombres"
+        },
+        {
+          "id": "CANON_GOLDEN_002",
+          "statement": "The building was constructed in 1892 and has never been renovated"
+        }
+      ],
+      "continuity": {
+        "previous_scene_summary": "",
+        "character_states": [
+          {
+            "character_id": "CHAR_ELISE_001",
+            "character_name": "Elise",
+            "physical_state": "tired, standing at threshold",
+            "emotional_state": "anxious",
+            "location": "apartment entrance"
+          }
+        ],
+        "open_threads": [
+          "Why did Elise leave the apartment?"
+        ]
+      },
+      "seeds": {
+        "llm_seed": "TEST_SEED_GOLDEN_01",
+        "determinism_level": "absolute"
+      },
+      "generation": {
+        "timestamp": "2026-02-23T00:00:00Z",
+        "generator_version": "1.0.0",
+        "constraints_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      }
+    },
+    {
+      "packet_id": "FORGE_golden_02_run_val_001",
+      "packet_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "scene_id": "golden_scene_02",
+      "run_id": "run_val_001",
+      "quality_tier": "sovereign",
+      "language": "fr",
+      "intent": {
+        "story_goal": "Elise processes the grief of discovering her family's hidden past",
+        "scene_goal": "Deepen sadness through isolation and irreversible loss",
+        "conflict_type": "existential",
+        "pov": "third_limited",
+        "tense": "past",
+        "target_word_count": 700
+      },
+      "emotion_contract": {
+        "curve_quartiles": [
+          {
+            "quartile": "Q1",
+            "target_14d": {
+              "joy": 0.03,
+              "trust": 0.1,
+              "fear": 0.08,
+              "surprise": 0.04,
+              "sadness": 0.28,
+              "disgust": 0.02,
+              "anger": 0.03,
+              "anticipation": 0.12,
+              "love": 0.1,
+              "submission": 0.05,
+              "awe": 0.05,
+              "disapproval": 0.02,
+              "remorse": 0.06,
+              "contempt": 0.02
+            },
+            "valence": -0.3,
+            "arousal": 0.3,
+            "dominant": "sadness",
+            "narrative_instruction": "La tristesse envahit dès le premier instant — un poids invisible qui déforme la perception du réel."
+          },
+          {
+            "quartile": "Q2",
+            "target_14d": {
+              "joy": 0.01,
+              "trust": 0.06,
+              "fear": 0.07,
+              "surprise": 0.02,
+              "sadness": 0.35,
+              "disgust": 0.03,
+              "anger": 0.03,
+              "anticipation": 0.05,
+              "love": 0.1,
+              "submission": 0.08,
+              "awe": 0.04,
+              "disapproval": 0.03,
+              "remorse": 0.12,
+              "contempt": 0.01
+            },
+            "valence": -0.5,
+            "arousal": 0.4,
+            "dominant": "sadness",
+            "narrative_instruction": "Le chagrin s'approfondit par l'accumulation des souvenirs — chaque objet est un rappel de l'irréversible."
+          },
+          {
+            "quartile": "Q3",
+            "target_14d": {
+              "joy": 0.002,
+              "trust": 0.019,
+              "fear": 0.023,
+              "surprise": 0.005,
+              "sadness": 0.186,
+              "disgust": 0.009,
+              "anger": 0.014,
+              "anticipation": 0.55,
+              "love": 0.037,
+              "submission": 0.046,
+              "awe": 0.009,
+              "disapproval": 0.028,
+              "remorse": 0.07,
+              "contempt": 0.002
+            },
+            "valence": -0.6,
+            "arousal": 0.3,
+            "dominant": "sadness",
+            "narrative_instruction": "La tristesse atteint son paroxysme — une prise de conscience irrémédiable qui ne laisse aucune échappatoire."
+          },
+          {
+            "quartile": "Q4",
+            "target_14d": {
+              "joy": 0.03,
+              "trust": 0.08,
+              "fear": 0.04,
+              "surprise": 0.01,
+              "sadness": 0.32,
+              "disgust": 0.005,
+              "anger": 0.02,
+              "anticipation": 0.04,
+              "love": 0.12,
+              "submission": 0.07,
+              "awe": 0.05,
+              "disapproval": 0.03,
+              "remorse": 0.18,
+              "contempt": 0.005
+            },
+            "valence": -0.7,
+            "arousal": 0.2,
+            "dominant": "sadness",
+            "narrative_instruction": "La tristesse se résout en engourdissement — le personnage accepte ce qui ne reviendra pas."
+          }
+        ],
+        "intensity_range": {
+          "min": 0.3,
+          "max": 0.8
+        },
+        "tension": {
+          "slope_target": "descending",
+          "pic_position_pct": 0.3,
+          "faille_position_pct": 0.5,
+          "silence_zones": []
+        },
+        "terminal_state": {
+          "target_14d": {
+            "joy": 0.03,
+            "trust": 0.08,
+            "fear": 0.04,
+            "surprise": 0.01,
+            "sadness": 0.32,
+            "disgust": 0.005,
+            "anger": 0.02,
+            "anticipation": 0.04,
+            "love": 0.12,
+            "submission": 0.07,
+            "awe": 0.05,
+            "disapproval": 0.03,
+            "remorse": 0.18,
+            "contempt": 0.005
+          },
+          "valence": -0.7,
+          "arousal": 0.2,
+          "dominant": "sadness",
+          "reader_state": "Deep melancholy — a sense of irreversible loss pervades"
+        },
+        "rupture": {
+          "exists": false,
+          "position_pct": 0,
+          "before_dominant": "sadness",
+          "after_dominant": "sadness",
+          "delta_valence": 0
+        },
+        "valence_arc": {
+          "start": -0.3,
+          "end": -0.7,
+          "direction": "darkening"
+        }
+      },
+      "beats": [
+        {
+          "beat_id": "BEAT_02_001",
+          "beat_order": 0,
+          "action": "Elise ouvre la boîte de lettres trouvée sous le plancher — les sceaux de cire sont intacts depuis 1943.",
+          "dialogue": "",
+          "subtext_type": "progression",
+          "emotion_instruction": "",
+          "sensory_tags": [
+            "sight",
+            "touch"
+          ],
+          "canon_refs": [
+            "CANON_GOLDEN_001"
+          ]
+        },
+        {
+          "beat_id": "BEAT_02_002",
+          "beat_order": 1,
+          "action": "Elise lit l'écriture de sa grand-mère et comprend que le nom de famille qu'elle porte n'est pas le vrai — tout son héritage repose sur un mensonge.",
+          "dialogue": "",
+          "subtext_type": "pivot",
+          "emotion_instruction": "",
+          "sensory_tags": [
+            "sound",
+            "sight"
+          ],
+          "canon_refs": []
+        },
+        {
+          "beat_id": "BEAT_02_003",
+          "beat_order": 2,
+          "action": "La dernière lettre tombe des mains d'Elise — elle contient les coordonnées d'un enfant que sa grand-mère a abandonné, et cet enfant est encore vivant.",
+          "dialogue": "",
+          "subtext_type": "symbolic",
+          "emotion_instruction": "",
+          "sensory_tags": [
+            "sight",
+            "interoception"
+          ],
+          "canon_refs": [
+            "CANON_GOLDEN_002"
+          ]
+        }
+      ],
+      "subtext": {
+        "layers": [
+          {
+            "layer_id": "LAYER_02_001",
+            "type": "thematic",
+            "statement": "Loss is the only constant in this place",
+            "visibility": "buried"
+          }
+        ],
+        "tension_type": "existential",
+        "tension_intensity": 0.6
+      },
+      "sensory": {
+        "density_target": 8,
+        "categories": [
+          {
+            "category": "sight",
+            "min_count": 3,
+            "signature_words": [
+              "ombre",
+              "lumière",
+              "fissure"
+            ]
+          },
+          {
+            "category": "sound",
+            "min_count": 2,
+            "signature_words": [
+              "silence",
+              "écho",
+              "craquement"
+            ]
+          },
+          {
+            "category": "touch",
+            "min_count": 1,
+            "signature_words": [
+              "froid",
+              "rugueux",
+              "humide"
+            ]
+          },
+          {
+            "category": "smell",
+            "min_count": 1,
+            "signature_words": [
+              "poussière",
+              "renfermé"
+            ]
+          },
+          {
+            "category": "taste",
+            "min_count": 0,
+            "signature_words": []
+          },
+          {
+            "category": "proprioception",
+            "min_count": 0,
+            "signature_words": []
+          },
+          {
+            "category": "interoception",
+            "min_count": 1,
+            "signature_words": [
+              "noeud",
+              "vertige"
+            ]
+          }
+        ],
+        "recurrent_motifs": [
+          "feu",
+          "obscurité"
+        ],
+        "banned_metaphors": []
+      },
+      "style_genome": {
+        "version": "1.0.0",
+        "universe": "contemporary_thriller",
+        "lexicon": {
+          "signature_words": [
+            "ombre",
+            "larme",
+            "vide",
+            "silence",
+            "gris",
+            "pluie",
+            "froid",
+            "brume",
+            "nuit",
+            "absence"
+          ],
+          "forbidden_words": [
+            "nice",
+            "very",
+            "really",
+            "soudainement",
+            "mystérieusement"
+          ],
+          "abstraction_max_ratio": 0.35,
+          "concrete_min_ratio": 0.65
+        },
+        "rhythm": {
+          "avg_sentence_length_target": 15,
+          "gini_target": 0.45,
+          "max_consecutive_similar": 3,
+          "min_syncopes_per_scene": 2,
+          "min_compressions_per_scene": 1
+        },
+        "tone": {
+          "dominant_register": "sombre",
+          "intensity_range": [
+            0.4,
+            0.9
+          ]
+        },
+        "imagery": {
+          "recurrent_motifs": [
+            "feu",
+            "obscurité"
+          ],
+          "density_target_per_100_words": 8,
+          "banned_metaphors": []
+        }
+      },
+      "kill_lists": {
+        "banned_words": [
+          "soudain",
+          "soudainement",
+          "suddenly",
+          "just",
+          "very",
+          "really",
+          "nice"
+        ],
+        "banned_cliches": [
+          "coeur battait",
+          "frisson parcourut",
+          "larmes coulèrent",
+          "sang se glaça",
+          "souffle coupé",
+          "poings serrés"
+        ],
+        "banned_ai_patterns": [
+          "dans l'air flottait",
+          "un silence pesant",
+          "une ombre passa",
+          "le temps semblait",
+          "un frisson parcourut"
+        ],
+        "banned_filter_words": [
+          "il sentit",
+          "elle remarqua",
+          "il réalisa",
+          "elle pensa",
+          "il nota",
+          "elle vit",
+          "il entendit"
+        ]
+      },
+      "canon": [
+        {
+          "id": "CANON_GOLDEN_001",
+          "statement": "Elise lives alone in the old apartment on Rue des Ombres"
+        },
+        {
+          "id": "CANON_GOLDEN_002",
+          "statement": "The building was constructed in 1892 and has never been renovated"
+        }
+      ],
+      "continuity": {
+        "previous_scene_summary": "Elise returned to the apartment on Rue des Ombres after years of absence, finding it unchanged and oppressive",
+        "character_states": [
+          {
+            "character_id": "CHAR_ELISE_001",
+            "character_name": "Elise",
+            "physical_state": "trembling, pressed against wall",
+            "emotional_state": "fearful",
+            "location": "main corridor"
+          }
+        ],
+        "open_threads": [
+          "What secret do the letters contain?",
+          "Why did Elise leave?"
+        ]
+      },
+      "seeds": {
+        "llm_seed": "TEST_SEED_GOLDEN_02",
+        "determinism_level": "absolute"
+      },
+      "generation": {
+        "timestamp": "2026-02-23T00:00:00Z",
+        "generator_version": "1.0.0",
+        "constraints_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      }
+    },
+    {
+      "packet_id": "FORGE_golden_03_run_val_001",
+      "packet_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "scene_id": "golden_scene_03",
+      "run_id": "run_val_001",
+      "quality_tier": "sovereign",
+      "language": "fr",
+      "intent": {
+        "story_goal": "Elise channels her anger against the institutional forces that destroyed her home",
+        "scene_goal": "Escalate anger through injustice and confrontation",
+        "conflict_type": "external",
+        "pov": "third_limited",
+        "tense": "past",
+        "target_word_count": 800
+      },
+      "emotion_contract": {
+        "curve_quartiles": [
+          {
+            "quartile": "Q1",
+            "target_14d": {
+              "joy": 0.02,
+              "trust": 0.15,
+              "fear": 0.1,
+              "surprise": 0.06,
+              "sadness": 0.08,
+              "disgust": 0.04,
+              "anger": 0.12,
+              "anticipation": 0.22,
+              "love": 0.03,
+              "submission": 0.03,
+              "awe": 0.04,
+              "disapproval": 0.06,
+              "remorse": 0.03,
+              "contempt": 0.02
+            },
+            "valence": -0.1,
+            "arousal": 0.5,
+            "dominant": "anticipation",
+            "narrative_instruction": "La tension monte par la prise de conscience de l'injustice — le personnage observe, accumule, contient."
+          },
+          {
+            "quartile": "Q2",
+            "target_14d": {
+              "joy": 0.01,
+              "trust": 0.04,
+              "fear": 0.08,
+              "surprise": 0.04,
+              "sadness": 0.06,
+              "disgust": 0.1,
+              "anger": 0.3,
+              "anticipation": 0.1,
+              "love": 0.02,
+              "submission": 0.03,
+              "awe": 0.03,
+              "disapproval": 0.12,
+              "remorse": 0.02,
+              "contempt": 0.05
+            },
+            "valence": -0.3,
+            "arousal": 0.8,
+            "dominant": "anger",
+            "narrative_instruction": "La colère éclate par la confrontation directe — les mots deviennent armes, les gestes bruts."
+          },
+          {
+            "quartile": "Q3",
+            "target_14d": {
+              "joy": 0.005,
+              "trust": 0.009,
+              "fear": 0.028,
+              "surprise": 0.019,
+              "sadness": 0.024,
+              "disgust": 0.047,
+              "anger": 0.19,
+              "anticipation": 0.55,
+              "love": 0.005,
+              "submission": 0.014,
+              "awe": 0.005,
+              "disapproval": 0.038,
+              "remorse": 0.009,
+              "contempt": 0.057
+            },
+            "valence": -0.5,
+            "arousal": 0.9,
+            "dominant": "anger",
+            "narrative_instruction": "La fureur soutenue pousse à l'action agressive — l'irrévocable approche, la raison cède au corps."
+          },
+          {
+            "quartile": "Q4",
+            "target_14d": {
+              "joy": 0.01,
+              "trust": 0.05,
+              "fear": 0.05,
+              "surprise": 0.01,
+              "sadness": 0.15,
+              "disgust": 0.04,
+              "anger": 0.25,
+              "anticipation": 0.04,
+              "love": 0.02,
+              "submission": 0.06,
+              "awe": 0.02,
+              "disapproval": 0.1,
+              "remorse": 0.12,
+              "contempt": 0.08
+            },
+            "valence": -0.5,
+            "arousal": 0.7,
+            "dominant": "anger",
+            "narrative_instruction": "La colère persiste mais la fatigue introduit un soubassement de tristesse — l'énergie se dissipe."
+          }
+        ],
+        "intensity_range": {
+          "min": 0.3,
+          "max": 0.8
+        },
+        "tension": {
+          "slope_target": "ascending",
+          "pic_position_pct": 0.8,
+          "faille_position_pct": 0.9,
+          "silence_zones": []
+        },
+        "terminal_state": {
+          "target_14d": {
+            "joy": 0.01,
+            "trust": 0.05,
+            "fear": 0.05,
+            "surprise": 0.01,
+            "sadness": 0.15,
+            "disgust": 0.04,
+            "anger": 0.25,
+            "anticipation": 0.04,
+            "love": 0.02,
+            "submission": 0.06,
+            "awe": 0.02,
+            "disapproval": 0.1,
+            "remorse": 0.12,
+            "contempt": 0.08
+          },
+          "valence": -0.5,
+          "arousal": 0.7,
+          "dominant": "anger",
+          "reader_state": "Lingering agitation — anger has been expressed but not resolved"
+        },
+        "rupture": {
+          "exists": true,
+          "position_pct": 0.5,
+          "before_dominant": "anticipation",
+          "after_dominant": "anger",
+          "delta_valence": -0.4
+        },
+        "valence_arc": {
+          "start": -0.1,
+          "end": -0.5,
+          "direction": "darkening"
+        }
+      },
+      "beats": [
+        {
+          "beat_id": "BEAT_03_001",
+          "beat_order": 0,
+          "action": "Elise confronte M. Vasseur, le gérant de l'immeuble, avec les documents prouvant l'expulsion illégale — elle a jusqu'à 18h pour déposer la plainte.",
+          "dialogue": "",
+          "subtext_type": "progression",
+          "emotion_instruction": "",
+          "sensory_tags": [
+            "sight",
+            "touch"
+          ],
+          "canon_refs": [
+            "CANON_GOLDEN_001"
+          ]
+        },
+        {
+          "beat_id": "BEAT_03_002",
+          "beat_order": 1,
+          "action": "Elise frappe la table du poing quand Vasseur nie tout — les résidents rassemblés dans le hall commencent à témoigner, brisant des années de silence.",
+          "dialogue": "",
+          "subtext_type": "pivot",
+          "emotion_instruction": "",
+          "sensory_tags": [
+            "sound",
+            "sight"
+          ],
+          "canon_refs": []
+        },
+        {
+          "beat_id": "BEAT_03_003",
+          "beat_order": 2,
+          "action": "Elise comprend que Vasseur a falsifié les actes de propriété — si elle ne sort pas les preuves d'ici ce soir, elles seront détruites lors de la rénovation qui commence demain.",
+          "dialogue": "",
+          "subtext_type": "symbolic",
+          "emotion_instruction": "",
+          "sensory_tags": [
+            "sight",
+            "interoception"
+          ],
+          "canon_refs": [
+            "CANON_GOLDEN_002"
+          ]
+        }
+      ],
+      "subtext": {
+        "layers": [
+          {
+            "layer_id": "LAYER_03_001",
+            "type": "symbolic",
+            "statement": "The building is a symbol of institutional violence",
+            "visibility": "surface"
+          }
+        ],
+        "tension_type": "confrontation",
+        "tension_intensity": 0.8
+      },
+      "sensory": {
+        "density_target": 8,
+        "categories": [
+          {
+            "category": "sight",
+            "min_count": 3,
+            "signature_words": [
+              "ombre",
+              "lumière",
+              "fissure"
+            ]
+          },
+          {
+            "category": "sound",
+            "min_count": 2,
+            "signature_words": [
+              "silence",
+              "écho",
+              "craquement"
+            ]
+          },
+          {
+            "category": "touch",
+            "min_count": 1,
+            "signature_words": [
+              "froid",
+              "rugueux",
+              "humide"
+            ]
+          },
+          {
+            "category": "smell",
+            "min_count": 1,
+            "signature_words": [
+              "poussière",
+              "renfermé"
+            ]
+          },
+          {
+            "category": "taste",
+            "min_count": 0,
+            "signature_words": []
+          },
+          {
+            "category": "proprioception",
+            "min_count": 0,
+            "signature_words": []
+          },
+          {
+            "category": "interoception",
+            "min_count": 1,
+            "signature_words": [
+              "noeud",
+              "vertige"
+            ]
+          }
+        ],
+        "recurrent_motifs": [
+          "feu",
+          "obscurité"
+        ],
+        "banned_metaphors": []
+      },
+      "style_genome": {
+        "version": "1.0.0",
+        "universe": "contemporary_thriller",
+        "lexicon": {
+          "signature_words": [
+            "fer",
+            "rouille",
+            "éclat",
+            "fracas",
+            "rouge",
+            "poing",
+            "acier",
+            "brisé",
+            "flamme",
+            "cri"
+          ],
+          "forbidden_words": [
+            "nice",
+            "very",
+            "really",
+            "soudainement",
+            "mystérieusement"
+          ],
+          "abstraction_max_ratio": 0.35,
+          "concrete_min_ratio": 0.65
+        },
+        "rhythm": {
+          "avg_sentence_length_target": 15,
+          "gini_target": 0.45,
+          "max_consecutive_similar": 3,
+          "min_syncopes_per_scene": 2,
+          "min_compressions_per_scene": 1
+        },
+        "tone": {
+          "dominant_register": "sombre",
+          "intensity_range": [
+            0.4,
+            0.9
+          ]
+        },
+        "imagery": {
+          "recurrent_motifs": [
+            "feu",
+            "obscurité"
+          ],
+          "density_target_per_100_words": 8,
+          "banned_metaphors": []
+        }
+      },
+      "kill_lists": {
+        "banned_words": [
+          "soudain",
+          "soudainement",
+          "suddenly",
+          "just",
+          "very",
+          "really",
+          "nice"
+        ],
+        "banned_cliches": [
+          "coeur battait",
+          "frisson parcourut",
+          "larmes coulèrent",
+          "sang se glaça",
+          "souffle coupé",
+          "poings serrés"
+        ],
+        "banned_ai_patterns": [
+          "dans l'air flottait",
+          "un silence pesant",
+          "une ombre passa",
+          "le temps semblait",
+          "un frisson parcourut"
+        ],
+        "banned_filter_words": [
+          "il sentit",
+          "elle remarqua",
+          "il réalisa",
+          "elle pensa",
+          "il nota",
+          "elle vit",
+          "il entendit"
+        ]
+      },
+      "canon": [
+        {
+          "id": "CANON_GOLDEN_001",
+          "statement": "Elise lives alone in the old apartment on Rue des Ombres"
+        },
+        {
+          "id": "CANON_GOLDEN_002",
+          "statement": "The building was constructed in 1892 and has never been renovated"
+        }
+      ],
+      "continuity": {
+        "previous_scene_summary": "Elise discovered old letters hidden behind the wallpaper, revealing a family secret about the building",
+        "character_states": [
+          {
+            "character_id": "CHAR_ELISE_001",
+            "character_name": "Elise",
+            "physical_state": "seated, shoulders hunched",
+            "emotional_state": "melancholic",
+            "location": "living room"
+          }
+        ],
+        "open_threads": [
+          "What is behind the sealed basement door?",
+          "What secret do the letters contain?"
+        ]
+      },
+      "seeds": {
+        "llm_seed": "TEST_SEED_GOLDEN_03",
+        "determinism_level": "absolute"
+      },
+      "generation": {
+        "timestamp": "2026-02-23T00:00:00Z",
+        "generator_version": "1.0.0",
+        "constraints_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      }
+    },
+    {
+      "packet_id": "FORGE_golden_04_run_val_001",
+      "packet_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "scene_id": "golden_scene_04",
+      "run_id": "run_val_001",
+      "quality_tier": "sovereign",
+      "language": "fr",
+      "intent": {
+        "story_goal": "Elise waits through the night, anticipation building before a pivotal discovery",
+        "scene_goal": "Build anticipation through uncertainty and temporal pressure",
+        "conflict_type": "internal",
+        "pov": "third_limited",
+        "tense": "past",
+        "target_word_count": 600
+      },
+      "emotion_contract": {
+        "curve_quartiles": [
+          {
+            "quartile": "Q1",
+            "target_14d": {
+              "joy": 0.05,
+              "trust": 0.12,
+              "fear": 0.1,
+              "surprise": 0.08,
+              "sadness": 0.06,
+              "disgust": 0.03,
+              "anger": 0.04,
+              "anticipation": 0.3,
+              "love": 0.04,
+              "submission": 0.04,
+              "awe": 0.08,
+              "disapproval": 0.02,
+              "remorse": 0.02,
+              "contempt": 0.02
+            },
+            "valence": 0.1,
+            "arousal": 0.5,
+            "dominant": "anticipation",
+            "narrative_instruction": "L'anticipation se construit par la préparation de l'environnement — chaque geste prépare l'inévitable."
+          },
+          {
+            "quartile": "Q2",
+            "target_14d": {
+              "joy": 0.03,
+              "trust": 0.08,
+              "fear": 0.15,
+              "surprise": 0.1,
+              "sadness": 0.05,
+              "disgust": 0.02,
+              "anger": 0.04,
+              "anticipation": 0.35,
+              "love": 0.03,
+              "submission": 0.04,
+              "awe": 0.06,
+              "disapproval": 0.03,
+              "remorse": 0.01,
+              "contempt": 0.01
+            },
+            "valence": 0,
+            "arousal": 0.6,
+            "dominant": "anticipation",
+            "narrative_instruction": "La pression temporelle intensifie l'attente — les secondes pèsent, le silence devient hostile."
+          },
+          {
+            "quartile": "Q3",
+            "target_14d": {
+              "joy": 0.01,
+              "trust": 0.02,
+              "fear": 0.05,
+              "surprise": 0.03,
+              "sadness": 0.02,
+              "disgust": 0.02,
+              "anger": 0.02,
+              "anticipation": 0.72,
+              "love": 0.02,
+              "submission": 0.03,
+              "awe": 0.01,
+              "disapproval": 0.03,
+              "remorse": 0.01,
+              "contempt": 0.01
+            },
+            "valence": -0.1,
+            "arousal": 0.7,
+            "dominant": "anticipation",
+            "narrative_instruction": "L'anticipation culmine avant le seuil de résolution — le point de non-retour est imminent."
+          },
+          {
+            "quartile": "Q4",
+            "target_14d": {
+              "joy": 0.05,
+              "trust": 0.12,
+              "fear": 0.15,
+              "surprise": 0.1,
+              "sadness": 0.06,
+              "disgust": 0.02,
+              "anger": 0.03,
+              "anticipation": 0.25,
+              "love": 0.04,
+              "submission": 0.05,
+              "awe": 0.08,
+              "disapproval": 0.03,
+              "remorse": 0.01,
+              "contempt": 0.01
+            },
+            "valence": -0.2,
+            "arousal": 0.6,
+            "dominant": "anticipation",
+            "narrative_instruction": "L'anticipation irrésolue crée une tension résiduelle — le dénouement laisse un goût d'inachevé."
+          }
+        ],
+        "intensity_range": {
+          "min": 0.3,
+          "max": 0.8
+        },
+        "tension": {
+          "slope_target": "arc",
+          "pic_position_pct": 0.65,
+          "faille_position_pct": 0.8,
+          "silence_zones": []
+        },
+        "terminal_state": {
+          "target_14d": {
+            "joy": 0.05,
+            "trust": 0.12,
+            "fear": 0.15,
+            "surprise": 0.1,
+            "sadness": 0.06,
+            "disgust": 0.02,
+            "anger": 0.03,
+            "anticipation": 0.25,
+            "love": 0.04,
+            "submission": 0.05,
+            "awe": 0.08,
+            "disapproval": 0.03,
+            "remorse": 0.01,
+            "contempt": 0.01
+          },
+          "valence": -0.2,
+          "arousal": 0.6,
+          "dominant": "anticipation",
+          "reader_state": "Suspended tension — the anticipation remains unresolved"
+        },
+        "rupture": {
+          "exists": false,
+          "position_pct": 0,
+          "before_dominant": "anticipation",
+          "after_dominant": "anticipation",
+          "delta_valence": 0
+        },
+        "valence_arc": {
+          "start": 0.1,
+          "end": -0.2,
+          "direction": "darkening"
+        }
+      },
+      "beats": [
+        {
+          "beat_id": "BEAT_04_001",
+          "beat_order": 0,
+          "action": "Elise vérifie ses provisions et teste la lampe torche — le rendez-vous avec l'informateur est fixé à minuit, une seule chance.",
+          "dialogue": "",
+          "subtext_type": "progression",
+          "emotion_instruction": "",
+          "sensory_tags": [
+            "sight",
+            "touch"
+          ],
+          "canon_refs": [
+            "CANON_GOLDEN_001"
+          ]
+        },
+        {
+          "beat_id": "BEAT_04_002",
+          "beat_order": 1,
+          "action": "Elise observe l'horloge murale dont les aiguilles semblent immobiles — dehors, un véhicule stationne depuis une heure avec ses phares éteints.",
+          "dialogue": "",
+          "subtext_type": "pivot",
+          "emotion_instruction": "",
+          "sensory_tags": [
+            "sound",
+            "sight"
+          ],
+          "canon_refs": []
+        },
+        {
+          "beat_id": "BEAT_04_003",
+          "beat_order": 2,
+          "action": "L'immeuble se referme dans un silence total à l'approche de minuit — Elise entend trois coups distincts au sous-sol, le signal convenu.",
+          "dialogue": "",
+          "subtext_type": "symbolic",
+          "emotion_instruction": "",
+          "sensory_tags": [
+            "sight",
+            "interoception"
+          ],
+          "canon_refs": [
+            "CANON_GOLDEN_002"
+          ]
+        }
+      ],
+      "subtext": {
+        "layers": [
+          {
+            "layer_id": "LAYER_04_001",
+            "type": "temporal",
+            "statement": "Time itself becomes the antagonist",
+            "visibility": "implicit"
+          }
+        ],
+        "tension_type": "suspense",
+        "tension_intensity": 0.7
+      },
+      "sensory": {
+        "density_target": 8,
+        "categories": [
+          {
+            "category": "sight",
+            "min_count": 3,
+            "signature_words": [
+              "ombre",
+              "lumière",
+              "fissure"
+            ]
+          },
+          {
+            "category": "sound",
+            "min_count": 2,
+            "signature_words": [
+              "silence",
+              "écho",
+              "craquement"
+            ]
+          },
+          {
+            "category": "touch",
+            "min_count": 1,
+            "signature_words": [
+              "froid",
+              "rugueux",
+              "humide"
+            ]
+          },
+          {
+            "category": "smell",
+            "min_count": 1,
+            "signature_words": [
+              "poussière",
+              "renfermé"
+            ]
+          },
+          {
+            "category": "taste",
+            "min_count": 0,
+            "signature_words": []
+          },
+          {
+            "category": "proprioception",
+            "min_count": 0,
+            "signature_words": []
+          },
+          {
+            "category": "interoception",
+            "min_count": 1,
+            "signature_words": [
+              "noeud",
+              "vertige"
+            ]
+          }
+        ],
+        "recurrent_motifs": [
+          "feu",
+          "obscurité"
+        ],
+        "banned_metaphors": []
+      },
+      "style_genome": {
+        "version": "1.0.0",
+        "universe": "contemporary_thriller",
+        "lexicon": {
+          "signature_words": [
+            "ombre",
+            "attente",
+            "souffle",
+            "seuil",
+            "horloge",
+            "pas",
+            "couloir",
+            "porte",
+            "clé",
+            "tension"
+          ],
+          "forbidden_words": [
+            "nice",
+            "very",
+            "really",
+            "soudainement",
+            "mystérieusement"
+          ],
+          "abstraction_max_ratio": 0.35,
+          "concrete_min_ratio": 0.65
+        },
+        "rhythm": {
+          "avg_sentence_length_target": 15,
+          "gini_target": 0.45,
+          "max_consecutive_similar": 3,
+          "min_syncopes_per_scene": 2,
+          "min_compressions_per_scene": 1
+        },
+        "tone": {
+          "dominant_register": "sombre",
+          "intensity_range": [
+            0.4,
+            0.9
+          ]
+        },
+        "imagery": {
+          "recurrent_motifs": [
+            "feu",
+            "obscurité"
+          ],
+          "density_target_per_100_words": 8,
+          "banned_metaphors": []
+        }
+      },
+      "kill_lists": {
+        "banned_words": [
+          "soudain",
+          "soudainement",
+          "suddenly",
+          "just",
+          "very",
+          "really",
+          "nice"
+        ],
+        "banned_cliches": [
+          "coeur battait",
+          "frisson parcourut",
+          "larmes coulèrent",
+          "sang se glaça",
+          "souffle coupé",
+          "poings serrés"
+        ],
+        "banned_ai_patterns": [
+          "dans l'air flottait",
+          "un silence pesant",
+          "une ombre passa",
+          "le temps semblait",
+          "un frisson parcourut"
+        ],
+        "banned_filter_words": [
+          "il sentit",
+          "elle remarqua",
+          "il réalisa",
+          "elle pensa",
+          "il nota",
+          "elle vit",
+          "il entendit"
+        ]
+      },
+      "canon": [
+        {
+          "id": "CANON_GOLDEN_001",
+          "statement": "Elise lives alone in the old apartment on Rue des Ombres"
+        },
+        {
+          "id": "CANON_GOLDEN_002",
+          "statement": "The building was constructed in 1892 and has never been renovated"
+        }
+      ],
+      "continuity": {
+        "previous_scene_summary": "A confrontation with the building manager escalated when Elise demanded access to the sealed basement",
+        "character_states": [
+          {
+            "character_id": "CHAR_ELISE_001",
+            "character_name": "Elise",
+            "physical_state": "pacing aggressively",
+            "emotional_state": "furious",
+            "location": "building lobby"
+          }
+        ],
+        "open_threads": [
+          "What will Elise find in the basement?",
+          "Why was it sealed?"
+        ]
+      },
+      "seeds": {
+        "llm_seed": "TEST_SEED_GOLDEN_04",
+        "determinism_level": "absolute"
+      },
+      "generation": {
+        "timestamp": "2026-02-23T00:00:00Z",
+        "generator_version": "1.0.0",
+        "constraints_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      }
+    },
+    {
+      "packet_id": "FORGE_golden_05_run_val_001",
+      "packet_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "scene_id": "golden_scene_05",
+      "run_id": "run_val_001",
+      "quality_tier": "sovereign",
+      "language": "fr",
+      "intent": {
+        "story_goal": "Elise finds unexpected joy and trust in reconnecting with what she thought was lost",
+        "scene_goal": "Release tension through unexpected warmth and mutual recognition",
+        "conflict_type": "internal",
+        "pov": "third_limited",
+        "tense": "past",
+        "target_word_count": 700
+      },
+      "emotion_contract": {
+        "curve_quartiles": [
+          {
+            "quartile": "Q1",
+            "target_14d": {
+              "joy": 0.02,
+              "trust": 0.08,
+              "fear": 0.1,
+              "surprise": 0.04,
+              "sadness": 0.25,
+              "disgust": 0.03,
+              "anger": 0.04,
+              "anticipation": 0.15,
+              "love": 0.08,
+              "submission": 0.06,
+              "awe": 0.04,
+              "disapproval": 0.03,
+              "remorse": 0.06,
+              "contempt": 0.02
+            },
+            "valence": -0.3,
+            "arousal": 0.3,
+            "dominant": "sadness",
+            "narrative_instruction": "Ouverture dans la tristesse née de l'attente du vide — le personnage n'espère rien."
+          },
+          {
+            "quartile": "Q2",
+            "target_14d": {
+              "joy": 0.08,
+              "trust": 0.12,
+              "fear": 0.06,
+              "surprise": 0.08,
+              "sadness": 0.18,
+              "disgust": 0.02,
+              "anger": 0.03,
+              "anticipation": 0.15,
+              "love": 0.1,
+              "submission": 0.04,
+              "awe": 0.05,
+              "disapproval": 0.03,
+              "remorse": 0.04,
+              "contempt": 0.02
+            },
+            "valence": -0.2,
+            "arousal": 0.4,
+            "dominant": "sadness",
+            "narrative_instruction": "La tristesse commence à se lever à mesure qu'une chaleur inattendue apparaît — surprise du vivant."
+          },
+          {
+            "quartile": "Q3",
+            "target_14d": {
+              "joy": 0.12,
+              "trust": 0.057,
+              "fear": 0.014,
+              "surprise": 0.048,
+              "sadness": 0.024,
+              "disgust": 0.005,
+              "anger": 0.01,
+              "anticipation": 0.55,
+              "love": 0.086,
+              "submission": 0.019,
+              "awe": 0.038,
+              "disapproval": 0.01,
+              "remorse": 0.014,
+              "contempt": 0.005
+            },
+            "valence": 0.2,
+            "arousal": 0.5,
+            "dominant": "joy",
+            "narrative_instruction": "La joie et la confiance émergent par la reconnaissance mutuelle — le passé se réconcilie avec le présent."
+          },
+          {
+            "quartile": "Q4",
+            "target_14d": {
+              "joy": 0.3,
+              "trust": 0.15,
+              "fear": 0.02,
+              "surprise": 0.06,
+              "sadness": 0.04,
+              "disgust": 0.01,
+              "anger": 0.02,
+              "anticipation": 0.05,
+              "love": 0.2,
+              "submission": 0.03,
+              "awe": 0.08,
+              "disapproval": 0.01,
+              "remorse": 0.02,
+              "contempt": 0.01
+            },
+            "valence": 0.4,
+            "arousal": 0.4,
+            "dominant": "joy",
+            "narrative_instruction": "La joie et la confiance se consolident en un équilibre chaleureux — la paix retrouvée."
+          }
+        ],
+        "intensity_range": {
+          "min": 0.3,
+          "max": 0.8
+        },
+        "tension": {
+          "slope_target": "reverse_arc",
+          "pic_position_pct": 0.35,
+          "faille_position_pct": 0.2,
+          "silence_zones": []
+        },
+        "terminal_state": {
+          "target_14d": {
+            "joy": 0.3,
+            "trust": 0.15,
+            "fear": 0.02,
+            "surprise": 0.06,
+            "sadness": 0.04,
+            "disgust": 0.01,
+            "anger": 0.02,
+            "anticipation": 0.05,
+            "love": 0.2,
+            "submission": 0.03,
+            "awe": 0.08,
+            "disapproval": 0.01,
+            "remorse": 0.02,
+            "contempt": 0.01
+          },
+          "valence": 0.4,
+          "arousal": 0.4,
+          "dominant": "joy",
+          "reader_state": "Warm equilibrium — joy and trust have rebalanced the emotional landscape"
+        },
+        "rupture": {
+          "exists": true,
+          "position_pct": 0.5,
+          "before_dominant": "sadness",
+          "after_dominant": "joy",
+          "delta_valence": 0.6
+        },
+        "valence_arc": {
+          "start": -0.3,
+          "end": 0.4,
+          "direction": "brightening"
+        }
+      },
+      "beats": [
+        {
+          "beat_id": "BEAT_05_001",
+          "beat_order": 0,
+          "action": "Elise descend au sous-sol en s'attendant au pire et découvre les meubles de son enfance intacts — vingt ans de poussière, mais tout est là.",
+          "dialogue": "",
+          "subtext_type": "progression",
+          "emotion_instruction": "",
+          "sensory_tags": [
+            "sight",
+            "touch"
+          ],
+          "canon_refs": [
+            "CANON_GOLDEN_001"
+          ]
+        },
+        {
+          "beat_id": "BEAT_05_002",
+          "beat_order": 1,
+          "action": "Elise reconnaît des visages familiers sur les photographies encadrées — sa mère, jeune, souriante, dans un monde qui n'existe plus.",
+          "dialogue": "",
+          "subtext_type": "pivot",
+          "emotion_instruction": "",
+          "sensory_tags": [
+            "sound",
+            "sight"
+          ],
+          "canon_refs": []
+        },
+        {
+          "beat_id": "BEAT_05_003",
+          "beat_order": 2,
+          "action": "Elise tient le portrait de famille contre elle et un sourire authentique perce pour la première fois depuis le décès de son père.",
+          "dialogue": "",
+          "subtext_type": "symbolic",
+          "emotion_instruction": "",
+          "sensory_tags": [
+            "sight",
+            "interoception"
+          ],
+          "canon_refs": [
+            "CANON_GOLDEN_002"
+          ]
+        }
+      ],
+      "subtext": {
+        "layers": [
+          {
+            "layer_id": "LAYER_05_001",
+            "type": "relational",
+            "statement": "What was lost can sometimes be found in unexpected forms",
+            "visibility": "surface"
+          }
+        ],
+        "tension_type": "resolution",
+        "tension_intensity": 0.4
+      },
+      "sensory": {
+        "density_target": 8,
+        "categories": [
+          {
+            "category": "sight",
+            "min_count": 3,
+            "signature_words": [
+              "ombre",
+              "lumière",
+              "fissure"
+            ]
+          },
+          {
+            "category": "sound",
+            "min_count": 2,
+            "signature_words": [
+              "silence",
+              "écho",
+              "craquement"
+            ]
+          },
+          {
+            "category": "touch",
+            "min_count": 1,
+            "signature_words": [
+              "froid",
+              "rugueux",
+              "humide"
+            ]
+          },
+          {
+            "category": "smell",
+            "min_count": 1,
+            "signature_words": [
+              "poussière",
+              "renfermé"
+            ]
+          },
+          {
+            "category": "taste",
+            "min_count": 0,
+            "signature_words": []
+          },
+          {
+            "category": "proprioception",
+            "min_count": 0,
+            "signature_words": []
+          },
+          {
+            "category": "interoception",
+            "min_count": 1,
+            "signature_words": [
+              "noeud",
+              "vertige"
+            ]
+          }
+        ],
+        "recurrent_motifs": [
+          "feu",
+          "obscurité"
+        ],
+        "banned_metaphors": []
+      },
+      "style_genome": {
+        "version": "1.0.0",
+        "universe": "contemporary_thriller",
+        "lexicon": {
+          "signature_words": [
+            "lumière",
+            "chaleur",
+            "confiance",
+            "sourire",
+            "doux",
+            "main",
+            "regard",
+            "lien",
+            "espoir",
+            "présence"
+          ],
+          "forbidden_words": [
+            "nice",
+            "very",
+            "really",
+            "soudainement",
+            "mystérieusement"
+          ],
+          "abstraction_max_ratio": 0.35,
+          "concrete_min_ratio": 0.65
+        },
+        "rhythm": {
+          "avg_sentence_length_target": 15,
+          "gini_target": 0.45,
+          "max_consecutive_similar": 3,
+          "min_syncopes_per_scene": 2,
+          "min_compressions_per_scene": 1
+        },
+        "tone": {
+          "dominant_register": "sombre",
+          "intensity_range": [
+            0.4,
+            0.9
+          ]
+        },
+        "imagery": {
+          "recurrent_motifs": [
+            "feu",
+            "obscurité"
+          ],
+          "density_target_per_100_words": 8,
+          "banned_metaphors": []
+        }
+      },
+      "kill_lists": {
+        "banned_words": [
+          "soudain",
+          "soudainement",
+          "suddenly",
+          "just",
+          "very",
+          "really",
+          "nice"
+        ],
+        "banned_cliches": [
+          "coeur battait",
+          "frisson parcourut",
+          "larmes coulèrent",
+          "sang se glaça",
+          "souffle coupé",
+          "poings serrés"
+        ],
+        "banned_ai_patterns": [
+          "dans l'air flottait",
+          "un silence pesant",
+          "une ombre passa",
+          "le temps semblait",
+          "un frisson parcourut"
+        ],
+        "banned_filter_words": [
+          "il sentit",
+          "elle remarqua",
+          "il réalisa",
+          "elle pensa",
+          "il nota",
+          "elle vit",
+          "il entendit"
+        ]
+      },
+      "canon": [
+        {
+          "id": "CANON_GOLDEN_001",
+          "statement": "Elise lives alone in the old apartment on Rue des Ombres"
+        },
+        {
+          "id": "CANON_GOLDEN_002",
+          "statement": "The building was constructed in 1892 and has never been renovated"
+        }
+      ],
+      "continuity": {
+        "previous_scene_summary": "Elise waited through the night, anticipation building as she prepared to descend into the basement alone",
+        "character_states": [
+          {
+            "character_id": "CHAR_ELISE_001",
+            "character_name": "Elise",
+            "physical_state": "restless, fidgeting",
+            "emotional_state": "restless",
+            "location": "kitchen"
+          }
+        ],
+        "open_threads": [
+          "Will the night vigil reveal anything?",
+          "What will Elise find?"
+        ]
+      },
+      "seeds": {
+        "llm_seed": "TEST_SEED_GOLDEN_05",
+        "determinism_level": "absolute"
+      },
+      "generation": {
+        "timestamp": "2026-02-23T00:00:00Z",
+        "generator_version": "1.0.0",
+        "constraints_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      }
+    },
+    {
+      "packet_id": "FORGE_golden_06_run_val_001",
+      "packet_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "scene_id": "golden_scene_06",
+      "run_id": "run_val_001",
+      "quality_tier": "sovereign",
+      "language": "fr",
+      "intent": {
+        "story_goal": "A sudden revelation forces Elise to reassess everything she believed about the building",
+        "scene_goal": "Shatter expectations through sudden discovery and cognitive dissonance",
+        "conflict_type": "external",
+        "pov": "third_limited",
+        "tense": "past",
+        "target_word_count": 800
+      },
+      "emotion_contract": {
+        "curve_quartiles": [
+          {
+            "quartile": "Q1",
+            "target_14d": {
+              "joy": 0.08,
+              "trust": 0.15,
+              "fear": 0.06,
+              "surprise": 0.08,
+              "sadness": 0.04,
+              "disgust": 0.03,
+              "anger": 0.04,
+              "anticipation": 0.25,
+              "love": 0.05,
+              "submission": 0.04,
+              "awe": 0.1,
+              "disapproval": 0.03,
+              "remorse": 0.03,
+              "contempt": 0.02
+            },
+            "valence": 0,
+            "arousal": 0.4,
+            "dominant": "anticipation",
+            "narrative_instruction": "Exploration routinière avec une anticipation de bas niveau — le personnage cherche sans attendre."
+          },
+          {
+            "quartile": "Q2",
+            "target_14d": {
+              "joy": 0.04,
+              "trust": 0.08,
+              "fear": 0.1,
+              "surprise": 0.3,
+              "sadness": 0.04,
+              "disgust": 0.05,
+              "anger": 0.05,
+              "anticipation": 0.12,
+              "love": 0.03,
+              "submission": 0.03,
+              "awe": 0.1,
+              "disapproval": 0.03,
+              "remorse": 0.02,
+              "contempt": 0.01
+            },
+            "valence": -0.2,
+            "arousal": 0.9,
+            "dominant": "surprise",
+            "narrative_instruction": "Surprise massive devant une découverte inattendue — le sol se dérobe sous les certitudes."
+          },
+          {
+            "quartile": "Q3",
+            "target_14d": {
+              "joy": 0.005,
+              "trust": 0.014,
+              "fear": 0.071,
+              "surprise": 0.167,
+              "sadness": 0.019,
+              "disgust": 0.028,
+              "anger": 0.038,
+              "anticipation": 0.55,
+              "love": 0.009,
+              "submission": 0.014,
+              "awe": 0.047,
+              "disapproval": 0.024,
+              "remorse": 0.005,
+              "contempt": 0.009
+            },
+            "valence": -0.2,
+            "arousal": 0.7,
+            "dominant": "surprise",
+            "narrative_instruction": "La surprise se maintient tandis que les implications se déploient — chaque détail aggrave le choc."
+          },
+          {
+            "quartile": "Q4",
+            "target_14d": {
+              "joy": 0.01,
+              "trust": 0.04,
+              "fear": 0.25,
+              "surprise": 0.15,
+              "sadness": 0.08,
+              "disgust": 0.05,
+              "anger": 0.1,
+              "anticipation": 0.12,
+              "love": 0.01,
+              "submission": 0.05,
+              "awe": 0.03,
+              "disapproval": 0.06,
+              "remorse": 0.02,
+              "contempt": 0.03
+            },
+            "valence": -0.3,
+            "arousal": 0.5,
+            "dominant": "fear",
+            "narrative_instruction": "La surprise se mue en peur à mesure que la vérité sombre émerge — l'horreur de comprendre."
+          }
+        ],
+        "intensity_range": {
+          "min": 0.3,
+          "max": 0.8
+        },
+        "tension": {
+          "slope_target": "arc",
+          "pic_position_pct": 0.65,
+          "faille_position_pct": 0.8,
+          "silence_zones": []
+        },
+        "terminal_state": {
+          "target_14d": {
+            "joy": 0.01,
+            "trust": 0.04,
+            "fear": 0.25,
+            "surprise": 0.15,
+            "sadness": 0.08,
+            "disgust": 0.05,
+            "anger": 0.1,
+            "anticipation": 0.12,
+            "love": 0.01,
+            "submission": 0.05,
+            "awe": 0.03,
+            "disapproval": 0.06,
+            "remorse": 0.02,
+            "contempt": 0.03
+          },
+          "valence": -0.3,
+          "arousal": 0.5,
+          "dominant": "fear",
+          "reader_state": "Disoriented alertness — surprise has shifted to cautious fear"
+        },
+        "rupture": {
+          "exists": true,
+          "position_pct": 0.45,
+          "before_dominant": "anticipation",
+          "after_dominant": "surprise",
+          "delta_valence": -0.4
+        },
+        "valence_arc": {
+          "start": 0,
+          "end": -0.3,
+          "direction": "oscillating"
+        }
+      },
+      "beats": [
+        {
+          "beat_id": "BEAT_06_001",
+          "beat_order": 0,
+          "action": "Elise cartographie méthodiquement les murs du sous-sol en tapant — elle cherche la cache que son père mentionnait dans son journal.",
+          "dialogue": "",
+          "subtext_type": "progression",
+          "emotion_instruction": "",
+          "sensory_tags": [
+            "sight",
+            "touch"
+          ],
+          "canon_refs": [
+            "CANON_GOLDEN_001"
+          ]
+        },
+        {
+          "beat_id": "BEAT_06_002",
+          "beat_order": 1,
+          "action": "Un pan de briques cède sous les doigts d'Elise, révélant une chambre scellée depuis la construction — l'air qui s'en échappe est glacé.",
+          "dialogue": "",
+          "subtext_type": "pivot",
+          "emotion_instruction": "",
+          "sensory_tags": [
+            "sound",
+            "sight"
+          ],
+          "canon_refs": []
+        },
+        {
+          "beat_id": "BEAT_06_003",
+          "beat_order": 2,
+          "action": "Elise fixe le contenu de la chambre — des documents officiels portant un sceau qu'elle reconnaît, et la vérité sur l'immeuble efface tout ce qu'elle croyait savoir.",
+          "dialogue": "",
+          "subtext_type": "symbolic",
+          "emotion_instruction": "",
+          "sensory_tags": [
+            "sight",
+            "interoception"
+          ],
+          "canon_refs": [
+            "CANON_GOLDEN_002"
+          ]
+        }
+      ],
+      "subtext": {
+        "layers": [
+          {
+            "layer_id": "LAYER_06_001",
+            "type": "revelation",
+            "statement": "Truth is architecturally encoded in the building itself",
+            "visibility": "buried"
+          }
+        ],
+        "tension_type": "cognitive_dissonance",
+        "tension_intensity": 0.8
+      },
+      "sensory": {
+        "density_target": 8,
+        "categories": [
+          {
+            "category": "sight",
+            "min_count": 3,
+            "signature_words": [
+              "ombre",
+              "lumière",
+              "fissure"
+            ]
+          },
+          {
+            "category": "sound",
+            "min_count": 2,
+            "signature_words": [
+              "silence",
+              "écho",
+              "craquement"
+            ]
+          },
+          {
+            "category": "touch",
+            "min_count": 1,
+            "signature_words": [
+              "froid",
+              "rugueux",
+              "humide"
+            ]
+          },
+          {
+            "category": "smell",
+            "min_count": 1,
+            "signature_words": [
+              "poussière",
+              "renfermé"
+            ]
+          },
+          {
+            "category": "taste",
+            "min_count": 0,
+            "signature_words": []
+          },
+          {
+            "category": "proprioception",
+            "min_count": 0,
+            "signature_words": []
+          },
+          {
+            "category": "interoception",
+            "min_count": 1,
+            "signature_words": [
+              "noeud",
+              "vertige"
+            ]
+          }
+        ],
+        "recurrent_motifs": [
+          "feu",
+          "obscurité"
+        ],
+        "banned_metaphors": []
+      },
+      "style_genome": {
+        "version": "1.0.0",
+        "universe": "contemporary_thriller",
+        "lexicon": {
+          "signature_words": [
+            "éclair",
+            "sursaut",
+            "bruit",
+            "choc",
+            "porte",
+            "révélation",
+            "fracture",
+            "instant",
+            "souffle",
+            "oeil"
+          ],
+          "forbidden_words": [
+            "nice",
+            "very",
+            "really",
+            "soudainement",
+            "mystérieusement"
+          ],
+          "abstraction_max_ratio": 0.35,
+          "concrete_min_ratio": 0.65
+        },
+        "rhythm": {
+          "avg_sentence_length_target": 15,
+          "gini_target": 0.45,
+          "max_consecutive_similar": 3,
+          "min_syncopes_per_scene": 2,
+          "min_compressions_per_scene": 1
+        },
+        "tone": {
+          "dominant_register": "sombre",
+          "intensity_range": [
+            0.4,
+            0.9
+          ]
+        },
+        "imagery": {
+          "recurrent_motifs": [
+            "feu",
+            "obscurité"
+          ],
+          "density_target_per_100_words": 8,
+          "banned_metaphors": []
+        }
+      },
+      "kill_lists": {
+        "banned_words": [
+          "soudain",
+          "soudainement",
+          "suddenly",
+          "just",
+          "very",
+          "really",
+          "nice"
+        ],
+        "banned_cliches": [
+          "coeur battait",
+          "frisson parcourut",
+          "larmes coulèrent",
+          "sang se glaça",
+          "souffle coupé",
+          "poings serrés"
+        ],
+        "banned_ai_patterns": [
+          "dans l'air flottait",
+          "un silence pesant",
+          "une ombre passa",
+          "le temps semblait",
+          "un frisson parcourut"
+        ],
+        "banned_filter_words": [
+          "il sentit",
+          "elle remarqua",
+          "il réalisa",
+          "elle pensa",
+          "il nota",
+          "elle vit",
+          "il entendit"
+        ]
+      },
+      "canon": [
+        {
+          "id": "CANON_GOLDEN_001",
+          "statement": "Elise lives alone in the old apartment on Rue des Ombres"
+        },
+        {
+          "id": "CANON_GOLDEN_002",
+          "statement": "The building was constructed in 1892 and has never been renovated"
+        }
+      ],
+      "continuity": {
+        "previous_scene_summary": "Relief washed over Elise as she found the basement contained only forgotten furniture and old photographs",
+        "character_states": [
+          {
+            "character_id": "CHAR_ELISE_001",
+            "character_name": "Elise",
+            "physical_state": "relaxed, breathing deeply",
+            "emotional_state": "relieved",
+            "location": "basement entrance"
+          }
+        ],
+        "open_threads": [
+          "What do the old photographs show?",
+          "Who sealed the basement?"
+        ]
+      },
+      "seeds": {
+        "llm_seed": "TEST_SEED_GOLDEN_06",
+        "determinism_level": "absolute"
+      },
+      "generation": {
+        "timestamp": "2026-02-23T00:00:00Z",
+        "generator_version": "1.0.0",
+        "constraints_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      }
+    },
+    {
+      "packet_id": "FORGE_golden_07_run_val_001",
+      "packet_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "scene_id": "golden_scene_07",
+      "run_id": "run_val_001",
+      "quality_tier": "sovereign",
+      "language": "fr",
+      "intent": {
+        "story_goal": "Elise confronts the disgusting reality of systemic neglect hidden beneath respectable facades",
+        "scene_goal": "Provoke visceral disgust through sensory overload of decay",
+        "conflict_type": "existential",
+        "pov": "third_limited",
+        "tense": "past",
+        "target_word_count": 600
+      },
+      "emotion_contract": {
+        "curve_quartiles": [
+          {
+            "quartile": "Q1",
+            "target_14d": {
+              "joy": 0.02,
+              "trust": 0.04,
+              "fear": 0.12,
+              "surprise": 0.08,
+              "sadness": 0.08,
+              "disgust": 0.25,
+              "anger": 0.06,
+              "anticipation": 0.1,
+              "love": 0.03,
+              "submission": 0.04,
+              "awe": 0.05,
+              "disapproval": 0.06,
+              "remorse": 0.03,
+              "contempt": 0.04
+            },
+            "valence": -0.4,
+            "arousal": 0.5,
+            "dominant": "disgust",
+            "narrative_instruction": "Le dégoût initial face à la décrépitude visible — les sens sont agressés d'emblée."
+          },
+          {
+            "quartile": "Q2",
+            "target_14d": {
+              "joy": 0.01,
+              "trust": 0.03,
+              "fear": 0.06,
+              "surprise": 0.05,
+              "sadness": 0.06,
+              "disgust": 0.35,
+              "anger": 0.1,
+              "anticipation": 0.04,
+              "love": 0.01,
+              "submission": 0.04,
+              "awe": 0.03,
+              "disapproval": 0.08,
+              "remorse": 0.02,
+              "contempt": 0.12
+            },
+            "valence": -0.6,
+            "arousal": 0.6,
+            "dominant": "disgust",
+            "narrative_instruction": "Le dégoût s'intensifie par l'accumulation des preuves sensorielles — l'odeur, la texture, la couleur."
+          },
+          {
+            "quartile": "Q3",
+            "target_14d": {
+              "joy": 0.005,
+              "trust": 0.009,
+              "fear": 0.018,
+              "surprise": 0.014,
+              "sadness": 0.028,
+              "disgust": 0.115,
+              "anger": 0.055,
+              "anticipation": 0.55,
+              "love": 0.005,
+              "submission": 0.018,
+              "awe": 0.005,
+              "disapproval": 0.046,
+              "remorse": 0.005,
+              "contempt": 0.127
+            },
+            "valence": -0.7,
+            "arousal": 0.4,
+            "dominant": "contempt",
+            "narrative_instruction": "Le dégoût se cristallise en mépris froid envers les responsables — la colère devient jugement."
+          },
+          {
+            "quartile": "Q4",
+            "target_14d": {
+              "joy": 0.01,
+              "trust": 0.02,
+              "fear": 0.04,
+              "surprise": 0.01,
+              "sadness": 0.12,
+              "disgust": 0.18,
+              "anger": 0.08,
+              "anticipation": 0.03,
+              "love": 0.01,
+              "submission": 0.04,
+              "awe": 0.01,
+              "disapproval": 0.1,
+              "remorse": 0.05,
+              "contempt": 0.3
+            },
+            "valence": -0.8,
+            "arousal": 0.3,
+            "dominant": "contempt",
+            "narrative_instruction": "Le mépris s'installe comme un jugement moral définitif — plus rien ne pourra effacer ce constat."
+          }
+        ],
+        "intensity_range": {
+          "min": 0.3,
+          "max": 0.8
+        },
+        "tension": {
+          "slope_target": "descending",
+          "pic_position_pct": 0.4,
+          "faille_position_pct": 0.6,
+          "silence_zones": []
+        },
+        "terminal_state": {
+          "target_14d": {
+            "joy": 0.01,
+            "trust": 0.02,
+            "fear": 0.04,
+            "surprise": 0.01,
+            "sadness": 0.12,
+            "disgust": 0.18,
+            "anger": 0.08,
+            "anticipation": 0.03,
+            "love": 0.01,
+            "submission": 0.04,
+            "awe": 0.01,
+            "disapproval": 0.1,
+            "remorse": 0.05,
+            "contempt": 0.3
+          },
+          "valence": -0.8,
+          "arousal": 0.3,
+          "dominant": "contempt",
+          "reader_state": "Moral revulsion — disgust has crystallized into cold contempt"
+        },
+        "rupture": {
+          "exists": false,
+          "position_pct": 0,
+          "before_dominant": "disgust",
+          "after_dominant": "disgust",
+          "delta_valence": 0
+        },
+        "valence_arc": {
+          "start": -0.2,
+          "end": -0.8,
+          "direction": "darkening"
+        }
+      },
+      "beats": [
+        {
+          "beat_id": "BEAT_07_001",
+          "beat_order": 0,
+          "action": "Elise entre dans le local technique abandonné sous l'escalier — l'inspection sanitaire arrive dans 48 heures et ces preuves doivent être documentées.",
+          "dialogue": "",
+          "subtext_type": "progression",
+          "emotion_instruction": "",
+          "sensory_tags": [
+            "sight",
+            "touch"
+          ],
+          "canon_refs": [
+            "CANON_GOLDEN_001"
+          ]
+        },
+        {
+          "beat_id": "BEAT_07_002",
+          "beat_order": 1,
+          "action": "La puanteur de moisissure et de décomposition force Elise à se couvrir le visage — les murs suintent, le sol est spongieux sous ses pieds.",
+          "dialogue": "",
+          "subtext_type": "pivot",
+          "emotion_instruction": "",
+          "sensory_tags": [
+            "sound",
+            "sight"
+          ],
+          "canon_refs": []
+        },
+        {
+          "beat_id": "BEAT_07_003",
+          "beat_order": 2,
+          "action": "Elise photographie les preuves de négligence volontaire étalées sur des décennies — si elle ne transmet pas ce dossier avant la rénovation, tout sera enfoui à jamais.",
+          "dialogue": "",
+          "subtext_type": "symbolic",
+          "emotion_instruction": "",
+          "sensory_tags": [
+            "sight",
+            "interoception"
+          ],
+          "canon_refs": [
+            "CANON_GOLDEN_002"
+          ]
+        }
+      ],
+      "subtext": {
+        "layers": [
+          {
+            "layer_id": "LAYER_07_001",
+            "type": "moral",
+            "statement": "Neglect is a form of violence that compounds over time",
+            "visibility": "surface"
+          }
+        ],
+        "tension_type": "moral_outrage",
+        "tension_intensity": 0.7
+      },
+      "sensory": {
+        "density_target": 8,
+        "categories": [
+          {
+            "category": "sight",
+            "min_count": 3,
+            "signature_words": [
+              "ombre",
+              "lumière",
+              "fissure"
+            ]
+          },
+          {
+            "category": "sound",
+            "min_count": 2,
+            "signature_words": [
+              "silence",
+              "écho",
+              "craquement"
+            ]
+          },
+          {
+            "category": "touch",
+            "min_count": 1,
+            "signature_words": [
+              "froid",
+              "rugueux",
+              "humide"
+            ]
+          },
+          {
+            "category": "smell",
+            "min_count": 1,
+            "signature_words": [
+              "poussière",
+              "renfermé"
+            ]
+          },
+          {
+            "category": "taste",
+            "min_count": 0,
+            "signature_words": []
+          },
+          {
+            "category": "proprioception",
+            "min_count": 0,
+            "signature_words": []
+          },
+          {
+            "category": "interoception",
+            "min_count": 1,
+            "signature_words": [
+              "noeud",
+              "vertige"
+            ]
+          }
+        ],
+        "recurrent_motifs": [
+          "feu",
+          "obscurité"
+        ],
+        "banned_metaphors": []
+      },
+      "style_genome": {
+        "version": "1.0.0",
+        "universe": "contemporary_thriller",
+        "lexicon": {
+          "signature_words": [
+            "moisissure",
+            "rouille",
+            "dégoût",
+            "puanteur",
+            "crasse",
+            "abandon",
+            "décombre",
+            "noirceur",
+            "vermine",
+            "pourriture"
+          ],
+          "forbidden_words": [
+            "nice",
+            "very",
+            "really",
+            "soudainement",
+            "mystérieusement"
+          ],
+          "abstraction_max_ratio": 0.35,
+          "concrete_min_ratio": 0.65
+        },
+        "rhythm": {
+          "avg_sentence_length_target": 15,
+          "gini_target": 0.45,
+          "max_consecutive_similar": 3,
+          "min_syncopes_per_scene": 2,
+          "min_compressions_per_scene": 1
+        },
+        "tone": {
+          "dominant_register": "sombre",
+          "intensity_range": [
+            0.4,
+            0.9
+          ]
+        },
+        "imagery": {
+          "recurrent_motifs": [
+            "feu",
+            "obscurité"
+          ],
+          "density_target_per_100_words": 8,
+          "banned_metaphors": []
+        }
+      },
+      "kill_lists": {
+        "banned_words": [
+          "soudain",
+          "soudainement",
+          "suddenly",
+          "just",
+          "very",
+          "really",
+          "nice"
+        ],
+        "banned_cliches": [
+          "coeur battait",
+          "frisson parcourut",
+          "larmes coulèrent",
+          "sang se glaça",
+          "souffle coupé",
+          "poings serrés"
+        ],
+        "banned_ai_patterns": [
+          "dans l'air flottait",
+          "un silence pesant",
+          "une ombre passa",
+          "le temps semblait",
+          "un frisson parcourut"
+        ],
+        "banned_filter_words": [
+          "il sentit",
+          "elle remarqua",
+          "il réalisa",
+          "elle pensa",
+          "il nota",
+          "elle vit",
+          "il entendit"
+        ]
+      },
+      "canon": [
+        {
+          "id": "CANON_GOLDEN_001",
+          "statement": "Elise lives alone in the old apartment on Rue des Ombres"
+        },
+        {
+          "id": "CANON_GOLDEN_002",
+          "statement": "The building was constructed in 1892 and has never been renovated"
+        }
+      ],
+      "continuity": {
+        "previous_scene_summary": "The surprise discovery of a hidden room behind the basement wall revealed the building's dark history",
+        "character_states": [
+          {
+            "character_id": "CHAR_ELISE_001",
+            "character_name": "Elise",
+            "physical_state": "frozen in place",
+            "emotional_state": "shocked",
+            "location": "hidden room"
+          }
+        ],
+        "open_threads": [
+          "What is the dark history of the building?",
+          "Who built the hidden room?"
+        ]
+      },
+      "seeds": {
+        "llm_seed": "TEST_SEED_GOLDEN_07",
+        "determinism_level": "absolute"
+      },
+      "generation": {
+        "timestamp": "2026-02-23T00:00:00Z",
+        "generator_version": "1.0.0",
+        "constraints_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      }
+    },
+    {
+      "packet_id": "FORGE_golden_08_run_val_001",
+      "packet_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "scene_id": "golden_scene_08",
+      "run_id": "run_val_001",
+      "quality_tier": "sovereign",
+      "language": "fr",
+      "intent": {
+        "story_goal": "Elise opens herself to love and connection after years of emotional isolation",
+        "scene_goal": "Awaken tenderness through physical proximity and emotional vulnerability",
+        "conflict_type": "internal",
+        "pov": "third_limited",
+        "tense": "past",
+        "target_word_count": 700
+      },
+      "emotion_contract": {
+        "curve_quartiles": [
+          {
+            "quartile": "Q1",
+            "target_14d": {
+              "joy": 0.04,
+              "trust": 0.1,
+              "fear": 0.1,
+              "surprise": 0.04,
+              "sadness": 0.22,
+              "disgust": 0.02,
+              "anger": 0.04,
+              "anticipation": 0.08,
+              "love": 0.12,
+              "submission": 0.08,
+              "awe": 0.05,
+              "disapproval": 0.03,
+              "remorse": 0.06,
+              "contempt": 0.02
+            },
+            "valence": -0.1,
+            "arousal": 0.3,
+            "dominant": "sadness",
+            "narrative_instruction": "Ouverture dans l'isolement émotionnel et la tristesse résiduelle — le personnage s'est blindé."
+          },
+          {
+            "quartile": "Q2",
+            "target_14d": {
+              "joy": 0.05,
+              "trust": 0.15,
+              "fear": 0.05,
+              "surprise": 0.04,
+              "sadness": 0.12,
+              "disgust": 0.02,
+              "anger": 0.03,
+              "anticipation": 0.06,
+              "love": 0.25,
+              "submission": 0.08,
+              "awe": 0.08,
+              "disapproval": 0.02,
+              "remorse": 0.04,
+              "contempt": 0.01
+            },
+            "valence": 0.1,
+            "arousal": 0.4,
+            "dominant": "love",
+            "narrative_instruction": "Les premiers frémissements d'amour par la proximité physique — le corps se souvient avant l'esprit."
+          },
+          {
+            "quartile": "Q3",
+            "target_14d": {
+              "joy": 0.038,
+              "trust": 0.07,
+              "fear": 0.014,
+              "surprise": 0.019,
+              "sadness": 0.028,
+              "disgust": 0.005,
+              "anger": 0.009,
+              "anticipation": 0.55,
+              "love": 0.164,
+              "submission": 0.028,
+              "awe": 0.047,
+              "disapproval": 0.009,
+              "remorse": 0.014,
+              "contempt": 0.005
+            },
+            "valence": 0.3,
+            "arousal": 0.5,
+            "dominant": "love",
+            "narrative_instruction": "L'amour s'intensifie par la vulnérabilité émotionnelle — le masque tombe, la vérité du lien apparaît."
+          },
+          {
+            "quartile": "Q4",
+            "target_14d": {
+              "joy": 0.1,
+              "trust": 0.15,
+              "fear": 0.03,
+              "surprise": 0.04,
+              "sadness": 0.05,
+              "disgust": 0.01,
+              "anger": 0.02,
+              "anticipation": 0.04,
+              "love": 0.38,
+              "submission": 0.06,
+              "awe": 0.08,
+              "disapproval": 0.01,
+              "remorse": 0.02,
+              "contempt": 0.01
+            },
+            "valence": 0.5,
+            "arousal": 0.5,
+            "dominant": "love",
+            "narrative_instruction": "L'amour atteint sa pleine expression par l'acceptation mutuelle — le silence dit tout."
+          }
+        ],
+        "intensity_range": {
+          "min": 0.3,
+          "max": 0.8
+        },
+        "tension": {
+          "slope_target": "ascending",
+          "pic_position_pct": 0.75,
+          "faille_position_pct": 0.85,
+          "silence_zones": []
+        },
+        "terminal_state": {
+          "target_14d": {
+            "joy": 0.1,
+            "trust": 0.15,
+            "fear": 0.03,
+            "surprise": 0.04,
+            "sadness": 0.05,
+            "disgust": 0.01,
+            "anger": 0.02,
+            "anticipation": 0.04,
+            "love": 0.38,
+            "submission": 0.06,
+            "awe": 0.08,
+            "disapproval": 0.01,
+            "remorse": 0.02,
+            "contempt": 0.01
+          },
+          "valence": 0.5,
+          "arousal": 0.5,
+          "dominant": "love",
+          "reader_state": "Tender vulnerability — love has emerged from emotional darkness"
+        },
+        "rupture": {
+          "exists": true,
+          "position_pct": 0.6,
+          "before_dominant": "sadness",
+          "after_dominant": "love",
+          "delta_valence": 0.5
+        },
+        "valence_arc": {
+          "start": -0.1,
+          "end": 0.5,
+          "direction": "brightening"
+        }
+      },
+      "beats": [
+        {
+          "beat_id": "BEAT_08_001",
+          "beat_order": 0,
+          "action": "Elise reconnaît Marta, son amie d'enfance, debout sur le palier — quinze ans sans nouvelles, et Marta porte le même foulard que le jour de leur séparation.",
+          "dialogue": "",
+          "subtext_type": "progression",
+          "emotion_instruction": "",
+          "sensory_tags": [
+            "sight",
+            "touch"
+          ],
+          "canon_refs": [
+            "CANON_GOLDEN_001"
+          ]
+        },
+        {
+          "beat_id": "BEAT_08_002",
+          "beat_order": 1,
+          "action": "Elise et Marta s'assoient côte à côte dans le silence avant les premiers mots — Marta est venue lui dire que l'immeuble sera vendu demain matin.",
+          "dialogue": "",
+          "subtext_type": "pivot",
+          "emotion_instruction": "",
+          "sensory_tags": [
+            "sound",
+            "sight"
+          ],
+          "canon_refs": []
+        },
+        {
+          "beat_id": "BEAT_08_003",
+          "beat_order": 2,
+          "action": "Marta prend la main d'Elise — les années de distance se dissolvent dans ce geste, mais demain elles devront choisir entre sauver l'immeuble ou se protéger.",
+          "dialogue": "",
+          "subtext_type": "symbolic",
+          "emotion_instruction": "",
+          "sensory_tags": [
+            "sight",
+            "interoception"
+          ],
+          "canon_refs": [
+            "CANON_GOLDEN_002"
+          ]
+        }
+      ],
+      "subtext": {
+        "layers": [
+          {
+            "layer_id": "LAYER_08_001",
+            "type": "relational",
+            "statement": "Human connection can bridge decades of absence",
+            "visibility": "implicit"
+          }
+        ],
+        "tension_type": "emotional_thaw",
+        "tension_intensity": 0.5
+      },
+      "sensory": {
+        "density_target": 8,
+        "categories": [
+          {
+            "category": "sight",
+            "min_count": 3,
+            "signature_words": [
+              "ombre",
+              "lumière",
+              "fissure"
+            ]
+          },
+          {
+            "category": "sound",
+            "min_count": 2,
+            "signature_words": [
+              "silence",
+              "écho",
+              "craquement"
+            ]
+          },
+          {
+            "category": "touch",
+            "min_count": 1,
+            "signature_words": [
+              "froid",
+              "rugueux",
+              "humide"
+            ]
+          },
+          {
+            "category": "smell",
+            "min_count": 1,
+            "signature_words": [
+              "poussière",
+              "renfermé"
+            ]
+          },
+          {
+            "category": "taste",
+            "min_count": 0,
+            "signature_words": []
+          },
+          {
+            "category": "proprioception",
+            "min_count": 0,
+            "signature_words": []
+          },
+          {
+            "category": "interoception",
+            "min_count": 1,
+            "signature_words": [
+              "noeud",
+              "vertige"
+            ]
+          }
+        ],
+        "recurrent_motifs": [
+          "feu",
+          "obscurité"
+        ],
+        "banned_metaphors": []
+      },
+      "style_genome": {
+        "version": "1.0.0",
+        "universe": "contemporary_thriller",
+        "lexicon": {
+          "signature_words": [
+            "chaleur",
+            "tendresse",
+            "caresse",
+            "souffle",
+            "lumière",
+            "doux",
+            "peau",
+            "coeur",
+            "lien",
+            "étreinte"
+          ],
+          "forbidden_words": [
+            "nice",
+            "very",
+            "really",
+            "soudainement",
+            "mystérieusement"
+          ],
+          "abstraction_max_ratio": 0.35,
+          "concrete_min_ratio": 0.65
+        },
+        "rhythm": {
+          "avg_sentence_length_target": 15,
+          "gini_target": 0.45,
+          "max_consecutive_similar": 3,
+          "min_syncopes_per_scene": 2,
+          "min_compressions_per_scene": 1
+        },
+        "tone": {
+          "dominant_register": "sombre",
+          "intensity_range": [
+            0.4,
+            0.9
+          ]
+        },
+        "imagery": {
+          "recurrent_motifs": [
+            "feu",
+            "obscurité"
+          ],
+          "density_target_per_100_words": 8,
+          "banned_metaphors": []
+        }
+      },
+      "kill_lists": {
+        "banned_words": [
+          "soudain",
+          "soudainement",
+          "suddenly",
+          "just",
+          "very",
+          "really",
+          "nice"
+        ],
+        "banned_cliches": [
+          "coeur battait",
+          "frisson parcourut",
+          "larmes coulèrent",
+          "sang se glaça",
+          "souffle coupé",
+          "poings serrés"
+        ],
+        "banned_ai_patterns": [
+          "dans l'air flottait",
+          "un silence pesant",
+          "une ombre passa",
+          "le temps semblait",
+          "un frisson parcourut"
+        ],
+        "banned_filter_words": [
+          "il sentit",
+          "elle remarqua",
+          "il réalisa",
+          "elle pensa",
+          "il nota",
+          "elle vit",
+          "il entendit"
+        ]
+      },
+      "canon": [
+        {
+          "id": "CANON_GOLDEN_001",
+          "statement": "Elise lives alone in the old apartment on Rue des Ombres"
+        },
+        {
+          "id": "CANON_GOLDEN_002",
+          "statement": "The building was constructed in 1892 and has never been renovated"
+        }
+      ],
+      "continuity": {
+        "previous_scene_summary": "Elise confronted the nauseating evidence of decades of neglect and institutional contempt for residents",
+        "character_states": [
+          {
+            "character_id": "CHAR_ELISE_001",
+            "character_name": "Elise",
+            "physical_state": "nauseous, recoiling",
+            "emotional_state": "revolted",
+            "location": "stairwell"
+          }
+        ],
+        "open_threads": [
+          "How long was the neglect concealed?",
+          "Who was responsible?"
+        ]
+      },
+      "seeds": {
+        "llm_seed": "TEST_SEED_GOLDEN_08",
+        "determinism_level": "absolute"
+      },
+      "generation": {
+        "timestamp": "2026-02-23T00:00:00Z",
+        "generator_version": "1.0.0",
+        "constraints_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      }
+    },
+    {
+      "packet_id": "FORGE_golden_09_run_val_001",
+      "packet_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "scene_id": "golden_scene_09",
+      "run_id": "run_val_001",
+      "quality_tier": "sovereign",
+      "language": "fr",
+      "intent": {
+        "story_goal": "Elise experiences sublime awe at the intersection of destruction and beauty",
+        "scene_goal": "Evoke transcendent awe through scale contrast and perceptual shift",
+        "conflict_type": "existential",
+        "pov": "third_limited",
+        "tense": "past",
+        "target_word_count": 800
+      },
+      "emotion_contract": {
+        "curve_quartiles": [
+          {
+            "quartile": "Q1",
+            "target_14d": {
+              "joy": 0.06,
+              "trust": 0.1,
+              "fear": 0.08,
+              "surprise": 0.08,
+              "sadness": 0.04,
+              "disgust": 0.03,
+              "anger": 0.04,
+              "anticipation": 0.12,
+              "love": 0.05,
+              "submission": 0.04,
+              "awe": 0.28,
+              "disapproval": 0.03,
+              "remorse": 0.03,
+              "contempt": 0.02
+            },
+            "valence": 0.2,
+            "arousal": 0.6,
+            "dominant": "awe",
+            "narrative_instruction": "L'émerveillement naît du changement d'échelle perceptive — le personnage voit au-delà de soi."
+          },
+          {
+            "quartile": "Q2",
+            "target_14d": {
+              "joy": 0.05,
+              "trust": 0.08,
+              "fear": 0.1,
+              "surprise": 0.12,
+              "sadness": 0.04,
+              "disgust": 0.02,
+              "anger": 0.03,
+              "anticipation": 0.06,
+              "love": 0.04,
+              "submission": 0.06,
+              "awe": 0.35,
+              "disapproval": 0.03,
+              "remorse": 0.01,
+              "contempt": 0.01
+            },
+            "valence": 0.4,
+            "arousal": 0.7,
+            "dominant": "awe",
+            "narrative_instruction": "L'émerveillement s'approfondit par le contraste sublime entre destruction et beauté — l'impossible coexistence."
+          },
+          {
+            "quartile": "Q3",
+            "target_14d": {
+              "joy": 0.023,
+              "trust": 0.028,
+              "fear": 0.038,
+              "surprise": 0.038,
+              "sadness": 0.014,
+              "disgust": 0.009,
+              "anger": 0.009,
+              "anticipation": 0.55,
+              "love": 0.028,
+              "submission": 0.056,
+              "awe": 0.188,
+              "disapproval": 0.009,
+              "remorse": 0.005,
+              "contempt": 0.005
+            },
+            "valence": 0.5,
+            "arousal": 0.5,
+            "dominant": "awe",
+            "narrative_instruction": "L'émerveillement se maintient dans la contemplation approfondie — le temps suspend son vol."
+          },
+          {
+            "quartile": "Q4",
+            "target_14d": {
+              "joy": 0.08,
+              "trust": 0.12,
+              "fear": 0.04,
+              "surprise": 0.06,
+              "sadness": 0.03,
+              "disgust": 0.02,
+              "anger": 0.03,
+              "anticipation": 0.05,
+              "love": 0.1,
+              "submission": 0.08,
+              "awe": 0.35,
+              "disapproval": 0.02,
+              "remorse": 0.01,
+              "contempt": 0.01
+            },
+            "valence": 0.6,
+            "arousal": 0.4,
+            "dominant": "awe",
+            "narrative_instruction": "L'émerveillement se résout en une sérénité transcendante — le personnage fait partie du tout."
+          }
+        ],
+        "intensity_range": {
+          "min": 0.3,
+          "max": 0.8
+        },
+        "tension": {
+          "slope_target": "arc",
+          "pic_position_pct": 0.6,
+          "faille_position_pct": 0.75,
+          "silence_zones": []
+        },
+        "terminal_state": {
+          "target_14d": {
+            "joy": 0.08,
+            "trust": 0.12,
+            "fear": 0.04,
+            "surprise": 0.06,
+            "sadness": 0.03,
+            "disgust": 0.02,
+            "anger": 0.03,
+            "anticipation": 0.05,
+            "love": 0.1,
+            "submission": 0.08,
+            "awe": 0.35,
+            "disapproval": 0.02,
+            "remorse": 0.01,
+            "contempt": 0.01
+          },
+          "valence": 0.6,
+          "arousal": 0.4,
+          "dominant": "awe",
+          "reader_state": "Transcendent stillness — awe has silenced all other emotional noise"
+        },
+        "rupture": {
+          "exists": true,
+          "position_pct": 0.4,
+          "before_dominant": "fear",
+          "after_dominant": "awe",
+          "delta_valence": 0.4
+        },
+        "valence_arc": {
+          "start": 0.2,
+          "end": 0.6,
+          "direction": "brightening"
+        }
+      },
+      "beats": [
+        {
+          "beat_id": "BEAT_09_001",
+          "beat_order": 0,
+          "action": "Elise gravit la dernière volée de marches vers l'accès au toit — le bâtiment sera démoli dans trois jours et c'est sa dernière occasion de voir.",
+          "dialogue": "",
+          "subtext_type": "progression",
+          "emotion_instruction": "",
+          "sensory_tags": [
+            "sight",
+            "touch"
+          ],
+          "canon_refs": [
+            "CANON_GOLDEN_001"
+          ]
+        },
+        {
+          "beat_id": "BEAT_09_002",
+          "beat_order": 1,
+          "action": "La ville s'étend devant Elise dans la lumière de l'aube — vaste, respirante, indifférente au petit immeuble condamné qui disparaîtra bientôt.",
+          "dialogue": "",
+          "subtext_type": "pivot",
+          "emotion_instruction": "",
+          "sensory_tags": [
+            "sound",
+            "sight"
+          ],
+          "canon_refs": []
+        },
+        {
+          "beat_id": "BEAT_09_003",
+          "beat_order": 2,
+          "action": "Elise se tient au bord du toit et regarde le soleil peindre les toits dorés — cette beauté existait ici depuis toujours, et elle ne l'avait jamais vue.",
+          "dialogue": "",
+          "subtext_type": "symbolic",
+          "emotion_instruction": "",
+          "sensory_tags": [
+            "sight",
+            "interoception"
+          ],
+          "canon_refs": [
+            "CANON_GOLDEN_002"
+          ]
+        }
+      ],
+      "subtext": {
+        "layers": [
+          {
+            "layer_id": "LAYER_09_001",
+            "type": "transcendent",
+            "statement": "Beauty persists despite and because of destruction",
+            "visibility": "buried"
+          }
+        ],
+        "tension_type": "sublime",
+        "tension_intensity": 0.6
+      },
+      "sensory": {
+        "density_target": 8,
+        "categories": [
+          {
+            "category": "sight",
+            "min_count": 3,
+            "signature_words": [
+              "ombre",
+              "lumière",
+              "fissure"
+            ]
+          },
+          {
+            "category": "sound",
+            "min_count": 2,
+            "signature_words": [
+              "silence",
+              "écho",
+              "craquement"
+            ]
+          },
+          {
+            "category": "touch",
+            "min_count": 1,
+            "signature_words": [
+              "froid",
+              "rugueux",
+              "humide"
+            ]
+          },
+          {
+            "category": "smell",
+            "min_count": 1,
+            "signature_words": [
+              "poussière",
+              "renfermé"
+            ]
+          },
+          {
+            "category": "taste",
+            "min_count": 0,
+            "signature_words": []
+          },
+          {
+            "category": "proprioception",
+            "min_count": 0,
+            "signature_words": []
+          },
+          {
+            "category": "interoception",
+            "min_count": 1,
+            "signature_words": [
+              "noeud",
+              "vertige"
+            ]
+          }
+        ],
+        "recurrent_motifs": [
+          "feu",
+          "obscurité"
+        ],
+        "banned_metaphors": []
+      },
+      "style_genome": {
+        "version": "1.0.0",
+        "universe": "contemporary_thriller",
+        "lexicon": {
+          "signature_words": [
+            "immensité",
+            "vertige",
+            "ciel",
+            "horizon",
+            "vaste",
+            "souffle",
+            "silence",
+            "infini",
+            "aube",
+            "lumière"
+          ],
+          "forbidden_words": [
+            "nice",
+            "very",
+            "really",
+            "soudainement",
+            "mystérieusement"
+          ],
+          "abstraction_max_ratio": 0.35,
+          "concrete_min_ratio": 0.65
+        },
+        "rhythm": {
+          "avg_sentence_length_target": 15,
+          "gini_target": 0.45,
+          "max_consecutive_similar": 3,
+          "min_syncopes_per_scene": 2,
+          "min_compressions_per_scene": 1
+        },
+        "tone": {
+          "dominant_register": "sombre",
+          "intensity_range": [
+            0.4,
+            0.9
+          ]
+        },
+        "imagery": {
+          "recurrent_motifs": [
+            "feu",
+            "obscurité"
+          ],
+          "density_target_per_100_words": 8,
+          "banned_metaphors": []
+        }
+      },
+      "kill_lists": {
+        "banned_words": [
+          "soudain",
+          "soudainement",
+          "suddenly",
+          "just",
+          "very",
+          "really",
+          "nice"
+        ],
+        "banned_cliches": [
+          "coeur battait",
+          "frisson parcourut",
+          "larmes coulèrent",
+          "sang se glaça",
+          "souffle coupé",
+          "poings serrés"
+        ],
+        "banned_ai_patterns": [
+          "dans l'air flottait",
+          "un silence pesant",
+          "une ombre passa",
+          "le temps semblait",
+          "un frisson parcourut"
+        ],
+        "banned_filter_words": [
+          "il sentit",
+          "elle remarqua",
+          "il réalisa",
+          "elle pensa",
+          "il nota",
+          "elle vit",
+          "il entendit"
+        ]
+      },
+      "canon": [
+        {
+          "id": "CANON_GOLDEN_001",
+          "statement": "Elise lives alone in the old apartment on Rue des Ombres"
+        },
+        {
+          "id": "CANON_GOLDEN_002",
+          "statement": "The building was constructed in 1892 and has never been renovated"
+        }
+      ],
+      "continuity": {
+        "previous_scene_summary": "A chance encounter with a former neighbor rekindled memories of warmth and belonging in the old building",
+        "character_states": [
+          {
+            "character_id": "CHAR_ELISE_001",
+            "character_name": "Elise",
+            "physical_state": "calm, hands open",
+            "emotional_state": "tender",
+            "location": "former neighbor's door"
+          }
+        ],
+        "open_threads": [
+          "Will Elise reconnect with the past?",
+          "Can the building be saved?"
+        ]
+      },
+      "seeds": {
+        "llm_seed": "TEST_SEED_GOLDEN_09",
+        "determinism_level": "absolute"
+      },
+      "generation": {
+        "timestamp": "2026-02-23T00:00:00Z",
+        "generator_version": "1.0.0",
+        "constraints_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      }
+    },
+    {
+      "packet_id": "FORGE_golden_10_run_val_001",
+      "packet_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "scene_id": "golden_scene_10",
+      "run_id": "run_val_001",
+      "quality_tier": "sovereign",
+      "language": "fr",
+      "intent": {
+        "story_goal": "Elise reckons with remorse for having abandoned the building and its remaining residents",
+        "scene_goal": "Crystallize remorse through recognition of personal responsibility",
+        "conflict_type": "internal",
+        "pov": "third_limited",
+        "tense": "past",
+        "target_word_count": 600
+      },
+      "emotion_contract": {
+        "curve_quartiles": [
+          {
+            "quartile": "Q1",
+            "target_14d": {
+              "joy": 0.04,
+              "trust": 0.08,
+              "fear": 0.12,
+              "surprise": 0.04,
+              "sadness": 0.22,
+              "disgust": 0.04,
+              "anger": 0.06,
+              "anticipation": 0.1,
+              "love": 0.06,
+              "submission": 0.05,
+              "awe": 0.04,
+              "disapproval": 0.04,
+              "remorse": 0.08,
+              "contempt": 0.03
+            },
+            "valence": -0.1,
+            "arousal": 0.4,
+            "dominant": "sadness",
+            "narrative_instruction": "La tristesse initiale du retour dans un lieu abandonné — les murs parlent de ce qui fut."
+          },
+          {
+            "quartile": "Q2",
+            "target_14d": {
+              "joy": 0.02,
+              "trust": 0.04,
+              "fear": 0.08,
+              "surprise": 0.02,
+              "sadness": 0.25,
+              "disgust": 0.03,
+              "anger": 0.06,
+              "anticipation": 0.04,
+              "love": 0.05,
+              "submission": 0.1,
+              "awe": 0.03,
+              "disapproval": 0.08,
+              "remorse": 0.18,
+              "contempt": 0.02
+            },
+            "valence": -0.3,
+            "arousal": 0.5,
+            "dominant": "sadness",
+            "narrative_instruction": "La tristesse s'approfondit à mesure que les souvenirs remontent — chaque objet est un reproche."
+          },
+          {
+            "quartile": "Q3",
+            "target_14d": {
+              "joy": 0.005,
+              "trust": 0.014,
+              "fear": 0.023,
+              "surprise": 0.005,
+              "sadness": 0.084,
+              "disgust": 0.009,
+              "anger": 0.019,
+              "anticipation": 0.55,
+              "love": 0.028,
+              "submission": 0.046,
+              "awe": 0.009,
+              "disapproval": 0.037,
+              "remorse": 0.162,
+              "contempt": 0.009
+            },
+            "valence": -0.4,
+            "arousal": 0.4,
+            "dominant": "remorse",
+            "narrative_instruction": "Le remords émerge quand la responsabilité personnelle devient claire — le personnage ne peut plus fuir."
+          },
+          {
+            "quartile": "Q4",
+            "target_14d": {
+              "joy": 0.03,
+              "trust": 0.08,
+              "fear": 0.04,
+              "surprise": 0.01,
+              "sadness": 0.2,
+              "disgust": 0.005,
+              "anger": 0.02,
+              "anticipation": 0.05,
+              "love": 0.1,
+              "submission": 0.08,
+              "awe": 0.05,
+              "disapproval": 0.03,
+              "remorse": 0.3,
+              "contempt": 0.005
+            },
+            "valence": -0.5,
+            "arousal": 0.3,
+            "dominant": "remorse",
+            "narrative_instruction": "Le remords et la tristesse fusionnent en une dévastation silencieuse — le poids de l'inaction."
+          }
+        ],
+        "intensity_range": {
+          "min": 0.3,
+          "max": 0.8
+        },
+        "tension": {
+          "slope_target": "descending",
+          "pic_position_pct": 0.45,
+          "faille_position_pct": 0.65,
+          "silence_zones": []
+        },
+        "terminal_state": {
+          "target_14d": {
+            "joy": 0.03,
+            "trust": 0.08,
+            "fear": 0.04,
+            "surprise": 0.01,
+            "sadness": 0.2,
+            "disgust": 0.005,
+            "anger": 0.02,
+            "anticipation": 0.05,
+            "love": 0.1,
+            "submission": 0.08,
+            "awe": 0.05,
+            "disapproval": 0.03,
+            "remorse": 0.3,
+            "contempt": 0.005
+          },
+          "valence": -0.5,
+          "arousal": 0.3,
+          "dominant": "remorse",
+          "reader_state": "Quiet devastation — remorse and sadness merge into acceptance"
+        },
+        "rupture": {
+          "exists": false,
+          "position_pct": 0,
+          "before_dominant": "remorse",
+          "after_dominant": "remorse",
+          "delta_valence": 0
+        },
+        "valence_arc": {
+          "start": -0.1,
+          "end": -0.5,
+          "direction": "darkening"
+        }
+      },
+      "beats": [
+        {
+          "beat_id": "BEAT_10_001",
+          "beat_order": 0,
+          "action": "Elise parcourt les appartements vides du dernier étage — chaque porte ouverte est une vie qui a quitté les lieux à cause de son silence.",
+          "dialogue": "",
+          "subtext_type": "progression",
+          "emotion_instruction": "",
+          "sensory_tags": [
+            "sight",
+            "touch"
+          ],
+          "canon_refs": [
+            "CANON_GOLDEN_001"
+          ]
+        },
+        {
+          "beat_id": "BEAT_10_002",
+          "beat_order": 1,
+          "action": "Elise trouve les traces des vies parties — un dessin d'enfant épinglé au mur, un calendrier arrêté au mois de mars, une chaussure oubliée.",
+          "dialogue": "",
+          "subtext_type": "pivot",
+          "emotion_instruction": "",
+          "sensory_tags": [
+            "sound",
+            "sight"
+          ],
+          "canon_refs": []
+        },
+        {
+          "beat_id": "BEAT_10_003",
+          "beat_order": 2,
+          "action": "Elise s'assoit là où la dernière famille a vécu et comprend que son absence a coûté plus cher que sa présence — il est trop tard pour réparer.",
+          "dialogue": "",
+          "subtext_type": "symbolic",
+          "emotion_instruction": "",
+          "sensory_tags": [
+            "sight",
+            "interoception"
+          ],
+          "canon_refs": [
+            "CANON_GOLDEN_002"
+          ]
+        }
+      ],
+      "subtext": {
+        "layers": [
+          {
+            "layer_id": "LAYER_10_001",
+            "type": "moral",
+            "statement": "Absence is a choice with consequences for those left behind",
+            "visibility": "implicit"
+          }
+        ],
+        "tension_type": "guilt",
+        "tension_intensity": 0.7
+      },
+      "sensory": {
+        "density_target": 8,
+        "categories": [
+          {
+            "category": "sight",
+            "min_count": 3,
+            "signature_words": [
+              "ombre",
+              "lumière",
+              "fissure"
+            ]
+          },
+          {
+            "category": "sound",
+            "min_count": 2,
+            "signature_words": [
+              "silence",
+              "écho",
+              "craquement"
+            ]
+          },
+          {
+            "category": "touch",
+            "min_count": 1,
+            "signature_words": [
+              "froid",
+              "rugueux",
+              "humide"
+            ]
+          },
+          {
+            "category": "smell",
+            "min_count": 1,
+            "signature_words": [
+              "poussière",
+              "renfermé"
+            ]
+          },
+          {
+            "category": "taste",
+            "min_count": 0,
+            "signature_words": []
+          },
+          {
+            "category": "proprioception",
+            "min_count": 0,
+            "signature_words": []
+          },
+          {
+            "category": "interoception",
+            "min_count": 1,
+            "signature_words": [
+              "noeud",
+              "vertige"
+            ]
+          }
+        ],
+        "recurrent_motifs": [
+          "feu",
+          "obscurité"
+        ],
+        "banned_metaphors": []
+      },
+      "style_genome": {
+        "version": "1.0.0",
+        "universe": "contemporary_thriller",
+        "lexicon": {
+          "signature_words": [
+            "cendre",
+            "regret",
+            "trace",
+            "absence",
+            "ruine",
+            "souvenir",
+            "perte",
+            "faute",
+            "pardon",
+            "ombre"
+          ],
+          "forbidden_words": [
+            "nice",
+            "very",
+            "really",
+            "soudainement",
+            "mystérieusement"
+          ],
+          "abstraction_max_ratio": 0.35,
+          "concrete_min_ratio": 0.65
+        },
+        "rhythm": {
+          "avg_sentence_length_target": 15,
+          "gini_target": 0.45,
+          "max_consecutive_similar": 3,
+          "min_syncopes_per_scene": 2,
+          "min_compressions_per_scene": 1
+        },
+        "tone": {
+          "dominant_register": "sombre",
+          "intensity_range": [
+            0.4,
+            0.9
+          ]
+        },
+        "imagery": {
+          "recurrent_motifs": [
+            "feu",
+            "obscurité"
+          ],
+          "density_target_per_100_words": 8,
+          "banned_metaphors": []
+        }
+      },
+      "kill_lists": {
+        "banned_words": [
+          "soudain",
+          "soudainement",
+          "suddenly",
+          "just",
+          "very",
+          "really",
+          "nice"
+        ],
+        "banned_cliches": [
+          "coeur battait",
+          "frisson parcourut",
+          "larmes coulèrent",
+          "sang se glaça",
+          "souffle coupé",
+          "poings serrés"
+        ],
+        "banned_ai_patterns": [
+          "dans l'air flottait",
+          "un silence pesant",
+          "une ombre passa",
+          "le temps semblait",
+          "un frisson parcourut"
+        ],
+        "banned_filter_words": [
+          "il sentit",
+          "elle remarqua",
+          "il réalisa",
+          "elle pensa",
+          "il nota",
+          "elle vit",
+          "il entendit"
+        ]
+      },
+      "canon": [
+        {
+          "id": "CANON_GOLDEN_001",
+          "statement": "Elise lives alone in the old apartment on Rue des Ombres"
+        },
+        {
+          "id": "CANON_GOLDEN_002",
+          "statement": "The building was constructed in 1892 and has never been renovated"
+        }
+      ],
+      "continuity": {
+        "previous_scene_summary": "Standing on the rooftop at dawn, Elise was struck by the sublime beauty of the city awakening below",
+        "character_states": [
+          {
+            "character_id": "CHAR_ELISE_001",
+            "character_name": "Elise",
+            "physical_state": "still, gazing upward",
+            "emotional_state": "awestruck",
+            "location": "rooftop"
+          }
+        ],
+        "open_threads": [
+          "Will Elise stay or leave forever?",
+          "What decision will she make?"
+        ]
+      },
+      "seeds": {
+        "llm_seed": "TEST_SEED_GOLDEN_10",
+        "determinism_level": "absolute"
+      },
+      "generation": {
+        "timestamp": "2026-02-23T00:00:00Z",
+        "generator_version": "1.0.0",
+        "constraints_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      }
+    }
+  ]
+}

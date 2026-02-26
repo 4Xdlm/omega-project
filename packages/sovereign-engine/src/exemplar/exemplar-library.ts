@@ -21,6 +21,7 @@
  */
 
 import { createHash } from 'node:crypto';
+import { cosineSimilarity } from '../utils/math-utils.js';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // TYPES
@@ -34,17 +35,6 @@ export interface ExemplarEntry {
   readonly prose_hash: string;       // SHA-256 de la prose
   readonly composite: number;        // score composite SEAL (≥92)
   readonly annotations: readonly string[]; // [temps_dilaté, no-return, corps, sens→label]
-}
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// MATH INTERNE — cosine similarity
-// ═══════════════════════════════════════════════════════════════════════════════
-
-function cosine(a: readonly number[], b: readonly number[]): number {
-  const dot = a.reduce((s, v, i) => s + v * (b[i] ?? 0), 0);
-  const nA = Math.sqrt(a.reduce((s, v) => s + v * v, 0));
-  const nB = Math.sqrt(b.reduce((s, v) => s + v * v, 0));
-  return nA === 0 || nB === 0 ? 0 : dot / (nA * nB);
 }
 
 function sha256Hex(data: string): string {
@@ -81,7 +71,7 @@ export class ExemplarLibrary {
 
     // INV-EXEMP-04: non-duplication cosinus > 0.95
     for (const e of this.entries) {
-      const sim = cosine(e.profile_14d, entry.profile_14d);
+      const sim = cosineSimilarity(e.profile_14d, entry.profile_14d);
       if (sim > 0.95) {
         throw new Error(
           `[INV-EXEMP-04] Duplication cosinus détectée (sim=${sim.toFixed(4)} > 0.95) avec exemplar '${e.id}'`,
@@ -125,7 +115,7 @@ export class ExemplarLibrary {
 
     // Trier par similarité cosinus descendante
     const sorted = this.entries
-      .map((e) => ({ entry: e, sim: cosine(packet_14d, e.profile_14d) }))
+      .map((e) => ({ entry: e, sim: cosineSimilarity(packet_14d, e.profile_14d) }))
       .sort((a, b) => b.sim - a.sim);
 
     // INV-EXEMP-02: warn si pertinence insuffisante
@@ -144,7 +134,7 @@ export class ExemplarLibrary {
 
       // INV-EXEMP-01: distance = 1 - cosine ≥ 0.25 avec tous les déjà sélectionnés
       const minDiversity = Math.min(
-        ...selected.map((s) => 1 - cosine(s.profile_14d, candidate.profile_14d)),
+        ...selected.map((s) => 1 - cosineSimilarity(s.profile_14d, candidate.profile_14d)),
       );
 
       if (minDiversity >= 0.25) {

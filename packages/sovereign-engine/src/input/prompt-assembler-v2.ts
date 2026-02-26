@@ -33,6 +33,7 @@ import type { SymbolMap } from '../symbol/symbol-map-types.js';
 import { compilePhysicsSection } from '../constraints/constraint-compiler.js';
 import type { ForgeEmotionBrief } from '@omega/omega-forge';
 import { SOVEREIGN_CONFIG } from '../config.js';
+import { getLot1AsPromptBlock } from '../prose-directive/lot1-instructions.js';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // MAIN ASSEMBLER
@@ -61,6 +62,9 @@ export function buildSovereignPrompt(
   // Add prescriptive sections for RCI + IFI floors
   sections.push(buildRhythmPrescriptionSection(packet));
   sections.push(buildCorporealAnchoringSection(packet));
+
+  // LOT 1 — PDB instructions (W1)
+  sections.push(buildLot1InstructionsSection());
 
   // PHYSICS (COMPILED) — inject if ForgeEmotionBrief provided
   if (emotionBrief) {
@@ -705,4 +709,20 @@ function buildForbiddenMovesSection(symbolMap: SymbolMap): PromptSection {
   content += symbolMap.global.anti_cliche_replacements.map((r) => `- "${r.cliche}" → "${r.replacement}"`).join('\n');
 
   return { section_id: 'forbidden_moves', title: 'FORBIDDEN MOVES', content, priority: 'high' };
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// LOT 1 — PDB INSTRUCTIONS (W1)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+function buildLot1InstructionsSection(): PromptSection {
+  const block = getLot1AsPromptBlock();
+  const content = `# PROSE DIRECTIVE — LOT 1 (PDB INSTRUCTIONS)\n\n${block}\n\nCOMPLIANCE IS MANDATORY. NONCOMPLIANCE = REJECTION.\n`;
+
+  return {
+    section_id: 'lot1_pdb_instructions',
+    title: 'LOT 1 — PDB Instructions',
+    content,
+    priority: 'high',
+  };
 }

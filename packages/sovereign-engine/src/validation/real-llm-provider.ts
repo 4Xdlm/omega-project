@@ -21,7 +21,10 @@
 import { sha256, canonicalize } from '@omega/canon-kernel';
 import type { ForgePacket } from '../types.js';
 import type { LLMProvider, LLMProviderResult } from './validation-types.js';
+import type { TranscendentPlanJSON } from '../oracle/genesis-v2/transcendent-planner.js';
 import { buildProseDirective, buildFinalPrompt } from './prose-directive-builder.js';
+import { GENESIS_V2_ENABLED } from '../oracle/genesis-v2/genesis-runner.js';
+import { buildPlanningPrompt, validateTranscendentPlan } from '../oracle/genesis-v2/transcendent-planner.js';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // CONFIG
@@ -66,11 +69,57 @@ export class AnthropicLLMProvider implements LLMProvider {
   // ═══════════════════════════════════════════════════════════════════════════
 
   async generateDraft(packet: ForgePacket, seed: string): Promise<LLMProviderResult> {
+    let transcendentPlan: TranscendentPlanJSON | undefined;
+
+    // GENESIS v2 Step 0: generate TranscendentPlanJSON BEFORE prose
+    if (GENESIS_V2_ENABLED) {
+      const planPrompt = buildPlanningPrompt({
+        intent: packet.intent.scene_goal,
+        shape: (packet as Record<string, unknown>).narrative_shape as string ?? 'ThreatReveal',
+        context: packet.intent.story_goal,
+        master_axes: ['tension_14d', 'signature', 'interiorite', 'necessite_m8'],
+      });
+      const planRaw = await this.callAnthropic(
+        [{ role: 'user', content: planPrompt }],
+        600,
+      );
+      // Parse JSON — strip markdown fences if present
+      const cleaned = planRaw.replace(/```json\n?/g, '').replace(/```\n?/g, '').trim();
+      try {
+        const parsed = JSON.parse(cleaned);
+        if (validateTranscendentPlan(parsed)) {
+          transcendentPlan = parsed;
+        }
+      } catch {
+        // plan invalid → continue without (paradox gate skipped = safe fallback)
+      }
+    }
+
+    // Build prose prompt — inject plan constraints if available
     const directive = buildProseDirective(packet);
-    const prompt = buildFinalPrompt(directive);
-    const promptHash = sha256(canonicalize({ model_id: this.model_id, user_prompt: prompt }));
-    const prose = await this.callAnthropic([{ role: 'user', content: prompt }], MAX_GENERATION_TOKENS);
-    return { prose, prompt_hash: promptHash };
+    let finalPrompt = buildFinalPrompt(directive);
+
+    if (transcendentPlan) {
+      const paradoxSection = [
+        '',
+        '═══ CONTRAINTES FOCALES (NON NÉGOCIABLES) ═══',
+        `MOTS ABSOLUMENT INTERDITS (auto-ban): ${transcendentPlan.forbidden_lexicon.join(', ')}`,
+        `LEMMES INTERDITS (et leurs dérivés): ${transcendentPlan.forbidden_lemmes.join(', ')}`,
+        `BIGRAMMES INTERDITS: ${transcendentPlan.forbidden_bigrammes.join(', ')}`,
+        `MÉTAPHORE À NE JAMAIS UTILISER: "${transcendentPlan.likely_metaphor}"`,
+        `ANGLE DE SUBVERSION: "${transcendentPlan.subversion_angle}"`,
+        `ANCRE SENSORIELLE OBLIGATOIRE (doit apparaître 2× dans la prose): "${transcendentPlan.objective_correlative}"`,
+        `ENJEU RÉEL (sous-texte — ne PAS nommer explicitement): "${transcendentPlan.subtext_truth}"`,
+        '',
+        'Ces contraintes forcent une prose improbable mais juste. Le respect est évalué automatiquement.',
+      ].join('\n');
+      finalPrompt = finalPrompt + paradoxSection;
+    }
+
+    const promptHash = sha256(canonicalize({ model_id: this.model_id, user_prompt: finalPrompt }));
+    const prose = await this.callAnthropic([{ role: 'user', content: finalPrompt }], MAX_GENERATION_TOKENS);
+
+    return { prose, prompt_hash: promptHash, transcendent_plan: transcendentPlan };
   }
 
   async judgeLLMAxis(prose: string, axis: string, seed: string): Promise<number> {

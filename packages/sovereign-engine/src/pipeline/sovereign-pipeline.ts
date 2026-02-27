@@ -26,6 +26,7 @@ import type { MusicalPolishResult } from '../polish/musical-engine.js';
 import type { SignatureEnforcementResult } from '../polish/signature-enforcement.js';
 import type { OfflineDuelResult } from '../duel/duel-engine.js';
 import type { LLMJudge } from '../oracle/llm-judge.js';
+import type { TranscendentPlanJSON } from '../oracle/genesis-v2/transcendent-planner.js';
 
 import { computeDelta } from '../delta/delta-computer.js';
 import { runOfflineSovereignLoop } from '../pitch/sovereign-loop.js';
@@ -62,6 +63,7 @@ export interface SovereignRunResult {
 export function runSovereignPipeline(
   prose: string,
   packet: ForgePacket,
+  transcendent_plan?: TranscendentPlanJSON,
 ): SovereignRunResult {
   // Step 1: Delta computation
   const deltaOutput: DeltaComputerOutput = computeDelta({ packet, prose });
@@ -76,7 +78,7 @@ export function runSovereignPipeline(
   let currentProse = loopResult.final_prose;
 
   // Step 3: Initial S-Score
-  const initialScore = scoreV2(currentProse, packet, deltaOutput);
+  const initialScore = scoreV2(currentProse, packet, deltaOutput, transcendent_plan);
 
   // Step 4: Duel if score < 92
   let duelResult: OfflineDuelResult | undefined;
@@ -102,7 +104,7 @@ export function runSovereignPipeline(
 
   // Step 8: Final S-Score
   const finalDelta = computeDelta({ packet, prose: currentProse });
-  const finalScore = scoreV2(currentProse, packet, finalDelta);
+  const finalScore = scoreV2(currentProse, packet, finalDelta, transcendent_plan);
 
   // Step 9: Pipeline hash (excludes run_at)
   const hashable = {
@@ -146,6 +148,7 @@ export async function runSovereignPipelineAsync(
   packet: ForgePacket,
   judge: LLMJudge,
   seed: string,
+  transcendent_plan?: TranscendentPlanJSON,
 ): Promise<SovereignRunResult> {
   // Step 1: Delta computation
   const deltaOutput: DeltaComputerOutput = computeDelta({ packet, prose });
@@ -160,7 +163,7 @@ export async function runSovereignPipelineAsync(
   let currentProse = loopResult.final_prose;
 
   // Step 3: Initial S-Score (with LLM judges)
-  const initialScore = await scoreV2Async(currentProse, packet, judge, seed, deltaOutput);
+  const initialScore = await scoreV2Async(currentProse, packet, judge, seed, deltaOutput, transcendent_plan);
 
   // Step 4: Duel if score < 92
   let duelResult: OfflineDuelResult | undefined;
@@ -185,7 +188,7 @@ export async function runSovereignPipelineAsync(
 
   // Step 8: Final S-Score (with LLM judges)
   const finalDelta = computeDelta({ packet, prose: currentProse });
-  const finalScore = await scoreV2Async(currentProse, packet, judge, seed + '_final', finalDelta);
+  const finalScore = await scoreV2Async(currentProse, packet, judge, seed + '_final', finalDelta, transcendent_plan);
 
   // Step 9: Pipeline hash
   const hashable = {

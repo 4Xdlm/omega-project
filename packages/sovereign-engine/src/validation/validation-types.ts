@@ -16,6 +16,7 @@
 import type { ForgePacket } from '../types.js';
 import type { SScoreV2 } from '../oracle/s-oracle-v2.js';
 import type { OfflineSovereignLoopResult } from '../pitch/sovereign-loop.js';
+import type { TranscendentPlanJSON } from '../oracle/genesis-v2/transcendent-planner.js';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // CONFIGURATION
@@ -66,6 +67,7 @@ export interface ExperimentCriteria {
 export interface LLMProviderResult {
   readonly prose: string;
   readonly prompt_hash: string;
+  readonly transcendent_plan?: TranscendentPlanJSON; // GENESIS v2
 }
 
 export interface LLMProvider {

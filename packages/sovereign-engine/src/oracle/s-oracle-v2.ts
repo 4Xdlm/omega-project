@@ -429,7 +429,31 @@ export async function scoreV2Async(
   judge: LLMJudge,
   seed: string,
   delta?: DeltaComputerOutput,
+  transcendent_plan?: TranscendentPlanJSON,
 ): Promise<SScoreV2> {
+  // ═══ HARD GATES — court-circuitent tout calcul ═══
+
+  // INV-PARADOX-01/02/03: paradox gate (Genesis v2 only)
+  if (GENESIS_V2_ENABLED && transcendent_plan) {
+    const paradoxResult = applyParadoxGate(prose, transcendent_plan);
+    if (!paradoxResult.passed) {
+      const reasons = paradoxResult.violations.map(v => v.invariant).join('+');
+      return buildHardGateReject(`paradox_gate: ${reasons}`);
+    }
+  }
+
+  // INV-SOMA-01: anatomie générique → REJECT immédiat
+  const somaResult = applySomaGate(prose);
+  if (!somaResult.passed) {
+    return buildHardGateReject('INV-SOMA-01: anatomie générique détectée');
+  }
+
+  // INV-BUDGET-01: révélation prématurée → REJECT immédiat
+  const budgetResult = applyBudgetGate(prose);
+  if (!budgetResult.passed) {
+    return buildHardGateReject(`INV-BUDGET-01: ${budgetResult.violation_type} en Q${budgetResult.violation_quartile}`);
+  }
+
   // Compute offline scores first
   const offlineScores: number[] = [
     0, // placeholder for tension_14d (index 0) — LLM-JUDGE

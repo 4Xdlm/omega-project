@@ -74,14 +74,16 @@ export async function runExperiment(
       const draftResult = await provider.generateDraft(packet, seed);
       const prose = draftResult.prose;
       const promptHash = draftResult.prompt_hash;
+      const transcendentPlan = draftResult.transcendent_plan;
 
       let run: RunResult;
 
       try {
         // Use async pipeline with LLM judges if judge is provided
+        // Pass transcendent_plan for Genesis v2 paradox gate evaluation
         const result = judge
-          ? await runSovereignPipelineAsync(prose, packet, judge, seed)
-          : runSovereignPipeline(prose, packet);
+          ? await runSovereignPipelineAsync(prose, packet, judge, seed, transcendentPlan)
+          : runSovereignPipeline(prose, packet, transcendentPlan);
 
         // INV-LOOP-01: Rollback monotone — never accept a regression
         // s_score_final >= s_score_initial always

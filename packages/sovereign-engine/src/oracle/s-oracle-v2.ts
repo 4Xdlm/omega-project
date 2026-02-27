@@ -33,7 +33,6 @@ import {
 } from '@omega/omega-forge';
 import { applySomaGate } from './calc-judges/soma-gate.js';
 import { applyBudgetGate } from './calc-judges/budget-gate.js';
-import { GENESIS_V2_ENABLED } from './genesis-v2/genesis-runner.js';
 import { applyParadoxGate } from './genesis-v2/paradox-gate.js';
 import type { TranscendentPlanJSON } from './genesis-v2/transcendent-planner.js';
 
@@ -348,7 +347,7 @@ export function scoreV2(
   // ═══ HARD GATES — court-circuitent tout calcul ═══
 
   // INV-PARADOX-01/02/03: paradox gate (Genesis v2 only)
-  if (GENESIS_V2_ENABLED && transcendent_plan) {
+  if (transcendent_plan != null) {
     const paradoxResult = applyParadoxGate(prose, transcendent_plan);
     if (!paradoxResult.passed) {
       const reasons = paradoxResult.violations.map(v => v.invariant).join('+');
@@ -459,7 +458,7 @@ export async function scoreV2Async(
   // ═══ HARD GATES — court-circuitent tout calcul ═══
 
   // INV-PARADOX-01/02/03: paradox gate (Genesis v2 only)
-  if (GENESIS_V2_ENABLED && transcendent_plan) {
+  if (transcendent_plan != null) {
     const paradoxResult = applyParadoxGate(prose, transcendent_plan);
     if (!paradoxResult.passed) {
       const reasons = paradoxResult.violations.map(v => v.invariant).join('+');

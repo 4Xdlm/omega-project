@@ -6,21 +6,23 @@ export const GENESIS_V2_ENABLED = process.env.GENESIS_V2 === '1';
 export const DIFFUSION_V2_ENABLED = process.env.DIFFUSION_V2 === '1';
 
 // Shapes/experiment IDs exempted from Genesis v2 (LOT3 only, zero paradox overhead)
-export const GENESIS_V2_EXEMPT_SHAPES: readonly string[] =
-  (process.env.GENESIS_V2_EXEMPT_SHAPES ?? 'absolute_necessity,E3_absolute_necessity')
+// Exact match (Set-based) — deterministic, no substring ambiguity
+export const GENESIS_V2_EXEMPT_SHAPES: ReadonlySet<string> = new Set(
+  (process.env.GENESIS_V2_EXEMPT_SHAPES ?? 'E1_continuity_impossible,absolute_necessity,E3_absolute_necessity')
     .split(',')
-    .map((s) => s.trim())
-    .filter((s) => s.length > 0);
+    .map((s) => s.trim().toLowerCase())
+    .filter(Boolean),
+);
 
 /**
  * Returns true if Genesis v2 is active for the given shape/experiment ID.
  * Returns false if GENESIS_V2 is disabled globally, or if the shape matches
- * an exempt entry (case-insensitive substring match).
+ * an exempt entry (exact match, case-insensitive).
  */
 export function isGenesisV2Active(shapeOrExpId: string): boolean {
   if (!GENESIS_V2_ENABLED) return false;
-  const lower = shapeOrExpId.toLowerCase();
-  return !GENESIS_V2_EXEMPT_SHAPES.some((exempt) => lower.includes(exempt.toLowerCase()));
+  const id = shapeOrExpId.trim().toLowerCase();
+  return !GENESIS_V2_EXEMPT_SHAPES.has(id);
 }
 
 export interface GenesisRunConfig {

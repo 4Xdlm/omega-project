@@ -26,17 +26,13 @@ if (!fs.existsSync(configSrc)) {
   process.exit(1);
 }
 
-// Forcer GENESIS_V2=1
-if (process.env.GENESIS_V2 !== '1') {
-  console.log('[ablation-w3] GENESIS_V2 non défini → forçage automatique GENESIS_V2=1');
-}
+console.log('[ablation-w3] Flag GENESIS_V2=' + (process.env.GENESIS_V2 ?? 'unset (off)'));
 
 console.log('[ablation-w3] OMEGA Phase T — W3a ABLATION — GENESIS v2');
 console.log('[ablation-w3] Baseline W2: 46.7% SEAL rate');
 console.log('[ablation-w3] Source commit: a778d58a');
 console.log('[ablation-w3] Modules actifs: TranscendentPlanner + ParadoxGate + LOT3 (4 instructions)');
 console.log('[ablation-w3] Hard gates: INV-PARADOX-01/02/03 + INV-SOMA-01 + INV-BUDGET-01');
-console.log('[ablation-w3] Flag: GENESIS_V2=1');
 console.log('');
 
 // Backup config actuelle
@@ -54,7 +50,7 @@ try {
   execSync('npx tsx scripts/run-validation.ts', {
     cwd: pkgRoot,
     stdio: 'inherit',
-    env: { ...process.env, GENESIS_V2: '1' },
+    env: { ...process.env },
   });
 } finally {
   if (fs.existsSync(configBak)) {

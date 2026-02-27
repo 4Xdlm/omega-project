@@ -3,7 +3,7 @@
 // W3a — Phase T
 
 import { describe, it, expect } from 'vitest';
-import { AXIS_TO_PATCH, PARETO_MIN_GAIN, MAX_DIFFUSION_STEPS } from '../../../src/oracle/genesis-v2/patch-dsl.js';
+import { AXIS_TO_PATCH, PARETO_MIN_GAIN, MAX_DIFFUSION_STEPS, getPatchInstruction } from '../../../src/oracle/genesis-v2/patch-dsl.js';
 import type { PatchKind } from '../../../src/oracle/genesis-v2/patch-dsl.js';
 
 describe('patch-dsl — PatchDSL types + constants', () => {
@@ -30,16 +30,32 @@ describe('patch-dsl — PatchDSL types + constants', () => {
     expect(MAX_DIFFUSION_STEPS).toBe(4);
   });
 
-  // Test 4: PatchKind contient SCENE_CONSTRAINT_LOCK et SUBTEXT_INVERSION
-  it('PatchKind inclut SCENE_CONSTRAINT_LOCK et SUBTEXT_INVERSION', () => {
+  // Test 4: PatchKind contient SCENE_CONSTRAINT_LOCK, SUBTEXT_INVERSION, PARADOX_CLEANUP
+  it('PatchKind inclut SCENE_CONSTRAINT_LOCK, SUBTEXT_INVERSION, PARADOX_CLEANUP', () => {
     const allKinds: PatchKind[] = [
       'TENSION_RATCHET', 'SIGNATURE_ANCHOR', 'NECESSITY_COMPRESS',
       'SENSORY_DENSITY', 'RHYTHM_BREAK', 'ANTICLICHE_SUBVERT',
       'INTERIOR_SURFACE', 'SCENE_CONSTRAINT_LOCK', 'SUBTEXT_INVERSION',
-      'KEEP_CANON',
+      'KEEP_CANON', 'PARADOX_CLEANUP',
     ];
     expect(allKinds).toContain('SCENE_CONSTRAINT_LOCK');
     expect(allKinds).toContain('SUBTEXT_INVERSION');
-    expect(allKinds).toHaveLength(10);
+    expect(allKinds).toContain('PARADOX_CLEANUP');
+    expect(allKinds).toHaveLength(11);
+  });
+
+  // Test 5: getPatchInstruction returns non-empty string for all kinds
+  it('getPatchInstruction returns non-empty for all 11 kinds', () => {
+    const allKinds: PatchKind[] = [
+      'TENSION_RATCHET', 'SIGNATURE_ANCHOR', 'NECESSITY_COMPRESS',
+      'SENSORY_DENSITY', 'RHYTHM_BREAK', 'ANTICLICHE_SUBVERT',
+      'INTERIOR_SURFACE', 'SCENE_CONSTRAINT_LOCK', 'SUBTEXT_INVERSION',
+      'KEEP_CANON', 'PARADOX_CLEANUP',
+    ];
+    for (const kind of allKinds) {
+      const instruction = getPatchInstruction(kind);
+      expect(instruction).toBeTruthy();
+      expect(instruction.length).toBeGreaterThan(10);
+    }
   });
 });

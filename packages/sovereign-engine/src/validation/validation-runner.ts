@@ -22,10 +22,14 @@
 
 import { sha256, canonicalize } from '@omega/canon-kernel';
 import { runSovereignPipeline, runSovereignPipelineAsync } from '../pipeline/sovereign-pipeline.js';
+import { scoreV2Async } from '../oracle/s-oracle-v2.js';
+import { GENESIS_V2_ENABLED } from '../oracle/genesis-v2/genesis-runner.js';
+import { runDiffusionCleanup, DIFFUSION_COMPOSITE_THRESHOLD } from '../oracle/genesis-v2/diffusion-runner.js';
 import type { ForgePacket } from '../types.js';
 import type { SScoreV2 } from '../oracle/s-oracle-v2.js';
 import type { OfflineSovereignLoopResult } from '../pitch/sovereign-loop.js';
 import type { LLMJudge } from '../oracle/llm-judge.js';
+import type { DiffusionRunnerResult } from '../oracle/genesis-v2/diffusion-runner.js';
 import type {
   LLMProvider,
   ValidationConfig,
@@ -85,10 +89,40 @@ export async function runExperiment(
           ? await runSovereignPipelineAsync(prose, packet, judge, seed, transcendentPlan)
           : runSovereignPipeline(prose, packet, transcendentPlan);
 
+        // ═══ DIFFUSION INTERCEPTION ═══
+        // If paradox rejection + high composite_without_gate → run diffusion cleanup
+        let diffusionResult: DiffusionRunnerResult | undefined;
+        let diffusionFinalScore: SScoreV2 | undefined;
+
+        if (
+          judge &&
+          transcendentPlan &&
+          GENESIS_V2_ENABLED &&
+          result.s_score_final.rejection_reason?.includes('paradox_gate') &&
+          (result.s_score_final.composite_without_gate ?? 0) >= DIFFUSION_COMPOSITE_THRESHOLD
+        ) {
+          diffusionResult = await runDiffusionCleanup({
+            prose,
+            packet,
+            plan: transcendentPlan,
+            initialScore: result.s_score_final,
+            judge,
+            seed,
+            scoreAsync: async (p, s) => scoreV2Async(p, packet, judge, s, undefined, transcendentPlan),
+          });
+
+          if (diffusionResult.paradox_cleaned) {
+            diffusionFinalScore = await scoreV2Async(
+              diffusionResult.final_prose, packet, judge, seed + '_diff_final', undefined, transcendentPlan,
+            );
+          }
+        }
+
         // INV-LOOP-01: Rollback monotone — never accept a regression
         // s_score_final >= s_score_initial always
-        const isRegression = result.s_score_final.composite < result.s_score_initial.composite;
-        const effectiveScore = isRegression ? result.s_score_initial : result.s_score_final;
+        const pipelineFinal = diffusionFinalScore ?? result.s_score_final;
+        const isRegression = pipelineFinal.composite < result.s_score_initial.composite;
+        const effectiveScore = isRegression ? result.s_score_initial : pipelineFinal;
         const loopDelta = effectiveScore.composite - result.s_score_initial.composite; // always >= 0
 
         // Apply experiment-specific criteria if defined, else use pipeline verdict

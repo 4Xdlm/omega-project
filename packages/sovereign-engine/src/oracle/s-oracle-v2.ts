@@ -51,6 +51,7 @@ export interface AxisScoreV2 {
 export interface SScoreV2 {
   readonly axes: readonly AxisScoreV2[];
   readonly composite: number;           // [0-100]
+  readonly composite_without_gate?: number; // Composite réel si hard gate paradox fired (pour diffusion eligibility)
   readonly emotion_weight_ratio: number; // ≥ 0.60
   readonly verdict: 'SEAL' | 'REJECT';
   readonly rejection_reason?: string;
@@ -285,6 +286,26 @@ function scoreSignatureOffline(prose: string, packet: ForgePacket): number {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
+// OFFLINE COMPOSITE — for composite_without_gate estimation
+// ═══════════════════════════════════════════════════════════════════════════════
+
+function computeOfflineComposite(prose: string, packet: ForgePacket): number {
+  const rawScores: number[] = [
+    scoreTension14dOffline(prose, packet),
+    scoreCoherenceEmotionnelle(prose, packet),
+    scoreInteriorite(prose),
+    scoreImpact(prose),
+    scoreDensiteSensorielle(prose, packet),
+    scoreNecessite(prose),
+    scoreAntiCliqueOffline(prose, packet),
+    scoreRythmeMusical(prose),
+    scoreSignatureOffline(prose, packet),
+  ];
+  const sumWeighted = AXES.reduce((s, def, i) => s + rawScores[i] * def.weight, 0);
+  return (sumWeighted / TOTAL_WEIGHT) * 100;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
 // HARD GATE REJECT BUILDER
 // ═══════════════════════════════════════════════════════════════════════════════
 
@@ -331,7 +352,11 @@ export function scoreV2(
     const paradoxResult = applyParadoxGate(prose, transcendent_plan);
     if (!paradoxResult.passed) {
       const reasons = paradoxResult.violations.map(v => v.invariant).join('+');
-      return buildHardGateReject(`paradox_gate: ${reasons}`);
+      const reject = buildHardGateReject(`paradox_gate: ${reasons}`);
+      return {
+        ...reject,
+        composite_without_gate: computeOfflineComposite(prose, packet),
+      };
     }
   }
 
@@ -438,7 +463,11 @@ export async function scoreV2Async(
     const paradoxResult = applyParadoxGate(prose, transcendent_plan);
     if (!paradoxResult.passed) {
       const reasons = paradoxResult.violations.map(v => v.invariant).join('+');
-      return buildHardGateReject(`paradox_gate: ${reasons}`);
+      const reject = buildHardGateReject(`paradox_gate: ${reasons}`);
+      return {
+        ...reject,
+        composite_without_gate: computeOfflineComposite(prose, packet),
+      };
     }
   }
 

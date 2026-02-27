@@ -152,6 +152,10 @@ export class AnthropicLLMProvider implements LLMProvider {
     return { prose, prompt_hash: promptHash, transcendent_plan: transcendentPlan };
   }
 
+  async generateText(prompt: string, maxTokens: number, _seed: string): Promise<string> {
+    return this.callAnthropic([{ role: 'user', content: prompt }], maxTokens);
+  }
+
   async judgeLLMAxis(prose: string, axis: string, seed: string): Promise<number> {
     const prompt = buildJudgePrompt(prose, axis, seed);
     const response = await this.callAnthropic([{ role: 'user', content: prompt }], MAX_JUDGE_TOKENS);

@@ -59,6 +59,15 @@ export class MockLLMProvider implements LLMProvider {
     const hash = sha256(axis + seed + prose.slice(0, 32));
     return parseInt(hash.slice(0, 8), 16) / 0xFFFFFFFF;
   }
+
+  /**
+   * Mock generateText: extracts prose from cleanup prompt and returns unchanged.
+   * For diffusion runner testing — no-op cleanup.
+   */
+  async generateText(prompt: string, _maxTokens: number, _seed: string): Promise<string> {
+    const proseMatch = prompt.match(/═══ PROSE À (?:CORRIGER|AMÉLIORER) ═══\n([\s\S]+?)\n═══ FIN PROSE ═══/);
+    return proseMatch?.[1] ?? 'mock cleaned prose';
+  }
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -73,6 +82,10 @@ export class RealLLMProvider implements LLMProvider {
   }
 
   async judgeLLMAxis(_prose: string, _axis: string, _seed: string): Promise<number> {
+    throw new Error('RealLLMProvider: not implemented in offline mode');
+  }
+
+  async generateText(_prompt: string, _maxTokens: number, _seed: string): Promise<string> {
     throw new Error('RealLLMProvider: not implemented in offline mode');
   }
 }

@@ -20,7 +20,7 @@ export function validateTranscendentPlan(plan: unknown): plan is TranscendentPla
   return (
     typeof p.subtext_truth === 'string' && p.subtext_truth.length > 10 &&
     typeof p.objective_correlative === 'string' && p.objective_correlative.length > 5 &&
-    Array.isArray(p.forbidden_lexicon) && (p.forbidden_lexicon as string[]).length >= 5 &&
+    Array.isArray(p.forbidden_lexicon) && (p.forbidden_lexicon as string[]).length >= 3 &&
     Array.isArray(p.forbidden_lemmes) && (p.forbidden_lemmes as string[]).length >= 3 &&
     Array.isArray(p.forbidden_bigrammes) && (p.forbidden_bigrammes as string[]).length >= 3 &&
     typeof p.likely_metaphor === 'string' && p.likely_metaphor.length > 5 &&
@@ -49,9 +49,9 @@ TÂCHE: Retourne UNIQUEMENT un JSON valide (aucun texte avant/après):
 {
   "subtext_truth": "<L'enjeu émotionnel/existentiel RÉEL de cette scène, en 1 phrase>",
   "objective_correlative": "<UN objet ou détail physique concret, non-symbolique évident, qui pourra incarner l'enjeu sans le nommer>",
-  "forbidden_lexicon": ["<mot1>","<mot2>","<mot3>","<mot4>","<mot5>"],
-  "forbidden_lemmes": ["<racine1>","<racine2>","<racine3>","<racine4>","<racine5>"],
-  "forbidden_bigrammes": ["<bg1>","<bg2>","<bg3>","<bg4>","<bg5>"],
+  "forbidden_lexicon": ["<mot1>","<mot2>","<mot3>"],
+  "forbidden_lemmes": ["<racine1>","<racine2>","<racine3>"],
+  "forbidden_bigrammes": ["<bg1>","<bg2>","<bg3>"],
   "likely_metaphor": "<LA métaphore ou comparaison que tu aurais instinctivement utilisée>",
   "subversion_angle": "<Comment détourner ou inverser cette métaphore pour qu'elle soit inattendue>",
   "master_axes_targets": {
@@ -59,7 +59,15 @@ TÂCHE: Retourne UNIQUEMENT un JSON valide (aucun texte avant/après):
   }
 }
 
-RÈGLE forbidden_lexicon: Ce sont les 5 mots les plus PROBABLES que tu écrirais pour exprimer l'enjeu. Tu t'AUTO-INTERDIS ces mots.
-RÈGLE forbidden_bigrammes: Les 5 enchaînements de mots les plus prévisibles dans ce contexte.
+RÈGLE CRITIQUE pour forbidden_lexicon (3 mots MAX):
+Bannis UNIQUEMENT les mots émotionnels/thématiques les plus évidents et attendus
+(ex: "terreur", "larme", "hurler", "tendresse", "espoir")
+N'interdis JAMAIS: mots de liaison, articles, verbes courants, adverbes basiques
+Mauvais exemple: ["très", "mais", "faire"] → INTERDIT
+Bon exemple: ["effrayer", "larme", "honte"] → OK
+Si doute sur un mot: ne le banni pas
+
+RÈGLE forbidden_lexicon: Ce sont les 3 mots les plus PROBABLES que tu écrirais pour exprimer l'enjeu. Tu t'AUTO-INTERDIS ces mots.
+RÈGLE forbidden_bigrammes: Les 3 enchaînements de mots les plus prévisibles dans ce contexte.
 RÈGLE likely_metaphor: La métaphore que tout auteur médiocre utiliserait ici.`;
 }

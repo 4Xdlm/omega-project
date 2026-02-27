@@ -73,6 +73,7 @@ export interface LLMProviderResult {
 export interface LLMProvider {
   generateDraft(packet: ForgePacket, seed: string): Promise<LLMProviderResult>;
   judgeLLMAxis(prose: string, axis: string, seed: string): Promise<number>;
+  generateText(prompt: string, maxTokens: number, seed: string): Promise<string>;
   readonly model_id: string;
 }
 

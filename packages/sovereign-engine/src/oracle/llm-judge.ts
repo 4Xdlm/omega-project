@@ -169,6 +169,14 @@ export class LLMJudge {
     return result;
   }
 
+  /**
+   * Generate free-form text from a prompt (for diffusion cleanup).
+   * Uses the same API infrastructure (retry, timeout, rate limiting).
+   */
+  async generateText(prompt: string, maxTokens: number, _seed: string): Promise<string> {
+    return this.callWithRetry('generateText', prompt, maxTokens);
+  }
+
   // ═══════════════════════════════════════════════════════════════════════════
   // PROMPT BUILDING
   // ═══════════════════════════════════════════════════════════════════════════
@@ -191,14 +199,14 @@ Réponds UNIQUEMENT en JSON: {"score": <0.0-1.0>, "reason": "<max 100 chars>"}`;
   // API CALL WITH RETRY + TIMEOUT
   // ═══════════════════════════════════════════════════════════════════════════
 
-  private async callWithRetry(axis: string, prompt: string): Promise<string> {
+  private async callWithRetry(axis: string, prompt: string, maxTokens = 150): Promise<string> {
     await this.rateLimit();
 
     let lastError: Error | null = null;
 
     for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
       try {
-        const text = await this.callWithTimeout(prompt, axis);
+        const text = await this.callWithTimeout(prompt, axis, maxTokens);
         return text;
       } catch (error: unknown) {
         if (error instanceof JudgeTimeoutError || error instanceof ModelDriftError) {
@@ -222,7 +230,7 @@ Réponds UNIQUEMENT en JSON: {"score": <0.0-1.0>, "reason": "<max 100 chars>"}`;
     throw lastError || new Error(`LLMJudge [${axis}]: all retry attempts failed`);
   }
 
-  private async callWithTimeout(prompt: string, axis: string): Promise<string> {
+  private async callWithTimeout(prompt: string, axis: string, maxTokens = 150): Promise<string> {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), this.timeoutMs);
 
@@ -236,7 +244,7 @@ Réponds UNIQUEMENT en JSON: {"score": <0.0-1.0>, "reason": "<max 100 chars>"}`;
         },
         body: JSON.stringify({
           model: this.modelId,
-          max_tokens: 150,
+          max_tokens: maxTokens,
           messages: [{ role: 'user', content: prompt }],
         }),
         signal: controller.signal,

@@ -38,6 +38,28 @@ const DEFAULT_RETRY_BASE_MS = 5000;
 const MAX_GENERATION_TOKENS = 2000;
 const MAX_JUDGE_TOKENS = 100;
 
+// ═══════════════════════════════════════════════════════════════════════════════
+// SAFETY REFUSAL DETECTION
+// ═══════════════════════════════════════════════════════════════════════════════
+
+export const REFUSAL_PATTERNS: readonly RegExp[] = [
+  /je ne peux pas/i,
+  /i cannot/i,
+  /i can't/i,
+  /je ne suis pas en mesure/i,
+  /je m'excuse/i,
+  /as an ai/i,
+  /en tant qu'ia/i,
+  /je refuse/i,
+  /content policy/i,
+  /je ne suis pas autorisé/i,
+];
+
+export function isRefusal(text: string): boolean {
+  if (text.trim().length === 0) return true;
+  return REFUSAL_PATTERNS.some(p => p.test(text));
+}
+
 export interface AnthropicProviderOptions {
   readonly rateLimitMs?: number;
   readonly retryBaseMs?: number;
@@ -102,22 +124,30 @@ export class AnthropicLLMProvider implements LLMProvider {
     if (transcendentPlan) {
       const paradoxSection = [
         '',
-        '═══ CONTRAINTES FOCALES (NON NÉGOCIABLES) ═══',
-        `MOTS ABSOLUMENT INTERDITS (auto-ban): ${transcendentPlan.forbidden_lexicon.join(', ')}`,
-        `LEMMES INTERDITS (et leurs dérivés): ${transcendentPlan.forbidden_lemmes.join(', ')}`,
-        `BIGRAMMES INTERDITS: ${transcendentPlan.forbidden_bigrammes.join(', ')}`,
-        `MÉTAPHORE À NE JAMAIS UTILISER: "${transcendentPlan.likely_metaphor}"`,
-        `ANGLE DE SUBVERSION: "${transcendentPlan.subversion_angle}"`,
-        `ANCRE SENSORIELLE OBLIGATOIRE (doit apparaître 2× dans la prose): "${transcendentPlan.objective_correlative}"`,
-        `ENJEU RÉEL (sous-texte — ne PAS nommer explicitement): "${transcendentPlan.subtext_truth}"`,
+        '═══ ORIENTATION STYLISTIQUE ═══',
+        `Pour cette scène, explore un registre lexical qui évite ces mots trop attendus: ${transcendentPlan.forbidden_lexicon.join(', ')}`,
+        `Évite aussi les racines: ${transcendentPlan.forbidden_lemmes.join(', ')}`,
+        `Et ces tournures convenues: ${transcendentPlan.forbidden_bigrammes.join(', ')}`,
+        `La métaphore "${transcendentPlan.likely_metaphor}" est trop prévisible — trouve mieux.`,
+        `Angle de subversion possible: "${transcendentPlan.subversion_angle}"`,
+        `Ancre sensorielle à intégrer naturellement (au moins 2×): "${transcendentPlan.objective_correlative}"`,
+        `Enjeu sous-jacent (ne pas nommer, faire sentir): "${transcendentPlan.subtext_truth}"`,
         '',
-        'Ces contraintes forcent une prose improbable mais juste. Le respect est évalué automatiquement.',
+        'Tu es un auteur littéraire exigeant. Ces orientations guident ton écriture vers une prose singulière.',
       ].join('\n');
       finalPrompt = finalPrompt + paradoxSection;
     }
 
     const promptHash = sha256(canonicalize({ model_id: this.model_id, user_prompt: finalPrompt }));
     const prose = await this.callAnthropic([{ role: 'user', content: finalPrompt }], MAX_GENERATION_TOKENS);
+
+    // Safety refusal detection — retry without Focal Paradox constraints
+    if (transcendentPlan && isRefusal(prose)) {
+      const fallbackPrompt = buildFinalPrompt(directive);
+      const fallbackHash = sha256(canonicalize({ model_id: this.model_id, user_prompt: fallbackPrompt }));
+      const fallbackProse = await this.callAnthropic([{ role: 'user', content: fallbackPrompt }], MAX_GENERATION_TOKENS);
+      return { prose: fallbackProse, prompt_hash: fallbackHash, transcendent_plan: undefined };
+    }
 
     return { prose, prompt_hash: promptHash, transcendent_plan: transcendentPlan };
   }

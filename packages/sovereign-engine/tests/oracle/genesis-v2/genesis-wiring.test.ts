@@ -1,10 +1,11 @@
 // tests/oracle/genesis-v2/genesis-wiring.test.ts
-// GENESIS v2 wiring — 4 tests
-// W3a-fix — Phase T
+// GENESIS v2 wiring — 7 tests
+// W3a-fix2 — Phase T
 
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { validateTranscendentPlan } from '../../../src/oracle/genesis-v2/transcendent-planner.js';
 import { applyParadoxGate } from '../../../src/oracle/genesis-v2/paradox-gate.js';
+import { isRefusal, REFUSAL_PATTERNS } from '../../../src/validation/real-llm-provider.js';
 import type { TranscendentPlanJSON } from '../../../src/oracle/genesis-v2/transcendent-planner.js';
 
 const VALID_PLAN: TranscendentPlanJSON = {
@@ -72,5 +73,48 @@ describe('genesis-wiring — GENESIS v2 pipeline integration', () => {
     const paradox01 = result.violations.filter(v => v.invariant === 'INV-PARADOX-01');
     expect(paradox01.length).toBeGreaterThanOrEqual(1);
     expect(paradox01[0].evidence).toBe('peur');
+  });
+
+  // Test 5: W3a-fix2 — empty prose → paradox gate no crash (INV-PARADOX-03 fires)
+  it('empty prose → paradox gate graceful (INV-PARADOX-03 only)', () => {
+    const result = applyParadoxGate('', VALID_PLAN);
+    // No forbidden words to find in empty prose
+    const paradox01 = result.violations.filter(v => v.invariant === 'INV-PARADOX-01');
+    expect(paradox01).toHaveLength(0);
+    // Objective correlative absent
+    const paradox03 = result.violations.filter(v => v.invariant === 'INV-PARADOX-03');
+    expect(paradox03).toHaveLength(1);
+    expect(result.passed).toBe(false);
+  });
+
+  // Test 6: W3a-fix2 — violation context contains ~30 chars around match
+  it('violation context field contains surrounding text', () => {
+    const prose = 'La tasse ébréchée sur la table. La peur montait en lui, irrésistible.';
+    const result = applyParadoxGate(prose, VALID_PLAN);
+    const paradox01 = result.violations.filter(v => v.invariant === 'INV-PARADOX-01');
+    expect(paradox01.length).toBeGreaterThanOrEqual(1);
+    const peurViolation = paradox01.find(v => v.evidence === 'peur');
+    expect(peurViolation).toBeDefined();
+    expect(peurViolation!.context).toBeTruthy();
+    expect(peurViolation!.context.length).toBeGreaterThan(0);
+    // Context should contain the matched term (normalized)
+    expect(peurViolation!.context.toLowerCase()).toContain('peur');
+  });
+
+  // Test 7: W3a-fix2 — isRefusal detects safety refusal patterns
+  it('isRefusal detects known safety refusal patterns', () => {
+    // Empty text = refusal
+    expect(isRefusal('')).toBe(true);
+    expect(isRefusal('   ')).toBe(true);
+    // Known patterns
+    expect(isRefusal('Je ne peux pas écrire ce contenu.')).toBe(true);
+    expect(isRefusal('I cannot generate that.')).toBe(true);
+    expect(isRefusal('As an AI, I must decline.')).toBe(true);
+    expect(isRefusal('This violates content policy.')).toBe(true);
+    // Normal prose = not refusal
+    expect(isRefusal('La tasse ébréchée reposait sur la table.')).toBe(false);
+    expect(isRefusal('Le vent soufflait entre les arbres.')).toBe(false);
+    // Verify REFUSAL_PATTERNS is non-empty
+    expect(REFUSAL_PATTERNS.length).toBeGreaterThanOrEqual(5);
   });
 });

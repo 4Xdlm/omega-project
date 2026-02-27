@@ -95,10 +95,8 @@ export class AnthropicLLMProvider implements LLMProvider {
 
     // GENESIS v2 Step 0: generate TranscendentPlanJSON BEFORE prose
     // Shape-aware: exempt shapes (e.g. absolute_necessity) skip Genesis v2 entirely
-    const shapeId = (packet as any).intent?.narrative_shape as string  // eslint-disable-line @typescript-eslint/no-explicit-any
-      ?? (packet as any).experiment_id as string  // eslint-disable-line @typescript-eslint/no-explicit-any
-      ?? '';
-    if (isGenesisV2Active(shapeId)) {
+    const expId = (packet as any).experiment_id as string ?? '';  // eslint-disable-line @typescript-eslint/no-explicit-any
+    if (isGenesisV2Active(expId)) {
       const planPrompt = buildPlanningPrompt({
         intent: packet.intent.scene_goal,
         shape: (packet as Record<string, unknown>).narrative_shape as string ?? 'ThreatReveal',

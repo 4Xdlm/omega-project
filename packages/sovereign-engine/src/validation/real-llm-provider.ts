@@ -23,7 +23,7 @@ import type { ForgePacket } from '../types.js';
 import type { LLMProvider, LLMProviderResult } from './validation-types.js';
 import type { TranscendentPlanJSON } from '../oracle/genesis-v2/transcendent-planner.js';
 import { buildProseDirective, buildFinalPrompt } from './prose-directive-builder.js';
-import { GENESIS_V2_ENABLED } from '../oracle/genesis-v2/genesis-runner.js';
+import { isGenesisV2Active } from '../oracle/genesis-v2/genesis-runner.js';
 import { buildPlanningPrompt, validateTranscendentPlan } from '../oracle/genesis-v2/transcendent-planner.js';
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -94,7 +94,11 @@ export class AnthropicLLMProvider implements LLMProvider {
     let transcendentPlan: TranscendentPlanJSON | undefined;
 
     // GENESIS v2 Step 0: generate TranscendentPlanJSON BEFORE prose
-    if (GENESIS_V2_ENABLED) {
+    // Shape-aware: exempt shapes (e.g. absolute_necessity) skip Genesis v2 entirely
+    const shapeId = (packet as any).intent?.narrative_shape as string  // eslint-disable-line @typescript-eslint/no-explicit-any
+      ?? (packet as any).experiment_id as string  // eslint-disable-line @typescript-eslint/no-explicit-any
+      ?? '';
+    if (isGenesisV2Active(shapeId)) {
       const planPrompt = buildPlanningPrompt({
         intent: packet.intent.scene_goal,
         shape: (packet as Record<string, unknown>).narrative_shape as string ?? 'ThreatReveal',

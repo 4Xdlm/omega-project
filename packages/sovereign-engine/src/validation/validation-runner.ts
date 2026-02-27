@@ -23,7 +23,7 @@
 import { sha256, canonicalize } from '@omega/canon-kernel';
 import { runSovereignPipeline, runSovereignPipelineAsync } from '../pipeline/sovereign-pipeline.js';
 import { scoreV2Async } from '../oracle/s-oracle-v2.js';
-import { GENESIS_V2_ENABLED } from '../oracle/genesis-v2/genesis-runner.js';
+import { isGenesisV2Active } from '../oracle/genesis-v2/genesis-runner.js';
 import { runDiffusionCleanup, DIFFUSION_COMPOSITE_THRESHOLD } from '../oracle/genesis-v2/diffusion-runner.js';
 import type { ForgePacket } from '../types.js';
 import type { SScoreV2 } from '../oracle/s-oracle-v2.js';
@@ -97,7 +97,7 @@ export async function runExperiment(
         if (
           judge &&
           transcendentPlan &&
-          GENESIS_V2_ENABLED &&
+          isGenesisV2Active((packet as any).experiment_id ?? '') &&  // eslint-disable-line @typescript-eslint/no-explicit-any
           result.s_score_final.rejection_reason?.includes('paradox_gate') &&
           (result.s_score_final.composite_without_gate ?? 0) >= DIFFUSION_COMPOSITE_THRESHOLD
         ) {

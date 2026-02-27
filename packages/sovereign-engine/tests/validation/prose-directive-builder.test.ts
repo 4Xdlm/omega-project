@@ -158,4 +158,34 @@ describe('ProseDirectiveBuilder — CalibV4', () => {
     const expectedHash = sha256(canonicalize(withoutHash));
     expect(directive.prose_directive_hash).toBe(expectedHash);
   });
+
+  // T11: packet with signature_words → prompt contains those words in EMPREINTE section
+  it('T11: signature_words present → prompt contains EMPREINTE STYLISTIQUE + words', () => {
+    // Default test packet has signature_words: ['ombre', 'cendre', 'fer', 'pierre', 'flamme']
+    const directive = buildProseDirective(packet);
+    expect(directive.signature_injection).not.toBeNull();
+    expect(directive.signature_injection).toContain('ombre');
+    expect(directive.signature_injection).toContain('cendre');
+    const prompt = buildFinalPrompt(directive);
+    expect(prompt).toContain('EMPREINTE STYLISTIQUE');
+    expect(prompt).toContain('ombre');
+  });
+
+  // T12: packet with empty signature_words → no EMPREINTE section in prompt
+  it('T12: empty signature_words → no EMPREINTE section in prompt', () => {
+    const emptySignaturePacket = {
+      ...packet,
+      style_genome: {
+        ...packet.style_genome,
+        lexicon: {
+          ...packet.style_genome.lexicon,
+          signature_words: [] as readonly string[],
+        },
+      },
+    } as ForgePacket;
+    const directive = buildProseDirective(emptySignaturePacket);
+    expect(directive.signature_injection).toBeNull();
+    const prompt = buildFinalPrompt(directive);
+    expect(prompt).not.toContain('EMPREINTE STYLISTIQUE');
+  });
 });

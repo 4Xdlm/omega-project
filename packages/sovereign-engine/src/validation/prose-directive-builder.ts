@@ -42,6 +42,7 @@ export interface ProseDirective {
   readonly necessity_rules: readonly string[];
   readonly vital_stakes: string | null;
   readonly style_constraints: readonly string[];
+  readonly signature_injection: string | null;
   readonly dominant_emotion: string;
   readonly prose_directive_hash: string;
 }
@@ -186,6 +187,12 @@ export function buildProseDirective(packet: ForgePacket): ProseDirective {
   // Overall dominant emotion (from Q3 — climax)
   const dominantEmotion = q3.dominant;
 
+  // Signature injection: strongly instruct LLM to use signature_words
+  const signatureWords = packet.style_genome.lexicon.signature_words;
+  const signatureInjection = signatureWords.length > 0
+    ? `Ton texte DOIT utiliser naturellement au moins ${Math.ceil(signatureWords.length * 0.8)} de ces mots ou expressions caractéristiques: ${signatureWords.slice(0, 15).join(', ')}.\nCes mots définissent la voix de l'auteur — intègre-les organiquement, sans forcer.`
+    : null;
+
   // Build directive without hash
   const directiveWithoutHash = {
     scene_context: sceneContext,
@@ -193,6 +200,7 @@ export function buildProseDirective(packet: ForgePacket): ProseDirective {
     necessity_rules: NECESSITY_RULES,
     vital_stakes: vitalStakes,
     style_constraints: styleConstraints,
+    signature_injection: signatureInjection,
     dominant_emotion: dominantEmotion,
   };
 
@@ -243,6 +251,11 @@ export function buildFinalPrompt(directive: ProseDirective): string {
     for (const c of directive.style_constraints) {
       lines.push(c);
     }
+  }
+
+  if (directive.signature_injection) {
+    lines.push('', '\u2550\u2550\u2550 EMPREINTE STYLISTIQUE (OBLIGATOIRE) \u2550\u2550\u2550');
+    lines.push(directive.signature_injection);
   }
 
   lines.push('', '\u2550\u2550\u2550 INSTRUCTION FINALE \u2550\u2550\u2550');

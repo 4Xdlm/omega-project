@@ -1,0 +1,11 @@
+import fs from 'fs';
+import path from 'path';
+const packDir = 'validation/ValidationPack_phase-s_real_20260226_6c47438';
+const files = fs.readdirSync(path.join(packDir,'reports')).filter(f=>f.endsWith('.json')&&!f.includes('summary'));
+const r = JSON.parse(fs.readFileSync(path.join(packDir,'reports',files[0]),'utf8'));
+console.log('TOP KEYS:', Object.keys(r));
+console.log('composite_score:', r.composite_score ?? r.score ?? 'NOT FOUND');
+console.log('verdict:', r.verdict);
+console.log('rejection_reason:', r.rejection_reason ?? 'NOT FOUND');
+console.log('narrative_shape:', r.narrative_shape ?? r.shape ?? 'NOT FOUND');
+if (r.axes) console.log('axes:', JSON.stringify(r.axes).substring(0,200));

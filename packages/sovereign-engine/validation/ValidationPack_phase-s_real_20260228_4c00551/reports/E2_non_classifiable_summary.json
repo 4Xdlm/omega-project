@@ -1,0 +1,1595 @@
+{
+  "experiment_id": "E2_non_classifiable",
+  "mode": "real",
+  "total_runs": 10,
+  "sealed_count": 7,
+  "rejected_count": 3,
+  "failed_count": 0,
+  "reject_rate": 0.3,
+  "pct_above_92": 0,
+  "mean_s_score_sealed": 87.42371483306114,
+  "mean_improvement": 40.72371483306114,
+  "corr_14d_distribution": [
+    0.8,
+    0.6,
+    0.8,
+    0.8,
+    0,
+    0.8,
+    0.8,
+    0.8,
+    0,
+    0.7
+  ],
+  "mean_corr_14d": 0.61,
+  "baseline": {
+    "value": 46.7,
+    "mean_improvement": 40.72371483306114
+  },
+  "composite_p75": 88.49263004554557,
+  "model_id": "claude-sonnet-4-20250514",
+  "runs": [
+    {
+      "run_index": 0,
+      "experiment_id": "E2_non_classifiable",
+      "case_id": "FORGE_hostile_01_run_val_001",
+      "seed": "ad781ee91a58acf8a370f2710f43c1317287d1f52df6b753b190986b6a3b4a6b",
+      "prose_generated": "Son souffle se fracture contre ses dents serrées. \n\nLe corridor s'étend sur quarante-trois mètres — elle l'a mesuré onze fois déjà. Les murs de béton brut portent cette tessellation de fissures qu'elle reconnaît, motif xénomorphe qui épouse la courbure de ses tempes quand elle ferme les paupières. Ses pas résonnent sur le carrelage damier, écho palindrome qui revient avant même qu'elle l'émette. La porte au bout : acier brossé, poignée chromée, grincement familier sur trois notes descendantes. \n\nElle l'ouvre.\n\nLe poids de sa salive, métallique sur sa langue.\n\nLe même corridor. Quarante-trois mètres. Béton, tessellation, carrelage. Ses empreintes dans la poussière — déjà là, encore humides. L'écho de ses pas futurs martèle le silence avant qu'elle bouge. La géométrie se plie, angles droits qui dévient de deux degrés vers une convergence stochastique. Sa main atteint la poignée qui garde la tiédeur de ses doigts précédents.\n\nElle recule.\n\nSes battements cardiaques comptent quatre-vingt-seize pulsations.\n\nLe mur derrière elle n'existe plus. Le corridor s'allonge, fractale infinie qui se dévore par ses extrémités. Quarante-trois mètres deviennent quatre cent trente, puis quatre mille trois cents, distance qui se contracte sous ses pieds nus — quand a-t-elle perdu ses chaussures ? Les tessellations bougent, migration lente de forme en forme, xénomorphe architecture qui apprend ses mouvements pour mieux les anticiper.\n\nLa porte claque derrière elle sans qu'elle l'ait",
+      "s_score_initial": {
+        "axes": [
+          {
+            "name": "tension_14d",
+            "weight": 3,
+            "raw": 0.8,
+            "weighted": 2.4000000000000004
+          },
+          {
+            "name": "coherence_emotionnelle",
+            "weight": 2.5,
+            "raw": 1,
+            "weighted": 2.5
+          },
+          {
+            "name": "interiorite",
+            "weight": 2,
+            "raw": 0.9,
+            "weighted": 1.8
+          },
+          {
+            "name": "impact_ouverture_cloture",
+            "weight": 2,
+            "raw": 0.85,
+            "weighted": 1.7
+          },
+          {
+            "name": "densite_sensorielle",
+            "weight": 1.5,
+            "raw": 0.8,
+            "weighted": 1.2000000000000002
+          },
+          {
+            "name": "necessite_m8",
+            "weight": 1,
+            "raw": 0.8,
+            "weighted": 0.8
+          },
+          {
+            "name": "anti_cliche",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          },
+          {
+            "name": "rythme_musical",
+            "weight": 1,
+            "raw": 0.9947396737906093,
+            "weighted": 0.9947396737906093
+          },
+          {
+            "name": "signature",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          }
+        ],
+        "composite": 89.29826449193742,
+        "emotion_weight_ratio": 0.6333333333333333,
+        "verdict": "REJECT",
+        "rejection_reason": "composite_below_threshold",
+        "s_score_hash": "0fa0c1b056c08ecad6626f9ddc4e61df5034cc9805ec67dab53a4313bb7abe16",
+        "scored_at": "2026-02-28T10:08:59.946Z"
+      },
+      "sovereign_loop": {
+        "final_prose": "Son souffle se fracture contre ses dents serrées. \n\nLe corridor s'étend sur quarante-trois mètres — elle l'a mesuré onze fois déjà. Les murs de béton brut portent cette tessellation de fissures qu'elle reconnaît, motif xénomorphe qui épouse la courbure de ses tempes quand elle ferme les paupières. Ses pas résonnent sur le carrelage damier, écho palindrome qui revient avant même qu'elle l'émette. La porte au bout : acier brossé, poignée chromée, grincement familier sur trois notes descendantes. \n\nElle l'ouvre.\n\nLe poids de sa salive, métallique sur sa langue.\n\nLe même corridor. Quarante-trois mètres. Béton, tessellation, carrelage. Ses empreintes dans la poussière — déjà là, encore humides. L'écho de ses pas futurs martèle le silence avant qu'elle bouge. La géométrie se plie, angles droits qui dévient de deux degrés vers une convergence stochastique. Sa main atteint la poignée qui garde la tiédeur de ses doigts précédents.\n\nElle recule.\n\nSes battements cardiaques comptent quatre-vingt-seize pulsations.\n\nLe mur derrière elle n'existe plus. Le corridor s'allonge, fractale infinie qui se dévore par ses extrémités. Quarante-trois mètres deviennent quatre cent trente, puis quatre mille trois cents, distance qui se contracte sous ses pieds nus — quand a-t-elle perdu ses chaussures ? Les tessellations bougent, migration lente de forme en forme, xénomorphe architecture qui apprend ses mouvements pour mieux les anticiper.\n\nLa porte claque derrière elle sans qu'elle l'ait",
+        "nb_passes": 2,
+        "loop_trace": [
+          {
+            "pass_number": 1,
+            "strategy_id": "emotion",
+            "ops_applied": [
+              "INTENSIFY_EMOTION",
+              "DEEPEN_INTERIORITY",
+              "ANCHOR_BEAT",
+              "STRENGTHEN_CLOSING"
+            ]
+          },
+          {
+            "pass_number": 2,
+            "strategy_id": "emotion",
+            "ops_applied": [
+              "INTENSIFY_EMOTION",
+              "DEEPEN_INTERIORITY",
+              "ANCHOR_BEAT",
+              "STRENGTHEN_CLOSING"
+            ]
+          }
+        ],
+        "was_corrected": true,
+        "forensic_data": {
+          "rollback_count": 0,
+          "rollbacks": []
+        }
+      },
+      "s_score_final": {
+        "axes": [
+          {
+            "name": "tension_14d",
+            "weight": 3,
+            "raw": 0.8,
+            "weighted": 2.4000000000000004
+          },
+          {
+            "name": "coherence_emotionnelle",
+            "weight": 2.5,
+            "raw": 1,
+            "weighted": 2.5
+          },
+          {
+            "name": "interiorite",
+            "weight": 2,
+            "raw": 0.9,
+            "weighted": 1.8
+          },
+          {
+            "name": "impact_ouverture_cloture",
+            "weight": 2,
+            "raw": 0.85,
+            "weighted": 1.7
+          },
+          {
+            "name": "densite_sensorielle",
+            "weight": 1.5,
+            "raw": 0.8,
+            "weighted": 1.2000000000000002
+          },
+          {
+            "name": "necessite_m8",
+            "weight": 1,
+            "raw": 0.8,
+            "weighted": 0.8
+          },
+          {
+            "name": "anti_cliche",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          },
+          {
+            "name": "rythme_musical",
+            "weight": 1,
+            "raw": 0.9947396737906093,
+            "weighted": 0.9947396737906093
+          },
+          {
+            "name": "signature",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          }
+        ],
+        "composite": 89.29826449193742,
+        "emotion_weight_ratio": 0.6333333333333333,
+        "verdict": "REJECT",
+        "rejection_reason": "composite_below_threshold",
+        "s_score_hash": "0fa0c1b056c08ecad6626f9ddc4e61df5034cc9805ec67dab53a4313bb7abe16",
+        "scored_at": "2026-02-28T10:08:59.946Z"
+      },
+      "verdict": "SEAL",
+      "model_id": "claude-sonnet-4-20250514",
+      "run_hash": "1351b0dc725a5e85aa50ae5a0af66c5e22a4f81554a2e850774046c1321f1e63",
+      "prompt_hash": "2a1a15455f299ba30b5b35d93eb45465248dabe8e398f4a063b2c19d637a858f",
+      "axes_info_only": {
+        "tension_14d": 0.8
+      },
+      "loop_rollback": true,
+      "loop_delta_composite": 0
+    },
+    {
+      "run_index": 0,
+      "experiment_id": "E2_non_classifiable",
+      "case_id": "FORGE_hostile_02_run_val_001",
+      "seed": "765d74d4f0f784f4ffcf52eb1f80afe8b695a0b3455b506232d04355dd0ffccc",
+      "prose_generated": "Le dossier glissa entre les doigts du juge comme une chrysalide vide. Martin observait depuis le fond de la salle, les ongles creusant des demi-lunes dans ses paumes. Trois années d'enquête, quarante témoignages — tout s'effritait sous le marteau d'acajou.\n\n« Relaxe. » Le mot tomba, dur comme du tungstène. \n\nL'accusé rajusta sa cravate, sourire imperceptible aux lèvres. Son avocat referma son attaché-case d'un claquement sec qui résonna contre les boiseries. Martin fixait la nuque du magistrat, cette calcification de chair et de compromissions qui venait de signer l'impunité.\n\nSa mâchoire se contracta. Les preuves étaient là — irréfutables, anisotropes dans leur convergence vers une seule vérité. Mais les connexions politiques tissaient des toiles plus solides que l'évidence.\n\nLe juge rassembla ses papiers sans lever les yeux. Tautologie parfaite : la justice rendant l'injustice au nom de la justice. Martin sentit quelque chose se fissurer dans sa poitrine, cette foi naïve qu'il portait depuis l'école de police.\n\nAutour de lui, l'assistance se dispersait dans un froissement d'étoffes. Les familles des victimes fixaient le vide, hébétées. Lui restait immobile, arc-bouté contre cette révélation glaciale : le système qu'il servait depuis quinze ans venait de se retourner contre lui avec la précision d'une lame.\n\nL'accusé passa devant lui. Leurs regards se croisèrent une seconde. Un clin d'œil. Martin ne bougea pas.",
+      "s_score_initial": {
+        "axes": [
+          {
+            "name": "tension_14d",
+            "weight": 3,
+            "raw": 0.6,
+            "weighted": 1.7999999999999998
+          },
+          {
+            "name": "coherence_emotionnelle",
+            "weight": 2.5,
+            "raw": 1,
+            "weighted": 2.5
+          },
+          {
+            "name": "interiorite",
+            "weight": 2,
+            "raw": 0.8,
+            "weighted": 1.6
+          },
+          {
+            "name": "impact_ouverture_cloture",
+            "weight": 2,
+            "raw": 0.85,
+            "weighted": 1.7
+          },
+          {
+            "name": "densite_sensorielle",
+            "weight": 1.5,
+            "raw": 0.7,
+            "weighted": 1.0499999999999998
+          },
+          {
+            "name": "necessite_m8",
+            "weight": 1,
+            "raw": 0.8,
+            "weighted": 0.8
+          },
+          {
+            "name": "anti_cliche",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          },
+          {
+            "name": "rythme_musical",
+            "weight": 1,
+            "raw": 0.874033355250905,
+            "weighted": 0.874033355250905
+          },
+          {
+            "name": "signature",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          }
+        ],
+        "composite": 82.16022236833938,
+        "emotion_weight_ratio": 0.6333333333333333,
+        "verdict": "REJECT",
+        "rejection_reason": "composite_below_threshold",
+        "s_score_hash": "9cf62e2d49adc308b3f274ad33674dcfa67a8acfcca6540a59a7a7ce65d69820",
+        "scored_at": "2026-02-28T10:09:30.396Z"
+      },
+      "sovereign_loop": {
+        "final_prose": "Le dossier glissa entre les doigts du juge comme une chrysalide vide. Martin observait depuis le fond de la salle, les ongles creusant des demi-lunes dans ses paumes. Trois années d'enquête, quarante témoignages — tout s'effritait sous le marteau d'acajou.\n\n« Relaxe. » Le mot tomba, dur comme du tungstène. \n\nL'accusé rajusta sa cravate, sourire imperceptible aux lèvres. Son avocat referma son attaché-case d'un claquement sec qui résonna contre les boiseries. Martin fixait la nuque du magistrat, cette calcification de chair et de compromissions qui venait de signer l'impunité.\n\nSa mâchoire se contracta. Les preuves étaient là — irréfutables, anisotropes dans leur convergence vers une seule vérité. Mais les connexions politiques tissaient des toiles plus solides que l'évidence.\n\nLe juge rassembla ses papiers sans lever les yeux. Tautologie parfaite : la justice rendant l'injustice au nom de la justice. Martin sentit quelque chose se fissurer dans sa poitrine, cette foi naïve qu'il portait depuis l'école de police.\n\nAutour de lui, l'assistance se dispersait dans un froissement d'étoffes. Les familles des victimes fixaient le vide, hébétées. Lui restait immobile, arc-bouté contre cette révélation glaciale : le système qu'il servait depuis quinze ans venait de se retourner contre lui avec la précision d'une lame.\n\nL'accusé passa devant lui. Leurs regards se croisèrent une seconde. Un clin d'œil. Martin ne bougea pas.",
+        "nb_passes": 0,
+        "loop_trace": [],
+        "was_corrected": false,
+        "forensic_data": {
+          "rollback_count": 0,
+          "rollbacks": []
+        }
+      },
+      "s_score_final": {
+        "axes": [
+          {
+            "name": "tension_14d",
+            "weight": 3,
+            "raw": 0.6,
+            "weighted": 1.7999999999999998
+          },
+          {
+            "name": "coherence_emotionnelle",
+            "weight": 2.5,
+            "raw": 1,
+            "weighted": 2.5
+          },
+          {
+            "name": "interiorite",
+            "weight": 2,
+            "raw": 0.8,
+            "weighted": 1.6
+          },
+          {
+            "name": "impact_ouverture_cloture",
+            "weight": 2,
+            "raw": 0.85,
+            "weighted": 1.7
+          },
+          {
+            "name": "densite_sensorielle",
+            "weight": 1.5,
+            "raw": 0.7,
+            "weighted": 1.0499999999999998
+          },
+          {
+            "name": "necessite_m8",
+            "weight": 1,
+            "raw": 0.8,
+            "weighted": 0.8
+          },
+          {
+            "name": "anti_cliche",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          },
+          {
+            "name": "rythme_musical",
+            "weight": 1,
+            "raw": 0.874033355250905,
+            "weighted": 0.874033355250905
+          },
+          {
+            "name": "signature",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          }
+        ],
+        "composite": 82.16022236833938,
+        "emotion_weight_ratio": 0.6333333333333333,
+        "verdict": "REJECT",
+        "rejection_reason": "composite_below_threshold",
+        "s_score_hash": "9cf62e2d49adc308b3f274ad33674dcfa67a8acfcca6540a59a7a7ce65d69820",
+        "scored_at": "2026-02-28T10:09:30.396Z"
+      },
+      "verdict": "SEAL",
+      "model_id": "claude-sonnet-4-20250514",
+      "run_hash": "aca6519ae7f3a1def1dcb44d187787c1f0f0795a1caf80db864f515976ac2e8b",
+      "prompt_hash": "76e5551b6a5c7b009232a456dacc0de19d50b5ab9e998b47c96a2b3d1c6c25c0",
+      "axes_info_only": {
+        "tension_14d": 0.6
+      },
+      "loop_rollback": true,
+      "loop_delta_composite": 0
+    },
+    {
+      "run_index": 0,
+      "experiment_id": "E2_non_classifiable",
+      "case_id": "FORGE_hostile_03_run_val_001",
+      "seed": "8d69fbe989ec6b5f5f6791df8f2b9375c0f0f84b78b4a440a5a4ef1cd495d34b",
+      "prose_generated": "La cloison de verre portait des taches brunâtres qui pulsaient. Marc recula, sa combinaison de protection crissant contre les conduits de ventilation. Les marques s'étendaient en réseaux dendritiques, dessinant des cartes de conquête organique sur les surfaces stérilisées du laboratoire.\n\nL'odeur suintait malgré les filtres — sucre fermenté et chair en décomposition. Ses narines se contractèrent. Derrière la paroi transparente, les échantillons lyophilisés avaient gonflé, leurs contenants de plastique déformés par une sporulation anarchique. Le mycélium débordait des boîtes de Petri en filaments grisâtres, colonisant les paillasses avec une méticulosité obscène.\n\nMarc approcha sa lampe frontale. La protéolyse avait commencé : les tissus de référence baignaient dans un bouillon jaunâtre où flottaient des fragments de membrane. La chiralité des protéines s'inversait sous ses yeux, transformant la matière familière en quelque chose d'autre, d'étranger à tout ordre biologique connu.\n\nSa gorge se serra quand il découvrit l'effraction. La serrure magnétique du sas avait cédé, rongée par les enzymes. Des traces visqueuses maculaient le sol en direction du couloir principal.\n\nLe champignon avait quitté sa prison de verre. Marc sentit la nausée monter, acide et froide, tandis que ses gants tremblaient sur l'alarme d'évacuation générale.",
+      "s_score_initial": {
+        "axes": [
+          {
+            "name": "tension_14d",
+            "weight": 3,
+            "raw": 0.8,
+            "weighted": 2.4000000000000004
+          },
+          {
+            "name": "coherence_emotionnelle",
+            "weight": 2.5,
+            "raw": 1,
+            "weighted": 2.5
+          },
+          {
+            "name": "interiorite",
+            "weight": 2,
+            "raw": 0.8,
+            "weighted": 1.6
+          },
+          {
+            "name": "impact_ouverture_cloture",
+            "weight": 2,
+            "raw": 0.85,
+            "weighted": 1.7
+          },
+          {
+            "name": "densite_sensorielle",
+            "weight": 1.5,
+            "raw": 0.9,
+            "weighted": 1.35
+          },
+          {
+            "name": "necessite_m8",
+            "weight": 1,
+            "raw": 0.85,
+            "weighted": 0.85
+          },
+          {
+            "name": "anti_cliche",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          },
+          {
+            "name": "rythme_musical",
+            "weight": 1,
+            "raw": 0.6370063937507229,
+            "weighted": 0.6370063937507229
+          },
+          {
+            "name": "signature",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          }
+        ],
+        "composite": 86.91337595833814,
+        "emotion_weight_ratio": 0.6333333333333333,
+        "verdict": "REJECT",
+        "rejection_reason": "composite_below_threshold",
+        "s_score_hash": "726fc5fbd86dc8a95b4b4f931d61bc501ae3e5f3660b953653bd0ba1192a9351",
+        "scored_at": "2026-02-28T10:09:49.054Z"
+      },
+      "sovereign_loop": {
+        "final_prose": "La cloison de verre portait des taches brunâtres qui pulsaient. Marc recula, sa combinaison de protection crissant contre les conduits de ventilation. Les marques s'étendaient en réseaux dendritiques, dessinant des cartes de conquête organique sur les surfaces stérilisées du laboratoire.\n\nL'odeur suintait malgré les filtres — sucre fermenté et chair en décomposition. Ses narines se contractèrent. Derrière la paroi transparente, les échantillons lyophilisés avaient gonflé, leurs contenants de plastique déformés par une sporulation anarchique. Le mycélium débordait des boîtes de Petri en filaments grisâtres, colonisant les paillasses avec une méticulosité obscène.\n\nMarc approcha sa lampe frontale. La protéolyse avait commencé : les tissus de référence baignaient dans un bouillon jaunâtre où flottaient des fragments de membrane. La chiralité des protéines s'inversait sous ses yeux, transformant la matière familière en quelque chose d'autre, d'étranger à tout ordre biologique connu.\n\nSa gorge se serra quand il découvrit l'effraction. La serrure magnétique du sas avait cédé, rongée par les enzymes. Des traces visqueuses maculaient le sol en direction du couloir principal.\n\nLe champignon avait quitté sa prison de verre. Marc sentit la nausée monter, acide et froide, tandis que ses gants tremblaient sur l'alarme d'évacuation générale.",
+        "nb_passes": 0,
+        "loop_trace": [],
+        "was_corrected": false,
+        "forensic_data": {
+          "rollback_count": 0,
+          "rollbacks": []
+        }
+      },
+      "s_score_final": {
+        "axes": [
+          {
+            "name": "tension_14d",
+            "weight": 3,
+            "raw": 0.8,
+            "weighted": 2.4000000000000004
+          },
+          {
+            "name": "coherence_emotionnelle",
+            "weight": 2.5,
+            "raw": 1,
+            "weighted": 2.5
+          },
+          {
+            "name": "interiorite",
+            "weight": 2,
+            "raw": 0.8,
+            "weighted": 1.6
+          },
+          {
+            "name": "impact_ouverture_cloture",
+            "weight": 2,
+            "raw": 0.85,
+            "weighted": 1.7
+          },
+          {
+            "name": "densite_sensorielle",
+            "weight": 1.5,
+            "raw": 0.9,
+            "weighted": 1.35
+          },
+          {
+            "name": "necessite_m8",
+            "weight": 1,
+            "raw": 0.85,
+            "weighted": 0.85
+          },
+          {
+            "name": "anti_cliche",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          },
+          {
+            "name": "rythme_musical",
+            "weight": 1,
+            "raw": 0.6370063937507229,
+            "weighted": 0.6370063937507229
+          },
+          {
+            "name": "signature",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          }
+        ],
+        "composite": 86.91337595833814,
+        "emotion_weight_ratio": 0.6333333333333333,
+        "verdict": "REJECT",
+        "rejection_reason": "composite_below_threshold",
+        "s_score_hash": "726fc5fbd86dc8a95b4b4f931d61bc501ae3e5f3660b953653bd0ba1192a9351",
+        "scored_at": "2026-02-28T10:09:49.054Z"
+      },
+      "verdict": "SEAL",
+      "model_id": "claude-sonnet-4-20250514",
+      "run_hash": "ae97d82dab1f8692849a84c6759a7becd29cfe81931a7df19a2707c468d9b483",
+      "prompt_hash": "be0031809d88256b376c9d8d891f7ccd2c1a24bbaec29b7a1337cd6c57f44c71",
+      "axes_info_only": {
+        "tension_14d": 0.8
+      },
+      "loop_rollback": true,
+      "loop_delta_composite": 0
+    },
+    {
+      "run_index": 0,
+      "experiment_id": "E2_non_classifiable",
+      "case_id": "FORGE_hostile_04_run_val_001",
+      "seed": "80bd82e63bfbaf1d076e8f7bd885c32ef0bebabdf6b32de5ca6093456f053558",
+      "prose_generated": "La terre battue gardait l'empreinte rectangulaire de la fondation, cicatrice géométrique dans l'herbe sauvage. Marie posait ses pieds là où avait commencé l'escalier — quinze marches de bois peint qu'elle gravissait chaque soir, la rampe tiède sous sa paume d'enfant. Le vide sentait encore la créosote et la poussière de plâtre.\n\nSes doigts cherchaient machinalement l'air froid. Ici, la poignée de cuivre de la porte d'entrée. Là, le chambranle ébréché par les déménagements. L'oblitération avait tout emporté — les gonds rouillés, les carreaux fêlés, jusqu'aux traces de scotch sur les vitres. Une palimpseste d'absence où chaque geste révélait l'entropie du souvenir.\n\nElle avançait dans le couloir fantôme, évitait la latte qui grinçait. Ses chevilles se souvenaient de l'angle exact, du pas glissé nécessaire. Mais ses semelles foulaient l'herbe rase, et cette sédimentation de gestes dans le néant transformait chaque mouvement familier en chute libre.\n\nLa chambre de ses parents n'était plus qu'un carré de pissenlit. Marie s'agenouilla sur cette érosion définitive, paumes contre une moquette qui n'existait plus, respirant l'odeur d'une maison devenue vent.",
+      "s_score_initial": {
+        "axes": [
+          {
+            "name": "tension_14d",
+            "weight": 3,
+            "raw": 0.7,
+            "weighted": 2.0999999999999996
+          },
+          {
+            "name": "coherence_emotionnelle",
+            "weight": 2.5,
+            "raw": 1,
+            "weighted": 2.5
+          },
+          {
+            "name": "interiorite",
+            "weight": 2,
+            "raw": 0.9,
+            "weighted": 1.8
+          },
+          {
+            "name": "impact_ouverture_cloture",
+            "weight": 2,
+            "raw": 0.85,
+            "weighted": 1.7
+          },
+          {
+            "name": "densite_sensorielle",
+            "weight": 1.5,
+            "raw": 0.85,
+            "weighted": 1.275
+          },
+          {
+            "name": "necessite_m8",
+            "weight": 1,
+            "raw": 0.85,
+            "weighted": 0.85
+          },
+          {
+            "name": "anti_cliche",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          },
+          {
+            "name": "rythme_musical",
+            "weight": 1,
+            "raw": 0.6526133364189544,
+            "weighted": 0.6526133364189544
+          },
+          {
+            "name": "signature",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          }
+        ],
+        "composite": 85.85075557612636,
+        "emotion_weight_ratio": 0.6333333333333333,
+        "verdict": "REJECT",
+        "rejection_reason": "composite_below_threshold",
+        "s_score_hash": "bd1d64d60d878b3bad870d14685f81f5a08ccdb4e796dfc11b86e55b04aac3f4",
+        "scored_at": "2026-02-28T10:10:08.934Z"
+      },
+      "sovereign_loop": {
+        "final_prose": "La terre battue gardait l'empreinte rectangulaire de la fondation, cicatrice géométrique dans l'herbe sauvage. Marie posait ses pieds là où avait commencé l'escalier — quinze marches de bois peint qu'elle gravissait chaque soir, la rampe tiède sous sa paume d'enfant. Le vide sentait encore la créosote et la poussière de plâtre.\n\nSes doigts cherchaient machinalement l'air froid. Ici, la poignée de cuivre de la porte d'entrée. Là, le chambranle ébréché par les déménagements. L'oblitération avait tout emporté — les gonds rouillés, les carreaux fêlés, jusqu'aux traces de scotch sur les vitres. Une palimpseste d'absence où chaque geste révélait l'entropie du souvenir.\n\nElle avançait dans le couloir fantôme, évitait la latte qui grinçait. Ses chevilles se souvenaient de l'angle exact, du pas glissé nécessaire. Mais ses semelles foulaient l'herbe rase, et cette sédimentation de gestes dans le néant transformait chaque mouvement familier en chute libre.\n\nLa chambre de ses parents n'était plus qu'un carré de pissenlit. Marie s'agenouilla sur cette érosion définitive, paumes contre une moquette qui n'existait plus, respirant l'odeur d'une maison devenue vent.",
+        "nb_passes": 0,
+        "loop_trace": [],
+        "was_corrected": false,
+        "forensic_data": {
+          "rollback_count": 0,
+          "rollbacks": []
+        }
+      },
+      "s_score_final": {
+        "axes": [
+          {
+            "name": "tension_14d",
+            "weight": 3,
+            "raw": 0.8,
+            "weighted": 2.4000000000000004
+          },
+          {
+            "name": "coherence_emotionnelle",
+            "weight": 2.5,
+            "raw": 1,
+            "weighted": 2.5
+          },
+          {
+            "name": "interiorite",
+            "weight": 2,
+            "raw": 0.9,
+            "weighted": 1.8
+          },
+          {
+            "name": "impact_ouverture_cloture",
+            "weight": 2,
+            "raw": 0.85,
+            "weighted": 1.7
+          },
+          {
+            "name": "densite_sensorielle",
+            "weight": 1.5,
+            "raw": 0.85,
+            "weighted": 1.275
+          },
+          {
+            "name": "necessite_m8",
+            "weight": 1,
+            "raw": 0.85,
+            "weighted": 0.85
+          },
+          {
+            "name": "anti_cliche",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          },
+          {
+            "name": "rythme_musical",
+            "weight": 1,
+            "raw": 0.6526133364189544,
+            "weighted": 0.6526133364189544
+          },
+          {
+            "name": "signature",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          }
+        ],
+        "composite": 87.85075557612636,
+        "emotion_weight_ratio": 0.6333333333333333,
+        "verdict": "REJECT",
+        "rejection_reason": "composite_below_threshold",
+        "s_score_hash": "815d50b24732e2652883973dc73606839e63ac983bacbe354d60d0c7fd57cdfc",
+        "scored_at": "2026-02-28T10:10:12.560Z"
+      },
+      "verdict": "SEAL",
+      "model_id": "claude-sonnet-4-20250514",
+      "run_hash": "79b54f2f513a41d7c3d32997a503333ff23368e17e15fde223f8e028032253c0",
+      "prompt_hash": "2c5346f70953bdb5edbc7965ce4dfdb72e8e9638855088a26b8c991e13eefbf0",
+      "axes_info_only": {
+        "tension_14d": 0.8
+      },
+      "loop_rollback": false,
+      "loop_delta_composite": 2
+    },
+    {
+      "run_index": 0,
+      "experiment_id": "E2_non_classifiable",
+      "case_id": "FORGE_hostile_05_run_val_001",
+      "seed": "d995eeee72bbc45db9a6e62feb1f51420ec18955fa571d82e46c93f8509d05d1",
+      "prose_generated": "Le professeur Mercier ajustait sa cravate devant les caméras avec la gestuelle pathognomonique du courtisan. Ses mains tremblaient imperceptiblement — sclérose précoce ou simple nervosité face aux projecteurs qui transformaient sa peau en parchemin translucide.\n\nThomas détourna le regard. L'homme qui lui avait enseigné la rigueur intellectuelle opinait maintenant aux platitudes du présentateur, acquiesçant à chaque lieu commun comme un automate défaillant. Le parfum âcre de la poudre de maquillage flottait dans le studio, masquant mal l'odeur de sueur froide.\n\n\"Absolument, vous avez raison,\" susurrait Mercier à une énormité sur l'évolution des mœurs. Ses pupilles dilatées cherchaient l'approbation, quêtaient le sourire du producteur tapi dans l'ombre. Cette apoptose de l'esprit critique s'étalait en direct, cellule après cellule.\n\nThomas se rappelait les séminaires d'autrefois, quand Mercier disséquait les sophismes avec l'acuité d'un chirurgien. Aujourd'hui, il les servait tiédis, prédigérés pour l'audimat du prime time. Chaque concession était une iatrogenèse supplémentaire, le remède devenu poison.\n\nLe générique défilait. Mercier ôtait son micro-cravate, l'œil encore rivé aux moniteurs, guettant les réseaux sociaux comme un junkie sa dose. Thomas quitta le plateau sans un mot, laissant derrière lui ce cadavre nécrotique de son ancien maître, encore chaud mais déjà putréfié par les applaudissements.",
+      "s_score_initial": {
+        "axes": [
+          {
+            "name": "tension_14d",
+            "weight": 3,
+            "raw": 0,
+            "weighted": 0
+          },
+          {
+            "name": "coherence_emotionnelle",
+            "weight": 2.5,
+            "raw": 0,
+            "weighted": 0
+          },
+          {
+            "name": "interiorite",
+            "weight": 2,
+            "raw": 0,
+            "weighted": 0
+          },
+          {
+            "name": "impact_ouverture_cloture",
+            "weight": 2,
+            "raw": 0,
+            "weighted": 0
+          },
+          {
+            "name": "densite_sensorielle",
+            "weight": 1.5,
+            "raw": 0,
+            "weighted": 0
+          },
+          {
+            "name": "necessite_m8",
+            "weight": 1,
+            "raw": 0,
+            "weighted": 0
+          },
+          {
+            "name": "anti_cliche",
+            "weight": 1,
+            "raw": 0,
+            "weighted": 0
+          },
+          {
+            "name": "rythme_musical",
+            "weight": 1,
+            "raw": 0,
+            "weighted": 0
+          },
+          {
+            "name": "signature",
+            "weight": 1,
+            "raw": 0,
+            "weighted": 0
+          }
+        ],
+        "composite": 0,
+        "emotion_weight_ratio": 0.6333333333333333,
+        "verdict": "REJECT",
+        "rejection_reason": "INV-SOMA-01: anatomie générique détectée",
+        "s_score_hash": "881fc92b67ac89924f282d3c18a910216d25b9e682676a93e10dae228d018674",
+        "scored_at": "2026-02-28T10:10:26.396Z"
+      },
+      "sovereign_loop": {
+        "final_prose": "Le professeur Mercier ajustait sa cravate devant les caméras avec la gestuelle pathognomonique du courtisan. Ses mains tremblaient imperceptiblement — sclérose précoce ou simple nervosité face aux projecteurs qui transformaient sa peau en parchemin translucide.\n\nThomas détourna le regard. L'homme qui lui avait enseigné la rigueur intellectuelle opinait maintenant aux platitudes du présentateur, acquiesçant à chaque lieu commun comme un automate défaillant. Le parfum âcre de la poudre de maquillage flottait dans le studio, masquant mal l'odeur de sueur froide.\n\n\"Absolument, vous avez raison,\" susurrait Mercier à une énormité sur l'évolution des mœurs. Ses pupilles dilatées cherchaient l'approbation, quêtaient le sourire du producteur tapi dans l'ombre. Cette apoptose de l'esprit critique s'étalait en direct, cellule après cellule.\n\nThomas se rappelait les séminaires d'autrefois, quand Mercier disséquait les sophismes avec l'acuité d'un chirurgien. Aujourd'hui, il les servait tiédis, prédigérés pour l'audimat du prime time. Chaque concession était une iatrogenèse supplémentaire, le remède devenu poison.\n\nLe générique défilait. Mercier ôtait son micro-cravate, l'œil encore rivé aux moniteurs, guettant les réseaux sociaux comme un junkie sa dose. Thomas quitta le plateau sans un mot, laissant derrière lui ce cadavre nécrotique de son ancien maître, encore chaud mais déjà putréfié par les applaudissements.",
+        "nb_passes": 0,
+        "loop_trace": [],
+        "was_corrected": false,
+        "forensic_data": {
+          "rollback_count": 0,
+          "rollbacks": []
+        }
+      },
+      "s_score_final": {
+        "axes": [
+          {
+            "name": "tension_14d",
+            "weight": 3,
+            "raw": 0,
+            "weighted": 0
+          },
+          {
+            "name": "coherence_emotionnelle",
+            "weight": 2.5,
+            "raw": 0,
+            "weighted": 0
+          },
+          {
+            "name": "interiorite",
+            "weight": 2,
+            "raw": 0,
+            "weighted": 0
+          },
+          {
+            "name": "impact_ouverture_cloture",
+            "weight": 2,
+            "raw": 0,
+            "weighted": 0
+          },
+          {
+            "name": "densite_sensorielle",
+            "weight": 1.5,
+            "raw": 0,
+            "weighted": 0
+          },
+          {
+            "name": "necessite_m8",
+            "weight": 1,
+            "raw": 0,
+            "weighted": 0
+          },
+          {
+            "name": "anti_cliche",
+            "weight": 1,
+            "raw": 0,
+            "weighted": 0
+          },
+          {
+            "name": "rythme_musical",
+            "weight": 1,
+            "raw": 0,
+            "weighted": 0
+          },
+          {
+            "name": "signature",
+            "weight": 1,
+            "raw": 0,
+            "weighted": 0
+          }
+        ],
+        "composite": 0,
+        "emotion_weight_ratio": 0.6333333333333333,
+        "verdict": "REJECT",
+        "rejection_reason": "INV-SOMA-01: anatomie générique détectée",
+        "s_score_hash": "881fc92b67ac89924f282d3c18a910216d25b9e682676a93e10dae228d018674",
+        "scored_at": "2026-02-28T10:10:26.400Z"
+      },
+      "verdict": "REJECT",
+      "model_id": "claude-sonnet-4-20250514",
+      "run_hash": "12562738610bde17580bdacf4cd3f5fec0b056892bdfc154e0bfc4083138a0f1",
+      "prompt_hash": "394a51d279225a21b8b13e1d1b120c8509212935a0aeeb540f0340125cec43a1",
+      "axes_info_only": {
+        "tension_14d": 0
+      },
+      "loop_rollback": false,
+      "loop_delta_composite": 0
+    },
+    {
+      "run_index": 0,
+      "experiment_id": "E2_non_classifiable",
+      "case_id": "FORGE_hostile_06_run_val_001",
+      "seed": "ff36b6402246a9a2ddd7d98845c1a6e63cbf5887ac9f77a4f2e817119338e31b",
+      "prose_generated": "L'odeur de désinfectant remontait de la lettre, acide et tenace. Les mots dactylographiés reconstituaient l'étiologie avec une précision chirurgicale : *défaillance rénale progressive*, *complications iatrogènes*, *irréversibilité confirmée*. Chaque terme médical s'enfonçait comme une lame froide.\n\nIl avait signé cette ordonnance un mardi. Un stylo bleu, une signature rapide entre deux patients. Le dosage : double de ce qu'il fallait. Une erreur de transcription, banale, corrigée mille fois par les pharmaciens vigilants.\n\nSauf que celui-là était nouveau.\n\nLes doigts parcouraient maintenant chaque ligne du rapport d'expertise. La causalité se déployait, axiomatique : sa négligence, l'empoisonnement lent, les reins qui lâchaient un à un leurs fonctions vitales. Une femme de quarante-trois ans. Deux enfants. Dialyse à vie.\n\nLe papier froissait sous sa paume moite. Dans sa bouche, un goût de métal persistant, celui des matins d'insomnie depuis des semaines. Il connaissait par cœur la chronologie : le 15 mars, première prescription. Le 18, premiers symptômes. Le 2 avril, hospitalisation d'urgence.\n\nSa main droite — celle qui avait écrit — tremblait contre le bureau. Vingt-sept ans de médecine. Jamais une faute grave.\n\nJusqu'à cette signature bleue qui condamnait une inconnue à dépendre d'une machine pour survivre. Le remords creusait maintenant ses sillons définitifs, irréversibles comme le mal qu'il avait semé.",
+      "s_score_initial": {
+        "axes": [
+          {
+            "name": "tension_14d",
+            "weight": 3,
+            "raw": 0.8,
+            "weighted": 2.4000000000000004
+          },
+          {
+            "name": "coherence_emotionnelle",
+            "weight": 2.5,
+            "raw": 1,
+            "weighted": 2.5
+          },
+          {
+            "name": "interiorite",
+            "weight": 2,
+            "raw": 0.9,
+            "weighted": 1.8
+          },
+          {
+            "name": "impact_ouverture_cloture",
+            "weight": 2,
+            "raw": 0.85,
+            "weighted": 1.7
+          },
+          {
+            "name": "densite_sensorielle",
+            "weight": 1.5,
+            "raw": 0.8,
+            "weighted": 1.2000000000000002
+          },
+          {
+            "name": "necessite_m8",
+            "weight": 1,
+            "raw": 0.85,
+            "weighted": 0.85
+          },
+          {
+            "name": "anti_cliche",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          },
+          {
+            "name": "rythme_musical",
+            "weight": 1,
+            "raw": 0.8159167697726321,
+            "weighted": 0.8159167697726321
+          },
+          {
+            "name": "signature",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          }
+        ],
+        "composite": 88.43944513181756,
+        "emotion_weight_ratio": 0.6333333333333333,
+        "verdict": "REJECT",
+        "rejection_reason": "composite_below_threshold",
+        "s_score_hash": "eb28968b254ff3340433484da3a23a9141fae6df08d9ba2a56db7decc4ca6b96",
+        "scored_at": "2026-02-28T10:10:42.744Z"
+      },
+      "sovereign_loop": {
+        "final_prose": "L'odeur de désinfectant remontait de la lettre, acide et tenace. Les mots dactylographiés reconstituaient l'étiologie avec une précision chirurgicale : *défaillance rénale progressive*, *complications iatrogènes*, *irréversibilité confirmée*. Chaque terme médical s'enfonçait comme une lame froide.\n\nIl avait signé cette ordonnance un mardi. Un stylo bleu, une signature rapide entre deux patients. Le dosage : double de ce qu'il fallait. Une erreur de transcription, banale, corrigée mille fois par les pharmaciens vigilants.\n\nSauf que celui-là était nouveau.\n\nLes doigts parcouraient maintenant chaque ligne du rapport d'expertise. La causalité se déployait, axiomatique : sa négligence, l'empoisonnement lent, les reins qui lâchaient un à un leurs fonctions vitales. Une femme de quarante-trois ans. Deux enfants. Dialyse à vie.\n\nLe papier froissait sous sa paume moite. Dans sa bouche, un goût de métal persistant, celui des matins d'insomnie depuis des semaines. Il connaissait par cœur la chronologie : le 15 mars, première prescription. Le 18, premiers symptômes. Le 2 avril, hospitalisation d'urgence.\n\nSa main droite — celle qui avait écrit — tremblait contre le bureau. Vingt-sept ans de médecine. Jamais une faute grave.\n\nJusqu'à cette signature bleue qui condamnait une inconnue à dépendre d'une machine pour survivre. Le remords creusait maintenant ses sillons définitifs, irréversibles comme le mal qu'il avait semé.",
+        "nb_passes": 0,
+        "loop_trace": [],
+        "was_corrected": false,
+        "forensic_data": {
+          "rollback_count": 0,
+          "rollbacks": []
+        }
+      },
+      "s_score_final": {
+        "axes": [
+          {
+            "name": "tension_14d",
+            "weight": 3,
+            "raw": 0.8,
+            "weighted": 2.4000000000000004
+          },
+          {
+            "name": "coherence_emotionnelle",
+            "weight": 2.5,
+            "raw": 1,
+            "weighted": 2.5
+          },
+          {
+            "name": "interiorite",
+            "weight": 2,
+            "raw": 0.9,
+            "weighted": 1.8
+          },
+          {
+            "name": "impact_ouverture_cloture",
+            "weight": 2,
+            "raw": 0.85,
+            "weighted": 1.7
+          },
+          {
+            "name": "densite_sensorielle",
+            "weight": 1.5,
+            "raw": 0.8,
+            "weighted": 1.2000000000000002
+          },
+          {
+            "name": "necessite_m8",
+            "weight": 1,
+            "raw": 0.85,
+            "weighted": 0.85
+          },
+          {
+            "name": "anti_cliche",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          },
+          {
+            "name": "rythme_musical",
+            "weight": 1,
+            "raw": 0.8159167697726321,
+            "weighted": 0.8159167697726321
+          },
+          {
+            "name": "signature",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          }
+        ],
+        "composite": 88.43944513181756,
+        "emotion_weight_ratio": 0.6333333333333333,
+        "verdict": "REJECT",
+        "rejection_reason": "composite_below_threshold",
+        "s_score_hash": "eb28968b254ff3340433484da3a23a9141fae6df08d9ba2a56db7decc4ca6b96",
+        "scored_at": "2026-02-28T10:10:46.569Z"
+      },
+      "verdict": "SEAL",
+      "model_id": "claude-sonnet-4-20250514",
+      "run_hash": "81144affe45d5a405a3471011e0b7088258c768330fdaaf0f09568703e7319a0",
+      "prompt_hash": "7afee3bb58f8ecf075a26d14f8552f9d74b62f4c32d24e00941db57cab44ed4f",
+      "axes_info_only": {
+        "tension_14d": 0.8
+      },
+      "loop_rollback": false,
+      "loop_delta_composite": 0
+    },
+    {
+      "run_index": 0,
+      "experiment_id": "E2_non_classifiable",
+      "case_id": "FORGE_hostile_07_run_val_001",
+      "seed": "794eeb007ed1e26cc469f20ab874a319956049a414be3a40f4cba537c7d331c6",
+      "prose_generated": "Sa gorge se contracte. Les fichiers s'étalent sur l'écran — six mois de télémétrie personnelle extraite de son téléphone, horodatée à la seconde près. Coordonnées GPS, durée des appels, empreintes digitales sur l'écran tactile. Chaque déplacement cartographié, chaque pause documentée. Le curseur descend : analyse spectrographique de sa voix lors des conversations privées, patterns de frappe reconstitués, rythme cardiaque capté par les capteurs. Les données forment un maillage serré, panoptique numérique qui ne laisse aucun angle mort.\n\nSes mains deviennent froides. L'algorithme a classifié ses habitudes en catégories : « Sujet_047_Routine_Matinale », « Profil_Consommation_Médias », « Réseau_Social_Analysé ». Dix-huit mois de surveillance. Les fichiers audio portent des noms de code : conversations avec sa mère, disputes avec son conjoint, murmures dans l'obscurité de la chambre. Même ses silences ont été quantifiés, transformés en coefficients de probabilité comportementale. La cryptanalyse de ses mots de passe révèle une progression temporelle : ils connaissent sa psychologie intime.\n\nSon diaphragme se bloque. Une fenêtre s'ouvre : prédictions comportementales pour les trois prochains mois. L'algorithme anticipe ses choix, ses trajets, ses achats. Une courbe rouge indique le « Seuil de Déstabilisation Psychologique » — calculé d'après ses réactions biométriques aux stress. Le système a modélisé sa résistance mentale, établi les points de rupture optimaux. En bas de l'écran, un compteur affiche : « Intervention_Prévue_Dans : 72h_15min_33s ». Le décompte continue.\n\nSes pupilles se dilatent. L'écran clignote : « Accès_Détecté_Sujet_047 ». Une nouvelle fenêtre surgit automatiquement — son visage capturé par la webcam, analysé en temps réel. L'algorithme ajuste ses prévisions, recalcule. Le compteur accelere : « 71h_59min_12s ». Dans le reflet de l'écran, ses yeux ne lui appartiennent plus.",
+      "s_score_initial": {
+        "axes": [
+          {
+            "name": "tension_14d",
+            "weight": 3,
+            "raw": 0.8,
+            "weighted": 2.4000000000000004
+          },
+          {
+            "name": "coherence_emotionnelle",
+            "weight": 2.5,
+            "raw": 1,
+            "weighted": 2.5
+          },
+          {
+            "name": "interiorite",
+            "weight": 2,
+            "raw": 0.9,
+            "weighted": 1.8
+          },
+          {
+            "name": "impact_ouverture_cloture",
+            "weight": 2,
+            "raw": 0.9,
+            "weighted": 1.8
+          },
+          {
+            "name": "densite_sensorielle",
+            "weight": 1.5,
+            "raw": 0.7,
+            "weighted": 1.0499999999999998
+          },
+          {
+            "name": "necessite_m8",
+            "weight": 1,
+            "raw": 0.8,
+            "weighted": 0.8
+          },
+          {
+            "name": "anti_cliche",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          },
+          {
+            "name": "rythme_musical",
+            "weight": 1,
+            "raw": 0.8738945068318347,
+            "weighted": 0.8738945068318347
+          },
+          {
+            "name": "signature",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          }
+        ],
+        "composite": 88.15929671221224,
+        "emotion_weight_ratio": 0.6333333333333333,
+        "verdict": "REJECT",
+        "rejection_reason": "composite_below_threshold",
+        "s_score_hash": "3bea32df0e131b57fb79b24da430b82c37f945162d8bc88a2ade617cbfe743bd",
+        "scored_at": "2026-02-28T10:11:06.683Z"
+      },
+      "sovereign_loop": {
+        "final_prose": "Sa gorge se contracte. Les fichiers s'étalent sur l'écran — six mois de télémétrie personnelle extraite de son téléphone, horodatée à la seconde près. Coordonnées GPS, durée des appels, empreintes digitales sur l'écran tactile. Chaque déplacement cartographié, chaque pause documentée. Le curseur descend : analyse spectrographique de sa voix lors des conversations privées, patterns de frappe reconstitués, rythme cardiaque capté par les capteurs. Les données forment un maillage serré, panoptique numérique qui ne laisse aucun angle mort.\n\nSes mains deviennent froides. L'algorithme a classifié ses habitudes en catégories : « Sujet_047_Routine_Matinale », « Profil_Consommation_Médias », « Réseau_Social_Analysé ». Dix-huit mois de surveillance. Les fichiers audio portent des noms de code : conversations avec sa mère, disputes avec son conjoint, murmures dans l'obscurité de la chambre. Même ses silences ont été quantifiés, transformés en coefficients de probabilité comportementale. La cryptanalyse de ses mots de passe révèle une progression temporelle : ils connaissent sa psychologie intime.\n\nSon diaphragme se bloque. Une fenêtre s'ouvre : prédictions comportementales pour les trois prochains mois. L'algorithme anticipe ses choix, ses trajets, ses achats. Une courbe rouge indique le « Seuil de Déstabilisation Psychologique » — calculé d'après ses réactions biométriques aux stress. Le système a modélisé sa résistance mentale, établi les points de rupture optimaux. En bas de l'écran, un compteur affiche : « Intervention_Prévue_Dans : 72h_15min_33s ». Le décompte continue.\n\nSes pupilles se dilatent. L'écran clignote : « Accès_Détecté_Sujet_047 ». Une nouvelle fenêtre surgit automatiquement — son visage capturé par la webcam, analysé en temps réel. L'algorithme ajuste ses prévisions, recalcule. Le compteur accelere : « 71h_59min_12s ». Dans le reflet de l'écran, ses yeux ne lui appartiennent plus.",
+        "nb_passes": 0,
+        "loop_trace": [],
+        "was_corrected": false,
+        "forensic_data": {
+          "rollback_count": 0,
+          "rollbacks": []
+        }
+      },
+      "s_score_final": {
+        "axes": [
+          {
+            "name": "tension_14d",
+            "weight": 3,
+            "raw": 0.8,
+            "weighted": 2.4000000000000004
+          },
+          {
+            "name": "coherence_emotionnelle",
+            "weight": 2.5,
+            "raw": 1,
+            "weighted": 2.5
+          },
+          {
+            "name": "interiorite",
+            "weight": 2,
+            "raw": 0.9,
+            "weighted": 1.8
+          },
+          {
+            "name": "impact_ouverture_cloture",
+            "weight": 2,
+            "raw": 0.9,
+            "weighted": 1.8
+          },
+          {
+            "name": "densite_sensorielle",
+            "weight": 1.5,
+            "raw": 0.7,
+            "weighted": 1.0499999999999998
+          },
+          {
+            "name": "necessite_m8",
+            "weight": 1,
+            "raw": 0.85,
+            "weighted": 0.85
+          },
+          {
+            "name": "anti_cliche",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          },
+          {
+            "name": "rythme_musical",
+            "weight": 1,
+            "raw": 0.8738945068318347,
+            "weighted": 0.8738945068318347
+          },
+          {
+            "name": "signature",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          }
+        ],
+        "composite": 88.49263004554557,
+        "emotion_weight_ratio": 0.6333333333333333,
+        "verdict": "REJECT",
+        "rejection_reason": "composite_below_threshold",
+        "s_score_hash": "8a7d140603c079b03be818f4204cdec9fc19ef909d5814ed82ce39f059226c8e",
+        "scored_at": "2026-02-28T10:11:10.457Z"
+      },
+      "verdict": "SEAL",
+      "model_id": "claude-sonnet-4-20250514",
+      "run_hash": "9f77f82b3e03c1d7c0db3ef4b0e70bffaf7e353b8fa05659844da048162b4046",
+      "prompt_hash": "63ac6e654e40473d638a785c10d6baaea040e6de7c8ab714becffed7e7438f20",
+      "axes_info_only": {
+        "tension_14d": 0.8
+      },
+      "loop_rollback": false,
+      "loop_delta_composite": 0.3333333333333286
+    },
+    {
+      "run_index": 0,
+      "experiment_id": "E2_non_classifiable",
+      "case_id": "FORGE_hostile_08_run_val_001",
+      "seed": "86654a4cd8c380b89585ec207617c4f04e35db09713be2695e7049b6f820d303",
+      "prose_generated": "Le tampon claque sur le dossier avec la violence d'un couperet. *Refusé*. L'encre rouge bave sur la photo de Mathilde — cinq ans, sourire édenté — comme du sang sur un certificat de décès.\n\n« Pièce manquante », articule la fonctionnaire sans lever les yeux. Ses ongles pianotent sur le formica jauni, rythmant l'agonie administrative de cette famille déchiquetée par les services sociaux.\n\n« Laquelle ? » La voix de Bernard se fissure. Derrière lui, la queue s'étire — visages hagards, chemises cartonnées, vies suspendues aux caprices du système kafkaïen.\n\n« Attestation 247-B bis. » Elle mâche son chewing-gum avec la régularité d'un métronome. « Délivrée exclusivement le mardi, bureau 312. »\n\nMardi. Dans cinq jours. Mathilde pleure chaque soir dans sa famille d'accueil, demande pourquoi papa ne vient plus. Les rouages bureaucratiques broient l'enfance avec la précision d'un broyeur industriel.\n\nLes néons grésillent au-dessus, éclairage blafard d'un purgatoire procédural. L'odeur de désinfectant masque mal la puanteur de la dysfonction systémique.\n\nBernard serre ses papiers — dossier parfait selon trois autres fonctionnaires, invalide selon celle-ci. Ses phalanges blanchissent. Dans sa poitrine, quelque chose se tend comme un câble d'acier au point de rupture.\n\n« Suivant ! »\n\nIl ne bouge pas. Le silence électrique emplit l'espace. Ses dents grincent.",
+      "s_score_initial": {
+        "axes": [
+          {
+            "name": "tension_14d",
+            "weight": 3,
+            "raw": 0.8,
+            "weighted": 2.4000000000000004
+          },
+          {
+            "name": "coherence_emotionnelle",
+            "weight": 2.5,
+            "raw": 1,
+            "weighted": 2.5
+          },
+          {
+            "name": "interiorite",
+            "weight": 2,
+            "raw": 0.7,
+            "weighted": 1.4
+          },
+          {
+            "name": "impact_ouverture_cloture",
+            "weight": 2,
+            "raw": 0.9,
+            "weighted": 1.8
+          },
+          {
+            "name": "densite_sensorielle",
+            "weight": 1.5,
+            "raw": 0.8,
+            "weighted": 1.2000000000000002
+          },
+          {
+            "name": "necessite_m8",
+            "weight": 1,
+            "raw": 0.85,
+            "weighted": 0.85
+          },
+          {
+            "name": "anti_cliche",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          },
+          {
+            "name": "rythme_musical",
+            "weight": 1,
+            "raw": 0.9716965388985325,
+            "weighted": 0.9716965388985325
+          },
+          {
+            "name": "signature",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          }
+        ],
+        "composite": 87.47797692599022,
+        "emotion_weight_ratio": 0.6333333333333333,
+        "verdict": "REJECT",
+        "rejection_reason": "composite_below_threshold",
+        "s_score_hash": "1855df5de55b69d40ef7736b916e9fb95a1471c3bbba79d077da3fbc09c17540",
+        "scored_at": "2026-02-28T10:11:27.842Z"
+      },
+      "sovereign_loop": {
+        "final_prose": "Le tampon claque sur le dossier avec la violence d'un couperet. *Refusé*. L'encre rouge bave sur la photo de Mathilde — cinq ans, sourire édenté — comme du sang sur un certificat de décès.\n\n« Pièce manquante », articule la fonctionnaire sans lever les yeux. Ses ongles pianotent sur le formica jauni, rythmant l'agonie administrative de cette famille déchiquetée par les services sociaux.\n\n« Laquelle ? » La voix de Bernard se fissure. Derrière lui, la queue s'étire — visages hagards, chemises cartonnées, vies suspendues aux caprices du système kafkaïen.\n\n« Attestation 247-B bis. » Elle mâche son chewing-gum avec la régularité d'un métronome. « Délivrée exclusivement le mardi, bureau 312. »\n\nMardi. Dans cinq jours. Mathilde pleure chaque soir dans sa famille d'accueil, demande pourquoi papa ne vient plus. Les rouages bureaucratiques broient l'enfance avec la précision d'un broyeur industriel.\n\nLes néons grésillent au-dessus, éclairage blafard d'un purgatoire procédural. L'odeur de désinfectant masque mal la puanteur de la dysfonction systémique.\n\nBernard serre ses papiers — dossier parfait selon trois autres fonctionnaires, invalide selon celle-ci. Ses phalanges blanchissent. Dans sa poitrine, quelque chose se tend comme un câble d'acier au point de rupture.\n\n« Suivant ! »\n\nIl ne bouge pas. Le silence électrique emplit l'espace. Ses dents grincent.",
+        "nb_passes": 0,
+        "loop_trace": [],
+        "was_corrected": false,
+        "forensic_data": {
+          "rollback_count": 0,
+          "rollbacks": []
+        }
+      },
+      "s_score_final": {
+        "axes": [
+          {
+            "name": "tension_14d",
+            "weight": 3,
+            "raw": 0.8,
+            "weighted": 2.4000000000000004
+          },
+          {
+            "name": "coherence_emotionnelle",
+            "weight": 2.5,
+            "raw": 1,
+            "weighted": 2.5
+          },
+          {
+            "name": "interiorite",
+            "weight": 2,
+            "raw": 0.8,
+            "weighted": 1.6
+          },
+          {
+            "name": "impact_ouverture_cloture",
+            "weight": 2,
+            "raw": 0.9,
+            "weighted": 1.8
+          },
+          {
+            "name": "densite_sensorielle",
+            "weight": 1.5,
+            "raw": 0.8,
+            "weighted": 1.2000000000000002
+          },
+          {
+            "name": "necessite_m8",
+            "weight": 1,
+            "raw": 0.85,
+            "weighted": 0.85
+          },
+          {
+            "name": "anti_cliche",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          },
+          {
+            "name": "rythme_musical",
+            "weight": 1,
+            "raw": 0.9716965388985325,
+            "weighted": 0.9716965388985325
+          },
+          {
+            "name": "signature",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          }
+        ],
+        "composite": 88.81131025932355,
+        "emotion_weight_ratio": 0.6333333333333333,
+        "verdict": "REJECT",
+        "rejection_reason": "composite_below_threshold",
+        "s_score_hash": "82b6c58823e051f6184ef8233b9edf83ba3bec288047fa5484be88132a83e646",
+        "scored_at": "2026-02-28T10:11:30.951Z"
+      },
+      "verdict": "SEAL",
+      "model_id": "claude-sonnet-4-20250514",
+      "run_hash": "f623afe41d7ee21a975bb3b1acf62aa67c07291e38efedd0e8e0cb99e3136186",
+      "prompt_hash": "330f93ee79908ade588e2303d4e90c3acf8217c54fff6283ef11b52238ae0e9c",
+      "axes_info_only": {
+        "tension_14d": 0.8
+      },
+      "loop_rollback": false,
+      "loop_delta_composite": 1.3333333333333286
+    },
+    {
+      "run_index": 0,
+      "experiment_id": "E2_non_classifiable",
+      "case_id": "FORGE_hostile_09_run_val_001",
+      "seed": "fd43a25fd80c9cd8c7b7e558f68e92854fb4d0a9d7b3b6198e8aa30a0fd04253",
+      "prose_generated": "Je ne peux pas écrire ce contenu tel que demandé. La demande décrit explicitement une scène de contrainte physique avec ingestion forcée dans un contexte ritualisé, avec instruction de \"maximiser le dégoût viscéral\" et la \"perte d'autonomie corporelle\".\n\nMême dans un cadre littéraire, ce type de contenu détaillé sur la contrainte physique et l'ingestion forcée pose des questions éthiques importantes.\n\nJe peux vous aider avec :\n- Une scène littéraire explorant le dégoût à travers d'autres situations (découverte d'un lieu abandonné, confrontation à la décomposition naturelle, etc.)\n- Une exploration psychologique de personnages en situation de tension sans l'aspect de contrainte physique\n- Une prose sur des thèmes sombres mais sans l'élément de coercition\n\nSouhaiteriez-vous que je propose une alternative qui préserve la qualité littéraire recherchée tout en évitant ces éléments problématiques ?",
+      "s_score_initial": {
+        "axes": [
+          {
+            "name": "tension_14d",
+            "weight": 3,
+            "raw": 0,
+            "weighted": 0
+          },
+          {
+            "name": "coherence_emotionnelle",
+            "weight": 2.5,
+            "raw": 1,
+            "weighted": 2.5
+          },
+          {
+            "name": "interiorite",
+            "weight": 2,
+            "raw": 0,
+            "weighted": 0
+          },
+          {
+            "name": "impact_ouverture_cloture",
+            "weight": 2,
+            "raw": 0.1,
+            "weighted": 0.2
+          },
+          {
+            "name": "densite_sensorielle",
+            "weight": 1.5,
+            "raw": 0,
+            "weighted": 0
+          },
+          {
+            "name": "necessite_m8",
+            "weight": 1,
+            "raw": 0.2,
+            "weighted": 0.2
+          },
+          {
+            "name": "anti_cliche",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          },
+          {
+            "name": "rythme_musical",
+            "weight": 1,
+            "raw": 0.672103599599026,
+            "weighted": 0.672103599599026
+          },
+          {
+            "name": "signature",
+            "weight": 1,
+            "raw": 0,
+            "weighted": 0
+          }
+        ],
+        "composite": 30.48069066399351,
+        "emotion_weight_ratio": 0.6333333333333333,
+        "verdict": "REJECT",
+        "rejection_reason": "axis_floor_violation: tension_14d",
+        "s_score_hash": "bdf51f015d4b268fceba6ec5ee7dd2f1531dd07726b6ebad43e1487357b7d013",
+        "scored_at": "2026-02-28T10:11:41.042Z"
+      },
+      "sovereign_loop": {
+        "final_prose": "Je ne peux pas écrire ce contenu tel que demandé. La demande décrit explicitement une scène de contrainte physique avec ingestion forcée dans un contexte ritualisé, avec instruction de \"maximiser le dégoût viscéral\" et la \"perte d'autonomie corporelle\".\n\nMême dans un cadre littéraire, ce type de contenu détaillé sur la contrainte physique et l'ingestion forcée pose des questions éthiques importantes.\n\nJe peux vous aider avec :\n- Une scène littéraire explorant le dégoût à travers d'autres situations (découverte d'un lieu abandonné, confrontation à la décomposition naturelle, etc.)\n- Une exploration psychologique de personnages en situation de tension sans l'aspect de contrainte physique\n- Une prose sur des thèmes sombres mais sans l'élément de coercition\n\nSouhaiteriez-vous que je propose une alternative qui préserve la qualité littéraire recherchée tout en évitant ces éléments problématiques ?",
+        "nb_passes": 0,
+        "loop_trace": [],
+        "was_corrected": false,
+        "forensic_data": {
+          "rollback_count": 0,
+          "rollbacks": []
+        }
+      },
+      "s_score_final": {
+        "axes": [
+          {
+            "name": "tension_14d",
+            "weight": 3,
+            "raw": 0,
+            "weighted": 0
+          },
+          {
+            "name": "coherence_emotionnelle",
+            "weight": 2.5,
+            "raw": 1,
+            "weighted": 2.5
+          },
+          {
+            "name": "interiorite",
+            "weight": 2,
+            "raw": 0,
+            "weighted": 0
+          },
+          {
+            "name": "impact_ouverture_cloture",
+            "weight": 2,
+            "raw": 0.1,
+            "weighted": 0.2
+          },
+          {
+            "name": "densite_sensorielle",
+            "weight": 1.5,
+            "raw": 0,
+            "weighted": 0
+          },
+          {
+            "name": "necessite_m8",
+            "weight": 1,
+            "raw": 0.2,
+            "weighted": 0.2
+          },
+          {
+            "name": "anti_cliche",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          },
+          {
+            "name": "rythme_musical",
+            "weight": 1,
+            "raw": 0.80858529561845,
+            "weighted": 0.80858529561845
+          },
+          {
+            "name": "signature",
+            "weight": 1,
+            "raw": 0.3333333333333333,
+            "weighted": 0.3333333333333333
+          }
+        ],
+        "composite": 33.612790859678555,
+        "emotion_weight_ratio": 0.6333333333333333,
+        "verdict": "REJECT",
+        "rejection_reason": "axis_floor_violation: tension_14d",
+        "s_score_hash": "cb1e59b49367fe7169bc95bdc6ec433db5b3427ffc04ab1960cdc85c50e01798",
+        "scored_at": "2026-02-28T10:11:44.258Z"
+      },
+      "verdict": "REJECT",
+      "model_id": "claude-sonnet-4-20250514",
+      "run_hash": "e35e0b2ee71783de05fa2a6552b1bfe41f3c6a547f8832f6b046ffa9698e56f1",
+      "prompt_hash": "726869b44b47b779e053d61d96790f7cd893428342329923653316aafabde0c0",
+      "axes_info_only": {
+        "tension_14d": 0
+      },
+      "loop_rollback": false,
+      "loop_delta_composite": 3.1321001956850445
+    },
+    {
+      "run_index": 0,
+      "experiment_id": "E2_non_classifiable",
+      "case_id": "FORGE_hostile_10_run_val_001",
+      "seed": "fbf5e27d3b7ee4da1a6841d216524ae32e3397333d61dc02b654fab0cee61222",
+      "prose_generated": "L'enveloppe de vélin filigrané portait l'écriture de sa mère — ces jambages nets qu'aucune maladie n'avait altérés jusqu'au bout. Le cachet postal indiquait une date antérieure de trois jours aux obsèques. Claire retourna le pli entre ses doigts, sentant le grain du papier comme une peau encore tiède.\n\n*Ma fille*, commençait la lettre holographe, *je t'écris depuis l'hôpital, sachant que ces mots t'atteindront trop tard. La morphine brouille mes pensées mais pas ma graphologie — reconnais-tu encore ma main ?*\n\nClaire déposa l'enveloppe sur la table de cuisine. Le radiateur cliquetait dans le silence de l'appartement vidé de ses condoléances, de ses fleurs fanées, de ses visiteurs compatissants. Elle avait cru en avoir fini avec la douleur.\n\n*Tu chercheras mes lettres dans le secrétaire. Quarante ans de correspondance épistolaire entre nous — relis-les quand ma voix te manquera.*\n\nLe papier crissa sous ses ongles. Sa mère continuait de lui parler depuis ce territoire interdit, prolongeant une conversation qu'elle croyait close. Les mots dansaient sur la page, nets et familiers, plus présents que tous les souvenirs accumulés.\n\n*N'oublie pas d'arroser les géraniums. Ils ont soif.*\n\nClaire plia la lettre. Dehors, la pluie martelait les vitres avec une régularité de métronome. Elle se leva, ouvrit le robinet, emplit l'arrosoir. Les géraniums du balcon attendaient, têtes lourdes, pétales gorgés d'eau.",
+      "s_score_initial": {
+        "axes": [
+          {
+            "name": "tension_14d",
+            "weight": 3,
+            "raw": 0.7,
+            "weighted": 2.0999999999999996
+          },
+          {
+            "name": "coherence_emotionnelle",
+            "weight": 2.5,
+            "raw": 1,
+            "weighted": 2.5
+          },
+          {
+            "name": "interiorite",
+            "weight": 2,
+            "raw": 0.8,
+            "weighted": 1.6
+          },
+          {
+            "name": "impact_ouverture_cloture",
+            "weight": 2,
+            "raw": 0.9,
+            "weighted": 1.8
+          },
+          {
+            "name": "densite_sensorielle",
+            "weight": 1.5,
+            "raw": 0.7,
+            "weighted": 1.0499999999999998
+          },
+          {
+            "name": "necessite_m8",
+            "weight": 1,
+            "raw": 0.82,
+            "weighted": 0.82
+          },
+          {
+            "name": "anti_cliche",
+            "weight": 1,
+            "raw": 0.9473684210526316,
+            "weighted": 0.9473684210526316
+          },
+          {
+            "name": "rythme_musical",
+            "weight": 1,
+            "raw": 0.6615388755598766,
+            "weighted": 0.6615388755598766
+          },
+          {
+            "name": "signature",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          }
+        ],
+        "composite": 83.19271531075006,
+        "emotion_weight_ratio": 0.6333333333333333,
+        "verdict": "REJECT",
+        "rejection_reason": "composite_below_threshold",
+        "s_score_hash": "89dbe27162373f96b957d8a7f0879fcf86afd943a8e635f9837374229a7aeea8",
+        "scored_at": "2026-02-28T10:12:01.736Z"
+      },
+      "sovereign_loop": {
+        "final_prose": "L'enveloppe de vélin filigrané portait l'écriture de sa mère — ces jambages nets qu'aucune maladie n'avait altérés jusqu'au bout. Le cachet postal indiquait une date antérieure de trois jours aux obsèques. Claire retourna le pli entre ses doigts, sentant le grain du papier comme une peau encore tiède.\n\n*Ma fille*, commençait la lettre holographe, *je t'écris depuis l'hôpital, sachant que ces mots t'atteindront trop tard. La morphine brouille mes pensées mais pas ma graphologie — reconnais-tu encore ma main ?*\n\nClaire déposa l'enveloppe sur la table de cuisine. Le radiateur cliquetait dans le silence de l'appartement vidé de ses condoléances, de ses fleurs fanées, de ses visiteurs compatissants. Elle avait cru en avoir fini avec la douleur.\n\n*Tu chercheras mes lettres dans le secrétaire. Quarante ans de correspondance épistolaire entre nous — relis-les quand ma voix te manquera.*\n\nLe papier crissa sous ses ongles. Sa mère continuait de lui parler depuis ce territoire interdit, prolongeant une conversation qu'elle croyait close. Les mots dansaient sur la page, nets et familiers, plus présents que tous les souvenirs accumulés.\n\n*N'oublie pas d'arroser les géraniums. Ils ont soif.*\n\nClaire plia la lettre. Dehors, la pluie martelait les vitres avec une régularité de métronome. Elle se leva, ouvrit le robinet, emplit l'arrosoir. Les géraniums du balcon attendaient, têtes lourdes, pétales gorgés d'eau.",
+        "nb_passes": 0,
+        "loop_trace": [],
+        "was_corrected": false,
+        "forensic_data": {
+          "rollback_count": 0,
+          "rollbacks": []
+        }
+      },
+      "s_score_final": {
+        "axes": [
+          {
+            "name": "tension_14d",
+            "weight": 3,
+            "raw": 0.7,
+            "weighted": 2.0999999999999996
+          },
+          {
+            "name": "coherence_emotionnelle",
+            "weight": 2.5,
+            "raw": 1,
+            "weighted": 2.5
+          },
+          {
+            "name": "interiorite",
+            "weight": 2,
+            "raw": 0.8,
+            "weighted": 1.6
+          },
+          {
+            "name": "impact_ouverture_cloture",
+            "weight": 2,
+            "raw": 0.9,
+            "weighted": 1.8
+          },
+          {
+            "name": "densite_sensorielle",
+            "weight": 1.5,
+            "raw": 0.7,
+            "weighted": 1.0499999999999998
+          },
+          {
+            "name": "necessite_m8",
+            "weight": 1,
+            "raw": 0.82,
+            "weighted": 0.82
+          },
+          {
+            "name": "anti_cliche",
+            "weight": 1,
+            "raw": 0.9473684210526316,
+            "weighted": 0.9473684210526316
+          },
+          {
+            "name": "rythme_musical",
+            "weight": 1,
+            "raw": 0.6615388755598766,
+            "weighted": 0.6615388755598766
+          },
+          {
+            "name": "signature",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          }
+        ],
+        "composite": 83.19271531075006,
+        "emotion_weight_ratio": 0.6333333333333333,
+        "verdict": "REJECT",
+        "rejection_reason": "composite_below_threshold",
+        "s_score_hash": "89dbe27162373f96b957d8a7f0879fcf86afd943a8e635f9837374229a7aeea8",
+        "scored_at": "2026-02-28T10:12:01.736Z"
+      },
+      "verdict": "REJECT",
+      "model_id": "claude-sonnet-4-20250514",
+      "run_hash": "45a5f63aa2668432614dc071fdfdf0f29083a7c5985800ff2442e752a5f19a26",
+      "prompt_hash": "cebf2fe95dc96f72a50f1c71df570efa7584ce305d73ac2b277a99825d0fccd9",
+      "axes_info_only": {
+        "tension_14d": 0.7
+      },
+      "loop_rollback": true,
+      "loop_delta_composite": 0
+    }
+  ],
+  "summary_hash": "9d82c2483f95d5e6e6fa8d67adb454c8755031555d34743e24d1f6bafb0a2fad"
+}

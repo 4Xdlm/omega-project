@@ -1,0 +1,11 @@
+import fs from 'fs';
+const packDir = 'validation/ValidationPack_phase-s_real_20260226_6c47438';
+const s = JSON.parse(fs.readFileSync(packDir+'/reports/E1_continuity_impossible_summary.json','utf8'));
+const rejected = s.runs.filter((r:any) => r.verdict === 'REJECT');
+const r = rejected[0];
+console.log('s_score_initial:', r.s_score_initial);
+console.log('s_score_final:', r.s_score_final);
+console.log('loop_rollback:', r.loop_rollback);
+console.log('loop_delta_composite:', r.loop_delta_composite);
+console.log('=== sovereign_loop (full) ===');
+console.log(JSON.stringify(r.sovereign_loop, null, 2).substring(0, 1200));

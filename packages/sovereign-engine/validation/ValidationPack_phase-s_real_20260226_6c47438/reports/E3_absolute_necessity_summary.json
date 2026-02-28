@@ -1,0 +1,1586 @@
+{
+  "experiment_id": "E3_absolute_necessity",
+  "mode": "real",
+  "total_runs": 10,
+  "sealed_count": 3,
+  "rejected_count": 7,
+  "failed_count": 0,
+  "reject_rate": 0.7,
+  "pct_above_92": 0,
+  "mean_s_score_sealed": 85.40405116676008,
+  "mean_improvement": 38.70405116676008,
+  "corr_14d_distribution": [
+    0.7,
+    0.6,
+    0.8,
+    0.8,
+    0.4,
+    0.8,
+    0.4,
+    0.7,
+    0.8,
+    0.8
+  ],
+  "mean_corr_14d": 0.6799999999999999,
+  "baseline": {
+    "value": 46.7,
+    "mean_improvement": 38.70405116676008
+  },
+  "composite_p75": 85.1012469349977,
+  "model_id": "claude-sonnet-4-20250514",
+  "runs": [
+    {
+      "run_index": 0,
+      "experiment_id": "E3_absolute_necessity",
+      "case_id": "FORGE_golden_01_run_val_001",
+      "seed": "087be517827e54bfdaa016f3c2b790412ab550f647218ab9ab41b4c5f0fe68d6",
+      "prose_generated": "L'ombre du porche avale ses pas. Élise reconnaît l'odeur de cendre froide qui suinte des murs, cette poussière âcre qui tapissait déjà les couloirs quinze ans plus tôt. Les fenêtres du rez-de-chaussée gardent leurs volets clos comme des paupières cousues.\n\nLa grille grince sur ses gonds rouillés. Le fer s'effrite sous ses doigts, laisse des traces orange sur sa paume. Derrière la porte vitrée, le hall étend sa pénombre familière. Les carreaux noirs et blancs dessinent le même échiquier où elle posait ses pieds d'enfant en évitant les cases sombres.\n\nUne fissure zèbre le mur du fond, nouvelle cicatrice qui part du plafond et descend jusqu'à la plinthe. L'escalier de pierre monte vers l'étage, chaque marche usée en son centre par des décennies de passages. Le silence pèse, épais, troué seulement par le tic-tac métallique du compteur électrique.\n\nÉlise pousse la porte. Le grincement résonne dans la cage d'escalier, se multiplie en échos sourds. L'air confiné porte une trace de moisi, de renfermé, cette senteur particulière des lieux abandonnés où la poussière s'accumule en couches stratifiées.\n\nSes semelles claquent sur le carrelage. Chaque pas la rapproche du palier du premier étage, de cette porte brune aux moulures écaillées.\n\nLe souffle lui manque.\n\nLa porte du fond porte toujours la même plaque de cuivre ternie : \"M. et Mme Verneuil\". Les lettres gravées émergent de la patine verte. Trente-sept marches la séparent encore de cet appartement. Elle les a comptées tant de fois, montant quatre à quatre pour fuir, redescendant à pas de loup pour éviter les craquements du bois.\n\nLe mur s'étiole sous sa paume moite. Les flammes du lustre dansent derrière le verre dépoli, projettent des ombres mouvantes qui déforment sa silhouette. Quelque chose remue au deuxième étage. Un froissement de papier, peut-être, ou le glissement d'un objet qui tombe.\n\nÉlise lève les yeux vers le palier supérieur.\n\nLes larmes sèchent sur ses joues, laissent des traces salées que sa langue reconnaît. Elle a vingt-huit ans maintenant, plus cette fillette de neuf ans qui se cachait dans les placards. Mais les murs gardent leur mémoire, et chaque pierre murmure les mêmes menaces silencieuses qu'autrefois.",
+      "s_score_initial": {
+        "axes": [
+          {
+            "name": "tension_14d",
+            "weight": 3,
+            "raw": 0.7,
+            "weighted": 2.0999999999999996
+          },
+          {
+            "name": "coherence_emotionnelle",
+            "weight": 2.5,
+            "raw": 1,
+            "weighted": 2.5
+          },
+          {
+            "name": "interiorite",
+            "weight": 2,
+            "raw": 0.85,
+            "weighted": 1.7
+          },
+          {
+            "name": "impact_ouverture_cloture",
+            "weight": 2,
+            "raw": 0.8,
+            "weighted": 1.6
+          },
+          {
+            "name": "densite_sensorielle",
+            "weight": 1.5,
+            "raw": 0.9,
+            "weighted": 1.35
+          },
+          {
+            "name": "necessite_m8",
+            "weight": 1,
+            "raw": 0.8,
+            "weighted": 0.8
+          },
+          {
+            "name": "anti_cliche",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          },
+          {
+            "name": "rythme_musical",
+            "weight": 1,
+            "raw": 0.7273380306793413,
+            "weighted": 0.7273380306793413
+          },
+          {
+            "name": "signature",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          }
+        ],
+        "composite": 85.18225353786228,
+        "emotion_weight_ratio": 0.6333333333333333,
+        "verdict": "REJECT",
+        "rejection_reason": "composite_below_threshold",
+        "s_score_hash": "b03e29a1ef9819407287f0eff42f9dad81b90a060187da8b1d3233a75df762b0",
+        "scored_at": "2026-02-26T23:33:44.705Z"
+      },
+      "sovereign_loop": {
+        "final_prose": "L'ombre du porche avale ses pas. Élise reconnaît l'odeur de cendre froide qui suinte des murs, cette poussière âcre qui tapissait déjà les couloirs quinze ans plus tôt. Les fenêtres du rez-de-chaussée gardent leurs volets clos comme des paupières cousues.\n\nLa grille grince sur ses gonds rouillés. Le fer s'effrite sous ses doigts, laisse des traces orange sur sa paume. Derrière la porte vitrée, le hall étend sa pénombre familière. Les carreaux noirs et blancs dessinent le même échiquier où elle posait ses pieds d'enfant en évitant les cases sombres.\n\nUne fissure zèbre le mur du fond, nouvelle cicatrice qui part du plafond et descend jusqu'à la plinthe. L'escalier de pierre monte vers l'étage, chaque marche usée en son centre par des décennies de passages. Le silence pèse, épais, troué seulement par le tic-tac métallique du compteur électrique.\n\nÉlise pousse la porte. Le grincement résonne dans la cage d'escalier, se multiplie en échos sourds. L'air confiné porte une trace de moisi, de renfermé, cette senteur particulière des lieux abandonnés où la poussière s'accumule en couches stratifiées.\n\nSes semelles claquent sur le carrelage. Chaque pas la rapproche du palier du premier étage, de cette porte brune aux moulures écaillées.\n\nLe souffle lui manque.\n\nLa porte du fond porte toujours la même plaque de cuivre ternie : \"M. et Mme Verneuil\". Les lettres gravées émergent de la patine verte. Trente-sept marches la séparent encore de cet appartement. Elle les a comptées tant de fois, montant quatre à quatre pour fuir, redescendant à pas de loup pour éviter les craquements du bois.\n\nLe mur s'étiole sous sa paume moite. Les flammes du lustre dansent derrière le verre dépoli, projettent des ombres mouvantes qui déforment sa silhouette. Quelque chose remue au deuxième étage. Un froissement de papier, peut-être, ou le glissement d'un objet qui tombe.\n\nÉlise lève les yeux vers le palier supérieur.\n\nLes larmes sèchent sur ses joues, laissent des traces salées que sa langue reconnaît. Elle a vingt-huit ans maintenant, plus cette fillette de neuf ans qui se cachait dans les placards. Mais les murs gardent leur mémoire, et chaque pierre murmure les mêmes menaces silencieuses qu'autrefois.",
+        "nb_passes": 2,
+        "loop_trace": [
+          {
+            "pass_number": 1,
+            "strategy_id": "emotion",
+            "ops_applied": [
+              "INTENSIFY_EMOTION",
+              "DEEPEN_INTERIORITY",
+              "ANCHOR_BEAT",
+              "STRENGTHEN_CLOSING"
+            ]
+          },
+          {
+            "pass_number": 2,
+            "strategy_id": "emotion",
+            "ops_applied": [
+              "INTENSIFY_EMOTION",
+              "DEEPEN_INTERIORITY",
+              "ANCHOR_BEAT",
+              "STRENGTHEN_CLOSING"
+            ]
+          }
+        ],
+        "was_corrected": true,
+        "forensic_data": {
+          "rollback_count": 0,
+          "rollbacks": []
+        }
+      },
+      "s_score_final": {
+        "axes": [
+          {
+            "name": "tension_14d",
+            "weight": 3,
+            "raw": 0.7,
+            "weighted": 2.0999999999999996
+          },
+          {
+            "name": "coherence_emotionnelle",
+            "weight": 2.5,
+            "raw": 1,
+            "weighted": 2.5
+          },
+          {
+            "name": "interiorite",
+            "weight": 2,
+            "raw": 0.85,
+            "weighted": 1.7
+          },
+          {
+            "name": "impact_ouverture_cloture",
+            "weight": 2,
+            "raw": 0.8,
+            "weighted": 1.6
+          },
+          {
+            "name": "densite_sensorielle",
+            "weight": 1.5,
+            "raw": 0.9,
+            "weighted": 1.35
+          },
+          {
+            "name": "necessite_m8",
+            "weight": 1,
+            "raw": 0.8,
+            "weighted": 0.8
+          },
+          {
+            "name": "anti_cliche",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          },
+          {
+            "name": "rythme_musical",
+            "weight": 1,
+            "raw": 0.7273380306793413,
+            "weighted": 0.7273380306793413
+          },
+          {
+            "name": "signature",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          }
+        ],
+        "composite": 85.18225353786228,
+        "emotion_weight_ratio": 0.6333333333333333,
+        "verdict": "REJECT",
+        "rejection_reason": "composite_below_threshold",
+        "s_score_hash": "b03e29a1ef9819407287f0eff42f9dad81b90a060187da8b1d3233a75df762b0",
+        "scored_at": "2026-02-26T23:33:44.705Z"
+      },
+      "verdict": "SEAL",
+      "model_id": "claude-sonnet-4-20250514",
+      "run_hash": "fd6c0de4645dd8a7f70047e062a27a25fd76f6f77228a911e99d269cd0b68e7d",
+      "prompt_hash": "4cff754807600e923114e17ac1769c12dc42fdaa511c7c5521b7a03afc68dff7",
+      "loop_rollback": true,
+      "loop_delta_composite": 0
+    },
+    {
+      "run_index": 0,
+      "experiment_id": "E3_absolute_necessity",
+      "case_id": "FORGE_golden_02_run_val_001",
+      "seed": "337c03b122735aee9917ee60b467caec88240690ea6de90aba8fc587933652b4",
+      "prose_generated": "Les lettres jaunies s'éparpillaient sur le parquet, chaque enveloppe révélant un mensonge de plus. Elise tenait entre ses doigts la preuve que son père n'était pas mort dans un accident, mais qu'il avait choisi de disparaître. Trente ans de deuil pour un homme qui respirait peut-être encore quelque part.\n\nL'appartement familial gardait son odeur de lavande et de tabac froid. Chaque meuble témoignait d'une mise en scène : les photos retournées, les tiroirs vidés de tout document officiel, même cette pipe abandonnée sur la cheminée — accessoire d'un décor monté pour elle, l'enfant qu'il fallait protéger de la vérité.\n\nSa mère avait emporté le secret dans la tombe l'hiver dernier. Aucune confession au seuil de la mort, aucun remords. Seulement cette clé trouvée dans ses affaires, qui ouvrait un coffre bancaire rempli de correspondances et de virements inexpliqués.\n\nElise relisait la même phrase pour la dixième fois : *\"Notre fille ne doit jamais savoir.\"* L'encre bleue avait pâli mais les mots demeuraient, tranchants comme des éclats de verre. Elle qui avait vécu dans la nostalgie d'un père héroïque découvrait qu'elle était devenue orpheline par choix, pas par fatalité.\n\nLa pluie tambourinait contre les vitres. Dehors, Paris continuait d'exister, indifférent à l'effondrement de son histoire personnelle. Elle songea aux anniversaires de sa mort qu'elle avait célébrés seule, aux fleurs déposées sur une tombe vide, aux prières murmurées pour un fantôme vivant.\n\nLe téléphone sonna trois fois avant qu'elle ne décroche machinalement.\n\n— Elise ? C'est Marc. Tu vas bien ? Tu n'es pas venue au bureau.\n\nSa propre voix lui parvenait de très loin :\n\n— Mon père...\n\n— Quoi, ton père ?\n\nLes mots refusaient de sortir. Comment expliquer que le socle de son existence venait de se fissurer ? Que chaque souvenir d'enfance était désormais contaminé par le doute ?\n\n— Rien. Une grippe.\n\nElle raccrocha et contempla les débris de sa vie étalés au sol. Quarante-trois ans à pleurer un mort qui avait peut-être refait sa vie ailleurs, avec une autre femme, d'autres enfants qu'il avait choisi d'aimer.\n\nL'horloge du salon égrena sept coups. Dans le miroir du hall, son reflet révélait une femme creusée par des décennies de chagrin inutile. Ses cheveux grisonnaient prématurément, ses épaules s'affaissaient sous le poids d'une culpabilité qui n'avait jamais eu lieu d'être.\n\nElle ramassa une dernière lettre, datée de ses quinze ans. Son père y évoquait ses remords, sa volonté de revenir, puis sa décision finale de rester invisible. *\"Elle a grandi sans moi. Je n'ai plus ma place.\"*\n\nElise ferma les yeux. Le silence de l'appartement l'enveloppait comme un linceul. Même si elle le retrouvait demain, ils étaient devenus étrangers l'un à l'autre. Le temps avait creusé entre eux un fossé que trente années de mensonges rendaient infranchissable.\n\nElle éteignit les lumières et quitta l'appartement, abandonnant derrière elle les preuves d'une enfance volée. Dans la rue, la brume avalait les réverbères. Elise marchait vers chez elle, orpheline pour la deuxième fois.",
+      "s_score_initial": {
+        "axes": [
+          {
+            "name": "tension_14d",
+            "weight": 3,
+            "raw": 0.6,
+            "weighted": 1.7999999999999998
+          },
+          {
+            "name": "coherence_emotionnelle",
+            "weight": 2.5,
+            "raw": 0.7,
+            "weighted": 1.75
+          },
+          {
+            "name": "interiorite",
+            "weight": 2,
+            "raw": 0.9,
+            "weighted": 1.8
+          },
+          {
+            "name": "impact_ouverture_cloture",
+            "weight": 2,
+            "raw": 0.9,
+            "weighted": 1.8
+          },
+          {
+            "name": "densite_sensorielle",
+            "weight": 1.5,
+            "raw": 0.7,
+            "weighted": 1.0499999999999998
+          },
+          {
+            "name": "necessite_m8",
+            "weight": 1,
+            "raw": 0.8,
+            "weighted": 0.8
+          },
+          {
+            "name": "anti_cliche",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          },
+          {
+            "name": "rythme_musical",
+            "weight": 1,
+            "raw": 0.9734088367672049,
+            "weighted": 0.9734088367672049
+          },
+          {
+            "name": "signature",
+            "weight": 1,
+            "raw": 0.6,
+            "weighted": 0.6
+          }
+        ],
+        "composite": 77.15605891178137,
+        "emotion_weight_ratio": 0.6333333333333333,
+        "verdict": "REJECT",
+        "rejection_reason": "composite_below_threshold",
+        "s_score_hash": "4bdffe5c29fc701abafe66372ade3fdfdb27320e13225c4bf9825262b37f7951",
+        "scored_at": "2026-02-26T23:34:17.252Z"
+      },
+      "sovereign_loop": {
+        "final_prose": "Les lettres jaunies s'éparpillaient sur le parquet, chaque enveloppe révélant un mensonge de plus. Elise tenait entre ses doigts la preuve que son père n'était pas mort dans un accident, mais qu'il avait choisi de disparaître. Trente ans de deuil pour un homme qui respirait peut-être encore quelque part.\n\nL'appartement familial gardait son odeur de lavande et de tabac froid. Chaque meuble témoignait d'une mise en scène : les photos retournées, les tiroirs vidés de tout document officiel, même cette pipe abandonnée sur la cheminée — accessoire d'un décor monté pour elle, l'enfant qu'il fallait protéger de la vérité.\n\nSa mère avait emporté le secret dans la tombe l'hiver dernier. Aucune confession au seuil de la mort, aucun remords. Seulement cette clé trouvée dans ses affaires, qui ouvrait un coffre bancaire rempli de correspondances et de virements inexpliqués.\n\nElise relisait la même phrase pour la dixième fois : *\"Notre fille ne doit jamais savoir.\"* L'encre bleue avait pâli mais les mots demeuraient, tranchants comme des éclats de verre. Elle qui avait vécu dans la nostalgie d'un père héroïque découvrait qu'elle était devenue orpheline par choix, pas par fatalité.\n\nLa pluie tambourinait contre les vitres. Dehors, Paris continuait d'exister, indifférent à l'effondrement de son histoire personnelle. Elle songea aux anniversaires de sa mort qu'elle avait célébrés seule, aux fleurs déposées sur une tombe vide, aux prières murmurées pour un fantôme vivant.\n\nLe téléphone sonna trois fois avant qu'elle ne décroche machinalement.\n\n— Elise ? C'est Marc. Tu vas bien ? Tu n'es pas venue au bureau.\n\nSa propre voix lui parvenait de très loin :\n\n— Mon père...\n\n— Quoi, ton père ?\n\nLes mots refusaient de sortir. Comment expliquer que le socle de son existence venait de se fissurer ? Que chaque souvenir d'enfance était désormais contaminé par le doute ?\n\n— Rien. Une grippe.\n\nElle raccrocha et contempla les débris de sa vie étalés au sol. Quarante-trois ans à pleurer un mort qui avait peut-être refait sa vie ailleurs, avec une autre femme, d'autres enfants qu'il avait choisi d'aimer.\n\nL'horloge du salon égrena sept coups. Dans le miroir du hall, son reflet révélait une femme creusée par des décennies de chagrin inutile. Ses cheveux grisonnaient prématurément, ses épaules s'affaissaient sous le poids d'une culpabilité qui n'avait jamais eu lieu d'être.\n\nElle ramassa une dernière lettre, datée de ses quinze ans. Son père y évoquait ses remords, sa volonté de revenir, puis sa décision finale de rester invisible. *\"Elle a grandi sans moi. Je n'ai plus ma place.\"*\n\nElise ferma les yeux. Le silence de l'appartement l'enveloppait comme un linceul. Même si elle le retrouvait demain, ils étaient devenus étrangers l'un à l'autre. Le temps avait creusé entre eux un fossé que trente années de mensonges rendaient infranchissable.\n\nElle éteignit les lumières et quitta l'appartement, abandonnant derrière elle les preuves d'une enfance volée. Dans la rue, la brume avalait les réverbères. Elise marchait vers chez elle, orpheline pour la deuxième fois.",
+        "nb_passes": 0,
+        "loop_trace": [],
+        "was_corrected": false,
+        "forensic_data": {
+          "rollback_count": 0,
+          "rollbacks": []
+        }
+      },
+      "s_score_final": {
+        "axes": [
+          {
+            "name": "tension_14d",
+            "weight": 3,
+            "raw": 0.6,
+            "weighted": 1.7999999999999998
+          },
+          {
+            "name": "coherence_emotionnelle",
+            "weight": 2.5,
+            "raw": 0.7,
+            "weighted": 1.75
+          },
+          {
+            "name": "interiorite",
+            "weight": 2,
+            "raw": 0.9,
+            "weighted": 1.8
+          },
+          {
+            "name": "impact_ouverture_cloture",
+            "weight": 2,
+            "raw": 0.9,
+            "weighted": 1.8
+          },
+          {
+            "name": "densite_sensorielle",
+            "weight": 1.5,
+            "raw": 0.7,
+            "weighted": 1.0499999999999998
+          },
+          {
+            "name": "necessite_m8",
+            "weight": 1,
+            "raw": 0.8,
+            "weighted": 0.8
+          },
+          {
+            "name": "anti_cliche",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          },
+          {
+            "name": "rythme_musical",
+            "weight": 1,
+            "raw": 0.9734088367672049,
+            "weighted": 0.9734088367672049
+          },
+          {
+            "name": "signature",
+            "weight": 1,
+            "raw": 0.6,
+            "weighted": 0.6
+          }
+        ],
+        "composite": 77.15605891178137,
+        "emotion_weight_ratio": 0.6333333333333333,
+        "verdict": "REJECT",
+        "rejection_reason": "composite_below_threshold",
+        "s_score_hash": "4bdffe5c29fc701abafe66372ade3fdfdb27320e13225c4bf9825262b37f7951",
+        "scored_at": "2026-02-26T23:34:17.252Z"
+      },
+      "verdict": "REJECT",
+      "model_id": "claude-sonnet-4-20250514",
+      "run_hash": "86f2cc51d6eec1bd343c1b58fc4b7248b7995f814e47fe0c2ab903409300a1c3",
+      "prompt_hash": "071a9f50238e08b568be5e61a2f564104fca8b032905d3f2919e71c982ca04a6",
+      "loop_rollback": true,
+      "loop_delta_composite": 0
+    },
+    {
+      "run_index": 0,
+      "experiment_id": "E3_absolute_necessity",
+      "case_id": "FORGE_golden_03_run_val_001",
+      "seed": "59ede6d509dd92e8ac9f7145e74327c4f5e23c603f60b295e6dfe9fe3c8917f2",
+      "prose_generated": "L'odeur de poussière et de papier jauni saturait le bureau du fonctionnaire. Elise observait ses mains manucurées caresser le dossier marqué de son nom, celui qui contenait la condamnation de sa maison. Chaque geste calculé, chaque sourire de circonstance alimentait une rage sourde qui montait depuis ses entrailles. Elle comptait les timbres officiels sur les documents — sept cachets rouges comme autant de clous plantés dans le cercueil de son foyer.\n\n« Madame Delorme, vous comprenez bien que l'expropriation serve l'intérêt général. »\n\nLa voix nasillarde du bureaucrate glissait sur sa peau comme de l'huile rance. Elise fixait la broche dorée épinglée sur son revers — un petit écusson municipal qui captait la lumière crue du néon. L'homme feuilletait ses papiers avec une désinvolture obscène, indifférent aux quarante années de sa vie qu'il réduisait à quelques lignes administratives.\n\n« L'indemnisation proposée reste très correcte, dans le contexte actuel du marché. »\n\nLe chiffre inscrit au crayon rouge sur le bordereau la gifla : 180 000 euros. Le prix de son jardin où elle avait planté ses rosiers, de sa cuisine où résonnaient encore les rires de ses enfants, de sa chambre où elle avait pleuré la mort de son mari. Ils avaient évalué sa mémoire au mètre carré.\n\n« Correcte ? » Le mot jaillit de sa gorge comme un crachat. « Vous trouvez correcte cette mascarade ? »\n\nLe fonctionnaire leva les yeux, surpris par l'éclat dans sa voix. Ses pupilles dilatées trahissaient l'irritation d'un homme habitué à la soumission des administrés.\n\n« Madame, je vous rappelle que cette procédure est parfaitement légale. Le projet de centre commercial créera des emplois pour la région. »\n\n« Des emplois ! » Elise se dressa, ses ongles griffant le cuir usé de sa chaise. « Vous détruisez un quartier entier pour construire un temple de la consommation et vous osez parler d'emplois ? »\n\nLe rouge lui montait aux tempes. Elle voyait danser devant ses yeux les bulldozers qui avaleraient sa rue, les pelleteuses qui broieraient les fondations posées par son père dans les années soixante. Toute cette destruction programmée par des hommes en costume qui ne s'étaient jamais sali les mains dans la terre de son potager.\n\n« Je comprends votre émotion, mais la décision est prise. Vous avez trente jours pour libérer les lieux. »\n\nTrente jours. Le décompte résonna comme un glas. Elise sentit quelque chose se fissurer en elle, un barrage intérieur qui cédait sous la pression. Sa main se referma sur le coupe-papier en acier posé sur le bureau — l'objet pesait exactement 127 grammes, elle l'avait soupesé machinalement en entrant.\n\n« Trente jours pour effacer ma vie. Trente jours pour que vos amis promoteurs empochent leurs millions. »\n\nLe métal chauffait contre sa paume moite. Un geste, un seul, et cette lame de dix centimètres trancherait la gorge satisfaite qui débitait ses sentences. Le tic-tac de l'horloge murale scandait les secondes, chaque battement rapprochant l'irréparable.\n\nLe fonctionnaire recula imperceptiblement, ses yeux rivés sur l'arme improvisée. Pour la première fois, son masque d'assurance se craquelait.\n\n« Madame Delorme, je vous conseille de vous calmer. »\n\nElise relâcha lentement sa prise. Le coupe-papier retomba sur le bureau dans un tintement métallique. La colère reflua, laissant place à un épuisement immense. Autour d'elle, les murs beiges du bureau administratif semblaient se resserrer, cage de béton où l'on étouffait les derniers sursauts de révolte.\n\nElle ramassa son sac, tourna le dos au bureaucrate et quitta la pièce sans un mot. Mais la rage continuait de couver sous ses côtes, brasier patient qui attendrait son heure.",
+      "s_score_initial": {
+        "axes": [
+          {
+            "name": "tension_14d",
+            "weight": 3,
+            "raw": 0.8,
+            "weighted": 2.4000000000000004
+          },
+          {
+            "name": "coherence_emotionnelle",
+            "weight": 2.5,
+            "raw": 1,
+            "weighted": 2.5
+          },
+          {
+            "name": "interiorite",
+            "weight": 2,
+            "raw": 0.9,
+            "weighted": 1.8
+          },
+          {
+            "name": "impact_ouverture_cloture",
+            "weight": 2,
+            "raw": 0.8,
+            "weighted": 1.6
+          },
+          {
+            "name": "densite_sensorielle",
+            "weight": 1.5,
+            "raw": 0.85,
+            "weighted": 1.275
+          },
+          {
+            "name": "necessite_m8",
+            "weight": 1,
+            "raw": 0.82,
+            "weighted": 0.82
+          },
+          {
+            "name": "anti_cliche",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          },
+          {
+            "name": "rythme_musical",
+            "weight": 1,
+            "raw": 0.7772660059846204,
+            "weighted": 0.7772660059846204
+          },
+          {
+            "name": "signature",
+            "weight": 1,
+            "raw": 0.5,
+            "weighted": 0.5
+          }
+        ],
+        "composite": 84.48177337323081,
+        "emotion_weight_ratio": 0.6333333333333333,
+        "verdict": "REJECT",
+        "rejection_reason": "composite_below_threshold",
+        "s_score_hash": "f0acef44d41a6b26e1eeb5f098258b62346a220b6682f74f6c1df7caa097b87a",
+        "scored_at": "2026-02-26T23:34:53.126Z"
+      },
+      "sovereign_loop": {
+        "final_prose": "L'odeur de poussière et de papier jauni saturait le bureau du fonctionnaire. Elise observait ses mains manucurées caresser le dossier marqué de son nom, celui qui contenait la condamnation de sa maison. Chaque geste calculé, chaque sourire de circonstance alimentait une rage sourde qui montait depuis ses entrailles. Elle comptait les timbres officiels sur les documents — sept cachets rouges comme autant de clous plantés dans le cercueil de son foyer.\n\n« Madame Delorme, vous comprenez bien que l'expropriation serve l'intérêt général. »\n\nLa voix nasillarde du bureaucrate glissait sur sa peau comme de l'huile rance. Elise fixait la broche dorée épinglée sur son revers — un petit écusson municipal qui captait la lumière crue du néon. L'homme feuilletait ses papiers avec une désinvolture obscène, indifférent aux quarante années de sa vie qu'il réduisait à quelques lignes administratives.\n\n« L'indemnisation proposée reste très correcte, dans le contexte actuel du marché. »\n\nLe chiffre inscrit au crayon rouge sur le bordereau la gifla : 180 000 euros. Le prix de son jardin où elle avait planté ses rosiers, de sa cuisine où résonnaient encore les rires de ses enfants, de sa chambre où elle avait pleuré la mort de son mari. Ils avaient évalué sa mémoire au mètre carré.\n\n« Correcte ? » Le mot jaillit de sa gorge comme un crachat. « Vous trouvez correcte cette mascarade ? »\n\nLe fonctionnaire leva les yeux, surpris par l'éclat dans sa voix. Ses pupilles dilatées trahissaient l'irritation d'un homme habitué à la soumission des administrés.\n\n« Madame, je vous rappelle que cette procédure est parfaitement légale. Le projet de centre commercial créera des emplois pour la région. »\n\n« Des emplois ! » Elise se dressa, ses ongles griffant le cuir usé de sa chaise. « Vous détruisez un quartier entier pour construire un temple de la consommation et vous osez parler d'emplois ? »\n\nLe rouge lui montait aux tempes. Elle voyait danser devant ses yeux les bulldozers qui avaleraient sa rue, les pelleteuses qui broieraient les fondations posées par son père dans les années soixante. Toute cette destruction programmée par des hommes en costume qui ne s'étaient jamais sali les mains dans la terre de son potager.\n\n« Je comprends votre émotion, mais la décision est prise. Vous avez trente jours pour libérer les lieux. »\n\nTrente jours. Le décompte résonna comme un glas. Elise sentit quelque chose se fissurer en elle, un barrage intérieur qui cédait sous la pression. Sa main se referma sur le coupe-papier en acier posé sur le bureau — l'objet pesait exactement 127 grammes, elle l'avait soupesé machinalement en entrant.\n\n« Trente jours pour effacer ma vie. Trente jours pour que vos amis promoteurs empochent leurs millions. »\n\nLe métal chauffait contre sa paume moite. Un geste, un seul, et cette lame de dix centimètres trancherait la gorge satisfaite qui débitait ses sentences. Le tic-tac de l'horloge murale scandait les secondes, chaque battement rapprochant l'irréparable.\n\nLe fonctionnaire recula imperceptiblement, ses yeux rivés sur l'arme improvisée. Pour la première fois, son masque d'assurance se craquelait.\n\n« Madame Delorme, je vous conseille de vous calmer. »\n\nElise relâcha lentement sa prise. Le coupe-papier retomba sur le bureau dans un tintement métallique. La colère reflua, laissant place à un épuisement immense. Autour d'elle, les murs beiges du bureau administratif semblaient se resserrer, cage de béton où l'on étouffait les derniers sursauts de révolte.\n\nElle ramassa son sac, tourna le dos au bureaucrate et quitta la pièce sans un mot. Mais la rage continuait de couver sous ses côtes, brasier patient qui attendrait son heure.",
+        "nb_passes": 0,
+        "loop_trace": [],
+        "was_corrected": false,
+        "forensic_data": {
+          "rollback_count": 0,
+          "rollbacks": []
+        }
+      },
+      "s_score_final": {
+        "axes": [
+          {
+            "name": "tension_14d",
+            "weight": 3,
+            "raw": 0.8,
+            "weighted": 2.4000000000000004
+          },
+          {
+            "name": "coherence_emotionnelle",
+            "weight": 2.5,
+            "raw": 1,
+            "weighted": 2.5
+          },
+          {
+            "name": "interiorite",
+            "weight": 2,
+            "raw": 0.9,
+            "weighted": 1.8
+          },
+          {
+            "name": "impact_ouverture_cloture",
+            "weight": 2,
+            "raw": 0.85,
+            "weighted": 1.7
+          },
+          {
+            "name": "densite_sensorielle",
+            "weight": 1.5,
+            "raw": 0.8,
+            "weighted": 1.2000000000000002
+          },
+          {
+            "name": "necessite_m8",
+            "weight": 1,
+            "raw": 0.8,
+            "weighted": 0.8
+          },
+          {
+            "name": "anti_cliche",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          },
+          {
+            "name": "rythme_musical",
+            "weight": 1,
+            "raw": 0.7772660059846204,
+            "weighted": 0.7772660059846204
+          },
+          {
+            "name": "signature",
+            "weight": 1,
+            "raw": 0.5,
+            "weighted": 0.5
+          }
+        ],
+        "composite": 84.51510670656415,
+        "emotion_weight_ratio": 0.6333333333333333,
+        "verdict": "REJECT",
+        "rejection_reason": "composite_below_threshold",
+        "s_score_hash": "28a3f691c3aee7b0d5b4bc5a9928b177f87b7263f558eafa6e105da81ad386d7",
+        "scored_at": "2026-02-26T23:34:56.511Z"
+      },
+      "verdict": "REJECT",
+      "model_id": "claude-sonnet-4-20250514",
+      "run_hash": "e1ca66c49fea8cdc840bc63f8f0bf6de2a3086b1deafcb7ba52ee59ec048606f",
+      "prompt_hash": "67591a28e53bd7e778443401ff244053cf60b9802792e884207cf4196f8e29cb",
+      "loop_rollback": false,
+      "loop_delta_composite": 0.03333333333334565
+    },
+    {
+      "run_index": 0,
+      "experiment_id": "E3_absolute_necessity",
+      "case_id": "FORGE_golden_04_run_val_001",
+      "seed": "48e444c6ef7641aef93af108e0988d776385a86ac839c90b55a4fc662c86a5ba",
+      "prose_generated": "Le café refroidissait dans sa tasse. Élise tourna la clé USB entre ses doigts, le plastique tiède contre sa paume. Trois heures qu'elle fixait l'écran noir de l'ordinateur portable. Dans quarante minutes, les bureaux de la société ouvriraient leurs portes. Elle glissa le dispositif dans la fente.\n\nL'horloge murale égrenait les secondes. Chaque fichier qui s'affichait révélait l'ampleur du mensonge. Des noms, des dates, des montants. Vincent avait tout documenté avant de disparaître. Les documents comptables s'enchaînaient, méticuleux, accusateurs. Elle copia les dossiers sur son disque dur.\n\nVingt-sept minutes. L'ascenseur grinça dans la cage d'escalier voisine. Trop tôt pour les employés. Élise ferma les fenêtres de l'explorateur, éjecta la clé. Ses semelles ne firent aucun bruit sur la moquette. Elle éteignit les lumières du bureau de Vincent, referma la porte à clé.\n\nLe couloir s'étendait devant elle, ponctué par les veilleuses de sécurité. Chaque pas la rapprochait de la sortie de service. L'ascenseur s'arrêta au cinquième étage. Des voix masculines résonnèrent dans le hall d'accueil.\n\nSon souffle se bloqua dans sa gorge. La porte métallique pesait quarante-trois kilos selon la plaque du fabricant. Le mécanisme électronique clignota en rouge. Élise composa le code à six chiffres que Vincent lui avait confié trois jours avant sa mort. Les diodes passèrent au vert.\n\nLes pas se rapprochaient dans le couloir. Elle poussa la barre d'ouverture.\n\nL'aube filtrait à travers les nuages. Élise descendit l'escalier de secours, la clé USB brûlante dans sa poche. Les preuves dormaient maintenant dans sa mémoire et sur son disque. Demain, elle appellerait le procureur. Mais cette certitude ne dissipait pas l'ombre qui pesait sur ses épaules, cette sensation que l'histoire ne faisait que commencer.",
+      "s_score_initial": {
+        "axes": [
+          {
+            "name": "tension_14d",
+            "weight": 3,
+            "raw": 0.8,
+            "weighted": 2.4000000000000004
+          },
+          {
+            "name": "coherence_emotionnelle",
+            "weight": 2.5,
+            "raw": 1,
+            "weighted": 2.5
+          },
+          {
+            "name": "interiorite",
+            "weight": 2,
+            "raw": 0.3,
+            "weighted": 0.6
+          },
+          {
+            "name": "impact_ouverture_cloture",
+            "weight": 2,
+            "raw": 0.8,
+            "weighted": 1.6
+          },
+          {
+            "name": "densite_sensorielle",
+            "weight": 1.5,
+            "raw": 0.7,
+            "weighted": 1.0499999999999998
+          },
+          {
+            "name": "necessite_m8",
+            "weight": 1,
+            "raw": 0.8,
+            "weighted": 0.8
+          },
+          {
+            "name": "anti_cliche",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          },
+          {
+            "name": "rythme_musical",
+            "weight": 1,
+            "raw": 0.6782266047197443,
+            "weighted": 0.6782266047197443
+          },
+          {
+            "name": "signature",
+            "weight": 1,
+            "raw": 0.7,
+            "weighted": 0.7
+          }
+        ],
+        "composite": 75.52151069813162,
+        "emotion_weight_ratio": 0.6333333333333333,
+        "verdict": "REJECT",
+        "rejection_reason": "axis_floor_violation: interiorite",
+        "s_score_hash": "16b470495226fd516ac51e0a0dae88d421bb1022a5332009dd5b2e448f4e7ba3",
+        "scored_at": "2026-02-26T23:35:15.693Z"
+      },
+      "sovereign_loop": {
+        "final_prose": "Le café refroidissait dans sa tasse. Élise tourna la clé USB entre ses doigts, le plastique tiède contre sa paume. Trois heures qu'elle fixait l'écran noir de l'ordinateur portable. Dans quarante minutes, les bureaux de la société ouvriraient leurs portes. Elle glissa le dispositif dans la fente.\n\nL'horloge murale égrenait les secondes. Chaque fichier qui s'affichait révélait l'ampleur du mensonge. Des noms, des dates, des montants. Vincent avait tout documenté avant de disparaître. Les documents comptables s'enchaînaient, méticuleux, accusateurs. Elle copia les dossiers sur son disque dur.\n\nVingt-sept minutes. L'ascenseur grinça dans la cage d'escalier voisine. Trop tôt pour les employés. Élise ferma les fenêtres de l'explorateur, éjecta la clé. Ses semelles ne firent aucun bruit sur la moquette. Elle éteignit les lumières du bureau de Vincent, referma la porte à clé.\n\nLe couloir s'étendait devant elle, ponctué par les veilleuses de sécurité. Chaque pas la rapprochait de la sortie de service. L'ascenseur s'arrêta au cinquième étage. Des voix masculines résonnèrent dans le hall d'accueil.\n\nSon souffle se bloqua dans sa gorge. La porte métallique pesait quarante-trois kilos selon la plaque du fabricant. Le mécanisme électronique clignota en rouge. Élise composa le code à six chiffres que Vincent lui avait confié trois jours avant sa mort. Les diodes passèrent au vert.\n\nLes pas se rapprochaient dans le couloir. Elle poussa la barre d'ouverture.\n\nL'aube filtrait à travers les nuages. Élise descendit l'escalier de secours, la clé USB brûlante dans sa poche. Les preuves dormaient maintenant dans sa mémoire et sur son disque. Demain, elle appellerait le procureur. Mais cette certitude ne dissipait pas l'ombre qui pesait sur ses épaules, cette sensation que l'histoire ne faisait que commencer.",
+        "nb_passes": 0,
+        "loop_trace": [],
+        "was_corrected": false,
+        "forensic_data": {
+          "rollback_count": 0,
+          "rollbacks": []
+        }
+      },
+      "s_score_final": {
+        "axes": [
+          {
+            "name": "tension_14d",
+            "weight": 3,
+            "raw": 0.8,
+            "weighted": 2.4000000000000004
+          },
+          {
+            "name": "coherence_emotionnelle",
+            "weight": 2.5,
+            "raw": 1,
+            "weighted": 2.5
+          },
+          {
+            "name": "interiorite",
+            "weight": 2,
+            "raw": 0.3,
+            "weighted": 0.6
+          },
+          {
+            "name": "impact_ouverture_cloture",
+            "weight": 2,
+            "raw": 0.8,
+            "weighted": 1.6
+          },
+          {
+            "name": "densite_sensorielle",
+            "weight": 1.5,
+            "raw": 0.7,
+            "weighted": 1.0499999999999998
+          },
+          {
+            "name": "necessite_m8",
+            "weight": 1,
+            "raw": 0.8,
+            "weighted": 0.8
+          },
+          {
+            "name": "anti_cliche",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          },
+          {
+            "name": "rythme_musical",
+            "weight": 1,
+            "raw": 0.6782266047197443,
+            "weighted": 0.6782266047197443
+          },
+          {
+            "name": "signature",
+            "weight": 1,
+            "raw": 0.7,
+            "weighted": 0.7
+          }
+        ],
+        "composite": 75.52151069813162,
+        "emotion_weight_ratio": 0.6333333333333333,
+        "verdict": "REJECT",
+        "rejection_reason": "axis_floor_violation: interiorite",
+        "s_score_hash": "16b470495226fd516ac51e0a0dae88d421bb1022a5332009dd5b2e448f4e7ba3",
+        "scored_at": "2026-02-26T23:35:15.693Z"
+      },
+      "verdict": "REJECT",
+      "model_id": "claude-sonnet-4-20250514",
+      "run_hash": "2de5552e7296119cfde3ee4be12c3a88a5a00892a10b9579bb607a8c903d447d",
+      "prompt_hash": "b3c0f2c5d2789db8335d9b208e95f0d52f06e7de01b78e08b330dd118bb13b89",
+      "loop_rollback": true,
+      "loop_delta_composite": 0
+    },
+    {
+      "run_index": 0,
+      "experiment_id": "E3_absolute_necessity",
+      "case_id": "FORGE_golden_05_run_val_001",
+      "seed": "ac446a48551b3455d96ddc81a098cbe074f764e140b85a41e4886c7870d3a807",
+      "prose_generated": "Le silence de l'appartement l'accueillit comme une gifle familière. Élise posa son sac près de la porte, contempla les meubles recouverts de housses blanches, fantômes d'une vie suspendue. Trois mois d'absence pour rien. Le procès s'était enlisé, les témoignages contradictoires, et elle rentrait les mains vides, la fatigue collée aux os.\n\nElle souleva un coin de tissu. Le piano apparut, ses touches jaunies par le temps. Ses doigts effleurèrent le do central, muet. Combien d'années depuis la dernière note ? Depuis que la peur avait remplacé la musique, que chaque mélodie lui rappelait ce qu'elle avait perdu.\n\nUn bruit léger dans la cuisine la figea. Pas de cambrioleur — elle reconnaîtrait cette présence entre mille. Thomas émergea du couloir, les cheveux ébouriffés, tenant deux tasses fumantes.\n\n« Tu es rentrée plus tôt que prévu. »\n\nSa voix portait cette douceur qu'elle avait cru oublier. Il tendit une tasse, leurs doigts se frôlèrent autour de la porcelaine tiède.\n\n« Je pensais que tu étais parti pour de bon. »\n\n« Je range tes affaires depuis une semaine. » Il désigna les cartons étiquetés dans le coin salon. « Mais je n'arrive pas à emballer ça. »\n\nIl retourna vers le piano, appuya sur la pédale forte. Le mécanisme grinça — un sol bémol grave, presque inaudible, mais qui résonna dans la pièce comme un aveu. Vingt-trois ans qu'ils s'étaient rencontrés sur cette note, dans ce même appartement, quand la musique les unissait encore.\n\nÉlise s'approcha, posa sa tasse sur le bois ciré. Ses mains trouvèrent naturellement leur place sur le clavier. Les accords montèrent, hésitants d'abord, puis plus assurés. La mélodie qu'il fredonnait autrefois, celle qu'elle composait dans sa tête durant les nuits d'insomnie au palais de justice.\n\nThomas s'assit près d'elle sur le banc, leurs épaules se touchèrent. Il ajouta une ligne de basse, leurs quatre mains dansèrent sans se gêner, retrouvèrent l'harmonie malgré les fausses notes, malgré les reproches jamais formulés.\n\n« Je croyais avoir tout gâché », murmura-t-elle.\n\n« On a juste oublié comment s'écouter. »\n\nLa lumière de fin d'après-midi filtrait à travers les rideaux, dorait leurs mains entrelacées sur les touches. La musique s'étoffa, remplit l'espace entre eux, effaça les mois de silence et de reproches. Chaque accord reconstituait ce qu'elle pensait détruit : cette confiance aveugle, cette capacité à créer ensemble sans se concerter.\n\nQuand la dernière note s'évanouit, ils restèrent immobiles, les mains posées côte à côte. L'appartement respirait différemment, comme si les murs eux-mêmes s'étaient détendus.\n\n« Les cartons peuvent attendre », dit Thomas.\n\nÉlise sourit pour la première fois depuis des semaines. Dehors, la ville bruissait de sa vie habituelle, mais ici, dans cette bulle reconstruite note après note, l'avenir redevenait possible.",
+      "s_score_initial": {
+        "axes": [
+          {
+            "name": "tension_14d",
+            "weight": 3,
+            "raw": 0.4,
+            "weighted": 1.2000000000000002
+          },
+          {
+            "name": "coherence_emotionnelle",
+            "weight": 2.5,
+            "raw": 0.7,
+            "weighted": 1.75
+          },
+          {
+            "name": "interiorite",
+            "weight": 2,
+            "raw": 0.8,
+            "weighted": 1.6
+          },
+          {
+            "name": "impact_ouverture_cloture",
+            "weight": 2,
+            "raw": 0.8,
+            "weighted": 1.6
+          },
+          {
+            "name": "densite_sensorielle",
+            "weight": 1.5,
+            "raw": 0.7,
+            "weighted": 1.0499999999999998
+          },
+          {
+            "name": "necessite_m8",
+            "weight": 1,
+            "raw": 0.82,
+            "weighted": 0.82
+          },
+          {
+            "name": "anti_cliche",
+            "weight": 1,
+            "raw": 0.9736842105263158,
+            "weighted": 0.9736842105263158
+          },
+          {
+            "name": "rythme_musical",
+            "weight": 1,
+            "raw": 0.6314377426892791,
+            "weighted": 0.6314377426892791
+          },
+          {
+            "name": "signature",
+            "weight": 1,
+            "raw": 0.4,
+            "weighted": 0.4
+          }
+        ],
+        "composite": 66.83414635477062,
+        "emotion_weight_ratio": 0.6333333333333333,
+        "verdict": "REJECT",
+        "rejection_reason": "axis_floor_violation: tension_14d",
+        "s_score_hash": "845462c9060d36a2f21ca3d651821f17d1a45b74143ba553b87ee719e220afa8",
+        "scored_at": "2026-02-26T23:35:45.618Z"
+      },
+      "sovereign_loop": {
+        "final_prose": "Le silence de l'appartement l'accueillit comme une gifle familière. Élise posa son sac près de la porte, contempla les meubles recouverts de housses blanches, fantômes d'une vie suspendue. Trois mois d'absence pour rien. Le procès s'était enlisé, les témoignages contradictoires, et elle rentrait les mains vides, la fatigue collée aux os.\n\nElle souleva un coin de tissu. Le piano apparut, ses touches jaunies par le temps. Ses doigts effleurèrent le do central, muet. Combien d'années depuis la dernière note ? Depuis que la peur avait remplacé la musique, que chaque mélodie lui rappelait ce qu'elle avait perdu.\n\nUn bruit léger dans la cuisine la figea. Pas de cambrioleur — elle reconnaîtrait cette présence entre mille. Thomas émergea du couloir, les cheveux ébouriffés, tenant deux tasses fumantes.\n\n« Tu es rentrée plus tôt que prévu. »\n\nSa voix portait cette douceur qu'elle avait cru oublier. Il tendit une tasse, leurs doigts se frôlèrent autour de la porcelaine tiède.\n\n« Je pensais que tu étais parti pour de bon. »\n\n« Je range tes affaires depuis une semaine. » Il désigna les cartons étiquetés dans le coin salon. « Mais je n'arrive pas à emballer ça. »\n\nIl retourna vers le piano, appuya sur la pédale forte. Le mécanisme grinça — un sol bémol grave, presque inaudible, mais qui résonna dans la pièce comme un aveu. Vingt-trois ans qu'ils s'étaient rencontrés sur cette note, dans ce même appartement, quand la musique les unissait encore.\n\nÉlise s'approcha, posa sa tasse sur le bois ciré. Ses mains trouvèrent naturellement leur place sur le clavier. Les accords montèrent, hésitants d'abord, puis plus assurés. La mélodie qu'il fredonnait autrefois, celle qu'elle composait dans sa tête durant les nuits d'insomnie au palais de justice.\n\nThomas s'assit près d'elle sur le banc, leurs épaules se touchèrent. Il ajouta une ligne de basse, leurs quatre mains dansèrent sans se gêner, retrouvèrent l'harmonie malgré les fausses notes, malgré les reproches jamais formulés.\n\n« Je croyais avoir tout gâché », murmura-t-elle.\n\n« On a juste oublié comment s'écouter. »\n\nLa lumière de fin d'après-midi filtrait à travers les rideaux, dorait leurs mains entrelacées sur les touches. La musique s'étoffa, remplit l'espace entre eux, effaça les mois de silence et de reproches. Chaque accord reconstituait ce qu'elle pensait détruit : cette confiance aveugle, cette capacité à créer ensemble sans se concerter.\n\nQuand la dernière note s'évanouit, ils restèrent immobiles, les mains posées côte à côte. L'appartement respirait différemment, comme si les murs eux-mêmes s'étaient détendus.\n\n« Les cartons peuvent attendre », dit Thomas.\n\nÉlise sourit pour la première fois depuis des semaines. Dehors, la ville bruissait de sa vie habituelle, mais ici, dans cette bulle reconstruite note après note, l'avenir redevenait possible.",
+        "nb_passes": 0,
+        "loop_trace": [],
+        "was_corrected": false,
+        "forensic_data": {
+          "rollback_count": 0,
+          "rollbacks": []
+        }
+      },
+      "s_score_final": {
+        "axes": [
+          {
+            "name": "tension_14d",
+            "weight": 3,
+            "raw": 0.4,
+            "weighted": 1.2000000000000002
+          },
+          {
+            "name": "coherence_emotionnelle",
+            "weight": 2.5,
+            "raw": 0.7,
+            "weighted": 1.75
+          },
+          {
+            "name": "interiorite",
+            "weight": 2,
+            "raw": 0.8,
+            "weighted": 1.6
+          },
+          {
+            "name": "impact_ouverture_cloture",
+            "weight": 2,
+            "raw": 0.85,
+            "weighted": 1.7
+          },
+          {
+            "name": "densite_sensorielle",
+            "weight": 1.5,
+            "raw": 0.7,
+            "weighted": 1.0499999999999998
+          },
+          {
+            "name": "necessite_m8",
+            "weight": 1,
+            "raw": 0.8,
+            "weighted": 0.8
+          },
+          {
+            "name": "anti_cliche",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          },
+          {
+            "name": "rythme_musical",
+            "weight": 1,
+            "raw": 0.6280868103211212,
+            "weighted": 0.6280868103211212
+          },
+          {
+            "name": "signature",
+            "weight": 1,
+            "raw": 0.4,
+            "weighted": 0.4
+          }
+        ],
+        "composite": 67.52057873547416,
+        "emotion_weight_ratio": 0.6333333333333333,
+        "verdict": "REJECT",
+        "rejection_reason": "axis_floor_violation: tension_14d",
+        "s_score_hash": "8c5a1cc274212742086cdbd30f32040beda2964ccc7465a34c5d9556d0772d9a",
+        "scored_at": "2026-02-26T23:35:49.621Z"
+      },
+      "verdict": "REJECT",
+      "model_id": "claude-sonnet-4-20250514",
+      "run_hash": "0e23f9204128254f8d1cad696ec1b53da7bfcec76fde8da072eb1ecca37a66d1",
+      "prompt_hash": "3315d2550c619135cda3fefaced938ac6368adeacc26bf7ac22d508dc31d42d1",
+      "loop_rollback": false,
+      "loop_delta_composite": 0.6864323807035362
+    },
+    {
+      "run_index": 0,
+      "experiment_id": "E3_absolute_necessity",
+      "case_id": "FORGE_golden_06_run_val_001",
+      "seed": "f364967ab0431a65af3546ff62da05f901ce0c4c1172d7fb5a6d8d6dbcc50377",
+      "prose_generated": "Élise poussa la porte du bureau 314, celui que les plans d'évacuation omettaient depuis trois ans. La poignée tourna sans résistance, révélant un espace immaculé où des dossiers s'alignaient avec une précision militaire. Aucune poussière. Aucune trace d'abandon.\n\nLes néons bourdonnaient au-dessus de sa tête comme si quelqu'un venait de les allumer.\n\nElle s'approcha du bureau central. Les documents éparpillés portaient la date du jour même. Son nom figurait sur le premier feuillet, accompagné d'une photographie prise ce matin dans le couloir. Angle impossible. Aucune caméra visible à cet endroit.\n\nLe tiroir du bas coulissa sous sa paume. À l'intérieur, vingt-sept dossiers identiques au sien. Chaque employé de l'étage. Chaque geste répertorié, chaque habitude consignée avec une méticulosité glaciale.\n\n*« Élise Moreau : accès non autorisé prévisible - jeudi 15h42. »*\n\nL'encre était encore fraîche.\n\nUn déclic métallique résonna derrière elle. La serrure venait de s'enclencher. Le silence qui suivit porta en lui toute l'ampleur de sa méprise : ce bâtiment qu'elle croyait connaître l'observait depuis le premier jour. Chaque pause café, chaque détour par l'escalier de service, chaque curiosité déplacée avait nourri ces rapports.\n\nLes murs eux-mêmes respiraient désormais d'une intelligence malveillante.\n\nLe téléphone sonna. Une fois. Le répondeur s'enclencha.\n\n*« Mademoiselle Moreau, nous vous attendions. »*\n\nSa voix. Parfaitement imitée.",
+      "s_score_initial": {
+        "axes": [
+          {
+            "name": "tension_14d",
+            "weight": 3,
+            "raw": 0.8,
+            "weighted": 2.4000000000000004
+          },
+          {
+            "name": "coherence_emotionnelle",
+            "weight": 2.5,
+            "raw": 1,
+            "weighted": 2.5
+          },
+          {
+            "name": "interiorite",
+            "weight": 2,
+            "raw": 0.7,
+            "weighted": 1.4
+          },
+          {
+            "name": "impact_ouverture_cloture",
+            "weight": 2,
+            "raw": 0.85,
+            "weighted": 1.7
+          },
+          {
+            "name": "densite_sensorielle",
+            "weight": 1.5,
+            "raw": 0.7,
+            "weighted": 1.0499999999999998
+          },
+          {
+            "name": "necessite_m8",
+            "weight": 1,
+            "raw": 0.82,
+            "weighted": 0.82
+          },
+          {
+            "name": "anti_cliche",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          },
+          {
+            "name": "rythme_musical",
+            "weight": 1,
+            "raw": 0.9023123134287931,
+            "weighted": 0.9023123134287931
+          },
+          {
+            "name": "signature",
+            "weight": 1,
+            "raw": 0.1,
+            "weighted": 0.1
+          }
+        ],
+        "composite": 79.14874875619195,
+        "emotion_weight_ratio": 0.6333333333333333,
+        "verdict": "REJECT",
+        "rejection_reason": "axis_floor_violation: signature",
+        "s_score_hash": "2243819249bac24e0025205ae6600205c2f76d8b269a6b8fc52646add1132788",
+        "scored_at": "2026-02-26T23:36:06.088Z"
+      },
+      "sovereign_loop": {
+        "final_prose": "Élise poussa la porte du bureau 314, celui que les plans d'évacuation omettaient depuis trois ans. La poignée tourna sans résistance, révélant un espace immaculé où des dossiers s'alignaient avec une précision militaire. Aucune poussière. Aucune trace d'abandon.\n\nLes néons bourdonnaient au-dessus de sa tête comme si quelqu'un venait de les allumer.\n\nElle s'approcha du bureau central. Les documents éparpillés portaient la date du jour même. Son nom figurait sur le premier feuillet, accompagné d'une photographie prise ce matin dans le couloir. Angle impossible. Aucune caméra visible à cet endroit.\n\nLe tiroir du bas coulissa sous sa paume. À l'intérieur, vingt-sept dossiers identiques au sien. Chaque employé de l'étage. Chaque geste répertorié, chaque habitude consignée avec une méticulosité glaciale.\n\n*« Élise Moreau : accès non autorisé prévisible - jeudi 15h42. »*\n\nL'encre était encore fraîche.\n\nUn déclic métallique résonna derrière elle. La serrure venait de s'enclencher. Le silence qui suivit porta en lui toute l'ampleur de sa méprise : ce bâtiment qu'elle croyait connaître l'observait depuis le premier jour. Chaque pause café, chaque détour par l'escalier de service, chaque curiosité déplacée avait nourri ces rapports.\n\nLes murs eux-mêmes respiraient désormais d'une intelligence malveillante.\n\nLe téléphone sonna. Une fois. Le répondeur s'enclencha.\n\n*« Mademoiselle Moreau, nous vous attendions. »*\n\nSa voix. Parfaitement imitée.",
+        "nb_passes": 0,
+        "loop_trace": [],
+        "was_corrected": false,
+        "forensic_data": {
+          "rollback_count": 0,
+          "rollbacks": []
+        }
+      },
+      "s_score_final": {
+        "axes": [
+          {
+            "name": "tension_14d",
+            "weight": 3,
+            "raw": 0.8,
+            "weighted": 2.4000000000000004
+          },
+          {
+            "name": "coherence_emotionnelle",
+            "weight": 2.5,
+            "raw": 1,
+            "weighted": 2.5
+          },
+          {
+            "name": "interiorite",
+            "weight": 2,
+            "raw": 0.7,
+            "weighted": 1.4
+          },
+          {
+            "name": "impact_ouverture_cloture",
+            "weight": 2,
+            "raw": 0.85,
+            "weighted": 1.7
+          },
+          {
+            "name": "densite_sensorielle",
+            "weight": 1.5,
+            "raw": 0.7,
+            "weighted": 1.0499999999999998
+          },
+          {
+            "name": "necessite_m8",
+            "weight": 1,
+            "raw": 0.85,
+            "weighted": 0.85
+          },
+          {
+            "name": "anti_cliche",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          },
+          {
+            "name": "rythme_musical",
+            "weight": 1,
+            "raw": 0.9023123134287931,
+            "weighted": 0.9023123134287931
+          },
+          {
+            "name": "signature",
+            "weight": 1,
+            "raw": 0.1,
+            "weighted": 0.1
+          }
+        ],
+        "composite": 79.34874875619194,
+        "emotion_weight_ratio": 0.6333333333333333,
+        "verdict": "REJECT",
+        "rejection_reason": "axis_floor_violation: signature",
+        "s_score_hash": "12023c74cb2d8d42789997a71d2aeb56a03291cd5443ef87c425efdc6ef2b04d",
+        "scored_at": "2026-02-26T23:36:09.044Z"
+      },
+      "verdict": "REJECT",
+      "model_id": "claude-sonnet-4-20250514",
+      "run_hash": "93499872cce19d3323fe50317c946efbf82ac90acda63a92b1f0f860d2583240",
+      "prompt_hash": "c60c222137a0e73403d3664331d315db5be2f03f31abdafc1c89123faed70571",
+      "loop_rollback": false,
+      "loop_delta_composite": 0.19999999999998863
+    },
+    {
+      "run_index": 0,
+      "experiment_id": "E3_absolute_necessity",
+      "case_id": "FORGE_golden_07_run_val_001",
+      "seed": "ffbae5b95d70bd20c0a582868697b7c5eb75e481dc9f382ebcca84005d68ca07",
+      "prose_generated": "L'odeur frappa Élise avant même qu'elle franchisse le seuil. Urine rance, moisissure grasse, relents de décomposition qui s'accrochaient aux narines comme une pellicule visqueuse. Le couloir de la résidence « Les Jardins du Bonheur » s'étendait devant elle, carrelage gondolé sous ses semelles, murs lépreux où la peinture pelait en lambeaux jaunâtres.\n\nDes gémissements sourds filtraient sous les portes. Élise serra son carnet contre sa poitrine, journaliste d'investigation venue documenter les accusations portées contre ce bijou de l'aide sociale privée. Les directeurs avaient refusé sa visite officielle. Elle était entrée par les cuisines, où la crasse collait aux plans de travail en couches stratifiées.\n\nLa puanteur s'épaississait. Chambre 47 : la porte entrouverte révélait un lit souillé, draps brunâtres collés à un matelas troué. Madame Durand, quatre-vingt-six ans selon le dossier, gisait dans ses excréments, la peau marbrée de plaies infectées. Ses lèvres remuaient sans son, langue noircie par la soif.\n\nÉlise photographia la perfusion vide, pendue depuis combien de jours au pied rouillé. Les mouches bourdonnaient autour des plaies suppurantes. L'œil gauche de la vieille femme avait disparu sous une croûte verdâtre.\n\nLe carnet médical traînait au sol, pages cornées : dernière visite du docteur, trois semaines. Signature illisible sur ordonnances périmées. Dans le tiroir de la table de chevet, six flacons vides de morphine, étiquettes arrachées.\n\nÉlise recula, chaussures collant au linoleum visqueux. Cette femme avait payé quatre mille euros par mois pour crever dans sa propre merde. Les subventions publiques alimentaient cette machine à broyer les corps, pendant que les propriétaires empochaient les dividendes dans leurs bureaux aseptisés du seizième arrondissement.\n\nMadame Durand tourna son œil valide vers elle. Un râle s'échappa de sa gorge, supplique muette dans la pénombre fétide. Élise compta mentalement : quinze résidents par couloir, quatre couloirs, soixante victimes entassées dans ce mouroir déguisé en paradis.\n\nElle nota l'heure sur son carnet : 14h17. Dans trois heures, l'équipe de nuit prendrait son service. Deux aides-soignantes pour soixante mourants. Les actionnaires toucheraient leurs parts en fin de mois, conscience immaculée, tandis que la vermine grignoterait les orteils de madame Durand.",
+      "s_score_initial": {
+        "axes": [
+          {
+            "name": "tension_14d",
+            "weight": 3,
+            "raw": 0.4,
+            "weighted": 1.2000000000000002
+          },
+          {
+            "name": "coherence_emotionnelle",
+            "weight": 2.5,
+            "raw": 1,
+            "weighted": 2.5
+          },
+          {
+            "name": "interiorite",
+            "weight": 2,
+            "raw": 0.8,
+            "weighted": 1.6
+          },
+          {
+            "name": "impact_ouverture_cloture",
+            "weight": 2,
+            "raw": 0.9,
+            "weighted": 1.8
+          },
+          {
+            "name": "densite_sensorielle",
+            "weight": 1.5,
+            "raw": 0.9,
+            "weighted": 1.35
+          },
+          {
+            "name": "necessite_m8",
+            "weight": 1,
+            "raw": 0.85,
+            "weighted": 0.85
+          },
+          {
+            "name": "anti_cliche",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          },
+          {
+            "name": "rythme_musical",
+            "weight": 1,
+            "raw": 0.7444004019716299,
+            "weighted": 0.7444004019716299
+          },
+          {
+            "name": "signature",
+            "weight": 1,
+            "raw": 0.4,
+            "weighted": 0.4
+          }
+        ],
+        "composite": 76.29600267981087,
+        "emotion_weight_ratio": 0.6333333333333333,
+        "verdict": "REJECT",
+        "rejection_reason": "axis_floor_violation: tension_14d",
+        "s_score_hash": "78da6d93bc763e2d03aca7d603b128d5f5f9a37fdaddc21d21f6493086d6ed36",
+        "scored_at": "2026-02-26T23:36:33.329Z"
+      },
+      "sovereign_loop": {
+        "final_prose": "L'odeur frappa Élise avant même qu'elle franchisse le seuil. Urine rance, moisissure grasse, relents de décomposition qui s'accrochaient aux narines comme une pellicule visqueuse. Le couloir de la résidence « Les Jardins du Bonheur » s'étendait devant elle, carrelage gondolé sous ses semelles, murs lépreux où la peinture pelait en lambeaux jaunâtres.\n\nDes gémissements sourds filtraient sous les portes. Élise serra son carnet contre sa poitrine, journaliste d'investigation venue documenter les accusations portées contre ce bijou de l'aide sociale privée. Les directeurs avaient refusé sa visite officielle. Elle était entrée par les cuisines, où la crasse collait aux plans de travail en couches stratifiées.\n\nLa puanteur s'épaississait. Chambre 47 : la porte entrouverte révélait un lit souillé, draps brunâtres collés à un matelas troué. Madame Durand, quatre-vingt-six ans selon le dossier, gisait dans ses excréments, la peau marbrée de plaies infectées. Ses lèvres remuaient sans son, langue noircie par la soif.\n\nÉlise photographia la perfusion vide, pendue depuis combien de jours au pied rouillé. Les mouches bourdonnaient autour des plaies suppurantes. L'œil gauche de la vieille femme avait disparu sous une croûte verdâtre.\n\nLe carnet médical traînait au sol, pages cornées : dernière visite du docteur, trois semaines. Signature illisible sur ordonnances périmées. Dans le tiroir de la table de chevet, six flacons vides de morphine, étiquettes arrachées.\n\nÉlise recula, chaussures collant au linoleum visqueux. Cette femme avait payé quatre mille euros par mois pour crever dans sa propre merde. Les subventions publiques alimentaient cette machine à broyer les corps, pendant que les propriétaires empochaient les dividendes dans leurs bureaux aseptisés du seizième arrondissement.\n\nMadame Durand tourna son œil valide vers elle. Un râle s'échappa de sa gorge, supplique muette dans la pénombre fétide. Élise compta mentalement : quinze résidents par couloir, quatre couloirs, soixante victimes entassées dans ce mouroir déguisé en paradis.\n\nElle nota l'heure sur son carnet : 14h17. Dans trois heures, l'équipe de nuit prendrait son service. Deux aides-soignantes pour soixante mourants. Les actionnaires toucheraient leurs parts en fin de mois, conscience immaculée, tandis que la vermine grignoterait les orteils de madame Durand.",
+        "nb_passes": 0,
+        "loop_trace": [],
+        "was_corrected": false,
+        "forensic_data": {
+          "rollback_count": 0,
+          "rollbacks": []
+        }
+      },
+      "s_score_final": {
+        "axes": [
+          {
+            "name": "tension_14d",
+            "weight": 3,
+            "raw": 0.4,
+            "weighted": 1.2000000000000002
+          },
+          {
+            "name": "coherence_emotionnelle",
+            "weight": 2.5,
+            "raw": 1,
+            "weighted": 2.5
+          },
+          {
+            "name": "interiorite",
+            "weight": 2,
+            "raw": 0.8,
+            "weighted": 1.6
+          },
+          {
+            "name": "impact_ouverture_cloture",
+            "weight": 2,
+            "raw": 0.9,
+            "weighted": 1.8
+          },
+          {
+            "name": "densite_sensorielle",
+            "weight": 1.5,
+            "raw": 0.9,
+            "weighted": 1.35
+          },
+          {
+            "name": "necessite_m8",
+            "weight": 1,
+            "raw": 0.85,
+            "weighted": 0.85
+          },
+          {
+            "name": "anti_cliche",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          },
+          {
+            "name": "rythme_musical",
+            "weight": 1,
+            "raw": 0.7444004019716299,
+            "weighted": 0.7444004019716299
+          },
+          {
+            "name": "signature",
+            "weight": 1,
+            "raw": 0.4,
+            "weighted": 0.4
+          }
+        ],
+        "composite": 76.29600267981087,
+        "emotion_weight_ratio": 0.6333333333333333,
+        "verdict": "REJECT",
+        "rejection_reason": "axis_floor_violation: tension_14d",
+        "s_score_hash": "78da6d93bc763e2d03aca7d603b128d5f5f9a37fdaddc21d21f6493086d6ed36",
+        "scored_at": "2026-02-26T23:36:33.329Z"
+      },
+      "verdict": "REJECT",
+      "model_id": "claude-sonnet-4-20250514",
+      "run_hash": "ea000f8bbf3171de6ca59cd1363dd9edcae1d0f272423d7a6be65043c1c92a96",
+      "prompt_hash": "e6df567e44ea33845d9cde792b640fd530ac39bef24c5c807e5a766c701d9c02",
+      "loop_rollback": true,
+      "loop_delta_composite": 0
+    },
+    {
+      "run_index": 0,
+      "experiment_id": "E3_absolute_necessity",
+      "case_id": "FORGE_golden_08_run_val_001",
+      "seed": "a24247d058ab38063a3ea16de6681a8db1646046a6e53813760843969cb384bf",
+      "prose_generated": "La distance habituelle se mesure en mètres carrés — son bureau, sa voiture, son appartement où elle range ses blessures. Elise a calculé chaque espace pour éviter les effleurements, les regards qui s'attardent, cette chaleur qui monte quand quelqu'un s'approche trop près. Trois ans maintenant qu'elle maîtrise cette géométrie de la solitude.\n\nMarc pose sa main sur la table, à quinze centimètres de la sienne. Pas de geste brusque, juste cette présence qui réchauffe l'air entre eux. Elle observe ses doigts fins, les veines sous la peau claire, et quelque chose en elle se desserre — un muscle qu'elle ignorait tenir contracté.\n\n« Tu n'es pas obligée de me raconter. »\n\nSa voix porte cette patience qu'elle a oubliée chez les hommes. Elise lève les yeux, croise son regard sans fuite pour la première fois depuis des semaines. Il ne détourne pas, ne cherche pas à combler le silence. Cette attention tranquille lui donne envie de pleurer — non pas de tristesse, mais de reconnaissance.\n\nElle glisse sa main vers la sienne, effleure d'abord l'auriculaire. Un contact de deux secondes qui réveille sa peau engourdie. Le souffle de Marc s'approfondit — elle entend ce changement infime qui dit le trouble naissant. Leurs paumes se joignent, doigts entrelacés, et la tendresse monte par vagues successives.\n\n« J'ai peur de disparaître si je m'attache. »\n\nLes mots sortent sans qu'elle les ait pensés. Marc resserre leur étreinte, pose son autre main sur son poignet — là où bat son pouls, exactement là. Quatre-vingt-douze pulsations par minute, elle les compte malgré elle. Dans trente secondes, elle ne pourra plus reculer. Dans trente secondes, elle aura dit oui à cette vulnérabilité qui la terrasse.\n\n« Et si tu existais différemment ? »\n\nIl murmure contre ses cheveux, et cette proximité nouvelle fait chavirer ses certitudes. Elle ferme les yeux, s'appuie contre son épaule. Son parfum — bois et citron — imprègne sa respiration. Pour la première fois depuis l'enfance, quelqu'un la tient sans rien demander en échange.\n\nVingt-huit secondes.\n\n« Je ne sais pas comment faire. »\n\n« On apprend ensemble. »\n\nLe temps s'étire, suspendu à cette promesse. Marc trace des cercles sur sa nuque, geste si simple qu'il en devient révolutionnaire. Chaque caresse efface une cicatrice invisible, reconstruit ce qu'elle croyait détruit. La lumière change dans la pièce — moins crue, plus dorée.\n\nZéro seconde.\n\nElle lève la tête, le regarde vraiment. Dans ses yeux bruns, elle lit cette évidence qui la bouleverse : il restera. Même si elle tremble, même si elle recule parfois, même si l'amour lui fait encore mal — il restera.\n\nLeurs lèvres se frôlent, douceur prudente qui scelle ce pacte silencieux. Plus de distance calculée, plus de protection. Juste cette tendresse qui grandit entre eux, fragile et têtue comme une plante qui perce l'asphalte.",
+      "s_score_initial": {
+        "axes": [
+          {
+            "name": "tension_14d",
+            "weight": 3,
+            "raw": 0.7,
+            "weighted": 2.0999999999999996
+          },
+          {
+            "name": "coherence_emotionnelle",
+            "weight": 2.5,
+            "raw": 1,
+            "weighted": 2.5
+          },
+          {
+            "name": "interiorite",
+            "weight": 2,
+            "raw": 0.9,
+            "weighted": 1.8
+          },
+          {
+            "name": "impact_ouverture_cloture",
+            "weight": 2,
+            "raw": 0.85,
+            "weighted": 1.7
+          },
+          {
+            "name": "densite_sensorielle",
+            "weight": 1.5,
+            "raw": 0.7,
+            "weighted": 1.0499999999999998
+          },
+          {
+            "name": "necessite_m8",
+            "weight": 1,
+            "raw": 0.82,
+            "weighted": 0.82
+          },
+          {
+            "name": "anti_cliche",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          },
+          {
+            "name": "rythme_musical",
+            "weight": 1,
+            "raw": 0.6560112667483289,
+            "weighted": 0.6560112667483289
+          },
+          {
+            "name": "signature",
+            "weight": 1,
+            "raw": 0.7,
+            "weighted": 0.7
+          }
+        ],
+        "composite": 82.17340844498885,
+        "emotion_weight_ratio": 0.6333333333333333,
+        "verdict": "REJECT",
+        "rejection_reason": "composite_below_threshold",
+        "s_score_hash": "5fef99e1e1042edd3cbb74b07b4f56e4ebfee279aa502f426718d916f01931f5",
+        "scored_at": "2026-02-26T23:37:06.716Z"
+      },
+      "sovereign_loop": {
+        "final_prose": "La distance habituelle se mesure en mètres carrés — son bureau, sa voiture, son appartement où elle range ses blessures. Elise a calculé chaque espace pour éviter les effleurements, les regards qui s'attardent, cette chaleur qui monte quand quelqu'un s'approche trop près. Trois ans maintenant qu'elle maîtrise cette géométrie de la solitude.\n\nMarc pose sa main sur la table, à quinze centimètres de la sienne. Pas de geste brusque, juste cette présence qui réchauffe l'air entre eux. Elle observe ses doigts fins, les veines sous la peau claire, et quelque chose en elle se desserre — un muscle qu'elle ignorait tenir contracté.\n\n« Tu n'es pas obligée de me raconter. »\n\nSa voix porte cette patience qu'elle a oubliée chez les hommes. Elise lève les yeux, croise son regard sans fuite pour la première fois depuis des semaines. Il ne détourne pas, ne cherche pas à combler le silence. Cette attention tranquille lui donne envie de pleurer — non pas de tristesse, mais de reconnaissance.\n\nElle glisse sa main vers la sienne, effleure d'abord l'auriculaire. Un contact de deux secondes qui réveille sa peau engourdie. Le souffle de Marc s'approfondit — elle entend ce changement infime qui dit le trouble naissant. Leurs paumes se joignent, doigts entrelacés, et la tendresse monte par vagues successives.\n\n« J'ai peur de disparaître si je m'attache. »\n\nLes mots sortent sans qu'elle les ait pensés. Marc resserre leur étreinte, pose son autre main sur son poignet — là où bat son pouls, exactement là. Quatre-vingt-douze pulsations par minute, elle les compte malgré elle. Dans trente secondes, elle ne pourra plus reculer. Dans trente secondes, elle aura dit oui à cette vulnérabilité qui la terrasse.\n\n« Et si tu existais différemment ? »\n\nIl murmure contre ses cheveux, et cette proximité nouvelle fait chavirer ses certitudes. Elle ferme les yeux, s'appuie contre son épaule. Son parfum — bois et citron — imprègne sa respiration. Pour la première fois depuis l'enfance, quelqu'un la tient sans rien demander en échange.\n\nVingt-huit secondes.\n\n« Je ne sais pas comment faire. »\n\n« On apprend ensemble. »\n\nLe temps s'étire, suspendu à cette promesse. Marc trace des cercles sur sa nuque, geste si simple qu'il en devient révolutionnaire. Chaque caresse efface une cicatrice invisible, reconstruit ce qu'elle croyait détruit. La lumière change dans la pièce — moins crue, plus dorée.\n\nZéro seconde.\n\nElle lève la tête, le regarde vraiment. Dans ses yeux bruns, elle lit cette évidence qui la bouleverse : il restera. Même si elle tremble, même si elle recule parfois, même si l'amour lui fait encore mal — il restera.\n\nLeurs lèvres se frôlent, douceur prudente qui scelle ce pacte silencieux. Plus de distance calculée, plus de protection. Juste cette tendresse qui grandit entre eux, fragile et têtue comme une plante qui perce l'asphalte.",
+        "nb_passes": 0,
+        "loop_trace": [],
+        "was_corrected": false,
+        "forensic_data": {
+          "rollback_count": 0,
+          "rollbacks": []
+        }
+      },
+      "s_score_final": {
+        "axes": [
+          {
+            "name": "tension_14d",
+            "weight": 3,
+            "raw": 0.7,
+            "weighted": 2.0999999999999996
+          },
+          {
+            "name": "coherence_emotionnelle",
+            "weight": 2.5,
+            "raw": 1,
+            "weighted": 2.5
+          },
+          {
+            "name": "interiorite",
+            "weight": 2,
+            "raw": 0.95,
+            "weighted": 1.9
+          },
+          {
+            "name": "impact_ouverture_cloture",
+            "weight": 2,
+            "raw": 0.9,
+            "weighted": 1.8
+          },
+          {
+            "name": "densite_sensorielle",
+            "weight": 1.5,
+            "raw": 0.7,
+            "weighted": 1.0499999999999998
+          },
+          {
+            "name": "necessite_m8",
+            "weight": 1,
+            "raw": 0.82,
+            "weighted": 0.82
+          },
+          {
+            "name": "anti_cliche",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          },
+          {
+            "name": "rythme_musical",
+            "weight": 1,
+            "raw": 0.6560112667483289,
+            "weighted": 0.6560112667483289
+          },
+          {
+            "name": "signature",
+            "weight": 1,
+            "raw": 0.7,
+            "weighted": 0.7
+          }
+        ],
+        "composite": 83.50674177832221,
+        "emotion_weight_ratio": 0.6333333333333333,
+        "verdict": "REJECT",
+        "rejection_reason": "composite_below_threshold",
+        "s_score_hash": "2b8a5d67518a1cb3cf24e79929e9244956a097885bc2e17a90491e450687a0ef",
+        "scored_at": "2026-02-26T23:37:10.407Z"
+      },
+      "verdict": "REJECT",
+      "model_id": "claude-sonnet-4-20250514",
+      "run_hash": "10fd14af50533cff7c1baa7f634b3a9af440a34f777e82362edf989c17fc7acb",
+      "prompt_hash": "35a1cfbbeb7a7e327bf412ede8c92986dd08f414a8747c82d027262f6231064e",
+      "loop_rollback": false,
+      "loop_delta_composite": 1.333333333333357
+    },
+    {
+      "run_index": 0,
+      "experiment_id": "E3_absolute_necessity",
+      "case_id": "FORGE_golden_09_run_val_001",
+      "seed": "8bb9e8ce94d542f603b52f5cdc710b10f4481e71d85368b51948570e1afffddf",
+      "prose_generated": "Les flammes dévorent la cathédrale sous un ciel d'orage, chaque pierre millénaire qui s'effrite libérant des gerbes d'étincelles dorées. Élise contemple depuis la berge opposée cette apocalypse de beauté, la Seine reflétant l'incendie comme un miroir brisé. L'immensité du désastre la réduit à une poussière consciente, témoin infime d'une grandeur qui s'écroule.\n\nLes voûtes gothiques s'ouvrent vers les nuages noirs, révélant leur squelette de pierre dans une nudité saisissante. Chaque arc-boutant qui cède dessine une chorégraphie de ruine, transformant huit siècles d'humanité en spectacle cosmique. Le vertige la saisit : cette destruction sublime dépasse toute mesure humaine.\n\nDes touristes pleurent autour d'elle, mais Élise ne ressent que cette dilatation de l'âme face à l'impossible mariage entre catastrophe et splendeur. Les flammes sculptent l'architecture mieux qu'aucun artiste, révélant des perspectives cachées, des jeux d'ombre et de lumière que la perfection intacte dissimulait.\n\nL'horizon s'embrase. Le souffle du brasier porte des fragments calcinés qui retombent comme une pluie de cendres sacrées. Dans cette vastitude de feu et de fumée, Élise comprend que la beauté naît parfois de l'anéantissement, que certaines vérités ne se dévoilent qu'à travers la perte.\n\nTrois heures quarante-sept minutes : l'horloge du parvis s'arrête sur ce chiffre précis quand sa façade se fissure. Le temps lui-même capitule. Cette seconde figée porte le poids de l'irréversible, le basculement définitif entre un avant et un après que rien ne pourra réconcilier.\n\nLe silence soudain, quand les derniers murs s'effondrent, contient plus d'infini que tous les cantiques. Élise respire la poussière de siècles dispersés, chaque particule une prière fossilisée, et se découvre partie intégrante de cette immensité en ruine. L'aube poindra sur un monde transformé, et elle avec lui.",
+      "s_score_initial": {
+        "axes": [
+          {
+            "name": "tension_14d",
+            "weight": 3,
+            "raw": 0.8,
+            "weighted": 2.4000000000000004
+          },
+          {
+            "name": "coherence_emotionnelle",
+            "weight": 2.5,
+            "raw": 1,
+            "weighted": 2.5
+          },
+          {
+            "name": "interiorite",
+            "weight": 2,
+            "raw": 0.9,
+            "weighted": 1.8
+          },
+          {
+            "name": "impact_ouverture_cloture",
+            "weight": 2,
+            "raw": 0.85,
+            "weighted": 1.7
+          },
+          {
+            "name": "densite_sensorielle",
+            "weight": 1.5,
+            "raw": 0.7,
+            "weighted": 1.0499999999999998
+          },
+          {
+            "name": "necessite_m8",
+            "weight": 1,
+            "raw": 0.82,
+            "weighted": 0.82
+          },
+          {
+            "name": "anti_cliche",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          },
+          {
+            "name": "rythme_musical",
+            "weight": 1,
+            "raw": 0.5951870402496556,
+            "weighted": 0.5951870402496556
+          },
+          {
+            "name": "signature",
+            "weight": 1,
+            "raw": 0.9,
+            "weighted": 0.9
+          }
+        ],
+        "composite": 85.1012469349977,
+        "emotion_weight_ratio": 0.6333333333333333,
+        "verdict": "REJECT",
+        "rejection_reason": "composite_below_threshold",
+        "s_score_hash": "83d590b93de024a62db70928afe547d01dfd6c90b8c347cf0e74e1aa39c8c66b",
+        "scored_at": "2026-02-26T23:37:29.755Z"
+      },
+      "sovereign_loop": {
+        "final_prose": "Les flammes dévorent la cathédrale sous un ciel d'orage, chaque pierre millénaire qui s'effrite libérant des gerbes d'étincelles dorées. Élise contemple depuis la berge opposée cette apocalypse de beauté, la Seine reflétant l'incendie comme un miroir brisé. L'immensité du désastre la réduit à une poussière consciente, témoin infime d'une grandeur qui s'écroule.\n\nLes voûtes gothiques s'ouvrent vers les nuages noirs, révélant leur squelette de pierre dans une nudité saisissante. Chaque arc-boutant qui cède dessine une chorégraphie de ruine, transformant huit siècles d'humanité en spectacle cosmique. Le vertige la saisit : cette destruction sublime dépasse toute mesure humaine.\n\nDes touristes pleurent autour d'elle, mais Élise ne ressent que cette dilatation de l'âme face à l'impossible mariage entre catastrophe et splendeur. Les flammes sculptent l'architecture mieux qu'aucun artiste, révélant des perspectives cachées, des jeux d'ombre et de lumière que la perfection intacte dissimulait.\n\nL'horizon s'embrase. Le souffle du brasier porte des fragments calcinés qui retombent comme une pluie de cendres sacrées. Dans cette vastitude de feu et de fumée, Élise comprend que la beauté naît parfois de l'anéantissement, que certaines vérités ne se dévoilent qu'à travers la perte.\n\nTrois heures quarante-sept minutes : l'horloge du parvis s'arrête sur ce chiffre précis quand sa façade se fissure. Le temps lui-même capitule. Cette seconde figée porte le poids de l'irréversible, le basculement définitif entre un avant et un après que rien ne pourra réconcilier.\n\nLe silence soudain, quand les derniers murs s'effondrent, contient plus d'infini que tous les cantiques. Élise respire la poussière de siècles dispersés, chaque particule une prière fossilisée, et se découvre partie intégrante de cette immensité en ruine. L'aube poindra sur un monde transformé, et elle avec lui.",
+        "nb_passes": 2,
+        "loop_trace": [
+          {
+            "pass_number": 1,
+            "strategy_id": "emotion",
+            "ops_applied": [
+              "INTENSIFY_EMOTION",
+              "DEEPEN_INTERIORITY",
+              "ANCHOR_BEAT",
+              "STRENGTHEN_CLOSING"
+            ]
+          },
+          {
+            "pass_number": 2,
+            "strategy_id": "emotion",
+            "ops_applied": [
+              "INTENSIFY_EMOTION",
+              "DEEPEN_INTERIORITY",
+              "ANCHOR_BEAT",
+              "STRENGTHEN_CLOSING"
+            ]
+          }
+        ],
+        "was_corrected": true,
+        "forensic_data": {
+          "rollback_count": 0,
+          "rollbacks": []
+        }
+      },
+      "s_score_final": {
+        "axes": [
+          {
+            "name": "tension_14d",
+            "weight": 3,
+            "raw": 0.8,
+            "weighted": 2.4000000000000004
+          },
+          {
+            "name": "coherence_emotionnelle",
+            "weight": 2.5,
+            "raw": 1,
+            "weighted": 2.5
+          },
+          {
+            "name": "interiorite",
+            "weight": 2,
+            "raw": 0.9,
+            "weighted": 1.8
+          },
+          {
+            "name": "impact_ouverture_cloture",
+            "weight": 2,
+            "raw": 0.85,
+            "weighted": 1.7
+          },
+          {
+            "name": "densite_sensorielle",
+            "weight": 1.5,
+            "raw": 0.7,
+            "weighted": 1.0499999999999998
+          },
+          {
+            "name": "necessite_m8",
+            "weight": 1,
+            "raw": 0.82,
+            "weighted": 0.82
+          },
+          {
+            "name": "anti_cliche",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          },
+          {
+            "name": "rythme_musical",
+            "weight": 1,
+            "raw": 0.5951870402496556,
+            "weighted": 0.5951870402496556
+          },
+          {
+            "name": "signature",
+            "weight": 1,
+            "raw": 0.9,
+            "weighted": 0.9
+          }
+        ],
+        "composite": 85.1012469349977,
+        "emotion_weight_ratio": 0.6333333333333333,
+        "verdict": "REJECT",
+        "rejection_reason": "composite_below_threshold",
+        "s_score_hash": "83d590b93de024a62db70928afe547d01dfd6c90b8c347cf0e74e1aa39c8c66b",
+        "scored_at": "2026-02-26T23:37:29.755Z"
+      },
+      "verdict": "SEAL",
+      "model_id": "claude-sonnet-4-20250514",
+      "run_hash": "60284cbdbace107dc2936a0a58f9ebefbb5d1a3720fdf71f775e2bffeaab0b2a",
+      "prompt_hash": "03330f12808bbfe85aa60a1ae2a14e51b21ce07eb49bd8f2577a65ed9de5eb51",
+      "loop_rollback": true,
+      "loop_delta_composite": 0
+    },
+    {
+      "run_index": 0,
+      "experiment_id": "E3_absolute_necessity",
+      "case_id": "FORGE_golden_10_run_val_001",
+      "seed": "fa1074fd1ed867ffe31897105a52be7a07f7c60f3294d0d58bb0079c1f2eb608",
+      "prose_generated": "La clé tournait encore dans la serrure. Elise poussa la porte de l'appartement 3B et l'odeur de renfermé la gifla — tabac froid, légumes pourris, cette trace âcre de solitude qui imprègne les murs quand plus personne ne les habite.\n\nSur la table de la cuisine, trois enveloppes non décachetées. Factures d'électricité. Une lettre manuscrite, l'encre bleue délavée par l'humidité. *Elise, si tu lis ceci...* L'écriture tremblante de Madame Vernet, quatre-vingt-sept ans, diabétique, qui refusait de quitter son deux-pièces malgré les fissures qui zigzaguaient le long du plafond.\n\nLes autres étaient partis dès l'annonce de la démolition. Pas elle. Pas Monsieur Chen du premier, avec sa prothèse de hanche et ses trois chats. Pas les jumeaux du cinquième, trop fiers pour demander de l'aide au relogement.\n\nElise avait signé les papiers un mardi matin de février. Trente-deux signatures, paraphe après paraphe, pendant que son avocat expliquait les clauses d'exonération. Elle possédait quarante pour cent des parts. Sans son accord, rien ne pouvait se faire. Avec lui, l'immeuble devenait une ruine juridique, ses habitants des squatteurs en sursis.\n\nLa lettre continuait : *Je comprends que tu aies tes raisons. Nous ne t'en voulons pas.* Mensonge pieux de vieille dame. Le pardon offert avant même qu'elle ne le demande, ce qui rendait la faute plus cuisante encore.\n\nDans le salon, le fauteuil en velours râpé gardait l'empreinte du corps absent. Sur le rebord de la fenêtre, des pots de géraniums morts, leurs tiges noires cassées net. Madame Vernet arrosait ses fleurs chaque dimanche, depuis quarante-trois ans. Même les derniers mois, quand l'ascenseur ne fonctionnait plus, elle montait les trois étages, son arrosoir en plastique rouge à la main.\n\nElise s'approcha de la fenêtre. En bas, les pelleteuses attendaient, leurs godets tournés vers le sol comme des gueules béantes. Livraison prévue demain matin, neuf heures. Le contremaître avait précisé : évacuation totale exigée avant jeudi.\n\nAujourd'hui, on était mercredi.\n\nElle ferma les yeux. Dans l'obscurité volontaire, les voix revenaient. Monsieur Chen expliquant qu'il ne retrouverait jamais un loyer aussi bas. Les jumeaux, dix-neuf ans, qui cherchaient un nouveau toit depuis décembre. Madame Vernet répétant qu'elle préférait mourir ici plutôt que dans une résidence.\n\nPeut-être l'avait-elle fait.\n\nLa cendre de cigarette sur l'appui de fenêtre formait un petit tas gris, compact. Quelqu'un avait fumé ici récemment. Quelqu'un était resté jusqu'à la fin, regardant les machines arriver, acceptant l'inéluctable qu'elle avait déclenché d'un trait de plume.\n\nQuarante pour cent. Suffisant pour détruire, insuffisant pour sauver.\n\nLe silence de l'appartement vide pesait comme une accusation. Dehors, un moteur diesel toussota. Les pelleteuses s'échauffaient.",
+      "s_score_initial": {
+        "axes": [
+          {
+            "name": "tension_14d",
+            "weight": 3,
+            "raw": 0.8,
+            "weighted": 2.4000000000000004
+          },
+          {
+            "name": "coherence_emotionnelle",
+            "weight": 2.5,
+            "raw": 1,
+            "weighted": 2.5
+          },
+          {
+            "name": "interiorite",
+            "weight": 2,
+            "raw": 0.9,
+            "weighted": 1.8
+          },
+          {
+            "name": "impact_ouverture_cloture",
+            "weight": 2,
+            "raw": 0.85,
+            "weighted": 1.7
+          },
+          {
+            "name": "densite_sensorielle",
+            "weight": 1.5,
+            "raw": 0.8,
+            "weighted": 1.2000000000000002
+          },
+          {
+            "name": "necessite_m8",
+            "weight": 1,
+            "raw": 0.82,
+            "weighted": 0.82
+          },
+          {
+            "name": "anti_cliche",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          },
+          {
+            "name": "rythme_musical",
+            "weight": 1,
+            "raw": 0.96929795411303,
+            "weighted": 0.96929795411303
+          },
+          {
+            "name": "signature",
+            "weight": 1,
+            "raw": 0.5,
+            "weighted": 0.5
+          }
+        ],
+        "composite": 85.92865302742021,
+        "emotion_weight_ratio": 0.6333333333333333,
+        "verdict": "REJECT",
+        "rejection_reason": "composite_below_threshold",
+        "s_score_hash": "5b8745ddeb9d10c6b58a7c047879040517f4a8837a27f986603e12e61eb1d25f",
+        "scored_at": "2026-02-26T23:38:01.568Z"
+      },
+      "sovereign_loop": {
+        "final_prose": "La clé tournait encore dans la serrure. Elise poussa la porte de l'appartement 3B et l'odeur de renfermé la gifla — tabac froid, légumes pourris, cette trace âcre de solitude qui imprègne les murs quand plus personne ne les habite.\n\nSur la table de la cuisine, trois enveloppes non décachetées. Factures d'électricité. Une lettre manuscrite, l'encre bleue délavée par l'humidité. *Elise, si tu lis ceci...* L'écriture tremblante de Madame Vernet, quatre-vingt-sept ans, diabétique, qui refusait de quitter son deux-pièces malgré les fissures qui zigzaguaient le long du plafond.\n\nLes autres étaient partis dès l'annonce de la démolition. Pas elle. Pas Monsieur Chen du premier, avec sa prothèse de hanche et ses trois chats. Pas les jumeaux du cinquième, trop fiers pour demander de l'aide au relogement.\n\nElise avait signé les papiers un mardi matin de février. Trente-deux signatures, paraphe après paraphe, pendant que son avocat expliquait les clauses d'exonération. Elle possédait quarante pour cent des parts. Sans son accord, rien ne pouvait se faire. Avec lui, l'immeuble devenait une ruine juridique, ses habitants des squatteurs en sursis.\n\nLa lettre continuait : *Je comprends que tu aies tes raisons. Nous ne t'en voulons pas.* Mensonge pieux de vieille dame. Le pardon offert avant même qu'elle ne le demande, ce qui rendait la faute plus cuisante encore.\n\nDans le salon, le fauteuil en velours râpé gardait l'empreinte du corps absent. Sur le rebord de la fenêtre, des pots de géraniums morts, leurs tiges noires cassées net. Madame Vernet arrosait ses fleurs chaque dimanche, depuis quarante-trois ans. Même les derniers mois, quand l'ascenseur ne fonctionnait plus, elle montait les trois étages, son arrosoir en plastique rouge à la main.\n\nElise s'approcha de la fenêtre. En bas, les pelleteuses attendaient, leurs godets tournés vers le sol comme des gueules béantes. Livraison prévue demain matin, neuf heures. Le contremaître avait précisé : évacuation totale exigée avant jeudi.\n\nAujourd'hui, on était mercredi.\n\nElle ferma les yeux. Dans l'obscurité volontaire, les voix revenaient. Monsieur Chen expliquant qu'il ne retrouverait jamais un loyer aussi bas. Les jumeaux, dix-neuf ans, qui cherchaient un nouveau toit depuis décembre. Madame Vernet répétant qu'elle préférait mourir ici plutôt que dans une résidence.\n\nPeut-être l'avait-elle fait.\n\nLa cendre de cigarette sur l'appui de fenêtre formait un petit tas gris, compact. Quelqu'un avait fumé ici récemment. Quelqu'un était resté jusqu'à la fin, regardant les machines arriver, acceptant l'inéluctable qu'elle avait déclenché d'un trait de plume.\n\nQuarante pour cent. Suffisant pour détruire, insuffisant pour sauver.\n\nLe silence de l'appartement vide pesait comme une accusation. Dehors, un moteur diesel toussota. Les pelleteuses s'échauffaient.",
+        "nb_passes": 0,
+        "loop_trace": [],
+        "was_corrected": false,
+        "forensic_data": {
+          "rollback_count": 0,
+          "rollbacks": []
+        }
+      },
+      "s_score_final": {
+        "axes": [
+          {
+            "name": "tension_14d",
+            "weight": 3,
+            "raw": 0.8,
+            "weighted": 2.4000000000000004
+          },
+          {
+            "name": "coherence_emotionnelle",
+            "weight": 2.5,
+            "raw": 1,
+            "weighted": 2.5
+          },
+          {
+            "name": "interiorite",
+            "weight": 2,
+            "raw": 0.9,
+            "weighted": 1.8
+          },
+          {
+            "name": "impact_ouverture_cloture",
+            "weight": 2,
+            "raw": 0.85,
+            "weighted": 1.7
+          },
+          {
+            "name": "densite_sensorielle",
+            "weight": 1.5,
+            "raw": 0.8,
+            "weighted": 1.2000000000000002
+          },
+          {
+            "name": "necessite_m8",
+            "weight": 1,
+            "raw": 0.82,
+            "weighted": 0.82
+          },
+          {
+            "name": "anti_cliche",
+            "weight": 1,
+            "raw": 1,
+            "weighted": 1
+          },
+          {
+            "name": "rythme_musical",
+            "weight": 1,
+            "raw": 0.96929795411303,
+            "weighted": 0.96929795411303
+          },
+          {
+            "name": "signature",
+            "weight": 1,
+            "raw": 0.5,
+            "weighted": 0.5
+          }
+        ],
+        "composite": 85.92865302742021,
+        "emotion_weight_ratio": 0.6333333333333333,
+        "verdict": "REJECT",
+        "rejection_reason": "composite_below_threshold",
+        "s_score_hash": "5b8745ddeb9d10c6b58a7c047879040517f4a8837a27f986603e12e61eb1d25f",
+        "scored_at": "2026-02-26T23:38:01.568Z"
+      },
+      "verdict": "SEAL",
+      "model_id": "claude-sonnet-4-20250514",
+      "run_hash": "fedddddba324c1bb8f7cbc9333edc932bbbd59b4c4eb0759bc215ccedda450b2",
+      "prompt_hash": "6898f2e1a458e7fd2f154f3fd196ba67a30de6ff18b13a6b92d3df9e53f85e85",
+      "loop_rollback": true,
+      "loop_delta_composite": 0
+    }
+  ],
+  "summary_hash": "e1bcac706f9107e6d5e5e5ca7db303335b41814796a15bea9fb8b731aa3fb0e3"
+}

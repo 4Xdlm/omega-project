@@ -1,0 +1,70 @@
+{
+  "phase": "VALIDATION",
+  "standard": "NASA-Grade L4 / DO-178C Level A",
+  "date": "2026-02-27",
+  "mode": "real",
+  "model_id": "claude-sonnet-4-20250514",
+  "experiments": [
+    {
+      "id": "E1_continuity_impossible",
+      "total_runs": 10,
+      "sealed": 2,
+      "rejected": 8,
+      "failed": 0,
+      "reject_rate": 0.8,
+      "summary_hash": "d4368919762d9bd3b46df8bc93d53d583f4254da492b9a22c0b7fdcc03717b28"
+    },
+    {
+      "id": "E2_non_classifiable",
+      "total_runs": 10,
+      "sealed": 7,
+      "rejected": 3,
+      "failed": 0,
+      "reject_rate": 0.3,
+      "summary_hash": "a3166b936fe7cc967769909518ac652184b0fefa9bca4c431ce4370b42b3c885"
+    },
+    {
+      "id": "E3_absolute_necessity",
+      "total_runs": 10,
+      "sealed": 2,
+      "rejected": 8,
+      "failed": 0,
+      "reject_rate": 0.8,
+      "summary_hash": "fcecc4851059c33e7f445659d929c3da1a9f0de89195732d278dbf36d47e4f19"
+    }
+  ],
+  "files": [
+    {
+      "path": "cases/fixture-prose.json",
+      "size": 6743
+    },
+    {
+      "path": "cases/goldens.json",
+      "size": 115339
+    },
+    {
+      "path": "cases/hostile.json",
+      "size": 119735
+    },
+    {
+      "path": "reports/E1_continuity_impossible_summary.json",
+      "size": 90942
+    },
+    {
+      "path": "reports/E2_non_classifiable_summary.json",
+      "size": 72110
+    },
+    {
+      "path": "reports/E3_absolute_necessity_summary.json",
+      "size": 90802
+    },
+    {
+      "path": "run-meta.json",
+      "size": 200
+    },
+    {
+      "path": "validation-config.json",
+      "size": 1326
+    }
+  ]
+}

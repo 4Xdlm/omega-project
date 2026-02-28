@@ -75,7 +75,8 @@ export async function runExperiment(
     for (let runIndex = 0; runIndex < runsPerCase; runIndex++) {
       // INV-VAL-01: deterministic seed
       const seed = sha256(experimentId + packet.packet_id + String(runIndex));
-      const draftResult = await provider.generateDraft(packet, seed);
+      const packetWithExp = { ...packet, experiment_id: experimentId };
+      const draftResult = await provider.generateDraft(packetWithExp, seed);
       const prose = draftResult.prose;
       const promptHash = draftResult.prompt_hash;
       const transcendentPlan = draftResult.transcendent_plan;
@@ -97,7 +98,7 @@ export async function runExperiment(
         if (
           judge &&
           transcendentPlan &&
-          isGenesisV2Active((packet as any).experiment_id ?? '') &&  // eslint-disable-line @typescript-eslint/no-explicit-any
+          isGenesisV2Active(packetWithExp.experiment_id ?? '') &&
           result.s_score_final.rejection_reason?.includes('paradox_gate') &&
           (result.s_score_final.composite_without_gate ?? 0) >= DIFFUSION_COMPOSITE_THRESHOLD
         ) {

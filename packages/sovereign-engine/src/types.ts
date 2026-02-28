@@ -41,6 +41,7 @@ export interface ForgePacket {
   readonly forge_brief?: import('@omega/omega-forge').ForgeEmotionBrief;
   readonly degraded_signals?: readonly string[];
   readonly capabilities?: readonly string[];
+  readonly experiment_id?: string;
 }
 
 export interface ForgeIntent {

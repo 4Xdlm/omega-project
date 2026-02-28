@@ -14,7 +14,7 @@ const validationDir = path.join(pkgRoot, 'validation');
 const ABLATION_ADOPT_DELTA_MIN = parseFloat(process.env.ABLATION_ADOPT_DELTA_MIN ?? '5');
 
 // Baseline W2
-const BASELINE_SEAL_RATE = 46.7;
+const BASELINE_SEAL_RATE = 66.7;
 
 interface ExperimentSummary {
   experiment_id: string;
@@ -129,3 +129,4 @@ const report = {
 const reportPath = path.join(pkgRoot, 'validation', 'ablation-w4-report.json');
 fs.writeFileSync(reportPath, JSON.stringify(report, null, 2), 'utf8');
 console.log(`[analyze-w4] Rapport écrit: ${reportPath}`);
+

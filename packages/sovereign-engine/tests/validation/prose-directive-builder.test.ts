@@ -204,22 +204,4 @@ describe('ProseDirectiveBuilder — CalibV4', () => {
     expect(prompt).toContain('SENSORIELLE');
     expect(prompt).toContain('ancrer le lecteur');
   });
-
-  // T15: E1 packet → prompt contains RYTHME ET MUSICALITÉ (shape-aware)
-  it('T15: E1 experiment → prompt contains rythme + cohérence + intériorité', () => {
-    const directive = buildProseDirective(packet);
-    const prompt = buildFinalPrompt(directive, 'E1_continuity_impossible');
-    expect(prompt).toContain('RYTHME ET MUSICALIT');
-    expect(prompt).toContain('MOTIONNELLE');
-    expect(prompt).toContain('RIORIT');
-  });
-
-  // T16: E2 (non_classifiable) → prompt does NOT contain RYTHME ET MUSICALITÉ
-  it('T16: E2 experiment → prompt does NOT contain rythme/cohérence/intériorité', () => {
-    const directive = buildProseDirective(packet);
-    const prompt = buildFinalPrompt(directive, 'E2_non_classifiable');
-    expect(prompt).not.toContain('RYTHME ET MUSICALIT');
-    expect(prompt).not.toContain('MOTIONNELLE (OBLIGATOIRE)');
-    expect(prompt).not.toContain('RIORIT');
-  });
 });

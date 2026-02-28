@@ -33,7 +33,7 @@ console.log('[ablation-w4] Flag GENESIS_V2=' + (process.env.GENESIS_V2 ?? 'unset
 console.log('[ablation-w4] OMEGA Phase T — W4 PROMPT INJECTION ABLATION');
 console.log('[ablation-w4] Baseline W2: 46.7% SEAL rate');
 console.log(`[ablation-w4] Source commit: ${headCommit}`);
-console.log('[ablation-w4] Injections: signature_words + tension + densité + rythme + cohérence + intériorité');
+console.log('[ablation-w4] Injections: signature_words + tension + densité ');
 console.log('[ablation-w4] Scoring fix: scoreSignatureOffline threshold 0.6');
 console.log('');
 
@@ -61,3 +61,4 @@ try {
     console.log('[ablation-w4] Config originale restaurée');
   }
 }
+

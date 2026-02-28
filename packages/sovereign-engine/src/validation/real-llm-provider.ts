@@ -121,7 +121,7 @@ export class AnthropicLLMProvider implements LLMProvider {
 
     // Build prose prompt — inject plan constraints if available
     const directive = buildProseDirective(packet);
-    let finalPrompt = buildFinalPrompt(directive);
+    let finalPrompt = buildFinalPrompt(directive, expId);
 
     if (transcendentPlan) {
       const paradoxSection = [
@@ -145,7 +145,7 @@ export class AnthropicLLMProvider implements LLMProvider {
 
     // Safety refusal detection — retry without Focal Paradox constraints
     if (transcendentPlan && isRefusal(prose)) {
-      const fallbackPrompt = buildFinalPrompt(directive);
+      const fallbackPrompt = buildFinalPrompt(directive, expId);
       const fallbackHash = sha256(canonicalize({ model_id: this.model_id, user_prompt: fallbackPrompt }));
       const fallbackProse = await this.callAnthropic([{ role: 'user', content: fallbackPrompt }], MAX_GENERATION_TOKENS);
       return { prose: fallbackProse, prompt_hash: fallbackHash, transcendent_plan: undefined };

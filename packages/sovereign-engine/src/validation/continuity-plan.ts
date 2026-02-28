@@ -53,8 +53,8 @@ export interface ContinuityState {
 
 export interface StateDelta {
   readonly set?: Readonly<Record<string, string | number>>;
-  readonly push_thread?: string;
-  readonly close_thread?: string;
+  readonly push_thread?: string | null;
+  readonly close_thread?: string | null;
   readonly advance_scene: boolean;
 }
 
@@ -261,15 +261,15 @@ export function validateStateDelta(raw: unknown): ValidationError[] {
     }
   }
 
-  if ('push_thread' in delta && delta.push_thread !== undefined) {
+  if ('push_thread' in delta && delta.push_thread !== undefined && delta.push_thread !== null) {
     if (typeof delta.push_thread !== 'string') {
-      errors.push({ field: 'push_thread', message: 'push_thread must be a string' });
+      errors.push({ field: 'push_thread', message: 'push_thread must be a string or null' });
     }
   }
 
-  if ('close_thread' in delta && delta.close_thread !== undefined) {
+  if ('close_thread' in delta && delta.close_thread !== undefined && delta.close_thread !== null) {
     if (typeof delta.close_thread !== 'string') {
-      errors.push({ field: 'close_thread', message: 'close_thread must be a string' });
+      errors.push({ field: 'close_thread', message: 'close_thread must be a string or null' });
     }
   }
 

@@ -258,6 +258,23 @@ export function buildFinalPrompt(directive: ProseDirective): string {
     lines.push(directive.signature_injection);
   }
 
+  lines.push('', '\u2550\u2550\u2550 ARC DE TENSION (OBLIGATOIRE) \u2550\u2550\u2550');
+  lines.push(
+    'Ta prose DOIT construire une tension croissante du d\u00e9but \u00e0 la fin.',
+    '- Q1: \u00e9tablis une situation instable, une menace latente',
+    '- Q2-Q3: intensifie la pression, chaque phrase doit resserrer l\'\u00e9tau',
+    '- Q4: r\u00e9solution ou point de rupture maximum',
+    'Ne raconte pas la tension \u2014 incarne-la dans le rythme, les d\u00e9tails, les silences.',
+  );
+
+  lines.push('', '\u2550\u2550\u2550 DENSIT\u00c9 SENSORIELLE (OBLIGATOIRE) \u2550\u2550\u2550');
+  lines.push(
+    'Chaque paragraphe doit ancrer le lecteur dans le physique:',
+    '- au moins 2 d\u00e9tails sensoriels concrets (son, texture, odeur, temp\u00e9rature, poids)',
+    '- \u00e9vite les abstractions pures \u2014 tout concept doit avoir un \u00e9quivalent charnel',
+    '- un d\u00e9tail inattendu vaut plus que trois attendus',
+  );
+
   lines.push('', '\u2550\u2550\u2550 INSTRUCTION FINALE \u2550\u2550\u2550');
   lines.push(
     "\u00c9cris la sc\u00e8ne maintenant. Commence directement par l'action ou",

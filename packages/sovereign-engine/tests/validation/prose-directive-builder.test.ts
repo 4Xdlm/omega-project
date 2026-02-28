@@ -188,4 +188,20 @@ describe('ProseDirectiveBuilder — CalibV4', () => {
     const prompt = buildFinalPrompt(directive);
     expect(prompt).not.toContain('EMPREINTE STYLISTIQUE');
   });
+
+  // T13: prompt contains ARC DE TENSION for any packet
+  it('T13: prompt contains ARC DE TENSION for any packet', () => {
+    const directive = buildProseDirective(packet);
+    const prompt = buildFinalPrompt(directive);
+    expect(prompt).toContain('ARC DE TENSION');
+    expect(prompt).toContain('tension croissante');
+  });
+
+  // T14: prompt contains DENSITÉ SENSORIELLE for any packet
+  it('T14: prompt contains DENSITÉ SENSORIELLE for any packet', () => {
+    const directive = buildProseDirective(packet);
+    const prompt = buildFinalPrompt(directive);
+    expect(prompt).toContain('SENSORIELLE');
+    expect(prompt).toContain('ancrer le lecteur');
+  });
 });

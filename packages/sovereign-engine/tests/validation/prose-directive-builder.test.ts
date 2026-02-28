@@ -204,29 +204,4 @@ describe('ProseDirectiveBuilder — CalibV4', () => {
     expect(prompt).toContain('SENSORIELLE');
     expect(prompt).toContain('ancrer le lecteur');
   });
-
-  // T15: prompt contains RYTHME ET MUSICALITÉ for any packet
-  it('T15: prompt contains RYTHME ET MUSICALITÉ for any packet', () => {
-    const directive = buildProseDirective(packet);
-    const prompt = buildFinalPrompt(directive);
-    expect(prompt).toContain('RYTHME ET MUSICALIT');
-    expect(prompt).toContain('respiration consciente');
-  });
-
-  // T16: prompt contains COHÉRENCE ÉMOTIONNELLE for any packet
-  it('T16: prompt contains COHÉRENCE ÉMOTIONNELLE for any packet', () => {
-    const directive = buildProseDirective(packet);
-    const prompt = buildFinalPrompt(directive);
-    expect(prompt).toContain('MOTIONNELLE');
-    expect(prompt).toContain('arc');
-    expect(prompt).toContain('continu et logique');
-  });
-
-  // T17: prompt contains INTÉRIORITÉ for any packet
-  it('T17: prompt contains INTÉRIORITÉ for any packet', () => {
-    const directive = buildProseDirective(packet);
-    const prompt = buildFinalPrompt(directive);
-    expect(prompt).toContain('RIORIT');
-    expect(prompt).toContain('habiter le personnage');
-  });
 });

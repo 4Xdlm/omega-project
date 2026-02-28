@@ -275,33 +275,6 @@ export function buildFinalPrompt(directive: ProseDirective): string {
     '- un d\u00e9tail inattendu vaut plus que trois attendus',
   );
 
-  lines.push('', '\u2550\u2550\u2550 RYTHME ET MUSICALIT\u00c9 (OBLIGATOIRE) \u2550\u2550\u2550');
-  lines.push(
-    'Ta prose doit avoir une respiration consciente:',
-    '- Alterne phrases courtes (choc, impact) et phrases longues (flux, immersion)',
-    '- Exploite la ponctuation comme partition: virgule = souffle, point = coupure nette, \u2014 = suspension',
-    '- Chaque paragraphe doit avoir son propre tempo \u2014 jamais deux paragraphes au m\u00eame rythme',
-    '- Lis mentalement \u00e0 voix haute: si c\'est monotone, c\'est rat\u00e9',
-  );
-
-  lines.push('', '\u2550\u2550\u2550 COH\u00c9RENCE \u00c9MOTIONNELLE (OBLIGATOIRE) \u2550\u2550\u2550');
-  lines.push(
-    'L\'arc \u00e9motionnel doit \u00eatre continu et logique:',
-    '- L\'\u00e9tat \u00e9motionnel du personnage doit \u00e9voluer de fa\u00e7on cr\u00e9dible sc\u00e8ne \u00e0 sc\u00e8ne',
-    '- Chaque action, pens\u00e9e, sensation doit \u00eatre ancr\u00e9e dans cet \u00e9tat \u00e9motionnel',
-    '- \u00c9vite les ruptures arbitraires (joie soudaine sans cause, peur sans d\u00e9clencheur)',
-    '- La nuance prime: une \u00e9motion complexe vaut dix \u00e9motions simples',
-  );
-
-  lines.push('', '\u2550\u2550\u2550 INT\u00c9RIORIT\u00c9 (OBLIGATOIRE) \u2550\u2550\u2550');
-  lines.push(
-    'Le lecteur doit habiter le personnage de l\'int\u00e9rieur:',
-    '- Montre les pens\u00e9es fragment\u00e9es, les contradictions internes',
-    '- Les sensations corporelles r\u00e9v\u00e8lent l\'\u00e9tat psychologique (gorge serr\u00e9e, mains froides)',
-    '- Une h\u00e9sitation, un doute, un d\u00e9sir inexprim\u00e9 valent plus qu\'une description externe',
-    '- Profondeur psychologique: au moins un moment de vrai vertige int\u00e9rieur par sc\u00e8ne',
-  );
-
   lines.push('', '\u2550\u2550\u2550 INSTRUCTION FINALE \u2550\u2550\u2550');
   lines.push(
     "\u00c9cris la sc\u00e8ne maintenant. Commence directement par l'action ou",

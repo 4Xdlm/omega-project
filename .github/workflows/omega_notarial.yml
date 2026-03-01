@@ -76,7 +76,7 @@ jobs:
       
       - name: Generate Attestation
         if: success()
-        uses: actions/attest-build-provenance@v1
+        uses: actions/attest-build-provenance@v3
         with:
           subject-path: omega-bridge-win.exe
       

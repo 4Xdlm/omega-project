@@ -284,6 +284,46 @@ CATALOG_PUBLIC = [
      "corpus": "PD-EN",  "lang_original": "en", "year": 1920,
      "gutenberg_ids": [541]},
 
+    # ─── PATCH 2026-03-02-C — PD-EN complément 12→20 ─────────────────────────
+
+    # DREISER
+    {"author": "dreiser",  "title": "Jennie Gerhardt",
+     "corpus": "PD-EN",  "lang_original": "en", "year": 1911,
+     "gutenberg_ids": [6138]},
+
+    {"author": "dreiser",  "title": "The Financier",
+     "corpus": "PD-EN",  "lang_original": "en", "year": 1912,
+     "gutenberg_ids": [1840]},
+
+    # WHARTON
+    {"author": "wharton",  "title": "The Custom of the Country",
+     "corpus": "PD-EN",  "lang_original": "en", "year": 1913,
+     "gutenberg_ids": [4389]},
+
+    {"author": "wharton",  "title": "The Reef",
+     "corpus": "PD-EN",  "lang_original": "en", "year": 1912,
+     "gutenberg_ids": [4859]},
+
+    # LEWIS S.
+    {"author": "lewis_s",  "title": "Babbitt",
+     "corpus": "PD-EN",  "lang_original": "en", "year": 1922,
+     "gutenberg_ids": [1156]},
+
+    # NORRIS
+    {"author": "norris",   "title": "McTeague",
+     "corpus": "PD-EN",  "lang_original": "en", "year": 1899,
+     "gutenberg_ids": [777]},
+
+    # LONDON
+    {"author": "london",   "title": "Martin Eden",
+     "corpus": "PD-EN",  "lang_original": "en", "year": 1909,
+     "gutenberg_ids": [763]},
+
+    # JAMES H.
+    {"author": "james_h",  "title": "The Wings of the Dove",
+     "corpus": "PD-EN",  "lang_original": "en", "year": 1902,
+     "gutenberg_ids": [1497]},
+
     # SUPPRIMÉ G3: Mann Buddenbrooks (de) — 2026-03-02
 ]
 

@@ -22,8 +22,11 @@ RÈGLES DATA :
   - Hobbit 10972 mots → REJECT TRUNCATED_TEXT
 """
 
-import os, sys, json, hashlib, re, random, logging, importlib.util, urllib.request
+import os, sys, json, hashlib, re, random, logging, importlib.util, urllib.request, math
 import urllib.error
+# FIX-CP1252: forcer UTF-8 sur stdout Windows (cp1252 rejette ≥ ═ ✗)
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 from pathlib  import Path
 from datetime import datetime
 from collections import Counter
@@ -890,19 +893,30 @@ def clean_text(raw: str) -> str:
 # ══════════════════════════════════════════════════════════════════════════════
 
 _autopsie = None
+_autopsie_load_attempted = False
 
 def load_autopsie():
-    global _autopsie
+    global _autopsie, _autopsie_load_attempted
     if _autopsie:
         return _autopsie
+    if _autopsie_load_attempted:
+        return None  # échec déjà logué, ne pas répéter
+    _autopsie_load_attempted = True
     for p in [Path("autopsie_v4.py"), Path("../autopsie_v4.py")]:
         if p.exists():
-            spec = importlib.util.spec_from_file_location("autopsie_v4", str(p))
-            mod  = importlib.util.module_from_spec(spec)
-            spec.loader.exec_module(mod)
-            _autopsie = mod
-            log.info(f"autopsie_v4 chargé: {p.resolve()}")
-            return mod
+            try:
+                spec = importlib.util.spec_from_file_location("autopsie_v4", str(p))
+                mod  = importlib.util.module_from_spec(spec)
+                spec.loader.exec_module(mod)
+                _autopsie = mod
+                log.info(f"autopsie_v4 chargé: {p.resolve()}")
+                return mod
+            except Exception as e:
+                # FIX-PY314: spaCy incompatible Python 3.14 (Pydantic V1)
+                # F1-F23 désactivées, F24-F30 opérationnelles (pur Python)
+                log.warning(f"autopsie_v4 import FAIL (spaCy/Python 3.14): {e}")
+                log.warning("  -> F1-F23 désactivées pour toute la session. F24-F30 actives.")
+                return None
     return None
 
 def run_autopsie(text: str, work_id: str, lang_orig: str) -> dict:

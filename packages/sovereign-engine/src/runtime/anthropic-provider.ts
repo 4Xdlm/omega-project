@@ -198,7 +198,9 @@ export function createAnthropicProvider(config: AnthropicProviderConfig): Sovere
       const systemPrompt = `You are a master prose writer. Écris EXCLUSIVEMENT en français littéraire premium — niveau prix Goncourt. Zéro anglais. Prose émotionnellement résonnante, sensoriellement riche, narrativement dense. Mode: ${mode}. Seed: ${seed}`;
       const userPrompt = prompt;
 
-      const response = callClaudeSync(systemPrompt, userPrompt, config, false);
+      // generateDraft requires much more tokens than scoring calls
+      const draftConfig = { ...config, judgeMaxTokens: 2000 };
+      const response = callClaudeSync(systemPrompt, userPrompt, draftConfig, false);
       return stripFences(response);
     },
 

@@ -324,3 +324,31 @@ git push origin master --tags
 
 
 *Genere le 2026-03-03 — OMEGA NASA-Grade L4 / DO-178C*
+
+---
+
+## 9. CLAUSE DE MERGE — OBLIGATOIRE (patch gouvernance 2026-03-03)
+
+**Merge vers master INTERDIT sauf si toutes les conditions suivantes sont reunies :**
+
+| Condition                              | Verification                                     |
+|----------------------------------------|--------------------------------------------------|
+| ValidationPack complet                 | config.json + runs.jsonl + summary.json presents |
+| SHA256SUMS.txt genere sur tout le pack | sha256sum --check SHA256SUMS.txt = OK            |
+| PhaseUExitValidator verdict = PASS     | summary.json alimente evaluate(), verdict PASS   |
+| Repo propre                            | git status --porcelain = vide                    |
+| HEAD match tag u-validation-sealed     | git tag --points-at HEAD contient le tag         |
+| PROMPT_VERSION figee                   | GREATNESS_PROMPT_VERSION identique one-shot/topK |
+| Seeds identiques one-shot et top-K     | Option A : meme baseSeed pour les 30 pairs       |
+
+**Sans ces 7 conditions => MERGE BLOQUE.**
+
+## 10. INVARIANTS BENCHMARK (INV-DB-01..05)
+
+| ID         | Description                                                      |
+|------------|------------------------------------------------------------------|
+| INV-DB-01  | Memes packets pour one-shot et top-K (30 pairs identiques)       |
+| INV-DB-02  | 30 runs one-shot + 30 runs top-K, seeds deterministes            |
+| INV-DB-03  | GREATNESS_PROMPT_VERSION figee avant premier run                  |
+| INV-DB-04  | Tie-break stable top-K via SelectionTrace (deja implemente)      |
+| INV-DB-05  | Aucune donnee secrete dans ValidationPack (API key jamais ecrite) |

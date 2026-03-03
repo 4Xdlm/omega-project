@@ -185,7 +185,7 @@ class TestableDualRunner extends DualBenchmarkRunner {
     };
 
     const runs: RunRecord[] = [];
-    const { PhaseUExitValidator, type OneShotRecord } = await import('../../src/validation/phase-u/phase-u-exit-validator') as never;
+    const { PhaseUExitValidator } = await import('../../src/validation/phase-u/phase-u-exit-validator') as never;
     const oneShotRecords: Array<{ run_id: string; verdict: 'SEAL' | 'REJECT'; s_composite: number }> = [];
     const topKReports: KSelectionReport[] = [];
 

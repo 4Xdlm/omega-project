@@ -115,23 +115,37 @@ function stripFences(text: string): string {
 }
 
 /**
- * Extract numeric score from LLM response
- * Expects format: "Score: 85" or just "85"
+ * Extract numeric score from LLM response.
+ * Tries multiple patterns; last resort = scan all numbers and pick one in [0,100].
  */
 function extractScore(response: string): number {
   const trimmed = response.trim();
-  // Try to extract number from "Score: XX" format
-  const match = trimmed.match(/(?:Score:\s*)?(\d+(?:\.\d+)?)/i);
-  if (!match) {
-    throw new Error(`Failed to extract score from response: ${trimmed.slice(0, 100)}`);
+
+  // Pattern 1: "Score: 85" or "Score: 85/100"
+  const p1 = trimmed.match(/Score\s*:\s*(\d+(?:\.\d+)?)/i);
+  if (p1) return clamp(parseFloat(p1[1]));
+
+  // Pattern 2: "85/100" or "85 / 100"
+  const p2 = trimmed.match(/(\d+(?:\.\d+)?)\s*\/\s*100/);
+  if (p2) return clamp(parseFloat(p2[1]));
+
+  // Pattern 3: standalone number on its own line
+  const lines = trimmed.split('\n').map(l => l.trim());
+  for (const line of lines) {
+    if (/^\d+(?:\.\d+)?$/.test(line)) return clamp(parseFloat(line));
   }
-  const raw = parseFloat(match[1]);
-  if (isNaN(raw)) {
-    throw new Error(`Invalid score value: ${raw}`);
-  }
-  // Clamp to [0, 100] — LLMs sometimes return out-of-range values
-  const score = Math.max(0, Math.min(100, raw));
-  return score;
+
+  // Pattern 4: last number in [0,100] found anywhere in text
+  const allNums = [...trimmed.matchAll(/(\d+(?:\.\d+)?)/g)]
+    .map(m => parseFloat(m[1]))
+    .filter(n => n >= 0 && n <= 100);
+  if (allNums.length > 0) return clamp(allNums[allNums.length - 1]);
+
+  throw new Error(`Failed to extract score from response: ${trimmed.slice(0, 100)}`);
+}
+
+function clamp(n: number): number {
+  return Number.isNaN(n) ? 0 : Math.max(0, Math.min(100, n));
 }
 
 /**
@@ -143,28 +157,28 @@ export function createAnthropicProvider(config: AnthropicProviderConfig): Sovere
       prose: string,
       context: { readonly pov: string; readonly character_state: string },
     ): Promise<number> {
-      const systemPrompt = `You are an expert literary critic specializing in interiority analysis. Tu évalues de la prose française littéraire premium. Score prose on interiority depth (0-100). Consider POV and character state.`;
-      const userPrompt = `POV: ${context.pov}\nCharacter State: ${context.character_state}\n\nProse:\n${prose}\n\nProvide interiority score (0-100) where 100 = maximum depth of internal experience. Format: "Score: XX"`;
+      const systemPrompt = `You are a literary scoring engine. Return ONLY a single integer between 0 and 100. No explanation. No text. Just the number.`;
+      const userPrompt = `Rate interiority depth (0-100) of this prose.\nPOV: ${context.pov}\nCharacter State: ${context.character_state}\n\nProse:\n${prose}\n\nReturn ONLY the integer score:`;
 
       const response = callClaudeSync(systemPrompt, userPrompt, config, config.judgeStable);
       return extractScore(response);
     },
 
     async scoreSensoryDensity(prose: string, sensory_counts: Record<string, number>): Promise<number> {
-      const systemPrompt = `You are an expert literary critic specializing in sensory writing analysis. Tu évalues de la prose française littéraire premium. Score prose on sensory density (0-100).`;
-      const userPrompt = `Sensory Counts: ${JSON.stringify(sensory_counts)}\n\nProse:\n${prose}\n\nProvide sensory density score (0-100) where 100 = richly sensory, immersive prose. Format: "Score: XX"`;
+      const systemPrompt = `You are a literary scoring engine. Return ONLY a single integer between 0 and 100. No explanation. No text. Just the number.`;
+      const userPrompt = `Rate sensory density (0-100) of this prose.\nSensory Counts: ${JSON.stringify(sensory_counts)}\n\nProse:\n${prose}\n\nReturn ONLY the integer score:`;
 
       const response = callClaudeSync(systemPrompt, userPrompt, config, config.judgeStable);
       return extractScore(response);
     },
 
     async scoreNecessity(prose: string, beat_count: number, beat_actions?: string, scene_goal?: string, conflict_type?: string): Promise<number> {
-      const systemPrompt = `You are an expert literary editor scoring narrative necessity. Tu évalues de la prose française littéraire premium. Score 0-100 where 100 = every sentence advances plot, character, atmosphere, or theme. Literary prose that builds atmosphere, establishes setting, or deepens character IS necessary. Only pure filler/redundancy should score low.`;
+      const systemPrompt = `You are a literary scoring engine. Return ONLY a single integer between 0 and 100. No explanation. No text. Just the number.`;
       const contextLines: string[] = [`Beat Count: ${beat_count}`];
       if (scene_goal) contextLines.push(`Scene Goal: ${scene_goal}`);
       if (conflict_type) contextLines.push(`Conflict Type: ${conflict_type}`);
       if (beat_actions) contextLines.push(`Beat Actions: ${beat_actions}`);
-      const userPrompt = `${contextLines.join('\n')}\n\nProse:\n${prose}\n\nScore necessity (0-100). Literary atmosphere-building counts as necessary. Format: "Score: XX"`;
+      const userPrompt = `Rate narrative necessity (0-100) of this prose. Atmosphere-building counts as necessary.\n${contextLines.join('\n')}\n\nProse:\n${prose}\n\nReturn ONLY the integer score:`;
 
       const response = callClaudeSync(systemPrompt, userPrompt, config, config.judgeStable);
       return extractScore(response);
@@ -175,8 +189,8 @@ export function createAnthropicProvider(config: AnthropicProviderConfig): Sovere
       closing: string,
       context: { readonly story_premise: string },
     ): Promise<number> {
-      const systemPrompt = `You are an expert literary critic specializing in narrative impact. Tu évalues de la prose française littéraire premium. Score opening and closing on emotional/thematic impact (0-100).`;
-      const userPrompt = `Story Premise: ${context.story_premise}\n\nOpening:\n${opening}\n\nClosing:\n${closing}\n\nProvide impact score (0-100) where 100 = maximum resonance and memorability. Format: "Score: XX"`;
+      const systemPrompt = `You are a literary scoring engine. Return ONLY a single integer between 0 and 100. No explanation. No text. Just the number.`;
+      const userPrompt = `Rate narrative impact (0-100) of opening+closing. 100 = maximum resonance.\nStory Premise: ${context.story_premise}\n\nOpening:\n${opening}\n\nClosing:\n${closing}\n\nReturn ONLY the integer score:`;
 
       const response = callClaudeSync(systemPrompt, userPrompt, config, config.judgeStable);
       return extractScore(response);

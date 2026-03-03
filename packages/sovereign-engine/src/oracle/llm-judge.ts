@@ -4,7 +4,7 @@
  * ═══════════════════════════════════════════════════════════════════════════════
  *
  * Module: oracle/llm-judge.ts
- * Version: 1.0.0
+ * Version: 1.1.0
  * Standard: NASA-Grade L4 / DO-178C Level A
  *
  * LLM-based axis judge: calls Anthropic Messages API.
@@ -13,6 +13,7 @@
  * - Retry on 429/503 (max 2 retries, backoff 2s×n)
  * - Model lock verification [INV-VAL-04]
  * - SHA256 cache integration (judge-cache.ts)
+ * PATCH U-W0 [INV-U-05] cache key: SHA256(axis+normalizedProse+PROMPT_VERSION) — seed exclu
  *
  * ═══════════════════════════════════════════════════════════════════════════════
  */
@@ -49,6 +50,20 @@ export class ModelDriftError extends Error {
 // CONSTANTS
 // ═══════════════════════════════════════════════════════════════════════════════
 
+// ═══════════════════════════════════════════════════════════════════════════════
+// CACHE KEY HELPERS [PATCH U-W0 — INV-U-05]
+// ═══════════════════════════════════════════════════════════════════════════════
+
+// Incrémenter si un JUDGE_PROMPT change → invalide automatiquement le cache existant
+// v1 = prompts originaux (version 1.0.0)
+// v2 = U-W0 patch (aucun changement de prompt, reset des clés corrompues seed-based)
+const JUDGE_PROMPT_VERSION = 'v2';
+
+// Normalise la prose pour la clé de cache
+// trim() + collapse whitespace + slice(0,3000) aligné sur buildPrompt()
+function normalizeProse(prose: string): string {
+  return prose.trim().replace(/\s+/g, ' ').slice(0, 3000);
+}
 const ANTHROPIC_API_URL = 'https://api.anthropic.com/v1/messages';
 const ANTHROPIC_VERSION = '2023-06-01';
 const MAX_RETRIES = 3; // initial + 2 retries
@@ -149,8 +164,8 @@ export class LLMJudge {
    * Judge a prose text on a given axis.
    * Cache key = SHA256(axis + prose + seed)
    */
-  async judge(axis: string, prose: string, seed: string): Promise<JudgeResult> {
-    const cacheKey = sha256(axis + prose + seed);
+  async judge(axis: string, prose: string, _seed: string): Promise<JudgeResult> {
+    const cacheKey = sha256(axis + normalizeProse(prose) + JUDGE_PROMPT_VERSION);
 
     // Cache hit → return immediately, 0 API calls
     const cached = this.cache.get(cacheKey);
@@ -340,3 +355,4 @@ Réponds UNIQUEMENT en JSON: {"score": <0.0-1.0>, "reason": "<max 100 chars>"}`;
     this.lastCallTime = Date.now();
   }
 }
+

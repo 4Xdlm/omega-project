@@ -200,20 +200,20 @@ describe('LLMJudge — Phase VALIDATION', () => {
     await judge.judge('impact', 'Une prose unique.', 'seed_miss');
 
     // Verify stored in cache
-    const cacheKey = sha256('impact' + 'Une prose unique.' + 'seed_miss');
+    const cacheKey = sha256('impact' + 'Une prose unique.' + 'v2');
     const cached = cache.get(cacheKey);
     expect(cached).not.toBeNull();
     expect(cached!.score).toBe(0.65);
   });
 
   // T09: Cache key = SHA256(axe+prose+seed) déterministe
-  it('T09: cache key = SHA256(axis+prose+seed) deterministic', async () => {
+  it('T09: cache key = SHA256(axis+normalizedProse+PROMPT_VERSION) deterministic', async () => {
     globalThis.fetch = mockJudgeResponse(0.90, 'nécessité parfaite');
     const judge = new LLMJudge(TEST_MODEL, TEST_API_KEY, cache, { retryBaseMs: 1, rateLimitMs: 0, timeoutMs: 5000 });
 
     await judge.judge('necessite', 'Chaque mot compte.', 'seed_det');
 
-    const expectedKey = sha256('necessite' + 'Chaque mot compte.' + 'seed_det');
+    const expectedKey = sha256('necessite' + 'Chaque mot compte.' + 'v2');
     const cached = cache.get(expectedKey);
     expect(cached).not.toBeNull();
     expect(cached!.score).toBe(0.90);
@@ -237,7 +237,7 @@ describe('LLMJudge — Phase VALIDATION', () => {
 
     await judge.judge('densite_sensorielle', 'Prose sensorielle.', 'seed_ds_det');
 
-    const expectedKey = sha256('densite_sensorielle' + 'Prose sensorielle.' + 'seed_ds_det');
+    const expectedKey = sha256('densite_sensorielle' + 'Prose sensorielle.' + 'v2');
     const cached = cache.get(expectedKey);
     expect(cached).not.toBeNull();
     expect(cached!.score).toBe(0.68);
@@ -261,7 +261,7 @@ describe('LLMJudge — Phase VALIDATION', () => {
 
     await judge.judge('tension_14d', 'Prose tendue.', 'seed_t14d_det');
 
-    const expectedKey = sha256('tension_14d' + 'Prose tendue.' + 'seed_t14d_det');
+    const expectedKey = sha256('tension_14d' + 'Prose tendue.' + 'v2');
     const cached = cache.get(expectedKey);
     expect(cached).not.toBeNull();
     expect(cached!.score).toBe(0.65);
@@ -278,3 +278,4 @@ describe('LLMJudge — Phase VALIDATION', () => {
     expect(result.reason).toBe('prose dense et économe');
   });
 });
+

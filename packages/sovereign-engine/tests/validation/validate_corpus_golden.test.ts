@@ -15,7 +15,7 @@ import {
   type CorpusGolden,
   type CorpusItem,
   type ValidationResult,
-} from '../corpus/validate_corpus_golden';
+} from '../../src/validation/phase-u/corpus/validate_corpus_golden';
 
 // ── Fixtures ──────────────────────────────────────────────────────────────────
 

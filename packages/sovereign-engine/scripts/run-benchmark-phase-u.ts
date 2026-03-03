@@ -196,7 +196,7 @@ function makePlan(planId: string, scene: Scene, emotionTarget: string, intensity
 }
 
 function makeInput(i: number, scene: Scene, plan: GenesisPlan, canon: readonly CanonEntry[], continuity: ForgeContinuity): ForgePacketInput {
-  return { plan, scene, style_profile: BASE_STYLE, kill_lists: BASE_KILL_LISTS, canon, continuity };
+  return { plan, scene, style_profile: BASE_STYLE, kill_lists: BASE_KILL_LISTS, canon, continuity, run_id: `bench-${i}-${scene.scene_id}`, language: 'fr' };
 }
 
 // ── 30 scènes FR variées ──────────────────────────────────────────────────────

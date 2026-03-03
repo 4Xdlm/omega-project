@@ -21,9 +21,8 @@
  */
 
 import { createHash } from 'node:crypto';
-import { writeFileSync, mkdirSync, existsSync } from 'node:fs';
+import { writeFileSync, mkdirSync, existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { canonicalize, sha256 as omegaSha256 } from '@omega/canon-kernel';
 import type { SovereignProvider } from '../../../types.js';
 import type { ForgePacketInput } from '../../../input/forge-packet-assembler.js';
 import { runSovereignForge } from '../../../engine.js';
@@ -33,17 +32,16 @@ import {
   type OneShotRecord,
   type PhaseUExitReport,
 } from '../phase-u-exit-validator.js';
-import { GreatnessJudge } from '../greatness-judge.js';
 import type { JudgeCache } from '../../../judge-cache.js';
 import { GREATNESS_PROMPT_VERSION } from '../greatness-judge.js';
 
 // ── Configuration ─────────────────────────────────────────────────────────────
 
-export const BENCHMARK_K       = 8;   // K=4 si budget serré, K=16 si illimité
-export const BENCHMARK_RUNS    = 30;  // paires one-shot / top-K
+export const BENCHMARK_K       = 8;
+export const BENCHMARK_RUNS    = 30;
 export const BENCHMARK_VERSION = '1.0.0';
 
-/** Génère 30 base-seeds déterministes à partir d'un root seed */
+/** Génère n base-seeds déterministes à partir d'un root seed */
 export function generateBenchmarkSeeds(rootSeed: string, n: number): string[] {
   return Array.from({ length: n }, (_, i) =>
     createHash('sha256').update(`${rootSeed}:benchmark:${i}`).digest('hex')
@@ -53,45 +51,45 @@ export function generateBenchmarkSeeds(rootSeed: string, n: number): string[] {
 // ── Types ValidationPack ──────────────────────────────────────────────────────
 
 export interface BenchmarkConfig {
-  readonly version:               string;
-  readonly benchmark_runs:        number;
-  readonly k:                     number;
-  readonly prompt_version:        string;
-  readonly git_head:              string;
-  readonly provider_model:        string;
-  readonly root_seed:             string;
-  readonly created_at:            string;
-  readonly option:                'A';   // seeds identiques one-shot / top-K
+  readonly version:        string;
+  readonly benchmark_runs: number;
+  readonly k:              number;
+  readonly prompt_version: string;
+  readonly git_head:       string;
+  readonly provider_model: string;
+  readonly root_seed:      string;
+  readonly created_at:     string;
+  readonly option:         'A';
 }
 
 export interface RunRecord {
-  readonly pair_index:            number;   // 0..29
-  readonly mode:                  'one-shot' | 'top-k';
-  readonly base_seed:             string;
-  readonly input_hash:            string;   // SHA256(canonicalize(input))
-  readonly output_hash:           string;   // SHA256(final_prose) ou '' si REJECT
-  readonly s_composite:           number;   // score S-Oracle [0,100]
-  readonly verdict:               'SEAL' | 'REJECT' | 'ERROR';
-  readonly greatness_composite?:  number;   // top-K uniquement, top-1
-  readonly error_detail?:         string;
+  readonly pair_index:           number;
+  readonly mode:                 'one-shot' | 'top-k';
+  readonly base_seed:            string;
+  readonly input_hash:           string;
+  readonly output_hash:          string;
+  readonly s_composite:          number;
+  readonly verdict:              'SEAL' | 'REJECT' | 'ERROR';
+  readonly greatness_composite?: number;
+  readonly error_detail?:        string;
 }
 
 export interface BenchmarkSummary {
-  readonly seal_rate_oneshot:     number;
-  readonly seal_rate_topk:        number;
-  readonly seal_rate_delta:       number;
-  readonly greatness_median_topk: number;
+  readonly seal_rate_oneshot:          number;
+  readonly seal_rate_topk:             number;
+  readonly seal_rate_delta:            number;
+  readonly greatness_median_topk:      number;
   readonly s_composite_median_oneshot: number;
-  readonly gain_pct:              number;
-  readonly runs_oneshot:          number;
-  readonly runs_topk:             number;
-  readonly exit_report:           PhaseUExitReport;
+  readonly gain_pct:                   number;
+  readonly runs_oneshot:               number;
+  readonly runs_topk:                  number;
+  readonly exit_report:                PhaseUExitReport;
 }
 
 export interface ValidationPack {
-  readonly config:   BenchmarkConfig;
-  readonly runs:     RunRecord[];
-  readonly summary:  BenchmarkSummary;
+  readonly config:  BenchmarkConfig;
+  readonly runs:    RunRecord[];
+  readonly summary: BenchmarkSummary;
 }
 
 export class BenchmarkError extends Error {
@@ -118,7 +116,7 @@ function inputHash(input: ForgePacketInput): string {
 function median(values: number[]): number {
   if (values.length === 0) return 0;
   const sorted = [...values].sort((a, b) => a - b);
-  const mid = Math.floor(sorted.length / 2);
+  const mid    = Math.floor(sorted.length / 2);
   return sorted.length % 2 === 0
     ? Math.round(((sorted[mid - 1] + sorted[mid]) / 2) * 100) / 100
     : sorted[mid];
@@ -127,47 +125,24 @@ function median(values: number[]): number {
 // ── DualBenchmarkRunner ───────────────────────────────────────────────────────
 
 export class DualBenchmarkRunner {
-  private readonly topkEngine:  TopKSelectionEngine;
+  private readonly topkEngine:    TopKSelectionEngine;
   private readonly exitValidator: PhaseUExitValidator;
 
   constructor(
-    private readonly provider:   SovereignProvider,
-    private readonly modelId:    string,
-    private readonly apiKey:     string,
-    private readonly cache:      JudgeCache,
+    private readonly provider: SovereignProvider,
+    private readonly modelId:  string,
+    private readonly apiKey:   string,
+    private readonly cache:    JudgeCache,
   ) {
-    this.topkEngine   = new TopKSelectionEngine(
-      { k: BENCHMARK_K, modelId, apiKey },
-      cache,
-    );
+    this.topkEngine   = new TopKSelectionEngine({ k: BENCHMARK_K, modelId, apiKey }, cache);
     this.exitValidator = new PhaseUExitValidator();
   }
 
-  /** Injecte un TopKSelectionEngine custom (pour tests) */
-  static withEngine(
-    engine: TopKSelectionEngine,
-    provider: SovereignProvider,
-    modelId: string,
-    apiKey: string,
-    cache: JudgeCache,
-  ): DualBenchmarkRunner {
-    const inst = new DualBenchmarkRunner(provider, modelId, apiKey, cache);
-    (inst as unknown as { topkEngine: TopKSelectionEngine }).topkEngine = engine;
-    return inst;
-  }
-
-  /**
-   * Exécute le benchmark complet :
-   *   - 30 runs one-shot (INV-DB-01 : même inputs)
-   *   - 30 runs top-K    (INV-DB-01 : même inputs)
-   *   - Produit ValidationPack
-   */
   async execute(
-    inputs: ForgePacketInput[],   // longueur = BENCHMARK_RUNS (INV-DB-01)
+    inputs:   ForgePacketInput[],
     rootSeed: string,
-    gitHead: string,
+    gitHead:  string,
   ): Promise<ValidationPack> {
-    // INV-DB-01 : vérification longueur
     if (inputs.length !== BENCHMARK_RUNS) {
       throw new BenchmarkError(
         'INVALID_INPUT_COUNT',
@@ -175,10 +150,8 @@ export class DualBenchmarkRunner {
       );
     }
 
-    // INV-DB-02 : seeds déterministes
     const baseSeeds = generateBenchmarkSeeds(rootSeed, BENCHMARK_RUNS);
 
-    // INV-DB-03 : PROMPT_VERSION figée (vérifiée à l'import)
     const config: BenchmarkConfig = {
       version:        BENCHMARK_VERSION,
       benchmark_runs: BENCHMARK_RUNS,
@@ -191,118 +164,97 @@ export class DualBenchmarkRunner {
       option:         'A',
     };
 
-    const runs: RunRecord[] = [];
-
-    // ── Phase 1 : 30 runs one-shot ────────────────────────────────────────────
+    const runs:           RunRecord[]     = [];
     const oneShotRecords: OneShotRecord[] = [];
+    const topKReports:    KSelectionReport[] = [];
 
+    // ── Phase 1 : 30 one-shot ────────────────────────────────────────────────
     for (let i = 0; i < BENCHMARK_RUNS; i++) {
-      const input    = inputs[i];
-      const baseSeed = baseSeeds[i];
-      // INV-DB-01 : injecter le seed dans l'input
-      const seededInput = injectSeed(input, baseSeed);
-      const iHash = inputHash(seededInput);
+      const baseSeed    = baseSeeds[i];
+      const seededInput = injectSeed(inputs[i], baseSeed);
+      const iHash       = inputHash(seededInput);
+
+      process.stdout.write(`[ONE-SHOT ${i + 1}/${BENCHMARK_RUNS}] ... `);
 
       let record: RunRecord;
       try {
         const result = await runSovereignForge(seededInput, this.provider);
+        const sScore = result.s_score as { composite?: number };
+        const sComp  = typeof sScore?.composite === 'number' ? sScore.composite : 0;
         const oHash  = result.verdict === 'SEAL' ? sha256str(result.final_prose) : '';
-        const sComp  = (result.s_score as Record<string, unknown>)?.composite as number ?? 0;
 
         record = {
-          pair_index:   i,
-          mode:         'one-shot',
-          base_seed:    baseSeed,
-          input_hash:   iHash,
-          output_hash:  oHash,
-          s_composite:  sComp,
-          verdict:      result.verdict,
+          pair_index: i, mode: 'one-shot', base_seed: baseSeed,
+          input_hash: iHash, output_hash: oHash,
+          s_composite: sComp, verdict: result.verdict,
         };
         oneShotRecords.push({ run_id: `os-${i}`, verdict: result.verdict, s_composite: sComp });
+        console.log(`${result.verdict} (s=${sComp.toFixed(1)})`);
       } catch (err) {
+        const detail = err instanceof Error ? err.message : String(err);
         record = {
-          pair_index:   i,
-          mode:         'one-shot',
-          base_seed:    baseSeed,
-          input_hash:   iHash,
-          output_hash:  '',
-          s_composite:  0,
-          verdict:      'ERROR',
-          error_detail: err instanceof Error ? err.message : String(err),
+          pair_index: i, mode: 'one-shot', base_seed: baseSeed,
+          input_hash: iHash, output_hash: '', s_composite: 0,
+          verdict: 'ERROR', error_detail: detail,
         };
         oneShotRecords.push({ run_id: `os-${i}`, verdict: 'REJECT', s_composite: 0 });
+        console.log(`ERROR: ${detail.slice(0, 120)}`);
       }
       runs.push(record);
     }
 
-    // ── Phase 2 : 30 runs top-K ───────────────────────────────────────────────
-    const topKReports: KSelectionReport[] = [];
-
+    // ── Phase 2 : 30 top-K ───────────────────────────────────────────────────
     for (let i = 0; i < BENCHMARK_RUNS; i++) {
-      const input    = inputs[i];
-      const baseSeed = baseSeeds[i];   // INV-DB-01 : même seed que one-shot
-      const iHash    = inputHash(injectSeed(input, baseSeed));
+      const baseSeed = baseSeeds[i];
+      const iHash    = inputHash(injectSeed(inputs[i], baseSeed));
+
+      process.stdout.write(`[TOP-K ${i + 1}/${BENCHMARK_RUNS}] K=${BENCHMARK_K} ... `);
 
       let record: RunRecord;
       try {
-        const report = await this.topkEngine.run(
-          input,
-          this.provider,
-          BENCHMARK_K,
-          baseSeed,
-        );
-        const top1     = report.top1;
-        const oHash    = top1.forge_result ? sha256str(top1.forge_result.final_prose) : '';
-        const sComp    = (top1.forge_result?.s_score as Record<string, unknown>)?.composite as number ?? 0;
-        const gComp    = top1.greatness?.composite ?? 0;
+        const report = await this.topkEngine.run(inputs[i], this.provider, BENCHMARK_K, baseSeed);
+        const top1   = report.top1;
+        const sScore = top1.forge_result?.s_score as { composite?: number } | undefined;
+        const sComp  = typeof sScore?.composite === 'number' ? sScore.composite : 0;
+        const oHash  = top1.forge_result ? sha256str(top1.forge_result.final_prose) : '';
+        const gComp  = top1.greatness?.composite ?? 0;
 
         record = {
-          pair_index:          i,
-          mode:                'top-k',
-          base_seed:           baseSeed,
-          input_hash:          iHash,
-          output_hash:         oHash,
-          s_composite:         sComp,
-          verdict:             top1.survived_seal ? 'SEAL' : 'REJECT',
+          pair_index: i, mode: 'top-k', base_seed: baseSeed,
+          input_hash: iHash, output_hash: oHash,
+          s_composite: sComp, verdict: top1.survived_seal ? 'SEAL' : 'REJECT',
           greatness_composite: gComp,
         };
         topKReports.push(report);
+        console.log(`${top1.survived_seal ? 'SEAL' : 'REJECT'} (g=${gComp.toFixed(1)}, survivors=${report.k_survived_seal}/${BENCHMARK_K})`);
       } catch (err) {
+        const detail = err instanceof Error ? err.message : String(err);
         record = {
-          pair_index:   i,
-          mode:         'top-k',
-          base_seed:    baseSeed,
-          input_hash:   iHash,
-          output_hash:  '',
-          s_composite:  0,
-          verdict:      'ERROR',
-          error_detail: err instanceof Error ? err.message : String(err),
+          pair_index: i, mode: 'top-k', base_seed: baseSeed,
+          input_hash: iHash, output_hash: '', s_composite: 0,
+          verdict: 'ERROR', error_detail: detail,
         };
+        console.log(`ERROR: ${detail.slice(0, 120)}`);
       }
       runs.push(record);
     }
 
     // ── Phase 3 : ExitValidator + Summary ────────────────────────────────────
-    const exitReport = this.exitValidator.evaluate(topKReports, oneShotRecords);
-
-    const oneShotSealed  = runs.filter(r => r.mode === 'one-shot' && r.verdict === 'SEAL');
-    const topKSealed     = runs.filter(r => r.mode === 'top-k'    && r.verdict === 'SEAL');
-    const sealRateOs     = oneShotSealed.length / BENCHMARK_RUNS;
-    const sealRateTk     = topKSealed.length    / BENCHMARK_RUNS;
-    const gComposites    = topKReports
-      .filter(r => r.top1.greatness !== undefined)
-      .map(r => r.top1_composite);
-    const sCompOsSealed  = oneShotSealed.map(r => r.s_composite);
-    const gMedian        = median(gComposites);
-    const sMedianOs      = median(sCompOsSealed);
-    const gainPct        = sMedianOs > 0
+    const exitReport    = this.exitValidator.evaluate(topKReports, oneShotRecords);
+    const osSealed      = runs.filter(r => r.mode === 'one-shot' && r.verdict === 'SEAL');
+    const tkSealed      = runs.filter(r => r.mode === 'top-k'    && r.verdict === 'SEAL');
+    const gComposites   = topKReports.filter(r => r.top1.greatness).map(r => r.top1_composite);
+    const sCompOsSealed = osSealed.map(r => r.s_composite);
+    const gMedian       = median(gComposites);
+    const sMedianOs     = median(sCompOsSealed);
+    const gainPct       = sMedianOs > 0
       ? Math.round(((gMedian - sMedianOs) / sMedianOs) * 100 * 100) / 100
       : 0;
 
     const summary: BenchmarkSummary = {
-      seal_rate_oneshot:          Math.round(sealRateOs * 10000) / 10000,
-      seal_rate_topk:             Math.round(sealRateTk * 10000) / 10000,
-      seal_rate_delta:            Math.round((sealRateTk - sealRateOs) * 10000) / 10000,
+      seal_rate_oneshot:          Math.round(osSealed.length / BENCHMARK_RUNS * 10000) / 10000,
+      seal_rate_topk:             Math.round(tkSealed.length / BENCHMARK_RUNS * 10000) / 10000,
+      seal_rate_delta:            Math.round((tkSealed.length - osSealed.length) / BENCHMARK_RUNS * 10000) / 10000,
       greatness_median_topk:      gMedian,
       s_composite_median_oneshot: sMedianOs,
       gain_pct:                   gainPct,
@@ -317,38 +269,22 @@ export class DualBenchmarkRunner {
 
 // ── ValidationPack writer ─────────────────────────────────────────────────────
 
-/**
- * Écrit le ValidationPack dans un dossier horodaté.
- * INV-DB-05 : pas de donnée secrète (apiKey jamais écrite).
- * Retourne le chemin du dossier créé.
- */
-export function writeValidationPack(
-  pack: ValidationPack,
-  outputDir: string,
-): string {
-  const date  = new Date().toISOString().slice(0, 10);
-  const head  = pack.config.git_head.slice(0, 8);
-  const name  = `ValidationPack_phase-u_real_${date}_${head}`;
-  const dir   = join(outputDir, name);
+export function writeValidationPack(pack: ValidationPack, outputDir: string): string {
+  const date = new Date().toISOString().slice(0, 10);
+  const head = pack.config.git_head.slice(0, 8);
+  const name = `ValidationPack_phase-u_real_${date}_${head}`;
+  const dir  = join(outputDir, name);
 
   if (!existsSync(dir)) mkdirSync(dir, { recursive: true });
 
-  // config.json — INV-DB-05 : apiKey absent
-  const configSafe = { ...pack.config };
-  writeFileSync(join(dir, 'config.json'), JSON.stringify(configSafe, null, 2), 'utf8');
+  writeFileSync(join(dir, 'config.json'),  JSON.stringify(pack.config,   null, 2), 'utf8');
+  writeFileSync(join(dir, 'runs.jsonl'),   pack.runs.map(r => JSON.stringify(r)).join('\n'), 'utf8');
+  writeFileSync(join(dir, 'summary.json'), JSON.stringify(pack.summary,  null, 2), 'utf8');
 
-  // runs.jsonl — 1 ligne par run
-  const runsJsonl = pack.runs.map(r => JSON.stringify(r)).join('\n');
-  writeFileSync(join(dir, 'runs.jsonl'), runsJsonl, 'utf8');
-
-  // summary.json
-  writeFileSync(join(dir, 'summary.json'), JSON.stringify(pack.summary, null, 2), 'utf8');
-
-  // SHA256SUMS.txt
+  // SHA256SUMS.txt — readFileSync importé en haut (pas de require en ESM)
   const files = ['config.json', 'runs.jsonl', 'summary.json'];
   const sums  = files.map(f => {
-    const content = require('node:fs').readFileSync(join(dir, f));
-    const hash    = createHash('sha256').update(content).digest('hex');
+    const hash = createHash('sha256').update(readFileSync(join(dir, f))).digest('hex');
     return `${hash}  ${f}`;
   }).join('\n');
   writeFileSync(join(dir, 'SHA256SUMS.txt'), sums, 'utf8');
@@ -359,11 +295,7 @@ export function writeValidationPack(
 // ── Helper ────────────────────────────────────────────────────────────────────
 
 function injectSeed(input: ForgePacketInput, seed: string): ForgePacketInput {
-  return {
-    ...input,
-    seeds: {
-      ...((input as Record<string, unknown>).seeds as object ?? {}),
-      generation: seed,
-    },
-  } as ForgePacketInput;
+  // ForgePacketInput a un champ optionnel seeds (ForgeSeeds) — on l'enrichit
+  const existing = (input as Record<string, unknown>).seeds as Record<string, unknown> ?? {};
+  return { ...input, seeds: { ...existing, generation: seed } } as ForgePacketInput;
 }

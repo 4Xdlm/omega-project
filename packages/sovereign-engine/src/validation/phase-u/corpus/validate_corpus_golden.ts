@@ -74,7 +74,7 @@ export interface CorpusGolden {
 
 export class CorpusValidationError extends Error {
   constructor(public readonly code: string, message: string) {
-    super(message);
+    super(`${code}: ${message}`);
     this.name = 'CorpusValidationError';
   }
 }

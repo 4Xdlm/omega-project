@@ -49,9 +49,9 @@ function makeItem(overrides: Partial<CorpusItem> = {}): CorpusItem {
 }
 
 /** Génère N items humains distincts */
-function makeHumanItems(n: number, catOverride?: CorpusItem['category']): CorpusItem[] {
+function makeHumanItems(n: number, catOverride?: CorpusItem['category'], offset = 0): CorpusItem[] {
   return Array.from({ length: n }, (_, i) =>
-    makeItem({ id: `CG-H${String(i + 1).padStart(3, '0')}`, category: catOverride ?? 'human_top' })
+    makeItem({ id: `CG-H${String(i + 1 + offset).padStart(3, '0')}`, category: catOverride ?? 'human_top' })
   );
 }
 
@@ -72,9 +72,9 @@ function makeAntiIaItems(n: number): CorpusItem[] {
 function makeValidCorpus(): CorpusGolden {
   // 75 human + 10 anti_ia = 85 items, ratio 88.2% ≥ 70%
   const items: CorpusItem[] = [
-    ...makeHumanItems(25, 'human_top'),
-    ...makeHumanItems(25, 'human_public'),
-    ...makeHumanItems(25, 'omega_top25'),
+    ...makeHumanItems(25, 'human_top',    0),
+    ...makeHumanItems(25, 'human_public', 25),
+    ...makeHumanItems(25, 'omega_top25',  50),
     ...makeAntiIaItems(10),
   ];
   return {

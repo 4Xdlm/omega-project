@@ -229,12 +229,17 @@ export class DualBenchmarkRunner {
         console.log(`${top1.survived_seal ? 'SEAL' : 'REJECT'} (g=${gComp.toFixed(1)}, survivors=${report.k_survived_seal}/${BENCHMARK_K})`);
       } catch (err) {
         const detail = err instanceof Error ? err.message : String(err);
+        // ZERO_SURVIVORS = 0/K variants passed SEAL — valid data point, not an error
+        const isZeroSurvivors = detail.includes('ZERO_SURVIVORS');
         record = {
           pair_index: i, mode: 'top-k', base_seed: baseSeed,
           input_hash: iHash, output_hash: '', s_composite: 0,
-          verdict: 'ERROR', error_detail: detail,
+          verdict: isZeroSurvivors ? 'REJECT' : 'ERROR',
+          error_detail: isZeroSurvivors ? undefined : detail,
         };
-        console.log(`ERROR: ${detail.slice(0, 120)}`);
+        console.log(isZeroSurvivors
+          ? `REJECT (0/${BENCHMARK_K} survived SEAL)`
+          : `ERROR: ${detail.slice(0, 120)}`);
       }
       runs.push(record);
     }

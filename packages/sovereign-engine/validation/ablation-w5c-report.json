@@ -1,0 +1,76 @@
+{
+  "phase": "T",
+  "sprint": "W5c",
+  "type": "BASELINE_100_RUN",
+  "architecture": "W4b_one_shot",
+  "pack": "ValidationPack_phase-s_real_20260303_547fcff",
+  "date": "2026-03-03T11:34:44.731Z",
+  "total_runs": 120,
+  "total_sealed": 58,
+  "total_failed": 0,
+  "global_seal_rate": 48.333333333333336,
+  "e1_seal_rate": 30,
+  "e2_seal_rate": 70,
+  "e3_seal_rate": 45,
+  "global_composite_mean": 73.48665660533568,
+  "criteria": {
+    "global_seal": {
+      "value": 48.333333333333336,
+      "min": 50,
+      "pass": false
+    },
+    "e1_seal": {
+      "value": 30,
+      "min": 30,
+      "pass": true
+    },
+    "e3_seal": {
+      "value": 45,
+      "min": 28,
+      "pass": true
+    },
+    "composite": {
+      "value": 73.48665660533568,
+      "min": 93,
+      "pass": false
+    }
+  },
+  "criteria_pass_count": 2,
+  "verdict": "PARTIAL",
+  "next_action": "Option B — corr_14d segmenté sur branche dédiée",
+  "experiments": [
+    {
+      "id": "E1_continuity_impossible",
+      "total": 40,
+      "sealed": 12,
+      "rejected": 28,
+      "failed": 0,
+      "seal_rate": 30,
+      "mean_corr_14d": 0.585,
+      "composite_p75": 85.21573420158285,
+      "summary_hash": "602e7f959d293133517ff0e3fe60dc32614f4ecec88a2006384477d0d8d6bbef"
+    },
+    {
+      "id": "E2_non_classifiable",
+      "total": 40,
+      "sealed": 28,
+      "rejected": 12,
+      "failed": 0,
+      "seal_rate": 70,
+      "mean_corr_14d": 0.5437500000000002,
+      "composite_p75": 87.34734101174575,
+      "summary_hash": "7fe655639ed364c4986d7f539ce84fbc64556538177f9f820c2d65630204c257"
+    },
+    {
+      "id": "E3_absolute_necessity",
+      "total": 40,
+      "sealed": 18,
+      "rejected": 22,
+      "failed": 0,
+      "seal_rate": 45,
+      "mean_corr_14d": 0.6525000000000002,
+      "composite_p75": 86.60438575478095,
+      "summary_hash": "da9ee16a2fd066240537fb9578768a1b811be0919eaa01b4cbd89ee72c763b68"
+    }
+  ]
+}

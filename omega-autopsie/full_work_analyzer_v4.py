@@ -66,6 +66,19 @@ logging.basicConfig(
 )
 log = logging.getLogger("omega_v4")
 
+# ── TD-PATH-01: Windows-safe slug ─────────────────────────────────────────
+import unicodedata as _ud
+
+def windows_safe_slug(s: str, max_len: int = 40) -> str:
+    """Normalise en slug valide Windows. Interdit: < > : " / \\ | ? * '"""
+    s = _ud.normalize('NFD', s)
+    s = ''.join(c for c in s if _ud.category(c) != 'Mn')
+    s = re.sub(r'[<>:"/\\|?*\']+', '_', s)
+    s = s.replace(' ', '_')
+    s = re.sub(r'_+', '_', s).strip('_.')
+    return s[:max_len] if s.strip('_.') else 'untitled'
+
+
 # ══════════════════════════════════════════════════════════════════════════════
 # CATALOGUE — 50 ŒUVRES DOMAINE PUBLIC (Gutenberg)
 # Champs : gutenberg_id (list de tentatives), lang_original, corpus
@@ -1672,7 +1685,8 @@ def process_work(work: dict, text_override: str = "") -> dict | None:
     sc_dir = SCENES_DIR / author
     sc_dir.mkdir(exist_ok=True)
     for ex in protocol["extracts"][:6]:  # APEX/NEUTRE/SEUIL/INCIPIT/EXPLICIT/CLIMAX
-        fname = f"{title[:15].replace(' ','_')}_{ex['type']}.txt"
+        # # TD-PATH-01-PATCHED
+        fname = f"{windows_safe_slug(title, 20)}_{ex['type']}.txt"
         (sc_dir / fname).write_text(ex["text"], encoding="utf-8")
 
     return result

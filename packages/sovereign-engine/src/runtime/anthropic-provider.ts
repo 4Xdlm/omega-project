@@ -81,21 +81,58 @@ function callClaudeSync(
 
   const stdinPayload = JSON.stringify({ body: requestBody, apiKey: config.apiKey });
 
-  try {
-    // Use absolute node path to avoid PATH resolution issues on Windows cmd.exe
-    const nodeExe = process.execPath;
-    const result = execSync(`"${nodeExe}" -e "${script.replace(/"/g, '\\"')}"`, {
-      encoding: 'utf8',
-      timeout: 180000,
-      maxBuffer: 20 * 1024 * 1024,
-      input: stdinPayload,
-    });
-    return result.trim();
-  } catch (err: unknown) {
-    if (err instanceof Error) {
-      throw new Error(`Claude API call failed: ${err.message}`);
+  const MAX_RETRIES = 4;
+  const RETRY_BASE_MS = 3000;
+
+  for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+    try {
+      // Use absolute node path to avoid PATH resolution issues on Windows cmd.exe
+      const nodeExe = process.execPath;
+      const result = execSync(`"${nodeExe}" -e "${script.replace(/"/g, '\\"')}"`, {
+        encoding: 'utf8',
+        timeout: 180000,
+        maxBuffer: 20 * 1024 * 1024,
+        input: stdinPayload,
+      });
+      return result.trim();
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err);
+
+      // 400 credit balance — abort immediately, do not retry
+      if (msg.includes('credit balance is too low') || msg.includes('400')) {
+        if (msg.includes('credit balance is too low')) {
+          throw new CreditExhaustedError('Anthropic credit balance exhausted — aborting run');
+        }
+      }
+
+      // 529 overloaded — exponential backoff with jitter
+      if (msg.includes('529') || msg.includes('overloaded')) {
+        if (attempt < MAX_RETRIES) {
+          const jitter = Math.floor(Math.random() * 1000);
+          const delay = RETRY_BASE_MS * Math.pow(2, attempt) + jitter;
+          process.stderr.write(`[OMEGA] 529 overloaded — retry ${attempt + 1}/${MAX_RETRIES} in ${delay}ms\n`);
+          // Synchronous sleep via execSync
+          const nodeExe = process.execPath;
+          execSync(`"${nodeExe}" -e "setTimeout(()=>{},${delay})"`, { timeout: delay + 1000 });
+          continue;
+        }
+        throw new Error(`Claude API 529 overloaded after ${MAX_RETRIES} retries`);
+      }
+
+      // Other errors — throw immediately
+      throw new Error(`Claude API call failed: ${msg}`);
     }
-    throw new Error('Claude API call failed with unknown error');
+  }
+
+  throw new Error('Claude API call failed: exhausted retry loop (unreachable)');
+}
+
+// ── Credit Exhausted Error — sentinel for benchmark abort ——————————————————————————————————
+
+export class CreditExhaustedError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'CreditExhaustedError';
   }
 }
 

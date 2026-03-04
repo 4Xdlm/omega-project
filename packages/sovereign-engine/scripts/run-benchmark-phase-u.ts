@@ -21,7 +21,7 @@ import * as path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { execSync } from 'node:child_process';
 
-import { createAnthropicProvider } from '../src/runtime/anthropic-provider.js';
+import { createAnthropicProvider, CreditExhaustedError } from '../src/runtime/anthropic-provider.js';
 import { JudgeCache } from '../src/validation/judge-cache.js';
 import { DualBenchmarkRunner, writeValidationPack, BENCHMARK_RUNS } from '../src/validation/phase-u/benchmark/run-dual-benchmark.js';
 import type { ForgePacketInput } from '../src/input/forge-packet-assembler.js';
@@ -37,6 +37,11 @@ const ROOT_DIR   = path.resolve(__dirname, '../../..');
 const MODEL_ID   = 'claude-sonnet-4-20250514';
 const ROOT_SEED  = 'omega-validation-2026-phase-u';
 const OUT_DIR    = path.join(__dirname, '..', 'sessions');
+
+// Micro-test mode: BENCH_MICRO=1 runs 3 pairs with K=3 to verify judge without burning budget
+const IS_MICRO   = process.env['BENCH_MICRO'] === '1';
+const RUN_COUNT  = IS_MICRO ? 3 : BENCHMARK_RUNS;
+const K_COUNT    = IS_MICRO ? 3 : 8;
 
 function getGitHead(): string {
   try {
@@ -398,13 +403,14 @@ async function main(): Promise<void> {
   }
 
   const gitHead = getGitHead();
-  console.log(`[OMEGA U-BENCH] HEAD=${gitHead.slice(0, 8)} | K=8 | RUNS=30`);
+  console.log(`[OMEGA U-BENCH] HEAD=${gitHead.slice(0, 8)} | K=${K_COUNT} | RUNS=${RUN_COUNT}${IS_MICRO ? ' [MICRO-TEST]' : ''}`);
   console.log(`[OMEGA U-BENCH] Model: ${MODEL_ID}`);
-  console.log(`[OMEGA U-BENCH] Building 30 ForgePacketInputs...`);
+  console.log(`[OMEGA U-BENCH] Building ${RUN_COUNT} ForgePacketInputs...`);
 
-  const inputs = buildInputs();
-  if (inputs.length !== BENCHMARK_RUNS) {
-    console.error(`[FATAL] Expected ${BENCHMARK_RUNS} inputs, got ${inputs.length}`);
+  const allInputs = buildInputs();
+  const inputs = allInputs.slice(0, RUN_COUNT);
+  if (inputs.length !== RUN_COUNT) {
+    console.error(`[FATAL] Expected ${RUN_COUNT} inputs, got ${inputs.length}`);
     process.exit(1);
   }
 
@@ -421,13 +427,23 @@ async function main(): Promise<void> {
   const cachePath = path.join(__dirname, '..', 'sessions', 'judge-cache-phase-u.json');
   const cache = new JudgeCache(cachePath);
 
-  const runner = new DualBenchmarkRunner(provider, MODEL_ID, apiKey, cache);
+  const runner = new DualBenchmarkRunner(provider, MODEL_ID, apiKey, cache, K_COUNT);
 
-  console.log(`[OMEGA U-BENCH] Starting execution — 30 one-shot + 30 top-K (K=8)...`);
-  console.log(`[OMEGA U-BENCH] Estimated: ~360-460 API calls — patience required`);
+  const estCalls = IS_MICRO ? `~${3 + 3 * K_COUNT} API calls` : '~360-460 API calls';
+  console.log(`[OMEGA U-BENCH] Starting execution — ${RUN_COUNT} one-shot + ${RUN_COUNT} top-K (K=${K_COUNT})...`);
+  console.log(`[OMEGA U-BENCH] Estimated: ${estCalls} — patience required`);
 
   const startMs = Date.now();
-  const pack = await runner.execute(inputs, ROOT_SEED, gitHead);
+  let pack;
+  try {
+    pack = await runner.execute(inputs, ROOT_SEED, gitHead);
+  } catch (err) {
+    if (err instanceof CreditExhaustedError) {
+      console.error(`\n[OMEGA U-BENCH] \u26a0\ufe0f  CREDIT EXHAUSTED — run aborted. Recharge API credits before next run.`);
+      process.exit(3);
+    }
+    throw err;
+  }
   const elapsedS = Math.round((Date.now() - startMs) / 1000);
 
   console.log(`\n[OMEGA U-BENCH] Execution complete in ${elapsedS}s`);

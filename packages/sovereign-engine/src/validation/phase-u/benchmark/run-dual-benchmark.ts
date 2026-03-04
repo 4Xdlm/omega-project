@@ -127,14 +127,17 @@ function median(values: number[]): number {
 export class DualBenchmarkRunner {
   private readonly topkEngine:    TopKSelectionEngine;
   private readonly exitValidator: PhaseUExitValidator;
+  private readonly k:             number;
 
   constructor(
     private readonly provider: SovereignProvider,
     private readonly modelId:  string,
     private readonly apiKey:   string,
     private readonly cache:    JudgeCache,
+    k: number = BENCHMARK_K,
   ) {
-    this.topkEngine   = new TopKSelectionEngine({ k: BENCHMARK_K, modelId, apiKey }, cache);
+    this.k            = k;
+    this.topkEngine   = new TopKSelectionEngine({ k, modelId, apiKey }, cache);
     this.exitValidator = new PhaseUExitValidator();
   }
 
@@ -143,19 +146,17 @@ export class DualBenchmarkRunner {
     rootSeed: string,
     gitHead:  string,
   ): Promise<ValidationPack> {
-    if (inputs.length !== BENCHMARK_RUNS) {
-      throw new BenchmarkError(
-        'INVALID_INPUT_COUNT',
-        `Expected ${BENCHMARK_RUNS} inputs, got ${inputs.length}`,
-      );
+    const nRuns = inputs.length;
+    if (nRuns === 0) {
+      throw new BenchmarkError('INVALID_INPUT_COUNT', 'inputs array is empty');
     }
 
-    const baseSeeds = generateBenchmarkSeeds(rootSeed, BENCHMARK_RUNS);
+    const baseSeeds = generateBenchmarkSeeds(rootSeed, nRuns);
 
     const config: BenchmarkConfig = {
       version:        BENCHMARK_VERSION,
-      benchmark_runs: BENCHMARK_RUNS,
-      k:              BENCHMARK_K,
+      benchmark_runs: nRuns,
+      k:              this.k,
       prompt_version: GREATNESS_PROMPT_VERSION,
       git_head:       gitHead,
       provider_model: this.modelId,
@@ -168,20 +169,27 @@ export class DualBenchmarkRunner {
     const oneShotRecords: OneShotRecord[] = [];
     const topKReports:    KSelectionReport[] = [];
 
-    // ── Phase 1 : 30 one-shot ────────────────────────────────────────────────
-    for (let i = 0; i < BENCHMARK_RUNS; i++) {
+    // ── Phase 1 : one-shot ────────────────────────────────────────────────
+    for (let i = 0; i < nRuns; i++) {
       const baseSeed    = baseSeeds[i];
       const seededInput = injectSeed(inputs[i], baseSeed);
       const iHash       = inputHash(seededInput);
 
-      process.stdout.write(`[ONE-SHOT ${i + 1}/${BENCHMARK_RUNS}] ... `);
+      process.stdout.write(`[ONE-SHOT ${i + 1}/${nRuns}] ... `);
 
       let record: RunRecord;
       try {
         const result = await runSovereignForge(seededInput, this.provider);
-        const sScore = result.s_score as { composite?: number };
+        const sScore = result.s_score as { composite?: number; axes?: Record<string, { score?: number }> };
         const sComp  = typeof sScore?.composite === 'number' ? sScore.composite : 0;
         const oHash  = result.verdict === 'SEAL' ? sha256str(result.final_prose) : '';
+
+        // Per-axis logging for H2 diagnosis
+        const axesLog = sScore?.axes
+          ? Object.entries(sScore.axes)
+              .map(([k, v]) => `${k.replace(/_/g, '-').slice(0, 8)}=${((v as { score?: number }).score ?? 0).toFixed(0)}`)
+              .join(' | ')
+          : 'axes=N/A';
 
         record = {
           pair_index: i, mode: 'one-shot', base_seed: baseSeed,
@@ -189,8 +197,10 @@ export class DualBenchmarkRunner {
           s_composite: sComp, verdict: result.verdict,
         };
         oneShotRecords.push({ run_id: `os-${i}`, verdict: result.verdict, s_composite: sComp });
-        console.log(`${result.verdict} (s=${sComp.toFixed(1)})`);
+        console.log(`${result.verdict} (s=${sComp.toFixed(1)}) | ${axesLog}`);
       } catch (err) {
+        // CreditExhaustedError — propagate immediately, do not swallow
+        if (err instanceof Error && err.name === 'CreditExhaustedError') throw err;
         const detail = err instanceof Error ? err.message : String(err);
         record = {
           pair_index: i, mode: 'one-shot', base_seed: baseSeed,
@@ -203,16 +213,16 @@ export class DualBenchmarkRunner {
       runs.push(record);
     }
 
-    // ── Phase 2 : 30 top-K ───────────────────────────────────────────────────
-    for (let i = 0; i < BENCHMARK_RUNS; i++) {
+    // ── Phase 2 : top-K ────────────────────────────────────────────────────────
+    for (let i = 0; i < nRuns; i++) {
       const baseSeed = baseSeeds[i];
       const iHash    = inputHash(injectSeed(inputs[i], baseSeed));
 
-      process.stdout.write(`[TOP-K ${i + 1}/${BENCHMARK_RUNS}] K=${BENCHMARK_K} ... `);
+      process.stdout.write(`[TOP-K ${i + 1}/${nRuns}] K=${this.k} ... `);
 
       let record: RunRecord;
       try {
-        const report = await this.topkEngine.run(inputs[i], this.provider, BENCHMARK_K, baseSeed);
+        const report = await this.topkEngine.run(inputs[i], this.provider, this.k, baseSeed);
         const top1   = report.top1;
         const sScore = top1.forge_result?.s_score as { composite?: number } | undefined;
         const sComp  = typeof sScore?.composite === 'number' ? sScore.composite : 0;
@@ -228,6 +238,8 @@ export class DualBenchmarkRunner {
         topKReports.push(report);
         console.log(`${top1.survived_seal ? 'SEAL' : 'REJECT'} (g=${gComp.toFixed(1)}, survivors=${report.k_survived_seal}/${BENCHMARK_K})`);
       } catch (err) {
+        // CreditExhaustedError — propagate immediately, do not swallow
+        if (err instanceof Error && err.name === 'CreditExhaustedError') throw err;
         const detail = err instanceof Error ? err.message : String(err);
         // ZERO_SURVIVORS = 0/K variants passed SEAL — valid data point, not an error
         const isZeroSurvivors = detail.includes('ZERO_SURVIVORS');
@@ -238,7 +250,7 @@ export class DualBenchmarkRunner {
           error_detail: isZeroSurvivors ? undefined : detail,
         };
         console.log(isZeroSurvivors
-          ? `REJECT (0/${BENCHMARK_K} survived SEAL)`
+          ? `REJECT (0/${this.k} survived SEAL)`
           : `ERROR: ${detail.slice(0, 120)}`);
       }
       runs.push(record);
@@ -257,9 +269,9 @@ export class DualBenchmarkRunner {
       : 0;
 
     const summary: BenchmarkSummary = {
-      seal_rate_oneshot:          Math.round(osSealed.length / BENCHMARK_RUNS * 10000) / 10000,
-      seal_rate_topk:             Math.round(tkSealed.length / BENCHMARK_RUNS * 10000) / 10000,
-      seal_rate_delta:            Math.round((tkSealed.length - osSealed.length) / BENCHMARK_RUNS * 10000) / 10000,
+      seal_rate_oneshot:          Math.round(osSealed.length / nRuns * 10000) / 10000,
+      seal_rate_topk:             Math.round(tkSealed.length / nRuns * 10000) / 10000,
+      seal_rate_delta:            Math.round((tkSealed.length - osSealed.length) / nRuns * 10000) / 10000,
       greatness_median_topk:      gMedian,
       s_composite_median_oneshot: sMedianOs,
       gain_pct:                   gainPct,

@@ -30,8 +30,8 @@
 import { sha256, canonicalize } from '@omega/canon-kernel';
 import type { ForgePacket, SovereignPrompt, PromptSection } from '../types.js';
 
-/** U-META-03 + U-VOICE-05: version bump — metaphor pregeneration section + language_register exclusion */
-export const PROMPT_ASSEMBLER_VERSION = '2.3.0';
+/** U-VOICE-06: version bump — VOICE COMPLIANCE section (ellipsis_rate + opening_variety hard rules) */
+export const PROMPT_ASSEMBLER_VERSION = '2.4.0';
 import type { SymbolMap } from '../symbol/symbol-map-types.js';
 import { compilePhysicsSection } from '../constraints/constraint-compiler.js';
 import type { ForgeEmotionBrief } from '@omega/omega-forge';
@@ -107,6 +107,10 @@ export function buildSovereignPrompt(
   // U-META-03: METAPHOR_PREGENERATION — avant FINAL_CHECKLIST
   // Force le LLM à pré-générer des métaphores AVANT la prose (paradigme Gemini sans appel supplémentaire)
   sections.push(buildMetaphorPregenerationSection(packet));
+
+  // U-VOICE-06: VOICE COMPLIANCE — règles métriques mesurables (ellipsis_rate + opening_variety)
+  // Positionnée avant FINAL_CHECKLIST pour recency effect maximum
+  sections.push(buildVoiceComplianceSection());
 
   // U-HOOK-04: FINAL_CHECKLIST — DERNIÈRE section (recency effect maximisé)
   // Positionnée après tout le reste pour que le LLM la lise en dernier avant génération
@@ -857,6 +861,119 @@ function buildLot3InstructionsSection(): PromptSection {
     title: 'LOT 3 — PDB Instructions (Genesis v2)',
     content,
     priority: 'high',
+  };
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// U-VOICE-06 — VOICE COMPLIANCE
+// Injecte 3 règles métriques mesurables directement liées aux paramètres voix scorés :
+//   ellipsis_rate  : % phrases ≤1 mots dans la prose générée (cible 0.50, LLM bench ≈0.20)
+//   opening_variety: % premiers mots uniques par phrase (cible 0.80, LLM bench ≈0.50)
+//   paragraph_rhythm: CV longueurs paragraphes (cible 0.90, saturé à 1.0 = OK)
+// Impact simulé : voice_conformity 74.6 → 91.3, RCI ≥85 : 12/30 → 26/30
+// ═══════════════════════════════════════════════════════════════════════════════
+
+function buildVoiceComplianceSection(): PromptSection {
+  const content =
+`# ⚠️ VOICE COMPLIANCE — 3 RÈGLES MÉTRIQUES ABSOLUES (U-VOICE-06)
+
+Ces règles sont MESURÉES AUTOMATIQUEMENT par le scorer après génération.
+Violation = voice_conformity < 80 = RCI < 85 = REJET DU TEXTE.
+
+══════════════════════════════════════════════════════════════
+
+## RÈGLE 1 — SYNCOPES MÉTRIQUES [ellipsis_rate cible: 0.50]
+
+Définition du scorer : phrase "courte" = STRICTEMENT MOINS DE 4 MOTS (1, 2 ou 3 mots).
+Formule : syncopes / total_phrases. Le scorer mesure exactement ceci.
+
+**MINIMUM IMPOSÉ : 40% de tes phrases doivent avoir 3 mots ou moins.**
+
+Règle pratique selon longueur du texte :
+- Texte de 20 phrases → minimum 8 syncopes
+- Texte de 30 phrases → minimum 12 syncopes
+- Texte de 40 phrases → minimum 16 syncopes
+
+✅ Syncopes valides (comptent) :
+- "Du sang." → 2 mots ✓
+- "Elle savait." → 2 mots ✓
+- "Rien à dire." → 3 mots ✓
+- "Trop tard." → 2 mots ✓
+- "Ses mains tremblaient." → 3 mots ✓
+- "Silence." → 1 mot ✓
+- "Il attendit." → 2 mots ✓
+
+❌ Ne compte PAS comme syncope :
+- "Elle ne bougea pas." → 4 mots ✗
+- "Le froid s'installa." → 4 mots ✗  
+- Toute phrase de 4 mots ou plus
+
+Contrôle AVANT de soumettre : parcours ta prose, compte les phrases de ≤3 mots.
+Si total < 40% → insère des syncopes aux moments d'intensité émotionnelle.
+
+══════════════════════════════════════════════════════════════
+
+## RÈGLE 2 — VARIÉTÉ DES OUVERTURES [opening_variety cible: 0.80]
+
+Définition du scorer : premier mot de chaque phrase (minuscule, sans ponctuation).
+Formule : mots_uniques_ouverture / total_phrases. Le scorer mesure exactement ceci.
+
+**MINIMUM IMPOSÉ : 70% des premières phrases commencent par un mot unique (non répété).**
+
+Pour un texte de 30 phrases : au plus 9 phrases peuvent partager un même premier mot.
+
+❌ Interdiction absolue :
+- 2 phrases CONSÉCUTIVES qui commencent par le même mot → REFORMULE L'UNE DES DEUX.
+- "Elle", "Il", "Le", "La", "Les" apparaissant en ouverture plus de 4 fois dans 20 phrases.
+
+✅ Techniques de diversification :
+- Commencer par un verbe conjugué : "Surgit alors...", "Restait...", "Pesait..."
+- Commencer par un compliment de lieu : "Au fond du couloir...", "Dans la pièce..."
+- Commencer par un moment : "Quelques secondes...", "Très lentement..."
+- Commencer par une syncope sans sujet : "Rien.", "Du sang.", "Silence."
+- Commencer par un nom propre ou objet : "La porte...", "Ses mains...", "Le bruit..."
+- Commencer par une proposition subordonnée : "Quand elle...", "Si le...", "Avant que..."
+
+Contrôle AVANT de soumettre : liste les 10 premiers mots de tes premières phrases.
+Si tu vois "Elle" 4+ fois → reformule au moins 2 occurrences.
+
+══════════════════════════════════════════════════════════════
+
+## RÈGLE 3 — RYTHME PARAGRAPHE [paragraph_rhythm cible: 0.90]
+
+Définition du scorer : coefficient de variation (CV) des longueurs de paragraphes en mots.
+Formule : écart-type(longueurs) / moyenne(longueurs). Le scorer mesure exactement ceci.
+
+**MINIMUM IMPOSÉ : inclure OBLIGATOIREMENT au moins 1 paragraphe ultra-court et 1 long.**
+
+✅ Structure de paragraphes valide (CV ≥0.90) :
+- Paragraphe A : 8-12 mots (un coup de poing)
+- Paragraphe B : 70-100 mots (développement long)
+- Paragraphe C : 1-3 mots (syncope paragraphe — max impact)
+- Paragraphe D : 50-80 mots (narratif normal)
+- Paragraphe E : 10-20 mots (transition briève)
+
+❌ Structure de paragraphes invalide (CV < 0.50) :
+- 5 paragraphes de 35, 40, 38, 42, 36 mots → REJET (trop uniforme)
+
+Règle minimale : au moins 1 paragraphe d'UNE SEULE PHRASE COURTE (≤4 mots).
+Ex : Un paragraphe qui ne contient que "Elle savait." ou "Rien d'autre." → CV explosé.
+
+══════════════════════════════════════════════════════════════
+
+⚠️ AUTO-VÉRIFICATION AVANT SOUMISSION :
+1. Compte les phrases ≤3 mots → minimum 40% du total
+2. Liste les premiers mots de chaque phrase → pas 2 identiques consécutifs
+3. Inclut un paragraphe ultra-court (1-3 mots seuls) → obligatoire
+
+SCORER REJETTERA AUTOMATIQUEMENT si ces métriques ne sont pas atteintes.
+`;
+
+  return {
+    section_id: 'voice_compliance',
+    title: 'VOICE COMPLIANCE (U-VOICE-06)',
+    content,
+    priority: 'critical',
   };
 }
 

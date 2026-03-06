@@ -25,24 +25,35 @@ describe('Voice Drift Param Exclusion (INV-VOICE-DRIFT-01)', () => {
     opening_variety: 0.7,
   };
 
-  it('DRIFT-EXCL-01: NON_APPLICABLE_VOICE_PARAMS contains exactly 4 broken/structural params', () => {
-    expect(NON_APPLICABLE_VOICE_PARAMS.size).toBe(4);
+  it('DRIFT-EXCL-01: NON_APPLICABLE_VOICE_PARAMS contains exactly 7 excluded params (U-VOICE-01/04/05)', () => {
+    // 4 structural (irony/metaphor/dialogue/punctuation) + abstraction (U-VOICE-01) + phrase_length (U-VOICE-04) + language_register (U-VOICE-05)
+    expect(NON_APPLICABLE_VOICE_PARAMS.size).toBe(7);
     expect(NON_APPLICABLE_VOICE_PARAMS.has('irony_level')).toBe(true);
     expect(NON_APPLICABLE_VOICE_PARAMS.has('metaphor_density')).toBe(true);
     expect(NON_APPLICABLE_VOICE_PARAMS.has('dialogue_ratio')).toBe(true);
     expect(NON_APPLICABLE_VOICE_PARAMS.has('punctuation_style')).toBe(true);
+    // U-VOICE-01
+    expect(NON_APPLICABLE_VOICE_PARAMS.has('abstraction_ratio')).toBe(true);
+    // U-VOICE-04
+    expect(NON_APPLICABLE_VOICE_PARAMS.has('phrase_length_mean')).toBe(true);
+    // U-VOICE-05
+    expect(NON_APPLICABLE_VOICE_PARAMS.has('language_register')).toBe(true);
   });
 
-  it('DRIFT-EXCL-02: drift with exclusion uses 6 params, not 10', () => {
+  it('DRIFT-EXCL-02: drift with exclusion uses 3 params (ellipsis_rate, paragraph_rhythm, opening_variety)', () => {
+    // After U-VOICE-01/04/05: 7 excluded, 3 applicable
     const actual = measureVoice('Il marchait. Le vent soufflait. Les arbres pliaient.');
     const result = computeVoiceDrift(target, actual, NON_APPLICABLE_VOICE_PARAMS);
 
-    expect(result.n_applicable).toBe(6);
-    expect(result.excluded.length).toBe(4);
+    expect(result.n_applicable).toBe(3);
+    expect(result.excluded.length).toBe(7);
     expect(result.excluded).toContain('irony_level');
     expect(result.excluded).toContain('metaphor_density');
     expect(result.excluded).toContain('dialogue_ratio');
     expect(result.excluded).toContain('punctuation_style');
+    expect(result.excluded).toContain('abstraction_ratio');
+    expect(result.excluded).toContain('phrase_length_mean');
+    expect(result.excluded).toContain('language_register');
   });
 
   it('DRIFT-EXCL-03: drift with exclusion ≤ drift without exclusion (removes penalty)', () => {
@@ -52,8 +63,8 @@ describe('Voice Drift Param Exclusion (INV-VOICE-DRIFT-01)', () => {
     const filteredDrift = computeVoiceDrift(target, actual, NON_APPLICABLE_VOICE_PARAMS);
 
     // Filtered should be ≤ full (removing bad params reduces drift)
-    // Not strictly guaranteed but expected given that excluded params have high drift
-    expect(filteredDrift.n_applicable).toBe(6);
+    // After U-VOICE-01/04/05: 7 excluded → 3 applicable
+    expect(filteredDrift.n_applicable).toBe(3);
     expect(fullDrift.n_applicable).toBe(10);
 
     // Both report all 10 params in per_param

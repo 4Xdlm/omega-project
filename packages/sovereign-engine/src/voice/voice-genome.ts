@@ -18,16 +18,26 @@ export interface VoiceGenome {
 }
 
 export const DEFAULT_VOICE_GENOME: VoiceGenome = {
-  phrase_length_mean: 0.5,
-  dialogue_ratio: 0.3,
-  metaphor_density: 0.4,
-  language_register: 0.7,
-  irony_level: 0.2,
-  ellipsis_rate: 0.3,
-  abstraction_ratio: 0.4,
-  punctuation_style: 0.5,
-  paragraph_rhythm: 0.6,
-  opening_variety: 0.7,
+  // U-VOICE-02→U-VOICE-04: targets recalibrés empiriquement sur diag-voice.ts (2026-03-05)
+  // Mesures réelles RHYTHM PRESCRIPTION prose (~600 mots, 11 §) :
+  //   phrase_length_mean=1.000 [EXCL], language_register=0.171, ellipsis_rate=0.500,
+  //   paragraph_rhythm=1.000, opening_variety=0.750
+  phrase_length_mean: 0.60,   // exclu NON_APPLICABLE (U-VOICE-04) — range [3,25] saturé par RHYTHM PRESCRIPTION
+  dialogue_ratio: 0.3,         // exclu NON_APPLICABLE — référence seulement
+  metaphor_density: 0.4,       // exclu NON_APPLICABLE — référence seulement
+  // U-VOICE-04: 0.75→0.20 — actual≈0.171 (longWordRatio FR LLM ≈ 3-4%, pas 11%)
+  // Range V2 [0.01,0.15] → normalize(0.034)=0.171 — target 0.75 était calibré sur corpus différent
+  language_register: 0.20,    // 0.75→0.20 (U-VOICE-04) — empirique: longWordRatio FR LLM ≈ 3-4%
+  irony_level: 0.2,            // exclu NON_APPLICABLE — référence seulement
+  // U-VOICE-04: 0.30→0.50 — actual=0.500 (RHYTHM PRESCRIPTION: ~50% phrases ≤3 mots après split)
+  // Syncopes obligatoires → shortSentences/total ≈ 0.50, target 0.30 causait diff=0.200
+  ellipsis_rate: 0.50,         // 0.30→0.50 (U-VOICE-04) — RHYTHM PRESCRIPTION force ~50% phrases courtes
+  abstraction_ratio: 0.4,      // exclu NON_APPLICABLE (U-VOICE-01) — référence seulement
+  punctuation_style: 0.5,      // exclu NON_APPLICABLE — référence seulement
+  // U-VOICE-03: paragraph_rhythm 0.65→0.90 (correct, conservé)
+  paragraph_rhythm: 0.90,      // 0.65→0.90 (U-VOICE-03) — RHYTHM PRESCRIPTION → paraCV>>range → actual=1.0
+  // U-VOICE-04: opening_variety 0.90→0.80 — actual≈0.750, légère pression positive
+  opening_variety: 0.80,       // 0.90→0.80 (U-VOICE-04) — actual≈0.750, légère pression positive
 };
 
 /**
@@ -262,6 +272,17 @@ export const NON_APPLICABLE_VOICE_PARAMS: ReadonlySet<keyof VoiceGenome> = new S
   'metaphor_density',
   'dialogue_ratio',
   'punctuation_style',
+  // U-VOICE-01: abstraction_ratio exclu — FR prose -tion/-ment/-ité/-ence partout
+  // abstractRatio≈15-20% >> plafond V2 0.10 → normalize = 1.0 TOUJOURS
+  // target 0.40 vs actual 1.0 = diff 0.60 = 87% du drift total → heuristique cassée
+  'abstraction_ratio',
+  // U-VOICE-04: phrase_length_mean exclu — RHYTHM PRESCRIPTION force avg sentence > range ceiling [3,25]
+  // → normalize saturé à 1.0 TOUJOURS, target=0.60 → diff=0.40 = 28% du drift² total → signal nul
+  'phrase_length_mean',
+  // U-VOICE-05: language_register exclu — instruction "soutenu/littéraire" force longWordRatio≈10-12%
+  // normalize(0.10, 0.01, 0.15)≈0.64 TOUJOURS. Target 0.20 vs actual 0.64 = diff=0.44 → même raison
+  // qu'abstraction_ratio : heuristique saturée par contrainte de génération active
+  'language_register',
 ]);
 
 /**

@@ -29,6 +29,9 @@
 
 import { sha256, canonicalize } from '@omega/canon-kernel';
 import type { ForgePacket, SovereignPrompt, PromptSection } from '../types.js';
+
+/** U-META-03 + U-VOICE-05: version bump — metaphor pregeneration section + language_register exclusion */
+export const PROMPT_ASSEMBLER_VERSION = '2.3.0';
 import type { SymbolMap } from '../symbol/symbol-map-types.js';
 import { compilePhysicsSection } from '../constraints/constraint-compiler.js';
 import type { ForgeEmotionBrief } from '@omega/omega-forge';
@@ -47,6 +50,7 @@ export function buildSovereignPrompt(
   emotionBrief?: ForgeEmotionBrief,
 ): SovereignPrompt {
   const sections: PromptSection[] = [
+    buildNarrativeHookSection(packet),  // U-HOOK-01: CRITIQUE — première section, primeé sur tout
     buildMissionSection(packet),
     buildEmotionContractSection(packet),
     buildBeatsSection(packet),
@@ -100,6 +104,14 @@ export function buildSovereignPrompt(
     sections.push(buildForbiddenMovesSection(symbolMap));
   }
 
+  // U-META-03: METAPHOR_PREGENERATION — avant FINAL_CHECKLIST
+  // Force le LLM à pré-générer des métaphores AVANT la prose (paradigme Gemini sans appel supplémentaire)
+  sections.push(buildMetaphorPregenerationSection(packet));
+
+  // U-HOOK-04: FINAL_CHECKLIST — DERNIÈRE section (recency effect maximisé)
+  // Positionnée après tout le reste pour que le LLM la lise en dernier avant génération
+  sections.push(buildFinalChecklistSection(packet));
+
   const total_length = sections.reduce((sum, s) => sum + s.content.length, 0);
   const prompt_hash = sha256(canonicalize(sections));
 
@@ -113,6 +125,53 @@ export function buildSovereignPrompt(
 // ═══════════════════════════════════════════════════════════════════════════════
 // SECTION BUILDERS
 // ═══════════════════════════════════════════════════════════════════════════════
+
+// ── U-HOOK-01: NARRATIVE HOOK ────────────────────────────────────────────────
+
+function buildNarrativeHookSection(packet: ForgePacket): PromptSection {
+  const conflict    = packet.intent.conflict_type;       // ex: 'external', 'internal', 'relational'
+  const sceneGoal   = packet.intent.scene_goal;          // ex: 'Claire découvre que la maison est surveillée'
+  const tensionType = packet.subtext.tension_type;       // ex: 'suspense', 'attente', 'révélation'
+  const firstLayer  = packet.subtext.layers[0];          // premier subtext layer
+  const implied     = firstLayer?.statement ?? sceneGoal;
+
+  const content =
+`# NARRATIVE HOOK — OUVERTURE OBLIGATOIRE (CRITIQUE)
+
+## Loi d'ouverture (IN MEDIA RES)
+La **première phrase** doit ancrer immédiatement une tension IMPLICITE liée au conflit : "${sceneGoal}".
+
+## Conflit source
+- Type : ${conflict}
+- Tension narrative : ${tensionType}
+- Enjeu implicite : ${implied}
+
+## Règles ABSOLUES d'ouverture
+❌ **INTERDIT** : Début descriptif neutre, météo, atmosphère sans friction, résumé de situation.
+✅ **REQUIS** : Action en cours, détail physique saillant, ou rupture de ton qui happe le lecteur.
+✅ **REQUIS** : La tension doit être RESSENTIE, jamais expliquée. Montre, n'annonce pas.
+
+## Exemples de structure valide
+- Commencer par un geste concret sous tension : [personnage fait X pendant que X est vrai]
+- Commencer par une sensation physique qui porte le conflit : [corps révèle ce que l'esprit cache]
+- Commencer par une rupture de registre : [phrase courte, saccadée, étonnante]
+
+## Exemples de structure INVALIDE
+- "La nuit tombait sur..." → REJET
+- "C'était un soir de..." → REJET  
+- "Il faisait [temps]..." → REJET
+- "Elle se souvint que..." (explication) → REJET
+
+VIOLATION DE CETTE SECTION = HOOK_PRESENCE ≤ 40 = REJET DU TEXTE ENTIER.
+`;
+
+  return {
+    section_id: 'narrative_hook',
+    title: 'NARRATIVE HOOK (IN MEDIA RES)',
+    content,
+    priority: 'critical',
+  };
+}
 
 function buildMissionSection(packet: ForgePacket): PromptSection {
   const content = `# OMEGA SOVEREIGN FORGE — MISSION
@@ -273,11 +332,36 @@ Min Compressions per Scene: ${sg.rhythm.min_compressions_per_scene}
 Dominant Register: ${sg.tone.dominant_register}
 Intensity Range: [${sg.tone.intensity_range[0]}, ${sg.tone.intensity_range[1]}]
 
-## Imagery
+## Mots-clés OBLIGATOIRES (hook_presence)
 
-Recurrent Motifs: ${sg.imagery.recurrent_motifs.join(', ')}
-Density Target: ${sg.imagery.density_target_per_100_words} sensory markers per 100 words
-Banned Metaphors: ${sg.imagery.banned_metaphors.join(', ')}
+Tu DOIS utiliser ces mots dans le texte — minimum 10 sur 13 présents dans le texte final.
+Le scorer vérifiera leur présence littérale. Chaque mot absent = pénalité directe sur RCI.
+
+Mots-clés obligatoires: ${[...sg.lexicon.signature_words, ...sg.imagery.recurrent_motifs].join(', ')}
+
+Adapte leur usage naturellement au registre de la scène. Mais ils DOIVENT apparaître.
+
+## Métaphores ORIGINALES (metaphor_novelty)
+
+❌ INTERDIT : Métaphores connues, clichés visuels, comparaisons attendues.
+✅ Règle cardinale : **zéro métaphore vaut mieux qu’une métaphore clichée**.
+✅ Si tu utilises une métaphore : 1–2 maximum par scène, jamais en ouverture, jamais dans les marqueurs corporels.
+✅ Test : demande-toi « ai-je lu cette image dans un roman grand public ?» — si oui, supprime-la.
+
+Exemples de métaphores ORIGINALES (niveau cible) :
+- "ses mots avaient la texture du papier de verre sur bois vert"
+- "le silence était une dette qu'aucun des deux ne voulait rembourser"
+- "il rangea sa colère comme on plie un manteau mouillé"
+
+Exemples de métaphores INTERDITES (clichés) :
+- "son cœur s'emballa", "un frisson la parcourut", "le temps s'arrêta"
+- Tout ce qui figure dans la Kill List ci-dessus
+
+## Imagerie
+
+Motifs récurrents: ${sg.imagery.recurrent_motifs.join(', ')}
+Densité cible: ${sg.imagery.density_target_per_100_words} marqueurs sensoriels par 100 mots
+Métaphores interdites: ${sg.imagery.banned_metaphors.join(', ')}
 `;
 
   // ═══ VOICE GENOME TARGET (10 parametres) ═══
@@ -608,15 +692,23 @@ function buildRhythmPrescriptionSection(packet: ForgePacket): PromptSection {
 
 Your prose WILL BE SCORED on rhythmic quality. Follow these rules:
 
-## Sentence Length Variation
-- VARY sentence lengths dramatically. This is NOT optional.
-- Include at least 3 SHORT sentences (${shortMax} words or fewer) per scene.
-- Include at least 2 LONG flowing sentences (${longMin}+ words) per scene.
-- NEVER write 3 consecutive sentences of similar length (within 5 words of each other).
+## Distribution des longueurs de phrase (CV cible ≥ 0.75)
+Ton texte sera NOTÉ sur le coefficient de variation (CV) des longueurs de phrases.
+CV optimal = 0.75. En dessous de 0.55 = score rythme < 80.
 
-## Rhythm Breaks (Syncopes)
-- At least 2 times in the scene: follow a long sentence (20+ words) with a very short one (5 words or fewer).
-- Exemple : "Les ombres s'étiraient sur les pierres anciennes tandis que le vent portait les murmures de prières oubliées à travers la nef déserte de la cathédrale. Elle s'arrêta. L'air changea."
+Règle de distribution OBLIGATOIRE :
+- **25% des phrases ≤ 5 mots** : fragments, coups de poing narratifs, éclairs de conscience.
+- **25% des phrases ≥ 28 mots** : développements lents, descriptions distillées, respirations.
+- **50% des phrases** : longueur médiane 14-20 mots (fluence narrative).
+
+Pour une scène de ~30 phrases : ~8 très courtes + ~8 très longues + ~14 moyennes.
+
+Exemple de bonne alternance :
+"Elle s'arrêta. [3 mots] — L'air avait changé, quelque chose de différent dans la densité des ombres qui pesaient sous les poutres du couloir. [28 mots] — Du sang. [2 mots] — Ou peut-être rien, juste l'odeur du bois mouillé et la façon dont la lumière refusait d'entrer. [23 mots]"
+
+## Ruptures rythmiques (syncopes)
+- Après chaque longue phrase (≥25 mots) : enchaîne au moins une fois avec une phrase de ≤4 mots.
+- Minimum 3 syncopes par scène.
 
 ## Sentence Openings
 - NEVER start more than 2 sentences with the same word in any paragraph.
@@ -651,10 +743,11 @@ Your prose WILL BE SCORED on physical/sensory incarnation. Follow these rules:
 - N'écris PAS "il était triste." Écris "le poids s'installa dans sa poitrine, pesant sur ses côtes."
 
 ## Marqueurs physiques obligatoires (minimum 5 par scène)
-Utilise au moins 5 de ces ancrages corporels :
-- Souffle / respiration (saccadée, retenue, rauque, lente)
+Utilise au moins 5 de ces ancrages corporels. **ATTENTION : la MANIÈRE d'exprimer ces ancrages doit être originale — pas le raccourci cliché.**
+
+- Souffle / respiration (saccadée, rauque, lente) — ❌ JAMAIS "elle retint son souffle" / "souffle court" (kill list)
 - Mains / doigts / prise / paumes
-- Gorge / déglutition / qualité de la voix
+- Gorge / qualité de la voix — ❌ JAMAIS "il déglutit" / "gorge nouée" (kill list)
 - Poitrine / côtes / battement de cœur / pouls
 - Peau / température / sueur / frisson / chair de poule
 - Ventre / estomac / nausée / faim
@@ -764,5 +857,127 @@ function buildLot3InstructionsSection(): PromptSection {
     title: 'LOT 3 — PDB Instructions (Genesis v2)',
     content,
     priority: 'high',
+  };
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// U-META-03 — METAPHOR PREGENERATION (avant FINAL_CHECKLIST)
+// Force le LLM à pré-générer mentalement 3 métaphores candidates AVANT d'écrire la prose.
+// Principe : découpage cognitif (paradigme Gemini) sans appel API supplémentaire.
+// Impact visé : metaphor_novelty_score 71-79 → 85+ (juge LLM note +13 si l'image est transcendante)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+function buildMetaphorPregenerationSection(packet: ForgePacket): PromptSection {
+  const sceneGoal = packet.intent.scene_goal;
+  const dominant = packet.emotion_contract.terminal_state.dominant;
+
+  const content =
+`# 🔬 METAPHOR PREGENERATION — ÉTAPE 0 AVANT D'ÉCRIRE (U-META-03)
+
+Avant d'écrire le premier mot de la prose, effectue cette étape mentale.
+Objectif : ton juge interne va noter tes métaphores 0-100. Tu vises 85+.
+
+## PROCÉDURE (dans ta tête, pas dans la prose)
+
+1. Génère mentalement **3 images candidates** pour cet objet narratif :
+   - Objet : « ${sceneGoal} »
+   - Émotion dominante à incarner : ${dominant}
+
+2. Pour chaque candidate, applique le **test de l'arbre des domaines** :
+   - Quelle **domaine source** (concret, scientifique, mécanique, nature, commerce, géométrie...) ?
+   - Quel **domaine cible** (émotion, silence, temps, corps, relation...) ?
+   - Les deux domaines sont-ils **inattendus** l'un par rapport à l'autre ?
+   - As-tu déjà lu cette association dans un roman grand public ? Si oui → élimine.
+
+3. **Garde uniquement** l'image qui passe le test. Si aucune ne passe → tu n'utilises PAS de métaphore.
+
+## NIVEAU CIBLE (novelty_score ≥85)
+
+Images qui atteignent 85+ :
+- « sa colère avait le grain du papier de verre sur bois encore vert »
+  (domaines : texture artisanale ↔ émotion brute inachevée)
+- « le silence entre eux s'était déposé comme un limon après la crue »
+  (domaines : sédimentation fluviale ↔ résidu de conflit)
+- « elle rangea sa peur comme on replie un plan qu'on n'a plus l'usage de lire »
+  (domaines : cartographie obsolète ↔ abandon d'un espoir)
+- « ses mots avaient la texture d'une promesse déjà compteuse de son propre échec »
+  (domaines : comptabilité fatale ↔ parole crevée en vol)
+
+Images qui échouent (≤50) :
+- « son cœur s'emballa », « la lumière mourait », « le poids de la culpabilité »
+- Tout ce qui combine un organe + un verbe d'émotion directe
+- Tout ce qui combine une lumière + un état
+
+## LIMITE ABSOLUE
+- **0 ou 1 métaphore** dans la prose finale (2 maximum si les deux passent le test).
+- Une métaphore qui rate le test à 75+ de novelty = SII penalisé directement.
+- Zéro métaphore vaut toujours mieux qu'une métaphore à 60.
+
+⚠️ RAPPEL : Le juge est un LLM qui lit 10 000 romans. Il voit les clichés immédiatement.
+`;
+
+  return {
+    section_id: 'metaphor_pregeneration',
+    title: 'METAPHOR PREGENERATION (U-META-03)',
+    content,
+    priority: 'high',
+  };
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// U-HOOK-04 — FINAL CHECKLIST (dernière section, recency effect)
+// Compact, actionnable, lu JUSTE AVANT la génération — rappel des règles hautes-impact
+// ═══════════════════════════════════════════════════════════════════════════════
+
+function buildFinalChecklistSection(packet: ForgePacket): PromptSection {
+  const keywords = [
+    ...packet.style_genome.lexicon.signature_words.slice(0, 8),
+    ...packet.style_genome.imagery.recurrent_motifs.slice(0, 5),
+  ].join(', ');
+
+  const sceneGoal = packet.intent.scene_goal;
+
+  const content =
+`# ⚠️ FINAL CHECKLIST — LIS CECI EN DERNIER AVANT D'ÉCRIRE
+
+Tu t'apprêtes à générer la prose. La section METAPHOR PREGENERATION ci-dessus a été exécutée (tu as ta métaphore candidate ou décidé de ne pas en utiliser). Vérifie ces 6 points :
+
+## 1. PREMIÈRE PHRASE (hook_presence = jusqu'à 40% du RCI)
+❌ Si ta première phrase est descriptive, neutre, ou explicative → RECOMMENCE.
+✅ Elle doit être : action en cours, sensation physique tendue, ou rupture de ton.
+Objet : « ${sceneGoal} »
+
+## 2. MOTS-CLÉS OBLIGATOIRES (hook_presence score direct)
+Ces mots DOIVENT apparaître dans le texte — minimum 10 sur les 13 fournis :
+${keywords}
+Contrôle avant de terminer : parcours ta prose et coche chaque mot présent.
+
+## 3. RYTHME (25% ≤5 mots / 25% ≥28 mots / 50% médian)
+Après écriture : compte-tu bien des phrases ultra-courtes (2-4 mots) ET des longues (28-40 mots) ?
+Exemple OBLIGATOIRE de syncope : [phrase longue de 28+ mots]. [2 mots]. [Reprise narrative.]
+
+## 4. ZÉRO CLÉCHÉ CORPOREL (kill list active)
+❌ JAMAIS : « elle retint son souffle » / « il déglutit » / « gorge nouée » / « souffle court »
+✅ Ancre les émotions dans le corps avec des formulations ORIGINALES.
+
+## 5. MÉTAPHORES : LA TUA DÉJÀ PRÉ-GÉNÉRÉE (section METAPHOR PREGENERATION)
+❌ Si tu n'as pas appliqué l'étape 0 (test arbre des domaines) → RECOMMENCE.
+❌ Plus de 2 métaphores dans la prose → supprime les plus faibles.
+✅ L'image pré-générée : elle connecte deux domaines inattendus, elle ne figure dans aucun roman populaire.
+✅ Si aucune image n'a passé le test → zéro métaphore, score SII reste haut.
+
+## 6. DERNIÈRE PHRASE
+Doit laisser le lecteur dans un état émotionnel, pas refermer la scène.
+Ouverte, tendue, ou résonnante. Jamais conclusive.
+
+---
+⚠️ GÉNÈRE MAINTENANT. Le scoreur jugera. Aucune approximation tolérée.
+`;
+
+  return {
+    section_id: 'final_checklist',
+    title: 'FINAL CHECKLIST (pre-flight)',
+    content,
+    priority: 'critical',
   };
 }

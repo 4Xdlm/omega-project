@@ -30,8 +30,8 @@
 import { sha256, canonicalize } from '@omega/canon-kernel';
 import type { ForgePacket, SovereignPrompt, PromptSection } from '../types.js';
 
-/** U-VOICE-06: version bump — VOICE COMPLIANCE section (ellipsis_rate + opening_variety hard rules) */
-export const PROMPT_ASSEMBLER_VERSION = '2.4.0';
+/** U-ROSETTE-01: version bump — VOICE COMPLIANCE recalibré Camus-adjacent (0.15,0.12) + F31/F33 instructions */
+export const PROMPT_ASSEMBLER_VERSION = '2.5.0';
 import type { SymbolMap } from '../symbol/symbol-map-types.js';
 import { compilePhysicsSection } from '../constraints/constraint-compiler.js';
 import type { ForgeEmotionBrief } from '@omega/omega-forge';
@@ -865,7 +865,7 @@ function buildLot3InstructionsSection(): PromptSection {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// U-VOICE-06 — VOICE COMPLIANCE
+// U-ROSETTE-01 — VOICE COMPLIANCE recalibré Camus-adjacent (0.15, 0.12)
 // Injecte 3 règles métriques mesurables directement liées aux paramètres voix scorés :
 //   ellipsis_rate  : % phrases ≤1 mots dans la prose générée (cible 0.50, LLM bench ≈0.20)
 //   opening_variety: % premiers mots uniques par phrase (cible 0.80, LLM bench ≈0.50)
@@ -875,10 +875,19 @@ function buildLot3InstructionsSection(): PromptSection {
 
 function buildVoiceComplianceSection(): PromptSection {
   const content =
-`# ⚠️ VOICE COMPLIANCE — 3 RÈGLES MÉTRIQUES ABSOLUES (U-VOICE-06)
+`# ⚠️ VOICE COMPLIANCE — CALIBRATION CAMUS-ADJACENT (U-ROSETTE-01)
 
 Ces règles sont MESURÉES AUTOMATIQUEMENT par le scorer après génération.
 Violation = voice_conformity < 80 = RCI < 85 = REJET DU TEXTE.
+
+## POSITION CIBLE — ESPACE LATENT 2D
+
+Ton texte doit se positionner dans la zone CAMUS-ADJACENT :
+  AXE 1 (Expansion)   : cible <= 0.15 — phrases courtes (18-22 mots de moyenne)
+  AXE 2 (Imbrication) : cible <= 0.12 — peu de subordonnées fracturées
+  Camus  (0.1, 0.1) — REFERENCE ABSOLUE
+  Proust (0.5, 0.9) — réservé aux injections ponctuelles (1 bloc/5)
+  Simon  (1.0, 1.0) — INTERDIT comme style de base
 
 ══════════════════════════════════════════════════════════════
 
@@ -961,17 +970,56 @@ Ex : Un paragraphe qui ne contient que "Elle savait." ou "Rien d'autre." → CV 
 
 ══════════════════════════════════════════════════════════════
 
-⚠️ AUTO-VÉRIFICATION AVANT SOUMISSION :
-1. Compte les phrases ≤3 mots → minimum 40% du total
-2. Liste les premiers mots de chaque phrase → pas 2 identiques consécutifs
-3. Inclut un paragraphe ultra-court (1-3 mots seuls) → obligatoire
+══════════════════════════════════════════════════════════════
 
-SCORER REJETTERA AUTOMATIQUEMENT si ces métriques ne sont pas atteintes.
+## RÈGLE 4 — IMBRICATION FRACTALE (F32) — CIBLE CAMUS BAS [shadow mesuré]
+
+Definition : % de tes phrases avec 2+ marqueurs subordonnants (qui, que, dont, ou, quand,
+si, comme, parce que, bien que, puisque, lorsque, avant que, apres que...).
+
+**CIBLE CAMUS : max 18% de tes phrases avec 2+ subordonnants.**
+
+A eviter (Simon/Proust) : "Il savait que ce qu'elle voyait n'etait pas ce qu'elle
+cherchait quand elle regardait." -> 4 marqueurs = imbrication extreme
+A privilegier (Camus) : phrases simples + une seule subordonnante par phrase.
+Regle pratique : quand une phrase devient longue, coupe-la en 2.
+
+══════════════════════════════════════════════════════════════
+
+## RÈGLE 5 — PARTICIPES PRÉSENTS (F31) — CIBLE CAMUS [0.8-1.6/100m]
+
+**CIBLE CAMUS : 0.8 a 1.6 participes presents (-ant) pour 100 mots.**
+Simon depasse 4.8 — flux continu. Camus reste sobre.
+Max 2 participes presents consecutifs dans une meme phrase.
+
+══════════════════════════════════════════════════════════════
+
+## RÈGLE 6 — PARENTHÉTIQUES (F33) — CIBLE CAMUS [0.15-0.35/phrase]
+
+**CIBLE CAMUS : 0.15 a 0.35 incises/parentheses par phrase.**
+Proust atteint 2.5-4.0 — une insertion par phrase. Camus reste rare.
+Max 1 incise par phrase.
+
+══════════════════════════════════════════════════════════════
+
+INJECTION PONCTUELLE AUTORISEE (1 bloc/5 blocs maximum) :
+- Expansion Simon : 1 phrase-fleuve 80+ mots avec imbrication elevee
+- Saturation Proust : 1 bloc dense 60+ mots avec images synesthesiques
+Ces injections doivent etre suivies d'un retour Camus immediat (syncope + phrase courte).
+
+⚠️ AUTO-VÉRIFICATION AVANT SOUMISSION :
+1. Compte les phrases <= 3 mots -> minimum 40% du total
+2. Pas 2 premiers mots identiques consecutifs
+3. 1 paragraphe ultra-court (1-3 mots seuls) obligatoire
+4. Moins de 20% de phrases avec 2+ subordonnants
+5. Max 2 participes presents consecutifs dans une meme phrase
+
+SCORER REJETTERA AUTOMATIQUEMENT si les 3 premieres metriques ne sont pas atteintes.
 `;
 
   return {
     section_id: 'voice_compliance',
-    title: 'VOICE COMPLIANCE (U-VOICE-06)',
+    title: 'VOICE COMPLIANCE (U-ROSETTE-01)',
     content,
     priority: 'critical',
   };

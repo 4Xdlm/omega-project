@@ -1,6 +1,10 @@
 /**
  * Voice Genome — 10 paramètres mesurables du style narratif
  * Invariant: ART-VOICE-01
+ *
+ * U-ROSETTE-01: Ajout RosetteMetrics (F31/F32/F33) — shadow only
+ * F32 = imbrication fractale = AXE 2 de l'espace latent 2D
+ * Calibration: Camus (0.1,0.1) / Proust (0.5,0.9) / Simon (1.0,1.0)
  */
 
 export interface VoiceGenome {
@@ -439,6 +443,130 @@ export function scoreVoiceConsistency(
 
   const avgDrift = drifts.reduce((a, b) => a + b, 0) / drifts.length;
   return Math.max(0, Math.min(100, (1 - avgDrift) * 100));
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// U-ROSETTE-01 — ROSETTE METRICS (F31 / F32 / F33) — SHADOW ONLY
+// Calibration empirique : Pierre de Rosette v2.1 (2026-03-07)
+// F32 = axe structurant de l'espace latent 2D — NE PAS GATER avant shadow validation
+// ═══════════════════════════════════════════════════════════════════════════════
+
+/**
+ * Métriques Pierre de Rosette — features absentes de F1-F30
+ * INV-ROSETTE-01: F32 shadow uniquement — aucun impact sur score
+ */
+export interface RosetteMetrics {
+  /** F31 — Densité participes présents (/100 mots)
+   * Camus: 0.8–1.6 | Proust: 2.0–4.0 | Simon: >4.8 */
+  f31_participes_presents: number;
+
+  /** F32 — Imbrication fractale [0,1] — SHADOW
+   * Proxy: sentences avec ≥2 marqueurs subordonnants / total sentences
+   * Camus: 0.08–0.18 | Proust: 0.60–0.85 | Simon: >0.85 (estimé)
+   * AXE 2 de l'espace latent 2D */
+  f32_imbrication_fractale: number;
+
+  /** F33 — Coefficient parenthétiques (incises+parenthèses/phrase)
+   * Camus: 0.15–0.35 | Proust: 2.5–4.0 | Simon: >2.1 */
+  f33_coeff_parenthetiques: number;
+
+  /** Position AXE 1 — Expansion (longueur phrases normalisée [5,120])
+   * Camus ≈ 0.13 | Proust ≈ 0.43 | Simon ≈ 0.83 */
+  position_expansion: number;
+
+  /** Position AXE 2 — Imbrication (= f32_imbrication_fractale)
+   * Camus ≈ 0.13 | Proust ≈ 0.72 | Simon ≈ 0.90+ */
+  position_imbrication: number;
+}
+
+/** Cibles calibrées pour la target voice OMEGA (0.15, 0.12) = Camus-adjacent */
+export const ROSETTE_TARGETS = {
+  /** Axe 1 — cible expansion ≤0.15 (≈20 mots/phrase max) */
+  position_expansion_max: 0.15,
+  /** Axe 2 — cible imbrication ≤0.12 (peu de subordonnées fracturées) */
+  position_imbrication_max: 0.12,
+  /** F31 — cible Camus-adjacent */
+  f31_target_min: 0.8,
+  f31_target_max: 1.6,
+  /** F33 — cible Camus-adjacent */
+  f33_target_min: 0.15,
+  f33_target_max: 0.35,
+} as const;
+
+/** Marqueurs subordonnants français — heuristique F32 */
+const SUBORDINATING_MARKERS_RE = /\b(qui|que|qu'|dont|où|lequel|laquelle|lesquels|lesquelles|auquel|duquel|quand|lorsque|si|comme|parce que|parce qu'|bien que|bien qu'|quoique|quoiqu'|puisque|puisqu'|dès que|dès qu'|avant que|avant qu'|après que|après qu'|afin que|afin qu'|pour que|pour qu'|de sorte que|bien que|à moins que|à moins qu')\b/gi;
+
+/** Marqueurs parenthétiques — heuristique F33 */
+const PARENTHETICAL_RE = /\([^)]+\)|\[[^\]]+\]|—[^—]+—|,[^,]{5,40},/g;
+
+/**
+ * Mesure les métriques Pierre de Rosette sur une prose.
+ * INV-ROSETTE-01: lecture shadow — aucune modification du scoring existant.
+ *
+ * @param prose - texte généré à analyser
+ * @returns RosetteMetrics avec F31/F32/F33 et coordonnées 2D
+ */
+export function measureRosette(prose: string): RosetteMetrics {
+  if (!prose || prose.trim().length === 0) {
+    return {
+      f31_participes_presents: 0,
+      f32_imbrication_fractale: 0,
+      f33_coeff_parenthetiques: 0,
+      position_expansion: 0,
+      position_imbrication: 0,
+    };
+  }
+
+  const sentences = splitSentences(prose);
+  const words = prose.split(/\s+/).filter(w => w.length > 0);
+  const totalSentences = Math.max(1, sentences.length);
+  const totalWords = Math.max(1, words.length);
+
+  // ── F31 — Participes présents heuristique ─────────────────────────────────
+  // Pattern: mots terminant en -ant (hors exceptions courantes)
+  const PARTICIPE_EXCEPTIONS = new Set([
+    'instant', 'enfant', 'pendant', 'devant', 'dedans', 'dehors',
+    'avant', 'enant', 'géant', 'vivant', 'savant', 'méchant', 'brillant',
+    'puissant', 'passant', 'servant', 'pesant', 'important', 'résultant',
+    'durant', 'découlant',
+  ]);
+  const participesRaw = (prose.match(/\b\w+ant\b/gi) || []);
+  const participes = participesRaw.filter(
+    w => w.length >= 5 && !PARTICIPE_EXCEPTIONS.has(w.toLowerCase())
+  );
+  const f31_participes_presents = (participes.length / totalWords) * 100;
+
+  // ── F32 — Imbrication fractale heuristique ────────────────────────────────
+  // Proxy: % phrases avec ≥2 marqueurs subordonnants distincts
+  let sentencesWithFractalSubord = 0;
+  for (const sentence of sentences) {
+    const markers = sentence.match(SUBORDINATING_MARKERS_RE) || [];
+    if (markers.length >= 2) {
+      sentencesWithFractalSubord++;
+    }
+  }
+  const f32_imbrication_fractale = sentencesWithFractalSubord / totalSentences;
+
+  // ── F33 — Coefficient parenthétiques ─────────────────────────────────────
+  // Parenthèses + tirets em + incises virgule
+  const parentheticalMatches = prose.match(PARENTHETICAL_RE) || [];
+  const f33_coeff_parenthetiques = parentheticalMatches.length / totalSentences;
+
+  // ── Positions 2D ─────────────────────────────────────────────────────────
+  // Axe 1: expansion = avg mots/phrase normalisée [5, 120]
+  const avgWordsPerSentence = totalWords / totalSentences;
+  const position_expansion = Math.max(0, Math.min(1, (avgWordsPerSentence - 5) / (120 - 5)));
+
+  // Axe 2: imbrication = f32 directement [0,1]
+  const position_imbrication = f32_imbrication_fractale;
+
+  return {
+    f31_participes_presents,
+    f32_imbrication_fractale,
+    f33_coeff_parenthetiques,
+    position_expansion,
+    position_imbrication,
+  };
 }
 
 // --- Helpers ---

@@ -7,7 +7,13 @@
  */
 
 import type { ForgePacket, AxisScore } from '../../types.js';
-import { measureVoice, computeVoiceDrift, NON_APPLICABLE_VOICE_PARAMS } from '../../voice/voice-genome.js';
+import {
+  measureVoice,
+  computeVoiceDrift,
+  NON_APPLICABLE_VOICE_PARAMS,
+  measureRosette,
+  ROSETTE_TARGETS,
+} from '../../voice/voice-genome.js';
 
 export async function scoreVoiceConformity(
   packet: ForgePacket,
@@ -52,13 +58,27 @@ export async function scoreVoiceConformity(
     impact: (1 - p.drift) * 10,
   }));
 
+  // U-ROSETTE-01: shadow logging des métriques F31/F32/F33
+  // INV-ROSETTE-01: aucun impact sur score — shadow uniquement
+  const rosette = measureRosette(prose);
+  const rosetteLog = [
+    `[SHADOW] F31_participes=${rosette.f31_participes_presents.toFixed(2)}/100m`,
+    `(Camus:0.8-1.6|Proust:2-4|Simon:>4.8)`,
+    `F32_imbrication=${rosette.f32_imbrication_fractale.toFixed(3)}`,
+    `(Camus:0.08-0.18|Proust:0.60-0.85) SHADOW`,
+    `F33_parenthetiques=${rosette.f33_coeff_parenthetiques.toFixed(3)}/phrase`,
+    `(Camus:0.15-0.35|Proust:2.5-4.0)`,
+    `pos2D=(${rosette.position_expansion.toFixed(3)},${rosette.position_imbrication.toFixed(3)})`,
+    `target=(${ROSETTE_TARGETS.position_expansion_max},${ROSETTE_TARGETS.position_imbrication_max})`,
+  ].join(' ');
+
   return {
     name: 'voice_conformity',
     axis_id: 'voice_conformity',
     score,
     weight: 1.0,
     method: 'CALC',
-    details: `Drift: ${(driftResult.drift * 100).toFixed(2)}%, Conforming: ${driftResult.conforming}, N_applicable: ${driftResult.n_applicable}/10, Excluded: [${driftResult.excluded.join(', ')}]`,
+    details: `Drift: ${(driftResult.drift * 100).toFixed(2)}%, Conforming: ${driftResult.conforming}, N_applicable: ${driftResult.n_applicable}/10, Excluded: [${driftResult.excluded.join(', ')}] | ${rosetteLog}`,
     reasons: {
       top_contributors: topContributors,
       top_penalties: topPenalties,

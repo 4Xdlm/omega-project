@@ -1,0 +1,96 @@
+﻿OMEGA - PIERRE DE ROSETTE - RUN C1
+Extrait : Albert Camus - L Etranger - APEX (scene du proces)
+Date    : 2026-03-07 03:08:11
+Model   : claude-sonnet-4-20250514
+======================================================
+
+PROMPT_A - CONTRAT CAUSAL
+======================================================
+ >>> Appel API: PROMPT_A (Contrat Causal) ...     OK - 1256 chars recus OUVERTURE        : DÃ©marrer par une sensation physique ou sensorielle comme ancrage neutre
+CONFLIT          : ConflictualitÃ© externe projetÃ©e sur l'intÃ©rioritÃ©, accusation sans riposte Ã©motionnelle
+RYTHME           : Alternance phrases courtes/longues selon l'intensitÃ© du discours rapportÃ©
+VOIX             : PremiÃ¨re personne, registre neutre-observateur, opacitÃ© Ã©motionnelle totale
+IMAGE            : CorporalitÃ© minimale (chaleur, sueur, gestes), abstraction juridico-morale dominante
+TENSION          : Compression par accumulation d'accusations sans relÃ¢chement dÃ©fensif
+SOUS-TEXTE       : PrÃ©sence forte - le dÃ©calage entre gravitÃ© accusÃ©e et dÃ©tachement narrateur
+INTERDIT_1       : Aucune justification ou explication psychologique du protagoniste
+INTERDIT_2       : Aucune Ã©motion explicite ou rÃ©action affective directe
+INTERDIT_3       : Aucune complicitÃ© ou empathie sollicitÃ©e envers le narrateur
+CONTRAT_FINAL    : 1) Maintenir distance observatrice face Ã  sa propre condamnation 2) Rapporter les discours d'autoritÃ© sans les contester 3) Ancrer par sensations physiques neutres 4) Construire par accumulation d'accusations externes 5) RÃ©vÃ©ler l'absurditÃ© par contraste implicite entre accusation et dÃ©tachement
+
+======================================================
+PROMPT_B - BOUNDARY CONDITIONS METRIQUES
+======================================================
+ >>> Appel API: PROMPT_B (Boundary Conditions) ...     OK - 2475 chars recus METRIQUE         : Longueur moyenne des phrases
+VALEUR_CIBLE     : 18-22 mots
+DEFINITION      : Nombre total de mots divisÃ© par nombre de phrases
+TYPE_CONTRAINTE  : FOURCHETTE
+STABILITE       : CONSTANTE_AUTEUR
+
+METRIQUE         : Variance sigma2 longueur phrases
+VALEUR_CIBLE     : 180-220
+DEFINITION      : Ãcart-type au carrÃ© des longueurs de phrases en mots
+TYPE_CONTRAINTE  : FOURCHETTE
+STABILITE       : CONSTANTE_AUTEUR
+
+METRIQUE         : Ratio phrases courtes
+VALEUR_CIBLE     : 0.08-0.12
+DEFINITION      : Nombre phrases â¤5 mots / nombre total phrases
+TYPE_CONTRAINTE  : FOURCHETTE
+STABILITE       : CONSTANTE_EXTRAIT
+
+METRIQUE         : Ratio phrases longues
+VALEUR_CIBLE     : 0.15-0.25
+DEFINITION      : Nombre phrases â¥40 mots / nombre total phrases
+TYPE_CONTRAINTE  : FOURCHETTE
+STABILITA       : CONSTANTE_AUTEUR
+
+METRIQUE         : Profondeur arbre syntaxique
+VALEUR_CIBLE     : 1.4-1.8
+DEFINITION      : Nombre subordonnÃ©es / nombre principales
+TYPE_CONTRAINTE  : FOURCHETTE
+STABILITE       : CONSTANTE_AUTEUR
+
+METRIQUE         : Ratio imbrication fractale
+VALEUR_CIBLE     : 0.25-0.35
+DEFINITION      : SubordonnÃ©es contenant subordonnÃ©es / total subordonnÃ©es
+TYPE_CONTRAINTE  : FOURCHETTE
+STABILITE       : CONSTANTE_AUTEUR
+
+METRIQUE         : DensitÃ© images/mÃ©taphores
+VALEUR_CIBLE     : 0.8-1.2
+DEFINITION      : Nombre expressions figurÃ©es pour 100 mots
+TYPE_CONTRAINTE  : FOURCHETTE
+STABILITE       : CONSTANTE_EXTRAIT
+
+METRIQUE         : Variation attaques phrases
+VALEUR_CIBLE     : 0.65-0.75
+DEFINITION      : Premiers mots uniques / nombre total phrases
+TYPE_CONTRAINTE  : FOURCHETTE
+STABILITE       : CONSTANTE_AUTEUR
+
+METRIQUE         : Ratio abstraction/corporalitÃ©
+VALEUR_CIBLE     : 2.8-3.2
+DEFINITION      : Mots abstraits / mots sensoriels-corporels
+TYPE_CONTRAINTE  : FOURCHETTE
+STABILITE       : CONSTANTE_EXTRAIT
+
+METRIQUE         : FrÃ©quence perturbation rythmique
+VALEUR_CIBLE     : 0.04-0.08
+DEFINITION      : Phrases â¤3 mots / nombre total phrases
+TYPE_CONTRAINTE  : FOURCHETTE
+STABILITE       : CONSTANTE_AUTEUR
+
+METRIQUE         : DensitÃ© discours rapportÃ©
+VALEUR_CIBLE     : 0.35-0.45
+DEFINITION      : Mots en guillemets / nombre total mots
+TYPE_CONTRAINTE  : FOURCHETTE
+STABILITE       : CONSTANTE_EXTRAIT
+
+METRIQUE         : FrÃ©quence connecteurs logiques
+VALEUR_CIBLE     : 4.5-5.5
+DEFINITION      : Connecteurs argumentatifs pour 100 mots
+TYPE_CONTRAINTE  : FOURCHETTE
+STABILITE       : CONSTANTE_EXTRAIT
+
+FIN DES RESULTATS

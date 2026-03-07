@@ -2,21 +2,28 @@
  * top-k-selection.ts
  * U-W4 — Top-K Selection Engine
  *
- * Pipeline Editor Engine (Phase U) :
- *   1. Génère K variantes via runSovereignForge × K seeds distincts
- *   2. Filtre : garde uniquement les variantes SEAL (verdict S-Oracle)
- *   3. Si 0 survivants → TopKError ZERO_SURVIVORS (fail-closed)
- *   4. Évalue les survivants via GreatnessJudge (4 axes pondérés)
- *   5. Retourne top-1 + KSelectionReport complet
+ * Pipeline (Phase U) :
+ *   1. Genere K variantes via runSovereignForge x K seeds distincts
+ *   2. Candidacy gate (relaxe) : composite >= CANDIDATE_FLOOR_COMPOSITE (85)
+ *   3. Si 0 candidats -> TopKError ZERO_CANDIDATES (fail-closed)
+ *   4. Evalue les candidats via GreatnessJudge (4 axes ponderes)
+ *   5. Retourne top-1 (argmax greatness) + KSelectionReport complet
+ *
+ * Architecture a deux seuils (U-ROSETTE-02) :
+ *   - CANDIDATE_FLOOR_COMPOSITE = 85  : sas d'entree Top-K (relaxe)
+ *   - SEAL final = composite >= 93    : certification finale (inchange)
+ *   => "Candidate survives" != "Candidate is SEAL"
+ *   => Le seuil SEAL n'est PAS abaisse. Il est dissocie du seuil de survie.
  *
  * Invariants :
- *   INV-TK-01 : K ∈ [2, 32] — hors bornes → TopKError
+ *   INV-TK-01 : K in [2, 32] — hors bornes -> TopKError INVALID_K
  *   INV-TK-02 : seeds distincts — collisions interdites
- *   INV-TK-03 : au moins 1 survivant SEAL — sinon ZERO_SURVIVORS
- *   INV-TK-04 : KSelectionReport produit pour chaque run (traçabilité totale)
- *   INV-TK-05 : top-1 = argmax(composite Greatness) parmi survivants SEAL
- *   INV-TK-06 : fail-closed — erreur sur variante individuelle = REJECTED (non bloquant)
- *               erreur sur GreatnessJudge = TopKError JUDGE_FAILED (bloquant)
+ *   INV-TK-03 : au moins 1 candidat (composite >= 85) — sinon ZERO_CANDIDATES
+ *   INV-TK-04 : KSelectionReport produit pour chaque run (tracabilite totale)
+ *   INV-TK-05 : top-1 = argmax(composite Greatness) parmi candidats
+ *   INV-TK-06 : fail-closed — erreur provider individuelle = REJECTED (non bloquant)
+ *               erreur GreatnessJudge = TopKError JUDGE_FAILED (bloquant)
+ *   INV-TK-CANDIDATE-01 : CANDIDATE_FLOOR_COMPOSITE < SEAL_THRESHOLD (85 < 93)
  *
  * Standard: NASA-Grade L4 / DO-178C
  */
@@ -32,36 +39,38 @@ import {
 } from './greatness-judge.js';
 import type { JudgeCache } from '../judge-cache.js';
 
-// ── Types ────────────────────────────────────────────────────────────────────
+// ── Types ─────────────────────────────────────────────────────────────────────
 
 export interface TopKConfig {
-  readonly k:          number;   // [2, 32] — nombre de variantes à générer
-  readonly modelId:    string;   // pour GreatnessJudge
-  readonly apiKey:     string;   // pour GreatnessJudge
+  readonly k:       number;  // [2, 32] — nombre de variantes a generer
+  readonly modelId: string;  // pour GreatnessJudge
+  readonly apiKey:  string;  // pour GreatnessJudge
 }
 
 export interface VariantRecord {
-  readonly seed:           string;
-  readonly variant_index:  number;   // 0-based
-  readonly forge_result:   SovereignForgeResult;
-  readonly prose_sha256:   string;
-  readonly survived_seal:  boolean;
-  readonly greatness?:     GreatnessResult;  // présent si survived_seal=true
-  readonly rejection_reason?: string;        // présent si survived_seal=false ou erreur
+  readonly seed:             string;
+  readonly variant_index:    number;           // 0-based
+  readonly forge_result:     SovereignForgeResult;
+  readonly prose_sha256:     string;
+  readonly survived_seal:    boolean;          // SEAL final : composite >= 93 + all floors (INCHANGE)
+  readonly is_candidate:     boolean;          // Candidacy gate : composite >= CANDIDATE_FLOOR_COMPOSITE (85)
+  readonly greatness?:       GreatnessResult;  // present si is_candidate=true
+  readonly rejection_reason?: string;          // present si is_candidate=false ou erreur forge
 }
 
 /** Rapport complet d'un run Top-K — INV-TK-04 */
 export interface KSelectionReport {
-  readonly run_id:          string;           // SHA256(seed_base + k)
+  readonly run_id:          string;   // SHA256(seed_base + k)
   readonly k_requested:     number;
-  readonly k_generated:     number;           // effectivement générés (peut < k si erreur provider)
-  readonly k_survived_seal: number;           // variantes SEAL
-  readonly k_evaluated:     number;           // variantes scorées par GreatnessJudge
+  readonly k_generated:     number;   // effectivement generes (peut < k si erreur provider)
+  readonly k_survived_seal: number;   // variantes SEAL strict (composite >= 93)
+  readonly k_candidates:    number;   // variantes passant candidacy gate (>= 85)
+  readonly k_evaluated:     number;   // variantes scorees par GreatnessJudge
   readonly variants:        VariantRecord[];
-  readonly top1:            VariantRecord;    // meilleure variante
-  readonly top1_composite:  number;           // [0, 100]
-  readonly gain_vs_first:   number;           // composite top1 - composite variante[0]
-  readonly created_at:      string;           // ISO 8601
+  readonly top1:            VariantRecord;  // meilleure variante (argmax greatness)
+  readonly top1_composite:  number;         // [0, 100]
+  readonly gain_vs_first:   number;         // composite top1 - composite variante[0]
+  readonly created_at:      string;         // ISO 8601
 }
 
 export class TopKError extends Error {
@@ -75,17 +84,27 @@ export class TopKError extends Error {
   }
 }
 
-// ── Constantes ───────────────────────────────────────────────────────────────
+// ── Constantes ────────────────────────────────────────────────────────────────
 
 export const TOP_K_MIN = 2;
 export const TOP_K_MAX = 32;
 
-// ── Utilitaire : génération de seeds distincts ───────────────────────────────
+/**
+ * Seuil de candidature Top-K.
+ * DISTINCT du seuil SEAL final (93).
+ * INV-TK-CANDIDATE-01 : CANDIDATE_FLOOR_COMPOSITE (85) < SEAL_THRESHOLD (93)
+ *
+ * Formule : x_best = argmax_{x in K, composite(x) >= 85} composite(x)
+ * Reference : Gemini + ChatGPT audit 2026-03-07
+ */
+export const CANDIDATE_FLOOR_COMPOSITE = 85;
+
+// ── Utilitaire : generation de seeds distincts ────────────────────────────────
 
 /**
- * Génère K seeds déterministes distincts à partir d'une seed de base.
+ * Genere K seeds deterministes distincts a partir d'une seed de base.
  * seed_i = SHA256(baseSeed + ':' + i)
- * INV-TK-02 : unicité garantie par construction SHA256.
+ * INV-TK-02 : unicite garantie par construction SHA256.
  */
 export function generateDistinctSeeds(baseSeed: string, k: number): string[] {
   const seeds = new Set<string>();
@@ -93,13 +112,12 @@ export function generateDistinctSeeds(baseSeed: string, k: number): string[] {
     seeds.add(sha256(`${baseSeed}:${i}`));
   }
   if (seeds.size !== k) {
-    // Collision SHA256 : impossible en pratique, mais fail-closed
     throw new TopKError('SEED_COLLISION', `Expected ${k} distinct seeds, got ${seeds.size}`);
   }
   return Array.from(seeds);
 }
 
-// ── Top-K Selection Engine ───────────────────────────────────────────────────
+// ── Top-K Selection Engine ────────────────────────────────────────────────────
 
 export class TopKSelectionEngine {
   private readonly judge: GreatnessJudge;
@@ -117,8 +135,14 @@ export class TopKSelectionEngine {
 
   /**
    * Lance le pipeline Top-K complet.
-   * INV-TK-01 : k ∈ [2, 32]
-   * INV-TK-03 : au moins 1 survivant SEAL
+   *
+   * Etape 1 : Generation K variantes (seeds distincts)
+   * Etape 2 : Candidacy gate (composite >= CANDIDATE_FLOOR_COMPOSITE)
+   * Etape 3 : GreatnessJudge sur tous les candidats
+   * Etape 4 : top-1 = argmax(greatness.composite) parmi candidats
+   *
+   * INV-TK-01 : k in [2, 32]
+   * INV-TK-03 : au moins 1 candidat — sinon ZERO_CANDIDATES
    * INV-TK-05 : top-1 = argmax composite
    */
   async run(
@@ -136,12 +160,11 @@ export class TopKSelectionEngine {
     const seeds = generateDistinctSeeds(baseSeed, k);
     const runId = sha256(`${baseSeed}:${k}`);
 
-    // ── Étape 1 : Génération K variantes ─────────────────────────────────────
+    // ── Etape 1 : Generation K variantes ────────────────────────────────────
     const variants: VariantRecord[] = [];
 
     for (let i = 0; i < k; i++) {
-      const seed = seeds[i];
-      // Injecter le seed dans l'input (override seeds.generation)
+      const seed        = seeds[i];
       const seededInput = injectSeed(input, seed);
 
       let forgeResult: SovereignForgeResult;
@@ -152,18 +175,21 @@ export class TopKSelectionEngine {
         const detail = err instanceof Error ? err.message : String(err);
         variants.push({
           seed,
-          variant_index:   i,
-          forge_result:    null as unknown as SovereignForgeResult,
-          prose_sha256:    '',
-          survived_seal:   false,
+          variant_index:    i,
+          forge_result:     null as unknown as SovereignForgeResult,
+          prose_sha256:     '',
+          survived_seal:    false,
+          is_candidate:     false,
           rejection_reason: `FORGE_ERROR: ${detail}`,
         });
         continue;
       }
 
-      const prose     = forgeResult.final_prose;
-      const proseSha  = sha256(prose);
-      const survived  = forgeResult.verdict === 'SEAL';
+      const prose        = forgeResult.final_prose;
+      const proseSha     = sha256(prose);
+      const survived     = forgeResult.verdict === 'SEAL';
+      const sComposite   = forgeResult.s_score?.composite ?? 0;
+      const is_candidate = sComposite >= CANDIDATE_FLOOR_COMPOSITE;
 
       variants.push({
         seed,
@@ -171,26 +197,32 @@ export class TopKSelectionEngine {
         forge_result:     forgeResult,
         prose_sha256:     proseSha,
         survived_seal:    survived,
-        rejection_reason: survived ? undefined : `S_ORACLE_REJECT: score=${forgeResult.s_score?.composite ?? 'n/a'}`,
+        is_candidate,
+        rejection_reason: is_candidate
+          ? undefined
+          : `BELOW_CANDIDATE_FLOOR: composite=${sComposite.toFixed(1)}<${CANDIDATE_FLOOR_COMPOSITE}`,
       });
     }
 
     const kGenerated = variants.filter(v => v.forge_result !== null).length;
-    const survivors  = variants.filter(v => v.survived_seal);
+    const survivors  = variants.filter(v => v.survived_seal);   // strict SEAL gate (inchange)
+    const candidates = variants.filter(v => v.is_candidate);    // candidacy gate (relaxe)
 
-    // INV-TK-03
-    if (survivors.length === 0) {
+    // INV-TK-03 (U-ROSETTE-02) : au moins 1 candidat (composite >= CANDIDATE_FLOOR_COMPOSITE)
+    // Le seuil SEAL final (93) reste inchange — top1.survived_seal l'indique.
+    if (candidates.length === 0) {
       throw new TopKError(
-        'ZERO_SURVIVORS',
-        `0/${kGenerated} variants passed S-Oracle SEAL gate`,
+        'ZERO_CANDIDATES',
+        `0/${kGenerated} variants reached candidacy floor (composite >= ${CANDIDATE_FLOOR_COMPOSITE})`,
       );
     }
 
-    // ── Étape 2 : Évaluation Greatness sur survivants ─────────────────────────
+    // ── Etape 2 : Evaluation Greatness sur les CANDIDATS ────────────────────
     const evaluated: VariantRecord[] = [];
 
     for (const v of variants) {
-      if (!v.survived_seal) {
+      if (!v.is_candidate) {
+        // Variant sous le seuil candidature : pas de GreatnessJudge, passe tel quel
         evaluated.push(v);
         continue;
       }
@@ -198,20 +230,20 @@ export class TopKSelectionEngine {
       try {
         greatness = await this.judge.evaluate(v.forge_result.final_prose, v.prose_sha256);
       } catch (err) {
-        // INV-TK-06 : erreur GreatnessJudge = bloquant (propagé)
+        // INV-TK-06 : erreur GreatnessJudge = bloquant (propage)
         const detail = err instanceof Error ? err.message : String(err);
         throw new TopKError('JUDGE_FAILED', `Variant ${v.variant_index}: ${detail}`, err);
       }
       evaluated.push({ ...v, greatness });
     }
 
-    // ── Étape 3 : Sélection top-1 (argmax composite) ─────────────────────────
-    const scoredSurvivors = evaluated.filter(v => v.survived_seal && v.greatness);
-    scoredSurvivors.sort((a, b) => (b.greatness!.composite) - (a.greatness!.composite));
-    const top1 = scoredSurvivors[0];
+    // ── Etape 3 : Selection top-1 parmi candidats (argmax greatness.composite) ─
+    const scoredCandidates = evaluated.filter(v => v.is_candidate && v.greatness);
+    scoredCandidates.sort((a, b) => b.greatness!.composite - a.greatness!.composite);
+    const top1 = scoredCandidates[0];
 
-    // gain vs première variante générée (index 0, si disponible)
-    const first = evaluated.find(v => v.variant_index === 0 && v.survived_seal && v.greatness);
+    // gain vs premiere variante generee (index 0, si candidat)
+    const first = evaluated.find(v => v.variant_index === 0 && v.is_candidate && v.greatness);
     const gainVsFirst = first
       ? Math.round((top1.greatness!.composite - first.greatness!.composite) * 100) / 100
       : 0;
@@ -221,7 +253,8 @@ export class TopKSelectionEngine {
       k_requested:     k,
       k_generated:     kGenerated,
       k_survived_seal: survivors.length,
-      k_evaluated:     scoredSurvivors.length,
+      k_candidates:    candidates.length,
+      k_evaluated:     scoredCandidates.length,
       variants:        evaluated,
       top1,
       top1_composite:  top1.greatness!.composite,
@@ -236,8 +269,7 @@ export class TopKSelectionEngine {
 // ── Helper : injection de seed ────────────────────────────────────────────────
 
 /**
- * Retourne une copie de ForgePacketInput avec le seed de génération remplacé.
- * Le type ForgePacketInput est structurally typed → on utilise spread + override.
+ * Retourne une copie de ForgePacketInput avec le seed de generation remplace.
  */
 function injectSeed(input: ForgePacketInput, seed: string): ForgePacketInput {
   return {

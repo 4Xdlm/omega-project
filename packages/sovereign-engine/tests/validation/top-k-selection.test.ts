@@ -16,6 +16,7 @@ import {
   TopKError,
   TOP_K_MIN,
   TOP_K_MAX,
+  CANDIDATE_FLOOR_COMPOSITE,
   type KSelectionReport,
   type VariantRecord,
 } from '../../src/validation/phase-u/top-k-selection';
@@ -73,35 +74,42 @@ class TestableTopKRunner {
           forge_result:     null as unknown as SovereignForgeResult,
           prose_sha256:     '',
           survived_seal:    false,
+          is_candidate:     false,
           rejection_reason: `FORGE_ERROR: ${err instanceof Error ? err.message : String(err)}`,
         });
         continue;
       }
 
-      const survived = forgeResult.verdict === 'SEAL';
+      const survived     = forgeResult.verdict === 'SEAL';
+      const sComposite   = (forgeResult.s_score as Record<string, unknown>)?.composite as number ?? 0;
+      const is_candidate = sComposite >= CANDIDATE_FLOOR_COMPOSITE;
       variants.push({
         seed,
         variant_index:    i,
         forge_result:     forgeResult,
         prose_sha256:     sha256(forgeResult.final_prose),
         survived_seal:    survived,
-        rejection_reason: survived ? undefined : `S_ORACLE_REJECT: score=${(forgeResult.s_score as Record<string, unknown>)?.composite ?? 'n/a'}`,
+        is_candidate,
+        rejection_reason: is_candidate
+          ? undefined
+          : `BELOW_CANDIDATE_FLOOR: composite=${sComposite}<${CANDIDATE_FLOOR_COMPOSITE}`,
       });
     }
 
     const kGenerated = variants.filter(v => v.forge_result !== null).length;
     const survivors  = variants.filter(v => v.survived_seal);
+    const candidates = variants.filter(v => v.is_candidate);
 
-    // INV-TK-03
-    if (survivors.length === 0) {
-      throw new TopKError('ZERO_SURVIVORS', `0/${kGenerated} variants passed S-Oracle SEAL gate`);
+    // INV-TK-03 (U-ROSETTE-02) : au moins 1 candidat (composite >= CANDIDATE_FLOOR_COMPOSITE)
+    if (candidates.length === 0) {
+      throw new TopKError('ZERO_CANDIDATES', `0/${kGenerated} variants reached candidacy floor (composite >= ${CANDIDATE_FLOOR_COMPOSITE})`);
     }
 
-    // ── Étape 2 : Évaluation Greatness sur survivants ─────────────────────────
+    // Etape 2 : Evaluation Greatness sur les CANDIDATS
     const evaluated: VariantRecord[] = [];
 
     for (const v of variants) {
-      if (!v.survived_seal) { evaluated.push(v); continue; }
+      if (!v.is_candidate) { evaluated.push(v); continue; }
 
       let greatness: GreatnessResult;
       try {
@@ -116,11 +124,11 @@ class TestableTopKRunner {
     }
 
     // ── Étape 3 : Sélection top-1 (argmax composite) ─────────────────────────
-    const scored = evaluated.filter(v => v.survived_seal && v.greatness);
+    const scored = evaluated.filter(v => v.is_candidate && v.greatness);
     scored.sort((a, b) => b.greatness!.composite - a.greatness!.composite);
     const top1 = scored[0];
 
-    const first       = evaluated.find(v => v.variant_index === 0 && v.survived_seal && v.greatness);
+    const first       = evaluated.find(v => v.variant_index === 0 && v.is_candidate && v.greatness);
     const gainVsFirst = first
       ? Math.round((top1.greatness!.composite - first.greatness!.composite) * 100) / 100
       : 0;
@@ -130,6 +138,7 @@ class TestableTopKRunner {
       k_requested:     k,
       k_generated:     kGenerated,
       k_survived_seal: survivors.length,
+      k_candidates:    candidates.length,
       k_evaluated:     scored.length,
       variants:        evaluated,
       top1,
@@ -266,24 +275,33 @@ describe('U-W4 INV-TK-01 — validation k', () => {
 // SUITE 3 — INV-TK-03 : ZERO_SURVIVORS
 // ══════════════════════════════════════════════════════════════════════════════
 
-describe('U-W4 INV-TK-03 — ZERO_SURVIVORS', () => {
+describe('U-W4 INV-TK-03 — ZERO_CANDIDATES (U-ROSETTE-02)', () => {
 
-  it('TK-ZS-01: toutes variantes REJECT → TopKError ZERO_SURVIVORS', async () => {
+  it('TK-ZS-01: toutes variantes REJECT (score<85) -> TopKError ZERO_CANDIDATES', async () => {
+    // makeRejectedResult() retourne composite=78 => sous CANDIDATE_FLOOR_COMPOSITE=85
     const e = makeEngine(async () => makeRejectedResult(), makeMockJudge([70]));
-    await expect(e.run(MINIMAL_INPUT, 3, BASE_SEED)).rejects.toThrow('ZERO_SURVIVORS');
+    await expect(e.run(MINIMAL_INPUT, 3, BASE_SEED)).rejects.toThrow('ZERO_CANDIDATES');
   });
 
-  it('TK-ZS-02: toutes variantes FORGE_ERROR → ZERO_SURVIVORS', async () => {
+  it('TK-ZS-02: toutes variantes FORGE_ERROR -> ZERO_CANDIDATES', async () => {
     const e = makeEngine(async () => { throw new Error('API down'); }, makeMockJudge([70]));
-    await expect(e.run(MINIMAL_INPUT, 2, BASE_SEED)).rejects.toThrow('ZERO_SURVIVORS');
+    await expect(e.run(MINIMAL_INPUT, 2, BASE_SEED)).rejects.toThrow('ZERO_CANDIDATES');
   });
 
-  it('TK-ZS-03: 1 SEAL sur k=3 → pas de ZERO_SURVIVORS', async () => {
+  it('TK-ZS-03: 1 SEAL sur k=3 -> pas de ZERO_CANDIDATES (survived_seal => is_candidate)', async () => {
     let idx = 0;
-    const e = makeEngine(async () => idx++ === 0 ? makeSealedResult('A scellé.') : makeRejectedResult(), makeMockJudge([75]));
+    const e = makeEngine(async () => idx++ === 0 ? makeSealedResult('A scelle.') : makeRejectedResult(), makeMockJudge([75]));
     const r = await e.run(MINIMAL_INPUT, 3, BASE_SEED);
-    expect(r.k_survived_seal).toBe(1);
+    expect(r.k_candidates).toBeGreaterThanOrEqual(1);
     expect(r.top1_composite).toBe(75);
+  });
+
+  it('TK-ZS-04: CANDIDATE_FLOOR_COMPOSITE = 85 (INV-TK-CANDIDATE-01)', () => {
+    expect(CANDIDATE_FLOOR_COMPOSITE).toBe(85);
+  });
+
+  it('TK-ZS-05: CANDIDATE_FLOOR_COMPOSITE < 93 (SEAL threshold inchange)', () => {
+    expect(CANDIDATE_FLOOR_COMPOSITE).toBeLessThan(93);
   });
 });
 
@@ -314,10 +332,10 @@ describe('U-W4 INV-TK-05 — top-1 sélection', () => {
     expect(r.top1).toBeDefined();
   });
 
-  it('TK-TOP-04: top1.survived_seal = true', async () => {
+  it('TK-TOP-04: top1.is_candidate = true (selection sur candidats, pas seulement SEAL)', async () => {
     const e = makeEngine(async () => makeSealedResult('x'), makeMockJudge([80]));
     const r = await e.run(MINIMAL_INPUT, 2, BASE_SEED);
-    expect(r.top1.survived_seal).toBe(true);
+    expect(r.top1.is_candidate).toBe(true);
   });
 
   it('TK-TOP-05: top1.greatness.composite = top1_composite', async () => {
@@ -340,6 +358,7 @@ describe('U-W4 INV-TK-04 — KSelectionReport', () => {
     expect(r.k_requested).toBe(2);
     expect(typeof r.k_generated).toBe('number');
     expect(typeof r.k_survived_seal).toBe('number');
+    expect(typeof r.k_candidates).toBe('number');
     expect(typeof r.k_evaluated).toBe('number');
     expect(r.variants).toHaveLength(2);
     expect(r.top1).toBeDefined();
@@ -359,13 +378,14 @@ describe('U-W4 INV-TK-04 — KSelectionReport', () => {
     expect(r.variants).toHaveLength(3);
   });
 
-  it('TK-REP-04: chaque VariantRecord a seed, variant_index, survived_seal', async () => {
+  it('TK-REP-04: chaque VariantRecord a seed, variant_index, survived_seal, is_candidate', async () => {
     const e = makeEngine(async () => makeSealedResult(), makeMockJudge([70]));
     const r = await e.run(MINIMAL_INPUT, 2, BASE_SEED);
     for (const v of r.variants) {
       expect(v.seed).toBeTruthy();
       expect(typeof v.variant_index).toBe('number');
       expect(typeof v.survived_seal).toBe('boolean');
+      expect(typeof v.is_candidate).toBe('boolean');
     }
   });
 
@@ -379,7 +399,7 @@ describe('U-W4 INV-TK-04 — KSelectionReport', () => {
     let idx = 0;
     const e = makeEngine(async () => idx++ === 0 ? makeSealedResult() : makeRejectedResult(), makeMockJudge([70]));
     const r = await e.run(MINIMAL_INPUT, 2, BASE_SEED);
-    const rejected = r.variants.find(v => !v.survived_seal);
+    const rejected = r.variants.find(v => !v.is_candidate);
     expect(rejected?.rejection_reason).toBeTruthy();
   });
 });
@@ -397,7 +417,7 @@ describe('U-W4 INV-TK-06 — fail-closed', () => {
       return makeSealedResult('OK');
     }, makeMockJudge([75]));
     const r = await e.run(MINIMAL_INPUT, 3, BASE_SEED);
-    expect(r.k_survived_seal).toBeGreaterThanOrEqual(1);
+    expect(r.k_candidates).toBeGreaterThanOrEqual(1);
     expect(r.variants.find(v => v.rejection_reason?.startsWith('FORGE_ERROR'))).toBeDefined();
   });
 

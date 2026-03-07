@@ -1,0 +1,103 @@
+﻿OMEGA - PIERRE DE ROSETTE v2.1 - Albert Camus - L Etranger - INCIPIT
+Date    : 2026-03-07 03:16:25
+Model   : claude-sonnet-4-20250514
+Prompts : v2.1 (POSITION_SPECTRE + unites unifiees + 13 metriques obligatoires)
+============================================================
+
+PROMPT_A - CONTRAT CAUSAL
+============================================================
+>>> Appel API: PROMPT_A v2.1 (Contrat Causal) ...     OK - 1438 chars OUVERTURE         : Neutralité factuelle avec friction souterraine - commencer par un détail pragmatique qui révèle une tension non exprimée
+CONFLIT           : Conflictualité latente internalisée - le conflit existe mais demeure sous la surface, jamais explicité
+RYTHME            : Alternance entre phrases courtes déclaratives et développements descriptifs neutres, ratio 2:1
+VOIX              : Première personne à distance émotionnelle maximale - opacité totale sur les affects, registre dépassionné
+IMAGE             : Densité matérielle forte, corporalité présente mais désincarnée, zéro abstraction psychologique
+TENSION           : Modèle de retenue absolue - accumulation de détails factuels créant tension par omission émotionnelle
+SOUS-TEXTE        : Présence maximale par absence - tout l'essentiel réside dans ce qui n'est jamais dit
+INTERDIT_1        : Jamais d'introspection explicite ni d'analyse psychologique
+INTERDIT_2        : Jamais d'adjectifs ou adverbes expressifs révélant l'émotion
+INTERDIT_3        : Jamais de métaphores ou de lyrisme, uniquement le concret immédiat
+POSITION_SPECTRE  : 0.1/1.0 côté Camus - minimalisme radical
+CONTRAT_FINAL     : [1]Énoncer les faits sans les interpréter [2]Maintenir distance constante avec ses propres émotions [3]Privilégier détails matériels sur états intérieurs [4]Construire tension par accumulation de neutralité [5]Laisser le lecteur déduire ce que le narrateur tait
+
+============================================================
+PROMPT_B - BOUNDARY CONDITIONS METRIQUES
+============================================================
+>>> Appel API: PROMPT_B v2.1 (Boundary Conditions) ...     OK - 2804 chars METRIQUE         : Longueur moyenne des phrases
+VALEUR_CIBLE     : 18-22 mots
+DEFINITION       : Nombre total de mots divisé par nombre de phrases
+TYPE_CONTRAINTE  : FOURCHETTE
+STABILITE        : CONSTANTE_AUTEUR
+
+METRIQUE         : Variance sigma2 longueur phrases
+VALEUR_CIBLE     : 140-180 mots2
+DEFINITION       : Variance statistique des longueurs de phrases en mots au carré
+TYPE_CONTRAINTE  : FOURCHETTE
+STABILITE        : CONSTANTE_AUTEUR
+
+METRIQUE         : Ratio phrases courtes
+VALEUR_CIBLE     : 0.05-0.12
+DEFINITION       : Nombre phrases ≤5 mots / nombre total phrases
+TYPE_CONTRAINTE  : FOURCHETTE
+STABILITE        : CONSTANTE_EXTRAIT
+
+METRIQUE         : Ratio phrases longues
+VALEUR_CIBLE     : 0.15-0.25
+DEFINITION       : Nombre phrases >40 mots / nombre total phrases
+TYPE_CONTRAINTE  : FOURCHETTE
+STABILITE        : CONSTANTE_AUTEUR
+
+METRIQUE         : Ratio profondeur syntaxique
+VALEUR_CIBLE     : 0.45-0.65
+DEFINITION       : Nombre subordonnées / nombre principales
+TYPE_CONTRAINTE  : FOURCHETTE
+STABILITE        : CONSTANTE_AUTEUR
+
+METRIQUE         : Ratio imbrication fractale
+VALEUR_CIBLE     : 0.08-0.18
+DEFINITION       : Subordonnées de subordonnées / total subordonnées
+TYPE_CONTRAINTE  : FOURCHETTE
+STABILITE        : CONSTANTE_EXTRAIT
+
+METRIQUE         : Densité images/métaphores
+VALEUR_CIBLE     : 1.2-2.8 /100 mots
+DEFINITION       : Nombre métaphores+comparaisons+images sensorielles pour 100 mots
+TYPE_CONTRAINTE  : FOURCHETTE
+STABILITE        : CONSTANTE_AUTEUR
+
+METRIQUE         : Variation attaques phrases
+VALEUR_CIBLE     : 0.62-0.78
+DEFINITION       : Nombre premiers mots uniques / nombre total phrases
+TYPE_CONTRAINTE  : FOURCHETTE
+STABILITE        : CONSTANTE_AUTEUR
+
+METRIQUE         : Ratio abstraction/corporalité
+VALEUR_CIBLE     : 1.8-2.4
+DEFINITION       : Nombre mots abstraits / nombre mots sensoriels
+TYPE_CONTRAINTE  : FOURCHETTE
+STABILITE        : CONSTANTE_EXTRAIT
+
+METRIQUE         : Ratio perturbation rythmique Dirac
+VALEUR_CIBLE     : 0.08-0.15
+DEFINITION       : Nombre phrases ≤3 mots / nombre total phrases
+TYPE_CONTRAINTE  : FOURCHETTE
+STABILITE        : CONSTANTE_EXTRAIT
+
+METRIQUE         : Densité participes présents
+VALEUR_CIBLE     : 0.8-1.6 /100 mots
+DEFINITION       : Nombre participes présents pour 100 mots
+TYPE_CONTRAINTE  : FOURCHETTE
+STABILITE        : CONSTANTE_AUTEUR
+
+METRIQUE         : Coefficient parenthétiques
+VALEUR_CIBLE     : 0.15-0.35
+DEFINITION       : (Incises + appositions + parenthèses) / nombre phrases
+TYPE_CONTRAINTE  : FOURCHETTE
+STABILITE        : CONSTANTE_AUTEUR
+
+METRIQUE         : Neutralité émotionnelle dialogue rapporté
+VALEUR_CIBLE     : 0.85
+DEFINITION       : Ratio dialogue indirect sans marqueurs émotionnels / total dialogue
+TYPE_CONTRAINTE  : PLANCHER
+STABILITE        : CONSTANTE_EXTRAIT
+
+FIN DES RESULTATS

@@ -30,8 +30,8 @@
 import { sha256, canonicalize } from '@omega/canon-kernel';
 import type { ForgePacket, SovereignPrompt, PromptSection } from '../types.js';
 
-/** U-ROSETTE-04b: CAS B patch — rhythm counting examples + hook_presence reinforcement + opening_variety mechanical check */
-export const PROMPT_ASSEMBLER_VERSION = '2.5.4';
+/** U-ROSETTE-05: FIX opening_variety (syncopes sans pronoms — répertoire imposé) + FIX metaphor_novelty (zero = 70 garanti) */
+export const PROMPT_ASSEMBLER_VERSION = '2.5.5';
 import type { SymbolMap } from '../symbol/symbol-map-types.js';
 import { compilePhysicsSection } from '../constraints/constraint-compiler.js';
 import type { ForgeEmotionBrief } from '@omega/omega-forge';
@@ -920,6 +920,25 @@ Règle pratique selon longueur du texte :
 Contrôle AVANT de soumettre : parcours ta prose, compte les phrases de ≤3 mots.
 Si total < 40% → insère des syncopes aux moments d'intensité émotionnelle.
 
+⚠️ CRITIQUE — PREMIERS MOTS DES SYNCOPES [opening_variety score direct]
+
+Le scorer mesure opening_variety = Set(premiers_mots_toutes_phrases).taille / total_phrases.
+Les syncopes comptent DANS ce calcul. Si tes syncopes commencent par "Elle" / "Il" / "Ses" / "Le",
+ces mots se répètent et opening_variety s'effondre même si tu as 40% de syncopes.
+
+❌ INTERDIT comme premier mot d'une syncope :
+  Elle / Il / Ils / Elles / Je / Tu / Vous / Nous / Ses / Son / Sa / Le / La / Les / Un / Une
+  Exemples INTERDITS : "Elle savait." / "Il attendit." / "Il recula." / "Le silence."
+
+✅ RÉPERTOIRE OBLIGATOIRE pour les syncopes (tous différents — utilise chaque mot UNE SEULE FOIS) :
+  "Rien." / "Silence." / "Trop." / "Jamais." / "Pourtant." / "Toujours." / "Impossible."
+  "Du sang." / "Dehors." / "Nulle part." / "Attendre." / "Partir." / "Peut-être."
+  "Encore." / "Déjà." / "Assez." / "Fini." / "Non." / "Plus rien." / "Rien d'autre."
+  "Bizarre." / "Curieux." / "Vide." / "Lourd." / "Froid." / "Trop vite." / "Trop loin."
+
+Règle absolue sur 12 syncopes : 12 mots d'ouverture DIFFÉRENTS, zéro pronom, zéro article défini.
+Chaque syncope = un mot d'ouverture du répertoire ci-dessus (ou équivalent inventé mais JAMAIS pronom).
+
 ══════════════════════════════════════════════════════════════
 
 ## RÈGLE 2 — VARIÉTÉ DES OUVERTURES [opening_variety cible: 0.80]
@@ -1158,6 +1177,19 @@ function buildMetaphorPregenerationSection(packet: ForgePacket): PromptSection {
 
 Avant d'écrire le premier mot de la prose, effectue cette étape mentale.
 Objectif : ton juge interne va noter tes métaphores 0-100. Tu vises 85+.
+
+⚠️ RÈGLE CRITIQUE — FORMULE EXACTE DU SCORER metaphor_novelty :
+  final_score = avg(novelty_scores) × (1 - dead_ratio)
+  ZÉRO métaphore → score GARANTI = 70 (neutre, pas pénalisé)
+  1 métaphore notée  65 → score final ≈  65 (PIRE QUE ZÉRO MÉTAPHORE)
+  1 métaphore notée  85 → score final ≈  85 (GAIN RÉEL)
+  1 métaphore morte  → is_dead=true → novelty_score forcé à 0 → score ≈ 0
+
+⚠️ CONCLUSION MATHÉMATIQUE ABSOLUE :
+  N'écris une métaphore QUE si tu es certain à 95% qu'elle atteindra 85+.
+  Dans le moindre doute → NE PAS ÉCRIRE DE MÉTAPHORE.
+  Zéro métaphore = SII protégé à 70. Une seule métaphore sub-80 = SII < 70 = REJET.
+  C'est le seul calcul qui compte.
 
 ## PROCÉDURE (dans ta tête, pas dans la prose)
 

@@ -24,6 +24,7 @@ import {
   GreatnessJudge,
   type GreatnessResult,
   type AxisScore,
+  type SelectionTrace,
   GREATNESS_AXES,
 } from '../../src/validation/phase-u/greatness-judge';
 import type { ForgePacketInput } from '../../src/input/forge-packet-assembler';
@@ -111,20 +112,30 @@ class TestableTopKRunner {
     for (const v of variants) {
       if (!v.is_candidate) { evaluated.push(v); continue; }
 
-      let greatness: GreatnessResult;
+      let greatness: GreatnessResult | undefined;
       try {
         greatness = await (this.judge as unknown as {
           evaluate(prose: string, sha: string): Promise<GreatnessResult>;
         }).evaluate(v.forge_result.final_prose, v.prose_sha256);
       } catch (err) {
-        // INV-TK-06 : erreur GreatnessJudge = bloquant
-        throw new TopKError('JUDGE_FAILED', `Variant ${v.variant_index}: ${err instanceof Error ? err.message : String(err)}`, err);
+        // INV-TK-06 (patch U-ROSETTE-03) : erreur GreatnessJudge sur variante i = non-bloquant
+        const detail = err instanceof Error ? err.message : String(err);
+        console.warn(`[TopK] JUDGE_WARN variant ${v.variant_index}: ${detail}`);
+        evaluated.push({ ...v, rejection_reason: `JUDGE_FAILED: ${detail}` });
+        continue;
       }
       evaluated.push({ ...v, greatness });
     }
 
     // ── Étape 3 : Sélection top-1 (argmax composite) ─────────────────────────
     const scored = evaluated.filter(v => v.is_candidate && v.greatness);
+    const kJudgeFailed = candidates.length - scored.length;
+
+    // INV-TK-06 : fail-closed — si 0 candidats evalues -> JUDGE_FAILED bloquant
+    if (scored.length === 0) {
+      throw new TopKError('JUDGE_FAILED', `All ${candidates.length} candidate(s) failed GreatnessJudge evaluation`);
+    }
+
     scored.sort((a, b) => b.greatness!.composite - a.greatness!.composite);
     const top1 = scored[0];
 
@@ -140,6 +151,7 @@ class TestableTopKRunner {
       k_survived_seal: survivors.length,
       k_candidates:    candidates.length,
       k_evaluated:     scored.length,
+      k_judge_failed:  kJudgeFailed,
       variants:        evaluated,
       top1,
       top1_composite:  top1.greatness!.composite,
@@ -426,6 +438,34 @@ describe('U-W4 INV-TK-06 — fail-closed', () => {
     const e = makeEngine(async () => makeSealedResult('x'), brokenJudge);
     await expect(e.run(MINIMAL_INPUT, 2, BASE_SEED)).rejects.toThrow(TopKError);
     await expect(e.run(MINIMAL_INPUT, 2, BASE_SEED)).rejects.toThrow('JUDGE_FAILED');
+  });
+
+  it('TK-FC-03: judge echoue sur 1/3 variantes — run reussit avec les 2 candidats restants', async () => {
+    // K=3 candidats : judge reussit sur 0 et 2, echoue sur 1
+    let callCount = 0;
+    const partialJudge = {
+      evaluate: vi.fn().mockImplementation(async () => {
+        const i = callCount++;
+        if (i === 1) throw new Error('fetch failed: memorabilite timeout');
+        return { composite: 80, trace: { axis: 'greatness', score: 80 } as unknown as SelectionTrace };
+      }),
+    } as unknown as GreatnessJudge;
+    const e = makeEngine(async () => makeSealedResult('x'), partialJudge);
+    const r = await e.run(MINIMAL_INPUT, 3, BASE_SEED);
+    // run ne doit pas echouer meme avec 1 judge failure
+    expect(r.k_evaluated).toBe(2);   // 2 sur 3 evalues avec succes
+    expect(r.k_judge_failed).toBe(1); // 1 echec non-bloquant
+    expect(r.top1).toBeDefined();
+    expect(r.k_judge_failed).toBeGreaterThanOrEqual(0);
+  });
+
+  it('TK-FC-04: judge echoue sur TOUTES les variantes — throw JUDGE_FAILED bloquant', async () => {
+    const totalFailJudge = {
+      evaluate: vi.fn().mockRejectedValue(new Error('network unreachable')),
+    } as unknown as GreatnessJudge;
+    const e = makeEngine(async () => makeSealedResult('x'), totalFailJudge);
+    await expect(e.run(MINIMAL_INPUT, 3, BASE_SEED)).rejects.toThrow(TopKError);
+    await expect(e.run(MINIMAL_INPUT, 3, BASE_SEED)).rejects.toThrow('JUDGE_FAILED');
   });
 });
 

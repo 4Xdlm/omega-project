@@ -30,8 +30,8 @@
 import { sha256, canonicalize } from '@omega/canon-kernel';
 import type { ForgePacket, SovereignPrompt, PromptSection } from '../types.js';
 
-/** U-ROSETTE-01: version bump — VOICE COMPLIANCE recalibré Camus-adjacent (0.15,0.12) + F31/F33 instructions */
-export const PROMPT_ASSEMBLER_VERSION = '2.5.0';
+/** U-ROSETTE-03: version bump — FIX opening_variety RULE 2 (scorer-exact formula + global limits) */
+export const PROMPT_ASSEMBLER_VERSION = '2.5.2';
 import type { SymbolMap } from '../symbol/symbol-map-types.js';
 import { compilePhysicsSection } from '../constraints/constraint-compiler.js';
 import type { ForgeEmotionBrief } from '@omega/omega-forge';
@@ -924,27 +924,38 @@ Si total < 40% → insère des syncopes aux moments d'intensité émotionnelle.
 
 ## RÈGLE 2 — VARIÉTÉ DES OUVERTURES [opening_variety cible: 0.80]
 
-Définition du scorer : premier mot de chaque phrase (minuscule, sans ponctuation).
-Formule : mots_uniques_ouverture / total_phrases. Le scorer mesure exactement ceci.
+Formule EXACTE du scorer :
+  opening_variety = Set(premier_mot_de_chaque_phrase).taille / total_phrases
 
-**MINIMUM IMPOSÉ : 70% des premières phrases commencent par un mot unique (non répété).**
+Traduit en contrainte pratique :
+  Pour ~30 phrases : le scorer compte TOUS les premiers mots. S'il voit "Elle" 8 fois,
+  "Il" 5 fois, "La" 4 fois = seulement ~16 mots uniques sur 30 = 0.53 → REJET.
 
-Pour un texte de 30 phrases : au plus 9 phrases peuvent partager un même premier mot.
+**MINIMUM IMPOSÉ : sur 30 phrases, max 6 répétitions GLOBALES (tous mots confondus).**
+
+Limites par mot d'ouverture (texte ~30 phrases) :
+- "Elle" : max 4 fois
+- "Il" : max 3 fois
+- "Le/La/Les" : max 2 fois CHACUN
+- "Ses/Son/Sa" : max 2 fois
+- Tout autre mot d'ouverture : max 2 fois
 
 ❌ Interdiction absolue :
-- 2 phrases CONSÉCUTIVES qui commencent par le même mot → REFORMULE L'UNE DES DEUX.
-- "Elle", "Il", "Le", "La", "Les" apparaissant en ouverture plus de 4 fois dans 20 phrases.
+- 2 phrases CONSÉCUTIVES avec le même premier mot.
+- Plus de 4 occurrences du même mot d'ouverture dans 30 phrases.
 
 ✅ Techniques de diversification :
 - Commencer par un verbe conjugué : "Surgit alors...", "Restait...", "Pesait..."
-- Commencer par un compliment de lieu : "Au fond du couloir...", "Dans la pièce..."
+- Commencer par un complément de lieu : "Au fond du couloir...", "Dans la pièce..."
 - Commencer par un moment : "Quelques secondes...", "Très lentement..."
 - Commencer par une syncope sans sujet : "Rien.", "Du sang.", "Silence."
-- Commencer par un nom propre ou objet : "La porte...", "Ses mains...", "Le bruit..."
+- Commencer par un nom propre ou objet concret : "La porte...", "Ses mains...", "Le bruit..."
 - Commencer par une proposition subordonnée : "Quand elle...", "Si le...", "Avant que..."
+- Commencer par un adverbe ou locution : "Déjà...", "Plus loin...", "Pourtant..."
 
-Contrôle AVANT de soumettre : liste les 10 premiers mots de tes premières phrases.
-Si tu vois "Elle" 4+ fois → reformule au moins 2 occurrences.
+Contrôle AVANT de soumettre : liste les premiers mots de TOUTES tes phrases.
+Compte combien de fois chaque mot apparaît. Aucun ne doit dépasser 4.
+Si "Elle" apparaît 5+ fois → reformule 2 occurrences minimum.
 
 ══════════════════════════════════════════════════════════════
 
@@ -1117,9 +1128,15 @@ Ces mots DOIVENT apparaître dans le texte — minimum 10 sur les 13 fournis :
 ${keywords}
 Contrôle avant de terminer : parcours ta prose et coche chaque mot présent.
 
-## 3. RYTHME (25% ≤5 mots / 25% ≥28 mots / 50% médian)
-Après écriture : compte-tu bien des phrases ultra-courtes (2-4 mots) ET des longues (28-40 mots) ?
-Exemple OBLIGATOIRE de syncope : [phrase longue de 28+ mots]. [2 mots]. [Reprise narrative.]
+## 3. SYNCOPES MÉTRIQUES — FORMULE EXACTE DU SCORER
+⚠️ Le scorer compte : nombre de phrases STRICTEMENT ≤ 3 mots (1, 2 ou 3 mots max).
+Cible : au moins 40% du total des phrases.
+
+Comptent comme syncopes ✅ : "Du sang." "Elle savait." "Rien." "Trop tard." "Ses mains tremblaient."
+Ne comptent PAS ✗ : "Elle ne bougea pas." (4 mots) ou plus.
+
+Apres ecriture : liste toutes tes phrases, coche celles de ≤3 mots, verifie >= 40% du total.
+Exemple de chaine valide : [phrase de 30 mots]. [2 mots]. [phrase de 20 mots]. [3 mots]. [phrase de 25 mots].
 
 ## 4. ZÉRO CLÉCHÉ CORPOREL (kill list active)
 ❌ JAMAIS : « elle retint son souffle » / « il déglutit » / « gorge nouée » / « souffle court »

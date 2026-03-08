@@ -173,8 +173,8 @@ export const GREATNESS_PROMPT_VERSION = 'gj-v1';
 
 const ANTHROPIC_API_URL   = 'https://api.anthropic.com/v1/messages';
 const ANTHROPIC_VERSION   = '2023-06-01';
-const MAX_RETRIES         = 3;
-const DEFAULT_TIMEOUT_MS  = 30000;
+const MAX_RETRIES         = 5;
+const DEFAULT_TIMEOUT_MS  = 45000;
 const DEFAULT_RETRY_MS    = 2000;
 const DEFAULT_RATE_MS     = 1000;
 
@@ -233,7 +233,20 @@ export class GreatnessLLMAdapter {
         return await this.callWithTimeout(axis, prompt);
       } catch (err) {
         const msg = err instanceof Error ? err.message : String(err);
-        if (msg.includes('429') || msg.includes('503') || msg.includes('529')) {
+        // FIX-JUDGE-RETRY: include network errors (fetch failed, ECONNRESET, ETIMEDOUT)
+        // in addition to HTTP rate-limit codes (429/503/529).
+        // 'fetch failed' = TypeError from Node.js fetch on transient network failure.
+        const isRetryable =
+          msg.includes('429') ||
+          msg.includes('503') ||
+          msg.includes('529') ||
+          msg.toLowerCase().includes('fetch failed') ||
+          msg.toLowerCase().includes('failed to fetch') ||
+          msg.toLowerCase().includes('econnreset') ||
+          msg.toLowerCase().includes('etimedout') ||
+          msg.toLowerCase().includes('enotfound') ||
+          (err instanceof TypeError && (msg.toLowerCase().includes('failed') || msg.toLowerCase().includes('network')));
+        if (isRetryable) {
           await new Promise(r => setTimeout(r, this.retryMs * (i + 1)));
           lastErr = err instanceof Error ? err : new Error(msg);
           continue;

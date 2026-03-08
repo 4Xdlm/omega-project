@@ -22,7 +22,8 @@
  *   INV-TK-04 : KSelectionReport produit pour chaque run (tracabilite totale)
  *   INV-TK-05 : top-1 = argmax(composite Greatness) parmi candidats
  *   INV-TK-06 : fail-closed — erreur provider individuelle = REJECTED (non bloquant)
- *               erreur GreatnessJudge = TopKError JUDGE_FAILED (bloquant)
+ *               erreur GreatnessJudge sur variante i = non-bloquant (log + skip, greatness absent)
+ *               erreur GreatnessJudge sur TOUTES les variantes = TopKError JUDGE_FAILED (bloquant)
  *   INV-TK-CANDIDATE-01 : CANDIDATE_FLOOR_COMPOSITE < SEAL_THRESHOLD (85 < 93)
  *
  * Standard: NASA-Grade L4 / DO-178C
@@ -66,6 +67,7 @@ export interface KSelectionReport {
   readonly k_survived_seal: number;   // variantes SEAL strict (composite >= 93)
   readonly k_candidates:    number;   // variantes passant candidacy gate (>= 85)
   readonly k_evaluated:     number;   // variantes scorees par GreatnessJudge
+  readonly k_judge_failed:  number;   // variantes ou le judge a echoue (non-bloquant si k_evaluated > 0)
   readonly variants:        VariantRecord[];
   readonly top1:            VariantRecord;  // meilleure variante (argmax greatness)
   readonly top1_composite:  number;         // [0, 100]
@@ -226,19 +228,32 @@ export class TopKSelectionEngine {
         evaluated.push(v);
         continue;
       }
-      let greatness: GreatnessResult;
+      let greatness: GreatnessResult | undefined;
       try {
         greatness = await this.judge.evaluate(v.forge_result.final_prose, v.prose_sha256);
       } catch (err) {
-        // INV-TK-06 : erreur GreatnessJudge = bloquant (propage)
+        // INV-TK-06 (patch U-ROSETTE-03) : erreur GreatnessJudge sur variante i = non-bloquant
+        // Fail-closed preserve : si 0 candidats evalues apres la boucle -> throw JUDGE_FAILED
         const detail = err instanceof Error ? err.message : String(err);
-        throw new TopKError('JUDGE_FAILED', `Variant ${v.variant_index}: ${detail}`, err);
+        console.warn(`[TopK] JUDGE_WARN variant ${v.variant_index}: ${detail}`);
+        evaluated.push({ ...v, rejection_reason: `JUDGE_FAILED: ${detail}` });
+        continue;
       }
       evaluated.push({ ...v, greatness });
     }
 
     // ── Etape 3 : Selection top-1 parmi candidats (argmax greatness.composite) ─
     const scoredCandidates = evaluated.filter(v => v.is_candidate && v.greatness);
+    const kJudgeFailed = candidates.length - scoredCandidates.length;
+
+    // INV-TK-06 : fail-closed — si 0 candidats evalues par le judge -> JUDGE_FAILED bloquant
+    if (scoredCandidates.length === 0) {
+      throw new TopKError(
+        'JUDGE_FAILED',
+        `All ${candidates.length} candidate(s) failed GreatnessJudge evaluation`,
+      );
+    }
+
     scoredCandidates.sort((a, b) => b.greatness!.composite - a.greatness!.composite);
     const top1 = scoredCandidates[0];
 
@@ -255,6 +270,7 @@ export class TopKSelectionEngine {
       k_survived_seal: survivors.length,
       k_candidates:    candidates.length,
       k_evaluated:     scoredCandidates.length,
+      k_judge_failed:  kJudgeFailed,
       variants:        evaluated,
       top1,
       top1_composite:  top1.greatness!.composite,

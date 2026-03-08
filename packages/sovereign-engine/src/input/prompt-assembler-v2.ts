@@ -30,8 +30,8 @@
 import { sha256, canonicalize } from '@omega/canon-kernel';
 import type { ForgePacket, SovereignPrompt, PromptSection } from '../types.js';
 
-/** U-ROSETTE-04: RCI_COMPLIANCE complet — RÈGLE 2B (attaques grammaticales), RÈGLE 3B (euphonie), RÈGLE 3C (voix concrète) */
-export const PROMPT_ASSEMBLER_VERSION = '2.5.3';
+/** U-ROSETTE-04b: CAS B patch — rhythm counting examples + hook_presence reinforcement + opening_variety mechanical check */
+export const PROMPT_ASSEMBLER_VERSION = '2.5.4';
 import type { SymbolMap } from '../symbol/symbol-map-types.js';
 import { compilePhysicsSection } from '../constraints/constraint-compiler.js';
 import type { ForgeEmotionBrief } from '@omega/omega-forge';
@@ -1007,6 +1007,14 @@ Formule : écart-type(longueurs) / moyenne(longueurs). Le scorer mesure exacteme
 Règle minimale : au moins 1 paragraphe d'UNE SEULE PHRASE COURTE (≤4 mots).
 Ex : Un paragraphe qui ne contient que "Elle savait." ou "Rien d'autre." → CV explosé.
 
+Exemple de comptage CORRECT (CV ≈ 1.05 — PASS) :
+  ¶1: 85 mots | ¶2: 3 mots | ¶3: 45 mots | ¶4: 12 mots | ¶5: 70 mots | ¶6: 2 mots
+  → moyenne=36.2, écart-type=37.8, CV=1.04 ✅
+
+Exemple de comptage INSUFFISANT (CV ≈ 0.35 — REJET) :
+  ¶1: 40 mots | ¶2: 35 mots | ¶3: 42 mots | ¶4: 38 mots | ¶5: 30 mots
+  → moyenne=37.0, écart-type=4.5, CV=0.12 ❌ → ajouter 1 paragraphe de 2-3 mots + 1 de 80+ mots
+
 ══════════════════════════════════════════════════════════════
 
 ## RÈGLE 3B — EUPHONIE SYNTAXIQUE [euphony_basic cible: 87+] [NOUVEAU — U-ROSETTE-04]
@@ -1221,10 +1229,12 @@ Tu t'apprêtes à générer la prose. La section METAPHOR PREGENERATION ci-dessu
 ✅ Elle doit être : action en cours, sensation physique tendue, ou rupture de ton.
 Objet : « ${sceneGoal} »
 
-## 2. MOTS-CLÉS OBLIGATOIRES (hook_presence score direct)
+## 2. MOTS-CLÉS OBLIGATOIRES (hook_presence = jusqu'à 40% du RCI score)
 Ces mots DOIVENT apparaître dans le texte — minimum 10 sur les 13 fournis :
 ${keywords}
-Contrôle avant de terminer : parcours ta prose et coche chaque mot présent.
+⚠️ hook_presence < 65 = RCI plafonné à ~80. CHAQUE MOT ABSENT coûte ~7 points.
+Contrôle MÉCANIQUE avant de terminer : parcours ta prose et coche CHAQUE mot présent.
+Si < 10 mots présents → insère les manquants naturellement dans la prose.
 
 ## 3. SYNCOPES MÉTRIQUES — FORMULE EXACTE DU SCORER
 ⚠️ Le scorer compte : nombre de phrases STRICTEMENT ≤ 3 mots (1, 2 ou 3 mots max).
@@ -1257,6 +1267,12 @@ Tes 4 premières phrases utilisent 4 types grammaticaux DISTINCTS :
   □ Pronom personnel — MAX 1 fois parmi les 4 (ex: "Elle s'arrêta...", "Il regarda...")
   □ Verbe ou participe en tête (ex: "Surgit alors...", "Courir était...", "Frappant le sol...")
 ❌ Si 2+ phrases parmi les 4 premières commencent par le même type → REFORMULE avant de soumettre.
+
+## 8. VÉRIFICATION MÉCANIQUE opening_variety (CRITIQUE)
+Avant de terminer : liste TOUS les premiers mots de tes phrases sur une ligne :
+"Elle / Le / Rien / Avant / Il / La / Surgit / Quand / Ses / Du sang / ..."
+Compte les doublons. Aucun mot ne peut apparaître > 4 fois.
+Si "Elle" = 5+ → change 2 phrases en commençant par un verbe ou un GN.
 
 ---
 ⚠️ GÉNÈRE MAINTENANT. Le scoreur jugera. Aucune approximation tolérée.

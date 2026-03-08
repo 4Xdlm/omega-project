@@ -30,8 +30,8 @@
 import { sha256, canonicalize } from '@omega/canon-kernel';
 import type { ForgePacket, SovereignPrompt, PromptSection } from '../types.js';
 
-/** U-ROSETTE-06: FIX contradiction rhythm/répertoire + RÈGLE D'UNIFICATION triple-bénéfice (ellipsis+opening+rhythm = un seul geste) */
-export const PROMPT_ASSEMBLER_VERSION = '2.5.6';
+/** U-ROSETTE-07: ALLEGE RÈGLE D'UNIFICATION (3 lignes au lieu de 500 tokens) — fix contradiction conservé */
+export const PROMPT_ASSEMBLER_VERSION = '2.5.7';
 import type { SymbolMap } from '../symbol/symbol-map-types.js';
 import { compilePhysicsSection } from '../constraints/constraint-compiler.js';
 import type { ForgeEmotionBrief } from '@omega/omega-forge';
@@ -947,40 +947,9 @@ Chaque syncope = un mot d'ouverture du répertoire ci-dessus (ou équivalent inv
 
 ══════════════════════════════════════════════════════════════
 
-## RÈGLE D'UNIFICATION — TRIPLE BÉNÉFICE ATOMIQUE [U-ROSETTE-06]
-
-Cette règle est la CLÉ pour comprendre pourquoi les contraintes ci-dessus ne sont PAS en tension.
-
-**Une syncope du répertoire = un seul acte qui satisfait TROIS métriques simultanément :**
-
-  BÉNÉFICE 1 — ellipsis_rate :
-    Chaque syncope (≤3 mots) incrémente le compteur d'ellipses.
-    12 syncopes sur 30 phrases = 0.40 = cible atteinte.
-    → Tu n'as rien à sacrifier d'autre pour atteindre ellipsis_rate.
-
-  BÉNÉFICE 2 — opening_variety :
-    Chaque syncope du répertoire commence par un mot UNIQUE (jamais pronom, jamais article).
-    12 syncopes = 12 premiers mots distincts ajoutés au Set() du scorer.
-    → Tu maximises opening_variety sans effort supplémentaire sur les phrases longues.
-
-  BÉNÉFICE 3 — rhythm (le plus important) :
-    La syncope N'EST PAS un sacrifice rythmique. Elle EST le rythme.
-    C'est précisément l'alternance [longue phrase] → [syncope] → [longue phrase] qui
-    crée le CV élevé (≥0.90) mesuré par paragraph_rhythm.
-    Sans syncope → toutes les phrases sont longues → CV faible → rhythm chute.
-    Avec syncopes → contrast maximal → rhythm monte.
-
-**Conclusion pratique :**
-  → Plus tu utilises le répertoire correctement, plus rhythm Monte en même temps que
-    opening_variety et ellipsis_rate. Ces 3 axes sont CO-DÉPENDANTS, pas en concurrence.
-  → NE JAMAIS sacrifier le rythme naturel d'une phrase longue pour insérer une syncope.
-    La syncope arrive APRÈS la phrase longue, en contraste. Elle ne la remplace pas.
-  → Séquence cible : [phrase riche 25+ mots] [syncope répertoire 2-3 mots] [phrase riche 20+ mots]
-
-⚠️ ANTI-PATTERN FATAL (détecté dans runs précédents) :
-  ❌ Insérer des syncopes en REMPLACEMENT de phrases longues → rhythm baisse
-  ❌ Utiliser des pronoms en syncope → opening_variety baisse
-  ✅ Chaque syncope = ponctuation émotionnelle après une phrase riche → les 3 axes montent ensemble
+💡 RAPPEL : syncope du répertoire = triple bénéfice simultané (ellipsis_rate + opening_variety + rhythm).
+Sequence cible : [phrase riche 25+ mots] → [syncope répertoire 2-3 mots] → [phrase riche 20+ mots].
+La syncope suit la phrase longue — elle ne la remplace pas.
 
 ══════════════════════════════════════════════════════════════
 

@@ -30,8 +30,8 @@
 import { sha256, canonicalize } from '@omega/canon-kernel';
 import type { ForgePacket, SovereignPrompt, PromptSection } from '../types.js';
 
-/** U-ROSETTE-03: version bump — FIX opening_variety RULE 2 (scorer-exact formula + global limits) */
-export const PROMPT_ASSEMBLER_VERSION = '2.5.2';
+/** U-ROSETTE-04: RCI_COMPLIANCE complet — RÈGLE 2B (attaques grammaticales), RÈGLE 3B (euphonie), RÈGLE 3C (voix concrète) */
+export const PROMPT_ASSEMBLER_VERSION = '2.5.3';
 import type { SymbolMap } from '../symbol/symbol-map-types.js';
 import { compilePhysicsSection } from '../constraints/constraint-compiler.js';
 import type { ForgeEmotionBrief } from '@omega/omega-forge';
@@ -959,6 +959,34 @@ Si "Elle" apparaît 5+ fois → reformule 2 occurrences minimum.
 
 ══════════════════════════════════════════════════════════════
 
+## RÈGLE 2B — ATTAQUES GRAMMATICALES (4 PREMIÈRES PHRASES) [NOUVEAU — U-ROSETTE-04]
+
+Les 4 PREMIÈRES phrases du texte sont les plus scannées par le scorer.
+**OBLIGATION ABSOLUE : chaque phrase parmi les 4 premières doit utiliser une attaque
+grammaticale DIFFÉRENTE.**
+
+Les 4 types obligatoires (utiliser dans les 4 premières phrases, dans n'importe quel ordre) :
+
+  a) GROUPE NOMINAL CONCRET — objet ou lieu d'abord, pas de pronom :
+     Exemples : "La pluie froide...", "Le couloir...", "Ses mains..."
+
+  b) PROPOSITION CIRCONSTANCIELLE — temps, lieu, condition :
+     Exemples : "Avant que le jour...", "Quand elle entra...", "Dans l'obscurité..."
+
+  c) PRONOM PERSONNEL — "Il", "Elle", "Ils" — autorisé UNE SEULE FOIS dans les 4 premières :
+     Exemples : "Il regarda...", "Elle s'arrêta...", "Ils savaient..."
+
+  d) VERBE OU PARTICIPE EN TÊTE — action ou gérondif direct :
+     Exemples : "Frappant le sol...", "Surgit alors...", "Courir n'avait...", "Rester était..."
+
+❌ VIOLATION : 2 phrases parmi les 4 premières commencent par le même pronom.
+❌ VIOLATION : 3 phrases parmi les 4 premières commencent par "Il/Elle/Ils/Elles".
+✅ OBJECTIF : Le lecteur perçoit immédiatement la variété rythmique.
+
+Contrôle avant génération : planifie mentalement tes 4 premières attaques avant d'écrire.
+
+══════════════════════════════════════════════════════════════
+
 ## RÈGLE 3 — RYTHME PARAGRAPHE [paragraph_rhythm cible: 0.90]
 
 Définition du scorer : coefficient de variation (CV) des longueurs de paragraphes en mots.
@@ -980,6 +1008,72 @@ Règle minimale : au moins 1 paragraphe d'UNE SEULE PHRASE COURTE (≤4 mots).
 Ex : Un paragraphe qui ne contient que "Elle savait." ou "Rien d'autre." → CV explosé.
 
 ══════════════════════════════════════════════════════════════
+
+## RÈGLE 3B — EUPHONIE SYNTAXIQUE [euphony_basic cible: 87+] [NOUVEAU — U-ROSETTE-04]
+
+Le scorer mesure l'euphonie via la fluidité structurelle et l'alternance rythmique.
+**Violation = euphony_basic < 82 = RCI pénalisé directement.**
+
+### Interdictions absolues :
+
+❌ CHAÎNES LOURDES : 3+ segments syntaxiques séparés UNIQUEMENT par des virgules dans
+une même phrase, chacun de 8+ mots :
+  Exemple INTERDIT : "Il marchait dans le couloir sombre, il sentait la présence derrière,
+  il entendait le souffle dans l'ombre, il savait que tout était perdu."
+  → Couper en 2 phrases minimum, ou utiliser un point-virgule.
+
+❌ MOT-OUTIL RÉPÉTÉ EN TÊTE : "Et...", "Mais...", "Le...", "La..." répété sur 2 phrases
+consécutives :
+  Exemple INTERDIT : "Le silence pesait. Le froid s'insinuait. Le temps s'étirait."
+  → Varier : "Le silence pesait. Froid soudain. Le temps s'étirait."
+
+❌ RÉGULARITÉ DE STRUCTURE : 3+ phrases consécutives avec la même structure
+[Sujet + Verbe + Complément] de longueur quasi-identique (±3 mots) :
+  Exemple INTERDIT : "Elle ouvrit la porte. (4m) Il entra dans la pièce. (5m) Elle recula d'un pas. (4m)"
+  → Insérer une syncope ou une phrase longue.
+
+### Obligations d'alternance :
+
+✅ Après chaque bloc de 2+ phrases longues (15+ mots) : UNE phrase de ≤6 mots minimum.
+✅ Après chaque syncope (≤3 mots) : autoriser la phrase longue suivante (15+ mots).
+✅ Chaque paragraphe doit avoir AU MINIMUM une transition rythmique :
+   court→long ou long→court ou syncope→développement.
+
+✅ Séquence idéale (CV paragraphe ≥ 0.90) :
+   [Phrase 25 mots] [Phrase 18 mots] [3 mots.] [Phrase 30 mots] [Phrase 12 mots] [2 mots.]
+
+══════════════════════════════════════════════════════════════
+
+## RÈGLE 3C — VOIX CONCRÈTE (REGISTRE CAMUS) [voice_conformity — paramètre actif] [NOUVEAU]
+
+Le scorer voice_conformity mesure le DRIFT entre ta prose et le genome cible.
+Les 3 paramètres ACTIFS (non exclus) sont : ellipsis_rate, paragraph_rhythm, opening_variety.
+**Un drift global > 0.10 = voice_conformity < 85 = RCI plafonne.**
+
+### Socle obligatoire — Registre Camus-adjacent :
+
+✅ REGISTRE : français narratif littéraire, ancré dans le réel et le CONCRET.
+   Chaque émotion = un objet, une sensation, une posture physique. Jamais une idée abstraite.
+   Exemples :
+   ✅ "Sa main cherchait le bord de la table." (concret)
+   ❌ "Elle ressentait l'absurdité de sa propre existence." (abstraction philosophique → REJET)
+   ✅ "Le café avait refroidi. Elle ne l'avait pas remarqué." (concret + implication)
+   ❌ "Le temps passait, implacable, comme toujours." (généralité → REJET)
+
+### Interdictions absolues (Voix) :
+
+❌ GÉNÉRALISATIONS PHILOSOPHIQUES : "comme toujours", "ainsi va la vie", "c'était ainsi",
+   "les choses étaient ce qu'elles étaient", "le monde ne changeait pas"
+❌ EMPHASE ORNEMENTALE : "indiciblement", "ineffable", "mystérieusement", "d'une façon
+   étrange", "quelque chose d'inexplicable"
+❌ RÉSUMÉ D'ÉMOTION : "elle était triste", "il se sentait perdu", "la peur l'envahit"
+   → Toujours MONTRER via le corps ou l'action.
+
+### Prescription directe (drift paragraph_rhythm) :
+
+✅ Aucun paragraphe de plus de 90 mots sans coupure ou syncope interne.
+✅ Au moins 1 paragraphe d'une seule phrase de ≤4 mots dans la scène entière.
+✅ Les paragraphes longs (60-90 mots) doivent alterner avec des paragraphes courts (5-20 mots).
 
 ══════════════════════════════════════════════════════════════
 
@@ -1020,12 +1114,16 @@ Ces injections doivent etre suivies d'un retour Camus immediat (syncope + phrase
 
 ⚠️ AUTO-VÉRIFICATION AVANT SOUMISSION :
 1. Compte les phrases <= 3 mots -> minimum 40% du total
-2. Pas 2 premiers mots identiques consecutifs
-3. 1 paragraphe ultra-court (1-3 mots seuls) obligatoire
-4. Moins de 20% de phrases avec 2+ subordonnants
-5. Max 2 participes presents consecutifs dans une meme phrase
+2. Vérifie les 4 PREMIÈRES phrases : 4 types d'attaque grammaticale différents (GN/circonstancielle/pronom/verbe)
+3. Pas 2 premiers mots identiques consécutifs
+4. 1 paragraphe ultra-court (1-4 mots seuls) obligatoire
+5. Moins de 20% de phrases avec 2+ subordonnants
+6. Max 2 participes présents consécutifs dans une même phrase
+7. Zéro chaîne de 3+ segments lourds séparés par virgules seules
+8. Zéro généralité philosophique ou emphase ornementale
 
-SCORER REJETTERA AUTOMATIQUEMENT si les 3 premieres metriques ne sont pas atteintes.
+SCORER REJETTERA AUTOMATIQUEMENT si les métriques 1, 3, 4 ne sont pas atteintes.
+RCI < 85 si métriques 2, 7, 8 sont violées.
 `;
 
   return {
@@ -1151,6 +1249,14 @@ Exemple de chaine valide : [phrase de 30 mots]. [2 mots]. [phrase de 20 mots]. [
 ## 6. DERNIÈRE PHRASE
 Doit laisser le lecteur dans un état émotionnel, pas refermer la scène.
 Ouverte, tendue, ou résonnante. Jamais conclusive.
+
+## 7. ATTAQUES DES 4 PREMIÈRES PHRASES (opening_variety score direct)
+Tes 4 premières phrases utilisent 4 types grammaticaux DISTINCTS :
+  □ Groupe nominal concret (ex: "La porte...", "Ses mains...", "L'air...")
+  □ Proposition circonstancielle (ex: "Quand elle...", "Dans le couloir...", "Avant que...")
+  □ Pronom personnel — MAX 1 fois parmi les 4 (ex: "Elle s'arrêta...", "Il regarda...")
+  □ Verbe ou participe en tête (ex: "Surgit alors...", "Courir était...", "Frappant le sol...")
+❌ Si 2+ phrases parmi les 4 premières commencent par le même type → REFORMULE avant de soumettre.
 
 ---
 ⚠️ GÉNÈRE MAINTENANT. Le scoreur jugera. Aucune approximation tolérée.

@@ -34,6 +34,15 @@ import {
 } from '../phase-u-exit-validator.js';
 import type { JudgeCache } from '../../../judge-cache.js';
 import { GREATNESS_PROMPT_VERSION } from '../greatness-judge.js';
+import type { MacroSScore } from '../../../oracle/s-score.js';
+import { SOVEREIGN_CONFIG } from '../../../config.js';
+import {
+  shouldApplyPolish,
+  applyPolishPass,
+  verifyAxesStability,
+  type PolishAxesSnapshot,
+} from '../polish-engine.js';
+import { judgeAestheticV3 } from '../../../oracle/aesthetic-oracle.js';
 
 // ── Configuration ─────────────────────────────────────────────────────────────
 
@@ -62,6 +71,20 @@ export interface BenchmarkConfig {
   readonly option:         'A';
 }
 
+export interface MacroAxesDetail {
+  readonly ecc:  number;
+  readonly rci:  number;
+  readonly sii:  number;
+  readonly ifi:  number;
+  readonly aai:  number;
+  readonly min_axis: number;
+}
+
+export interface SubAxesDetail {
+  readonly rci_parts: Record<string, number>; // rhythm/signature/hook_presence/euphony/voice_conformity
+  readonly sii_parts: Record<string, number>; // anti_cliche/necessity/metaphor_novelty
+}
+
 export interface RunRecord {
   readonly pair_index:           number;
   readonly mode:                 'one-shot' | 'top-k';
@@ -72,6 +95,10 @@ export interface RunRecord {
   readonly verdict:              'SEAL' | 'REJECT' | 'ERROR';
   readonly greatness_composite?: number;
   readonly error_detail?:        string;
+  // U-LOG-AXES-01: telemetry
+  readonly macro_axes?:          MacroAxesDetail;
+  readonly sub_axes?:            SubAxesDetail;
+  readonly gate_fail_reasons?:   string[]; // INV-LOG-01: non-vide si REJECT
 }
 
 export interface BenchmarkSummary {
@@ -111,6 +138,55 @@ function sha256str(s: string): string {
 
 function inputHash(input: ForgePacketInput): string {
   return sha256str(JSON.stringify(input));
+}
+
+// ── U-LOG-AXES-01: telemetry extractors ─────────────────────────────────────
+
+function extractMacroDetail(macroScore: MacroSScore | null | undefined): MacroAxesDetail | undefined {
+  if (!macroScore?.macro_axes) return undefined;
+  const m = macroScore.macro_axes;
+  return {
+    ecc:      Math.round(m.ecc.score  * 10) / 10,
+    rci:      Math.round(m.rci.score  * 10) / 10,
+    sii:      Math.round(m.sii.score  * 10) / 10,
+    ifi:      Math.round(m.ifi.score  * 10) / 10,
+    aai:      Math.round(m.aai.score  * 10) / 10,
+    min_axis: Math.round(macroScore.min_axis * 10) / 10,
+  };
+}
+
+function extractSubAxes(macroScore: MacroSScore | null | undefined): SubAxesDetail | undefined {
+  if (!macroScore?.macro_axes) return undefined;
+  const m = macroScore.macro_axes;
+  const toParts = (subScores: readonly { name: string; score: number }[]) =>
+    Object.fromEntries(subScores.map(s => [s.name, Math.round(s.score * 10) / 10]));
+  return {
+    rci_parts: toParts(m.rci.sub_scores as { name: string; score: number }[]),
+    sii_parts: toParts(m.sii.sub_scores as { name: string; score: number }[]),
+  };
+}
+
+function extractGateFailReasons(macroScore: MacroSScore | null | undefined, verdict: string): string[] {
+  if (verdict !== 'REJECT' && verdict !== 'PITCH') return [];
+  if (!macroScore?.macro_axes) return ['macro_score=N/A'];
+  const reasons: string[] = [];
+  const m  = macroScore.macro_axes;
+  const cfg = SOVEREIGN_CONFIG;
+  if (macroScore.composite < cfg.ZONES.GREEN.min_composite)
+    reasons.push(`composite=${macroScore.composite.toFixed(1)}<${cfg.ZONES.GREEN.min_composite}`);
+  if (macroScore.min_axis  < cfg.ZONES.GREEN.min_axis)
+    reasons.push(`min_axis=${macroScore.min_axis.toFixed(1)}<${cfg.ZONES.GREEN.min_axis}`);
+  if (m.ecc.score < cfg.MACRO_FLOORS.ecc)
+    reasons.push(`ecc=${m.ecc.score.toFixed(1)}<floor_${cfg.MACRO_FLOORS.ecc}`);
+  if (m.rci.score < cfg.MACRO_FLOORS.rci)
+    reasons.push(`rci=${m.rci.score.toFixed(1)}<floor_${cfg.MACRO_FLOORS.rci}`);
+  if (m.sii.score < cfg.MACRO_FLOORS.sii)
+    reasons.push(`sii=${m.sii.score.toFixed(1)}<floor_${cfg.MACRO_FLOORS.sii}`);
+  if (m.ifi.score < cfg.MACRO_FLOORS.ifi)
+    reasons.push(`ifi=${m.ifi.score.toFixed(1)}<floor_${cfg.MACRO_FLOORS.ifi}`);
+  if (m.aai.score < cfg.MACRO_FLOORS.aai)
+    reasons.push(`aai=${m.aai.score.toFixed(1)}<floor_${cfg.MACRO_FLOORS.aai}`);
+  return reasons.length > 0 ? reasons : ['REJECT:unknown'];
 }
 
 function median(values: number[]): number {
@@ -179,25 +255,41 @@ export class DualBenchmarkRunner {
 
       let record: RunRecord;
       try {
-        const result = await runSovereignForge(seededInput, this.provider);
-        const sScore = result.s_score as { composite?: number; axes?: Record<string, { score?: number }> };
-        const sComp  = typeof sScore?.composite === 'number' ? sScore.composite : 0;
-        const oHash  = result.verdict === 'SEAL' ? sha256str(result.final_prose) : '';
+        const result      = await runSovereignForge(seededInput, this.provider);
+        const sComp        = typeof result.s_score?.composite === 'number' ? result.s_score.composite : 0;
+        const oHash        = result.verdict === 'SEAL' ? sha256str(result.final_prose) : '';
+        const macroDetail  = extractMacroDetail(result.macro_score);
+        const subAxes      = extractSubAxes(result.macro_score);
+        const gateReasons  = extractGateFailReasons(result.macro_score, result.verdict);
 
-        // Per-axis logging for H2 diagnosis
-        const axesLog = sScore?.axes
-          ? Object.entries(sScore.axes)
-              .map(([k, v]) => `${k.replace(/_/g, '-').slice(0, 8)}=${((v as { score?: number }).score ?? 0).toFixed(0)}`)
-              .join(' | ')
-          : 'axes=N/A';
+        // Console: macro axes
+        const axesLog = macroDetail
+          ? `ecc=${macroDetail.ecc} | rci=${macroDetail.rci} | sii=${macroDetail.sii} | ifi=${macroDetail.ifi} | aai=${macroDetail.aai}`
+          : 'macro_axes=N/A';
+        // Console: RCI sub-axes
+        const rciLog = subAxes?.rci_parts
+          ? '  RCI: ' + Object.entries(subAxes.rci_parts).map(([k,v]) => `${k}=${v}`).join(' | ')
+          : '';
+        // Console: SII sub-axes
+        const siiLog = subAxes?.sii_parts
+          ? '  SII: ' + Object.entries(subAxes.sii_parts).map(([k,v]) => `${k}=${v}`).join(' | ')
+          : '';
+        // Console: gate reasons
+        const gateLog = gateReasons.length > 0 ? '  GATE: ' + gateReasons.join(', ') : '';
 
         record = {
           pair_index: i, mode: 'one-shot', base_seed: baseSeed,
           input_hash: iHash, output_hash: oHash,
           s_composite: sComp, verdict: result.verdict,
+          macro_axes:       macroDetail,
+          sub_axes:         subAxes,
+          gate_fail_reasons: gateReasons,
         };
         oneShotRecords.push({ run_id: `os-${i}`, verdict: result.verdict, s_composite: sComp });
         console.log(`${result.verdict} (s=${sComp.toFixed(1)}) | ${axesLog}`);
+        if (rciLog)  console.log(rciLog);
+        if (siiLog)  console.log(siiLog);
+        if (gateLog) console.log(gateLog);
       } catch (err) {
         // CreditExhaustedError — propagate immediately, do not swallow
         if (err instanceof Error && err.name === 'CreditExhaustedError') throw err;
@@ -229,14 +321,104 @@ export class DualBenchmarkRunner {
         const oHash  = top1.forge_result ? sha256str(top1.forge_result.final_prose) : '';
         const gComp  = top1.greatness?.composite ?? 0;
 
+        // ── U-ROSETTE-10: Polish Engine sur le champion Top-K ───────────────────────────────
+        // Conditions : champion n'est pas SEAL, composite >= 89, forge_packet disponible
+        let polishedVerdict: 'SEAL' | 'REJECT' = top1.survived_seal ? 'SEAL' : 'REJECT';
+        let polishedComposite = sComp;
+        let polishedOutputHash = oHash;
+        let polishLog = '';
+
+        const forgeResult = top1.forge_result;
+        const macroAxes = forgeResult?.macro_score?.macro_axes;
+        const forgePacket = forgeResult?.forge_packet;
+
+        if (!top1.survived_seal && forgeResult && macroAxes && forgePacket) {
+          const axesBefore: PolishAxesSnapshot = {
+            composite: sComp,
+            ecc:  macroAxes.ecc.score,
+            rci:  macroAxes.rci.score,
+            sii:  macroAxes.sii.score,
+            ifi:  macroAxes.ifi.score,
+            aai:  macroAxes.aai.score,
+            metaphor_novelty: (() => {
+              const siiSub = macroAxes.sii.sub_scores as { name: string; score: number }[];
+              return siiSub.find(s => s.name === 'metaphor_novelty')?.score ?? 70;
+            })(),
+            necessity: (() => {
+              const siiSub = macroAxes.sii.sub_scores as { name: string; score: number }[];
+              return siiSub.find(s => s.name === 'necessity')?.score ?? 85;
+            })(),
+            anti_cliche: (() => {
+              const siiSub = macroAxes.sii.sub_scores as { name: string; score: number }[];
+              return siiSub.find(s => s.name === 'anti_cliche')?.score ?? 90;
+            })(),
+          };
+
+          const decision = shouldApplyPolish(axesBefore);
+          if (decision.should_polish) {
+            process.stdout.write(`  [POLISH] ${decision.reason} ... `);
+            try {
+              const polishResult = await applyPolishPass(
+                forgeResult.final_prose, axesBefore, this.provider, 1,
+                `polish-topk-${i}-${baseSeed.slice(0, 8)}`,
+              );
+
+              if (polishResult.status === 'POLISHED') {
+                // Rescorer la prose polie avec judgeAestheticV3
+                const rescored = await judgeAestheticV3(
+                  forgePacket, polishResult.polished_prose, this.provider,
+                  forgeResult.symbol_map, forgeResult.physics_audit,
+                );
+
+                const axesAfter: PolishAxesSnapshot = {
+                  composite: rescored.composite,
+                  ecc: rescored.macro_axes?.ecc.score ?? axesBefore.ecc,
+                  rci: rescored.macro_axes?.rci.score ?? axesBefore.rci,
+                  sii: rescored.macro_axes?.sii.score ?? axesBefore.sii,
+                  ifi: rescored.macro_axes?.ifi.score ?? axesBefore.ifi,
+                  aai: rescored.macro_axes?.aai.score ?? axesBefore.aai,
+                  metaphor_novelty: (() => {
+                    const sub = rescored.macro_axes?.sii.sub_scores as { name: string; score: number }[] | undefined;
+                    return sub?.find(s => s.name === 'metaphor_novelty')?.score ?? axesBefore.metaphor_novelty;
+                  })(),
+                  necessity: axesBefore.necessity,
+                  anti_cliche: axesBefore.anti_cliche,
+                };
+
+                const stability = verifyAxesStability(axesBefore, axesAfter);
+
+                if (stability.stability_ok && rescored.composite > sComp) {
+                  polishedComposite = rescored.composite;
+                  polishedOutputHash = createHash('sha256').update(polishResult.polished_prose).digest('hex');
+                  polishedVerdict = (rescored.verdict === 'SEAL') ? 'SEAL' : 'REJECT';
+                  polishLog = ` | POLISH=ACCEPTED composite=${sComp.toFixed(1)}→${polishedComposite.toFixed(1)} sii=${axesBefore.sii.toFixed(1)}→${axesAfter.sii.toFixed(1)}`;
+                } else {
+                  polishLog = ` | POLISH=REJECTED_${stability.stability_ok ? 'NO_GAIN' : 'REGRESSION'} axes=[${stability.failed_axes.join(',')}]`;
+                }
+              } else {
+                polishLog = ` | POLISH=${polishResult.status}`;
+              }
+            } catch (polishErr) {
+              // FAIL-CLOSED : erreur polish non bloquante
+              polishLog = ` | POLISH=FAIL_INFRA:${String(polishErr).slice(0, 60)}`;
+            }
+          } else {
+            polishLog = ` | POLISH=NO_OP:${decision.reason.slice(0, 80)}`;
+          }
+        }
+        // ── Fin Polish Engine ────────────────────────────────────────────────────────────────
+
         record = {
           pair_index: i, mode: 'top-k', base_seed: baseSeed,
-          input_hash: iHash, output_hash: oHash,
-          s_composite: sComp, verdict: top1.survived_seal ? 'SEAL' : 'REJECT',
+          input_hash: iHash, output_hash: polishedOutputHash,
+          s_composite: polishedComposite, verdict: polishedVerdict,
           greatness_composite: gComp,
         };
         topKReports.push(report);
-        console.log(`${top1.survived_seal ? 'SEAL' : 'REJECT'} (g=${gComp.toFixed(1)}, survivors=${report.k_survived_seal}/${BENCHMARK_K})`);
+        // FIX-K-LOG: use this.k (runtime value) not BENCHMARK_K (hardcoded 8).
+        // In BENCH_MICRO mode K=3 → was showing survivors=X/8, now shows X/3.
+        // Also surface k_candidates for U-ROSETTE-02 diagnostics.
+        console.log(`${polishedVerdict} (g=${gComp.toFixed(1)}, candidates=${report.k_candidates}/${this.k}, survivors=${report.k_survived_seal}/${this.k})${polishLog}`);
       } catch (err) {
         // CreditExhaustedError — propagate immediately, do not swallow
         if (err instanceof Error && err.name === 'CreditExhaustedError') throw err;

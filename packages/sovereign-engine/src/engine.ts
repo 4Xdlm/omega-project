@@ -63,6 +63,8 @@ export interface SovereignForgeResult {
   readonly physics_audit?: PhysicsAuditResult; // Sprint 3.1: Physics Audit (informatif)
   readonly prescriptions?: import('./prescriptions/types.js').Prescription[]; // Sprint 3.3: Prescriptions chirurgicales
   readonly quality_m12?: QualityM12Report; // Sprint 6.1 (Roadmap 4.1): Quality M1-M12 rapport annexe (INFORMATIF)
+  /** U-ROSETTE-10: expose le ForgePacket enrichi pour le Polish Engine post-génération */
+  readonly forge_packet?: import('./types.js').ForgePacket;
 }
 
 export async function runSovereignForge(
@@ -149,6 +151,7 @@ export async function runSovereignForge(
         physics_audit: physicsAudit,
         prescriptions,
         quality_m12,
+        forge_packet: enrichedPacket, // U-ROSETTE-10
       };
     }
     // V1 says SEAL but V3 says REJECT/PITCH → V3 wins, continue to duel+polish
@@ -201,5 +204,6 @@ export async function runSovereignForge(
     physics_audit: physicsAudit,
     prescriptions,
     quality_m12,
+    forge_packet: enrichedPacket, // U-ROSETTE-10
   };
 }

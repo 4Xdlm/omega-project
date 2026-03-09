@@ -30,8 +30,8 @@
 import { sha256, canonicalize } from '@omega/canon-kernel';
 import type { ForgePacket, SovereignPrompt, PromptSection } from '../types.js';
 
-/** U-ROSETTE-08: FIX U-META-03 — calcul de sécurité réel + garde-fou esthétique (irrégularité féconde) */
-export const PROMPT_ASSEMBLER_VERSION = '2.5.8';
+/** U-ROSETTE-09: ROLLBACK U-META-03 → U-07 (zéro métaphore toléré) + Polish Engine route */
+export const PROMPT_ASSEMBLER_VERSION = '2.5.9';
 import type { SymbolMap } from '../symbol/symbol-map-types.js';
 import { compilePhysicsSection } from '../constraints/constraint-compiler.js';
 import type { ForgeEmotionBrief } from '@omega/omega-forge';
@@ -1197,22 +1197,11 @@ Objectif : ton juge interne va noter tes métaphores 0-100. Tu vises 85+.
   1 métaphore notée  85 → score final ≈  85 (GAIN RÉEL)
   1 métaphore morte  → is_dead=true → novelty_score forcé à 0 → score ≈ 0
 
-⚠️ CALCUL DE SÉCURITÉ RÉEL (avec anti_cliche=97, necessity=85 typiques) :
-  0 métaphore  → metaphor_novelty=70 → SII = (97+85+70)/3 = 84.0 → REJET (floor=85)
-  métaphore 74 → SII = (97+85+74)/3 = 85.3 → PASS ✅
-  métaphore 82 → SII = (97+85+82)/3 = 88.0 → PASS ✅ (marge sûre)
-
 ⚠️ CONCLUSION MATHÉMATIQUE ABSOLUE :
-  Zéro métaphore ne suffit PAS — c'est un REJET garanti dans cette configuration.
-  Tu dois produire au moins une image. Cible minimale : novelty_score ≥ 74.
-  Cible confortable : novelty_score ≥ 82.
-
-⚠️ GARDE-FOU ESTHÉTIQUE (aussi important que le calcul) :
-  L'objectif n'est PAS "plus de métaphores" ni "métaphores démonstratives".
-  L'objectif est : UNE image organique, nécessaire à la scène, suffisamment singulière.
-  Une image légèrement oblique, décalée, pas parfaitement symétrique — peut valoir 85+.
-  Une image "trop propre" ou trop construite sonne démonstrative → novelty_score chute.
-  La sobriété, la sécheresse, l'asymétrie du texte autour de la métaphore = préservées.
+  N'écris une métaphore QUE si tu es certain à 95% qu'elle atteindra 85+.
+  Dans le moindre doute → NE PAS ÉCRIRE DE MÉTAPHORE.
+  Zéro métaphore = SII protégé à 70. Une seule métaphore sub-80 = SII < 70 = REJET.
+  C'est le seul calcul qui compte.
 
 ## PROCÉDURE (dans ta tête, pas dans la prose)
 

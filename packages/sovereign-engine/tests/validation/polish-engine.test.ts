@@ -1,254 +1,336 @@
 /**
- * polish-engine.test.ts
- * Sprint U-W2 — Tests du Polish Engine
+ * ═══════════════════════════════════════════════════════════════════════════════
+ * TESTS — POLISH ENGINE
+ * ═══════════════════════════════════════════════════════════════════════════════
  *
- * Couverture :
- *   - SKIP si composite hors [POLISH_FLOOR, SEAL_THRESHOLD) — INV-PE-02
- *   - SKIP si aucun axe bloquant identifié
- *   - extractPolishDiagnostic() — extraction sub-axes bloquants
- *   - Boucle polish : SEAL au round 1, REJECT après max rounds
- *   - INV-PE-03 : max MAX_POLISH_ROUNDS iterations
- *   - INV-PE-06 : fail-closed sur erreur LLM
+ * Module: tests/validation/polish-engine.test.ts
+ * Coverage: shouldApplyPolish, checkDrift, applyPolishPass (mock provider)
  *
- * Standard: NASA-Grade L4 / DO-178C — PASS ou FAIL
+ * INV-PE-01..06 testés.
+ * Standard: NASA-Grade L4 / DO-178C
+ * ═══════════════════════════════════════════════════════════════════════════════
  */
 
 import { describe, it, expect, vi } from 'vitest';
 import {
-  PolishEngine,
-  PolishError,
-  extractPolishDiagnostic,
-  POLISH_FLOOR,
+  shouldApplyPolish,
+  checkDrift,
+  applyPolishPass,
+  verifyAxesStability,
+  POLISH_MIN_COMPOSITE,
   POLISH_SEAL_THRESHOLD,
-  MAX_POLISH_ROUNDS,
-} from '../../src/validation/phase-u/polish-engine';
-import type { SovereignForgeResult } from '../../src/engine';
-import type { ForgePacketInput } from '../../src/input/forge-packet-assembler';
-import type { SovereignProvider } from '../../src/types';
+  SII_FLOOR,
+  NOVELTY_TARGET,
+  DRIFT_MAX_PARAGRAPHS,
+  MAX_REGRESSION_DELTA,
+  type PolishAxesSnapshot,
+} from '../../src/validation/phase-u/polish-engine.js';
+import type { SovereignProvider } from '../../src/types.js';
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
-function makeMockResult(
-  composite: number,
-  rci: number,
-  vcScore = 70,
-  verdict: 'SEAL' | 'REJECT' = 'REJECT',
-): SovereignForgeResult {
+function makeAxes(overrides: Partial<PolishAxesSnapshot> = {}): PolishAxesSnapshot {
   return {
-    final_prose: 'Prose de test. Du sang. Elle savait. La maison était silencieuse et le vent ne portait rien.',
-    verdict,
-    s_score: { composite, verdict },
-    macro_score: {
-      composite,
-      min_axis: rci,
-      verdict,
-      macro_axes: {
-        ecc: { score: 92, sub_scores: [] },
-        rci: {
-          score: rci,
-          sub_scores: [
-            { name: 'voice_conformity', score: vcScore, weight: 1.0, method: 'CALC', details: 'ellipsis(t=0.50/a=0.20/d=30.0%) | opening_var(t=0.80/a=0.45/d=35.0%) | para_rhythm(t=0.90/a=0.85/d=5.0%)' },
-            { name: 'hook_presence',    score: 72, weight: 0.20, method: 'CALC', details: '' },
-            { name: 'rhythm',           score: 78, weight: 1.0,  method: 'CALC', details: '' },
-            { name: 'signature',        score: 100, weight: 1.0, method: 'CALC', details: '' },
-            { name: 'euphony',          score: 85,  weight: 0.5, method: 'CALC', details: '' },
-          ],
-        },
-        sii: { score: 88, sub_scores: [] },
-        ifi: { score: 97, sub_scores: [] },
-        aai: { score: 95, sub_scores: [] },
-      },
-    },
-  } as unknown as SovereignForgeResult;
-}
-
-function makeMockInput(): ForgePacketInput {
-  return {
-    plan: {} as any,
-    scene: { objective: 'Scène narrative', conflict_type: 'internal' } as any,
-    style_profile: {
-      lexicon: { signature_words: ['silence', 'lumière', 'ombre'], forbidden_words: [] },
-      imagery: { recurrent_motifs: ['obscurité'], density_target_per_100_words: 3, banned_metaphors: [] },
-      rhythm: { avg_sentence_length_target: 18, gini_target: 0.45 },
-      tone: { dominant_register: 'soutenu', intensity_range: [0.3, 0.85] },
-    } as any,
-    kill_lists: { banned_words: [], banned_cliches: [], banned_ai_patterns: [], banned_filter_words: [] } as any,
-    canon: [],
-    continuity: {} as any,
-    run_id: 'test-polish',
-    language: 'fr',
+    composite: 93.3,
+    ecc: 96.6,
+    rci: 87.9,
+    sii: 84.8,
+    ifi: 99,
+    aai: 95.6,
+    metaphor_novelty: 72.4,
+    necessity: 85,
+    anti_cliche: 97,
+    ...overrides,
   };
 }
 
-function makeMockProvider(): SovereignProvider {
-  return {} as SovereignProvider;
+// ~80 mots par version pour que le delta (+2 mots) reste < 7%
+const PROSE_3_PARAGRAPHS = `Elle traversa la salle sans regarder personne. Les chaises alignées comme des témoins muets formaient deux rangées étroites. Le parquet grinçait sous ses pas, régulièrement.
+
+Il était assis près de la fenêtre, le dos tourné. Elle reconnut la forme de ses épaules avant même d’apercevoir son visage. La lumière du dehors le découpait en silhouette sombre.
+
+Elle posa la main sur la table. Rien d’autre.`;
+
+// Version polie : un seul mot remplacé dans le premier paragraphe (Δ = 0 mot, drift < 1%)
+const PROSE_POLISHED_3_PARAGRAPHS = `Elle traversa la salle sans regarder personne. Les chaises alignées comme des témoins muets formaient deux rangées étroites. Le plancher grinçait sous ses pas, régulièrement.
+
+Il était assis près de la fenêtre, le dos tourné. Elle reconnut la forme de ses épaules avant même d’apercevoir son visage. La lumière du dehors le découpait en silhouette sombre.
+
+Elle posa la main sur la table. Rien d’autre.`;
+
+function makeMockProvider(response: string): SovereignProvider {
+  return {
+    generateDraft: vi.fn().mockResolvedValue(response),
+    generateStructuredJSON: vi.fn(),
+    scoreInteriority: vi.fn(),
+    scoreSensoryDensity: vi.fn(),
+    scoreNecessity: vi.fn(),
+    scoreImpact: vi.fn(),
+    applyPatch: vi.fn(),
+    rewriteSentence: vi.fn(),
+  } as unknown as SovereignProvider;
 }
 
-// ── Tests : extractPolishDiagnostic ──────────────────────────────────────────
+// ── shouldApplyPolish ─────────────────────────────────────────────────────────
 
-describe('extractPolishDiagnostic', () => {
-  it('identifie voice_conformity et hook_presence comme bloquants si RCI < floor', () => {
-    const result = makeMockResult(91.5, 76);
-    const diag = extractPolishDiagnostic(result);
-    expect(diag.rci_score).toBe(76);
-    expect(diag.composite_before).toBeCloseTo(91.5, 1);
-    // voice_conformity=70 et hook_presence=72 sont < 82 (sub-floor) → bloquants
-    expect(diag.blocking_sub_axes.length).toBeGreaterThan(0);
-    expect(diag.blocking_sub_axes.some(a => a.includes('voice_conformity'))).toBe(true);
-    expect(diag.blocking_sub_axes.some(a => a.includes('hook_presence'))).toBe(true);
+describe('shouldApplyPolish — INV-PE-01 + INV-PE-06', () => {
+  it('PE-01: retourne TRUE pour le Patient Zéro U-07 Run 3 (composite=93.3 mais SII=84.8 < floor)', () => {
+    // composite=93.3 >= 93.0 MAIS sii=84.8 < 85 — pas SEAL-compliant — polish doit s'appliquer
+    const axes = makeAxes(); // composite=93.3, sii=84.8, metaphor_novelty=72.4, ecc=96.6, rci=87.9
+    const result = shouldApplyPolish(axes);
+    expect(result.should_polish).toBe(true);
+    expect(result.reason).toContain('polish ciblé');
   });
 
-  it('ellipsis_rate et opening_variety extraits depuis les détails voice_conformity', () => {
-    const result = makeMockResult(91.5, 76);
-    const diag = extractPolishDiagnostic(result);
-    // Actual ellipsis = 0.20 (a=0.20 dans les détails mock)
-    expect(diag.ellipsis_rate_actual).toBeCloseTo(0.20, 2);
-    expect(diag.opening_variety_actual).toBeCloseTo(0.45, 2);
+  it('PE-01b: retourne true pour composite=92.5, SII=84.8, metaphor_novelty=72.4', () => {
+    const axes = makeAxes({ composite: 92.5 });
+    const result = shouldApplyPolish(axes);
+    expect(result.should_polish).toBe(true);
+    expect(result.reason).toContain('polish ciblé');
   });
 
-  it('retourne liste vide si RCI >= floor (aucun axe bloquant)', () => {
-    const result = makeMockResult(93, 87, 92, 'SEAL');
-    const diag = extractPolishDiagnostic(result);
-    expect(diag.blocking_sub_axes.length).toBe(0);
-  });
-});
-
-// ── Tests : PolishEngine.polish() — INV-PE-02 (SKIP hors plage) ──────────────
-
-describe('PolishEngine — INV-PE-02 : SKIP hors plage', () => {
-  const engine = new PolishEngine(makeMockProvider(), 'claude-sonnet-4-20250514', 'test-key');
-
-  it('SKIP si composite déjà >= SEAL_THRESHOLD', async () => {
-    const result = makeMockResult(POLISH_SEAL_THRESHOLD, 88, 90, 'SEAL');
-    const polished = await engine.polish(makeMockInput(), result, 'seed-test');
-    expect(polished.verdict).toBe('SKIP');
-    expect(polished.skip_reason).toContain('ALREADY_SEAL');
-    expect(polished.rounds_executed).toBe(0);
-    expect(polished.polish_gain).toBe(0);
+  it('PE-01c: retourne false si composite < POLISH_MIN', () => {
+    const axes = makeAxes({ composite: 88.0, sii: 82.0 });
+    const result = shouldApplyPolish(axes);
+    expect(result.should_polish).toBe(false);
+    expect(result.reason).toContain('trop dégradé');
   });
 
-  it('SKIP si composite < POLISH_FLOOR', async () => {
-    const result = makeMockResult(POLISH_FLOOR - 1, 60);
-    const polished = await engine.polish(makeMockInput(), result, 'seed-test');
-    expect(polished.verdict).toBe('SKIP');
-    expect(polished.skip_reason).toContain('BELOW_POLISH_FLOOR');
-    expect(polished.rounds_executed).toBe(0);
+  it('PE-01d: retourne false si composite >= 93 ET tous les floors atteints (SEAL-compliant)', () => {
+    const axes = makeAxes({ composite: 94.0, sii: 86.0, ecc: 90.0, rci: 86.0, metaphor_novelty: 85.0 });
+    const result = shouldApplyPolish(axes);
+    expect(result.should_polish).toBe(false);
+    expect(result.reason).toContain('SEAL-compliant');
   });
 
-  it('SKIP si aucun axe bloquant (RCI >= floor)', async () => {
-    const result = makeMockResult(91, 87, 92, 'REJECT');
-    const polished = await engine.polish(makeMockInput(), result, 'seed-test');
-    expect(polished.verdict).toBe('SKIP');
-    expect(polished.skip_reason).toContain('NO_BLOCKING_AXES');
+  it('PE-01e2: retourne TRUE si composite >= 93 mais SII < 85 (floors incomplets)', () => {
+    const axes = makeAxes({ composite: 93.3, sii: 84.8, ecc: 96.6, rci: 87.9, metaphor_novelty: 72.4 });
+    const result = shouldApplyPolish(axes);
+    expect(result.should_polish).toBe(true);
   });
-});
 
-// ── Tests : INV-PE-03 (max rounds) ───────────────────────────────────────────
+  it('PE-06a: retourne false si SII >= floor (polish inutile)', () => {
+    const axes = makeAxes({ composite: 91.0, sii: 86.0, metaphor_novelty: 80.0 });
+    const result = shouldApplyPolish(axes);
+    expect(result.should_polish).toBe(false);
+    expect(result.reason).toContain('SII');
+  });
 
-describe('PolishEngine — INV-PE-03 : max rounds enforcement', () => {
-  it('ne dépasse jamais MAX_POLISH_ROUNDS iterations', async () => {
-    let callCount = 0;
-    const provider = makeMockProvider();
+  it('PE-06b: retourne false si metaphor_novelty >= NOVELTY_TARGET', () => {
+    const axes = makeAxes({ composite: 91.0, sii: 84.0, metaphor_novelty: 83.0 });
+    const result = shouldApplyPolish(axes);
+    expect(result.should_polish).toBe(false);
+    expect(result.reason).toContain('metaphor_novelty');
+  });
 
-    // Mock forge qui retourne toujours REJECT
-    const engine = new PolishEngine(provider, 'claude-sonnet-4-20250514', 'fake-key');
+  it('PE-06c: retourne false si ECC < 88 (trop dégradé pour polish)', () => {
+    const axes = makeAxes({ composite: 91.0, sii: 83.0, metaphor_novelty: 70.0, ecc: 87.0 });
+    const result = shouldApplyPolish(axes);
+    expect(result.should_polish).toBe(false);
+    expect(result.reason).toContain('ECC');
+  });
 
-    // Patch callPolishLLM via prototype pour retourner prose modifiée
-    const originalCall = (engine as any).callPolishLLM.bind(engine);
-    vi.spyOn(engine as any, 'callPolishLLM').mockImplementation(async () => {
-      callCount++;
-      return 'Prose polie mock round ' + callCount + '. Du sang. Elle savait. Trop tard. Le bruit cessa.';
-    });
+  it('PE-01e: POLISH_MIN_COMPOSITE est 89.0', () => {
+    expect(POLISH_MIN_COMPOSITE).toBe(89.0);
+  });
 
-    // Mock runSovereignForge pour retourner toujours REJECT composite 91
-    const { runSovereignForge: originalRunForge } = await import('../../src/engine');
-    vi.mock('../../src/engine', async (importOriginal) => {
-      const actual = await importOriginal() as any;
-      return {
-        ...actual,
-        runSovereignForge: vi.fn().mockResolvedValue(makeMockResult(91, 76)),
-      };
-    });
+  it('PE-01f: POLISH_SEAL_THRESHOLD est 93.0', () => {
+    expect(POLISH_SEAL_THRESHOLD).toBe(93.0);
+  });
 
-    const initialResult = makeMockResult(90, 76);
-    const polished = await engine.polish(makeMockInput(), initialResult, 'seed-test');
+  it('PE-06d: SII_FLOOR est 85.0', () => {
+    expect(SII_FLOOR).toBe(85.0);
+  });
 
-    // rounds_executed <= MAX_POLISH_ROUNDS
-    expect(polished.rounds_executed).toBeLessThanOrEqual(MAX_POLISH_ROUNDS);
-    expect(polished.rounds.length).toBeLessThanOrEqual(MAX_POLISH_ROUNDS);
-    vi.restoreAllMocks();
+  it('PE-06e: NOVELTY_TARGET est 82.0', () => {
+    expect(NOVELTY_TARGET).toBe(82.0);
   });
 });
 
-// ── Tests : structure PolishResult ───────────────────────────────────────────
+// ── checkDrift ────────────────────────────────────────────────────────────────
 
-describe('PolishEngine — structure PolishResult', () => {
-  it('PolishResult SKIP contient tous les champs requis', async () => {
-    const engine = new PolishEngine(makeMockProvider(), 'claude-sonnet-4-20250514', 'test-key');
-    const result = makeMockResult(POLISH_SEAL_THRESHOLD + 1, 90, 92, 'SEAL');
-    const polished = await engine.polish(makeMockInput(), result, 'seed');
-
-    expect(polished).toMatchObject({
-      verdict:        'SKIP',
-      final_prose:    expect.any(String),
-      final_composite: expect.any(Number),
-      rounds:         [],
-      rounds_executed: 0,
-      polish_gain:    0,
-      prose_sha256_final: expect.stringMatching(/^[0-9a-f]{64}$/),
-      polish_hash:    expect.stringMatching(/^[0-9a-f]{64}$/),
-      created_at:     expect.stringMatching(/^\d{4}-\d{2}-\d{2}T/),
-      skip_reason:    expect.any(String),
-    });
+describe('checkDrift — INV-PE-02 + INV-PE-04', () => {
+  it('PE-02a: drift ok si même nombre de paragraphes', () => {
+    const result = checkDrift(PROSE_3_PARAGRAPHS, PROSE_POLISHED_3_PARAGRAPHS);
+    expect(result.paragraphs_before).toBe(3);
+    expect(result.paragraphs_after).toBe(3);
+    expect(result.drift_paragraphs).toBe(0);
+    expect(result.drift_ok).toBe(true);
   });
 
-  it('PolishRound contient tous les champs de traçabilité', async () => {
-    const engine = new PolishEngine(makeMockProvider(), 'claude-sonnet-4-20250514', 'test-key');
+  it('PE-02b: drift ko si nombre de paragraphes change', () => {
+    const polishedExtra = PROSE_3_PARAGRAPHS + '\n\nQuatrième paragraphe ajouté par le LLM hors contrat.';
+    const result = checkDrift(PROSE_3_PARAGRAPHS, polishedExtra);
+    expect(result.paragraphs_before).toBe(3);
+    expect(result.paragraphs_after).toBe(4);
+    expect(result.drift_paragraphs).toBe(1);
+    expect(result.drift_ok).toBe(false);
+  });
 
-    vi.spyOn(engine as any, 'callPolishLLM').mockResolvedValue(
-      'Prose polie. Du sang. Elle savait. Trop tard. Rien de plus. La nuit.'
-    );
+  it('PE-04a: DRIFT_MAX_PARAGRAPHS est 0 (strict)', () => {
+    expect(DRIFT_MAX_PARAGRAPHS).toBe(0);
+  });
 
-    const { runSovereignForge } = await import('../../src/engine');
-    vi.mocked(runSovereignForge).mockResolvedValueOnce(
-      makeMockResult(POLISH_SEAL_THRESHOLD, 87, 92, 'SEAL')
-    );
+  it('PE-02c: drift ok si variation mots < 7%', () => {
+    // ~40 mots original, ~42 mots poli = 5% de drift
+    const original = 'Un deux trois quatre cinq six sept huit neuf dix onze douze treize quatorze quinze seize dix-sept dix-huit dix-neuf vingt vingt-et-un vingt-deux vingt-trois vingt-quatre vingt-cinq vingt-six vingt-sept vingt-huit vingt-neuf trente trente-et-un trente-deux trente-trois trente-quatre trente-cinq trente-six trente-sept trente-huit trente-neuf quarante.';
+    const polished = 'Un deux trois quatre cinq six sept huit neuf dix onze douze treize quatorze quinze seize dix-sept dix-huit dix-neuf vingt vingt-et-un vingt-deux vingt-trois vingt-quatre vingt-cinq vingt-six vingt-sept vingt-huit vingt-neuf trente trente-et-un trente-deux trente-trois trente-quatre trente-cinq trente-six trente-sept trente-huit trente-neuf quarante plus.';
+    const result = checkDrift(original, polished);
+    expect(result.drift_ok).toBe(true);
+  });
 
-    const initialResult = makeMockResult(91, 76);
-    const polished = await engine.polish(makeMockInput(), initialResult, 'seed-round-test');
-
-    if (polished.rounds.length > 0) {
-      const round = polished.rounds[0];
-      expect(round).toMatchObject({
-        round:              1,
-        seed:               expect.stringMatching(/^[0-9a-f]{64}$/),
-        composite_before:   expect.any(Number),
-        composite_after:    expect.any(Number),
-        delta_composite:    expect.any(Number),
-        rci_before:         expect.any(Number),
-        rci_after:          expect.any(Number),
-        verdict_after:      expect.stringMatching(/^(SEAL|REJECT)$/),
-        prose_sha256_before: expect.stringMatching(/^[0-9a-f]{64}$/),
-        prose_sha256_after:  expect.stringMatching(/^[0-9a-f]{64}$/),
-      });
-    }
-    vi.restoreAllMocks();
+  it('PE-04b: drift ko si variation mots > 7%', () => {
+    const original = 'Phrase courte.';
+    const polished = 'Phrase très longue avec beaucoup de mots supplémentaires ajoutés par le LLM qui dépasse la limite.';
+    const result = checkDrift(original, polished);
+    expect(result.drift_ok).toBe(false);
   });
 });
 
-// ── Tests : constants ─────────────────────────────────────────────────────────
+// ── applyPolishPass ───────────────────────────────────────────────────────────
 
-describe('Polish Engine — constantes INV-PE-02', () => {
-  it('POLISH_FLOOR < POLISH_SEAL_THRESHOLD', () => {
-    expect(POLISH_FLOOR).toBeLessThan(POLISH_SEAL_THRESHOLD);
+describe('applyPolishPass — INV-PE-03 + INV-PE-05', () => {
+  it('PE-05a: FAIL-CLOSED — status=FAIL_INFRA si provider lance une erreur', async () => {
+    const errorProvider: SovereignProvider = {
+      generateDraft: vi.fn().mockRejectedValue(new Error('LLM timeout')),
+      generateStructuredJSON: vi.fn(),
+      scoreInteriority: vi.fn(),
+      scoreSensoryDensity: vi.fn(),
+      scoreNecessity: vi.fn(),
+      scoreImpact: vi.fn(),
+      applyPatch: vi.fn(),
+      rewriteSentence: vi.fn(),
+    } as unknown as SovereignProvider;
+
+    const axes = makeAxes({ composite: 91.0, sii: 84.0 });
+    const result = await applyPolishPass(PROSE_3_PARAGRAPHS, axes, errorProvider, 1);
+
+    expect(result.status).toBe('FAIL_INFRA');
+    expect(result.applied).toBe(false);
+    expect(result.polished_prose).toBe(PROSE_3_PARAGRAPHS);
+    expect(result.reason).toContain('LLM_ERROR');
   });
 
-  it('MAX_POLISH_ROUNDS est un entier positif', () => {
-    expect(Number.isInteger(MAX_POLISH_ROUNDS)).toBe(true);
-    expect(MAX_POLISH_ROUNDS).toBeGreaterThan(0);
+  it('PE-05b: FAIL-CLOSED — status=FAIL_INFRA si réponse vide', async () => {
+    const provider = makeMockProvider('');
+    const axes = makeAxes({ composite: 91.0, sii: 84.0 });
+    const result = await applyPolishPass(PROSE_3_PARAGRAPHS, axes, provider, 1);
+
+    expect(result.status).toBe('FAIL_INFRA');
+    expect(result.applied).toBe(false);
+    expect(result.polished_prose).toBe(PROSE_3_PARAGRAPHS);
+    expect(result.reason).toContain('EMPTY_RESPONSE');
   });
 
-  it('POLISH_FLOOR >= 80 (évite de polir des textes trop faibles)', () => {
-    expect(POLISH_FLOOR).toBeGreaterThanOrEqual(80);
+  it('PE-04c: status=REJECTED_DRIFT si drift paragraphes', async () => {
+    const polishedWithExtraParagraph = PROSE_3_PARAGRAPHS + '\n\nParagraphe supplémentaire ajouté par le LLM.';
+    const provider = makeMockProvider(polishedWithExtraParagraph);
+    const axes = makeAxes({ composite: 91.0, sii: 84.0 });
+    const result = await applyPolishPass(PROSE_3_PARAGRAPHS, axes, provider, 1);
+
+    expect(result.status).toBe('REJECTED_DRIFT');
+    expect(result.applied).toBe(false);
+    expect(result.polished_prose).toBe(PROSE_3_PARAGRAPHS);
+    expect(result.reason).toContain('DRIFT_REJECTED');
+  });
+
+  it('PE-03: status=POLISHED si drift ok', async () => {
+    const provider = makeMockProvider(PROSE_POLISHED_3_PARAGRAPHS);
+    const axes = makeAxes({ composite: 91.0, sii: 84.0 });
+    const result = await applyPolishPass(PROSE_3_PARAGRAPHS, axes, provider, 1);
+
+    expect(result.status).toBe('POLISHED');
+    expect(result.applied).toBe(true);
+    expect(result.polished_prose).toBe(PROSE_POLISHED_3_PARAGRAPHS);
+    expect(result.pass_number).toBe(1);
+  });
+
+  it('PE-03b: passe le numéro de passe correctement', async () => {
+    const provider = makeMockProvider(PROSE_POLISHED_3_PARAGRAPHS);
+    const axes = makeAxes({ composite: 91.0, sii: 84.0 });
+    const result = await applyPolishPass(PROSE_3_PARAGRAPHS, axes, provider, 2);
+
+    expect(result.pass_number).toBe(2);
+  });
+
+  it('PE-02d: drift report contient les métriques correctes', async () => {
+    const provider = makeMockProvider(PROSE_POLISHED_3_PARAGRAPHS);
+    const axes = makeAxes({ composite: 91.0, sii: 84.0 });
+    const result = await applyPolishPass(PROSE_3_PARAGRAPHS, axes, provider, 1);
+
+    expect(result.drift.paragraphs_before).toBe(3);
+    expect(result.drift.paragraphs_after).toBe(3);
+    expect(result.drift.drift_paragraphs).toBe(0);
+    expect(result.drift.drift_ok).toBe(true);
+  });
+});
+
+// ── verifyAxesStability (INV-PE-08) ──────────────────────────────────────────────────────────────
+
+describe('verifyAxesStability — INV-PE-08 (garde-fou régression ECC/RCI/IFI)', () => {
+  it('PE-08a: stable si aucune régression (cas nominal)', () => {
+    const before = makeAxes(); // ecc=96.6, rci=87.9, ifi=99
+    const after  = makeAxes({ ecc: 96.0, rci: 87.5, ifi: 99, metaphor_novelty: 85, sii: 86, composite: 93.5 });
+    const report = verifyAxesStability(before, after);
+    expect(report.stability_ok).toBe(true);
+    expect(report.failed_axes).toHaveLength(0);
+  });
+
+  it('PE-08b: REJET si ECC régresse de plus de MAX_REGRESSION_DELTA', () => {
+    // Simulation exacte U-07→U-08 : ecc 96.6→88.0 = −8.6 (à comparer avec MAX=1.5)
+    const before = makeAxes(); // ecc=96.6
+    const after  = makeAxes({ ecc: 88.0, rci: 83.3, ifi: 99, metaphor_novelty: 87.4, sii: 87.5, composite: 89.6 });
+    const report = verifyAxesStability(before, after);
+    expect(report.stability_ok).toBe(false);
+    expect(report.failed_axes.some(a => a.startsWith('ECC'))).toBe(true);
+    expect(report.failed_axes.some(a => a.startsWith('RCI'))).toBe(true);
+  });
+
+  it('PE-08c: REJET si RCI seul régresse au-delà du seuil', () => {
+    const before = makeAxes(); // rci=87.9
+    const after  = makeAxes({ rci: 85.9, ecc: 96.6, ifi: 99, metaphor_novelty: 85, sii: 86, composite: 93.2 });
+    // delta = 85.9 - 87.9 = -2.0 > MAX_REGRESSION_DELTA(1.5) → FAIL
+    const report = verifyAxesStability(before, after);
+    expect(report.stability_ok).toBe(false);
+    expect(report.failed_axes.some(a => a.startsWith('RCI'))).toBe(true);
+    expect(report.failed_axes.some(a => a.startsWith('ECC'))).toBe(false); // ECC stable
+  });
+
+  it('PE-08d: tolére une légère régression < MAX_REGRESSION_DELTA', () => {
+    const before = makeAxes(); // ecc=96.6, rci=87.9
+    const after  = makeAxes({ ecc: 95.5, rci: 87.0, ifi: 99, metaphor_novelty: 85, sii: 87, composite: 93.4 });
+    // ecc: -1.1, rci: -0.9 — tous deux < MAX_REGRESSION_DELTA(1.5) → OK
+    const report = verifyAxesStability(before, after);
+    expect(report.stability_ok).toBe(true);
+  });
+
+  it('PE-08e: MAX_REGRESSION_DELTA vaut 1.5', () => {
+    expect(MAX_REGRESSION_DELTA).toBe(1.5);
+  });
+
+  it('PE-08f: les delta sont calculés correctement', () => {
+    const before = makeAxes(); // ecc=96.6, rci=87.9, ifi=99
+    const after  = makeAxes({ ecc: 95.0, rci: 86.0, ifi: 98.0, metaphor_novelty: 85, sii: 86, composite: 93.0 });
+    const report = verifyAxesStability(before, after);
+    expect(report.ecc_regression).toBeCloseTo(95.0 - 96.6, 5);
+    expect(report.rci_regression).toBeCloseTo(86.0 - 87.9, 5);
+    expect(report.ifi_regression).toBeCloseTo(98.0 - 99.0, 5);
+  });
+});
+
+// ── Invariants structurels ────────────────────────────────────────────────────
+
+describe('Invariants structurels Polish Engine', () => {
+  it('INV-PE-01: POLISH_MIN < SEAL_THRESHOLD', () => {
+    expect(POLISH_MIN_COMPOSITE).toBeLessThan(POLISH_SEAL_THRESHOLD);
+  });
+
+  it('INV-PE-06: NOVELTY_TARGET <= 85 (accessible sans sur-optimisation)', () => {
+    expect(NOVELTY_TARGET).toBeLessThanOrEqual(85);
+    expect(NOVELTY_TARGET).toBeGreaterThan(70);
+  });
+
+  it('INV-PE-02: DRIFT_MAX_PARAGRAPHS est strict (0)', () => {
+    expect(DRIFT_MAX_PARAGRAPHS).toBe(0);
   });
 });

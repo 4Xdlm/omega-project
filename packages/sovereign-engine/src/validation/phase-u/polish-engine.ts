@@ -299,7 +299,7 @@ export function checkDrift(original: string, polished: string): PolishDriftRepor
  * Principe : le LLM voit ses propres scores et a une seule intervention autorisée.
  */
 function buildPolishPromptSII(prose: string, axes: PolishAxesSnapshot): string {
-  return `Tu as écrit ce texte littéraire. Je vais te montrer tes scores et t'autoriser une seule intervention chirurgicale.
+  return `Tu as écrit ce texte littéraire. Je vais te montrer tes scores et t'autoriser DEUX interventions chirurgicales indépendantes. [U-ROSETTE-15 D4 Double-Strike]
 
 # TES SCORES ACTUELS
 
@@ -323,17 +323,20 @@ Avec metaphor_novelty = 82 : (${axes.anti_cliche.toFixed(0)} + ${axes.necessity.
 Tu n'es PAS un co-auteur. Tu es une fonction de recherche et remplacement chirurgicale.
 Tu dois agir comme un correcteur lexical avancé, pas comme un romancier.
 
-## ÉTAPES D'EXÉCUTION
+## ÉTAPES D'EXÉCUTION (DOUBLE-STRIKE : 2 substitutions obligatoires)
 
-1. ISOLEMENT : Identifie 1 à 3 mots qui portent une image faible, un cliché ou un adverbe banal.
+1. ISOLEMENT : Identifie DEUX cibles distinctes dans DEUX PHRASES DIFFÉRENTES.
+   Chaque cible = 1 à 3 mots portant une image faible, un cliché ou un adverbe banal.
    Cible uniquement : noms abstraits, adjectifs banals, adverbes de manière.
+   Les deux cibles doivent être dans des paragraphes ou des phrases éloignés (pas consécutifs).
 
-2. SUBSTITUTION (système de synonyme complexe) : Remplace UNIQUEMENT ces mots par une métaphore
-   physique ou synesthésique inédite. La substitution doit avoir approximativement la même
-   longueur en mots (±1 mot maximum).
+2. DOUBLE SUBSTITUTION (système de synonyme complexe) : Remplace CHACUNE des deux cibles
+   par une métaphore physique ou synesthésique inédite. Chaque substitution doit avoir
+   approximativement la même longueur en mots que la cible (±1 mot maximum).
+   Les deux images doivent être indépendantes : deux domaines différents, deux contextes différents.
 
-3. VERROUILLAGE SYNTAXIQUE : 100% des mots situés AVANT et APRÈS ta substitution
-   DOIVENT rester strictement identiques. Aucune exception.
+3. VERROUILLAGE SYNTAXIQUE : 100% des mots situés AVANT et APRÈS chaque substitution
+   DOIVENT rester strictement identiques. Aucune exception sur les deux substitutions.
 
 ## EXEMPLE D'EXÉCUTION
 

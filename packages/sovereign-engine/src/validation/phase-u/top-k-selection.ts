@@ -101,6 +101,28 @@ export const TOP_K_MAX = 32;
  */
 export const CANDIDATE_FLOOR_COMPOSITE = 85;
 
+/**
+ * INV-TK-SII-01 : SII Floor Penalty — U-ROSETTE-15 D2
+ *
+ * Un variant champion avec SII < 82 est in-sauvable par le Polish Engine (+3 pts max).
+ * Pour éviter que le GreatnessJudge couronne un variant ECC-élevé mais SII-dégradé,
+ * on applique une pénalité sur le score effectif de tri.
+ *
+ * Score effectif = greatness.composite - max(0, (SII_FLOOR_PENALTY_THRESHOLD - sii) × factor)
+ * Où factor = SII_FLOOR_PENALTY_FACTOR / 10
+ *
+ * Exemple : sii=70, composite=80 → effectif = 80 - (82-70)×0.5 = 80 - 6.0 = 74.0
+ * Exemple : sii=82, composite=80 → effectif = 80 (aucune pénalité)
+ *
+ * IMPORTANT : La pénalité ne modifie PAS le verdict final (SEAL/REJECT).
+ * Elle ne modifie QUE le critère de TRI pour la sélection top-1.
+ * Si tous les variants ont SII<82, le top-1 reste le meilleur variant disponible.
+ *
+ * INV-TK-CANDIDATE-01 reste inchangé (CANDIDATE_FLOOR_COMPOSITE = 85 < SEAL = 93).
+ */
+export const SII_FLOOR_PENALTY_THRESHOLD = 82;
+export const SII_FLOOR_PENALTY_FACTOR    = 5.0;  // pénalité par point sous le seuil (÷10)
+
 // ── Utilitaire : generation de seeds distincts ────────────────────────────────
 
 /**
@@ -254,7 +276,15 @@ export class TopKSelectionEngine {
       );
     }
 
-    scoredCandidates.sort((a, b) => b.greatness!.composite - a.greatness!.composite);
+    // INV-TK-SII-01 : tri avec pénalité SII — U-ROSETTE-15 D2
+    // Le score effectif pénalise les variants avec SII < SII_FLOOR_PENALTY_THRESHOLD.
+    // Cela empêche le top-K de couronner un variant ECC-élevé mais SII-dégradé (in-sauvable par Polish).
+    const effectiveScore = (v: VariantRecord): number => {
+      const sii = (v.forge_result?.macro_score?.macro_axes?.sii?.score as number | undefined) ?? 100;
+      const penalty = Math.max(0, (SII_FLOOR_PENALTY_THRESHOLD - sii) * (SII_FLOOR_PENALTY_FACTOR / 10));
+      return v.greatness!.composite - penalty;
+    };
+    scoredCandidates.sort((a, b) => effectiveScore(b) - effectiveScore(a));
     const top1 = scoredCandidates[0];
 
     // gain vs premiere variante generee (index 0, si candidat)

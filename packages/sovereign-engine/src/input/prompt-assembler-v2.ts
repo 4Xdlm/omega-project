@@ -886,6 +886,59 @@ function buildVoiceComplianceSection(): PromptSection {
 Ces règles sont MESURÉES AUTOMATIQUEMENT par le scorer après génération.
 Violation = voice_conformity < 80 = RCI < 85 = REJET DU TEXTE.
 
+══════════════════════════════════════════════════════════════
+
+## ⛔ IMPÉRATIF RYTHMIQUE ABSOLU — NIVEAU 0 [rhythm + voice_conformity] [U-ROSETTE-15 D1]
+
+**Ces deux sous-axes sont PRIORITAIRES sur toutes les autres contraintes de cette section.**
+Un texte littéralement parfait sur tous les autres axes mais avec rhythm < 82 ou
+voice_conformity < 80 = RCI < 85 = REJET.
+
+### rhythm — cible : ≥ 82
+
+Le scorer rhythm mesure l'articulation entre phrases : alternances court/long,
+transitions fluides, absence de blocs isomorphes consécutifs.
+
+**Règle absolue :** Après TOUTE séquence de 2 phrases longues (15+ mots chacune),
+une phrase de ≤ 6 mots DOIT suivre immédiatement.
+
+✅ Séquence PASS :
+  [25 mots] → [18 mots] → [3 mots.] → [30 mots] → [12 mots] → [2 mots.]
+
+❌ Séquence FAIL (rhythm s'effondre) :
+  [22 mots] → [19 mots] → [24 mots] → [17 mots] → [21 mots]
+  → 5 phrases longues consécutives sans rupture → rhythm ≈ 63
+
+**Kill list rhythm :**
+  ❌ 3+ phrases consécutives toutes entre 15-30 mots sans aucune phrase courte
+  ❌ Paragraphe entier sans aucune phrase ≤ 8 mots
+  ❌ Début de texte avec 4+ phrases normales avant la première syncope
+
+**Obligation :** La 3ème phrase du texte (ou avant) doit avoir ≤ 5 mots.
+
+### voice_conformity — cible : ≥ 80
+
+Le scorer voice_conformity mesure le drift entre la prose et le génome cible Camus.
+Les 3 paramètres discriminants : ellipsis_rate, paragraph_rhythm, opening_variety.
+
+**Obligation absolue :** Chaque paragraphe contient au moins une articulation rythmique :
+une transition court→long, long→court, ou syncope→développement.
+
+Articulations valides dans un paragraphe :
+  ✅ [phrase longue] → [syncope ≤ 3 mots] → [phrase longue suivante]
+  ✅ [syncope] → [phrase de développement 20+ mots]
+  ❌ [phrase 20m] → [phrase 22m] → [phrase 18m] → [phrase 21m] → paragraphe homogène REJET
+
+**Signal d'alerte voice_conformity :** Si tu trouves dans ta prose 3 paragraphes
+consécutifs sans aucune phrase de ≤ 6 mots → STOP → insérer des syncopes.
+
+**Contrôle avant soumission :**
+  1. Compte les séquences de 3+ phrases longues sans rupture → doivent être ZÉRO
+  2. Vérifie que chaque paragraphe a ≥ 1 transition rythmique (court↔long)
+  3. Vérifie que rhythm ≥ 82 serait atteint selon les règles ci-dessus
+
+══════════════════════════════════════════════════════════════
+
 ## POSITION CIBLE — ESPACE LATENT 2D
 
 Ton texte doit se positionner dans la zone CAMUS-ADJACENT :
@@ -1317,6 +1370,23 @@ Avant de terminer : liste TOUS les premiers mots de tes phrases sur une ligne :
 "Elle / Le / Rien / Avant / Il / La / Surgit / Quand / Ses / Du sang / ..."
 Compte les doublons. Aucun mot ne peut apparaître > 4 fois.
 Si "Elle" = 5+ → change 2 phrases en commençant par un verbe ou un GN.
+
+## 9. DIVERSITÉ SYNTAXIQUE [opening_variety + voice_conformity] [U-ROSETTE-15 D3]
+
+L'audit de génération a révélé que le générateur n'utilise jamais d'ouvertures participiales.
+C'est un moule structurel rigide qui plafonne opening_variety et voice_conformity.
+
+**Dans les 10 premières phrases, favorise au moins 1-2 ouvertures participiales ou obliques :**
+  ✅ Participial : "Penché sur la table, il...", "Traversant la pièce, elle...", "Regardé par..."
+  ✅ Gérondif : "En s'approchant du mur...", "En ouvrant la porte..."
+  ✅ Adjectif antéposé : "Désespéré, il...", "Immobile, elle attendait..."
+  ✅ Proposition absolue : "Les mains croisées...", "Le bruit évanoui..."
+
+**Ce n'est pas une règle mécanique — c'est une préférence de diversité.**
+Si le sens narratif ne le permet pas, ne force pas. Mais si tu as le choix entre
+une ouverture pronominale et une ouverture participiale équivalente → préfère la participiale.
+
+**Objectif mesuré :** attack_distribution.participial ≥ 1 sur 40 phrases.
 
 ---
 ⚠️ GÉNÈRE MAINTENANT. Le scoreur jugera. Aucune approximation tolérée.

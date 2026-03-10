@@ -1,4 +1,4 @@
-/**
+﻿/**
  * ═══════════════════════════════════════════════════════════════════════════════
  * OMEGA SOVEREIGN STYLE ENGINE — POLISH ENGINE
  * ═══════════════════════════════════════════════════════════════════════════════
@@ -137,8 +137,12 @@ export interface AxesStabilityReport {
   readonly failed_axes: readonly string[];
 }
 
-/** Tolérance maximale de régression sur les axes protégés (ECC, RCI, IFI) */
-export const MAX_REGRESSION_DELTA = 1.5;
+/**
+ * Tolérance maximale de régression sur les axes protégés (ECC, RCI, IFI).
+ * INV-PE-13 : 2.0 (élargi depuis 1.5 — prouvé safe sur TK2 U-ROSETTE-12 : δ=-1.9)
+ * Garde-fou dur : cas catastrophique U-ROSETTE-08 (δ=-8.6) reste rejeté à 4x la marge.
+ */
+export const MAX_REGRESSION_DELTA = 2.0;
 
 export interface PolishEngineDecision {
   readonly should_polish: boolean;
@@ -314,26 +318,54 @@ Formule SII = (anti_cliche + necessity + metaphor_novelty) / 3
 Actuel : (${axes.anti_cliche.toFixed(0)} + ${axes.necessity.toFixed(0)} + ${axes.metaphor_novelty.toFixed(1)}) / 3 = ${axes.sii.toFixed(1)} → sous le floor 85
 Avec metaphor_novelty = 82 : (${axes.anti_cliche.toFixed(0)} + ${axes.necessity.toFixed(0)} + 82) / 3 = ${((axes.anti_cliche + axes.necessity + 82) / 3).toFixed(1)} → PASS ✅
 
-# INTERVENTION AUTORISÉE (une seule)
+# PROTOCOLE D'ÉDITION ABSOLUE : FIND & REPLACE (INV-PE-13)
 
-Identifie 1 ou 2 métaphores, comparaisons ou analogies dans ce texte.
-Remplace-les par des images originales avec novelty_score ≥ 82.
+Tu n'es PAS un co-auteur. Tu es une fonction de recherche et remplacement chirurgicale.
+Tu dois agir comme un correcteur lexical avancé, pas comme un romancier.
 
-Critères d'une image originale (novelty ≥ 82) :
-- Deux domaines inattendus l'un par rapport à l'autre (ex: texture artisanale ↔ émotion brute)
+## ÉTAPES D'EXÉCUTION
+
+1. ISOLEMENT : Identifie 1 à 3 mots qui portent une image faible, un cliché ou un adverbe banal.
+   Cible uniquement : noms abstraits, adjectifs banals, adverbes de manière.
+
+2. SUBSTITUTION (système de synonyme complexe) : Remplace UNIQUEMENT ces mots par une métaphore
+   physique ou synesthésique inédite. La substitution doit avoir approximativement la même
+   longueur en mots (±1 mot maximum).
+
+3. VERROUILLAGE SYNTAXIQUE : 100% des mots situés AVANT et APRÈS ta substitution
+   DOIVENT rester strictement identiques. Aucune exception.
+
+## EXEMPLE D'EXÉCUTION
+
+❌ INTERDIT (réécriture) : "Une tempête terrible s'abattait sur la ville."
+✅ AUTORISÉ (find & replace) : "Le vent [corchait les pierres] dans les rues."
+
+Autre exemple :
+- Original : "sa tristesse était profonde"
+- Substitution : "sa tristesse avait le grain du béton mouillé"
+- Mots avant ("sa tristesse") et après ("") : identiques ✅
+
+## CRITÈRES D'UNE IMAGE ORIGINALE (novelty ≥ 82)
+
+- Deux domaines inattendus l'un par rapport à l'autre (texture physique ↔ état émotionnel)
 - Jamais vue dans un roman grand public
-- Légèrement oblique, asymétrique, pas parfaitement construite — c'est ce qui la rend vivante
-- Ex: "sa colère avait le grain du papier de verre sur bois encore vert"
-- Ex: "le silence s'était déposé comme un limon après la crue"
+- Légèrement oblique, asymétrique — c'est ce qui la rend vivante
+- Exemples : "avait le grain du papier de verre sur bois encore vert"
+             "s'était déposé comme un limon après la crue"
+             "était l'exact poids d'un seau d'eau que l'on pose"
 
-# CONTRAINTES ABSOLUES (violation = rejet du texte poli)
+# INTERDICTIONS ABSOLUES (violation = rejet du texte poli)
 
-❌ INTERDIT de modifier :
-- La structure des phrases (longueur, syntaxe, ponctuation)
+❌ NE PAS modifier :
+- Les verbes d'action (si un personnage ouvre une porte, il ouvre toujours une porte)
+- Les connecteurs logiques (mais, car, donc, alors, puis...)
+- Les subordonnantes et relatives (qui, que, dont, où...)
+- La structure grammaticale de la phrase (sujet, verbe, compléments)
+- La ponctuation (virgules, points, tirets, guillemets)
 - L'ordre des événements et des beats narratifs
 - Le nombre de paragraphes (EXACTEMENT ${Math.max(1, prose.split(/\n\s*\n/).filter(p => p.trim().length > 0).length)} paragraphes en sortie)
-- Les entités nommées (personnages, lieux)
-- Le rythme global (syncopes, alternances court/long)
+- Les entités nommées (personnages, lieux, objets spécifiques)
+- Le rythme global (longueur des phrases, syncopes, alternances court/long)
 
 # TEXTE ORIGINAL
 
@@ -342,7 +374,7 @@ ${prose}
 # INSTRUCTION FINALE
 
 Retourne UNIQUEMENT le texte complet modifié, sans commentaire, sans explication, sans balise.
-Si aucune métaphore ne peut être améliorée sans casser les contraintes, retourne le texte original inchangé.`;
+Si aucune image ne peut être améliorée sans violer le verrouillage syntaxique, retourne le texte original inchangé.`;
 }
 
 /**

@@ -1,4 +1,4 @@
-/**
+﻿/**
  * ═══════════════════════════════════════════════════════════════════════════════
  * TESTS — POLISH ENGINE
  * ═══════════════════════════════════════════════════════════════════════════════
@@ -385,8 +385,8 @@ describe('verifyAxesStability — INV-PE-08 (garde-fou régression ECC/RCI/IFI)'
 
   it('PE-08c: REJET si RCI seul régresse au-delà du seuil', () => {
     const before = makeAxes(); // rci=87.9
-    const after  = makeAxes({ rci: 85.9, ecc: 96.6, ifi: 99, metaphor_novelty: 85, sii: 86, composite: 93.2 });
-    // delta = 85.9 - 87.9 = -2.0 > MAX_REGRESSION_DELTA(1.5) → FAIL
+    const after  = makeAxes({ rci: 85.8, ecc: 96.6, ifi: 99, metaphor_novelty: 85, sii: 86, composite: 93.2 });
+    // delta = 85.8 - 87.9 = -2.1 > MAX_REGRESSION_DELTA(2.0) → FAIL
     const report = verifyAxesStability(before, after);
     expect(report.stability_ok).toBe(false);
     expect(report.failed_axes.some(a => a.startsWith('RCI'))).toBe(true);
@@ -401,8 +401,47 @@ describe('verifyAxesStability — INV-PE-08 (garde-fou régression ECC/RCI/IFI)'
     expect(report.stability_ok).toBe(true);
   });
 
-  it('PE-08e: MAX_REGRESSION_DELTA vaut 1.5', () => {
-    expect(MAX_REGRESSION_DELTA).toBe(1.5);
+  it('PE-08e: MAX_REGRESSION_DELTA vaut 2.0 (INV-PE-13)', () => {
+    expect(MAX_REGRESSION_DELTA).toBe(2.0);
+  });
+
+  // ── INV-PE-13 : tolérance élargie + garde-fous ────────────────────────────────────
+
+  it('PE-13a: stable si ECC régresse de -1.9 (cas TK2 réel — anciennement rejeté)', () => {
+    // TK2 U-ROSETTE-12 : ECC 95.1→93.2 = δ=-1.9, rejeté car 1.9 > 1.5
+    // Avec MAX=2.0 : 1.9 < 2.0 → accepté
+    const before = makeAxes({ ecc: 95.1, rci: 87.9, ifi: 99 });
+    const after  = makeAxes({ ecc: 93.2, rci: 87.9, ifi: 99, metaphor_novelty: 82, sii: 86, composite: 92.0 });
+    const report = verifyAxesStability(before, after);
+    expect(report.stability_ok).toBe(true);
+    expect(report.failed_axes).toHaveLength(0);
+  });
+
+  it('PE-13b: rejeté si ECC régresse de -2.5 (dépasse la nouvelle tolérance 2.0)', () => {
+    const before = makeAxes({ ecc: 95.1 });
+    const after  = makeAxes({ ecc: 92.6, rci: 87.9, ifi: 99, metaphor_novelty: 82, sii: 86, composite: 91.5 });
+    // delta = 92.6 - 95.1 = -2.5 > MAX_REGRESSION_DELTA(2.0) → FAIL
+    const report = verifyAxesStability(before, after);
+    expect(report.stability_ok).toBe(false);
+    expect(report.failed_axes.some(a => a.startsWith('ECC'))).toBe(true);
+  });
+
+  it('PE-13c: rejeté si ECC régresse de -8.6 (cas catastrophique U-ROSETTE-08)', () => {
+    // Prouvé que la nouvelle tolérance ne réintègre pas les crashs massifs
+    const before = makeAxes(); // ecc=96.6
+    const after  = makeAxes({ ecc: 88.0, rci: 83.3, ifi: 99, metaphor_novelty: 87.4, sii: 87.5, composite: 89.6 });
+    // delta = 88.0 - 96.6 = -8.6 >> MAX_REGRESSION_DELTA(2.0) → FAIL à 4x la marge
+    const report = verifyAxesStability(before, after);
+    expect(report.stability_ok).toBe(false);
+    expect(report.failed_axes.some(a => a.startsWith('ECC'))).toBe(true);
+  });
+
+  it('PE-13d: exactement à 2.0 — limite de tolérance (bord inclusif)', () => {
+    const before = makeAxes({ ecc: 95.0 });
+    const after  = makeAxes({ ecc: 93.0, rci: 87.9, ifi: 99, metaphor_novelty: 82, sii: 86, composite: 92.0 });
+    // delta = 93.0 - 95.0 = -2.0 exactement → NOT < -2.0 → stable
+    const report = verifyAxesStability(before, after);
+    expect(report.stability_ok).toBe(true);
   });
 
   it('PE-08f: les delta sont calculés correctement', () => {

@@ -361,6 +361,7 @@ export class DualBenchmarkRunner {
               const polishResult = await applyPolishPass(
                 forgeResult.final_prose, axesBefore, this.provider, 1,
                 `polish-topk-${i}-${baseSeed.slice(0, 8)}`,
+                decision.target_axis ?? 'sii',  // INV-PE-09: ciblage dynamique
               );
 
               if (polishResult.status === 'POLISHED') {

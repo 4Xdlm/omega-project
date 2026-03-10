@@ -79,14 +79,16 @@ describe('shouldApplyPolish — INV-PE-01 + INV-PE-06', () => {
     const axes = makeAxes(); // composite=93.3, sii=84.8, metaphor_novelty=72.4, ecc=96.6, rci=87.9
     const result = shouldApplyPolish(axes);
     expect(result.should_polish).toBe(true);
-    expect(result.reason).toContain('polish ciblé');
+    expect(result.target_axis).toBe('sii');
+    expect(result.reason).toContain('polish sii ciblé');
   });
 
   it('PE-01b: retourne true pour composite=92.5, SII=84.8, metaphor_novelty=72.4', () => {
     const axes = makeAxes({ composite: 92.5 });
     const result = shouldApplyPolish(axes);
     expect(result.should_polish).toBe(true);
-    expect(result.reason).toContain('polish ciblé');
+    expect(result.target_axis).toBe('sii');
+    expect(result.reason).toContain('polish sii ciblé');
   });
 
   it('PE-01c: retourne false si composite < POLISH_MIN', () => {
@@ -109,21 +111,26 @@ describe('shouldApplyPolish — INV-PE-01 + INV-PE-06', () => {
     expect(result.should_polish).toBe(true);
   });
 
-  it('PE-06a: retourne false si SII >= floor (polish inutile)', () => {
-    const axes = makeAxes({ composite: 91.0, sii: 86.0, metaphor_novelty: 80.0 });
+  it('PE-06a: retourne TRUE si SII >= floor mais composite < 93 (INV-PE-10 — ciblage dynamique)', () => {
+    // Cas TK1 : sii=86, rci=87.9, composite=91.0 — tous floors OK mais composite < 93
+    // Nouveau comportement : polish déclenché, target = sii (le plus faible)
+    const axes = makeAxes({ composite: 91.0, sii: 86.0, rci: 87.9, metaphor_novelty: 80.0 });
     const result = shouldApplyPolish(axes);
-    expect(result.should_polish).toBe(false);
-    expect(result.reason).toContain('SII');
+    expect(result.should_polish).toBe(true);
+    expect(result.target_axis).toBe('sii');  // sii(86.0) < rci(87.9) → target sii
+    expect(result.reason).toContain('93');
   });
 
-  it('PE-06b: retourne false si metaphor_novelty >= NOVELTY_TARGET', () => {
-    const axes = makeAxes({ composite: 91.0, sii: 84.0, metaphor_novelty: 83.0 });
+  it('PE-06b: retourne false si sii < floor ET metaphor_novelty >= NOVELTY_TARGET ET rci OK', () => {
+    // SII sous floor mais metaphor_novelty déjà >= 82 → gap vient de anti_cliche/necessity
+    // Le polish métaphore ne peut pas aider → NO_OP
+    const axes = makeAxes({ composite: 91.0, sii: 84.0, rci: 87.9, metaphor_novelty: 83.0 });
     const result = shouldApplyPolish(axes);
     expect(result.should_polish).toBe(false);
     expect(result.reason).toContain('metaphor_novelty');
   });
 
-  it('PE-06c: retourne false si ECC < 88 (trop dégradé pour polish)', () => {
+  it('PE-06c: retourne false si ECC < 88 — INV-PE-06 (trop dégradé pour polish)', () => {
     const axes = makeAxes({ composite: 91.0, sii: 83.0, metaphor_novelty: 70.0, ecc: 87.0 });
     const result = shouldApplyPolish(axes);
     expect(result.should_polish).toBe(false);
@@ -144,6 +151,55 @@ describe('shouldApplyPolish — INV-PE-01 + INV-PE-06', () => {
 
   it('PE-06e: NOVELTY_TARGET est 82.0', () => {
     expect(NOVELTY_TARGET).toBe(82.0);
+  });
+
+  // ── INV-PE-09 : ciblage dynamique ────────────────────────────────────────────
+
+  it('PE-09a: cible SII si sii=85.5, rci=87.9, composite=91.47 (cas TK1 réel)', () => {
+    // TK1 était NO_OP à cause de sii >= 85 — doit maintenant se déclencher
+    const axes = makeAxes({ composite: 91.47, sii: 85.5, rci: 87.9, ecc: 92.7, metaphor_novelty: 75 });
+    const result = shouldApplyPolish(axes);
+    expect(result.should_polish).toBe(true);
+    expect(result.target_axis).toBe('sii');  // 85.5 < 87.9 → sii plus faible
+  });
+
+  it('PE-09b: cible SII si sii=83.0, rci=86.0, composite=90.6 (cas TK2 réel)', () => {
+    // siiGap = 2.0 > rciGap = 0 → target sii
+    const axes = makeAxes({ composite: 90.6, sii: 83.0, rci: 86.0, ecc: 91.0, metaphor_novelty: 64.0 });
+    const result = shouldApplyPolish(axes);
+    expect(result.should_polish).toBe(true);
+    expect(result.target_axis).toBe('sii');
+  });
+
+  it('PE-10a: cible RCI si rciGap > siiGap', () => {
+    // sii=88 (gap=0), rci=83 (gap=2) → target rci
+    const axes = makeAxes({ composite: 90.2, sii: 88.0, rci: 83.0, ecc: 90.9, metaphor_novelty: 75 });
+    const result = shouldApplyPolish(axes);
+    expect(result.should_polish).toBe(true);
+    expect(result.target_axis).toBe('rci');
+  });
+
+  it('PE-10b: cible SII si siiGap > rciGap', () => {
+    // sii=82 (gap=3), rci=84.3 (gap=0.7) → target sii
+    const axes = makeAxes({ composite: 90.5, sii: 82.0, rci: 84.3, ecc: 91.6, metaphor_novelty: 74.0 });
+    const result = shouldApplyPolish(axes);
+    expect(result.should_polish).toBe(true);
+    expect(result.target_axis).toBe('sii');
+  });
+
+  it('PE-10c: target_axis est null si NO_OP', () => {
+    const axes = makeAxes({ composite: 88.0, sii: 82.0 }); // composite < POLISH_MIN
+    const result = shouldApplyPolish(axes);
+    expect(result.should_polish).toBe(false);
+    expect(result.target_axis).toBeNull();
+  });
+
+  it('PE-10d: cible RCI si sii <= rci tous deux au floor (INV-PE-10)', () => {
+    // sii=85.3 (=rci 85.3 hypothetically) → tiebreak sii car sii <= rci
+    const axes = makeAxes({ composite: 90.5, sii: 85.3, rci: 87.0, ecc: 91.5, metaphor_novelty: 76 });
+    const result = shouldApplyPolish(axes);
+    expect(result.should_polish).toBe(true);
+    expect(result.target_axis).toBe('sii');  // 85.3 < 87.0 → sii plus faible
   });
 });
 

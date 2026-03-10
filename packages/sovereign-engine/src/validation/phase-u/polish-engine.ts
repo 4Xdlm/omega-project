@@ -45,6 +45,19 @@ export const SII_FLOOR = 85.0;
 /** Floor RCI (SEAL gate) */
 export const RCI_FLOOR = 85.0;
 
+/**
+ * INV-PE-11 : Si composite >= NEAR_SEAL_THRESHOLD ET tous floors OK → NO_OP.
+ * Gap < variance oracle (~0.5-1pt) → polish inutile et risqué.
+ * Prouvé sur TK1 run U-ROSETTE-11 : composite=92.9945, gap=0.005 → ECC -2.1 après polish.
+ */
+export const NEAR_SEAL_THRESHOLD = 92.5;
+
+/** Tolérance composite pour acceptation polish (INV-PE-12) */
+export const COMPOSITE_TOLERANCE = 1.0;
+
+/** Gain minimal requis sur l'axe cible pour acceptation (INV-PE-12) */
+export const MIN_TARGET_AXIS_GAIN = 1.0;
+
 /** Dérive maximale tolérée sur le nombre de paragraphes (0 = strict) */
 export const DRIFT_MAX_PARAGRAPHS = 0;
 
@@ -169,6 +182,21 @@ export function shouldApplyPolish(axes: PolishAxesSnapshot): PolishEngineDecisio
     };
   }
 
+  // INV-PE-11 : composite très proche du seuil ET tous floors OK → variance oracle > gap
+  const isNearSeal =
+    axes.composite >= NEAR_SEAL_THRESHOLD &&
+    axes.sii >= SII_FLOOR &&
+    axes.ecc >= 88.0 &&
+    axes.rci >= RCI_FLOOR;
+
+  if (isNearSeal) {
+    return {
+      should_polish: false,
+      target_axis: null,
+      reason: `composite=${axes.composite.toFixed(1)} >= NEAR_SEAL=${NEAR_SEAL_THRESHOLD} ET floors OK — gap < variance oracle, polish risqué`,
+    };
+  }
+
   // INV-PE-06 : ECC < 88 → régression catastrophique déjà présente, polish inutile
   if (axes.ecc < 88.0) {
     return {
@@ -192,14 +220,14 @@ export function shouldApplyPolish(axes: PolishAxesSnapshot): PolishEngineDecisio
     };
   }
 
-  // INV-PE-10 : Si tous les floors sont OK mais composite < 93 → cibler le plus faible
+  // INV-PE-10 : Si tous les floors sont OK mais composite < 92.5 → cibler SII uniquement
+  // RCI interdit en INV-PE-10 : prompt RCI déstabilise ECC (prouvé TK1 U-ROSETTE-11 : ECC -2.1)
   if (siiGap === 0 && rciGap === 0) {
-    // composite < SEAL_THRESHOLD (vérifié implicitement — isFullySealCompliant=false)
-    const target: PolishTargetAxis = axes.sii <= axes.rci ? 'sii' : 'rci';
+    // composite < NEAR_SEAL_THRESHOLD (vérifié implicitement — isNearSeal=false)
     return {
       should_polish: true,
-      target_axis: target,
-      reason: `composite=${axes.composite.toFixed(1)}<93, floors OK — ciblage ${target} (sii=${axes.sii.toFixed(1)}, rci=${axes.rci.toFixed(1)})`,
+      target_axis: 'sii',
+      reason: `composite=${axes.composite.toFixed(1)}<${NEAR_SEAL_THRESHOLD}, floors OK — ciblage sii (SII=${axes.sii.toFixed(1)}, RCI interdit INV-PE-10)`,
     };
   }
 

@@ -19,6 +19,9 @@ import {
   verifyAxesStability,
   POLISH_MIN_COMPOSITE,
   POLISH_SEAL_THRESHOLD,
+  NEAR_SEAL_THRESHOLD,
+  COMPOSITE_TOLERANCE,
+  MIN_TARGET_AXIS_GAIN,
   SII_FLOOR,
   NOVELTY_TARGET,
   DRIFT_MAX_PARAGRAPHS,
@@ -117,8 +120,8 @@ describe('shouldApplyPolish — INV-PE-01 + INV-PE-06', () => {
     const axes = makeAxes({ composite: 91.0, sii: 86.0, rci: 87.9, metaphor_novelty: 80.0 });
     const result = shouldApplyPolish(axes);
     expect(result.should_polish).toBe(true);
-    expect(result.target_axis).toBe('sii');  // sii(86.0) < rci(87.9) → target sii
-    expect(result.reason).toContain('93');
+    expect(result.target_axis).toBe('sii');  // INV-PE-10 : RCI interdit, toujours sii
+    expect(result.reason).toContain('92.5');
   });
 
   it('PE-06b: retourne false si sii < floor ET metaphor_novelty >= NOVELTY_TARGET ET rci OK', () => {
@@ -194,12 +197,50 @@ describe('shouldApplyPolish — INV-PE-01 + INV-PE-06', () => {
     expect(result.target_axis).toBeNull();
   });
 
-  it('PE-10d: cible RCI si sii <= rci tous deux au floor (INV-PE-10)', () => {
-    // sii=85.3 (=rci 85.3 hypothetically) → tiebreak sii car sii <= rci
+  it('PE-10d: cible SII si tous floors OK (INV-PE-10 — SII exclusif)', () => {
     const axes = makeAxes({ composite: 90.5, sii: 85.3, rci: 87.0, ecc: 91.5, metaphor_novelty: 76 });
     const result = shouldApplyPolish(axes);
     expect(result.should_polish).toBe(true);
-    expect(result.target_axis).toBe('sii');  // 85.3 < 87.0 → sii plus faible
+    expect(result.target_axis).toBe('sii');  // INV-PE-10 : RCI interdit, toujours sii
+  });
+
+  // ── INV-PE-11 : NEAR_SEAL_THRESHOLD ───────────────────────────────────────────
+
+  it('PE-11a: NO_OP si composite >= NEAR_SEAL_THRESHOLD ET tous floors OK (cas TK1 réel)', () => {
+    // TK1 U-ROSETTE-11 : composite=92.9945, sii=90.3, rci=88.1, ecc=95.2 → variance oracle > gap
+    const axes = makeAxes({ composite: 92.9945, sii: 90.3, rci: 88.1, ecc: 95.2, metaphor_novelty: 85 });
+    const result = shouldApplyPolish(axes);
+    expect(result.should_polish).toBe(false);
+    expect(result.target_axis).toBeNull();
+    expect(result.reason).toContain('NEAR_SEAL');
+  });
+
+  it('PE-11b: NO_OP si composite=92.5 (exactement NEAR_SEAL) ET floors OK', () => {
+    const axes = makeAxes({ composite: 92.5, sii: 86.0, rci: 86.0, ecc: 90.0, metaphor_novelty: 83 });
+    const result = shouldApplyPolish(axes);
+    expect(result.should_polish).toBe(false);
+    expect(result.reason).toContain('NEAR_SEAL');
+  });
+
+  it('PE-11c: polish autorisé si composite=92.4 ET floors OK (sous NEAR_SEAL, INV-PE-10)', () => {
+    const axes = makeAxes({ composite: 92.4, sii: 86.0, rci: 86.0, ecc: 90.0, metaphor_novelty: 83 });
+    const result = shouldApplyPolish(axes);
+    expect(result.should_polish).toBe(true);
+    expect(result.target_axis).toBe('sii');  // INV-PE-10 : RCI interdit
+  });
+
+  it('PE-11d: NEAR_SEAL_THRESHOLD vaut 92.5', () => {
+    expect(NEAR_SEAL_THRESHOLD).toBe(92.5);
+  });
+
+  // ── INV-PE-12 : constantes d’acceptance ──────────────────────────────────────
+
+  it('PE-12a: COMPOSITE_TOLERANCE vaut 1.0', () => {
+    expect(COMPOSITE_TOLERANCE).toBe(1.0);
+  });
+
+  it('PE-12b: MIN_TARGET_AXIS_GAIN vaut 1.0', () => {
+    expect(MIN_TARGET_AXIS_GAIN).toBe(1.0);
   });
 });
 

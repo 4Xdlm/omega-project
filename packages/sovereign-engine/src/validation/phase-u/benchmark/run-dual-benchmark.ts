@@ -40,7 +40,10 @@ import {
   shouldApplyPolish,
   applyPolishPass,
   verifyAxesStability,
+  COMPOSITE_TOLERANCE,
+  MIN_TARGET_AXIS_GAIN,
   type PolishAxesSnapshot,
+  type PolishTargetAxis,
 } from '../polish-engine.js';
 import { judgeAestheticV3 } from '../../../oracle/aesthetic-oracle.js';
 
@@ -388,13 +391,34 @@ export class DualBenchmarkRunner {
 
                 const stability = verifyAxesStability(axesBefore, axesAfter);
 
-                if (stability.stability_ok && rescored.composite > sComp) {
-                  polishedComposite = rescored.composite;
+                // INV-PE-12 : Acceptance étendue — tolérance thermodynamique
+                // Accepter si stability_ok ET :
+                //   (a) composite_after > composite_before  [gain net]
+                //   (b) OU composite_after >= composite_before - COMPOSITE_TOLERANCE
+                //       ET gain sur l'axe cible >= MIN_TARGET_AXIS_GAIN
+                const compositeGain = axesAfter.composite - sComp;
+                const targetGain = (() => {
+                  const tgt = decision.target_axis as PolishTargetAxis | null;
+                  if (tgt === 'sii') return axesAfter.sii - axesBefore.sii;
+                  if (tgt === 'rci') return axesAfter.rci - axesBefore.rci;
+                  return 0;
+                })();
+
+                const acceptedByGain      = compositeGain > 0;
+                const acceptedByTolerance = compositeGain >= -COMPOSITE_TOLERANCE && targetGain >= MIN_TARGET_AXIS_GAIN;
+                const accepted            = stability.stability_ok && (acceptedByGain || acceptedByTolerance);
+
+                if (accepted) {
+                  polishedComposite = axesAfter.composite;
                   polishedOutputHash = createHash('sha256').update(polishResult.polished_prose).digest('hex');
                   polishedVerdict = (rescored.verdict === 'SEAL') ? 'SEAL' : 'REJECT';
-                  polishLog = ` | POLISH=ACCEPTED composite=${sComp.toFixed(1)}→${polishedComposite.toFixed(1)} sii=${axesBefore.sii.toFixed(1)}→${axesAfter.sii.toFixed(1)}`;
+                  const acceptMode = acceptedByGain ? 'GAIN' : `TOL(c=${compositeGain.toFixed(2)},tgt=+${targetGain.toFixed(1)})`;
+                  polishLog = ` | POLISH=ACCEPTED[${acceptMode}] composite=${sComp.toFixed(1)}→${polishedComposite.toFixed(1)} sii=${axesBefore.sii.toFixed(1)}→${axesAfter.sii.toFixed(1)}`;
                 } else {
-                  polishLog = ` | POLISH=REJECTED_${stability.stability_ok ? 'NO_GAIN' : 'REGRESSION'} axes=[${stability.failed_axes.join(',')}]`;
+                  const rejectReason = !stability.stability_ok
+                    ? `REGRESSION axes=[${stability.failed_axes.join(',')}]`
+                    : `NO_GAIN c=${compositeGain.toFixed(2)} tgt=+${targetGain.toFixed(1)}`;
+                  polishLog = ` | POLISH=REJECTED_${rejectReason}`;
                 }
               } else {
                 polishLog = ` | POLISH=${polishResult.status}`;

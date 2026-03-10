@@ -46,6 +46,7 @@ import {
   type PolishTargetAxis,
 } from '../polish-engine.js';
 import { judgeAestheticV3 } from '../../../oracle/aesthetic-oracle.js';
+import { computeProseFingerprint, type ProseFingerprintResult } from '../audit/prose-fingerprint.js';
 
 // ── Configuration ─────────────────────────────────────────────────────────────
 
@@ -102,6 +103,32 @@ export interface RunRecord {
   readonly macro_axes?:          MacroAxesDetail;
   readonly sub_axes?:            SubAxesDetail;
   readonly gate_fail_reasons?:   string[]; // INV-LOG-01: non-vide si REJECT
+  // U-ROSETTE-14 Phase 1A : audit génération amont
+  readonly prose_fingerprint?:    ProseFingerprintResult; // INV-FP-01..09 : fingerprint structurel
+  readonly polish_detail?:        PolishDetailRecord;     // détail Polish Engine sur le champion
+}
+
+/**
+ * Détail de l'opération Polish Engine sur le champion Top-K.
+ * U-ROSETTE-14 Phase 1A — audit de la régression ECC/RCI/IFI.
+ */
+export interface PolishDetailRecord {
+  readonly applied:          boolean;
+  readonly target_axis:      string | null;
+  readonly composite_before: number;
+  readonly composite_after:  number;
+  readonly composite_gain:   number;
+  readonly ecc_before:       number;
+  readonly ecc_after:        number;
+  readonly ecc_delta:        number;
+  readonly rci_before:       number;
+  readonly rci_after:        number;
+  readonly rci_delta:        number;
+  readonly sii_before:       number;
+  readonly sii_after:        number;
+  readonly sii_delta:        number;
+  readonly accept_mode:      'GAIN' | 'TOLERANCE' | 'REJECTED_REGRESSION' | 'REJECTED_NO_GAIN' | 'NO_OP' | 'FAIL_INFRA';
+  readonly reject_reason:    string | null;
 }
 
 export interface BenchmarkSummary {
@@ -280,13 +307,17 @@ export class DualBenchmarkRunner {
         // Console: gate reasons
         const gateLog = gateReasons.length > 0 ? '  GATE: ' + gateReasons.join(', ') : '';
 
+        // U-ROSETTE-14 Phase 1A : fingerprint structurel de la prose (INV-FP-01..09)
+        const fingerprint = result.final_prose ? computeProseFingerprint(result.final_prose) : undefined;
+
         record = {
           pair_index: i, mode: 'one-shot', base_seed: baseSeed,
           input_hash: iHash, output_hash: oHash,
           s_composite: sComp, verdict: result.verdict,
-          macro_axes:       macroDetail,
-          sub_axes:         subAxes,
+          macro_axes:        macroDetail,
+          sub_axes:          subAxes,
           gate_fail_reasons: gateReasons,
+          prose_fingerprint: fingerprint,
         };
         oneShotRecords.push({ run_id: `os-${i}`, verdict: result.verdict, s_composite: sComp });
         console.log(`${result.verdict} (s=${sComp.toFixed(1)}) | ${axesLog}`);
@@ -330,6 +361,8 @@ export class DualBenchmarkRunner {
         let polishedComposite = sComp;
         let polishedOutputHash = oHash;
         let polishLog = '';
+        // U-ROSETTE-14 Phase 1A : détail Polish pour audit
+        let polishDetailRecord: PolishDetailRecord | undefined;
 
         const forgeResult = top1.forge_result;
         const macroAxes = forgeResult?.macro_score?.macro_axes;
@@ -414,11 +447,31 @@ export class DualBenchmarkRunner {
                   polishedVerdict = (rescored.verdict === 'SEAL') ? 'SEAL' : 'REJECT';
                   const acceptMode = acceptedByGain ? 'GAIN' : `TOL(c=${compositeGain.toFixed(2)},tgt=+${targetGain.toFixed(1)})`;
                   polishLog = ` | POLISH=ACCEPTED[${acceptMode}] composite=${sComp.toFixed(1)}→${polishedComposite.toFixed(1)} sii=${axesBefore.sii.toFixed(1)}→${axesAfter.sii.toFixed(1)}`;
+                  // U-ROSETTE-14 Phase 1A : enregistrer le détail Polish pour audit
+                  polishDetailRecord = {
+                    applied: true, target_axis: decision.target_axis,
+                    composite_before: sComp, composite_after: axesAfter.composite, composite_gain: compositeGain,
+                    ecc_before: axesBefore.ecc, ecc_after: axesAfter.ecc, ecc_delta: axesAfter.ecc - axesBefore.ecc,
+                    rci_before: axesBefore.rci, rci_after: axesAfter.rci, rci_delta: axesAfter.rci - axesBefore.rci,
+                    sii_before: axesBefore.sii, sii_after: axesAfter.sii, sii_delta: axesAfter.sii - axesBefore.sii,
+                    accept_mode: acceptedByGain ? 'GAIN' : 'TOLERANCE',
+                    reject_reason: null,
+                  };
                 } else {
                   const rejectReason = !stability.stability_ok
                     ? `REGRESSION axes=[${stability.failed_axes.join(',')}]`
                     : `NO_GAIN c=${compositeGain.toFixed(2)} tgt=+${targetGain.toFixed(1)}`;
                   polishLog = ` | POLISH=REJECTED_${rejectReason}`;
+                  // U-ROSETTE-14 Phase 1A : enregistrer le détail de rejet
+                  polishDetailRecord = {
+                    applied: false, target_axis: decision.target_axis,
+                    composite_before: sComp, composite_after: axesAfter.composite, composite_gain: compositeGain,
+                    ecc_before: axesBefore.ecc, ecc_after: axesAfter.ecc, ecc_delta: axesAfter.ecc - axesBefore.ecc,
+                    rci_before: axesBefore.rci, rci_after: axesAfter.rci, rci_delta: axesAfter.rci - axesBefore.rci,
+                    sii_before: axesBefore.sii, sii_after: axesAfter.sii, sii_delta: axesAfter.sii - axesBefore.sii,
+                    accept_mode: !stability.stability_ok ? 'REJECTED_REGRESSION' : 'REJECTED_NO_GAIN',
+                    reject_reason: rejectReason,
+                  };
                 }
               } else {
                 polishLog = ` | POLISH=${polishResult.status}`;
@@ -433,11 +486,17 @@ export class DualBenchmarkRunner {
         }
         // ── Fin Polish Engine ────────────────────────────────────────────────────────────────
 
+        // U-ROSETTE-14 Phase 1A : fingerprint de la prose champion
+        const champProse = top1.forge_result?.final_prose ?? '';
+        const champFingerprint = champProse ? computeProseFingerprint(champProse) : undefined;
+
         record = {
           pair_index: i, mode: 'top-k', base_seed: baseSeed,
           input_hash: iHash, output_hash: polishedOutputHash,
           s_composite: polishedComposite, verdict: polishedVerdict,
           greatness_composite: gComp,
+          prose_fingerprint: champFingerprint,
+          polish_detail:     polishDetailRecord,
         };
         topKReports.push(report);
         // FIX-K-LOG: use this.k (runtime value) not BENCHMARK_K (hardcoded 8).

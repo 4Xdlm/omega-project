@@ -30,8 +30,8 @@
 import { sha256, canonicalize } from '@omega/canon-kernel';
 import type { ForgePacket, SovereignPrompt, PromptSection } from '../types.js';
 
-/** U-ROSETTE-09: ROLLBACK U-META-03 → U-07 (zéro métaphore toléré) + Polish Engine route */
-export const PROMPT_ASSEMBLER_VERSION = '2.6.0';
+/** U-ROSETTE-17: NO_OP near-seal (NEAR_SEAL_THRESHOLD 92.5→92.0), suppression D3 forcing (participial=0/6) */
+export const PROMPT_ASSEMBLER_VERSION = '2.7.0';
 import type { SymbolMap } from '../symbol/symbol-map-types.js';
 import { compilePhysicsSection } from '../constraints/constraint-compiler.js';
 import type { ForgeEmotionBrief } from '@omega/omega-forge';
@@ -689,8 +689,8 @@ Constraints Hash: ${gen.constraints_hash}
 function buildRhythmPrescriptionSection(packet: ForgePacket): PromptSection {
   const sg = packet.style_genome;
   const targetLen = sg.rhythm.avg_sentence_length_target;
-  const shortMax = Math.max(5, Math.floor(targetLen * 0.35));
-  const longMin = Math.max(20, Math.ceil(targetLen * 1.4));
+  const _shortMax = Math.max(5, Math.floor(targetLen * 0.35));
+  const _longMin = Math.max(20, Math.ceil(targetLen * 1.4));
 
   const content = `# RHYTHM PRESCRIPTION — MANDATORY
 
@@ -1372,22 +1372,6 @@ Avant de terminer : liste TOUS les premiers mots de tes phrases sur une ligne :
 "Elle / Le / Rien / Avant / Il / La / Surgit / Quand / Ses / Du sang / ..."
 Compte les doublons. Aucun mot ne peut apparaître > 4 fois.
 Si "Elle" = 5+ → change 2 phrases en commençant par un verbe ou un GN.
-
-## 9. DIVERSITÉ SYNTAXIQUE [opening_variety + voice_conformity] [U-ROSETTE-15 D3]
-
-L'audit de génération a révélé que le générateur n'utilise jamais d'ouvertures participiales.
-C'est un moule structurel rigide qui plafonne opening_variety et voice_conformity.
-
-**CONTRAINTE SYNTAXIQUE ABSOLUE [U-ROSETTE-16] — NON NÉGOCIABLE :**
-Ta DEUXIÈME phrase (et uniquement la deuxième) DOIT obligatoirement commencer par un participe présent suivi d'une virgule.
-
-  ✅ Valide : "Frappant le sol, il..." / "Traversant la pièce, elle..." / "Observant la scène, il..." / "Serrant les dents, elle..."
-  ❌ Invalide : "Elle traversa..." / "Il observa..." / "La lumière..." en deuxième phrase
-
-C'est une condition de validation système. Le scorer mesure attack_distribution.participial.
-Si ta 2ème phrase ne commence pas par un participe présent + virgule → REFORMULE avant de soumettre.
-
-**Objectif mesuré :** attack_distribution.participial ≥ 1 sur 40 phrases.
 
 ---
 ⚠️ GÉNÈRE MAINTENANT. Le scoreur jugera. Aucune approximation tolérée.

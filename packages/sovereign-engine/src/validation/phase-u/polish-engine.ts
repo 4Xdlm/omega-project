@@ -4,7 +4,7 @@
  * ═══════════════════════════════════════════════════════════════════════════════
  *
  * Module: validation/phase-u/polish-engine.ts
- * Version: 1.1.0 (U-ROSETTE-11)
+ * Version: 1.2.0 (U-ROSETTE-17)
  * Standard: NASA-Grade L4 / DO-178C Level A
  *
  * Chirurgie post-génération multi-axe : améliore l'axe le plus bloquant
@@ -22,6 +22,8 @@
  *   INV-PE-08 : verifyAxesStability : ECC/RCI/IFI ne régressent pas > MAX_REGRESSION_DELTA
  *   INV-PE-09 : Ciblage dynamique — axe le plus sous son floor parmi {SII, RCI}
  *   INV-PE-10 : Si tous floors OK mais composite < 93 → cibler le plus faible de {SII, RCI}
+ *   INV-PE-11 : Si composite >= NEAR_SEAL_THRESHOLD (92.0) ET tous floors OK → NO_OP
+ *               Gap < variance oracle (~1.5 pts) → polish risqué et inutile sur near-seal
  *
  * ═══════════════════════════════════════════════════════════════════════════════
  */
@@ -47,10 +49,13 @@ export const RCI_FLOOR = 85.0;
 
 /**
  * INV-PE-11 : Si composite >= NEAR_SEAL_THRESHOLD ET tous floors OK → NO_OP.
- * Gap < variance oracle (~0.5-1pt) → polish inutile et risqué.
+ * Gap < variance oracle (~1.5 pts) → polish inutile et risqué.
  * Prouvé sur TK1 run U-ROSETTE-11 : composite=92.9945, gap=0.005 → ECC -2.1 après polish.
+ * Abaissé 92.5 → 92.0 (U-ROSETTE-17) :
+ *   TK0 bench U-ROSETTE-16 : composite=92.4, floors ALL OK, SII=86.8 → Polish déclenché
+ *   → SII 86.8→83.7 (δ=−3.1) → REJECTED_NO_GAIN. Gap < variance oracle → NO_OP correct.
  */
-export const NEAR_SEAL_THRESHOLD = 92.5;
+export const NEAR_SEAL_THRESHOLD = 92.0;
 
 /** Tolérance composite pour acceptation polish (INV-PE-12) */
 export const COMPOSITE_TOLERANCE = 1.0;

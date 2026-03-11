@@ -31,7 +31,7 @@ import { sha256, canonicalize } from '@omega/canon-kernel';
 import type { ForgePacket, SovereignPrompt, PromptSection } from '../types.js';
 
 /** U-ROSETTE-09: ROLLBACK U-META-03 → U-07 (zéro métaphore toléré) + Polish Engine route */
-export const PROMPT_ASSEMBLER_VERSION = '2.5.9';
+export const PROMPT_ASSEMBLER_VERSION = '2.6.0';
 import type { SymbolMap } from '../symbol/symbol-map-types.js';
 import { compilePhysicsSection } from '../constraints/constraint-compiler.js';
 import type { ForgeEmotionBrief } from '@omega/omega-forge';
@@ -1250,10 +1250,12 @@ Objectif : ton juge interne va noter tes métaphores 0-100. Tu vises 85+.
   1 métaphore notée  85 → score final ≈  85 (GAIN RÉEL)
   1 métaphore morte  → is_dead=true → novelty_score forcé à 0 → score ≈ 0
 
-⚠️ CONCLUSION MATHÉMATIQUE ABSOLUE :
-  N'écris une métaphore QUE si tu es certain à 95% qu'elle atteindra 85+.
-  Dans le moindre doute → NE PAS ÉCRIRE DE MÉTAPHORE.
-  Zéro métaphore = SII protégé à 70. Une seule métaphore sub-80 = SII < 70 = REJET.
+⚠️ CONCLUSION MATHÉMATIQUE ABSOLUE — IL N'Y A PAS DE ZONE DE SÉCURITÉ :
+  Zéro métaphore → metaphor_novelty = 70 → SII = (anti_cliche + necessity + 70) / 3 ≈ 81 → REJET GARANTI.
+  Écrire zéro métaphore n'est PAS une option sûre. C'est un REJET mathématique certain.
+  Tu DOIS écrire au moins une métaphore qui atteint ≥ 82 de novelty.
+  Si aucune image ne passe le test à 95% → écris quand même la meilleure disponible.
+  Une métaphore à 75 vaut mieux que zéro : SII = (88+85+75)/3 = 82.7 vs 81.0.
   C'est le seul calcul qui compte.
 
 ## PROCÉDURE (dans ta tête, pas dans la prose)
@@ -1376,15 +1378,14 @@ Si "Elle" = 5+ → change 2 phrases en commençant par un verbe ou un GN.
 L'audit de génération a révélé que le générateur n'utilise jamais d'ouvertures participiales.
 C'est un moule structurel rigide qui plafonne opening_variety et voice_conformity.
 
-**Dans les 10 premières phrases, favorise au moins 1-2 ouvertures participiales ou obliques :**
-  ✅ Participial : "Penché sur la table, il...", "Traversant la pièce, elle...", "Regardé par..."
-  ✅ Gérondif : "En s'approchant du mur...", "En ouvrant la porte..."
-  ✅ Adjectif antéposé : "Désespéré, il...", "Immobile, elle attendait..."
-  ✅ Proposition absolue : "Les mains croisées...", "Le bruit évanoui..."
+**CONTRAINTE SYNTAXIQUE ABSOLUE [U-ROSETTE-16] — NON NÉGOCIABLE :**
+Ta DEUXIÈME phrase (et uniquement la deuxième) DOIT obligatoirement commencer par un participe présent suivi d'une virgule.
 
-**Ce n'est pas une règle mécanique — c'est une préférence de diversité.**
-Si le sens narratif ne le permet pas, ne force pas. Mais si tu as le choix entre
-une ouverture pronominale et une ouverture participiale équivalente → préfère la participiale.
+  ✅ Valide : "Frappant le sol, il..." / "Traversant la pièce, elle..." / "Observant la scène, il..." / "Serrant les dents, elle..."
+  ❌ Invalide : "Elle traversa..." / "Il observa..." / "La lumière..." en deuxième phrase
+
+C'est une condition de validation système. Le scorer mesure attack_distribution.participial.
+Si ta 2ème phrase ne commence pas par un participe présent + virgule → REFORMULE avant de soumettre.
 
 **Objectif mesuré :** attack_distribution.participial ≥ 1 sur 40 phrases.
 

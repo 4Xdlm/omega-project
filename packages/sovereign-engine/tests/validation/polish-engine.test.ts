@@ -121,7 +121,7 @@ describe('shouldApplyPolish — INV-PE-01 + INV-PE-06', () => {
     const result = shouldApplyPolish(axes);
     expect(result.should_polish).toBe(true);
     expect(result.target_axis).toBe('sii');  // INV-PE-10 : RCI interdit, toujours sii
-    expect(result.reason).toContain('92.5');
+    expect(result.reason).toContain('92');
   });
 
   it('PE-06b: retourne false si sii < floor ET metaphor_novelty >= NOVELTY_TARGET ET rci OK', () => {
@@ -222,15 +222,15 @@ describe('shouldApplyPolish — INV-PE-01 + INV-PE-06', () => {
     expect(result.reason).toContain('NEAR_SEAL');
   });
 
-  it('PE-11c: polish autorisé si composite=92.4 ET floors OK (sous NEAR_SEAL, INV-PE-10)', () => {
-    const axes = makeAxes({ composite: 92.4, sii: 86.0, rci: 86.0, ecc: 90.0, metaphor_novelty: 83 });
+  it('PE-11c: polish autorisé si composite=91.9 ET floors OK (sous NEAR_SEAL=92.0, INV-PE-10)', () => {
+    const axes = makeAxes({ composite: 91.9, sii: 86.0, rci: 86.0, ecc: 90.0, metaphor_novelty: 83 });
     const result = shouldApplyPolish(axes);
     expect(result.should_polish).toBe(true);
     expect(result.target_axis).toBe('sii');  // INV-PE-10 : RCI interdit
   });
 
-  it('PE-11d: NEAR_SEAL_THRESHOLD vaut 92.5', () => {
-    expect(NEAR_SEAL_THRESHOLD).toBe(92.5);
+  it('PE-11d: NEAR_SEAL_THRESHOLD vaut 92.0 (abaissé depuis 92.5 — U-ROSETTE-17)', () => {
+    expect(NEAR_SEAL_THRESHOLD).toBe(92.0);
   });
 
   // ── INV-PE-12 : constantes d’acceptance ──────────────────────────────────────

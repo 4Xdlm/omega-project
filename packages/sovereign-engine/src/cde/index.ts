@@ -1,6 +1,6 @@
 /**
  * OMEGA Phase V — Context Distillation Engine (CDE)
- * Sprint V-INIT — Public Exports
+ * Sprint V-PROTO — Public Exports
  * Standard: NASA-Grade L4 / DO-178C
  */
 
@@ -27,3 +27,20 @@ export {
 
 export { extractDelta } from './delta-extractor.js';
 export type { DeltaContext } from './delta-extractor.js';
+
+// V-PROTO exports
+export {
+  runCDEScene,
+  formatBriefText,
+  injectBriefIntoForgeInput,
+} from './cde-pipeline.js';
+export type { CDESceneResult, CDEPipelineConfig } from './cde-pipeline.js';
+
+export {
+  runSceneChain,
+  propagateDelta,
+  ChainError,
+  CHAIN_N_MIN,
+  CHAIN_N_MAX,
+} from './scene-chain.js';
+export type { SceneChainConfig, SceneChainReport } from './scene-chain.js';

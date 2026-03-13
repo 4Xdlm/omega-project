@@ -75,6 +75,8 @@ class TestableTopKRunner {
           forge_result:     null as unknown as SovereignForgeResult,
           prose_sha256:     '',
           survived_seal:    false,
+          saga_ready:       false,
+          seal_path:        null,
           is_candidate:     false,
           rejection_reason: `FORGE_ERROR: ${err instanceof Error ? err.message : String(err)}`,
         });
@@ -84,12 +86,18 @@ class TestableTopKRunner {
       const survived     = forgeResult.verdict === 'SEAL';
       const sComposite   = (forgeResult.s_score as Record<string, unknown>)?.composite as number ?? 0;
       const is_candidate = sComposite >= CANDIDATE_FLOOR_COMPOSITE;
+      // saga_ready / seal_path — simplified for test (no macro_axes in mock)
+      const saga_ready   = sComposite >= 92.0 && survived;
+      const seal_path: 'SEAL_ATOMIC' | 'SAGA_READY' | null =
+        survived ? 'SEAL_ATOMIC' : saga_ready ? 'SAGA_READY' : null;
       variants.push({
         seed,
         variant_index:    i,
         forge_result:     forgeResult,
         prose_sha256:     sha256(forgeResult.final_prose),
         survived_seal:    survived,
+        saga_ready,
+        seal_path,
         is_candidate,
         rejection_reason: is_candidate
           ? undefined
@@ -144,11 +152,16 @@ class TestableTopKRunner {
       ? Math.round((top1.greatness!.composite - first.greatness!.composite) * 100) / 100
       : 0;
 
+    const sagaReadyVariants = evaluated.filter(v => v.saga_ready);
     return {
       run_id:          runId,
       k_requested:     k,
       k_generated:     kGenerated,
       k_survived_seal: survivors.length,
+      k_saga_ready:    sagaReadyVariants.length,
+      saga_ready_rate: kGenerated > 0
+        ? Math.round((sagaReadyVariants.length / kGenerated) * 10000) / 10000
+        : 0,
       k_candidates:    candidates.length,
       k_evaluated:     scored.length,
       k_judge_failed:  kJudgeFailed,

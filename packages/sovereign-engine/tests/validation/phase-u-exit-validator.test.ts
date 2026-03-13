@@ -20,14 +20,23 @@ import {
   computeGainPct,
   computeSealRateTopK,
   computeSealRateOneShot,
+  computeSealRateOneShotAtomic,
+  computeSealRateOneShotSaga,
+  computeSagaReadyRateTopK,
   PhaseUExitValidator,
   PhaseUExitError,
   MIN_RUNS,
   GREATNESS_MEDIAN_MIN,
   GAIN_PCT_MIN,
+  SAGA_READY_RATE_MIN,
   type OneShotRecord,
+  type SealPathBreakdown,
 } from '../../src/validation/phase-u/phase-u-exit-validator';
 import type { KSelectionReport, VariantRecord } from '../../src/validation/phase-u/top-k-selection';
+import {
+  SAGA_READY_COMPOSITE_MIN,
+  SAGA_READY_SSI_MIN,
+} from '../../src/validation/phase-u/top-k-selection';
 import type { GreatnessResult, AxisScore } from '../../src/validation/phase-u/greatness-judge';
 import { GREATNESS_AXES } from '../../src/validation/phase-u/greatness-judge';
 
@@ -58,16 +67,28 @@ function makeTop1(composite: number): VariantRecord {
     forge_result:   { final_prose: 'prose', verdict: 'SEAL' } as never,
     prose_sha256:   'a'.repeat(64),
     survived_seal:  true,
+    saga_ready:     true,
+    seal_path:      'SEAL_ATOMIC',
     greatness:      makeGreatnessResult(composite),
   };
 }
 
-function makeKReport(composite: number, kSurvivedSeal = 8, kGenerated = 16): KSelectionReport {
+function makeKReport(
+  composite: number,
+  kSurvivedSeal = 8,
+  kGenerated = 16,
+  kSagaReady?: number,
+): KSelectionReport {
+  const effectiveSagaReady = kSagaReady ?? kSurvivedSeal;  // SEAL_ATOMIC ⊆ SAGA_READY — INV-SR-02
   return {
     run_id:          `run-${Math.random()}`,
     k_requested:     16,
     k_generated:     kGenerated,
     k_survived_seal: kSurvivedSeal,
+    k_saga_ready:    effectiveSagaReady,
+    saga_ready_rate: kGenerated > 0
+      ? Math.round((effectiveSagaReady / kGenerated) * 10000) / 10000
+      : 0,
     k_evaluated:     kSurvivedSeal,
     variants:        [],
     top1:            makeTop1(composite),
@@ -77,21 +98,40 @@ function makeKReport(composite: number, kSurvivedSeal = 8, kGenerated = 16): KSe
   };
 }
 
-function makeOneShotRecord(verdict: 'SEAL' | 'REJECT', sComposite = 70): OneShotRecord {
+function makeOneShotRecord(
+  verdict: 'SEAL_ATOMIC' | 'SAGA_READY' | 'REJECT',
+  sComposite = 70,
+): OneShotRecord {
   return { run_id: `os-${Math.random()}`, verdict, s_composite: sComposite };
 }
 
 /** Génère N KSelectionReport avec composite donné */
-function makeReports(n: number, composite = 80, sealRate = 0.8): KSelectionReport[] {
-  return Array.from({ length: n }, () => makeKReport(composite, Math.round(16 * sealRate)));
+function makeReports(n: number, composite = 80, sealRate = 0.8, kSagaReady?: number): KSelectionReport[] {
+  return Array.from({ length: n }, () => makeKReport(composite, Math.round(16 * sealRate), 16, kSagaReady));
 }
 
-/** Génère N OneShotRecord avec SEAL rate et composite donnés */
+/** Génère N OneShotRecord avec SEAL_ATOMIC rate et composite donnés */
 function makeOneShotRecords(n: number, sealRate = 0.7, composite = 60): OneShotRecord[] {
   return Array.from({ length: n }, (_, i) => makeOneShotRecord(
-    i < Math.round(n * sealRate) ? 'SEAL' : 'REJECT',
+    i < Math.round(n * sealRate) ? 'SEAL_ATOMIC' : 'REJECT',
     composite,
   ));
+}
+
+/** Génère N OneShotRecord avec un mix SEAL_ATOMIC / SAGA_READY / REJECT */
+function makeOneShotRecordsMixed(
+  n: number,
+  atomicRate: number,
+  sagaRate: number,
+  composite = 92.5,
+): OneShotRecord[] {
+  const atomicCount = Math.round(n * atomicRate);
+  const sagaCount   = Math.round(n * sagaRate);
+  return Array.from({ length: n }, (_, i) => {
+    if (i < atomicCount)              return makeOneShotRecord('SEAL_ATOMIC', 93.5);
+    if (i < atomicCount + sagaCount)  return makeOneShotRecord('SAGA_READY', composite);
+    return makeOneShotRecord('REJECT', 85);
+  });
 }
 
 const validator = new PhaseUExitValidator();
@@ -197,8 +237,8 @@ describe('U-W5 computeSealRate — INV-EU-03', () => {
     expect(computeSealRateOneShot([])).toBe(0);
   });
 
-  it('EU-SR-06: oneShot 100% SEAL → 1.0', () => {
-    const records = Array.from({ length: 5 }, () => makeOneShotRecord('SEAL', 93));
+  it('EU-SR-06: oneShot 100% SEAL_ATOMIC → 1.0', () => {
+    const records = Array.from({ length: 5 }, () => makeOneShotRecord('SEAL_ATOMIC', 93));
     expect(computeSealRateOneShot(records)).toBe(1);
   });
 });
@@ -263,12 +303,12 @@ describe('U-W5 PhaseUExitValidator — verdict PASS', () => {
     expect(r.blocking_failures).toHaveLength(0);
   });
 
-  it('EU-PASS-02: PASS → 4 métriques présentes', () => {
+  it('EU-PASS-02: PASS → 5 métriques présentes', () => {
     const r = validator.evaluate(
       makeReports(MIN_RUNS, 80, 0.5),
       makeOneShotRecords(MIN_RUNS, 0.3, 60),
     );
-    expect(r.metrics).toHaveLength(4);
+    expect(r.metrics).toHaveLength(5);
   });
 
   it('EU-PASS-03: PASS → greatness_median ≥ 75', () => {
@@ -321,22 +361,22 @@ describe('U-W5 PhaseUExitValidator — verdict FAIL', () => {
     expect(r.verdict).toBe('FAIL');
   });
 
-  it('EU-FAIL-02: gain < 15% → MET-EU-02 FAIL', () => {
+  it('EU-FAIL-02: gain < 15% → MET-EU-02 informatif (non-bloquant)', () => {
     // topK=76, oneShot=75 → gain ≈ 1.3% < 15%
+    // MET-EU-02 est informatif depuis dual-path — ne bloque plus
     const r = validator.evaluate(
       makeReports(MIN_RUNS, 76, 0.7),
       makeOneShotRecords(MIN_RUNS, 0.7, 75),
     );
     const met02 = r.metrics.find(m => m.name === 'MET-EU-02');
-    expect(met02?.pass).toBe(false);
-    expect(r.verdict).toBe('FAIL');
+    expect(met02?.pass).toBe(true);  // informatif = toujours pass
   });
 
-  it('EU-FAIL-03: SEAL rate topK < oneShot → MET-EU-03 FAIL (régression)', () => {
-    // topK sealRate=0.2 < oneShot sealRate=0.8
+  it('EU-FAIL-03: certified rate topK < oneShot → MET-EU-03 FAIL (régression)', () => {
+    // topK saga_ready=2/16 (0.125) < oneShot SAGA_READY rate=0.8
     const r = validator.evaluate(
-      makeReports(MIN_RUNS, 80, 0.2),
-      makeOneShotRecords(MIN_RUNS, 0.8, 60),
+      makeReports(MIN_RUNS, 80, 0, 2),   // k_survived_seal=0, k_saga_ready=2
+      makeOneShotRecordsMixed(MIN_RUNS, 0, 0.8), // 80% SAGA_READY oneshot
     );
     const met03 = r.metrics.find(m => m.name === 'MET-EU-03');
     expect(met03?.pass).toBe(false);
@@ -345,19 +385,19 @@ describe('U-W5 PhaseUExitValidator — verdict FAIL', () => {
 
   it('EU-FAIL-04: plusieurs critères FAIL → tous dans blocking_failures', () => {
     const r = validator.evaluate(
-      makeReports(MIN_RUNS, 60, 0.2),       // médiane 60 < 75, sealRate trop bas
-      makeOneShotRecords(MIN_RUNS, 0.8, 55), // sealRate oneShot haut → régression
+      makeReports(MIN_RUNS, 60, 0, 0),        // médiane 60 < 75, saga_ready=0
+      makeOneShotRecordsMixed(MIN_RUNS, 0, 0.8, 55), // saga_ready oneShot haut → régression
     );
     expect(r.blocking_failures.length).toBeGreaterThan(1);
     expect(r.verdict).toBe('FAIL');
   });
 
-  it('EU-FAIL-05: FAIL → 4 métriques quand même présentes', () => {
+  it('EU-FAIL-05: FAIL → 5 métriques quand même présentes', () => {
     const r = validator.evaluate(
       makeReports(MIN_RUNS, 60, 0.2),
       makeOneShotRecords(MIN_RUNS, 0.8, 55),
     );
-    expect(r.metrics).toHaveLength(4);
+    expect(r.metrics).toHaveLength(5);
   });
 });
 
@@ -380,6 +420,11 @@ describe('U-W5 PhaseUExitReport structure — INV-EU-04', () => {
     expect(typeof r.gain_pct).toBe('number');
     expect(typeof r.seal_rate_topk).toBe('number');
     expect(typeof r.seal_rate_oneshot).toBe('number');
+    expect(typeof r.seal_atomic_rate_oneshot).toBe('number');
+    expect(typeof r.seal_atomic_rate_topk).toBe('number');
+    expect(typeof r.saga_ready_rate_oneshot).toBe('number');
+    expect(typeof r.saga_ready_rate_topk).toBe('number');
+    expect(typeof r.seal_path_breakdown).toBe('object');
     expect(typeof r.created_at).toBe('string');
     expect(Array.isArray(r.blocking_failures)).toBe(true);
   });
@@ -431,5 +476,138 @@ describe('U-W5 PhaseUExitError', () => {
     const e = new PhaseUExitError('TEST', 'msg');
     expect(e.message).toContain('TEST');
     expect(e.name).toBe('PhaseUExitError');
+  });
+});
+
+// ══════════════════════════════════════════════════════════════════════════════
+// SUITE 9 — SAGA_READY dual-path — INV-SR-01..05
+// ══════════════════════════════════════════════════════════════════════════════
+
+describe('U-ROSETTE-18 SAGA_READY dual-path — INV-SR-01..05', () => {
+
+  // ── SR-01 : composite=92.5, min_axis=87.0 → saga_ready=true, survived_seal=false ─
+  it('SR-01: composite=92.5, min_axis=87.0 → SAGA_READY, not SEAL_ATOMIC', () => {
+    const record: OneShotRecord = { run_id: 'sr01', verdict: 'SAGA_READY', s_composite: 92.5, ssi: 87.0 };
+    expect(record.verdict).toBe('SAGA_READY');
+    expect(record.s_composite).toBeGreaterThanOrEqual(SAGA_READY_COMPOSITE_MIN);
+    expect(record.ssi).toBeGreaterThanOrEqual(SAGA_READY_SSI_MIN);
+  });
+
+  // ── SR-02 : composite=92.9, min_axis=85.0 → saga_ready=true, survived_seal=false ─
+  it('SR-02: composite=92.9, min_axis=85.0 → SAGA_READY (boundary)', () => {
+    const record: OneShotRecord = { run_id: 'sr02', verdict: 'SAGA_READY', s_composite: 92.9, ssi: 85.0 };
+    expect(record.verdict).toBe('SAGA_READY');
+    expect(record.ssi).toBe(SAGA_READY_SSI_MIN);
+  });
+
+  // ── SR-03 : composite=93.1, min_axis=88.0 → saga_ready=true, survived_seal=true (ATOMIC) ─
+  it('SR-03: composite=93.1, min_axis=88.0 → SEAL_ATOMIC (also SAGA_READY by INV-SR-02)', () => {
+    const record: OneShotRecord = { run_id: 'sr03', verdict: 'SEAL_ATOMIC', s_composite: 93.1, ssi: 88.0 };
+    expect(record.verdict).toBe('SEAL_ATOMIC');
+    // INV-SR-02 : SEAL_ATOMIC ⊆ SAGA_READY
+    expect(record.s_composite).toBeGreaterThanOrEqual(SAGA_READY_COMPOSITE_MIN);
+    expect(record.ssi).toBeGreaterThanOrEqual(SAGA_READY_SSI_MIN);
+  });
+
+  // ── SR-04 : composite=91.9, min_axis=86.0 → saga_ready=false (composite < 92.0) ─
+  it('SR-04: composite=91.9 → REJECT (below SAGA_READY_COMPOSITE_MIN)', () => {
+    const record: OneShotRecord = { run_id: 'sr04', verdict: 'REJECT', s_composite: 91.9, ssi: 86.0 };
+    expect(record.verdict).toBe('REJECT');
+    expect(record.s_composite).toBeLessThan(SAGA_READY_COMPOSITE_MIN);
+  });
+
+  // ── SR-05 : composite=92.5, min_axis=84.9 → saga_ready=false (min_axis < 85.0) ─
+  it('SR-05: min_axis=84.9 → REJECT (below SAGA_READY_SSI_MIN)', () => {
+    const record: OneShotRecord = { run_id: 'sr05', verdict: 'REJECT', s_composite: 92.5, ssi: 84.9 };
+    expect(record.verdict).toBe('REJECT');
+    expect(record.ssi).toBeLessThan(SAGA_READY_SSI_MIN);
+  });
+
+  // ── SR-06 : 30 runs avec saga_ready_rate=10% → MET-EU-06 PASS ─
+  it('SR-06: 30 runs saga_ready_rate=10% → MET-EU-06 PASS', () => {
+    // top-K: k_saga_ready=2/16 per report → saga_ready_rate=0.125 ≥ 0.05
+    const topKReports = makeReports(MIN_RUNS, 80, 0, 2);  // k_saga_ready=2
+    const osRecords   = makeOneShotRecordsMixed(MIN_RUNS, 0, 0.1);
+    const r = validator.evaluate(topKReports, osRecords);
+    const met06 = r.metrics.find(m => m.name === 'MET-EU-06');
+    expect(met06?.pass).toBe(true);
+    expect(met06?.value).toBeGreaterThanOrEqual(SAGA_READY_RATE_MIN);
+  });
+
+  // ── SR-07 : 30 runs avec saga_ready_rate=3% → MET-EU-06 FAIL ─
+  it('SR-07: 30 runs saga_ready_rate=3% → MET-EU-06 FAIL', () => {
+    // top-K: k_saga_ready=0 per report → saga_ready_rate=0 < 0.05
+    const topKReports = makeReports(MIN_RUNS, 80, 0, 0);  // k_saga_ready=0
+    const osRecords   = makeOneShotRecordsMixed(MIN_RUNS, 0, 0.03);
+    const r = validator.evaluate(topKReports, osRecords);
+    const met06 = r.metrics.find(m => m.name === 'MET-EU-06');
+    expect(met06?.pass).toBe(false);
+  });
+
+  // ── SR-08 : INV-SR-02 : tout SEAL_ATOMIC est aussi SAGA_READY ─
+  it('SR-08: INV-SR-02 — computeSealRateOneShotSaga includes SEAL_ATOMIC', () => {
+    const records: OneShotRecord[] = [
+      { run_id: 'a', verdict: 'SEAL_ATOMIC', s_composite: 93.5 },
+      { run_id: 'b', verdict: 'SAGA_READY',  s_composite: 92.5 },
+      { run_id: 'c', verdict: 'REJECT',      s_composite: 85 },
+    ];
+    const atomicRate = computeSealRateOneShotAtomic(records);
+    const sagaRate   = computeSealRateOneShotSaga(records);
+    // INV-SR-02 : saga includes atomic
+    expect(sagaRate).toBeGreaterThanOrEqual(atomicRate);
+    expect(atomicRate).toBeCloseTo(1 / 3, 4);
+    expect(sagaRate).toBeCloseTo(2 / 3, 4);
+  });
+
+  // ── SR-09 : INV-SR-04 : composite brut identique avant/après classification ─
+  it('SR-09: INV-SR-04 — composite brut non modifié par classification', () => {
+    const originalComposite = 92.5;
+    const record: OneShotRecord = {
+      run_id: 'sr09', verdict: 'SAGA_READY', s_composite: originalComposite, ssi: 87.0,
+    };
+    // INV-SR-04 : le composite brut n'est jamais modifié
+    expect(record.s_composite).toBe(originalComposite);
+
+    const kReport = makeKReport(originalComposite, 0, 16, 2);
+    expect(kReport.top1_composite).toBe(originalComposite);
+  });
+
+  // ── SR-10 : seal_path_breakdown.total_certified = atomic + saga_ready (sans double-comptage) ─
+  it('SR-10: seal_path_breakdown.total_certified = atomic + saga (no double-count)', () => {
+    // 2 SEAL_ATOMIC + 3 SAGA_READY oneshot, topK: 1 seal + 2 saga per report
+    const osRecords: OneShotRecord[] = [
+      ...Array.from({ length: 2 }, (_, i) => makeOneShotRecord('SEAL_ATOMIC', 93.5)),
+      ...Array.from({ length: 3 }, (_, i) => makeOneShotRecord('SAGA_READY', 92.5)),
+      ...Array.from({ length: MIN_RUNS - 5 }, (_, i) => makeOneShotRecord('REJECT', 85)),
+    ];
+    const topKReports = Array.from({ length: MIN_RUNS }, () => makeKReport(80, 1, 16, 3));
+
+    const r = validator.evaluate(topKReports, osRecords);
+    const bd = r.seal_path_breakdown;
+
+    expect(bd.seal_atomic_oneshot).toBe(2);
+    expect(bd.saga_ready_oneshot).toBe(3);   // sans double-comptage (5 total - 2 atomic)
+    expect(bd.seal_atomic_topk).toBe(MIN_RUNS);     // 1 per report × 30
+    expect(bd.saga_ready_topk).toBe(MIN_RUNS * 2);  // (3-1) per report × 30
+    // total_certified = saga_ready total (includes atomic)
+    expect(bd.total_certified).toBe(5 + MIN_RUNS * 3);
+  });
+
+  // ── Constantes ─
+  it('SR-CONST: SAGA_READY_COMPOSITE_MIN=92, SAGA_READY_SSI_MIN=85, SAGA_READY_RATE_MIN=0.05', () => {
+    expect(SAGA_READY_COMPOSITE_MIN).toBe(92.0);
+    expect(SAGA_READY_SSI_MIN).toBe(85.0);
+    expect(SAGA_READY_RATE_MIN).toBe(0.05);
+  });
+
+  // ── computeSagaReadyRateTopK retombe à 0 sans k_saga_ready ─
+  it('SR-COMPAT: computeSagaReadyRateTopK returns 0 for legacy reports without k_saga_ready', () => {
+    const legacyReport = {
+      run_id: 'legacy', k_requested: 8, k_generated: 8,
+      k_survived_seal: 0, k_evaluated: 4, variants: [],
+      top1: makeTop1(80), top1_composite: 80,
+      gain_vs_first: 0, created_at: new Date().toISOString(),
+    } as unknown as KSelectionReport;
+    expect(computeSagaReadyRateTopK([legacyReport])).toBe(0);
   });
 });

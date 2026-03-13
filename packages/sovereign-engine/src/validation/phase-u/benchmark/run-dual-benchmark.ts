@@ -319,7 +319,15 @@ export class DualBenchmarkRunner {
           gate_fail_reasons: gateReasons,
           prose_fingerprint: fingerprint,
         };
-        oneShotRecords.push({ run_id: `os-${i}`, verdict: result.verdict, s_composite: sComp });
+        // Map engine verdict to dual-path OneShotRecord verdict
+        const minAxis = macroDetail
+          ? Math.min(macroDetail.ecc, macroDetail.rci, macroDetail.sii, macroDetail.ifi, macroDetail.aai)
+          : 0;
+        const osVerdict: 'SEAL_ATOMIC' | 'SAGA_READY' | 'REJECT' =
+          result.verdict === 'SEAL' ? 'SEAL_ATOMIC'
+          : (sComp >= 92.0 && minAxis >= 85.0) ? 'SAGA_READY'
+          : 'REJECT';
+        oneShotRecords.push({ run_id: `os-${i}`, verdict: osVerdict, s_composite: sComp, ssi: minAxis });
         console.log(`${result.verdict} (s=${sComp.toFixed(1)}) | ${axesLog}`);
         if (rciLog)  console.log(rciLog);
         if (siiLog)  console.log(siiLog);

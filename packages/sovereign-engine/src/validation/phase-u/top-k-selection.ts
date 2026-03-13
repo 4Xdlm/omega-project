@@ -53,7 +53,9 @@ export interface VariantRecord {
   readonly variant_index:    number;           // 0-based
   readonly forge_result:     SovereignForgeResult;
   readonly prose_sha256:     string;
-  readonly survived_seal:    boolean;          // SEAL final : composite >= 93 + all floors (INCHANGE)
+  readonly survived_seal:    boolean;          // SEAL_ATOMIC : composite >= 93 + all floors (INCHANGE)
+  readonly saga_ready:       boolean;          // SAGA_READY  : composite >= 92 + min_axis >= 85 — INV-SR-01
+  readonly seal_path?:       'SEAL_ATOMIC' | 'SAGA_READY' | null; // chemin emprunté — INV-SR-03
   readonly is_candidate:     boolean;          // Candidacy gate : composite >= CANDIDATE_FLOOR_COMPOSITE (85)
   readonly greatness?:       GreatnessResult;  // present si is_candidate=true
   readonly rejection_reason?: string;          // present si is_candidate=false ou erreur forge
@@ -64,7 +66,9 @@ export interface KSelectionReport {
   readonly run_id:          string;   // SHA256(seed_base + k)
   readonly k_requested:     number;
   readonly k_generated:     number;   // effectivement generes (peut < k si erreur provider)
-  readonly k_survived_seal: number;   // variantes SEAL strict (composite >= 93)
+  readonly k_survived_seal: number;   // variantes SEAL_ATOMIC (composite >= 93) — EXISTANT
+  readonly k_saga_ready:    number;   // variantes SAGA_READY (>=92 + min_axis>=85) — INV-SR-01
+  readonly saga_ready_rate: number;   // k_saga_ready / k_generated — INV-SR-01
   readonly k_candidates:    number;   // variantes passant candidacy gate (>= 85)
   readonly k_evaluated:     number;   // variantes scorees par GreatnessJudge
   readonly k_judge_failed:  number;   // variantes ou le judge a echoue (non-bloquant si k_evaluated > 0)
@@ -122,6 +126,15 @@ export const CANDIDATE_FLOOR_COMPOSITE = 85;
  */
 export const SII_FLOOR_PENALTY_THRESHOLD = 82;
 export const SII_FLOOR_PENALTY_FACTOR    = 5.0;  // pénalité par point sous le seuil (÷10)
+
+/**
+ * INV-SR-01 : SAGA_READY = composite >= 92.0 AND min_axis >= 85.0
+ * INV-SR-02 : Tout SEAL_ATOMIC est aussi SAGA_READY (SEAL_ATOMIC ⊆ SAGA_READY)
+ * INV-SR-04 : Le composite brut n'est jamais modifié — pas de bonus arithmétique
+ * INV-SR-05 : SSI = min_axis — calculé à partir des macro_axes existants, zéro appel API
+ */
+export const SAGA_READY_COMPOSITE_MIN = 92.0;  // INV-SR-01
+export const SAGA_READY_SSI_MIN       = 85.0;  // INV-SR-01 — SSI = min_axis
 
 // ── Utilitaire : generation de seeds distincts ────────────────────────────────
 
@@ -203,6 +216,8 @@ export class TopKSelectionEngine {
           forge_result:     null as unknown as SovereignForgeResult,
           prose_sha256:     '',
           survived_seal:    false,
+          saga_ready:       false,
+          seal_path:        null,
           is_candidate:     false,
           rejection_reason: `FORGE_ERROR: ${detail}`,
         });
@@ -215,12 +230,32 @@ export class TopKSelectionEngine {
       const sComposite   = forgeResult.s_score?.composite ?? 0;
       const is_candidate = sComposite >= CANDIDATE_FLOOR_COMPOSITE;
 
+      // INV-SR-01 / INV-SR-05 : SSI = min_axis, calculé depuis macro_axes existants
+      const macroAxes = forgeResult.macro_score?.macro_axes;
+      const minAxis = macroAxes
+        ? Math.min(
+            macroAxes.ecc?.score ?? 100,
+            macroAxes.rci?.score ?? 100,
+            macroAxes.sii?.score ?? 100,
+            macroAxes.ifi?.score ?? 100,
+            macroAxes.aai?.score ?? 100,
+          )
+        : 0;
+      // INV-SR-01 : SAGA_READY = composite >= 92.0 AND min_axis >= 85.0
+      // INV-SEAL-01 : SEAL_ATOMIC = composite >= 93.0 AND min_axis >= 85.0 (inchangé)
+      const saga_ready = sComposite >= SAGA_READY_COMPOSITE_MIN && minAxis >= SAGA_READY_SSI_MIN;
+      // INV-SR-03 : seal_path explicite
+      const seal_path: 'SEAL_ATOMIC' | 'SAGA_READY' | null =
+        survived ? 'SEAL_ATOMIC' : saga_ready ? 'SAGA_READY' : null;
+
       variants.push({
         seed,
         variant_index:    i,
         forge_result:     forgeResult,
         prose_sha256:     proseSha,
         survived_seal:    survived,
+        saga_ready,
+        seal_path,
         is_candidate,
         rejection_reason: is_candidate
           ? undefined
@@ -228,9 +263,10 @@ export class TopKSelectionEngine {
       });
     }
 
-    const kGenerated = variants.filter(v => v.forge_result !== null).length;
-    const survivors  = variants.filter(v => v.survived_seal);   // strict SEAL gate (inchange)
-    const candidates = variants.filter(v => v.is_candidate);    // candidacy gate (relaxe)
+    const kGenerated  = variants.filter(v => v.forge_result !== null).length;
+    const survivors   = variants.filter(v => v.survived_seal);   // strict SEAL gate (inchange)
+    const sagaReady   = variants.filter(v => v.saga_ready);      // SAGA_READY gate — INV-SR-01
+    const candidates  = variants.filter(v => v.is_candidate);    // candidacy gate (relaxe)
 
     // INV-TK-03 (U-ROSETTE-02) : au moins 1 candidat (composite >= CANDIDATE_FLOOR_COMPOSITE)
     // Le seuil SEAL final (93) reste inchange — top1.survived_seal l'indique.
@@ -298,6 +334,10 @@ export class TopKSelectionEngine {
       k_requested:     k,
       k_generated:     kGenerated,
       k_survived_seal: survivors.length,
+      k_saga_ready:    sagaReady.length,
+      saga_ready_rate: kGenerated > 0
+        ? Math.round((sagaReady.length / kGenerated) * 10000) / 10000
+        : 0,
       k_candidates:    candidates.length,
       k_evaluated:     scoredCandidates.length,
       k_judge_failed:  kJudgeFailed,

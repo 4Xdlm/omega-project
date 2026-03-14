@@ -16,6 +16,7 @@ import type { ForgePacketInput } from '../src/input/forge-packet-assembler.js';
 import type { GenesisPlan, Scene } from '@omega/genesis-planner';
 import type { StyleProfile, KillLists, ForgeContinuity } from '../src/types.js';
 import { createAnthropicProvider } from '../src/runtime/anthropic-provider.js';
+import { computeMinAxis } from '../src/utils/math-utils.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -261,15 +262,17 @@ async function main(): Promise<void> {
   console.log('\n[CDE-BENCH] === RESULTS ===\n');
   for (const scene of report.scenes) {
     const composite = scene.forge_result.s_score?.composite ?? 0;
-    const macroAxes = scene.forge_result.macro_score;
-    const sagaReady = (composite >= 92 && (macroAxes?.min_axis ?? 0) >= 85) ? '✅ OUI' : '❌ NON';
+    const ma = scene.forge_result.macro_score?.macro_axes;
+    const minAxis = computeMinAxis(ma);
+    const sagaReady = (composite >= 92 && minAxis >= 85) ? '✅ OUI' : '❌ NON';
 
     console.log(`[CDE-BENCH] Scene ${scene.scene_index + 1}/${report.total_scenes}`);
     console.log(`  Brief injecte  : ${scene.brief.token_estimate} tokens`);
     console.log(`  Composite      : ${composite.toFixed(1)}`);
-    if (macroAxes) {
-      console.log(`  ECC/RCI/SII    : ${macroAxes.ecc?.toFixed(1) ?? '?'} / ${macroAxes.rci?.toFixed(1) ?? '?'} / ${macroAxes.sii?.toFixed(1) ?? '?'}`);
-      console.log(`  IFI/AAI        : ${macroAxes.ifi?.toFixed(1) ?? '?'} / ${macroAxes.aai?.toFixed(1) ?? '?'}`);
+    if (ma) {
+      console.log(`  ECC/RCI/SII    : ${ma.ecc?.score?.toFixed(1) ?? '?'} / ${ma.rci?.score?.toFixed(1) ?? '?'} / ${ma.sii?.score?.toFixed(1) ?? '?'}`);
+      console.log(`  IFI/AAI        : ${ma.ifi?.score?.toFixed(1) ?? '?'} / ${ma.aai?.score?.toFixed(1) ?? '?'}`);
+      console.log(`  min_axis       : ${minAxis.toFixed(1)}`);
     }
     console.log(`  SAGA_READY     : ${sagaReady}`);
     console.log(`  Verdict        : ${scene.forge_result.verdict}`);

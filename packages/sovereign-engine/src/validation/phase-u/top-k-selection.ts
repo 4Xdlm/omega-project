@@ -43,6 +43,7 @@ import {
   SAGA_READY_COMPOSITE_MIN as SAGA_READY_COMPOSITE_MIN_SSOT,
   SAGA_READY_SSI_MIN as SAGA_READY_SSI_MIN_SSOT,
 } from '../../core/thresholds.js';
+import { computeMinAxis } from '../../utils/math-utils.js';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -234,17 +235,8 @@ export class TopKSelectionEngine {
       const sComposite   = forgeResult.s_score?.composite ?? 0;
       const is_candidate = sComposite >= CANDIDATE_FLOOR_COMPOSITE;
 
-      // INV-SR-01 / INV-SR-05 : SSI = min_axis, calculé depuis macro_axes existants
-      const macroAxes = forgeResult.macro_score?.macro_axes;
-      const minAxis = macroAxes
-        ? Math.min(
-            macroAxes.ecc?.score ?? 100,
-            macroAxes.rci?.score ?? 100,
-            macroAxes.sii?.score ?? 100,
-            macroAxes.ifi?.score ?? 100,
-            macroAxes.aai?.score ?? 100,
-          )
-        : 0;
+      // INV-SR-01 / INV-SR-05 : SSI = min_axis — source: utils/math-utils.ts
+      const minAxis = computeMinAxis(forgeResult.macro_score?.macro_axes);
       // INV-SR-01 : SAGA_READY = composite >= 92.0 AND min_axis >= 85.0
       // INV-SEAL-01 : SEAL_ATOMIC = composite >= 93.0 AND min_axis >= 85.0 (inchangé)
       const saga_ready = sComposite >= SAGA_READY_COMPOSITE_MIN && minAxis >= SAGA_READY_SSI_MIN;

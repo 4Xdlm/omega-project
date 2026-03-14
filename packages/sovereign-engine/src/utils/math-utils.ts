@@ -51,15 +51,19 @@ import type { MacroAxesScores } from '../oracle/macro-axes.js';
  *   - top-k-selection.ts
  *   - scene-chain.ts
  *
- * @returns min(ECC, RCI, SII, IFI, AAI) ou 0 si macroAxes undefined
+ * Sémantique des défauts :
+ *   - macroAxes null/undefined → 0 (échoue tout seuil)
+ *   - axe individuel manquant → 100 (neutre — ne pénalise pas si l'objet existe)
+ *
+ * @returns min(ECC, RCI, SII, IFI, AAI) ou 0 si macroAxes null/undefined
  */
 export function computeMinAxis(macroAxes: MacroAxesScores | null | undefined): number {
   if (!macroAxes) return 0;
   return Math.min(
-    macroAxes.ecc?.score ?? 0,
-    macroAxes.rci?.score ?? 0,
-    macroAxes.sii?.score ?? 0,
-    macroAxes.ifi?.score ?? 0,
-    macroAxes.aai?.score ?? 0,
+    macroAxes.ecc?.score ?? 100,
+    macroAxes.rci?.score ?? 100,
+    macroAxes.sii?.score ?? 100,
+    macroAxes.ifi?.score ?? 100,
+    macroAxes.aai?.score ?? 100,
   );
 }

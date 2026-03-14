@@ -4,6 +4,7 @@
  */
 
 import type { VoiceGenome } from './voice-genome.js';
+import { estimateTokens } from '../utils/token-utils.js';
 
 export interface VoiceInstruction {
   parameter: keyof VoiceGenome;
@@ -152,7 +153,3 @@ function generateInstruction(
   });
 }
 
-function estimateTokens(text: string): number {
-  // Heuristique simple: ~4 caractères par token pour le français
-  return Math.ceil(text.length / 4);
-}

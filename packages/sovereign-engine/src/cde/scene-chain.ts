@@ -21,6 +21,7 @@ import type { ForgePacketInput } from '../input/forge-packet-assembler.js';
 import type { CDEInput, HotElement, CanonFact, DebtEntry, StateDelta } from './types.js';
 import { runCDEScene, type CDESceneResult } from './cde-pipeline.js';
 import { SAGA_READY_COMPOSITE_MIN, SAGA_READY_SSI_MIN } from '../core/thresholds.js';
+import { computeMinAxis } from '../utils/math-utils.js';
 
 // ── Constants ────────────────────────────────────────────────────────────────
 
@@ -111,15 +112,7 @@ export function propagateDelta(
 
 function isSceneSagaReady(result: CDESceneResult): boolean {
   const composite = result.forge_result.s_score?.composite ?? 0;
-  const macroAxes = result.forge_result.macro_score?.macro_axes;
-  if (!macroAxes) return composite >= SAGA_READY_COMPOSITE_MIN;
-  const minAxis = Math.min(
-    (macroAxes as Record<string, { score: number }>).ecc?.score ?? 100,
-    (macroAxes as Record<string, { score: number }>).rci?.score ?? 100,
-    (macroAxes as Record<string, { score: number }>).sii?.score ?? 100,
-    (macroAxes as Record<string, { score: number }>).ifi?.score ?? 100,
-    (macroAxes as Record<string, { score: number }>).aai?.score ?? 100,
-  );
+  const minAxis = computeMinAxis(result.forge_result.macro_score?.macro_axes);
   return composite >= SAGA_READY_COMPOSITE_MIN && minAxis >= SAGA_READY_SSI_MIN;
 }
 

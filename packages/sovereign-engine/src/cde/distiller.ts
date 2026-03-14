@@ -22,11 +22,9 @@
 import { sha256 } from '@omega/canon-kernel';
 import type { CDEInput, SceneBrief, HotElement } from './types.js';
 import { CDEError } from './types.js';
+import { estimateTokens, CHARS_PER_TOKEN } from '../utils/token-utils.js';
 
 // ── Constants ────────────────────────────────────────────────────────────────
-
-/** Token estimation : 1 token ~ 4 characters */
-const CHARS_PER_TOKEN = 4;
 
 /** Total token budget — INV-CDE-01 */
 export const BRIEF_TOKEN_MAX = 150;
@@ -43,11 +41,6 @@ const PRIORITY_IF_BUDGET = 4; // 4-6 : included if budget remains
 // < 4 : excluded (non-necessary)
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
-
-/** Estimate token count for a string */
-function estimateTokens(text: string): number {
-  return Math.ceil(text.length / CHARS_PER_TOKEN);
-}
 
 /**
  * Sort keys recursively for deterministic JSON serialization (INV-CDE-02).

@@ -1,5 +1,16 @@
-// src/utils/math-utils.ts — utilitaires mathematiques partages OMEGA
-// Extrait de arc-progression-evaluator.ts (W0.3) — source unique
+/**
+ * ═══════════════════════════════════════════════════════════════════════════════
+ * OMEGA SOVEREIGN STYLE ENGINE — UTILITAIRES MATHÉMATIQUES (SSOT)
+ * ═══════════════════════════════════════════════════════════════════════════════
+ *
+ * Module: utils/math-utils.ts
+ * Version: 1.1.0 (CLEAN-2 : ajout computeMinAxis)
+ * Standard: NASA-Grade L4 / DO-178C Level A
+ *
+ * Source unique de vérité pour les calculs mathématiques partagés OMEGA.
+ * Contient : calculateVariance, pearsonCorrelation, cosineSimilarity, computeMinAxis
+ * ═══════════════════════════════════════════════════════════════════════════════
+ */
 
 export function calculateVariance(values: readonly number[]): number {
   if (values.length === 0) return 0;
@@ -26,4 +37,29 @@ export function cosineSimilarity(a: readonly number[], b: readonly number[]): nu
   const nB = Math.sqrt(b.reduce((s, v) => s + v * v, 0));
   if (nA === 0 || nB === 0) return 0;
   return dot / (nA * nB);
+}
+
+// ── OMEGA SOVEREIGN — CALC UTILITAIRES ───────────────────────────────────────
+
+import type { MacroAxesScores } from '../oracle/macro-axes.js';
+
+/**
+ * computeMinAxis — Calcule le min des 5 macro-axes (SSI = min_axis).
+ *
+ * Utilisé pour SEAL_ATOMIC et SAGA_READY (INV-SR-05).
+ * Source unique de vérité — remplace les implémentations dupliquées dans :
+ *   - top-k-selection.ts
+ *   - scene-chain.ts
+ *
+ * @returns min(ECC, RCI, SII, IFI, AAI) ou 0 si macroAxes undefined
+ */
+export function computeMinAxis(macroAxes: MacroAxesScores | null | undefined): number {
+  if (!macroAxes) return 0;
+  return Math.min(
+    macroAxes.ecc?.score ?? 0,
+    macroAxes.rci?.score ?? 0,
+    macroAxes.sii?.score ?? 0,
+    macroAxes.ifi?.score ?? 0,
+    macroAxes.aai?.score ?? 0,
+  );
 }

@@ -20,6 +20,18 @@
  * ═══════════════════════════════════════════════════════════════════════════════
  */
 
+/**
+ * @deprecated LEGACY — Utiliser s-oracle-v2.ts comme autorité de scoring.
+ *
+ * Ce module est conservé pour backward compatibility uniquement.
+ * L'autorité de scoring est oracle/s-oracle-v2.ts (macro-axes ECC/RCI/SII/IFI/AAI).
+ *
+ * NE PAS ajouter de nouvelles fonctionnalités ici.
+ * Toute évolution du scoring doit se faire dans s-oracle-v2.ts.
+ *
+ * Migration : 2026-03-14 — CLEAN-2 SSOT consolidation
+ */
+
 import { sha256, canonicalize } from '@omega/canon-kernel';
 import type { AxesScores, SScore } from '../types.js';
 import type { MacroAxesScores } from './macro-axes.js';

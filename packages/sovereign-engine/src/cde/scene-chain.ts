@@ -20,15 +20,12 @@ import type { SovereignProvider } from '../types.js';
 import type { ForgePacketInput } from '../input/forge-packet-assembler.js';
 import type { CDEInput, HotElement, CanonFact, DebtEntry, StateDelta } from './types.js';
 import { runCDEScene, type CDESceneResult } from './cde-pipeline.js';
+import { SAGA_READY_COMPOSITE_MIN, SAGA_READY_SSI_MIN } from '../core/thresholds.js';
 
 // ── Constants ────────────────────────────────────────────────────────────────
 
 export const CHAIN_N_MIN = 2;
 export const CHAIN_N_MAX = 5;
-
-/** INV-SR-01 thresholds reused for saga_ready classification */
-const SAGA_READY_COMPOSITE_MIN = 92.0;
-const SAGA_READY_MIN_AXIS      = 85.0;
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -123,7 +120,7 @@ function isSceneSagaReady(result: CDESceneResult): boolean {
     (macroAxes as Record<string, { score: number }>).ifi?.score ?? 100,
     (macroAxes as Record<string, { score: number }>).aai?.score ?? 100,
   );
-  return composite >= SAGA_READY_COMPOSITE_MIN && minAxis >= SAGA_READY_MIN_AXIS;
+  return composite >= SAGA_READY_COMPOSITE_MIN && minAxis >= SAGA_READY_SSI_MIN;
 }
 
 // ── Main function ────────────────────────────────────────────────────────────

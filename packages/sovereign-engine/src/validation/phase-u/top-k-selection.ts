@@ -39,6 +39,10 @@ import {
   type SelectionTrace,
 } from './greatness-judge.js';
 import type { JudgeCache } from '../judge-cache.js';
+import {
+  SAGA_READY_COMPOSITE_MIN as SAGA_READY_COMPOSITE_MIN_SSOT,
+  SAGA_READY_SSI_MIN as SAGA_READY_SSI_MIN_SSOT,
+} from '../../core/thresholds.js';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -133,8 +137,8 @@ export const SII_FLOOR_PENALTY_FACTOR    = 5.0;  // pénalité par point sous le
  * INV-SR-04 : Le composite brut n'est jamais modifié — pas de bonus arithmétique
  * INV-SR-05 : SSI = min_axis — calculé à partir des macro_axes existants, zéro appel API
  */
-export const SAGA_READY_COMPOSITE_MIN = 92.0;  // INV-SR-01
-export const SAGA_READY_SSI_MIN       = 85.0;  // INV-SR-01 — SSI = min_axis
+export const SAGA_READY_COMPOSITE_MIN = SAGA_READY_COMPOSITE_MIN_SSOT;  // INV-SR-01 — source: core/thresholds.ts
+export const SAGA_READY_SSI_MIN       = SAGA_READY_SSI_MIN_SSOT;        // INV-SR-01 — source: core/thresholds.ts
 
 // ── Utilitaire : generation de seeds distincts ────────────────────────────────
 

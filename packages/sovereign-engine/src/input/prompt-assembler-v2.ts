@@ -685,7 +685,10 @@ function buildRhythmPrescriptionSection(packet: ForgePacket): PromptSection {
   const _shortMax = Math.max(5, Math.floor(targetLen * 0.35));
   const _longMin = Math.max(20, Math.ceil(targetLen * 1.4));
 
-  const content = `# RHYTHM PRESCRIPTION — MANDATORY
+  const content = `## ⚡ RHYTHM MINIMUM — CV ≥ 0.75 OU REJET
+Ton texte actuel risque CV ~0.55. Chaque phrase de longueur monotone te coûte 5 points de rhythm.
+
+# RHYTHM PRESCRIPTION — MANDATORY
 
 Your prose WILL BE SCORED on rhythmic quality. Follow these rules:
 
@@ -874,7 +877,12 @@ function buildLot3InstructionsSection(): PromptSection {
 
 function buildVoiceComplianceSection(): PromptSection {
   const content =
-`# ⚠️ VOICE COMPLIANCE — CALIBRATION CAMUS-ADJACENT (U-ROSETTE-01)
+`## ⚡ RCI SURVIVAL — 3 CHIFFRES QUI DÉCIDENT DU REJET
+rhythm_score = CV(longueurs) × alternance. Cible: ≥85. Actuel: ~79. DANGER.
+euphony_basic = allitérations + assonances. Cible: ≥85. Actuel: ~83.
+voice_conformity = drift vs genome Camus. Cible: ≥80. Actuel: ~77. CRITIQUE.
+
+# ⚠️ VOICE COMPLIANCE — CALIBRATION CAMUS-ADJACENT (U-ROSETTE-01)
 
 Ces règles sont MESURÉES AUTOMATIQUEMENT par le scorer après génération.
 Violation = voice_conformity < 80 = RCI < 85 = REJET DU TEXTE.

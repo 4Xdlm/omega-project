@@ -1,4 +1,12 @@
 /**
+ * ARCHIVE — PHASE V INCOMING — 2026-03-14
+ * World Model embryonnaire déplacé hors du moteur de scène atomique.
+ * RAISON : appartient à la couche OMEGA de supervision longue portée, pas au sovereign-engine.
+ * À RÉUTILISER : lors de la construction du World Model Phase V (PersonaStore, DebtLedger, ArcTracker).
+ * NE PAS RÉACTIVER dans sovereign-engine sans décision de l'Architecte Suprême.
+ */
+
+/**
  * ===============================================================================
  * OMEGA SOVEREIGN STYLE ENGINE — CONTINUITY PLAN (W5b Multi-Prompt)
  * ===============================================================================

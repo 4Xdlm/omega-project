@@ -25,7 +25,7 @@ import type { TranscendentPlanJSON } from '../oracle/genesis-v2/transcendent-pla
 import { buildProseDirective, buildFinalPrompt } from './prose-directive-builder.js';
 import { isGenesisV2Active } from '../oracle/genesis-v2/genesis-runner.js';
 import { buildPlanningPrompt, validateTranscendentPlan } from '../oracle/genesis-v2/transcendent-planner.js';
-import { runE1MultiPrompt } from './e1-multi-prompt-runner.js';
+
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // CONFIG
@@ -93,11 +93,6 @@ export class AnthropicLLMProvider implements LLMProvider {
 
   async generateDraft(packet: ForgePacket, seed: string): Promise<LLMProviderResult> {
     const expId = (packet as any).experiment_id as string ?? '';  // eslint-disable-line @typescript-eslint/no-explicit-any
-
-    // W5b: E1 multi-prompt routing
-    if (expId === 'E1_continuity_impossible' && process.env.E1_MULTI_PROMPT === '1') {
-      return runE1MultiPrompt(packet, this);
-    }
 
     let transcendentPlan: TranscendentPlanJSON | undefined;
 

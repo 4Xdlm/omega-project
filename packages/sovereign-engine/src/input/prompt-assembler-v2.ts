@@ -611,13 +611,6 @@ Previous Scene: ${cont.previous_scene_summary}
 `;
   }
 
-  if (cont.open_threads.length > 0) {
-    content += `## Open Threads\n\n`;
-    for (const thread of cont.open_threads) {
-      content += `- ${thread}\n`;
-    }
-  }
-
   return {
     section_id: 'continuity',
     title: 'Continuity',

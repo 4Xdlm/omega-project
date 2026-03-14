@@ -1,4 +1,12 @@
 /**
+ * ARCHIVE — 2026-03-14
+ * Module archivé suite à l'arrêt d'urgence Phase V.
+ * RAISON : injecte openThreads + charStates dans le prompt Scribe — violation CONTRAT_OMEGA_SCRIBE_v1.0.
+ * REMPLACÉ PAR : packages/sovereign-engine/src/cde/ (Context Distillation Engine)
+ * NE PAS RÉACTIVER sans décision explicite de l'Architecte Suprême (Francky).
+ */
+
+/**
  * ===============================================================================
  * OMEGA SOVEREIGN STYLE ENGINE — E1 MULTI-PROMPT RUNNER (W5b)
  * ===============================================================================

@@ -87,6 +87,39 @@ function truncateToTokenBudget(text: string, maxTokens: number): string {
   return truncated.trim();
 }
 
+// ── Brief field formatters (QUOI + COMMENT fusion) ──────────────────────────
+
+/**
+ * Format tension field as PROGRESSION (not static state).
+ * Fuses WHAT (tension parts) with HOW (PDB LOT1-02: corporeal first).
+ */
+function formatTensionField(
+  tensionParts: string[],
+  sceneObjective: string,
+): string {
+  if (tensionParts.length === 0) return sceneObjective;
+  const initial = tensionParts[0];
+  const climax = tensionParts.length > 1
+    ? tensionParts[tensionParts.length - 1]
+    : initial;
+  return `Progression: ${initial} → ${climax}. Par le corps d'abord, jamais par le mot.`;
+}
+
+/**
+ * Format move field with escalation method (PDB progressive tension).
+ */
+function formatMoveField(
+  moveParts: string[],
+): string {
+  if (moveParts.length === 0) return 'Pas de mouvement requis';
+  const main = moveParts[0];
+  const rest = moveParts.slice(1).join(' | ');
+  const suffix = rest.length > 0
+    ? ` (${rest})`
+    : '';
+  return `${main}${suffix} — par escalade progressive, pas par revelation directe.`;
+}
+
 // ── Element selection ────────────────────────────────────────────────────────
 
 interface SelectedElements {
@@ -194,9 +227,7 @@ export function distillBrief(input: CDEInput): SceneBrief {
       tensionParts.push(arc.tension);
     }
   }
-  const inTensionRaw = tensionParts.length > 0
-    ? tensionParts.join(' | ')
-    : input.scene_objective;
+  const inTensionRaw = formatTensionField(tensionParts, input.scene_objective);
   const inTension = truncateToTokenBudget(inTensionRaw, FIELD_BUDGET_IN_TENSION);
 
   // ── Build must_move ────────────────────────────────────────────────────────
@@ -210,7 +241,7 @@ export function distillBrief(input: CDEInput): SceneBrief {
       moveParts.push(arc.current_need);
     }
   }
-  const mustMoveRaw = moveParts.join(' | ');
+  const mustMoveRaw = formatMoveField(moveParts);
   const mustMove = truncateToTokenBudget(mustMoveRaw, FIELD_BUDGET_MUST_MOVE);
 
   // ── Build must_not_break ───────────────────────────────────────────────────

@@ -100,7 +100,7 @@ describe('V-INIT distillBrief() — INV-CDE-01/02/06', () => {
     expect(brief.in_tension).not.toContain('Also decorative');
   });
 
-  // CDE-04 : priority >= 7 always included
+  // CDE-04 : priority >= 7 always included (progression format)
   it('CDE-04: elements priority >= 7 always included if budget permits', () => {
     const input = makeValidInput({
       hot_elements: [
@@ -110,8 +110,10 @@ describe('V-INIT distillBrief() — INV-CDE-01/02/06', () => {
       ],
     });
     const brief = distillBrief(input);
+    // Progression format: first → last (includes arc.tension from makeValidInput)
     expect(brief.in_tension).toContain('Critical tension');
-    expect(brief.in_tension).toContain('High tension');
+    expect(brief.in_tension).toContain('Progression:');
+    expect(brief.in_tension).toContain('Par le corps');
   });
 
   // CDE-05 : BRIEF_TOO_LONG

@@ -1,24 +1,23 @@
 /**
  * run-cde-bench.ts — CDE Bench : 2 scenes chainees
- * Sprint V-PROTO
+ * Sprint V-PROTO (fix V-BENCH)
  *
  * Usage: npx tsx scripts/run-cde-bench.ts
- *
- * 1. Construit un CDEInput realiste (personnage + tension + dette)
- * 2. Construit un ForgePacketInput minimal
- * 3. Lance runSceneChain({ n_scenes: 2, ... }) avec le provider LLM reel
- * 4. Affiche le rapport : composites, SAGA_READY count, delta par scene
- * 5. Ecrit un fichier JSON de resultats dans sessions/
  *
  * Standard: NASA-Grade L4 / DO-178C
  */
 
 import { writeFileSync, mkdirSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { resolve, dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { runSceneChain, type SceneChainConfig } from '../src/cde/scene-chain.js';
 import type { CDEInput } from '../src/cde/types.js';
 import type { ForgePacketInput } from '../src/input/forge-packet-assembler.js';
+import type { GenesisPlan, Scene } from '@omega/genesis-planner';
+import type { StyleProfile, KillLists, ForgeContinuity } from '../src/types.js';
 import { createAnthropicProvider } from '../src/runtime/anthropic-provider.js';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // ── Build realistic CDEInput ─────────────────────────────────────────────────
 
@@ -36,8 +35,8 @@ const CDE_INPUT: CDEInput = {
     { id: 'cf-saison',        fact: 'On est en janvier, il fait froid',     sealed_at: '2026-01-01T00:00:00Z' },
   ],
   open_debts: [
-    { id: 'debt-01', content: 'Marie a promis de reveler son secret',   opened_at: 'ch-3',  resolved: false },
-    { id: 'debt-02', content: 'Pierre doute de la fidelite de Marie',  opened_at: 'ch-5',  resolved: false },
+    { id: 'debt-01', content: 'Marie a promis de reveler son secret',  opened_at: 'ch-3', resolved: false },
+    { id: 'debt-02', content: 'Pierre doute de la fidelite de Marie', opened_at: 'ch-5', resolved: false },
   ],
   arc_states: [
     {
@@ -58,56 +57,175 @@ const CDE_INPUT: CDEInput = {
   scene_objective: 'Pierre confronte Marie dans leur cuisine, le silence eclate en accusations voilees',
 };
 
+// ── Build complete Scene (GenesisPlan types) ─────────────────────────────────
+
+const SCENE: Scene = {
+  scene_id:         'cde-bench-scene',
+  arc_id:           'arc-couple',
+  objective:        'Pierre confronte Marie dans leur cuisine apres une longue journee',
+  conflict:         'le silence explose en reproches voiles',
+  conflict_type:    'relational',
+  emotion_target:   'anger',
+  emotion_intensity: 0.8,
+  seeds_planted:    ['Marie cache un document dans son sac'],
+  seeds_bloomed:    [],
+  subtext: {
+    character_thinks: 'Marie sait que Pierre sait',
+    reader_knows:     'Pierre a trouve le message mais ne dit rien encore',
+    tension_type:     'dramatic_irony',
+    implied_emotion:  'dread',
+  },
+  sensory_anchor:   'bruit du couteau sur la planche a decouper',
+  constraints:      ['Pas de violence physique', 'Pas de resolution — scene ouverte'],
+  beats: [
+    {
+      beat_id:              'b-01',
+      action:               'Pierre entre dans la cuisine',
+      intention:            'observer Marie sans se trahir',
+      pivot:                false,
+      tension_delta:        1,
+      information_revealed: [],
+      information_withheld: ['il a lu le message'],
+    },
+    {
+      beat_id:              'b-02',
+      action:               'Echange banal qui derape',
+      intention:            'tester la reaction de Marie',
+      pivot:                true,
+      tension_delta:        1,
+      information_revealed: ['Pierre sait quelque chose'],
+      information_withheld: ['la nature exacte du secret'],
+    },
+    {
+      beat_id:              'b-03',
+      action:               'Silence lourd — Pierre sort',
+      intention:            'signifier sa connaissance sans confronter',
+      pivot:                false,
+      tension_delta:        0,
+      information_revealed: [],
+      information_withheld: ['la decision de Pierre'],
+    },
+  ],
+  target_word_count: 500,
+  justification:    'climax acte 2 — point de non-retour',
+};
+
+// ── Build complete GenesisPlan ───────────────────────────────────────────────
+
+const PLAN: GenesisPlan = {
+  plan_id:           'cde-bench-plan',
+  plan_hash:         'cde-bench-plan-hash',
+  version:           '1.0.0',
+  intent_hash:       'cde-bench-intent',
+  canon_hash:        'cde-bench-canon',
+  constraints_hash:  'cde-bench-constraints',
+  genome_hash:       'cde-bench-genome',
+  emotion_hash:      'cde-bench-emotion',
+  arcs: [
+    {
+      arc_id:        'arc-couple',
+      theme:         'la desintegration d un couple par le non-dit',
+      progression:   'confrontation',
+      justification: 'tension narrative principale',
+      scenes:        [SCENE],
+    },
+  ],
+  seed_registry: [
+    {
+      id:          'seed-secret',
+      type:        'plot',
+      description: 'Le secret de Marie',
+      planted_in:  'ch-1',
+      blooms_in:   'ch-8',
+    },
+  ],
+  tension_curve:          [0.3, 0.5, 0.7, 0.8, 0.6, 0.9, 0.7],
+  emotion_trajectory: [
+    { position: 0.0, emotion: 'tension',  intensity: 0.5 },
+    { position: 0.5, emotion: 'anger',    intensity: 0.8 },
+    { position: 1.0, emotion: 'despair',  intensity: 0.7 },
+  ],
+  scene_count:            1,
+  beat_count:             3,
+  estimated_word_count:   500,
+};
+
+// ── Build StyleProfile ───────────────────────────────────────────────────────
+
+const STYLE_PROFILE: StyleProfile = {
+  version:  '1.0.0',
+  universe: 'contemporain-litteraire',
+  lexicon: {
+    signature_words:     ['silence', 'froid', 'regard', 'main'],
+    forbidden_words:     ['soudain', 'tout a coup', 'en effet'],
+    abstraction_max_ratio: 0.15,
+    concrete_min_ratio:    0.60,
+  },
+  rhythm: {
+    avg_sentence_length_target:    14,
+    gini_target:                   0.45,
+    max_consecutive_similar:       3,
+    min_syncopes_per_scene:        2,
+    min_compressions_per_scene:    1,
+  },
+  tone: {
+    dominant_register: 'litteraire',
+    intensity_range:   [0.6, 0.9],
+  },
+  imagery: {
+    recurrent_motifs:            ['froid', 'couteau', 'lumiere'],
+    density_target_per_100_words: 3,
+    banned_metaphors:            ['le coeur brise', 'les larmes coulaient'],
+  },
+};
+
+// ── Build KillLists ──────────────────────────────────────────────────────────
+
+const KILL_LISTS: KillLists = {
+  banned_words:       ['soudain', 'tout a coup', 'en effet', 'vraiment'],
+  banned_cliches:     ['le coeur brise', 'les larmes coulaient', 'il retint son souffle'],
+  banned_ai_patterns: ['il ne put s empecher', 'une vague de', 'ses pensees se bousculaient'],
+  banned_filter_words: ['semblait', 'paraissait', 'avait l air'],
+};
+
+// ── Build ForgeContinuity ─────────────────────────────────────────────────────
+
+const CONTINUITY: ForgeContinuity = {
+  previous_scene_summary: 'Pierre a decouvert un message suspect sur le telephone de Marie apres le diner',
+  character_states: [
+    {
+      character_id:   'pierre',
+      character_name: 'Pierre',
+      emotional_state: 'controlled_anger',
+      physical_state:  'tense',
+      location:        'apartment_corridor',
+    },
+    {
+      character_id:   'marie',
+      character_name: 'Marie',
+      emotional_state: 'anxious_guilt',
+      physical_state:  'tired_from_shift',
+      location:        'kitchen',
+    },
+  ],
+  open_threads: [
+    'La nature du secret de Marie',
+    'Le document dans son sac',
+    'La decision que Pierre doit prendre',
+  ],
+};
+
 // ── Build ForgePacketInput ───────────────────────────────────────────────────
 
 const FORGE_INPUT: ForgePacketInput = {
-  plan: {
-    arcs: [{
-      arc_id: 'arc-couple',
-      theme: 'la desintegration d un couple par le non-dit',
-      progression: 'confrontation',
-      scenes: [],
-      justification: 'tension narrative',
-    }],
-    intent_hash: 'cde-bench-001',
-  } as never,
-  scene: {
-    scene_id: 'cde-bench-scene',
-    arc_id: 'arc-couple',
-    objective: 'Pierre confronte Marie dans leur cuisine apres une longue journee',
-    conflict: 'le silence explose en reproches voiles',
-    conflict_type: 'interpersonal',
-    emotion_target: 'anger_suppressed',
-    emotion_intensity: 0.8,
-    seeds_planted: ['Marie cache un document dans son sac'],
-    seeds_bloomed: [],
-    subtext: { hidden_agenda: 'Marie sait que Pierre sait', surface_action: 'preparation du diner' },
-    sensory_anchor: 'bruit du couteau sur la planche',
-    constraints: ['Pas de violence physique', 'Pas de resolution — scene ouverte'],
-    beats: [
-      { action: 'Pierre entre dans la cuisine', emotion: 'tension', intensity: 0.6 },
-      { action: 'Echange banal qui derape', emotion: 'anger', intensity: 0.8 },
-      { action: 'Silence lourd — Pierre sort', emotion: 'despair', intensity: 0.7 },
-    ],
-    target_word_count: 500,
-    justification: 'climax acte 2',
-  } as never,
-  style_profile: {
-    shape: 'LINEAR',
-    register: 'litteraire',
-    rhythm: 'moderate',
-  } as never,
-  kill_lists: {
-    words: ['soudain', 'tout a coup', 'en effet'],
-    patterns: [],
-  } as never,
-  canon: [],
-  continuity: {
-    previous_scene_summary: 'Pierre a decouvert un message suspect sur le telephone de Marie',
-    world_state: {},
-  } as never,
-  run_id: `cde-bench-${Date.now()}`,
-  language: 'fr',
+  plan:          PLAN,
+  scene:         SCENE,
+  style_profile: STYLE_PROFILE,
+  kill_lists:    KILL_LISTS,
+  canon:         [],
+  continuity:    CONTINUITY,
+  run_id:        `cde-bench-${Date.now()}`,
+  language:      'fr',
 };
 
 // ── Main ─────────────────────────────────────────────────────────────────────
@@ -121,7 +239,12 @@ async function main(): Promise<void> {
 
   const provider = createAnthropicProvider({
     apiKey,
-    modelId: 'claude-sonnet-4-20250514',
+    model:           'claude-sonnet-4-20250514',
+    judgeStable:     false,
+    draftTemperature: 1.0,
+    judgeTemperature: 0.0,
+    judgeTopP:       1.0,
+    judgeMaxTokens:  200,
   });
 
   console.log('[CDE-BENCH] Starting 2-scene chain bench...\n');
@@ -138,33 +261,41 @@ async function main(): Promise<void> {
   console.log('\n[CDE-BENCH] === RESULTS ===\n');
   for (const scene of report.scenes) {
     const composite = scene.forge_result.s_score?.composite ?? 0;
-    const sagaReady = composite >= 92 ? 'oui' : 'non';
-    console.log(`[CDE-BENCH] Scene ${scene.scene_index}/${report.total_scenes}`);
-    console.log(`  Brief injected : ${scene.brief.token_estimate} tokens`);
+    const macroAxes = scene.forge_result.macro_score;
+    const sagaReady = (composite >= 92 && (macroAxes?.min_axis ?? 0) >= 85) ? '✅ OUI' : '❌ NON';
+
+    console.log(`[CDE-BENCH] Scene ${scene.scene_index + 1}/${report.total_scenes}`);
+    console.log(`  Brief injecte  : ${scene.brief.token_estimate} tokens`);
     console.log(`  Composite      : ${composite.toFixed(1)}`);
+    if (macroAxes) {
+      console.log(`  ECC/RCI/SII    : ${macroAxes.ecc?.toFixed(1) ?? '?'} / ${macroAxes.rci?.toFixed(1) ?? '?'} / ${macroAxes.sii?.toFixed(1) ?? '?'}`);
+      console.log(`  IFI/AAI        : ${macroAxes.ifi?.toFixed(1) ?? '?'} / ${macroAxes.aai?.toFixed(1) ?? '?'}`);
+    }
     console.log(`  SAGA_READY     : ${sagaReady}`);
+    console.log(`  Verdict        : ${scene.forge_result.verdict}`);
     if (scene.delta) {
-      console.log(`  Delta facts    : ${scene.delta.new_facts.length} new`);
-      console.log(`  Delta debts    : ${scene.delta.debts_opened.length} opened / ${scene.delta.debts_resolved.length} resolved`);
+      console.log(`  Delta facts    : ${scene.delta.new_facts.length} nouveaux`);
+      console.log(`  Delta debts    : ${scene.delta.debts_opened.length} ouvertes / ${scene.delta.debts_resolved.length} resolues`);
       console.log(`  Drift flags    : ${scene.delta.drift_flags.length}`);
     } else {
-      console.log(`  Delta          : ERROR — ${scene.delta_error}`);
+      console.log(`  Delta          : SOFT-FAIL — ${scene.delta_error ?? 'inconnu'}`);
     }
     console.log('');
   }
 
-  console.log('[CDE-BENCH] Rapport final');
+  console.log('[CDE-BENCH] === RAPPORT FINAL ===');
   console.log(`  Composites     : [${report.composites.map(c => c.toFixed(1)).join(', ')}]`);
   console.log(`  Moyenne        : ${report.composite_mean.toFixed(1)}`);
   console.log(`  Min            : ${report.composite_min.toFixed(1)}`);
   console.log(`  SAGA_READY     : ${report.saga_ready_count}/${report.total_scenes}`);
 
   // ── Write JSON ─────────────────────────────────────────────────────────────
-  const sessionsDir = resolve(import.meta.dirname ?? '.', '..', 'sessions');
+  const sessionsDir = resolve(__dirname, '..', 'sessions');
   mkdirSync(sessionsDir, { recursive: true });
-  const outPath = resolve(sessionsDir, `cde-bench-${new Date().toISOString().slice(0, 10)}.json`);
+  const timestamp = new Date().toISOString().slice(0, 19).replace(/:/g, '-');
+  const outPath = resolve(sessionsDir, `cde-bench-${timestamp}.json`);
   writeFileSync(outPath, JSON.stringify(report, null, 2), 'utf-8');
-  console.log(`  Results        : ${outPath}`);
+  console.log(`  Resultats      : ${outPath}`);
 }
 
 main().catch(err => {

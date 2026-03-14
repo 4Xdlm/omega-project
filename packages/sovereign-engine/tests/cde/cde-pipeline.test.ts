@@ -483,7 +483,7 @@ describe('V-PROTO Scene Chain — INV-CHAIN-01..05', () => {
     expect(driftEl).toBeDefined();
     expect(driftEl?.type).toBe('tension');
     expect(driftEl?.priority).toBe(8);
-    expect(driftEl?.content).toContain('DRIFT ALERT');
+    expect(driftEl?.content).toBe('CANON_CONFLICT[cf1]: negation of "Marie est medecin" detected');
   });
 
   // CHAIN-08 : saga_ready_count correct
@@ -545,7 +545,7 @@ describe('V-PROTO propagateDelta — edge cases', () => {
     expect(propagated.canon_facts).toEqual(input.canon_facts);
     expect(propagated.open_debts).toEqual(input.open_debts);
     expect(propagated.hot_elements).toEqual(input.hot_elements);
-    expect(propagated.scene_objective).toContain('Suite scene 1');
+    expect(propagated.scene_objective).toBe(input.scene_objective);
   });
 
   it('debts_resolved marks existing debt as resolved', () => {

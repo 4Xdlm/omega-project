@@ -207,7 +207,7 @@ export function distillBrief(input: CDEInput): SceneBrief {
   }
   for (const arc of input.arc_states) {
     if (arc.current_need.trim().length > 0) {
-      moveParts.push(`${arc.character_id}: ${arc.current_need}`);
+      moveParts.push(arc.current_need);
     }
   }
   const mustMoveRaw = moveParts.join(' | ');
@@ -221,13 +221,13 @@ export function distillBrief(input: CDEInput): SceneBrief {
   }
   for (const debt of input.open_debts) {
     if (!debt.resolved) {
-      guardParts.push(`DEBT[${debt.id}]: ${debt.content}`);
+      guardParts.push(debt.content);
     }
   }
   if (guardParts.length === 0) {
     // Fallback: canon facts as guard rails
     for (const fact of input.canon_facts) {
-      guardParts.push(`CANON: ${fact.fact}`);
+      guardParts.push(fact.fact);
     }
   }
   const mustNotBreakRaw = guardParts.length > 0

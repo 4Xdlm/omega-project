@@ -95,7 +95,7 @@ export function propagateDelta(
   const driftElements: HotElement[] = delta.drift_flags.map((flag, i) => ({
     id:       `drift-s${sceneIndex}-${i}`,
     type:     'tension' as const,
-    content:  `DRIFT ALERT: ${flag}`,
+    content:  flag,
     priority: 8,
   }));
 
@@ -104,7 +104,7 @@ export function propagateDelta(
     canon_facts:    [...previousInput.canon_facts, ...newCanonFacts],
     open_debts:     [...updatedDebts, ...newDebts],
     hot_elements:   [...previousInput.hot_elements, ...driftElements],
-    scene_objective: `Suite scene ${sceneIndex + 1}: ${previousInput.scene_objective}`,
+    scene_objective: previousInput.scene_objective,
   };
 }
 

@@ -39,44 +39,111 @@ import { SOVEREIGN_CONFIG } from '../config.js';
 import { getLot1AsPromptBlock } from '../prose-directive/lot1-instructions.js';
 import { getLot2AsPromptBlock } from '../prose-directive/lot2-instructions.js';
 import { getLot3AsPromptBlock } from '../prose-directive/lot3-instructions.js';
+import type { CompiledPartition } from '../compiler/types.js';
+import { isV3Active } from '../compiler/prompt-compiler.js';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // MAIN ASSEMBLER
 // ═══════════════════════════════════════════════════════════════════════════════
 
+// Sections absorbées par le compilateur V3 — INV-COMP-08
+const V3_ABSORBED_SECTION_IDS = new Set([
+  'emotion_contract',
+  'beats',
+  'intent',
+  'lot1_pdb_instructions',
+  'lot2_pdb_instructions',
+  'lot3_pdb_instructions',
+  'rhythm_prescription',
+  'sensory',
+  'subtext',
+]);
+
 export function buildSovereignPrompt(
   packet: ForgePacket,
   symbolMap?: SymbolMap,
   emotionBrief?: ForgeEmotionBrief,
+  partition?: CompiledPartition,
 ): SovereignPrompt {
-  const sections: PromptSection[] = [
-    buildNarrativeHookSection(packet),  // U-HOOK-01: CRITIQUE — première section, primeé sur tout
-    buildMissionSection(packet),
-    buildEmotionContractSection(packet),
-    buildBeatsSection(packet),
-    buildStyleGenomeSection(packet),
-    buildKillListsSection(packet),
-    buildSensorySection(packet),
-    buildCanonSection(packet),
-    buildSubtextSection(packet),
-    buildContinuitySection(packet),
-    buildSeedsSection(packet),
-    buildIntentSection(packet),
-    buildGenerationSection(packet),
-  ];
+  const v3 = isV3Active() && partition != null;
 
-  // Add prescriptive sections for RCI + IFI floors
-  sections.push(buildRhythmPrescriptionSection(packet));
+  const sections: PromptSection[] = [];
+
+  // V3: attention_contract en PREMIÈRE section (avant NarrativeHook)
+  if (v3) {
+    sections.push({
+      section_id: 'v3_attention_contract',
+      title: 'CONTRAT D\'EXÉCUTION',
+      content: partition.attention_contract,
+      priority: 'critical',
+    });
+  }
+
+  sections.push(buildNarrativeHookSection(packet));  // U-HOOK-01
+  sections.push(buildMissionSection(packet));
+
+  if (v3) {
+    // V3: Insérer N1/N2/N3 après Mission
+    sections.push({
+      section_id: 'v3_level1_laws',
+      title: 'NIVEAU 1 — LOIS INVIOLABLES',
+      content: partition.level1_laws,
+      priority: 'critical',
+    });
+    sections.push({
+      section_id: 'v3_level2_trajectory',
+      title: 'NIVEAU 2 — TRAJECTOIRE',
+      content: partition.level2_trajectory,
+      priority: 'critical',
+    });
+    sections.push({
+      section_id: 'v3_level3_decor',
+      title: 'NIVEAU 3 — DÉCOR',
+      content: partition.level3_decor,
+      priority: 'medium',
+    });
+  }
+
+  // INV-COMP-08 : Quand V3 actif, les sections absorbées ne sont PAS générées
+  if (!v3) {
+    sections.push(buildEmotionContractSection(packet));
+    sections.push(buildBeatsSection(packet));
+  }
+
+  sections.push(buildStyleGenomeSection(packet));
+  sections.push(buildKillListsSection(packet));
+
+  if (!v3) {
+    sections.push(buildSensorySection(packet));
+  }
+
+  sections.push(buildCanonSection(packet));
+
+  if (!v3) {
+    sections.push(buildSubtextSection(packet));
+  }
+
+  sections.push(buildContinuitySection(packet));
+  sections.push(buildSeedsSection(packet));
+
+  if (!v3) {
+    sections.push(buildIntentSection(packet));
+  }
+
+  sections.push(buildGenerationSection(packet));
+
+  // Add prescriptive sections for RCI + IFI floors (absorbed by V3 for rhythm)
+  if (!v3) {
+    sections.push(buildRhythmPrescriptionSection(packet));
+  }
   sections.push(buildCorporealAnchoringSection(packet));
 
-  // LOT 1 — PDB instructions (W1)
-  sections.push(buildLot1InstructionsSection());
-
-  // LOT 2 — PDB instructions (W2)
-  sections.push(buildLot2InstructionsSection());
-
-  // LOT 3 — PDB instructions (W3a — Genesis v2)
-  sections.push(buildLot3InstructionsSection());
+  // LOT 1/2/3 — PDB instructions (absorbed by V3)
+  if (!v3) {
+    sections.push(buildLot1InstructionsSection());
+    sections.push(buildLot2InstructionsSection());
+    sections.push(buildLot3InstructionsSection());
+  }
 
   // PHYSICS (COMPILED) — inject if ForgeEmotionBrief provided
   if (emotionBrief) {
@@ -105,15 +172,22 @@ export function buildSovereignPrompt(
   }
 
   // U-META-03: METAPHOR_PREGENERATION — avant FINAL_CHECKLIST
-  // Force le LLM à pré-générer des métaphores AVANT la prose (paradigme Gemini sans appel supplémentaire)
   sections.push(buildMetaphorPregenerationSection(packet));
 
-  // U-VOICE-06: VOICE COMPLIANCE — règles métriques mesurables (ellipsis_rate + opening_variety)
-  // Positionnée avant FINAL_CHECKLIST pour recency effect maximum
+  // V3: recency_reminder en AVANT-DERNIÈRE section (avant FinalChecklist)
+  if (v3) {
+    sections.push({
+      section_id: 'v3_recency_reminder',
+      title: 'RAPPEL',
+      content: partition.recency_reminder,
+      priority: 'critical',
+    });
+  }
+
+  // U-VOICE-06: VOICE COMPLIANCE
   sections.push(buildVoiceComplianceSection());
 
   // U-HOOK-04: FINAL_CHECKLIST — DERNIÈRE section (recency effect maximisé)
-  // Positionnée après tout le reste pour que le LLM la lise en dernier avant génération
   sections.push(buildFinalChecklistSection(packet));
 
   const total_length = sections.reduce((sum, s) => sum + s.content.length, 0);
@@ -124,6 +198,14 @@ export function buildSovereignPrompt(
     total_length,
     prompt_hash,
   };
+}
+
+/**
+ * Returns the set of section_ids absorbed by the V3 compiler.
+ * Used by tests to verify INV-COMP-08.
+ */
+export function getV3AbsorbedSectionIds(): ReadonlySet<string> {
+  return V3_ABSORBED_SECTION_IDS;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════

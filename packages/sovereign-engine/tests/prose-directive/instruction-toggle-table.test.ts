@@ -12,13 +12,13 @@ describe('InstructionToggleTable — SSOT PDB toggles', () => {
 
   afterEach(() => {
     // Nettoyer les env vars injectées
-    delete process.env.OMEGA_ENABLE_LOT1_04;
+    delete process.env.OMEGA_DISABLE_LOT1_04;
     delete process.env.OMEGA_DISABLE_LOT1_01;
   });
 
-  // Test 1: LOT1-04 disabled by default
-  it('LOT1-04 disabled by default', () => {
-    expect(isInstructionEnabled('LOT1-04')).toBe(false);
+  // Test 1: LOT1-04 enabled by default (réactivé V-RECAL 3b)
+  it('LOT1-04 enabled by default', () => {
+    expect(isInstructionEnabled('LOT1-04')).toBe(true);
   });
 
   // Test 2: LOT1-01/02/03 enabled by default
@@ -28,17 +28,25 @@ describe('InstructionToggleTable — SSOT PDB toggles', () => {
     expect(isInstructionEnabled('LOT1-03')).toBe(true);
   });
 
-  // Test 3: LOT1-04 enabled via env OMEGA_ENABLE_LOT1_04=1
-  it('LOT1-04 enabled via env OMEGA_ENABLE_LOT1_04', () => {
-    process.env.OMEGA_ENABLE_LOT1_04 = '1';
-    expect(isInstructionEnabled('LOT1-04')).toBe(true);
+  // Test 3: LOT1-04 disabled via env OMEGA_DISABLE_LOT1_04=1
+  it('LOT1-04 disabled via env OMEGA_DISABLE_LOT1_04', () => {
+    process.env.OMEGA_DISABLE_LOT1_04 = '1';
+    expect(isInstructionEnabled('LOT1-04')).toBe(false);
   });
 
   // Test 4: LOT1-04 disabled for Contemplative shape (conflict)
   it('LOT1-04 disabled for shape Contemplative (conflict)', () => {
-    // Even if force-enabled via env, conflict check applies only to enabled_by_default=true
-    // LOT1-04 is enabled_by_default=false, so shape conflict doesn't apply (already disabled)
     expect(isInstructionEnabled('LOT1-04', 'Contemplative')).toBe(false);
+  });
+
+  // Test 4b: LOT1-04 disabled for SlowBurn shape (conflict)
+  it('LOT1-04 disabled for shape SlowBurn (conflict)', () => {
+    expect(isInstructionEnabled('LOT1-04', 'SlowBurn')).toBe(false);
+  });
+
+  // Test 4c: LOT1-04 active for Confrontation shape (no conflict)
+  it('LOT1-04 active for shape Confrontation (no conflict)', () => {
+    expect(isInstructionEnabled('LOT1-04', 'Confrontation')).toBe(true);
   });
 
   // Test 5: isInstructionEnabled('UNKNOWN') → false

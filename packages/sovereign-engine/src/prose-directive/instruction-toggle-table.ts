@@ -48,12 +48,12 @@ export const INSTRUCTION_TOGGLE_TABLE: readonly InstructionToggleEntry[] = [
   {
     id: 'LOT1-04',
     lot: 'LOT1',
-    enabled_by_default: false,
-    kill_switch_env: 'OMEGA_ENABLE_LOT1_04',   // inversé: opt-in pour ablation future
+    enabled_by_default: true,
+    kill_switch_env: 'OMEGA_DISABLE_LOT1_04',
     conflicts_with_shapes: ['Contemplative', 'SlowBurn'],
-    risk_class: 'HIGH',
-    ban_reason: 'Pente tension +0.15/Q incompatible Contemplative/SlowBurn — E3=0% (vW1 ablation)',
-    ban_commit: '3895f496',
+    risk_class: 'MEDIUM',
+    ban_reason: null,
+    ban_commit: null,
   },
   // ═══ LOT 2 ═══
   {

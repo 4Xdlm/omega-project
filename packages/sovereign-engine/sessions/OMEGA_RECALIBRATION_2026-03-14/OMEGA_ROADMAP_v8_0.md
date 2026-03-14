@@ -426,7 +426,7 @@ Avant validation de cette roadmap, les 3 IAs doivent vérifier :
 
 ---
 
-**FIN DE LA ROADMAP OMEGA v7.0**
+**FIN DE LA ROADMAP OMEGA v8.0**
 *2026-03-14 — Proposé pour contrôle final 3 IAs*
 *Autorité : Francky (Architecte Suprême)*
 *Standard : NASA-Grade L4 / DO-178C*

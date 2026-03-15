@@ -39,12 +39,13 @@
     "benchmark:phase-u": "tsx scripts/run-benchmark-phase-u.ts"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.78.0",
     "@omega/canon-kernel": "file:../canon-kernel",
     "@omega/genesis-planner": "file:../genesis-planner",
     "@omega/genome": "file:../genome",
     "@omega/omega-forge": "file:../omega-forge",
-    "@omega/signal-registry": "file:../signal-registry",
-    "@omega/phonetic-stack": "file:../omega-p0"
+    "@omega/phonetic-stack": "file:../omega-p0",
+    "@omega/signal-registry": "file:../signal-registry"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

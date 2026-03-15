@@ -1,0 +1,108 @@
+{
+  "corpus_id": "A2_duras_amant_apex",
+  "corpus_file": "A2_duras_amant_apex.txt",
+  "word_count": 300,
+  "family": "AB",
+  "model": "claude-sonnet-4-20250514",
+  "temperature": 0,
+  "response": {
+    "Q1_format_preference": {
+      "preferred": "(c) paragraphes narratifs",
+      "justification": "Le texte nécessite des instructions fluides et organiques pour capturer son style de flux de conscience et ses transitions naturelles entre souvenirs et réflexions"
+    },
+    "Q2_ingestion_order": {
+      "ranked_elements": [
+        {
+          "rank": 1,
+          "element": "Structure syntaxique (phrases longues, répétitions, énumérations)",
+          "reason": "Fondamental pour reproduire le rythme hypnotique et la musicalité du texte"
+        },
+        {
+          "rank": 2,
+          "element": "Perspective narrative (mémoire fragmentée, voix adulte évoquant l'enfance)",
+          "reason": "Détermine l'angle d'approche et la temporalité complexe du récit"
+        },
+        {
+          "rank": 3,
+          "element": "Registre de langue et tonalité (littéraire soutenu, mélancolique)",
+          "reason": "Essentiel pour maintenir la cohérence stylistique"
+        },
+        {
+          "rank": 4,
+          "element": "Thématiques (exil, famille, photographies, mémoire coloniale)",
+          "reason": "Donne la substance émotionnelle et contextuelle"
+        },
+        {
+          "rank": 5,
+          "element": "Détails sensoriels et visuels spécifiques",
+          "reason": "Enrichit mais ne structure pas fondamentalement le style"
+        }
+      ]
+    },
+    "Q3_saturation_point": {
+      "max_simultaneous_constraints": 8,
+      "explanation": "Le style est complexe mais cohérent, permettant de gérer simultanément structure syntaxique, temporalité, registre, thématiques, rythme, répétitions, détails sensoriels et perspective narrative",
+      "what_breaks_first": "La fluidité des transitions entre les souvenirs et la naturalité du flux de conscience"
+    },
+    "Q4_top5_constraints": [
+      {
+        "constraint": "Phrases très longues avec énumérations et répétitions d'éléments",
+        "why_essential": "Structure rythmique fondamentale du texte, crée l'effet hypnotique"
+      },
+      {
+        "constraint": "Répétition obsessionnelle de mots-clés (aucune, photographies, ma mère)",
+        "why_essential": "Technique stylistique centrale qui structure la mélancolie"
+      },
+      {
+        "constraint": "Mélange temporel entre passé colonial et présent de l'écriture",
+        "why_essential": "Cœur de la construction narrative mémorielle"
+      },
+      {
+        "constraint": "Accumulation de détails concrets dans un flux associatif",
+        "why_essential": "Mode de fonctionnement de la mémoire involontaire"
+      },
+      {
+        "constraint": "Tonalité de nostalgie douloureuse et de perte",
+        "why_essential": "Unité émotionnelle qui donne sens à tous les éléments"
+      }
+    ],
+    "Q5_harmful_instructions": [
+      {
+        "instruction_type": "Demander un style 'simple et accessible'",
+        "why_harmful": "Détruirait la complexité syntaxique nécessaire"
+      },
+      {
+        "instruction_type": "Imposer une structure chronologique claire",
+        "why_harmful": "Contraire au flux mémoriel associatif"
+      },
+      {
+        "instruction_type": "Éviter les répétitions",
+        "why_harmful": "Éliminerait un procédé stylistique central"
+      }
+    ],
+    "Q6_implicit_vs_explicit": {
+      "must_be_explicit": [
+        "Structure syntaxique longue",
+        "Répétitions lexicales",
+        "Perspective mémorielle",
+        "Registre littéraire"
+      ],
+      "must_stay_implicit": [
+        "Émotion spécifique",
+        "Références biographiques précises",
+        "Jugements sur les personnages"
+      ],
+      "reason": "Les techniques formelles doivent être explicites pour être reproduites, mais le contenu émotionnel doit émerger naturellement"
+    },
+    "Q7_exemplar_vs_rules": {
+      "preference": "both",
+      "ideal_exemplar_length_words": 150,
+      "explanation": "Les règles syntaxiques sont nécessaires mais un exemplar court permet de saisir le rythme et les transitions spécifiques"
+    },
+    "Q8_ideal_prompt": {
+      "prompt_text": "Écris un texte en prose littéraire française dans le style de la mémoire involontaire. Utilise des phrases très longues avec énumérations détaillées et répétitions obsessionnelles de mots-clés. Adopte la perspective d'une narratrice adulte évoquant son enfance coloniale avec nostalgie douloureuse. Mélange les temporalités par associations d'idées. Accumule les détails sensoriels concrets (objets, lieux, lumières) dans un flux continu. Répète certains mots comme des leitmotivs (aucune, photographies, ma mère). Maintiens un registre littéraire soutenu. Évoque les thèmes de l'exil, de la famille dysfonctionnelle, des souvenirs fragmentés. Crée un rythme hypnotique par la longueur des phrases et les reprises. Laisse les émotions émerger des détails plutôt que de les nommer directement.",
+      "token_count_estimate": 145
+    }
+  },
+  "created_at": "2026-03-15T14:41:48.740Z"
+}

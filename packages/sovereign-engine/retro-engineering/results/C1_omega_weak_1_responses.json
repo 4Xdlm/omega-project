@@ -1,0 +1,59 @@
+{
+  "corpus_id": "C1_omega_weak_1",
+  "corpus_file": "C1_omega_weak_1.txt",
+  "word_count": 624,
+  "family": "C",
+  "model": "claude-sonnet-4-20250514",
+  "temperature": 0,
+  "response": {
+    "QC1_fundamental_lacks": [
+      "Cohérence narrative - le texte accumule les métaphores sans progression dramatique claire",
+      "Équilibre stylistique - surcharge métaphorique qui noie l'émotion authentique",
+      "Clarté de l'enjeu - la tension reste floue, diluée dans un style trop orné",
+      "Naturel des dialogues - les échanges sonnent artificiels, trop littéraires"
+    ],
+    "QC2_instructions_that_would_prevent": [
+      {
+        "defect": "Métaphores incohérentes (minéralisation, cristallisation, ossification)",
+        "instruction_needed": "Choisir UN seul champ métaphorique et s'y tenir tout au long du texte"
+      },
+      {
+        "defect": "Phrases fragmentaires sans justification ('Du sang.', 'Rien.', 'Impossible.')",
+        "instruction_needed": "Éviter les phrases d'un mot sauf si elles servent un effet dramatique précis et justifié"
+      },
+      {
+        "defect": "Accumulation d'adjectifs recherchés qui alourdissent",
+        "instruction_needed": "Privilégier la simplicité : maximum un adjectif qualificatif par nom, éviter les néologismes"
+      },
+      {
+        "defect": "Dialogue artificiel et peu naturel",
+        "instruction_needed": "Écrire les dialogues comme des gens ordinaires parlent vraiment, tester à voix haute"
+      }
+    ],
+    "QC3_constraint_diagnosis": {
+      "too_many_or_too_few": "too_many",
+      "explanation": "Le texte souffre d'un excès de contraintes stylistiques : métaphores obligatoires, recherche systématique de l'effet, phrases courtes artificielles. Ces contraintes multiples créent un style surchargé qui nuit à l'authenticité émotionnelle."
+    },
+    "QC4_top3_phrases_to_fix": [
+      {
+        "phrase_index": 1,
+        "original": "il sentit quelque chose se fissurer dans sa poitrine — pas une douleur, plutôt l'effritement discret d'une paroi qu'on a crue solide",
+        "problem": "Métaphore architecturale forcée et précieuse",
+        "suggested_fix": "il sentit quelque chose se briser en lui"
+      },
+      {
+        "phrase_index": 2,
+        "original": "L'intimité domestique s'était muée en terrain miné. Chaque geste, chaque silence terreux portait maintenant le poids des non-dits, des tessons organiques d'une confiance brisée",
+        "problem": "Accumulation de métaphores incompatibles (miné/terreux/tessons organiques)",
+        "suggested_fix": "Leur intimité s'était brisée. Chaque geste, chaque silence portait le poids de ce qu'ils ne se disaient plus"
+      },
+      {
+        "phrase_index": 3,
+        "original": "L'ancrage thermique de leur relation s'était rompu quelque part entre décembre et cette nuit de janvier, laissant place à une floraison toxique, une germination noire",
+        "problem": "Jargon pseudo-scientifique ('ancrage thermique') et mélange métaphorique incohérent",
+        "suggested_fix": "Leur relation s'était refroidie entre décembre et janvier, laissant place à quelque chose de toxique"
+      }
+    ]
+  },
+  "created_at": "2026-03-15T14:43:52.480Z"
+}

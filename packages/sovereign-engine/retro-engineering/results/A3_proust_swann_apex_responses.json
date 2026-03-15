@@ -1,0 +1,107 @@
+{
+  "corpus_id": "A3_proust_swann_apex",
+  "corpus_file": "A3_proust_swann_apex.txt",
+  "word_count": 300,
+  "family": "AB",
+  "model": "claude-sonnet-4-20250514",
+  "temperature": 0,
+  "response": {
+    "Q1_format_preference": {
+      "preferred": "(c) paragraphes narratifs",
+      "justification": "Le texte nécessite des instructions fluides et organiques qui reflètent la nature méandreuse et introspective de la prose proustienne, plutôt que des contraintes rigides en liste"
+    },
+    "Q2_ingestion_order": {
+      "ranked_elements": [
+        {
+          "rank": 1,
+          "element": "Style et registre littéraire",
+          "reason": "Établit immédiatement le niveau de langue soutenu et la sophistication syntaxique requise"
+        },
+        {
+          "rank": 2,
+          "element": "Structure syntaxique complexe",
+          "reason": "Les phrases longues avec incises et subordinées multiples sont la signature du texte"
+        },
+        {
+          "rank": 3,
+          "element": "Perspective narrative introspective",
+          "reason": "Le point de vue interne et mémoriel guide toute la construction du passage"
+        },
+        {
+          "rank": 4,
+          "element": "Registre sensoriel et synesthésique",
+          "reason": "L'entrelacement des sensations (odeur, vue, ouïe) structure l'expérience décrite"
+        },
+        {
+          "rank": 5,
+          "element": "Temporalité et mémoire",
+          "reason": "L'alternance entre différents moments et l'évocation mémorielle donnent sa profondeur au texte"
+        }
+      ]
+    },
+    "Q3_saturation_point": {
+      "max_simultaneous_constraints": 8,
+      "explanation": "Le texte jongle avec de multiples contraintes stylistiques, sensorielles et narratives sans perdre en cohérence, mais au-delà de 8-9 contraintes simultanées, la fluidité proustienne se briserait",
+      "what_breaks_first": "La naturalité du flux de conscience et l'élégance des transitions entre les évocations"
+    },
+    "Q4_top5_constraints": [
+      {
+        "constraint": "Phrases longues avec incises multiples et ponctuation complexe",
+        "why_essential": "Structure syntaxique fondamentale qui crée le rythme proustien caractéristique"
+      },
+      {
+        "constraint": "Évocation sensorielle précise et synesthésique",
+        "why_essential": "Les sensations (vétiver, couleurs, sons) ancrent l'expérience dans le concret tout en la sublimant"
+      },
+      {
+        "constraint": "Perspective introspective à la première personne",
+        "why_essential": "Le 'je' narrateur et sa conscience sont le prisme unique à travers lequel tout est filtré"
+      },
+      {
+        "constraint": "Métaphores architecturales et spatiales élaborées",
+        "why_essential": "L'espace de la chambre devient métaphore de l'état psychologique du narrateur"
+      },
+      {
+        "constraint": "Registre littéraire soutenu avec archaïsmes choisis",
+        "why_essential": "Le niveau de langue élève l'expérience quotidienne vers l'art littéraire"
+      }
+    ],
+    "Q5_harmful_instructions": [
+      {
+        "instruction_type": "Contraintes de longueur strictes",
+        "why_harmful": "Briseraient le flux naturel de la pensée proustienne qui suit sa logique interne"
+      },
+      {
+        "instruction_type": "Simplification syntaxique",
+        "why_harmful": "Détruirait la complexité caractéristique qui mime les méandres de la conscience"
+      },
+      {
+        "instruction_type": "Objectivité narrative",
+        "why_harmful": "Éliminerait la subjectivité essentielle qui donne sa couleur unique au texte"
+      }
+    ],
+    "Q6_implicit_vs_explicit": {
+      "must_be_explicit": [
+        "Structure syntaxique complexe",
+        "Registre sensoriel",
+        "Perspective introspective"
+      ],
+      "must_stay_implicit": [
+        "Mélancolie sous-jacente",
+        "Nostalgie temporelle",
+        "Angoisse existentielle"
+      ],
+      "reason": "Les aspects techniques doivent être guidés explicitement, mais l'émotion doit émerger naturellement de la forme"
+    },
+    "Q7_exemplar_vs_rules": {
+      "preference": "both",
+      "ideal_exemplar_length_words": 150,
+      "explanation": "Un exemplar court montrerait la syntaxe et le rythme, complété par des règles pour les aspects techniques spécifiques"
+    },
+    "Q8_ideal_prompt": {
+      "prompt_text": "Écris dans le style de Proust : phrases longues avec incises multiples séparées par des points-virgules et des tirets. Perspective introspective première personne évoquant des souvenirs de chambres. Entrelace sensations précises (odeurs, couleurs, sons, textures) avec métaphores architecturales. Registre littéraire soutenu, vocabulaire recherché. Syntaxe complexe avec subordinées enchâssées. Évoque l'adaptation progressive à un environnement initialement hostile. Rythme méditatif, pensée qui se déploie organiquement. Personnification des objets (pendule, glace, rideaux). Contraste entre malaise initial et accoutumance finale.",
+      "token_count_estimate": 95
+    }
+  },
+  "created_at": "2026-03-15T14:42:14.083Z"
+}

@@ -1,0 +1,108 @@
+{
+  "corpus_id": "A4_camus_peste_climax",
+  "corpus_file": "A4_camus_peste_climax.txt",
+  "word_count": 300,
+  "family": "AB",
+  "model": "claude-sonnet-4-20250514",
+  "temperature": 0,
+  "response": {
+    "Q1_format_preference": {
+      "preferred": "(b) blocs XML/JSON",
+      "justification": "Ce texte nécessite des contraintes précises et hiérarchisées pour le style, la structure narrative, et les éléments sensoriels. Les blocs XML permettraient de séparer clairement les instructions stylistiques, narratives, et atmosphériques."
+    },
+    "Q2_ingestion_order": {
+      "ranked_elements": [
+        {
+          "rank": 1,
+          "element": "Contexte narratif et point de vue",
+          "reason": "Établir d'abord que c'est la fin d'un récit, avec un narrateur-témoin qui observe depuis une position élevée"
+        },
+        {
+          "rank": 2,
+          "element": "Registre et style littéraire",
+          "reason": "Définir le niveau de langue soutenu, la syntaxe complexe et le rythme contemplatif avant tout autre élément"
+        },
+        {
+          "rank": 3,
+          "element": "Structure temporelle et spatiale",
+          "reason": "Ancrer la scène dans un moment de transition (nuit de délivrance) et un lieu précis (terrasse surplombant la ville)"
+        },
+        {
+          "rank": 4,
+          "element": "Éléments sensoriels et atmosphériques",
+          "reason": "Intégrer les descriptions du ciel, des sons, de l'air pour créer l'ambiance"
+        },
+        {
+          "rank": 5,
+          "element": "Dimension philosophique et mémorielle",
+          "reason": "Ajouter en dernier la réflexion sur l'oubli, la nature humaine et la décision de témoigner"
+        }
+      ]
+    },
+    "Q3_saturation_point": {
+      "max_simultaneous_constraints": 8,
+      "explanation": "Le texte combine style littéraire élevé, structure narrative complexe, descriptions sensorielles multiples, dimension philosophique, références mémorielles, rythme spécifique, point de vue particulier, et progression dramatique",
+      "what_breaks_first": "La cohérence du rythme et de la musicalité des phrases sous la pression de trop de contraintes techniques simultanées"
+    },
+    "Q4_top5_constraints": [
+      {
+        "constraint": "Style littéraire français classique avec phrases longues et syntaxe élaborée",
+        "why_essential": "Définit l'identité textuelle et le niveau de langue requis"
+      },
+      {
+        "constraint": "Point de vue d'un observateur en position élevée contemplant la ville",
+        "why_essential": "Structure toute la perspective narrative et spatiale"
+      },
+      {
+        "constraint": "Alternance entre descriptions sensorielles et réflexions philosophiques",
+        "why_essential": "Crée le rythme caractéristique du passage"
+      },
+      {
+        "constraint": "Progression vers une révélation finale sur l'acte d'écriture",
+        "why_essential": "Donne sa fonction narrative au texte comme conclusion"
+      },
+      {
+        "constraint": "Registre contemplatif mêlant mélancolie et acceptation",
+        "why_essential": "Établit le ton émotionnel spécifique du passage"
+      }
+    ],
+    "Q5_harmful_instructions": [
+      {
+        "instruction_type": "Demander d'imiter exactement le style de Camus",
+        "why_harmful": "Pourrait créer une contrainte de plagiat plutôt qu'une inspiration stylistique"
+      },
+      {
+        "instruction_type": "Spécifier trop de détails contextuels sur La Peste",
+        "why_harmful": "Risquerait de reproduire l'œuvre plutôt que de s'en inspirer"
+      },
+      {
+        "instruction_type": "Imposer des références littérales aux personnages",
+        "why_harmful": "Limiterait la créativité et pousserait vers la copie"
+      }
+    ],
+    "Q6_implicit_vs_explicit": {
+      "must_be_explicit": [
+        "Structure de la phrase complexe",
+        "Alternance description/réflexion",
+        "Point de vue en surplomb",
+        "Progression vers révélation finale"
+      ],
+      "must_stay_implicit": [
+        "Références à l'œuvre source",
+        "Identité précise des personnages",
+        "Contexte historique spécifique"
+      ],
+      "reason": "Les éléments techniques doivent être explicites pour reproduire le style, mais le contenu référentiel doit rester implicite pour éviter la reproduction"
+    },
+    "Q7_exemplar_vs_rules": {
+      "preference": "both",
+      "ideal_exemplar_length_words": 80,
+      "explanation": "Ce style nécessite des règles précises pour la syntaxe et la structure, mais aussi un exemplar court pour montrer le rythme et la musicalité des phrases"
+    },
+    "Q8_ideal_prompt": {
+      "prompt_text": "Écris un passage littéraire français de style classique. STRUCTURE: Alternance entre descriptions sensorielles détaillées et réflexions philosophiques. Point de vue d'un observateur contemplant une scène depuis une position élevée. STYLE: Phrases longues avec syntaxe élaborée, subordonnées multiples, rythme contemplatif. Registre soutenu mêlant mélancolie et acceptation. PROGRESSION: Commencer par une observation extérieure, développer l'atmosphère sensorielle (ciel, sons, air), puis évoluer vers une réflexion sur la nature humaine et l'acte de témoignage. TONALITÉ: Méditative, avec une dimension de bilan et de conclusion. Intégrer des éléments sensoriels précis (visuels, auditifs, tactiles) dans un cadre urbain nocturne.",
+      "token_count_estimate": 145
+    }
+  },
+  "created_at": "2026-03-15T14:42:40.954Z"
+}

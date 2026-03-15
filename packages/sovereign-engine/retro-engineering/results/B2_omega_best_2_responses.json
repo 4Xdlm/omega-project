@@ -1,0 +1,108 @@
+{
+  "corpus_id": "B2_omega_best_2",
+  "corpus_file": "B2_omega_best_2.txt",
+  "word_count": 674,
+  "family": "AB",
+  "model": "claude-sonnet-4-20250514",
+  "temperature": 0,
+  "response": {
+    "Q1_format_preference": {
+      "preferred": "(a) liste à puces hiérarchisée",
+      "justification": "Ce texte nécessite une orchestration précise de multiples éléments techniques (dialogue, description, psychologie, rythme) qui s'articulent de manière hiérarchique. Une structure à puces permettrait de spécifier clairement les priorités et les relations entre contraintes."
+    },
+    "Q2_ingestion_order": {
+      "ranked_elements": [
+        {
+          "rank": 1,
+          "element": "Situation dramatique et tension sous-jacente",
+          "reason": "Détermine l'architecture émotionnelle de toute la scène"
+        },
+        {
+          "rank": 2,
+          "element": "Style et registre littéraire",
+          "reason": "Influence directement le choix lexical et la construction des phrases"
+        },
+        {
+          "rank": 3,
+          "element": "Technique narrative (focalisation, rythme)",
+          "reason": "Structure la progression dramatique et l'accès aux consciences"
+        },
+        {
+          "rank": 4,
+          "element": "Détails sensoriels et atmosphériques",
+          "reason": "Enrichit l'immersion sans modifier la structure narrative"
+        },
+        {
+          "rank": 5,
+          "element": "Contraintes formelles spécifiques",
+          "reason": "Ajustements finaux qui ne doivent pas compromettre l'essentiel"
+        }
+      ]
+    },
+    "Q3_saturation_point": {
+      "max_simultaneous_constraints": 8,
+      "explanation": "Ce texte jongle avec environ 8 contraintes majeures simultanées : tension dramatique, réalisme psychologique, style littéraire soutenu, progression narrative, dialogue naturel, descriptions sensorielles, rythme, et cohérence spatiale. Au-delà, la qualité littéraire se dégraderait.",
+      "what_breaks_first": "La fluidité du style et la justesse psychologique des personnages"
+    },
+    "Q4_top5_constraints": [
+      {
+        "constraint": "Tension dramatique non-dite avec révélation progressive",
+        "why_essential": "Structure toute la dynamique narrative et émotionnelle de la scène"
+      },
+      {
+        "constraint": "Réalisme psychologique des réactions et dialogues",
+        "why_essential": "Crédibilise les personnages et leurs interactions dans cette situation critique"
+      },
+      {
+        "constraint": "Style littéraire français contemporain soutenu",
+        "why_essential": "Détermine la qualité esthétique et la cohérence linguistique du texte"
+      },
+      {
+        "constraint": "Ancrage spatial précis avec détails sensoriels",
+        "why_essential": "Crée l'atmosphère et renforce l'immersion dans la scène domestique"
+      },
+      {
+        "constraint": "Rythme narratif alternant dialogue et introspection",
+        "why_essential": "Maintient la tension tout en permettant l'approfondissement psychologique"
+      }
+    ],
+    "Q5_harmful_instructions": [
+      {
+        "instruction_type": "Spécification excessive de métaphores particulières",
+        "why_harmful": "Rigidifierait l'écriture et nuirait à l'organicité du style"
+      },
+      {
+        "instruction_type": "Contraintes de longueur trop précises par paragraphe",
+        "why_harmful": "Compromettrait le rythme naturel et la respiration du texte"
+      },
+      {
+        "instruction_type": "Imposition d'un dénouement explicite",
+        "why_harmful": "Détruirait la subtilité et l'ouverture caractéristiques de cette esthétique"
+      }
+    ],
+    "Q6_implicit_vs_explicit": {
+      "must_be_explicit": [
+        "Situation de couple en crise",
+        "Soupçon d'infidélité",
+        "Cadre domestique réaliste",
+        "Style littéraire français"
+      ],
+      "must_stay_implicit": [
+        "Nature exacte de la trahison",
+        "Issue de la confrontation",
+        "Techniques stylistiques précises"
+      ],
+      "reason": "L'explicite guide la structure dramatique, l'implicite préserve la subtilité littéraire et la liberté créative"
+    },
+    "Q7_exemplar_vs_rules": {
+      "preference": "both",
+      "ideal_exemplar_length_words": 150,
+      "explanation": "Un court exemplar montrerait le ton et le style visés, complété par des règles pour les aspects techniques (dialogue, progression, ancrage spatial) qui ne peuvent être démontrés dans un extrait bref"
+    },
+    "Q8_ideal_prompt": {
+      "prompt_text": "Écris une scène de confrontation conjugale dans une cuisine, style littéraire français contemporain. STRUCTURE: • Tension sous-jacente (soupçon d'infidélité) révélée progressivement • Alternance dialogue minimal/introspection/description sensorielle • Pas de résolution explicite TECHNIQUE: • Focalisation sur Pierre principalement • Ancrage spatial précis (Lyon, janvier, détails domestiques) • Réalisme psychologique des réactions • Registre soutenu sans préciosité ATMOSPHÈRE: • Froideur croissante, distance qui s'installe • Sons d'ambiance (radiateur, circulation) • Gestuelle révélatrice des émotions • Métaphores organiques discrètes DIALOGUE: • Sous-texte fort, non-dits • Répliques courtes et chargées • Progression vers l'évitement de la confrontation directe",
+      "token_count_estimate": 145
+    }
+  },
+  "created_at": "2026-03-15T14:43:34.981Z"
+}

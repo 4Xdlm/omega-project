@@ -1,0 +1,107 @@
+{
+  "corpus_id": "A1_camus_etranger_climax",
+  "corpus_file": "A1_camus_etranger_climax.txt",
+  "word_count": 300,
+  "family": "AB",
+  "model": "claude-sonnet-4-20250514",
+  "temperature": 0,
+  "response": {
+    "Q1_format_preference": {
+      "preferred": "(c) paragraphes narratifs",
+      "justification": "Le texte nécessite des instructions fluides pour capturer la voix narrative introspective et le flux de conscience du personnage, plutôt que des contraintes techniques rigides"
+    },
+    "Q2_ingestion_order": {
+      "ranked_elements": [
+        {
+          "rank": 1,
+          "element": "Perspective narrative (première personne, voix du protagoniste)",
+          "reason": "Détermine entièrement la structure et le ton du texte"
+        },
+        {
+          "rank": 2,
+          "element": "Contexte situationnel (procès, accusé face au procureur)",
+          "reason": "Établit le cadre dramatique et les enjeux émotionnels"
+        },
+        {
+          "rank": 3,
+          "element": "Registre de langue et style (littéraire français, phrases complexes)",
+          "reason": "Influence directement la qualité et l'authenticité de l'écriture"
+        },
+        {
+          "rank": 4,
+          "element": "Psychologie du personnage (détachement émotionnel, incompréhension)",
+          "reason": "Guide les réactions et réflexions intérieures du narrateur"
+        },
+        {
+          "rank": 5,
+          "element": "Thématiques philosophiques (absence de regret, vide moral)",
+          "reason": "Enrichit la profondeur conceptuelle mais dépend des autres éléments"
+        }
+      ]
+    },
+    "Q3_saturation_point": {
+      "max_simultaneous_constraints": 6,
+      "explanation": "Le texte gère simultanément la voix narrative, le contexte judiciaire, le style littéraire, la psychologie complexe, les thèmes philosophiques et la structure temporelle",
+      "what_breaks_first": "La cohérence psychologique du personnage si trop de contraintes stylistiques sont ajoutées"
+    },
+    "Q4_top5_constraints": [
+      {
+        "constraint": "Narration à la première personne avec voix détachée et analytique",
+        "why_essential": "Constitue l'identité narrative fondamentale du texte"
+      },
+      {
+        "constraint": "Contexte de procès avec discours du procureur rapporté",
+        "why_essential": "Structure dramatique qui organise tout le passage"
+      },
+      {
+        "constraint": "Style littéraire français classique avec phrases longues et nuancées",
+        "why_essential": "Détermine la qualité et l'authenticité littéraire"
+      },
+      {
+        "constraint": "Psychologie de personnage incapable de regret authentique",
+        "why_essential": "Moteur des réflexions et de la tension dramatique"
+      },
+      {
+        "constraint": "Alternance entre discours rapporté et introspection",
+        "why_essential": "Rythme narratif caractéristique du passage"
+      }
+    ],
+    "Q5_harmful_instructions": [
+      {
+        "instruction_type": "Spécification d'émotions explicites",
+        "why_harmful": "Contredirait le détachement émotionnel caractéristique du personnage"
+      },
+      {
+        "instruction_type": "Demande de dialogue direct",
+        "why_harmful": "Briserait la structure de monologue intérieur et de discours rapporté"
+      },
+      {
+        "instruction_type": "Ton dramatique ou pathétique",
+        "why_harmful": "Opposerait à la froideur analytique du narrateur"
+      }
+    ],
+    "Q6_implicit_vs_explicit": {
+      "must_be_explicit": [
+        "Perspective première personne",
+        "Contexte judiciaire",
+        "Style littéraire français"
+      ],
+      "must_stay_implicit": [
+        "Références à L'Étranger",
+        "Identité précise du crime",
+        "Jugement moral sur le personnage"
+      ],
+      "reason": "Les éléments techniques doivent être clairs pour la génération, mais les références culturelles et jugements doivent émerger naturellement"
+    },
+    "Q7_exemplar_vs_rules": {
+      "preference": "both",
+      "ideal_exemplar_length_words": 150,
+      "explanation": "Le style littéraire nécessite un exemple de voix narrative, mais les contraintes structurelles (procès, psychologie) requièrent des règles explicites"
+    },
+    "Q8_ideal_prompt": {
+      "prompt_text": "Écris un passage narratif à la première personne où un accusé assiste à son procès. Le narrateur a une voix détachée et analytique, incapable de regret authentique. Il écoute le procureur l'accuser tout en réfléchissant à son incapacité à ressentir des émotions conventionnelles. Style littéraire français classique avec phrases longues et nuancées. Alterne entre le discours du procureur rapporté au style indirect et les réflexions introspectives du narrateur. Le procureur évoque l'absence d'âme chez l'accusé et sa relation avec sa mère. Ton froid mais non hostile, avec une incompréhension mutuelle entre l'accusé et la justice. Le narrateur voudrait expliquer sa nature mais ne peut pas s'exprimer dans ce contexte.",
+      "token_count_estimate": 145
+    }
+  },
+  "created_at": "2026-03-15T14:41:22.617Z"
+}

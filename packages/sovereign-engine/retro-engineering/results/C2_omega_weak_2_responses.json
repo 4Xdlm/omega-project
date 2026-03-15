@@ -1,0 +1,64 @@
+{
+  "corpus_id": "C2_omega_weak_2",
+  "corpus_file": "C2_omega_weak_2.txt",
+  "word_count": 746,
+  "family": "C",
+  "model": "claude-sonnet-4-20250514",
+  "temperature": 0,
+  "response": {
+    "QC1_fundamental_lacks": [
+      "Cohérence narrative - le texte oscille entre styles sans logique claire",
+      "Équilibre entre description et action - trop de métaphores tuent l'émotion",
+      "Authenticité des dialogues - les personnages parlent comme des concepts",
+      "Progression dramatique claire - la tension se dilue dans les ornements stylistiques",
+      "Ancrage émotionnel du lecteur - l'excès de poésie crée une distance"
+    ],
+    "QC2_instructions_that_would_prevent": [
+      {
+        "defect": "Métaphores en italique artificielles",
+        "instruction_needed": "Intégrez les images poétiques naturellement dans la prose sans marquage typographique"
+      },
+      {
+        "defect": "Fragments isolés sans fonction narrative",
+        "instruction_needed": "Chaque phrase doit faire avancer l'action ou révéler du caractère"
+      },
+      {
+        "defect": "Surcharge descriptive au détriment de l'émotion",
+        "instruction_needed": "Limitez-vous à 2-3 détails sensoriels par paragraphe, privilégiez l'impact émotionnel"
+      },
+      {
+        "defect": "Dialogue artificiel et conceptuel",
+        "instruction_needed": "Écrivez des répliques que des gens ordinaires prononceraient vraiment"
+      },
+      {
+        "defect": "Incohérence tonale",
+        "instruction_needed": "Maintenez un registre constant adapté à la situation dramatique"
+      }
+    ],
+    "QC3_constraint_diagnosis": {
+      "too_many_or_too_few": "too_many",
+      "explanation": "Le texte souffre d'un excès de contraintes stylistiques : métaphores forcées, fragments poétiques, images en italique, recherche systématique de l'effet littéraire. Ces contraintes multiples nuisent à la fluidité narrative et à l'authenticité émotionnelle."
+    },
+    "QC4_top3_phrases_to_fix": [
+      {
+        "phrase_index": 1,
+        "original": "comptait les lignes de coulis comme autant de fractures dans l'*ancrage thermique* de ce foyer",
+        "problem": "Métaphore alambiquée et terme technique incongru",
+        "suggested_fix": "comptait les lignes de coulis, cherchant dans ce foyer une chaleur qui lui échappait"
+      },
+      {
+        "phrase_index": 2,
+        "original": "*Anticipation domestique*.",
+        "problem": "Fragment conceptuel sans fonction narrative",
+        "suggested_fix": "Supprimer ou intégrer : 'Il sentait monter en lui une attente familière'"
+      },
+      {
+        "phrase_index": 3,
+        "original": "cette *corrosion intime* qui rongeait leur couple depuis des mois prenait aujourd'hui une consistance presque physique",
+        "problem": "Métaphore chimique inadaptée au registre émotionnel",
+        "suggested_fix": "ce qui rongeait leur couple depuis des mois devenait aujourd'hui impossible à ignorer"
+      }
+    ]
+  },
+  "created_at": "2026-03-15T14:44:07.072Z"
+}

@@ -1,6 +1,6 @@
 /**
  * prompt-assembler-v4.ts — V4 Native Prompt Assembler
- * Phase V4-1 — ~800-1200 tokens, 10 narrative blocks
+ * V4.1.1 — Fix ECC: structured quartile trajectory + forced 4 paragraphs
  *
  * Phase R (retro-engineering cognitif) proved:
  *   - LLM wants ~300 tokens, not 15k
@@ -9,28 +9,60 @@
  *   - Exemplar + few rules > 17 sections
  *   - Kill-lists PRODUCE the defects they try to correct
  *
- * INV-V4-01: prompt ≤ 1500 tokens
- * INV-V4-02: 10 blocks present
- * INV-V4-03: no floats (no 0.72, no 14D vectors)
- * INV-V4-05: interdictions ≤ 3
- * INV-V4-07: no kill-lists in prompt
- * INV-V4-09: deterministic (same packet → same prompt)
+ * V4.1 fix: tension_14d scorer splits prose into 4 quartiles and
+ * measures cosine similarity with target_14d vectors. V4.0 fused
+ * the trajectory into 1 paragraph → LLM wrote uniform emotion
+ * → monotony penalty -20 + low quartile similarity.
+ * V4.1 gives EXPLICIT quartile boundaries with dominant emotions
+ * and physical behaviors per quartile.
+ *
+ * V4.1.1 fix: FORCE 4 PARAGRAPHS MINIMUM. The tension_14d scorer
+ * splits by paragraphs. If LLM writes 2 big blocks, Q1-Q4 mapping
+ * is broken → ECC collapses. Also: SEMANTIC_CORTEX_ENABLED=true
+ * means the scorer uses LLM semantic analysis, not keyword matching.
  *
  * Standard: NASA-Grade L4 / DO-178C Level A
  */
 
 import { sha256, canonicalize } from '@omega/canon-kernel';
-import type { ForgePacket, SovereignPrompt, PromptSection, StyleProfile } from '../types.js';
+import type { ForgePacket, SovereignPrompt, PromptSection, StyleProfile, ForgeBeat } from '../types.js';
 import type { SymbolMap } from '../symbol/symbol-map-types.js';
 import type { EmotionContract } from '../types.js';
 import { selectExemplarDeterministic } from './golden-exemplars.js';
 
-export const PROMPT_ASSEMBLER_V4_VERSION = '4.0.0';
+export const PROMPT_ASSEMBLER_V4_VERSION = '4.1.1';
 
 // ── Flag ─────────────────────────────────────────────────────────────────────
 
 export function isV4Active(): boolean {
   return process.env.OMEGA_PROMPT_V4 === '1';
+}
+
+// ── Emotion → Physical Behavior Mapping ──────────────────────────────────────
+// The tension_14d scorer uses SEMANTIC LLM analysis (SEMANTIC_CORTEX_ENABLED=true).
+// We guide the LLM to produce PHYSICAL BEHAVIORS that trigger the right
+// emotional recognition. The semantic analyzer understands physical behaviors
+// as emotional states — "mâchoires serrées" → anger.
+
+const EMOTION_PHYSICAL_MAP: Record<string, string> = {
+  'anger': 'mâchoires serrées, gestes saccadés, voix basse et coupante',
+  'fear': 'souffle court, regard fuyant, mains qui cherchent un appui',
+  'sadness': 'épaules affaissées, regard dans le vide, gestes au ralenti',
+  'joy': 'corps détendu, mouvements fluides, voix claire',
+  'surprise': 'corps figé, yeux écarquillés, souffle coupé',
+  'disgust': 'recul physique, visage détourné, geste de rejet',
+  'anticipation': 'corps penché en avant, attention aiguisée, muscles tendus',
+  'trust': 'posture ouverte, proximité physique, rythme calme',
+  'tension': 'immobilité chargée, silence pesant, gestes retenus',
+  'dread': 'froid dans la nuque, immobilité de proie, respiration suspendue',
+  'despair': 'corps vidé, bras le long du corps, regard fixe sans cible',
+  'contempt': 'menton relevé, distance calculée, sourire froid',
+  'guilt': 'épaules rentrées, évitement du regard, mains qui se tordent',
+  'shame': 'tête baissée, corps replié, voix inaudible',
+};
+
+function getPhysicalBehavior(emotion: string): string {
+  return EMOTION_PHYSICAL_MAP[emotion.toLowerCase()] || 'corps en alerte, gestes mesurés';
 }
 
 // ── Main ─────────────────────────────────────────────────────────────────────
@@ -57,7 +89,6 @@ export function buildSovereignPrompt_V4(
 
   const fullPrompt = blocks.join('\n\n');
 
-  // Token count check — INV-V4-01
   const tokenEstimate = Math.ceil(fullPrompt.length / 4);
   if (tokenEstimate > 1500) {
     console.warn(`[V4] WARNING: prompt ${tokenEstimate}t exceeds 1500t target`);
@@ -115,62 +146,71 @@ function compileContext(packet: ForgePacket): string {
   return `${previousContext}${sceneGoal}. ${characters}. Conflit : ${conflict}.${subtextLine} Narration ${pov}, au ${tense}. ~${intent.target_word_count} mots.`;
 }
 
-// ── BLOC 3 — Trajectory (~80 tokens) — LE PLUS CRITIQUE ────────────────────
+// ── BLOC 3 — Trajectory V4.1.1 (~180 tokens) — LE CŒUR DU FIX ─────────────
+//
+// V4.0 PROBLEM: All 4 quartiles fused in 1 paragraph → LLM wrote uniform
+// emotion → tension_14d scorer found monotony → penalty -20 + low similarity.
+//
+// V4.1 FIX: Explicit quartile boundaries + dominant emotion + physical behavior.
+// V4.1.1 FIX: FORCE 4 PARAGRAPHS. The tension_14d scorer splits prose by
+// paragraphs into 4 quartiles. If LLM writes 2 blocks → Q mapping broken.
+//
+// The scorer uses SEMANTIC LLM analysis (SEMANTIC_CORTEX_ENABLED=true),
+// so physical behaviors ARE understood as emotional states.
 
 function compileTrajectory(ec: EmotionContract): string {
-  const q1 = ec.curve_quartiles[0];
-  const q2 = ec.curve_quartiles[1];
-  const q3 = ec.curve_quartiles[2];
-  const q4 = ec.curve_quartiles[3];
+  const quartileLabels = ['Premier quart (0-25%)', 'Deuxième quart (25-50%)', 'Tournant (50-75%)', 'Fermeture (75-100%)'];
 
-  const arc = `Trajectoire émotionnelle : la scène s'ouvre sur ${describeEmotion(q1.dominant, q1.valence)} (${q1.narrative_instruction}). `;
-  const mid = `Elle monte vers ${describeEmotion(q2.dominant, q2.valence)} (${q2.narrative_instruction}). `;
-  const peak = `Le point de bascule arrive avec ${describeEmotion(q3.dominant, q3.valence)} (${q3.narrative_instruction}). `;
-  const end = `La scène se ferme sur ${describeEmotion(q4.dominant, q4.valence)} (${q4.narrative_instruction}).`;
+  const lines: string[] = ['Arc émotionnel en 4 temps — respecte cette progression dans ton texte :'];
 
+  for (let i = 0; i < 4 && i < ec.curve_quartiles.length; i++) {
+    const q = ec.curve_quartiles[i];
+    const physical = getPhysicalBehavior(q.dominant);
+
+    lines.push(`${quartileLabels[i]} : ${q.narrative_instruction}. Émotion dominante : ${q.dominant}. Incarnation physique : ${physical}.`);
+  }
+
+  // Tension slope
   const slope = ec.tension.slope_target;
-  const slopeLine = slope === 'ascending' ? ' La tension monte tout au long.'
-    : slope === 'descending' ? ' La tension décroît progressivement.'
-    : slope === 'arc' ? ' La tension monte puis redescend.'
-    : '';
+  if (slope === 'ascending') {
+    lines.push('La tension MONTE d\'un quartile au suivant — chaque section est plus intense que la précédente.');
+  } else if (slope === 'descending') {
+    lines.push('La tension DÉCROÎT progressivement — l\'intensité baisse à chaque quartile.');
+  } else if (slope === 'arc') {
+    lines.push('La tension MONTE jusqu\'au tournant puis REDESCEND — structure en arc.');
+  }
 
-  return arc + mid + peak + end + slopeLine;
+  // Rupture point if exists
+  if (ec.rupture.exists) {
+    const pct = Math.round(ec.rupture.position_pct * 100);
+    lines.push(`Point de rupture émotionnelle à ~${pct}% du texte — marque un changement net de registre.`);
+  }
+
+  // Anti-monotony directive
+  lines.push('IMPORTANT : chaque quart du texte doit avoir une couleur émotionnelle DISTINCTE. Évite l\'uniformité.');
+
+  // V4.1.1: Force 4 paragraphs — tension_14d scorer splits prose by paragraphs
+  // If LLM writes 2 big blocks, Q1-Q4 mapping is broken → ECC collapses
+  lines.push('STRUCTURE OBLIGATOIRE : ton texte DOIT comporter au minimum 4 paragraphes séparés par des sauts de ligne — un par quartile ci-dessus. Le premier paragraphe = Q1, le deuxième = Q2, etc.');
+
+  return lines.join('\n');
 }
 
-function describeEmotion(dominant: string, valence: number): string {
-  const absVal = Math.abs(valence);
-  const intensity = absVal > 0.6 ? 'intense' : absVal > 0.3 ? 'contenue' : 'légère';
-  const emotionMap: Record<string, string> = {
-    'anger': 'colère',
-    'fear': 'peur',
-    'sadness': 'tristesse',
-    'joy': 'joie',
-    'surprise': 'surprise',
-    'disgust': 'dégoût',
-    'anticipation': 'anticipation',
-    'trust': 'confiance',
-    'tension': 'tension',
-    'dread': 'appréhension',
-    'despair': 'désespoir',
-    'contempt': 'mépris',
-    'guilt': 'culpabilité',
-    'shame': 'honte',
-  };
-  const emotionWord = emotionMap[dominant.toLowerCase()] || dominant;
-  return `${emotionWord} ${intensity}`;
-}
+// ── BLOC 4 — Beats V4.1 (~130 tokens) ───────────────────────────────────────
 
-// ── BLOC 4 — Beats (~120 tokens) ────────────────────────────────────────────
-
-function compileBeats(beats: readonly import('../types.js').ForgeBeat[]): string {
+function compileBeats(beats: readonly ForgeBeat[]): string {
   if (beats.length === 0) return '';
 
   const lines = beats.map((b, i) => {
-    const pivotMark = b.subtext_type ? ` [${b.subtext_type}]` : '';
-    return `${i + 1}. ${b.action} — ${b.emotion_instruction}${pivotMark}`;
+    const pivotMark = b.pivot ? ' ★ PIVOT' : '';
+    const subtextInfo = b.subtext_type ? ` [${b.subtext_type}]` : '';
+    const sensory = b.sensory_tags.length > 0
+      ? ` — Sens : ${b.sensory_tags.slice(0, 2).join(', ')}.`
+      : '';
+    return `${i + 1}. ${b.action} — ${b.emotion_instruction}${subtextInfo}${pivotMark}${sensory}`;
   });
 
-  return `Points de passage :\n${lines.join('\n')}`;
+  return `Points de passage narratifs :\n${lines.join('\n')}`;
 }
 
 // ── BLOC 5 — Directives (~120 tokens) ───────────────────────────────────────
@@ -178,10 +218,8 @@ function compileBeats(beats: readonly import('../types.js').ForgeBeat[]): string
 function compileDirectives(genome: StyleProfile): string {
   const directives: string[] = [];
 
-  // 1. Ancrage physique (Phase R unanime)
-  directives.push('Ancre chaque émotion dans un détail physique précis (geste, objet, sensation).');
+  directives.push('Ancre chaque émotion dans un détail physique précis (geste, objet, sensation corporelle).');
 
-  // 2. Rythme
   const target = genome.rhythm.avg_sentence_length_target;
   if (target <= 12) {
     directives.push('Phrases courtes et sèches dominantes, syncopes fréquentes.');
@@ -191,22 +229,19 @@ function compileDirectives(genome: StyleProfile): string {
     directives.push('Phrases longues et sinueuses, rythme méditatif.');
   }
 
-  // 3. Registre
   directives.push(`Registre ${genome.tone.dominant_register}.`);
-
-  // 4. Sous-texte (Phase R unanime)
   directives.push('Privilégie le sous-texte : dis l\'essentiel par ce qui n\'est pas dit.');
 
-  // 5. Densité sensorielle
   const density = genome.imagery.density_target_per_100_words;
   if (density >= 3) {
     directives.push('Dense en sensations : chaque paragraphe active au moins 2 sens.');
   }
 
-  // 6. Motifs récurrents
   if (genome.imagery.recurrent_motifs.length > 0) {
     directives.push(`Motifs récurrents : ${genome.imagery.recurrent_motifs.join(', ')}.`);
   }
+
+  directives.push('Varie le registre émotionnel entre les paragraphes — pas de ton uniforme.');
 
   return `Style :\n${directives.slice(0, 7).map(d => `- ${d}`).join('\n')}`;
 }
@@ -229,7 +264,6 @@ function compileVoiceAnchor(packet: ForgePacket): string {
 // ── BLOC 7 — Symbols (~80 tokens) ──────────────────────────────────────────
 
 function compileSymbols(symbolMap: SymbolMap, packet: ForgePacket): string {
-  // Signature hooks from all quartiles
   const hooks = symbolMap.quartiles
     .flatMap(q => [...q.signature_hooks])
     .filter((v, i, a) => a.indexOf(v) === i)
@@ -269,8 +303,8 @@ function compileInterdictions(): string {
 3. Pas de lyrisme décoratif — chaque image doit servir l'histoire.`;
 }
 
-// ── BLOC 10 — Final Instruction (~20 tokens) ────────────────────────────────
+// ── BLOC 10 — Final Instruction (~25 tokens) ────────────────────────────────
 
 function compileFinalInstruction(): string {
-  return `Écris la scène maintenant. Commence par une sensation ou un geste — jamais par une description de cadre.`;
+  return `Écris la scène maintenant en 4 paragraphes minimum (un par quartile émotionnel). Commence par une sensation ou un geste — jamais par une description de cadre.`;
 }

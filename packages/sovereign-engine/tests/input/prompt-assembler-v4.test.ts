@@ -214,7 +214,7 @@ describe('prompt-assembler-v4', () => {
     const content = result.sections[0].content;
 
     expect(content).toContain('Tu es');           // persona
-    expect(content).toContain('Trajectoire');     // trajectory
+    expect(content).toContain('Arc émotionnel');  // trajectory (V4.1.1)
     expect(content).toContain('Points de passage'); // beats
     expect(content).toContain('Style');           // directives
     expect(content).toContain('Ancre vocale');    // voice anchor
@@ -228,11 +228,8 @@ describe('prompt-assembler-v4', () => {
   it('INV-V4-03: prompt contains no floats (no 14D vectors)', () => {
     const result = buildSovereignPrompt_V4(packet, symbolMap);
     const content = result.sections[0].content;
-    // Match floats like 0.72, 0.45, etc. — but allow single-digit decimals in word counts
-    // The regex looks for patterns like "0.72" or "14.53" (2+ decimal places)
     const floatMatches = content.match(/\d+\.\d{2,}/g) || [];
-    // Filter out version strings
-    const realFloats = floatMatches.filter(m => !m.startsWith('4.0') && !m.startsWith('1.0'));
+    const realFloats = floatMatches.filter(m => !m.startsWith('4.') && !m.startsWith('1.0'));
     expect(realFloats).toEqual([]);
   });
 
@@ -240,10 +237,8 @@ describe('prompt-assembler-v4', () => {
   it('INV-V4-04: beats compressed ≤ 3 lines per beat', () => {
     const result = buildSovereignPrompt_V4(packet, symbolMap);
     const content = result.sections[0].content;
-    // Each beat should be a single numbered line
     const beatSection = content.split('Points de passage :')[1]?.split('\n\n')[0] ?? '';
     const beatLines = beatSection.split('\n').filter(l => l.trim().length > 0);
-    // 3 beats should produce ≤ 3 lines
     expect(beatLines.length).toBeLessThanOrEqual(3);
   });
 
@@ -272,8 +267,6 @@ describe('prompt-assembler-v4', () => {
     expect(content).not.toMatch(/BLACKLIST/i);
     expect(content).not.toMatch(/kill/i);
     expect(content).not.toMatch(/liste noire/i);
-    // Kill-list words should NOT appear (except in exemplar which may contain them naturally)
-    // Split content to check only non-exemplar sections
     const beforeExemplar = content.split('Exemple du niveau')[0] ?? content;
     expect(beforeExemplar).not.toContain('soudain');
     expect(beforeExemplar).not.toContain('tout a coup');
@@ -283,7 +276,6 @@ describe('prompt-assembler-v4', () => {
   it('INV-V4-08: SymbolMap hooks present (signature_words in prompt)', () => {
     const result = buildSovereignPrompt_V4(packet, symbolMap);
     const content = result.sections[0].content;
-    // Signature words from style_genome should be in Palette
     expect(content).toContain('silence');
     expect(content).toContain('froid');
   });
@@ -297,7 +289,7 @@ describe('prompt-assembler-v4', () => {
   });
 
   // Version
-  it('exports PROMPT_ASSEMBLER_V4_VERSION = 4.0.0', () => {
-    expect(PROMPT_ASSEMBLER_V4_VERSION).toBe('4.0.0');
+  it('exports PROMPT_ASSEMBLER_V4_VERSION = 4.1.1', () => {
+    expect(PROMPT_ASSEMBLER_V4_VERSION).toBe('4.1.1');
   });
 });

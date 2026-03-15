@@ -59,6 +59,8 @@ import { LOT1_INSTRUCTIONS } from './prose-directive/lot1-instructions.js';
 import { LOT2_INSTRUCTIONS } from './prose-directive/lot2-instructions.js';
 import { LOT3_INSTRUCTIONS } from './prose-directive/lot3-instructions.js';
 import type { CDEInput } from './cde/types.js';
+// ★ P5: Targeted Patch
+import { runTargetedPatch, isTargetedPatchActive } from './polish/targeted-patch.js';
 
 export interface SovereignForgeResult {
   readonly version: '2.0.0'; // Sprint 6.3 (Roadmap 4.4): Version field for compat guard
@@ -228,15 +230,47 @@ export async function runSovereignForge(
     emotion_weight_pct: final_score_v3.emotion_weight_pct,
   };
 
+  // ★ P5: Targeted Patch — surgical pass on weakest axis
+  let patchedProse = final_prose;
+  let patchedScore = final_score_v3;
+  let patchedSScore = final_score;
+
+  if (isTargetedPatchActive() && final_score.verdict !== 'SEAL') {
+    console.log('[P5] Targeted Patch active — attempting surgical pass...');
+    const patchResult = await runTargetedPatch(
+      enrichedPacket, final_prose, final_score_v3, provider,
+      undefined, symbolMap, physicsAudit,
+    );
+
+    if (patchResult.accepted) {
+      console.log(`[P5] Patch ACCEPTED: ${patchResult.target_axis} +${patchResult.target_delta.toFixed(1)}, composite ${patchResult.composite_before.toFixed(1)} → ${patchResult.composite_after.toFixed(1)}`);
+      // Re-score the patched prose
+      patchedProse = patchResult.patched_prose;
+      patchedScore = await judgeAestheticV3(enrichedPacket, patchedProse, provider, symbolMap, physicsAudit);
+      patchedSScore = {
+        score_id: patchedScore.score_id,
+        score_hash: patchedScore.score_hash,
+        scene_id: patchedScore.scene_id,
+        seed: patchedScore.seed,
+        axes: {} as any,
+        composite: patchedScore.composite,
+        verdict: patchedScore.verdict === 'PITCH' ? 'REJECT' : patchedScore.verdict,
+        emotion_weight_pct: patchedScore.emotion_weight_pct,
+      };
+    } else {
+      console.log(`[P5] Patch REJECTED: ${patchResult.rollback_reason}`);
+    }
+  }
+
   // Sprint 6.1: Quality M1-M12 rapport annexe (INFORMATIF)
-  const quality_m12 = buildQualityReport(final_prose, enrichedPacket);
+  const quality_m12 = buildQualityReport(patchedProse, enrichedPacket);
 
   return {
     version: '2.0.0',
-    final_prose,
-    s_score: final_score,
-    macro_score: final_score_v3,
-    verdict: final_score.verdict,
+    final_prose: patchedProse,
+    s_score: patchedSScore,
+    macro_score: patchedScore,
+    verdict: patchedSScore.verdict,
     loop_result,
     passes_executed: loop_result.passes_executed + SOVEREIGN_CONFIG.MAX_DRAFTS,
     symbol_map: symbolMap,

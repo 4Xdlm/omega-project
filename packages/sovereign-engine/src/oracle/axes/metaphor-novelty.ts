@@ -48,6 +48,7 @@ export async function scoreMetaphorNoveltyAxis(
   const result = await scoreMetaphorNovelty(metaphors, DEAD_METAPHORS_FR);
 
   return {
+    name: 'metaphor_novelty',
     axis_id: 'metaphor_novelty',
     score: result.final_score,
     weight: 1.5,

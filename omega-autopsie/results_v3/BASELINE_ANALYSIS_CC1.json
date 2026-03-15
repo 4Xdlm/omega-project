@@ -1,0 +1,249 @@
+{
+  "generated": "2026-03-01T17:21:05.979919",
+  "n_works": 24,
+  "comparisons": {
+    "f1_mean": {
+      "feature": "f1_mean",
+      "description": "Longueur moyenne phrase (mots)",
+      "source": "Hirst 1996 / Brunet 1988 (moyenné)",
+      "generic_expected": 22.0,
+      "corpus_measured_p25": 10.75,
+      "corpus_measured_median": 13.51,
+      "corpus_measured_p75": 17.22,
+      "n_measurements": 161,
+      "generic_vs_measured_delta_pct": 38.6,
+      "verdict": "RECALIBRATION_REQUIRED"
+    },
+    "f16b_hapax_rate": {
+      "feature": "f16b_hapax_rate",
+      "description": "Taux de hapax legomena",
+      "source": "Brunet 1988 + Schoch 2017",
+      "generic_expected": 0.42,
+      "corpus_measured_p25": 0.6182,
+      "corpus_measured_median": 0.6677,
+      "corpus_measured_p75": 0.6991,
+      "n_measurements": 161,
+      "generic_vs_measured_delta_pct": 59.0,
+      "verdict": "RECALIBRATION_REQUIRED"
+    },
+    "f5a_verb_density": {
+      "feature": "f5a_verb_density",
+      "description": "Densité verbale",
+      "source": "Biber 2011 + Meister 2003",
+      "generic_expected": 0.18,
+      "corpus_measured_p25": 0.0484,
+      "corpus_measured_median": 0.0641,
+      "corpus_measured_p75": 0.1515,
+      "n_measurements": 161,
+      "generic_vs_measured_delta_pct": 64.4,
+      "verdict": "RECALIBRATION_REQUIRED"
+    },
+    "f19a_approx_entropy": {
+      "feature": "f19a_approx_entropy",
+      "description": "Entropie approx. (Jena 2023)",
+      "source": "Jena Corpus Study PMC 2023",
+      "generic_expected": null,
+      "corpus_measured_p25": 0.29272,
+      "corpus_measured_median": 0.4315,
+      "corpus_measured_p75": 0.5953,
+      "n_measurements": 161,
+      "verdict": "NEW_FEATURE_NO_GENERIC"
+    },
+    "f20d_composite_fg": {
+      "feature": "f20d_composite_fg",
+      "description": "Foregrounding composite (Miall & Kuiken 1994)",
+      "source": "Miall & Kuiken 1994 / Van Peer 1986",
+      "generic_expected": null,
+      "corpus_measured_p25": 0.17372,
+      "corpus_measured_median": 0.19572,
+      "corpus_measured_p75": 0.22368,
+      "n_measurements": 161,
+      "verdict": "NEW_FEATURE_NO_GENERIC"
+    }
+  },
+  "recalibration_recommendations": [
+    {
+      "feature": "f1_mean",
+      "old_expected": 22.0,
+      "new_recommended": 13.51,
+      "reason": "Écart 39% — valeur générique inadaptée au corpus"
+    },
+    {
+      "feature": "f16b_hapax_rate",
+      "old_expected": 0.42,
+      "new_recommended": 0.6677,
+      "reason": "Écart 59% — valeur générique inadaptée au corpus"
+    },
+    {
+      "feature": "f5a_verb_density",
+      "old_expected": 0.18,
+      "new_recommended": 0.0641,
+      "reason": "Écart 64% — valeur générique inadaptée au corpus"
+    }
+  ],
+  "lang_mismatch_analysis": {
+    "kafka_proces": {
+      "lang_issue": "DE→FR_MODEL",
+      "features_affected": [
+        {
+          "feature": "f1_mean",
+          "author_median": 7.57,
+          "global_median": 13.51,
+          "delta_pct": 44.0
+        }
+      ],
+      "recommendation": "USE_WITH_CAUTION"
+    },
+    "machado_bras_cubas": {
+      "lang_issue": "PT→FR_MODEL",
+      "features_affected": [
+        {
+          "feature": "f1_mean",
+          "author_median": 9.235,
+          "global_median": 13.51,
+          "delta_pct": 31.6
+        }
+      ],
+      "recommendation": "USE_WITH_CAUTION"
+    },
+    "joyce_ulysse": {
+      "lang_issue": "EN→FR_TRANSLATION",
+      "features_affected": [
+        {
+          "feature": "f1_mean",
+          "author_median": 8.305,
+          "global_median": 13.51,
+          "delta_pct": 38.5
+        }
+      ],
+      "recommendation": "USE_WITH_CAUTION"
+    },
+    "sterne_tristram": {
+      "lang_issue": "EN→FR_TRANSLATION",
+      "features_affected": [
+        {
+          "feature": "f1_mean",
+          "author_median": 18.995,
+          "global_median": 13.51,
+          "delta_pct": 40.6
+        }
+      ],
+      "recommendation": "USE_WITH_CAUTION"
+    },
+    "tolstoi_guerre": {
+      "lang_issue": "RU→FR_TRANSLATION (via EN)",
+      "features_affected": [],
+      "recommendation": "USE_WITH_CAUTION"
+    },
+    "melville_moby": {
+      "lang_issue": "EN→FR_TRANSLATION",
+      "features_affected": [],
+      "recommendation": "USE_WITH_CAUTION"
+    },
+    "austen_orgueil": {
+      "lang_issue": "EN→FR_TRANSLATION (1822)",
+      "features_affected": [],
+      "recommendation": "USE_WITH_CAUTION"
+    },
+    "dostoievski_crime": {
+      "lang_issue": "RU→FR_TRANSLATION",
+      "features_affected": [],
+      "recommendation": "USE_WITH_CAUTION"
+    },
+    "tchekhov_dame": {
+      "lang_issue": "RU→FR_TRANSLATION",
+      "features_affected": [],
+      "recommendation": "USE_WITH_CAUTION"
+    }
+  },
+  "calibration_targets": {
+    "fr_native_only": {
+      "n_works": 13,
+      "works": [
+        "flaubert_bovary",
+        "merimee_mateo",
+        "proust_swann",
+        "diderot_jacques",
+        "hugo_miserables",
+        "dumas_monte_cristo",
+        "baudelaire_spleen",
+        "pascal_pensees",
+        "montaigne_essais",
+        "rimbaud_saison",
+        "exupery_petit_prince",
+        "la_rochefoucauld_maximes",
+        "maupassant_nouvelles"
+      ],
+      "f1_mean": {
+        "n": 12,
+        "min": 6.44,
+        "p25": 12.375,
+        "median": 15.27,
+        "p75": 16.84,
+        "max": 33.595
+      },
+      "f16b_hapax_rate": {
+        "n": 12,
+        "min": 0.51,
+        "p25": 0.6078,
+        "median": 0.6677,
+        "p75": 0.7113,
+        "max": 0.7562
+      },
+      "f5a_verb_density": {
+        "n": 12,
+        "min": 0.0154,
+        "p25": 0.0527,
+        "median": 0.0992,
+        "p75": 0.1734,
+        "max": 0.1782
+      },
+      "f19a_approx_entropy": {
+        "n": 12,
+        "min": 0.0806,
+        "p25": 0.304,
+        "median": 0.3966,
+        "p75": 0.5201,
+        "max": 0.733
+      },
+      "f20d_composite_fg": {
+        "n": 12,
+        "min": 0.1449,
+        "p25": 0.1883,
+        "median": 0.1955,
+        "p75": 0.2166,
+        "max": 0.2671
+      }
+    },
+    "recommendation": {
+      "f1_mean_target": "P75 du corpus FR = supérieur au meilleur auteur médian",
+      "f16b_hapax_target": "P75 corpus FR natif — richesse lexicale excellence",
+      "f19_target": "ApEn ≥ P75 corpus — zone CANONICAL_PREFERRED garantie",
+      "f20_target": "FG ≥ 0.4 (Miall & Kuiken: HIGH foregrounding)"
+    }
+  },
+  "feasibility_seal_96": {
+    "current_seal_target": 93,
+    "new_seal_target": 96,
+    "gap": 3,
+    "analysis": [
+      {
+        "feature": "f16b_hapax_rate",
+        "corpus_p90": 0.725,
+        "seal_96_requirement": "Générer au-dessus de 0.7250 sur chaque extrait"
+      },
+      {
+        "feature": "f19a_approx_entropy",
+        "corpus_p90": 0.6762,
+        "seal_96_requirement": "Générer au-dessus de 0.6762 sur chaque extrait"
+      },
+      {
+        "feature": "f20d_composite_fg",
+        "corpus_p90": 0.2304,
+        "seal_96_requirement": "Générer au-dessus de 0.2304 sur chaque extrait"
+      }
+    ],
+    "verdict": "PENDING_MEASUREMENT"
+  },
+  "sha256": "0feafdf67eff9bc0ac840fd87598436708ca3d77fee4f77d4449b6be55255081"
+}

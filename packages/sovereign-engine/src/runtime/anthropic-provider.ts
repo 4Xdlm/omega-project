@@ -257,7 +257,11 @@ export function createAnthropicProvider(config: AnthropicProviderConfig): Sovere
 
     async generateStructuredJSON(prompt: string): Promise<unknown> {
       const systemPrompt = `You are a structured data extraction engine. Return ONLY valid JSON, no markdown fences, no commentary.`;
-      const response = callClaudeSync(systemPrompt, prompt, config, true);
+      // U-META-01: generateStructuredJSON requires larger token budget than judge scoring calls.
+      // judgeMaxTokens=200 truncates JSON → parse fails → FAIL-CLOSED returns [] → metaphor_novelty=70.
+      // Fix: dedicated budget of 800 tokens for structured extraction.
+      const structuredConfig = { ...config, judgeMaxTokens: 800 };
+      const response = callClaudeSync(systemPrompt, prompt, structuredConfig, true);
       const cleaned = stripFences(response);
       try {
         return JSON.parse(cleaned);

@@ -1,0 +1,260 @@
+'git' n'est pas reconnu en tant que commande interne
+ou externe, un programme ex�cutable ou un fichier de commandes.
+'npm' n'est pas reconnu en tant que commande interne
+ou externe, un programme ex�cutable ou un fichier de commandes.
+'git' n'est pas reconnu en tant que commande interne
+ou externe, un programme ex�cutable ou un fichier de commandes.
+'npm' n'est pas reconnu en tant que commande interne
+ou externe, un programme ex�cutable ou un fichier de commandes.
+'git' n'est pas reconnu en tant que commande interne
+ou externe, un programme ex�cutable ou un fichier de commandes.
+[90mstderr[2m | tests/exemplar/exemplar-library.test.ts[2m > [22m[2mINV-EXEMP-01/02/03/04 — ExemplarLibrary[2m > [22m[2mT07: INV-EXEMP-04 — cache invalidé après addExemplar (pas de stale cache)
+[22m[39m[INV-EXEMP-02] max similarity=0.3451 < 0.60 — enrichir la bibliothèque SEAL
+[INV-EXEMP-02] max similarity=0.3451 < 0.60 — enrichir la bibliothèque SEAL
+
+
+[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Tests 17 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m tests/gates/gate-roadmap.test.ts[2m > [22mgate:roadmap[2m > [22mGATE-RD-01: gate passes when hash matches
+[31m[1mError[22m: Command failed: npm run gate:roadmap
+'npm' n'est pas reconnu en tant que commande interne
+ou externe, un programme ex�cutable ou un fichier de commandes.
+[39m
+[36m [2m❯[22m tests/gates/gate-roadmap.test.ts:[2m27:20[22m[39m
+    [90m 25| [39m
+    [90m 26| [39m    [90m// Gate should pass[39m
+    [90m 27| [39m    [35mconst[39m result [33m=[39m [34mexecSync[39m([32m'npm run gate:roadmap'[39m[33m,[39m {
+    [90m   | [39m                   [31m^[39m
+    [90m 28| [39m      cwd[33m:[39m repoRoot[33m,[39m
+    [90m 29| [39m      encoding[33m:[39m [32m'utf-8'[39m[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/17]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/gates/gate-roadmap.test.ts[2m > [22mgate:roadmap[2m > [22mGATE-RD-03: gate update command creates/updates hash
+[31m[1mError[22m: Command failed: npm run gate:roadmap:update
+'npm' n'est pas reconnu en tant que commande interne
+ou externe, un programme ex�cutable ou un fichier de commandes.
+[39m
+[36m [2m❯[22m tests/gates/gate-roadmap.test.ts:[2m63:20[22m[39m
+    [90m 61| [39m
+    [90m 62| [39m    [90m// Run update[39m
+    [90m 63| [39m    [35mconst[39m result [33m=[39m [34mexecSync[39m([32m'npm run gate:roadmap:update'[39m[33m,[39m {
+    [90m   | [39m                   [31m^[39m
+    [90m 64| [39m      cwd[33m:[39m repoRoot[33m,[39m
+    [90m 65| [39m      encoding[33m:[39m [32m'utf-8'[39m[33m,[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/17]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/proofpack/generate-proofpack.test.ts[2m > [22mProofPack Generator (HARDEN-PP-01)[2m > [22mPP-01: generateProofPack creates MANIFEST.json + HASHES.sha256 + EVIDENCE.md
+[31m[1mError[22m: Command failed: git rev-parse HEAD
+'git' n'est pas reconnu en tant que commande interne
+ou externe, un programme ex�cutable ou un fichier de commandes.
+[39m
+[36m [2m❯[22m generateProofPack ../../scripts/proofpack/generate-proofpack.ts:[2m56:21[22m[39m
+    [90m 54| [39m
+    [90m 55| [39m  [90m// 1. Collect git info[39m
+    [90m 56| [39m  const gitCommit = execSync('git rev-parse HEAD', { cwd: repoRoot, en…
+    [90m   | [39m                    [31m^[39m
+    [90m 57| [39m  const gitBranch = execSync('git rev-parse --abbrev-ref HEAD', { cwd:…
+    [90m 58| [39m
+[90m [2m❯[22m tests/proofpack/generate-proofpack.test.ts:[2m33:11[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/17]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/proofpack/generate-proofpack.test.ts[2m > [22mProofPack Generator (HARDEN-PP-01)[2m > [22mPP-02: HASHES.sha256 is sorted lexicographically (paths)
+[31m[1mError[22m: Command failed: git rev-parse HEAD
+'git' n'est pas reconnu en tant que commande interne
+ou externe, un programme ex�cutable ou un fichier de commandes.
+[39m
+[36m [2m❯[22m generateProofPack ../../scripts/proofpack/generate-proofpack.ts:[2m56:21[22m[39m
+    [90m 54| [39m
+    [90m 55| [39m  [90m// 1. Collect git info[39m
+    [90m 56| [39m  const gitCommit = execSync('git rev-parse HEAD', { cwd: repoRoot, en…
+    [90m   | [39m                    [31m^[39m
+    [90m 57| [39m  const gitBranch = execSync('git rev-parse --abbrev-ref HEAD', { cwd:…
+    [90m 58| [39m
+[90m [2m❯[22m tests/proofpack/generate-proofpack.test.ts:[2m52:11[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/17]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/proofpack/generate-proofpack.test.ts[2m > [22mProofPack Generator (HARDEN-PP-01)[2m > [22mPP-03: generation does not modify any file outside outDir
+[31m[1mError[22m: Command failed: git rev-parse HEAD
+'git' n'est pas reconnu en tant que commande interne
+ou externe, un programme ex�cutable ou un fichier de commandes.
+[39m
+[36m [2m❯[22m generateProofPack ../../scripts/proofpack/generate-proofpack.ts:[2m56:21[22m[39m
+    [90m 54| [39m
+    [90m 55| [39m  [90m// 1. Collect git info[39m
+    [90m 56| [39m  const gitCommit = execSync('git rev-parse HEAD', { cwd: repoRoot, en…
+    [90m   | [39m                    [31m^[39m
+    [90m 57| [39m  const gitBranch = execSync('git rev-parse --abbrev-ref HEAD', { cwd:…
+    [90m 58| [39m
+[90m [2m❯[22m tests/proofpack/generate-proofpack.test.ts:[2m72:11[22m[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/17]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/voice/voice-drift-exclusion.test.ts[2m > [22mVoice Drift Param Exclusion (INV-VOICE-DRIFT-01)[2m > [22mDRIFT-EXCL-01: NON_APPLICABLE_VOICE_PARAMS contains exactly 4 broken/structural params
+[31m[1mAssertionError[22m: expected 7 to be 4 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 4[39m
+[31m+ 7[39m
+
+[36m [2m❯[22m tests/voice/voice-drift-exclusion.test.ts:[2m29:46[22m[39m
+    [90m 27| [39m
+    [90m 28| [39m  it('DRIFT-EXCL-01: NON_APPLICABLE_VOICE_PARAMS contains exactly 4 br…
+    [90m 29| [39m    [34mexpect[39m([33mNON_APPLICABLE_VOICE_PARAMS[39m[33m.[39msize)[33m.[39m[34mtoBe[39m([34m4[39m)[33m;[39m
+    [90m   | [39m                                             [31m^[39m
+    [90m 30| [39m    [34mexpect[39m([33mNON_APPLICABLE_VOICE_PARAMS[39m[33m.[39m[34mhas[39m([32m'irony_level'[39m))[33m.[39m[34mtoBe[39m([35mtrue[39m)[33m;[39m
+    [90m 31| [39m    expect(NON_APPLICABLE_VOICE_PARAMS.has('metaphor_density')).toBe(t…
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/17]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/voice/voice-drift-exclusion.test.ts[2m > [22mVoice Drift Param Exclusion (INV-VOICE-DRIFT-01)[2m > [22mDRIFT-EXCL-02: drift with exclusion uses 6 params, not 10
+[31m[1mAssertionError[22m: expected 3 to be 6 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 6[39m
+[31m+ 3[39m
+
+[36m [2m❯[22m tests/voice/voice-drift-exclusion.test.ts:[2m40:33[22m[39m
+    [90m 38| [39m    const result = computeVoiceDrift(target, actual, NON_APPLICABLE_VO…
+    [90m 39| [39m
+    [90m 40| [39m    [34mexpect[39m(result[33m.[39mn_applicable)[33m.[39m[34mtoBe[39m([34m6[39m)[33m;[39m
+    [90m   | [39m                                [31m^[39m
+    [90m 41| [39m    [34mexpect[39m(result[33m.[39mexcluded[33m.[39mlength)[33m.[39m[34mtoBe[39m([34m4[39m)[33m;[39m
+    [90m 42| [39m    [34mexpect[39m(result[33m.[39mexcluded)[33m.[39m[34mtoContain[39m([32m'irony_level'[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/17]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/voice/voice-drift-exclusion.test.ts[2m > [22mVoice Drift Param Exclusion (INV-VOICE-DRIFT-01)[2m > [22mDRIFT-EXCL-03: drift with exclusion ≤ drift without exclusion (removes penalty)
+[31m[1mAssertionError[22m: expected 3 to be 6 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 6[39m
+[31m+ 3[39m
+
+[36m [2m❯[22m tests/voice/voice-drift-exclusion.test.ts:[2m56:40[22m[39m
+    [90m 54| [39m    [90m// Filtered should be ≤ full (removing bad params reduces drift)[39m
+    [90m 55| [39m    // Not strictly guaranteed but expected given that excluded params…
+    [90m 56| [39m    [34mexpect[39m(filteredDrift[33m.[39mn_applicable)[33m.[39m[34mtoBe[39m([34m6[39m)[33m;[39m
+    [90m   | [39m                                       [31m^[39m
+    [90m 57| [39m    [34mexpect[39m(fullDrift[33m.[39mn_applicable)[33m.[39m[34mtoBe[39m([34m10[39m)[33m;[39m
+    [90m 58| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/17]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/voice/voice-drift-stress.test.ts[2m > [22mOFFLINE STRESS: Voice Drift Exclusion Impact (0 API credits)[2m > [22mSTRESS-01: prose sample 1 — drift 7/10 < drift 10/10
+[31m[1mAssertionError[22m: expected 0.34643775029601864 to be less than or equal to 0.3045119540490374[39m
+[36m [2m❯[22m tests/voice/voice-drift-stress.test.ts:[2m109:28[22m[39m
+    [90m107| [39m
+    [90m108| [39m      [90m// Filtered drift should be lower[39m
+    [90m109| [39m      [34mexpect[39m(drift7[33m.[39mdrift)[33m.[39m[34mtoBeLessThanOrEqual[39m(drift10[33m.[39mdrift)[33m;[39m
+    [90m   | [39m                           [31m^[39m
+    [90m110| [39m      [34mexpect[39m(drift7[33m.[39mn_applicable)[33m.[39m[34mtoBe[39m([34m6[39m)[33m;[39m
+    [90m111| [39m      [34mexpect[39m(drift10[33m.[39mn_applicable)[33m.[39m[34mtoBe[39m([34m10[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/17]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/voice/voice-drift-stress.test.ts[2m > [22mOFFLINE STRESS: Voice Drift Exclusion Impact (0 API credits)[2m > [22mSTRESS-02: prose sample 2 — drift 7/10 < drift 10/10
+[31m[1mAssertionError[22m: expected 0.34222395180502324 to be less than or equal to 0.2916852915716999[39m
+[36m [2m❯[22m tests/voice/voice-drift-stress.test.ts:[2m109:28[22m[39m
+    [90m107| [39m
+    [90m108| [39m      [90m// Filtered drift should be lower[39m
+    [90m109| [39m      [34mexpect[39m(drift7[33m.[39mdrift)[33m.[39m[34mtoBeLessThanOrEqual[39m(drift10[33m.[39mdrift)[33m;[39m
+    [90m   | [39m                           [31m^[39m
+    [90m110| [39m      [34mexpect[39m(drift7[33m.[39mn_applicable)[33m.[39m[34mtoBe[39m([34m6[39m)[33m;[39m
+    [90m111| [39m      [34mexpect[39m(drift10[33m.[39mn_applicable)[33m.[39m[34mtoBe[39m([34m10[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/17]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/voice/voice-drift-stress.test.ts[2m > [22mOFFLINE STRESS: Voice Drift Exclusion Impact (0 API credits)[2m > [22mSTRESS-03: prose sample 3 — drift 7/10 < drift 10/10
+[41m[1m FAIL [22m[49m tests/voice/voice-drift-stress.test.ts[2m > [22mOFFLINE STRESS: Voice Drift Exclusion Impact (0 API credits)[2m > [22mSTRESS-05: prose sample 5 — drift 7/10 < drift 10/10
+[31m[1mAssertionError[22m: expected 3 to be 6 // Object.is equality[39m
+
+[32m- Expected[39m
+[31m+ Received[39m
+
+[32m- 6[39m
+[31m+ 3[39m
+
+[36m [2m❯[22m tests/voice/voice-drift-stress.test.ts:[2m110:35[22m[39m
+    [90m108| [39m      [90m// Filtered drift should be lower[39m
+    [90m109| [39m      [34mexpect[39m(drift7[33m.[39mdrift)[33m.[39m[34mtoBeLessThanOrEqual[39m(drift10[33m.[39mdrift)[33m;[39m
+    [90m110| [39m      [34mexpect[39m(drift7[33m.[39mn_applicable)[33m.[39m[34mtoBe[39m([34m6[39m)[33m;[39m
+    [90m   | [39m                                  [31m^[39m
+    [90m111| [39m      [34mexpect[39m(drift10[33m.[39mn_applicable)[33m.[39m[34mtoBe[39m([34m10[39m)[33m;[39m
+    [90m112| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/17]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/voice/voice-drift-stress.test.ts[2m > [22mOFFLINE STRESS: Voice Drift Exclusion Impact (0 API credits)[2m > [22mSTRESS-04: prose sample 4 — drift 7/10 < drift 10/10
+[31m[1mAssertionError[22m: expected 0.3440863280734485 to be less than or equal to 0.34316782571096227[39m
+[36m [2m❯[22m tests/voice/voice-drift-stress.test.ts:[2m109:28[22m[39m
+    [90m107| [39m
+    [90m108| [39m      [90m// Filtered drift should be lower[39m
+    [90m109| [39m      [34mexpect[39m(drift7[33m.[39mdrift)[33m.[39m[34mtoBeLessThanOrEqual[39m(drift10[33m.[39mdrift)[33m;[39m
+    [90m   | [39m                           [31m^[39m
+    [90m110| [39m      [34mexpect[39m(drift7[33m.[39mn_applicable)[33m.[39m[34mtoBe[39m([34m6[39m)[33m;[39m
+    [90m111| [39m      [34mexpect[39m(drift10[33m.[39mn_applicable)[33m.[39m[34mtoBe[39m([34m10[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/17]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/voice/voice-drift-stress.test.ts[2m > [22mOFFLINE STRESS: Voice Drift Exclusion Impact (0 API credits)[2m > [22mSTRESS-INT-01: scoreVoiceConformity uses filtered drift (N_applicable=7)
+[31m[1mAssertionError[22m: expected 'Drift: 34.64%, Conforming: false, N_a…' to contain 'N_applicable: 6/10'[39m
+
+Expected: [32m"N_applicable: [7m6[27m/10"[39m
+Received: [31m"[7mDrift: 34.64%, Conforming: false, [27mN_applicable: [7m3[27m/10[7m, Excluded: [phrase_length_mean, dialogue_ratio, metaphor_density, language_register, irony_level, abstraction_ratio, punctuation_style][27m"[39m
+
+[36m [2m❯[22m tests/voice/voice-drift-stress.test.ts:[2m169:30[22m[39m
+    [90m167| [39m      scores[33m.[39m[34mpush[39m(result[33m.[39mscore)[33m;[39m
+    [90m168| [39m
+    [90m169| [39m      [34mexpect[39m(result[33m.[39mdetails)[33m.[39m[34mtoContain[39m([32m'N_applicable: 6/10'[39m)[33m;[39m
+    [90m   | [39m                             [31m^[39m
+    [90m170| [39m      [34mexpect[39m(result[33m.[39mdetails)[33m.[39m[34mtoContain[39m([32m'irony_level'[39m)[33m;[39m
+    [90m171| [39m    }
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/17]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/voice/voice-drift-stress.test.ts[2m > [22mOFFLINE STRESS: Voice Drift Exclusion Impact (0 API credits)[2m > [22mSTRESS-EDGE-01: default genome target also benefits from exclusion
+[31m[1mAssertionError[22m: expected 48.16001991133159 to be greater than or equal to 62.68040526487022[39m
+[36m [2m❯[22m tests/voice/voice-drift-stress.test.ts:[2m191:20[22m[39m
+    [90m189| [39m
+    [90m190| [39m    console.log(`  Default genome: score10=${score10.toFixed(1)}, scor…
+    [90m191| [39m    [34mexpect[39m(score7)[33m.[39m[34mtoBeGreaterThanOrEqual[39m(score10)[33m;[39m
+    [90m   | [39m                   [31m^[39m
+    [90m192| [39m  })[33m;[39m
+    [90m193| [39m})[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/17]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/oracle/axes/voice-conformity.test.ts[2m > [22mVoice Conformity Axis (ART-VOICE-03)[2m > [22mVCONF-01: prose conforme au genome → score > 80
+[31m[1mAssertionError[22m: expected 64.88115415715754 to be greater than or equal to 65[39m
+[36m [2m❯[22m tests/oracle/axes/voice-conformity.test.ts:[2m76:26[22m[39m
+    [90m 74| [39m
+    [90m 75| [39m    [90m// Score devrait être élevé (faible drift)[39m
+    [90m 76| [39m    [34mexpect[39m(result[33m.[39mscore)[33m.[39m[34mtoBeGreaterThanOrEqual[39m([34m65[39m)[33m;[39m
+    [90m   | [39m                         [31m^[39m
+    [90m 77| [39m    [34mexpect[39m(result[33m.[39maxis_id)[33m.[39m[34mtoBe[39m([32m'voice_conformity'[39m)[33m;[39m
+    [90m 78| [39m    [34mexpect[39m(result[33m.[39mmethod)[33m.[39m[34mtoBe[39m([32m'CALC'[39m)[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/17]⎯[22m[39m
+
+[41m[1m FAIL [22m[49m tests/oracle/axes/voice-conformity.test.ts[2m > [22mVoice Conformity Axis (ART-VOICE-03)[2m > [22mVCONF-02: prose très différente du genome → score < 50
+[31m[1mAssertionError[22m: expected 82.67949192431124 to be less than 55[39m
+[36m [2m❯[22m tests/oracle/axes/voice-conformity.test.ts:[2m109:26[22m[39m
+    [90m107| [39m
+    [90m108| [39m    // Score devrait être bas (fort drift) — threshold 55 after INV-VO…
+    [90m109| [39m    [34mexpect[39m(result[33m.[39mscore)[33m.[39m[34mtoBeLessThan[39m([34m55[39m)[33m;[39m
+    [90m   | [39m                         [31m^[39m
+    [90m110| [39m    [34mexpect[39m(result[33m.[39mreasons[33m.[39mtop_penalties[33m.[39mlength)[33m.[39m[34mtoBeGreaterThan[39m([34m0[39m)[33m;[39m
+    [90m111| [39m  })[33m;[39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/17]⎯[22m[39m
+

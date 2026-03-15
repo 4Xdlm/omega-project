@@ -50,6 +50,15 @@ import { generatePrescriptions } from './prescriptions/index.js';
 import { buildEmotionBriefFromPacket } from './input/emotion-brief-bridge.js';
 import { DEFAULT_CANONICAL_TABLE } from '@omega/omega-forge';
 import { buildQualityReport, type QualityM12Report } from './quality/quality-bridge.js';
+// ★ V3: Constraint Compiler
+import { compilePartition, isV3Active } from './compiler/prompt-compiler.js';
+import { analyzePreFlight, dumpPartition } from './compiler/static-analyzer.js';
+import type { CompiledPartition } from './compiler/types.js';
+import { DEFAULT_COMPILER_CONFIG } from './compiler/types.js';
+import { LOT1_INSTRUCTIONS } from './prose-directive/lot1-instructions.js';
+import { LOT2_INSTRUCTIONS } from './prose-directive/lot2-instructions.js';
+import { LOT3_INSTRUCTIONS } from './prose-directive/lot3-instructions.js';
+import type { CDEInput } from './cde/types.js';
 
 export interface SovereignForgeResult {
   readonly version: '2.0.0'; // Sprint 6.3 (Roadmap 4.4): Version field for compat guard
@@ -70,6 +79,7 @@ export interface SovereignForgeResult {
 export async function runSovereignForge(
   input: ForgePacketInput,
   provider: SovereignProvider,
+  cdeInput?: CDEInput,
 ): Promise<SovereignForgeResult> {
   const packet = assembleForgePacket(input);
 
@@ -97,8 +107,37 @@ export async function runSovereignForge(
     emotionBrief = undefined;
   }
 
+  // ★ V3: Compile partition if flag active
+  let partition: CompiledPartition | undefined;
+  if (isV3Active()) {
+    const allInstructions = [
+      ...LOT1_INSTRUCTIONS,
+      ...LOT2_INSTRUCTIONS,
+      ...LOT3_INSTRUCTIONS,
+    ];
+
+    partition = compilePartition(
+      enrichedPacket,
+      cdeInput ?? null,
+      {
+        ...DEFAULT_COMPILER_CONFIG,
+        shape: enrichedPacket.intent?.conflict_type ?? 'Confrontation',
+      },
+      allInstructions,
+    );
+
+    const preflight = analyzePreFlight(partition);
+    console.log(`[V3] PreFlight: verdict=${preflight.verdict} cognitive_load=${preflight.cognitive_load_score} conflicts=${preflight.conflict_score}`);
+    if (preflight.verdict === 'RED') {
+      console.warn('[V3] PreFlight RED — partition may produce suboptimal results');
+    }
+
+    const dump = dumpPartition(partition);
+    console.log(`[V3] Partition: ${partition.total_tokens}t | hash=${partition.partition_hash.slice(0, 12)}`);
+  }
+
   // Prompt avec symbol map + physics section injecté
-  const prompt = buildSovereignPrompt(enrichedPacket, symbolMap, emotionBrief);
+  const prompt = buildSovereignPrompt(enrichedPacket, symbolMap, emotionBrief, partition);
 
   const initialDraft = await provider.generateDraft(
     prompt.sections.map((s) => s.content).join('\n\n'),

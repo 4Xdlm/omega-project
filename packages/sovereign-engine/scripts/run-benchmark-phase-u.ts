@@ -27,6 +27,7 @@ import { DualBenchmarkRunner, writeValidationPack, BENCHMARK_RUNS } from '../src
 import type { ForgePacketInput } from '../src/input/forge-packet-assembler.js';
 import type { Beat, GenesisPlan, Scene, Arc } from '@omega/genesis-planner';
 import type { StyleProfile, KillLists, CanonEntry, ForgeContinuity } from '../src/types.js';
+import { DEFAULT_VOICE_GENOME } from '../src/voice/voice-genome.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname  = path.dirname(__filename);
@@ -41,7 +42,8 @@ const OUT_DIR    = path.join(__dirname, '..', 'sessions');
 // Micro-test mode: BENCH_MICRO=1 runs 3 pairs with K=3 to verify judge without burning budget
 const IS_MICRO   = process.env['BENCH_MICRO'] === '1';
 const RUN_COUNT  = IS_MICRO ? 3 : BENCHMARK_RUNS;
-const K_COUNT    = IS_MICRO ? 3 : 8;
+// K_OVERRIDE permet de tester K plus grand en mode micro sans passer en full run
+const K_COUNT    = IS_MICRO ? (process.env['K_OVERRIDE'] ? parseInt(process.env['K_OVERRIDE']!, 10) : 3) : 8;
 
 function getGitHead(): string {
   try {
@@ -55,8 +57,10 @@ const BASE_STYLE: StyleProfile = {
   version: '1.0.0',
   universe: 'literary_contemporary',
   lexicon: {
+    // U-HOOK-03: remplacement 'pierre'/'métal' (jamais en prose émotionnelle) par mots universels
+    // Dry-run: 'regard','main','voix','corps' apparaissent dans 95%+ des scènes FR littéraires
     signature_words: ['silence', 'lumière', 'ombre', 'chair', 'souffle',
-                      'pierre', 'métal', 'vide', 'froid', 'bruit'],
+                      'regard', 'main', 'voix', 'corps', 'froid'],
     forbidden_words: ['soudainement', 'mystérieusement', 'tout à coup'],
     abstraction_max_ratio: 0.20,
     concrete_min_ratio: 0.60,
@@ -73,10 +77,15 @@ const BASE_STYLE: StyleProfile = {
     intensity_range: [0.3, 0.85],
   },
   imagery: {
-    recurrent_motifs: ['darkness', 'cold', 'interiority'],
+    // U-HOOK-02: motifs en français — 'darkness'/'cold'/'interiority' étaient anglais
+    // et ne matchaient JAMAIS dans la prose FR → 3 zéros garantis sur 13 hooks → hook_presence plafonné à 54
+    // U-HOOK-03: 'intériorité' était un mot méta-littéraire (jamais dans la prose narrative)
+    // 'silence' dédup avec signature_words → remplacé par 'nuit'/'geste' universels
+    recurrent_motifs: ['obscurité', 'nuit', 'geste'],
     density_target_per_100_words: 3,
     banned_metaphors: ['heart of stone', 'eyes like stars'],
   },
+  voice: DEFAULT_VOICE_GENOME, // U-LOG-AXES-01: active voice genome pour voice_conformity réel
 };
 
 const BASE_KILL_LISTS: KillLists = {

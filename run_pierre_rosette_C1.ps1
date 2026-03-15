@@ -11,10 +11,7 @@ if (-not $API_KEY) {
     exit 1
 }
 
-$EXTRACT = Get-Content "C:\Users\elric\omega-project\omega-autopsie\scenes_v4\camus\L'Etranger_APEX.txt" -Raw -Encoding UTF8
-if (-not $EXTRACT) {
-    $EXTRACT = Get-Content "C:\Users\elric\omega-project\omega-autopsie\scenes_v4\camus\L_Etranger_APEX.txt" -Raw -Encoding UTF8
-}
+$EXTRACT = Get-Content "C:\Users\elric\omega-project\omega-autopsie\scenes_v4\camus\L_Etranger_APEX.txt" -Raw -Encoding UTF8
 Write-Output "Extrait charge: $($EXTRACT.Length) caracteres"
 
 $PROMPT_A_TEXT = "Tu vas resoudre un probleme d identification inverse sur cet extrait litteraire.`n`n[EXTRAIT - Albert Camus, L Etranger, scene du proces]`n$EXTRACT`n`nNe le reproduis pas. Ne l imite pas. Ne le commente pas.`n`nResous ce probleme : quelles contraintes de fabrication seraient necessaires pour generer un texte NOUVEAU appartenant a la meme zone stylistique que cet extrait, sans le reproduire ?`n`nTu dois produire un CONTRAT CAUSAL structure. Format obligatoire, rien d autre :`n`nOUVERTURE        : [regle de demarrage - friction, tension, neutralite, etc.]`nCONFLIT          : [type de conflictualite - interne/externe/latente/absente]`nRYTHME           : [regle rythmique - alternance, ratio, perturbation periodique]`nVOIX             : [distance narrative - personne, registre, opacite]`nIMAGE            : [regle d image - densite, corporalite, abstraction]`nTENSION          : [modele de tension - progression, compression, retenue]`nSOUS-TEXTE       : [presence/absence/niveau - ce que le texte ne dit pas]`nINTERDIT_1       : [ce que ce texte n utilise JAMAIS]`nINTERDIT_2       : [second interdit absolu]`nINTERDIT_3       : [troisieme interdit absolu]`nCONTRAT_FINAL    : [5 regles max, causales, actionnables, non decoratives]`n`nPas d introduction. Pas d explication. Que le schema."

@@ -27,6 +27,7 @@ import { runSovereignForge, type SovereignForgeResult } from '../engine.js';
 import type { CDEInput, SceneBrief, StateDelta } from './types.js';
 import { distillBrief } from './distiller.js';
 import { extractDelta } from './delta-extractor.js';
+import { isV3Active } from '../compiler/prompt-compiler.js';
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -98,11 +99,18 @@ export async function runCDEScene(
   // INV-PROTO-01 : log brief before generation
   console.log(`[CDE] Scene ${config.scene_index} | Brief ${brief.token_estimate}t | hash=${brief.input_hash.slice(0, 12)}`);
 
-  // 2. Inject brief into forge input — INV-PROTO-03 : clone, no mutation
-  const forgeInputWithBrief = injectBriefIntoForgeInput(config.forge_input, brief);
+  // 2+3. Generate — V3 vs V2 path
+  let forgeResult: SovereignForgeResult;
 
-  // 3. Run generation
-  const forgeResult = await runSovereignForge(forgeInputWithBrief, provider);
+  if (isV3Active()) {
+    // V3: compiler fuses brief into partition — no monolithic injection
+    // Pass CDEInput to engine so compiler can integrate it
+    forgeResult = await runSovereignForge(config.forge_input, provider, config.cde_input);
+  } else {
+    // V2: inject brief monolithically into scene.objective
+    const forgeInputWithBrief = injectBriefIntoForgeInput(config.forge_input, brief);
+    forgeResult = await runSovereignForge(forgeInputWithBrief, provider);
+  }
 
   // 4. Extract delta — INV-PROTO-05 : soft-fail on error
   let delta: StateDelta | null = null;

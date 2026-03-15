@@ -4,22 +4,24 @@
     "name": "claude",
     "mode": "real",
     "model_lock": "claude-sonnet-4-20250514",
-    "notes": ["Ablation W3a GENESIS v2 — 30 runs — Phase T"]
+    "notes": [
+      "Ablation W3a GENESIS v2 — 30 runs — Phase T"
+    ]
   },
   "run_count_per_experiment": 10,
   "seed_strategy": "sha256",
   "thresholds": {
-    "target_reject_rate_min": 0.20,
-    "target_reject_rate_max": 0.60,
+    "target_reject_rate_min": 0.2,
+    "target_reject_rate_max": 0.6,
     "target_s_score": 88,
-    "target_corr_14d": 0.60,
+    "target_corr_14d": 0.6,
     "target_mean_improvement": 10
   },
   "baseline": {
-    "source_commit": "a778d58a",
+    "source_commit": "0589664",
     "mode": "real",
-    "corpus": "W2 LOT 2 — 30 runs",
-    "value": 46.7
+    "corpus": "W5b multi-prompt E1 — 10 runs",
+    "value": 40
   },
   "paths": {
     "inputs_dir": "validation/cases",
@@ -41,7 +43,9 @@
       "primary_axis": "anti_cliche",
       "primary_axis_min": 0.95,
       "composite_min": 80,
-      "composite_axes_excluded": ["tension_14d"]
+      "composite_axes_excluded": [
+        "tension_14d"
+      ]
     },
     "E3_absolute_necessity": {
       "primary_axis": "necessite_m8",

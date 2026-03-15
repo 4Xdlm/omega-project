@@ -1,0 +1,92 @@
+{
+  "version": "1.0",
+  "purpose": "Valider nos features contre stylostatistiques publiees",
+  "tolerance": 0.15,
+  "flag_if_delta_exceeds": "CALIBRATION_WARNING",
+
+  "golden_data": [
+    {
+      "author": "Flaubert",
+      "work": "Madame Bovary",
+      "source_study": "Biber 2011 + Meister 2003",
+      "known_values": {
+        "mean_sentence_length_words": 22.4,
+        "verb_density_approx": 0.18,
+        "adjective_density_approx": 0.09,
+        "lexical_richness_ttr": 0.62
+      }
+    },
+    {
+      "author": "Proust",
+      "work": "Du cote de chez Swann",
+      "source_study": "Brunet 2004 Le vocabulaire de Proust",
+      "known_values": {
+        "mean_sentence_length_words": 45.2,
+        "vocabulary_size_per_1000_words": 385,
+        "subordinate_clause_rate": 0.62
+      }
+    },
+    {
+      "author": "Dostoievski",
+      "work": "Crime et Chatiment",
+      "source_study": "Kibrik 2009",
+      "known_values": {
+        "mean_sentence_length_words": 18.3,
+        "adversative_marker_rate": 0.09,
+        "exclamation_rate_per_sentence": 0.08
+      }
+    },
+    {
+      "author": "Kafka",
+      "work": "Le Proces",
+      "source_study": "Hirst 1996",
+      "known_values": {
+        "mean_sentence_length_words": 24.1,
+        "modal_verb_rate": 0.14,
+        "subordinate_clause_depth_avg": 3.2
+      }
+    },
+    {
+      "author": "Austen",
+      "work": "Orgueil et Prejuges",
+      "source_study": "Burrows 1987",
+      "known_values": {
+        "mean_sentence_length_words": 26.8
+      }
+    },
+    {
+      "author": "Hugo",
+      "work": "Les Miserables",
+      "source_study": "Brunet 1988 + Schoch 2017",
+      "known_values": {
+        "mean_sentence_length_words": 31.4,
+        "hapax_rate": 0.42
+      }
+    },
+    {
+      "author": "Tolstoi",
+      "work": "Guerre et Paix",
+      "source_study": "Orlov 2014",
+      "known_values": {
+        "mean_sentence_length_words": 20.5
+      }
+    },
+    {
+      "author": "Melville",
+      "work": "Moby Dick",
+      "source_study": "Hoover 2003",
+      "known_values": {
+        "mean_sentence_length_words": 25.3
+      }
+    }
+  ],
+
+  "validation_protocol": {
+    "step1": "Calculer nos features sur les memes oeuvres",
+    "step2": "Comparer f1_mean avec mean_sentence_length_words",
+    "step3": "Comparer f5a_verb_density avec verb_density_approx",
+    "step4": "Comparer f16b_hapax_rate avec hapax_rate",
+    "step5": "Si delta > 15% sur 2+ features -> CALIBRATION_WARNING",
+    "output": "results/golden_validation/CALIBRATION_REPORT.json"
+  }
+}

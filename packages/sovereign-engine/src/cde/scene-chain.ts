@@ -22,6 +22,8 @@ import type { CDEInput, HotElement, CanonFact, DebtEntry, StateDelta } from './t
 import { runCDEScene, type CDESceneResult } from './cde-pipeline.js';
 import { SAGA_READY_COMPOSITE_MIN, SAGA_READY_SSI_MIN } from '../core/thresholds.js';
 import { computeMinAxis } from '../utils/math-utils.js';
+import { isV3Active } from '../compiler/prompt-compiler.js';
+import { compressDelta, applyCompressedDelta } from './delta-compressor.js';
 
 // ── Constants ────────────────────────────────────────────────────────────────
 
@@ -151,7 +153,13 @@ export async function runSceneChain(
 
     // INV-CHAIN-02 : propagate delta for next scene
     if (i < config.n_scenes - 1 && result.delta) {
-      currentInput = propagateDelta(currentInput, result.delta, i);
+      if (isV3Active()) {
+        // V3: use compressed delta to prevent sequential fatigue (INV-DC-01)
+        const compressed = compressDelta(currentInput, result.delta, i);
+        currentInput = applyCompressedDelta(currentInput, compressed);
+      } else {
+        currentInput = propagateDelta(currentInput, result.delta, i);
+      }
     }
   }
 

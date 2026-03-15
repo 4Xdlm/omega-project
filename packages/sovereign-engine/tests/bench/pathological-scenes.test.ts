@@ -114,6 +114,62 @@ export const PATHOLOGICAL_SCENE_2: CDEInput = {
 };
 
 // ═══════════════════════════════════════════════════════════════════════════════
+// SCÈNE RÉALISTE GREEN — Scène simple, peu de contraintes
+// ═══════════════════════════════════════════════════════════════════════════════
+
+export const REALISTIC_SCENE_GREEN: CDEInput = {
+  hot_elements: [
+    { id: 'arc-sophie', type: 'arc', priority: 7, content: 'Sophie hesite a ouvrir la lettre' },
+    { id: 'tension-attente', type: 'tension', priority: 6, content: 'L attente silencieuse dans le couloir' },
+  ],
+  canon_facts: [
+    { id: 'cf-lieu', fact: 'Appartement parisien au troisieme etage', sealed_at: '2026-01-01T00:00:00Z' },
+  ],
+  open_debts: [],
+  arc_states: [
+    {
+      character_id: 'Sophie',
+      arc_phase: 'setup',
+      current_need: 'comprendre ce que contient la lettre',
+      current_mask: 'curiosite melee de peur',
+      tension: 'espoir vs apprehension',
+    },
+  ],
+  scene_objective: 'Sophie ouvre la lettre et decouvre une invitation inattendue',
+};
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// SCÈNE RÉALISTE YELLOW — Scène moyenne, contraintes modérées
+// ═══════════════════════════════════════════════════════════════════════════════
+
+export const REALISTIC_SCENE_YELLOW: CDEInput = {
+  hot_elements: [
+    { id: 'persona-julien', type: 'persona', priority: 8, content: 'Julien, 45 ans, avocat en pleine crise de conscience' },
+    { id: 'arc-julien', type: 'arc', priority: 8, content: 'Julien doit choisir entre denoncer son client ou proteger sa carriere' },
+    { id: 'tension-dilemme', type: 'tension', priority: 8, content: 'Le dilemme moral pese sur chaque decision' },
+    { id: 'debt-temoin', type: 'debt', priority: 7, content: 'Un temoin cle a disparu la semaine derniere' },
+  ],
+  canon_facts: [
+    { id: 'cf-julien', fact: 'Julien est associe dans un cabinet parisien', sealed_at: '2026-01-01T00:00:00Z' },
+    { id: 'cf-affaire', fact: 'L affaire concerne un scandale financier', sealed_at: '2026-01-01T00:00:00Z' },
+    { id: 'cf-famille', fact: 'Sa femme attend leur deuxieme enfant', sealed_at: '2026-01-01T00:00:00Z' },
+  ],
+  open_debts: [
+    { id: 'd-temoin', content: 'Le temoin cle n a pas ete retrouve', opened_at: 'ch-4', resolved: false },
+  ],
+  arc_states: [
+    {
+      character_id: 'Julien',
+      arc_phase: 'confrontation',
+      current_need: 'trouver une issue honorable au dilemme',
+      current_mask: 'professionnalisme de facade',
+      tension: 'integrite vs survie professionnelle',
+    },
+  ],
+  scene_objective: 'Julien rencontre le procureur pour negocier un accord',
+};
+
+// ═══════════════════════════════════════════════════════════════════════════════
 // SCÈNE 3 — Mini-chaîne S0→S1 avec propagation
 // ═══════════════════════════════════════════════════════════════════════════════
 

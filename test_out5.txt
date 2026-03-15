@@ -1,0 +1,435 @@
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90mC:/Users/elric/omega-project/packages/sovereign-engine[39m
+
+ [32m✓[39m tests/oracle/genesis-v2/genesis-runner.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 43[2mms[22m[39m
+ [32m✓[39m tests/ssot/gate-no-shadow.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 33[2mms[22m[39m
+[90mstdout[2m | tests/proofpack/generate-proofpack.test.ts[2m > [22m[2mProofPack Generator (HARDEN-PP-01)[2m > [22m[2mPP-01: generateProofPack creates MANIFEST.json + HASHES.sha256 + EVIDENCE.md
+[22m[39m[proofpack] Generating proof pack in: C:\Users\elric\omega-project\packages\sovereign-engine\tests\proofpack\temp-proofpack-test
+
+[90mstdout[2m | tests/proofpack/generate-proofpack.test.ts[2m > [22m[2mProofPack Generator (HARDEN-PP-01)[2m > [22m[2mPP-02: HASHES.sha256 is sorted lexicographically (paths)
+[22m[39m[proofpack] Generating proof pack in: C:\Users\elric\omega-project\packages\sovereign-engine\tests\proofpack\temp-proofpack-test
+
+ [31m❯[39m tests/gates/gate-roadmap.test.ts [2m([22m[2m8 tests[22m[2m | [22m[31m2 failed[39m[2m)[22m[32m 43[2mms[22m[39m
+[31m     [31m×[31m GATE-RD-01: gate passes when hash matches[39m[32m 21[2mms[22m[39m
+     [32m✓[39m GATE-RD-02: hash file structure validation[32m 1[2mms[22m[39m
+[31m     [31m×[31m GATE-RD-03: gate update command creates/updates hash[39m[32m 20[2mms[22m[39m
+     [32m✓[39m GR-01: PASS — valid checkpoint with all fields[32m 0[2mms[22m[39m
+     [32m✓[39m GR-02: FAIL — checkpoint without roadmap_item[32m 0[2mms[22m[39m
+     [32m✓[39m GR-03: FAIL — checkpoint with invalid deviation[32m 0[2mms[22m[39m
+     [32m✓[39m GR-04: FAIL — checkpoint without evidence[32m 0[2mms[22m[39m
+     [32m✓[39m GR-05: PASS — backward compat with existing format (Roadmap Sprint)[32m 0[2mms[22m[39m
+[90mstdout[2m | tests/proofpack/generate-proofpack.test.ts[2m > [22m[2mProofPack Generator (HARDEN-PP-01)[2m > [22m[2mPP-03: generation does not modify any file outside outDir
+[22m[39m[proofpack] Generating proof pack in: C:\Users\elric\omega-project\packages\sovereign-engine\tests\proofpack\temp-proofpack-test
+
+ [31m❯[39m tests/proofpack/generate-proofpack.test.ts [2m([22m[2m3 tests[22m[2m | [22m[31m3 failed[39m[2m)[22m[32m 61[2mms[22m[39m
+[31m     [31m×[31m PP-01: generateProofPack creates MANIFEST.json + HASHES.sha256 + EVIDENCE.md[39m[32m 23[2mms[22m[39m
+[31m     [31m×[31m PP-02: HASHES.sha256 is sorted lexicographically (paths)[39m[32m 18[2mms[22m[39m
+[31m     [31m×[31m PP-03: generation does not modify any file outside outDir[39m[32m 19[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/voice-conformity.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/runtime/sha256sums.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 19[2mms[22m[39m
+ [32m✓[39m tests/genius/genius-metrics.test.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 30[2mms[22m[39m
+ [32m✓[39m tests/validation/real-llm-provider.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 26[2mms[22m[39m
+ [32m✓[39m tests/oracle/llm-judge.test.ts [2m([22m[2m14 tests[22m[2m)[22m[32m 128[2mms[22m[39m
+ [32m✓[39m tests/art/genius-pipeline-g04.test.ts [2m([22m[2m15 tests[22m[2m)[22m[32m 20[2mms[22m[39m
+ [32m✓[39m tests/genius/genius-dual-mode.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 17[2mms[22m[39m
+ [32m✓[39m tests/ssot/ssot-invariants.test.ts [2m([22m[2m7 tests[22m[2m)[22m[33m 633[2mms[22m[39m
+     [33m[2m✓[22m[39m SSOT-EMO-02: computeForgeEmotionBrief is deterministic [33m 600[2mms[22m[39m
+ [32m✓[39m tests/gates/gate-seal-disk.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 16[2mms[22m[39m
+ [32m✓[39m tests/delta/delta-computer.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 22[2mms[22m[39m
+ [32m✓[39m tests/input/forge-packet-assembler.test.ts [2m([22m[2m23 tests[22m[2m)[22m[32m 22[2mms[22m[39m
+ [32m✓[39m tests/delta/delta-report.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 29[2mms[22m[39m
+ [32m✓[39m tests/oracle/s-oracle-v2.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 33[2mms[22m[39m
+ [32m✓[39m tests/pitch/triple-pitch-prescriptions.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 17[2mms[22m[39m
+ [32m✓[39m tests/ssot/sprint3-invariants.test.ts [2m([22m[2m26 tests[22m[2m)[22m[32m 15[2mms[22m[39m
+ [32m✓[39m tests/calibration/pipeline-e2e.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 18[2mms[22m[39m
+ [32m✓[39m tests/input/prompt-assembler-v2.test.ts [2m([22m[2m18 tests[22m[2m)[22m[32m 11[2mms[22m[39m
+ [32m✓[39m tests/oracle/physics-audit.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 13[2mms[22m[39m
+ [32m✓[39m tests/ssot/sprint4-invariants.test.ts [2m([22m[2m36 tests[22m[2m)[22m[32m 11[2mms[22m[39m
+ [32m✓[39m tests/polish/re-score-guard.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 15[2mms[22m[39m
+[90mstdout[2m | tests/calibration/semantic-cortex-calibration.test.ts[2m > [22m[2mSemantic Cortex Calibration (ART-SEM-03)[2m > [22m[2mCAL-SC-06: Generate calibration report
+[22m[39m[CALIBRATION] Report generated: C:\Users\elric\omega-project\packages\sovereign-engine\CALIBRATION_SEMANTIC_CORTEX.md
+[CALIBRATION] Average delta composite: 2.46
+
+ [32m✓[39m tests/genius/genius-contract.test.ts [2m([22m[2m20 tests[22m[2m)[22m[32m 13[2mms[22m[39m
+ [32m✓[39m tests/oracle/macro-axes.test.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 25[2mms[22m[39m
+ [32m✓[39m tests/calibration/calibration-ci.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 18[2mms[22m[39m
+ [32m✓[39m tests/calibration/semantic-cortex-calibration.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 31[2mms[22m[39m
+ [32m✓[39m tests/duel/duel-engine.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 27[2mms[22m[39m
+ [32m✓[39m tests/polish/polish-active.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 35[2mms[22m[39m
+ [32m✓[39m tests/pitch/sovereign-loop.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 37[2mms[22m[39m
+ [32m✓[39m tests/polish/paragraph-patch.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 13[2mms[22m[39m
+ [32m✓[39m tests/art/phantom-runner-invariants.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 12[2mms[22m[39m
+ [32m✓[39m tests/semantic/semantic-cache.test.ts [2m([22m[2m5 tests[22m[2m)[22m[33m 1115[2mms[22m[39m
+     [33m[2m✓[22m[39m CACHE-04: expired entries return null (TTL enforcement) [33m 1111[2mms[22m[39m
+ [32m✓[39m tests/gates/gate-proofpack.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 11[2mms[22m[39m
+ [32m✓[39m tests/validation/validate_corpus_golden.test.ts [2m([22m[2m37 tests[22m[2m)[22m[32m 12[2mms[22m[39m
+ [32m✓[39m tests/e2e/sovereign-pipeline.test.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 145[2mms[22m[39m
+ [32m✓[39m tests/gates/gate-phase-s-invariants.test.ts [2m([22m[2m14 tests[22m[2m)[22m[32m 156[2mms[22m[39m
+[90mstdout[2m | tests/validation/e1-multi-prompt.test.ts[2m > [22m[2mE1-MP-05: runE1MultiPrompt fallback[2m > [22m[2mfalls back to one-shot when plan generation fails
+[22m[39m[E1-MP] Etage 1: generation du plan de continuite...
+
+[90mstdout[2m | tests/validation/e1-multi-prompt.test.ts[2m > [22m[2mE1-MP-05: runE1MultiPrompt fallback[2m > [22m[2mfalls back to one-shot when plan generation fails
+[22m[39m[E1-MP] Plan JSON parse error: Unexpected token 'o', "not valid json" is not valid JSON
+[E1-MP] Plan invalide, retry 1/3
+
+ [32m✓[39m tests/validation/rollback-monotone.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 127[2mms[22m[39m
+[90mstdout[2m | tests/validation/e1-multi-prompt.test.ts[2m > [22m[2mE1-MP-05: runE1MultiPrompt fallback[2m > [22m[2mfalls back to one-shot when plan generation fails
+[22m[39m[E1-MP] Plan JSON parse error: Unexpected token 'o', "not valid json" is not valid JSON
+[E1-MP] Plan invalide, retry 2/3
+
+[90mstdout[2m | tests/validation/e1-multi-prompt.test.ts[2m > [22m[2mE1-MP-05: runE1MultiPrompt fallback[2m > [22m[2mfalls back to one-shot when plan generation fails
+[22m[39m[E1-MP] Plan JSON parse error: Unexpected token 'o', "not valid json" is not valid JSON
+[E1-MP] Plan invalide, retry 3/3
+[E1-MP] Plan: echec apres retries -> fallback one-shot
+
+ [32m✓[39m tests/oracle/macro-axes-ecc-sanity.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 13[2mms[22m[39m
+[90mstdout[2m | tests/validation/e1-multi-prompt.test.ts[2m > [22m[2mE1-MP-05: runE1MultiPrompt fallback[2m > [22m[2mfalls back to one-shot when scene generation fails
+[22m[39m[E1-MP] Etage 1: generation du plan de continuite...
+
+[90mstdout[2m | tests/validation/e1-multi-prompt.test.ts[2m > [22m[2mE1-MP-05: runE1MultiPrompt fallback[2m > [22m[2mfalls back to one-shot when scene generation fails
+[22m[39m[E1-MP] Plan valide (checksum: 7d5ee99bf679...)
+[E1-MP] Etage 2: generation scene par scene...
+[E1-MP] Scene 1/10...
+
+[90mstdout[2m | tests/validation/e1-multi-prompt.test.ts[2m > [22m[2mE1-MP-05: runE1MultiPrompt fallback[2m > [22m[2mfalls back to one-shot when scene generation fails
+[22m[39m[E1-MP] Scene 2/10...
+
+ [32m✓[39m tests/validation/run-dual-benchmark.test.ts [2m([22m[2m38 tests[22m[2m)[22m[32m 44[2mms[22m[39m
+[90mstdout[2m | tests/validation/e1-multi-prompt.test.ts[2m > [22m[2mE1-MP-05: runE1MultiPrompt fallback[2m > [22m[2mfalls back to one-shot when scene generation fails
+[22m[39m[E1-MP] Scene 3/10...
+
+[90mstdout[2m | tests/validation/e1-multi-prompt.test.ts[2m > [22m[2mE1-MP-05: runE1MultiPrompt fallback[2m > [22m[2mfalls back to one-shot when scene generation fails
+[22m[39m[E1-MP] Scene 4/10...
+
+[90mstdout[2m | tests/validation/e1-multi-prompt.test.ts[2m > [22m[2mE1-MP-05: runE1MultiPrompt fallback[2m > [22m[2mfalls back to one-shot when scene generation fails
+[22m[39m[E1-MP] Scene JSON parse error: Unexpected token 'o', "not valid json" is not valid JSON
+[E1-MP] Scene 4 invalide, retry 1/3
+
+[90mstdout[2m | tests/validation/e1-multi-prompt.test.ts[2m > [22m[2mE1-MP-05: runE1MultiPrompt fallback[2m > [22m[2mfalls back to one-shot when scene generation fails
+[22m[39m[E1-MP] Scene JSON parse error: Unexpected token 'o', "not valid json" is not valid JSON
+[E1-MP] Scene 4 invalide, retry 2/3
+
+[90mstdout[2m | tests/validation/e1-multi-prompt.test.ts[2m > [22m[2mE1-MP-05: runE1MultiPrompt fallback[2m > [22m[2mfalls back to one-shot when scene generation fails
+[22m[39m[E1-MP] Scene JSON parse error: Unexpected token 'o', "not valid json" is not valid JSON
+[E1-MP] Scene 4 invalide, retry 3/3
+[E1-MP] Scene 4: echec apres retries -> fallback one-shot
+
+[90mstdout[2m | tests/validation/e1-multi-prompt.test.ts[2m > [22m[2mE1-MP-05: runE1MultiPrompt fallback[2m > [22m[2msucceeds with valid plan and scenes
+[22m[39m[E1-MP] Etage 1: generation du plan de continuite...
+
+[90mstdout[2m | tests/validation/e1-multi-prompt.test.ts[2m > [22m[2mE1-MP-05: runE1MultiPrompt fallback[2m > [22m[2msucceeds with valid plan and scenes
+[22m[39m[E1-MP] Plan valide (checksum: 7d5ee99bf679...)
+[E1-MP] Etage 2: generation scene par scene...
+[E1-MP] Scene 1/10...
+
+ [32m✓[39m tests/validation/phase-u-exit-validator.test.ts [2m([22m[2m43 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+ [32m✓[39m tests/validation/greatness-judge.test.ts [2m([22m[2m38 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+[90mstdout[2m | tests/validation/e1-multi-prompt.test.ts[2m > [22m[2mE1-MP-05: runE1MultiPrompt fallback[2m > [22m[2msucceeds with valid plan and scenes
+[22m[39m[E1-MP] Scene 2/10...
+
+ [32m✓[39m tests/runtime/golden-loader.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+[90mstdout[2m | tests/validation/e1-multi-prompt.test.ts[2m > [22m[2mE1-MP-05: runE1MultiPrompt fallback[2m > [22m[2msucceeds with valid plan and scenes
+[22m[39m[E1-MP] Scene 3/10...
+
+[90mstdout[2m | tests/validation/e1-multi-prompt.test.ts[2m > [22m[2mE1-MP-05: runE1MultiPrompt fallback[2m > [22m[2msucceeds with valid plan and scenes
+[22m[39m[E1-MP] Scene 4/10...
+
+[90mstdout[2m | tests/validation/e1-multi-prompt.test.ts[2m > [22m[2mE1-MP-05: runE1MultiPrompt fallback[2m > [22m[2msucceeds with valid plan and scenes
+[22m[39m[E1-MP] Scene 5/10...
+
+[90mstdout[2m | tests/validation/e1-multi-prompt.test.ts[2m > [22m[2mE1-MP-05: runE1MultiPrompt fallback[2m > [22m[2msucceeds with valid plan and scenes
+[22m[39m[E1-MP] Scene 6/10...
+
+[90mstdout[2m | tests/validation/e1-multi-prompt.test.ts[2m > [22m[2mE1-MP-05: runE1MultiPrompt fallback[2m > [22m[2msucceeds with valid plan and scenes
+[22m[39m[E1-MP] Scene 7/10...
+
+[90mstdout[2m | tests/validation/e1-multi-prompt.test.ts[2m > [22m[2mE1-MP-05: runE1MultiPrompt fallback[2m > [22m[2msucceeds with valid plan and scenes
+[22m[39m[E1-MP] Scene 8/10...
+
+[90mstdout[2m | tests/validation/e1-multi-prompt.test.ts[2m > [22m[2mE1-MP-05: runE1MultiPrompt fallback[2m > [22m[2msucceeds with valid plan and scenes
+[22m[39m[E1-MP] Scene 9/10...
+
+[90mstdout[2m | tests/validation/e1-multi-prompt.test.ts[2m > [22m[2mE1-MP-05: runE1MultiPrompt fallback[2m > [22m[2msucceeds with valid plan and scenes
+[22m[39m[E1-MP] Scene 10/10...
+
+ [32m✓[39m tests/oracle/axes/rhythm-v2.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+[90mstdout[2m | tests/validation/e1-multi-prompt.test.ts[2m > [22m[2mE1-MP-05: runE1MultiPrompt fallback[2m > [22m[2msucceeds with valid plan and scenes
+[22m[39m[E1-MP] Etage 3: verification checksum et assemblage...
+[E1-MP] Multi-prompt termine: 10 scenes, 454 chars
+
+[90mstdout[2m | tests/voice/voice-drift-stress.test.ts[2m > [22m[2mOFFLINE STRESS: Voice Drift Exclusion Impact (0 API credits)[2m > [22m[2mSTRESS-01: prose sample 1 — drift 7/10 < drift 10/10
+[22m[39m  Sample 1: score10=69.5, score7=65.4, delta=+-4.2
+
+ [32m✓[39m tests/validation/validation-runner.test.ts [2m([22m[2m15 tests[22m[2m)[22m[33m 321[2mms[22m[39m
+ [32m✓[39m tests/validation/e1-multi-prompt.test.ts [2m([22m[2m28 tests[22m[2m)[22m[32m 12[2mms[22m[39m
+[90mstdout[2m | tests/voice/voice-drift-stress.test.ts[2m > [22m[2mOFFLINE STRESS: Voice Drift Exclusion Impact (0 API credits)[2m > [22m[2mSTRESS-02: prose sample 2 — drift 7/10 < drift 10/10
+[22m[39m  Sample 2: score10=70.8, score7=65.8, delta=+-5.1
+
+[90mstdout[2m | tests/voice/voice-drift-stress.test.ts[2m > [22m[2mOFFLINE STRESS: Voice Drift Exclusion Impact (0 API credits)[2m > [22m[2mSTRESS-03: prose sample 3 — drift 7/10 < drift 10/10
+[22m[39m  Sample 3: score10=70.2, score7=93.6, delta=+23.4
+
+[90mstdout[2m | tests/voice/voice-drift-stress.test.ts[2m > [22m[2mOFFLINE STRESS: Voice Drift Exclusion Impact (0 API credits)[2m > [22m[2mSTRESS-04: prose sample 4 — drift 7/10 < drift 10/10
+[22m[39m  Sample 4: score10=65.7, score7=65.6, delta=+-0.1
+
+[90mstdout[2m | tests/voice/voice-drift-stress.test.ts[2m > [22m[2mOFFLINE STRESS: Voice Drift Exclusion Impact (0 API credits)[2m > [22m[2mSTRESS-05: prose sample 5 — drift 7/10 < drift 10/10
+[22m[39m  Sample 5: score10=77.0, score7=91.9, delta=+14.9
+
+ [32m✓[39m tests/genius/resonance-scorer.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+[90mstdout[2m | tests/voice/voice-drift-stress.test.ts[2m > [22m[2mOFFLINE STRESS: Voice Drift Exclusion Impact (0 API credits)[2m > [22m[2mSTRESS-AGG-01: mean voice_conformity score (7/10) >= 70 across all samples
+[22m[39m  Aggregate: mean=76.4, min=65.4, max=93.6
+
+[90mstdout[2m | tests/voice/voice-drift-stress.test.ts[2m > [22m[2mOFFLINE STRESS: Voice Drift Exclusion Impact (0 API credits)[2m > [22m[2mSTRESS-INT-01: scoreVoiceConformity uses filtered drift (N_applicable=7)
+[22m[39m  Integration scores: [65.4, 65.8, 93.6, 65.6, 91.9], mean=76.4
+
+[90mstdout[2m | tests/voice/voice-drift-stress.test.ts[2m > [22m[2mOFFLINE STRESS: Voice Drift Exclusion Impact (0 API credits)[2m > [22m[2mSTRESS-EDGE-01: default genome target also benefits from exclusion
+[22m[39m  Default genome: score10=62.7, score7=48.2
+
+ [32m✓[39m tests/voice/voice-drift-stress.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+ [32m✓[39m tests/genius/anti-doublon-lint.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32m✓[39m tests/ssot/sprint2-invariants.test.ts [2m([22m[2m14 tests[22m[2m)[22m[32m 9[2mms[22m[39m
+ [32m✓[39m tests/proofpack/proofpack-v3.test.ts [2m([22m[2m16 tests[22m[2m)[22m[32m 9[2mms[22m[39m
+ [32m✓[39m tests/genius/density-scorer.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32m✓[39m tests/art/authenticity-scorer.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32m✓[39m tests/validation/top-k-selection.test.ts [2m([22m[2m30 tests[22m[2m)[22m[32m 9[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/rhythm.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32m✓[39m tests/silence/show-dont-tell.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32m✓[39m tests/proofpack/certification.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32m✓[39m tests/genius/inevitability-scorer.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32m✓[39m tests/genius/surprise-scorer.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32m✓[39m tests/benchmark/protocol.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/benchmark/correlation.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+[90mstdout[2m | tests/semantic/semantic-analyzer.test.ts[2m > [22m[2mSemantic Emotion Analyzer (ART-SEM-01)[2m > [22m[2mSEM-07: N-samples > 1 computes median per dimension
+[22m[39m[SEMANTIC] Variance tolerance exceeded (>5%):
+joy: Ïƒ=16.33% (median=50.0%)
+trust: Ïƒ=16.33% (median=40.0%)
+fear: Ïƒ=16.33% (median=30.0%)
+surprise: Ïƒ=9.43% (median=40.0%)
+sadness: Ïƒ=16.33% (median=30.0%)
+
+ [32m✓[39m tests/semantic/semantic-analyzer.test.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32m✓[39m tests/filter/banality-budget.test.ts [2m([22m[2m20 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32m✓[39m tests/genius/genius-calibrator.test.ts [2m([22m[2m16 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/rci-fix-wiring.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 9[2mms[22m[39m
+ [32m✓[39m tests/filter/soul-layer.test.ts [2m([22m[2m22 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32m✓[39m tests/input/pre-write-validator.test.ts [2m([22m[2m19 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32m✓[39m tests/input/pre-write-simulator.test.ts [2m([22m[2m13 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/genius/voice-scorer.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/oracle/genesis-v2/paradox-gate.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32m✓[39m tests/art/voice-genome-invariants.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32m✓[39m tests/prescriptions/sdt-auth-prescriptions.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32m✓[39m tests/runtime/golden-loader-voice.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32m✓[39m tests/runtime/run-id.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/validation/judge-cache.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/rci-hooks.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 9[2mms[22m[39m
+ [32m✓[39m tests/exemplar/exemplar-library.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/ifi-distribution.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32m✓[39m tests/art/metaphor-invariants.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/oracle/genesis-v2/genesis-wiring.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/art/show-dont-tell.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32m✓[39m tests/semantic/semantic-validation.test.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32m✓[39m tests/validation/prose-directive-builder.test.ts [2m([22m[2m14 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32m✓[39m tests/calibration/genre-thresholds.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/polish/sentence-surgeon.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/constraints/compiler-golden.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/input/emotion-brief-bridge.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32m✓[39m tests/core/narrative-shapes-ssot.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/show-dont-tell.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/oracle/macro-axes-aai.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32m✓[39m tests/semantic/semantic-migration.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32m✓[39m tests/calibration/calibration-utils.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/constraints/constraint-compiler.test.ts [2m([22m[2m13 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32m✓[39m tests/prescriptions/generate-prescriptions.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/euphony-basic.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32m✓[39m tests/semantic/anti-doublon-lint-art09.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/signature.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/compat/version-guard.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32m✓[39m tests/art/phantom-axes-art14.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/emotion-coherence.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32m✓[39m tests/config.test.ts [2m([22m[2m18 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/oracle/macro-s-score.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/quality/quality-bridge.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32m✓[39m tests/art/anti-doublon-lint-art13.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/art/voice-conformity-art13.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/core/forensic-types.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/gates/gate-delta-threshold.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/oracle/scoring-v31.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32m✓[39m tests/input/prompt-physics-section.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32m✓[39m tests/symbol/symbol-map-oracle.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32m✓[39m tests/pitch/correction-catalog.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/validation/mock-llm-provider.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32m✓[39m tests/oracle/calc-judges/soma-gate.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/runtime/path-safety.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/oracle/calc-judges/arc-progression-evaluator.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/art/anti-doublon-lint-g04.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+[90mstdout[2m | tests/voice/voice-drift-diagnostic.test.ts[2m > [22m[2mDIAGNOSTIC: per-param drift breakdown[2m > [22m[2mdump all params — target vs measured vs diff
+[22m[39m
+=== SAMPLE 1 (drift=0.3045, score=69.5) ===
+PARAM                  | TARGET | MEASURED | DIFF   | DIFF²
+----------------------------------------------------------------------
+paragraph_rhythm       | 0.60   | 0.0382   | 0.5618 | 0.3156 ████████████████████████████
+punctuation_style      | 0.50   | 0.0000   | 0.5000 | 0.2500 █████████████████████████
+metaphor_density       | 0.40   | 0.0909   | 0.3091 | 0.0955 ███████████████
+dialogue_ratio         | 0.10   | 0.4000   | 0.3000 | 0.0900 ███████████████
+language_register      | 0.70   | 0.4112   | 0.2888 | 0.0834 ██████████████
+opening_variety        | 0.70   | 0.9091   | 0.2091 | 0.0437 ██████████
+irony_level            | 0.20   | 0.0000   | 0.2000 | 0.0400 ██████████
+phrase_length_mean     | 0.29   | 0.2222   | 0.0678 | 0.0046 ███
+abstraction_ratio      | 0.40   | 0.3393   | 0.0607 | 0.0037 ███
+ellipsis_rate          | 0.30   | 0.2727   | 0.0273 | 0.0007 █
+
+=== SAMPLE 2 (drift=0.2985, score=70.2) ===
+PARAM                  | TARGET | MEASURED | DIFF   | DIFF²
+----------------------------------------------------------------------
+language_register      | 0.70   | 0.1094   | 0.5906 | 0.3488 ██████████████████████████████
+punctuation_style      | 0.50   | 0.0000   | 0.5000 | 0.2500 █████████████████████████
+metaphor_density       | 0.40   | 0.0000   | 0.4000 | 0.1600 ████████████████████
+irony_level            | 0.20   | 0.0000   | 0.2000 | 0.0400 ██████████
+phrase_length_mean     | 0.29   | 0.0970   | 0.1930 | 0.0373 ██████████
+dialogue_ratio         | 0.10   | 0.2857   | 0.1857 | 0.0345 █████████
+abstraction_ratio      | 0.40   | 0.3108   | 0.0892 | 0.0080 ████
+paragraph_rhythm       | 0.60   | 0.5182   | 0.0818 | 0.0067 ████
+opening_variety        | 0.70   | 0.6250   | 0.0750 | 0.0056 ████
+ellipsis_rate          | 0.30   | 0.3125   | 0.0125 | 0.0002 █
+
+=== SAMPLE 3 (drift=0.2299, score=77.0) ===
+PARAM                  | TARGET | MEASURED | DIFF   | DIFF²
+----------------------------------------------------------------------
+punctuation_style      | 0.50   | 0.0000   | 0.5000 | 0.2500 █████████████████████████
+metaphor_density       | 0.40   | 0.0588   | 0.3412 | 0.1164 █████████████████
+language_register      | 0.70   | 0.4943   | 0.2057 | 0.0423 ██████████
+irony_level            | 0.20   | 0.0000   | 0.2000 | 0.0400 ██████████
+dialogue_ratio         | 0.10   | 0.2857   | 0.1857 | 0.0345 █████████
+phrase_length_mean     | 0.29   | 0.1449   | 0.1451 | 0.0211 ███████
+opening_variety        | 0.70   | 0.8235   | 0.1235 | 0.0153 ██████
+abstraction_ratio      | 0.40   | 0.3289   | 0.0711 | 0.0051 ████
+paragraph_rhythm       | 0.60   | 0.5354   | 0.0646 | 0.0042 ███
+ellipsis_rate          | 0.30   | 0.2941   | 0.0059 | 0.0000 
+
+=== AGGREGATE MEAN DIFF ===
+PARAM                  | MEAN_DIFF | VERDICT
+-------------------------------------------------------
+punctuation_style      | 0.5000    | 🔴 CRITICAL
+language_register      | 0.3617    | 🔴 CRITICAL
+metaphor_density       | 0.3501    | 🔴 CRITICAL
+paragraph_rhythm       | 0.2361    | 🟡 HIGH
+dialogue_ratio         | 0.2238    | 🟡 HIGH
+irony_level            | 0.2000    | 🟡 HIGH
+opening_variety        | 0.1359    | 🟢 OK
+phrase_length_mean     | 0.1353    | 🟢 OK
+abstraction_ratio      | 0.0736    | 🟢 OK
+ellipsis_rate          | 0.0152    | 🟢 OK
+
+ [32m✓[39m tests/voice/voice-drift-diagnostic.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32m✓[39m tests/semantic/emotion-to-action.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/input/prompt-voice-injection.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/oracle/genesis-v2/diffusion-runner.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32m✓[39m tests/art/anti-doublon-lint-art11.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32m✓[39m tests/pitch/triple-pitch-engine.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32m✓[39m tests/phonetic/cacophony-detector.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/voice/voice-genome.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32m✓[39m tests/art/anti-doublon-lint-art12.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/phantom-axes.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/tension-14d.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+[90mstdout[2m | tests/voice/voice-calibration-raw.test.ts[2m > [22m[2mCALIBRATION: RAW values before normalize — V2 range sourcing[2m > [22m[2mdump raw measurements per param per corpus category
+[22m[39m
+══════ NARRATIVE ══════
+  [1] words=60, sentences=9, paragraphs=3
+      syllableRatio=0.0833 abstractRatio=0.0333 punctRatio=0.0000
+      paraCV=0.1633 avgWords=6.67 avgWordsFiltered=8.14
+  [2] words=60, sentences=6, paragraphs=3
+      syllableRatio=0.1333 abstractRatio=0.0833 punctRatio=0.0000
+      paraCV=0.0000 avgWords=10.00 avgWordsFiltered=10.00
+  [3] words=59, sentences=11, paragraphs=4
+      syllableRatio=0.0169 abstractRatio=0.0339 punctRatio=0.0000
+      paraCV=0.2110 avgWords=5.36 avgWordsFiltered=5.70
+  [4] words=75, sentences=8, paragraphs=3
+      syllableRatio=0.0667 abstractRatio=0.0133 punctRatio=0.0000
+      paraCV=0.1178 avgWords=9.38 avgWordsFiltered=9.38
+  [5] words=75, sentences=13, paragraphs=4
+      syllableRatio=0.0667 abstractRatio=0.0400 punctRatio=0.0000
+      paraCV=0.0874 avgWords=5.77 avgWordsFiltered=6.08
+  [6] words=81, sentences=9, paragraphs=3
+      syllableRatio=0.0617 abstractRatio=0.0370 punctRatio=0.0000
+      paraCV=0.0800 avgWords=9.00 avgWordsFiltered=9.00
+  [7] words=76, sentences=8, paragraphs=3
+      syllableRatio=0.0658 abstractRatio=0.0395 punctRatio=0.0000
+      paraCV=0.1523 avgWords=9.50 avgWordsFiltered=9.50
+
+══════ EXPRESSIVE ══════
+  [1] words=70, sentences=15, paragraphs=3
+      syllableRatio=0.0857 abstractRatio=0.0571 punctRatio=0.5909
+      paraCV=0.3839 avgWords=4.67 avgWordsFiltered=5.89
+  [2] words=62, sentences=8, paragraphs=3
+      syllableRatio=0.0323 abstractRatio=0.0161 punctRatio=0.5333
+      paraCV=0.3360 avgWords=7.75 avgWordsFiltered=8.29
+
+══════ DRY ══════
+  [1] words=30, sentences=3, paragraphs=1
+      syllableRatio=0.1667 abstractRatio=0.0667 punctRatio=0.0000
+      paraCV=0.0000 avgWords=10.00 avgWordsFiltered=10.00
+  [2] words=28, sentences=3, paragraphs=1
+      syllableRatio=0.2143 abstractRatio=0.0714 punctRatio=0.0000
+      paraCV=0.0000 avgWords=9.33 avgWordsFiltered=9.33
+
+══════ PERCENTILE SUMMARY (narrative+expressive corpus) ══════
+  syllableRatio             min=0.0169 P5=0.0169 P25=0.0617 P50=0.0667 P75=0.0833 P95=0.1333 max=0.1333
+  abstractRatio             min=0.0133 P5=0.0133 P25=0.0333 P50=0.0370 P75=0.0400 P95=0.0833 max=0.0833
+  expressivePunctRatio      min=0.0000 P5=0.0000 P25=0.0000 P50=0.0000 P75=0.0000 P95=0.5909 max=0.5909
+  paragraphCV               min=0.0000 P5=0.0000 P25=0.0874 P50=0.1523 P75=0.2110 P95=0.3839 max=0.3839
+  avgWordsPerSentence       min=4.6667 P5=4.6667 P25=5.7692 P50=7.7500 P75=9.3750 P95=10.0000 max=10.0000
+  avgWordsFiltered          min=5.7000 P5=5.7000 P25=6.0833 P50=8.2857 P75=9.3750 P95=10.0000 max=10.0000
+
+ [32m✓[39m tests/voice/voice-calibration-raw.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/symbol/emotion-to-imagery.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/polish/anti-doublon-lint-art10.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/voice/voice-drift-exclusion.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/calibration/physics-activation.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m tests/phantom/phantom-runner.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/delta/delta-physics.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/oracle/calc-judges/budget-gate.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/polish/surgeon-invariants.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/pitch/forensic-rollback.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/anti-cliche.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/phantom/phantom-state.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/authenticity/ia-smell-patterns.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/constraints/constraint-compiler-emotion.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/semantic/emotion-contradiction.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/phonetic/rhythm-variation.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/authenticity.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/benchmark/corpus.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/art/anti-doublon-lint-art14.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m tests/temporal/temporal-scoring.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/runtime/sovereign-live.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/oracle/calc-judges/show-tell-detector.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/temporal/foreshadowing.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m tests/oracle/genesis-v2/patch-dsl.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/pitch/patch-engine.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/genius/as-gatekeeper.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/prose-directive/lot3-instructions.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/constraints/consumer-gate-enforce.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/oracle/s-score.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/art/scoring-v31-seal.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/metaphor/dead-metaphor-blacklist.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/prose-directive/instruction-toggle-table.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/physics-compliance.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/temporal/temporal-contract.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/calibration/weight-calibrator.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m tests/delta/delta-cliche.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/calibration/calibration-runner.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/voice/voice-compiler.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m tests/prose-directive/lot2-instructions.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m tests/metaphor/novelty-scorer.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m tests/pitch/pitch-oracle.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m tests/authenticity/adversarial-judge-cache.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m tests/polish/sentence-surgeon-types.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m tests/polish/anti-cliche-sweep.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m tests/oracle/axes/temporal-pacing.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 1[2mms[22m[39m
+ [32m✓[39m tests/polish/musical-engine.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [2m[90m↓[39m[22m tests/oracle/tension-judge-harness.test.ts [2m([22m[2m7 tests[22m[2m | [22m[33m7 skipped[39m[2m)[22m
+ [32m✓[39m tests/polish/signature-enforcer.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 1[2mms[22m[39m
+
+[2m Test Files [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m173 passed[39m[22m[2m | [22m[33m1 skipped[39m[90m (176)[39m
+[2m      Tests [22m [1m[31m5 failed[39m[22m[2m | [22m[1m[32m1420 passed[39m[22m[2m | [22m[33m7 skipped[39m[90m (1432)[39m
+[2m   Start at [22m 09:07:22
+[2m   Duration [22m 4.86s[2m (transform 25.51s, setup 0ms, import 50.76s, tests 4.01s, environment 14ms)[22m
+

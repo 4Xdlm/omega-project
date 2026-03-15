@@ -1,0 +1,876 @@
+{
+  "generated": "2026-03-01T18:03:01.339753",
+  "protocol": "autopsie_cc2_v1.0",
+  "n_works": 5,
+  "features_tracked": [
+    "f1_mean",
+    "f1a_rhythm_variance",
+    "f1b_rhythm_ratio",
+    "f5a_verb_density",
+    "f5a_lex_verb_density",
+    "f8a_emotional_density_ratio",
+    "f9a_contradiction_rate",
+    "f15a_local_repetition_rate",
+    "f15b_redundancy_compression",
+    "f16b_hapax_rate",
+    "f16c_lexical_surprise",
+    "f17_contrast_arc_score",
+    "f18f_ellipsis_final",
+    "f19a_approx_entropy",
+    "f19b_shannon_entropy",
+    "f20d_composite_fg"
+  ],
+  "authors": {
+    "duras_amant": {
+      "author": "Duras",
+      "work_id": "duras_amant",
+      "year": 1984,
+      "lang_original": "fr",
+      "category": "prose_autofiction",
+      "n_extracts": 20,
+      "baseline": {
+        "f1_mean": {
+          "n": 20,
+          "min": 10.2,
+          "p25": 12.44,
+          "median": 15.595,
+          "p75": 17.56,
+          "max": 19.52,
+          "mean": 15.2025,
+          "stdev": 2.91773
+        },
+        "f1a_rhythm_variance": {
+          "n": 20,
+          "min": 6.074,
+          "p25": 8.325,
+          "median": 10.8115,
+          "p75": 14.312,
+          "max": 19.728,
+          "mean": 11.44945,
+          "stdev": 4.08334
+        },
+        "f1b_rhythm_ratio": {
+          "n": 20,
+          "min": 0.404,
+          "p25": 0.6106,
+          "median": 0.72315,
+          "p75": 0.8988,
+          "max": 1.0318,
+          "mean": 0.74348,
+          "stdev": 0.17366
+        },
+        "f5a_verb_density": {
+          "n": 20,
+          "min": 0.1305,
+          "p25": 0.1663,
+          "median": 0.188,
+          "p75": 0.2096,
+          "max": 0.2279,
+          "mean": 0.18593,
+          "stdev": 0.02622
+        },
+        "f5a_lex_verb_density": {
+          "n": 20,
+          "min": 0.0979,
+          "p25": 0.117,
+          "median": 0.13665,
+          "p75": 0.1542,
+          "max": 0.187,
+          "mean": 0.13722,
+          "stdev": 0.02464
+        },
+        "f8a_emotional_density_ratio": {
+          "n": 20,
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 0.00243,
+          "p75": 0.00955,
+          "max": 0.0158,
+          "mean": 0.0044,
+          "stdev": 0.00499
+        },
+        "f9a_contradiction_rate": {
+          "n": 20,
+          "min": 0.175,
+          "p25": 0.2667,
+          "median": 0.3284,
+          "p75": 0.3846,
+          "max": 0.6087,
+          "mean": 0.33297,
+          "stdev": 0.09444
+        },
+        "f15a_local_repetition_rate": {
+          "n": 20,
+          "min": 0.0245,
+          "p25": 0.0435,
+          "median": 0.0582,
+          "p75": 0.0784,
+          "max": 0.0987,
+          "mean": 0.05955,
+          "stdev": 0.02099
+        },
+        "f15b_redundancy_compression": {
+          "n": 20,
+          "min": 0.9013,
+          "p25": 0.9216,
+          "median": 0.9418,
+          "p75": 0.9565,
+          "max": 0.9755,
+          "mean": 0.94046,
+          "stdev": 0.02099
+        },
+        "f16b_hapax_rate": {
+          "n": 20,
+          "min": 0.5648,
+          "p25": 0.601,
+          "median": 0.6077,
+          "p75": 0.6321,
+          "max": 0.6413,
+          "mean": 0.61161,
+          "stdev": 0.02084
+        },
+        "f16c_lexical_surprise": {
+          "n": 20,
+          "min": 0.7587,
+          "p25": 0.7876,
+          "median": 0.7997,
+          "p75": 0.812,
+          "max": 0.8224,
+          "mean": 0.79834,
+          "stdev": 0.01649
+        },
+        "f17_contrast_arc_score": {
+          "n": 20,
+          "min": 0.0,
+          "p25": 0.1722,
+          "median": 0.52165,
+          "p75": 0.6,
+          "max": 0.8,
+          "mean": 0.42336,
+          "stdev": 0.25322
+        },
+        "f18f_ellipsis_final": {
+          "n": 20,
+          "min": 0.28,
+          "p25": 0.319,
+          "median": 0.3385,
+          "p75": 0.3818,
+          "max": 0.4605,
+          "mean": 0.3497,
+          "stdev": 0.04647
+        },
+        "f19a_approx_entropy": {
+          "n": 20,
+          "min": 0.01437,
+          "p25": 0.19048,
+          "median": 0.26425,
+          "p75": 0.44648,
+          "max": 0.64179,
+          "mean": 0.29884,
+          "stdev": 0.16192
+        },
+        "f19b_shannon_entropy": {
+          "n": 20,
+          "min": 1.65668,
+          "p25": 2.19378,
+          "median": 2.50161,
+          "p75": 2.77926,
+          "max": 3.02418,
+          "mean": 2.44922,
+          "stdev": 0.42522
+        },
+        "f20d_composite_fg": {
+          "n": 20,
+          "min": 0.07747,
+          "p25": 0.09601,
+          "median": 0.13125,
+          "p75": 0.14298,
+          "max": 0.1925,
+          "mean": 0.12698,
+          "stdev": 0.03322
+        }
+      }
+    },
+    "carrere_adversaire": {
+      "author": "Carrère",
+      "work_id": "carrere_adversaire",
+      "year": 2000,
+      "lang_original": "fr",
+      "category": "prose_recit_vrai",
+      "n_extracts": 20,
+      "baseline": {
+        "f1_mean": {
+          "n": 20,
+          "min": 14.0,
+          "p25": 18.32,
+          "median": 21.29,
+          "p75": 23.0,
+          "max": 28.0,
+          "mean": 21.042,
+          "stdev": 3.22991
+        },
+        "f1a_rhythm_variance": {
+          "n": 20,
+          "min": 7.659,
+          "p25": 10.082,
+          "median": 12.7045,
+          "p75": 14.411,
+          "max": 17.522,
+          "mean": 12.54215,
+          "stdev": 2.82159
+        },
+        "f1b_rhythm_ratio": {
+          "n": 20,
+          "min": 0.3549,
+          "p25": 0.5343,
+          "median": 0.6058,
+          "p75": 0.631,
+          "max": 0.8374,
+          "mean": 0.59637,
+          "stdev": 0.10011
+        },
+        "f5a_verb_density": {
+          "n": 20,
+          "min": 0.1631,
+          "p25": 0.1776,
+          "median": 0.19835,
+          "p75": 0.2103,
+          "max": 0.2328,
+          "mean": 0.19557,
+          "stdev": 0.01914
+        },
+        "f5a_lex_verb_density": {
+          "n": 20,
+          "min": 0.1191,
+          "p25": 0.1305,
+          "median": 0.1401,
+          "p75": 0.146,
+          "max": 0.1519,
+          "mean": 0.13872,
+          "stdev": 0.00945
+        },
+        "f8a_emotional_density_ratio": {
+          "n": 20,
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 0.00245,
+          "p75": 0.00482,
+          "max": 0.01235,
+          "mean": 0.00281,
+          "stdev": 0.00329
+        },
+        "f9a_contradiction_rate": {
+          "n": 20,
+          "min": 0.2941,
+          "p25": 0.3478,
+          "median": 0.5436,
+          "p75": 0.619,
+          "max": 0.6842,
+          "mean": 0.49382,
+          "stdev": 0.1286
+        },
+        "f15a_local_repetition_rate": {
+          "n": 20,
+          "min": 0.0,
+          "p25": 0.0155,
+          "median": 0.01945,
+          "p75": 0.0264,
+          "max": 0.0727,
+          "mean": 0.02314,
+          "stdev": 0.01653
+        },
+        "f15b_redundancy_compression": {
+          "n": 20,
+          "min": 0.9273,
+          "p25": 0.9736,
+          "median": 0.98055,
+          "p75": 0.9845,
+          "max": 1.0,
+          "mean": 0.97686,
+          "stdev": 0.01653
+        },
+        "f16b_hapax_rate": {
+          "n": 20,
+          "min": 0.5972,
+          "p25": 0.6751,
+          "median": 0.6987,
+          "p75": 0.7143,
+          "max": 0.7258,
+          "mean": 0.69263,
+          "stdev": 0.0311
+        },
+        "f16c_lexical_surprise": {
+          "n": 20,
+          "min": 0.8049,
+          "p25": 0.8465,
+          "median": 0.8608,
+          "p75": 0.8679,
+          "max": 0.8842,
+          "mean": 0.85659,
+          "stdev": 0.01733
+        },
+        "f17_contrast_arc_score": {
+          "n": 20,
+          "min": 0.0,
+          "p25": 0.4967,
+          "median": 0.5867,
+          "p75": 0.75,
+          "max": 0.9333,
+          "mean": 0.59557,
+          "stdev": 0.20212
+        },
+        "f18f_ellipsis_final": {
+          "n": 20,
+          "min": 0.2667,
+          "p25": 0.3125,
+          "median": 0.3317,
+          "p75": 0.3333,
+          "max": 0.4015,
+          "mean": 0.32854,
+          "stdev": 0.02946
+        },
+        "f19a_approx_entropy": {
+          "n": 20,
+          "min": 0.01986,
+          "p25": 0.06899,
+          "median": 0.11634,
+          "p75": 0.19355,
+          "max": 0.33826,
+          "mean": 0.13478,
+          "stdev": 0.0828
+        },
+        "f19b_shannon_entropy": {
+          "n": 20,
+          "min": 2.21904,
+          "p25": 2.46507,
+          "median": 2.58058,
+          "p75": 2.90005,
+          "max": 3.08359,
+          "mean": 2.65959,
+          "stdev": 0.25865
+        },
+        "f20d_composite_fg": {
+          "n": 20,
+          "min": 0.05976,
+          "p25": 0.09003,
+          "median": 0.13503,
+          "p75": 0.18623,
+          "max": 0.24102,
+          "mean": 0.13752,
+          "stdev": 0.05075
+        }
+      }
+    },
+    "mccarthy_route": {
+      "author": "McCarthy",
+      "work_id": "mccarthy_route",
+      "year": 2006,
+      "lang_original": "en",
+      "category": "prose_postapocalyptique",
+      "n_extracts": 10,
+      "baseline": {
+        "f1_mean": {
+          "n": 10,
+          "min": 9.81,
+          "p25": 12.18,
+          "median": 13.435,
+          "p75": 14.82,
+          "max": 19.55,
+          "mean": 13.829,
+          "stdev": 2.49793
+        },
+        "f1a_rhythm_variance": {
+          "n": 10,
+          "min": 6.822,
+          "p25": 8.144,
+          "median": 10.3595,
+          "p75": 11.078,
+          "max": 14.04,
+          "mean": 10.2827,
+          "stdev": 2.15262
+        },
+        "f1b_rhythm_ratio": {
+          "n": 10,
+          "min": 0.5271,
+          "p25": 0.6686,
+          "median": 0.7214,
+          "p75": 0.8051,
+          "max": 1.0596,
+          "mean": 0.75053,
+          "stdev": 0.14147
+        },
+        "f5a_verb_density": {
+          "n": 10,
+          "min": 0.1274,
+          "p25": 0.128,
+          "median": 0.1504,
+          "p75": 0.1738,
+          "max": 0.177,
+          "mean": 0.1526,
+          "stdev": 0.02059
+        },
+        "f5a_lex_verb_density": {
+          "n": 10,
+          "min": 0.115,
+          "p25": 0.1166,
+          "median": 0.12745,
+          "p75": 0.154,
+          "max": 0.1595,
+          "mean": 0.13474,
+          "stdev": 0.01911
+        },
+        "f8a_emotional_density_ratio": {
+          "n": 10,
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 0.0,
+          "p75": 0.00244,
+          "max": 0.01179,
+          "mean": 0.00192,
+          "stdev": 0.00384
+        },
+        "f9a_contradiction_rate": {
+          "n": 10,
+          "min": 0.119,
+          "p25": 0.1515,
+          "median": 0.24165,
+          "p75": 0.3,
+          "max": 0.4,
+          "mean": 0.2569,
+          "stdev": 0.09064
+        },
+        "f15a_local_repetition_rate": {
+          "n": 10,
+          "min": 0.0104,
+          "p25": 0.0163,
+          "median": 0.0325,
+          "p75": 0.0443,
+          "max": 0.0674,
+          "mean": 0.03592,
+          "stdev": 0.01888
+        },
+        "f15b_redundancy_compression": {
+          "n": 10,
+          "min": 0.9326,
+          "p25": 0.9363,
+          "median": 0.9675,
+          "p75": 0.9779,
+          "max": 0.9896,
+          "mean": 0.96408,
+          "stdev": 0.01888
+        },
+        "f16b_hapax_rate": {
+          "n": 10,
+          "min": 0.6532,
+          "p25": 0.674,
+          "median": 0.71585,
+          "p75": 0.7288,
+          "max": 0.7966,
+          "mean": 0.71551,
+          "stdev": 0.03954
+        },
+        "f16c_lexical_surprise": {
+          "n": 10,
+          "min": 0.8229,
+          "p25": 0.8344,
+          "median": 0.86015,
+          "p75": 0.8671,
+          "max": 0.8981,
+          "mean": 0.85688,
+          "stdev": 0.02093
+        },
+        "f17_contrast_arc_score": {
+          "n": 10,
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 0.2472,
+          "p75": 0.67,
+          "max": 0.7,
+          "mean": 0.33463,
+          "stdev": 0.27441
+        },
+        "f18f_ellipsis_final": {
+          "n": 10,
+          "min": 0.3067,
+          "p25": 0.3636,
+          "median": 0.42165,
+          "p75": 0.4552,
+          "max": 0.4638,
+          "mean": 0.41001,
+          "stdev": 0.05202
+        },
+        "f19a_approx_entropy": {
+          "n": 10,
+          "min": 0.0984,
+          "p25": 0.14595,
+          "median": 0.24395,
+          "p75": 0.49996,
+          "max": 0.58285,
+          "mean": 0.31177,
+          "stdev": 0.17441
+        },
+        "f19b_shannon_entropy": {
+          "n": 10,
+          "min": 1.79043,
+          "p25": 2.27543,
+          "median": 2.54418,
+          "p75": 2.80291,
+          "max": 2.954,
+          "mean": 2.53949,
+          "stdev": 0.34569
+        },
+        "f20d_composite_fg": {
+          "n": 10,
+          "min": 0.06024,
+          "p25": 0.08817,
+          "median": 0.12419,
+          "p75": 0.13949,
+          "max": 0.15577,
+          "mean": 0.11664,
+          "stdev": 0.03094
+        }
+      }
+    },
+    "rulfo_pedro": {
+      "author": "Rulfo",
+      "work_id": "rulfo_pedro",
+      "year": 1955,
+      "lang_original": "es",
+      "category": "prose_realisme_magique",
+      "n_extracts": 15,
+      "baseline": {
+        "f1_mean": {
+          "n": 15,
+          "min": 8.08,
+          "p25": 8.5,
+          "median": 9.09,
+          "p75": 10.15,
+          "max": 11.1,
+          "mean": 9.37733,
+          "stdev": 0.93158
+        },
+        "f1a_rhythm_variance": {
+          "n": 15,
+          "min": 4.274,
+          "p25": 4.55,
+          "median": 5.527,
+          "p75": 7.306,
+          "max": 8.922,
+          "mean": 5.921,
+          "stdev": 1.4621
+        },
+        "f1b_rhythm_ratio": {
+          "n": 15,
+          "min": 0.4939,
+          "p25": 0.537,
+          "median": 0.5922,
+          "p75": 0.6845,
+          "max": 0.8364,
+          "mean": 0.62467,
+          "stdev": 0.10057
+        },
+        "f5a_verb_density": {
+          "n": 15,
+          "min": 0.0181,
+          "p25": 0.0195,
+          "median": 0.0316,
+          "p75": 0.0414,
+          "max": 0.0635,
+          "mean": 0.03377,
+          "stdev": 0.01314
+        },
+        "f5a_lex_verb_density": {
+          "n": 15,
+          "min": 0.0136,
+          "p25": 0.0173,
+          "median": 0.0264,
+          "p75": 0.0336,
+          "max": 0.0518,
+          "mean": 0.02781,
+          "stdev": 0.01072
+        },
+        "f8a_emotional_density_ratio": {
+          "n": 15,
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 0.0,
+          "p75": 0.0,
+          "max": 0.0,
+          "mean": 0.0,
+          "stdev": 0.0
+        },
+        "f9a_contradiction_rate": {
+          "n": 15,
+          "min": 0.122,
+          "p25": 0.1538,
+          "median": 0.1818,
+          "p75": 0.2727,
+          "max": 0.3421,
+          "mean": 0.21269,
+          "stdev": 0.06452
+        },
+        "f15a_local_repetition_rate": {
+          "n": 15,
+          "min": 0.0167,
+          "p25": 0.0207,
+          "median": 0.0337,
+          "p75": 0.0588,
+          "max": 0.0867,
+          "mean": 0.04056,
+          "stdev": 0.02196
+        },
+        "f15b_redundancy_compression": {
+          "n": 15,
+          "min": 0.9133,
+          "p25": 0.9326,
+          "median": 0.9663,
+          "p75": 0.9778,
+          "max": 0.9833,
+          "mean": 0.95944,
+          "stdev": 0.02196
+        },
+        "f16b_hapax_rate": {
+          "n": 15,
+          "min": 0.4678,
+          "p25": 0.4917,
+          "median": 0.5337,
+          "p75": 0.5604,
+          "max": 0.6466,
+          "mean": 0.53646,
+          "stdev": 0.0491
+        },
+        "f16c_lexical_surprise": {
+          "n": 15,
+          "min": 0.721,
+          "p25": 0.7339,
+          "median": 0.771,
+          "p75": 0.7941,
+          "max": 0.8243,
+          "mean": 0.76868,
+          "stdev": 0.03026
+        },
+        "f17_contrast_arc_score": {
+          "n": 15,
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 0.17,
+          "p75": 0.2,
+          "max": 0.6786,
+          "mean": 0.19897,
+          "stdev": 0.25847
+        },
+        "f18f_ellipsis_final": {
+          "n": 15,
+          "min": 0.5654,
+          "p25": 0.5861,
+          "median": 0.6213,
+          "p75": 0.6472,
+          "max": 0.7025,
+          "mean": 0.623,
+          "stdev": 0.03648
+        },
+        "f19a_approx_entropy": {
+          "n": 15,
+          "min": 0.04095,
+          "p25": 0.15419,
+          "median": 0.41687,
+          "p75": 0.55198,
+          "max": 0.63481,
+          "mean": 0.38248,
+          "stdev": 0.19249
+        },
+        "f19b_shannon_entropy": {
+          "n": 15,
+          "min": 2.14915,
+          "p25": 2.32302,
+          "median": 2.59509,
+          "p75": 2.88823,
+          "max": 3.02549,
+          "mean": 2.63946,
+          "stdev": 0.2746
+        },
+        "f20d_composite_fg": {
+          "n": 15,
+          "min": 0.05143,
+          "p25": 0.07321,
+          "median": 0.09223,
+          "p75": 0.12269,
+          "max": 0.14507,
+          "mean": 0.09744,
+          "stdev": 0.02803
+        }
+      }
+    },
+    "morrison_beloved": {
+      "author": "Morrison",
+      "work_id": "morrison_beloved",
+      "year": 1987,
+      "lang_original": "en",
+      "category": "prose_stream_conscience",
+      "n_extracts": 20,
+      "baseline": {
+        "f1_mean": {
+          "n": 20,
+          "min": 6.21,
+          "p25": 8.93,
+          "median": 10.27,
+          "p75": 12.12,
+          "max": 13.5,
+          "mean": 10.2555,
+          "stdev": 1.84342
+        },
+        "f1a_rhythm_variance": {
+          "n": 20,
+          "min": 3.37,
+          "p25": 5.555,
+          "median": 6.7785,
+          "p75": 8.12,
+          "max": 9.488,
+          "mean": 6.8869,
+          "stdev": 1.51689
+        },
+        "f1b_rhythm_ratio": {
+          "n": 20,
+          "min": 0.5428,
+          "p25": 0.6152,
+          "median": 0.67005,
+          "p75": 0.7225,
+          "max": 0.8132,
+          "mean": 0.66873,
+          "stdev": 0.06783
+        },
+        "f5a_verb_density": {
+          "n": 20,
+          "min": 0.0284,
+          "p25": 0.0435,
+          "median": 0.04905,
+          "p75": 0.0569,
+          "max": 0.0693,
+          "mean": 0.04951,
+          "stdev": 0.01073
+        },
+        "f5a_lex_verb_density": {
+          "n": 20,
+          "min": 0.0236,
+          "p25": 0.0324,
+          "median": 0.0369,
+          "p75": 0.044,
+          "max": 0.0543,
+          "mean": 0.03794,
+          "stdev": 0.00833
+        },
+        "f8a_emotional_density_ratio": {
+          "n": 20,
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 0.0,
+          "p75": 0.0,
+          "max": 0.00246,
+          "mean": 0.00024,
+          "stdev": 0.00074
+        },
+        "f9a_contradiction_rate": {
+          "n": 20,
+          "min": 0.0597,
+          "p25": 0.1633,
+          "median": 0.2206,
+          "p75": 0.3415,
+          "max": 0.4667,
+          "mean": 0.2493,
+          "stdev": 0.10712
+        },
+        "f15a_local_repetition_rate": {
+          "n": 20,
+          "min": 0.0147,
+          "p25": 0.0213,
+          "median": 0.0333,
+          "p75": 0.0648,
+          "max": 0.1176,
+          "mean": 0.04207,
+          "stdev": 0.02704
+        },
+        "f15b_redundancy_compression": {
+          "n": 20,
+          "min": 0.8824,
+          "p25": 0.9352,
+          "median": 0.9667,
+          "p75": 0.9787,
+          "max": 0.9853,
+          "mean": 0.95793,
+          "stdev": 0.02704
+        },
+        "f16b_hapax_rate": {
+          "n": 20,
+          "min": 0.49,
+          "p25": 0.5567,
+          "median": 0.61785,
+          "p75": 0.6667,
+          "max": 0.7176,
+          "mean": 0.61135,
+          "stdev": 0.06837
+        },
+        "f16c_lexical_surprise": {
+          "n": 20,
+          "min": 0.7519,
+          "p25": 0.7838,
+          "median": 0.81475,
+          "p75": 0.8412,
+          "max": 0.8704,
+          "mean": 0.81327,
+          "stdev": 0.03487
+        },
+        "f17_contrast_arc_score": {
+          "n": 20,
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 0.0,
+          "p75": 0.0,
+          "max": 0.4167,
+          "mean": 0.03959,
+          "stdev": 0.10586
+        },
+        "f18f_ellipsis_final": {
+          "n": 20,
+          "min": 0.5554,
+          "p25": 0.5732,
+          "median": 0.6024,
+          "p75": 0.6383,
+          "max": 0.7252,
+          "mean": 0.60978,
+          "stdev": 0.04299
+        },
+        "f19a_approx_entropy": {
+          "n": 20,
+          "min": 0.16924,
+          "p25": 0.28548,
+          "median": 0.4494,
+          "p75": 0.57044,
+          "max": 0.66287,
+          "mean": 0.42758,
+          "stdev": 0.15443
+        },
+        "f19b_shannon_entropy": {
+          "n": 20,
+          "min": 1.8577,
+          "p25": 2.33541,
+          "median": 2.4547,
+          "p75": 2.79937,
+          "max": 2.97352,
+          "mean": 2.51179,
+          "stdev": 0.27822
+        },
+        "f20d_composite_fg": {
+          "n": 20,
+          "min": 0.05766,
+          "p25": 0.07475,
+          "median": 0.10973,
+          "p75": 0.13394,
+          "max": 0.16125,
+          "mean": 0.10887,
+          "stdev": 0.03538
+        }
+      }
+    }
+  },
+  "sha256": "a785876f8fe8d946bfc2e3fc8cb4fa7fc5a6846ac4627fc381fd64eb45889439"
+}

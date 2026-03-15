@@ -1,0 +1,41 @@
+{
+  "cc3_status": "PASS",
+  "processed": 246,
+  "failed": 1,
+  "partial_enriched": 85,
+  "invariants": {
+    "INV-CC3-01": "f21e_ritual_index doit être dans [0.0, 1.0]",
+    "INV-CC3-02": "f22f_literary_index doit être dans [0.0, 1.5]",
+    "INV-CC3-03": "f23a_explicit_causal_rate doit être dans [0.0, 1.0]",
+    "INV-CC3-04": "f23d_literary_causal_score doit être dans [0.0, 1.0]",
+    "INV-CC3-05": "f19e_window_median >= 0.0",
+    "INV-CC3-06": "style_regime in {NOMINAL, VERBAL, MIXED}",
+    "INV-CC3-07": "f21f_ritual_level in {RITUAL_DOMINANT, RITUAL_PRESENT, RITUAL_TRACE, RITUAL_ABSENT}",
+    "INV-CC3-08": "f22g_lri_level in {LITERARY_DOMINANT, LITERARY_MODERATE, MIXED, DOCUMENTARY}",
+    "INV-CC3-09": "f23e_graesser_zone in {LITERARY_IMPLICIT, LITERARY_MIXED, MIXED, EXPOSITORY}",
+    "INV-CC3-10": "f19a_approx_entropy (global) compatible avec v3 — écart < 5% sur même texte"
+  },
+  "violations": [],
+  "violation_count": 0,
+  "baselines_sha256": "f94518fe7ae99f516f6236367defa30b16d5f406ad92cfd7a1e3062da56fb5ad",
+  "generated": "2026-03-01T19:36:06.446513",
+  "protocol": "autopsie_v4.0",
+  "stats_f21e_ritual_index": {
+    "n": 161,
+    "min": 0.029,
+    "median": 0.2233,
+    "max": 1.0
+  },
+  "stats_f22f_literary_index": {
+    "n": 161,
+    "min": 0.0,
+    "median": 0.0245,
+    "max": 0.7661
+  },
+  "stats_f19e_window_median": {
+    "n": 161,
+    "min": 0.0173,
+    "median": 0.087,
+    "max": 0.4366
+  }
+}

@@ -114,7 +114,7 @@ export function compilePartition(
   for (const c of conflicts) {
     switch (c.type) {
       case 'contradiction':         conflictScore += 20; break;
-      case 'attention_competition': conflictScore += 10; break;
+      case 'attention_competition': conflictScore += 1; break;
       case 'redundancy':            conflictScore += 5; redundancyCount++; break;
     }
   }

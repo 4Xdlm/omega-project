@@ -30,6 +30,8 @@ import {
   PATHOLOGICAL_SCENE_1,
   PATHOLOGICAL_SCENE_2,
   PATHOLOGICAL_CHAIN,
+  REALISTIC_SCENE_GREEN,
+  REALISTIC_SCENE_YELLOW,
 } from '../bench/pathological-scenes.test.js';
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
@@ -246,15 +248,15 @@ describe('P1 — Prompt Compiler (compilePartition)', () => {
     expect(partition.attention_contract).toContain('NIVEAU 3');
   });
 
-  it('INV-COMP-02: level1 ≤ 60 tokens', () => {
+  it('INV-COMP-02: level1 ≤ 80 tokens', () => {
     const partition = compilePartition(MINIMAL_FORGE_PACKET, PATHOLOGICAL_SCENE_1, config, instructions);
     const l1Tokens = countTokens(partition.level1_laws, 'chars_div_4');
-    expect(l1Tokens).toBeLessThanOrEqual(60);
+    expect(l1Tokens).toBeLessThanOrEqual(80);
   });
 
-  it('INV-COMP-03: total ≤ 290 tokens', () => {
+  it('INV-COMP-03: total ≤ 420 tokens', () => {
     const partition = compilePartition(MINIMAL_FORGE_PACKET, PATHOLOGICAL_SCENE_1, config, instructions);
-    expect(partition.total_tokens).toBeLessThanOrEqual(290);
+    expect(partition.total_tokens).toBeLessThanOrEqual(420);
   });
 
   it('INV-COMP-04: N1 jamais sacrifié (throw si trop gros)', () => {
@@ -345,7 +347,7 @@ describe('P1 — Pathological Scenes (compiler)', () => {
     const instructions = getAllActiveInstructions('Confrontation');
     const config = makeConfig('Confrontation');
     const partition = compilePartition(MINIMAL_FORGE_PACKET, PATHOLOGICAL_SCENE_1, config, instructions);
-    expect(partition.total_tokens).toBeLessThanOrEqual(290);
+    expect(partition.total_tokens).toBeLessThanOrEqual(420);
     expect(partition.level1_laws.length).toBeGreaterThan(0);
     expect(partition.level2_trajectory.length).toBeGreaterThan(0);
   });
@@ -354,7 +356,7 @@ describe('P1 — Pathological Scenes (compiler)', () => {
     const instructions = getAllActiveInstructions('Contemplative');
     const config = makeConfig('Contemplative');
     const partition = compilePartition(MINIMAL_FORGE_PACKET, PATHOLOGICAL_SCENE_2, config, instructions);
-    expect(partition.total_tokens).toBeLessThanOrEqual(290);
+    expect(partition.total_tokens).toBeLessThanOrEqual(420);
     // Scene 2 has many canon facts that may saturate N3
     // Check that instrumentation logged the saturation
     expect(partition.instrumentation).toBeDefined();
@@ -365,7 +367,7 @@ describe('P1 — Pathological Scenes (compiler)', () => {
     const instructions = getAllActiveInstructions('Confrontation');
     const config = makeConfig('Confrontation');
     const partition = compilePartition(MINIMAL_FORGE_PACKET, propagated, config, instructions);
-    expect(partition.total_tokens).toBeLessThanOrEqual(290);
+    expect(partition.total_tokens).toBeLessThanOrEqual(420);
     expect(partition.level2_trajectory.length).toBeGreaterThan(0);
   });
 });
@@ -494,5 +496,86 @@ describe('P1.1 — Static Analyzer', () => {
     expect(['LOW', 'MEDIUM', 'HIGH']).toContain(report.risk_ecc);
     expect(['LOW', 'MEDIUM', 'HIGH']).toContain(report.risk_rci);
     expect(['LOW', 'MEDIUM', 'HIGH']).toContain(report.risk_sii);
+  });
+});
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// SUITE 9 — P1.2 CALIBRATION + DISCRIMINATION
+// ═══════════════════════════════════════════════════════════════════════════════
+
+describe('P1.2 — Calibration & Discrimination', () => {
+  it('DEFAULT_COMPILER_CONFIG — budget total = 420', () => {
+    const total = DEFAULT_COMPILER_CONFIG.budget_l1
+      + DEFAULT_COMPILER_CONFIG.budget_l2
+      + DEFAULT_COMPILER_CONFIG.budget_l3
+      + DEFAULT_COMPILER_CONFIG.budget_contract;
+    expect(total).toBe(420);
+  });
+
+  it('REALISTIC_SCENE_GREEN → verdict GREEN', () => {
+    const config = makeConfig('Confrontation');
+    const instructions = getAllActiveInstructions('Confrontation');
+    const partition = compilePartition(MINIMAL_FORGE_PACKET, REALISTIC_SCENE_GREEN, config, instructions);
+    const report = analyzePreFlight(partition, config);
+    expect(report.verdict).toBe('GREEN');
+  });
+
+  it('REALISTIC_SCENE_YELLOW → verdict YELLOW', () => {
+    const config = makeConfig('Confrontation');
+    const instructions = getAllActiveInstructions('Confrontation');
+    const partition = compilePartition(MINIMAL_FORGE_PACKET, REALISTIC_SCENE_YELLOW, config, instructions);
+    const report = analyzePreFlight(partition, config);
+    expect(report.verdict).toBe('YELLOW');
+  });
+
+  it('PATHOLOGICAL_SCENE_1 → verdict RED', () => {
+    const config = makeConfig('Confrontation');
+    const instructions = getAllActiveInstructions('Confrontation');
+    const partition = compilePartition(MINIMAL_FORGE_PACKET, PATHOLOGICAL_SCENE_1, config, instructions);
+    const report = analyzePreFlight(partition, config);
+    expect(report.verdict).toBe('RED');
+  });
+
+  it('discrimination: GREEN < YELLOW < RED on cognitive_load', () => {
+    const configConf = makeConfig('Confrontation');
+    const instrConf = getAllActiveInstructions('Confrontation');
+
+    const pGreen = compilePartition(MINIMAL_FORGE_PACKET, REALISTIC_SCENE_GREEN, configConf, instrConf);
+    const pYellow = compilePartition(MINIMAL_FORGE_PACKET, REALISTIC_SCENE_YELLOW, configConf, instrConf);
+    const pRed = compilePartition(MINIMAL_FORGE_PACKET, PATHOLOGICAL_SCENE_1, configConf, instrConf);
+
+    const rGreen = analyzePreFlight(pGreen, configConf);
+    const rYellow = analyzePreFlight(pYellow, configConf);
+    const rRed = analyzePreFlight(pRed, configConf);
+
+    expect(rGreen.cognitive_load_score).toBeLessThan(rYellow.cognitive_load_score);
+    expect(rYellow.cognitive_load_score).toBeLessThan(rRed.cognitive_load_score);
+  });
+
+  it('INV-COMP-10: anti-reinjection — V3 partition ne contient aucun champ CDE brut', () => {
+    const config = makeConfig('Confrontation');
+    const instructions = getAllActiveInstructions('Confrontation');
+    const partition = compilePartition(MINIMAL_FORGE_PACKET, PATHOLOGICAL_SCENE_1, config, instructions);
+    const fullText = [
+      partition.attention_contract,
+      partition.level1_laws,
+      partition.level2_trajectory,
+      partition.level3_decor,
+      partition.recency_reminder,
+    ].join('\n');
+
+    // No raw CDE field names
+    expect(fullText).not.toMatch(/hot_elements/);
+    expect(fullText).not.toMatch(/canon_facts/);
+    expect(fullText).not.toMatch(/open_debts/);
+    expect(fullText).not.toMatch(/arc_states/);
+    expect(fullText).not.toMatch(/scene_objective/);
+    expect(fullText).not.toMatch(/drift_flags/);
+    // No raw IDs
+    expect(fullText).not.toMatch(/auto-debt-s\d/);
+    expect(fullText).not.toMatch(/auto-fact-s\d/);
+    expect(fullText).not.toMatch(/char-\w+-\d+/);
+    // No JSON structure
+    expect(fullText).not.toMatch(/\{\s*"id"\s*:/);
   });
 });

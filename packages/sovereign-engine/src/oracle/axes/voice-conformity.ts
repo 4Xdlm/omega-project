@@ -58,6 +58,15 @@ export async function scoreVoiceConformity(
     impact: (1 - p.drift) * 10,
   }));
 
+  // FIX-VOICE-DIAG: log the 3 ACTIVE drift parameters (not excluded) with
+  // measured vs target values — essential to diagnose voice_conformity failures.
+  // Active params: ellipsis_rate, paragraph_rhythm, opening_variety.
+  const activeDiagLog = [
+    `ellipsis(t=${targetGenome.ellipsis_rate.toFixed(2)}/a=${actualGenome.ellipsis_rate.toFixed(2)}/d=${(driftResult.per_param.ellipsis_rate * 100).toFixed(1)}%)`,
+    `para_rhythm(t=${targetGenome.paragraph_rhythm.toFixed(2)}/a=${actualGenome.paragraph_rhythm.toFixed(2)}/d=${(driftResult.per_param.paragraph_rhythm * 100).toFixed(1)}%)`,
+    `opening_var(t=${targetGenome.opening_variety.toFixed(2)}/a=${actualGenome.opening_variety.toFixed(2)}/d=${(driftResult.per_param.opening_variety * 100).toFixed(1)}%)`,
+  ].join(' | ');
+
   // U-ROSETTE-01: shadow logging des métriques F31/F32/F33
   // INV-ROSETTE-01: aucun impact sur score — shadow uniquement
   const rosette = measureRosette(prose);
@@ -78,7 +87,7 @@ export async function scoreVoiceConformity(
     score,
     weight: 1.0,
     method: 'CALC',
-    details: `Drift: ${(driftResult.drift * 100).toFixed(2)}%, Conforming: ${driftResult.conforming}, N_applicable: ${driftResult.n_applicable}/10, Excluded: [${driftResult.excluded.join(', ')}] | ${rosetteLog}`,
+    details: `Drift: ${(driftResult.drift * 100).toFixed(2)}%, Conforming: ${driftResult.conforming}, N_applicable: ${driftResult.n_applicable}/10, Excluded: [${driftResult.excluded.join(', ')}] | ACTIVE: ${activeDiagLog} | ${rosetteLog}`,
     reasons: {
       top_contributors: topContributors,
       top_penalties: topPenalties,

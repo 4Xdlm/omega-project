@@ -50,14 +50,14 @@ export function analyzePreFlight(
   const redundancy_score = inst.redundancy_score;
 
   // Cognitive load
-  // base = token saturation (0-50), conflicts (5 each), N2 sacrifices (2 each), N3 sacrifices (1 each)
+  // base = token saturation (0-50), N2 sacrifices (0.5 each), N3 sacrifices (0.5 each)
+  // Conflicts handled separately via conflict_score
   const budgetTotal = budgetL1 + budgetL2 + budgetL3 + budgetContract;
   const n2Sacrifices = inst.sacrificed_elements.filter(s => s.level <= 2).length;
   const n3Sacrifices = inst.sacrificed_elements.filter(s => s.level === 3).length;
   let cognitive_load_score = Math.round(partition.total_tokens / budgetTotal * 50)
-    + inst.conflicts_detected.length * 5
-    + n2Sacrifices * 3
-    + n3Sacrifices * 1;
+    + Math.round(n2Sacrifices * 0.5)
+    + Math.round(n3Sacrifices * 0.5);
   cognitive_load_score = Math.min(100, Math.max(0, cognitive_load_score));
 
   // Risques par axe — based on constraint content targeting
@@ -66,23 +66,22 @@ export function analyzePreFlight(
   const risk_rci = assessAxisRisk(l1l2Text, RCI_AXES);
   const risk_sii = assessAxisRisk(l1l2Text, SII_AXES);
 
-  // Sacrifices
+  // Sacrifices — only N1 sacrifice is critical (N2 sacrifices are expected budget behavior)
   const sacrificed_count = inst.sacrificed_elements.length;
-  const sacrificed_critical = inst.sacrificed_elements.some(s => s.level <= 2);
+  const sacrificed_critical = inst.sacrificed_elements.some(s => s.level === 1);
 
   // Verdict
   const warnings: string[] = [...inst.warnings];
   let verdict: 'GREEN' | 'YELLOW' | 'RED';
 
-  if (cognitive_load_score > 70 || conflict_score > 50 || sacrificed_critical) {
+  if (cognitive_load_score > 70 || conflict_score > 45 || sacrificed_critical) {
     verdict = 'RED';
     if (cognitive_load_score > 70) warnings.push(`cognitive_load=${cognitive_load_score} > 70`);
-    if (conflict_score > 50) warnings.push(`conflict_score=${conflict_score} > 50`);
-    if (sacrificed_critical) warnings.push('N1/N2 elements sacrificed');
+    if (conflict_score > 45) warnings.push(`conflict_score=${conflict_score} > 45`);
+    if (sacrificed_critical) warnings.push('N1 elements sacrificed');
   } else if (
     cognitive_load_score >= 50 ||
-    conflict_score >= 20 ||
-    (sacrificed_count > 0 && !sacrificed_critical)
+    conflict_score >= 35
   ) {
     verdict = 'YELLOW';
   } else {

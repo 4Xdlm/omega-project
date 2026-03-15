@@ -30,8 +30,9 @@ export interface MetaphorHit {
 
 /**
  * Prompt version for cache key stability.
+ * U-META-02: bumped to v2.0.0 — prompt borné (max 5, expression courte) + parser résilient.
  */
-const PROMPT_VERSION = 'v1.0.0';
+const PROMPT_VERSION = 'v2.0.0';
 
 /**
  * Détecte les métaphores dans une prose via LLM.
@@ -48,40 +49,75 @@ export async function detectMetaphors(
   provider: SovereignProvider,
   cache: SemanticCache,
 ): Promise<MetaphorHit[]> {
-  // LLM call via generateStructuredJSON (no cache — one evaluation per prose per run)
   try {
     const prompt = buildDetectionPrompt(prose);
-    const result = await provider.generateStructuredJSON(prompt);
-
-    // Parse structured response
-    const parsed = result as { metaphors?: Array<{ text: string; type: string; novelty_score: number }> };
+    const raw = await provider.generateStructuredJSON(prompt);
+    const parsed = raw as { metaphors?: Array<{ text: string; type: string; novelty_score: number }> };
     return parseMetaphorHits(parsed.metaphors || [], prose);
-  } catch {
-    // FAIL-CLOSED: provider down or parsing error → return []
+  } catch (err: unknown) {
+    // U-META-02: tentative de récupération JSON avant FAIL-CLOSED
+    const msg = err instanceof Error ? err.message : String(err);
+    const repaired = tryRepairJson(msg);
+    if (repaired !== null) {
+      try {
+        const parsed = repaired as { metaphors?: Array<{ text: string; type: string; novelty_score: number }> };
+        process.stderr.write(`[METAPHOR-DETECTOR] JSON-REPAIRED: recovered ${parsed.metaphors?.length ?? 0} metaphors\n`);
+        return parseMetaphorHits(parsed.metaphors || [], prose);
+      } catch {
+        // repair ne suffit pas → FAIL-CLOSED
+      }
+    }
+    process.stderr.write(`[METAPHOR-DETECTOR] FAIL-CLOSED: ${msg.slice(0, 120)}\n`);
     return [];
   }
+}
+
+/**
+ * U-META-02: Tente de réparer un JSON tronqué.
+ * Stratégie: extraire du premier { au dernier } valide, ajouter ]} si nécessaire.
+ * Retourne l'objet parsé ou null si irréparable.
+ */
+function tryRepairJson(errorMsg: string): unknown {
+  // Extraire le JSON brut depuis le message d'erreur (format: "Failed to parse structured JSON from LLM: {raw}")
+  const match = errorMsg.match(/Failed to parse structured JSON from LLM: (\{[\s\S]*)$/);
+  if (!match) return null;
+
+  let raw = match[1].trim();
+
+  // Tentative 1: parse direct (au cas où le message d'erreur contient du JSON valide)
+  try { return JSON.parse(raw); } catch { /* continue */ }
+
+  // Tentative 2: tronquer au dernier objet complet (dernier })
+  const lastBrace = raw.lastIndexOf('}');
+  if (lastBrace === -1) return null;
+  const truncated = raw.slice(0, lastBrace + 1);
+
+  // Tentative 3: fermer le tableau + objet racine si nécessaire
+  for (const suffix of ['', ']}', ']}]', ']}]}']) {
+    try { return JSON.parse(truncated + suffix); } catch { /* continue */ }
+  }
+
+  return null;
 }
 
 /**
  * Build LLM prompt for metaphor detection.
  */
 function buildDetectionPrompt(prose: string): string {
-  return `Tu es un expert en analyse stylistique française. Identifie toutes les métaphores, comparaisons et analogies dans ce texte.
+  // U-META-02: prompt borné — max 5 métaphores, expression courte (≤8 mots), pas de phrases entières.
+  // Objectif: JSON garanti <400 tokens → aucune troncature possible à 800 tokens.
+  return `Identifie les figures de style (métaphore, comparaison, analogie) dans ce texte.
+RÈGLES STRICTES:
+- Maximum 5 figures (les plus saillantes seulement).
+- "text": l'EXPRESSION COURTE uniquement (max 8 mots), jamais la phrase entière.
+- "type": "metaphor", "comparison" ou "analogy".
+- "novelty_score": entier 0-100 (100=très original, 0=cliché).
+- JSON pur, aucun commentaire, aucun markdown.
 
-Pour chaque figure de style détectée, fournis :
-- text: la phrase exacte contenant la figure
-- type: "metaphor", "comparison", ou "analogy"
-- novelty_score: score 0-100 (100 = très original, 0 = cliché évident)
+FORMAT EXACT:
+{"metaphors":[{"text":"...","type":"metaphor","novelty_score":85}]}
 
-Retourne un JSON:
-{
-  "metaphors": [
-    { "text": "...", "type": "metaphor", "novelty_score": 85 },
-    ...
-  ]
-}
-
-Texte: ${prose}`;
+Texte:\n${prose}`;
 }
 
 /**

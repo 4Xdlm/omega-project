@@ -23,10 +23,10 @@ export interface RawConstraint {
 // ── Compiled Partition ───────────────────────────────────────────────────────
 
 export interface CompiledPartition {
-  readonly attention_contract: string;    // ~30 tokens, fixe
-  readonly level1_laws: string;           // ≤ 60 tokens, incompressible
-  readonly level2_trajectory: string;     // ≤ 140 tokens, compressible
-  readonly level3_decor: string;          // ≤ 60 tokens, sacrifiable
+  readonly attention_contract: string;    // ~60 tokens, fixe
+  readonly level1_laws: string;           // ≤ 80 tokens, incompressible
+  readonly level2_trajectory: string;     // ≤ 200 tokens, compressible
+  readonly level3_decor: string;          // ≤ 80 tokens, sacrifiable
   readonly total_tokens: number;
   readonly partition_hash: string;        // SHA256 du tout
   readonly instrumentation: InstrumentationReport;
@@ -76,10 +76,10 @@ export interface CompilerConfig {
 }
 
 export const DEFAULT_COMPILER_CONFIG: Omit<CompilerConfig, 'shape'> = {
-  budget_l1: 60,
-  budget_l2: 140,
-  budget_l3: 60,
-  budget_contract: 30,
+  budget_l1: 80,
+  budget_l2: 200,
+  budget_l3: 80,
+  budget_contract: 60,
   tokenizer_id: 'chars_div_4',
 };
 

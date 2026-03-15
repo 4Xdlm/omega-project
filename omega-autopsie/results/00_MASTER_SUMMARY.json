@@ -1,0 +1,537 @@
+{
+  "run_date": "2026-03-01T14:41:51.897431",
+  "protocol": "autopsie_v2.3",
+  "script_version": "2.3.0",
+  "spacy_model": "fr_core_news_lg",
+  "romans_summary": {
+    "processed": [
+      {
+        "work_id": "tchekhov_dame",
+        "type": "APEX",
+        "word_count": 624,
+        "result_sha256": "1ca11ca5f6586f26bffacac42152fd0954a9322063e77a89940c4234f7726337",
+        "errors": [],
+        "golden": "CALIBRATED_OK"
+      },
+      {
+        "work_id": "tchekhov_dame",
+        "type": "NEUTRE",
+        "word_count": 603,
+        "result_sha256": "151a0748921de0a3e50e674052da3394965d6d6b790bcdc9ea36e9dc1754ddd7",
+        "errors": [],
+        "golden": "CALIBRATED_OK"
+      },
+      {
+        "work_id": "tchekhov_dame",
+        "type": "SEUIL",
+        "word_count": 659,
+        "result_sha256": "586f3d1e54b126ad71f410230892f81601f30c454679d34c551ac54b40eedb44",
+        "errors": [],
+        "golden": "CALIBRATED_OK"
+      },
+      {
+        "work_id": "flaubert_bovary",
+        "type": "APEX",
+        "word_count": 687,
+        "result_sha256": "0b2223ab642fd2481caa69bf32b297a45406c05af7225ee5d42fa9e78df3687e",
+        "errors": [],
+        "golden": "CALIBRATION_WARNING"
+      },
+      {
+        "work_id": "flaubert_bovary",
+        "type": "NEUTRE",
+        "word_count": 661,
+        "result_sha256": "b9d89889d0993deb51e6133462ee1e2b789fa3d387dfc88b1009a4a5e47904d8",
+        "errors": [],
+        "golden": "CALIBRATION_WARNING"
+      },
+      {
+        "work_id": "flaubert_bovary",
+        "type": "SEUIL",
+        "word_count": 607,
+        "result_sha256": "18cffdc3d68ecada80477d92f89f6b0697df3e4bdabb494336a3ee21005cd7ba",
+        "errors": [],
+        "golden": "CALIBRATION_WARNING"
+      },
+      {
+        "work_id": "merimee_mateo",
+        "type": "APEX",
+        "word_count": 615,
+        "result_sha256": "0f9c858861a41cff5fa9d5bad153ee03bf1564f12850406f34fa8095a9efa845",
+        "errors": [],
+        "golden": "CALIBRATED_OK"
+      },
+      {
+        "work_id": "merimee_mateo",
+        "type": "NEUTRE",
+        "word_count": 600,
+        "result_sha256": "81470306f00e321cf09e1e98de81f437af73b3b150c1225631a74d9658e86463",
+        "errors": [],
+        "golden": "CALIBRATED_OK"
+      },
+      {
+        "work_id": "merimee_mateo",
+        "type": "SEUIL",
+        "word_count": 644,
+        "result_sha256": "d314a172d71e3315e3b9526358def3129a78edd313b4ea1fe6d1ccfe1e9845e9",
+        "errors": [],
+        "golden": "CALIBRATED_OK"
+      },
+      {
+        "work_id": "austen_orgueil",
+        "type": "APEX",
+        "word_count": 666,
+        "result_sha256": "f69cbc77aa9c3dd30667609eebcc93e65e23a10d938aec1a1d0e21b4a28764a5",
+        "errors": [],
+        "golden": "CALIBRATION_WARNING"
+      },
+      {
+        "work_id": "austen_orgueil",
+        "type": "NEUTRE",
+        "word_count": 662,
+        "result_sha256": "b83fcafe4f96d40ce366a3f360190cb943dc07de6ae35d8d4b97d15563609dcf",
+        "errors": [],
+        "golden": "CALIBRATION_WARNING"
+      },
+      {
+        "work_id": "austen_orgueil",
+        "type": "SEUIL",
+        "word_count": 647,
+        "result_sha256": "9912960ab675e37edc4a47fe118bffc2cb6572adff4c606a61192beb3739614f",
+        "errors": [],
+        "golden": "CALIBRATION_WARNING"
+      },
+      {
+        "work_id": "dostoievski_crime",
+        "type": "APEX",
+        "word_count": 600,
+        "result_sha256": "f6fc159006365c7dadc797bab805403466a758be2cad2edbd4b07b9373b0b86e",
+        "errors": [],
+        "golden": "CALIBRATION_WARNING"
+      },
+      {
+        "work_id": "dostoievski_crime",
+        "type": "NEUTRE",
+        "word_count": 655,
+        "result_sha256": "7cc0cfb498daad009a0ef6efc33293ae4e9526a6ff3ee71632c2e4fec565af3f",
+        "errors": [],
+        "golden": "CALIBRATION_WARNING"
+      },
+      {
+        "work_id": "dostoievski_crime",
+        "type": "SEUIL",
+        "word_count": 754,
+        "result_sha256": "f8adf5412cece887f6680585663dc824701c8e69c416618f085b982d48b216a9",
+        "errors": [],
+        "golden": "CALIBRATION_WARNING"
+      },
+      {
+        "work_id": "kafka_proces",
+        "type": "APEX",
+        "word_count": 850,
+        "result_sha256": "ce4b79bf8d2fbbc9f1bb05f8e2c49236a347ea449fc3cf0502dd6cbfd8565e83",
+        "errors": [],
+        "golden": "CALIBRATION_WARNING"
+      },
+      {
+        "work_id": "kafka_proces",
+        "type": "NEUTRE",
+        "word_count": 850,
+        "result_sha256": "295f1001fd8c517e1674db6fe6269c373467491c33557fd887a305ca89ad93c0",
+        "errors": [],
+        "golden": "CALIBRATION_WARNING"
+      },
+      {
+        "work_id": "kafka_proces",
+        "type": "SEUIL",
+        "word_count": 642,
+        "result_sha256": "ee4a7c459a8b189fcd43c257ef3796f9ee64683af40ca93c447fad13738e4b00",
+        "errors": [],
+        "golden": "CALIBRATION_WARNING"
+      },
+      {
+        "work_id": "proust_swann",
+        "type": "APEX",
+        "word_count": 744,
+        "result_sha256": "f93356af8eec5ccce6aec13aa636bc4d53dc31770345a205719170b2be47d88c",
+        "errors": [],
+        "golden": "CALIBRATION_WARNING"
+      },
+      {
+        "work_id": "proust_swann",
+        "type": "NEUTRE",
+        "word_count": 719,
+        "result_sha256": "c1e04f287408eef43296c81d1754c3dc65119fa0c021f8a9366e3d4b3b52eb85",
+        "errors": [],
+        "golden": "CALIBRATION_WARNING"
+      },
+      {
+        "work_id": "proust_swann",
+        "type": "SEUIL",
+        "word_count": 620,
+        "result_sha256": "426e27257b68c3942303d8113d88b57c14b314f12fe09786843b3d26be28e18f",
+        "errors": [],
+        "golden": "CALIBRATION_WARNING"
+      },
+      {
+        "work_id": "joyce_ulysse",
+        "type": "APEX",
+        "word_count": 850,
+        "result_sha256": "fdaba5f828b1179831166d40926104c6d241b16fb38a4d4274c83b53cb84bba0",
+        "errors": [],
+        "golden": "CALIBRATED_OK"
+      },
+      {
+        "work_id": "joyce_ulysse",
+        "type": "NEUTRE",
+        "word_count": 850,
+        "result_sha256": "28b8f13730f6b86b4efa631082dab39a393a2ebeb41464cc3da6e45c4ca524fe",
+        "errors": [],
+        "golden": "CALIBRATED_OK"
+      },
+      {
+        "work_id": "joyce_ulysse",
+        "type": "SEUIL",
+        "word_count": 602,
+        "result_sha256": "87a5f1d36ef569e251f3e344b5e525ea8603d7cd9424ba093e8b0f3a66a130cb",
+        "errors": [],
+        "golden": "CALIBRATED_OK"
+      },
+      {
+        "work_id": "diderot_jacques",
+        "type": "APEX",
+        "word_count": 600,
+        "result_sha256": "ad01e9871884970f9a1d00a2b027a77a03c5019cf17b460547058edee272b532",
+        "errors": [],
+        "golden": "CALIBRATED_OK"
+      },
+      {
+        "work_id": "diderot_jacques",
+        "type": "NEUTRE",
+        "word_count": 651,
+        "result_sha256": "025fbca6ed1e971e24c858bfd8cd19601c7d74e80d45921daf0430734f2a1c75",
+        "errors": [],
+        "golden": "CALIBRATED_OK"
+      },
+      {
+        "work_id": "diderot_jacques",
+        "type": "SEUIL",
+        "word_count": 614,
+        "result_sha256": "8a4903f1bf933c813d7838bdcd0ae24fdec7a5a58deef9fa66e7acdeac65ee3b",
+        "errors": [],
+        "golden": "CALIBRATED_OK"
+      },
+      {
+        "work_id": "sterne_tristram",
+        "type": "APEX",
+        "word_count": 613,
+        "result_sha256": "ad0871638d287a9b60d48d04336b441f1a74028f3989eacc4bed157dc8a2e8dc",
+        "errors": [],
+        "golden": "CALIBRATED_OK"
+      },
+      {
+        "work_id": "sterne_tristram",
+        "type": "NEUTRE",
+        "word_count": 618,
+        "result_sha256": "9b4bc7577253487dd9645a6c2fff023b0fa2356207e3c8fc48c628782da90040",
+        "errors": [],
+        "golden": "CALIBRATED_OK"
+      },
+      {
+        "work_id": "sterne_tristram",
+        "type": "SEUIL",
+        "word_count": 600,
+        "result_sha256": "02169316c7148da30602bb6d90813ea9fd003c4c6d458d8f7b66b70ca19878f6",
+        "errors": [],
+        "golden": "CALIBRATED_OK"
+      },
+      {
+        "work_id": "hugo_miserables",
+        "type": "APEX",
+        "word_count": 613,
+        "result_sha256": "6486046769e421d0ed21471f545679879fccf52c80925fd9f99809d9bc6aa5f6",
+        "errors": [],
+        "golden": "CALIBRATION_WARNING"
+      },
+      {
+        "work_id": "hugo_miserables",
+        "type": "NEUTRE",
+        "word_count": 610,
+        "result_sha256": "44ec1a5c8352445b566324a4d92de0846d4de14f7a06671417b07f7894c7f736",
+        "errors": [],
+        "golden": "CALIBRATION_WARNING"
+      },
+      {
+        "work_id": "hugo_miserables",
+        "type": "SEUIL",
+        "word_count": 797,
+        "result_sha256": "8f7a94d87333a07a107bbefd489d077dc63b994d170174b7f2aa57ab1224aea9",
+        "errors": [],
+        "golden": "CALIBRATION_WARNING"
+      },
+      {
+        "work_id": "tolstoi_guerre",
+        "type": "APEX",
+        "word_count": 646,
+        "result_sha256": "104e48e57d3f2257661883f4e3382fbdd06a4a8fa777611670708ff3fdd68a70",
+        "errors": [],
+        "golden": "CALIBRATION_WARNING"
+      },
+      {
+        "work_id": "tolstoi_guerre",
+        "type": "NEUTRE",
+        "word_count": 651,
+        "result_sha256": "5947dff2588ec454e8258fa5598da533992c280d623d2b479c0d5dfd4237a494",
+        "errors": [],
+        "golden": "CALIBRATION_WARNING"
+      },
+      {
+        "work_id": "tolstoi_guerre",
+        "type": "SEUIL",
+        "word_count": 637,
+        "result_sha256": "b722451d34c12f6f580f364823e8a2c31d4559af823091aa8c54f0b44472388e",
+        "errors": [],
+        "golden": "CALIBRATION_WARNING"
+      },
+      {
+        "work_id": "dumas_monte_cristo",
+        "type": "APEX",
+        "word_count": 623,
+        "result_sha256": "44c19b82874435b3ec1c3954ce9bdc8f4298ea770406b7dc68565ba3c17ee673",
+        "errors": [],
+        "golden": "CALIBRATED_OK"
+      },
+      {
+        "work_id": "dumas_monte_cristo",
+        "type": "NEUTRE",
+        "word_count": 657,
+        "result_sha256": "58329cea37bc05e29cffe56b30d0bf13e6acdcbbe8e766e8432c1208b0ee5ecb",
+        "errors": [],
+        "golden": "CALIBRATED_OK"
+      },
+      {
+        "work_id": "dumas_monte_cristo",
+        "type": "SEUIL",
+        "word_count": 609,
+        "result_sha256": "7a1b2a9f6e3091b13940f47037bb4803cc9876d13a243df568af42c9092b42e0",
+        "errors": [],
+        "golden": "CALIBRATED_OK"
+      },
+      {
+        "work_id": "melville_moby",
+        "type": "APEX",
+        "word_count": 666,
+        "result_sha256": "b3b2dab2ccf4fc86a7f931a4880d24df9aef11f45b098ccbd7e68204cf3441d7",
+        "errors": [],
+        "golden": "CALIBRATION_WARNING"
+      },
+      {
+        "work_id": "melville_moby",
+        "type": "NEUTRE",
+        "word_count": 620,
+        "result_sha256": "c80e844da033166a1bfffea250ce71552eae4acfafa60aff18bc458c600e653c",
+        "errors": [],
+        "golden": "CALIBRATION_WARNING"
+      },
+      {
+        "work_id": "melville_moby",
+        "type": "SEUIL",
+        "word_count": 738,
+        "result_sha256": "630f9712fcec44f7ecf37bbeb28407ebe8c32f29459193d4b78726364abdbda1",
+        "errors": [],
+        "golden": "CALIBRATION_WARNING"
+      },
+      {
+        "work_id": "machado_bras_cubas",
+        "type": "APEX",
+        "word_count": 611,
+        "result_sha256": "2e2ce9f837f67bb2a127be0a6dbed7962e87c5689957400d5f5fe0bc5d2735cd",
+        "errors": [],
+        "golden": "CALIBRATED_OK"
+      },
+      {
+        "work_id": "machado_bras_cubas",
+        "type": "NEUTRE",
+        "word_count": 619,
+        "result_sha256": "f5b34fdc88eb26a109e642f9bbb547f08c70b5e810c3d15ae4127c17ba5b3444",
+        "errors": [],
+        "golden": "CALIBRATED_OK"
+      },
+      {
+        "work_id": "machado_bras_cubas",
+        "type": "SEUIL",
+        "word_count": 753,
+        "result_sha256": "48d6183ef4a2bbdf01c89545fd916ba4f5f8a271d28f50e2b10ff71a4c25009b",
+        "errors": [],
+        "golden": "CALIBRATED_OK"
+      }
+    ],
+    "failed": [],
+    "skipped": []
+  },
+  "proses_summary": {
+    "processed": [
+      {
+        "work_id": "baudelaire_spleen",
+        "type": "P1",
+        "word_count": 500,
+        "result_sha256": "77f4edcbaca5d2e34032bd8157489bfee73d1c9eed723acb6de24aacc4f8d86a",
+        "errors": [],
+        "golden": "CALIBRATED_OK"
+      },
+      {
+        "work_id": "baudelaire_spleen",
+        "type": "P2",
+        "word_count": 500,
+        "result_sha256": "b63ef1032e9ff314652601689653963e433a6455fff57d8d95ce632c23d7b697",
+        "errors": [],
+        "golden": "CALIBRATED_OK"
+      },
+      {
+        "work_id": "baudelaire_spleen",
+        "type": "P3",
+        "word_count": 500,
+        "result_sha256": "1bb4a112fbfb10653b432e81d01b25f53e79abb32d19bd04da93abfbf25a559f",
+        "errors": [],
+        "golden": "CALIBRATED_OK"
+      },
+      {
+        "work_id": "pascal_pensees",
+        "type": "P1",
+        "word_count": 565,
+        "result_sha256": "3299c4eb379f21c88bbaf417b9f981e037f1b0a607eeec2289dae7ee42bcf123",
+        "errors": [],
+        "golden": "CALIBRATED_OK"
+      },
+      {
+        "work_id": "pascal_pensees",
+        "type": "P2",
+        "word_count": 400,
+        "result_sha256": "3eb9c29adc29d2ff705f6ad864efc74857a2f6d02efdfc400676aab35e09b7c6",
+        "errors": [],
+        "golden": "CALIBRATED_OK"
+      },
+      {
+        "work_id": "pascal_pensees",
+        "type": "P3",
+        "word_count": 404,
+        "result_sha256": "037a8f9b1bb0bc53944976328aae7cadb5c2162fc14109161bf2b8e26cb41058",
+        "errors": [],
+        "golden": "CALIBRATED_OK"
+      },
+      {
+        "work_id": "montaigne_essais",
+        "type": "P1",
+        "word_count": 725,
+        "result_sha256": "16af4f039cbe0801d16876c7814194f280d3e07e63aec6da041ae27d4cb5d0b2",
+        "errors": [],
+        "golden": "CALIBRATED_OK"
+      },
+      {
+        "work_id": "montaigne_essais",
+        "type": "P2",
+        "word_count": 850,
+        "result_sha256": "95acc6e08db3d222b3eef2a24386445a8d1b6819c6391cc3917515af51b42128",
+        "errors": [],
+        "golden": "CALIBRATED_OK"
+      },
+      {
+        "work_id": "rimbaud_saison",
+        "type": "P1",
+        "word_count": 405,
+        "result_sha256": "b7f2c196eb4ed878c0f6108ad13889af384669fc02545e9a9fa9a0dff26d8cc9",
+        "errors": [],
+        "golden": "CALIBRATED_OK"
+      },
+      {
+        "work_id": "rimbaud_saison",
+        "type": "P2",
+        "word_count": 500,
+        "result_sha256": "035decdaab93544666363d08af92178609f72a3541d80d7376a20beefc6bb4cb",
+        "errors": [],
+        "golden": "CALIBRATED_OK"
+      },
+      {
+        "work_id": "exupery_petit_prince",
+        "type": "P1",
+        "word_count": 414,
+        "result_sha256": "de3026a3cc60c4c29920f681fbf8e2d627cca20114798aeebc08d132985f1ba9",
+        "errors": [],
+        "golden": "CALIBRATED_OK"
+      },
+      {
+        "work_id": "exupery_petit_prince",
+        "type": "P2",
+        "word_count": 500,
+        "result_sha256": "2ead1f3efab07e07e804c458216eb1adc689be15b78f63af3d9fc560b9b2ac60",
+        "errors": [],
+        "golden": "CALIBRATED_OK"
+      },
+      {
+        "work_id": "la_rochefoucauld_maximes",
+        "type": "P1",
+        "word_count": 414,
+        "result_sha256": "b54c30eab75fb878dd9db8dcae37186664a13a9e0ecf0f169453ef125029a83b",
+        "errors": [],
+        "golden": "CALIBRATED_OK"
+      },
+      {
+        "work_id": "senecque_lettres",
+        "type": "P1",
+        "word_count": 622,
+        "result_sha256": "89a6b9a387670c6872cdd4b8fbbdcb9416f1db0707cdc87533a121a21a674f47",
+        "errors": [],
+        "golden": "CALIBRATED_OK"
+      },
+      {
+        "work_id": "senecque_lettres",
+        "type": "P2",
+        "word_count": 622,
+        "result_sha256": "cc87c59cf82cf3711df382c13390b7c9b820a393c1fb1534658b87212840ff43",
+        "errors": [],
+        "golden": "CALIBRATED_OK"
+      },
+      {
+        "work_id": "nietzsche_zarathoustra",
+        "type": "P1",
+        "word_count": 410,
+        "result_sha256": "7115c5d43d07edbc3c2ee5ba539105229d79bbdf24af37919adc8163172a6546",
+        "errors": [],
+        "golden": "CALIBRATED_OK"
+      },
+      {
+        "work_id": "nietzsche_zarathoustra",
+        "type": "P2",
+        "word_count": 419,
+        "result_sha256": "ec7668033e021597eaf8d12bbb97390ec55f8f8575e1f66dc810563c88cee7f6",
+        "errors": [],
+        "golden": "CALIBRATED_OK"
+      },
+      {
+        "work_id": "maupassant_nouvelles",
+        "type": "P1",
+        "word_count": 401,
+        "result_sha256": "b06333840256fd621020f7a27840555eccdde15aa5d1c07bf39ed01b4e2a43dc",
+        "errors": [],
+        "golden": "CALIBRATED_OK"
+      },
+      {
+        "work_id": "maupassant_nouvelles",
+        "type": "P2",
+        "word_count": 411,
+        "result_sha256": "16a64ebe0e73d7a22339b5c87839663252973392836bc3db1f7fcac057a7ec46",
+        "errors": [],
+        "golden": "CALIBRATED_OK"
+      }
+    ],
+    "failed": [],
+    "skipped": []
+  },
+  "global": {
+    "total_processed": 64,
+    "total_failed": 0,
+    "total_skipped": 0,
+    "success_rate": "64/64"
+  },
+  "kafka_note": "Analyse en DE original — traduction FR PD indisponible sur Gutenberg"
+}

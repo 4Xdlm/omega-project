@@ -1,12 +1,13 @@
-﻿Write-Host "OMEGA Windows Test - 7 Tests"
-Write-Host ""
+Set-Location "C:\Users\elric\omega-project\packages\sovereign-engine"
+$env:PATH = "C:\Program Files\nodejs;" + $env:PATH
+$outFile = "C:\Users\elric\omega-project\vitest_results.txt"
 
-$bin = ".\omega-bridge-win.exe"
+$proc = Start-Process -FilePath "C:\Users\elric\omega-project\packages\sovereign-engine\node_modules\.bin\vitest.cmd" `
+    -ArgumentList "run" `
+    -WorkingDirectory "C:\Users\elric\omega-project\packages\sovereign-engine" `
+    -RedirectStandardOutput $outFile `
+    -RedirectStandardError "C:\Users\elric\omega-project\vitest_err2.txt" `
+    -Wait -PassThru -NoNewWindow
 
-Write-Host "[1/7] Health Check"
-cmd /c "$bin "{`"command`":`"health`"}""
-
-Write-Host "[2/7] Version"
-cmd /c "$bin "{`"command`":`"version`"}""
-
-Write-Host "Tests complete!"
+Write-Output "EXIT: $($proc.ExitCode)"
+Write-Output "OutFile size: $((Get-Item $outFile -ErrorAction SilentlyContinue).Length)"

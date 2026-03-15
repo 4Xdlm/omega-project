@@ -1,0 +1,4149 @@
+{
+  "generated": "2026-03-01T17:21:02.779721",
+  "protocol_version": "autopsie_v3.0",
+  "n_works": 24,
+  "features_tracked": [
+    "f1_mean",
+    "f1a_rhythm_variance",
+    "f1b_rhythm_ratio",
+    "f5a_verb_density",
+    "f5b_verb_adj_ratio",
+    "f8a_emotional_density_ratio",
+    "f9a_contradiction_rate",
+    "f15a_local_repetition_rate",
+    "f15b_redundancy_compression",
+    "f16b_hapax_rate",
+    "f16c_lexical_surprise",
+    "f17_contrast_arc_score",
+    "f18f_ellipsis_final",
+    "f19a_approx_entropy",
+    "f19b_shannon_entropy",
+    "f20d_composite_fg"
+  ],
+  "note": "Ces valeurs MESURÉES remplacent les seuils génériques issus d'études larges. P25/médiane/P75 calculés sur extraits réels de chaque auteur.",
+  "global_corpus_baseline": {
+    "f1_mean": {
+      "n": 161,
+      "p10": 8.22,
+      "p25": 10.75,
+      "median": 13.51,
+      "p75": 17.22,
+      "p90": 20.54,
+      "mean": 14.75149,
+      "stdev": 6.59635
+    },
+    "f1a_rhythm_variance": {
+      "n": 161,
+      "p10": 5.742,
+      "p25": 7.332,
+      "median": 10.158,
+      "p75": 12.4,
+      "p90": 16.317,
+      "mean": 10.92353,
+      "stdev": 5.23847
+    },
+    "f1b_rhythm_ratio": {
+      "n": 161,
+      "p10": 0.5834,
+      "p25": 0.6601,
+      "median": 0.7224,
+      "p75": 0.7955,
+      "p90": 0.9092,
+      "mean": 0.7442,
+      "stdev": 0.15289
+    },
+    "f5a_verb_density": {
+      "n": 161,
+      "p10": 0.0395,
+      "p25": 0.0484,
+      "median": 0.0641,
+      "p75": 0.1515,
+      "p90": 0.1761,
+      "mean": 0.09232,
+      "stdev": 0.05489
+    },
+    "f5b_verb_adj_ratio": {
+      "n": 161,
+      "p10": 0.7765,
+      "p25": 0.9615,
+      "median": 1.2692,
+      "p75": 2.4333,
+      "p90": 3.4516,
+      "mean": 1.73293,
+      "stdev": 1.06044
+    },
+    "f8a_emotional_density_ratio": {
+      "n": 161,
+      "p10": 0.0,
+      "p25": 0.0,
+      "median": 0.0,
+      "p75": 0.00181,
+      "p90": 0.00688,
+      "mean": 0.00185,
+      "stdev": 0.00332
+    },
+    "f9a_contradiction_rate": {
+      "n": 161,
+      "p10": 0.1791,
+      "p25": 0.25,
+      "median": 0.3243,
+      "p75": 0.4583,
+      "p90": 0.5429,
+      "mean": 0.35447,
+      "stdev": 0.14398
+    },
+    "f15a_local_repetition_rate": {
+      "n": 161,
+      "p10": 0.008,
+      "p25": 0.017,
+      "median": 0.0297,
+      "p75": 0.0436,
+      "p90": 0.0619,
+      "mean": 0.03772,
+      "stdev": 0.03631
+    },
+    "f15b_redundancy_compression": {
+      "n": 161,
+      "p10": 0.9364,
+      "p25": 0.9549,
+      "median": 0.9703,
+      "p75": 0.9827,
+      "p90": 0.9917,
+      "mean": 0.96228,
+      "stdev": 0.03631
+    },
+    "f16b_hapax_rate": {
+      "n": 161,
+      "p10": 0.5685,
+      "p25": 0.6182,
+      "median": 0.6677,
+      "p75": 0.6991,
+      "p90": 0.7287,
+      "mean": 0.65418,
+      "stdev": 0.06803
+    },
+    "f16c_lexical_surprise": {
+      "n": 161,
+      "p10": 0.7776,
+      "p25": 0.8073,
+      "median": 0.8367,
+      "p75": 0.8508,
+      "p90": 0.869,
+      "mean": 0.8267,
+      "stdev": 0.04214
+    },
+    "f17_contrast_arc_score": {
+      "n": 161,
+      "p10": 0.3304,
+      "p25": 0.3679,
+      "median": 0.4458,
+      "p75": 0.5415,
+      "p90": 0.6467,
+      "mean": 0.4663,
+      "stdev": 0.1194
+    },
+    "f18f_ellipsis_final": {
+      "n": 161,
+      "p10": 0.3087,
+      "p25": 0.3791,
+      "median": 0.6033,
+      "p75": 0.6479,
+      "p90": 0.6919,
+      "mean": 0.55551,
+      "stdev": 0.16871
+    },
+    "f19a_approx_entropy": {
+      "n": 161,
+      "p10": 0.15967,
+      "p25": 0.29272,
+      "median": 0.4315,
+      "p75": 0.5953,
+      "p90": 0.7378,
+      "mean": 0.43538,
+      "stdev": 0.20961
+    },
+    "f19b_shannon_entropy": {
+      "n": 161,
+      "p10": 1.85328,
+      "p25": 2.2119,
+      "median": 2.52687,
+      "p75": 2.70595,
+      "p90": 2.91379,
+      "mean": 2.46313,
+      "stdev": 0.41007
+    },
+    "f20d_composite_fg": {
+      "n": 161,
+      "p10": 0.15131,
+      "p25": 0.17372,
+      "median": 0.19572,
+      "p75": 0.22368,
+      "p90": 0.25074,
+      "mean": 0.19987,
+      "stdev": 0.04086
+    }
+  },
+  "authors": {
+    "tchekhov_dame": {
+      "author": "Tchekhov",
+      "work_id": "tchekhov_dame",
+      "n_extracts": 10,
+      "baseline": {
+        "f1_mean": {
+          "n": 10,
+          "min": 10.48,
+          "p25": 10.92,
+          "median": 13.29,
+          "p75": 17.09,
+          "max": 18.8,
+          "mean": 14.231,
+          "stdev": 2.88021
+        },
+        "f1a_rhythm_variance": {
+          "n": 10,
+          "min": 6.222,
+          "p25": 6.678,
+          "median": 10.191,
+          "p75": 11.386,
+          "max": 14.331,
+          "mean": 9.903,
+          "stdev": 2.47895
+        },
+        "f1b_rhythm_ratio": {
+          "n": 10,
+          "min": 0.496,
+          "p25": 0.5698,
+          "median": 0.70355,
+          "p75": 0.7923,
+          "max": 0.8975,
+          "mean": 0.69749,
+          "stdev": 0.1215
+        },
+        "f5a_verb_density": {
+          "n": 10,
+          "min": 0.0261,
+          "p25": 0.0339,
+          "median": 0.04615,
+          "p75": 0.0525,
+          "max": 0.0544,
+          "mean": 0.04443,
+          "stdev": 0.00934
+        },
+        "f5b_verb_adj_ratio": {
+          "n": 10,
+          "min": 0.7308,
+          "p25": 0.7619,
+          "median": 1.1375,
+          "p75": 1.28,
+          "max": 1.5625,
+          "mean": 1.12388,
+          "stdev": 0.25842
+        },
+        "f8a_emotional_density_ratio": {
+          "n": 10,
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 0.0,
+          "p75": 0.00179,
+          "max": 0.00363,
+          "mean": 0.00072,
+          "stdev": 0.00127
+        },
+        "f9a_contradiction_rate": {
+          "n": 10,
+          "min": 0.1429,
+          "p25": 0.2195,
+          "median": 0.32555,
+          "p75": 0.3846,
+          "max": 0.5,
+          "mean": 0.32851,
+          "stdev": 0.11106
+        },
+        "f15a_local_repetition_rate": {
+          "n": 10,
+          "min": 0.0167,
+          "p25": 0.0221,
+          "median": 0.0449,
+          "p75": 0.0495,
+          "max": 0.0777,
+          "mean": 0.04273,
+          "stdev": 0.01708
+        },
+        "f15b_redundancy_compression": {
+          "n": 10,
+          "min": 0.9223,
+          "p25": 0.9487,
+          "median": 0.9551,
+          "p75": 0.9661,
+          "max": 0.9833,
+          "mean": 0.95727,
+          "stdev": 0.01708
+        },
+        "f16b_hapax_rate": {
+          "n": 10,
+          "min": 0.5815,
+          "p25": 0.583,
+          "median": 0.62405,
+          "p75": 0.6643,
+          "max": 0.737,
+          "mean": 0.63936,
+          "stdev": 0.05025
+        },
+        "f16c_lexical_surprise": {
+          "n": 10,
+          "min": 0.7885,
+          "p25": 0.7926,
+          "median": 0.80845,
+          "p75": 0.8303,
+          "max": 0.867,
+          "mean": 0.81453,
+          "stdev": 0.02472
+        },
+        "f17_contrast_arc_score": {
+          "n": 10,
+          "min": 0.3379,
+          "p25": 0.3981,
+          "median": 0.50035,
+          "p75": 0.6111,
+          "max": 0.75,
+          "mean": 0.52388,
+          "stdev": 0.13671
+        },
+        "f18f_ellipsis_final": {
+          "n": 10,
+          "min": 0.5335,
+          "p25": 0.5769,
+          "median": 0.6119,
+          "p75": 0.6417,
+          "max": 0.6639,
+          "mean": 0.61223,
+          "stdev": 0.04025
+        },
+        "f19a_approx_entropy": {
+          "n": 10,
+          "min": 0.09247,
+          "p25": 0.35821,
+          "median": 0.43186,
+          "p75": 0.4626,
+          "max": 0.59574,
+          "mean": 0.42168,
+          "stdev": 0.14091
+        },
+        "f19b_shannon_entropy": {
+          "n": 10,
+          "min": 2.00185,
+          "p25": 2.2119,
+          "median": 2.57321,
+          "p75": 2.82882,
+          "max": 3.10089,
+          "mean": 2.58073,
+          "stdev": 0.32646
+        },
+        "f20d_composite_fg": {
+          "n": 10,
+          "min": 0.15104,
+          "p25": 0.1523,
+          "median": 0.19165,
+          "p75": 0.21322,
+          "max": 0.21946,
+          "mean": 0.18911,
+          "stdev": 0.02614
+        }
+      },
+      "lang_original": "ru",
+      "category": "cat1_contrainte"
+    },
+    "flaubert_bovary": {
+      "author": "Flaubert",
+      "work_id": "flaubert_bovary",
+      "n_extracts": 10,
+      "baseline": {
+        "f1_mean": {
+          "n": 10,
+          "min": 11.65,
+          "p25": 12.43,
+          "median": 15.775,
+          "p75": 16.85,
+          "max": 20.97,
+          "mean": 15.708,
+          "stdev": 2.78115
+        },
+        "f1a_rhythm_variance": {
+          "n": 10,
+          "min": 8.53,
+          "p25": 8.773,
+          "median": 10.7965,
+          "p75": 12.184,
+          "max": 13.02,
+          "mean": 10.8012,
+          "stdev": 1.54723
+        },
+        "f1b_rhythm_ratio": {
+          "n": 10,
+          "min": 0.5752,
+          "p25": 0.5834,
+          "median": 0.7175,
+          "p75": 0.7443,
+          "max": 0.7945,
+          "mean": 0.69477,
+          "stdev": 0.07796
+        },
+        "f5a_verb_density": {
+          "n": 10,
+          "min": 0.142,
+          "p25": 0.1516,
+          "median": 0.15955,
+          "p75": 0.1691,
+          "max": 0.1797,
+          "mean": 0.16114,
+          "stdev": 0.0116
+        },
+        "f5b_verb_adj_ratio": {
+          "n": 10,
+          "min": 1.7547,
+          "p25": 2.4474,
+          "median": 2.92425,
+          "p75": 3.4516,
+          "max": 3.9231,
+          "mean": 2.93103,
+          "stdev": 0.62508
+        },
+        "f8a_emotional_density_ratio": {
+          "n": 10,
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 0.00361,
+          "p75": 0.00723,
+          "max": 0.01747,
+          "mean": 0.00508,
+          "stdev": 0.00566
+        },
+        "f9a_contradiction_rate": {
+          "n": 10,
+          "min": 0.2432,
+          "p25": 0.2759,
+          "median": 0.3415,
+          "p75": 0.3571,
+          "max": 0.4545,
+          "mean": 0.33377,
+          "stdev": 0.05897
+        },
+        "f15a_local_repetition_rate": {
+          "n": 10,
+          "min": 0.0,
+          "p25": 0.004,
+          "median": 0.0113,
+          "p75": 0.0155,
+          "max": 0.0519,
+          "mean": 0.01489,
+          "stdev": 0.0144
+        },
+        "f15b_redundancy_compression": {
+          "n": 10,
+          "min": 0.9481,
+          "p25": 0.9773,
+          "median": 0.9887,
+          "p75": 0.9921,
+          "max": 1.0,
+          "mean": 0.98511,
+          "stdev": 0.0144
+        },
+        "f16b_hapax_rate": {
+          "n": 10,
+          "min": 0.7099,
+          "p25": 0.7208,
+          "median": 0.7562,
+          "p75": 0.7717,
+          "max": 0.796,
+          "mean": 0.75155,
+          "stdev": 0.02684
+        },
+        "f16c_lexical_surprise": {
+          "n": 10,
+          "min": 0.8532,
+          "p25": 0.8711,
+          "median": 0.88725,
+          "p75": 0.8903,
+          "max": 0.9049,
+          "mean": 0.88443,
+          "stdev": 0.01423
+        },
+        "f17_contrast_arc_score": {
+          "n": 10,
+          "min": 0.3557,
+          "p25": 0.3605,
+          "median": 0.41195,
+          "p75": 0.4843,
+          "max": 0.6467,
+          "mean": 0.44164,
+          "stdev": 0.09755
+        },
+        "f18f_ellipsis_final": {
+          "n": 10,
+          "min": 0.2829,
+          "p25": 0.2861,
+          "median": 0.3231,
+          "p75": 0.3403,
+          "max": 0.4554,
+          "mean": 0.32869,
+          "stdev": 0.04983
+        },
+        "f19a_approx_entropy": {
+          "n": 10,
+          "min": 0.06265,
+          "p25": 0.23217,
+          "median": 0.304,
+          "p75": 0.4315,
+          "max": 0.49282,
+          "mean": 0.3265,
+          "stdev": 0.12446
+        },
+        "f19b_shannon_entropy": {
+          "n": 10,
+          "min": 2.48869,
+          "p25": 2.50111,
+          "median": 2.66185,
+          "p75": 2.87888,
+          "max": 2.99384,
+          "mean": 2.697,
+          "stdev": 0.18337
+        },
+        "f20d_composite_fg": {
+          "n": 10,
+          "min": 0.14668,
+          "p25": 0.15225,
+          "median": 0.18942,
+          "p75": 0.22252,
+          "max": 0.2418,
+          "mean": 0.19236,
+          "stdev": 0.03108
+        }
+      },
+      "lang_original": "fr",
+      "category": "cat1_contrainte"
+    },
+    "merimee_mateo": {
+      "author": "Merimee",
+      "work_id": "merimee_mateo",
+      "n_extracts": 10,
+      "baseline": {
+        "f1_mean": {
+          "n": 10,
+          "min": 6.93,
+          "p25": 11.62,
+          "median": 15.27,
+          "p75": 18.0,
+          "max": 20.96,
+          "mean": 15.049,
+          "stdev": 3.9538
+        },
+        "f1a_rhythm_variance": {
+          "n": 10,
+          "min": 5.39,
+          "p25": 6.665,
+          "median": 9.603,
+          "p75": 12.269,
+          "max": 12.923,
+          "mean": 9.5498,
+          "stdev": 2.71034
+        },
+        "f1b_rhythm_ratio": {
+          "n": 10,
+          "min": 0.4363,
+          "p25": 0.5707,
+          "median": 0.65495,
+          "p75": 0.6816,
+          "max": 0.7777,
+          "mean": 0.64104,
+          "stdev": 0.09611
+        },
+        "f5a_verb_density": {
+          "n": 10,
+          "min": 0.064,
+          "p25": 0.106,
+          "median": 0.16,
+          "p75": 0.1692,
+          "max": 0.1731,
+          "mean": 0.14443,
+          "stdev": 0.03499
+        },
+        "f5b_verb_adj_ratio": {
+          "n": 10,
+          "min": 1.4483,
+          "p25": 1.7714,
+          "median": 2.88335,
+          "p75": 3.5714,
+          "max": 3.9615,
+          "mean": 2.89309,
+          "stdev": 0.85267
+        },
+        "f8a_emotional_density_ratio": {
+          "n": 10,
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 0.00268,
+          "p75": 0.00364,
+          "max": 0.00719,
+          "mean": 0.00266,
+          "stdev": 0.00239
+        },
+        "f9a_contradiction_rate": {
+          "n": 10,
+          "min": 0.1954,
+          "p25": 0.2564,
+          "median": 0.35815,
+          "p75": 0.5,
+          "max": 0.6296,
+          "mean": 0.40021,
+          "stdev": 0.14456
+        },
+        "f15a_local_repetition_rate": {
+          "n": 10,
+          "min": 0.0072,
+          "p25": 0.0078,
+          "median": 0.01785,
+          "p75": 0.0299,
+          "max": 0.0575,
+          "mean": 0.02398,
+          "stdev": 0.01849
+        },
+        "f15b_redundancy_compression": {
+          "n": 10,
+          "min": 0.9425,
+          "p25": 0.9446,
+          "median": 0.98215,
+          "p75": 0.9885,
+          "max": 0.9928,
+          "mean": 0.97602,
+          "stdev": 0.01849
+        },
+        "f16b_hapax_rate": {
+          "n": 10,
+          "min": 0.6656,
+          "p25": 0.6688,
+          "median": 0.6911,
+          "p75": 0.7033,
+          "max": 0.723,
+          "mean": 0.69195,
+          "stdev": 0.01978
+        },
+        "f16c_lexical_surprise": {
+          "n": 10,
+          "min": 0.8387,
+          "p25": 0.8387,
+          "median": 0.84965,
+          "p75": 0.8598,
+          "max": 0.8637,
+          "mean": 0.84968,
+          "stdev": 0.00907
+        },
+        "f17_contrast_arc_score": {
+          "n": 10,
+          "min": 0.3307,
+          "p25": 0.3619,
+          "median": 0.493,
+          "p75": 0.55,
+          "max": 0.5769,
+          "mean": 0.48288,
+          "stdev": 0.0832
+        },
+        "f18f_ellipsis_final": {
+          "n": 10,
+          "min": 0.2941,
+          "p25": 0.3002,
+          "median": 0.36265,
+          "p75": 0.4531,
+          "max": 0.5828,
+          "mean": 0.39947,
+          "stdev": 0.10825
+        },
+        "f19a_approx_entropy": {
+          "n": 10,
+          "min": 0.06742,
+          "p25": 0.1107,
+          "median": 0.28199,
+          "p75": 0.38882,
+          "max": 0.83156,
+          "mean": 0.30709,
+          "stdev": 0.21513
+        },
+        "f19b_shannon_entropy": {
+          "n": 10,
+          "min": 1.21736,
+          "p25": 2.36006,
+          "median": 2.73212,
+          "p75": 3.1023,
+          "max": 3.18426,
+          "mean": 2.68568,
+          "stdev": 0.58585
+        },
+        "f20d_composite_fg": {
+          "n": 10,
+          "min": 0.12413,
+          "p25": 0.16047,
+          "median": 0.1955,
+          "p75": 0.23305,
+          "max": 0.2372,
+          "mean": 0.19603,
+          "stdev": 0.03663
+        }
+      },
+      "lang_original": "fr",
+      "category": "cat1_contrainte"
+    },
+    "austen_orgueil": {
+      "author": "Austen",
+      "work_id": "austen_orgueil",
+      "n_extracts": 9,
+      "baseline": {
+        "f1_mean": {
+          "n": 9,
+          "min": 10.42,
+          "p25": 12.26,
+          "median": 12.89,
+          "p75": 14.89,
+          "max": 18.4,
+          "mean": 13.88667,
+          "stdev": 2.47421
+        },
+        "f1a_rhythm_variance": {
+          "n": 9,
+          "min": 7.099,
+          "p25": 7.331,
+          "median": 10.073,
+          "p75": 10.692,
+          "max": 11.611,
+          "mean": 9.41267,
+          "stdev": 1.60037
+        },
+        "f1b_rhythm_ratio": {
+          "n": 9,
+          "min": 0.5836,
+          "p25": 0.5977,
+          "median": 0.6789,
+          "p75": 0.6867,
+          "max": 0.7885,
+          "mean": 0.68098,
+          "stdev": 0.06847
+        },
+        "f5a_verb_density": {
+          "n": 9,
+          "min": 0.0298,
+          "p25": 0.0371,
+          "median": 0.0464,
+          "p75": 0.0517,
+          "max": 0.0549,
+          "mean": 0.04499,
+          "stdev": 0.00852
+        },
+        "f5b_verb_adj_ratio": {
+          "n": 9,
+          "min": 0.7391,
+          "p25": 0.8889,
+          "median": 1.1364,
+          "p75": 1.7619,
+          "max": 2.0667,
+          "mean": 1.31481,
+          "stdev": 0.46273
+        },
+        "f8a_emotional_density_ratio": {
+          "n": 9,
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 0.0,
+          "p75": 0.0,
+          "max": 0.00181,
+          "mean": 0.00037,
+          "stdev": 0.00074
+        },
+        "f9a_contradiction_rate": {
+          "n": 9,
+          "min": 0.1778,
+          "p25": 0.2326,
+          "median": 0.283,
+          "p75": 0.4,
+          "max": 0.4545,
+          "mean": 0.31398,
+          "stdev": 0.10067
+        },
+        "f15a_local_repetition_rate": {
+          "n": 9,
+          "min": 0.0079,
+          "p25": 0.017,
+          "median": 0.0297,
+          "p75": 0.0362,
+          "max": 0.046,
+          "mean": 0.02876,
+          "stdev": 0.01209
+        },
+        "f15b_redundancy_compression": {
+          "n": 9,
+          "min": 0.954,
+          "p25": 0.959,
+          "median": 0.9703,
+          "p75": 0.98,
+          "max": 0.9921,
+          "mean": 0.97124,
+          "stdev": 0.01209
+        },
+        "f16b_hapax_rate": {
+          "n": 9,
+          "min": 0.5793,
+          "p25": 0.5931,
+          "median": 0.6646,
+          "p75": 0.6748,
+          "max": 0.7016,
+          "mean": 0.65188,
+          "stdev": 0.04293
+        },
+        "f16c_lexical_surprise": {
+          "n": 9,
+          "min": 0.7859,
+          "p25": 0.7956,
+          "median": 0.8306,
+          "p75": 0.8336,
+          "max": 0.8611,
+          "mean": 0.82512,
+          "stdev": 0.02376
+        },
+        "f17_contrast_arc_score": {
+          "n": 9,
+          "min": 0.3442,
+          "p25": 0.3732,
+          "median": 0.509,
+          "p75": 0.6,
+          "max": 0.65,
+          "mean": 0.50818,
+          "stdev": 0.11942
+        },
+        "f18f_ellipsis_final": {
+          "n": 9,
+          "min": 0.5669,
+          "p25": 0.5917,
+          "median": 0.6186,
+          "p75": 0.6308,
+          "max": 0.675,
+          "mean": 0.62232,
+          "stdev": 0.03449
+        },
+        "f19a_approx_entropy": {
+          "n": 9,
+          "min": 0.24416,
+          "p25": 0.32559,
+          "median": 0.45289,
+          "p75": 0.47354,
+          "max": 0.65555,
+          "mean": 0.4302,
+          "stdev": 0.13147
+        },
+        "f19b_shannon_entropy": {
+          "n": 9,
+          "min": 2.20623,
+          "p25": 2.52687,
+          "median": 2.70466,
+          "p75": 2.8571,
+          "max": 3.03226,
+          "mean": 2.70245,
+          "stdev": 0.23609
+        },
+        "f20d_composite_fg": {
+          "n": 9,
+          "min": 0.15131,
+          "p25": 0.15696,
+          "median": 0.17903,
+          "p75": 0.20562,
+          "max": 0.24621,
+          "mean": 0.1898,
+          "stdev": 0.03307
+        }
+      },
+      "lang_original": "en",
+      "category": "cat1_contrainte"
+    },
+    "dostoievski_crime": {
+      "author": "Dostoievski",
+      "work_id": "dostoievski_crime",
+      "n_extracts": 9,
+      "baseline": {
+        "f1_mean": {
+          "n": 9,
+          "min": 8.22,
+          "p25": 8.23,
+          "median": 10.89,
+          "p75": 12.66,
+          "max": 15.89,
+          "mean": 10.98556,
+          "stdev": 2.52987
+        },
+        "f1a_rhythm_variance": {
+          "n": 9,
+          "min": 5.257,
+          "p25": 5.973,
+          "median": 8.0,
+          "p75": 9.449,
+          "max": 11.313,
+          "mean": 8.03644,
+          "stdev": 1.95094
+        },
+        "f1b_rhythm_ratio": {
+          "n": 9,
+          "min": 0.6388,
+          "p25": 0.6825,
+          "median": 0.7269,
+          "p75": 0.7536,
+          "max": 0.8286,
+          "mean": 0.73047,
+          "stdev": 0.05552
+        },
+        "f5a_verb_density": {
+          "n": 9,
+          "min": 0.0366,
+          "p25": 0.0421,
+          "median": 0.0544,
+          "p75": 0.0549,
+          "max": 0.0674,
+          "mean": 0.05132,
+          "stdev": 0.00928
+        },
+        "f5b_verb_adj_ratio": {
+          "n": 9,
+          "min": 0.6,
+          "p25": 0.8205,
+          "median": 1.1667,
+          "p75": 1.2143,
+          "max": 1.5,
+          "mean": 1.06369,
+          "stdev": 0.27793
+        },
+        "f8a_emotional_density_ratio": {
+          "n": 9,
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 0.0,
+          "p75": 0.00153,
+          "max": 0.00177,
+          "mean": 0.0007,
+          "stdev": 0.00083
+        },
+        "f9a_contradiction_rate": {
+          "n": 9,
+          "min": 0.1698,
+          "p25": 0.2174,
+          "median": 0.2568,
+          "p75": 0.2951,
+          "max": 0.3611,
+          "mean": 0.27013,
+          "stdev": 0.06131
+        },
+        "f15a_local_repetition_rate": {
+          "n": 9,
+          "min": 0.0331,
+          "p25": 0.0356,
+          "median": 0.0427,
+          "p75": 0.0576,
+          "max": 0.0648,
+          "mean": 0.04572,
+          "stdev": 0.01234
+        },
+        "f15b_redundancy_compression": {
+          "n": 9,
+          "min": 0.9352,
+          "p25": 0.9381,
+          "median": 0.9573,
+          "p75": 0.9639,
+          "max": 0.9669,
+          "mean": 0.95428,
+          "stdev": 0.01234
+        },
+        "f16b_hapax_rate": {
+          "n": 9,
+          "min": 0.5224,
+          "p25": 0.5564,
+          "median": 0.5979,
+          "p75": 0.6182,
+          "max": 0.6629,
+          "mean": 0.5959,
+          "stdev": 0.04187
+        },
+        "f16c_lexical_surprise": {
+          "n": 9,
+          "min": 0.7495,
+          "p25": 0.7511,
+          "median": 0.8023,
+          "p75": 0.8073,
+          "max": 0.8229,
+          "mean": 0.79143,
+          "stdev": 0.02592
+        },
+        "f17_contrast_arc_score": {
+          "n": 9,
+          "min": 0.3608,
+          "p25": 0.3679,
+          "median": 0.4179,
+          "p75": 0.5,
+          "max": 0.6087,
+          "mean": 0.44809,
+          "stdev": 0.09832
+        },
+        "f18f_ellipsis_final": {
+          "n": 9,
+          "min": 0.5639,
+          "p25": 0.592,
+          "median": 0.633,
+          "p75": 0.6479,
+          "max": 0.6798,
+          "mean": 0.62679,
+          "stdev": 0.03751
+        },
+        "f19a_approx_entropy": {
+          "n": 9,
+          "min": 0.32638,
+          "p25": 0.38124,
+          "median": 0.49212,
+          "p75": 0.73065,
+          "max": 0.86925,
+          "mean": 0.5701,
+          "stdev": 0.1992
+        },
+        "f19b_shannon_entropy": {
+          "n": 9,
+          "min": 1.84368,
+          "p25": 1.85328,
+          "median": 2.48897,
+          "p75": 2.55625,
+          "max": 2.62248,
+          "mean": 2.36803,
+          "stdev": 0.30247
+        },
+        "f20d_composite_fg": {
+          "n": 9,
+          "min": 0.15453,
+          "p25": 0.16405,
+          "median": 0.19052,
+          "p75": 0.19283,
+          "max": 0.22492,
+          "mean": 0.18871,
+          "stdev": 0.02192
+        }
+      },
+      "lang_original": "ru",
+      "category": "cat2_interiorite"
+    },
+    "kafka_proces": {
+      "author": "Kafka",
+      "work_id": "kafka_proces",
+      "n_extracts": 4,
+      "baseline": {
+        "f1_mean": {
+          "n": 4,
+          "min": 7.29,
+          "p25": 7.29,
+          "median": 7.57,
+          "p75": 8.46,
+          "max": 8.46,
+          "mean": 7.7225,
+          "stdev": 0.51227
+        },
+        "f1a_rhythm_variance": {
+          "n": 4,
+          "min": 5.13,
+          "p25": 5.13,
+          "median": 5.5035,
+          "p75": 5.652,
+          "max": 5.652,
+          "mean": 5.44725,
+          "stdev": 0.24005
+        },
+        "f1b_rhythm_ratio": {
+          "n": 4,
+          "min": 0.6638,
+          "p25": 0.6638,
+          "median": 0.71165,
+          "p75": 0.7394,
+          "max": 0.7394,
+          "mean": 0.70662,
+          "stdev": 0.03868
+        },
+        "f5a_verb_density": {
+          "n": 4,
+          "min": 0.0683,
+          "p25": 0.0683,
+          "median": 0.08815,
+          "p75": 0.1109,
+          "max": 0.1109,
+          "mean": 0.08887,
+          "stdev": 0.01842
+        },
+        "f5b_verb_adj_ratio": {
+          "n": 4,
+          "min": 0.9783,
+          "p25": 0.9783,
+          "median": 1.06195,
+          "p75": 1.5106,
+          "max": 1.5106,
+          "mean": 1.1532,
+          "stdev": 0.24994
+        },
+        "f8a_emotional_density_ratio": {
+          "n": 4,
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 0.0,
+          "p75": 0.00118,
+          "max": 0.00118,
+          "mean": 0.0003,
+          "stdev": 0.00059
+        },
+        "f9a_contradiction_rate": {
+          "n": 4,
+          "min": 0.0784,
+          "p25": 0.0784,
+          "median": 0.10105,
+          "p75": 0.1413,
+          "max": 0.1413,
+          "mean": 0.10545,
+          "stdev": 0.02641
+        },
+        "f15a_local_repetition_rate": {
+          "n": 4,
+          "min": 0.0063,
+          "p25": 0.0063,
+          "median": 0.0183,
+          "p75": 0.032,
+          "max": 0.032,
+          "mean": 0.01872,
+          "stdev": 0.01246
+        },
+        "f15b_redundancy_compression": {
+          "n": 4,
+          "min": 0.968,
+          "p25": 0.968,
+          "median": 0.9817,
+          "p75": 0.9937,
+          "max": 0.9937,
+          "mean": 0.98128,
+          "stdev": 0.01246
+        },
+        "f16b_hapax_rate": {
+          "n": 4,
+          "min": 0.6478,
+          "p25": 0.6478,
+          "median": 0.67625,
+          "p75": 0.6918,
+          "max": 0.6918,
+          "mean": 0.67302,
+          "stdev": 0.02186
+        },
+        "f16c_lexical_surprise": {
+          "n": 4,
+          "min": 0.8262,
+          "p25": 0.8262,
+          "median": 0.8425,
+          "p75": 0.856,
+          "max": 0.856,
+          "mean": 0.8418,
+          "stdev": 0.0133
+        },
+        "f17_contrast_arc_score": {
+          "n": 4,
+          "min": 0.2778,
+          "p25": 0.2778,
+          "median": 0.5107,
+          "p75": 0.6154,
+          "max": 0.6154,
+          "mean": 0.47865,
+          "stdev": 0.14627
+        },
+        "f18f_ellipsis_final": {
+          "n": 4,
+          "min": 0.7132,
+          "p25": 0.7132,
+          "median": 0.74035,
+          "p75": 0.8933,
+          "max": 0.8933,
+          "mean": 0.7718,
+          "stdev": 0.08405
+        },
+        "f19a_approx_entropy": {
+          "n": 4,
+          "min": 0.62494,
+          "p25": 0.62494,
+          "median": 0.85945,
+          "p75": 0.97492,
+          "max": 0.97492,
+          "mean": 0.82969,
+          "stdev": 0.15993
+        },
+        "f19b_shannon_entropy": {
+          "n": 4,
+          "min": 2.19113,
+          "p25": 2.19113,
+          "median": 2.28986,
+          "p75": 2.46362,
+          "max": 2.46362,
+          "mean": 2.30862,
+          "stdev": 0.11545
+        },
+        "f20d_composite_fg": {
+          "n": 4,
+          "min": 0.14791,
+          "p25": 0.14791,
+          "median": 0.1775,
+          "p75": 0.18863,
+          "max": 0.18863,
+          "mean": 0.17289,
+          "stdev": 0.01824
+        }
+      },
+      "lang_original": "de",
+      "category": "cat2_interiorite"
+    },
+    "proust_swann": {
+      "author": "Proust",
+      "work_id": "proust_swann",
+      "n_extracts": 10,
+      "baseline": {
+        "f1_mean": {
+          "n": 10,
+          "min": 16.58,
+          "p25": 19.86,
+          "median": 33.595,
+          "p75": 39.87,
+          "max": 44.0,
+          "mean": 31.648,
+          "stdev": 9.54835
+        },
+        "f1a_rhythm_variance": {
+          "n": 10,
+          "min": 13.004,
+          "p25": 13.223,
+          "median": 20.2265,
+          "p75": 24.385,
+          "max": 28.754,
+          "mean": 20.1673,
+          "stdev": 5.33834
+        },
+        "f1b_rhythm_ratio": {
+          "n": 10,
+          "min": 0.4834,
+          "p25": 0.5287,
+          "median": 0.66245,
+          "p75": 0.7485,
+          "max": 0.7845,
+          "mean": 0.6539,
+          "stdev": 0.10026
+        },
+        "f5a_verb_density": {
+          "n": 10,
+          "min": 0.1444,
+          "p25": 0.1553,
+          "median": 0.1748,
+          "p75": 0.1877,
+          "max": 0.1926,
+          "mean": 0.17412,
+          "stdev": 0.01503
+        },
+        "f5b_verb_adj_ratio": {
+          "n": 10,
+          "min": 1.3939,
+          "p25": 2.3333,
+          "median": 2.9739,
+          "p75": 3.7143,
+          "max": 6.0588,
+          "mean": 3.22872,
+          "stdev": 1.25042
+        },
+        "f8a_emotional_density_ratio": {
+          "n": 10,
+          "min": 0.0,
+          "p25": 0.00134,
+          "median": 0.00901,
+          "p75": 0.01365,
+          "max": 0.01789,
+          "mean": 0.00838,
+          "stdev": 0.00597
+        },
+        "f9a_contradiction_rate": {
+          "n": 10,
+          "min": 0.3889,
+          "p25": 0.4667,
+          "median": 0.5633,
+          "p75": 0.6667,
+          "max": 0.75,
+          "mean": 0.57599,
+          "stdev": 0.11587
+        },
+        "f15a_local_repetition_rate": {
+          "n": 10,
+          "min": 0.0173,
+          "p25": 0.0224,
+          "median": 0.0333,
+          "p75": 0.0451,
+          "max": 0.0559,
+          "mean": 0.03404,
+          "stdev": 0.01196
+        },
+        "f15b_redundancy_compression": {
+          "n": 10,
+          "min": 0.9441,
+          "p25": 0.954,
+          "median": 0.9667,
+          "p75": 0.9748,
+          "max": 0.9827,
+          "mean": 0.96596,
+          "stdev": 0.01196
+        },
+        "f16b_hapax_rate": {
+          "n": 10,
+          "min": 0.6377,
+          "p25": 0.6621,
+          "median": 0.71125,
+          "p75": 0.7221,
+          "max": 0.7449,
+          "mean": 0.7041,
+          "stdev": 0.03176
+        },
+        "f16c_lexical_surprise": {
+          "n": 10,
+          "min": 0.821,
+          "p25": 0.8359,
+          "median": 0.8562,
+          "p75": 0.8621,
+          "max": 0.8748,
+          "mean": 0.85288,
+          "stdev": 0.01525
+        },
+        "f17_contrast_arc_score": {
+          "n": 10,
+          "min": 0.2667,
+          "p25": 0.3138,
+          "median": 0.3734,
+          "p75": 0.4512,
+          "max": 0.531,
+          "mean": 0.39787,
+          "stdev": 0.08673
+        },
+        "f18f_ellipsis_final": {
+          "n": 10,
+          "min": 0.2208,
+          "p25": 0.2349,
+          "median": 0.29325,
+          "p75": 0.3197,
+          "max": 0.3508,
+          "mean": 0.28834,
+          "stdev": 0.04292
+        },
+        "f19a_approx_entropy": {
+          "n": 10,
+          "min": 0.01582,
+          "p25": 0.01722,
+          "median": 0.08056,
+          "p75": 0.19767,
+          "max": 0.43054,
+          "mean": 0.13303,
+          "stdev": 0.14121
+        },
+        "f19b_shannon_entropy": {
+          "n": 10,
+          "min": 2.28925,
+          "p25": 2.38338,
+          "median": 2.67284,
+          "p75": 2.80239,
+          "max": 2.91398,
+          "mean": 2.63637,
+          "stdev": 0.19578
+        },
+        "f20d_composite_fg": {
+          "n": 10,
+          "min": 0.17246,
+          "p25": 0.21196,
+          "median": 0.26714,
+          "p75": 0.29276,
+          "max": 0.32846,
+          "mean": 0.26559,
+          "stdev": 0.04846
+        }
+      },
+      "lang_original": "fr",
+      "category": "cat2_interiorite"
+    },
+    "joyce_ulysse": {
+      "author": "Joyce",
+      "work_id": "joyce_ulysse",
+      "n_extracts": 10,
+      "baseline": {
+        "f1_mean": {
+          "n": 10,
+          "min": 6.41,
+          "p25": 6.54,
+          "median": 8.305,
+          "p75": 12.2,
+          "max": 19.07,
+          "mean": 10.229,
+          "stdev": 4.96313
+        },
+        "f1a_rhythm_variance": {
+          "n": 10,
+          "min": 2.945,
+          "p25": 3.778,
+          "median": 6.649,
+          "p75": 14.133,
+          "max": 22.664,
+          "mean": 9.653,
+          "stdev": 7.5093
+        },
+        "f1b_rhythm_ratio": {
+          "n": 10,
+          "min": 0.4595,
+          "p25": 0.5779,
+          "median": 0.7974,
+          "p75": 1.158,
+          "max": 1.1886,
+          "mean": 0.84388,
+          "stdev": 0.25594
+        },
+        "f5a_verb_density": {
+          "n": 10,
+          "min": 0.0426,
+          "p25": 0.0484,
+          "median": 0.06025,
+          "p75": 0.0694,
+          "max": 0.0788,
+          "mean": 0.06057,
+          "stdev": 0.01132
+        },
+        "f5b_verb_adj_ratio": {
+          "n": 10,
+          "min": 0.6471,
+          "p25": 0.8537,
+          "median": 1.0029,
+          "p75": 1.1346,
+          "max": 1.3636,
+          "mean": 1.02716,
+          "stdev": 0.21435
+        },
+        "f8a_emotional_density_ratio": {
+          "n": 10,
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 0.00059,
+          "p75": 0.00181,
+          "max": 0.00332,
+          "mean": 0.00093,
+          "stdev": 0.00114
+        },
+        "f9a_contradiction_rate": {
+          "n": 10,
+          "min": 0.1515,
+          "p25": 0.1558,
+          "median": 0.23945,
+          "p75": 0.3226,
+          "max": 0.4091,
+          "mean": 0.25975,
+          "stdev": 0.09436
+        },
+        "f15a_local_repetition_rate": {
+          "n": 10,
+          "min": 0.0042,
+          "p25": 0.0083,
+          "median": 0.0182,
+          "p75": 0.0222,
+          "max": 0.028,
+          "mean": 0.01704,
+          "stdev": 0.00826
+        },
+        "f15b_redundancy_compression": {
+          "n": 10,
+          "min": 0.972,
+          "p25": 0.972,
+          "median": 0.9818,
+          "p75": 0.9915,
+          "max": 0.9958,
+          "mean": 0.98296,
+          "stdev": 0.00826
+        },
+        "f16b_hapax_rate": {
+          "n": 10,
+          "min": 0.5847,
+          "p25": 0.5847,
+          "median": 0.66865,
+          "p75": 0.7012,
+          "max": 0.735,
+          "mean": 0.65881,
+          "stdev": 0.05361
+        },
+        "f16c_lexical_surprise": {
+          "n": 10,
+          "min": 0.8022,
+          "p25": 0.8022,
+          "median": 0.8433,
+          "p75": 0.8542,
+          "max": 0.8758,
+          "mean": 0.83992,
+          "stdev": 0.02485
+        },
+        "f17_contrast_arc_score": {
+          "n": 10,
+          "min": 0.3685,
+          "p25": 0.3845,
+          "median": 0.47825,
+          "p75": 0.5263,
+          "max": 0.5952,
+          "mean": 0.47376,
+          "stdev": 0.08113
+        },
+        "f18f_ellipsis_final": {
+          "n": 10,
+          "min": 0.5477,
+          "p25": 0.5477,
+          "median": 0.63535,
+          "p75": 0.6685,
+          "max": 0.6811,
+          "mean": 0.62588,
+          "stdev": 0.04781
+        },
+        "f19a_approx_entropy": {
+          "n": 10,
+          "min": 0.41816,
+          "p25": 0.47043,
+          "median": 0.61967,
+          "p75": 0.64089,
+          "max": 0.75518,
+          "mean": 0.58316,
+          "stdev": 0.10389
+        },
+        "f19b_shannon_entropy": {
+          "n": 10,
+          "min": 1.55259,
+          "p25": 1.80006,
+          "median": 2.02191,
+          "p75": 2.18365,
+          "max": 2.66902,
+          "mean": 2.04599,
+          "stdev": 0.33321
+        },
+        "f20d_composite_fg": {
+          "n": 10,
+          "min": 0.11396,
+          "p25": 0.13396,
+          "median": 0.16757,
+          "p75": 0.22093,
+          "max": 0.24782,
+          "mean": 0.17532,
+          "stdev": 0.04348
+        }
+      },
+      "lang_original": "en",
+      "category": "cat3_structure"
+    },
+    "diderot_jacques": {
+      "author": "Diderot",
+      "work_id": "diderot_jacques",
+      "n_extracts": 10,
+      "baseline": {
+        "f1_mean": {
+          "n": 10,
+          "min": 11.02,
+          "p25": 14.1,
+          "median": 14.99,
+          "p75": 17.91,
+          "max": 20.12,
+          "mean": 15.509,
+          "stdev": 2.55246
+        },
+        "f1a_rhythm_variance": {
+          "n": 10,
+          "min": 7.258,
+          "p25": 8.311,
+          "median": 10.009,
+          "p75": 11.967,
+          "max": 14.035,
+          "mean": 10.361,
+          "stdev": 2.08705
+        },
+        "f1b_rhythm_ratio": {
+          "n": 10,
+          "min": 0.5433,
+          "p25": 0.5899,
+          "median": 0.6641,
+          "p75": 0.6968,
+          "max": 0.8881,
+          "mean": 0.66953,
+          "stdev": 0.09287
+        },
+        "f5a_verb_density": {
+          "n": 10,
+          "min": 0.0255,
+          "p25": 0.029,
+          "median": 0.05275,
+          "p75": 0.0589,
+          "max": 0.0726,
+          "mean": 0.04941,
+          "stdev": 0.0148
+        },
+        "f5b_verb_adj_ratio": {
+          "n": 10,
+          "min": 0.6452,
+          "p25": 0.6957,
+          "median": 1.43335,
+          "p75": 2.0,
+          "max": 2.0714,
+          "mean": 1.36691,
+          "stdev": 0.58685
+        },
+        "f8a_emotional_density_ratio": {
+          "n": 10,
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 0.0,
+          "p75": 0.00163,
+          "max": 0.0017,
+          "mean": 0.0005,
+          "stdev": 0.00081
+        },
+        "f9a_contradiction_rate": {
+          "n": 10,
+          "min": 0.2973,
+          "p25": 0.3243,
+          "median": 0.4904,
+          "p75": 0.5312,
+          "max": 0.6,
+          "mean": 0.47175,
+          "stdev": 0.09884
+        },
+        "f15a_local_repetition_rate": {
+          "n": 10,
+          "min": 0.0407,
+          "p25": 0.0639,
+          "median": 0.1368,
+          "p75": 0.1793,
+          "max": 0.2399,
+          "mean": 0.13691,
+          "stdev": 0.05929
+        },
+        "f15b_redundancy_compression": {
+          "n": 10,
+          "min": 0.7601,
+          "p25": 0.8125,
+          "median": 0.8632,
+          "p75": 0.8891,
+          "max": 0.9593,
+          "mean": 0.86309,
+          "stdev": 0.05929
+        },
+        "f16b_hapax_rate": {
+          "n": 10,
+          "min": 0.4031,
+          "p25": 0.4594,
+          "median": 0.51215,
+          "p75": 0.5631,
+          "max": 0.6891,
+          "mean": 0.52407,
+          "stdev": 0.07809
+        },
+        "f16c_lexical_surprise": {
+          "n": 10,
+          "min": 0.6311,
+          "p25": 0.659,
+          "median": 0.72495,
+          "p75": 0.7438,
+          "max": 0.8409,
+          "mean": 0.72581,
+          "stdev": 0.05851
+        },
+        "f17_contrast_arc_score": {
+          "n": 10,
+          "min": 0.3013,
+          "p25": 0.319,
+          "median": 0.4359,
+          "p75": 0.4886,
+          "max": 0.6818,
+          "mean": 0.44646,
+          "stdev": 0.1276
+        },
+        "f18f_ellipsis_final": {
+          "n": 10,
+          "min": 0.5019,
+          "p25": 0.5539,
+          "median": 0.62705,
+          "p75": 0.6516,
+          "max": 0.7101,
+          "mean": 0.61946,
+          "stdev": 0.0594
+        },
+        "f19a_approx_entropy": {
+          "n": 10,
+          "min": 0.085,
+          "p25": 0.10832,
+          "median": 0.24849,
+          "p75": 0.40056,
+          "max": 0.50901,
+          "mean": 0.27252,
+          "stdev": 0.14682
+        },
+        "f19b_shannon_entropy": {
+          "n": 10,
+          "min": 2.17276,
+          "p25": 2.26133,
+          "median": 2.86944,
+          "p75": 2.98936,
+          "max": 3.05069,
+          "mean": 2.76195,
+          "stdev": 0.30674
+        },
+        "f20d_composite_fg": {
+          "n": 10,
+          "min": 0.14108,
+          "p25": 0.15013,
+          "median": 0.18378,
+          "p75": 0.21282,
+          "max": 0.22673,
+          "mean": 0.18674,
+          "stdev": 0.02822
+        }
+      },
+      "lang_original": "fr",
+      "category": "cat3_structure"
+    },
+    "sterne_tristram": {
+      "author": "Sterne",
+      "work_id": "sterne_tristram",
+      "n_extracts": 10,
+      "baseline": {
+        "f1_mean": {
+          "n": 10,
+          "min": 11.51,
+          "p25": 12.17,
+          "median": 18.995,
+          "p75": 21.21,
+          "max": 24.96,
+          "mean": 18.367,
+          "stdev": 4.51073
+        },
+        "f1a_rhythm_variance": {
+          "n": 10,
+          "min": 10.416,
+          "p25": 10.968,
+          "median": 15.9765,
+          "p75": 20.709,
+          "max": 39.484,
+          "mean": 17.8555,
+          "stdev": 8.4416
+        },
+        "f1b_rhythm_ratio": {
+          "n": 10,
+          "min": 0.6221,
+          "p25": 0.7955,
+          "median": 0.88605,
+          "p75": 0.9765,
+          "max": 1.582,
+          "mean": 0.95462,
+          "stdev": 0.26011
+        },
+        "f5a_verb_density": {
+          "n": 10,
+          "min": 0.0465,
+          "p25": 0.0494,
+          "median": 0.0564,
+          "p75": 0.0654,
+          "max": 0.074,
+          "mean": 0.0589,
+          "stdev": 0.00953
+        },
+        "f5b_verb_adj_ratio": {
+          "n": 10,
+          "min": 0.8462,
+          "p25": 0.9118,
+          "median": 1.144,
+          "p75": 1.4091,
+          "max": 2.1818,
+          "mean": 1.27751,
+          "stdev": 0.4158
+        },
+        "f8a_emotional_density_ratio": {
+          "n": 10,
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 0.0,
+          "p75": 0.0,
+          "max": 0.00162,
+          "mean": 0.00016,
+          "stdev": 0.00051
+        },
+        "f9a_contradiction_rate": {
+          "n": 10,
+          "min": 0.3077,
+          "p25": 0.3137,
+          "median": 0.5,
+          "p75": 0.5385,
+          "max": 0.5862,
+          "mean": 0.467,
+          "stdev": 0.09666
+        },
+        "f15a_local_repetition_rate": {
+          "n": 10,
+          "min": 0.0141,
+          "p25": 0.0214,
+          "median": 0.03545,
+          "p75": 0.0402,
+          "max": 0.0476,
+          "mean": 0.03377,
+          "stdev": 0.01006
+        },
+        "f15b_redundancy_compression": {
+          "n": 10,
+          "min": 0.9524,
+          "p25": 0.9577,
+          "median": 0.96455,
+          "p75": 0.9693,
+          "max": 0.9859,
+          "mean": 0.96623,
+          "stdev": 0.01006
+        },
+        "f16b_hapax_rate": {
+          "n": 10,
+          "min": 0.6232,
+          "p25": 0.627,
+          "median": 0.6686,
+          "p75": 0.6834,
+          "max": 0.7165,
+          "mean": 0.66592,
+          "stdev": 0.03113
+        },
+        "f16c_lexical_surprise": {
+          "n": 10,
+          "min": 0.7999,
+          "p25": 0.8067,
+          "median": 0.83655,
+          "p75": 0.8454,
+          "max": 0.856,
+          "mean": 0.83164,
+          "stdev": 0.0179
+        },
+        "f17_contrast_arc_score": {
+          "n": 10,
+          "min": 0.3124,
+          "p25": 0.3237,
+          "median": 0.3878,
+          "p75": 0.4252,
+          "max": 0.4737,
+          "mean": 0.38793,
+          "stdev": 0.04928
+        },
+        "f18f_ellipsis_final": {
+          "n": 10,
+          "min": 0.5531,
+          "p25": 0.5739,
+          "median": 0.61275,
+          "p75": 0.6525,
+          "max": 0.6807,
+          "mean": 0.61351,
+          "stdev": 0.04154
+        },
+        "f19a_approx_entropy": {
+          "n": 10,
+          "min": 0.12902,
+          "p25": 0.29272,
+          "median": 0.39771,
+          "p75": 0.60916,
+          "max": 0.78615,
+          "mean": 0.44346,
+          "stdev": 0.19164
+        },
+        "f19b_shannon_entropy": {
+          "n": 10,
+          "min": 1.09948,
+          "p25": 1.87872,
+          "median": 2.43901,
+          "p75": 2.58301,
+          "max": 2.67895,
+          "mean": 2.22024,
+          "stdev": 0.48889
+        },
+        "f20d_composite_fg": {
+          "n": 10,
+          "min": 0.18995,
+          "p25": 0.20174,
+          "median": 0.25054,
+          "p75": 0.27124,
+          "max": 0.2972,
+          "mean": 0.2434,
+          "stdev": 0.03535
+        }
+      },
+      "lang_original": "en",
+      "category": "cat3_structure"
+    },
+    "hugo_miserables": {
+      "author": "Hugo",
+      "work_id": "hugo_miserables",
+      "n_extracts": 10,
+      "baseline": {
+        "f1_mean": {
+          "n": 10,
+          "min": 9.51,
+          "p25": 10.46,
+          "median": 12.375,
+          "p75": 15.94,
+          "max": 23.31,
+          "mean": 14.174,
+          "stdev": 4.32939
+        },
+        "f1a_rhythm_variance": {
+          "n": 10,
+          "min": 6.385,
+          "p25": 7.332,
+          "median": 10.3425,
+          "p75": 13.467,
+          "max": 27.156,
+          "mean": 11.6996,
+          "stdev": 6.00044
+        },
+        "f1b_rhythm_ratio": {
+          "n": 10,
+          "min": 0.5329,
+          "p25": 0.6215,
+          "median": 0.74105,
+          "p75": 0.9406,
+          "max": 1.1651,
+          "mean": 0.80457,
+          "stdev": 0.19468
+        },
+        "f5a_verb_density": {
+          "n": 10,
+          "min": 0.1172,
+          "p25": 0.144,
+          "median": 0.17345,
+          "p75": 0.1903,
+          "max": 0.1981,
+          "mean": 0.16958,
+          "stdev": 0.02575
+        },
+        "f5b_verb_adj_ratio": {
+          "n": 10,
+          "min": 0.8621,
+          "p25": 2.2143,
+          "median": 3.19865,
+          "p75": 4.1111,
+          "max": 4.6923,
+          "mean": 3.16266,
+          "stdev": 1.16445
+        },
+        "f8a_emotional_density_ratio": {
+          "n": 10,
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 0.00177,
+          "p75": 0.00376,
+          "max": 0.00701,
+          "mean": 0.00246,
+          "stdev": 0.00263
+        },
+        "f9a_contradiction_rate": {
+          "n": 10,
+          "min": 0.1429,
+          "p25": 0.1633,
+          "median": 0.23925,
+          "p75": 0.2778,
+          "max": 0.4828,
+          "mean": 0.25855,
+          "stdev": 0.10382
+        },
+        "f15a_local_repetition_rate": {
+          "n": 10,
+          "min": 0.0039,
+          "p25": 0.008,
+          "median": 0.0268,
+          "p75": 0.0314,
+          "max": 0.083,
+          "mean": 0.03112,
+          "stdev": 0.02281
+        },
+        "f15b_redundancy_compression": {
+          "n": 10,
+          "min": 0.917,
+          "p25": 0.9455,
+          "median": 0.9732,
+          "p75": 0.9769,
+          "max": 0.9961,
+          "mean": 0.96888,
+          "stdev": 0.02281
+        },
+        "f16b_hapax_rate": {
+          "n": 10,
+          "min": 0.6379,
+          "p25": 0.6519,
+          "median": 0.6677,
+          "p75": 0.7042,
+          "max": 0.7324,
+          "mean": 0.67811,
+          "stdev": 0.03003
+        },
+        "f16c_lexical_surprise": {
+          "n": 10,
+          "min": 0.8125,
+          "p25": 0.8348,
+          "median": 0.84095,
+          "p75": 0.848,
+          "max": 0.8636,
+          "mean": 0.84067,
+          "stdev": 0.01311
+        },
+        "f17_contrast_arc_score": {
+          "n": 10,
+          "min": 0.3732,
+          "p25": 0.3778,
+          "median": 0.6169,
+          "p75": 0.65,
+          "max": 0.7268,
+          "mean": 0.57377,
+          "stdev": 0.13092
+        },
+        "f18f_ellipsis_final": {
+          "n": 10,
+          "min": 0.273,
+          "p25": 0.2915,
+          "median": 0.34255,
+          "p75": 0.3791,
+          "max": 0.8318,
+          "mean": 0.39015,
+          "stdev": 0.16006
+        },
+        "f19a_approx_entropy": {
+          "n": 10,
+          "min": 0.21356,
+          "p25": 0.22698,
+          "median": 0.52005,
+          "p75": 0.54233,
+          "max": 0.63708,
+          "mean": 0.45844,
+          "stdev": 0.15295
+        },
+        "f19b_shannon_entropy": {
+          "n": 10,
+          "min": 1.66432,
+          "p25": 1.81706,
+          "median": 2.61331,
+          "p75": 2.73648,
+          "max": 2.83125,
+          "mean": 2.41731,
+          "stdev": 0.42205
+        },
+        "f20d_composite_fg": {
+          "n": 10,
+          "min": 0.1486,
+          "p25": 0.15732,
+          "median": 0.18751,
+          "p75": 0.23227,
+          "max": 0.24373,
+          "mean": 0.1946,
+          "stdev": 0.03334
+        }
+      },
+      "lang_original": "fr",
+      "category": "cat4_epique"
+    },
+    "tolstoi_guerre": {
+      "author": "Tolstoi",
+      "work_id": "tolstoi_guerre",
+      "n_extracts": 10,
+      "baseline": {
+        "f1_mean": {
+          "n": 10,
+          "min": 9.37,
+          "p25": 10.61,
+          "median": 11.815,
+          "p75": 15.38,
+          "max": 17.3,
+          "mean": 12.923,
+          "stdev": 2.63913
+        },
+        "f1a_rhythm_variance": {
+          "n": 10,
+          "min": 6.588,
+          "p25": 7.025,
+          "median": 10.355,
+          "p75": 11.953,
+          "max": 12.693,
+          "mean": 9.9103,
+          "stdev": 2.11753
+        },
+        "f1b_rhythm_ratio": {
+          "n": 10,
+          "min": 0.662,
+          "p25": 0.6807,
+          "median": 0.7527,
+          "p75": 0.8212,
+          "max": 0.9175,
+          "mean": 0.76879,
+          "stdev": 0.09244
+        },
+        "f5a_verb_density": {
+          "n": 10,
+          "min": 0.0347,
+          "p25": 0.0417,
+          "median": 0.04545,
+          "p75": 0.0491,
+          "max": 0.0641,
+          "mean": 0.04712,
+          "stdev": 0.00825
+        },
+        "f5b_verb_adj_ratio": {
+          "n": 10,
+          "min": 0.9,
+          "p25": 1.0,
+          "median": 1.15355,
+          "p75": 1.7143,
+          "max": 1.9333,
+          "mean": 1.32964,
+          "stdev": 0.38587
+        },
+        "f8a_emotional_density_ratio": {
+          "n": 10,
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 0.0,
+          "p75": 0.0,
+          "max": 0.0031,
+          "mean": 0.00048,
+          "stdev": 0.00106
+        },
+        "f9a_contradiction_rate": {
+          "n": 10,
+          "min": 0.1296,
+          "p25": 0.1833,
+          "median": 0.29675,
+          "p75": 0.4211,
+          "max": 0.5455,
+          "mean": 0.3346,
+          "stdev": 0.14126
+        },
+        "f15a_local_repetition_rate": {
+          "n": 10,
+          "min": 0.0198,
+          "p25": 0.0211,
+          "median": 0.03845,
+          "p75": 0.0543,
+          "max": 0.0636,
+          "mean": 0.03942,
+          "stdev": 0.01607
+        },
+        "f15b_redundancy_compression": {
+          "n": 10,
+          "min": 0.9364,
+          "p25": 0.9395,
+          "median": 0.96155,
+          "p75": 0.9737,
+          "max": 0.9802,
+          "mean": 0.96058,
+          "stdev": 0.01607
+        },
+        "f16b_hapax_rate": {
+          "n": 10,
+          "min": 0.5526,
+          "p25": 0.5774,
+          "median": 0.6207,
+          "p75": 0.6509,
+          "max": 0.6701,
+          "mean": 0.61602,
+          "stdev": 0.04186
+        },
+        "f16c_lexical_surprise": {
+          "n": 10,
+          "min": 0.7767,
+          "p25": 0.778,
+          "median": 0.80425,
+          "p75": 0.8181,
+          "max": 0.8367,
+          "mean": 0.80283,
+          "stdev": 0.02155
+        },
+        "f17_contrast_arc_score": {
+          "n": 10,
+          "min": 0.3088,
+          "p25": 0.3402,
+          "median": 0.3927,
+          "p75": 0.5056,
+          "max": 0.5528,
+          "mean": 0.42066,
+          "stdev": 0.08273
+        },
+        "f18f_ellipsis_final": {
+          "n": 10,
+          "min": 0.578,
+          "p25": 0.602,
+          "median": 0.6312,
+          "p75": 0.6417,
+          "max": 0.6575,
+          "mean": 0.62635,
+          "stdev": 0.02372
+        },
+        "f19a_approx_entropy": {
+          "n": 10,
+          "min": 0.28823,
+          "p25": 0.37627,
+          "median": 0.49627,
+          "p75": 0.75132,
+          "max": 0.79625,
+          "mean": 0.53725,
+          "stdev": 0.18677
+        },
+        "f19b_shannon_entropy": {
+          "n": 10,
+          "min": 1.99603,
+          "p25": 2.20582,
+          "median": 2.49511,
+          "p75": 2.53148,
+          "max": 2.94308,
+          "mean": 2.44761,
+          "stdev": 0.26245
+        },
+        "f20d_composite_fg": {
+          "n": 10,
+          "min": 0.15513,
+          "p25": 0.17459,
+          "median": 0.18776,
+          "p75": 0.21413,
+          "max": 0.27014,
+          "mean": 0.19851,
+          "stdev": 0.03277
+        }
+      },
+      "lang_original": "ru",
+      "category": "cat4_epique"
+    },
+    "dumas_monte_cristo": {
+      "author": "Dumas",
+      "work_id": "dumas_monte_cristo",
+      "n_extracts": 10,
+      "baseline": {
+        "f1_mean": {
+          "n": 10,
+          "min": 11.59,
+          "p25": 13.97,
+          "median": 19.025,
+          "p75": 20.54,
+          "max": 34.5,
+          "mean": 19.364,
+          "stdev": 6.3617
+        },
+        "f1a_rhythm_variance": {
+          "n": 10,
+          "min": 10.706,
+          "p25": 10.869,
+          "median": 12.1205,
+          "p75": 15.974,
+          "max": 23.063,
+          "mean": 14.0329,
+          "stdev": 4.06996
+        },
+        "f1b_rhythm_ratio": {
+          "n": 10,
+          "min": 0.5562,
+          "p25": 0.6241,
+          "median": 0.70465,
+          "p75": 0.8902,
+          "max": 0.9811,
+          "mean": 0.74501,
+          "stdev": 0.15053
+        },
+        "f5a_verb_density": {
+          "n": 10,
+          "min": 0.1335,
+          "p25": 0.1465,
+          "median": 0.17815,
+          "p75": 0.1833,
+          "max": 0.1901,
+          "mean": 0.17081,
+          "stdev": 0.01839
+        },
+        "f5b_verb_adj_ratio": {
+          "n": 10,
+          "min": 1.7636,
+          "p25": 2.3095,
+          "median": 2.89615,
+          "p75": 3.6333,
+          "max": 3.8387,
+          "mean": 2.92283,
+          "stdev": 0.70416
+        },
+        "f8a_emotional_density_ratio": {
+          "n": 10,
+          "min": 0.0,
+          "p25": 0.00162,
+          "median": 0.00251,
+          "p75": 0.00709,
+          "max": 0.00939,
+          "mean": 0.00389,
+          "stdev": 0.00334
+        },
+        "f9a_contradiction_rate": {
+          "n": 10,
+          "min": 0.1795,
+          "p25": 0.2857,
+          "median": 0.43305,
+          "p75": 0.5278,
+          "max": 0.5556,
+          "mean": 0.41522,
+          "stdev": 0.12261
+        },
+        "f15a_local_repetition_rate": {
+          "n": 10,
+          "min": 0.0074,
+          "p25": 0.0159,
+          "median": 0.0276,
+          "p75": 0.04,
+          "max": 0.0586,
+          "mean": 0.03154,
+          "stdev": 0.01645
+        },
+        "f15b_redundancy_compression": {
+          "n": 10,
+          "min": 0.9414,
+          "p25": 0.9434,
+          "median": 0.9724,
+          "p75": 0.9771,
+          "max": 0.9926,
+          "mean": 0.96846,
+          "stdev": 0.01645
+        },
+        "f16b_hapax_rate": {
+          "n": 10,
+          "min": 0.6286,
+          "p25": 0.6456,
+          "median": 0.67875,
+          "p75": 0.6913,
+          "max": 0.7385,
+          "mean": 0.67698,
+          "stdev": 0.02941
+        },
+        "f16c_lexical_surprise": {
+          "n": 10,
+          "min": 0.8105,
+          "p25": 0.8183,
+          "median": 0.83895,
+          "p75": 0.8487,
+          "max": 0.8732,
+          "mean": 0.83843,
+          "stdev": 0.0178
+        },
+        "f17_contrast_arc_score": {
+          "n": 10,
+          "min": 0.3471,
+          "p25": 0.3564,
+          "median": 0.49945,
+          "p75": 0.5591,
+          "max": 0.6318,
+          "mean": 0.47611,
+          "stdev": 0.09897
+        },
+        "f18f_ellipsis_final": {
+          "n": 10,
+          "min": 0.2538,
+          "p25": 0.3034,
+          "median": 0.33245,
+          "p75": 0.4091,
+          "max": 0.6735,
+          "mean": 0.37205,
+          "stdev": 0.11743
+        },
+        "f19a_approx_entropy": {
+          "n": 10,
+          "min": 0.09737,
+          "p25": 0.16148,
+          "median": 0.32026,
+          "p75": 0.46881,
+          "max": 0.6663,
+          "mean": 0.35971,
+          "stdev": 0.17744
+        },
+        "f19b_shannon_entropy": {
+          "n": 10,
+          "min": 2.03653,
+          "p25": 2.04907,
+          "median": 2.61287,
+          "p75": 2.69089,
+          "max": 3.08569,
+          "mean": 2.55778,
+          "stdev": 0.33421
+        },
+        "f20d_composite_fg": {
+          "n": 10,
+          "min": 0.16079,
+          "p25": 0.18024,
+          "median": 0.20991,
+          "p75": 0.23608,
+          "max": 0.25799,
+          "mean": 0.21051,
+          "stdev": 0.03195
+        }
+      },
+      "lang_original": "fr",
+      "category": "cat4_epique"
+    },
+    "melville_moby": {
+      "author": "Melville",
+      "work_id": "melville_moby",
+      "n_extracts": 10,
+      "baseline": {
+        "f1_mean": {
+          "n": 10,
+          "min": 9.65,
+          "p25": 10.04,
+          "median": 12.115,
+          "p75": 12.89,
+          "max": 17.22,
+          "mean": 12.466,
+          "stdev": 2.33658
+        },
+        "f1a_rhythm_variance": {
+          "n": 10,
+          "min": 6.79,
+          "p25": 8.661,
+          "median": 9.702,
+          "p75": 10.112,
+          "max": 12.118,
+          "mean": 9.7422,
+          "stdev": 1.50807
+        },
+        "f1b_rhythm_ratio": {
+          "n": 10,
+          "min": 0.6766,
+          "p25": 0.7036,
+          "median": 0.7576,
+          "p75": 0.8834,
+          "max": 0.9629,
+          "mean": 0.78923,
+          "stdev": 0.09543
+        },
+        "f5a_verb_density": {
+          "n": 10,
+          "min": 0.0241,
+          "p25": 0.0341,
+          "median": 0.0482,
+          "p75": 0.0563,
+          "max": 0.0579,
+          "mean": 0.04597,
+          "stdev": 0.01141
+        },
+        "f5b_verb_adj_ratio": {
+          "n": 10,
+          "min": 0.3947,
+          "p25": 0.6552,
+          "median": 0.92575,
+          "p75": 1.129,
+          "max": 1.2692,
+          "mean": 0.90408,
+          "stdev": 0.27175
+        },
+        "f8a_emotional_density_ratio": {
+          "n": 10,
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 0.0,
+          "p75": 0.0,
+          "max": 0.0016,
+          "mean": 0.00016,
+          "stdev": 0.00051
+        },
+        "f9a_contradiction_rate": {
+          "n": 10,
+          "min": 0.2778,
+          "p25": 0.2931,
+          "median": 0.32975,
+          "p75": 0.3455,
+          "max": 0.5278,
+          "mean": 0.34484,
+          "stdev": 0.07499
+        },
+        "f15a_local_repetition_rate": {
+          "n": 10,
+          "min": 0.0069,
+          "p25": 0.0119,
+          "median": 0.02795,
+          "p75": 0.0453,
+          "max": 0.0731,
+          "mean": 0.03145,
+          "stdev": 0.02055
+        },
+        "f15b_redundancy_compression": {
+          "n": 10,
+          "min": 0.9269,
+          "p25": 0.9498,
+          "median": 0.97205,
+          "p75": 0.9855,
+          "max": 0.9931,
+          "mean": 0.96855,
+          "stdev": 0.02055
+        },
+        "f16b_hapax_rate": {
+          "n": 10,
+          "min": 0.6312,
+          "p25": 0.6457,
+          "median": 0.68265,
+          "p75": 0.6904,
+          "max": 0.6968,
+          "mean": 0.67125,
+          "stdev": 0.02444
+        },
+        "f16c_lexical_surprise": {
+          "n": 10,
+          "min": 0.7994,
+          "p25": 0.8226,
+          "median": 0.84545,
+          "p75": 0.8487,
+          "max": 0.8595,
+          "mean": 0.8393,
+          "stdev": 0.01771
+        },
+        "f17_contrast_arc_score": {
+          "n": 10,
+          "min": 0.3394,
+          "p25": 0.3543,
+          "median": 0.4078,
+          "p75": 0.4645,
+          "max": 0.7333,
+          "mean": 0.45695,
+          "stdev": 0.13031
+        },
+        "f18f_ellipsis_final": {
+          "n": 10,
+          "min": 0.6017,
+          "p25": 0.6083,
+          "median": 0.62465,
+          "p75": 0.6716,
+          "max": 0.8108,
+          "mean": 0.65689,
+          "stdev": 0.06769
+        },
+        "f19a_approx_entropy": {
+          "n": 10,
+          "min": 0.12945,
+          "p25": 0.2825,
+          "median": 0.41136,
+          "p75": 0.53495,
+          "max": 0.77304,
+          "mean": 0.45116,
+          "stdev": 0.20021
+        },
+        "f19b_shannon_entropy": {
+          "n": 10,
+          "min": 1.85065,
+          "p25": 1.88302,
+          "median": 2.51327,
+          "p75": 2.62458,
+          "max": 2.92287,
+          "mean": 2.41223,
+          "stdev": 0.36397
+        },
+        "f20d_composite_fg": {
+          "n": 10,
+          "min": 0.15348,
+          "p25": 0.15554,
+          "median": 0.20032,
+          "p75": 0.21243,
+          "max": 0.24573,
+          "mean": 0.19609,
+          "stdev": 0.02959
+        }
+      },
+      "lang_original": "en",
+      "category": "cat5_voix"
+    },
+    "machado_bras_cubas": {
+      "author": "Machado de Assis",
+      "work_id": "machado_bras_cubas",
+      "n_extracts": 10,
+      "baseline": {
+        "f1_mean": {
+          "n": 10,
+          "min": 5.86,
+          "p25": 7.67,
+          "median": 9.235,
+          "p75": 9.94,
+          "max": 11.93,
+          "mean": 9.084,
+          "stdev": 1.63914
+        },
+        "f1a_rhythm_variance": {
+          "n": 10,
+          "min": 4.52,
+          "p25": 5.564,
+          "median": 6.566,
+          "p75": 7.236,
+          "max": 7.968,
+          "mean": 6.4969,
+          "stdev": 0.99994
+        },
+        "f1b_rhythm_ratio": {
+          "n": 10,
+          "min": 0.5892,
+          "p25": 0.6677,
+          "median": 0.7081,
+          "p75": 0.7512,
+          "max": 0.9486,
+          "mean": 0.72325,
+          "stdev": 0.09399
+        },
+        "f5a_verb_density": {
+          "n": 10,
+          "min": 0.0801,
+          "p25": 0.1086,
+          "median": 0.11765,
+          "p75": 0.1206,
+          "max": 0.1493,
+          "mean": 0.11705,
+          "stdev": 0.01703
+        },
+        "f5b_verb_adj_ratio": {
+          "n": 10,
+          "min": 0.7246,
+          "p25": 0.7528,
+          "median": 0.9121,
+          "p75": 1.0556,
+          "max": 1.1475,
+          "mean": 0.92588,
+          "stdev": 0.15847
+        },
+        "f8a_emotional_density_ratio": {
+          "n": 10,
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 0.0,
+          "p75": 0.0,
+          "max": 0.00348,
+          "mean": 0.00035,
+          "stdev": 0.0011
+        },
+        "f9a_contradiction_rate": {
+          "n": 10,
+          "min": 0.1791,
+          "p25": 0.1892,
+          "median": 0.2833,
+          "p75": 0.3774,
+          "max": 0.4889,
+          "mean": 0.30666,
+          "stdev": 0.09462
+        },
+        "f15a_local_repetition_rate": {
+          "n": 10,
+          "min": 0.0044,
+          "p25": 0.0056,
+          "median": 0.02085,
+          "p75": 0.0327,
+          "max": 0.0369,
+          "mean": 0.021,
+          "stdev": 0.01226
+        },
+        "f15b_redundancy_compression": {
+          "n": 10,
+          "min": 0.9631,
+          "p25": 0.9636,
+          "median": 0.97915,
+          "p75": 0.991,
+          "max": 0.9956,
+          "mean": 0.979,
+          "stdev": 0.01226
+        },
+        "f16b_hapax_rate": {
+          "n": 10,
+          "min": 0.6403,
+          "p25": 0.6506,
+          "median": 0.68675,
+          "p75": 0.7114,
+          "max": 0.7288,
+          "mean": 0.68793,
+          "stdev": 0.02907
+        },
+        "f16c_lexical_surprise": {
+          "n": 10,
+          "min": 0.818,
+          "p25": 0.8269,
+          "median": 0.8504,
+          "p75": 0.8588,
+          "max": 0.88,
+          "mean": 0.84926,
+          "stdev": 0.01814
+        },
+        "f17_contrast_arc_score": {
+          "n": 10,
+          "min": 0.3227,
+          "p25": 0.3339,
+          "median": 0.5,
+          "p75": 0.5789,
+          "max": 0.6667,
+          "mean": 0.47938,
+          "stdev": 0.11806
+        },
+        "f18f_ellipsis_final": {
+          "n": 10,
+          "min": 0.5907,
+          "p25": 0.6257,
+          "median": 0.67705,
+          "p75": 0.6956,
+          "max": 1.1205,
+          "mean": 0.71684,
+          "stdev": 0.15071
+        },
+        "f19a_approx_entropy": {
+          "n": 10,
+          "min": 0.27996,
+          "p25": 0.44301,
+          "median": 0.60762,
+          "p75": 0.72201,
+          "max": 0.88032,
+          "mean": 0.59495,
+          "stdev": 0.17395
+        },
+        "f19b_shannon_entropy": {
+          "n": 10,
+          "min": 0.78365,
+          "p25": 2.13448,
+          "median": 2.44304,
+          "p75": 2.56465,
+          "max": 2.80031,
+          "mean": 2.30514,
+          "stdev": 0.56623
+        },
+        "f20d_composite_fg": {
+          "n": 10,
+          "min": 0.11655,
+          "p25": 0.13147,
+          "median": 0.19922,
+          "p75": 0.21204,
+          "max": 0.22658,
+          "mean": 0.18727,
+          "stdev": 0.03768
+        }
+      },
+      "lang_original": "pt",
+      "category": "cat5_voix"
+    },
+    "baudelaire_spleen": {
+      "author": "Baudelaire",
+      "work_id": "baudelaire_spleen",
+      "n_extracts": 3,
+      "baseline": {
+        "f1_mean": {
+          "n": 3,
+          "min": 16.19,
+          "p25": 16.19,
+          "median": 16.2,
+          "p75": 18.11,
+          "max": 18.11,
+          "mean": 16.83333,
+          "stdev": 1.10564
+        },
+        "f1a_rhythm_variance": {
+          "n": 3,
+          "min": 12.653,
+          "p25": 12.653,
+          "median": 13.014,
+          "p75": 14.49,
+          "max": 14.49,
+          "mean": 13.38567,
+          "stdev": 0.97326
+        },
+        "f1b_rhythm_ratio": {
+          "n": 3,
+          "min": 0.7186,
+          "p25": 0.7186,
+          "median": 0.7813,
+          "p75": 0.8944,
+          "max": 0.8944,
+          "mean": 0.7981,
+          "stdev": 0.0891
+        },
+        "f5a_verb_density": {
+          "n": 3,
+          "min": 0.0949,
+          "p25": 0.0949,
+          "median": 0.0992,
+          "p75": 0.1006,
+          "max": 0.1006,
+          "mean": 0.09823,
+          "stdev": 0.00297
+        },
+        "f5b_verb_adj_ratio": {
+          "n": 3,
+          "min": 1.1905,
+          "p25": 1.1905,
+          "median": 1.325,
+          "p75": 1.625,
+          "max": 1.625,
+          "mean": 1.38017,
+          "stdev": 0.22244
+        },
+        "f8a_emotional_density_ratio": {
+          "n": 3,
+          "min": 0.002,
+          "p25": 0.002,
+          "median": 0.002,
+          "p75": 0.01,
+          "max": 0.01,
+          "mean": 0.00467,
+          "stdev": 0.00462
+        },
+        "f9a_contradiction_rate": {
+          "n": 3,
+          "min": 0.6333,
+          "p25": 0.6333,
+          "median": 0.6667,
+          "p75": 0.7097,
+          "max": 0.7097,
+          "mean": 0.6699,
+          "stdev": 0.0383
+        },
+        "f15a_local_repetition_rate": {
+          "n": 3,
+          "min": 0.0044,
+          "p25": 0.0044,
+          "median": 0.0275,
+          "p75": 0.0365,
+          "max": 0.0365,
+          "mean": 0.0228,
+          "stdev": 0.01656
+        },
+        "f15b_redundancy_compression": {
+          "n": 3,
+          "min": 0.9635,
+          "p25": 0.9635,
+          "median": 0.9725,
+          "p75": 0.9956,
+          "max": 0.9956,
+          "mean": 0.9772,
+          "stdev": 0.01656
+        },
+        "f16b_hapax_rate": {
+          "n": 3,
+          "min": 0.5928,
+          "p25": 0.5928,
+          "median": 0.6078,
+          "p75": 0.6742,
+          "max": 0.6742,
+          "mean": 0.62493,
+          "stdev": 0.04332
+        },
+        "f16c_lexical_surprise": {
+          "n": 3,
+          "min": 0.7928,
+          "p25": 0.7928,
+          "median": 0.8124,
+          "p75": 0.8291,
+          "max": 0.8291,
+          "mean": 0.81143,
+          "stdev": 0.01817
+        },
+        "f17_contrast_arc_score": {
+          "n": 3,
+          "min": 0.2706,
+          "p25": 0.2706,
+          "median": 0.3117,
+          "p75": 0.3304,
+          "max": 0.3304,
+          "mean": 0.30423,
+          "stdev": 0.03059
+        },
+        "f18f_ellipsis_final": {
+          "n": 3,
+          "min": 0.5037,
+          "p25": 0.5037,
+          "median": 0.5802,
+          "p75": 0.6,
+          "max": 0.6,
+          "mean": 0.5613,
+          "stdev": 0.05086
+        },
+        "f19a_approx_entropy": {
+          "n": 3,
+          "min": 0.32008,
+          "p25": 0.32008,
+          "median": 0.34596,
+          "p75": 0.35414,
+          "max": 0.35414,
+          "mean": 0.34006,
+          "stdev": 0.01778
+        },
+        "f19b_shannon_entropy": {
+          "n": 3,
+          "min": 2.34695,
+          "p25": 2.34695,
+          "median": 2.51971,
+          "p75": 2.7814,
+          "max": 2.7814,
+          "mean": 2.54935,
+          "stdev": 0.21874
+        },
+        "f20d_composite_fg": {
+          "n": 3,
+          "min": 0.22368,
+          "p25": 0.22368,
+          "median": 0.23045,
+          "p75": 0.28163,
+          "max": 0.28163,
+          "mean": 0.24525,
+          "stdev": 0.03168
+        }
+      },
+      "lang_original": "fr",
+      "category": "prose_poetique"
+    },
+    "pascal_pensees": {
+      "author": "Pascal",
+      "work_id": "pascal_pensees",
+      "n_extracts": 3,
+      "baseline": {
+        "f1_mean": {
+          "n": 3,
+          "min": 5.34,
+          "p25": 5.34,
+          "median": 8.4,
+          "p75": 12.84,
+          "max": 12.84,
+          "mean": 8.86,
+          "stdev": 3.7711
+        },
+        "f1a_rhythm_variance": {
+          "n": 3,
+          "min": 2.773,
+          "p25": 2.773,
+          "median": 7.464,
+          "p75": 8.32,
+          "max": 8.32,
+          "mean": 6.18567,
+          "stdev": 2.98629
+        },
+        "f1b_rhythm_ratio": {
+          "n": 3,
+          "min": 0.5189,
+          "p25": 0.5189,
+          "median": 0.5815,
+          "p75": 0.99,
+          "max": 0.99,
+          "mean": 0.6968,
+          "stdev": 0.25584
+        },
+        "f5a_verb_density": {
+          "n": 3,
+          "min": 0.0248,
+          "p25": 0.0248,
+          "median": 0.0444,
+          "p75": 0.0495,
+          "max": 0.0495,
+          "mean": 0.03957,
+          "stdev": 0.01304
+        },
+        "f5b_verb_adj_ratio": {
+          "n": 3,
+          "min": 0.8333,
+          "p25": 0.8333,
+          "median": 0.9474,
+          "p75": 1.5556,
+          "max": 1.5556,
+          "mean": 1.1121,
+          "stdev": 0.3883
+        },
+        "f8a_emotional_density_ratio": {
+          "n": 3,
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 0.0,
+          "p75": 0.00177,
+          "max": 0.00177,
+          "mean": 0.00059,
+          "stdev": 0.00102
+        },
+        "f9a_contradiction_rate": {
+          "n": 3,
+          "min": 0.0746,
+          "p25": 0.0746,
+          "median": 0.1702,
+          "p75": 0.3953,
+          "max": 0.3953,
+          "mean": 0.21337,
+          "stdev": 0.16465
+        },
+        "f15a_local_repetition_rate": {
+          "n": 3,
+          "min": 0.0202,
+          "p25": 0.0202,
+          "median": 0.0463,
+          "p75": 0.184,
+          "max": 0.184,
+          "mean": 0.0835,
+          "stdev": 0.08801
+        },
+        "f15b_redundancy_compression": {
+          "n": 3,
+          "min": 0.816,
+          "p25": 0.816,
+          "median": 0.9537,
+          "p75": 0.9798,
+          "max": 0.9798,
+          "mean": 0.9165,
+          "stdev": 0.08801
+        },
+        "f16b_hapax_rate": {
+          "n": 3,
+          "min": 0.4624,
+          "p25": 0.4624,
+          "median": 0.51,
+          "p75": 0.6159,
+          "max": 0.6159,
+          "mean": 0.52943,
+          "stdev": 0.07857
+        },
+        "f16c_lexical_surprise": {
+          "n": 3,
+          "min": 0.7577,
+          "p25": 0.7577,
+          "median": 0.7709,
+          "p75": 0.8185,
+          "max": 0.8185,
+          "mean": 0.78237,
+          "stdev": 0.03198
+        },
+        "f17_contrast_arc_score": {
+          "n": 3,
+          "min": 0.31,
+          "p25": 0.31,
+          "median": 0.4458,
+          "p75": 0.5,
+          "max": 0.5,
+          "mean": 0.4186,
+          "stdev": 0.09788
+        },
+        "f18f_ellipsis_final": {
+          "n": 3,
+          "min": 0.6211,
+          "p25": 0.6211,
+          "median": 0.6711,
+          "p75": 0.7874,
+          "max": 0.7874,
+          "mean": 0.6932,
+          "stdev": 0.08532
+        },
+        "f19a_approx_entropy": {
+          "n": 3,
+          "min": 0.2178,
+          "p25": 0.2178,
+          "median": 0.67616,
+          "p75": 0.7378,
+          "max": 0.7378,
+          "mean": 0.54392,
+          "stdev": 0.2841
+        },
+        "f19b_shannon_entropy": {
+          "n": 3,
+          "min": 1.54896,
+          "p25": 1.54896,
+          "median": 1.7021,
+          "p75": 3.16347,
+          "max": 3.16347,
+          "mean": 2.13818,
+          "stdev": 0.89123
+        },
+        "f20d_composite_fg": {
+          "n": 3,
+          "min": 0.09939,
+          "p25": 0.09939,
+          "median": 0.19484,
+          "p75": 0.19864,
+          "max": 0.19864,
+          "mean": 0.16429,
+          "stdev": 0.05624
+        }
+      },
+      "lang_original": "fr",
+      "category": "prose_philosophique"
+    },
+    "montaigne_essais": {
+      "author": "Montaigne",
+      "work_id": "montaigne_essais",
+      "n_extracts": 2,
+      "baseline": {
+        "f1_mean": {
+          "n": 2,
+          "min": 16.22,
+          "p25": 16.22,
+          "median": 16.84,
+          "p75": 17.46,
+          "max": 17.46,
+          "mean": 16.84,
+          "stdev": 0.87681
+        },
+        "f1a_rhythm_variance": {
+          "n": 2,
+          "min": 12.089,
+          "p25": 12.089,
+          "median": 13.337,
+          "p75": 14.585,
+          "max": 14.585,
+          "mean": 13.337,
+          "stdev": 1.76494
+        },
+        "f1b_rhythm_ratio": {
+          "n": 2,
+          "min": 0.6923,
+          "p25": 0.6923,
+          "median": 0.79575,
+          "p75": 0.8992,
+          "max": 0.8992,
+          "mean": 0.79575,
+          "stdev": 0.1463
+        },
+        "f5a_verb_density": {
+          "n": 2,
+          "min": 0.0513,
+          "p25": 0.0513,
+          "median": 0.0531,
+          "p75": 0.0549,
+          "max": 0.0549,
+          "mean": 0.0531,
+          "stdev": 0.00255
+        },
+        "f5b_verb_adj_ratio": {
+          "n": 2,
+          "min": 1.2222,
+          "p25": 1.2222,
+          "median": 1.2361,
+          "p75": 1.25,
+          "max": 1.25,
+          "mean": 1.2361,
+          "stdev": 0.01966
+        },
+        "f8a_emotional_density_ratio": {
+          "n": 2,
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 0.00059,
+          "p75": 0.00118,
+          "max": 0.00118,
+          "mean": 0.00059,
+          "stdev": 0.00083
+        },
+        "f9a_contradiction_rate": {
+          "n": 2,
+          "min": 0.439,
+          "p25": 0.439,
+          "median": 0.4395,
+          "p75": 0.44,
+          "max": 0.44,
+          "mean": 0.4395,
+          "stdev": 0.00071
+        },
+        "f15a_local_repetition_rate": {
+          "n": 2,
+          "min": 0.0297,
+          "p25": 0.0297,
+          "median": 0.03665,
+          "p75": 0.0436,
+          "max": 0.0436,
+          "mean": 0.03665,
+          "stdev": 0.00983
+        },
+        "f15b_redundancy_compression": {
+          "n": 2,
+          "min": 0.9564,
+          "p25": 0.9564,
+          "median": 0.96335,
+          "p75": 0.9703,
+          "max": 0.9703,
+          "mean": 0.96335,
+          "stdev": 0.00983
+        },
+        "f16b_hapax_rate": {
+          "n": 2,
+          "min": 0.6192,
+          "p25": 0.6192,
+          "median": 0.64375,
+          "p75": 0.6683,
+          "max": 0.6683,
+          "mean": 0.64375,
+          "stdev": 0.03472
+        },
+        "f16c_lexical_surprise": {
+          "n": 2,
+          "min": 0.8135,
+          "p25": 0.8135,
+          "median": 0.82675,
+          "p75": 0.84,
+          "max": 0.84,
+          "mean": 0.82675,
+          "stdev": 0.01874
+        },
+        "f17_contrast_arc_score": {
+          "n": 2,
+          "min": 0.355,
+          "p25": 0.355,
+          "median": 0.40285,
+          "p75": 0.4507,
+          "max": 0.4507,
+          "mean": 0.40285,
+          "stdev": 0.06767
+        },
+        "f18f_ellipsis_final": {
+          "n": 2,
+          "min": 0.5823,
+          "p25": 0.5823,
+          "median": 0.62265,
+          "p75": 0.663,
+          "max": 0.663,
+          "mean": 0.62265,
+          "stdev": 0.05706
+        },
+        "f19a_approx_entropy": {
+          "n": 2,
+          "min": 0.27683,
+          "p25": 0.27683,
+          "median": 0.39661,
+          "p75": 0.5164,
+          "max": 0.5164,
+          "mean": 0.39661,
+          "stdev": 0.1694
+        },
+        "f19b_shannon_entropy": {
+          "n": 2,
+          "min": 2.36192,
+          "p25": 2.36192,
+          "median": 2.70725,
+          "p75": 3.05259,
+          "max": 3.05259,
+          "mean": 2.70725,
+          "stdev": 0.48838
+        },
+        "f20d_composite_fg": {
+          "n": 2,
+          "min": 0.16664,
+          "p25": 0.16664,
+          "median": 0.2166,
+          "p75": 0.26656,
+          "max": 0.26656,
+          "mean": 0.2166,
+          "stdev": 0.07065
+        }
+      },
+      "lang_original": "fr",
+      "category": "prose_philosophique"
+    },
+    "rimbaud_saison": {
+      "author": "Rimbaud",
+      "work_id": "rimbaud_saison",
+      "n_extracts": 2,
+      "baseline": {
+        "f1_mean": {
+          "n": 2,
+          "min": 5.99,
+          "p25": 5.99,
+          "median": 6.44,
+          "p75": 6.89,
+          "max": 6.89,
+          "mean": 6.44,
+          "stdev": 0.6364
+        },
+        "f1a_rhythm_variance": {
+          "n": 2,
+          "min": 4.787,
+          "p25": 4.787,
+          "median": 5.33,
+          "p75": 5.873,
+          "max": 5.873,
+          "mean": 5.33,
+          "stdev": 0.76792
+        },
+        "f1b_rhythm_ratio": {
+          "n": 2,
+          "min": 0.7997,
+          "p25": 0.7997,
+          "median": 0.82595,
+          "p75": 0.8522,
+          "max": 0.8522,
+          "mean": 0.82595,
+          "stdev": 0.03712
+        },
+        "f5a_verb_density": {
+          "n": 2,
+          "min": 0.0074,
+          "p25": 0.0074,
+          "median": 0.0154,
+          "p75": 0.0234,
+          "max": 0.0234,
+          "mean": 0.0154,
+          "stdev": 0.01131
+        },
+        "f5b_verb_adj_ratio": {
+          "n": 2,
+          "min": 0.3704,
+          "p25": 0.3704,
+          "median": 0.4352,
+          "p75": 0.5,
+          "max": 0.5,
+          "mean": 0.4352,
+          "stdev": 0.09164
+        },
+        "f8a_emotional_density_ratio": {
+          "n": 2,
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 0.001,
+          "p75": 0.002,
+          "max": 0.002,
+          "mean": 0.001,
+          "stdev": 0.00141
+        },
+        "f9a_contradiction_rate": {
+          "n": 2,
+          "min": 0.1739,
+          "p25": 0.1739,
+          "median": 0.1884,
+          "p75": 0.2029,
+          "max": 0.2029,
+          "mean": 0.1884,
+          "stdev": 0.02051
+        },
+        "f15a_local_repetition_rate": {
+          "n": 2,
+          "min": 0.0153,
+          "p25": 0.0153,
+          "median": 0.0323,
+          "p75": 0.0493,
+          "max": 0.0493,
+          "mean": 0.0323,
+          "stdev": 0.02404
+        },
+        "f15b_redundancy_compression": {
+          "n": 2,
+          "min": 0.9507,
+          "p25": 0.9507,
+          "median": 0.9677,
+          "p75": 0.9847,
+          "max": 0.9847,
+          "mean": 0.9677,
+          "stdev": 0.02404
+        },
+        "f16b_hapax_rate": {
+          "n": 2,
+          "min": 0.5,
+          "p25": 0.5,
+          "median": 0.536,
+          "p75": 0.572,
+          "max": 0.572,
+          "mean": 0.536,
+          "stdev": 0.05091
+        },
+        "f16c_lexical_surprise": {
+          "n": 2,
+          "min": 0.7635,
+          "p25": 0.7635,
+          "median": 0.7765,
+          "p75": 0.7895,
+          "max": 0.7895,
+          "mean": 0.7765,
+          "stdev": 0.01838
+        },
+        "f17_contrast_arc_score": {
+          "n": 2,
+          "min": 0.5,
+          "p25": 0.5,
+          "median": 0.5,
+          "p75": 0.5,
+          "max": 0.5,
+          "mean": 0.5,
+          "stdev": 0.0
+        },
+        "f18f_ellipsis_final": {
+          "n": 2,
+          "min": 0.9557,
+          "p25": 0.9557,
+          "median": 1.0744,
+          "p75": 1.1931,
+          "max": 1.1931,
+          "mean": 1.0744,
+          "stdev": 0.16787
+        },
+        "f19a_approx_entropy": {
+          "n": 2,
+          "min": 0.63978,
+          "p25": 0.63978,
+          "median": 0.73301,
+          "p75": 0.82624,
+          "max": 0.82624,
+          "mean": 0.73301,
+          "stdev": 0.13185
+        },
+        "f19b_shannon_entropy": {
+          "n": 2,
+          "min": 1.66289,
+          "p25": 1.66289,
+          "median": 1.82855,
+          "p75": 1.99421,
+          "max": 1.99421,
+          "mean": 1.82855,
+          "stdev": 0.23428
+        },
+        "f20d_composite_fg": {
+          "n": 2,
+          "min": 0.11056,
+          "p25": 0.11056,
+          "median": 0.14486,
+          "p75": 0.17916,
+          "max": 0.17916,
+          "mean": 0.14486,
+          "stdev": 0.04851
+        }
+      },
+      "lang_original": "fr",
+      "category": "prose_poetique"
+    },
+    "exupery_petit_prince": {
+      "author": "Saint-Exupery",
+      "work_id": "exupery_petit_prince",
+      "n_extracts": 2,
+      "baseline": {
+        "f1_mean": {
+          "n": 2,
+          "min": 11.33,
+          "p25": 11.33,
+          "median": 13.57,
+          "p75": 15.81,
+          "max": 15.81,
+          "mean": 13.57,
+          "stdev": 3.16784
+        },
+        "f1a_rhythm_variance": {
+          "n": 2,
+          "min": 10.304,
+          "p25": 10.304,
+          "median": 10.4985,
+          "p75": 10.693,
+          "max": 10.693,
+          "mean": 10.4985,
+          "stdev": 0.27506
+        },
+        "f1b_rhythm_ratio": {
+          "n": 2,
+          "min": 0.6765,
+          "p25": 0.6765,
+          "median": 0.79285,
+          "p75": 0.9092,
+          "max": 0.9092,
+          "mean": 0.79285,
+          "stdev": 0.16454
+        },
+        "f5a_verb_density": {
+          "n": 2,
+          "min": 0.0477,
+          "p25": 0.0477,
+          "median": 0.05555,
+          "p75": 0.0634,
+          "max": 0.0634,
+          "mean": 0.05555,
+          "stdev": 0.0111
+        },
+        "f5b_verb_adj_ratio": {
+          "n": 2,
+          "min": 1.0526,
+          "p25": 1.0526,
+          "median": 1.19295,
+          "p75": 1.3333,
+          "max": 1.3333,
+          "mean": 1.19295,
+          "stdev": 0.19848
+        },
+        "f8a_emotional_density_ratio": {
+          "n": 2,
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 0.0,
+          "p75": 0.0,
+          "max": 0.0,
+          "mean": 0.0,
+          "stdev": 0.0
+        },
+        "f9a_contradiction_rate": {
+          "n": 2,
+          "min": 0.2778,
+          "p25": 0.2778,
+          "median": 0.38085,
+          "p75": 0.4839,
+          "max": 0.4839,
+          "mean": 0.38085,
+          "stdev": 0.14573
+        },
+        "f15a_local_repetition_rate": {
+          "n": 2,
+          "min": 0.0088,
+          "p25": 0.0088,
+          "median": 0.0296,
+          "p75": 0.0504,
+          "max": 0.0504,
+          "mean": 0.0296,
+          "stdev": 0.02942
+        },
+        "f15b_redundancy_compression": {
+          "n": 2,
+          "min": 0.9496,
+          "p25": 0.9496,
+          "median": 0.9704,
+          "p75": 0.9912,
+          "max": 0.9912,
+          "mean": 0.9704,
+          "stdev": 0.02942
+        },
+        "f16b_hapax_rate": {
+          "n": 2,
+          "min": 0.6991,
+          "p25": 0.6991,
+          "median": 0.725,
+          "p75": 0.7509,
+          "max": 0.7509,
+          "mean": 0.725,
+          "stdev": 0.03663
+        },
+        "f16c_lexical_surprise": {
+          "n": 2,
+          "min": 0.8476,
+          "p25": 0.8476,
+          "median": 0.86315,
+          "p75": 0.8787,
+          "max": 0.8787,
+          "mean": 0.86315,
+          "stdev": 0.02199
+        },
+        "f17_contrast_arc_score": {
+          "n": 2,
+          "min": 0.3119,
+          "p25": 0.3119,
+          "median": 0.31665,
+          "p75": 0.3214,
+          "max": 0.3214,
+          "mean": 0.31665,
+          "stdev": 0.00672
+        },
+        "f18f_ellipsis_final": {
+          "n": 2,
+          "min": 0.5341,
+          "p25": 0.5341,
+          "median": 0.5476,
+          "p75": 0.5611,
+          "max": 0.5611,
+          "mean": 0.5476,
+          "stdev": 0.01909
+        },
+        "f19a_approx_entropy": {
+          "n": 2,
+          "min": 0.29742,
+          "p25": 0.29742,
+          "median": 0.40824,
+          "p75": 0.51906,
+          "max": 0.51906,
+          "mean": 0.40824,
+          "stdev": 0.15672
+        },
+        "f19b_shannon_entropy": {
+          "n": 2,
+          "min": 2.1185,
+          "p25": 2.1185,
+          "median": 2.35774,
+          "p75": 2.59699,
+          "max": 2.59699,
+          "mean": 2.35774,
+          "stdev": 0.33834
+        },
+        "f20d_composite_fg": {
+          "n": 2,
+          "min": 0.17086,
+          "p25": 0.17086,
+          "median": 0.199,
+          "p75": 0.22713,
+          "max": 0.22713,
+          "mean": 0.199,
+          "stdev": 0.03979
+        }
+      },
+      "lang_original": "fr",
+      "category": "prose_fable"
+    },
+    "la_rochefoucauld_maximes": {
+      "author": "La Rochefoucauld",
+      "work_id": "la_rochefoucauld_maximes",
+      "n_extracts": 1,
+      "baseline": {
+        "f1_mean": {
+          "status": "INSUFFICIENT_DATA",
+          "n": 1
+        },
+        "f1a_rhythm_variance": {
+          "status": "INSUFFICIENT_DATA",
+          "n": 1
+        },
+        "f1b_rhythm_ratio": {
+          "status": "INSUFFICIENT_DATA",
+          "n": 1
+        },
+        "f5a_verb_density": {
+          "status": "INSUFFICIENT_DATA",
+          "n": 1
+        },
+        "f5b_verb_adj_ratio": {
+          "status": "INSUFFICIENT_DATA",
+          "n": 1
+        },
+        "f8a_emotional_density_ratio": {
+          "status": "INSUFFICIENT_DATA",
+          "n": 1
+        },
+        "f9a_contradiction_rate": {
+          "status": "INSUFFICIENT_DATA",
+          "n": 1
+        },
+        "f15a_local_repetition_rate": {
+          "status": "INSUFFICIENT_DATA",
+          "n": 1
+        },
+        "f15b_redundancy_compression": {
+          "status": "INSUFFICIENT_DATA",
+          "n": 1
+        },
+        "f16b_hapax_rate": {
+          "status": "INSUFFICIENT_DATA",
+          "n": 1
+        },
+        "f16c_lexical_surprise": {
+          "status": "INSUFFICIENT_DATA",
+          "n": 1
+        },
+        "f17_contrast_arc_score": {
+          "status": "INSUFFICIENT_DATA",
+          "n": 1
+        },
+        "f18f_ellipsis_final": {
+          "status": "INSUFFICIENT_DATA",
+          "n": 1
+        },
+        "f19a_approx_entropy": {
+          "status": "INSUFFICIENT_DATA",
+          "n": 1
+        },
+        "f19b_shannon_entropy": {
+          "status": "INSUFFICIENT_DATA",
+          "n": 1
+        },
+        "f20d_composite_fg": {
+          "status": "INSUFFICIENT_DATA",
+          "n": 1
+        }
+      },
+      "lang_original": "fr",
+      "category": "prose_aphoristique"
+    },
+    "senecque_lettres": {
+      "author": "Seneque",
+      "work_id": "senecque_lettres",
+      "n_extracts": 2,
+      "baseline": {
+        "f1_mean": {
+          "n": 2,
+          "min": 10.75,
+          "p25": 10.75,
+          "median": 10.75,
+          "p75": 10.75,
+          "max": 10.75,
+          "mean": 10.75,
+          "stdev": 0.0
+        },
+        "f1a_rhythm_variance": {
+          "n": 2,
+          "min": 7.843,
+          "p25": 7.843,
+          "median": 7.843,
+          "p75": 7.843,
+          "max": 7.843,
+          "mean": 7.843,
+          "stdev": 0.0
+        },
+        "f1b_rhythm_ratio": {
+          "n": 2,
+          "min": 0.7296,
+          "p25": 0.7296,
+          "median": 0.7296,
+          "p75": 0.7296,
+          "max": 0.7296,
+          "mean": 0.7296,
+          "stdev": 0.0
+        },
+        "f5a_verb_density": {
+          "n": 2,
+          "min": 0.0867,
+          "p25": 0.0867,
+          "median": 0.0867,
+          "p75": 0.0867,
+          "max": 0.0867,
+          "mean": 0.0867,
+          "stdev": 0.0
+        },
+        "f5b_verb_adj_ratio": {
+          "n": 2,
+          "min": 0.9474,
+          "p25": 0.9474,
+          "median": 0.9474,
+          "p75": 0.9474,
+          "max": 0.9474,
+          "mean": 0.9474,
+          "stdev": 0.0
+        },
+        "f8a_emotional_density_ratio": {
+          "n": 2,
+          "min": 0.00161,
+          "p25": 0.00161,
+          "median": 0.00161,
+          "p75": 0.00161,
+          "max": 0.00161,
+          "mean": 0.00161,
+          "stdev": 0.0
+        },
+        "f9a_contradiction_rate": {
+          "n": 2,
+          "min": 0.2143,
+          "p25": 0.2143,
+          "median": 0.2143,
+          "p75": 0.2143,
+          "max": 0.2143,
+          "mean": 0.2143,
+          "stdev": 0.0
+        },
+        "f15a_local_repetition_rate": {
+          "n": 2,
+          "min": 0.0092,
+          "p25": 0.0092,
+          "median": 0.0092,
+          "p75": 0.0092,
+          "max": 0.0092,
+          "mean": 0.0092,
+          "stdev": 0.0
+        },
+        "f15b_redundancy_compression": {
+          "n": 2,
+          "min": 0.9908,
+          "p25": 0.9908,
+          "median": 0.9908,
+          "p75": 0.9908,
+          "max": 0.9908,
+          "mean": 0.9908,
+          "stdev": 0.0
+        },
+        "f16b_hapax_rate": {
+          "n": 2,
+          "min": 0.7429,
+          "p25": 0.7429,
+          "median": 0.7429,
+          "p75": 0.7429,
+          "max": 0.7429,
+          "mean": 0.7429,
+          "stdev": 0.0
+        },
+        "f16c_lexical_surprise": {
+          "n": 2,
+          "min": 0.878,
+          "p25": 0.878,
+          "median": 0.878,
+          "p75": 0.878,
+          "max": 0.878,
+          "mean": 0.878,
+          "stdev": 0.0
+        },
+        "f17_contrast_arc_score": {
+          "n": 2,
+          "min": 0.7083,
+          "p25": 0.7083,
+          "median": 0.7083,
+          "p75": 0.7083,
+          "max": 0.7083,
+          "mean": 0.7083,
+          "stdev": 0.0
+        },
+        "f18f_ellipsis_final": {
+          "n": 2,
+          "min": 0.5542,
+          "p25": 0.5542,
+          "median": 0.5542,
+          "p75": 0.5542,
+          "max": 0.5542,
+          "mean": 0.5542,
+          "stdev": 0.0
+        },
+        "f19a_approx_entropy": {
+          "n": 2,
+          "min": 0.60782,
+          "p25": 0.60782,
+          "median": 0.60782,
+          "p75": 0.60782,
+          "max": 0.60782,
+          "mean": 0.60782,
+          "stdev": 0.0
+        },
+        "f19b_shannon_entropy": {
+          "n": 2,
+          "min": 2.49472,
+          "p25": 2.49472,
+          "median": 2.49472,
+          "p75": 2.49472,
+          "max": 2.49472,
+          "mean": 2.49472,
+          "stdev": 0.0
+        },
+        "f20d_composite_fg": {
+          "n": 2,
+          "min": 0.20949,
+          "p25": 0.20949,
+          "median": 0.20949,
+          "p75": 0.20949,
+          "max": 0.20949,
+          "mean": 0.20949,
+          "stdev": 0.0
+        }
+      },
+      "lang_original": "la",
+      "category": "prose_philosophique"
+    },
+    "nietzsche_zarathoustra": {
+      "author": "Nietzsche",
+      "work_id": "nietzsche_zarathoustra",
+      "n_extracts": 2,
+      "baseline": {
+        "f1_mean": {
+          "n": 2,
+          "min": 7.08,
+          "p25": 7.08,
+          "median": 9.025,
+          "p75": 10.97,
+          "max": 10.97,
+          "mean": 9.025,
+          "stdev": 2.75065
+        },
+        "f1a_rhythm_variance": {
+          "n": 2,
+          "min": 3.7,
+          "p25": 3.7,
+          "median": 6.77,
+          "p75": 9.84,
+          "max": 9.84,
+          "mean": 6.77,
+          "stdev": 4.34164
+        },
+        "f1b_rhythm_ratio": {
+          "n": 2,
+          "min": 0.5228,
+          "p25": 0.5228,
+          "median": 0.70985,
+          "p75": 0.8969,
+          "max": 0.8969,
+          "mean": 0.70985,
+          "stdev": 0.26453
+        },
+        "f5a_verb_density": {
+          "n": 2,
+          "min": 0.0458,
+          "p25": 0.0458,
+          "median": 0.0557,
+          "p75": 0.0656,
+          "max": 0.0656,
+          "mean": 0.0557,
+          "stdev": 0.014
+        },
+        "f5b_verb_adj_ratio": {
+          "n": 2,
+          "min": 1.0,
+          "p25": 1.0,
+          "median": 1.16665,
+          "p75": 1.3333,
+          "max": 1.3333,
+          "mean": 1.16665,
+          "stdev": 0.23568
+        },
+        "f8a_emotional_density_ratio": {
+          "n": 2,
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 0.0,
+          "p75": 0.0,
+          "max": 0.0,
+          "mean": 0.0,
+          "stdev": 0.0
+        },
+        "f9a_contradiction_rate": {
+          "n": 2,
+          "min": 0.2,
+          "p25": 0.2,
+          "median": 0.2346,
+          "p75": 0.2692,
+          "max": 0.2692,
+          "mean": 0.2346,
+          "stdev": 0.04893
+        },
+        "f15a_local_repetition_rate": {
+          "n": 2,
+          "min": 0.0203,
+          "p25": 0.0203,
+          "median": 0.03045,
+          "p75": 0.0406,
+          "max": 0.0406,
+          "mean": 0.03045,
+          "stdev": 0.01435
+        },
+        "f15b_redundancy_compression": {
+          "n": 2,
+          "min": 0.9594,
+          "p25": 0.9594,
+          "median": 0.96955,
+          "p75": 0.9797,
+          "max": 0.9797,
+          "mean": 0.96955,
+          "stdev": 0.01435
+        },
+        "f16b_hapax_rate": {
+          "n": 2,
+          "min": 0.5925,
+          "p25": 0.5925,
+          "median": 0.60875,
+          "p75": 0.625,
+          "max": 0.625,
+          "mean": 0.60875,
+          "stdev": 0.02298
+        },
+        "f16c_lexical_surprise": {
+          "n": 2,
+          "min": 0.8141,
+          "p25": 0.8141,
+          "median": 0.8203,
+          "p75": 0.8265,
+          "max": 0.8265,
+          "mean": 0.8203,
+          "stdev": 0.00877
+        },
+        "f17_contrast_arc_score": {
+          "n": 2,
+          "min": 0.5,
+          "p25": 0.5,
+          "median": 0.64285,
+          "p75": 0.7857,
+          "max": 0.7857,
+          "mean": 0.64285,
+          "stdev": 0.20202
+        },
+        "f18f_ellipsis_final": {
+          "n": 2,
+          "min": 0.7588,
+          "p25": 0.7588,
+          "median": 0.77715,
+          "p75": 0.7955,
+          "max": 0.7955,
+          "mean": 0.77715,
+          "stdev": 0.02595
+        },
+        "f19a_approx_entropy": {
+          "n": 2,
+          "min": 0.20628,
+          "p25": 0.20628,
+          "median": 0.36378,
+          "p75": 0.52128,
+          "max": 0.52128,
+          "mean": 0.36378,
+          "stdev": 0.22274
+        },
+        "f19b_shannon_entropy": {
+          "n": 2,
+          "min": 1.83148,
+          "p25": 1.83148,
+          "median": 2.07613,
+          "p75": 2.32079,
+          "max": 2.32079,
+          "mean": 2.07613,
+          "stdev": 0.34599
+        },
+        "f20d_composite_fg": {
+          "n": 2,
+          "min": 0.13442,
+          "p25": 0.13442,
+          "median": 0.16864,
+          "p75": 0.20285,
+          "max": 0.20285,
+          "mean": 0.16864,
+          "stdev": 0.04839
+        }
+      },
+      "lang_original": "de",
+      "category": "prose_prophetique"
+    },
+    "maupassant_nouvelles": {
+      "author": "Maupassant",
+      "work_id": "maupassant_nouvelles",
+      "n_extracts": 2,
+      "baseline": {
+        "f1_mean": {
+          "n": 2,
+          "min": 9.17,
+          "p25": 9.17,
+          "median": 11.94,
+          "p75": 14.71,
+          "max": 14.71,
+          "mean": 11.94,
+          "stdev": 3.91737
+        },
+        "f1a_rhythm_variance": {
+          "n": 2,
+          "min": 6.524,
+          "p25": 6.524,
+          "median": 8.762,
+          "p75": 11.0,
+          "max": 11.0,
+          "mean": 8.762,
+          "stdev": 3.16501
+        },
+        "f1b_rhythm_ratio": {
+          "n": 2,
+          "min": 0.7117,
+          "p25": 0.7117,
+          "median": 0.7296,
+          "p75": 0.7475,
+          "max": 0.7475,
+          "mean": 0.7296,
+          "stdev": 0.02531
+        },
+        "f5a_verb_density": {
+          "n": 2,
+          "min": 0.0447,
+          "p25": 0.0447,
+          "median": 0.04775,
+          "p75": 0.0508,
+          "max": 0.0508,
+          "mean": 0.04775,
+          "stdev": 0.00431
+        },
+        "f5b_verb_adj_ratio": {
+          "n": 2,
+          "min": 0.7826,
+          "p25": 0.7826,
+          "median": 1.0913,
+          "p75": 1.4,
+          "max": 1.4,
+          "mean": 1.0913,
+          "stdev": 0.43657
+        },
+        "f8a_emotional_density_ratio": {
+          "n": 2,
+          "min": 0.0,
+          "p25": 0.0,
+          "median": 0.00244,
+          "p75": 0.00487,
+          "max": 0.00487,
+          "mean": 0.00244,
+          "stdev": 0.00344
+        },
+        "f9a_contradiction_rate": {
+          "n": 2,
+          "min": 0.2857,
+          "p25": 0.2857,
+          "median": 0.3095,
+          "p75": 0.3333,
+          "max": 0.3333,
+          "mean": 0.3095,
+          "stdev": 0.03366
+        },
+        "f15a_local_repetition_rate": {
+          "n": 2,
+          "min": 0.0053,
+          "p25": 0.0053,
+          "median": 0.0174,
+          "p75": 0.0295,
+          "max": 0.0295,
+          "mean": 0.0174,
+          "stdev": 0.01711
+        },
+        "f15b_redundancy_compression": {
+          "n": 2,
+          "min": 0.9705,
+          "p25": 0.9705,
+          "median": 0.9826,
+          "p75": 0.9947,
+          "max": 0.9947,
+          "mean": 0.9826,
+          "stdev": 0.01711
+        },
+        "f16b_hapax_rate": {
+          "n": 2,
+          "min": 0.5699,
+          "p25": 0.5699,
+          "median": 0.62345,
+          "p75": 0.677,
+          "max": 0.677,
+          "mean": 0.62345,
+          "stdev": 0.07573
+        },
+        "f16c_lexical_surprise": {
+          "n": 2,
+          "min": 0.7876,
+          "p25": 0.7876,
+          "median": 0.81445,
+          "p75": 0.8413,
+          "max": 0.8413,
+          "mean": 0.81445,
+          "stdev": 0.03797
+        },
+        "f17_contrast_arc_score": {
+          "n": 2,
+          "min": 0.3303,
+          "p25": 0.3303,
+          "median": 0.41515,
+          "p75": 0.5,
+          "max": 0.5,
+          "mean": 0.41515,
+          "stdev": 0.12
+        },
+        "f18f_ellipsis_final": {
+          "n": 2,
+          "min": 0.5536,
+          "p25": 0.5536,
+          "median": 0.5613,
+          "p75": 0.569,
+          "max": 0.569,
+          "mean": 0.5613,
+          "stdev": 0.01089
+        },
+        "f19a_approx_entropy": {
+          "n": 2,
+          "min": 0.45875,
+          "p25": 0.45875,
+          "median": 0.47349,
+          "p75": 0.48823,
+          "max": 0.48823,
+          "mean": 0.47349,
+          "stdev": 0.02085
+        },
+        "f19b_shannon_entropy": {
+          "n": 2,
+          "min": 2.41116,
+          "p25": 2.41116,
+          "median": 2.44011,
+          "p75": 2.46906,
+          "max": 2.46906,
+          "mean": 2.44011,
+          "stdev": 0.04094
+        },
+        "f20d_composite_fg": {
+          "n": 2,
+          "min": 0.17893,
+          "p25": 0.17893,
+          "median": 0.18825,
+          "p75": 0.19757,
+          "max": 0.19757,
+          "mean": 0.18825,
+          "stdev": 0.01318
+        }
+      },
+      "lang_original": "fr",
+      "category": "prose_courte_realiste"
+    }
+  },
+  "sha256": "27a12bc0e90de2920760fc54d8dca2fe638f5fbdab17391164c9cea864612c0f"
+}

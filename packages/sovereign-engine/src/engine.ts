@@ -61,6 +61,8 @@ import { LOT3_INSTRUCTIONS } from './prose-directive/lot3-instructions.js';
 import type { CDEInput } from './cde/types.js';
 // ★ P5: Targeted Patch
 import { runTargetedPatch, isTargetedPatchActive } from './polish/targeted-patch.js';
+// ★ V4: Native Prompt
+import { isV4Active, buildSovereignPrompt_V4 } from './input/prompt-assembler-v4.js';
 
 export interface SovereignForgeResult {
   readonly version: '2.0.0'; // Sprint 6.3 (Roadmap 4.4): Version field for compat guard
@@ -109,9 +111,9 @@ export async function runSovereignForge(
     emotionBrief = undefined;
   }
 
-  // ★ V3: Compile partition if flag active
+  // ★ V3: Compile partition if flag active (skip if V4)
   let partition: CompiledPartition | undefined;
-  if (isV3Active()) {
+  if (!isV4Active() && isV3Active()) {
     const allInstructions = [
       ...LOT1_INSTRUCTIONS,
       ...LOT2_INSTRUCTIONS,
@@ -138,8 +140,14 @@ export async function runSovereignForge(
     console.log(`[V3] Partition: ${partition.total_tokens}t | hash=${partition.partition_hash.slice(0, 12)}`);
   }
 
-  // Prompt avec symbol map + physics section injecté
-  const prompt = buildSovereignPrompt(enrichedPacket, symbolMap, emotionBrief, partition);
+  // ★ Prompt selection: V4 > V3 > V2
+  let prompt: import('./types.js').SovereignPrompt;
+  if (isV4Active()) {
+    prompt = buildSovereignPrompt_V4(enrichedPacket, symbolMap);
+    console.log(`[V4] Prompt: ${Math.ceil(prompt.total_length / 4)}t | hash=${prompt.prompt_hash.slice(0, 12)}`);
+  } else {
+    prompt = buildSovereignPrompt(enrichedPacket, symbolMap, emotionBrief, partition);
+  }
 
   const initialDraft = await provider.generateDraft(
     prompt.sections.map((s) => s.content).join('\n\n'),

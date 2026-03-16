@@ -177,8 +177,10 @@ export function planInterventions(
 
     if (sentences.length === 0) continue;
 
-    // Find the most "neutral" sentence — shortest, least emotionally charged
+    // Find the most "neutral" sentence — least emotionally charged AND not sensory-critical
     // Heuristic: pick the sentence with the fewest emotional keywords
+    // Sprint SEAL fix (Gemini): EXCLUDE sentences with corporeal/sensory markers
+    // to prevent IFI regression when tension surgery replaces sensory phrases
     const emotionalKeywords = [
       'colère', 'peur', 'rage', 'terreur', 'joie', 'tristesse', 'dégoût',
       'honte', 'culpabilité', 'mépris', 'horreur', 'douleur', 'angoisse',
@@ -186,11 +188,25 @@ export function planInterventions(
       'ventre', 'mâchoire', 'poing', 'larme', 'cri', 'hurle',
     ];
 
+    // Sensory/corporeal markers — sentences containing these are PROTECTED from tension surgery
+    const sensoryProtectedKeywords = [
+      'odeur', 'parfum', 'sentir', 'chaleur', 'froid', 'tiède', 'glacé', 'brûl',
+      'toucher', 'peau', 'texture', 'caress', 'frôl', 'rugueux', 'doux',
+      'bruit', 'silence', 'murmure', 'écho', 'grond', 'siffl',
+      'lumière', 'ombre', 'couleur', 'reflet', 'lueur', 'obscur',
+      'souffle', 'respir', 'pouls', 'muscle', 'os', 'nuque', 'épaule',
+    ];
+
     let weakestIdx = 0;
     let minEmotionCount = Infinity;
 
     for (let i = 0; i < sentences.length; i++) {
       const lower = sentences[i].toLowerCase();
+
+      // Skip sentences with sensory markers — they contribute to IFI
+      const hasSensory = sensoryProtectedKeywords.some((kw) => lower.includes(kw));
+      if (hasSensory) continue;
+
       const count = emotionalKeywords.filter((kw) => lower.includes(kw)).length;
       if (count < minEmotionCount) {
         minEmotionCount = count;
@@ -374,8 +390,11 @@ export async function runMicroSurgery(
   // 3. Plan hook intervention (Sprint SEAL)
   const hookInterventions = planHookIntervention(packet, prose);
 
-  // 4. Merge all interventions
-  const allInterventions = [...tensionInterventions, ...hookInterventions];
+  // 4. Merge all interventions — HOOKS FIRST, then tensions
+  // Sprint SEAL fix: hooks modify prose minimally (insert 1 word), then tensions
+  // can still find their target sentences. Reverse order caused "target sentence not found" errors.
+  // Gemini: "exclusion mutuelle" — tension must not target a sentence already modified by hook.
+  const allInterventions = [...hookInterventions, ...tensionInterventions];
 
   if (allInterventions.length === 0) {
     console.log(`[MICRO-SURGEON] No intervention needed`);

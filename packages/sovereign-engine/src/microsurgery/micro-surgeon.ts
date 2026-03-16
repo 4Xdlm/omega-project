@@ -4,20 +4,20 @@
  * ═══════════════════════════════════════════════════════════════════════════════
  *
  * Module: microsurgery/micro-surgeon.ts
- * Version: 1.0.0 (Sprint 3C)
+ * Version: 2.0.0 (Sprint SEAL)
  * Standard: NASA-Grade L4 / DO-178C Level A
  *
  * Targeted micro-interventions on individual sentences.
  * The CONTREMAÎTRE decides WHAT to fix (CALC diagnosis).
  * The LLM executes ONLY the incision (1 sentence at a time).
  *
- * Sprint 3C scope: tension_14d ONLY (max 2 interventions).
- * Convergence 3/3: Claude + ChatGPT + Gemini.
- *
- * Principle (Architecte):
- *   "Un ouvrier seul ne peut pas construire une maison.
- *    Il faut plusieurs corps de métier spécialisés
- *    et un maître d'œuvre."
+ * Sprint 3C: tension_14d only (max 2 interventions).
+ * Sprint SEAL: + hook injection (max 3 total: 2 tension + 1 hook).
+ *   - Seuil abaissé 0.45 → 0.35 (capturer plus de quartiles faibles)
+ *   - Guard longueur 1.8× → 2.2× (ChatGPT-audit: pas 2.5, trop permissif)
+ *   - Hook injection: 1 micro-appel si hook_presence < 70
+ * Convergence: Claude (fusion) + ChatGPT (un levier à la fois → A+B cross-axe OK)
+ *   + Gemini (hooks = gap le plus flagrant).
  *
  * ═══════════════════════════════════════════════════════════════════════════════
  */
@@ -35,7 +35,7 @@ import { SOVEREIGN_CONFIG } from '../config.js';
 // ═══════════════════════════════════════════════════════════════════════════════
 
 export interface MicroIntervention {
-  readonly type: 'TENSION_14D';
+  readonly type: 'TENSION_14D' | 'HOOK_INJECTION';
   readonly quartile: number;          // 0-3
   readonly target_emotion: string;    // dominant emotion for this quartile
   readonly physical_anchor: string;   // physical incarnation
@@ -43,6 +43,7 @@ export interface MicroIntervention {
   readonly context_before: string;    // previous sentence
   readonly context_after: string;     // next sentence
   readonly similarity_before: number; // cosine similarity before intervention
+  readonly hook_word?: string;        // for HOOK_INJECTION: the hook to inject
 }
 
 export interface MicroSurgeryResult {
@@ -143,10 +144,16 @@ export function diagnoseTension14D(
 // ═══════════════════════════════════════════════════════════════════════════════
 
 /** Similarity threshold below which a quartile needs intervention */
-const INTERVENTION_THRESHOLD = 0.45;
+const INTERVENTION_THRESHOLD = 0.35; // Sprint SEAL: lowered from 0.45 to catch more weak quartiles
 
-/** Maximum interventions per run (ChatGPT-audit: start with 2, not 8) */
-const MAX_INTERVENTIONS = 2;
+/** Maximum TENSION interventions per run */
+const MAX_TENSION_INTERVENTIONS = 2;
+
+/** Maximum HOOK interventions per run */
+const MAX_HOOK_INTERVENTIONS = 1;
+
+/** Hook presence score threshold for intervention */
+const HOOK_INTERVENTION_THRESHOLD = 70;
 
 /**
  * Plan micro-interventions for the weakest quartiles.
@@ -160,7 +167,7 @@ export function planInterventions(
   const interventions: MicroIntervention[] = [];
 
   for (const diag of diagnostics) {
-    if (interventions.length >= MAX_INTERVENTIONS) break;
+    if (interventions.length >= MAX_TENSION_INTERVENTIONS) break;
     if (diag.similarity >= INTERVENTION_THRESHOLD) continue;
 
     // Split quartile text into sentences
@@ -241,8 +248,10 @@ export async function executeMicroSurgery(
 
       const cleaned = replacement.trim();
 
-      // Guard 1: replacement must not be too long (max 1.8× original)
-      if (cleaned.length > intervention.target_sentence.length * 1.8) {
+      // Guard 1: replacement must not be too long (max 2.2× original)
+      // Sprint SEAL: relaxed from 1.8× (was rejecting legitimate reformulations)
+      // ChatGPT-audit: 2.2× not 2.5× (too permissive)
+      if (cleaned.length > intervention.target_sentence.length * 2.2) {
         console.warn(`[MICRO-SURGEON] REJECTED Q${intervention.quartile}: replacement too long (${cleaned.length} vs ${intervention.target_sentence.length})`);
         details.push({
           intervention,
@@ -308,10 +317,19 @@ export async function executeMicroSurgery(
 }
 
 /**
- * Build the micro-prompt for a tension_14d intervention.
+ * Build the micro-prompt for an intervention.
  * Ultra-short (~60 tokens). The LLM responds with 1 sentence only.
  */
 function buildMicroPrompt(intervention: MicroIntervention): string {
+  if (intervention.type === 'HOOK_INJECTION' && intervention.hook_word) {
+    return `Contexte : "${intervention.context_before}"
+Phrase à modifier : "${intervention.target_sentence}"
+Suite : "${intervention.context_after}"
+
+Insère le mot ou concept "${intervention.hook_word}" dans cette phrase de manière organique et naturelle. Garde la même longueur et le même ton. Réponds UNIQUEMENT avec la phrase modifiée.`;
+  }
+
+  // TENSION_14D
   return `Contexte : "${intervention.context_before}"
 Phrase à modifier : "${intervention.target_sentence}"
 Suite : "${intervention.context_after}"
@@ -326,22 +344,21 @@ Garde la même longueur. Réponds UNIQUEMENT avec la phrase modifiée.`;
 // ═══════════════════════════════════════════════════════════════════════════════
 
 /**
- * Run micro-surgery on prose targeting tension_14d weak quartiles.
+ * Run micro-surgery on prose targeting tension_14d weak quartiles + hooks.
  *
  * Pipeline:
- * 1. Diagnose (CALC, 0 API) — identify weakest quartiles
- * 2. Plan (CALC, 0 API) — select sentences to modify
- * 3. Execute (1-2 micro-LLM calls) — apply interventions
- * 4. Return modified prose + traceability
- *
- * If no quartile needs intervention (all > threshold), returns prose unchanged.
+ * 1. Diagnose tension_14d (CALC, 0 API) — identify weakest quartiles
+ * 2. Plan tension interventions (CALC, 0 API) — select sentences to modify
+ * 3. Plan hook intervention (CALC, 0 API) — if hook_presence < 70
+ * 4. Execute (1-3 micro-LLM calls) — apply interventions
+ * 5. Return modified prose + traceability
  */
 export async function runMicroSurgery(
   packet: ForgePacket,
   prose: string,
   provider: SovereignProvider,
 ): Promise<MicroSurgeryResult> {
-  // 1. Diagnose
+  // 1. Diagnose tension_14d
   const diagnostics = diagnoseTension14D(packet, prose);
 
   // Log diagnostic
@@ -351,11 +368,17 @@ export async function runMicroSurgery(
     console.log(`  Q${d.quartile} similarity=${(d.similarity * 100).toFixed(1)}% target=${d.target_dominant} ${status}`);
   }
 
-  // 2. Plan
-  const interventions = planInterventions(packet, prose, diagnostics);
+  // 2. Plan tension interventions
+  const tensionInterventions = planInterventions(packet, prose, diagnostics);
 
-  if (interventions.length === 0) {
-    console.log(`[MICRO-SURGEON] No intervention needed (all quartiles above threshold ${INTERVENTION_THRESHOLD})`);
+  // 3. Plan hook intervention (Sprint SEAL)
+  const hookInterventions = planHookIntervention(packet, prose);
+
+  // 4. Merge all interventions
+  const allInterventions = [...tensionInterventions, ...hookInterventions];
+
+  if (allInterventions.length === 0) {
+    console.log(`[MICRO-SURGEON] No intervention needed`);
     return {
       interventions_planned: 0,
       interventions_applied: 0,
@@ -365,8 +388,86 @@ export async function runMicroSurgery(
     };
   }
 
-  console.log(`[MICRO-SURGEON] ${interventions.length} intervention(s) planned`);
+  console.log(`[MICRO-SURGEON] ${allInterventions.length} intervention(s) planned (${tensionInterventions.length} tension + ${hookInterventions.length} hook)`);
 
-  // 3. Execute
-  return await executeMicroSurgery(prose, interventions, provider);
+  // 5. Execute
+  return await executeMicroSurgery(prose, allInterventions, provider);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// HOOK INTERVENTION (Sprint SEAL)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+/**
+ * Plan a hook injection intervention.
+ * Diagnoses which hooks from the SymbolMap are missing in prose.
+ * Selects 1 missing hook and a neutral sentence to inject it into.
+ * Max 1 hook intervention per run.
+ */
+function planHookIntervention(
+  packet: ForgePacket,
+  prose: string,
+): MicroIntervention[] {
+  // Gather all hooks from the packet
+  const signatureWords = packet.style_genome?.lexicon?.signature_words ?? [];
+  const motifs = packet.style_genome?.imagery?.recurrent_motifs ?? [];
+  const allHooks = [...new Set([...signatureWords, ...motifs])].filter(h => h.length > 2);
+
+  if (allHooks.length === 0) return [];
+
+  // Check which hooks are missing
+  const lowerProse = prose.toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g, '');
+  const missingHooks = allHooks.filter(hook => {
+    const normalizedHook = hook.toLowerCase().normalize('NFKD').replace(/[\u0300-\u036f]/g, '');
+    // Check each token of the hook
+    const tokens = normalizedHook.split(/\s+/).filter(t => t.length > 2);
+    return !tokens.some(token => lowerProse.includes(token));
+  });
+
+  if (missingHooks.length === 0) {
+    console.log(`[MICRO-SURGEON] All hooks present — no hook intervention needed`);
+    return [];
+  }
+
+  // Pick the first missing hook (most important = first in signature_words)
+  const hookToInject = missingHooks[0];
+  console.log(`[MICRO-SURGEON] Missing hooks: ${missingHooks.length}/${allHooks.length}. Targeting: "${hookToInject}"`);
+
+  // Find a neutral sentence to inject the hook into
+  // Prefer sentences in Q1 or Q2 (setup paragraphs) that are descriptive
+  const paragraphs = prose.split(/\n\s*\n/).filter(p => p.trim().length > 0);
+  const targetParaIdx = Math.min(1, paragraphs.length - 1); // Q2 preferred
+  const targetPara = paragraphs[targetParaIdx];
+
+  const sentences = targetPara
+    .split(/(?<=[.!?…»"])\s+/)
+    .filter(s => s.trim().length > 0);
+
+  if (sentences.length === 0) return [];
+
+  // Pick the longest sentence (most room for organic insertion)
+  let bestIdx = 0;
+  let maxLen = 0;
+  for (let i = 0; i < sentences.length; i++) {
+    if (sentences[i].length > maxLen) {
+      maxLen = sentences[i].length;
+      bestIdx = i;
+    }
+  }
+
+  const targetSentence = sentences[bestIdx];
+  const contextBefore = bestIdx > 0 ? sentences[bestIdx - 1] : '';
+  const contextAfter = bestIdx < sentences.length - 1 ? sentences[bestIdx + 1] : '';
+
+  return [{
+    type: 'HOOK_INJECTION',
+    quartile: targetParaIdx,
+    target_emotion: '',
+    physical_anchor: '',
+    target_sentence: targetSentence,
+    context_before: contextBefore,
+    context_after: contextAfter,
+    similarity_before: 0,
+    hook_word: hookToInject,
+  }];
 }

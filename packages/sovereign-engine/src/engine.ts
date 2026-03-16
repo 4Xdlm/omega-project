@@ -65,8 +65,8 @@ import type { CDEInput } from './cde/types.js';
 import { runTargetedPatch, isTargetedPatchActive } from './polish/targeted-patch.js';
 // ★ V4: Native Prompt
 import { isV4Active, buildSovereignPrompt_V4 } from './input/prompt-assembler-v4.js';
-// ★ V4.2: Paragraph guard — runtime enforcement of 4-paragraph structure
-import { ensureParagraphCompliance } from './guards/paragraph-guard.js';
+// ★ V4.3 Sprint 2: Semantic Slicer replaces paragraph guard (CALC pure, 0 API)
+import { applySemanticSlicing } from './guards/semantic-slicer.js';
 
 export interface SovereignForgeResult {
   readonly version: '2.0.0'; // Sprint 6.3 (Roadmap 4.4): Version field for compat guard
@@ -159,15 +159,15 @@ export async function runSovereignForge(
     enrichedPacket.seeds.llm_seed,
   );
 
-  // ★ V4.2: Paragraph guard — ensure >= 4 paragraphs for tension_14d quartile mapping
-  // Only active in V4 mode. Uses same regex as tension_14d scorer.
-  // Max 1 retry. If retry fails, continues with original prose.
+  // ★ V4.3 Sprint 2: Semantic Slicer — CALC pure, 0 API calls
+  // Guarantees >= 4 paragraphs for tension_14d scorer by splitting at sentence boundaries.
+  // Replaces V4.2 paragraph guard (which used LLM retry = wasted API calls).
   if (isV4Active()) {
-    const guardResult = await ensureParagraphCompliance(initialDraft, provider, enrichedPacket.language);
-    if (guardResult.retried) {
-      console.log(`[V4.2] Paragraph guard: ${guardResult.original_count} → ${guardResult.final_count} paragraphs (success=${guardResult.retry_success})`);
+    const slicerResult = applySemanticSlicing(initialDraft);
+    if (slicerResult.sliced) {
+      console.log(`[V4.3] Slicer: ${slicerResult.original_paragraph_count} → ${slicerResult.final_paragraph_count} paragraphs`);
     }
-    initialDraft = guardResult.prose;
+    initialDraft = slicerResult.prose;
   }
 
   // ★ NOUVEAU Sprint 3.1: Physics Audit (post-generation, informatif)
@@ -234,33 +234,26 @@ export async function runSovereignForge(
 
   let final_prose = duel_result.final_prose;
 
-  // ★ V4.2: Paragraph guard on duel winner (same logic as post-initial-draft)
+  // ★ V4.3 Sprint 2: Semantic Slicer on duel winner
   if (isV4Active()) {
-    const guardResult = await ensureParagraphCompliance(final_prose, provider, enrichedPacket.language);
-    if (guardResult.retried) {
-      console.log(`[V4.2] Paragraph guard (post-duel): ${guardResult.original_count} → ${guardResult.final_count} paragraphs (success=${guardResult.retry_success})`);
+    const slicerResult = applySemanticSlicing(final_prose);
+    if (slicerResult.sliced) {
+      console.log(`[V4.3] Slicer (post-duel): ${slicerResult.original_paragraph_count} → ${slicerResult.final_paragraph_count} paragraphs`);
     }
-    final_prose = guardResult.prose;
+    final_prose = slicerResult.prose;
   }
 
-  // ★ Sprint 1: INSTRUMENTATION — measure RCI before/after each polish pass
-  // This is critical telemetry: we need to know if polish HELPS or DEGRADES rhythm.
-  // scoreRhythm is 100% CALC (0 API calls) — free telemetry.
+  // ★ Sprint 1 INSTRUMENTATION — measure rhythm CALC (kept for telemetry)
   const rhythmPrePolish = scoreRhythm(enrichedPacket, final_prose);
   console.log(`[POLISH-AUDIT] PRE-POLISH  | rhythm=${rhythmPrePolish.score.toFixed(1)} | ${rhythmPrePolish.details}`);
 
-  final_prose = await polishRhythm(enrichedPacket, final_prose, provider);
-  const rhythmPostPolishRhythm = scoreRhythm(enrichedPacket, final_prose);
-  console.log(`[POLISH-AUDIT] POST-polishRhythm | rhythm=${rhythmPostPolishRhythm.score.toFixed(1)} | delta=${(rhythmPostPolishRhythm.score - rhythmPrePolish.score).toFixed(1)}`);
-
-  final_prose = await sweepCliches(enrichedPacket, final_prose, provider);
-  const rhythmPostSweep = scoreRhythm(enrichedPacket, final_prose);
-  console.log(`[POLISH-AUDIT] POST-sweepCliches | rhythm=${rhythmPostSweep.score.toFixed(1)} | delta=${(rhythmPostSweep.score - rhythmPostPolishRhythm.score).toFixed(1)}`);
-
-  final_prose = await enforceSignature(enrichedPacket, final_prose, provider);
-  const rhythmPostSignature = scoreRhythm(enrichedPacket, final_prose);
-  console.log(`[POLISH-AUDIT] POST-enforceSignature | rhythm=${rhythmPostSignature.score.toFixed(1)} | delta=${(rhythmPostSignature.score - rhythmPostSweep.score).toFixed(1)}`);
-  console.log(`[POLISH-AUDIT] TOTAL delta: ${(rhythmPostSignature.score - rhythmPrePolish.score).toFixed(1)} (${rhythmPrePolish.score.toFixed(1)} → ${rhythmPostSignature.score.toFixed(1)})`);
+  // ★ Sprint 2: Polish DISABLED — proven NO-OP (delta 0.0 on ALL runs, V3 and V4)
+  // polishRhythm, sweepCliches, enforceSignature all returned delta=0.0
+  // Saving 3 API calls per run. Will be replaced by micro-surgery in Sprint 3.
+  // final_prose = await polishRhythm(enrichedPacket, final_prose, provider);
+  // final_prose = await sweepCliches(enrichedPacket, final_prose, provider);
+  // final_prose = await enforceSignature(enrichedPacket, final_prose, provider);
+  console.log(`[POLISH-AUDIT] Polish DISABLED (Sprint 2 — NO-OP proven). Saved 3 API calls.`);
 
   // ★ NOUVEAU v3: Utiliser judgeAestheticV3 avec macro-axes
   const final_score_v3 = await judgeAestheticV3(enrichedPacket, final_prose, provider, symbolMap, physicsAudit);

@@ -289,7 +289,7 @@ describe('prompt-assembler-v4', () => {
   });
 
   // Version
-  it('exports PROMPT_ASSEMBLER_V4_VERSION = 4.2.0', () => {
-    expect(PROMPT_ASSEMBLER_V4_VERSION).toBe('4.2.0');
+  it('exports PROMPT_ASSEMBLER_V4_VERSION = 4.3.0', () => {
+    expect(PROMPT_ASSEMBLER_V4_VERSION).toBe('4.3.0');
   });
 });

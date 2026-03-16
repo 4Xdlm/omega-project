@@ -67,6 +67,8 @@ import { runTargetedPatch, isTargetedPatchActive } from './polish/targeted-patch
 import { isV4Active, buildSovereignPrompt_V4 } from './input/prompt-assembler-v4.js';
 // ★ V4.3 Sprint 2: Semantic Slicer replaces paragraph guard (CALC pure, 0 API)
 import { applySemanticSlicing } from './guards/semantic-slicer.js';
+// ★ V4.3 Sprint 3C: Micro-surgeon — targeted tension_14d interventions
+import { runMicroSurgery } from './microsurgery/micro-surgeon.js';
 
 export interface SovereignForgeResult {
   readonly version: '2.0.0'; // Sprint 6.3 (Roadmap 4.4): Version field for compat guard
@@ -254,6 +256,18 @@ export async function runSovereignForge(
   // final_prose = await sweepCliches(enrichedPacket, final_prose, provider);
   // final_prose = await enforceSignature(enrichedPacket, final_prose, provider);
   console.log(`[POLISH-AUDIT] Polish DISABLED (Sprint 2 — NO-OP proven). Saved 3 API calls.`);
+
+  // ★ Sprint 3C: Micro-surgeon — targeted tension_14d interventions
+  // Replaces the disabled polish with precision interventions.
+  // Max 2 micro-LLM calls (~50 tokens each) on weakest quartiles.
+  // Only triggers if keyword-based diagnostic finds similarity < 0.45.
+  if (isV4Active()) {
+    const surgeryResult = await runMicroSurgery(enrichedPacket, final_prose, provider);
+    if (surgeryResult.interventions_applied > 0) {
+      console.log(`[MICRO-SURGEON] ${surgeryResult.interventions_applied} applied, ${surgeryResult.interventions_rejected} rejected`);
+      final_prose = surgeryResult.prose;
+    }
+  }
 
   // ★ NOUVEAU v3: Utiliser judgeAestheticV3 avec macro-axes
   const final_score_v3 = await judgeAestheticV3(enrichedPacket, final_prose, provider, symbolMap, physicsAudit);

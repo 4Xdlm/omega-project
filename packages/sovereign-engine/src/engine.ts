@@ -275,7 +275,23 @@ export async function runSovereignForge(
   }
   console.log(`  reasons+ ${ma.sii.reasons.top_contributors.join(', ')}`);
   console.log(`  reasons- ${ma.sii.reasons.top_penalties.join(', ')}`);
-  console.log(`[AUTOPSY] ECC=${ma.ecc.score.toFixed(1)} | IFI=${ma.ifi.score.toFixed(1)} | AAI=${ma.aai.score.toFixed(1)}`);
+  console.log(`[AUTOPSY] ECC=${ma.ecc.score.toFixed(1)} | sub-scores:`);
+  for (const sub of ma.ecc.sub_scores) {
+    console.log(`  ${sub.name}=${sub.score.toFixed(1)} (w=${sub.weight}) [${sub.method}]`);
+  }
+  console.log(`[AUTOPSY] IFI=${ma.ifi.score.toFixed(1)} | sub-scores:`);
+  for (const sub of ma.ifi.sub_scores) {
+    console.log(`  ${sub.name}=${sub.score.toFixed(1)} (w=${sub.weight}) [${sub.method}]`);
+  }
+  if (ma.ifi.bonuses.length > 0) {
+    for (const b of ma.ifi.bonuses) {
+      console.log(`  bonus: ${b.type}=${b.value} (triggered=${b.triggered}) ${b.detail}`);
+    }
+  }
+  console.log(`[AUTOPSY] AAI=${ma.aai.score.toFixed(1)} | sub-scores:`);
+  for (const sub of ma.aai.sub_scores) {
+    console.log(`  ${sub.name}=${sub.score.toFixed(1)} (w=${sub.weight}) [${sub.method}]`);
+  }
   console.log(`[AUTOPSY] ═══════════════════════`);
 
   // Convertir en SScore pour backward compatibility

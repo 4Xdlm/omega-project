@@ -55,15 +55,33 @@ export async function runDuel(
     });
   }
 
-  // Select winner by V3 macro-axes if symbol map available, else V1
+  // ★ V4.3 Sprint 1: Hostile selection — min_axis priority + composite tiebreak
+  // Convergence 3/3: Claude + ChatGPT + Gemini — composite-only selection lets
+  // high-ECC/low-RCI drafts win. This penalizes axis imbalance.
+  // Selection score = composite - 1.5 * max(0, 85 - min_axis)
+  // Effect: a draft with (ECC 95, RCI 70) loses to (ECC 86, RCI 84)
   let winnerIdx = 0;
   if (symbolMap) {
     const v3Scores = await Promise.all(
       drafts.map((d) => judgeAestheticV3(packet, d.prose, provider, symbolMap)),
     );
-    const v3Composites = v3Scores.map((s) => s.composite);
-    const maxV3 = Math.max(...v3Composites);
-    winnerIdx = v3Composites.indexOf(maxV3);
+
+    // Log all candidates for audit (Sprint 1 instrumentation)
+    console.log('[DUEL] Candidates:');
+    for (let i = 0; i < v3Scores.length; i++) {
+      const s = v3Scores[i];
+      console.log(`  [${i}] ${drafts[i].mode} | composite=${s.composite.toFixed(1)} min_axis=${s.min_axis.toFixed(1)} ECC=${s.ecc_score.toFixed(1)} RCI=${s.macro_axes.rci.score.toFixed(1)}`);
+    }
+
+    // Hostile selection: penalize low min_axis heavily
+    const selectionScores = v3Scores.map((s) => {
+      const floorPenalty = 1.5 * Math.max(0, 85 - s.min_axis);
+      return s.composite - floorPenalty;
+    });
+
+    const maxSelection = Math.max(...selectionScores);
+    winnerIdx = selectionScores.indexOf(maxSelection);
+    console.log(`[DUEL] Winner: [${winnerIdx}] ${drafts[winnerIdx].mode} (selection_score=${maxSelection.toFixed(1)})`);
   } else {
     const scores = drafts.map((d) => d.score.composite);
     const maxScore = Math.max(...scores);

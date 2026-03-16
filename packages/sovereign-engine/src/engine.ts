@@ -39,6 +39,8 @@ import { runDuel } from './duel/duel-engine.js';
 import { polishRhythm } from './polish/musical-engine.js';
 import { sweepCliches } from './polish/anti-cliche-sweep.js';
 import { enforceSignature } from './polish/signature-enforcement.js';
+// ★ Sprint 1: Instrumentation — measure rhythm CALC before/after each polish pass
+import { scoreRhythm } from './oracle/axes/rhythm.js';
 import { judgeAesthetic, judgeAestheticV3 } from './oracle/aesthetic-oracle.js';
 import { generateSymbolMap } from './symbol/symbol-mapper.js';
 import type { SymbolMap } from './symbol/symbol-map-types.js';
@@ -241,9 +243,24 @@ export async function runSovereignForge(
     final_prose = guardResult.prose;
   }
 
+  // ★ Sprint 1: INSTRUMENTATION — measure RCI before/after each polish pass
+  // This is critical telemetry: we need to know if polish HELPS or DEGRADES rhythm.
+  // scoreRhythm is 100% CALC (0 API calls) — free telemetry.
+  const rhythmPrePolish = scoreRhythm(enrichedPacket, final_prose);
+  console.log(`[POLISH-AUDIT] PRE-POLISH  | rhythm=${rhythmPrePolish.score.toFixed(1)} | ${rhythmPrePolish.details}`);
+
   final_prose = await polishRhythm(enrichedPacket, final_prose, provider);
+  const rhythmPostPolishRhythm = scoreRhythm(enrichedPacket, final_prose);
+  console.log(`[POLISH-AUDIT] POST-polishRhythm | rhythm=${rhythmPostPolishRhythm.score.toFixed(1)} | delta=${(rhythmPostPolishRhythm.score - rhythmPrePolish.score).toFixed(1)}`);
+
   final_prose = await sweepCliches(enrichedPacket, final_prose, provider);
+  const rhythmPostSweep = scoreRhythm(enrichedPacket, final_prose);
+  console.log(`[POLISH-AUDIT] POST-sweepCliches | rhythm=${rhythmPostSweep.score.toFixed(1)} | delta=${(rhythmPostSweep.score - rhythmPostPolishRhythm.score).toFixed(1)}`);
+
   final_prose = await enforceSignature(enrichedPacket, final_prose, provider);
+  const rhythmPostSignature = scoreRhythm(enrichedPacket, final_prose);
+  console.log(`[POLISH-AUDIT] POST-enforceSignature | rhythm=${rhythmPostSignature.score.toFixed(1)} | delta=${(rhythmPostSignature.score - rhythmPostSweep.score).toFixed(1)}`);
+  console.log(`[POLISH-AUDIT] TOTAL delta: ${(rhythmPostSignature.score - rhythmPrePolish.score).toFixed(1)} (${rhythmPrePolish.score.toFixed(1)} → ${rhythmPostSignature.score.toFixed(1)})`);
 
   // ★ NOUVEAU v3: Utiliser judgeAestheticV3 avec macro-axes
   const final_score_v3 = await judgeAestheticV3(enrichedPacket, final_prose, provider, symbolMap, physicsAudit);

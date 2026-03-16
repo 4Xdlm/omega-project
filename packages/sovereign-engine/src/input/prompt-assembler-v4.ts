@@ -1,6 +1,6 @@
 /**
  * prompt-assembler-v4.ts — V4 Native Prompt Assembler
- * V4.1.1 — Fix ECC: structured quartile trajectory + forced 4 paragraphs
+ * V4.2.0 — Stabilize paragraph compliance: FORMAT FIRST + EXACTEMENT + runtime guard
  *
  * Phase R (retro-engineering cognitif) proved:
  *   - LLM wants ~300 tokens, not 15k
@@ -9,17 +9,15 @@
  *   - Exemplar + few rules > 17 sections
  *   - Kill-lists PRODUCE the defects they try to correct
  *
- * V4.1 fix: tension_14d scorer splits prose into 4 quartiles and
- * measures cosine similarity with target_14d vectors. V4.0 fused
- * the trajectory into 1 paragraph → LLM wrote uniform emotion
- * → monotony penalty -20 + low quartile similarity.
- * V4.1 gives EXPLICIT quartile boundaries with dominant emotions
- * and physical behaviors per quartile.
+ * V4.0: 10 blocs narratifs ~800t. ECC collapsed (-14pts) — LLM wrote 1 block.
+ * V4.1.1: Explicit quartile boundaries + FORCE 4 paragraphs. ECC +8.6pts.
+ *         But "minimum 4" was too soft → LLM obeyed ~50% → variance 9.4pts.
  *
- * V4.1.1 fix: FORCE 4 PARAGRAPHS MINIMUM. The tension_14d scorer
- * splits by paragraphs. If LLM writes 2 big blocks, Q1-Q4 mapping
- * is broken → ECC collapses. Also: SEMANTIC_CORTEX_ENABLED=true
- * means the scorer uses LLM semantic analysis, not keyword matching.
+ * V4.2 FIX (convergence 3/3: Claude + ChatGPT + Gemini):
+ *   1. Move FORMAT constraint to FIRST LINE of trajectory (primacy effect)
+ *   2. Replace "minimum" with "EXACTEMENT" (hard contract, not suggestion)
+ *   3. Sèche/impérative final instruction (ChatGPT recommendation)
+ *   4. Runtime paragraph guard in engine.ts (retry if < 4 paragraphs)
  *
  * Standard: NASA-Grade L4 / DO-178C Level A
  */
@@ -30,7 +28,7 @@ import type { SymbolMap } from '../symbol/symbol-map-types.js';
 import type { EmotionContract } from '../types.js';
 import { selectExemplarDeterministic } from './golden-exemplars.js';
 
-export const PROMPT_ASSEMBLER_V4_VERSION = '4.1.1';
+export const PROMPT_ASSEMBLER_V4_VERSION = '4.2.0';
 
 // ── Flag ─────────────────────────────────────────────────────────────────────
 
@@ -146,14 +144,18 @@ function compileContext(packet: ForgePacket): string {
   return `${previousContext}${sceneGoal}. ${characters}. Conflit : ${conflict}.${subtextLine} Narration ${pov}, au ${tense}. ~${intent.target_word_count} mots.`;
 }
 
-// ── BLOC 3 — Trajectory V4.1.1 (~180 tokens) — LE CŒUR DU FIX ─────────────
+// ── BLOC 3 — Trajectory V4.2 (~180 tokens) — LE CŒUR DU FIX ────────────────
 //
 // V4.0 PROBLEM: All 4 quartiles fused in 1 paragraph → LLM wrote uniform
 // emotion → tension_14d scorer found monotony → penalty -20 + low similarity.
 //
 // V4.1 FIX: Explicit quartile boundaries + dominant emotion + physical behavior.
-// V4.1.1 FIX: FORCE 4 PARAGRAPHS. The tension_14d scorer splits prose by
-// paragraphs into 4 quartiles. If LLM writes 2 blocks → Q mapping broken.
+// V4.1.1 FIX: FORCE 4 PARAGRAPHS at end of block — but directive was BURIED
+// after 7 lines of emotional content → LLM obeyed only ~50% of the time.
+//
+// V4.2 FIX: Move FORMAT constraint to FIRST LINE (primacy effect).
+// Remove "minimum" (too soft). Use EXACTEMENT (hard contract).
+// Convergence 3/3: Claude + ChatGPT + Gemini unanimous.
 //
 // The scorer uses SEMANTIC LLM analysis (SEMANTIC_CORTEX_ENABLED=true),
 // so physical behaviors ARE understood as emotional states.
@@ -161,7 +163,11 @@ function compileContext(packet: ForgePacket): string {
 function compileTrajectory(ec: EmotionContract): string {
   const quartileLabels = ['Premier quart (0-25%)', 'Deuxième quart (25-50%)', 'Tournant (50-75%)', 'Fermeture (75-100%)'];
 
-  const lines: string[] = ['Arc émotionnel en 4 temps — respecte cette progression dans ton texte :'];
+  // V4.2: FORMAT FIRST — primacy effect. The LLM reads this before emotional content.
+  const lines: string[] = [
+    'FORMAT OBLIGATOIRE : EXACTEMENT 4 paragraphes séparés par une ligne vide. Paragraphe 1 = Q1, 2 = Q2, 3 = Q3, 4 = Q4.',
+    'Arc émotionnel en 4 temps :',
+  ];
 
   for (let i = 0; i < 4 && i < ec.curve_quartiles.length; i++) {
     const q = ec.curve_quartiles[i];
@@ -187,11 +193,7 @@ function compileTrajectory(ec: EmotionContract): string {
   }
 
   // Anti-monotony directive
-  lines.push('IMPORTANT : chaque quart du texte doit avoir une couleur émotionnelle DISTINCTE. Évite l\'uniformité.');
-
-  // V4.1.1: Force 4 paragraphs — tension_14d scorer splits prose by paragraphs
-  // If LLM writes 2 big blocks, Q1-Q4 mapping is broken → ECC collapses
-  lines.push('STRUCTURE OBLIGATOIRE : ton texte DOIT comporter au minimum 4 paragraphes séparés par des sauts de ligne — un par quartile ci-dessus. Le premier paragraphe = Q1, le deuxième = Q2, etc.');
+  lines.push('Chaque paragraphe doit avoir une couleur émotionnelle DISTINCTE — évite l\'uniformité.');
 
   return lines.join('\n');
 }
@@ -303,8 +305,10 @@ function compileInterdictions(): string {
 3. Pas de lyrisme décoratif — chaque image doit servir l'histoire.`;
 }
 
-// ── BLOC 10 — Final Instruction (~25 tokens) ────────────────────────────────
+// ── BLOC 10 — Final Instruction V4.2 (~25 tokens) ──────────────────────────
+// V4.2: Reinforcement of 4-paragraph contract. Sèche, impérative, pas de "minimum".
+// Convergence 3/3: Claude + ChatGPT + Gemini.
 
 function compileFinalInstruction(): string {
-  return `Écris la scène maintenant en 4 paragraphes minimum (un par quartile émotionnel). Commence par une sensation ou un geste — jamais par une description de cadre.`;
+  return `Écris la scène en EXACTEMENT 4 paragraphes séparés par une ligne vide. Un quartile par paragraphe. Commence par une sensation ou un geste.`;
 }

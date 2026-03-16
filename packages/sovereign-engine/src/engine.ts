@@ -63,6 +63,8 @@ import type { CDEInput } from './cde/types.js';
 import { runTargetedPatch, isTargetedPatchActive } from './polish/targeted-patch.js';
 // ★ V4: Native Prompt
 import { isV4Active, buildSovereignPrompt_V4 } from './input/prompt-assembler-v4.js';
+// ★ V4.2: Paragraph guard — runtime enforcement of 4-paragraph structure
+import { ensureParagraphCompliance } from './guards/paragraph-guard.js';
 
 export interface SovereignForgeResult {
   readonly version: '2.0.0'; // Sprint 6.3 (Roadmap 4.4): Version field for compat guard
@@ -149,11 +151,22 @@ export async function runSovereignForge(
     prompt = buildSovereignPrompt(enrichedPacket, symbolMap, emotionBrief, partition);
   }
 
-  const initialDraft = await provider.generateDraft(
+  let initialDraft = await provider.generateDraft(
     prompt.sections.map((s) => s.content).join('\n\n'),
     SOVEREIGN_CONFIG.DRAFT_MODES[0],
     enrichedPacket.seeds.llm_seed,
   );
+
+  // ★ V4.2: Paragraph guard — ensure >= 4 paragraphs for tension_14d quartile mapping
+  // Only active in V4 mode. Uses same regex as tension_14d scorer.
+  // Max 1 retry. If retry fails, continues with original prose.
+  if (isV4Active()) {
+    const guardResult = await ensureParagraphCompliance(initialDraft, provider, enrichedPacket.language);
+    if (guardResult.retried) {
+      console.log(`[V4.2] Paragraph guard: ${guardResult.original_count} → ${guardResult.final_count} paragraphs (success=${guardResult.retry_success})`);
+    }
+    initialDraft = guardResult.prose;
+  }
 
   // ★ NOUVEAU Sprint 3.1: Physics Audit (post-generation, informatif)
   // Runs after draft generation, before sovereign loop
@@ -218,6 +231,15 @@ export async function runSovereignForge(
   );
 
   let final_prose = duel_result.final_prose;
+
+  // ★ V4.2: Paragraph guard on duel winner (same logic as post-initial-draft)
+  if (isV4Active()) {
+    const guardResult = await ensureParagraphCompliance(final_prose, provider, enrichedPacket.language);
+    if (guardResult.retried) {
+      console.log(`[V4.2] Paragraph guard (post-duel): ${guardResult.original_count} → ${guardResult.final_count} paragraphs (success=${guardResult.retry_success})`);
+    }
+    final_prose = guardResult.prose;
+  }
 
   final_prose = await polishRhythm(enrichedPacket, final_prose, provider);
   final_prose = await sweepCliches(enrichedPacket, final_prose, provider);

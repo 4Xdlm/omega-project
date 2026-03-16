@@ -258,6 +258,26 @@ export async function runSovereignForge(
   // ★ NOUVEAU v3: Utiliser judgeAestheticV3 avec macro-axes
   const final_score_v3 = await judgeAestheticV3(enrichedPacket, final_prose, provider, symbolMap, physicsAudit);
 
+  // ★ Sprint 3 PREP: Sub-score autopsy for RCI and SII
+  // This telemetry identifies EXACTLY which sub-component drags each macro-axis down.
+  // Required before any micro-surgery intervention.
+  const ma = final_score_v3.macro_axes;
+  console.log(`[AUTOPSY] ═══ SUB-SCORE DETAIL ═══`);
+  console.log(`[AUTOPSY] RCI=${ma.rci.score.toFixed(1)} | sub-scores:`);
+  for (const sub of ma.rci.sub_scores) {
+    console.log(`  ${sub.name}=${sub.score.toFixed(1)} (w=${sub.weight}) [${sub.method}]`);
+  }
+  console.log(`  reasons+ ${ma.rci.reasons.top_contributors.join(', ')}`);
+  console.log(`  reasons- ${ma.rci.reasons.top_penalties.join(', ')}`);
+  console.log(`[AUTOPSY] SII=${ma.sii.score.toFixed(1)} | sub-scores:`);
+  for (const sub of ma.sii.sub_scores) {
+    console.log(`  ${sub.name}=${sub.score.toFixed(1)} (w=${sub.weight}) [${sub.method}]`);
+  }
+  console.log(`  reasons+ ${ma.sii.reasons.top_contributors.join(', ')}`);
+  console.log(`  reasons- ${ma.sii.reasons.top_penalties.join(', ')}`);
+  console.log(`[AUTOPSY] ECC=${ma.ecc.score.toFixed(1)} | IFI=${ma.ifi.score.toFixed(1)} | AAI=${ma.aai.score.toFixed(1)}`);
+  console.log(`[AUTOPSY] ═══════════════════════`);
+
   // Convertir en SScore pour backward compatibility
   const final_score: SScore = {
     score_id: final_score_v3.score_id,

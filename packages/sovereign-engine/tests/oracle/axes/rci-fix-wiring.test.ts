@@ -17,7 +17,7 @@ describe('RCI Wiring Fix [RCI-FIX]', () => {
 
     const vc = result.sub_scores.find(s => s.name === 'voice_conformity');
     expect(vc).toBeDefined();
-    expect(vc!.weight).toBe(1.0);
+    expect(vc!.weight).toBe(0); // Sprint 3: neutralized (style_genome.voice never populated)
     expect(vc!.method).toBe('CALC');
     expect(vc!.score).toBeGreaterThanOrEqual(0);
     expect(vc!.score).toBeLessThanOrEqual(100);
@@ -67,8 +67,8 @@ describe('RCI Wiring Fix [RCI-FIX]', () => {
     // totalWeight includes voice_conformity's 1.0
     expect(totalWeight).toBeGreaterThanOrEqual(vcWeight);
 
-    // 5 sub_scores: rhythm(1.0) + signature(1.0) + hook(0.20) + euphony(1.0) + voice(1.0) = 4.20
+    // 5 sub_scores: rhythm(1.0) + signature(1.0) + hook(0.20) + euphony(1.0) + voice(0) = 3.20 (Sprint 3: voice neutralized)
     expect(result.sub_scores).toHaveLength(5);
-    expect(totalWeight).toBeCloseTo(4.20, 1);
+    expect(totalWeight).toBeCloseTo(3.20, 1); // Sprint 3: voice_conformity neutralized (w=0)
   });
 });

@@ -51,7 +51,7 @@ export async function scoreMetaphorNoveltyAxis(
     name: 'metaphor_novelty',
     axis_id: 'metaphor_novelty',
     score: result.final_score,
-    weight: 1.5,
+    weight: 1.0, // SII-FIX-01: actual weight in computeSII() is 1.0 (was 1.5 pre-fix)
     method: 'HYBRID',
     details: {
       dead_count: result.dead_count,

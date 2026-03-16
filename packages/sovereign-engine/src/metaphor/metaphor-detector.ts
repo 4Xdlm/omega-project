@@ -105,13 +105,20 @@ function tryRepairJson(errorMsg: string): unknown {
  */
 function buildDetectionPrompt(prose: string): string {
   // U-META-02: prompt borné — max 5 métaphores, expression courte (≤8 mots), pas de phrases entières.
-  // Objectif: JSON garanti <400 tokens → aucune troncature possible à 800 tokens.
+  // ★ Sprint 3: Nuanced novelty_score criteria (Architecte directive):
+  // "OMEGA doit punir le cliché inerte, pas la simplicité vivante."
+  // A simple but precise image deserves 75+. Only dead clichés deserve < 50.
   return `Identifie les figures de style (métaphore, comparaison, analogie) dans ce texte.
 RÈGLES STRICTES:
 - Maximum 5 figures (les plus saillantes seulement).
 - "text": l'EXPRESSION COURTE uniquement (max 8 mots), jamais la phrase entière.
 - "type": "metaphor", "comparison" ou "analogy".
-- "novelty_score": entier 0-100 (100=très original, 0=cliché).
+- "novelty_score": entier 0-100. Barème OBLIGATOIRE :
+  90-100 = image neuve, frappante, inattendue.
+  75-89 = image simple mais JUSTE, vivante, précise et nécessaire dans son contexte.
+  50-74 = image convenue, prévisible, sans énergie propre.
+  0-49 = cliché mort, interchangeable, sans aucune force.
+  IMPORTANT : une métaphore simple mais efficace et bien placée mérite 75+. La simplicité n'est pas un défaut. Seul le cliché inerte mérite un score bas.
 - JSON pur, aucun commentaire, aucun markdown.
 
 FORMAT EXACT:

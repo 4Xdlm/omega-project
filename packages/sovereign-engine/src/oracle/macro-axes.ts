@@ -389,12 +389,23 @@ export async function computeRCI(
   };
 
   // 3. Sprint 13: Voice Conformity (100% CALC — always included)
+  // ★ Sprint 3 FIX: voice_conformity NEUTRALIZED — style_genome.voice is never populated
+  // in the ForgePacket, so the scorer always returns fallback 70.0.
+  // This drags RCI down by ~5 pts on every run.
+  // Neutralize by overriding weight to 0 until the pipeline populates style_genome.voice.
+  // Data proof: voice_conformity=70.0 on ALL 8 bench runs (V3 and V4).
   const voice_conformity = await scoreVoiceConformity(packet, prose);
+  // Override weight to 0 — neutralized (will appear in sub_scores for audit but won't affect RCI)
+  const voice_conformity_neutralized: AxisScore = {
+    ...voice_conformity,
+    weight: 0, // NEUTRALIZED — Sprint 3
+    details: `${voice_conformity.details} | NEUTRALIZED (w=0): style_genome.voice not populated`,
+  };
 
   // 4. Sprint 15: Euphony basic
   const euphony = scoreEuphonyBasic(packet, prose);
 
-  const sub_scores: AxisScore[] = [rhythm, signature, hook_presence, euphony, voice_conformity];
+  const sub_scores: AxisScore[] = [rhythm, signature, hook_presence, euphony, voice_conformity_neutralized];
 
   // 4. Fusionner avec poids automatiques basés sur weights des axes
   const totalWeight = sub_scores.reduce((sum, s) => sum + s.weight, 0);

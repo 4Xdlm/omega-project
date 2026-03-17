@@ -1,0 +1,192 @@
+{
+  "test": "lexical_llm_perturbation",
+  "date": "2026-03-17T16:02:24.035611+00:00",
+  "seed": 42,
+  "model": "claude-haiku-4-5-20251001",
+  "n_chapters": 198,
+  "n_skipped": 2,
+  "n_api_calls": 1184,
+  "elapsed_s": 1872.7,
+  "P02b_SIMPLIFY": {
+    "per_feature": {
+      "f1_mean": {
+        "mean_delta": 0.003636,
+        "mean_abs_delta": 0.124343
+      },
+      "f1a_rhythm_variance": {
+        "mean_delta": -0.012717,
+        "mean_abs_delta": 0.060505
+      },
+      "f19e_window_median": {
+        "mean_delta": 0.001293,
+        "mean_abs_delta": 0.005714
+      },
+      "f22f_literary_index": {
+        "mean_delta": 0.00532,
+        "mean_abs_delta": 0.006047
+      },
+      "f26c_period_score": {
+        "mean_delta": 0.001312,
+        "mean_abs_delta": 0.002072
+      },
+      "f24e_contrast_score": {
+        "mean_delta": -6.4e-05,
+        "mean_abs_delta": 0.004053
+      },
+      "f25g_description_score": {
+        "mean_delta": 0.004295,
+        "mean_abs_delta": 0.010664
+      },
+      "f29b_ttr_window": {
+        "mean_delta": 0.006051,
+        "mean_abs_delta": 0.006586
+      },
+      "f21e_ritual_index": {
+        "mean_delta": -0.011932,
+        "mean_abs_delta": 0.014215
+      },
+      "f27d_modal_score": {
+        "mean_delta": 0.003461,
+        "mean_abs_delta": 0.010374
+      },
+      "f28d_sil_score": {
+        "mean_delta": 0.002844,
+        "mean_abs_delta": 0.003236
+      },
+      "f23d_literary_causal_score": {
+        "mean_delta": -0.010163,
+        "mean_abs_delta": 0.02001
+      },
+      "f30d_ps_imp_ratio": {
+        "mean_delta": -0.591592,
+        "mean_abs_delta": 0.610941
+      }
+    },
+    "category_deltas": {
+      "MUSICALITE": 0.063521,
+      "COMPLEXITE": 0.00406,
+      "SENSORIEL": 0.007359,
+      "LEXICAL": 0.010401,
+      "INTERIORITE": 0.006805,
+      "TENSION": 0.315475
+    },
+    "most_affected": [
+      {
+        "feature": "f30d_ps_imp_ratio",
+        "mean_delta": -0.591592,
+        "mean_abs_delta": 0.610941
+      },
+      {
+        "feature": "f1_mean",
+        "mean_delta": 0.003636,
+        "mean_abs_delta": 0.124343
+      },
+      {
+        "feature": "f1a_rhythm_variance",
+        "mean_delta": -0.012717,
+        "mean_abs_delta": 0.060505
+      },
+      {
+        "feature": "f23d_literary_causal_score",
+        "mean_delta": -0.010163,
+        "mean_abs_delta": 0.02001
+      },
+      {
+        "feature": "f21e_ritual_index",
+        "mean_delta": -0.011932,
+        "mean_abs_delta": 0.014215
+      }
+    ]
+  },
+  "P06b_ENRICH": {
+    "per_feature": {
+      "f1_mean": {
+        "mean_delta": 0.002071,
+        "mean_abs_delta": 0.108434
+      },
+      "f1a_rhythm_variance": {
+        "mean_delta": 0.012146,
+        "mean_abs_delta": 0.040652
+      },
+      "f19e_window_median": {
+        "mean_delta": -0.000215,
+        "mean_abs_delta": 0.006586
+      },
+      "f22f_literary_index": {
+        "mean_delta": 0.002866,
+        "mean_abs_delta": 0.004171
+      },
+      "f26c_period_score": {
+        "mean_delta": 0.000137,
+        "mean_abs_delta": 0.001241
+      },
+      "f24e_contrast_score": {
+        "mean_delta": -2e-05,
+        "mean_abs_delta": 0.005041
+      },
+      "f25g_description_score": {
+        "mean_delta": 0.004794,
+        "mean_abs_delta": 0.012585
+      },
+      "f29b_ttr_window": {
+        "mean_delta": 0.007059,
+        "mean_abs_delta": 0.007182
+      },
+      "f21e_ritual_index": {
+        "mean_delta": -0.016287,
+        "mean_abs_delta": 0.016734
+      },
+      "f27d_modal_score": {
+        "mean_delta": 0.011676,
+        "mean_abs_delta": 0.016899
+      },
+      "f28d_sil_score": {
+        "mean_delta": 0.001445,
+        "mean_abs_delta": 0.002484
+      },
+      "f23d_literary_causal_score": {
+        "mean_delta": -0.012239,
+        "mean_abs_delta": 0.024054
+      },
+      "f30d_ps_imp_ratio": {
+        "mean_delta": -0.426332,
+        "mean_abs_delta": 0.480338
+      }
+    },
+    "category_deltas": {
+      "MUSICALITE": 0.051891,
+      "COMPLEXITE": 0.002706,
+      "SENSORIEL": 0.008813,
+      "LEXICAL": 0.011958,
+      "INTERIORITE": 0.009692,
+      "TENSION": 0.252196
+    },
+    "most_affected": [
+      {
+        "feature": "f30d_ps_imp_ratio",
+        "mean_delta": -0.426332,
+        "mean_abs_delta": 0.480338
+      },
+      {
+        "feature": "f1_mean",
+        "mean_delta": 0.002071,
+        "mean_abs_delta": 0.108434
+      },
+      {
+        "feature": "f1a_rhythm_variance",
+        "mean_delta": 0.012146,
+        "mean_abs_delta": 0.040652
+      },
+      {
+        "feature": "f23d_literary_causal_score",
+        "mean_delta": -0.012239,
+        "mean_abs_delta": 0.024054
+      },
+      {
+        "feature": "f27d_modal_score",
+        "mean_delta": 0.011676,
+        "mean_abs_delta": 0.016899
+      }
+    ]
+  }
+}

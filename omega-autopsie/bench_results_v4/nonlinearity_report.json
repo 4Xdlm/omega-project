@@ -1,0 +1,512 @@
+{
+  "metadata": {
+    "generated": "2026-03-17T13:24:11.407203",
+    "input_file": "bench_results_v4/bench_report.json",
+    "total_input_results": 30420,
+    "nonlinearity_threshold": 0.05,
+    "seed": 42
+  },
+  "summary": {
+    "total_pairs_tested": 10,
+    "nonlinear_count": 1,
+    "linear_count": 9,
+    "nonlinear_fraction": 0.1,
+    "best_model_distribution": {
+      "saturating": 4,
+      "quadratic": 4,
+      "linear": 2
+    }
+  },
+  "pairs": [
+    {
+      "perturbation": "P03_COMPLEXIFY_SYNTAX",
+      "category": "TENSION",
+      "n_results": 7605,
+      "linear": {
+        "r2": 0.969747,
+        "r2_adj": 0.939494,
+        "slope": 0.334146,
+        "intercept": 0.037918
+      },
+      "quadratic": {
+        "r2": 0.997742,
+        "r2_adj": 0.995483,
+        "a": -0.255655,
+        "b": 0.608556
+      },
+      "saturating": {
+        "r2": 0.999664,
+        "r2_adj": 0.999327,
+        "b": 0.703477,
+        "k": 0.99
+      },
+      "best_model": "saturating",
+      "is_nonlinear": true,
+      "r2_delta_quad_lin": 0.055989,
+      "curve_data": [
+        {
+          "amplitude": 0.03,
+          "mean_abs_delta": 0.024645
+        },
+        {
+          "amplitude": 0.1,
+          "mean_abs_delta": 0.063483
+        },
+        {
+          "amplitude": 0.25,
+          "mean_abs_delta": 0.142199
+        },
+        {
+          "amplitude": 0.5,
+          "mean_abs_delta": 0.233199
+        },
+        {
+          "amplitude": 1.0,
+          "mean_abs_delta": 0.354257
+        }
+      ],
+      "saturation_point": 9.0909
+    },
+    {
+      "perturbation": "P04_REMOVE_INTERIORITY",
+      "category": "INTERIORITE",
+      "n_results": 7605,
+      "linear": {
+        "r2": 0.982732,
+        "r2_adj": 0.965464,
+        "slope": 0.093016,
+        "intercept": 0.000445
+      },
+      "quadratic": {
+        "r2": 0.99008,
+        "r2_adj": 0.98016,
+        "a": 0.02223,
+        "b": 0.074471
+      },
+      "saturating": {
+        "r2": 0.982012,
+        "r2_adj": 0.964023,
+        "b": 0.094441,
+        "k": 0.01
+      },
+      "best_model": "quadratic",
+      "is_nonlinear": false,
+      "r2_delta_quad_lin": 0.014696,
+      "curve_data": [
+        {
+          "amplitude": 0.03,
+          "mean_abs_delta": 0.009012
+        },
+        {
+          "amplitude": 0.1,
+          "mean_abs_delta": 0.010173
+        },
+        {
+          "amplitude": 0.25,
+          "mean_abs_delta": 0.019222
+        },
+        {
+          "amplitude": 0.5,
+          "mean_abs_delta": 0.041694
+        },
+        {
+          "amplitude": 1.0,
+          "mean_abs_delta": 0.096994
+        }
+      ],
+      "saturation_point": null
+    },
+    {
+      "perturbation": "P05_INJECT_SYNCOPES",
+      "category": "COMPLEXITE",
+      "n_results": 7605,
+      "linear": {
+        "r2": 0.998302,
+        "r2_adj": 0.996604,
+        "slope": 0.020968,
+        "intercept": 0.000704
+      },
+      "quadratic": {
+        "r2": 0.998972,
+        "r2_adj": 0.997944,
+        "a": -0.004047,
+        "b": 0.025459
+      },
+      "saturating": {
+        "r2": 0.99899,
+        "r2_adj": 0.997979,
+        "b": 0.02571,
+        "k": 0.2
+      },
+      "best_model": "saturating",
+      "is_nonlinear": false,
+      "r2_delta_quad_lin": 0.00134,
+      "curve_data": [
+        {
+          "amplitude": 0.03,
+          "mean_abs_delta": 0.001285
+        },
+        {
+          "amplitude": 0.1,
+          "mean_abs_delta": 0.002458
+        },
+        {
+          "amplitude": 0.25,
+          "mean_abs_delta": 0.006081
+        },
+        {
+          "amplitude": 0.5,
+          "mean_abs_delta": 0.011697
+        },
+        {
+          "amplitude": 1.0,
+          "mean_abs_delta": 0.021419
+        }
+      ],
+      "saturation_point": null
+    },
+    {
+      "perturbation": "P05_INJECT_SYNCOPES",
+      "category": "INTERIORITE",
+      "n_results": 7605,
+      "linear": {
+        "r2": 0.99878,
+        "r2_adj": 0.99756,
+        "slope": 0.024283,
+        "intercept": 0.000422
+      },
+      "quadratic": {
+        "r2": 0.999636,
+        "r2_adj": 0.999273,
+        "a": -0.002981,
+        "b": 0.027454
+      },
+      "saturating": {
+        "r2": 0.999622,
+        "r2_adj": 0.999243,
+        "b": 0.027647,
+        "k": 0.13
+      },
+      "best_model": "quadratic",
+      "is_nonlinear": false,
+      "r2_delta_quad_lin": 0.001713,
+      "curve_data": [
+        {
+          "amplitude": 0.03,
+          "mean_abs_delta": 0.001105
+        },
+        {
+          "amplitude": 0.1,
+          "mean_abs_delta": 0.002519
+        },
+        {
+          "amplitude": 0.25,
+          "mean_abs_delta": 0.006609
+        },
+        {
+          "amplitude": 0.5,
+          "mean_abs_delta": 0.01307
+        },
+        {
+          "amplitude": 1.0,
+          "mean_abs_delta": 0.024456
+        }
+      ],
+      "saturation_point": null
+    },
+    {
+      "perturbation": "P05_INJECT_SYNCOPES",
+      "category": "TENSION",
+      "n_results": 7605,
+      "linear": {
+        "r2": 0.978164,
+        "r2_adj": 0.956329,
+        "slope": 0.420102,
+        "intercept": 0.022849
+      },
+      "quadratic": {
+        "r2": 0.999228,
+        "r2_adj": 0.998455,
+        "a": -0.208789,
+        "b": 0.632676
+      },
+      "saturating": {
+        "r2": 0.998258,
+        "r2_adj": 0.996516,
+        "b": 0.668194,
+        "k": 0.57
+      },
+      "best_model": "quadratic",
+      "is_nonlinear": false,
+      "r2_delta_quad_lin": 0.042126,
+      "curve_data": [
+        {
+          "amplitude": 0.03,
+          "mean_abs_delta": 0.014955
+        },
+        {
+          "amplitude": 0.1,
+          "mean_abs_delta": 0.054838
+        },
+        {
+          "amplitude": 0.25,
+          "mean_abs_delta": 0.142406
+        },
+        {
+          "amplitude": 0.5,
+          "mean_abs_delta": 0.268906
+        },
+        {
+          "amplitude": 1.0,
+          "mean_abs_delta": 0.422932
+        }
+      ],
+      "saturation_point": null
+    },
+    {
+      "perturbation": "P05_INJECT_SYNCOPES",
+      "category": "LEXICAL",
+      "n_results": 7605,
+      "linear": {
+        "r2": 0.989017,
+        "r2_adj": 0.978034,
+        "slope": 0.050947,
+        "intercept": 0.002935
+      },
+      "quadratic": {
+        "r2": 0.998254,
+        "r2_adj": 0.996508,
+        "a": -0.020708,
+        "b": 0.07298
+      },
+      "saturating": {
+        "r2": 0.997901,
+        "r2_adj": 0.995802,
+        "b": 0.075958,
+        "k": 0.45
+      },
+      "best_model": "quadratic",
+      "is_nonlinear": false,
+      "r2_delta_quad_lin": 0.018474,
+      "curve_data": [
+        {
+          "amplitude": 0.03,
+          "mean_abs_delta": 0.00358
+        },
+        {
+          "amplitude": 0.1,
+          "mean_abs_delta": 0.006492
+        },
+        {
+          "amplitude": 0.25,
+          "mean_abs_delta": 0.016425
+        },
+        {
+          "amplitude": 0.5,
+          "mean_abs_delta": 0.031759
+        },
+        {
+          "amplitude": 1.0,
+          "mean_abs_delta": 0.052198
+        }
+      ],
+      "saturation_point": null
+    },
+    {
+      "perturbation": "P03_COMPLEXIFY_SYNTAX",
+      "category": "COMPLEXITE",
+      "n_results": 7605,
+      "linear": {
+        "r2": 0.998125,
+        "r2_adj": 0.996249,
+        "slope": 0.02695,
+        "intercept": 0.001446
+      },
+      "quadratic": {
+        "r2": 0.997179,
+        "r2_adj": 0.994358,
+        "a": -0.00738,
+        "b": 0.035371
+      },
+      "saturating": {
+        "r2": 0.997363,
+        "r2_adj": 0.994725,
+        "b": 0.036369,
+        "k": 0.3
+      },
+      "best_model": "linear",
+      "is_nonlinear": false,
+      "r2_delta_quad_lin": -0.001891,
+      "curve_data": [
+        {
+          "amplitude": 0.03,
+          "mean_abs_delta": 0.002107
+        },
+        {
+          "amplitude": 0.1,
+          "mean_abs_delta": 0.003805
+        },
+        {
+          "amplitude": 0.25,
+          "mean_abs_delta": 0.008275
+        },
+        {
+          "amplitude": 0.5,
+          "mean_abs_delta": 0.015674
+        },
+        {
+          "amplitude": 1.0,
+          "mean_abs_delta": 0.028035
+        }
+      ],
+      "saturation_point": null
+    },
+    {
+      "perturbation": "P03_COMPLEXIFY_SYNTAX",
+      "category": "LEXICAL",
+      "n_results": 7605,
+      "linear": {
+        "r2": 0.999321,
+        "r2_adj": 0.998642,
+        "slope": 0.034249,
+        "intercept": 0.00224
+      },
+      "quadratic": {
+        "r2": 0.992012,
+        "r2_adj": 0.984024,
+        "a": -0.008852,
+        "b": 0.045068
+      },
+      "saturating": {
+        "r2": 0.992362,
+        "r2_adj": 0.984723,
+        "b": 0.04631,
+        "k": 0.28
+      },
+      "best_model": "linear",
+      "is_nonlinear": false,
+      "r2_delta_quad_lin": -0.014618,
+      "curve_data": [
+        {
+          "amplitude": 0.03,
+          "mean_abs_delta": 0.00352
+        },
+        {
+          "amplitude": 0.1,
+          "mean_abs_delta": 0.005306
+        },
+        {
+          "amplitude": 0.25,
+          "mean_abs_delta": 0.010588
+        },
+        {
+          "amplitude": 0.5,
+          "mean_abs_delta": 0.019842
+        },
+        {
+          "amplitude": 1.0,
+          "mean_abs_delta": 0.036332
+        }
+      ],
+      "saturation_point": null
+    },
+    {
+      "perturbation": "P05_INJECT_SYNCOPES",
+      "category": "SENSORIEL",
+      "n_results": 7605,
+      "linear": {
+        "r2": 0.912951,
+        "r2_adj": 0.825901,
+        "slope": 0.01715,
+        "intercept": 0.006281
+      },
+      "quadratic": {
+        "r2": 0.893445,
+        "r2_adj": 0.78689,
+        "a": -0.032836,
+        "b": 0.0544
+      },
+      "saturating": {
+        "r2": 0.981085,
+        "r2_adj": 0.962169,
+        "b": 0.106137,
+        "k": 4.0
+      },
+      "best_model": "saturating",
+      "is_nonlinear": false,
+      "r2_delta_quad_lin": -0.039012,
+      "curve_data": [
+        {
+          "amplitude": 0.03,
+          "mean_abs_delta": 0.004076
+        },
+        {
+          "amplitude": 0.1,
+          "mean_abs_delta": 0.008203
+        },
+        {
+          "amplitude": 0.25,
+          "mean_abs_delta": 0.012484
+        },
+        {
+          "amplitude": 0.5,
+          "mean_abs_delta": 0.016888
+        },
+        {
+          "amplitude": 1.0,
+          "mean_abs_delta": 0.021998
+        }
+      ],
+      "saturation_point": 2.25
+    },
+    {
+      "perturbation": "P03_COMPLEXIFY_SYNTAX",
+      "category": "INTERIORITE",
+      "n_results": 7605,
+      "linear": {
+        "r2": 0.997187,
+        "r2_adj": 0.994374,
+        "slope": 0.014554,
+        "intercept": 0.000903
+      },
+      "quadratic": {
+        "r2": 0.996956,
+        "r2_adj": 0.993912,
+        "a": -0.004785,
+        "b": 0.019965
+      },
+      "saturating": {
+        "r2": 0.997286,
+        "r2_adj": 0.994571,
+        "b": 0.020776,
+        "k": 0.37
+      },
+      "best_model": "saturating",
+      "is_nonlinear": false,
+      "r2_delta_quad_lin": -0.000461,
+      "curve_data": [
+        {
+          "amplitude": 0.03,
+          "mean_abs_delta": 0.001172
+        },
+        {
+          "amplitude": 0.1,
+          "mean_abs_delta": 0.002165
+        },
+        {
+          "amplitude": 0.25,
+          "mean_abs_delta": 0.004675
+        },
+        {
+          "amplitude": 0.5,
+          "mean_abs_delta": 0.008654
+        },
+        {
+          "amplitude": 1.0,
+          "mean_abs_delta": 0.015211
+        }
+      ],
+      "saturation_point": null
+    }
+  ]
+}

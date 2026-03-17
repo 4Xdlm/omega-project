@@ -1,0 +1,827 @@
+{
+  "bench_id": "8efb7dc70174",
+  "timestamp": "2026-03-17T13:27:05.331541",
+  "config": {
+    "target_chapters": 200,
+    "actual_chapters": 200,
+    "skipped": 0,
+    "amplitude": 0.5,
+    "perturbation_types": [
+      "P01_UNIFORMIZE_RHYTHM",
+      "P03_COMPLEXIFY_SYNTAX",
+      "P04_REMOVE_INTERIORITY",
+      "P05_INJECT_SYNCOPES"
+    ],
+    "categories": {
+      "MUSICALITE": [
+        "f1_mean",
+        "f1a_rhythm_variance",
+        "f19e_window_median"
+      ],
+      "COMPLEXITE": [
+        "f22f_literary_index",
+        "f26c_period_score"
+      ],
+      "SENSORIEL": [
+        "f24e_contrast_score",
+        "f25g_description_score"
+      ],
+      "LEXICAL": [
+        "f29b_ttr_window",
+        "f21e_ritual_index"
+      ],
+      "INTERIORITE": [
+        "f27d_modal_score",
+        "f28d_sil_score"
+      ],
+      "TENSION": [
+        "f23d_literary_causal_score",
+        "f30d_ps_imp_ratio"
+      ]
+    },
+    "seed": 42,
+    "total_measurements": 3200
+  },
+  "performance": {
+    "total_time_s": 131.267,
+    "avg_per_chapter_s": 0.656
+  },
+  "results": {
+    "P01_UNIFORMIZE_RHYTHM": {
+      "MUSICALITE": {
+        "quartiles": {
+          "Q1": {
+            "mean_delta": 0.312159,
+            "ci_low": 0.226446,
+            "ci_high": 0.397872,
+            "n_samples": 200
+          },
+          "Q2": {
+            "mean_delta": 0.257047,
+            "ci_low": 0.200796,
+            "ci_high": 0.313299,
+            "n_samples": 200
+          },
+          "Q3": {
+            "mean_delta": 0.278589,
+            "ci_low": 0.200651,
+            "ci_high": 0.356526,
+            "n_samples": 200
+          },
+          "Q4": {
+            "mean_delta": 0.300082,
+            "ci_low": 0.165178,
+            "ci_high": 0.434986,
+            "n_samples": 200
+          }
+        },
+        "strongest_quartile": "Q1",
+        "weakest_quartile": "Q2",
+        "strongest_to_weakest_ratio": 1.2144,
+        "quartile_dependent": true
+      },
+      "COMPLEXITE": {
+        "quartiles": {
+          "Q1": {
+            "mean_delta": 0.003822,
+            "ci_low": 0.003073,
+            "ci_high": 0.004572,
+            "n_samples": 200
+          },
+          "Q2": {
+            "mean_delta": 0.003676,
+            "ci_low": 0.002907,
+            "ci_high": 0.004444,
+            "n_samples": 200
+          },
+          "Q3": {
+            "mean_delta": 0.003737,
+            "ci_low": 0.003015,
+            "ci_high": 0.00446,
+            "n_samples": 200
+          },
+          "Q4": {
+            "mean_delta": 0.003814,
+            "ci_low": 0.003,
+            "ci_high": 0.004628,
+            "n_samples": 200
+          }
+        },
+        "strongest_quartile": "Q1",
+        "weakest_quartile": "Q2",
+        "strongest_to_weakest_ratio": 1.0398,
+        "quartile_dependent": false
+      },
+      "SENSORIEL": {
+        "quartiles": {
+          "Q1": {
+            "mean_delta": 0.006867,
+            "ci_low": 0.005817,
+            "ci_high": 0.007917,
+            "n_samples": 200
+          },
+          "Q2": {
+            "mean_delta": 0.006433,
+            "ci_low": 0.005553,
+            "ci_high": 0.007312,
+            "n_samples": 200
+          },
+          "Q3": {
+            "mean_delta": 0.007153,
+            "ci_low": 0.006047,
+            "ci_high": 0.00826,
+            "n_samples": 200
+          },
+          "Q4": {
+            "mean_delta": 0.007104,
+            "ci_low": 0.005978,
+            "ci_high": 0.00823,
+            "n_samples": 200
+          }
+        },
+        "strongest_quartile": "Q3",
+        "weakest_quartile": "Q2",
+        "strongest_to_weakest_ratio": 1.112,
+        "quartile_dependent": false
+      },
+      "LEXICAL": {
+        "quartiles": {
+          "Q1": {
+            "mean_delta": 0.005552,
+            "ci_low": 0.004725,
+            "ci_high": 0.006378,
+            "n_samples": 200
+          },
+          "Q2": {
+            "mean_delta": 0.005003,
+            "ci_low": 0.004259,
+            "ci_high": 0.005748,
+            "n_samples": 200
+          },
+          "Q3": {
+            "mean_delta": 0.005483,
+            "ci_low": 0.00469,
+            "ci_high": 0.006276,
+            "n_samples": 200
+          },
+          "Q4": {
+            "mean_delta": 0.00452,
+            "ci_low": 0.003861,
+            "ci_high": 0.005179,
+            "n_samples": 200
+          }
+        },
+        "strongest_quartile": "Q1",
+        "weakest_quartile": "Q4",
+        "strongest_to_weakest_ratio": 1.2282,
+        "quartile_dependent": true
+      },
+      "INTERIORITE": {
+        "quartiles": {
+          "Q1": {
+            "mean_delta": 0.002696,
+            "ci_low": 0.001773,
+            "ci_high": 0.00362,
+            "n_samples": 200
+          },
+          "Q2": {
+            "mean_delta": 0.002612,
+            "ci_low": 0.001644,
+            "ci_high": 0.003581,
+            "n_samples": 200
+          },
+          "Q3": {
+            "mean_delta": 0.002814,
+            "ci_low": 0.001821,
+            "ci_high": 0.003806,
+            "n_samples": 200
+          },
+          "Q4": {
+            "mean_delta": 0.00266,
+            "ci_low": 0.001718,
+            "ci_high": 0.003602,
+            "n_samples": 200
+          }
+        },
+        "strongest_quartile": "Q3",
+        "weakest_quartile": "Q2",
+        "strongest_to_weakest_ratio": 1.0771,
+        "quartile_dependent": false
+      },
+      "TENSION": {
+        "quartiles": {
+          "Q1": {
+            "mean_delta": 0.002318,
+            "ci_low": 0.001778,
+            "ci_high": 0.002858,
+            "n_samples": 200
+          },
+          "Q2": {
+            "mean_delta": 0.002335,
+            "ci_low": 0.001643,
+            "ci_high": 0.003027,
+            "n_samples": 200
+          },
+          "Q3": {
+            "mean_delta": 0.002302,
+            "ci_low": 0.001743,
+            "ci_high": 0.002862,
+            "n_samples": 200
+          },
+          "Q4": {
+            "mean_delta": 0.002364,
+            "ci_low": 0.001623,
+            "ci_high": 0.003104,
+            "n_samples": 200
+          }
+        },
+        "strongest_quartile": "Q4",
+        "weakest_quartile": "Q3",
+        "strongest_to_weakest_ratio": 1.0266,
+        "quartile_dependent": false
+      }
+    },
+    "P03_COMPLEXIFY_SYNTAX": {
+      "MUSICALITE": {
+        "quartiles": {
+          "Q1": {
+            "mean_delta": 0.158834,
+            "ci_low": 0.136918,
+            "ci_high": 0.18075,
+            "n_samples": 200
+          },
+          "Q2": {
+            "mean_delta": 0.174781,
+            "ci_low": 0.111968,
+            "ci_high": 0.237594,
+            "n_samples": 200
+          },
+          "Q3": {
+            "mean_delta": 0.167585,
+            "ci_low": 0.141268,
+            "ci_high": 0.193903,
+            "n_samples": 200
+          },
+          "Q4": {
+            "mean_delta": 0.177003,
+            "ci_low": 0.133405,
+            "ci_high": 0.2206,
+            "n_samples": 200
+          }
+        },
+        "strongest_quartile": "Q4",
+        "weakest_quartile": "Q1",
+        "strongest_to_weakest_ratio": 1.1144,
+        "quartile_dependent": false
+      },
+      "COMPLEXITE": {
+        "quartiles": {
+          "Q1": {
+            "mean_delta": 0.005321,
+            "ci_low": 0.004574,
+            "ci_high": 0.006067,
+            "n_samples": 200
+          },
+          "Q2": {
+            "mean_delta": 0.005514,
+            "ci_low": 0.004577,
+            "ci_high": 0.006451,
+            "n_samples": 200
+          },
+          "Q3": {
+            "mean_delta": 0.005658,
+            "ci_low": 0.004915,
+            "ci_high": 0.0064,
+            "n_samples": 200
+          },
+          "Q4": {
+            "mean_delta": 0.005714,
+            "ci_low": 0.004819,
+            "ci_high": 0.006608,
+            "n_samples": 200
+          }
+        },
+        "strongest_quartile": "Q4",
+        "weakest_quartile": "Q1",
+        "strongest_to_weakest_ratio": 1.0738,
+        "quartile_dependent": false
+      },
+      "SENSORIEL": {
+        "quartiles": {
+          "Q1": {
+            "mean_delta": 0.006532,
+            "ci_low": 0.005383,
+            "ci_high": 0.00768,
+            "n_samples": 200
+          },
+          "Q2": {
+            "mean_delta": 0.006324,
+            "ci_low": 0.00511,
+            "ci_high": 0.007538,
+            "n_samples": 200
+          },
+          "Q3": {
+            "mean_delta": 0.00594,
+            "ci_low": 0.004759,
+            "ci_high": 0.007122,
+            "n_samples": 200
+          },
+          "Q4": {
+            "mean_delta": 0.005797,
+            "ci_low": 0.004755,
+            "ci_high": 0.006838,
+            "n_samples": 200
+          }
+        },
+        "strongest_quartile": "Q1",
+        "weakest_quartile": "Q4",
+        "strongest_to_weakest_ratio": 1.1268,
+        "quartile_dependent": false
+      },
+      "LEXICAL": {
+        "quartiles": {
+          "Q1": {
+            "mean_delta": 0.00537,
+            "ci_low": 0.004638,
+            "ci_high": 0.006103,
+            "n_samples": 200
+          },
+          "Q2": {
+            "mean_delta": 0.005177,
+            "ci_low": 0.004557,
+            "ci_high": 0.005797,
+            "n_samples": 200
+          },
+          "Q3": {
+            "mean_delta": 0.005362,
+            "ci_low": 0.004558,
+            "ci_high": 0.006167,
+            "n_samples": 200
+          },
+          "Q4": {
+            "mean_delta": 0.005655,
+            "ci_low": 0.004741,
+            "ci_high": 0.00657,
+            "n_samples": 200
+          }
+        },
+        "strongest_quartile": "Q4",
+        "weakest_quartile": "Q2",
+        "strongest_to_weakest_ratio": 1.0924,
+        "quartile_dependent": false
+      },
+      "INTERIORITE": {
+        "quartiles": {
+          "Q1": {
+            "mean_delta": 0.003388,
+            "ci_low": 0.002414,
+            "ci_high": 0.004361,
+            "n_samples": 200
+          },
+          "Q2": {
+            "mean_delta": 0.003602,
+            "ci_low": 0.002561,
+            "ci_high": 0.004642,
+            "n_samples": 200
+          },
+          "Q3": {
+            "mean_delta": 0.003782,
+            "ci_low": 0.002789,
+            "ci_high": 0.004776,
+            "n_samples": 200
+          },
+          "Q4": {
+            "mean_delta": 0.0039,
+            "ci_low": 0.00288,
+            "ci_high": 0.00492,
+            "n_samples": 200
+          }
+        },
+        "strongest_quartile": "Q4",
+        "weakest_quartile": "Q1",
+        "strongest_to_weakest_ratio": 1.1512,
+        "quartile_dependent": false
+      },
+      "TENSION": {
+        "quartiles": {
+          "Q1": {
+            "mean_delta": 0.052247,
+            "ci_low": 0.033325,
+            "ci_high": 0.071168,
+            "n_samples": 200
+          },
+          "Q2": {
+            "mean_delta": 0.072855,
+            "ci_low": 0.050092,
+            "ci_high": 0.095618,
+            "n_samples": 200
+          },
+          "Q3": {
+            "mean_delta": 0.052129,
+            "ci_low": 0.033919,
+            "ci_high": 0.070338,
+            "n_samples": 200
+          },
+          "Q4": {
+            "mean_delta": 0.068715,
+            "ci_low": 0.048132,
+            "ci_high": 0.089299,
+            "n_samples": 200
+          }
+        },
+        "strongest_quartile": "Q2",
+        "weakest_quartile": "Q3",
+        "strongest_to_weakest_ratio": 1.3976,
+        "quartile_dependent": true
+      }
+    },
+    "P04_REMOVE_INTERIORITY": {
+      "MUSICALITE": {
+        "quartiles": {
+          "Q1": {
+            "mean_delta": 0.010089,
+            "ci_low": 0.006948,
+            "ci_high": 0.01323,
+            "n_samples": 200
+          },
+          "Q2": {
+            "mean_delta": 0.00989,
+            "ci_low": 0.007713,
+            "ci_high": 0.012068,
+            "n_samples": 200
+          },
+          "Q3": {
+            "mean_delta": 0.012039,
+            "ci_low": 0.00881,
+            "ci_high": 0.015268,
+            "n_samples": 200
+          },
+          "Q4": {
+            "mean_delta": 0.012678,
+            "ci_low": 0.004789,
+            "ci_high": 0.020568,
+            "n_samples": 200
+          }
+        },
+        "strongest_quartile": "Q4",
+        "weakest_quartile": "Q2",
+        "strongest_to_weakest_ratio": 1.2819,
+        "quartile_dependent": true
+      },
+      "COMPLEXITE": {
+        "quartiles": {
+          "Q1": {
+            "mean_delta": 0.001546,
+            "ci_low": 0.001056,
+            "ci_high": 0.002037,
+            "n_samples": 200
+          },
+          "Q2": {
+            "mean_delta": 0.001546,
+            "ci_low": 0.001061,
+            "ci_high": 0.00203,
+            "n_samples": 200
+          },
+          "Q3": {
+            "mean_delta": 0.001593,
+            "ci_low": 0.001105,
+            "ci_high": 0.002081,
+            "n_samples": 200
+          },
+          "Q4": {
+            "mean_delta": 0.001607,
+            "ci_low": 0.001114,
+            "ci_high": 0.0021,
+            "n_samples": 200
+          }
+        },
+        "strongest_quartile": "Q4",
+        "weakest_quartile": "Q2",
+        "strongest_to_weakest_ratio": 1.0397,
+        "quartile_dependent": false
+      },
+      "SENSORIEL": {
+        "quartiles": {
+          "Q1": {
+            "mean_delta": 0.00029,
+            "ci_low": 0.000199,
+            "ci_high": 0.000381,
+            "n_samples": 200
+          },
+          "Q2": {
+            "mean_delta": 0.000432,
+            "ci_low": 0.000272,
+            "ci_high": 0.000592,
+            "n_samples": 200
+          },
+          "Q3": {
+            "mean_delta": 0.000599,
+            "ci_low": 0.00034,
+            "ci_high": 0.000857,
+            "n_samples": 200
+          },
+          "Q4": {
+            "mean_delta": 0.000685,
+            "ci_low": 0.000442,
+            "ci_high": 0.000927,
+            "n_samples": 200
+          }
+        },
+        "strongest_quartile": "Q4",
+        "weakest_quartile": "Q1",
+        "strongest_to_weakest_ratio": 2.3609,
+        "quartile_dependent": true
+      },
+      "LEXICAL": {
+        "quartiles": {
+          "Q1": {
+            "mean_delta": 0.000582,
+            "ci_low": 0.000449,
+            "ci_high": 0.000714,
+            "n_samples": 200
+          },
+          "Q2": {
+            "mean_delta": 0.000674,
+            "ci_low": 0.000541,
+            "ci_high": 0.000808,
+            "n_samples": 200
+          },
+          "Q3": {
+            "mean_delta": 0.000759,
+            "ci_low": 0.000577,
+            "ci_high": 0.000942,
+            "n_samples": 200
+          },
+          "Q4": {
+            "mean_delta": 0.000617,
+            "ci_low": 0.000477,
+            "ci_high": 0.000757,
+            "n_samples": 200
+          }
+        },
+        "strongest_quartile": "Q3",
+        "weakest_quartile": "Q1",
+        "strongest_to_weakest_ratio": 1.3049,
+        "quartile_dependent": true
+      },
+      "INTERIORITE": {
+        "quartiles": {
+          "Q1": {
+            "mean_delta": 0.007844,
+            "ci_low": 0.006314,
+            "ci_high": 0.009375,
+            "n_samples": 200
+          },
+          "Q2": {
+            "mean_delta": 0.011159,
+            "ci_low": 0.009438,
+            "ci_high": 0.01288,
+            "n_samples": 200
+          },
+          "Q3": {
+            "mean_delta": 0.010524,
+            "ci_low": 0.008614,
+            "ci_high": 0.012434,
+            "n_samples": 200
+          },
+          "Q4": {
+            "mean_delta": 0.010665,
+            "ci_low": 0.008685,
+            "ci_high": 0.012644,
+            "n_samples": 200
+          }
+        },
+        "strongest_quartile": "Q2",
+        "weakest_quartile": "Q1",
+        "strongest_to_weakest_ratio": 1.4226,
+        "quartile_dependent": true
+      },
+      "TENSION": {
+        "quartiles": {
+          "Q1": {
+            "mean_delta": 0.000665,
+            "ci_low": 0.000305,
+            "ci_high": 0.001025,
+            "n_samples": 200
+          },
+          "Q2": {
+            "mean_delta": 0.000825,
+            "ci_low": 0.000408,
+            "ci_high": 0.001241,
+            "n_samples": 200
+          },
+          "Q3": {
+            "mean_delta": 0.000751,
+            "ci_low": 0.000366,
+            "ci_high": 0.001136,
+            "n_samples": 200
+          },
+          "Q4": {
+            "mean_delta": 0.000674,
+            "ci_low": 0.000322,
+            "ci_high": 0.001027,
+            "n_samples": 200
+          }
+        },
+        "strongest_quartile": "Q2",
+        "weakest_quartile": "Q1",
+        "strongest_to_weakest_ratio": 1.2408,
+        "quartile_dependent": true
+      }
+    },
+    "P05_INJECT_SYNCOPES": {
+      "MUSICALITE": {
+        "quartiles": {
+          "Q1": {
+            "mean_delta": 0.225701,
+            "ci_low": 0.185236,
+            "ci_high": 0.266166,
+            "n_samples": 200
+          },
+          "Q2": {
+            "mean_delta": 0.20494,
+            "ci_low": 0.179955,
+            "ci_high": 0.229925,
+            "n_samples": 200
+          },
+          "Q3": {
+            "mean_delta": 0.22701,
+            "ci_low": 0.185505,
+            "ci_high": 0.268515,
+            "n_samples": 200
+          },
+          "Q4": {
+            "mean_delta": 0.198696,
+            "ci_low": 0.181368,
+            "ci_high": 0.216023,
+            "n_samples": 200
+          }
+        },
+        "strongest_quartile": "Q3",
+        "weakest_quartile": "Q4",
+        "strongest_to_weakest_ratio": 1.1425,
+        "quartile_dependent": false
+      },
+      "COMPLEXITE": {
+        "quartiles": {
+          "Q1": {
+            "mean_delta": 0.003398,
+            "ci_low": 0.002852,
+            "ci_high": 0.003943,
+            "n_samples": 200
+          },
+          "Q2": {
+            "mean_delta": 0.003223,
+            "ci_low": 0.002798,
+            "ci_high": 0.003648,
+            "n_samples": 200
+          },
+          "Q3": {
+            "mean_delta": 0.003493,
+            "ci_low": 0.002938,
+            "ci_high": 0.004049,
+            "n_samples": 200
+          },
+          "Q4": {
+            "mean_delta": 0.003137,
+            "ci_low": 0.002726,
+            "ci_high": 0.003548,
+            "n_samples": 200
+          }
+        },
+        "strongest_quartile": "Q3",
+        "weakest_quartile": "Q4",
+        "strongest_to_weakest_ratio": 1.1135,
+        "quartile_dependent": false
+      },
+      "SENSORIEL": {
+        "quartiles": {
+          "Q1": {
+            "mean_delta": 0.010304,
+            "ci_low": 0.008999,
+            "ci_high": 0.011608,
+            "n_samples": 200
+          },
+          "Q2": {
+            "mean_delta": 0.010123,
+            "ci_low": 0.008758,
+            "ci_high": 0.011489,
+            "n_samples": 200
+          },
+          "Q3": {
+            "mean_delta": 0.010427,
+            "ci_low": 0.00908,
+            "ci_high": 0.011775,
+            "n_samples": 200
+          },
+          "Q4": {
+            "mean_delta": 0.010429,
+            "ci_low": 0.009025,
+            "ci_high": 0.011833,
+            "n_samples": 200
+          }
+        },
+        "strongest_quartile": "Q4",
+        "weakest_quartile": "Q2",
+        "strongest_to_weakest_ratio": 1.0302,
+        "quartile_dependent": false
+      },
+      "LEXICAL": {
+        "quartiles": {
+          "Q1": {
+            "mean_delta": 0.008402,
+            "ci_low": 0.007485,
+            "ci_high": 0.00932,
+            "n_samples": 200
+          },
+          "Q2": {
+            "mean_delta": 0.007898,
+            "ci_low": 0.007054,
+            "ci_high": 0.008741,
+            "n_samples": 200
+          },
+          "Q3": {
+            "mean_delta": 0.008119,
+            "ci_low": 0.007237,
+            "ci_high": 0.009001,
+            "n_samples": 200
+          },
+          "Q4": {
+            "mean_delta": 0.007354,
+            "ci_low": 0.006533,
+            "ci_high": 0.008176,
+            "n_samples": 200
+          }
+        },
+        "strongest_quartile": "Q1",
+        "weakest_quartile": "Q4",
+        "strongest_to_weakest_ratio": 1.1425,
+        "quartile_dependent": false
+      },
+      "INTERIORITE": {
+        "quartiles": {
+          "Q1": {
+            "mean_delta": 0.004118,
+            "ci_low": 0.003228,
+            "ci_high": 0.005009,
+            "n_samples": 200
+          },
+          "Q2": {
+            "mean_delta": 0.004065,
+            "ci_low": 0.003182,
+            "ci_high": 0.004948,
+            "n_samples": 200
+          },
+          "Q3": {
+            "mean_delta": 0.004147,
+            "ci_low": 0.003243,
+            "ci_high": 0.00505,
+            "n_samples": 200
+          },
+          "Q4": {
+            "mean_delta": 0.004056,
+            "ci_low": 0.003158,
+            "ci_high": 0.004955,
+            "n_samples": 200
+          }
+        },
+        "strongest_quartile": "Q3",
+        "weakest_quartile": "Q4",
+        "strongest_to_weakest_ratio": 1.0223,
+        "quartile_dependent": false
+      },
+      "TENSION": {
+        "quartiles": {
+          "Q1": {
+            "mean_delta": 0.064262,
+            "ci_low": 0.044799,
+            "ci_high": 0.083726,
+            "n_samples": 200
+          },
+          "Q2": {
+            "mean_delta": 0.052242,
+            "ci_low": 0.035521,
+            "ci_high": 0.068964,
+            "n_samples": 200
+          },
+          "Q3": {
+            "mean_delta": 0.064712,
+            "ci_low": 0.04593,
+            "ci_high": 0.083493,
+            "n_samples": 200
+          },
+          "Q4": {
+            "mean_delta": 0.066134,
+            "ci_low": 0.047436,
+            "ci_high": 0.084832,
+            "n_samples": 200
+          }
+        },
+        "strongest_quartile": "Q4",
+        "weakest_quartile": "Q2",
+        "strongest_to_weakest_ratio": 1.2659,
+        "quartile_dependent": true
+      }
+    }
+  }
+}

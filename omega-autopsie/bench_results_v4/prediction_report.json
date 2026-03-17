@@ -1,0 +1,96 @@
+{
+  "splits": [
+    {
+      "split": "split_1_random",
+      "train_size": 24336,
+      "test_size": 6084,
+      "mae_per_category": {
+        "MUSICALITE": 0.234199,
+        "COMPLEXITE": 0.003828,
+        "SENSORIEL": 0.005838,
+        "LEXICAL": 0.006947,
+        "INTERIORITE": 0.009934,
+        "TENSION": 0.086719
+      },
+      "r2_per_category": {
+        "MUSICALITE": 0.230966,
+        "COMPLEXITE": 0.463917,
+        "SENSORIEL": 0.053317,
+        "LEXICAL": 0.502622,
+        "INTERIORITE": 0.478816,
+        "TENSION": 0.300684
+      },
+      "overall_mae": 0.057911,
+      "verdict": "FAIL"
+    },
+    {
+      "split": "split_2_author",
+      "train_size": 20660,
+      "test_size": 9760,
+      "mae_per_category": {
+        "MUSICALITE": 0.207456,
+        "COMPLEXITE": 0.003646,
+        "SENSORIEL": 0.005714,
+        "LEXICAL": 0.007398,
+        "INTERIORITE": 0.010482,
+        "TENSION": 0.08605
+      },
+      "r2_per_category": {
+        "MUSICALITE": 0.4782,
+        "COMPLEXITE": 0.500312,
+        "SENSORIEL": 0.123681,
+        "LEXICAL": 0.497727,
+        "INTERIORITE": 0.468668,
+        "TENSION": 0.322743
+      },
+      "overall_mae": 0.053458,
+      "verdict": "PASS"
+    },
+    {
+      "split": "split_3_language",
+      "train_size": 19660,
+      "test_size": 3560,
+      "mae_per_category": {
+        "MUSICALITE": 0.228246,
+        "COMPLEXITE": 0.00409,
+        "SENSORIEL": 0.006261,
+        "LEXICAL": 0.007223,
+        "INTERIORITE": 0.013183,
+        "TENSION": 0.114012
+      },
+      "r2_per_category": {
+        "MUSICALITE": 0.28443,
+        "COMPLEXITE": 0.526754,
+        "SENSORIEL": 0.203734,
+        "LEXICAL": 0.403901,
+        "INTERIORITE": -1.447863,
+        "TENSION": 0.328688
+      },
+      "overall_mae": 0.062169,
+      "verdict": "PASS"
+    },
+    {
+      "split": "split_4_period",
+      "train_size": 7900,
+      "test_size": 3380,
+      "mae_per_category": {
+        "MUSICALITE": 0.24048,
+        "COMPLEXITE": 0.003871,
+        "SENSORIEL": 0.005264,
+        "LEXICAL": 0.007485,
+        "INTERIORITE": 0.010487,
+        "TENSION": 0.085597
+      },
+      "r2_per_category": {
+        "MUSICALITE": 0.265125,
+        "COMPLEXITE": 0.40848,
+        "SENSORIEL": 0.091484,
+        "LEXICAL": 0.508034,
+        "INTERIORITE": 0.521791,
+        "TENSION": 0.337319
+      },
+      "overall_mae": 0.058864,
+      "verdict": "PASS"
+    }
+  ]
+}

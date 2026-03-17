@@ -1,0 +1,94 @@
+{
+  "seed": 42,
+  "train_size": 24336,
+  "test_size": 6084,
+  "necessity_threshold": 0.003,
+  "nonlinearity_threshold": 0.02,
+  "models": {
+    "COMPLETE": {
+      "mae": 0.051767,
+      "r2": 0.281142,
+      "mae_per_category": {
+        "MUSICALITE": 0.193864,
+        "COMPLEXITE": 0.003907,
+        "SENSORIEL": 0.006728,
+        "LEXICAL": 0.007187,
+        "INTERIORITE": 0.009889,
+        "TENSION": 0.089026
+      }
+    },
+    "NO_NONLINEARITY": {
+      "mae": 0.053944,
+      "r2": 0.248755,
+      "mae_per_category": {
+        "MUSICALITE": 0.206866,
+        "COMPLEXITE": 0.003907,
+        "SENSORIEL": 0.006728,
+        "LEXICAL": 0.007213,
+        "INTERIORITE": 0.009907,
+        "TENSION": 0.089042
+      },
+      "delta_mae": 0.002177
+    },
+    "SIMPLIFIED": {
+      "mae": 0.053817,
+      "r2": 0.247506,
+      "mae_per_category": {
+        "MUSICALITE": 0.205909,
+        "COMPLEXITE": 0.003943,
+        "SENSORIEL": 0.006676,
+        "LEXICAL": 0.007465,
+        "INTERIORITE": 0.009893,
+        "TENSION": 0.089018
+      },
+      "delta_mae": 0.00205
+    },
+    "TOP3_CATS": {
+      "mae": 0.070542,
+      "r2": 0.025605,
+      "mae_per_category": {
+        "MUSICALITE": 0.302997,
+        "COMPLEXITE": 0.003907,
+        "SENSORIEL": 0.006602,
+        "LEXICAL": 0.010796,
+        "INTERIORITE": 0.009907,
+        "TENSION": 0.089042
+      },
+      "delta_mae": 0.018775
+    },
+    "SINGLE_SLOPE": {
+      "mae": 0.077064,
+      "r2": 0.016319,
+      "mae_per_category": {
+        "MUSICALITE": 0.306443,
+        "COMPLEXITE": 0.006207,
+        "SENSORIEL": 0.006782,
+        "LEXICAL": 0.010845,
+        "INTERIORITE": 0.015729,
+        "TENSION": 0.11638
+      },
+      "delta_mae": 0.025297
+    },
+    "NAIVE": {
+      "mae": 0.070673,
+      "r2": -0.006586,
+      "mae_per_category": {
+        "MUSICALITE": 0.302997,
+        "COMPLEXITE": 0.006041,
+        "SENSORIEL": 0.006602,
+        "LEXICAL": 0.010796,
+        "INTERIORITE": 0.013509,
+        "TENSION": 0.08409
+      },
+      "delta_mae": 0.018906
+    }
+  },
+  "necessary_terms": [
+    "minor_categories",
+    "per_perturbation_slopes"
+  ],
+  "unnecessary_terms": [
+    "P01",
+    "nonlinearity"
+  ]
+}

@@ -67,12 +67,16 @@ describe('Damage Gate (Phase W Integration)', () => {
   });
 
   // ─────────────────────────────────────────────────────────────────────────
-  // DG-05: MUSICALITE blocks any non-zero delta (threshold = 0)
+  // DG-05: MUSICALITE blocks above threshold 0.02 but allows micro deltas
   // ─────────────────────────────────────────────────────────────────────────
-  it('DG-05: shouldBlock returns true for MUSICALITE with any non-zero delta', () => {
-    expect(shouldBlock('MUSICALITE', 0.001)).toBe(true);
-    expect(shouldBlock('MUSICALITE', -0.001)).toBe(true);
+  it('DG-05: shouldBlock MUSICALITE allows micro-deltas, blocks large ones', () => {
+    // Micro-intervention deltas pass (below threshold 0.02)
+    expect(shouldBlock('MUSICALITE', 0.001)).toBe(false);
+    expect(shouldBlock('MUSICALITE', -0.001)).toBe(false);
     expect(shouldBlock('MUSICALITE', 0)).toBe(false);
+    // Large deltas are blocked
+    expect(shouldBlock('MUSICALITE', 0.03)).toBe(true);
+    expect(shouldBlock('MUSICALITE', -0.05)).toBe(true);
   });
 
   // ─────────────────────────────────────────────────────────────────────────
@@ -85,14 +89,18 @@ describe('Damage Gate (Phase W Integration)', () => {
   });
 
   // ─────────────────────────────────────────────────────────────────────────
-  // DG-07: evaluateDamageGate returns blocked=true when MUSICALITE is hit
+  // DG-07: evaluateDamageGate — micro amplitude passes, massive blocks
   // ─────────────────────────────────────────────────────────────────────────
-  it('DG-07: evaluateDamageGate blocks TENSION_14D (P05 hits MUSICALITE)', () => {
-    const result = evaluateDamageGate('TENSION_14D', 0.5, 'BALANCED');
-    expect(result.blocked).toBe(true);
-    expect(result.block_reasons.length).toBeGreaterThan(0);
-    expect(result.block_reasons.some(r => r.includes('MUSICALITE'))).toBe(true);
-    expect(result.perturbation).toBe('P05_INJECT_SYNCOPES');
+  it('DG-07: micro-amplitude passes gate, massive amplitude blocks on MUSICALITE', () => {
+    // A) Micro-intervention (1 sentence out of ~140) passes
+    const microResult = evaluateDamageGate('TENSION_14D', 0.007, 'BALANCED');
+    expect(microResult.blocked).toBe(false);
+
+    // B) Massive amplitude (0.5) blocks — MUSICALITE delta = -1.156 × 0.5 = -0.578 >> 0.02
+    const massiveResult = evaluateDamageGate('TENSION_14D', 0.5, 'BALANCED');
+    expect(massiveResult.blocked).toBe(true);
+    expect(massiveResult.block_reasons.some(r => r.includes('MUSICALITE'))).toBe(true);
+    expect(massiveResult.perturbation).toBe('P05_INJECT_SYNCOPES');
   });
 
   // ─────────────────────────────────────────────────────────────────────────
@@ -117,5 +125,52 @@ describe('Damage Gate (Phase W Integration)', () => {
     expect(cats).toContain('LEXICAL');
     expect(cats).toContain('INTERIORITE');
     expect(cats).toContain('TENSION');
+  });
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // DG-10: Micro-intervention PASSES the gate at realistic amplitude
+  // ─────────────────────────────────────────────────────────────────────────
+  it('DG-10: micro-intervention at realistic amplitude passes gate', () => {
+    // 1 phrase modified out of 100 = amplitude 0.01
+    const result = evaluateDamageGate('TENSION_14D', 0.01, 'BALANCED');
+    expect(result.blocked).toBe(false);
+    // Verify MUSICALITE delta is tiny
+    const musicDelta = result.predictions.find(p => p.category === 'MUSICALITE');
+    expect(Math.abs(musicDelta!.predicted_delta)).toBeLessThan(0.02);
+  });
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // DG-11: Hook injection PASSES the gate at realistic amplitude
+  // ─────────────────────────────────────────────────────────────────────────
+  it('DG-11: hook injection at realistic amplitude passes gate', () => {
+    const result = evaluateDamageGate('HOOK_INJECTION', 0.01, 'BALANCED');
+    expect(result.blocked).toBe(false);
+  });
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // DG-12: Gate blocks massive modifications correctly
+  // ─────────────────────────────────────────────────────────────────────────
+  it('DG-12: massive modification blocked correctly', () => {
+    // Amplitude 0.3 = modifying 30% of text
+    const result = evaluateDamageGate('TENSION_14D', 0.3, 'BALANCED');
+    expect(result.blocked).toBe(true);
+  });
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // DG-13: Micro-intervention passes even with BRUTAL archetype
+  // ─────────────────────────────────────────────────────────────────────────
+  it('DG-13: micro-intervention passes even with BRUTAL archetype', () => {
+    // BRUTAL: P05→TENSION ×2.81, P05→MUSICALITE ×0.68
+    // At amplitude 0.01: MUSICALITE = -1.156 × 0.01 × 0.68 = -0.00786 → under 0.02
+    // TENSION = -0.382 × 0.01 × 2.81 = -0.01073 → under 0.50
+    const result = evaluateDamageGate('TENSION_14D', 0.01, 'BRUTAL');
+    expect(result.blocked).toBe(false);
+  });
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // DG-14: Default MUSICALITE threshold is 0.02
+  // ─────────────────────────────────────────────────────────────────────────
+  it('DG-14: default MUSICALITE threshold is 0.02', () => {
+    expect(DEFAULT_DAMAGE_GATE_CONFIG.thresholds.MUSICALITE).toBe(0.02);
   });
 });

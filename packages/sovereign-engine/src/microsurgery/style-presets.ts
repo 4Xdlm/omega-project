@@ -32,7 +32,7 @@ export interface StylePreset {
 
 /**
  * LITTERAIRE_PREMIUM: Maximum protection of literary qualities.
- * Zero tolerance on MUSICALITE and SENSORIEL. Low thresholds everywhere.
+ * Very strict on MUSICALITE and SENSORIEL. Low thresholds everywhere.
  * Archetype: CATHEDRAL (Proust/Simon — maximal syntactic sensitivity).
  */
 export const LITTERAIRE_PREMIUM: StylePreset = {
@@ -42,9 +42,9 @@ export const LITTERAIRE_PREMIUM: StylePreset = {
   config: {
     max_amplitude: 0.30,
     thresholds: {
-      MUSICALITE: 0.0,
+      MUSICALITE: 0.01,
       COMPLEXITE: 0.02,
-      SENSORIEL: 0.0,
+      SENSORIEL: 0.01,
       LEXICAL: 0.03,
       INTERIORITE: 0.05,
       TENSION: 0.20,
@@ -64,7 +64,7 @@ export const EQUILIBRE_FLAUBERT: StylePreset = {
   config: {
     max_amplitude: 0.50,
     thresholds: {
-      MUSICALITE: 0.0,
+      MUSICALITE: 0.02,
       COMPLEXITE: 0.05,
       SENSORIEL: 0.03,
       LEXICAL: 0.08,
@@ -86,7 +86,7 @@ export const THRILLER_NERVEUX: StylePreset = {
   config: {
     max_amplitude: 0.50,
     thresholds: {
-      MUSICALITE: 0.0,
+      MUSICALITE: 0.05,
       COMPLEXITE: 0.10,
       SENSORIEL: 0.10,
       LEXICAL: 0.15,

@@ -254,9 +254,15 @@ export async function executeMicroSurgery(
   const details: MicroInterventionResult[] = [];
   let currentProse = prose;
 
+  // Calculate actual amplitude: 1 sentence modified out of total sentences in prose
+  const allSentences = prose.split(/[.!?…]+/).filter(s => s.trim().length > 5);
+  const realAmplitude = 1 / Math.max(allSentences.length, 1);
+
   for (const intervention of interventions) {
     // Damage Gate check — CALC-pure, 0 API calls
-    const gateResult = evaluateDamageGate(intervention.type, 0.5, archetype);
+    console.log(`[DAMAGE-GATE] Checking intervention Q${intervention.quartile} (${intervention.type}) | amp=${realAmplitude.toFixed(4)} | arch=${archetype}`);
+    const gateResult = evaluateDamageGate(intervention.type, realAmplitude, archetype);
+    console.log(`[DAMAGE-GATE] ${gateResult.blocked ? 'BLOCKED' : 'PASS'} | ${intervention.type} | amp=${realAmplitude.toFixed(4)} | arch=${archetype}${gateResult.blocked ? ' | reasons: ' + gateResult.block_reasons.join('; ') : ''}`);
     if (gateResult.blocked) {
       console.warn(`[MICRO-SURGEON] DAMAGE-GATE BLOCKED Q${intervention.quartile} (${intervention.type}): ${gateResult.block_reasons.join('; ')}`);
       details.push({

@@ -140,9 +140,11 @@ const ARCHETYPE_MULTIPLIERS: Readonly<Record<ArchetypeId, Readonly<Partial<Recor
 // THRESHOLDS — maximum acceptable |delta| per category
 // ═══════════════════════════════════════════════════════════════════════════════
 
-/** MUSICALITE = 0 means ANY damage blocks. Others are calibrated from thesis. */
+/** MUSICALITE threshold 0.02: blocks massive changes but allows micro-interventions.
+ * At amplitude ~0.01 (1 sentence/100), P05 MUSICALITE delta = -1.156×0.01 = -0.0116 < 0.02 → PASS.
+ * At amplitude > 0.017, P05 MUSICALITE delta exceeds 0.02 → BLOCKED. */
 const DEFAULT_THRESHOLDS: Readonly<Record<DamageCategory, number>> = {
-  MUSICALITE: 0.0,
+  MUSICALITE: 0.02,
   COMPLEXITE: 0.05,
   SENSORIEL: 0.03,
   LEXICAL: 0.08,

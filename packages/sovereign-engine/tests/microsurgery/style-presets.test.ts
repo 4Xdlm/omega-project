@@ -38,9 +38,10 @@ describe('Style Presets (Phase W Integration)', () => {
     }
   });
 
-  it('SP-03: MUSICALITE threshold is 0 in ALL presets (protected)', () => {
+  it('SP-03: MUSICALITE threshold is small but non-zero in ALL presets (micro-interventions pass)', () => {
     for (const preset of Object.values(STYLE_PRESETS)) {
-      expect(preset.config.thresholds.MUSICALITE).toBe(0);
+      expect(preset.config.thresholds.MUSICALITE).toBeGreaterThan(0);
+      expect(preset.config.thresholds.MUSICALITE).toBeLessThanOrEqual(0.05);
     }
   });
 

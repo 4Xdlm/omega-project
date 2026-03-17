@@ -101,11 +101,19 @@ describe('Damage Gate Benchmark (Phase W Integration)', () => {
     expect(p05NonZero).toBe(6);
   });
 
-  it('BENCH-06: MUSICALITE always blocks TENSION_14D (P05 has non-zero MUSICALITE slope)', () => {
+  it('BENCH-06: massive amplitude blocks TENSION_14D for all archetypes', () => {
+    // At amplitude 0.5, MUSICALITE delta exceeds threshold 0.02 for all archetypes
     for (const a of ARCHETYPES) {
       const result = evaluateDamageGate('TENSION_14D', 0.5, a);
-      // P05 has MUSICALITE slope = -1.156, so delta != 0, so blocked
       expect(result.blocked).toBe(true);
+    }
+  });
+
+  it('BENCH-07: micro-amplitude passes TENSION_14D for all archetypes', () => {
+    // At amplitude 0.007 (1 sentence / ~140), all deltas are tiny → gate passes
+    for (const a of ARCHETYPES) {
+      const result = evaluateDamageGate('TENSION_14D', 0.007, a);
+      expect(result.blocked).toBe(false);
     }
   });
 });

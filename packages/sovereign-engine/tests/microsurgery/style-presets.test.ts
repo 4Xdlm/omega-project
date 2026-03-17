@@ -38,11 +38,20 @@ describe('Style Presets (Phase W Integration)', () => {
     }
   });
 
-  it('SP-03: MUSICALITE threshold is small but non-zero in ALL presets (micro-interventions pass)', () => {
+  it('SP-03: MUSICALITE threshold is positive in ALL presets, scales with permissiveness', () => {
+    // All presets must protect MUSICALITE (threshold > 0) — Phase W Loi 2 (DURE)
     for (const preset of Object.values(STYLE_PRESETS)) {
       expect(preset.config.thresholds.MUSICALITE).toBeGreaterThan(0);
-      expect(preset.config.thresholds.MUSICALITE).toBeLessThanOrEqual(0.05);
+      // Max cap: THRILLER_NERVEUX (most permissive) must still have some protection
+      expect(preset.config.thresholds.MUSICALITE).toBeLessThanOrEqual(0.20);
     }
+    // Thresholds recalibrated for 600-word scene amplitude range [0.04-0.07]:
+    // LITTERAIRE_PREMIUM=0.05 < EQUILIBRE_FLAUBERT=0.10 < THRILLER_NERVEUX=0.15
+    // Invariant: literary presets are stricter than action/thriller presets
+    expect(LITTERAIRE_PREMIUM.config.thresholds.MUSICALITE)
+      .toBeLessThan(EQUILIBRE_FLAUBERT.config.thresholds.MUSICALITE);
+    expect(EQUILIBRE_FLAUBERT.config.thresholds.MUSICALITE)
+      .toBeLessThan(THRILLER_NERVEUX.config.thresholds.MUSICALITE);
   });
 
   it('SP-04: LITTERAIRE_PREMIUM is the most restrictive', () => {

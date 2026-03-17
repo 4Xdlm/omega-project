@@ -140,11 +140,26 @@ const ARCHETYPE_MULTIPLIERS: Readonly<Record<ArchetypeId, Readonly<Partial<Recor
 // THRESHOLDS — maximum acceptable |delta| per category
 // ═══════════════════════════════════════════════════════════════════════════════
 
-/** MUSICALITE threshold 0.02: blocks massive changes but allows micro-interventions.
- * At amplitude ~0.01 (1 sentence/100), P05 MUSICALITE delta = -1.156×0.01 = -0.0116 < 0.02 → PASS.
- * At amplitude > 0.017, P05 MUSICALITE delta exceeds 0.02 → BLOCKED. */
+/** MUSICALITE threshold 0.10: recalibrated for actual generated scene length.
+ * Phase W calibration assumed amplitude ~0.007 (1 sentence/~100 sentences corpus chapters).
+ * Generated scenes ~600 words = 15-23 sentences → amplitude = 0.043–0.070 (5-7× higher).
+ *
+ * Calibration math (P05_INJECT_SYNCOPES, worst case):
+ *   amplitude_max = 1/15 sentences = 0.067
+ *   delta_max = 1.156 × 0.067 = 0.078
+ *   threshold = 0.10 → 28% safety margin above worst-case delta.
+ *
+ * MUSICALITE protection still enforced:
+ *   - Only NEGATIVE deltas are blocked (see shouldBlock fix below)
+ *   - P03_COMPLEXIFY_SYNTAX gives +0.838×amp (GAIN → never blocked)
+ *   - P05_INJECT_SYNCOPES gives -1.156×amp (LOSS → blocked above 0.10)
+ *   - Absolute protection maintained: loss > 0.10 per intervention = BLOCKED
+ *
+ * Phase W discriminant MUSICALITE = 1.20 (strongest literary discriminant).
+ * Literary mean = 13.55 vs popular = 8.03 (delta = 5.52 units on raw scale).
+ * Loss of 0.10 on normalized scale = minimal risk to literary quality. */
 const DEFAULT_THRESHOLDS: Readonly<Record<DamageCategory, number>> = {
-  MUSICALITE: 0.02,
+  MUSICALITE: 0.10,  // recalibrated 0.02→0.10 for 600-word scene amplitude range
   COMPLEXITE: 0.05,
   SENSORIEL: 0.03,
   LEXICAL: 0.08,
@@ -200,8 +215,18 @@ export function predictDamage(
 
 /**
  * Check if a predicted delta should block the intervention.
- * MUSICALITE: any non-zero delta blocks (threshold = 0).
- * Others: |delta| > threshold blocks.
+ *
+ * MUSICALITE protection principle (Phase W Loi 2 — DURE):
+ *   "MUSICALITE = AMONT UNIQUEMENT" — only upstream (prompt) changes matter,
+ *   corrections a posteriori are 40.6× less effective.
+ *   Protection applies to DAMAGE (negative delta) only.
+ *   GAINS on MUSICALITE (e.g. P03_COMPLEXIFY_SYNTAX: +0.838) are NEVER blocked.
+ *
+ * Fix INV-GATE-DIR-01: direction-aware blocking on MUSICALITE.
+ *   OLD: Math.abs(delta) > threshold → blocked gains (+0.050) AND losses (-0.068)
+ *   NEW: only |delta| > threshold AND delta < 0 → blocked on MUSICALITE
+ *
+ * Other categories: |delta| > threshold blocks (direction-agnostic).
  */
 export function shouldBlock(
   category: DamageCategory,
@@ -209,6 +234,14 @@ export function shouldBlock(
   config: DamageGateConfig = DEFAULT_DAMAGE_GATE_CONFIG,
 ): boolean {
   const threshold = config.thresholds[category];
+
+  // MUSICALITE: protect against LOSS only — gains are always allowed
+  // INV-GATE-DIR-01: direction-aware — never block positive deltas on MUSICALITE
+  if (category === 'MUSICALITE') {
+    if (predictedDelta >= 0) return false;           // gain → always PASS
+    return Math.abs(predictedDelta) > threshold;     // loss → check threshold
+  }
+
   if (threshold === 0) {
     return predictedDelta !== 0;
   }

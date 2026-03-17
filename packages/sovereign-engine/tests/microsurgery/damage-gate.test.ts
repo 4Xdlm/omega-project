@@ -67,16 +67,32 @@ describe('Damage Gate (Phase W Integration)', () => {
   });
 
   // ─────────────────────────────────────────────────────────────────────────
-  // DG-05: MUSICALITE blocks above threshold 0.02 but allows micro deltas
+  // DG-05: MUSICALITE direction-aware — gains always pass, losses blocked above 0.10
+  //
+  // INV-GATE-DIR-01: Phase W Loi 2 (DURE) — MUSICALITE protégée uniquement en perte.
+  // P03_COMPLEXIFY_SYNTAX → MUSICALITE = +0.838 (gain → NEVER blocked).
+  // P05_INJECT_SYNCOPES  → MUSICALITE = -1.156 (loss → blocked if |delta| > 0.10).
+  //
+  // Threshold recalibrated 0.02 → 0.10 for 600-word scene amplitude range [0.04-0.07].
+  // Proof: at amplitude 0.067 (15 sentences), |P05 × amp| = 0.077 < 0.10 → PASS.
   // ─────────────────────────────────────────────────────────────────────────
-  it('DG-05: shouldBlock MUSICALITE allows micro-deltas, blocks large ones', () => {
-    // Micro-intervention deltas pass (below threshold 0.02)
+  it('DG-05: shouldBlock MUSICALITE — direction-aware, threshold 0.10', () => {
+    // Micro-deltas always pass
     expect(shouldBlock('MUSICALITE', 0.001)).toBe(false);
     expect(shouldBlock('MUSICALITE', -0.001)).toBe(false);
     expect(shouldBlock('MUSICALITE', 0)).toBe(false);
-    // Large deltas are blocked
-    expect(shouldBlock('MUSICALITE', 0.03)).toBe(true);
-    expect(shouldBlock('MUSICALITE', -0.05)).toBe(true);
+    // GAINS on MUSICALITE always pass (INV-GATE-DIR-01: protect losses only)
+    // P03_COMPLEXIFY_SYNTAX at amp=0.06 gives +0.838×0.06 = +0.050 → PASS
+    expect(shouldBlock('MUSICALITE', +0.03)).toBe(false);
+    expect(shouldBlock('MUSICALITE', +0.05)).toBe(false);
+    expect(shouldBlock('MUSICALITE', +0.15)).toBe(false);
+    // LOSSES below threshold 0.10 pass
+    // P05_INJECT_SYNCOPES at amp=0.067 gives -1.156×0.067 = -0.077 < 0.10 → PASS
+    expect(shouldBlock('MUSICALITE', -0.05)).toBe(false);
+    expect(shouldBlock('MUSICALITE', -0.077)).toBe(false);
+    // LOSSES above threshold 0.10 are blocked
+    expect(shouldBlock('MUSICALITE', -0.15)).toBe(true);
+    expect(shouldBlock('MUSICALITE', -0.20)).toBe(true);
   });
 
   // ─────────────────────────────────────────────────────────────────────────
@@ -168,9 +184,16 @@ describe('Damage Gate (Phase W Integration)', () => {
   });
 
   // ─────────────────────────────────────────────────────────────────────────
-  // DG-14: Default MUSICALITE threshold is 0.02
+  // DG-14: Default MUSICALITE threshold recalibrated 0.02 → 0.10
+  //
+  // Rationale: Phase W hotfix calibration assumed amplitude ~0.007 (corpus chapters
+  // ~100-200 sentences). Generated scenes ~600 words = 15-23 sentences →
+  // amplitude = 0.043–0.070 (5-7× higher). Old threshold blocked ALL interventions.
+  //
+  // Math proof: amplitude 0.067 → P05×MUSICALITE = 1.156×0.067 = 0.077 < 0.10 → PASS.
+  // Safety margin: max real amplitude 0.10 → delta 0.116 > 0.10 → BLOCKED.
   // ─────────────────────────────────────────────────────────────────────────
-  it('DG-14: default MUSICALITE threshold is 0.02', () => {
-    expect(DEFAULT_DAMAGE_GATE_CONFIG.thresholds.MUSICALITE).toBe(0.02);
+  it('DG-14: default MUSICALITE threshold is 0.10 (recalibrated for 600-word scenes)', () => {
+    expect(DEFAULT_DAMAGE_GATE_CONFIG.thresholds.MUSICALITE).toBe(0.10);
   });
 });

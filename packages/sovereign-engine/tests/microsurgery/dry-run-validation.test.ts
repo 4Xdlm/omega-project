@@ -50,16 +50,22 @@ describe('Dry Run Validation (Phase W Hotfix)', () => {
     expect(result.blocked).toBe(false);
   });
 
-  it('DRY-03b: INTERIOR archetype correctly blocks TENSION_14D at 80 sentences (MUSICALITE protection)', () => {
+  it('DRY-03b: INTERIOR archetype TENSION_14D — passes at 80 sentences, blocks on very short texts', () => {
     const sentences = TEST_PROSE.split(/[.!?…]+/).filter(s => s.trim().length > 5);
     const amplitude = 1 / sentences.length;
 
-    // INTERIOR has ×1.73 on P05→MUSICALITE, needs 100+ sentences to pass
-    // This is correct behavior: INTERIOR style protects musicality more aggressively
+    // INTERIOR has ×1.73 on P05→MUSICALITE.
+    // At 80 sentences: amplitude=0.0125 → delta = -1.156×0.0125×1.73 = -0.025 < 0.10 → PASS
+    // Threshold recalibrated 0.02→0.10: INTERIOR now passes at realistic scene amplitudes.
+    // Math: INTERIOR blocked only if amplitude > 0.10 / (1.156 × 1.73) = 0.050 (i.e. < 20 sentences)
     const result = evaluateDamageGate('TENSION_14D', amplitude, 'INTERIOR');
-    expect(result.blocked).toBe(true);
+    expect(result.blocked).toBe(false);
 
-    // But at 100+ sentences (amplitude <= 0.01), even INTERIOR passes
+    // At 15 sentences (amplitude=0.067): delta = -1.156×0.067×1.73 = -0.134 > 0.10 → BLOCKED
+    const shortResult = evaluateDamageGate('TENSION_14D', 1 / 15, 'INTERIOR');
+    expect(shortResult.blocked).toBe(true);
+
+    // At 100+ sentences (amplitude <= 0.01), all archetypes always pass
     const longResult = evaluateDamageGate('TENSION_14D', 0.009, 'INTERIOR');
     expect(longResult.blocked).toBe(false);
   });

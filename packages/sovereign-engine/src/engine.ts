@@ -262,7 +262,7 @@ export async function runSovereignForge(
   // Max 2 micro-LLM calls (~50 tokens each) on weakest quartiles.
   // Only triggers if keyword-based diagnostic finds similarity < 0.45.
   if (isV4Active()) {
-    const surgeryResult = await runMicroSurgery(enrichedPacket, final_prose, provider);
+    const surgeryResult = await runMicroSurgery(enrichedPacket, final_prose, provider, 'BALANCED');
     if (surgeryResult.interventions_applied > 0) {
       console.log(`[MICRO-SURGEON] ${surgeryResult.interventions_applied} applied, ${surgeryResult.interventions_rejected} rejected`);
       final_prose = surgeryResult.prose;

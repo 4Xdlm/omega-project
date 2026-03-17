@@ -29,6 +29,7 @@ import {
 
 import type { ForgePacket, SovereignProvider } from '../types.js';
 import { SOVEREIGN_CONFIG } from '../config.js';
+import { evaluateDamageGate, type ArchetypeId } from './damage-gate.js';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // TYPES
@@ -248,11 +249,25 @@ export async function executeMicroSurgery(
   prose: string,
   interventions: MicroIntervention[],
   provider: SovereignProvider,
+  archetype: ArchetypeId = 'BALANCED',
 ): Promise<MicroSurgeryResult> {
   const details: MicroInterventionResult[] = [];
   let currentProse = prose;
 
   for (const intervention of interventions) {
+    // Damage Gate check — CALC-pure, 0 API calls
+    const gateResult = evaluateDamageGate(intervention.type, 0.5, archetype);
+    if (gateResult.blocked) {
+      console.warn(`[MICRO-SURGEON] DAMAGE-GATE BLOCKED Q${intervention.quartile} (${intervention.type}): ${gateResult.block_reasons.join('; ')}`);
+      details.push({
+        intervention,
+        replacement: '',
+        accepted: false,
+        reject_reason: `Damage Gate: ${gateResult.block_reasons.join('; ')}`,
+      });
+      continue;
+    }
+
     const prompt = buildMicroPrompt(intervention);
 
     try {
@@ -373,6 +388,7 @@ export async function runMicroSurgery(
   packet: ForgePacket,
   prose: string,
   provider: SovereignProvider,
+  archetype: ArchetypeId = 'BALANCED',
 ): Promise<MicroSurgeryResult> {
   // 1. Diagnose tension_14d
   const diagnostics = diagnoseTension14D(packet, prose);
@@ -410,7 +426,7 @@ export async function runMicroSurgery(
   console.log(`[MICRO-SURGEON] ${allInterventions.length} intervention(s) planned (${tensionInterventions.length} tension + ${hookInterventions.length} hook)`);
 
   // 5. Execute
-  return await executeMicroSurgery(prose, allInterventions, provider);
+  return await executeMicroSurgery(prose, allInterventions, provider, archetype);
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════

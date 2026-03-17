@@ -152,6 +152,8 @@ def run_bench(works_data: list, amplitudes: list, types: list, out_dir: str) -> 
                         "work_id": wid,
                         "chapter_idx": ci,
                         "chapter_title": ch_title[:80],
+                        "language": chapter.get("language", "UNKNOWN"),
+                        "period": chapter.get("period", "UNKNOWN"),
                         "perturbation_type": ptype,
                         "amplitude": amp,
                         "amplitude_label": amplitude_label(amp),

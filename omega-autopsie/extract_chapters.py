@@ -29,6 +29,7 @@ from speed_analyzer import analyze, FEATURE_KEYS
 GUTENBERG_DIR = os.path.join(os.path.dirname(__file__), "gutenberg_cache")
 RESULTS_DIR = os.path.join(os.path.dirname(__file__), "results_v4")
 CHAPTERS_DIR = os.path.join(RESULTS_DIR, "chapters")
+MANIFEST_PATH = os.path.join(os.path.dirname(__file__), "corpus_manifest_v2.json")
 
 MIN_CHAPTER_WORDS = 1000
 MAX_CHAPTER_WORDS = 5000
@@ -151,9 +152,32 @@ def strip_gutenberg_header_footer(text: str) -> str:
 
 # ── Main extraction ───────────────────────────────────────────────────────────
 
+def load_manifest_index():
+    """Load manifest and build filepath -> metadata index."""
+    if not os.path.exists(MANIFEST_PATH):
+        return {}
+    with open(MANIFEST_PATH, encoding="utf-8") as f:
+        manifest = json.load(f)
+    index = {}
+    for entry in manifest:
+        fp = os.path.basename(entry.get("filepath", ""))
+        index[fp] = {
+            "language": entry.get("language", "UNKNOWN"),
+            "period": entry.get("period", "UNKNOWN"),
+            "author": entry.get("author", ""),
+            "title": entry.get("title", ""),
+            "year": entry.get("year", 0),
+        }
+    return index
+
+
 def extract_all_chapters():
     """Extract chapters from all Gutenberg files."""
     os.makedirs(CHAPTERS_DIR, exist_ok=True)
+
+    # Load manifest for language/period metadata
+    manifest_idx = load_manifest_index()
+    print(f"[EXTRACT] Manifest index: {len(manifest_idx)} entries")
 
     gut_files = sorted(f for f in os.listdir(GUTENBERG_DIR) if f.endswith(".txt"))
     print(f"[EXTRACT] Found {len(gut_files)} Gutenberg files")
@@ -167,6 +191,8 @@ def extract_all_chapters():
     for gf in gut_files:
         path = os.path.join(GUTENBERG_DIR, gf)
         work_id = gf.rsplit("_", 1)[0]  # e.g., "flaubert_bovary"
+        meta = manifest_idx.get(gf, {"language": "UNKNOWN", "period": "UNKNOWN",
+                                      "author": "", "title": "", "year": 0})
 
         with open(path, encoding="utf-8", errors="replace") as f:
             raw = f.read()
@@ -213,6 +239,11 @@ def extract_all_chapters():
                 "work_id": work_id,
                 "chapter_idx": idx,
                 "chapter_title": title.replace("\n", " ").strip()[:80],
+                "language": meta["language"],
+                "period": meta["period"],
+                "author": meta["author"],
+                "title": meta["title"],
+                "year": meta["year"],
                 "text": body,
                 "word_count": wc,
                 "text_hash": hashlib.sha256(body.encode()).hexdigest()[:16],

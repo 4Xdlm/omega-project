@@ -258,11 +258,25 @@ def p03_complexify_syntax(text: str, amplitude: float = 0.25) -> Tuple[str, dict
 # ═══════════════════════════════════════════════════════════════════════════════
 
 def p04_remove_interiority(text: str, amplitude: float = 0.25) -> Tuple[str, dict]:
-    markers = _get_modal_markers()
-    if not markers:
-        # Fallback markers
-        markers = ["pensait", "croyait", "semblait", "peut-être", "sans doute",
-                    "comme si", "on eût dit", "il lui parut", "elle sentait que"]
+    # Target the exact words that speed_analyzer counts for f27d_modal_score:
+    # _EPISTEMIC_EN + _EPISTEMIC_FR + _CONDITIONAL_FR + _NEG_COMPLEX + _SIL_MARKERS
+    # Strategy: word-level removal of epistemic/modal markers from selected sentences.
+    _EPISTEMIC_WORDS = [
+        # EN epistemic (from speed_analyzer f27d)
+        "seemed", "appeared", "apparently", "perhaps", "probably", "possibly",
+        "as if", "as though", "something like", "a kind of", "sort of",
+        "might", "could", "would have", "had seemed", "it seemed",
+        # FR epistemic
+        "semblait", "paraissait", "apparemment", "peut-être", "probablement",
+        "sans doute", "comme si", "on eût dit", "dirait-on",
+        "une sorte", "une espèce", "je croyais", "il croyait",
+        "il lui semblait", "avait l'air", "avait l'impression",
+        # SIL markers (f28d)
+        "after all", "of course", "certainly", "no doubt",
+        "surely", "indeed", "obviously", "well then",
+        "après tout", "bien sûr", "évidemment", "certainement",
+        "décidément", "vraiment",
+    ]
 
     sents = split_sentences(text)
     if len(sents) < 3:
@@ -270,11 +284,11 @@ def p04_remove_interiority(text: str, amplitude: float = 0.25) -> Tuple[str, dic
 
     rng = random.Random(make_seed(text, "P04", amplitude))
 
-    # Find sentences with modal markers
+    # Find sentences containing any epistemic marker
     modal_sents = []
     for i, s in enumerate(sents):
         sl = s.lower()
-        if any(m in sl for m in markers):
+        if any(m in sl for m in _EPISTEMIC_WORDS):
             modal_sents.append(i)
 
     if not modal_sents:
@@ -288,21 +302,17 @@ def p04_remove_interiority(text: str, amplitude: float = 0.25) -> Tuple[str, dic
     for i in selected:
         s = new_sents[i]
         original = s
-        # Remove common modal constructions
-        s = re.sub(r"\b[Ii]l (lui )?semblait que\b", "", s)
-        s = re.sub(r"\b[Ee]lle sentait que\b", "", s)
-        s = re.sub(r"\b[Cc]omme si\b", "", s)
-        s = re.sub(r"\bpeut-être\b", "", s, flags=re.IGNORECASE)
-        s = re.sub(r"\bsans doute\b", "", s, flags=re.IGNORECASE)
-        s = re.sub(r"\b[Ii]l croyait\b", "", s)
-        s = re.sub(r"\b[Ee]lle croyait\b", "", s)
-        s = re.sub(r"\b[Ii]l pensait\b", "", s)
-        s = re.sub(r"\b[Ee]lle pensait\b", "", s)
-        s = re.sub(r"\bon eût dit\b", "", s, flags=re.IGNORECASE)
-        # Clean up double spaces
+        # Remove multi-word markers first (longest first to avoid partial matches)
+        for marker in sorted(_EPISTEMIC_WORDS, key=len, reverse=True):
+            if marker in s.lower():
+                # Case-insensitive removal preserving surrounding text
+                s = re.sub(re.escape(marker), "", s, flags=re.IGNORECASE)
+        # Clean up double spaces and leading/trailing whitespace
         s = re.sub(r"\s{2,}", " ", s).strip()
+        # Remove dangling commas: ", ," or ", ."
+        s = re.sub(r",\s*,", ",", s)
+        s = re.sub(r",\s*\.", ".", s)
         if s and s != original:
-            # Ensure sentence starts with uppercase
             if s[0].islower():
                 s = s[0].upper() + s[1:]
             new_sents[i] = s

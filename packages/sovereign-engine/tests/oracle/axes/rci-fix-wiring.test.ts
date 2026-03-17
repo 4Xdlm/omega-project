@@ -57,18 +57,21 @@ describe('RCI Wiring Fix [RCI-FIX]', () => {
     expect(result.score).toBeLessThanOrEqual(100);
   });
 
-  it('RCI-FIX-04: RCI includes voice_conformity weight in total weight calculation', async () => {
+  it('RCI-FIX-04: RCI total weight reflects current sub-score weights', async () => {
     const result = await computeRCI(MOCK_PACKET, PROSE_GOOD);
 
     // voice_conformity has weight 1.0 — it MUST contribute to totalWeight
     const totalWeight = result.sub_scores.reduce((sum, s) => sum + s.weight, 0);
     const vcWeight = result.sub_scores.find(s => s.name === 'voice_conformity')!.weight;
 
-    // totalWeight includes voice_conformity's 1.0
+    // totalWeight includes voice_conformity's weight
     expect(totalWeight).toBeGreaterThanOrEqual(vcWeight);
 
-    // 5 sub_scores: rhythm(1.0) + signature(1.0) + hook(0.20) + euphony(1.0) + voice(0) = 3.20 (Sprint 3: voice neutralized)
+    // 5 sub_scores with current weights:
+    // rhythm(1.0) + signature(1.0) + hook(0.20) + euphony(0.5) + voice(0) = 2.70
+    // INV-EUPHONY-WEIGHT-01: euphony_basic recalibrated 1.0→0.5 (not Phase W calibrated,
+    // systemic floor 68-70 = structural bias against BRUTAL/action prose consonance)
     expect(result.sub_scores).toHaveLength(5);
-    expect(totalWeight).toBeCloseTo(3.20, 1); // Sprint 3: voice_conformity neutralized (w=0)
+    expect(totalWeight).toBeCloseTo(2.70, 1);
   });
 });

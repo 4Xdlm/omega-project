@@ -57,7 +57,15 @@ export function scoreEuphonyBasic(
   return {
     name: 'euphony_basic',
     score,
-    weight: 1.0,
+    // Weight recalibrated 1.0 → 0.5 (INV-EUPHONY-WEIGHT-01)
+    // Justification: euphony_basic is not Phase W calibrated.
+    // BRUTAL/action prose physically requires hard consonants (plosives /p/,/t/,/k/,
+    // fricatives /f/,/s/) for impact — these score as "cacophony" under this heuristic.
+    // Systemic floor 68-70 on ALL scene types = structural bias, not real literary signal.
+    // Contrast with voice_conformity (neutralized w=0): euphony has real signal → w=0.5.
+    // Phase W discriminant MUSICALITE (measured on 413 works corpus) is the authoritative
+    // musical quality signal — upheld by Prompt V4.3 directives, not by post-hoc heuristic scoring.
+    weight: 0.5,
     method: 'CALC',
     details,
   };

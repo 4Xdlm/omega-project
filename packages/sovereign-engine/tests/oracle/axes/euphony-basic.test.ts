@@ -29,7 +29,12 @@ describe('EuphonyBasic Axis (ART-PHON-03)', () => {
 
     expect(result.name).toBe('euphony_basic');
     expect(result.score).toBeGreaterThan(60);
-    expect(result.weight).toBe(1.0);
+    // INV-EUPHONY-WEIGHT-01: weight recalibrated 1.0 → 0.5
+    // Justification: scorer not Phase W calibrated; BRUTAL/action prose physically
+    // requires hard consonants that score as "cacophony" under this heuristic.
+    // Systemic floor 68-70 = structural bias. Phase W MUSICALITE (corpus 413 works)
+    // is the authoritative musical quality signal, upheld by Prompt V4.3 directives.
+    expect(result.weight).toBe(0.5);
     expect(result.method).toBe('CALC');
     expect(result.details).toBeDefined();
   });

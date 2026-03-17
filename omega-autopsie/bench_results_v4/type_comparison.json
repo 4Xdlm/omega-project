@@ -1,0 +1,471 @@
+{
+  "metadata": {
+    "types": [
+      "CLASSIQUE",
+      "CONTEMPORAIN",
+      "POPULAIRE"
+    ],
+    "chapters_per_type": {
+      "CLASSIQUE": 523,
+      "CONTEMPORAIN": 41,
+      "POPULAIRE": 456
+    },
+    "timestamp": "2026-03-17T09:38:27.499271"
+  },
+  "category_profiles": {
+    "CLASSIQUE": {
+      "MUSICALITE": {
+        "mean": 13.55417,
+        "std": 7.23658,
+        "n": 523
+      },
+      "COMPLEXITE": {
+        "mean": 0.10536,
+        "std": 0.08183,
+        "n": 523
+      },
+      "SENSORIEL": {
+        "mean": 0.75518,
+        "std": 0.08718,
+        "n": 523
+      },
+      "LEXICAL": {
+        "mean": 0.60523,
+        "std": 0.11324,
+        "n": 523
+      },
+      "INTERIORITE": {
+        "mean": 0.15489,
+        "std": 0.10011,
+        "n": 523
+      },
+      "TENSION": {
+        "mean": 1.94999,
+        "std": 0.71007,
+        "n": 523
+      }
+    },
+    "CONTEMPORAIN": {
+      "MUSICALITE": {
+        "mean": 10.62639,
+        "std": 3.9282,
+        "n": 41
+      },
+      "COMPLEXITE": {
+        "mean": 0.09298,
+        "std": 0.08276,
+        "n": 41
+      },
+      "SENSORIEL": {
+        "mean": 0.77855,
+        "std": 0.05735,
+        "n": 41
+      },
+      "LEXICAL": {
+        "mean": 0.56403,
+        "std": 0.0965,
+        "n": 41
+      },
+      "INTERIORITE": {
+        "mean": 0.141,
+        "std": 0.10177,
+        "n": 41
+      },
+      "TENSION": {
+        "mean": 1.82414,
+        "std": 0.81971,
+        "n": 41
+      }
+    },
+    "POPULAIRE": {
+      "MUSICALITE": {
+        "mean": 8.03123,
+        "std": 2.65816,
+        "n": 456
+      },
+      "COMPLEXITE": {
+        "mean": 0.10046,
+        "std": 0.05415,
+        "n": 456
+      },
+      "SENSORIEL": {
+        "mean": 0.74257,
+        "std": 0.06604,
+        "n": 456
+      },
+      "LEXICAL": {
+        "mean": 0.51189,
+        "std": 0.05157,
+        "n": 456
+      },
+      "INTERIORITE": {
+        "mean": 0.09096,
+        "std": 0.07065,
+        "n": 456
+      },
+      "TENSION": {
+        "mean": 1.80596,
+        "std": 0.92268,
+        "n": 456
+      }
+    }
+  },
+  "feature_profiles": {
+    "CLASSIQUE": {
+      "f1_mean": {
+        "mean": 22.78113,
+        "std": 11.13932
+      },
+      "f1a_rhythm_variance": {
+        "mean": 17.79441,
+        "std": 11.25423
+      },
+      "f19e_window_median": {
+        "mean": 0.08697,
+        "std": 0.04375
+      },
+      "f21e_ritual_index": {
+        "mean": 0.46643,
+        "std": 0.23943
+      },
+      "f22f_literary_index": {
+        "mean": 0.07576,
+        "std": 0.10388
+      },
+      "f23d_literary_causal_score": {
+        "mean": 0.69005,
+        "std": 0.26611
+      },
+      "f24e_contrast_score": {
+        "mean": 0.92692,
+        "std": 0.07283
+      },
+      "f25g_description_score": {
+        "mean": 0.58343,
+        "std": 0.14261
+      },
+      "f26c_period_score": {
+        "mean": 0.13497,
+        "std": 0.10943
+      },
+      "f27d_modal_score": {
+        "mean": 0.2686,
+        "std": 0.18049
+      },
+      "f28d_sil_score": {
+        "mean": 0.04118,
+        "std": 0.04296
+      },
+      "f29b_ttr_window": {
+        "mean": 0.74403,
+        "std": 0.03785
+      },
+      "f30d_ps_imp_ratio": {
+        "mean": 3.20994,
+        "std": 1.35272
+      }
+    },
+    "CONTEMPORAIN": {
+      "f1_mean": {
+        "mean": 18.38049,
+        "std": 6.71024
+      },
+      "f1a_rhythm_variance": {
+        "mean": 13.41305,
+        "std": 5.49264
+      },
+      "f19e_window_median": {
+        "mean": 0.08563,
+        "std": 0.02289
+      },
+      "f21e_ritual_index": {
+        "mean": 0.37111,
+        "std": 0.18667
+      },
+      "f22f_literary_index": {
+        "mean": 0.09437,
+        "std": 0.10963
+      },
+      "f23d_literary_causal_score": {
+        "mean": 0.66235,
+        "std": 0.23787
+      },
+      "f24e_contrast_score": {
+        "mean": 0.93291,
+        "std": 0.02054
+      },
+      "f25g_description_score": {
+        "mean": 0.6242,
+        "std": 0.1104
+      },
+      "f26c_period_score": {
+        "mean": 0.0916,
+        "std": 0.07948
+      },
+      "f27d_modal_score": {
+        "mean": 0.23995,
+        "std": 0.163
+      },
+      "f28d_sil_score": {
+        "mean": 0.04205,
+        "std": 0.06141
+      },
+      "f29b_ttr_window": {
+        "mean": 0.75696,
+        "std": 0.03013
+      },
+      "f30d_ps_imp_ratio": {
+        "mean": 2.98594,
+        "std": 1.53212
+      }
+    },
+    "POPULAIRE": {
+      "f1_mean": {
+        "mean": 14.27814,
+        "std": 4.50344
+      },
+      "f1a_rhythm_variance": {
+        "mean": 9.73885,
+        "std": 3.89445
+      },
+      "f19e_window_median": {
+        "mean": 0.0767,
+        "std": 0.02269
+      },
+      "f21e_ritual_index": {
+        "mean": 0.25142,
+        "std": 0.11388
+      },
+      "f22f_literary_index": {
+        "mean": 0.1393,
+        "std": 0.08195
+      },
+      "f23d_literary_causal_score": {
+        "mean": 0.70833,
+        "std": 0.20324
+      },
+      "f24e_contrast_score": {
+        "mean": 0.92801,
+        "std": 0.02721
+      },
+      "f25g_description_score": {
+        "mean": 0.55713,
+        "std": 0.1282
+      },
+      "f26c_period_score": {
+        "mean": 0.06163,
+        "std": 0.03766
+      },
+      "f27d_modal_score": {
+        "mean": 0.15653,
+        "std": 0.12564
+      },
+      "f28d_sil_score": {
+        "mean": 0.02539,
+        "std": 0.02933
+      },
+      "f29b_ttr_window": {
+        "mean": 0.77236,
+        "std": 0.02816
+      },
+      "f30d_ps_imp_ratio": {
+        "mean": 2.9036,
+        "std": 1.83498
+      }
+    }
+  },
+  "category_discriminators": [
+    {
+      "category": "MUSICALITE",
+      "spread": 5.52294,
+      "effect_size": 1.199,
+      "means": {
+        "CLASSIQUE": 13.55417,
+        "CONTEMPORAIN": 10.62639,
+        "POPULAIRE": 8.03123
+      },
+      "ranking": [
+        "CLASSIQUE",
+        "CONTEMPORAIN",
+        "POPULAIRE"
+      ]
+    },
+    {
+      "category": "LEXICAL",
+      "spread": 0.09334,
+      "effect_size": 1.072,
+      "means": {
+        "CLASSIQUE": 0.60523,
+        "CONTEMPORAIN": 0.56403,
+        "POPULAIRE": 0.51189
+      },
+      "ranking": [
+        "CLASSIQUE",
+        "CONTEMPORAIN",
+        "POPULAIRE"
+      ]
+    },
+    {
+      "category": "INTERIORITE",
+      "spread": 0.06393,
+      "effect_size": 0.704,
+      "means": {
+        "CLASSIQUE": 0.15489,
+        "CONTEMPORAIN": 0.141,
+        "POPULAIRE": 0.09096
+      },
+      "ranking": [
+        "CLASSIQUE",
+        "CONTEMPORAIN",
+        "POPULAIRE"
+      ]
+    },
+    {
+      "category": "SENSORIEL",
+      "spread": 0.03598,
+      "effect_size": 0.513,
+      "means": {
+        "CLASSIQUE": 0.75518,
+        "CONTEMPORAIN": 0.77855,
+        "POPULAIRE": 0.74257
+      },
+      "ranking": [
+        "CONTEMPORAIN",
+        "CLASSIQUE",
+        "POPULAIRE"
+      ]
+    },
+    {
+      "category": "TENSION",
+      "spread": 0.14403,
+      "effect_size": 0.176,
+      "means": {
+        "CLASSIQUE": 1.94999,
+        "CONTEMPORAIN": 1.82414,
+        "POPULAIRE": 1.80596
+      },
+      "ranking": [
+        "CLASSIQUE",
+        "CONTEMPORAIN",
+        "POPULAIRE"
+      ]
+    },
+    {
+      "category": "COMPLEXITE",
+      "spread": 0.01238,
+      "effect_size": 0.17,
+      "means": {
+        "CLASSIQUE": 0.10536,
+        "CONTEMPORAIN": 0.09298,
+        "POPULAIRE": 0.10046
+      },
+      "ranking": [
+        "CLASSIQUE",
+        "POPULAIRE",
+        "CONTEMPORAIN"
+      ]
+    }
+  ],
+  "feature_discriminators": [
+    {
+      "feature": "f21e_ritual_index",
+      "spread": 0.21501,
+      "effect_size": 1.195,
+      "means": {
+        "CLASSIQUE": 0.46643,
+        "CONTEMPORAIN": 0.37111,
+        "POPULAIRE": 0.25142
+      }
+    },
+    {
+      "feature": "f1a_rhythm_variance",
+      "spread": 8.05556,
+      "effect_size": 1.171,
+      "means": {
+        "CLASSIQUE": 17.79441,
+        "CONTEMPORAIN": 13.41305,
+        "POPULAIRE": 9.73885
+      }
+    },
+    {
+      "feature": "f1_mean",
+      "spread": 8.50299,
+      "effect_size": 1.141,
+      "means": {
+        "CLASSIQUE": 22.78113,
+        "CONTEMPORAIN": 18.38049,
+        "POPULAIRE": 14.27814
+      }
+    },
+    {
+      "feature": "f26c_period_score",
+      "spread": 0.07334,
+      "effect_size": 0.971,
+      "means": {
+        "CLASSIQUE": 0.13497,
+        "CONTEMPORAIN": 0.0916,
+        "POPULAIRE": 0.06163
+      }
+    },
+    {
+      "feature": "f29b_ttr_window",
+      "spread": 0.02833,
+      "effect_size": 0.884,
+      "means": {
+        "CLASSIQUE": 0.74403,
+        "CONTEMPORAIN": 0.75696,
+        "POPULAIRE": 0.77236
+      }
+    },
+    {
+      "feature": "f27d_modal_score",
+      "spread": 0.11207,
+      "effect_size": 0.717,
+      "means": {
+        "CLASSIQUE": 0.2686,
+        "CONTEMPORAIN": 0.23995,
+        "POPULAIRE": 0.15653
+      }
+    },
+    {
+      "feature": "f22f_literary_index",
+      "spread": 0.06354,
+      "effect_size": 0.645,
+      "means": {
+        "CLASSIQUE": 0.07576,
+        "CONTEMPORAIN": 0.09437,
+        "POPULAIRE": 0.1393
+      }
+    },
+    {
+      "feature": "f25g_description_score",
+      "spread": 0.06706,
+      "effect_size": 0.528,
+      "means": {
+        "CLASSIQUE": 0.58343,
+        "CONTEMPORAIN": 0.6242,
+        "POPULAIRE": 0.55713
+      }
+    },
+    {
+      "feature": "f28d_sil_score",
+      "spread": 0.01666,
+      "effect_size": 0.374,
+      "means": {
+        "CLASSIQUE": 0.04118,
+        "CONTEMPORAIN": 0.04205,
+        "POPULAIRE": 0.02539
+      }
+    },
+    {
+      "feature": "f19e_window_median",
+      "spread": 0.01028,
+      "effect_size": 0.345,
+      "means": {
+        "CLASSIQUE": 0.08697,
+        "CONTEMPORAIN": 0.08563,
+        "POPULAIRE": 0.0767
+      }
+    }
+  ]
+}

@@ -27,6 +27,7 @@ from speed_analyzer import analyze, FEATURE_KEYS
 # ── Config ────────────────────────────────────────────────────────────────────
 
 GUTENBERG_DIR = os.path.join(os.path.dirname(__file__), "gutenberg_cache")
+LIVRE_DIR = os.path.join(os.path.dirname(__file__), "livre_cache")
 RESULTS_DIR = os.path.join(os.path.dirname(__file__), "results_v4")
 CHAPTERS_DIR = os.path.join(RESULTS_DIR, "chapters")
 MANIFEST_PATH = os.path.join(os.path.dirname(__file__), "corpus_manifest_v2.json")

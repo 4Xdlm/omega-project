@@ -315,7 +315,7 @@ function buildInputs(): ForgePacketInput[] {
         {
           character_thinks: 'Il m\'a menti sur l\'origine de la commande',
           reader_knows: 'Marcus cache aussi la mort du patient',
-          tension_type: 'confrontation',
+          tension_type: 'hidden_motive',
           implied_emotion: 'betrayal',
         },
         620,
@@ -354,7 +354,7 @@ function buildInputs(): ForgePacketInput[] {
         {
           character_thinks: 'Ces mains ont failli sauver quelqu\'un',
           reader_knows: 'C\'est le patient mort sur la table',
-          tension_type: 'révélation',
+          tension_type: 'dramatic_irony',
           implied_emotion: 'grief',
         },
         560,

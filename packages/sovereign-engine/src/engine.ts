@@ -69,6 +69,56 @@ import { isV4Active, buildSovereignPrompt_V4 } from './input/prompt-assembler-v4
 import { applySemanticSlicing } from './guards/semantic-slicer.js';
 // ★ V4.3 Sprint 3C: Micro-surgeon — targeted tension_14d interventions
 import { runMicroSurgery } from './microsurgery/micro-surgeon.js';
+import { type ArchetypeId } from './microsurgery/damage-gate.js';
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// ARCHETYPE DERIVATION — INV-ARCH-DERIVE-01
+// ═══════════════════════════════════════════════════════════════════════════════
+
+/**
+ * Derive the Damage Gate archetype from the scene's ForgePacket.
+ *
+ * INV-ARCH-DERIVE-01: Archetype must be derived from scene physics, never hardcoded.
+ * Hardcoding 'BALANCED' ignores Phase W archetype multipliers (B3 test, 100% archetype-dependent).
+ *
+ * Derivation rules from Phase W archetype derivative analysis (B3):
+ *
+ * | Archetype | Key multiplier          | Scene signature                        |
+ * |-----------|-------------------------|----------------------------------------|
+ * | BRUTAL    | P03→TENSION ×5.39       | anger/fear, high arousal, ext threat   |
+ * | INTERIOR  | P04→INTERIO ×2.13       | internal conflict, sadness/disgust     |
+ * | CATHEDRAL | P03→TENSION ×0.81       | existential/societal, low tension      |
+ * | SENSORY   | P04→INTERIO ×1.97       | trust/anticipation, non-relational     |
+ * | BALANCED  | all ×1.0 (reference)    | relational, neutral emotions           |
+ *
+ * Priority order: BRUTAL > INTERIOR > CATHEDRAL > SENSORY > BALANCED
+ */
+function deriveArchetypeFromPacket(packet: import('./types.js').ForgePacket): ArchetypeId {
+  const conflictType = packet.intent.conflict_type;
+  // Q3 (index 2) = climax quartile — most representative of peak emotional intensity
+  const climaxQuartile = packet.emotion_contract.curve_quartiles[2];
+  const dominantEmotion = climaxQuartile.dominant.toLowerCase();
+  const peakArousal = climaxQuartile.arousal;
+
+  // BRUTAL: anger/fear at high arousal → P03→TENSION amplified ×5.39
+  const brutalEmotions = ['anger', 'fear', 'terror', 'rage', 'fury', 'dread'];
+  if (brutalEmotions.some(e => dominantEmotion.includes(e)) && peakArousal >= 0.70) return 'BRUTAL';
+  if (conflictType === 'external' && peakArousal >= 0.85) return 'BRUTAL';
+
+  // INTERIOR: internal conflict OR sadness/disgust → P04→INTERIORITE ×2.13
+  const interiorEmotions = ['sadness', 'disgust', 'guilt', 'shame', 'grief', 'despair'];
+  if (conflictType === 'internal') return 'INTERIOR';
+  if (interiorEmotions.some(e => dominantEmotion.includes(e))) return 'INTERIOR';
+
+  // CATHEDRAL: existential/societal → P03→TENSION ×0.81 (tension-dampening)
+  if (conflictType === 'existential' || conflictType === 'societal') return 'CATHEDRAL';
+
+  // SENSORY: trust/anticipation, non-relational → P04→INTERIORITE ×1.97
+  const sensoryEmotions = ['trust', 'anticipation', 'joy', 'wonder'];
+  if (sensoryEmotions.some(e => dominantEmotion.includes(e)) && conflictType !== 'relational') return 'SENSORY';
+
+  return 'BALANCED';
+}
 
 export interface SovereignForgeResult {
   readonly version: '2.0.0'; // Sprint 6.3 (Roadmap 4.4): Version field for compat guard
@@ -262,7 +312,18 @@ export async function runSovereignForge(
   // Max 2 micro-LLM calls (~50 tokens each) on weakest quartiles.
   // Only triggers if keyword-based diagnostic finds similarity < 0.45.
   if (isV4Active()) {
-    const surgeryResult = await runMicroSurgery(enrichedPacket, final_prose, provider, 'BALANCED');
+    // INV-ARCH-DERIVE-01: Archetype derived from scene physics, never hardcoded.
+    // Phase W research: archetype multipliers determine intervention sensitivity.
+    // Passing wrong archetype = wrong multipliers = wrong gate decisions.
+    // Derivation rules based on Phase W archetype derivative analysis (B3):
+    //   BRUTAL    : anger/fear + high intensity OR external high-intensity threat
+    //   INTERIOR  : internal conflict OR sadness/disgust emotion
+    //   CATHEDRAL : existential/societal conflict (complex syntax, low tension)
+    //   SENSORY   : trust/anticipation + non-relational (sensory immersion)
+    //   BALANCED  : default (relational + neutral emotion)
+    const sceneArchetype = deriveArchetypeFromPacket(enrichedPacket);
+    console.log(`[MICRO-SURGEON] Archetype derived: ${sceneArchetype} (conflict=${enrichedPacket.intent.conflict_type})`);
+    const surgeryResult = await runMicroSurgery(enrichedPacket, final_prose, provider, sceneArchetype);
     if (surgeryResult.interventions_applied > 0) {
       console.log(`[MICRO-SURGEON] ${surgeryResult.interventions_applied} applied, ${surgeryResult.interventions_rejected} rejected`);
       final_prose = surgeryResult.prose;

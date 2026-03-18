@@ -1,0 +1,62 @@
+{
+  "mode": "micro",
+  "gate_enabled": true,
+  "scene_count": 3,
+  "seal_count": 1,
+  "seal_rate": 0.3333333333333333,
+  "reject_count": 2,
+  "error_count": 0,
+  "composite_median": 92.74809535673978,
+  "composite_mean": 92.27422896670748,
+  "composite_min": 90.10828383025839,
+  "composite_max": 93.96630771312431,
+  "min_axis_global": {
+    "name": "RCI",
+    "value": 86.89056745961625
+  },
+  "all_floors_green": true,
+  "vs_baseline": {
+    "baseline": 92,
+    "delta": 0.7480953567397819,
+    "improved": true
+  },
+  "vs_target": {
+    "target": 93,
+    "reached": false
+  },
+  "per_scene": [
+    {
+      "scene_id": "w4-confrontation",
+      "label": "Confrontation",
+      "archetype": "BRUTAL",
+      "verdict": "REJECT",
+      "composite": 90.10828383025839,
+      "min_axis": {
+        "name": "RCI",
+        "value": 86.89056745961625
+      }
+    },
+    {
+      "scene_id": "w4-elegie",
+      "label": "Élégie",
+      "archetype": "INTERIOR",
+      "verdict": "SEAL",
+      "composite": 93.96630771312431,
+      "min_axis": {
+        "name": "RCI",
+        "value": 88.57936297595343
+      }
+    },
+    {
+      "scene_id": "w4-panique",
+      "label": "Panique",
+      "archetype": "BRUTAL",
+      "verdict": "REJECT",
+      "composite": 92.74809535673978,
+      "min_axis": {
+        "name": "SII",
+        "value": 86.93333333333334
+      }
+    }
+  ]
+}

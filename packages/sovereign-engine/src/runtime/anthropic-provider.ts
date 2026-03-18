@@ -105,18 +105,24 @@ function callClaudeSync(
         }
       }
 
-      // 529 overloaded — exponential backoff with jitter
-      if (msg.includes('529') || msg.includes('overloaded')) {
+      // 529 overloaded / 503 upstream / 500 internal — exponential backoff with jitter
+      // INV-PROVIDER-RETRY-01: All transient API errors must be retried.
+      // 529 = overloaded, 503 = upstream connect error, 500 = internal server error.
+      // These are infrastructure failures, not request errors — always retryable.
+      const isRetryable = msg.includes('529') || msg.includes('overloaded')
+        || msg.includes('503') || msg.includes('upstream connect')
+        || (msg.includes('500') && msg.includes('Internal server error'));
+      if (isRetryable) {
         if (attempt < MAX_RETRIES) {
           const jitter = Math.floor(Math.random() * 1000);
           const delay = RETRY_BASE_MS * Math.pow(2, attempt) + jitter;
-          process.stderr.write(`[OMEGA] 529 overloaded — retry ${attempt + 1}/${MAX_RETRIES} in ${delay}ms\n`);
+          process.stderr.write(`[OMEGA] API transient error — retry ${attempt + 1}/${MAX_RETRIES} in ${delay}ms\n`);
           // Synchronous sleep via execSync
           const nodeExe = process.execPath;
           execSync(`"${nodeExe}" -e "setTimeout(()=>{},${delay})"`, { timeout: delay + 1000 });
           continue;
         }
-        throw new Error(`Claude API 529 overloaded after ${MAX_RETRIES} retries`);
+        throw new Error(`Claude API transient error after ${MAX_RETRIES} retries: ${msg.slice(0, 200)}`);
       }
 
       // Other errors — throw immediately
@@ -210,14 +216,35 @@ export function createAnthropicProvider(config: AnthropicProviderConfig): Sovere
     },
 
     async scoreNecessity(prose: string, beat_count: number, beat_actions?: string, scene_goal?: string, conflict_type?: string): Promise<number> {
-      const systemPrompt = `You are a literary scoring engine. Return ONLY a single integer between 0 and 100. No explanation. No text. Just the number.`;
+      // INV-JUDGE-NECESSITY-01: Rubric-based necessity scoring.
+      // Previous prompt ("Rate narrative necessity 0-100") returned 85 on 21/24 scenes
+      // because it lacked discrimination criteria. At temp=0, the LLM anchors.
+      // Fix: force evaluation of 5 specific criteria, each scored, then compute average.
+      const systemPrompt = `You are a literary scoring engine for French literary prose. You evaluate narrative necessity using 5 criteria.
+
+For each criterion, give a score from 0 to 100:
+1. ECONOMY: No filler sentences, no redundancy, every word earns its place
+2. BEAT_COVERAGE: Each plot beat is serviced (${beat_count} beats expected)  
+3. DENSITY: High information-per-sentence ratio, compressed storytelling
+4. GOAL_ADVANCE: The scene goal is actively advanced, not merely referenced
+5. IRREDUCIBILITY: Removing any sentence would damage narrative coherence
+
+Output format (strictly):
+ECONOMY: [score]
+BEAT_COVERAGE: [score]
+DENSITY: [score]
+GOAL_ADVANCE: [score]
+IRREDUCIBILITY: [score]
+NECESSITY: [average]`;
+
       const contextLines: string[] = [`Beat Count: ${beat_count}`];
       if (scene_goal) contextLines.push(`Scene Goal: ${scene_goal}`);
       if (conflict_type) contextLines.push(`Conflict Type: ${conflict_type}`);
       if (beat_actions) contextLines.push(`Beat Actions: ${beat_actions}`);
-      const userPrompt = `Rate narrative necessity (0-100) of this prose. Atmosphere-building counts as necessary.\n${contextLines.join('\n')}\n\nProse:\n${prose}\n\nReturn ONLY the integer score:`;
+      const userPrompt = `Evaluate narrative necessity of this French literary prose.\n${contextLines.join('\n')}\n\nProse:\n${prose}`;
 
-      const response = callClaudeSync(systemPrompt, userPrompt, config, config.judgeStable);
+      const necessityConfig = { ...config, judgeMaxTokens: 300 };
+      const response = callClaudeSync(systemPrompt, userPrompt, necessityConfig, config.judgeStable);
       return extractScore(response);
     },
 
@@ -226,10 +253,32 @@ export function createAnthropicProvider(config: AnthropicProviderConfig): Sovere
       closing: string,
       context: { readonly story_premise: string },
     ): Promise<number> {
-      const systemPrompt = `You are a literary scoring engine. Return ONLY a single integer between 0 and 100. No explanation. No text. Just the number.`;
-      const userPrompt = `Rate narrative impact (0-100) of opening+closing. 100 = maximum resonance.\nStory Premise: ${context.story_premise}\n\nOpening:\n${opening}\n\nClosing:\n${closing}\n\nReturn ONLY the integer score:`;
+      // INV-JUDGE-IMPACT-01: Rubric-based impact scoring.
+      // Previous prompt ("Rate narrative impact 0-100") returned 87 on 18/24 scenes.
+      // At temp=0, the LLM cannot differentiate between a BRUTAL action scene and
+      // an INTERIOR contemplation — both get 87.
+      // Fix: evaluate 5 specific impact dimensions that vary by archetype.
+      const systemPrompt = `You are a literary scoring engine for French literary prose. You evaluate narrative impact of opening and closing passages using 5 criteria.
 
-      const response = callClaudeSync(systemPrompt, userPrompt, config, config.judgeStable);
+For each criterion, give a score from 0 to 100:
+1. HOOK: Opening immediately creates tension, curiosity, or sensory immersion (not generic scene-setting)
+2. RESONANCE: Closing echoes or subverts the opening, creating emotional completion
+3. SURPRISE: At least one unexpected image, reversal, or word choice that resists prediction
+4. EMOTIONAL_PAYLOAD: The combined effect hits viscerally — the reader feels something specific
+5. MEMORABILITY: A phrase or image that would linger after reading, distinct from generic literary prose
+
+Output format (strictly):
+HOOK: [score]
+RESONANCE: [score]
+SURPRISE: [score]
+EMOTIONAL_PAYLOAD: [score]
+MEMORABILITY: [score]
+IMPACT: [average]`;
+
+      const userPrompt = `Evaluate narrative impact of these opening and closing passages.\nStory Premise: ${context.story_premise}\n\nOpening:\n${opening}\n\nClosing:\n${closing}`;
+
+      const impactConfig = { ...config, judgeMaxTokens: 300 };
+      const response = callClaudeSync(systemPrompt, userPrompt, impactConfig, config.judgeStable);
       return extractScore(response);
     },
 

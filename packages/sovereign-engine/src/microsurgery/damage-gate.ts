@@ -140,26 +140,29 @@ const ARCHETYPE_MULTIPLIERS: Readonly<Record<ArchetypeId, Readonly<Partial<Recor
 // THRESHOLDS — maximum acceptable |delta| per category
 // ═══════════════════════════════════════════════════════════════════════════════
 
-/** MUSICALITE threshold 0.10: recalibrated for actual generated scene length.
- * Phase W calibration assumed amplitude ~0.007 (1 sentence/~100 sentences corpus chapters).
- * Generated scenes ~600 words = 15-23 sentences → amplitude = 0.043–0.070 (5-7× higher).
+/** MUSICALITE threshold 0.15: recalibrated for standard 600-word generated scene.
  *
- * Calibration math (P05_INJECT_SYNCOPES, worst case):
- *   amplitude_max = 1/15 sentences = 0.067
- *   delta_max = 1.156 × 0.067 = 0.078
- *   threshold = 0.10 → 28% safety margin above worst-case delta.
+ * Phase W calibration used corpus chapters of ~100 sentences → amplitude ~0.007.
+ * Generated scenes ~600 words = 15-23 sentences → amplitude = 0.043–0.070.
  *
- * MUSICALITE protection still enforced:
- *   - Only NEGATIVE deltas are blocked (see shouldBlock fix below)
- *   - P03_COMPLEXIFY_SYNTAX gives +0.838×amp (GAIN → never blocked)
- *   - P05_INJECT_SYNCOPES gives -1.156×amp (LOSS → blocked above 0.10)
- *   - Absolute protection maintained: loss > 0.10 per intervention = BLOCKED
+ * Threshold 0.10 was too tight: it blocked INTERIOR scenes with 16-20 sentences,
+ * which is the normal duel output range. Data from 5 runs:
+ *   - n=21 phrases (amp=0.048): PASS → t14d=81  → SEAL
+ *   - n=18 phrases (amp=0.056): BLOCKED → t14d=70 → REJECT (false negative)
+ *   - n=16 phrases (amp=0.063): BLOCKED → t14d=84 → REJECT (false negative)
+ *   - n=10 phrases (amp=0.100): BLOCKED → t14d=59 → REJECT (correct, prose too short)
  *
- * Phase W discriminant MUSICALITE = 1.20 (strongest literary discriminant).
- * Literary mean = 13.55 vs popular = 8.03 (delta = 5.52 units on raw scale).
- * Loss of 0.10 on normalized scale = minimal risk to literary quality. */
+ * Recalibration math (P05_INJECT_SYNCOPES, INTERIOR, worst normal case n=16):
+ *   amplitude = 1/16 = 0.0625
+ *   delta = 1.156 × 0.0625 × 1.73 = 0.1250
+ *   threshold = 0.15 → 20% safety margin above n=16 case.
+ *   Prose with n<10 (amp>0.1): delta>0.20 → still BLOCKED (correct).
+ *
+ * INV-GATE-INTERIOR-01: threshold recalibrated 0.10→0.15.
+ * MUSICALITE protection preserved: loss > 0.15 per intervention = BLOCKED.
+ * Gain (P03_COMPLEXIFY_SYNTAX: +0.838×amp) always PASS per INV-GATE-DIR-01. */
 const DEFAULT_THRESHOLDS: Readonly<Record<DamageCategory, number>> = {
-  MUSICALITE: 0.10,  // recalibrated 0.02→0.10 for 600-word scene amplitude range
+  MUSICALITE: 0.15,  // recalibrated 0.10→0.15 for 600-word scene (16-20 sentences normal range)
   COMPLEXITE: 0.05,
   SENSORIEL: 0.03,
   LEXICAL: 0.08,

@@ -50,19 +50,25 @@ describe('Dry Run Validation (Phase W Hotfix)', () => {
     expect(result.blocked).toBe(false);
   });
 
-  it('DRY-03b: INTERIOR archetype TENSION_14D — passes at 80 sentences, blocks on very short texts', () => {
+  it('DRY-03b: INTERIOR archetype TENSION_14D — passes at 80 sentences and at 15 sentences, blocks on very short texts', () => {
     const sentences = TEST_PROSE.split(/[.!?…]+/).filter(s => s.trim().length > 5);
     const amplitude = 1 / sentences.length;
 
     // INTERIOR has ×1.73 on P05→MUSICALITE.
-    // At 80 sentences: amplitude=0.0125 → delta = -1.156×0.0125×1.73 = -0.025 < 0.10 → PASS
-    // Threshold recalibrated 0.02→0.10: INTERIOR now passes at realistic scene amplitudes.
-    // Math: INTERIOR blocked only if amplitude > 0.10 / (1.156 × 1.73) = 0.050 (i.e. < 20 sentences)
+    // INV-GATE-INTERIOR-01: threshold recalibrated 0.10→0.15 for standard 16-20 sentence prose.
+    // New blocked boundary: n ≤ 13 sentences (amp > 0.077 → delta > 0.154 > 0.15)
+    // At 80 sentences: amplitude=0.0125 → delta = -1.156×0.0125×1.73 = -0.025 < 0.15 → PASS
     const result = evaluateDamageGate('TENSION_14D', amplitude, 'INTERIOR');
     expect(result.blocked).toBe(false);
 
-    // At 15 sentences (amplitude=0.067): delta = -1.156×0.067×1.73 = -0.134 > 0.10 → BLOCKED
-    const shortResult = evaluateDamageGate('TENSION_14D', 1 / 15, 'INTERIOR');
+    // At 15 sentences (amplitude=0.067): delta = -1.156×0.067×1.73 = -0.134 < 0.15 → PASS
+    // (Was BLOCKED at threshold=0.10 — false negative, now corrected)
+    const midResult = evaluateDamageGate('TENSION_14D', 1 / 15, 'INTERIOR');
+    expect(midResult.blocked).toBe(false);
+
+    // At 9 sentences (amplitude=0.111): delta = -1.156×0.111×1.73 = -0.222 > 0.15 → BLOCKED
+    // Prose of 9 sentences is abnormally short for a 600-word scene — blocking is correct.
+    const shortResult = evaluateDamageGate('TENSION_14D', 1 / 9, 'INTERIOR');
     expect(shortResult.blocked).toBe(true);
 
     // At 100+ sentences (amplitude <= 0.01), all archetypes always pass

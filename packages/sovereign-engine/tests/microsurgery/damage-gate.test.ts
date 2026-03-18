@@ -67,16 +67,20 @@ describe('Damage Gate (Phase W Integration)', () => {
   });
 
   // ─────────────────────────────────────────────────────────────────────────
-  // DG-05: MUSICALITE direction-aware — gains always pass, losses blocked above 0.10
+  // DG-05: MUSICALITE direction-aware — gains always pass, losses blocked above 0.15
   //
   // INV-GATE-DIR-01: Phase W Loi 2 (DURE) — MUSICALITE protégée uniquement en perte.
   // P03_COMPLEXIFY_SYNTAX → MUSICALITE = +0.838 (gain → NEVER blocked).
-  // P05_INJECT_SYNCOPES  → MUSICALITE = -1.156 (loss → blocked if |delta| > 0.10).
+  // P05_INJECT_SYNCOPES  → MUSICALITE = -1.156 (loss → blocked if |delta| > 0.15).
   //
-  // Threshold recalibrated 0.02 → 0.10 for 600-word scene amplitude range [0.04-0.07].
-  // Proof: at amplitude 0.067 (15 sentences), |P05 × amp| = 0.077 < 0.10 → PASS.
+  // INV-GATE-INTERIOR-01: threshold recalibrated 0.10 → 0.15 for standard prose range.
+  // Problem with 0.10: blocked INTERIOR scenes with 16-20 sentences (normal duel output).
+  // Data from 5 Élégie runs: n=16 (amp=0.063, delta=0.125) and n=18 (amp=0.056, delta=0.111)
+  // were falsely blocked. n=10 (amp=0.100, delta=0.200) correctly blocked (prose too short).
+  // Threshold 0.15 preserves protection for abnormally short prose while allowing 16-20 sent.
+  // Proof: n=16 → delta=0.125 < 0.15 → PASS. n=10 → delta=0.200 > 0.15 → BLOCKED.
   // ─────────────────────────────────────────────────────────────────────────
-  it('DG-05: shouldBlock MUSICALITE — direction-aware, threshold 0.10', () => {
+  it('DG-05: shouldBlock MUSICALITE — direction-aware, threshold 0.15', () => {
     // Micro-deltas always pass
     expect(shouldBlock('MUSICALITE', 0.001)).toBe(false);
     expect(shouldBlock('MUSICALITE', -0.001)).toBe(false);
@@ -86,13 +90,15 @@ describe('Damage Gate (Phase W Integration)', () => {
     expect(shouldBlock('MUSICALITE', +0.03)).toBe(false);
     expect(shouldBlock('MUSICALITE', +0.05)).toBe(false);
     expect(shouldBlock('MUSICALITE', +0.15)).toBe(false);
-    // LOSSES below threshold 0.10 pass
-    // P05_INJECT_SYNCOPES at amp=0.067 gives -1.156×0.067 = -0.077 < 0.10 → PASS
+    // LOSSES below threshold 0.15 pass — normal prose 16-20 sentences
+    // P05_INJECT_SYNCOPES × INTERIOR: n=16 → delta=0.125 → PASS
     expect(shouldBlock('MUSICALITE', -0.05)).toBe(false);
     expect(shouldBlock('MUSICALITE', -0.077)).toBe(false);
-    // LOSSES above threshold 0.10 are blocked
-    expect(shouldBlock('MUSICALITE', -0.15)).toBe(true);
-    expect(shouldBlock('MUSICALITE', -0.20)).toBe(true);
+    expect(shouldBlock('MUSICALITE', -0.111)).toBe(false); // n=18 → PASS (was BLOCKED at 0.10)
+    expect(shouldBlock('MUSICALITE', -0.125)).toBe(false); // n=16 → PASS (was BLOCKED at 0.10)
+    // LOSSES above threshold 0.15 are blocked — prose too short (n<10)
+    expect(shouldBlock('MUSICALITE', -0.20)).toBe(true);   // n=10 → BLOCKED (correct)
+    expect(shouldBlock('MUSICALITE', -0.30)).toBe(true);
   });
 
   // ─────────────────────────────────────────────────────────────────────────
@@ -184,16 +190,15 @@ describe('Damage Gate (Phase W Integration)', () => {
   });
 
   // ─────────────────────────────────────────────────────────────────────────
-  // DG-14: Default MUSICALITE threshold recalibrated 0.02 → 0.10
+  // DG-14: Default MUSICALITE threshold recalibrated 0.10 → 0.15
   //
-  // Rationale: Phase W hotfix calibration assumed amplitude ~0.007 (corpus chapters
-  // ~100-200 sentences). Generated scenes ~600 words = 15-23 sentences →
-  // amplitude = 0.043–0.070 (5-7× higher). Old threshold blocked ALL interventions.
-  //
-  // Math proof: amplitude 0.067 → P05×MUSICALITE = 1.156×0.067 = 0.077 < 0.10 → PASS.
-  // Safety margin: max real amplitude 0.10 → delta 0.116 > 0.10 → BLOCKED.
+  // INV-GATE-INTERIOR-01: threshold was blocking INTERIOR scenes with 16-20 sentences,
+  // which is the normal output range of the duel generator for 600-word scenes.
+  // Data: 5 Élégie runs showed false-blocks at n=16 (amp=0.063) and n=18 (amp=0.056).
+  // Both had delta < 0.15 and should have been allowed. Only n=10 (amp=0.100,
+  // delta=0.200) should be blocked. Threshold 0.15 separates normal from abnormal.
   // ─────────────────────────────────────────────────────────────────────────
-  it('DG-14: default MUSICALITE threshold is 0.10 (recalibrated for 600-word scenes)', () => {
-    expect(DEFAULT_DAMAGE_GATE_CONFIG.thresholds.MUSICALITE).toBe(0.10);
+  it('DG-14: default MUSICALITE threshold is 0.15 (recalibrated for 16-20 sentence prose)', () => {
+    expect(DEFAULT_DAMAGE_GATE_CONFIG.thresholds.MUSICALITE).toBe(0.15);
   });
 });

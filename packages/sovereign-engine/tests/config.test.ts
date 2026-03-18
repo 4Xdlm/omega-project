@@ -57,8 +57,12 @@ describe('SOVEREIGN_CONFIG — MACRO v3', () => {
     expect(sum).toBe(1.0);
   });
 
-  it('MACRO_AXIS_FLOOR = 85', () => {
-    expect(SOVEREIGN_CONFIG.MACRO_AXIS_FLOOR).toBe(85);
+  it('MACRO_AXIS_FLOOR = 80 (recalibrated from 85 — Phase W corpus BRUTAL archetype)', () => {
+    // INV-ZONE-FLOOR-01: Floor recalibrated 85→80 based on Phase W corpus data.
+    // McCarthy (BRUTAL archetype): LEXIQUE=3/100, MUSIQUE=18/100 → SII equivalent ~40-60.
+    // A floor of 85 applied universally = physically impossible for BRUTAL scenes.
+    // Phase W directive: "OMEGA punishes inert cliché, not living simplicity."
+    expect(SOVEREIGN_CONFIG.MACRO_AXIS_FLOOR).toBe(80);
   });
 
   it('ECC_FLOOR = 88', () => {
@@ -83,7 +87,8 @@ describe('SOVEREIGN_CONFIG — MACRO v3', () => {
 
   it('ZONES.GREEN défini correctement', () => {
     expect(SOVEREIGN_CONFIG.ZONES.GREEN.min_composite).toBe(93); // Sprint 12: 92 → 93
-    expect(SOVEREIGN_CONFIG.ZONES.GREEN.min_axis).toBe(85);
+    // INV-ZONE-FLOOR-01: min_axis recalibrated 85→80 — Phase W corpus BRUTAL archetype
+    expect(SOVEREIGN_CONFIG.ZONES.GREEN.min_axis).toBe(80);
     expect(SOVEREIGN_CONFIG.ZONES.GREEN.min_ecc).toBe(88);
   });
 

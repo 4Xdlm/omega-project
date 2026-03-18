@@ -285,16 +285,18 @@ export async function executeMicroSurgery(
 
       const cleaned = replacement.trim();
 
-      // Guard 1: replacement must not be too long (max 2.2× original)
-      // Sprint SEAL: relaxed from 1.8× (was rejecting legitimate reformulations)
-      // ChatGPT-audit: 2.2× not 2.5× (too permissive)
-      if (cleaned.length > intervention.target_sentence.length * 2.2) {
+      // Guard 1: replacement must not be too long
+      // INV-MICRO-DIFF-01: micro-surgery = diff minimal, not rewrite.
+      // Phase W vision: "infléchir, pas réécrire". A replacement > 1.5× original
+      // is a rewrite, not a micro-intervention. Tightened from 2.2× → 1.5×.
+      // This prevents the LLM from generating a whole new sentence when asked to modify 2-3 words.
+      if (cleaned.length > intervention.target_sentence.length * 1.5) {
         console.warn(`[MICRO-SURGEON] REJECTED Q${intervention.quartile}: replacement too long (${cleaned.length} vs ${intervention.target_sentence.length})`);
         details.push({
           intervention,
           replacement: cleaned,
           accepted: false,
-          reject_reason: `Too long: ${cleaned.length} chars vs ${intervention.target_sentence.length} original`,
+          reject_reason: `Too long: ${cleaned.length} chars vs ${intervention.target_sentence.length} original (max 1.5×)`,
         });
         continue;
       }
@@ -366,14 +368,18 @@ Suite : "${intervention.context_after}"
 Insère le mot ou concept "${intervention.hook_word}" dans cette phrase de manière organique et naturelle. Garde la même longueur et le même ton. Réponds UNIQUEMENT avec la phrase modifiée.`;
   }
 
-  // TENSION_14D
+  // TENSION_14D — directive positive, diff minimal
+  // INV-MICRO-PROMPT-01: "infléchir, pas réécrire" (Phase W directive).
+  // Positive constraint: what to DO (infuse emotion via body/action).
+  // No negative blacklist: don't forbid words — trust the kill_lists in ForgePacket.
+  // Simple/physical vocabulary is allowed: it is "living simplicity", not "inert cliché".
   return `Contexte : "${intervention.context_before}"
 Phrase à modifier : "${intervention.target_sentence}"
 Suite : "${intervention.context_after}"
 
-Cette phrase manque d'émotion "${intervention.target_emotion}".
-Réécris-la en y infusant cette émotion par le CORPS (${intervention.physical_anchor}).
-Garde la même longueur. Réponds UNIQUEMENT avec la phrase modifiée.`;
+Infléchis cette phrase pour y faire sentir l'émotion "${intervention.target_emotion}" via ${intervention.physical_anchor}.
+Modifie 1 à 3 mots maximum. Ne réécris pas la phrase — infléchis-la.
+Réponds UNIQUEMENT avec la phrase modifiée.`;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════

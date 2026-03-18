@@ -111,7 +111,9 @@ describe('Scoring V3.1 (ART-SCORE-01, 02, 03)', () => {
     // Verify all macro floors are defined
     expect(SOVEREIGN_CONFIG.MACRO_FLOORS.ecc).toBe(88);
     expect(SOVEREIGN_CONFIG.MACRO_FLOORS.rci).toBe(85);
-    expect(SOVEREIGN_CONFIG.MACRO_FLOORS.sii).toBe(85);
+    // INV-SII-FLOOR-01: SII floor recalibrated 85→80 — Phase W corpus BRUTAL archetype.
+    // McCarthy LEXIQUE=3/100. A scene with ECC=94, RCI=89, SII=80 = valid literary result.
+    expect(SOVEREIGN_CONFIG.MACRO_FLOORS.sii).toBe(80);
     expect(SOVEREIGN_CONFIG.MACRO_FLOORS.ifi).toBe(85);
     expect(SOVEREIGN_CONFIG.MACRO_FLOORS.aai).toBe(85);
 

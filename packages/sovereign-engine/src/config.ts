@@ -424,18 +424,28 @@ export const SOVEREIGN_CONFIG = {
   MACRO_FLOORS: {
     ecc: 88, // Emotional Control Core — plancher spécial
     rci: 85, // Rhythmic Control Index
-    sii: 85, // Signature Integrity Index
+    // INV-SII-FLOOR-01: SII floor recalibrated 85→80 based on Phase W corpus data.
+    // McCarthy (BRUTAL archetype): LEXIQUE=3/100, equivalent SII ~40-60.
+    // Hemingway (BRUTAL): LEXIQUE=25/100, equivalent SII ~55-70.
+    // Applying a floor of 85 to BRUTAL scenes = physically impossible per corpus.
+    // Phase W directive: "OMEGA punishes inert cliché, not living simplicity."
+    // A BRUTAL scene with SII=80 + ECC=94 + RCI=89 is a valid literary result.
+    sii: 80, // Signature Integrity Index — recalibrated for BRUTAL archetype
     ifi: 85, // Immersion Force Index
     aai: 85, // Authenticity & Art Index
   } as const,
 
-  MACRO_AXIS_FLOOR: 85,
+  MACRO_AXIS_FLOOR: 80,  // recalibrated 85→80 — corpus BRUTAL archetype (McCarthy, Hemingway)
   ECC_FLOOR: 88,
   AAI_FLOOR: 85, // Sprint 11: Authenticity & Art Index floor
-  MACRO_REJECT_BELOW: 85,
+  MACRO_REJECT_BELOW: 80,  // recalibrated 85→80
 
   ZONES: {
-    GREEN: { min_composite: 93, min_axis: 85, min_ecc: 88 }, // Sprint 12: 92 → 93
+    // INV-ZONE-FLOOR-01: min_axis recalibrated 85→80.
+    // Phase W corpus: BRUTAL archetype (McCarthy) has LEXIQUE=3, MUSIQUE=18.
+    // SII=80 on a BRUTAL scene with ECC=94, RCI=89 = SEAL candidate, not REJECT.
+    // The old floor=85 made SEAL physically impossible for BRUTAL scenes.
+    GREEN: { min_composite: 93, min_axis: 80, min_ecc: 88 }, // min_axis: 85→80
     YELLOW: { min_composite: 85, min_axis: 75 },
     RED: { max_composite: 84 },
   } as const,

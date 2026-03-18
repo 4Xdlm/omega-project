@@ -100,10 +100,16 @@ function deriveArchetypeFromPacket(packet: import('./types.js').ForgePacket): Ar
   const dominantEmotion = climaxQuartile.dominant.toLowerCase();
   const peakArousal = climaxQuartile.arousal;
 
-  // BRUTAL: anger/fear at high arousal → P03→TENSION amplified ×5.39
+  // BRUTAL: anger/fear dominance + non-internal conflict → BRUTAL always
+  // INV-ARCH-CORPUS-01: Phase W corpus (413 works). McCarthy LEXIQUE=3, MUSIQUE=18.
+  // computeArousal() on 14D-normalized ForgePacket vectors is unreliable as a threshold:
+  // arousal is diluted across 14 dimensions → peakArousal < 0.50 even for high-intensity scenes.
+  // The circular trap: gate stays BALANCED because draft is flat; draft is flat because
+  // gate blocks aggressive interventions with wrong archetype. Fix: derive from INTENT, not draft.
+  // Rule: anger/fear as dominant emotion + non-internal conflict = BRUTAL (always, no arousal check).
   const brutalEmotions = ['anger', 'fear', 'terror', 'rage', 'fury', 'dread'];
-  if (brutalEmotions.some(e => dominantEmotion.includes(e)) && peakArousal >= 0.70) return 'BRUTAL';
-  if (conflictType === 'external' && peakArousal >= 0.85) return 'BRUTAL';
+  if (brutalEmotions.some(e => dominantEmotion.includes(e)) && conflictType !== 'internal') return 'BRUTAL';
+  if (conflictType === 'external') return 'BRUTAL'; // external threat = always BRUTAL
 
   // INTERIOR: internal conflict OR sadness/disgust → P04→INTERIORITE ×2.13
   const interiorEmotions = ['sadness', 'disgust', 'guilt', 'shame', 'grief', 'despair'];

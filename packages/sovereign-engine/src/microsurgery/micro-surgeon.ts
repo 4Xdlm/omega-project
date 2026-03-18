@@ -287,16 +287,22 @@ export async function executeMicroSurgery(
 
       // Guard 1: replacement must not be too long
       // INV-MICRO-DIFF-01: micro-surgery = diff minimal, not rewrite.
-      // Phase W vision: "infléchir, pas réécrire". A replacement > 1.5× original
-      // is a rewrite, not a micro-intervention. Tightened from 2.2× → 1.5×.
-      // This prevents the LLM from generating a whole new sentence when asked to modify 2-3 words.
-      if (cleaned.length > intervention.target_sentence.length * 1.5) {
+      // Phase W vision: "infléchir, pas réécrire".
+      // Adaptive guard: max(1.5× original, original + 15 chars)
+      // Rationale: a 15-char phrase (e.g. "Il ferma.") × 1.5 = 22.5 → rejects 23-char inflexion.
+      // But "Il ferma lentement." (21 chars) is NOT a rewrite — it's exactly an inflexion.
+      // Fix: floor = original + 15 chars ensures short phrases can always receive 1 added word.
+      // For longer phrases (e.g. 40 chars), 1.5× = 60 still applies.
+      // For very long LLM rewrites (e.g. 85 chars vs 30 original), still blocked correctly.
+      const maxLength = Math.max(intervention.target_sentence.length * 1.5,
+                                  intervention.target_sentence.length + 15);
+      if (cleaned.length > maxLength) {
         console.warn(`[MICRO-SURGEON] REJECTED Q${intervention.quartile}: replacement too long (${cleaned.length} vs ${intervention.target_sentence.length})`);
         details.push({
           intervention,
           replacement: cleaned,
           accepted: false,
-          reject_reason: `Too long: ${cleaned.length} chars vs ${intervention.target_sentence.length} original (max 1.5×)`,
+          reject_reason: `Too long: ${cleaned.length} chars vs ${intervention.target_sentence.length} original (max ${maxLength.toFixed(0)})`,
         });
         continue;
       }
@@ -416,7 +422,9 @@ export async function runMicroSurgery(
   const tensionInterventions = planInterventions(packet, prose, diagnostics);
 
   // 3. Plan hook intervention (Sprint SEAL)
-  const hookInterventions = planHookIntervention(packet, prose);
+  // INV-MICRO-HOOK-01: pass TENSION target quartiles so HOOK avoids same paragraphs
+  const tensionTargetQuartiles = tensionInterventions.map(i => i.quartile);
+  const hookInterventions = planHookIntervention(packet, prose, tensionTargetQuartiles);
 
   // 4. Merge all interventions — HOOKS FIRST, then tensions
   // Sprint SEAL fix: hooks modify prose minimally (insert 1 word), then tensions
@@ -450,10 +458,17 @@ export async function runMicroSurgery(
  * Diagnoses which hooks from the SymbolMap are missing in prose.
  * Selects 1 missing hook and a neutral sentence to inject it into.
  * Max 1 hook intervention per run.
+ *
+ * INV-MICRO-HOOK-01: Hook targets a paragraph NOT targeted by any TENSION intervention.
+ * Bug fixed: HOOK was always targeting paragraph 1 (Q2). If TENSION also targeted Q1,
+ * HOOK would modify the sentence first → TENSION could not find its original target
+ * in currentProse → "target sentence not found" error.
+ * Fix: find a paragraph index that is NOT in the set of TENSION intervention quartiles.
  */
 function planHookIntervention(
   packet: ForgePacket,
   prose: string,
+  tensionTargetQuartiles: readonly number[] = [],
 ): MicroIntervention[] {
   // Gather all hooks from the packet
   const signatureWords = packet.style_genome?.lexicon?.signature_words ?? [];
@@ -480,10 +495,29 @@ function planHookIntervention(
   const hookToInject = missingHooks[0];
   console.log(`[MICRO-SURGEON] Missing hooks: ${missingHooks.length}/${allHooks.length}. Targeting: "${hookToInject}"`);
 
-  // Find a neutral sentence to inject the hook into
-  // Prefer sentences in Q1 or Q2 (setup paragraphs) that are descriptive
+  // Find a paragraph NOT targeted by TENSION interventions
+  // INV-MICRO-HOOK-01: avoids "target sentence not found" when HOOK and TENSION target same para
   const paragraphs = prose.split(/\n\s*\n/).filter(p => p.trim().length > 0);
-  const targetParaIdx = Math.min(1, paragraphs.length - 1); // Q2 preferred
+
+  // Map TENSION quartile indices to paragraph indices
+  // Q0=[0,25%], Q1=[25,50%], Q2=[50,75%], Q3=[75,100%] of paragraphs
+  const tensionParaIndices = new Set<number>();
+  for (const q of tensionTargetQuartiles) {
+    const startIdx = Math.floor((q / 4) * paragraphs.length);
+    const endIdx = Math.ceil(((q + 1) / 4) * paragraphs.length);
+    for (let i = startIdx; i < endIdx; i++) tensionParaIndices.add(i);
+  }
+
+  // Prefer Q4 (last paragraph), then Q1 (setup), avoiding TENSION targets
+  const candidates = [
+    paragraphs.length - 1, // Q4 last — safest, rarely targeted by TENSION
+    1,                      // Q1 setup — original default
+    0,                      // Q0 first
+    Math.floor(paragraphs.length / 2), // Q2 mid
+  ];
+  const targetParaIdx = candidates.find(i => !tensionParaIndices.has(i) && i < paragraphs.length)
+    ?? paragraphs.length - 1; // fallback: last paragraph
+
   const targetPara = paragraphs[targetParaIdx];
 
   const sentences = targetPara

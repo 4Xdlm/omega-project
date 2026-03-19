@@ -37,6 +37,7 @@ import { computeTextFeatures } from '../src/scoring/text-features.js';
 import { MultiStageScorer } from '../src/scoring/multi-stage-scorer.js';
 import { getProfileNames } from '../src/scoring/quality-profiles.js';
 import type { MultiStageScore } from '../src/scoring/types.js';
+import { computeSpacyFeatures, isSpacyBridgeAvailable } from '../src/scoring/spacy-bridge.js';
 
 // API mode imports — SovereignForge engine + provider + scene definitions
 import { createAnthropicProvider } from '../src/runtime/anthropic-provider.js';
@@ -452,9 +453,12 @@ async function main(): Promise<void> {
     ? new MultiStageScorer(COEFF_PATH, METRO_PATH)
     : new MultiStageScorer(COEFF_PATH);
 
+  const spacyAvailable = isSpacyBridgeAvailable();
+
   console.log(`[DUAL] Coefficients: ${COEFF_PATH}`);
   console.log(`[DUAL] Metrology: ${hasMetro ? METRO_PATH : 'NOT FOUND — raw scoring'}`);
   console.log(`[DUAL] Normalization: ${scorer.isNormalized() ? 'ACTIVE (0-100)' : 'OFF (raw)'}`);
+  console.log(`[DUAL] spaCy bridge: ${spacyAvailable ? 'AVAILABLE (49/49 features)' : 'NOT AVAILABLE (44/49 features)'}`);
   console.log('');
 
   const profileNames = getProfileNames();
@@ -549,6 +553,20 @@ async function main(): Promise<void> {
     const wordCount = prose.split(/\s+/).length;
     const proseHash = sha256(prose);
     const features = computeTextFeatures(prose);
+
+    // Merge spaCy features if bridge available (5 NLP features → 49/49)
+    if (spacyAvailable) {
+      try {
+        const spacyFeatures = await computeSpacyFeatures(prose, 'fr');
+        const spacyCount = Object.keys(spacyFeatures).length;
+        if (spacyCount > 0) {
+          Object.assign(features, spacyFeatures);
+        }
+      } catch {
+        // Bridge failed — continue with 44/49 features
+      }
+    }
+
     const fallbackType = ARCHETYPE_TO_R6_TYPE[archetype] ?? 'DESCRIPTION';
 
     // R6 score with default profile (STRATOSPHERIQUE)

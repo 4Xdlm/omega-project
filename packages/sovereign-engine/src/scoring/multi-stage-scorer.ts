@@ -48,10 +48,11 @@ export class MultiStageScorer {
    * @returns MultiStageScore with local, arc, composite, passage_type, seal_eligible
    */
   score(features: Record<string, number>, options: ScoringOptions): MultiStageScore {
-    const { wordCount, pRel, profile: profileName, language: _language, text } = options;
+    const { wordCount, pRel, profile: profileName, language: _language, text, applyTypeModifiers = false } = options;
 
     // 1. Detect passage type (on raw features, before normalization)
-    // Pass raw text if available for dialogue marker detection (Grand Parallèle fix)
+    // Type is always detected for logging, but only applied to weights if applyTypeModifiers=true.
+    // Default OFF after ablation showed +0.06 impact (MINOR) with all scenes classified ACTION.
     const passageType = detectPassageType(features, text);
 
     // 1b. Normalize features to 0-100 if normalizer is available
@@ -70,6 +71,7 @@ export class MultiStageScorer {
       pRel,
       passageType,
       profile.weight_overrides,
+      applyTypeModifiers,
     );
 
     // 4. Compute ARC stage (skip if LOCAL fails — handshake)
@@ -89,6 +91,7 @@ export class MultiStageScorer {
         pRel,
         passageType,
         profile.weight_overrides,
+        applyTypeModifiers,
       );
     }
 
@@ -133,6 +136,7 @@ export class MultiStageScorer {
     pRel: number | undefined,
     passageType: PassageType,
     weightOverrides: Record<string, number>,
+    applyTypeModifiers: boolean,
   ): StageScore {
     const weightTable = this.loader.getWeightTable(stage);
     let weightedSum = 0;
@@ -155,8 +159,8 @@ export class MultiStageScorer {
       // Position modifier
       const posMod = pRel !== undefined ? this.loader.getPositionModifier(feat, pRel) : 1.0;
 
-      // Type modifier
-      const typeMod = this.loader.getTypeModifier(feat, passageType);
+      // Type modifier (bypassed when applyTypeModifiers=false)
+      const typeMod = applyTypeModifiers ? this.loader.getTypeModifier(feat, passageType) : 1.0;
 
       // Profile weight override
       const profileMod = weightOverrides[feat] ?? 1.0;

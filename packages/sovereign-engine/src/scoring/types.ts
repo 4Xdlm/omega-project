@@ -63,6 +63,8 @@ export interface ScoringOptions {
   language?: string;
   /** Raw text for passage type detection (enables dialogue marker check) */
   text?: string;
+  /** Apply type_modifiers from R3 coefficients. Default: false (disabled after ablation). */
+  applyTypeModifiers?: boolean;
 }
 
 // ═══════════════════════════════════════════════════════════════════════

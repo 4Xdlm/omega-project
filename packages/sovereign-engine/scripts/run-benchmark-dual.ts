@@ -38,6 +38,16 @@ import { MultiStageScorer } from '../src/scoring/multi-stage-scorer.js';
 import { getProfileNames } from '../src/scoring/quality-profiles.js';
 import type { MultiStageScore } from '../src/scoring/types.js';
 
+// API mode imports — SovereignForge engine + provider + scene definitions
+import { createAnthropicProvider } from '../src/runtime/anthropic-provider.js';
+import { runSovereignForge } from '../src/engine.js';
+import type { SovereignProvider } from '../src/types.js';
+import {
+  buildInputs as buildPhaseWInputs,
+  SCENE_LABELS,
+  SCENE_ARCHETYPES,
+} from './run-benchmark-phase-w.js';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const ROOT_DIR = path.resolve(__dirname, '../../..');
@@ -50,6 +60,10 @@ const OUT_DIR = path.resolve(__dirname, '../sessions');
 
 const IS_API = process.argv.includes('--api');
 const P_REL_NEUTRAL = 0.50; // milieu de roman — valeur neutre pour scènes isolées
+
+// API mode config — same model/temperature as run-benchmark-phase-w.ts
+const MODEL_ID = 'claude-sonnet-4-20250514';
+const DRAFT_TEMPERATURE = 0.75; // INV-TEMP-01: reduced from 1.0
 
 // ── Archetype → R6 passage type fallback mapping (Gemini spec) ────────────────
 const ARCHETYPE_TO_R6_TYPE: Record<string, string> = {
@@ -410,13 +424,26 @@ async function main(): Promise<void> {
   console.log(`[DUAL] P_rel: ${P_REL_NEUTRAL} (neutral — milieu de roman)`);
   console.log('');
 
+  // ── API mode: validate key ────────────────────────────────────────────
+  let provider: SovereignProvider | null = null;
   if (mode === 'API') {
-    console.log('[DUAL] API mode: requires $env:ANTHROPIC_API_KEY');
-    console.log('[DUAL] Will run full SovereignForge + dual scoring.');
-    console.log('[DUAL] Use MOCK mode for validation without API.');
-    console.error('[DUAL] API mode not yet wired — use MOCK for now.');
-    console.log('[DUAL] Command for API mode: $env:ANTHROPIC_API_KEY = "sk-ant-..."; npx tsx scripts/run-benchmark-dual.ts --api');
-    process.exit(1);
+    const apiKey = process.env['ANTHROPIC_API_KEY'];
+    if (!apiKey?.trim()) {
+      console.error('[FATAL] ANTHROPIC_API_KEY not set. Required for --api mode.');
+      console.error('  $env:ANTHROPIC_API_KEY = "sk-ant-..."');
+      process.exit(1);
+    }
+    provider = createAnthropicProvider({
+      apiKey,
+      model: MODEL_ID,
+      judgeStable: true,
+      draftTemperature: DRAFT_TEMPERATURE,
+      judgeTemperature: 0.0,
+      judgeTopP: 1.0,
+      judgeMaxTokens: 200,
+    });
+    console.log(`[DUAL] Model: ${MODEL_ID}`);
+    console.log(`[DUAL] Draft temperature: ${DRAFT_TEMPERATURE}`);
   }
 
   // ── Init R6 Scorer ──────────────────────────────────────────────────────
@@ -431,36 +458,106 @@ async function main(): Promise<void> {
   console.log('');
 
   const profileNames = getProfileNames();
-  const sceneIds = Object.keys(LEGACY_REFERENCE);
   const results: DualSceneResult[] = [];
+
+  // ── Build scene list ────────────────────────────────────────────────────
+  // API mode: use phase-w ForgePacketInputs (same 8 scenes, same config)
+  // MOCK mode: use LEGACY_REFERENCE scene IDs + MOCK prose
+  const forgeInputs = mode === 'API' ? buildPhaseWInputs() : null;
+  const sceneIds = mode === 'API'
+    ? (forgeInputs!.map(inp => inp.scene.scene_id))
+    : Object.keys(LEGACY_REFERENCE);
+
+  if (mode === 'API') {
+    console.log(`[DUAL] Built ${forgeInputs!.length} ForgePacketInputs from phase-w`);
+    console.log(`[DUAL] Starting execution — ${forgeInputs!.length} scenes...`);
+    console.log(`[DUAL] Estimated: ~${forgeInputs!.length * 15}-${forgeInputs!.length * 25} API calls`);
+    console.log('');
+  }
 
   // ── Score each scene ────────────────────────────────────────────────────
 
-  for (const sceneId of sceneIds) {
-    const ref = LEGACY_REFERENCE[sceneId];
-    const prose = MOCK_PROSE[sceneId];
-    if (!prose) {
-      console.error(`[DUAL] Missing MOCK prose for ${sceneId} — SKIP`);
-      continue;
+  for (let i = 0; i < sceneIds.length; i++) {
+    const sceneId = sceneIds[i];
+    const label = SCENE_LABELS[sceneId] ?? sceneId;
+    const archetype = SCENE_ARCHETYPES[sceneId] ?? 'BALANCED';
+
+    // ── Get prose + legacy scores ───────────────────────────────────────
+    let prose: string;
+    let legacyComposite: number;
+    let legacyMinAxis: { name: string; value: number };
+    let legacyVerdict: string;
+    let legacySource: 'reference' | 'live';
+
+    if (mode === 'API') {
+      // API mode: generate prose via SovereignForge, extract V3 scores live
+      const input = forgeInputs![i];
+      console.log(`[SCENE ${i + 1}/${sceneIds.length}] ${label} (${archetype}) — generating...`);
+      const startScene = Date.now();
+
+      try {
+        const forgeResult = await runSovereignForge(input, provider!);
+        const elapsed = ((Date.now() - startScene) / 1000).toFixed(1);
+
+        prose = forgeResult.final_prose;
+
+        // Extract V3 legacy scores from macro_score
+        if (forgeResult.macro_score) {
+          const ma = forgeResult.macro_score.macro_axes;
+          const axes: Record<string, number> = {
+            ECC: ma.ecc.score,
+            RCI: ma.rci.score,
+            SII: ma.sii.score,
+            IFI: ma.ifi.score,
+            AAI: ma.aai.score,
+          };
+          legacyComposite = forgeResult.macro_score.composite;
+          let minAx = { name: 'unknown', value: 100 };
+          for (const [name, value] of Object.entries(axes)) {
+            if (value < minAx.value) minAx = { name, value };
+          }
+          legacyMinAxis = minAx;
+        } else {
+          // Fallback to s_score if macro_score unavailable
+          legacyComposite = forgeResult.s_score.composite;
+          legacyMinAxis = { name: 'unknown', value: 0 };
+        }
+        legacyVerdict = forgeResult.verdict;
+        legacySource = 'live';
+
+        console.log(
+          `  V3=${legacyComposite.toFixed(1)} [${legacyVerdict}] min=${legacyMinAxis.name}:${legacyMinAxis.value.toFixed(1)} | ${elapsed}s`,
+        );
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : String(err);
+        console.error(`  ERROR: ${msg}`);
+        continue;
+      }
+    } else {
+      // MOCK mode: use fixed prose + reference V3 scores
+      const ref = LEGACY_REFERENCE[sceneId];
+      if (!ref) { console.error(`[DUAL] Missing reference for ${sceneId}`); continue; }
+      prose = MOCK_PROSE[sceneId];
+      if (!prose) { console.error(`[DUAL] Missing MOCK prose for ${sceneId}`); continue; }
+      legacyComposite = ref.composite;
+      legacyMinAxis = ref.min_axis;
+      legacyVerdict = ref.verdict;
+      legacySource = 'reference';
     }
 
+    // ── R6 scoring (same for both modes — I4: same prose) ─────────────
     const wordCount = prose.split(/\s+/).length;
     const proseHash = sha256(prose);
-
-    // Compute R6 features
     const features = computeTextFeatures(prose);
+    const fallbackType = ARCHETYPE_TO_R6_TYPE[archetype] ?? 'DESCRIPTION';
 
     // R6 score with default profile (STRATOSPHERIQUE)
-    // Pass raw text for dialogue marker detection (Grand Parallèle fix)
     const r6Default = scorer.score(features, {
       wordCount,
       pRel: P_REL_NEUTRAL,
       profile: 'STRATOSPHERIQUE',
       text: prose,
     });
-
-    // Fallback type from archetype
-    const fallbackType = ARCHETYPE_TO_R6_TYPE[ref.archetype] ?? 'DESCRIPTION';
 
     // R6 score with all 6 profiles
     const r6Profiles: Record<string, { composite: number; local: number; arc: number; seal_eligible: boolean }> = {};
@@ -493,15 +590,15 @@ async function main(): Promise<void> {
 
     const result: DualSceneResult = {
       scene_id: sceneId,
-      label: ref.label,
-      archetype: ref.archetype,
+      label,
+      archetype,
       prose_hash: proseHash,
       prose_word_count: wordCount,
       legacy: {
-        composite: ref.composite,
-        min_axis: ref.min_axis,
-        verdict: ref.verdict,
-        source: 'reference',
+        composite: legacyComposite,
+        min_axis: legacyMinAxis,
+        verdict: legacyVerdict,
+        source: legacySource,
       },
       r6: {
         composite: r6Default.composite.score,
@@ -518,11 +615,16 @@ async function main(): Promise<void> {
 
     results.push(result);
     console.log(
-      `  [${pad(ref.label, 22)}] V3=${rpad(ref.composite.toFixed(2), 6)} | ` +
+      `  [${pad(label, 22)}] V3=${rpad(legacyComposite.toFixed(2), 6)} | ` +
       `R6=${rpad(r6Default.composite.score.toFixed(2), 6)} LOC=${rpad(r6Default.local.score.toFixed(2), 6)} ` +
       `ARC=${rpad(r6Default.arc.score.toFixed(2), 6)} conf=${r6Default.composite.confidence.toFixed(3)} ` +
       `type=${r6Default.passage_type}`,
     );
+
+    // Inter-scene delay for API mode (rate limiting)
+    if (mode === 'API' && i < sceneIds.length - 1) {
+      await new Promise(r => setTimeout(r, 3000));
+    }
   }
 
   // ── Spearman correlation ────────────────────────────────────────────────

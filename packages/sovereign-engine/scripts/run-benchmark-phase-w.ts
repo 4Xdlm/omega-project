@@ -400,7 +400,7 @@ function makeInput(
 
 // ── 8 Scènes W.INT-4 (Elena Vasquez & Marcus Delacroix, port maritime) ────────
 
-function buildInputs(): ForgePacketInput[] {
+export function buildInputs(): ForgePacketInput[] {
   const SCENES: Array<{
     s: Scene;
     canon: readonly CanonEntry[];
@@ -805,7 +805,7 @@ interface WBenchConfig {
 
 // ── Exécution scène ───────────────────────────────────────────────────────────
 
-const SCENE_LABELS: Record<string, string> = {
+export const SCENE_LABELS: Record<string, string> = {
   'w4-confrontation':    'Confrontation',
   'w4-elegie':           'Élégie',
   'w4-panique':          'Panique',
@@ -816,7 +816,7 @@ const SCENE_LABELS: Record<string, string> = {
   'w4-monologue':        'Monologue intérieur',
 };
 
-const SCENE_ARCHETYPES: Record<string, string> = {
+export const SCENE_ARCHETYPES: Record<string, string> = {
   'w4-confrontation':  'BRUTAL',
   'w4-elegie':         'INTERIOR',
   'w4-panique':        'BRUTAL',
@@ -1219,7 +1219,11 @@ async function main(): Promise<void> {
   }
 }
 
-main().catch((err) => {
-  console.error('[FATAL]', err);
-  process.exit(1);
-});
+// Only auto-run when executed directly (not when imported by dual bench)
+const isDirectExecution = process.argv[1]?.includes('run-benchmark-phase-w');
+if (isDirectExecution) {
+  main().catch((err) => {
+    console.error('[FATAL]', err);
+    process.exit(1);
+  });
+}

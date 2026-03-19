@@ -1,0 +1,3456 @@
+{
+  "generated_at": "2026-03-19T09:43:54.441442",
+  "generator": "r2_topology.py",
+  "standard": "NASA-Grade L4 / DO-178C Level A",
+  "f12_marker_count": {
+    "OPENING": {
+      "mu": 4.236712,
+      "sigma": 7.001321,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 4.625,
+      "sigma": 7.472127,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 4.567216,
+      "sigma": 7.385567,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 4.273707,
+      "sigma": 7.154323,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 3.216769,
+      "sigma": 5.816373,
+      "n": 1467
+    },
+    "trend": "PEAK",
+    "peak_zone": "SETUP"
+  },
+  "f12_tense_switches": {
+    "OPENING": {
+      "mu": 48.190685,
+      "sigma": 72.624159,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 56.826807,
+      "sigma": 80.526024,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 52.169415,
+      "sigma": 70.48721,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 50.256466,
+      "sigma": 73.959229,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 31.200409,
+      "sigma": 52.861908,
+      "n": 1467
+    },
+    "trend": "PEAK",
+    "peak_zone": "SETUP"
+  },
+  "f12a_temporal_marker_rate": {
+    "OPENING": {
+      "mu": 0.003271,
+      "sigma": 0.007114,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.002688,
+      "sigma": 0.005284,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.003229,
+      "sigma": 0.007675,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.003061,
+      "sigma": 0.007149,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.003472,
+      "sigma": 0.007357,
+      "n": 1467
+    },
+    "trend": "TROUGH",
+    "peak_zone": "CLOSING"
+  },
+  "f12b_tense_switch_rate": {
+    "OPENING": {
+      "mu": 0.213623,
+      "sigma": 0.173157,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.212899,
+      "sigma": 0.170977,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.215963,
+      "sigma": 0.177013,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.216084,
+      "sigma": 0.179147,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.203732,
+      "sigma": 0.176057,
+      "n": 1467
+    },
+    "trend": "STABLE",
+    "peak_zone": "TENSION"
+  },
+  "f12c_temporal_density": {
+    "OPENING": {
+      "mu": 0.108447,
+      "sigma": 0.088116,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.107794,
+      "sigma": 0.086704,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.109596,
+      "sigma": 0.089879,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.109573,
+      "sigma": 0.091047,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.103603,
+      "sigma": 0.089752,
+      "n": 1467
+    },
+    "trend": "STABLE",
+    "peak_zone": "MIDDLE"
+  },
+  "f15_bigrams_dup": {
+    "OPENING": {
+      "mu": 88.964806,
+      "sigma": 117.843381,
+      "n": 1648
+    },
+    "SETUP": {
+      "mu": 99.071155,
+      "sigma": 116.805435,
+      "n": 1827
+    },
+    "MIDDLE": {
+      "mu": 94.111961,
+      "sigma": 110.388489,
+      "n": 1831
+    },
+    "TENSION": {
+      "mu": 92.059242,
+      "sigma": 114.851741,
+      "n": 1688
+    },
+    "CLOSING": {
+      "mu": 60.996935,
+      "sigma": 87.126451,
+      "n": 1305
+    },
+    "trend": "PEAK",
+    "peak_zone": "SETUP"
+  },
+  "f15_bigrams_total": {
+    "OPENING": {
+      "mu": 2620.436893,
+      "sigma": 2772.670278,
+      "n": 1648
+    },
+    "SETUP": {
+      "mu": 2861.903667,
+      "sigma": 2836.342312,
+      "n": 1827
+    },
+    "MIDDLE": {
+      "mu": 2767.882578,
+      "sigma": 2673.313568,
+      "n": 1831
+    },
+    "TENSION": {
+      "mu": 2630.924171,
+      "sigma": 2787.782413,
+      "n": 1688
+    },
+    "CLOSING": {
+      "mu": 1750.609962,
+      "sigma": 2248.210753,
+      "n": 1305
+    },
+    "trend": "PEAK",
+    "peak_zone": "SETUP"
+  },
+  "f15a_local_repetition_rate": {
+    "OPENING": {
+      "mu": 0.031275,
+      "sigma": 0.019917,
+      "n": 1648
+    },
+    "SETUP": {
+      "mu": 0.03426,
+      "sigma": 0.027307,
+      "n": 1827
+    },
+    "MIDDLE": {
+      "mu": 0.032787,
+      "sigma": 0.023296,
+      "n": 1831
+    },
+    "TENSION": {
+      "mu": 0.033984,
+      "sigma": 0.027803,
+      "n": 1688
+    },
+    "CLOSING": {
+      "mu": 0.034341,
+      "sigma": 0.023863,
+      "n": 1305
+    },
+    "trend": "STABLE",
+    "peak_zone": "CLOSING"
+  },
+  "f15b_redundancy_compression": {
+    "OPENING": {
+      "mu": 0.968725,
+      "sigma": 0.019917,
+      "n": 1648
+    },
+    "SETUP": {
+      "mu": 0.96574,
+      "sigma": 0.027307,
+      "n": 1827
+    },
+    "MIDDLE": {
+      "mu": 0.967213,
+      "sigma": 0.023296,
+      "n": 1831
+    },
+    "TENSION": {
+      "mu": 0.966016,
+      "sigma": 0.027803,
+      "n": 1688
+    },
+    "CLOSING": {
+      "mu": 0.965659,
+      "sigma": 0.023863,
+      "n": 1305
+    },
+    "trend": "STABLE",
+    "peak_zone": "OPENING"
+  },
+  "f16_hapax_count": {
+    "OPENING": {
+      "mu": 545.488767,
+      "sigma": 523.647784,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 573.075803,
+      "sigma": 521.793887,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 574.012994,
+      "sigma": 510.833819,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 529.859914,
+      "sigma": 510.366625,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 386.952965,
+      "sigma": 426.74674,
+      "n": 1467
+    },
+    "trend": "PEAK",
+    "peak_zone": "MIDDLE"
+  },
+  "f16_unique_bigrams": {
+    "OPENING": {
+      "mu": 1901.241644,
+      "sigma": 2047.647193,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 2078.97741,
+      "sigma": 2089.804421,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 2032.623188,
+      "sigma": 1995.28674,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 1906.863147,
+      "sigma": 2041.541922,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 1292.802318,
+      "sigma": 1656.44745,
+      "n": 1467
+    },
+    "trend": "PEAK",
+    "peak_zone": "SETUP"
+  },
+  "f16_vocab_size": {
+    "OPENING": {
+      "mu": 840.004932,
+      "sigma": 804.302272,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 893.469378,
+      "sigma": 806.154122,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 887.909545,
+      "sigma": 782.621545,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 825.223599,
+      "sigma": 786.953964,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 596.461486,
+      "sigma": 654.60665,
+      "n": 1467
+    },
+    "trend": "PEAK",
+    "peak_zone": "SETUP"
+  },
+  "f16a_bigram_rarity": {
+    "OPENING": {
+      "mu": 0.928668,
+      "sigma": 0.043923,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.920766,
+      "sigma": 0.047046,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.923054,
+      "sigma": 0.044804,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.922751,
+      "sigma": 0.05073,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.934362,
+      "sigma": 0.041242,
+      "n": 1467
+    },
+    "trend": "STABLE",
+    "peak_zone": "CLOSING"
+  },
+  "f16b_hapax_rate": {
+    "OPENING": {
+      "mu": 0.650841,
+      "sigma": 0.067722,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.642595,
+      "sigma": 0.066598,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.646065,
+      "sigma": 0.065054,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.638653,
+      "sigma": 0.072483,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.643428,
+      "sigma": 0.071784,
+      "n": 1467
+    },
+    "trend": "STABLE",
+    "peak_zone": "OPENING"
+  },
+  "f16c_lexical_surprise": {
+    "OPENING": {
+      "mu": 0.817537,
+      "sigma": 0.044511,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.809499,
+      "sigma": 0.046835,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.812259,
+      "sigma": 0.044906,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.809113,
+      "sigma": 0.050163,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.81799,
+      "sigma": 0.043814,
+      "n": 1467
+    },
+    "trend": "STABLE",
+    "peak_zone": "CLOSING"
+  },
+  "f17_banal_count": {
+    "OPENING": {
+      "mu": 22.210411,
+      "sigma": 27.687867,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 25.671687,
+      "sigma": 29.820805,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 23.526237,
+      "sigma": 26.763211,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 22.397091,
+      "sigma": 27.339676,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 14.578732,
+      "sigma": 21.551133,
+      "n": 1467
+    },
+    "trend": "PEAK",
+    "peak_zone": "SETUP"
+  },
+  "f17_contrast_arc_score": {
+    "OPENING": {
+      "mu": 0.452132,
+      "sigma": 0.1462,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.468196,
+      "sigma": 0.139971,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.45774,
+      "sigma": 0.142779,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.453037,
+      "sigma": 0.150287,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.446798,
+      "sigma": 0.153855,
+      "n": 1467
+    },
+    "trend": "STABLE",
+    "peak_zone": "SETUP"
+  },
+  "f17_contrast_ratio": {
+    "OPENING": {
+      "mu": 3.091776,
+      "sigma": 1.967701,
+      "n": 1756
+    },
+    "SETUP": {
+      "mu": 3.000261,
+      "sigma": 2.250123,
+      "n": 1937
+    },
+    "MIDDLE": {
+      "mu": 3.100258,
+      "sigma": 1.952709,
+      "n": 1934
+    },
+    "TENSION": {
+      "mu": 3.058422,
+      "sigma": 2.075114,
+      "n": 1771
+    },
+    "CLOSING": {
+      "mu": 3.161435,
+      "sigma": 2.650952,
+      "n": 1401
+    },
+    "trend": "STABLE",
+    "peak_zone": "CLOSING"
+  },
+  "f17_contrast_spacing": {
+    "OPENING": {
+      "mu": 2.73376,
+      "sigma": 1.131699,
+      "n": 1665
+    },
+    "SETUP": {
+      "mu": 2.892405,
+      "sigma": 1.305807,
+      "n": 1825
+    },
+    "MIDDLE": {
+      "mu": 2.807232,
+      "sigma": 1.165908,
+      "n": 1828
+    },
+    "TENSION": {
+      "mu": 2.974104,
+      "sigma": 1.735328,
+      "n": 1674
+    },
+    "CLOSING": {
+      "mu": 2.844618,
+      "sigma": 1.511256,
+      "n": 1310
+    },
+    "trend": "STABLE",
+    "peak_zone": "TENSION"
+  },
+  "f17_knife_count": {
+    "OPENING": {
+      "mu": 67.619726,
+      "sigma": 81.498641,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 74.944277,
+      "sigma": 83.597571,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 72.448776,
+      "sigma": 78.774174,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 67.525862,
+      "sigma": 80.46526,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 46.046353,
+      "sigma": 66.67761,
+      "n": 1467
+    },
+    "trend": "PEAK",
+    "peak_zone": "SETUP"
+  },
+  "f18a_fragment_rate": {
+    "OPENING": {
+      "mu": 0.457581,
+      "sigma": 0.324238,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.460568,
+      "sigma": 0.332567,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.468371,
+      "sigma": 0.327321,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.462578,
+      "sigma": 0.337726,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.478465,
+      "sigma": 0.347585,
+      "n": 1467
+    },
+    "trend": "STABLE",
+    "peak_zone": "CLOSING"
+  },
+  "f18b_nominal_rate": {
+    "OPENING": {
+      "mu": 0.398497,
+      "sigma": 0.291509,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.398332,
+      "sigma": 0.297205,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.40247,
+      "sigma": 0.284914,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.393612,
+      "sigma": 0.294878,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.414373,
+      "sigma": 0.308329,
+      "n": 1467
+    },
+    "trend": "STABLE",
+    "peak_zone": "CLOSING"
+  },
+  "f18c_cut_rate": {
+    "OPENING": {
+      "mu": 0.957611,
+      "sigma": 0.111385,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.953817,
+      "sigma": 0.105649,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.951345,
+      "sigma": 0.120481,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.950613,
+      "sigma": 0.125168,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.95753,
+      "sigma": 0.106454,
+      "n": 1467
+    },
+    "trend": "STABLE",
+    "peak_zone": "OPENING"
+  },
+  "f18f_ellipsis_final": {
+    "OPENING": {
+      "mu": 0.522936,
+      "sigma": 0.14719,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.521368,
+      "sigma": 0.149152,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.52326,
+      "sigma": 0.146484,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.51857,
+      "sigma": 0.150835,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.528694,
+      "sigma": 0.156037,
+      "n": 1467
+    },
+    "trend": "STABLE",
+    "peak_zone": "CLOSING"
+  },
+  "f19_sentences_analyzed": {
+    "OPENING": {
+      "mu": 188.445479,
+      "sigma": 234.202146,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 217.279116,
+      "sigma": 252.611858,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 206.127936,
+      "sigma": 235.475401,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 199.257004,
+      "sigma": 246.730734,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 131.634628,
+      "sigma": 194.095542,
+      "n": 1467
+    },
+    "trend": "PEAK",
+    "peak_zone": "SETUP"
+  },
+  "f19_windows_count": {
+    "OPENING": {
+      "mu": 44.194407,
+      "sigma": 48.244044,
+      "n": 1466
+    },
+    "SETUP": {
+      "mu": 49.806061,
+      "sigma": 51.341978,
+      "n": 1650
+    },
+    "MIDDLE": {
+      "mu": 47.273608,
+      "sigma": 47.726865,
+      "n": 1652
+    },
+    "TENSION": {
+      "mu": 46.546605,
+      "sigma": 50.751069,
+      "n": 1502
+    },
+    "CLOSING": {
+      "mu": 31.371353,
+      "sigma": 41.378782,
+      "n": 1131
+    },
+    "trend": "PEAK",
+    "peak_zone": "SETUP"
+  },
+  "f19a_approx_entropy": {
+    "OPENING": {
+      "mu": 0.699253,
+      "sigma": 0.492699,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.757135,
+      "sigma": 0.501538,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.75232,
+      "sigma": 0.487832,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.70916,
+      "sigma": 0.491222,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.575717,
+      "sigma": 0.45135,
+      "n": 1467
+    },
+    "trend": "PEAK",
+    "peak_zone": "SETUP"
+  },
+  "f19b_shannon_entropy": {
+    "OPENING": {
+      "mu": 2.038062,
+      "sigma": 0.749379,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 2.027341,
+      "sigma": 0.746705,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 2.018176,
+      "sigma": 0.737219,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 2.007058,
+      "sigma": 0.770256,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 1.99988,
+      "sigma": 0.805923,
+      "n": 1467
+    },
+    "trend": "STABLE",
+    "peak_zone": "OPENING"
+  },
+  "f19d_sentence_len_std": {
+    "OPENING": {
+      "mu": 11.863838,
+      "sigma": 17.332871,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 11.090752,
+      "sigma": 10.62329,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 11.645815,
+      "sigma": 14.178298,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 11.452077,
+      "sigma": 16.677932,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 10.170174,
+      "sigma": 7.844874,
+      "n": 1467
+    },
+    "trend": "IRREGULAR",
+    "peak_zone": "OPENING"
+  },
+  "f19e_window_median": {
+    "OPENING": {
+      "mu": 0.099062,
+      "sigma": 0.077614,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.098407,
+      "sigma": 0.076491,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.101335,
+      "sigma": 0.075728,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.099229,
+      "sigma": 0.076263,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.099612,
+      "sigma": 0.081751,
+      "n": 1467
+    },
+    "trend": "STABLE",
+    "peak_zone": "MIDDLE"
+  },
+  "f19f_window_stdev": {
+    "OPENING": {
+      "mu": 0.06461,
+      "sigma": 0.046183,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.067626,
+      "sigma": 0.046297,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.070329,
+      "sigma": 0.04698,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.066748,
+      "sigma": 0.046859,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.057685,
+      "sigma": 0.046922,
+      "n": 1467
+    },
+    "trend": "PEAK",
+    "peak_zone": "MIDDLE"
+  },
+  "f19g_consistency_ratio": {
+    "OPENING": {
+      "mu": 1.195669,
+      "sigma": 0.73743,
+      "n": 1364
+    },
+    "SETUP": {
+      "mu": 1.197337,
+      "sigma": 1.189638,
+      "n": 1532
+    },
+    "MIDDLE": {
+      "mu": 1.209803,
+      "sigma": 1.236284,
+      "n": 1552
+    },
+    "TENSION": {
+      "mu": 1.215288,
+      "sigma": 0.817093,
+      "n": 1401
+    },
+    "CLOSING": {
+      "mu": 1.321979,
+      "sigma": 1.016962,
+      "n": 1024
+    },
+    "trend": "ASCENDING",
+    "peak_zone": "CLOSING"
+  },
+  "f1_max": {
+    "OPENING": {
+      "mu": 64.970757,
+      "sigma": 73.381623,
+      "n": 1744
+    },
+    "SETUP": {
+      "mu": 64.718295,
+      "sigma": 63.164468,
+      "n": 1924
+    },
+    "MIDDLE": {
+      "mu": 67.993275,
+      "sigma": 82.923263,
+      "n": 1933
+    },
+    "TENSION": {
+      "mu": 65.99382,
+      "sigma": 97.042595,
+      "n": 1780
+    },
+    "CLOSING": {
+      "mu": 54.663324,
+      "sigma": 43.593921,
+      "n": 1396
+    },
+    "trend": "PEAK",
+    "peak_zone": "MIDDLE"
+  },
+  "f1_mean": {
+    "OPENING": {
+      "mu": 15.486428,
+      "sigma": 11.703213,
+      "n": 1744
+    },
+    "SETUP": {
+      "mu": 14.763617,
+      "sigma": 7.538202,
+      "n": 1924
+    },
+    "MIDDLE": {
+      "mu": 14.879752,
+      "sigma": 8.33615,
+      "n": 1933
+    },
+    "TENSION": {
+      "mu": 14.870517,
+      "sigma": 8.850097,
+      "n": 1780
+    },
+    "CLOSING": {
+      "mu": 14.194054,
+      "sigma": 6.458635,
+      "n": 1396
+    },
+    "trend": "STABLE",
+    "peak_zone": "OPENING"
+  },
+  "f1_min": {
+    "OPENING": {
+      "mu": 3.364106,
+      "sigma": 1.237628,
+      "n": 1744
+    },
+    "SETUP": {
+      "mu": 3.320166,
+      "sigma": 1.156226,
+      "n": 1924
+    },
+    "MIDDLE": {
+      "mu": 3.291257,
+      "sigma": 1.147737,
+      "n": 1933
+    },
+    "TENSION": {
+      "mu": 3.385393,
+      "sigma": 1.459904,
+      "n": 1780
+    },
+    "CLOSING": {
+      "mu": 3.407593,
+      "sigma": 1.122938,
+      "n": 1396
+    },
+    "trend": "STABLE",
+    "peak_zone": "CLOSING"
+  },
+  "f1_sentence_count": {
+    "OPENING": {
+      "mu": 197.113532,
+      "sigma": 236.020772,
+      "n": 1744
+    },
+    "SETUP": {
+      "mu": 224.89501,
+      "sigma": 253.710973,
+      "n": 1924
+    },
+    "MIDDLE": {
+      "mu": 213.318676,
+      "sigma": 236.385136,
+      "n": 1933
+    },
+    "TENSION": {
+      "mu": 207.690449,
+      "sigma": 248.473008,
+      "n": 1780
+    },
+    "CLOSING": {
+      "mu": 138.232808,
+      "sigma": 196.698505,
+      "n": 1396
+    },
+    "trend": "PEAK",
+    "peak_zone": "SETUP"
+  },
+  "f1a_rhythm_variance": {
+    "OPENING": {
+      "mu": 11.925175,
+      "sigma": 16.258437,
+      "n": 1744
+    },
+    "SETUP": {
+      "mu": 11.28133,
+      "sigma": 10.625027,
+      "n": 1924
+    },
+    "MIDDLE": {
+      "mu": 11.872879,
+      "sigma": 14.300857,
+      "n": 1933
+    },
+    "TENSION": {
+      "mu": 11.67812,
+      "sigma": 16.819953,
+      "n": 1780
+    },
+    "CLOSING": {
+      "mu": 10.3486,
+      "sigma": 7.719407,
+      "n": 1396
+    },
+    "trend": "IRREGULAR",
+    "peak_zone": "OPENING"
+  },
+  "f1b_rhythm_ratio": {
+    "OPENING": {
+      "mu": 0.717947,
+      "sigma": 0.180073,
+      "n": 1744
+    },
+    "SETUP": {
+      "mu": 0.722005,
+      "sigma": 0.199696,
+      "n": 1924
+    },
+    "MIDDLE": {
+      "mu": 0.736184,
+      "sigma": 0.240372,
+      "n": 1933
+    },
+    "TENSION": {
+      "mu": 0.722939,
+      "sigma": 0.208433,
+      "n": 1780
+    },
+    "CLOSING": {
+      "mu": 0.698739,
+      "sigma": 0.176291,
+      "n": 1396
+    },
+    "trend": "STABLE",
+    "peak_zone": "MIDDLE"
+  },
+  "f1c_rhythm_q4_variance": {
+    "OPENING": {
+      "mu": 10.608684,
+      "sigma": 8.872435,
+      "n": 1648
+    },
+    "SETUP": {
+      "mu": 10.328396,
+      "sigma": 9.283579,
+      "n": 1827
+    },
+    "MIDDLE": {
+      "mu": 11.14776,
+      "sigma": 16.848198,
+      "n": 1831
+    },
+    "TENSION": {
+      "mu": 11.066923,
+      "sigma": 26.263064,
+      "n": 1688
+    },
+    "CLOSING": {
+      "mu": 9.419837,
+      "sigma": 6.699331,
+      "n": 1305
+    },
+    "trend": "PEAK",
+    "peak_zone": "MIDDLE"
+  },
+  "f20a_phonetic_fg": {
+    "OPENING": {
+      "mu": 0.306183,
+      "sigma": 0.062635,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.308163,
+      "sigma": 0.061837,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.307807,
+      "sigma": 0.061468,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.306186,
+      "sigma": 0.063043,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.300341,
+      "sigma": 0.069524,
+      "n": 1467
+    },
+    "trend": "STABLE",
+    "peak_zone": "SETUP"
+  },
+  "f20b_syntactic_fg": {
+    "OPENING": {
+      "mu": 0.162843,
+      "sigma": 0.108693,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.157109,
+      "sigma": 0.096166,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.162756,
+      "sigma": 0.111429,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.159622,
+      "sigma": 0.11708,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.162178,
+      "sigma": 0.110336,
+      "n": 1467
+    },
+    "trend": "STABLE",
+    "peak_zone": "OPENING"
+  },
+  "f20c_semantic_fg": {
+    "OPENING": {
+      "mu": 0.162843,
+      "sigma": 0.108693,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.157109,
+      "sigma": 0.096166,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.162756,
+      "sigma": 0.111429,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.159622,
+      "sigma": 0.11708,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.162178,
+      "sigma": 0.110336,
+      "n": 1467
+    },
+    "trend": "STABLE",
+    "peak_zone": "OPENING"
+  },
+  "f20d_composite_fg": {
+    "OPENING": {
+      "mu": 0.198678,
+      "sigma": 0.077303,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.194872,
+      "sigma": 0.067277,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.199018,
+      "sigma": 0.079173,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.196263,
+      "sigma": 0.084008,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.196719,
+      "sigma": 0.077323,
+      "n": 1467
+    },
+    "trend": "STABLE",
+    "peak_zone": "MIDDLE"
+  },
+  "f21a_anaphora_rate": {
+    "OPENING": {
+      "mu": 0.005841,
+      "sigma": 0.011487,
+      "n": 1695
+    },
+    "SETUP": {
+      "mu": 0.008893,
+      "sigma": 0.020587,
+      "n": 1864
+    },
+    "MIDDLE": {
+      "mu": 0.007558,
+      "sigma": 0.016613,
+      "n": 1875
+    },
+    "TENSION": {
+      "mu": 0.008023,
+      "sigma": 0.015234,
+      "n": 1719
+    },
+    "CLOSING": {
+      "mu": 0.009294,
+      "sigma": 0.026281,
+      "n": 1341
+    },
+    "trend": "IRREGULAR",
+    "peak_zone": "CLOSING"
+  },
+  "f21b_epistrophe_rate": {
+    "OPENING": {
+      "mu": 0.00556,
+      "sigma": 0.014132,
+      "n": 1695
+    },
+    "SETUP": {
+      "mu": 0.00735,
+      "sigma": 0.022693,
+      "n": 1864
+    },
+    "MIDDLE": {
+      "mu": 0.005384,
+      "sigma": 0.011501,
+      "n": 1875
+    },
+    "TENSION": {
+      "mu": 0.005464,
+      "sigma": 0.014226,
+      "n": 1719
+    },
+    "CLOSING": {
+      "mu": 0.005918,
+      "sigma": 0.015672,
+      "n": 1341
+    },
+    "trend": "PEAK",
+    "peak_zone": "SETUP"
+  },
+  "f21c_diacope_rate": {
+    "OPENING": {
+      "mu": 0.702116,
+      "sigma": 0.66551,
+      "n": 1695
+    },
+    "SETUP": {
+      "mu": 0.682598,
+      "sigma": 0.523329,
+      "n": 1864
+    },
+    "MIDDLE": {
+      "mu": 0.682543,
+      "sigma": 0.51443,
+      "n": 1875
+    },
+    "TENSION": {
+      "mu": 0.708443,
+      "sigma": 0.567447,
+      "n": 1719
+    },
+    "CLOSING": {
+      "mu": 0.624128,
+      "sigma": 0.422947,
+      "n": 1341
+    },
+    "trend": "PEAK",
+    "peak_zone": "TENSION"
+  },
+  "f21d_rhythm_echo": {
+    "OPENING": {
+      "mu": 0.224178,
+      "sigma": 0.124735,
+      "n": 1695
+    },
+    "SETUP": {
+      "mu": 0.217444,
+      "sigma": 0.11555,
+      "n": 1864
+    },
+    "MIDDLE": {
+      "mu": 0.225212,
+      "sigma": 0.130299,
+      "n": 1875
+    },
+    "TENSION": {
+      "mu": 0.223849,
+      "sigma": 0.127074,
+      "n": 1719
+    },
+    "CLOSING": {
+      "mu": 0.221351,
+      "sigma": 0.130862,
+      "n": 1341
+    },
+    "trend": "STABLE",
+    "peak_zone": "MIDDLE"
+  },
+  "f21e_ritual_index": {
+    "OPENING": {
+      "mu": 0.263001,
+      "sigma": 0.131674,
+      "n": 1695
+    },
+    "SETUP": {
+      "mu": 0.260269,
+      "sigma": 0.131121,
+      "n": 1864
+    },
+    "MIDDLE": {
+      "mu": 0.261365,
+      "sigma": 0.129432,
+      "n": 1875
+    },
+    "TENSION": {
+      "mu": 0.267514,
+      "sigma": 0.140626,
+      "n": 1719
+    },
+    "CLOSING": {
+      "mu": 0.245899,
+      "sigma": 0.125119,
+      "n": 1341
+    },
+    "trend": "STABLE",
+    "peak_zone": "TENSION"
+  },
+  "f22a_subordination_depth": {
+    "OPENING": {
+      "mu": 0.213661,
+      "sigma": 0.315526,
+      "n": 1744
+    },
+    "SETUP": {
+      "mu": 0.209003,
+      "sigma": 0.294806,
+      "n": 1924
+    },
+    "MIDDLE": {
+      "mu": 0.211089,
+      "sigma": 0.300199,
+      "n": 1933
+    },
+    "TENSION": {
+      "mu": 0.207921,
+      "sigma": 0.305052,
+      "n": 1780
+    },
+    "CLOSING": {
+      "mu": 0.211481,
+      "sigma": 0.32561,
+      "n": 1396
+    },
+    "trend": "STABLE",
+    "peak_zone": "OPENING"
+  },
+  "f22b_suspension_rate": {
+    "OPENING": {
+      "mu": 0.076039,
+      "sigma": 0.139035,
+      "n": 1744
+    },
+    "SETUP": {
+      "mu": 0.066964,
+      "sigma": 0.111142,
+      "n": 1924
+    },
+    "MIDDLE": {
+      "mu": 0.074666,
+      "sigma": 0.12351,
+      "n": 1933
+    },
+    "TENSION": {
+      "mu": 0.065811,
+      "sigma": 0.104762,
+      "n": 1780
+    },
+    "CLOSING": {
+      "mu": 0.074318,
+      "sigma": 0.119803,
+      "n": 1396
+    },
+    "trend": "TROUGH",
+    "peak_zone": "OPENING"
+  },
+  "f22c_modal_density": {
+    "OPENING": {
+      "mu": 0.005565,
+      "sigma": 0.012811,
+      "n": 1744
+    },
+    "SETUP": {
+      "mu": 0.00545,
+      "sigma": 0.011471,
+      "n": 1924
+    },
+    "MIDDLE": {
+      "mu": 0.00553,
+      "sigma": 0.012659,
+      "n": 1933
+    },
+    "TENSION": {
+      "mu": 0.005945,
+      "sigma": 0.013025,
+      "n": 1780
+    },
+    "CLOSING": {
+      "mu": 0.00586,
+      "sigma": 0.017694,
+      "n": 1396
+    },
+    "trend": "STABLE",
+    "peak_zone": "TENSION"
+  },
+  "f22d_rhetorical_q_rate": {
+    "OPENING": {
+      "mu": 0.027866,
+      "sigma": 0.043386,
+      "n": 1744
+    },
+    "SETUP": {
+      "mu": 0.034431,
+      "sigma": 0.048433,
+      "n": 1924
+    },
+    "MIDDLE": {
+      "mu": 0.032624,
+      "sigma": 0.044897,
+      "n": 1933
+    },
+    "TENSION": {
+      "mu": 0.036003,
+      "sigma": 0.048221,
+      "n": 1780
+    },
+    "CLOSING": {
+      "mu": 0.032454,
+      "sigma": 0.05061,
+      "n": 1396
+    },
+    "trend": "PEAK",
+    "peak_zone": "TENSION"
+  },
+  "f22e_internal_foc_rate": {
+    "OPENING": {
+      "mu": 0.069739,
+      "sigma": 0.13368,
+      "n": 1744
+    },
+    "SETUP": {
+      "mu": 0.072255,
+      "sigma": 0.116276,
+      "n": 1924
+    },
+    "MIDDLE": {
+      "mu": 0.076999,
+      "sigma": 0.120014,
+      "n": 1933
+    },
+    "TENSION": {
+      "mu": 0.076024,
+      "sigma": 0.13882,
+      "n": 1780
+    },
+    "CLOSING": {
+      "mu": 0.068987,
+      "sigma": 0.113718,
+      "n": 1396
+    },
+    "trend": "PEAK",
+    "peak_zone": "MIDDLE"
+  },
+  "f22f_literary_index": {
+    "OPENING": {
+      "mu": 0.096838,
+      "sigma": 0.132862,
+      "n": 1744
+    },
+    "SETUP": {
+      "mu": 0.095342,
+      "sigma": 0.121035,
+      "n": 1924
+    },
+    "MIDDLE": {
+      "mu": 0.098145,
+      "sigma": 0.124168,
+      "n": 1933
+    },
+    "TENSION": {
+      "mu": 0.096044,
+      "sigma": 0.127959,
+      "n": 1780
+    },
+    "CLOSING": {
+      "mu": 0.096256,
+      "sigma": 0.125683,
+      "n": 1396
+    },
+    "trend": "STABLE",
+    "peak_zone": "MIDDLE"
+  },
+  "f23a_explicit_causal_rate": {
+    "OPENING": {
+      "mu": 0.057898,
+      "sigma": 0.099932,
+      "n": 1744
+    },
+    "SETUP": {
+      "mu": 0.049686,
+      "sigma": 0.070251,
+      "n": 1924
+    },
+    "MIDDLE": {
+      "mu": 0.047426,
+      "sigma": 0.084497,
+      "n": 1933
+    },
+    "TENSION": {
+      "mu": 0.049494,
+      "sigma": 0.075526,
+      "n": 1780
+    },
+    "CLOSING": {
+      "mu": 0.0416,
+      "sigma": 0.059747,
+      "n": 1396
+    },
+    "trend": "IRREGULAR",
+    "peak_zone": "OPENING"
+  },
+  "f23b_implicit_causal_rate": {
+    "OPENING": {
+      "mu": 0.046929,
+      "sigma": 0.079918,
+      "n": 1744
+    },
+    "SETUP": {
+      "mu": 0.046287,
+      "sigma": 0.080271,
+      "n": 1924
+    },
+    "MIDDLE": {
+      "mu": 0.043602,
+      "sigma": 0.073843,
+      "n": 1933
+    },
+    "TENSION": {
+      "mu": 0.045344,
+      "sigma": 0.075679,
+      "n": 1780
+    },
+    "CLOSING": {
+      "mu": 0.056854,
+      "sigma": 0.083442,
+      "n": 1396
+    },
+    "trend": "TROUGH",
+    "peak_zone": "CLOSING"
+  },
+  "f23c_causal_ratio": {
+    "OPENING": {
+      "mu": 0.578802,
+      "sigma": 0.338199,
+      "n": 1744
+    },
+    "SETUP": {
+      "mu": 0.577876,
+      "sigma": 0.349511,
+      "n": 1924
+    },
+    "MIDDLE": {
+      "mu": 0.573216,
+      "sigma": 0.346003,
+      "n": 1933
+    },
+    "TENSION": {
+      "mu": 0.55869,
+      "sigma": 0.349763,
+      "n": 1780
+    },
+    "CLOSING": {
+      "mu": 0.454938,
+      "sigma": 0.354293,
+      "n": 1396
+    },
+    "trend": "DESCENDING",
+    "peak_zone": "OPENING"
+  },
+  "f23d_literary_causal_score": {
+    "OPENING": {
+      "mu": 0.745262,
+      "sigma": 0.275995,
+      "n": 1744
+    },
+    "SETUP": {
+      "mu": 0.771748,
+      "sigma": 0.24651,
+      "n": 1924
+    },
+    "MIDDLE": {
+      "mu": 0.7899,
+      "sigma": 0.232461,
+      "n": 1933
+    },
+    "TENSION": {
+      "mu": 0.775572,
+      "sigma": 0.25203,
+      "n": 1780
+    },
+    "CLOSING": {
+      "mu": 0.803062,
+      "sigma": 0.245628,
+      "n": 1396
+    },
+    "trend": "STABLE",
+    "peak_zone": "CLOSING"
+  },
+  "f24a_banal_rate": {
+    "OPENING": {
+      "mu": 0.284659,
+      "sigma": 0.030332,
+      "n": 1502
+    },
+    "SETUP": {
+      "mu": 0.286957,
+      "sigma": 0.035828,
+      "n": 1688
+    },
+    "MIDDLE": {
+      "mu": 0.286321,
+      "sigma": 0.031454,
+      "n": 1688
+    },
+    "TENSION": {
+      "mu": 0.287657,
+      "sigma": 0.032581,
+      "n": 1539
+    },
+    "CLOSING": {
+      "mu": 0.293426,
+      "sigma": 0.039885,
+      "n": 1159
+    },
+    "trend": "STABLE",
+    "peak_zone": "CLOSING"
+  },
+  "f24b_apex_rate": {
+    "OPENING": {
+      "mu": 0.268746,
+      "sigma": 0.021836,
+      "n": 1502
+    },
+    "SETUP": {
+      "mu": 0.267454,
+      "sigma": 0.019032,
+      "n": 1688
+    },
+    "MIDDLE": {
+      "mu": 0.267809,
+      "sigma": 0.019949,
+      "n": 1688
+    },
+    "TENSION": {
+      "mu": 0.269395,
+      "sigma": 0.023234,
+      "n": 1539
+    },
+    "CLOSING": {
+      "mu": 0.270202,
+      "sigma": 0.026021,
+      "n": 1159
+    },
+    "trend": "STABLE",
+    "peak_zone": "CLOSING"
+  },
+  "f24c_contrast_delta": {
+    "OPENING": {
+      "mu": 36.271617,
+      "sigma": 40.54853,
+      "n": 1502
+    },
+    "SETUP": {
+      "mu": 34.137326,
+      "sigma": 27.388252,
+      "n": 1688
+    },
+    "MIDDLE": {
+      "mu": 35.906061,
+      "sigma": 42.766857,
+      "n": 1688
+    },
+    "TENSION": {
+      "mu": 35.015686,
+      "sigma": 37.750961,
+      "n": 1539
+    },
+    "CLOSING": {
+      "mu": 31.891033,
+      "sigma": 25.936265,
+      "n": 1159
+    },
+    "trend": "IRREGULAR",
+    "peak_zone": "OPENING"
+  },
+  "f24d_apex_isolation": {
+    "OPENING": {
+      "mu": 3.498083,
+      "sigma": 0.579333,
+      "n": 1502
+    },
+    "SETUP": {
+      "mu": 3.554858,
+      "sigma": 0.536717,
+      "n": 1688
+    },
+    "MIDDLE": {
+      "mu": 3.556807,
+      "sigma": 0.534886,
+      "n": 1688
+    },
+    "TENSION": {
+      "mu": 3.506433,
+      "sigma": 0.544176,
+      "n": 1539
+    },
+    "CLOSING": {
+      "mu": 3.464081,
+      "sigma": 0.624565,
+      "n": 1159
+    },
+    "trend": "STABLE",
+    "peak_zone": "MIDDLE"
+  },
+  "f24e_contrast_score": {
+    "OPENING": {
+      "mu": 0.924519,
+      "sigma": 0.03732,
+      "n": 1502
+    },
+    "SETUP": {
+      "mu": 0.924489,
+      "sigma": 0.040592,
+      "n": 1688
+    },
+    "MIDDLE": {
+      "mu": 0.92351,
+      "sigma": 0.041685,
+      "n": 1688
+    },
+    "TENSION": {
+      "mu": 0.919905,
+      "sigma": 0.046645,
+      "n": 1539
+    },
+    "CLOSING": {
+      "mu": 0.912315,
+      "sigma": 0.060891,
+      "n": 1159
+    },
+    "trend": "STABLE",
+    "peak_zone": "OPENING"
+  },
+  "f25a_description_density": {
+    "OPENING": {
+      "mu": 4.812607,
+      "sigma": 2.897924,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 4.697414,
+      "sigma": 2.836527,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 4.599077,
+      "sigma": 2.706473,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 4.567362,
+      "sigma": 2.90194,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 4.694723,
+      "sigma": 3.059854,
+      "n": 1467
+    },
+    "trend": "STABLE",
+    "peak_zone": "OPENING"
+  },
+  "f25b_sensory_coverage": {
+    "OPENING": {
+      "mu": 3.378082,
+      "sigma": 1.659159,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 3.483936,
+      "sigma": 1.655923,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 3.454773,
+      "sigma": 1.682284,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 3.278017,
+      "sigma": 1.694854,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 2.897751,
+      "sigma": 1.652371,
+      "n": 1467
+    },
+    "trend": "PEAK",
+    "peak_zone": "SETUP"
+  },
+  "f25c_time_suspension": {
+    "OPENING": {
+      "mu": 0.166792,
+      "sigma": 0.261983,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.166438,
+      "sigma": 0.220602,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.182719,
+      "sigma": 0.443814,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.176362,
+      "sigma": 0.289859,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.147366,
+      "sigma": 0.218639,
+      "n": 1467
+    },
+    "trend": "PEAK",
+    "peak_zone": "MIDDLE"
+  },
+  "f25d_spatial_depth": {
+    "OPENING": {
+      "mu": 0.356384,
+      "sigma": 0.284281,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.381827,
+      "sigma": 0.294365,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.390555,
+      "sigma": 0.312579,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.336907,
+      "sigma": 0.28391,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.261145,
+      "sigma": 0.234979,
+      "n": 1467
+    },
+    "trend": "PEAK",
+    "peak_zone": "MIDDLE"
+  },
+  "f25e_nominalization": {
+    "OPENING": {
+      "mu": 0.002465,
+      "sigma": 0.00384,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.002454,
+      "sigma": 0.00388,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.002417,
+      "sigma": 0.003771,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.00228,
+      "sigma": 0.003433,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.00266,
+      "sigma": 0.004677,
+      "n": 1467
+    },
+    "trend": "TROUGH",
+    "peak_zone": "CLOSING"
+  },
+  "f25f_object_density": {
+    "OPENING": {
+      "mu": 0.001135,
+      "sigma": 0.002664,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.001146,
+      "sigma": 0.002822,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.001042,
+      "sigma": 0.002629,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.001168,
+      "sigma": 0.002852,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.000988,
+      "sigma": 0.002593,
+      "n": 1467
+    },
+    "trend": "PEAK",
+    "peak_zone": "TENSION"
+  },
+  "f25g_description_score": {
+    "OPENING": {
+      "mu": 0.539326,
+      "sigma": 0.206192,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.549926,
+      "sigma": 0.201438,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.54997,
+      "sigma": 0.210885,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.523664,
+      "sigma": 0.208907,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.483103,
+      "sigma": 0.208881,
+      "n": 1467
+    },
+    "trend": "PEAK",
+    "peak_zone": "MIDDLE"
+  },
+  "f26a_mean_sub_markers": {
+    "OPENING": {
+      "mu": 0.931799,
+      "sigma": 1.537487,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.810911,
+      "sigma": 0.875235,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.960371,
+      "sigma": 2.16824,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.90298,
+      "sigma": 1.292767,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.777955,
+      "sigma": 0.806152,
+      "n": 1467
+    },
+    "trend": "PEAK",
+    "peak_zone": "MIDDLE"
+  },
+  "f26b_long_sent_rate": {
+    "OPENING": {
+      "mu": 0.111835,
+      "sigma": 0.1432,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.095109,
+      "sigma": 0.119762,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.101992,
+      "sigma": 0.138047,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.099791,
+      "sigma": 0.144756,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.088348,
+      "sigma": 0.120971,
+      "n": 1467
+    },
+    "trend": "IRREGULAR",
+    "peak_zone": "OPENING"
+  },
+  "f26c_period_score": {
+    "OPENING": {
+      "mu": 0.131457,
+      "sigma": 0.127384,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.11751,
+      "sigma": 0.108105,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.125392,
+      "sigma": 0.129453,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.125057,
+      "sigma": 0.139996,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.112476,
+      "sigma": 0.112767,
+      "n": 1467
+    },
+    "trend": "IRREGULAR",
+    "peak_zone": "OPENING"
+  },
+  "f27a_epistemic_rate": {
+    "OPENING": {
+      "mu": 12.991096,
+      "sigma": 55.505828,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 11.369072,
+      "sigma": 22.418989,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 14.173938,
+      "sigma": 55.044297,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 13.377155,
+      "sigma": 40.95154,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 10.225284,
+      "sigma": 18.961602,
+      "n": 1467
+    },
+    "trend": "PEAK",
+    "peak_zone": "MIDDLE"
+  },
+  "f27b_conditional_rate": {
+    "OPENING": {
+      "mu": 0.206982,
+      "sigma": 0.31349,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.21611,
+      "sigma": 0.287903,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.188749,
+      "sigma": 0.260508,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.198289,
+      "sigma": 0.294606,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.194133,
+      "sigma": 0.32332,
+      "n": 1467
+    },
+    "trend": "PEAK",
+    "peak_zone": "SETUP"
+  },
+  "f27c_negation_rate": {
+    "OPENING": {
+      "mu": 3.541597,
+      "sigma": 9.286777,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 2.600226,
+      "sigma": 4.928526,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 3.331054,
+      "sigma": 11.642028,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 3.347916,
+      "sigma": 11.138222,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 3.077843,
+      "sigma": 9.30765,
+      "n": 1467
+    },
+    "trend": "TROUGH",
+    "peak_zone": "OPENING"
+  },
+  "f27d_modal_score": {
+    "OPENING": {
+      "mu": 0.277399,
+      "sigma": 0.192831,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.281423,
+      "sigma": 0.180557,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.284863,
+      "sigma": 0.185496,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.282877,
+      "sigma": 0.190651,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.258359,
+      "sigma": 0.190829,
+      "n": 1467
+    },
+    "trend": "STABLE",
+    "peak_zone": "MIDDLE"
+  },
+  "f28a_sil_rate": {
+    "OPENING": {
+      "mu": 1.399011,
+      "sigma": 4.432121,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 1.493751,
+      "sigma": 5.09163,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 1.279642,
+      "sigma": 3.385774,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 1.456997,
+      "sigma": 4.05553,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 1.593872,
+      "sigma": 5.779722,
+      "n": 1467
+    },
+    "trend": "TROUGH",
+    "peak_zone": "CLOSING"
+  },
+  "f28b_irony_density": {
+    "OPENING": {
+      "mu": 0.109078,
+      "sigma": 0.91577,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.092717,
+      "sigma": 0.757304,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.352302,
+      "sigma": 5.99622,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.154019,
+      "sigma": 1.08622,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.0788,
+      "sigma": 1.366037,
+      "n": 1467
+    },
+    "trend": "PEAK",
+    "peak_zone": "MIDDLE"
+  },
+  "f28c_interior_rate": {
+    "OPENING": {
+      "mu": 0.005293,
+      "sigma": 0.022136,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.005401,
+      "sigma": 0.019859,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.005122,
+      "sigma": 0.018599,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.0068,
+      "sigma": 0.023484,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.003497,
+      "sigma": 0.015166,
+      "n": 1467
+    },
+    "trend": "PEAK",
+    "peak_zone": "TENSION"
+  },
+  "f28d_sil_score": {
+    "OPENING": {
+      "mu": 0.038011,
+      "sigma": 0.065957,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.037871,
+      "sigma": 0.06746,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.035578,
+      "sigma": 0.063655,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.042904,
+      "sigma": 0.071075,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.034242,
+      "sigma": 0.06498,
+      "n": 1467
+    },
+    "trend": "PEAK",
+    "peak_zone": "TENSION"
+  },
+  "f29a_ttr_global": {
+    "OPENING": {
+      "mu": 0.401954,
+      "sigma": 0.202439,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.381925,
+      "sigma": 0.197278,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.373908,
+      "sigma": 0.206443,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.393256,
+      "sigma": 0.197863,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.429879,
+      "sigma": 0.208217,
+      "n": 1467
+    },
+    "trend": "TROUGH",
+    "peak_zone": "CLOSING"
+  },
+  "f29b_ttr_window": {
+    "OPENING": {
+      "mu": 0.674875,
+      "sigma": 0.226956,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.67845,
+      "sigma": 0.218141,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.679449,
+      "sigma": 0.217655,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.672274,
+      "sigma": 0.224802,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.653093,
+      "sigma": 0.248248,
+      "n": 1467
+    },
+    "trend": "STABLE",
+    "peak_zone": "MIDDLE"
+  },
+  "f29c_ttr_stdev": {
+    "OPENING": {
+      "mu": 0.034,
+      "sigma": 0.019701,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.035969,
+      "sigma": 0.020539,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.036086,
+      "sigma": 0.020219,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.03501,
+      "sigma": 0.020393,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.032039,
+      "sigma": 0.02143,
+      "n": 1467
+    },
+    "trend": "PEAK",
+    "peak_zone": "MIDDLE"
+  },
+  "f29d_ttr_score": {
+    "OPENING": {
+      "mu": 0.640654,
+      "sigma": 0.215637,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.646763,
+      "sigma": 0.207566,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.647906,
+      "sigma": 0.207366,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.639929,
+      "sigma": 0.213674,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.618686,
+      "sigma": 0.235478,
+      "n": 1467
+    },
+    "trend": "STABLE",
+    "peak_zone": "MIDDLE"
+  },
+  "f2_apex_compression_ratio": {
+    "OPENING": {
+      "mu": 1.212993,
+      "sigma": 1.438307,
+      "n": 1744
+    },
+    "SETUP": {
+      "mu": 1.281991,
+      "sigma": 1.644402,
+      "n": 1924
+    },
+    "MIDDLE": {
+      "mu": 1.316105,
+      "sigma": 2.311848,
+      "n": 1933
+    },
+    "TENSION": {
+      "mu": 1.470174,
+      "sigma": 3.457145,
+      "n": 1780
+    },
+    "CLOSING": {
+      "mu": 1.307643,
+      "sigma": 2.035518,
+      "n": 1396
+    },
+    "trend": "PEAK",
+    "peak_zone": "TENSION"
+  },
+  "f2_apex_context_mean": {
+    "OPENING": {
+      "mu": 15.193234,
+      "sigma": 24.062721,
+      "n": 1744
+    },
+    "SETUP": {
+      "mu": 14.596933,
+      "sigma": 13.411963,
+      "n": 1924
+    },
+    "MIDDLE": {
+      "mu": 15.302121,
+      "sigma": 18.24887,
+      "n": 1933
+    },
+    "TENSION": {
+      "mu": 14.831461,
+      "sigma": 12.790271,
+      "n": 1780
+    },
+    "CLOSING": {
+      "mu": 14.164398,
+      "sigma": 13.0055,
+      "n": 1396
+    },
+    "trend": "STABLE",
+    "peak_zone": "MIDDLE"
+  },
+  "f2_apex_index": {
+    "OPENING": {
+      "mu": 68.450688,
+      "sigma": 118.516988,
+      "n": 1744
+    },
+    "SETUP": {
+      "mu": 75.741684,
+      "sigma": 127.45505,
+      "n": 1924
+    },
+    "MIDDLE": {
+      "mu": 70.162959,
+      "sigma": 115.620461,
+      "n": 1933
+    },
+    "TENSION": {
+      "mu": 65.219663,
+      "sigma": 115.91582,
+      "n": 1780
+    },
+    "CLOSING": {
+      "mu": 43.512894,
+      "sigma": 90.402639,
+      "n": 1396
+    },
+    "trend": "PEAK",
+    "peak_zone": "SETUP"
+  },
+  "f2_apex_length": {
+    "OPENING": {
+      "mu": 17.243119,
+      "sigma": 45.053757,
+      "n": 1744
+    },
+    "SETUP": {
+      "mu": 17.075364,
+      "sigma": 29.049047,
+      "n": 1924
+    },
+    "MIDDLE": {
+      "mu": 20.667874,
+      "sigma": 65.179616,
+      "n": 1933
+    },
+    "TENSION": {
+      "mu": 18.679775,
+      "sigma": 32.965987,
+      "n": 1780
+    },
+    "CLOSING": {
+      "mu": 16.303725,
+      "sigma": 34.185612,
+      "n": 1396
+    },
+    "trend": "PEAK",
+    "peak_zone": "MIDDLE"
+  },
+  "f30a_passe_simple_rate": {
+    "OPENING": {
+      "mu": 0.187592,
+      "sigma": 0.128077,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.188373,
+      "sigma": 0.127737,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.187337,
+      "sigma": 0.119636,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.188177,
+      "sigma": 0.113561,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.183806,
+      "sigma": 0.118023,
+      "n": 1467
+    },
+    "trend": "STABLE",
+    "peak_zone": "SETUP"
+  },
+  "f30b_imparfait_rate": {
+    "OPENING": {
+      "mu": 0.050235,
+      "sigma": 0.07241,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.051138,
+      "sigma": 0.071449,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.053604,
+      "sigma": 0.074141,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.056536,
+      "sigma": 0.078022,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.050465,
+      "sigma": 0.073454,
+      "n": 1467
+    },
+    "trend": "PEAK",
+    "peak_zone": "TENSION"
+  },
+  "f30c_present_rate": {
+    "OPENING": {
+      "mu": 0.761625,
+      "sigma": 0.170406,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.760488,
+      "sigma": 0.168218,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.75806,
+      "sigma": 0.165631,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.754749,
+      "sigma": 0.167384,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.765728,
+      "sigma": 0.165544,
+      "n": 1467
+    },
+    "trend": "STABLE",
+    "peak_zone": "CLOSING"
+  },
+  "f30d_ps_imp_ratio": {
+    "OPENING": {
+      "mu": 2.326501,
+      "sigma": 1.576395,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 2.381465,
+      "sigma": 1.612551,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 2.385637,
+      "sigma": 1.633458,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 2.298537,
+      "sigma": 1.564348,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 2.100501,
+      "sigma": 1.405769,
+      "n": 1467
+    },
+    "trend": "PEAK",
+    "peak_zone": "MIDDLE"
+  },
+  "f33a_dots_count": {
+    "OPENING": {
+      "mu": 273.740822,
+      "sigma": 459.94737,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 346.928213,
+      "sigma": 531.372926,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 848.433783,
+      "sigma": 2532.955975,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 281.877694,
+      "sigma": 461.918957,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 134.920927,
+      "sigma": 240.627299,
+      "n": 1467
+    },
+    "trend": "PEAK",
+    "peak_zone": "MIDDLE"
+  },
+  "f33b_commas_count": {
+    "OPENING": {
+      "mu": 343.550137,
+      "sigma": 522.938932,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 407.830321,
+      "sigma": 571.539769,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 1047.676662,
+      "sigma": 3065.799993,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 333.469289,
+      "sigma": 515.096908,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 162.797546,
+      "sigma": 281.842044,
+      "n": 1467
+    },
+    "trend": "PEAK",
+    "peak_zone": "MIDDLE"
+  },
+  "f33c_dot_comma_ratio": {
+    "OPENING": {
+      "mu": 0.969926,
+      "sigma": 1.014593,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 1.075212,
+      "sigma": 1.30389,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 1.109749,
+      "sigma": 1.993111,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 1.06046,
+      "sigma": 1.223887,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 1.199158,
+      "sigma": 2.346699,
+      "n": 1467
+    },
+    "trend": "IRREGULAR",
+    "peak_zone": "CLOSING"
+  },
+  "f34a_paragraph_count": {
+    "OPENING": {
+      "mu": 1,
+      "sigma": 0.0,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 1,
+      "sigma": 0.0,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 284.58021,
+      "sigma": 1911.241715,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 1,
+      "sigma": 0.0,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 1,
+      "sigma": 0.0,
+      "n": 1467
+    },
+    "trend": "PEAK",
+    "peak_zone": "MIDDLE"
+  },
+  "f34b_para_per_1000w": {
+    "OPENING": {
+      "mu": 4.703682,
+      "sigma": 9.698261,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 4.317656,
+      "sigma": 9.369999,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 6.898586,
+      "sigma": 16.505724,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 4.63222,
+      "sigma": 9.632532,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 5.822495,
+      "sigma": 10.51834,
+      "n": 1467
+    },
+    "trend": "PEAK",
+    "peak_zone": "MIDDLE"
+  },
+  "f35a_hook_tension": {
+    "OPENING": {
+      "mu": 0.895204,
+      "sigma": 0.187969,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.911242,
+      "sigma": 0.174054,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.898136,
+      "sigma": 0.195802,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.904629,
+      "sigma": 0.186203,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.916019,
+      "sigma": 0.175266,
+      "n": 1467
+    },
+    "trend": "STABLE",
+    "peak_zone": "CLOSING"
+  },
+  "f35b_hook_question": {
+    "OPENING": {
+      "mu": 0.149589,
+      "sigma": 0.356766,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.180221,
+      "sigma": 0.384468,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.171414,
+      "sigma": 0.376965,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.192888,
+      "sigma": 0.394672,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.178596,
+      "sigma": 0.383144,
+      "n": 1467
+    },
+    "trend": "PEAK",
+    "peak_zone": "TENSION"
+  },
+  "f35c_hook_score": {
+    "OPENING": {
+      "mu": 0.511765,
+      "sigma": 0.174682,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.532076,
+      "sigma": 0.177599,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.52218,
+      "sigma": 0.184869,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.532485,
+      "sigma": 0.184182,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.534627,
+      "sigma": 0.176514,
+      "n": 1467
+    },
+    "trend": "STABLE",
+    "peak_zone": "CLOSING"
+  },
+  "f36a_cliff_tension": {
+    "OPENING": {
+      "mu": 0.903916,
+      "sigma": 0.177138,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.909381,
+      "sigma": 0.178627,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.906641,
+      "sigma": 0.179833,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.909008,
+      "sigma": 0.182097,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.913402,
+      "sigma": 0.17163,
+      "n": 1467
+    },
+    "trend": "STABLE",
+    "peak_zone": "CLOSING"
+  },
+  "f36b_cliff_incomplete": {
+    "OPENING": {
+      "mu": 0.902466,
+      "sigma": 0.296765,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.889558,
+      "sigma": 0.313518,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.861069,
+      "sigma": 0.34596,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.904634,
+      "sigma": 0.293799,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.890934,
+      "sigma": 0.311828,
+      "n": 1467
+    },
+    "trend": "STABLE",
+    "peak_zone": "TENSION"
+  },
+  "f36c_cliff_score": {
+    "OPENING": {
+      "mu": 0.632888,
+      "sigma": 0.104393,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.632852,
+      "sigma": 0.105144,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.625783,
+      "sigma": 0.110212,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.635861,
+      "sigma": 0.105269,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.635636,
+      "sigma": 0.104007,
+      "n": 1467
+    },
+    "trend": "STABLE",
+    "peak_zone": "TENSION"
+  },
+  "f38a_short_para_rate": {
+    "OPENING": {
+      "mu": 0.0,
+      "sigma": 0.0,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.0,
+      "sigma": 0.0,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.032361,
+      "sigma": 0.164224,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.0,
+      "sigma": 0.0,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.0,
+      "sigma": 0.0,
+      "n": 1467
+    },
+    "trend": "FLAT",
+    "peak_zone": "MIDDLE"
+  },
+  "f38b_punct_density": {
+    "OPENING": {
+      "mu": 0.144951,
+      "sigma": 0.040777,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.149374,
+      "sigma": 0.040297,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.149492,
+      "sigma": 0.042978,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.150246,
+      "sigma": 0.04258,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.159793,
+      "sigma": 0.071072,
+      "n": 1467
+    },
+    "trend": "STABLE",
+    "peak_zone": "CLOSING"
+  },
+  "f38c_speed_score": {
+    "OPENING": {
+      "mu": 0.284061,
+      "sigma": 0.06457,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.291719,
+      "sigma": 0.0619,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.311141,
+      "sigma": 0.120486,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.292987,
+      "sigma": 0.065975,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.297252,
+      "sigma": 0.069171,
+      "n": 1467
+    },
+    "trend": "STABLE",
+    "peak_zone": "MIDDLE"
+  },
+  "f5_adj_count": {
+    "OPENING": {
+      "mu": 150.433425,
+      "sigma": 188.676209,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 163.34488,
+      "sigma": 194.515842,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 159.407796,
+      "sigma": 187.598826,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 145.465517,
+      "sigma": 178.972211,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 96.496251,
+      "sigma": 145.666448,
+      "n": 1467
+    },
+    "trend": "PEAK",
+    "peak_zone": "SETUP"
+  },
+  "f5_lex_verb_count": {
+    "OPENING": {
+      "mu": 208.764932,
+      "sigma": 317.040862,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 243.314257,
+      "sigma": 352.331462,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 224.209395,
+      "sigma": 314.846356,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 215.957974,
+      "sigma": 329.53737,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 134.129516,
+      "sigma": 236.542197,
+      "n": 1467
+    },
+    "trend": "PEAK",
+    "peak_zone": "SETUP"
+  },
+  "f5_total_tokens": {
+    "OPENING": {
+      "mu": 2735.683288,
+      "sigma": 3164.606804,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 3050.2751,
+      "sigma": 3280.551805,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 2937.552724,
+      "sigma": 3087.607393,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 2788.125,
+      "sigma": 3203.975954,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 1818.021132,
+      "sigma": 2543.308259,
+      "n": 1467
+    },
+    "trend": "PEAK",
+    "peak_zone": "SETUP"
+  },
+  "f5_verb_count": {
+    "OPENING": {
+      "mu": 269.290959,
+      "sigma": 404.608668,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 313.349398,
+      "sigma": 449.972707,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 288.723638,
+      "sigma": 402.576248,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 278.267241,
+      "sigma": 420.698145,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 171.788003,
+      "sigma": 297.401079,
+      "n": 1467
+    },
+    "trend": "PEAK",
+    "peak_zone": "SETUP"
+  },
+  "f5a_lex_verb_density": {
+    "OPENING": {
+      "mu": 0.075181,
+      "sigma": 0.049202,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.07728,
+      "sigma": 0.051398,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.075341,
+      "sigma": 0.050604,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.077392,
+      "sigma": 0.05228,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.075801,
+      "sigma": 0.053034,
+      "n": 1467
+    },
+    "trend": "STABLE",
+    "peak_zone": "TENSION"
+  },
+  "f5a_verb_density": {
+    "OPENING": {
+      "mu": 0.097336,
+      "sigma": 0.062581,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.099458,
+      "sigma": 0.065185,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.096675,
+      "sigma": 0.062879,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.099885,
+      "sigma": 0.066059,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.097255,
+      "sigma": 0.065999,
+      "n": 1467
+    },
+    "trend": "STABLE",
+    "peak_zone": "TENSION"
+  },
+  "f5b_verb_adj_ratio": {
+    "OPENING": {
+      "mu": 1.916267,
+      "sigma": 1.72254,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 2.018063,
+      "sigma": 1.797871,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 1.88352,
+      "sigma": 1.36933,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 2.077621,
+      "sigma": 1.816414,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 1.990522,
+      "sigma": 1.654947,
+      "n": 1467
+    },
+    "trend": "STABLE",
+    "peak_zone": "TENSION"
+  },
+  "f5c_action_verb_ratio": {
+    "OPENING": {
+      "mu": 0.853756,
+      "sigma": 0.157132,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.852395,
+      "sigma": 0.156257,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.846204,
+      "sigma": 0.169267,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.848251,
+      "sigma": 0.153911,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.84433,
+      "sigma": 0.186022,
+      "n": 1467
+    },
+    "trend": "STABLE",
+    "peak_zone": "OPENING"
+  },
+  "f8a_emotion_count": {
+    "OPENING": {
+      "mu": 4.415342,
+      "sigma": 8.985709,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 5.162149,
+      "sigma": 9.528319,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 4.736632,
+      "sigma": 8.582663,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 4.860991,
+      "sigma": 9.50177,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 3.152693,
+      "sigma": 6.995701,
+      "n": 1467
+    },
+    "trend": "PEAK",
+    "peak_zone": "SETUP"
+  },
+  "f8a_emotional_density_ratio": {
+    "OPENING": {
+      "mu": 0.001513,
+      "sigma": 0.003136,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.001807,
+      "sigma": 0.003651,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.001663,
+      "sigma": 0.003192,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.001844,
+      "sigma": 0.003823,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.001782,
+      "sigma": 0.003827,
+      "n": 1467
+    },
+    "trend": "PEAK",
+    "peak_zone": "TENSION"
+  },
+  "f9a_adversative_count": {
+    "OPENING": {
+      "mu": 60.628493,
+      "sigma": 72.813577,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 66.480924,
+      "sigma": 73.737788,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 64.638181,
+      "sigma": 69.761135,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 60.137931,
+      "sigma": 70.923902,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 40.520109,
+      "sigma": 58.16062,
+      "n": 1467
+    },
+    "trend": "PEAK",
+    "peak_zone": "SETUP"
+  },
+  "f9a_contradiction_rate": {
+    "OPENING": {
+      "mu": 0.348086,
+      "sigma": 0.159009,
+      "n": 1825
+    },
+    "SETUP": {
+      "mu": 0.329037,
+      "sigma": 0.14188,
+      "n": 1992
+    },
+    "MIDDLE": {
+      "mu": 0.337112,
+      "sigma": 0.1546,
+      "n": 2001
+    },
+    "TENSION": {
+      "mu": 0.329175,
+      "sigma": 0.161884,
+      "n": 1856
+    },
+    "CLOSING": {
+      "mu": 0.32938,
+      "sigma": 0.163634,
+      "n": 1467
+    },
+    "trend": "STABLE",
+    "peak_zone": "OPENING"
+  }
+}

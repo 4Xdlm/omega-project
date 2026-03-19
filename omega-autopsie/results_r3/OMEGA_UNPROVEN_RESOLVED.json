@@ -1,0 +1,172 @@
+{
+  "generated_at": "2026-03-19T12:50:56.330782",
+  "generator": "r3_coefficients.py",
+  "standard": "NASA-Grade L4 / DO-178C Level A",
+  "U-01": {
+    "question": "Moments cles SETUP = artefact du binning?",
+    "data": {
+      "OPENING": {
+        "n_chapters": 613,
+        "n_moments": 366,
+        "moments_per_chapter": 0.5971
+      },
+      "SETUP": {
+        "n_chapters": 1441,
+        "n_moments": 507,
+        "moments_per_chapter": 0.3518
+      },
+      "MIDDLE": {
+        "n_chapters": 943,
+        "n_moments": 327,
+        "moments_per_chapter": 0.3468
+      },
+      "TENSION": {
+        "n_chapters": 1171,
+        "n_moments": 394,
+        "moments_per_chapter": 0.3365
+      },
+      "CLOSING": {
+        "n_chapters": 645,
+        "n_moments": 408,
+        "moments_per_chapter": 0.6326
+      }
+    },
+    "cv_ratio": 0.6537,
+    "verdict": "REAL_EFFECT — CLOSING has highest moments/chapter ratio"
+  },
+  "U-02": {
+    "question": "DIALOGUE 1% = fenetres trop larges?",
+    "distribution_300w": {
+      "DESCRIPTION": {
+        "count": 660,
+        "pct": 72.93
+      },
+      "DIALOGUE": {
+        "count": 243,
+        "pct": 26.85
+      },
+      "ACTION": {
+        "count": 0,
+        "pct": 0.0
+      },
+      "INTROSPECTION": {
+        "count": 1,
+        "pct": 0.11
+      },
+      "TRANSITION": {
+        "count": 1,
+        "pct": 0.11
+      },
+      "UNKNOWN": {
+        "count": 0,
+        "pct": 0.0
+      },
+      "FULL_WORK": {
+        "count": 0,
+        "pct": 0.0
+      }
+    },
+    "distribution_all": {
+      "DESCRIPTION": {
+        "count": 6715,
+        "pct": 73.46
+      },
+      "DIALOGUE": {
+        "count": 2233,
+        "pct": 24.43
+      },
+      "ACTION": {
+        "count": 1,
+        "pct": 0.01
+      },
+      "INTROSPECTION": {
+        "count": 4,
+        "pct": 0.04
+      },
+      "TRANSITION": {
+        "count": 7,
+        "pct": 0.08
+      },
+      "UNKNOWN": {
+        "count": 0,
+        "pct": 0.0
+      },
+      "FULL_WORK": {
+        "count": 181,
+        "pct": 1.98
+      }
+    },
+    "verdict": "REJECTED — DIALOGUE at 300w = 26.9% vs all = 24.4% (no significant increase)"
+  },
+  "U-03": {
+    "question": "Naturalite non normalisee",
+    "raw_top5": [
+      "echenoz",
+      "france",
+      "norris",
+      "stendhal",
+      "crane"
+    ],
+    "normalized_top5": [
+      "echenoz",
+      "france",
+      "norris",
+      "stendhal",
+      "crane"
+    ],
+    "overlap": 5,
+    "normalized_ranking": [
+      {
+        "author": "echenoz",
+        "mean_naturalness_normalized": 3.210819,
+        "n_works": 1
+      },
+      {
+        "author": "france",
+        "mean_naturalness_normalized": 3.337574,
+        "n_works": 1
+      },
+      {
+        "author": "norris",
+        "mean_naturalness_normalized": 3.564838,
+        "n_works": 1
+      },
+      {
+        "author": "stendhal",
+        "mean_naturalness_normalized": 3.732357,
+        "n_works": 1
+      },
+      {
+        "author": "crane",
+        "mean_naturalness_normalized": 3.771812,
+        "n_works": 1
+      },
+      {
+        "author": "robbe_grillet",
+        "mean_naturalness_normalized": 3.791349,
+        "n_works": 3
+      },
+      {
+        "author": "balzac",
+        "mean_naturalness_normalized": 3.794436,
+        "n_works": 2
+      },
+      {
+        "author": "ferrante",
+        "mean_naturalness_normalized": 3.805196,
+        "n_works": 1
+      },
+      {
+        "author": "marquez",
+        "mean_naturalness_normalized": 3.852822,
+        "n_works": 1
+      },
+      {
+        "author": "leclezio",
+        "mean_naturalness_normalized": 3.861693,
+        "n_works": 4
+      }
+    ],
+    "verdict": "NORMALIZED — top 5 overlap = 5/5. Ranking stable"
+  }
+}

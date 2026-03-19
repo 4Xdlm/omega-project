@@ -451,10 +451,12 @@ async function main(): Promise<void> {
     const features = computeTextFeatures(prose);
 
     // R6 score with default profile (STRATOSPHERIQUE)
+    // Pass raw text for dialogue marker detection (Grand Parallèle fix)
     const r6Default = scorer.score(features, {
       wordCount,
       pRel: P_REL_NEUTRAL,
       profile: 'STRATOSPHERIQUE',
+      text: prose,
     });
 
     // Fallback type from archetype
@@ -467,6 +469,7 @@ async function main(): Promise<void> {
         wordCount,
         pRel: P_REL_NEUTRAL,
         profile: pName,
+        text: prose,
       });
       r6Profiles[pName] = {
         composite: r6p.composite.score,
@@ -481,6 +484,7 @@ async function main(): Promise<void> {
       wordCount,
       pRel: P_REL_NEUTRAL,
       profile: 'STRATOSPHERIQUE',
+      text: prose,
     });
     if (r6Check.composite.score !== r6Default.composite.score) {
       console.error(`[DUAL] DETERMINISM VIOLATION on ${sceneId}: ${r6Default.composite.score} !== ${r6Check.composite.score}`);

@@ -48,10 +48,11 @@ export class MultiStageScorer {
    * @returns MultiStageScore with local, arc, composite, passage_type, seal_eligible
    */
   score(features: Record<string, number>, options: ScoringOptions): MultiStageScore {
-    const { wordCount, pRel, profile: profileName, language: _language } = options;
+    const { wordCount, pRel, profile: profileName, language: _language, text } = options;
 
     // 1. Detect passage type (on raw features, before normalization)
-    const passageType = detectPassageType(features);
+    // Pass raw text if available for dialogue marker detection (Grand Parallèle fix)
+    const passageType = detectPassageType(features, text);
 
     // 1b. Normalize features to 0-100 if normalizer is available
     const scoringFeatures = this.normalizer

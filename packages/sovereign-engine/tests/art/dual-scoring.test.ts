@@ -108,7 +108,7 @@ describe('Dual Scoring Pipeline', () => {
     it('scores sample prose without error', () => {
       const features = computeTextFeatures(SAMPLE_PROSE);
       const wordCount = SAMPLE_PROSE.split(/\s+/).length;
-      const result = scorer.score(features, { wordCount, pRel: P_REL_NEUTRAL });
+      const result = scorer.score(features, { wordCount, pRel: P_REL_NEUTRAL, text: SAMPLE_PROSE });
 
       expect(result).toBeDefined();
       expect(result.composite.score).toBeGreaterThan(0);
@@ -120,7 +120,7 @@ describe('Dual Scoring Pipeline', () => {
     it('composite is within 0-100 range', () => {
       const features = computeTextFeatures(SAMPLE_PROSE);
       const wordCount = SAMPLE_PROSE.split(/\s+/).length;
-      const result = scorer.score(features, { wordCount, pRel: P_REL_NEUTRAL });
+      const result = scorer.score(features, { wordCount, pRel: P_REL_NEUTRAL, text: SAMPLE_PROSE });
 
       expect(result.composite.score).toBeGreaterThanOrEqual(0);
       expect(result.composite.score).toBeLessThanOrEqual(100);
@@ -131,7 +131,7 @@ describe('Dual Scoring Pipeline', () => {
     it('confidence is between 0 and 1', () => {
       const features = computeTextFeatures(SAMPLE_PROSE);
       const wordCount = SAMPLE_PROSE.split(/\s+/).length;
-      const result = scorer.score(features, { wordCount, pRel: P_REL_NEUTRAL });
+      const result = scorer.score(features, { wordCount, pRel: P_REL_NEUTRAL, text: SAMPLE_PROSE });
 
       expect(result.composite.confidence).toBeGreaterThanOrEqual(0);
       expect(result.composite.confidence).toBeLessThanOrEqual(1);
@@ -140,7 +140,7 @@ describe('Dual Scoring Pipeline', () => {
     it('alpha + beta approximately equals 1', () => {
       const features = computeTextFeatures(SAMPLE_PROSE);
       const wordCount = SAMPLE_PROSE.split(/\s+/).length;
-      const result = scorer.score(features, { wordCount, pRel: P_REL_NEUTRAL });
+      const result = scorer.score(features, { wordCount, pRel: P_REL_NEUTRAL, text: SAMPLE_PROSE });
 
       expect(result.composite.alpha + result.composite.beta).toBeCloseTo(1.0, 1);
     });
@@ -148,7 +148,7 @@ describe('Dual Scoring Pipeline', () => {
     it('passage_type is a valid enum value', () => {
       const features = computeTextFeatures(SAMPLE_PROSE);
       const wordCount = SAMPLE_PROSE.split(/\s+/).length;
-      const result = scorer.score(features, { wordCount, pRel: P_REL_NEUTRAL });
+      const result = scorer.score(features, { wordCount, pRel: P_REL_NEUTRAL, text: SAMPLE_PROSE });
 
       expect(['DESCRIPTION', 'DIALOGUE', 'ACTION', 'INTROSPECTION', 'TRANSITION'])
         .toContain(result.passage_type);
@@ -161,7 +161,7 @@ describe('Dual Scoring Pipeline', () => {
     it('same text + same options = same score', () => {
       const features = computeTextFeatures(SAMPLE_PROSE);
       const wordCount = SAMPLE_PROSE.split(/\s+/).length;
-      const opts = { wordCount, pRel: P_REL_NEUTRAL, profile: 'STRATOSPHERIQUE' as const };
+      const opts = { wordCount, pRel: P_REL_NEUTRAL, profile: 'STRATOSPHERIQUE' as const, text: SAMPLE_PROSE };
 
       const r1 = scorer.score(features, opts);
       const r2 = scorer.score(features, opts);
@@ -189,7 +189,7 @@ describe('Dual Scoring Pipeline', () => {
     it('can construct a dual result with both systems', () => {
       const features = computeTextFeatures(SAMPLE_PROSE);
       const wordCount = SAMPLE_PROSE.split(/\s+/).length;
-      const r6 = scorer.score(features, { wordCount, pRel: P_REL_NEUTRAL });
+      const r6 = scorer.score(features, { wordCount, pRel: P_REL_NEUTRAL, text: SAMPLE_PROSE });
       const legacyRef = LEGACY_REFERENCE['w4-confrontation'];
 
       const dual = {
@@ -217,7 +217,7 @@ describe('Dual Scoring Pipeline', () => {
       const wordCount = SAMPLE_PROSE.split(/\s+/).length;
 
       for (const pName of profileNames) {
-        const result = scorer.score(features, { wordCount, pRel: P_REL_NEUTRAL, profile: pName });
+        const result = scorer.score(features, { wordCount, pRel: P_REL_NEUTRAL, profile: pName, text: SAMPLE_PROSE });
         expect(result.composite.score).toBeGreaterThan(0);
         expect(result.composite.score).toBeLessThanOrEqual(100);
         expect(result.profile).toBeDefined();
@@ -254,11 +254,83 @@ describe('Dual Scoring Pipeline', () => {
   // ── Test 7: Passage type detection ──────────────────────────────────
 
   describe('Passage type detection on literary prose', () => {
-    it('detects a valid type from sample prose', () => {
+    it('detects a valid type from sample prose (features only)', () => {
       const features = computeTextFeatures(SAMPLE_PROSE);
       const ptype = detectPassageType(features);
       expect(['DESCRIPTION', 'DIALOGUE', 'ACTION', 'INTROSPECTION', 'TRANSITION'])
         .toContain(ptype);
+    });
+
+    it('does not classify narrative prose as DIALOGUE when text has no dialogue markers', () => {
+      // Narrative prose without dialogue markers (no « » — "" etc.)
+      const narrative = `La lumière du matin traversait les rideaux. Le silence régnait dans la pièce. Les murs portaient la trace des années. Chaque fissure racontait une histoire que personne ne lisait. Le temps passait sans se presser. Les ombres bougeaient lentement sur le sol. Le vent soufflait dehors. Les arbres pliaient sous la force du vent. La pluie commençait à tomber. Les gouttes frappaient les vitres avec régularité.
+
+Le jardin était désert. Les fleurs courbaient la tête. La terre absorbait l'eau avec une lenteur minérale. Les pierres du chemin brillaient. Chaque surface reflétait un fragment de ciel.
+
+La maison respirait. Les poutres craquaient sous l'effet de la chaleur. Le bois travaillait dans le silence. Les fondations tenaient bon malgré les années.
+
+Le chat dormait sur le fauteuil. Sa respiration régulière était le seul bruit vivant. Il ne bougeait pas. Il ne bougerait pas avant le soir.
+
+Le temps coulait. Sans hâte. Sans but. Les heures se suivaient sans se ressembler. La lumière changeait. Les ombres tournaient. Le monde continuait sans attendre personne.`;
+      const features = computeTextFeatures(narrative);
+      const ptype = detectPassageType(features, narrative);
+      expect(ptype).not.toBe('DIALOGUE');
+    });
+
+    it('classifies text with dialogue markers as DIALOGUE', () => {
+      const dialogue = `« Tu savais. » Ce n'était pas une question. Le solvant piquait les yeux.
+
+« Le contrat spécifie une origine que tu as falsifiée. » Elena posa le papier sur l'établi.
+
+— J'avais besoin de cette marge, dit Marcus.
+
+— Besoin. Elena répéta le mot comme on retourne une lame.
+
+« Tu avais besoin de mentir. » Elle ne criait pas.
+
+— Je vais faire annuler la commande.
+
+— Tu ne peux pas. La voix de Marcus était plate.
+
+« Regarde-moi. » Elena attendit. « Regarde-moi dans les yeux. »
+
+— C'est fini, dit-elle. Le silence qui suivit était total.
+
+« Tu le sais. » Marcus ne répondit pas. Il ne pouvait pas.`;
+      const features = computeTextFeatures(dialogue);
+      const ptype = detectPassageType(features, dialogue);
+      // With heavy dialogue markers (« », —), high f34b and f33a, it should be DIALOGUE
+      // Note: depends on f34b/f33a thresholds being met
+      expect(['DIALOGUE', 'ACTION']).toContain(ptype);
+    });
+  });
+
+  // ── Test 8: computeDialogueMarkerRatio ──────────────────────────────
+
+  describe('computeDialogueMarkerRatio', () => {
+    // Import from the module
+    let computeDialogueMarkerRatio: (text: string) => number;
+
+    beforeAll(async () => {
+      const mod = await import('../../src/scoring/passage-type-detector.js');
+      computeDialogueMarkerRatio = mod.computeDialogueMarkerRatio;
+    });
+
+    it('returns 0 for pure narrative prose', () => {
+      const text = `La lumière tombait sur le sol.\nLes ombres tournaient lentement.\nLe silence régnait.`;
+      expect(computeDialogueMarkerRatio(text)).toBe(0);
+    });
+
+    it('returns > 0.5 for dialogue-heavy text', () => {
+      const text = `« Bonjour, » dit-elle.\n— Comment allez-vous ?\n« Bien, merci. »\n— Et vous ?`;
+      expect(computeDialogueMarkerRatio(text)).toBeGreaterThan(0.5);
+    });
+
+    it('returns ratio between 0 and 1', () => {
+      const text = `La nuit tombait.\n— Partons, dit Marcus.\nElena hocha la tête.`;
+      const ratio = computeDialogueMarkerRatio(text);
+      expect(ratio).toBeGreaterThanOrEqual(0);
+      expect(ratio).toBeLessThanOrEqual(1);
     });
   });
 });

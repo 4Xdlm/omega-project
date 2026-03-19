@@ -61,6 +61,8 @@ export interface ScoringOptions {
   profile?: string;
   /** Language code (fr, en, es) */
   language?: string;
+  /** Raw text for passage type detection (enables dialogue marker check) */
+  text?: string;
 }
 
 // ═══════════════════════════════════════════════════════════════════════

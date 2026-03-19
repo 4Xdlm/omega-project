@@ -21,8 +21,10 @@ const THRESHOLDS = {
   dialogue: {
     f34b_para_per_1000w_p75: 5.0,
     f33a_dots_count_p75: 50,
-    /** Minimum ratio of lines containing dialogue markers (« » — "" –) */
-    dialogue_marker_min_ratio: 0.20,
+    /** Minimum ratio of lines containing dialogue markers (« » — "" –).
+     *  Raised from 0.20 to 0.40 after audit: Confrontation (35% markers)
+     *  was false-positive. Only passages with >40% dialogue lines qualify. */
+    dialogue_marker_min_ratio: 0.40,
   },
   action: {
     f5a_verb_density_p75: 0.06,

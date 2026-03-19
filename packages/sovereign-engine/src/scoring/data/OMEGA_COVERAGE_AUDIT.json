@@ -1,0 +1,451 @@
+{
+  "audit_date": "2026-03-19",
+  "total_local_600": 49,
+  "active_runtime": 21,
+  "inactive": 28,
+  "quick_win_implementable": 23,
+  "needs_spacy": 5,
+  "features": [
+    {
+      "name": "f12_tense_switches",
+      "in_weight_table": true,
+      "in_text_features_ts": false,
+      "confidence_600": 0.2706,
+      "status": "NOT_IMPLEMENTED",
+      "reason": "Tense switch counter not yet ported to TS",
+      "quick_win": true
+    },
+    {
+      "name": "f15b_redundancy_compression",
+      "in_weight_table": true,
+      "in_text_features_ts": false,
+      "confidence_600": 0.9706,
+      "status": "NOT_IMPLEMENTED",
+      "reason": "Redundancy compression metric not yet ported to TS",
+      "quick_win": true
+    },
+    {
+      "name": "f16_hapax_count",
+      "in_weight_table": true,
+      "in_text_features_ts": false,
+      "confidence_600": 0.8115,
+      "status": "NOT_IMPLEMENTED",
+      "reason": "Hapax legomena counter not yet ported to TS",
+      "quick_win": true
+    },
+    {
+      "name": "f16_unique_bigrams",
+      "in_weight_table": true,
+      "in_text_features_ts": false,
+      "confidence_600": 0.9347,
+      "status": "NOT_IMPLEMENTED",
+      "reason": "Unique bigram counter not yet ported to TS",
+      "quick_win": true
+    },
+    {
+      "name": "f16a_bigram_rarity",
+      "in_weight_table": true,
+      "in_text_features_ts": false,
+      "confidence_600": 0.9714,
+      "status": "NOT_IMPLEMENTED",
+      "reason": "Bigram rarity metric not yet ported to TS",
+      "quick_win": true
+    },
+    {
+      "name": "f16c_lexical_surprise",
+      "in_weight_table": true,
+      "in_text_features_ts": false,
+      "confidence_600": 0.9523,
+      "status": "NOT_IMPLEMENTED",
+      "reason": "Lexical surprise metric not yet ported to TS",
+      "quick_win": true
+    },
+    {
+      "name": "f17_banal_count",
+      "in_weight_table": true,
+      "in_text_features_ts": false,
+      "confidence_600": 0.4729,
+      "status": "NOT_IMPLEMENTED",
+      "reason": "Banal expression counter not yet ported to TS",
+      "quick_win": true
+    },
+    {
+      "name": "f17_contrast_spacing",
+      "in_weight_table": true,
+      "in_text_features_ts": false,
+      "confidence_600": 0.4041,
+      "status": "NOT_IMPLEMENTED",
+      "reason": "Contrast spacing metric not yet ported to TS",
+      "quick_win": true
+    },
+    {
+      "name": "f17_knife_count",
+      "in_weight_table": true,
+      "in_text_features_ts": false,
+      "confidence_600": 0.6617,
+      "status": "NOT_IMPLEMENTED",
+      "reason": "Knife expression counter not yet ported to TS",
+      "quick_win": true
+    },
+    {
+      "name": "f18a_fragment_rate",
+      "in_weight_table": true,
+      "in_text_features_ts": false,
+      "confidence_600": 0.3474,
+      "status": "NEEDS_SPACY",
+      "reason": "Fragment detection requires spaCy POS tagging",
+      "quick_win": false
+    },
+    {
+      "name": "f18b_nominal_rate",
+      "in_weight_table": true,
+      "in_text_features_ts": false,
+      "confidence_600": 0.3408,
+      "status": "NEEDS_SPACY",
+      "reason": "Nominal sentence detection requires spaCy POS tagging",
+      "quick_win": false
+    },
+    {
+      "name": "f18f_ellipsis_final",
+      "in_weight_table": true,
+      "in_text_features_ts": false,
+      "confidence_600": 0.7439,
+      "status": "NOT_IMPLEMENTED",
+      "reason": "Final ellipsis detection not yet ported to TS",
+      "quick_win": true
+    },
+    {
+      "name": "f19_sentences_analyzed",
+      "in_weight_table": true,
+      "in_text_features_ts": false,
+      "confidence_600": 0.6494,
+      "status": "NOT_IMPLEMENTED",
+      "reason": "Sentence analysis counter not yet ported to TS",
+      "quick_win": true
+    },
+    {
+      "name": "f19a_approx_entropy",
+      "in_weight_table": true,
+      "in_text_features_ts": false,
+      "confidence_600": 0.5204,
+      "status": "NOT_IMPLEMENTED",
+      "reason": "Approximate entropy metric not yet ported to TS",
+      "quick_win": true
+    },
+    {
+      "name": "f19f_window_stdev",
+      "in_weight_table": true,
+      "in_text_features_ts": false,
+      "confidence_600": 0.3915,
+      "status": "NOT_IMPLEMENTED",
+      "reason": "Windowed standard deviation not yet ported to TS",
+      "quick_win": true
+    },
+    {
+      "name": "f19g_consistency_ratio",
+      "in_weight_table": true,
+      "in_text_features_ts": false,
+      "confidence_600": 0.3648,
+      "status": "NOT_IMPLEMENTED",
+      "reason": "Consistency ratio metric not yet ported to TS",
+      "quick_win": true
+    },
+    {
+      "name": "f1_mean",
+      "in_weight_table": true,
+      "in_text_features_ts": true,
+      "confidence_600": 0.5116,
+      "status": "ACTIVE",
+      "reason": "Computed in text-features.ts, key matches weight table",
+      "quick_win": false
+    },
+    {
+      "name": "f1_sentence_count",
+      "in_weight_table": true,
+      "in_text_features_ts": true,
+      "confidence_600": 0.6529,
+      "status": "ACTIVE",
+      "reason": "Computed in text-features.ts, key matches weight table",
+      "quick_win": false
+    },
+    {
+      "name": "f1b_rhythm_ratio",
+      "in_weight_table": true,
+      "in_text_features_ts": false,
+      "confidence_600": 0.7525,
+      "status": "NOT_IMPLEMENTED",
+      "reason": "Rhythm ratio metric not yet ported to TS",
+      "quick_win": true
+    },
+    {
+      "name": "f21c_diacope_rate",
+      "in_weight_table": true,
+      "in_text_features_ts": false,
+      "confidence_600": 0.3871,
+      "status": "NOT_IMPLEMENTED",
+      "reason": "Diacope repetition rate not yet ported to TS",
+      "quick_win": true
+    },
+    {
+      "name": "f21d_rhythm_echo",
+      "in_weight_table": true,
+      "in_text_features_ts": false,
+      "confidence_600": 0.5362,
+      "status": "NOT_IMPLEMENTED",
+      "reason": "Rhythm echo metric not yet ported to TS",
+      "quick_win": true
+    },
+    {
+      "name": "f21e_ritual_index",
+      "in_weight_table": true,
+      "in_text_features_ts": false,
+      "confidence_600": 0.534,
+      "status": "NOT_IMPLEMENTED",
+      "reason": "Ritual index metric not yet ported to TS",
+      "quick_win": true
+    },
+    {
+      "name": "f24a_banal_rate",
+      "in_weight_table": true,
+      "in_text_features_ts": true,
+      "confidence_600": 0.8844,
+      "status": "ACTIVE",
+      "reason": "Computed in text-features.ts, key matches weight table",
+      "quick_win": false
+    },
+    {
+      "name": "f24c_contrast_delta",
+      "in_weight_table": true,
+      "in_text_features_ts": true,
+      "confidence_600": 0.4764,
+      "status": "ACTIVE",
+      "reason": "Computed in text-features.ts, key matches weight table",
+      "quick_win": false
+    },
+    {
+      "name": "f24d_apex_isolation",
+      "in_weight_table": true,
+      "in_text_features_ts": true,
+      "confidence_600": 0.7992,
+      "status": "ACTIVE",
+      "reason": "Computed in text-features.ts, key matches weight table",
+      "quick_win": false
+    },
+    {
+      "name": "f25a_description_density",
+      "in_weight_table": true,
+      "in_text_features_ts": true,
+      "confidence_600": 0.4246,
+      "status": "ACTIVE",
+      "reason": "Computed in text-features.ts, key matches weight table",
+      "quick_win": false
+    },
+    {
+      "name": "f25b_sensory_coverage",
+      "in_weight_table": true,
+      "in_text_features_ts": true,
+      "confidence_600": 0.6342,
+      "status": "ACTIVE",
+      "reason": "Computed in text-features.ts, key matches weight table",
+      "quick_win": false
+    },
+    {
+      "name": "f27d_modal_score",
+      "in_weight_table": true,
+      "in_text_features_ts": true,
+      "confidence_600": 0.3767,
+      "status": "ACTIVE",
+      "reason": "Computed in text-features.ts, key matches weight table",
+      "quick_win": false
+    },
+    {
+      "name": "f29c_ttr_stdev",
+      "in_weight_table": true,
+      "in_text_features_ts": true,
+      "confidence_600": 0.6532,
+      "status": "ACTIVE",
+      "reason": "Computed in text-features.ts, key matches weight table",
+      "quick_win": false
+    },
+    {
+      "name": "f29d_ttr_score",
+      "in_weight_table": true,
+      "in_text_features_ts": true,
+      "confidence_600": 0.9502,
+      "status": "ACTIVE",
+      "reason": "Computed in text-features.ts, key matches weight table",
+      "quick_win": false
+    },
+    {
+      "name": "f30a_passe_simple_rate",
+      "in_weight_table": true,
+      "in_text_features_ts": true,
+      "confidence_600": 0.3797,
+      "status": "ACTIVE",
+      "reason": "Computed in text-features.ts, key matches weight table",
+      "quick_win": false
+    },
+    {
+      "name": "f30c_present_rate",
+      "in_weight_table": true,
+      "in_text_features_ts": true,
+      "confidence_600": 0.7978,
+      "status": "ACTIVE",
+      "reason": "Computed in text-features.ts, key matches weight table",
+      "quick_win": false
+    },
+    {
+      "name": "f30d_ps_imp_ratio",
+      "in_weight_table": true,
+      "in_text_features_ts": true,
+      "confidence_600": 0.5908,
+      "status": "ACTIVE",
+      "reason": "Computed in text-features.ts, key matches weight table",
+      "quick_win": false
+    },
+    {
+      "name": "f33b_commas_count",
+      "in_weight_table": true,
+      "in_text_features_ts": true,
+      "confidence_600": 0.6051,
+      "status": "ACTIVE",
+      "reason": "Computed in text-features.ts, key matches weight table",
+      "quick_win": false
+    },
+    {
+      "name": "f35a_hook_tension",
+      "in_weight_table": true,
+      "in_text_features_ts": true,
+      "confidence_600": 0.781,
+      "status": "ACTIVE",
+      "reason": "Computed in text-features.ts, key matches weight table",
+      "quick_win": false
+    },
+    {
+      "name": "f35c_hook_score",
+      "in_weight_table": true,
+      "in_text_features_ts": true,
+      "confidence_600": 0.6356,
+      "status": "ACTIVE",
+      "reason": "Computed in text-features.ts, key matches weight table",
+      "quick_win": false
+    },
+    {
+      "name": "f36a_cliff_tension",
+      "in_weight_table": true,
+      "in_text_features_ts": true,
+      "confidence_600": 0.7852,
+      "status": "ACTIVE",
+      "reason": "Computed in text-features.ts, key matches weight table",
+      "quick_win": false
+    },
+    {
+      "name": "f36b_cliff_incomplete",
+      "in_weight_table": true,
+      "in_text_features_ts": false,
+      "confidence_600": 0.6787,
+      "status": "NOT_IMPLEMENTED",
+      "reason": "Already computed internally but not output from text-features.ts",
+      "quick_win": true
+    },
+    {
+      "name": "f36c_cliff_score",
+      "in_weight_table": true,
+      "in_text_features_ts": true,
+      "confidence_600": 0.8252,
+      "status": "ACTIVE",
+      "reason": "Computed in text-features.ts, key matches weight table",
+      "quick_win": false
+    },
+    {
+      "name": "f5_adj_count",
+      "in_weight_table": true,
+      "in_text_features_ts": false,
+      "confidence_600": 0.6065,
+      "status": "NOT_IMPLEMENTED",
+      "reason": "Already computed internally but not output from text-features.ts",
+      "quick_win": true
+    },
+    {
+      "name": "f5_lex_verb_count",
+      "in_weight_table": true,
+      "in_text_features_ts": false,
+      "confidence_600": 0.3116,
+      "status": "NEEDS_SPACY",
+      "reason": "Lexical verb identification requires spaCy lemmatization",
+      "quick_win": false
+    },
+    {
+      "name": "f5_verb_count",
+      "in_weight_table": true,
+      "in_text_features_ts": true,
+      "confidence_600": 0.3337,
+      "status": "ACTIVE",
+      "reason": "Computed in text-features.ts, key matches weight table",
+      "quick_win": false
+    },
+    {
+      "name": "f5a_lex_verb_density",
+      "in_weight_table": true,
+      "in_text_features_ts": false,
+      "confidence_600": 0.3249,
+      "status": "NEEDS_SPACY",
+      "reason": "Lexical verb density requires spaCy lemmatization",
+      "quick_win": false
+    },
+    {
+      "name": "f5a_verb_density",
+      "in_weight_table": true,
+      "in_text_features_ts": true,
+      "confidence_600": 0.3462,
+      "status": "ACTIVE",
+      "reason": "Computed in text-features.ts, key matches weight table",
+      "quick_win": false
+    },
+    {
+      "name": "f5b_verb_adj_ratio",
+      "in_weight_table": true,
+      "in_text_features_ts": true,
+      "confidence_600": 0.2574,
+      "status": "ACTIVE",
+      "reason": "Computed in text-features.ts, key matches weight table",
+      "quick_win": false
+    },
+    {
+      "name": "f5c_action_verb_ratio",
+      "in_weight_table": true,
+      "in_text_features_ts": false,
+      "confidence_600": 0.8945,
+      "status": "NOT_IMPLEMENTED",
+      "reason": "Action verb ratio not yet ported to TS",
+      "quick_win": true
+    },
+    {
+      "name": "f9a_adversative_count",
+      "in_weight_table": true,
+      "in_text_features_ts": false,
+      "confidence_600": 0.688,
+      "status": "NOT_IMPLEMENTED",
+      "reason": "Adversative conjunction counter not yet ported to TS",
+      "quick_win": true
+    },
+    {
+      "name": "f9a_contradiction_rate",
+      "in_weight_table": true,
+      "in_text_features_ts": false,
+      "confidence_600": 0.5974,
+      "status": "NOT_IMPLEMENTED",
+      "reason": "Contradiction rate metric not yet ported to TS",
+      "quick_win": true
+    },
+    {
+      "name": "style_f5a_thresh",
+      "in_weight_table": true,
+      "in_text_features_ts": false,
+      "confidence_600": 0.3885,
+      "status": "NEEDS_SPACY",
+      "reason": "Style threshold depends on spaCy-based lexical verb density",
+      "quick_win": false
+    }
+  ]
+}

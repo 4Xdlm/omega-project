@@ -448,7 +448,7 @@ function computeF36(text: string): Record<string, number> {
   const cliffText = words.slice(-100).join(' ');
   const sents = splitSentences(cliffText);
   if (sents.length === 0) {
-    return { f36a_cliff_tension: 0, f36c_cliff_score: 0 };
+    return { f36a_cliff_tension: 0, f36b_cliff_incomplete: 0, f36c_cliff_score: 0 };
   }
 
   const lastSent = sents[sents.length - 1].trim();
@@ -461,6 +461,7 @@ function computeF36(text: string): Record<string, number> {
 
   return {
     f36a_cliff_tension: round(tension, 4),
+    f36b_cliff_incomplete: endsIncomplete ? 1 : 0,
     f36c_cliff_score: score,
   };
 }
@@ -511,6 +512,7 @@ function computeF5(text: string): Record<string, number> {
   const allEndings = [...VERB_ENDINGS_FR, ...VERB_ENDINGS_EN, ...VERB_ENDINGS_ES];
 
   let verbCount = 0;
+  let actionVerbCount = 0;
   for (const w of words) {
     const lower = w.toLowerCase().replace(/[.,;:!?"'()]/g, '');
     if (COMMON_VERBS.has(lower)) {
@@ -518,16 +520,22 @@ function computeF5(text: string): Record<string, number> {
     } else if (lower.length > 4 && allEndings.some(e => lower.endsWith(e))) {
       verbCount++;
     }
+    if (ACTION_VERBS.some(v => lower.includes(v))) {
+      actionVerbCount++;
+    }
   }
 
   const verbDensity = round(verbCount / nWords, 4);
   const adjCount = words.filter(w => ADJ_MARKERS.some(m => w.toLowerCase().endsWith(m))).length;
   const verbAdjRatio = round(verbCount / Math.max(adjCount, 1), 4);
+  const actionVerbRatio = round(actionVerbCount / Math.max(verbCount, 1), 4);
 
   return {
     f5a_verb_density: verbDensity,
     f5b_verb_adj_ratio: verbAdjRatio,
     f5_verb_count: verbCount,
+    f5_adj_count: adjCount,
+    f5c_action_verb_ratio: actionVerbRatio,
   };
 }
 
@@ -537,13 +545,257 @@ function computeF5(text: string): Record<string, number> {
 
 function computeF1Basic(sents: string[]): Record<string, number> {
   if (sents.length === 0) {
-    return { f1_mean: 0, f1a_rhythm_variance: 0, f1_sentence_count: 0 };
+    return { f1_mean: 0, f1a_rhythm_variance: 0, f1b_rhythm_ratio: 0, f1_sentence_count: 0, f19_sentences_analyzed: 0 };
   }
   const lens = sents.map(s => s.split(/\s+/).length);
+  const maxLen = Math.max(...lens);
+  const minLen = Math.max(Math.min(...lens), 1);
   return {
     f1_mean: round(mean(lens), 4),
     f1a_rhythm_variance: round(stdev(lens), 4),
+    f1b_rhythm_ratio: round(maxLen / minLen, 4),
     f1_sentence_count: sents.length,
+    f19_sentences_analyzed: sents.length,
+  };
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// F9 — ADVERSATIVE / CONTRADICTION (audit quick win)
+// ═══════════════════════════════════════════════════════════════════════
+
+const ADVERSATIVE_MARKERS = [
+  'mais', 'cependant', 'pourtant', 'toutefois', 'neanmoins', 'or',
+  'en revanche', 'au contraire', 'malgre', 'bien que', 'quoique',
+  'but', 'however', 'yet', 'nevertheless', 'although', 'despite',
+  'nonetheless', 'on the contrary', 'whereas',
+  'pero', 'sin embargo', 'no obstante', 'aunque', 'a pesar de',
+];
+
+function computeF9(text: string, sents: string[]): Record<string, number> {
+  const txtLower = text.toLowerCase();
+  const nSents = Math.max(sents.length, 1);
+  const advCount = ADVERSATIVE_MARKERS.reduce((sum, m) => sum + countOccurrences(txtLower, m), 0);
+  return {
+    f9a_adversative_count: advCount,
+    f9a_contradiction_rate: round(advCount / nSents, 4),
+  };
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// F12 — TENSE SWITCHES (audit quick win)
+// ═══════════════════════════════════════════════════════════════════════
+
+function detectTense(sent: string): 'PS' | 'IMP' | 'PR' | 'OTHER' {
+  const words = sent.toLowerCase().split(/\s+/).map(w => w.replace(/[.,;:!?"']/g, ''));
+  let ps = 0, imp = 0, pr = 0;
+  for (const w of words) {
+    if (w.length <= 3) continue;
+    if (IMP_ENDS.some(e => w.endsWith(e))) imp++;
+    else if (PS_ENDS.some(e => w.endsWith(e))) ps++;
+    else if (PR_ENDS.some(e => w.endsWith(e))) pr++;
+  }
+  const max = Math.max(ps, imp, pr);
+  if (max === 0) return 'OTHER';
+  if (ps === max) return 'PS';
+  if (imp === max) return 'IMP';
+  return 'PR';
+}
+
+function computeF12(sents: string[]): Record<string, number> {
+  if (sents.length < 2) return { f12_tense_switches: 0 };
+  let switches = 0;
+  let prevTense = detectTense(sents[0]);
+  for (let i = 1; i < sents.length; i++) {
+    const t = detectTense(sents[i]);
+    if (t !== 'OTHER' && prevTense !== 'OTHER' && t !== prevTense) switches++;
+    if (t !== 'OTHER') prevTense = t;
+  }
+  return { f12_tense_switches: switches };
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// F15 — REDUNDANCY / BIGRAM COMPRESSION (audit quick win)
+// ═══════════════════════════════════════════════════════════════════════
+
+function computeF15(text: string): Record<string, number> {
+  const words = text.split(/\s+/)
+    .map(w => w.toLowerCase().replace(/[.,;:!?"'()\[\]]/g, ''))
+    .filter(w => w.length > 1);
+  if (words.length < 2) {
+    return { f15b_redundancy_compression: 1.0 };
+  }
+  const bigrams: string[] = [];
+  for (let i = 0; i < words.length - 1; i++) {
+    bigrams.push(words[i] + ' ' + words[i + 1]);
+  }
+  const total = bigrams.length;
+  const unique = new Set(bigrams).size;
+  const compression = round(unique / Math.max(total, 1), 4);
+  return {
+    f15b_redundancy_compression: compression,
+  };
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// F16 — HAPAX & BIGRAM RARITY (audit quick win)
+// ═══════════════════════════════════════════════════════════════════════
+
+function computeF16(text: string): Record<string, number> {
+  const words = text.split(/\s+/)
+    .map(w => w.toLowerCase().replace(/[.,;:!?"'()\[\]]/g, ''))
+    .filter(w => w.length > 1);
+  if (words.length < 2) {
+    return { f16_hapax_count: 0, f16_unique_bigrams: 0, f16a_bigram_rarity: 0, f16c_lexical_surprise: 0 };
+  }
+
+  // Hapax: words appearing exactly once
+  const freq = new Map<string, number>();
+  for (const w of words) freq.set(w, (freq.get(w) ?? 0) + 1);
+  const hapaxCount = Array.from(freq.values()).filter(c => c === 1).length;
+  const vocabSize = freq.size;
+
+  // Bigrams
+  const bigrams: string[] = [];
+  for (let i = 0; i < words.length - 1; i++) {
+    bigrams.push(words[i] + ' ' + words[i + 1]);
+  }
+  const uniqueBigrams = new Set(bigrams).size;
+  const bigramRarity = round(uniqueBigrams / Math.max(bigrams.length, 1), 4);
+  const lexicalSurprise = round(hapaxCount / Math.max(vocabSize, 1), 4);
+
+  return {
+    f16_hapax_count: hapaxCount,
+    f16_unique_bigrams: uniqueBigrams,
+    f16a_bigram_rarity: bigramRarity,
+    f16c_lexical_surprise: lexicalSurprise,
+  };
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// F17 — KNIFE / BANAL / CONTRAST SPACING (audit quick win)
+// ═══════════════════════════════════════════════════════════════════════
+
+function computeF17(sents: string[]): Record<string, number> {
+  if (sents.length < 4) {
+    return { f17_knife_count: 0, f17_banal_count: 0, f17_contrast_spacing: 0 };
+  }
+  const lens = sents.map(s => s.split(/\s+/).length);
+  const KNIFE_THRESHOLD = 5;
+  const knifeCount = lens.filter(l => l <= KNIFE_THRESHOLD).length;
+
+  const sorted = [...lens].sort((a, b) => a - b);
+  const p25 = sorted[Math.floor(sorted.length / 4)];
+  const banalCount = lens.filter(l => l <= p25).length;
+
+  // Contrast spacing: mean gap between knife sentences
+  const knifePositions = lens.map((l, i) => l <= KNIFE_THRESHOLD ? i : -1).filter(i => i >= 0);
+  let contrastSpacing: number;
+  if (knifePositions.length >= 2) {
+    const gaps: number[] = [];
+    for (let i = 0; i < knifePositions.length - 1; i++) {
+      gaps.push(knifePositions[i + 1] - knifePositions[i]);
+    }
+    contrastSpacing = mean(gaps);
+  } else {
+    contrastSpacing = sents.length;
+  }
+
+  return {
+    f17_knife_count: knifeCount,
+    f17_banal_count: banalCount,
+    f17_contrast_spacing: round(contrastSpacing, 2),
+  };
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// F18f — ELLIPSIS FINAL (audit quick win)
+// ═══════════════════════════════════════════════════════════════════════
+
+function computeF18f(sents: string[]): Record<string, number> {
+  if (sents.length === 0) return { f18f_ellipsis_final: 0 };
+  const ellipsisCount = sents.filter(s => {
+    const t = s.trim();
+    return t.endsWith('...') || t.endsWith('…');
+  }).length;
+  return { f18f_ellipsis_final: round(ellipsisCount / sents.length, 4) };
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// F19 — ENTROPY & CONSISTENCY (audit quick win)
+// ═══════════════════════════════════════════════════════════════════════
+
+function computeF19(sents: string[]): Record<string, number> {
+  if (sents.length < 4) {
+    return { f19a_approx_entropy: 0, f19f_window_stdev: 0, f19g_consistency_ratio: 0 };
+  }
+  const lens = sents.map(s => s.split(/\s+/).length);
+
+  // Approximate entropy: how unpredictable is the sentence length sequence
+  // Simplified: normalized stdev / mean (CV) — higher = more varied = higher entropy
+  const m = mean(lens);
+  const s = stdev(lens);
+  const cv = m > 0 ? s / m : 0;
+  const approxEntropy = round(Math.min(cv, 2.0), 4);
+
+  // Window stdev: split into windows of 5 sentences, compute mean per window, then stdev of means
+  const WINDOW = 5;
+  const windowMeans: number[] = [];
+  for (let i = 0; i <= lens.length - WINDOW; i += Math.max(1, Math.floor(WINDOW / 2))) {
+    windowMeans.push(mean(lens.slice(i, i + WINDOW)));
+  }
+  const windowStdev = windowMeans.length >= 2 ? round(stdev(windowMeans), 4) : 0;
+
+  // Consistency ratio: 1 - (window_stdev / global_stdev)
+  const consistencyRatio = s > 0 ? round(Math.max(0, 1 - windowStdev / s), 4) : 1;
+
+  return {
+    f19a_approx_entropy: approxEntropy,
+    f19f_window_stdev: windowStdev,
+    f19g_consistency_ratio: consistencyRatio,
+  };
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// F21 — REPETITION PATTERNS (audit quick win)
+// ═══════════════════════════════════════════════════════════════════════
+
+function computeF21(text: string, sents: string[]): Record<string, number> {
+  if (sents.length < 4) {
+    return { f21c_diacope_rate: 0, f21d_rhythm_echo: 0, f21e_ritual_index: 0 };
+  }
+  const words = text.split(/\s+/)
+    .map(w => w.toLowerCase().replace(/[.,;:!?"'()\[\]]/g, ''))
+    .filter(w => w.length > 3);
+
+  // Diacope: word repeated with 1-5 intervening words
+  let diacopeCount = 0;
+  for (let i = 0; i < words.length; i++) {
+    for (let gap = 2; gap <= 6 && i + gap < words.length; gap++) {
+      if (words[i] === words[i + gap]) { diacopeCount++; break; }
+    }
+  }
+  const diacopeRate = round(diacopeCount / Math.max(words.length, 1), 4);
+
+  // Rhythm echo: consecutive sentences with similar length (±20%)
+  const lens = sents.map(s => s.split(/\s+/).length);
+  let echoCount = 0;
+  for (let i = 0; i < lens.length - 1; i++) {
+    const ratio = Math.min(lens[i], lens[i + 1]) / Math.max(lens[i], lens[i + 1], 1);
+    if (ratio >= 0.80) echoCount++;
+  }
+  const rhythmEcho = round(echoCount / Math.max(lens.length - 1, 1), 4);
+
+  // Ritual index: sentence openings that repeat (first word)
+  const openings = sents.map(s => s.split(/\s+/)[0]?.toLowerCase().replace(/[.,;:!?"']/g, '') ?? '');
+  const openFreq = new Map<string, number>();
+  for (const o of openings) if (o.length > 1) openFreq.set(o, (openFreq.get(o) ?? 0) + 1);
+  const repeatedOpenings = Array.from(openFreq.values()).filter(c => c >= 2).reduce((a, b) => a + b, 0);
+  const ritualIndex = round(repeatedOpenings / Math.max(sents.length, 1), 4);
+
+  return {
+    f21c_diacope_rate: diacopeRate,
+    f21d_rhythm_echo: rhythmEcho,
+    f21e_ritual_index: ritualIndex,
   };
 }
 
@@ -564,6 +816,14 @@ export function computeTextFeatures(text: string): Record<string, number> {
 
   Object.assign(features, computeF1Basic(sents));
   Object.assign(features, computeF5(text));
+  Object.assign(features, computeF9(text, sents));
+  Object.assign(features, computeF12(sents));
+  Object.assign(features, computeF15(text));
+  Object.assign(features, computeF16(text));
+  Object.assign(features, computeF17(sents));
+  Object.assign(features, computeF18f(sents));
+  Object.assign(features, computeF19(sents));
+  Object.assign(features, computeF21(text, sents));
   Object.assign(features, computeF24(sents));
   Object.assign(features, computeF25(text, sents));
   Object.assign(features, computeF26(sents));

@@ -490,7 +490,49 @@ function computeF38(text: string): Record<string, number> {
 }
 
 // ═══════════════════════════════════════════════════════════════════════
-// ALSO COMPUTE f1_mean (basic rhythm — no spaCy needed)
+// F5 — VERB DENSITY (heuristic, no spaCy)
+// ═══════════════════════════════════════════════════════════════════════
+
+const VERB_ENDINGS_FR = ['ait', 'aient', 'ais', 'ons', 'ez', 'ant', 'era', 'ira',
+                         'rait', 'raient', 'erait', 'irait'];
+const VERB_ENDINGS_EN = ['ed', 'ing'];
+const VERB_ENDINGS_ES = ['aba', 'aban', 'ando', 'endo', 'aron', 'ieron'];
+const COMMON_VERBS = new Set([
+  'est', 'etait', 'avait', 'fut', 'dit', 'fit', 'prit', 'alla', 'vint', 'resta',
+  'semblait', 'paraissait', 'pouvait', 'devait', 'fallait', 'savait', 'voyait',
+  'is', 'was', 'were', 'had', 'did', 'said', 'took', 'came', 'went', 'saw',
+  'made', 'got', 'knew', 'thought', 'found', 'told', 'asked', 'seemed',
+  'es', 'era', 'fue', 'dijo', 'hizo', 'tomo', 'vio', 'sabia', 'podia',
+]);
+
+function computeF5(text: string): Record<string, number> {
+  const words = text.split(/\s+/).filter(w => w.length > 2);
+  const nWords = Math.max(words.length, 1);
+  const allEndings = [...VERB_ENDINGS_FR, ...VERB_ENDINGS_EN, ...VERB_ENDINGS_ES];
+
+  let verbCount = 0;
+  for (const w of words) {
+    const lower = w.toLowerCase().replace(/[.,;:!?"'()]/g, '');
+    if (COMMON_VERBS.has(lower)) {
+      verbCount++;
+    } else if (lower.length > 4 && allEndings.some(e => lower.endsWith(e))) {
+      verbCount++;
+    }
+  }
+
+  const verbDensity = round(verbCount / nWords, 4);
+  const adjCount = words.filter(w => ADJ_MARKERS.some(m => w.toLowerCase().endsWith(m))).length;
+  const verbAdjRatio = round(verbCount / Math.max(adjCount, 1), 4);
+
+  return {
+    f5a_verb_density: verbDensity,
+    f5b_verb_adj_ratio: verbAdjRatio,
+    f5_verb_count: verbCount,
+  };
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// F1 — BASIC RHYTHM (no spaCy needed)
 // ═══════════════════════════════════════════════════════════════════════
 
 function computeF1Basic(sents: string[]): Record<string, number> {
@@ -521,6 +563,7 @@ export function computeTextFeatures(text: string): Record<string, number> {
   const features: Record<string, number> = {};
 
   Object.assign(features, computeF1Basic(sents));
+  Object.assign(features, computeF5(text));
   Object.assign(features, computeF24(sents));
   Object.assign(features, computeF25(text, sents));
   Object.assign(features, computeF26(sents));

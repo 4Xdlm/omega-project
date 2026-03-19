@@ -12,6 +12,7 @@
  */
 
 import { CoefficientsLoader } from './coefficients-loader.js';
+import { FeatureNormalizer } from './normalizer.js';
 import { detectPassageType } from './passage-type-detector.js';
 import { getProfile } from './quality-profiles.js';
 import type {
@@ -26,9 +27,17 @@ const LOCAL_FAIL_THRESHOLD = 30.0;
 
 export class MultiStageScorer {
   private loader: CoefficientsLoader;
+  private normalizer: FeatureNormalizer | null = null;
 
-  constructor(coefficientsPath: string) {
+  /**
+   * @param coefficientsPath - Path to R3 coefficients JSON
+   * @param metrologyPath - Optional path to R1 metrology JSON for 0-100 normalization
+   */
+  constructor(coefficientsPath: string, metrologyPath?: string) {
     this.loader = new CoefficientsLoader(coefficientsPath);
+    if (metrologyPath) {
+      this.normalizer = new FeatureNormalizer(metrologyPath);
+    }
   }
 
   /**
@@ -41,8 +50,13 @@ export class MultiStageScorer {
   score(features: Record<string, number>, options: ScoringOptions): MultiStageScore {
     const { wordCount, pRel, profile: profileName, language: _language } = options;
 
-    // 1. Detect passage type
+    // 1. Detect passage type (on raw features, before normalization)
     const passageType = detectPassageType(features);
+
+    // 1b. Normalize features to 0-100 if normalizer is available
+    const scoringFeatures = this.normalizer
+      ? this.normalizer.normalizeAll(features, wordCount)
+      : features;
 
     // 2. Get profile
     const profile = getProfile(profileName ?? 'LITTERAIRE');
@@ -50,7 +64,7 @@ export class MultiStageScorer {
     // 3. Compute LOCAL stage
     const localScore = this.computeStage(
       'LOCAL',
-      features,
+      scoringFeatures,
       wordCount,
       pRel,
       passageType,
@@ -69,7 +83,7 @@ export class MultiStageScorer {
     } else {
       arcScore = this.computeStage(
         'ARC',
-        features,
+        scoringFeatures,
         wordCount,
         pRel,
         passageType,
@@ -177,6 +191,13 @@ export class MultiStageScorer {
    */
   getLoader(): CoefficientsLoader {
     return this.loader;
+  }
+
+  /**
+   * Returns whether normalization is active (metrology path was provided).
+   */
+  isNormalized(): boolean {
+    return this.normalizer !== null;
   }
 }
 

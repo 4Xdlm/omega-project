@@ -1,0 +1,173 @@
+{
+  "f28d_sil_score": {
+    "name": "Style indirect libre",
+    "strategie": {
+      "feature_cible": "f28d_sil_score",
+      "impossible_direct": true,
+      "strategie_substitution": [
+        {
+          "qualite_utilisee": "Contraste syntaxique",
+          "comment": "Utiliser des phrases longues et sinueuses pour les moments introspectifs, mimant le flux de conscience"
+        },
+        {
+          "qualite_utilisee": "Richesse lexicale",
+          "comment": "Employer un vocabulaire introspectif et psychologique sans verbes déclaratifs (éviter 'pensa', 'songea', 'se dit')"
+        },
+        {
+          "qualite_utilisee": "Description sensorielle riche",
+          "comment": "Traduire les états mentaux par des sensations physiques et des images intérieures"
+        },
+        {
+          "qualite_utilisee": "Originalité des combinaisons de mots",
+          "comment": "Créer des métaphores inattendues pour exprimer les pensées comme des phénomènes naturels"
+        },
+        {
+          "qualite_utilisee": "Compression",
+          "comment": "Éliminer tous les marqueurs explicites de pensée pour fusionner narration et intériorité"
+        }
+      ],
+      "prompt_mecanique_resultant": "Alternez phrases courtes factuelles et phrases longues sinueuses pour l'introspection. Utilisez un vocabulaire psychologique sans jamais écrire 'il pensa/songea/se dit'. Traduisez les états mentaux par des sensations physiques et métaphores inattendues. Éliminez tout marqueur explicite de pensée.",
+      "estimation_efficacite": "bonne"
+    },
+    "test_300w": {
+      "features_cle": {
+        "f1_mean": 14.7222,
+        "f5a_verb_density": 0.0478,
+        "f25g_description_score": 0.5728,
+        "f28d_sil_score": 0,
+        "f27d_modal_score": 0.2889,
+        "f38c_speed_score": 0.234,
+        "f29d_ttr_score": 0.7123,
+        "f24e_contrast_score": 0.875,
+        "f1b_rhythm_ratio": 7,
+        "f15b_redundancy_compression": 0.9767,
+        "f16a_bigram_rarity": 0.9767,
+        "f5c_action_verb_ratio": 0.5,
+        "f17_knife_count": 1,
+        "f9a_contradiction_rate": 0.2222,
+        "f21c_diacope_rate": 0.0114,
+        "f36c_cliff_score": 0.5,
+        "f35c_hook_score": 0.5
+      },
+      "f28d_sil_score_baseline": 0.078,
+      "f28d_sil_score_apres_strategie": 0,
+      "delta": "-0.078",
+      "r6_composite": 50.13,
+      "verdict": "AUCUN_PROGRES"
+    }
+  },
+  "f27d_modal_score": {
+    "name": "Modalisation",
+    "strategie": {
+      "feature_cible": "f27d_modal_score",
+      "impossible_direct": true,
+      "strategie_substitution": [
+        {
+          "qualite_utilisee": "Description sensorielle riche",
+          "comment": "Utiliser des perceptions floues, imprécises : 'une lueur indistincte', 'un murmure indéchiffrable' pour créer l'ambiguïté"
+        },
+        {
+          "qualite_utilisee": "Mots percutants / images vives",
+          "comment": "Employer des métaphores d'instabilité : 'vacillant', 'flottant', 'oscillant' qui suggèrent l'incertitude sans modalisateurs"
+        },
+        {
+          "qualite_utilisée": "Contraste syntaxique",
+          "comment": "Alterner affirmations courtes et phrases longues hésitantes, créer des ruptures rythmiques qui miment le doute"
+        },
+        {
+          "qualite_utilisee": "Richesse lexicale",
+          "comment": "Privilégier un vocabulaire de l'approximation : 'frôler', 'effleurer', 'pressentir' plutôt que des certitudes"
+        },
+        {
+          "qualite_utilisee": "Suspense de fin de texte",
+          "comment": "Terminer par des questions implicites ou des situations en suspens qui laissent le lecteur dans l'incertain"
+        }
+      ],
+      "prompt_mecanique_resultant": "Créez une prose où les certitudes vacillent : utilisez des perceptions floues et indistinctes, des métaphores d'instabilité, alternez affirmations brèves et phrases sinueuses qui se perdent, privilégiez le vocabulaire de l'approximation et du pressentiment, terminez par des situations en suspens qui questionnent sans répondre.",
+      "estimation_efficacite": "moyenne"
+    },
+    "test_300w": {
+      "features_cle": {
+        "f1_mean": 14.4211,
+        "f5a_verb_density": 0.0317,
+        "f25g_description_score": 0.5962,
+        "f28d_sil_score": 0.1053,
+        "f27d_modal_score": 0.3369,
+        "f38c_speed_score": 0.4414,
+        "f29d_ttr_score": 0.7189,
+        "f24e_contrast_score": 0.9371,
+        "f1b_rhythm_ratio": 44,
+        "f15b_redundancy_compression": 0.985,
+        "f16a_bigram_rarity": 0.985,
+        "f5c_action_verb_ratio": 0.7143,
+        "f17_knife_count": 9,
+        "f9a_contradiction_rate": 0.2105,
+        "f21c_diacope_rate": 0.0166,
+        "f36c_cliff_score": 0.5,
+        "f35c_hook_score": 0.5
+      },
+      "f27d_modal_score_baseline": 0.2731,
+      "f27d_modal_score_apres_strategie": 0.3369,
+      "delta": "+0.0638",
+      "r6_composite": 55.48,
+      "verdict": "PROGRES"
+    }
+  },
+  "f5c_action_verb_ratio": {
+    "name": "Ratio verbes d'action",
+    "strategie": {
+      "feature_cible": "f5c_action_verb_ratio",
+      "impossible_direct": true,
+      "strategie_substitution": [
+        {
+          "qualite_utilisee": "Mots percutants / images vives",
+          "comment": "Utiliser des substantifs et adjectifs qui évoquent le mouvement et l'action physique (élan, bond, fracas, foudroyant, cinglant) pour compenser l'absence de verbes d'action"
+        },
+        {
+          "qualite_utilisee": "Description sensorielle riche",
+          "comment": "Privilégier les sensations tactiles, kinesthésiques et auditives qui impliquent le mouvement corporel plutôt que les perceptions statiques"
+        },
+        {
+          "qualite_utilisee": "Contraste syntaxique",
+          "comment": "Employer des phrases courtes et saccadées pour mimer le rythme de l'action physique, alternées avec des longues pour les moments contemplatifs"
+        },
+        {
+          "qualite_utilisee": "Originalité des combinaisons de mots",
+          "comment": "Créer des métaphores et tournures qui transforment les états en dynamiques ('sa colère bondit', 'l'idée le percute')"
+        },
+        {
+          "qualite_utilisee": "Compression",
+          "comment": "Éliminer les verbes d'état redondants au profit de formulations plus directes et énergiques"
+        }
+      ],
+      "prompt_mecanique_resultant": "Privilégier les substantifs et adjectifs évoquant le mouvement (élan, bond, fracas, cinglant). Décrire prioritairement sensations tactiles et kinesthésiques. Alterner phrases courtes saccadées (action) et longues (réflexion). Transformer métaphoriquement les états en dynamiques. Éliminer tous verbes d'état superflus.",
+      "estimation_efficacite": "moyenne"
+    },
+    "test_300w": {
+      "features_cle": {
+        "f1_mean": 12.2,
+        "f5a_verb_density": 0.0096,
+        "f25g_description_score": 0.5129,
+        "f28d_sil_score": 0,
+        "f27d_modal_score": 0,
+        "f38c_speed_score": 0.302,
+        "f29d_ttr_score": 0.73,
+        "f24e_contrast_score": 0.84,
+        "f1b_rhythm_ratio": 17,
+        "f15b_redundancy_compression": 0.9793,
+        "f16a_bigram_rarity": 0.9793,
+        "f5c_action_verb_ratio": 3.5,
+        "f17_knife_count": 5,
+        "f9a_contradiction_rate": 0.25,
+        "f21c_diacope_rate": 0,
+        "f36c_cliff_score": 0.5,
+        "f35c_hook_score": 0.5
+      },
+      "f5c_action_verb_ratio_baseline": 0.1933,
+      "f5c_action_verb_ratio_apres_strategie": 3.5,
+      "delta": "+3.3067",
+      "r6_composite": 59.17,
+      "verdict": "PROGRES"
+    }
+  }
+}

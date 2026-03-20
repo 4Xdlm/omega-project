@@ -1,0 +1,164 @@
+{
+  "DESCRIPTION_Flaubert": {
+    "modifications": [
+      {
+        "phrase_num": 3,
+        "originale": "Un jour, elle tira de son sac six petites cuillers en vermeil (c'était le cadeau de noces du père Rouault), en le priant d'aller immédiatement porter cela, pour elle, au mont-de-piété; et Léon obéit, bien que cette démarche lui déplût.",
+        "reecrite": "Un jour, elle sortit de son sac six petites cuillers en vermeil (c'était le cadeau de noces du père Rouault), le suppliant d'aller sur-le-champ porter cela, pour elle, au mont-de-piété; et Léon s'exécuta, bien que cette démarche lui répugnât.",
+        "consigne": "Améliore la qualité littéraire de cette phrase sans changer son sens.",
+        "feature_ciblee": "",
+        "delta_r6": "+0.33",
+        "features_ameliorees": [
+          "f1_mean"
+        ],
+        "features_degradees": [
+          "f9a_contradiction_rate"
+        ],
+        "verdict": "SUCCESS"
+      },
+      {
+        "phrase_num": 4,
+        "originale": "Il avait peur de se compromettre.",
+        "reecrite": "La crainte de se compromettre l'habitait.",
+        "consigne": "Améliore la qualité littéraire de cette phrase sans changer son sens.",
+        "feature_ciblee": "",
+        "delta_r6": "+0.34",
+        "features_ameliorees": [
+          "f1_mean"
+        ],
+        "features_degradees": [
+          "f9a_contradiction_rate"
+        ],
+        "verdict": "SUCCESS"
+      },
+      {
+        "phrase_num": 6,
+        "originale": "En effet, quelqu'un avait envoyé à sa mère une longue lettre anonyme, pour la prévenir qu'il se perdait avec une femme mariée; et aussitôt la bonne dame, entrevoyant l'éternel épouvantail des familles, c'est-à-dire la vague créature pernicieuse, la sirène, le monstre, qui habite fantastiquement les profondeurs de l'amour, écrivit à maître Dubocage son patron, lequel fut parfait dans cette affaire.",
+        "reecrite": "En effet, quelqu'un avait adressé à sa mère une longue missive anonyme pour l'avertir qu'il se perdait avec une femme mariée; et aussitôt la bonne dame, percevant l'éternel épouvantail des familles, cette vague créature pernicieuse, cette sirène, ce monstre qui hante mystérieusement les abîmes de l'amour, écrivit à maître Dubocage son patron, lequel se montra parfait en cette affaire.",
+        "consigne": "Améliore la qualité littéraire de cette phrase sans changer son sens.",
+        "feature_ciblee": "",
+        "delta_r6": "-0.02",
+        "features_ameliorees": [
+          "f1_mean",
+          "f1b_rhythm_ratio"
+        ],
+        "features_degradees": [
+          "f27d_modal_score",
+          "f9a_contradiction_rate"
+        ],
+        "verdict": "REGRESSION"
+      }
+    ],
+    "r6_original": 54.08,
+    "r6_apres_3_modifs": 54.06,
+    "delta_total": "-0.02"
+  },
+  "INTROSPECTION_Proust": {
+    "modifications": [
+      {
+        "phrase_num": 2,
+        "originale": "Car, au fond permanent d'œufs, de côtelettes, de pommes de terre, de confitures, de biscuits, qu'elle ne nous annonçait même plus, Françoise ajoutait--selon les travaux des champs et des vergers, le fruit de la marée, les hasards du commerce, les politesses des voisins et son propre génie, et si bien que notre menu, comme ces quatre-feuilles qu'on sculptait au XIIIe siècle au portail des cathédrales, reflétait un peu le rythme des saisons et les épisodes de la vie--: une barbue parce que la marchande lui en avait garanti la fraîcheur, une dinde parce qu'elle en avait vu une belle au marché de Roussainville-le-Pin, des cardons à la moelle parce qu'elle ne nous en avait pas encore fait de cette manière-là, un gigot rôti parce que le grand air creuse et qu'il avait bien le temps de descendre d'ici sept heures, des épinards pour changer, des abricots parce que c'était encore une rareté, des groseilles parce que dans quinze jours il n'y en aurait plus, des framboises que M.",
+        "reecrite": "Car, sur la base immuable d'œufs, de côtelettes, de pommes de terre, de confitures, de biscuits, qu'elle ne nous énumérait même plus, Françoise ajoutait--suivant les labeurs des champs et des vergers, les offrandes de la mer, les caprices du négoce, les attentions du voisinage et son génie propre, et si bien que notre menu, tel ces quatrefeuilles qu'on ciselait au XIIIe siècle aux portails des cathédrales, reflétait un peu la cadence des saisons et les péripéties de l'existence--: une barbue parce que la marchande lui en avait assuré la fraîcheur, une dinde parce qu'elle en avait aperçu une superbe au marché de Roussainville-le-Pin, des cardons à la moelle parce qu'elle ne nous en avait pas encore apprêtés de cette façon-là, un gigot rôti parce que le grand air affame et qu'il avait tout loisir de cuire d'ici sept heures, des épinards pour varier, des abricots parce que c'était encore une rareté, des groseilles parce que dans quinze jours il n'y en aurait plus, des framboises que M.",
+        "consigne": "Améliore la qualité littéraire de cette phrase sans changer son sens.",
+        "feature_ciblee": "",
+        "delta_r6": "+0.42",
+        "features_ameliorees": [
+          "f1_mean",
+          "f1b_rhythm_ratio"
+        ],
+        "features_degradees": [
+          "f25g_description_score"
+        ],
+        "verdict": "SUCCESS"
+      },
+      {
+        "phrase_num": 1,
+        "originale": "Combray) il y avait bien longtemps que l'heure altière de midi, descendue de la tour de Saint-Hilaire qu'elle armoriait des douze fleurons momentanés de sa couronne sonore avait retenti autour de notre table, auprès du pain bénit venu lui aussi familièrement en sortant de l'église, quand nous étions encore assis devant les assiettes des Mille et une Nuits, appesantis par la chaleur et surtout par le repas.",
+        "reecrite": "À Combray, il y avait bien longtemps que l'heure majestueuse de midi, descendue de la tour de Saint-Hilaire qu'elle couronnait des douze fleurons éphémères de sa sonnerie dorée, avait résonné autour de notre table, auprès du pain bénit venu lui aussi familièrement en sortant de l'église, quand nous demeurions encore assis devant les assiettes des Mille et une Nuits, alourdis par la chaleur et surtout par le repas.",
+        "consigne": "Améliore la qualité littéraire de cette phrase sans changer son sens.",
+        "feature_ciblee": "",
+        "delta_r6": "+0.91",
+        "features_ameliorees": [
+          "f1b_rhythm_ratio",
+          "f9a_contradiction_rate"
+        ],
+        "features_degradees": [
+          "f25g_description_score"
+        ],
+        "verdict": "SUCCESS"
+      },
+      {
+        "phrase_num": 8,
+        "originale": "J'allais m'asseoir près de la pompe et de son auge, souvent ornée, comme un fond gothique, d'une salamandre, qui sculptait sur la pierre fruste le relief mobile de son corps allégorique et fuselé, sur le banc sans dossier ombragé d'un lilas, dans ce petit coin du jardin qui s'ouvrait par une porte de service sur",
+        "reecrite": "J'allais m'installer près de la pompe et de son bassin, souvent paré, tel un retable gothique, d'une salamandre qui ciselait sur la pierre rugueuse le relief ondoyant de son corps emblématique et effilé, sur le banc sans dossier que couvrait l'ombre d'un lilas, dans ce petit recoin du jardin qui s'ouvrait par une porte de service sur",
+        "consigne": "Améliore la qualité littéraire de cette phrase sans changer son sens.",
+        "feature_ciblee": "",
+        "delta_r6": "+1.95",
+        "features_ameliorees": [
+          "f25g_description_score",
+          "f1b_rhythm_ratio",
+          "f9a_contradiction_rate"
+        ],
+        "features_degradees": [
+          "f1_mean",
+          "f5c_action_verb_ratio"
+        ],
+        "verdict": "SUCCESS"
+      }
+    ],
+    "r6_original": 39.83,
+    "r6_apres_3_modifs": 41.78,
+    "delta_total": "+1.95"
+  },
+  "LYRIQUE_GarciaMarquez": {
+    "modifications": [
+      {
+        "phrase_num": 12,
+        "originale": "Son point de vue, contraire à l’interprétation générale, était que Macondo avait été un endroit prospère, bien conduit, jusqu’au jour où vint y semer le désordre, le corrompre et le presser comme un fruit la compagnie bananière, dont les ingénieurs avaient provoqué le déluge pour s’en servir de prétexte à ne pas tenir leurs engagements vis-à-vis des travailleurs.",
+        "reecrite": "Son point de vue, contraire à l'interprétation générale, était que Macondo avait été un lieu prospère et bien ordonné, jusqu'au jour où la compagnie bananière vint y semer le désordre, le corrompre et le presser comme un fruit mûr, ses ingénieurs ayant provoqué le déluge pour s'en servir de prétexte à ne point honorer leurs engagements envers les travailleurs.",
+        "consigne": "Améliore la qualité littéraire de cette phrase sans changer son sens.",
+        "feature_ciblee": "",
+        "delta_r6": "+0.58",
+        "features_ameliorees": [],
+        "features_degradees": [
+          "f1_mean",
+          "f9a_contradiction_rate"
+        ],
+        "verdict": "SUCCESS"
+      },
+      {
+        "phrase_num": 7,
+        "originale": "Aureliano le Second était confiant que la vieillesse adoucirait le cœur de Fernanda afin que l’enfant pût s’incorporer à la vie d’un village où sûrement personne ne se donnerait la peine de faire de soupçonneuses suppositions sur sa naissance.",
+        "reecrite": "Aureliano le Second nourrissait l'espoir que l'âge attendrirait le cœur de Fernanda pour que l'enfant pût s'intégrer à la vie d'un village où assurément nul ne prendrait la peine de formuler de malveillantes conjectures sur sa naissance.",
+        "consigne": "Améliore la qualité littéraire de cette phrase sans changer son sens.",
+        "feature_ciblee": "",
+        "delta_r6": "+0.98",
+        "features_ameliorees": [
+          "f1_mean"
+        ],
+        "features_degradees": [
+          "f9a_contradiction_rate"
+        ],
+        "verdict": "SUCCESS"
+      },
+      {
+        "phrase_num": 6,
+        "originale": "Les rares fois qu’on le voyait encore venir à la maison, c’était pour Amaranta Ursula car, à la longue, il était devenu un étranger pour Fernanda et le petit Aureliano se montrait farouche et renfermé au fur et à mesure qu’approchait la puberté.",
+        "reecrite": "Les rares fois qu'on le voyait encore paraître à la maison, c'était pour Amaranta Ursula car, avec le temps, il était devenu un étranger pour Fernanda et le petit Aureliano s'enfonçait dans une sauvagerie taciturne à mesure qu'approchaient ses premières années d'homme.",
+        "consigne": "Améliore la qualité littéraire de cette phrase sans changer son sens.",
+        "feature_ciblee": "",
+        "delta_r6": "+0.28",
+        "features_ameliorees": [
+          "f1_mean"
+        ],
+        "features_degradees": [
+          "f9a_contradiction_rate"
+        ],
+        "verdict": "SUCCESS"
+      }
+    ],
+    "r6_original": 40.25,
+    "r6_apres_3_modifs": 40.53,
+    "delta_total": "+0.28"
+  }
+}

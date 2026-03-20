@@ -1,0 +1,82 @@
+{
+  "regles": [
+    {
+      "feature": "f29d_ttr_score",
+      "name": "Richesse lexicale (TTR)",
+      "instruction_gagnante": "variante_C",
+      "instruction_exacte": "Vocabulaire varié. MÉTRIQUE : le ratio types/tokens doit dépasser 0.75 sur chaque fenêtre de 100 mots.",
+      "taux_pilotabilite": 0.8,
+      "gagnant_contradictoire": "C",
+      "categorie": "SOLIDE"
+    },
+    {
+      "feature": "f24e_contrast_score",
+      "name": "Contraste syntaxique",
+      "instruction_gagnante": "variante_B",
+      "instruction_exacte": "Une phrase sur trois doit faire moins de 8 mots. Une phrase sur trois doit dépasser 25 mots.",
+      "taux_pilotabilite": 1,
+      "gagnant_contradictoire": "B",
+      "categorie": "SOLIDE"
+    },
+    {
+      "feature": "f15b_redundancy_compression",
+      "name": "Anti-répétition (compression)",
+      "instruction_gagnante": "variante_C",
+      "instruction_exacte": "Zéro redondance. MÉTRIQUE : aucun bigramme ne doit apparaître plus de 2 fois dans le texte entier.",
+      "taux_pilotabilite": 1,
+      "gagnant_contradictoire": "C",
+      "categorie": "SOLIDE"
+    },
+    {
+      "feature": "f16a_bigram_rarity",
+      "name": "Originalité (rareté bigrammes)",
+      "instruction_gagnante": "variante_C",
+      "instruction_exacte": "Associations originales. MÉTRIQUE : plus de 90% des bigrammes du texte doivent être uniques.",
+      "taux_pilotabilite": 1,
+      "gagnant_contradictoire": "C",
+      "categorie": "SOLIDE"
+    },
+    {
+      "feature": "f25g_description_score",
+      "name": "Description sensorielle",
+      "instruction_gagnante": "variante_C",
+      "instruction_exacte": "Description sensorielle dense. MÉTRIQUE : au moins 8 mots sensoriels pour 100 mots.",
+      "taux_pilotabilite": 0,
+      "gagnant_contradictoire": "C",
+      "categorie": "SOLIDE"
+    },
+    {
+      "feature": "f17_knife_count",
+      "name": "Mots percutants",
+      "instruction_gagnante": "variante_A",
+      "instruction_exacte": "Ajoute des mots percutants, des images vives, des contrastes forts.",
+      "taux_pilotabilite": 0,
+      "gagnant_contradictoire": "A",
+      "categorie": "ILLUSION_DÉCLARATIVE"
+    },
+    {
+      "feature": "f35c_hook_score",
+      "name": "Accroche début",
+      "instruction_gagnante": "variante_A",
+      "instruction_exacte": "Commence par une phrase d'accroche qui crée de la tension.",
+      "taux_pilotabilite": 0,
+      "gagnant_contradictoire": "A",
+      "categorie": "SOLIDE"
+    },
+    {
+      "feature": "f36c_cliff_score",
+      "name": "Suspense fin",
+      "instruction_gagnante": "variante_A",
+      "instruction_exacte": "Termine sur une note de suspense ou d'incomplétude.",
+      "taux_pilotabilite": 0,
+      "gagnant_contradictoire": "A",
+      "categorie": "SOLIDE"
+    }
+  ],
+  "stats": {
+    "SOLIDE": 7,
+    "PROMETTEUSE": 0,
+    "EXPÉRIMENTALE": 0,
+    "ILLUSION_DÉCLARATIVE": 1
+  }
+}

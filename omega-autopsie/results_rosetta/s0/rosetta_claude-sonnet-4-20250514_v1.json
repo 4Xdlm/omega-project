@@ -1,0 +1,104 @@
+{
+  "matrix_id": "rosetta_claude-sonnet-4-20250514_v1",
+  "model": "claude-sonnet-4-20250514",
+  "calibration_date": "2026-03-20",
+  "calibration_tests": 370,
+  "principles": [
+    "P1_classiques_ancre",
+    "P2_contraintes_mecaniques",
+    "P3_premier_tir",
+    "P4_micro_chirurgie",
+    "P5_omega_garde_sa_langue",
+    "P6_llm_ne_se_connait_pas"
+  ],
+  "features": {
+    "f29d_ttr_score": {
+      "pilotability": 0.8,
+      "category": "SOLIDE",
+      "declared_instruction": "Varie le vocabulaire. Remplace les mots répétés par des synonymes ou des périphrases.",
+      "validated_instruction": null,
+      "optimized_instruction": "Vocabulaire varié. MÉTRIQUE : le ratio types/tokens doit dépasser 0.75 sur chaque fenêtre de 100 mots.",
+      "taux_respect_declared": 0.8,
+      "taux_respect_optimized": 0.8,
+      "r6_moyen": 61.37
+    },
+    "f24e_contrast_score": {
+      "pilotability": 1,
+      "category": "SOLIDE",
+      "declared_instruction": "Alterne plus brutalement entre phrases courtes et phrases longues.",
+      "validated_instruction": null,
+      "optimized_instruction": "Une phrase sur trois doit faire moins de 8 mots. Une phrase sur trois doit dépasser 25 mots.",
+      "taux_respect_declared": 1,
+      "taux_respect_optimized": 1,
+      "r6_moyen": 52.69
+    },
+    "f15b_redundancy_compression": {
+      "pilotability": 1,
+      "category": "SOLIDE",
+      "declared_instruction": "Réduis les répétitions de bigrammes. Varie les formulations.",
+      "validated_instruction": null,
+      "optimized_instruction": "Zéro redondance. MÉTRIQUE : aucun bigramme ne doit apparaître plus de 2 fois dans le texte entier.",
+      "taux_respect_declared": 1,
+      "taux_respect_optimized": 1,
+      "r6_moyen": 58.27
+    },
+    "f16a_bigram_rarity": {
+      "pilotability": 1,
+      "category": "SOLIDE",
+      "declared_instruction": "Utilise des combinaisons de mots plus originales et rares.",
+      "validated_instruction": null,
+      "optimized_instruction": "Associations originales. MÉTRIQUE : plus de 90% des bigrammes du texte doivent être uniques.",
+      "taux_respect_declared": 1,
+      "taux_respect_optimized": 1,
+      "r6_moyen": 62.27
+    },
+    "f25g_description_score": {
+      "pilotability": 0,
+      "category": "SOLIDE",
+      "declared_instruction": "Enrichis les descriptions sensorielles : couleurs précises, textures, sons, odeurs spécifiques.",
+      "validated_instruction": null,
+      "optimized_instruction": "Description sensorielle dense. MÉTRIQUE : au moins 8 mots sensoriels pour 100 mots.",
+      "taux_respect_declared": 0.8,
+      "taux_respect_optimized": 0.8,
+      "r6_moyen": 54.69
+    },
+    "f17_knife_count": {
+      "pilotability": 0,
+      "category": "ILLUSION_DÉCLARATIVE",
+      "declared_instruction": "Ajoute des mots percutants, des images vives, des contrastes forts.",
+      "validated_instruction": "Ajoute des mots percutants, des images vives, des contrastes forts.",
+      "optimized_instruction": null,
+      "taux_respect_declared": 0.2,
+      "taux_respect_optimized": null,
+      "r6_moyen": 56.11
+    },
+    "f35c_hook_score": {
+      "pilotability": 0,
+      "category": "SOLIDE",
+      "declared_instruction": "Commence par une phrase d'accroche qui crée de la tension.",
+      "validated_instruction": "Commence par une phrase d'accroche qui crée de la tension.",
+      "optimized_instruction": null,
+      "taux_respect_declared": 0.9,
+      "taux_respect_optimized": null,
+      "r6_moyen": 55.19
+    },
+    "f36c_cliff_score": {
+      "pilotability": 0,
+      "category": "SOLIDE",
+      "declared_instruction": "Termine sur une note de suspense ou d'incomplétude.",
+      "validated_instruction": "Termine sur une note de suspense ou d'incomplétude.",
+      "optimized_instruction": null,
+      "taux_respect_declared": 1,
+      "taux_respect_optimized": null,
+      "r6_moyen": 54.87
+    }
+  },
+  "micro_surgery": {
+    "validated": false,
+    "method": "phrase_par_phrase",
+    "max_phrases_par_passe": 3,
+    "consigne_type": "bornee",
+    "delta_r6_moyen": "+0",
+    "taux_succes": 0
+  }
+}

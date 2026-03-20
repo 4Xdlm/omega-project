@@ -119,9 +119,38 @@ const SENSORY: Record<string, string[]> = {
 const ADJ_MARKERS = ['eux', 'euse', 'ique', 'able', 'ible', 'ant', 'ent', 'al', 'el', 'ous', 'ful', 'less', 'ive',
                      'oso', 'osa', 'ado', 'ada', 'ido', 'ida'];
 const ADV_MARKERS = ['ment', 'ement', 'amment', 'ly', 'ally', 'mente'];
-const ACTION_VERBS = ['marcha', 'couri', 'dit', 'repondi', 'prit', 'saisi', 'ouvri', 'ferma',
-                      'walked', 'ran', 'said', 'took', 'opened', 'closed', 'grabbed', 'threw',
-                      'camino', 'corrio', 'dijo', 'tomo', 'abrio', 'cerro'];
+// ACTION_VERB_FORMS: exact conjugated forms only (Set for O(1) lookup).
+// FIX S0.1: replaced stems + includes() which caused false positives
+// (e.g. 'dit' matched 'tradition', 'prit' matched 'esprit').
+const ACTION_VERB_FORMS = new Set([
+  // FR — marcher
+  'marcha', 'marchait', 'marchaient', 'marcherent', 'marche',
+  // FR — courir
+  'courut', 'courait', 'couraient', 'coururent', 'couru',
+  // FR — dire (speech action)
+  'dit', 'disait', 'disaient', 'dirent',
+  // FR — répondre
+  'repondit', 'repondait', 'repondaient', 'repondirent', 'repondu',
+  // FR — prendre
+  'prit', 'prenait', 'prenaient', 'prirent', 'pris',
+  // FR — saisir
+  'saisit', 'saisissait', 'saisissaient', 'saisirent', 'saisi',
+  // FR — ouvrir
+  'ouvrit', 'ouvrait', 'ouvraient', 'ouvrirent', 'ouvert',
+  // FR — fermer
+  'ferma', 'fermait', 'fermaient', 'fermerent', 'ferme',
+  // FR — extra action verbs (common in literary prose)
+  'frappa', 'frappait', 'lanca', 'lancait', 'jeta', 'jetait',
+  'tira', 'tirait', 'poussa', 'poussait', 'bondit', 'bondissait',
+  'sauta', 'sautait', 'attrapa', 'attrapait', 'tomba', 'tombait',
+  'coupa', 'coupait', 'brisa', 'brisait', 'arracha', 'arrachait',
+  // EN
+  'walked', 'ran', 'said', 'took', 'opened', 'closed', 'grabbed', 'threw',
+  'hit', 'jumped', 'pushed', 'pulled', 'struck', 'kicked', 'seized', 'caught',
+  // ES
+  'camino', 'corrio', 'dijo', 'tomo', 'abrio', 'cerro',
+  'golpeo', 'lanzo', 'salto', 'empujo',
+]);
 const SUSPENSION = ['etait', 'semblait', 'paraissait', 'demeurait', 'restait', 'planait', 'flottait',
                     'regnait', 'was', 'seemed', 'appeared', 'remained', 'hovered', 'lay',
                     'era', 'parecia', 'permanecia', 'quedaba', 'flotaba'];
@@ -150,7 +179,7 @@ function computeF25(text: string, sents: string[]): Record<string, number> {
 
   const adjCount = words.filter(w => ADJ_MARKERS.some(m => w.toLowerCase().endsWith(m))).length;
   const advCount = words.filter(w => ADV_MARKERS.some(m => w.toLowerCase().endsWith(m))).length;
-  const actionCount = Math.max(words.filter(w => ACTION_VERBS.some(v => w.toLowerCase().includes(v))).length, 1);
+  const actionCount = Math.max(words.filter(w => ACTION_VERB_FORMS.has(w.toLowerCase().replace(/[.,;:!?"'()]/g, ''))).length, 1);
   const descDensity = Math.min(round((adjCount + advCount) / actionCount, 4), 10.0);
 
   const suspCount = words.filter(w => SUSPENSION.includes(w.toLowerCase())).length;
@@ -515,13 +544,22 @@ function computeF5(text: string): Record<string, number> {
   let actionVerbCount = 0;
   for (const w of words) {
     const lower = w.toLowerCase().replace(/[.,;:!?"'()]/g, '');
-    if (COMMON_VERBS.has(lower)) {
-      verbCount++;
+    // FIX S0.1: action verb check uses exact Set.has(), not substring includes()
+    const isAction = ACTION_VERB_FORMS.has(lower);
+    // Verb detection: COMMON_VERBS OR action verb forms OR ending heuristic
+    let isVerb = false;
+    if (COMMON_VERBS.has(lower) || isAction) {
+      isVerb = true;
     } else if (lower.length > 4 && allEndings.some(e => lower.endsWith(e))) {
-      verbCount++;
+      isVerb = true;
     }
-    if (ACTION_VERBS.some(v => lower.includes(v))) {
-      actionVerbCount++;
+    if (isVerb) {
+      verbCount++;
+      // FIX S0.1: actionVerbCount only incremented for detected verbs
+      // This guarantees actionVerbRatio ∈ [0, 1]
+      if (isAction) {
+        actionVerbCount++;
+      }
     }
   }
 

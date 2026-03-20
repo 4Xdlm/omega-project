@@ -1,0 +1,75 @@
+{
+  "phase": "S0.1",
+  "date": "2026-03-20",
+  "feature_auditee": "f5c_action_verb_ratio",
+  "valeur_suspecte": 3.5,
+  "valeur_baseline": 0.1933,
+  "source_donnees": "results_rosetta/phase3/bloc_d_recomposition.json → f5c_action_verb_ratio → test_300w",
+
+  "diagnostic": "BUG_DOUBLE_DEFAUT",
+
+  "bug_1_substring_matching": {
+    "severite": "CRITIQUE",
+    "description": "ACTION_VERBS.some(v => lower.includes(v)) utilise un match par SOUS-CHAÎNE au lieu d'un match exact ou par frontière de mot.",
+    "liste_ACTION_VERBS": ["marcha", "couri", "dit", "repondi", "prit", "saisi", "ouvri", "ferma", "walked", "ran", "said", "took", "opened", "closed", "grabbed", "threw", "camino", "corrio", "dijo", "tomo", "abrio", "cerro"],
+    "pires_faux_positifs": {
+      "dit": ["tradition", "condition", "interdit", "maudit", "érudition", "crédit", "inédit", "prédiction", "malédiction", "additif", "audit"],
+      "prit": ["esprit", "comprit", "entreprit", "méprit", "surprit"],
+      "ouvri": ["découvrit", "recouvrit", "couvrit"],
+      "ferma": ["fermait", "fermature", "fermement"],
+      "marcha": ["marchait", "marchande", "marchair"]
+    },
+    "impact": "Le numérateur (actionVerbCount) compte des mots NON-VERBES comme des verbes d'action. Toute prose contenant des mots avec le substring 'dit' est sur-comptée."
+  },
+
+  "bug_2_denominateur_incoherent": {
+    "severite": "CRITIQUE",
+    "description": "f5c = actionVerbCount / max(verbCount, 1). Le numérateur détecte par substring (surestimé). Le dénominateur détecte par COMMON_VERBS exact + terminaisons verbales (sous-estimé). Le ratio peut dépasser 1.0, ce qui est MATHÉMATIQUEMENT ABSURDE pour un ratio de sous-catégorie (action verbs / total verbs).",
+    "preuve_numerique": {
+      "f5a_verb_density": 0.0096,
+      "estimation_nWords": "~200-270 (mots >2 chars sur ~300 mots bruts)",
+      "estimation_verbCount": 2,
+      "f5c_mesure": 3.5,
+      "estimation_actionVerbCount": 7,
+      "faux_positifs_estimes": 5,
+      "vrais_verbes_action_estimes": 2
+    },
+    "ratio_max_theorique": "1.0 (action verbs ne peut PAS dépasser total verbs si la détection est cohérente)",
+    "ratio_observe": 3.5,
+    "conclusion": "Le ratio est 3.5× le maximum théorique → BUG CONFIRMÉ"
+  },
+
+  "code_concerne": {
+    "fichier": "packages/sovereign-engine/src/scoring/text-features.ts",
+    "fonction": "computeF5()",
+    "lignes_critiques": {
+      "detection_action_verbs": "ACTION_VERBS.some(v => lower.includes(v))",
+      "calcul_ratio": "actionVerbRatio = round(actionVerbCount / Math.max(verbCount, 1), 4)"
+    }
+  },
+
+  "correction_proposee": {
+    "fix_1_boundary_matching": {
+      "description": "Remplacer includes() par un match sur frontière de mot",
+      "avant": "ACTION_VERBS.some(v => lower.includes(v))",
+      "apres": "ACTION_VERBS.some(v => new RegExp(`\\\\b${v}\\\\b`).test(lower)) OU utiliser startsWith() pour les radicaux verbaux",
+      "alternative": "Créer une liste de FORMES CONJUGUÉES complètes (dit, disait, dirent, dira, etc.) avec match exact"
+    },
+    "fix_2_denominateur": {
+      "description": "Le dénominateur devrait être nWords (densité) ou au minimum être cohérent avec le numérateur",
+      "option_a": "actionVerbRatio = actionVerbCount / nWords (comme f5a_verb_density)",
+      "option_b": "actionVerbRatio = actionVerbCount / max(verbCount, 1) MAIS actionVerbCount filtré aux vrais verbes seulement",
+      "recommandation": "Option B — garder la sémantique ratio-de-sous-catégorie MAIS corriger le numérateur d'abord"
+    }
+  },
+
+  "impact_sur_S0": {
+    "f5c_doit_etre_recalculee": true,
+    "f5c_est_pilotable": "INCONNU — à retester après fix",
+    "f5c_dans_bench_S0_2": "EXCLURE tant que le fix n'est pas appliqué",
+    "f5c_dans_bench_S0_4": "REPORTER après fix"
+  },
+
+  "verdict": "BUG_NORMALISATION_CONFIRMÉ — DOUBLE DÉFAUT (substring matching + dénominateur incohérent). Le ratio 3.5 est un ARTEFACT, pas un progrès réel. La feature f5c est INVALIDE en l'état.",
+  "action_requise": "FIX text-features.ts computeF5() → corriger le matching + recalculer sur données existantes"
+}

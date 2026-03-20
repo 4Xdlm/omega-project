@@ -1,0 +1,506 @@
+{
+  "DESCRIPTION": {
+    "contraintes_efficaces": [
+      {
+        "feature": "f29d_ttr_score",
+        "instruction": "Varie le vocabulaire. Remplace les mots répétés par des synonymes ou des périphrases.",
+        "taux_respect": 1
+      },
+      {
+        "feature": "f24e_contrast_score",
+        "instruction": "Alterne plus brutalement entre phrases courtes et phrases longues.",
+        "taux_respect": 0.75
+      },
+      {
+        "feature": "f15b_redundancy_compression",
+        "instruction": "Réduis les répétitions de bigrammes. Varie les formulations.",
+        "taux_respect": 1
+      },
+      {
+        "feature": "f16a_bigram_rarity",
+        "instruction": "Utilise des combinaisons de mots plus originales et rares.",
+        "taux_respect": 1
+      }
+    ],
+    "contraintes_ignorees": [
+      {
+        "feature": "f1_mean",
+        "instruction": "Allonge tes phrases. Fusionne avec des connecteurs (qui, dont, lorsque, tandis que).",
+        "taux_respect": 0.5
+      },
+      {
+        "feature": "f5a_verb_density",
+        "instruction": "Ajoute plus de verbes d'action dans chaque phrase.",
+        "taux_respect": 0.25
+      },
+      {
+        "feature": "f25g_description_score",
+        "instruction": "Enrichis les descriptions sensorielles : couleurs précises, textures, sons, odeurs spécifiques.",
+        "taux_respect": 0.25
+      },
+      {
+        "feature": "f28d_sil_score",
+        "instruction": "Utilise le style indirect libre : 3ème personne, pas de verbe introducteur. Ex: \"Il n'avait pas le droit. Pas après tout ce temps.\"",
+        "taux_respect": 0
+      },
+      {
+        "feature": "f27d_modal_score",
+        "instruction": "Ajoute des modalisateurs : peut-être, sans doute, il semblait que, comme si.",
+        "taux_respect": 0
+      },
+      {
+        "feature": "f38c_speed_score",
+        "instruction": "Accélère. Phrases plus courtes par moments. Plus de sauts de paragraphe.",
+        "taux_respect": 0.25
+      },
+      {
+        "feature": "f1b_rhythm_ratio",
+        "instruction": "Alterne davantage entre phrases courtes et longues. Crée un rythme plus varié.",
+        "taux_respect": 0
+      },
+      {
+        "feature": "f5c_action_verb_ratio",
+        "instruction": "Utilise plus de verbes d'action physique : courir, saisir, frapper, grimper.",
+        "taux_respect": 0
+      },
+      {
+        "feature": "f17_knife_count",
+        "instruction": "Ajoute des mots percutants, des images vives, des contrastes forts.",
+        "taux_respect": 0
+      },
+      {
+        "feature": "f9a_contradiction_rate",
+        "instruction": "Ajoute des adversatifs : mais, pourtant, cependant, néanmoins.",
+        "taux_respect": 0
+      },
+      {
+        "feature": "f21c_diacope_rate",
+        "instruction": "Répète des mots-clés à distance pour créer un écho. Ex: \"La mer... [...] ...la mer.\"",
+        "taux_respect": 0.25
+      },
+      {
+        "feature": "f36c_cliff_score",
+        "instruction": "Termine sur une note de suspense ou d'incomplétude.",
+        "taux_respect": 0.5
+      },
+      {
+        "feature": "f35c_hook_score",
+        "instruction": "Commence par une phrase d'accroche qui crée de la tension.",
+        "taux_respect": 0.25
+      }
+    ],
+    "meilleur_r6_atteint": 54.52,
+    "distance_min_au_classique": 0.5903,
+    "features_irreductibles": [
+      "f28d_sil_score",
+      "f27d_modal_score",
+      "f1b_rhythm_ratio",
+      "f5c_action_verb_ratio",
+      "f17_knife_count",
+      "f9a_contradiction_rate"
+    ],
+    "convergence_apres_iterations": 2.5
+  },
+  "ACTION": {
+    "contraintes_efficaces": [
+      {
+        "feature": "f29d_ttr_score",
+        "instruction": "Varie le vocabulaire. Remplace les mots répétés par des synonymes ou des périphrases.",
+        "taux_respect": 1
+      },
+      {
+        "feature": "f24e_contrast_score",
+        "instruction": "Alterne plus brutalement entre phrases courtes et phrases longues.",
+        "taux_respect": 1
+      },
+      {
+        "feature": "f15b_redundancy_compression",
+        "instruction": "Réduis les répétitions de bigrammes. Varie les formulations.",
+        "taux_respect": 1
+      },
+      {
+        "feature": "f16a_bigram_rarity",
+        "instruction": "Utilise des combinaisons de mots plus originales et rares.",
+        "taux_respect": 1
+      },
+      {
+        "feature": "f35c_hook_score",
+        "instruction": "Commence par une phrase d'accroche qui crée de la tension.",
+        "taux_respect": 0.75
+      }
+    ],
+    "contraintes_ignorees": [
+      {
+        "feature": "f1_mean",
+        "instruction": "Allonge tes phrases. Fusionne avec des connecteurs (qui, dont, lorsque, tandis que).",
+        "taux_respect": 0.25
+      },
+      {
+        "feature": "f5a_verb_density",
+        "instruction": "Ajoute plus de verbes d'action dans chaque phrase.",
+        "taux_respect": 0
+      },
+      {
+        "feature": "f25g_description_score",
+        "instruction": "Enrichis les descriptions sensorielles : couleurs précises, textures, sons, odeurs spécifiques.",
+        "taux_respect": 0.5
+      },
+      {
+        "feature": "f28d_sil_score",
+        "instruction": "Utilise le style indirect libre : 3ème personne, pas de verbe introducteur. Ex: \"Il n'avait pas le droit. Pas après tout ce temps.\"",
+        "taux_respect": 0
+      },
+      {
+        "feature": "f27d_modal_score",
+        "instruction": "Ajoute des modalisateurs : peut-être, sans doute, il semblait que, comme si.",
+        "taux_respect": 0
+      },
+      {
+        "feature": "f38c_speed_score",
+        "instruction": "Accélère. Phrases plus courtes par moments. Plus de sauts de paragraphe.",
+        "taux_respect": 0.25
+      },
+      {
+        "feature": "f1b_rhythm_ratio",
+        "instruction": "Alterne davantage entre phrases courtes et longues. Crée un rythme plus varié.",
+        "taux_respect": 0.25
+      },
+      {
+        "feature": "f5c_action_verb_ratio",
+        "instruction": "Utilise plus de verbes d'action physique : courir, saisir, frapper, grimper.",
+        "taux_respect": 0
+      },
+      {
+        "feature": "f17_knife_count",
+        "instruction": "Ajoute des mots percutants, des images vives, des contrastes forts.",
+        "taux_respect": 0
+      },
+      {
+        "feature": "f9a_contradiction_rate",
+        "instruction": "Ajoute des adversatifs : mais, pourtant, cependant, néanmoins.",
+        "taux_respect": 0.25
+      },
+      {
+        "feature": "f21c_diacope_rate",
+        "instruction": "Répète des mots-clés à distance pour créer un écho. Ex: \"La mer... [...] ...la mer.\"",
+        "taux_respect": 0
+      },
+      {
+        "feature": "f36c_cliff_score",
+        "instruction": "Termine sur une note de suspense ou d'incomplétude.",
+        "taux_respect": 0.25
+      }
+    ],
+    "meilleur_r6_atteint": 57.8,
+    "distance_min_au_classique": 1.8716,
+    "features_irreductibles": [
+      "f5a_verb_density",
+      "f28d_sil_score",
+      "f27d_modal_score",
+      "f5c_action_verb_ratio",
+      "f17_knife_count",
+      "f21c_diacope_rate"
+    ],
+    "convergence_apres_iterations": 0
+  },
+  "INTROSPECTION": {
+    "contraintes_efficaces": [
+      {
+        "feature": "f29d_ttr_score",
+        "instruction": "Varie le vocabulaire. Remplace les mots répétés par des synonymes ou des périphrases.",
+        "taux_respect": 1
+      },
+      {
+        "feature": "f24e_contrast_score",
+        "instruction": "Alterne plus brutalement entre phrases courtes et phrases longues.",
+        "taux_respect": 1
+      },
+      {
+        "feature": "f15b_redundancy_compression",
+        "instruction": "Réduis les répétitions de bigrammes. Varie les formulations.",
+        "taux_respect": 1
+      },
+      {
+        "feature": "f16a_bigram_rarity",
+        "instruction": "Utilise des combinaisons de mots plus originales et rares.",
+        "taux_respect": 1
+      }
+    ],
+    "contraintes_ignorees": [
+      {
+        "feature": "f1_mean",
+        "instruction": "Allonge tes phrases. Fusionne avec des connecteurs (qui, dont, lorsque, tandis que).",
+        "taux_respect": 0.5
+      },
+      {
+        "feature": "f5a_verb_density",
+        "instruction": "Ajoute plus de verbes d'action dans chaque phrase.",
+        "taux_respect": 0.25
+      },
+      {
+        "feature": "f25g_description_score",
+        "instruction": "Enrichis les descriptions sensorielles : couleurs précises, textures, sons, odeurs spécifiques.",
+        "taux_respect": 0.5
+      },
+      {
+        "feature": "f28d_sil_score",
+        "instruction": "Utilise le style indirect libre : 3ème personne, pas de verbe introducteur. Ex: \"Il n'avait pas le droit. Pas après tout ce temps.\"",
+        "taux_respect": 0
+      },
+      {
+        "feature": "f27d_modal_score",
+        "instruction": "Ajoute des modalisateurs : peut-être, sans doute, il semblait que, comme si.",
+        "taux_respect": 0
+      },
+      {
+        "feature": "f38c_speed_score",
+        "instruction": "Accélère. Phrases plus courtes par moments. Plus de sauts de paragraphe.",
+        "taux_respect": 0.5
+      },
+      {
+        "feature": "f1b_rhythm_ratio",
+        "instruction": "Alterne davantage entre phrases courtes et longues. Crée un rythme plus varié.",
+        "taux_respect": 0.5
+      },
+      {
+        "feature": "f5c_action_verb_ratio",
+        "instruction": "Utilise plus de verbes d'action physique : courir, saisir, frapper, grimper.",
+        "taux_respect": 0
+      },
+      {
+        "feature": "f17_knife_count",
+        "instruction": "Ajoute des mots percutants, des images vives, des contrastes forts.",
+        "taux_respect": 0.5
+      },
+      {
+        "feature": "f9a_contradiction_rate",
+        "instruction": "Ajoute des adversatifs : mais, pourtant, cependant, néanmoins.",
+        "taux_respect": 0.25
+      },
+      {
+        "feature": "f21c_diacope_rate",
+        "instruction": "Répète des mots-clés à distance pour créer un écho. Ex: \"La mer... [...] ...la mer.\"",
+        "taux_respect": 0.33
+      },
+      {
+        "feature": "f36c_cliff_score",
+        "instruction": "Termine sur une note de suspense ou d'incomplétude.",
+        "taux_respect": 0.5
+      },
+      {
+        "feature": "f35c_hook_score",
+        "instruction": "Commence par une phrase d'accroche qui crée de la tension.",
+        "taux_respect": 0.25
+      }
+    ],
+    "meilleur_r6_atteint": 60.33,
+    "distance_min_au_classique": 0.4635,
+    "features_irreductibles": [
+      "f28d_sil_score",
+      "f27d_modal_score",
+      "f5c_action_verb_ratio"
+    ],
+    "convergence_apres_iterations": 2
+  },
+  "CONTEMPLATION": {
+    "contraintes_efficaces": [
+      {
+        "feature": "f29d_ttr_score",
+        "instruction": "Varie le vocabulaire. Remplace les mots répétés par des synonymes ou des périphrases.",
+        "taux_respect": 1
+      },
+      {
+        "feature": "f24e_contrast_score",
+        "instruction": "Alterne plus brutalement entre phrases courtes et phrases longues.",
+        "taux_respect": 0.75
+      },
+      {
+        "feature": "f15b_redundancy_compression",
+        "instruction": "Réduis les répétitions de bigrammes. Varie les formulations.",
+        "taux_respect": 1
+      },
+      {
+        "feature": "f16a_bigram_rarity",
+        "instruction": "Utilise des combinaisons de mots plus originales et rares.",
+        "taux_respect": 1
+      }
+    ],
+    "contraintes_ignorees": [
+      {
+        "feature": "f1_mean",
+        "instruction": "Allonge tes phrases. Fusionne avec des connecteurs (qui, dont, lorsque, tandis que).",
+        "taux_respect": 0.5
+      },
+      {
+        "feature": "f5a_verb_density",
+        "instruction": "Ajoute plus de verbes d'action dans chaque phrase.",
+        "taux_respect": 0
+      },
+      {
+        "feature": "f25g_description_score",
+        "instruction": "Enrichis les descriptions sensorielles : couleurs précises, textures, sons, odeurs spécifiques.",
+        "taux_respect": 0.25
+      },
+      {
+        "feature": "f28d_sil_score",
+        "instruction": "Utilise le style indirect libre : 3ème personne, pas de verbe introducteur. Ex: \"Il n'avait pas le droit. Pas après tout ce temps.\"",
+        "taux_respect": 0
+      },
+      {
+        "feature": "f27d_modal_score",
+        "instruction": "Ajoute des modalisateurs : peut-être, sans doute, il semblait que, comme si.",
+        "taux_respect": 0.5
+      },
+      {
+        "feature": "f38c_speed_score",
+        "instruction": "Accélère. Phrases plus courtes par moments. Plus de sauts de paragraphe.",
+        "taux_respect": 0
+      },
+      {
+        "feature": "f1b_rhythm_ratio",
+        "instruction": "Alterne davantage entre phrases courtes et longues. Crée un rythme plus varié.",
+        "taux_respect": 0.25
+      },
+      {
+        "feature": "f5c_action_verb_ratio",
+        "instruction": "Utilise plus de verbes d'action physique : courir, saisir, frapper, grimper.",
+        "taux_respect": 0
+      },
+      {
+        "feature": "f17_knife_count",
+        "instruction": "Ajoute des mots percutants, des images vives, des contrastes forts.",
+        "taux_respect": 0
+      },
+      {
+        "feature": "f9a_contradiction_rate",
+        "instruction": "Ajoute des adversatifs : mais, pourtant, cependant, néanmoins.",
+        "taux_respect": 0
+      },
+      {
+        "feature": "f21c_diacope_rate",
+        "instruction": "Répète des mots-clés à distance pour créer un écho. Ex: \"La mer... [...] ...la mer.\"",
+        "taux_respect": 0
+      },
+      {
+        "feature": "f36c_cliff_score",
+        "instruction": "Termine sur une note de suspense ou d'incomplétude.",
+        "taux_respect": 0.25
+      },
+      {
+        "feature": "f35c_hook_score",
+        "instruction": "Commence par une phrase d'accroche qui crée de la tension.",
+        "taux_respect": 0.25
+      }
+    ],
+    "meilleur_r6_atteint": 57.28,
+    "distance_min_au_classique": 49.337,
+    "features_irreductibles": [
+      "f5a_verb_density",
+      "f28d_sil_score",
+      "f38c_speed_score",
+      "f5c_action_verb_ratio",
+      "f17_knife_count",
+      "f9a_contradiction_rate",
+      "f21c_diacope_rate"
+    ],
+    "convergence_apres_iterations": 0
+  },
+  "LYRIQUE": {
+    "contraintes_efficaces": [
+      {
+        "feature": "f25g_description_score",
+        "instruction": "Enrichis les descriptions sensorielles : couleurs précises, textures, sons, odeurs spécifiques.",
+        "taux_respect": 0.75
+      },
+      {
+        "feature": "f29d_ttr_score",
+        "instruction": "Varie le vocabulaire. Remplace les mots répétés par des synonymes ou des périphrases.",
+        "taux_respect": 1
+      },
+      {
+        "feature": "f24e_contrast_score",
+        "instruction": "Alterne plus brutalement entre phrases courtes et phrases longues.",
+        "taux_respect": 1
+      },
+      {
+        "feature": "f15b_redundancy_compression",
+        "instruction": "Réduis les répétitions de bigrammes. Varie les formulations.",
+        "taux_respect": 1
+      },
+      {
+        "feature": "f16a_bigram_rarity",
+        "instruction": "Utilise des combinaisons de mots plus originales et rares.",
+        "taux_respect": 1
+      },
+      {
+        "feature": "f17_knife_count",
+        "instruction": "Ajoute des mots percutants, des images vives, des contrastes forts.",
+        "taux_respect": 1
+      },
+      {
+        "feature": "f36c_cliff_score",
+        "instruction": "Termine sur une note de suspense ou d'incomplétude.",
+        "taux_respect": 0.75
+      }
+    ],
+    "contraintes_ignorees": [
+      {
+        "feature": "f1_mean",
+        "instruction": "Allonge tes phrases. Fusionne avec des connecteurs (qui, dont, lorsque, tandis que).",
+        "taux_respect": 0.25
+      },
+      {
+        "feature": "f5a_verb_density",
+        "instruction": "Ajoute plus de verbes d'action dans chaque phrase.",
+        "taux_respect": 0.5
+      },
+      {
+        "feature": "f28d_sil_score",
+        "instruction": "Utilise le style indirect libre : 3ème personne, pas de verbe introducteur. Ex: \"Il n'avait pas le droit. Pas après tout ce temps.\"",
+        "taux_respect": 0
+      },
+      {
+        "feature": "f27d_modal_score",
+        "instruction": "Ajoute des modalisateurs : peut-être, sans doute, il semblait que, comme si.",
+        "taux_respect": 0.25
+      },
+      {
+        "feature": "f38c_speed_score",
+        "instruction": "Accélère. Phrases plus courtes par moments. Plus de sauts de paragraphe.",
+        "taux_respect": 0.25
+      },
+      {
+        "feature": "f1b_rhythm_ratio",
+        "instruction": "Alterne davantage entre phrases courtes et longues. Crée un rythme plus varié.",
+        "taux_respect": 0
+      },
+      {
+        "feature": "f5c_action_verb_ratio",
+        "instruction": "Utilise plus de verbes d'action physique : courir, saisir, frapper, grimper.",
+        "taux_respect": 0.5
+      },
+      {
+        "feature": "f9a_contradiction_rate",
+        "instruction": "Ajoute des adversatifs : mais, pourtant, cependant, néanmoins.",
+        "taux_respect": 0.25
+      },
+      {
+        "feature": "f21c_diacope_rate",
+        "instruction": "Répète des mots-clés à distance pour créer un écho. Ex: \"La mer... [...] ...la mer.\"",
+        "taux_respect": 0.25
+      },
+      {
+        "feature": "f35c_hook_score",
+        "instruction": "Commence par une phrase d'accroche qui crée de la tension.",
+        "taux_respect": 0.5
+      }
+    ],
+    "meilleur_r6_atteint": 54.64,
+    "distance_min_au_classique": 0.9312,
+    "features_irreductibles": [
+      "f28d_sil_score",
+      "f1b_rhythm_ratio"
+    ],
+    "convergence_apres_iterations": 0
+  }
+}

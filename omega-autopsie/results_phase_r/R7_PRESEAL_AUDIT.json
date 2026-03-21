@@ -1,0 +1,414 @@
+{
+  "audit1_length_correlation": {
+    "pearson_r": 0.6007,
+    "spearman_rho": 0.5853,
+    "p_value": 0.0139,
+    "n_sources": 16,
+    "verdict": "MIXED",
+    "data": [
+      {
+        "source": "Flaubert-Bovary",
+        "words": 112516,
+        "delta": 0.8152
+      },
+      {
+        "source": "Flaubert-Education",
+        "words": 142717,
+        "delta": 0.2067
+      },
+      {
+        "source": "Flaubert-Salammbo",
+        "words": 156141,
+        "delta": 0.4343
+      },
+      {
+        "source": "Proust-Swann",
+        "words": 166234,
+        "delta": 0.3866
+      },
+      {
+        "source": "Hugo-Miserables",
+        "words": 110076,
+        "delta": 0.1685
+      },
+      {
+        "source": "Hugo-NotreDame",
+        "words": 194009,
+        "delta": 0.6476
+      },
+      {
+        "source": "Zola-BeteHumaine",
+        "words": 31139,
+        "delta": 0.2183
+      },
+      {
+        "source": "Zola-BonheurDames",
+        "words": 153040,
+        "delta": 0.9165
+      },
+      {
+        "source": "Dostoievski-Crime",
+        "words": 118691,
+        "delta": 0.4143
+      },
+      {
+        "source": "Camus-Etranger",
+        "words": 32287,
+        "delta": 0.2411
+      },
+      {
+        "source": "Camus-Peste",
+        "words": 83812,
+        "delta": 0.4986
+      },
+      {
+        "source": "Claude-Opus",
+        "words": 2820,
+        "delta": -0.1448
+      },
+      {
+        "source": "GPT-5.4",
+        "words": 83121,
+        "delta": -0.0731
+      },
+      {
+        "source": "Riviera",
+        "words": 51229,
+        "delta": -0.1167
+      },
+      {
+        "source": "Gemini",
+        "words": 117032,
+        "delta": -0.1344
+      },
+      {
+        "source": "Commercial-JadeWest",
+        "words": 57811,
+        "delta": -0.1799
+      }
+    ]
+  },
+  "audit2_enrich_d": {
+    "original_d_count": 10,
+    "synthetic_d_added": 40,
+    "methods": {
+      "worst_predicted": 20,
+      "worst_commercial": 10,
+      "scrambled_s": 10
+    },
+    "before": {
+      "r2": 0.638,
+      "spearman": 0.7865
+    },
+    "after": {
+      "r2": 0.6681,
+      "spearman": 0.7928,
+      "d_mean_pred": 1.9549,
+      "s_d_inversions": 15
+    },
+    "holdout": {
+      "r2": 0.3585,
+      "spearman": 0.4554
+    }
+  },
+  "audit3_passage_classifier": {
+    "n_passages": 85,
+    "type_distribution": {
+      "description": 19,
+      "narration": 31,
+      "action": 9,
+      "introspection": 3,
+      "dialogue": 23
+    },
+    "sample_classifications": [
+      {
+        "source": "Flaubert-Bovary",
+        "category": "S",
+        "scale": 500,
+        "position": 0.17,
+        "classification": {
+          "narration": 0.3217,
+          "description": 0.38,
+          "dialogue": 0.0174,
+          "introspection": 0.0182,
+          "action": 0.2627,
+          "dominant_type": "description"
+        }
+      },
+      {
+        "source": "Flaubert-Bovary",
+        "category": "S",
+        "scale": 500,
+        "position": 0.33,
+        "classification": {
+          "narration": 0.3397,
+          "description": 0.3403,
+          "dialogue": 0.0518,
+          "introspection": 0.0337,
+          "action": 0.2345,
+          "dominant_type": "description"
+        }
+      },
+      {
+        "source": "Flaubert-Bovary",
+        "category": "S",
+        "scale": 500,
+        "position": 0.5,
+        "classification": {
+          "narration": 0.429,
+          "description": 0.272,
+          "dialogue": 0.0172,
+          "introspection": 0.0206,
+          "action": 0.2613,
+          "dominant_type": "narration"
+        }
+      },
+      {
+        "source": "Flaubert-Bovary",
+        "category": "S",
+        "scale": 500,
+        "position": 0.67,
+        "classification": {
+          "narration": 0.3312,
+          "description": 0.2702,
+          "dialogue": 0.036,
+          "introspection": 0.0162,
+          "action": 0.3464,
+          "dominant_type": "action"
+        }
+      },
+      {
+        "source": "Flaubert-Bovary",
+        "category": "S",
+        "scale": 500,
+        "position": 0.83,
+        "classification": {
+          "narration": 0.4116,
+          "description": 0.2486,
+          "dialogue": 0.0165,
+          "introspection": 0.0,
+          "action": 0.3234,
+          "dominant_type": "narration"
+        }
+      },
+      {
+        "source": "Flaubert-Bovary",
+        "category": "S",
+        "scale": 2000,
+        "position": 0.17,
+        "classification": {
+          "narration": 0.4,
+          "description": 0.317,
+          "dialogue": 0.0073,
+          "introspection": 0.0124,
+          "action": 0.2634,
+          "dominant_type": "narration"
+        }
+      },
+      {
+        "source": "Flaubert-Bovary",
+        "category": "S",
+        "scale": 2000,
+        "position": 0.33,
+        "classification": {
+          "narration": 0.3553,
+          "description": 0.3116,
+          "dialogue": 0.0275,
+          "introspection": 0.051,
+          "action": 0.2546,
+          "dominant_type": "narration"
+        }
+      },
+      {
+        "source": "Flaubert-Bovary",
+        "category": "S",
+        "scale": 2000,
+        "position": 0.5,
+        "classification": {
+          "narration": 0.4141,
+          "description": 0.2609,
+          "dialogue": 0.0182,
+          "introspection": 0.0362,
+          "action": 0.2707,
+          "dominant_type": "narration"
+        }
+      },
+      {
+        "source": "Flaubert-Bovary",
+        "category": "S",
+        "scale": 2000,
+        "position": 0.67,
+        "classification": {
+          "narration": 0.3847,
+          "description": 0.2977,
+          "dialogue": 0.0191,
+          "introspection": 0.0351,
+          "action": 0.2634,
+          "dominant_type": "narration"
+        }
+      },
+      {
+        "source": "Flaubert-Bovary",
+        "category": "S",
+        "scale": 2000,
+        "position": 0.83,
+        "classification": {
+          "narration": 0.4375,
+          "description": 0.2647,
+          "dialogue": 0.0109,
+          "introspection": 0.0217,
+          "action": 0.2652,
+          "dominant_type": "narration"
+        }
+      }
+    ]
+  },
+  "audit4_endurance_profile": {
+    "profiles": [
+      {
+        "source": "Flaubert-Bovary",
+        "category": "S-Master",
+        "delta_court": 0.2317,
+        "delta_long": 0.1856,
+        "variance_inter": 0.2091
+      },
+      {
+        "source": "Flaubert-Education",
+        "category": "S-Master",
+        "delta_court": 0.1843,
+        "delta_long": -0.0722,
+        "variance_inter": 0.0929
+      },
+      {
+        "source": "Flaubert-Salammbo",
+        "category": "S-Master",
+        "delta_court": 0.1332,
+        "delta_long": 0.1515,
+        "variance_inter": 0.1424
+      },
+      {
+        "source": "Proust-Swann",
+        "category": "S-Master",
+        "delta_court": 0.0113,
+        "delta_long": -0.1111,
+        "variance_inter": 0.0611
+      },
+      {
+        "source": "Hugo-Miserables",
+        "category": "S-Master",
+        "delta_court": 0.0088,
+        "delta_long": 0.2698,
+        "variance_inter": 0.1584
+      },
+      {
+        "source": "Hugo-NotreDame",
+        "category": "S-Master",
+        "delta_court": 0.3069,
+        "delta_long": 0.158,
+        "variance_inter": 0.2364
+      },
+      {
+        "source": "Zola-BeteHumaine",
+        "category": "S-Master",
+        "delta_court": 0.1803,
+        "delta_long": -0.0118,
+        "variance_inter": 0.1009
+      },
+      {
+        "source": "Zola-BonheurDames",
+        "category": "S-Master",
+        "delta_court": 0.0901,
+        "delta_long": -0.0217,
+        "variance_inter": 0.047
+      },
+      {
+        "source": "Dostoievski-Crime",
+        "category": "S-Master",
+        "delta_court": 0.0741,
+        "delta_long": 0.2566,
+        "variance_inter": 0.1735
+      },
+      {
+        "source": "Camus-Etranger",
+        "category": "S-Master",
+        "delta_court": 0.3371,
+        "delta_long": 0.2679,
+        "variance_inter": 0.3032
+      },
+      {
+        "source": "Camus-Peste",
+        "category": "S-Master",
+        "delta_court": 0.0782,
+        "delta_long": 0.1622,
+        "variance_inter": 0.1226
+      },
+      {
+        "source": "Claude-Opus",
+        "category": "LLM",
+        "delta_court": null,
+        "delta_long": null,
+        "variance_inter": null
+      },
+      {
+        "source": "GPT-5.4",
+        "category": "LLM",
+        "delta_court": -0.3151,
+        "delta_long": null,
+        "variance_inter": 0.2228
+      },
+      {
+        "source": "Riviera",
+        "category": "LLM",
+        "delta_court": 0.167,
+        "delta_long": 0.121,
+        "variance_inter": 0.1446
+      },
+      {
+        "source": "Gemini",
+        "category": "LLM",
+        "delta_court": null,
+        "delta_long": null,
+        "variance_inter": null
+      },
+      {
+        "source": "Commercial-JadeWest",
+        "category": "C-Commercial",
+        "delta_court": 0.4851,
+        "delta_long": -0.0461,
+        "variance_inter": 0.2678
+      },
+      {
+        "source": "Commercial-MountainKings",
+        "category": "C-Commercial",
+        "delta_court": 0.3314,
+        "delta_long": -0.1564,
+        "variance_inter": 0.1658
+      },
+      {
+        "source": "Commercial-AlienWarrior",
+        "category": "C-Commercial",
+        "delta_court": 0.1522,
+        "delta_long": 0.1709,
+        "variance_inter": 0.1616
+      }
+    ],
+    "best_separator": "delta_court",
+    "separations": {
+      "delta_court": 0.2228,
+      "delta_long": 0.0087,
+      "variance_inter": 0.0339
+    }
+  },
+  "audit5_confidence": {
+    "endurance_sources": {
+      "VERIFIED_STRONG": 13,
+      "VERIFIED": 3,
+      "NON_VERIFIABLE": 2
+    },
+    "corpus_wide": {
+      "VERIFIED_STRONG": 568,
+      "VERIFIED": 3,
+      "NON_VERIFIABLE": 0
+    }
+  }
+}

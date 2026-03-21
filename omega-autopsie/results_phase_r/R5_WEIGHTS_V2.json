@@ -1,0 +1,200 @@
+{
+  "method": "Ridge regression",
+  "lambda": 1.0,
+  "r_squared": 0.2216,
+  "intercept": 5.857129,
+  "n_samples": 571,
+  "n_features": 16,
+  "features": {
+    "f26b_long_sent_rate": {
+      "weight_raw": 2.477073,
+      "weight_std": 0.2808,
+      "weight_pct": 19.96,
+      "direction": "POSITIVE",
+      "mean": 0.093849,
+      "std": 0.113371
+    },
+    "f1a_rhythm_variance": {
+      "weight_raw": -0.000958,
+      "weight_std": -0.0087,
+      "weight_pct": -0.01,
+      "direction": "POSITIVE",
+      "mean": 14.163597,
+      "std": 9.135319
+    },
+    "f1_mean": {
+      "weight_raw": -0.008319,
+      "weight_std": -0.1403,
+      "weight_pct": -0.07,
+      "direction": "POSITIVE",
+      "mean": 20.080534,
+      "std": 16.858793
+    },
+    "f24c_contrast_delta": {
+      "weight_raw": 0.019955,
+      "weight_std": 0.2118,
+      "weight_pct": 0.16,
+      "direction": "POSITIVE",
+      "mean": 27.853949,
+      "std": 10.616213
+    },
+    "f26c_period_score": {
+      "weight_raw": -0.341986,
+      "weight_std": -0.0323,
+      "weight_pct": -2.76,
+      "direction": "POSITIVE",
+      "mean": 0.113457,
+      "std": 0.094561
+    },
+    "f9a_contradiction_rate": {
+      "weight_raw": -0.283392,
+      "weight_std": -0.2346,
+      "weight_pct": -2.28,
+      "direction": "POSITIVE",
+      "mean": 0.840202,
+      "std": 0.827728
+    },
+    "f28b_irony_density": {
+      "weight_raw": 0.044889,
+      "weight_std": 0.0386,
+      "weight_pct": 0.36,
+      "direction": "POSITIVE",
+      "mean": 0.08212,
+      "std": 0.860534
+    },
+    "f27a_epistemic_rate": {
+      "weight_raw": 0.009519,
+      "weight_std": 0.1755,
+      "weight_pct": 0.08,
+      "direction": "POSITIVE",
+      "mean": 8.929382,
+      "std": 18.435967
+    },
+    "f27d_modal_score": {
+      "weight_raw": 0.548484,
+      "weight_std": 0.0716,
+      "weight_pct": 4.42,
+      "direction": "POSITIVE",
+      "mean": 0.236402,
+      "std": 0.130537
+    },
+    "f27c_negation_rate": {
+      "weight_raw": 0.022057,
+      "weight_std": 0.1395,
+      "weight_pct": 0.18,
+      "direction": "POSITIVE",
+      "mean": 2.967384,
+      "std": 6.323508
+    },
+    "f19a_approx_entropy": {
+      "weight_raw": 1.583185,
+      "weight_std": 0.202,
+      "weight_pct": 12.76,
+      "direction": "POSITIVE",
+      "mean": 0.723088,
+      "std": 0.127622
+    },
+    "f17_knife_count": {
+      "weight_raw": -0.001071,
+      "weight_std": -0.0083,
+      "weight_pct": -0.01,
+      "direction": "INVERTED",
+      "mean": 7.404203,
+      "std": 7.740999
+    },
+    "f29d_ttr_score": {
+      "weight_raw": -4.709168,
+      "weight_std": -0.1198,
+      "weight_pct": -37.94,
+      "direction": "INVERTED",
+      "mean": 0.713728,
+      "std": 0.025433
+    },
+    "f35c_hook_score": {
+      "weight_raw": -1.514774,
+      "weight_std": -0.185,
+      "weight_pct": -12.2,
+      "direction": "INVERTED",
+      "mean": 0.562634,
+      "std": 0.122137
+    },
+    "f36c_cliff_score": {
+      "weight_raw": 0.846557,
+      "weight_std": 0.0503,
+      "weight_pct": 6.82,
+      "direction": "INVERTED",
+      "mean": 0.641306,
+      "std": 0.059471
+    },
+    "f33c_dot_comma_ratio": {
+      "weight_raw": 0.00048,
+      "weight_std": 0.0007,
+      "weight_pct": 0.0,
+      "direction": "INVERTED",
+      "mean": 1.223506,
+      "std": 1.530064
+    }
+  },
+  "bonuses": {
+    "rhythmic_mastery": {
+      "condition": "f1_mean > 18 AND f1a_rhythm_variance > 12",
+      "bonus": 0.15,
+      "description": "Maitrise rythmique - longues phrases avec variation"
+    },
+    "controlled_breathing": {
+      "condition": "f26b_long_sent_rate > 0.08 AND f24c_contrast_delta > 25",
+      "bonus": 0.12,
+      "description": "Respiration maitrisee - longues phrases et contrastes"
+    },
+    "narrative_depth": {
+      "condition": "f28b_irony_density > 0.05 AND f27a_epistemic_rate > 8",
+      "bonus": 0.1,
+      "description": "Profondeur narrative - ironie et epistemic markers"
+    }
+  },
+  "penalties": {
+    "knife_excess": {
+      "condition": "f17_knife_count / f1_sentence_count > 0.15",
+      "penalty": -0.1,
+      "description": "Exces de phrases courtes (> 15% = malus)"
+    }
+  },
+  "normalization": {
+    "means": {
+      "f26b_long_sent_rate": 0.093849,
+      "f1a_rhythm_variance": 14.163597,
+      "f1_mean": 20.080534,
+      "f24c_contrast_delta": 27.853949,
+      "f26c_period_score": 0.113457,
+      "f9a_contradiction_rate": 0.840202,
+      "f28b_irony_density": 0.08212,
+      "f27a_epistemic_rate": 8.929382,
+      "f27d_modal_score": 0.236402,
+      "f27c_negation_rate": 2.967384,
+      "f19a_approx_entropy": 0.723088,
+      "f17_knife_count": 7.404203,
+      "f29d_ttr_score": 0.713728,
+      "f35c_hook_score": 0.562634,
+      "f36c_cliff_score": 0.641306,
+      "f33c_dot_comma_ratio": 1.223506
+    },
+    "stds": {
+      "f26b_long_sent_rate": 0.113371,
+      "f1a_rhythm_variance": 9.135319,
+      "f1_mean": 16.858793,
+      "f24c_contrast_delta": 10.616213,
+      "f26c_period_score": 0.094561,
+      "f9a_contradiction_rate": 0.827728,
+      "f28b_irony_density": 0.860534,
+      "f27a_epistemic_rate": 18.435967,
+      "f27d_modal_score": 0.130537,
+      "f27c_negation_rate": 6.323508,
+      "f19a_approx_entropy": 0.127622,
+      "f17_knife_count": 7.740999,
+      "f29d_ttr_score": 0.025433,
+      "f35c_hook_score": 0.122137,
+      "f36c_cliff_score": 0.059471,
+      "f33c_dot_comma_ratio": 1.530064
+    }
+  }
+}

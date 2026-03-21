@@ -1,0 +1,199 @@
+{
+  "results": [
+    {
+      "label": "Flaubert — Salammbo",
+      "tier": "S",
+      "raw": 4.527,
+      "score100": 67.2662,
+      "final": 94.2662,
+      "bonuses": [
+        "rhythmic_mastery",
+        "controlled_breathing"
+      ],
+      "penalties": [],
+      "wordCount": 500
+    },
+    {
+      "label": "Claude Opus",
+      "tier": "LLM",
+      "raw": 6.1335,
+      "score100": 100,
+      "final": 90,
+      "bonuses": [],
+      "penalties": [
+        "knife_excess"
+      ],
+      "wordCount": 500
+    },
+    {
+      "label": "Flaubert — Bovary",
+      "tier": "S",
+      "raw": 4.3002,
+      "score100": 62.2277,
+      "final": 79.2277,
+      "bonuses": [
+        "rhythmic_mastery",
+        "controlled_breathing"
+      ],
+      "penalties": [
+        "knife_excess"
+      ],
+      "wordCount": 500
+    },
+    {
+      "label": "Proust — Swann",
+      "tier": "S",
+      "raw": 4.1688,
+      "score100": 59.3058,
+      "final": 61.3058,
+      "bonuses": [
+        "controlled_breathing"
+      ],
+      "penalties": [
+        "knife_excess"
+      ],
+      "wordCount": 500
+    },
+    {
+      "label": "GPT original",
+      "tier": "LLM",
+      "raw": 4.5166,
+      "score100": 67.0361,
+      "final": 57.0361,
+      "bonuses": [],
+      "penalties": [
+        "knife_excess"
+      ],
+      "wordCount": 500
+    },
+    {
+      "label": "Camus — La Peste",
+      "tier": "S",
+      "raw": 4.4932,
+      "score100": 66.5155,
+      "final": 56.5155,
+      "bonuses": [],
+      "penalties": [
+        "knife_excess"
+      ],
+      "wordCount": 500
+    },
+    {
+      "label": "Claude Code",
+      "tier": "LLM",
+      "raw": 4.4624,
+      "score100": 65.8321,
+      "final": 55.8321,
+      "bonuses": [],
+      "penalties": [
+        "knife_excess"
+      ],
+      "wordCount": 500
+    },
+    {
+      "label": "GPT 5.4 correction",
+      "tier": "LLM",
+      "raw": 4.4402,
+      "score100": 65.3372,
+      "final": 55.3372,
+      "bonuses": [],
+      "penalties": [
+        "knife_excess"
+      ],
+      "wordCount": 500
+    },
+    {
+      "label": "Zola — Bonheur des Dames",
+      "tier": "S",
+      "raw": 3.7141,
+      "score100": 49.2026,
+      "final": 51.2026,
+      "bonuses": [
+        "controlled_breathing"
+      ],
+      "penalties": [
+        "knife_excess"
+      ],
+      "wordCount": 500
+    },
+    {
+      "label": "Perplexity",
+      "tier": "LLM",
+      "raw": 4.0419,
+      "score100": 56.487,
+      "final": 46.487,
+      "bonuses": [],
+      "penalties": [
+        "knife_excess"
+      ],
+      "wordCount": 500
+    },
+    {
+      "label": "Hugo — Miserables",
+      "tier": "S",
+      "raw": 4.0367,
+      "score100": 56.3701,
+      "final": 46.3701,
+      "bonuses": [],
+      "penalties": [
+        "knife_excess"
+      ],
+      "wordCount": 500
+    },
+    {
+      "label": "Flaubert — Education",
+      "tier": "S",
+      "raw": 3.5361,
+      "score100": 45.2474,
+      "final": 45.2474,
+      "bonuses": [],
+      "penalties": [],
+      "wordCount": 500
+    },
+    {
+      "label": "Gemini",
+      "tier": "LLM",
+      "raw": 3.921,
+      "score100": 53.7998,
+      "final": 43.7998,
+      "bonuses": [],
+      "penalties": [
+        "knife_excess"
+      ],
+      "wordCount": 500
+    },
+    {
+      "label": "DeepSeek",
+      "tier": "LLM",
+      "raw": 3.7447,
+      "score100": 49.8817,
+      "final": 39.8817,
+      "bonuses": [],
+      "penalties": [
+        "knife_excess"
+      ],
+      "wordCount": 500
+    },
+    {
+      "label": "Riviera",
+      "tier": "LLM",
+      "raw": 2.9128,
+      "score100": 31.3947,
+      "final": 21.3947,
+      "bonuses": [],
+      "penalties": [
+        "knife_excess"
+      ],
+      "wordCount": 500
+    }
+  ],
+  "summary": {
+    "s_mean": 62.019328571428574,
+    "llm_mean": 51.221075000000006,
+    "s_min": 45.2474,
+    "llm_max": 90,
+    "inversions": 18,
+    "total_pairs": 56,
+    "verdict": "FAIL — V2 scorer does NOT reliably separate S from LLM"
+  }
+}

@@ -1,0 +1,129 @@
+{
+  "_phase": "R-8.7",
+  "_description": "Tipping points from GB tree extraction (R-8.5).",
+  "tipping_points": [
+    {
+      "feature": "f26b_long_sent_rate",
+      "threshold": 0.02405,
+      "direction": "HIGHER_IS_BETTER",
+      "delta": 1.11018,
+      "importance": 0.29017
+    },
+    {
+      "feature": "f_pov_stability",
+      "threshold": 0.64625,
+      "direction": "LOWER_IS_BETTER",
+      "delta": -0.35827,
+      "importance": 0.05832
+    },
+    {
+      "feature": "ix_variance_x_longrate",
+      "threshold": 0.09608,
+      "direction": "HIGHER_IS_BETTER",
+      "delta": 1.26294,
+      "importance": 0.05554
+    },
+    {
+      "feature": "f_pov_shift_rate",
+      "threshold": 0.348,
+      "direction": "HIGHER_IS_BETTER",
+      "delta": 0.45885,
+      "importance": 0.04411
+    },
+    {
+      "feature": "f29d_ttr_score",
+      "threshold": 0.70945,
+      "direction": "LOWER_IS_BETTER",
+      "delta": -0.4621,
+      "importance": 0.04213
+    },
+    {
+      "feature": "f_causal_density",
+      "threshold": 0.06795,
+      "direction": "HIGHER_IS_BETTER",
+      "delta": 0.64488,
+      "importance": 0.03849
+    },
+    {
+      "feature": "f1a_rhythm_variance",
+      "threshold": 11.36105,
+      "direction": "HIGHER_IS_BETTER",
+      "delta": 0.97566,
+      "importance": 0.03562
+    },
+    {
+      "feature": "f_pov_drift_rate",
+      "threshold": 0.11262,
+      "direction": "HIGHER_IS_BETTER",
+      "delta": 0.42167,
+      "importance": 0.03559
+    },
+    {
+      "feature": "f19a_approx_entropy",
+      "threshold": 0.63735,
+      "direction": "HIGHER_IS_BETTER",
+      "delta": 0.53735,
+      "importance": 0.03462
+    },
+    {
+      "feature": "f_clause_per_sentence",
+      "threshold": 1.00953,
+      "direction": "HIGHER_IS_BETTER",
+      "delta": 0.30261,
+      "importance": 0.02616
+    }
+  ],
+  "co_occurrences": [
+    {
+      "pair": "f26b_long_sent_ratexf_pov_stability",
+      "count": 16,
+      "pct": 32.0
+    },
+    {
+      "pair": "f26b_long_sent_ratexf29d_ttr_score",
+      "count": 15,
+      "pct": 30.0
+    },
+    {
+      "pair": "f26b_long_sent_ratexf_pov_shift_rate",
+      "count": 15,
+      "pct": 30.0
+    },
+    {
+      "pair": "f19a_approx_entropyxf26b_long_sent_rate",
+      "count": 15,
+      "pct": 30.0
+    },
+    {
+      "pair": "f29d_ttr_scorexf_pov_stability",
+      "count": 13,
+      "pct": 26.0
+    },
+    {
+      "pair": "f26b_long_sent_ratexf_causal_density",
+      "count": 12,
+      "pct": 24.0
+    },
+    {
+      "pair": "f19a_approx_entropyxf_causal_density",
+      "count": 12,
+      "pct": 24.0
+    },
+    {
+      "pair": "f19a_approx_entropyxf_pov_stability",
+      "count": 12,
+      "pct": 24.0
+    },
+    {
+      "pair": "f26b_long_sent_ratexf_pov_rupture_rate",
+      "count": 11,
+      "pct": 22.0
+    },
+    {
+      "pair": "f_causal_densityxf_pov_stability",
+      "count": 11,
+      "pct": 22.0
+    }
+  ],
+  "gb_spearman": 0.78653
+}

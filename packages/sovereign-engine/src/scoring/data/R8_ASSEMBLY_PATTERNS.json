@@ -1,0 +1,212 @@
+{
+  "_phase": "R-8.7",
+  "_description": "Assembly patterns from R-8.6 Loi des LEGO.",
+  "master_trigrams": [
+    {
+      "trigram": "description->description->introspection",
+      "s_pct": 0.00571,
+      "cd_pct": 0.00047,
+      "ratio": 12.10206
+    },
+    {
+      "trigram": "description->introspection->description",
+      "s_pct": 0.00536,
+      "cd_pct": 0.00065,
+      "ratio": 8.26051
+    },
+    {
+      "trigram": "introspection->description->description",
+      "s_pct": 0.00573,
+      "cd_pct": 0.00071,
+      "ratio": 8.10619
+    },
+    {
+      "trigram": "narration->dialogue->dialogue",
+      "s_pct": 0.01125,
+      "cd_pct": 0.00242,
+      "ratio": 4.65577
+    },
+    {
+      "trigram": "narration->narration->narration",
+      "s_pct": 0.04023,
+      "cd_pct": 0.00949,
+      "ratio": 4.23927
+    },
+    {
+      "trigram": "dialogue->dialogue->narration",
+      "s_pct": 0.01097,
+      "cd_pct": 0.00271,
+      "ratio": 4.04522
+    },
+    {
+      "trigram": "description->description->description",
+      "s_pct": 0.28201,
+      "cd_pct": 0.07073,
+      "ratio": 3.9871
+    },
+    {
+      "trigram": "description->narration->description",
+      "s_pct": 0.03004,
+      "cd_pct": 0.00754,
+      "ratio": 3.98216
+    },
+    {
+      "trigram": "narration->description->narration",
+      "s_pct": 0.01616,
+      "cd_pct": 0.00424,
+      "ratio": 3.80832
+    },
+    {
+      "trigram": "narration->narration->dialogue",
+      "s_pct": 0.00785,
+      "cd_pct": 0.00206,
+      "ratio": 3.80596
+    }
+  ],
+  "commercial_transitions_to_penalize": [
+    {
+      "transition": "action->action->action",
+      "cd_freq": 0.3308,
+      "s_freq": 0.0824
+    },
+    {
+      "transition": "action->dialogue->action",
+      "cd_freq": 0.0194,
+      "s_freq": 0.0033
+    }
+  ],
+  "assembly_bonus_by_tier": {
+    "S": {
+      "f26b_long_sent_rate": -0.0053,
+      "f1a_rhythm_variance": 1.80535,
+      "f1_mean": 0.44294,
+      "f9a_contradiction_rate": 0.0135,
+      "f19a_approx_entropy": -0.0195,
+      "f29d_ttr_score": -1e-05,
+      "f27a_epistemic_rate": -0.6003,
+      "f26c_period_score": -0.00719,
+      "f28d_sil_score": -0.0008,
+      "f_subordination_depth_approx": 0.01094,
+      "f_causal_density": 0.00117,
+      "f_tension_density": 0.0
+    },
+    "A": {
+      "f26b_long_sent_rate": -0.00559,
+      "f1a_rhythm_variance": 0.61752,
+      "f1_mean": -0.43862,
+      "f9a_contradiction_rate": -0.02155,
+      "f19a_approx_entropy": -0.02053,
+      "f29d_ttr_score": -4e-05,
+      "f27a_epistemic_rate": -0.41141,
+      "f26c_period_score": -0.02286,
+      "f28d_sil_score": -0.00018,
+      "f_subordination_depth_approx": -0.01569,
+      "f_causal_density": -0.00265,
+      "f_tension_density": 0.0
+    },
+    "B": {
+      "f26b_long_sent_rate": -0.00201,
+      "f1a_rhythm_variance": 0.5025,
+      "f1_mean": 0.04928,
+      "f9a_contradiction_rate": 0.00681,
+      "f19a_approx_entropy": -0.02009,
+      "f29d_ttr_score": 5e-05,
+      "f27a_epistemic_rate": -0.41828,
+      "f26c_period_score": -0.0116,
+      "f28d_sil_score": -0.00033,
+      "f_subordination_depth_approx": -0.00649,
+      "f_causal_density": 0.00132,
+      "f_tension_density": 0.0
+    },
+    "C": {
+      "f26b_long_sent_rate": -0.00135,
+      "f1a_rhythm_variance": 0.17554,
+      "f1_mean": -0.07115,
+      "f9a_contradiction_rate": -0.00391,
+      "f19a_approx_entropy": -0.02178,
+      "f29d_ttr_score": -0.00013,
+      "f27a_epistemic_rate": -0.21116,
+      "f26c_period_score": -0.00379,
+      "f28d_sil_score": -2e-05,
+      "f_subordination_depth_approx": -0.0033,
+      "f_causal_density": -0.00033,
+      "f_tension_density": -0.0
+    },
+    "D": {
+      "f26b_long_sent_rate": -0.00575,
+      "f1a_rhythm_variance": 2.92566,
+      "f1_mean": -0.22824,
+      "f9a_contradiction_rate": -0.01812,
+      "f19a_approx_entropy": -0.0258,
+      "f29d_ttr_score": -5e-05,
+      "f27a_epistemic_rate": -0.26106,
+      "f26c_period_score": -0.01435,
+      "f28d_sil_score": 0.00053,
+      "f_subordination_depth_approx": -0.00858,
+      "f_causal_density": -0.00246,
+      "f_tension_density": 0.0
+    }
+  },
+  "master_transition_enrichment": [
+    {
+      "pair": "introspection->description",
+      "s_pct": 0.0076,
+      "cd_pct": 0.0013,
+      "ratio": 5.84615
+    },
+    {
+      "pair": "introspection->introspection",
+      "s_pct": 0.0017,
+      "cd_pct": 0.0003,
+      "ratio": 5.66667
+    },
+    {
+      "pair": "description->introspection",
+      "s_pct": 0.0076,
+      "cd_pct": 0.0015,
+      "ratio": 5.06667
+    },
+    {
+      "pair": "narration->introspection",
+      "s_pct": 0.0016,
+      "cd_pct": 0.0005,
+      "ratio": 3.2
+    },
+    {
+      "pair": "description->description",
+      "s_pct": 0.355,
+      "cd_pct": 0.1154,
+      "ratio": 3.07626
+    },
+    {
+      "pair": "narration->narration",
+      "s_pct": 0.0727,
+      "cd_pct": 0.025,
+      "ratio": 2.908
+    },
+    {
+      "pair": "description->narration",
+      "s_pct": 0.057,
+      "cd_pct": 0.0209,
+      "ratio": 2.72727
+    },
+    {
+      "pair": "narration->description",
+      "s_pct": 0.0568,
+      "cd_pct": 0.0217,
+      "ratio": 2.61751
+    },
+    {
+      "pair": "narration->dialogue",
+      "s_pct": 0.0212,
+      "cd_pct": 0.0081,
+      "ratio": 2.61728
+    },
+    {
+      "pair": "dialogue->narration",
+      "s_pct": 0.0209,
+      "cd_pct": 0.0084,
+      "ratio": 2.4881
+    }
+  ]
+}

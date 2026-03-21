@@ -1,0 +1,269 @@
+{
+  "phase": "R-8.7",
+  "description": "Scorer comparison: V1 baseline vs V2 assembly vs V3 typological",
+  "timestamp": "2026-03-21T20:01:24.807577",
+  "results": [
+    {
+      "name": "V1",
+      "n_features": 42,
+      "r2_train": 0.749,
+      "r2_val": 0.4396,
+      "r2_holdout": 0.326,
+      "spearman": 0.7865,
+      "inversions_sd": 19,
+      "inversions_total": 2780,
+      "tier_means": {
+        "D": 2.53,
+        "C": 2.827,
+        "S": 4.449,
+        "B": 3.601,
+        "A": 4.043
+      },
+      "author_means": {},
+      "params": {
+        "n_estimators": 50,
+        "max_depth": 4,
+        "learning_rate": 0.05
+      },
+      "label": "GB baseline (42 features)",
+      "top_features": [
+        [
+          "f26b_long_sent_rate",
+          0.2902
+        ],
+        [
+          "f_pov_stability",
+          0.0583
+        ],
+        [
+          "ix_variance_x_longrate",
+          0.0555
+        ],
+        [
+          "f_pov_shift_rate",
+          0.0441
+        ],
+        [
+          "f29d_ttr_score",
+          0.0421
+        ],
+        [
+          "f_causal_density",
+          0.0385
+        ],
+        [
+          "f1a_rhythm_variance",
+          0.0356
+        ],
+        [
+          "f_pov_drift_rate",
+          0.0356
+        ],
+        [
+          "f19a_approx_entropy",
+          0.0346
+        ],
+        [
+          "f_clause_per_sentence",
+          0.0262
+        ],
+        [
+          "f_semantic_stagnation",
+          0.0253
+        ],
+        [
+          "f_hapax_contextual_rate",
+          0.0229
+        ],
+        [
+          "f1_mean",
+          0.0213
+        ],
+        [
+          "f_pov_rupture_rate",
+          0.0208
+        ],
+        [
+          "f_referent_continuity",
+          0.0205
+        ]
+      ]
+    },
+    {
+      "name": "V2",
+      "n_features": 47,
+      "r2_train": 0.6174,
+      "r2_val": 0.4107,
+      "r2_holdout": 0.297,
+      "spearman": 0.6989,
+      "inversions_sd": 50,
+      "inversions_total": 2780,
+      "tier_means": {
+        "D": 2.86,
+        "C": 2.821,
+        "S": 4.387,
+        "B": 3.72,
+        "A": 4.02
+      },
+      "author_means": {},
+      "params": {
+        "n_estimators": 50,
+        "max_depth": 2,
+        "learning_rate": 0.1
+      },
+      "label": "GB + 5 assembly features",
+      "top_features": [
+        [
+          "r8_assembly_bonus_rhythm",
+          0.3762
+        ],
+        [
+          "f26b_long_sent_rate",
+          0.1197
+        ],
+        [
+          "f_pov_shift_rate",
+          0.0742
+        ],
+        [
+          "f_pov_drift_rate",
+          0.037
+        ],
+        [
+          "f_pov_rupture_rate",
+          0.0289
+        ],
+        [
+          "f_pov_stability",
+          0.0287
+        ],
+        [
+          "f_causal_density",
+          0.0281
+        ],
+        [
+          "f19a_approx_entropy",
+          0.0277
+        ],
+        [
+          "f_hapax_contextual_rate",
+          0.0243
+        ],
+        [
+          "f_motif_concentration",
+          0.0238
+        ],
+        [
+          "f_rare_word_isolation",
+          0.0205
+        ],
+        [
+          "f_referent_continuity",
+          0.0176
+        ],
+        [
+          "f_clause_per_sentence",
+          0.0166
+        ],
+        [
+          "f_subordination_depth",
+          0.0159
+        ],
+        [
+          "f_referent_orphan_rate",
+          0.0119
+        ]
+      ]
+    },
+    {
+      "name": "V3",
+      "n_features": 55,
+      "r2_train": 0.6352,
+      "r2_val": 0.431,
+      "r2_holdout": 0.3167,
+      "spearman": 0.7095,
+      "inversions_sd": 78,
+      "inversions_total": 2780,
+      "tier_means": {
+        "D": 2.828,
+        "C": 2.791,
+        "S": 4.422,
+        "B": 3.698,
+        "A": 4.017
+      },
+      "author_means": {},
+      "params": {
+        "n_estimators": 50,
+        "max_depth": 2,
+        "learning_rate": 0.1
+      },
+      "label": "GB + assembly + typological",
+      "top_features": [
+        [
+          "r8_assembly_bonus_rhythm",
+          0.3197
+        ],
+        [
+          "r8_tk_master_pct",
+          0.1668
+        ],
+        [
+          "f26b_long_sent_rate",
+          0.0629
+        ],
+        [
+          "f_pov_shift_rate",
+          0.0522
+        ],
+        [
+          "f_hapax_contextual_rate",
+          0.0326
+        ],
+        [
+          "r8_dev_f29d_ttr_score",
+          0.0321
+        ],
+        [
+          "r8_dev_f26c_period_score",
+          0.0308
+        ],
+        [
+          "f_motif_concentration",
+          0.0201
+        ],
+        [
+          "f_causal_density",
+          0.0199
+        ],
+        [
+          "f_pov_rupture_rate",
+          0.019
+        ],
+        [
+          "f_pov_drift_rate",
+          0.0187
+        ],
+        [
+          "f_rare_word_isolation",
+          0.018
+        ],
+        [
+          "f_subordination_depth",
+          0.0167
+        ],
+        [
+          "f26c_period_score",
+          0.0156
+        ],
+        [
+          "f_pov_stability",
+          0.0152
+        ]
+      ]
+    }
+  ],
+  "verdict": {
+    "v2_improves": false,
+    "v3_improves": false
+  }
+}

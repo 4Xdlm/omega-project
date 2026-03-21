@@ -1,0 +1,514 @@
+{
+  "phase": "R-6b",
+  "title": "Tribunal de Contrefaçon",
+  "date": "2026-03-21",
+  "split": {
+    "train": 399,
+    "val": 85,
+    "holdout": 87
+  },
+  "models": [
+    {
+      "name": "Ridge V3 (baseline)",
+      "train": {
+        "r2": 0.2507,
+        "spearman": 0.5041
+      },
+      "validation": {
+        "r2": 0.1929,
+        "spearman": 0.5684
+      },
+      "holdout": {
+        "r2": 0.1865,
+        "spearman": 0.4503,
+        "inversions_s_vs_d": 36,
+        "total_pairs": 45
+      },
+      "full": {
+        "r2": 0.2367,
+        "spearman": 0.506,
+        "inversions_s_vs_d": 486,
+        "total_pairs": 2780
+      },
+      "tier_predictions": {
+        "train": {
+          "S": 4.1968,
+          "A": 3.9823,
+          "B": 3.8341,
+          "C": 3.3224,
+          "D": 3.4981
+        },
+        "holdout": {
+          "S": 4.2194,
+          "A": 3.9893,
+          "B": 4.0004,
+          "C": 3.314,
+          "D": 4.5796
+        },
+        "full": {
+          "S": 4.2157,
+          "A": 4.0282,
+          "B": 3.8492,
+          "C": 3.3322,
+          "D": 3.5603
+        }
+      },
+      "author_diagnostic": {
+        "Flaubert": {
+          "count": 6,
+          "mean_pred": 4.1806,
+          "min_pred": 3.2835,
+          "max_pred": 4.6144,
+          "mean_true": 5.0
+        },
+        "Proust": {
+          "count": 3,
+          "mean_pred": 4.7791,
+          "min_pred": 4.0141,
+          "max_pred": 5.2469,
+          "mean_true": 5.0
+        },
+        "Hugo": {
+          "count": 18,
+          "mean_pred": 4.5223,
+          "min_pred": 3.5726,
+          "max_pred": 6.3009,
+          "mean_true": 5.0
+        },
+        "Camus": {
+          "count": 19,
+          "mean_pred": 4.2525,
+          "min_pred": 3.2651,
+          "max_pred": 8.2396,
+          "mean_true": 5.0
+        },
+        "Zola": {
+          "count": 28,
+          "mean_pred": 3.9989,
+          "min_pred": 3.2075,
+          "max_pred": 4.8651,
+          "mean_true": 5.0
+        },
+        "Claude Opus": {
+          "count": 3,
+          "mean_pred": 5.0233,
+          "min_pred": 4.931,
+          "max_pred": 5.1562,
+          "mean_true": 5.0
+        }
+      }
+    },
+    {
+      "name": "Ridge V3 + Semantic",
+      "train": {
+        "r2": 0.3446,
+        "spearman": 0.5652
+      },
+      "validation": {
+        "r2": 0.2859,
+        "spearman": 0.5792
+      },
+      "holdout": {
+        "r2": 0.1993,
+        "spearman": 0.4596,
+        "inversions_s_vs_d": 23,
+        "total_pairs": 45
+      },
+      "full": {
+        "r2": 0.3188,
+        "spearman": 0.5503,
+        "inversions_s_vs_d": 315,
+        "total_pairs": 2780
+      },
+      "tier_predictions": {
+        "train": {
+          "S": 4.2962,
+          "A": 3.9508,
+          "B": 3.7849,
+          "C": 3.1196,
+          "D": 3.2446
+        },
+        "holdout": {
+          "S": 4.2114,
+          "A": 3.8879,
+          "B": 4.1602,
+          "C": 2.9702,
+          "D": 4.2037
+        },
+        "full": {
+          "S": 4.2949,
+          "A": 3.9984,
+          "B": 3.835,
+          "C": 3.1155,
+          "D": 3.2281
+        }
+      },
+      "author_diagnostic": {
+        "Flaubert": {
+          "count": 6,
+          "mean_pred": 4.1883,
+          "min_pred": 3.3768,
+          "max_pred": 4.8072,
+          "mean_true": 5.0
+        },
+        "Proust": {
+          "count": 3,
+          "mean_pred": 4.4671,
+          "min_pred": 4.0388,
+          "max_pred": 4.8868,
+          "mean_true": 5.0
+        },
+        "Hugo": {
+          "count": 18,
+          "mean_pred": 4.4958,
+          "min_pred": 3.443,
+          "max_pred": 5.8565,
+          "mean_true": 5.0
+        },
+        "Camus": {
+          "count": 19,
+          "mean_pred": 4.3276,
+          "min_pred": 2.9924,
+          "max_pred": 7.4588,
+          "mean_true": 5.0
+        },
+        "Zola": {
+          "count": 28,
+          "mean_pred": 4.1794,
+          "min_pred": 3.2375,
+          "max_pred": 5.2205,
+          "mean_true": 5.0
+        },
+        "Claude Opus": {
+          "count": 3,
+          "mean_pred": 5.0145,
+          "min_pred": 4.8501,
+          "max_pred": 5.2588,
+          "mean_true": 5.0
+        }
+      }
+    },
+    {
+      "name": "Gradient Boosting + All",
+      "train": {
+        "r2": 0.749,
+        "spearman": 0.8738
+      },
+      "validation": {
+        "r2": 0.4396,
+        "spearman": 0.6597
+      },
+      "holdout": {
+        "r2": 0.326,
+        "spearman": 0.4561,
+        "inversions_s_vs_d": 8,
+        "total_pairs": 45
+      },
+      "full": {
+        "r2": 0.638,
+        "spearman": 0.7865,
+        "inversions_s_vs_d": 19,
+        "total_pairs": 2780
+      },
+      "tier_predictions": {
+        "train": {
+          "S": 4.5339,
+          "A": 4.0253,
+          "B": 3.5253,
+          "C": 2.6787,
+          "D": 2.1974
+        },
+        "holdout": {
+          "S": 4.1861,
+          "A": 4.0425,
+          "B": 3.9757,
+          "C": 2.9206,
+          "D": 3.8197
+        },
+        "full": {
+          "S": 4.4491,
+          "A": 4.0429,
+          "B": 3.6013,
+          "C": 2.8273,
+          "D": 2.5304
+        }
+      },
+      "author_diagnostic": {
+        "Flaubert": {
+          "count": 6,
+          "mean_pred": 4.4634,
+          "min_pred": 3.9745,
+          "max_pred": 4.7563,
+          "mean_true": 5.0
+        },
+        "Proust": {
+          "count": 3,
+          "mean_pred": 4.6479,
+          "min_pred": 4.4252,
+          "max_pred": 4.7688,
+          "mean_true": 5.0
+        },
+        "Hugo": {
+          "count": 18,
+          "mean_pred": 4.4288,
+          "min_pred": 3.5009,
+          "max_pred": 4.8939,
+          "mean_true": 5.0
+        },
+        "Camus": {
+          "count": 19,
+          "mean_pred": 4.4285,
+          "min_pred": 3.8658,
+          "max_pred": 4.7231,
+          "mean_true": 5.0
+        },
+        "Zola": {
+          "count": 28,
+          "mean_pred": 4.4218,
+          "min_pred": 3.4338,
+          "max_pred": 4.7982,
+          "mean_true": 5.0
+        },
+        "Claude Opus": {
+          "count": 3,
+          "mean_pred": 4.7551,
+          "min_pred": 4.7145,
+          "max_pred": 4.7949,
+          "mean_true": 5.0
+        }
+      },
+      "feature_importance": {
+        "f26b_long_sent_rate": 0.290166,
+        "f_pov_stability": 0.058319,
+        "ix_variance_x_longrate": 0.055536,
+        "f_pov_shift_rate": 0.044115,
+        "f29d_ttr_score": 0.04213,
+        "f_causal_density": 0.038489,
+        "f1a_rhythm_variance": 0.035616,
+        "f_pov_drift_rate": 0.03559,
+        "f19a_approx_entropy": 0.034624,
+        "f_clause_per_sentence": 0.026157,
+        "f_semantic_stagnation": 0.025323,
+        "f_hapax_contextual_rate": 0.022898,
+        "f1_mean": 0.02126,
+        "f_pov_rupture_rate": 0.020794,
+        "f_referent_continuity": 0.020476,
+        "f_motif_concentration": 0.019277,
+        "f_lexical_callback_rate": 0.018683,
+        "f_temporal_anchor_rate": 0.016363,
+        "f_referent_orphan_rate": 0.015472,
+        "f9a_contradiction_rate": 0.013794
+      }
+    }
+  ],
+  "ridge_semantic_lambda": 0.01,
+  "gb_params": {
+    "n_estimators": 50,
+    "max_depth": 4,
+    "learning_rate": 0.05
+  },
+  "ridge_semantic_top_features": [
+    {
+      "name": "f29d_ttr_score",
+      "weight": -5.723588
+    },
+    {
+      "name": "f26b_long_sent_rate",
+      "weight": 5.026345
+    },
+    {
+      "name": "f_perception_conflict_rate",
+      "weight": 4.844827
+    },
+    {
+      "name": "f_referent_continuity",
+      "weight": -3.621056
+    },
+    {
+      "name": "f_desire_negation_rate",
+      "weight": 3.610034
+    },
+    {
+      "name": "f_novelty_curve_slope",
+      "weight": 3.36337
+    },
+    {
+      "name": "f_tension_density",
+      "weight": 2.81166
+    },
+    {
+      "name": "f_referent_orphan_rate",
+      "weight": -2.788124
+    },
+    {
+      "name": "f_rare_word_isolation",
+      "weight": 2.739258
+    },
+    {
+      "name": "f_lexical_callback_rate",
+      "weight": 2.502454
+    },
+    {
+      "name": "f_hapax_contextual_rate",
+      "weight": -2.429242
+    },
+    {
+      "name": "f26c_period_score",
+      "weight": 2.393852
+    },
+    {
+      "name": "f_echo_density",
+      "weight": -2.382196
+    },
+    {
+      "name": "f_temporal_anchor_rate",
+      "weight": -2.133548
+    },
+    {
+      "name": "f_lexical_progression",
+      "weight": -2.099634
+    },
+    {
+      "name": "ix_pov_x_irony",
+      "weight": -1.834644
+    },
+    {
+      "name": "f_semantic_stagnation",
+      "weight": -1.756774
+    },
+    {
+      "name": "f_pov_stability",
+      "weight": -1.6288
+    },
+    {
+      "name": "f_motif_concentration",
+      "weight": -1.553214
+    },
+    {
+      "name": "f_pov_drift_rate",
+      "weight": 1.492648
+    },
+    {
+      "name": "f_entity_persistence",
+      "weight": -1.366413
+    },
+    {
+      "name": "f_contextual_precision",
+      "weight": 1.105047
+    },
+    {
+      "name": "f28b_irony_density",
+      "weight": 1.095914
+    },
+    {
+      "name": "f_vocabulary_depth",
+      "weight": 1.029324
+    },
+    {
+      "name": "f36c_cliff_score",
+      "weight": -0.971557
+    }
+  ],
+  "gb_top_features": [
+    {
+      "name": "f26b_long_sent_rate",
+      "importance": 0.290166
+    },
+    {
+      "name": "f_pov_stability",
+      "importance": 0.058319
+    },
+    {
+      "name": "ix_variance_x_longrate",
+      "importance": 0.055536
+    },
+    {
+      "name": "f_pov_shift_rate",
+      "importance": 0.044115
+    },
+    {
+      "name": "f29d_ttr_score",
+      "importance": 0.04213
+    },
+    {
+      "name": "f_causal_density",
+      "importance": 0.038489
+    },
+    {
+      "name": "f1a_rhythm_variance",
+      "importance": 0.035616
+    },
+    {
+      "name": "f_pov_drift_rate",
+      "importance": 0.03559
+    },
+    {
+      "name": "f19a_approx_entropy",
+      "importance": 0.034624
+    },
+    {
+      "name": "f_clause_per_sentence",
+      "importance": 0.026157
+    },
+    {
+      "name": "f_semantic_stagnation",
+      "importance": 0.025323
+    },
+    {
+      "name": "f_hapax_contextual_rate",
+      "importance": 0.022898
+    },
+    {
+      "name": "f1_mean",
+      "importance": 0.02126
+    },
+    {
+      "name": "f_pov_rupture_rate",
+      "importance": 0.020794
+    },
+    {
+      "name": "f_referent_continuity",
+      "importance": 0.020476
+    },
+    {
+      "name": "f_motif_concentration",
+      "importance": 0.019277
+    },
+    {
+      "name": "f_lexical_callback_rate",
+      "importance": 0.018683
+    },
+    {
+      "name": "f_temporal_anchor_rate",
+      "importance": 0.016363
+    },
+    {
+      "name": "f_referent_orphan_rate",
+      "importance": 0.015472
+    },
+    {
+      "name": "f9a_contradiction_rate",
+      "importance": 0.013794
+    },
+    {
+      "name": "f_rare_word_isolation",
+      "importance": 0.013778
+    },
+    {
+      "name": "f_vocabulary_depth",
+      "importance": 0.012742
+    },
+    {
+      "name": "f_entity_persistence",
+      "importance": 0.012311
+    },
+    {
+      "name": "f27d_modal_score",
+      "importance": 0.011673
+    },
+    {
+      "name": "f_causal_chain_length",
+      "importance": 0.01132
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "phase": "R-6b",
+  "critical_test": {
+    "description": "Claude Opus vs Flaubert separation",
+    "results": {
+      "V3_baseline": {
+        "flaubert_pred": 4.1806,
+        "claude_pred": 5.0233,
+        "gap": -0.8427,
+        "correct_ordering": false
+      },
+      "Ridge_Semantic": {
+        "flaubert_pred": 4.1883,
+        "claude_pred": 5.0145,
+        "gap": -0.8262,
+        "correct_ordering": false
+      },
+      "GB_All": {
+        "flaubert_pred": 4.4634,
+        "claude_pred": 4.7551,
+        "gap": -0.2917,
+        "correct_ordering": false
+      }
+    }
+  },
+  "tier_ordering": {
+    "V3_baseline": {
+      "means": {
+        "S": 4.2157,
+        "A": 4.0282,
+        "B": 3.8492,
+        "C": 3.3322,
+        "D": 3.5603
+      },
+      "correct_s_a_b_c_d": false
+    },
+    "Ridge_Semantic": {
+      "means": {
+        "S": 4.2949,
+        "A": 3.9984,
+        "B": 3.835,
+        "C": 3.1155,
+        "D": 3.2281
+      },
+      "correct_s_a_b_c_d": false
+    },
+    "GB_All": {
+      "means": {
+        "S": 4.4491,
+        "A": 4.0429,
+        "B": 3.6013,
+        "C": 2.8273,
+        "D": 2.5304
+      },
+      "correct_s_a_b_c_d": true
+    }
+  },
+  "new_features_impact": {
+    "f_novelty_curve_slope": -0.4034,
+    "f_motif_concentration": -0.3859,
+    "f_tension_density": 0.324,
+    "f_rare_word_isolation": -0.3222,
+    "f_contextual_precision": 0.3032,
+    "f_causal_density": 0.2668,
+    "f_perception_conflict_rate": 0.2252,
+    "f_temporal_anchor_rate": 0.2206,
+    "f_pov_stability": -0.218,
+    "f_pov_drift_rate": 0.2124,
+    "f_echo_density": -0.1812,
+    "f_referent_continuity": 0.1457,
+    "f_desire_negation_rate": 0.1257,
+    "f_lexical_callback_rate": -0.1181,
+    "f_causal_chain_length": 0.1178,
+    "f_entity_persistence": 0.089,
+    "f_lexical_progression": 0.0691,
+    "f_semantic_stagnation": 0.0595,
+    "f_pov_rupture_rate": -0.0592,
+    "f_vocabulary_depth": 0.0337,
+    "f_referent_orphan_rate": -0.0019,
+    "f_hapax_contextual_rate": 0.0002
+  }
+}

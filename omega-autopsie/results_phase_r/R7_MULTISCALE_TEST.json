@@ -1,0 +1,186 @@
+{
+  "phase": "R-7",
+  "step": 1,
+  "title": "Multi-Scale Test",
+  "date": "2026-03-21",
+  "window_sizes": [
+    500,
+    2000
+  ],
+  "positions": [
+    0.25,
+    0.5,
+    0.75
+  ],
+  "gb_params": {
+    "n_estimators": 50,
+    "max_depth": 4,
+    "learning_rate": 0.05
+  },
+  "results": [
+    {
+      "source": "Flaubert-Bovary",
+      "tier": "S",
+      "total_words": 112516,
+      "scores_500": [
+        4.5805,
+        4.5207,
+        4.0181
+      ],
+      "scores_2000": [
+        4.4842,
+        4.4872,
+        3.565
+      ],
+      "mean_500": 4.3731,
+      "mean_2000": 4.1788,
+      "delta": -0.1943,
+      "direction": "DOWN"
+    },
+    {
+      "source": "Flaubert-Education",
+      "tier": "S",
+      "total_words": 142717,
+      "scores_500": [
+        4.4356,
+        3.6886,
+        4.2048
+      ],
+      "scores_2000": [
+        4.1327,
+        4.5113,
+        4.1472
+      ],
+      "mean_500": 4.1097,
+      "mean_2000": 4.2637,
+      "delta": 0.1541,
+      "direction": "UP"
+    },
+    {
+      "source": "Flaubert-Salammbo",
+      "tier": "S",
+      "total_words": 156141,
+      "scores_500": [
+        4.0809,
+        4.5098,
+        4.3282
+      ],
+      "scores_2000": [
+        4.2462,
+        4.365,
+        4.635
+      ],
+      "mean_500": 4.3063,
+      "mean_2000": 4.4154,
+      "delta": 0.1091,
+      "direction": "UP"
+    },
+    {
+      "source": "Flaubert-TroisContes",
+      "tier": "S",
+      "total_words": 16276,
+      "scores_500": [
+        4.5656,
+        4.2091,
+        4.3481
+      ],
+      "scores_2000": [
+        4.5417,
+        4.4022,
+        4.5256
+      ],
+      "mean_500": 4.3742,
+      "mean_2000": 4.4898,
+      "delta": 0.1156,
+      "direction": "UP"
+    },
+    {
+      "source": "GPT-5.4",
+      "tier": "LLM",
+      "total_words": 2820,
+      "scores_500": [
+        4.3272,
+        4.0696,
+        4.1786
+      ],
+      "scores_2000": [
+        3.4636,
+        3.7965,
+        3.8997
+      ],
+      "mean_500": 4.1918,
+      "mean_2000": 3.7199,
+      "delta": -0.4719,
+      "direction": "DOWN"
+    },
+    {
+      "source": "GPT-original",
+      "tier": "LLM",
+      "total_words": 2796,
+      "scores_500": [
+        4.3699,
+        3.6676,
+        4.1418
+      ],
+      "scores_2000": [
+        3.5286,
+        3.3156,
+        3.4845
+      ],
+      "mean_500": 4.0598,
+      "mean_2000": 3.4429,
+      "delta": -0.6169,
+      "direction": "DOWN"
+    },
+    {
+      "source": "Claude-Opus",
+      "tier": "LLM",
+      "total_words": 1706,
+      "scores_500": [
+        4.5397,
+        4.4837,
+        4.6177
+      ],
+      "scores_2000": [
+        3.8275,
+        3.8275,
+        3.8275
+      ],
+      "mean_500": 4.547,
+      "mean_2000": 3.8275,
+      "delta": -0.7195,
+      "direction": "DOWN"
+    },
+    {
+      "source": "Riviera",
+      "tier": "LLM",
+      "total_words": 83121,
+      "scores_500": [
+        3.082,
+        2.9479,
+        2.9467
+      ],
+      "scores_2000": [
+        3.5288,
+        3.3794,
+        3.9603
+      ],
+      "mean_500": 2.9922,
+      "mean_2000": 3.6228,
+      "delta": 0.6307,
+      "direction": "UP"
+    }
+  ],
+  "summary": {
+    "flaubert_avg_500": 4.2908,
+    "flaubert_avg_2000": 4.3369,
+    "claude_opus_500": 4.547,
+    "claude_opus_2000": 3.8275,
+    "gpt54_500": 4.1918,
+    "gpt54_2000": 3.7199,
+    "gap_flaubert_opus_500": -0.2562,
+    "gap_flaubert_opus_2000": 0.5094,
+    "gap_inverted": true,
+    "verdict": "GAP INVERTED: Flaubert overtakes Opus at 2000w. Scale matters."
+  }
+}

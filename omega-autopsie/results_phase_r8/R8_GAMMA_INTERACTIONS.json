@@ -1,0 +1,171 @@
+{
+  "phase": "R-8.4",
+  "description": "Gamma interaction coefficients for 9 features. Ridge on lambda residuals. Fixed numpy bool.",
+  "total_passages": 5121,
+  "train_size": 4097,
+  "val_size": 1024,
+  "ridge_alpha": 1.0,
+  "n_bootstrap": 10,
+  "seed": 42,
+  "verdicts": {
+    "GAMMA_EFFECTIVE": 3,
+    "GAMMA_MARGINAL": 1,
+    "GAMMA_NEGLIGIBLE": 5
+  },
+  "most_frequent_interaction_pairs": [
+    "actionxdescription (9/9)",
+    "dialoguexintrospection (9/9)",
+    "actionxnarration (8/9)",
+    "actionxintrospection (8/9)",
+    "descriptionxintrospection (7/9)"
+  ],
+  "architectural_decision": {
+    "gamma_retained": [
+      "f26a_mean_sub_markers",
+      "f_subordination_depth_approx",
+      "f26c_period_score"
+    ],
+    "gamma_marginal": [
+      "f33c_dot_comma_ratio"
+    ],
+    "gamma_abandoned": [
+      "f38b_punct_density",
+      "f38c_speed_score",
+      "f28d_sil_score",
+      "f27a_epistemic_rate",
+      "f1b_rhythm_ratio"
+    ],
+    "reason": "Only subordination/period family benefits from gamma. Others overfit or degrade."
+  },
+  "features": [
+    {
+      "feature": "f38b_punct_density",
+      "mae_baseline": 0.0503,
+      "mae_lambda": 0.0449,
+      "mae_full": 0.0537,
+      "gain_lambda_pct": 10.8,
+      "gain_gamma_pct": -19.5,
+      "gain_total_pct": -6.6,
+      "ratio_s_cd_lambda": 1.62,
+      "ratio_s_cd_gamma": 2.43,
+      "gap_reduction": -0.81,
+      "n_significant_pairs": 9,
+      "verdict": "GAMMA_NEGLIGIBLE"
+    },
+    {
+      "feature": "f38c_speed_score",
+      "mae_baseline": 0.1007,
+      "mae_lambda": 0.0898,
+      "mae_full": 0.1073,
+      "gain_lambda_pct": 10.8,
+      "gain_gamma_pct": -19.5,
+      "gain_total_pct": -6.6,
+      "ratio_s_cd_lambda": 1.62,
+      "ratio_s_cd_gamma": 2.43,
+      "gap_reduction": -0.81,
+      "n_significant_pairs": 9,
+      "verdict": "GAMMA_NEGLIGIBLE"
+    },
+    {
+      "feature": "f28d_sil_score",
+      "mae_baseline": 0.002,
+      "mae_lambda": 0.0009,
+      "mae_full": 0.0017,
+      "gain_lambda_pct": 56.0,
+      "gain_gamma_pct": -98.9,
+      "gain_total_pct": 12.5,
+      "ratio_s_cd_lambda": 2.45,
+      "ratio_s_cd_gamma": 1.92,
+      "gap_reduction": 0.54,
+      "n_significant_pairs": 10,
+      "verdict": "GAMMA_NEGLIGIBLE"
+    },
+    {
+      "feature": "f27a_epistemic_rate",
+      "mae_baseline": 0.8024,
+      "mae_lambda": 0.6733,
+      "mae_full": 0.6611,
+      "gain_lambda_pct": 16.1,
+      "gain_gamma_pct": 1.8,
+      "gain_total_pct": 17.6,
+      "ratio_s_cd_lambda": 1.84,
+      "ratio_s_cd_gamma": 1.95,
+      "gap_reduction": -0.11,
+      "n_significant_pairs": 5,
+      "verdict": "GAMMA_NEGLIGIBLE"
+    },
+    {
+      "feature": "f33c_dot_comma_ratio",
+      "mae_baseline": 0.5742,
+      "mae_lambda": 0.5173,
+      "mae_full": 0.5068,
+      "gain_lambda_pct": 9.9,
+      "gain_gamma_pct": 2.0,
+      "gain_total_pct": 11.7,
+      "ratio_s_cd_lambda": 1.29,
+      "ratio_s_cd_gamma": 1.27,
+      "gap_reduction": 0.02,
+      "n_significant_pairs": 9,
+      "verdict": "GAMMA_MARGINAL"
+    },
+    {
+      "feature": "f1b_rhythm_ratio",
+      "mae_baseline": 27.2204,
+      "mae_lambda": 24.4627,
+      "mae_full": 24.4952,
+      "gain_lambda_pct": 10.1,
+      "gain_gamma_pct": -0.1,
+      "gain_total_pct": 10.0,
+      "ratio_s_cd_lambda": 1.71,
+      "ratio_s_cd_gamma": 1.66,
+      "gap_reduction": 0.05,
+      "n_significant_pairs": 3,
+      "verdict": "GAMMA_NEGLIGIBLE"
+    },
+    {
+      "feature": "f26a_mean_sub_markers",
+      "mae_baseline": 0.3205,
+      "mae_lambda": 0.2666,
+      "mae_full": 0.2461,
+      "gain_lambda_pct": 16.8,
+      "gain_gamma_pct": 7.7,
+      "gain_total_pct": 23.2,
+      "ratio_s_cd_lambda": 1.32,
+      "ratio_s_cd_gamma": 1.56,
+      "gap_reduction": -0.24,
+      "n_significant_pairs": 8,
+      "verdict": "GAMMA_EFFECTIVE",
+      "key_interaction": "descriptionxintrospection gamma=+3.1479"
+    },
+    {
+      "feature": "f_subordination_depth_approx",
+      "mae_baseline": 0.3205,
+      "mae_lambda": 0.2666,
+      "mae_full": 0.2461,
+      "gain_lambda_pct": 16.8,
+      "gain_gamma_pct": 7.7,
+      "gain_total_pct": 23.2,
+      "ratio_s_cd_lambda": 1.32,
+      "ratio_s_cd_gamma": 1.56,
+      "gap_reduction": -0.24,
+      "n_significant_pairs": 8,
+      "verdict": "GAMMA_EFFECTIVE",
+      "key_interaction": "descriptionxintrospection gamma=+3.1479"
+    },
+    {
+      "feature": "f26c_period_score",
+      "mae_baseline": 0.2072,
+      "mae_lambda": 0.1631,
+      "mae_full": 0.1519,
+      "gain_lambda_pct": 21.3,
+      "gain_gamma_pct": 6.9,
+      "gain_total_pct": 26.7,
+      "ratio_s_cd_lambda": 1.71,
+      "ratio_s_cd_gamma": 2.04,
+      "gap_reduction": -0.33,
+      "n_significant_pairs": 5,
+      "verdict": "GAMMA_EFFECTIVE",
+      "key_interaction": "descriptionxintrospection gamma=+2.4063"
+    }
+  ]
+}

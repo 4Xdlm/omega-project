@@ -1,0 +1,120 @@
+{
+  "phase": "R-8.3b",
+  "description": "Post-lambda residual analysis: does S vs C/D gap persist?",
+  "total_passages": 5121,
+  "timestamp": "2026-03-21T18:21:26.873096",
+  "results": [
+    {
+      "feature": "f38b_punct_density",
+      "baseline_s_mae": 0.06155,
+      "baseline_cd_mae": 0.03163,
+      "baseline_ratio": 1.94574,
+      "lambda_s_mae": 0.05446,
+      "lambda_cd_mae": 0.03352,
+      "lambda_ratio": 1.6246,
+      "verdict": "GAMMA_NEEDED (gap persists)",
+      "lambda_reduced_gap": 0.32114
+    },
+    {
+      "feature": "f38c_speed_score",
+      "baseline_s_mae": 0.12309,
+      "baseline_cd_mae": 0.06326,
+      "baseline_ratio": 1.94577,
+      "lambda_s_mae": 0.10892,
+      "lambda_cd_mae": 0.06704,
+      "lambda_ratio": 1.6246,
+      "verdict": "GAMMA_NEEDED (gap persists)",
+      "lambda_reduced_gap": 0.32117
+    },
+    {
+      "feature": "f28d_sil_score",
+      "baseline_s_mae": 0.00251,
+      "baseline_cd_mae": 0.00171,
+      "baseline_ratio": 1.46664,
+      "lambda_s_mae": 0.0014,
+      "lambda_cd_mae": 0.00057,
+      "lambda_ratio": 2.45332,
+      "verdict": "GAMMA_NEEDED (gap persists)",
+      "lambda_reduced_gap": -0.98669
+    },
+    {
+      "feature": "f27a_epistemic_rate",
+      "baseline_s_mae": 0.8933,
+      "baseline_cd_mae": 0.60476,
+      "baseline_ratio": 1.47711,
+      "lambda_s_mae": 0.79425,
+      "lambda_cd_mae": 0.4326,
+      "lambda_ratio": 1.83599,
+      "verdict": "GAMMA_NEEDED (gap persists)",
+      "lambda_reduced_gap": -0.35888
+    },
+    {
+      "feature": "f33c_dot_comma_ratio",
+      "baseline_s_mae": 0.64626,
+      "baseline_cd_mae": 0.57121,
+      "baseline_ratio": 1.13138,
+      "lambda_s_mae": 0.61125,
+      "lambda_cd_mae": 0.47209,
+      "lambda_ratio": 1.29477,
+      "verdict": "GAMMA_NEEDED (gap persists)",
+      "lambda_reduced_gap": -0.16339
+    },
+    {
+      "feature": "f1b_rhythm_ratio",
+      "baseline_s_mae": 31.04098,
+      "baseline_cd_mae": 24.10238,
+      "baseline_ratio": 1.28788,
+      "lambda_s_mae": 29.91902,
+      "lambda_cd_mae": 17.47968,
+      "lambda_ratio": 1.71165,
+      "verdict": "GAMMA_NEEDED (gap persists)",
+      "lambda_reduced_gap": -0.42376
+    },
+    {
+      "feature": "f26a_mean_sub_markers",
+      "baseline_s_mae": 0.35444,
+      "baseline_cd_mae": 0.30737,
+      "baseline_ratio": 1.15314,
+      "lambda_s_mae": 0.30831,
+      "lambda_cd_mae": 0.23414,
+      "lambda_ratio": 1.31676,
+      "verdict": "GAMMA_NEEDED (gap persists)",
+      "lambda_reduced_gap": -0.16362
+    },
+    {
+      "feature": "f_subordination_depth_approx",
+      "baseline_s_mae": 0.35444,
+      "baseline_cd_mae": 0.30737,
+      "baseline_ratio": 1.15314,
+      "lambda_s_mae": 0.30831,
+      "lambda_cd_mae": 0.23414,
+      "lambda_ratio": 1.31676,
+      "verdict": "GAMMA_NEEDED (gap persists)",
+      "lambda_reduced_gap": -0.16362
+    },
+    {
+      "feature": "f26c_period_score",
+      "baseline_s_mae": 0.2301,
+      "baseline_cd_mae": 0.19017,
+      "baseline_ratio": 1.20997,
+      "lambda_s_mae": 0.19671,
+      "lambda_cd_mae": 0.11471,
+      "lambda_ratio": 1.71486,
+      "verdict": "GAMMA_NEEDED (gap persists)",
+      "lambda_reduced_gap": -0.50489
+    }
+  ],
+  "gamma_needed": [
+    "f38b_punct_density",
+    "f38c_speed_score",
+    "f28d_sil_score",
+    "f27a_epistemic_rate",
+    "f33c_dot_comma_ratio",
+    "f1b_rhythm_ratio",
+    "f26a_mean_sub_markers",
+    "f_subordination_depth_approx",
+    "f26c_period_score"
+  ],
+  "marginal": [],
+  "lambda_sufficient": []
+}

@@ -1,0 +1,1332 @@
+{
+  "phase": "R-8.3",
+  "description": "Lambda influence coefficients per feature. 3 methods compared. Bootstrap stability.",
+  "seed": 42,
+  "val_ratio": 0.2,
+  "n_bootstrap": 10,
+  "total_passages": 5121,
+  "train_size": 4097,
+  "val_size": 1024,
+  "timestamp": "2026-03-21T18:10:53.877567",
+  "status_counts": {
+    "LAMBDA_USEFUL": 39,
+    "LAMBDA_NEUTRAL": 7,
+    "DEGENERATE": 1
+  },
+  "features": [
+    {
+      "feature": "f1_mean",
+      "r82_class": "INTERACTIONAL",
+      "status": "LAMBDA_USEFUL",
+      "mae_baseline": 8.16542,
+      "mae_lambda": 6.2951,
+      "gain_pct": 22.90534,
+      "best_method": "Ridge",
+      "lambda": {
+        "action": -0.58038,
+        "narration": 1.68011,
+        "description": 1.8819,
+        "dialogue": 0.29249,
+        "introspection": -0.11468
+      },
+      "stability": {
+        "action": 0.0,
+        "narration": 0.09169,
+        "description": 0.21184,
+        "dialogue": 0.08219,
+        "introspection": 0.50082
+      },
+      "all_methods_mae": {
+        "OLS": 6.29514,
+        "Ridge": 6.2951,
+        "NNLS": 6.33134
+      }
+    },
+    {
+      "feature": "f1a_rhythm_variance",
+      "r82_class": "INTERACTIONAL",
+      "status": "LAMBDA_USEFUL",
+      "mae_baseline": 7.5332,
+      "mae_lambda": 5.6591,
+      "gain_pct": 24.87785,
+      "best_method": "NNLS",
+      "lambda": {
+        "action": 0.0,
+        "narration": 1.00891,
+        "description": 1.57557,
+        "dialogue": 0.47416,
+        "introspection": 0.75017
+      },
+      "stability": {
+        "action": 0.0,
+        "narration": 0.07419,
+        "description": 0.0781,
+        "dialogue": 0.05963,
+        "introspection": 0.28641
+      },
+      "all_methods_mae": {
+        "OLS": 5.66025,
+        "Ridge": 5.66021,
+        "NNLS": 5.6591
+      }
+    },
+    {
+      "feature": "f1b_rhythm_ratio",
+      "r82_class": "INTERACTIONAL",
+      "status": "LAMBDA_USEFUL",
+      "mae_baseline": 27.22041,
+      "mae_lambda": 24.46265,
+      "gain_pct": 10.13122,
+      "best_method": "NNLS",
+      "lambda": {
+        "action": 0.94733,
+        "narration": 0.59874,
+        "description": 1.45755,
+        "dialogue": 0.63608,
+        "introspection": 0.0
+      },
+      "stability": {
+        "action": 0.06362,
+        "narration": 0.11563,
+        "description": 0.0544,
+        "dialogue": 0.06025,
+        "introspection": 0.1012
+      },
+      "all_methods_mae": {
+        "OLS": 24.46275,
+        "Ridge": 24.46274,
+        "NNLS": 24.46265
+      }
+    },
+    {
+      "feature": "f5a_verb_density",
+      "r82_class": "INTERACTIONAL",
+      "status": "LAMBDA_USEFUL",
+      "mae_baseline": 0.05054,
+      "mae_lambda": 0.03064,
+      "gain_pct": 39.37346,
+      "best_method": "OLS",
+      "lambda": {
+        "action": 0.52526,
+        "narration": 2.83966,
+        "description": 0.4787,
+        "dialogue": 1.51171,
+        "introspection": -2.85767
+      },
+      "stability": {
+        "action": 0.02387,
+        "narration": 0.03906,
+        "description": 0.0,
+        "dialogue": 0.01592,
+        "introspection": 0.0
+      },
+      "all_methods_mae": {
+        "OLS": 0.03064,
+        "Ridge": 0.03679,
+        "NNLS": 0.03282
+      }
+    },
+    {
+      "feature": "f5b_verb_adj_ratio",
+      "r82_class": "INTERACTIONAL",
+      "status": "LAMBDA_NEUTRAL",
+      "mae_baseline": 4.10717,
+      "mae_lambda": 5.10548,
+      "gain_pct": -24.30646,
+      "best_method": "NNLS",
+      "lambda": {
+        "action": 3.63027,
+        "narration": 0.0,
+        "description": 0.0,
+        "dialogue": 1.18572,
+        "introspection": 0.0
+      },
+      "stability": {
+        "action": 0.20656,
+        "narration": 0.0,
+        "description": 0.0,
+        "dialogue": 0.4932,
+        "introspection": 0.0
+      },
+      "all_methods_mae": {
+        "OLS": 5.27893,
+        "Ridge": 5.27759,
+        "NNLS": 5.10548
+      }
+    },
+    {
+      "feature": "f5c_action_verb_ratio",
+      "r82_class": "INTERACTIONAL",
+      "status": "LAMBDA_NEUTRAL",
+      "mae_baseline": 0.00106,
+      "mae_lambda": 0.00105,
+      "gain_pct": 1.12184,
+      "best_method": "OLS",
+      "lambda": {
+        "action": -0.10615,
+        "narration": 2.45931,
+        "description": 0.82466,
+        "dialogue": 0.83847,
+        "introspection": 1.13405
+      },
+      "stability": {
+        "action": 0.07295,
+        "narration": 0.11826,
+        "description": 0.1009,
+        "dialogue": 0.09411,
+        "introspection": 0.19898
+      },
+      "all_methods_mae": {
+        "OLS": 0.00105,
+        "Ridge": 0.00114,
+        "NNLS": 0.00105
+      }
+    },
+    {
+      "feature": "f9a_contradiction_rate",
+      "r82_class": "INTERACTIONAL",
+      "status": "LAMBDA_USEFUL",
+      "mae_baseline": 0.4599,
+      "mae_lambda": 0.35649,
+      "gain_pct": 22.48543,
+      "best_method": "Ridge",
+      "lambda": {
+        "action": -0.28336,
+        "narration": 0.88853,
+        "description": 1.91112,
+        "dialogue": -0.19904,
+        "introspection": 1.04008
+      },
+      "stability": {
+        "action": 0.0,
+        "narration": 0.08626,
+        "description": 0.0892,
+        "dialogue": 0.01027,
+        "introspection": 0.32364
+      },
+      "all_methods_mae": {
+        "OLS": 0.35703,
+        "Ridge": 0.35649,
+        "NNLS": 0.3605
+      }
+    },
+    {
+      "feature": "f12_tense_switches",
+      "r82_class": "ABSOLUTE_SCALE",
+      "status": "LAMBDA_USEFUL",
+      "mae_baseline": 20.4584,
+      "mae_lambda": 14.72613,
+      "gain_pct": 28.01917,
+      "best_method": "OLS",
+      "lambda": {
+        "action": -2.78519,
+        "narration": 4.84377,
+        "description": 0.90567,
+        "dialogue": 2.18431,
+        "introspection": -10.39231
+      },
+      "stability": {
+        "action": 0.0,
+        "narration": 0.0718,
+        "description": 0.0,
+        "dialogue": 0.03549,
+        "introspection": 0.0
+      },
+      "all_methods_mae": {
+        "OLS": 14.72613,
+        "Ridge": 14.72627,
+        "NNLS": 16.32509
+      }
+    },
+    {
+      "feature": "f15b_redundancy_compression",
+      "r82_class": "ADDITIVE",
+      "status": "LAMBDA_USEFUL",
+      "mae_baseline": 0.03099,
+      "mae_lambda": 0.02939,
+      "gain_pct": 5.17384,
+      "best_method": "NNLS",
+      "lambda": {
+        "action": 0.88139,
+        "narration": 1.17341,
+        "description": 0.96945,
+        "dialogue": 0.98742,
+        "introspection": 1.03394
+      },
+      "stability": {
+        "action": 0.00533,
+        "narration": 0.00879,
+        "description": 0.00633,
+        "dialogue": 0.00242,
+        "introspection": 0.01269
+      },
+      "all_methods_mae": {
+        "OLS": 0.02939,
+        "Ridge": 0.02956,
+        "NNLS": 0.02939
+      }
+    },
+    {
+      "feature": "f16a_bigram_rarity",
+      "r82_class": "ADDITIVE",
+      "status": "LAMBDA_USEFUL",
+      "mae_baseline": 0.03099,
+      "mae_lambda": 0.02939,
+      "gain_pct": 5.17384,
+      "best_method": "NNLS",
+      "lambda": {
+        "action": 0.88139,
+        "narration": 1.17341,
+        "description": 0.96945,
+        "dialogue": 0.98742,
+        "introspection": 1.03394
+      },
+      "stability": {
+        "action": 0.00533,
+        "narration": 0.00879,
+        "description": 0.00633,
+        "dialogue": 0.00242,
+        "introspection": 0.01269
+      },
+      "all_methods_mae": {
+        "OLS": 0.02939,
+        "Ridge": 0.02956,
+        "NNLS": 0.02939
+      }
+    },
+    {
+      "feature": "f16c_lexical_surprise",
+      "r82_class": "SEMI_ADDITIVE",
+      "status": "LAMBDA_USEFUL",
+      "mae_baseline": 0.06454,
+      "mae_lambda": 0.05736,
+      "gain_pct": 11.12831,
+      "best_method": "Ridge",
+      "lambda": {
+        "action": 0.62732,
+        "narration": 1.45007,
+        "description": 1.09087,
+        "dialogue": 1.14933,
+        "introspection": 0.24506
+      },
+      "stability": {
+        "action": 0.01075,
+        "narration": 0.02255,
+        "description": 0.01308,
+        "dialogue": 0.0065,
+        "introspection": 0.03188
+      },
+      "all_methods_mae": {
+        "OLS": 0.05747,
+        "Ridge": 0.05736,
+        "NNLS": 0.05747
+      }
+    },
+    {
+      "feature": "f17_knife_count",
+      "r82_class": "ABSOLUTE_SCALE",
+      "status": "LAMBDA_USEFUL",
+      "mae_baseline": 19.54678,
+      "mae_lambda": 16.37013,
+      "gain_pct": 16.25154,
+      "best_method": "Ridge",
+      "lambda": {
+        "action": 4.9729,
+        "narration": -5.68671,
+        "description": -0.03257,
+        "dialogue": 2.22785,
+        "introspection": 0.67489
+      },
+      "stability": {
+        "action": 0.06151,
+        "narration": 0.0,
+        "description": 0.0,
+        "dialogue": 0.10449,
+        "introspection": 0.0
+      },
+      "all_methods_mae": {
+        "OLS": 16.37044,
+        "Ridge": 16.37013,
+        "NNLS": 17.0769
+      }
+    },
+    {
+      "feature": "f17_contrast_spacing",
+      "r82_class": "ABSOLUTE_SCALE",
+      "status": "LAMBDA_USEFUL",
+      "mae_baseline": 8.46327,
+      "mae_lambda": 7.25106,
+      "gain_pct": 14.32318,
+      "best_method": "Ridge",
+      "lambda": {
+        "action": -1.85006,
+        "narration": 2.13914,
+        "description": 1.83838,
+        "dialogue": 0.19952,
+        "introspection": 0.79278
+      },
+      "stability": {
+        "action": 0.0,
+        "narration": 0.09805,
+        "description": 0.13171,
+        "dialogue": 0.09077,
+        "introspection": 0.39103
+      },
+      "all_methods_mae": {
+        "OLS": 7.25118,
+        "Ridge": 7.25106,
+        "NNLS": 7.36604
+      }
+    },
+    {
+      "feature": "f19a_approx_entropy",
+      "r82_class": "ADDITIVE",
+      "status": "LAMBDA_USEFUL",
+      "mae_baseline": 0.01185,
+      "mae_lambda": 0.0107,
+      "gain_pct": 9.715,
+      "best_method": "NNLS",
+      "lambda": {
+        "action": 0.94474,
+        "narration": 1.0518,
+        "description": 1.00421,
+        "dialogue": 1.01391,
+        "introspection": 0.99519
+      },
+      "stability": {
+        "action": 0.00174,
+        "narration": 0.00272,
+        "description": 0.0021,
+        "dialogue": 0.00078,
+        "introspection": 0.00399
+      },
+      "all_methods_mae": {
+        "OLS": 0.0107,
+        "Ridge": 0.01099,
+        "NNLS": 0.0107
+      }
+    },
+    {
+      "feature": "f19f_window_stdev",
+      "r82_class": "INTERACTIONAL",
+      "status": "LAMBDA_USEFUL",
+      "mae_baseline": 3.28082,
+      "mae_lambda": 2.60632,
+      "gain_pct": 20.55866,
+      "best_method": "Ridge",
+      "lambda": {
+        "action": -0.27504,
+        "narration": 1.05348,
+        "description": 1.9109,
+        "dialogue": 0.33318,
+        "introspection": 0.02406
+      },
+      "stability": {
+        "action": 0.00266,
+        "narration": 0.1316,
+        "description": 0.14407,
+        "dialogue": 0.08857,
+        "introspection": 0.14411
+      },
+      "all_methods_mae": {
+        "OLS": 2.6064,
+        "Ridge": 2.60632,
+        "NNLS": 2.62557
+      }
+    },
+    {
+      "feature": "f21c_diacope_rate",
+      "r82_class": "INTERACTIONAL",
+      "status": "LAMBDA_USEFUL",
+      "mae_baseline": 0.01097,
+      "mae_lambda": 0.00989,
+      "gain_pct": 9.8617,
+      "best_method": "OLS",
+      "lambda": {
+        "action": 2.09438,
+        "narration": -1.00598,
+        "description": 1.05848,
+        "dialogue": 0.88807,
+        "introspection": 1.38434
+      },
+      "stability": {
+        "action": 0.03132,
+        "narration": 0.0,
+        "description": 0.06596,
+        "dialogue": 0.03372,
+        "introspection": 0.18047
+      },
+      "all_methods_mae": {
+        "OLS": 0.00989,
+        "Ridge": 0.01411,
+        "NNLS": 0.01001
+      }
+    },
+    {
+      "feature": "f21e_ritual_index",
+      "r82_class": "SEMI_ADDITIVE",
+      "status": "LAMBDA_USEFUL",
+      "mae_baseline": 0.09911,
+      "mae_lambda": 0.09386,
+      "gain_pct": 5.29209,
+      "best_method": "NNLS",
+      "lambda": {
+        "action": 0.81419,
+        "narration": 1.14449,
+        "description": 0.9373,
+        "dialogue": 1.19952,
+        "introspection": 1.25121
+      },
+      "stability": {
+        "action": 0.02125,
+        "narration": 0.03363,
+        "description": 0.02086,
+        "dialogue": 0.01136,
+        "introspection": 0.04575
+      },
+      "all_methods_mae": {
+        "OLS": 0.09386,
+        "Ridge": 0.09414,
+        "NNLS": 0.09386
+      }
+    },
+    {
+      "feature": "f24a_banal_rate",
+      "r82_class": "ADDITIVE",
+      "status": "LAMBDA_NEUTRAL",
+      "mae_baseline": 0.02011,
+      "mae_lambda": 0.0198,
+      "gain_pct": 1.5178,
+      "best_method": "NNLS",
+      "lambda": {
+        "action": 1.20687,
+        "narration": 0.76461,
+        "description": 0.97438,
+        "dialogue": 1.04626,
+        "introspection": 1.01593
+      },
+      "stability": {
+        "action": 0.0117,
+        "narration": 0.01421,
+        "description": 0.00944,
+        "dialogue": 0.00629,
+        "introspection": 0.02292
+      },
+      "all_methods_mae": {
+        "OLS": 0.0198,
+        "Ridge": 0.02042,
+        "NNLS": 0.0198
+      }
+    },
+    {
+      "feature": "f24b_apex_rate",
+      "r82_class": "ADDITIVE",
+      "status": "LAMBDA_NEUTRAL",
+      "mae_baseline": 0.01157,
+      "mae_lambda": 0.01165,
+      "gain_pct": -0.6984,
+      "best_method": "OLS",
+      "lambda": {
+        "action": 1.08811,
+        "narration": 0.901,
+        "description": 1.00386,
+        "dialogue": 1.0194,
+        "introspection": 0.99362
+      },
+      "stability": {
+        "action": 0.01202,
+        "narration": 0.01371,
+        "description": 0.00746,
+        "dialogue": 0.00504,
+        "introspection": 0.02407
+      },
+      "all_methods_mae": {
+        "OLS": 0.01165,
+        "Ridge": 0.01275,
+        "NNLS": 0.01165
+      }
+    },
+    {
+      "feature": "f24c_contrast_delta",
+      "r82_class": "INTERACTIONAL",
+      "status": "LAMBDA_USEFUL",
+      "mae_baseline": 13.99583,
+      "mae_lambda": 10.5934,
+      "gain_pct": 24.31027,
+      "best_method": "Ridge",
+      "lambda": {
+        "action": -0.09311,
+        "narration": 1.21204,
+        "description": 1.62723,
+        "dialogue": 0.51183,
+        "introspection": 0.48851
+      },
+      "stability": {
+        "action": 0.0042,
+        "narration": 0.05944,
+        "description": 0.05428,
+        "dialogue": 0.05223,
+        "introspection": 0.09816
+      },
+      "all_methods_mae": {
+        "OLS": 10.59341,
+        "Ridge": 10.5934,
+        "NNLS": 10.61397
+      }
+    },
+    {
+      "feature": "f24e_contrast_score",
+      "r82_class": "ADDITIVE",
+      "status": "LAMBDA_NEUTRAL",
+      "mae_baseline": 0.01503,
+      "mae_lambda": 0.01485,
+      "gain_pct": 1.21406,
+      "best_method": "OLS",
+      "lambda": {
+        "action": 0.93328,
+        "narration": 1.08636,
+        "description": 0.99299,
+        "dialogue": 0.99185,
+        "introspection": 1.01637
+      },
+      "stability": {
+        "action": 0.00651,
+        "narration": 0.00655,
+        "description": 0.0039,
+        "dialogue": 0.00389,
+        "introspection": 0.01195
+      },
+      "all_methods_mae": {
+        "OLS": 0.01485,
+        "Ridge": 0.01546,
+        "NNLS": 0.01485
+      }
+    },
+    {
+      "feature": "f25a_description_density",
+      "r82_class": "ABSOLUTE_SCALE",
+      "status": "LAMBDA_USEFUL",
+      "mae_baseline": 6.3243,
+      "mae_lambda": 5.57292,
+      "gain_pct": 11.8808,
+      "best_method": "Ridge",
+      "lambda": {
+        "action": -1.54797,
+        "narration": 3.55314,
+        "description": 1.98169,
+        "dialogue": 1.80203,
+        "introspection": -5.61628
+      },
+      "stability": {
+        "action": 0.0,
+        "narration": 0.09698,
+        "description": 0.04323,
+        "dialogue": 0.04396,
+        "introspection": 0.0
+      },
+      "all_methods_mae": {
+        "OLS": 5.57331,
+        "Ridge": 5.57292,
+        "NNLS": 5.80694
+      }
+    },
+    {
+      "feature": "f25g_description_score",
+      "r82_class": "INTERACTIONAL",
+      "status": "LAMBDA_USEFUL",
+      "mae_baseline": 0.03162,
+      "mae_lambda": 0.02787,
+      "gain_pct": 11.87561,
+      "best_method": "OLS",
+      "lambda": {
+        "action": -1.54935,
+        "narration": 3.55524,
+        "description": 1.98419,
+        "dialogue": 1.80163,
+        "introspection": -5.63077
+      },
+      "stability": {
+        "action": 0.0,
+        "narration": 0.09698,
+        "description": 0.04323,
+        "dialogue": 0.04396,
+        "introspection": 0.0
+      },
+      "all_methods_mae": {
+        "OLS": 0.02787,
+        "Ridge": 0.02954,
+        "NNLS": 0.02903
+      }
+    },
+    {
+      "feature": "f26a_mean_sub_markers",
+      "r82_class": "INTERACTIONAL",
+      "status": "LAMBDA_USEFUL",
+      "mae_baseline": 0.32051,
+      "mae_lambda": 0.2666,
+      "gain_pct": 16.82174,
+      "best_method": "Ridge",
+      "lambda": {
+        "action": -0.99533,
+        "narration": 2.03413,
+        "description": 1.2211,
+        "dialogue": 0.53517,
+        "introspection": 1.5366
+      },
+      "stability": {
+        "action": 0.0,
+        "narration": 0.08069,
+        "description": 0.06604,
+        "dialogue": 0.08127,
+        "introspection": 0.24909
+      },
+      "all_methods_mae": {
+        "OLS": 0.26838,
+        "Ridge": 0.2666,
+        "NNLS": 0.2725
+      }
+    },
+    {
+      "feature": "f26b_long_sent_rate",
+      "r82_class": "INTERACTIONAL",
+      "status": "LAMBDA_USEFUL",
+      "mae_baseline": 0.13235,
+      "mae_lambda": 0.0988,
+      "gain_pct": 25.3483,
+      "best_method": "Ridge",
+      "lambda": {
+        "action": -0.66612,
+        "narration": 1.03346,
+        "description": 1.88303,
+        "dialogue": 0.1422,
+        "introspection": 0.52235
+      },
+      "stability": {
+        "action": 0.0,
+        "narration": 0.07458,
+        "description": 0.05373,
+        "dialogue": 0.07302,
+        "introspection": 0.12922
+      },
+      "all_methods_mae": {
+        "OLS": 0.09881,
+        "Ridge": 0.0988,
+        "NNLS": 0.10332
+      }
+    },
+    {
+      "feature": "f26c_period_score",
+      "r82_class": "INTERACTIONAL",
+      "status": "LAMBDA_USEFUL",
+      "mae_baseline": 0.20723,
+      "mae_lambda": 0.16306,
+      "gain_pct": 21.31307,
+      "best_method": "Ridge",
+      "lambda": {
+        "action": -1.70611,
+        "narration": 1.24535,
+        "description": 1.70108,
+        "dialogue": -0.05459,
+        "introspection": 1.53902
+      },
+      "stability": {
+        "action": 0.0,
+        "narration": 0.0106,
+        "description": 0.13737,
+        "dialogue": 0.18091,
+        "introspection": 0.60366
+      },
+      "all_methods_mae": {
+        "OLS": 0.16915,
+        "Ridge": 0.16306,
+        "NNLS": 0.17002
+      }
+    },
+    {
+      "feature": "f27a_epistemic_rate",
+      "r82_class": "INTERACTIONAL",
+      "status": "LAMBDA_USEFUL",
+      "mae_baseline": 0.8024,
+      "mae_lambda": 0.6733,
+      "gain_pct": 16.08842,
+      "best_method": "Ridge",
+      "lambda": {
+        "action": -1.73715,
+        "narration": 1.01633,
+        "description": 0.97253,
+        "dialogue": 0.63771,
+        "introspection": 4.48796
+      },
+      "stability": {
+        "action": 0.0,
+        "narration": 0.0,
+        "description": 0.12136,
+        "dialogue": 0.23247,
+        "introspection": 0.53888
+      },
+      "all_methods_mae": {
+        "OLS": 0.67553,
+        "Ridge": 0.6733,
+        "NNLS": 0.67933
+      }
+    },
+    {
+      "feature": "f27b_conditional_rate",
+      "r82_class": "INTERACTIONAL",
+      "status": "LAMBDA_USEFUL",
+      "mae_baseline": 0.00319,
+      "mae_lambda": 0.00165,
+      "gain_pct": 48.30317,
+      "best_method": "OLS",
+      "lambda": {
+        "action": -0.50661,
+        "narration": 0.10403,
+        "description": -0.16975,
+        "dialogue": -0.21299,
+        "introspection": 7.55312
+      },
+      "stability": {
+        "action": 0.0,
+        "narration": 0.0,
+        "description": 0.0,
+        "dialogue": 0.0,
+        "introspection": 0.06419
+      },
+      "all_methods_mae": {
+        "OLS": 0.00165,
+        "Ridge": 0.00375,
+        "NNLS": 0.00168
+      }
+    },
+    {
+      "feature": "f27c_negation_rate",
+      "r82_class": "INTERACTIONAL",
+      "status": "LAMBDA_USEFUL",
+      "mae_baseline": 18.09906,
+      "mae_lambda": 14.47958,
+      "gain_pct": 19.99813,
+      "best_method": "Ridge",
+      "lambda": {
+        "action": -2.43949,
+        "narration": 2.80872,
+        "description": 1.46799,
+        "dialogue": 1.45934,
+        "introspection": 0.01328
+      },
+      "stability": {
+        "action": 0.0,
+        "narration": 0.04062,
+        "description": 0.08685,
+        "dialogue": 0.06166,
+        "introspection": 0.30045
+      },
+      "all_methods_mae": {
+        "OLS": 14.47964,
+        "Ridge": 14.47958,
+        "NNLS": 15.65455
+      }
+    },
+    {
+      "feature": "f27d_modal_score",
+      "r82_class": "INTERACTIONAL",
+      "status": "LAMBDA_USEFUL",
+      "mae_baseline": 0.01719,
+      "mae_lambda": 0.00863,
+      "gain_pct": 49.80359,
+      "best_method": "OLS",
+      "lambda": {
+        "action": -0.45907,
+        "narration": 0.16297,
+        "description": -0.04981,
+        "dialogue": 0.11984,
+        "introspection": 7.22995
+      },
+      "stability": {
+        "action": 0.0,
+        "narration": 0.0,
+        "description": 0.0,
+        "dialogue": 0.01159,
+        "introspection": 0.05212
+      },
+      "all_methods_mae": {
+        "OLS": 0.00863,
+        "Ridge": 0.01736,
+        "NNLS": 0.00874
+      }
+    },
+    {
+      "feature": "f28d_sil_score",
+      "r82_class": "INTERACTIONAL",
+      "status": "LAMBDA_USEFUL",
+      "mae_baseline": 0.00198,
+      "mae_lambda": 0.00087,
+      "gain_pct": 56.00301,
+      "best_method": "Ridge",
+      "lambda": {
+        "action": 0.0009,
+        "narration": 0.00215,
+        "description": 0.00139,
+        "dialogue": 0.00346,
+        "introspection": 0.00013
+      },
+      "stability": {
+        "action": 0.0,
+        "narration": 0.13174,
+        "description": 0.0,
+        "dialogue": 0.16795,
+        "introspection": 0.0
+      },
+      "all_methods_mae": {
+        "OLS": 0.00189,
+        "Ridge": 0.00087,
+        "NNLS": 0.00182
+      }
+    },
+    {
+      "feature": "f29a_ttr_global",
+      "r82_class": "ADDITIVE",
+      "status": "LAMBDA_USEFUL",
+      "mae_baseline": 0.03686,
+      "mae_lambda": 0.0333,
+      "gain_pct": 9.65187,
+      "best_method": "OLS",
+      "lambda": {
+        "action": 1.03546,
+        "narration": 1.15985,
+        "description": 1.00075,
+        "dialogue": 1.05993,
+        "introspection": 0.41965
+      },
+      "stability": {
+        "action": 0.01243,
+        "narration": 0.01309,
+        "description": 0.01025,
+        "dialogue": 0.00476,
+        "introspection": 0.03492
+      },
+      "all_methods_mae": {
+        "OLS": 0.0333,
+        "Ridge": 0.03349,
+        "NNLS": 0.0333
+      }
+    },
+    {
+      "feature": "f29d_ttr_score",
+      "r82_class": "ADDITIVE",
+      "status": "LAMBDA_USEFUL",
+      "mae_baseline": 0.02893,
+      "mae_lambda": 0.0256,
+      "gain_pct": 11.52341,
+      "best_method": "NNLS",
+      "lambda": {
+        "action": 0.98432,
+        "narration": 1.10876,
+        "description": 0.94115,
+        "dialogue": 1.04748,
+        "introspection": 0.97341
+      },
+      "stability": {
+        "action": 0.0045,
+        "narration": 0.00488,
+        "description": 0.00369,
+        "dialogue": 0.00219,
+        "introspection": 0.01209
+      },
+      "all_methods_mae": {
+        "OLS": 0.0256,
+        "Ridge": 0.02604,
+        "NNLS": 0.0256
+      }
+    },
+    {
+      "feature": "f30a_passe_simple_rate",
+      "r82_class": "SEMI_ADDITIVE",
+      "status": "LAMBDA_USEFUL",
+      "mae_baseline": 0.16345,
+      "mae_lambda": 0.11256,
+      "gain_pct": 31.13536,
+      "best_method": "OLS",
+      "lambda": {
+        "action": 1.53733,
+        "narration": 0.46636,
+        "description": 0.89546,
+        "dialogue": 0.39951,
+        "introspection": 1.79397
+      },
+      "stability": {
+        "action": 0.01755,
+        "narration": 0.02415,
+        "description": 0.0119,
+        "dialogue": 0.01854,
+        "introspection": 0.03646
+      },
+      "all_methods_mae": {
+        "OLS": 0.11256,
+        "Ridge": 0.11323,
+        "NNLS": 0.11256
+      }
+    },
+    {
+      "feature": "f30b_imparfait_rate",
+      "r82_class": "INTERACTIONAL",
+      "status": "LAMBDA_USEFUL",
+      "mae_baseline": 0.18179,
+      "mae_lambda": 0.12078,
+      "gain_pct": 33.56362,
+      "best_method": "OLS",
+      "lambda": {
+        "action": -2.56949,
+        "narration": 4.1535,
+        "description": 1.36135,
+        "dialogue": 2.20588,
+        "introspection": -9.23339
+      },
+      "stability": {
+        "action": 0.0,
+        "narration": 0.06411,
+        "description": 0.0,
+        "dialogue": 0.03251,
+        "introspection": 0.0
+      },
+      "all_methods_mae": {
+        "OLS": 0.12078,
+        "Ridge": 0.12998,
+        "NNLS": 0.13348
+      }
+    },
+    {
+      "feature": "f30d_ps_imp_ratio",
+      "r82_class": "INTERACTIONAL",
+      "status": "LAMBDA_USEFUL",
+      "mae_baseline": 35.88588,
+      "mae_lambda": 33.24606,
+      "gain_pct": 7.35613,
+      "best_method": "Ridge",
+      "lambda": {
+        "action": 4.62423,
+        "narration": 3.28055,
+        "description": -9.50011,
+        "dialogue": -5.21158,
+        "introspection": -1.34728
+      },
+      "stability": {
+        "action": 0.07802,
+        "narration": 0.0,
+        "description": 0.0,
+        "dialogue": 0.0,
+        "introspection": 0.0
+      },
+      "all_methods_mae": {
+        "OLS": 33.24609,
+        "Ridge": 33.24606,
+        "NNLS": 41.5268
+      }
+    },
+    {
+      "feature": "f33c_dot_comma_ratio",
+      "r82_class": "INTERACTIONAL",
+      "status": "LAMBDA_USEFUL",
+      "mae_baseline": 0.57416,
+      "mae_lambda": 0.51734,
+      "gain_pct": 9.8955,
+      "best_method": "NNLS",
+      "lambda": {
+        "action": 2.47645,
+        "narration": 0.0,
+        "description": 0.55535,
+        "dialogue": 0.9534,
+        "introspection": 0.05646
+      },
+      "stability": {
+        "action": 0.0982,
+        "narration": 0.0,
+        "description": 0.09369,
+        "dialogue": 0.06981,
+        "introspection": 0.2985
+      },
+      "all_methods_mae": {
+        "OLS": 0.54835,
+        "Ridge": 0.5452,
+        "NNLS": 0.51734
+      }
+    },
+    {
+      "feature": "f34b_para_per_1000w",
+      "r82_class": "ADDITIVE",
+      "status": "LAMBDA_NEUTRAL",
+      "mae_baseline": 0.0,
+      "mae_lambda": 0.0,
+      "gain_pct": -1.08808,
+      "best_method": "OLS",
+      "lambda": {
+        "action": 1.0,
+        "narration": 1.0,
+        "description": 1.0,
+        "dialogue": 1.0,
+        "introspection": 1.0
+      },
+      "stability": {
+        "action": 0.0,
+        "narration": 0.0,
+        "description": 0.0,
+        "dialogue": 0.0,
+        "introspection": 0.0
+      },
+      "all_methods_mae": {
+        "OLS": 0.0,
+        "Ridge": 0.00451,
+        "NNLS": 0.0
+      }
+    },
+    {
+      "feature": "f38a_short_para_rate",
+      "r82_class": "HORS_MODELE",
+      "status": "DEGENERATE",
+      "mae_baseline": 0,
+      "mae_lambda": 0,
+      "gain_pct": 0,
+      "best_method": "NONE",
+      "lambda": {
+        "action": 0,
+        "narration": 0,
+        "description": 0,
+        "dialogue": 0,
+        "introspection": 0
+      },
+      "stability": {
+        "action": 0,
+        "narration": 0,
+        "description": 0,
+        "dialogue": 0,
+        "introspection": 0
+      }
+    },
+    {
+      "feature": "f38b_punct_density",
+      "r82_class": "INTERACTIONAL",
+      "status": "LAMBDA_USEFUL",
+      "mae_baseline": 0.05035,
+      "mae_lambda": 0.04491,
+      "gain_pct": 10.79949,
+      "best_method": "NNLS",
+      "lambda": {
+        "action": 1.68721,
+        "narration": 0.0,
+        "description": 1.02544,
+        "dialogue": 0.7825,
+        "introspection": 0.0
+      },
+      "stability": {
+        "action": 0.0709,
+        "narration": 0.0,
+        "description": 0.03512,
+        "dialogue": 0.07817,
+        "introspection": 0.0
+      },
+      "all_methods_mae": {
+        "OLS": 0.05768,
+        "Ridge": 0.04555,
+        "NNLS": 0.04491
+      }
+    },
+    {
+      "feature": "f38c_speed_score",
+      "r82_class": "INTERACTIONAL",
+      "status": "LAMBDA_USEFUL",
+      "mae_baseline": 0.10069,
+      "mae_lambda": 0.08982,
+      "gain_pct": 10.79798,
+      "best_method": "NNLS",
+      "lambda": {
+        "action": 1.68721,
+        "narration": 0.0,
+        "description": 1.02544,
+        "dialogue": 0.78247,
+        "introspection": 0.0
+      },
+      "stability": {
+        "action": 0.0709,
+        "narration": 0.0,
+        "description": 0.03512,
+        "dialogue": 0.07817,
+        "introspection": 0.0
+      },
+      "all_methods_mae": {
+        "OLS": 0.11536,
+        "Ridge": 0.10343,
+        "NNLS": 0.08982
+      }
+    },
+    {
+      "feature": "f_subordination_depth_approx",
+      "r82_class": "INTERACTIONAL",
+      "status": "LAMBDA_USEFUL",
+      "mae_baseline": 0.32051,
+      "mae_lambda": 0.2666,
+      "gain_pct": 16.82174,
+      "best_method": "Ridge",
+      "lambda": {
+        "action": -0.99533,
+        "narration": 2.03413,
+        "description": 1.2211,
+        "dialogue": 0.53517,
+        "introspection": 1.5366
+      },
+      "stability": {
+        "action": 0.0,
+        "narration": 0.08069,
+        "description": 0.06604,
+        "dialogue": 0.08127,
+        "introspection": 0.24909
+      },
+      "all_methods_mae": {
+        "OLS": 0.26838,
+        "Ridge": 0.2666,
+        "NNLS": 0.2725
+      }
+    },
+    {
+      "feature": "f_negation_density",
+      "r82_class": "INTERACTIONAL",
+      "status": "LAMBDA_USEFUL",
+      "mae_baseline": 0.93565,
+      "mae_lambda": 0.7541,
+      "gain_pct": 19.40367,
+      "best_method": "Ridge",
+      "lambda": {
+        "action": -1.19129,
+        "narration": 2.5455,
+        "description": 1.01599,
+        "dialogue": 1.95217,
+        "introspection": 0.25513
+      },
+      "stability": {
+        "action": 0.0,
+        "narration": 0.05968,
+        "description": 0.02802,
+        "dialogue": 0.03347,
+        "introspection": 0.15055
+      },
+      "all_methods_mae": {
+        "OLS": 0.75456,
+        "Ridge": 0.7541,
+        "NNLS": 0.76847
+      }
+    },
+    {
+      "feature": "f_causal_density",
+      "r82_class": "INTERACTIONAL",
+      "status": "LAMBDA_USEFUL",
+      "mae_baseline": 0.05264,
+      "mae_lambda": 0.04422,
+      "gain_pct": 15.98438,
+      "best_method": "Ridge",
+      "lambda": {
+        "action": 0.26521,
+        "narration": 0.96052,
+        "description": 1.28681,
+        "dialogue": 0.3251,
+        "introspection": 0.51563
+      },
+      "stability": {
+        "action": 0.0,
+        "narration": 0.10735,
+        "description": 0.08146,
+        "dialogue": 0.09416,
+        "introspection": 0.24371
+      },
+      "all_methods_mae": {
+        "OLS": 0.04567,
+        "Ridge": 0.04422,
+        "NNLS": 0.04637
+      }
+    },
+    {
+      "feature": "f_tension_density",
+      "r82_class": "INTERACTIONAL",
+      "status": "LAMBDA_USEFUL",
+      "mae_baseline": 0.00281,
+      "mae_lambda": 0.00227,
+      "gain_pct": 19.31394,
+      "best_method": "OLS",
+      "lambda": {
+        "action": -1.19886,
+        "narration": 2.53676,
+        "description": 0.93081,
+        "dialogue": 1.86948,
+        "introspection": 0.89134
+      },
+      "stability": {
+        "action": 0.0,
+        "narration": 0.05737,
+        "description": 0.02077,
+        "dialogue": 0.03195,
+        "introspection": 0.12663
+      },
+      "all_methods_mae": {
+        "OLS": 0.00227,
+        "Ridge": 0.00462,
+        "NNLS": 0.00233
+      }
+    },
+    {
+      "feature": "f_desire_negation_rate",
+      "r82_class": "INTERACTIONAL",
+      "status": "LAMBDA_USEFUL",
+      "mae_baseline": 0.06258,
+      "mae_lambda": 0.05669,
+      "gain_pct": 9.40393,
+      "best_method": "Ridge",
+      "lambda": {
+        "action": 0.52031,
+        "narration": 0.59983,
+        "description": 1.1598,
+        "dialogue": 0.03261,
+        "introspection": 0.63766
+      },
+      "stability": {
+        "action": 0.11799,
+        "narration": 0.1597,
+        "description": 0.15125,
+        "dialogue": 0.0,
+        "introspection": 0.39925
+      },
+      "all_methods_mae": {
+        "OLS": 0.05877,
+        "Ridge": 0.05669,
+        "NNLS": 0.05929
+      }
+    },
+    {
+      "feature": "f_lexical_progression",
+      "r82_class": "INTERACTIONAL",
+      "status": "LAMBDA_NEUTRAL",
+      "mae_baseline": 0.02525,
+      "mae_lambda": 0.02518,
+      "gain_pct": 0.29577,
+      "best_method": "OLS",
+      "lambda": {
+        "action": 4.12195,
+        "narration": -3.97081,
+        "description": 4.9867,
+        "dialogue": -4.70748,
+        "introspection": -6.26824
+      },
+      "stability": {
+        "action": 1.23207,
+        "narration": 0.28134,
+        "description": 0.92665,
+        "dialogue": 0.0,
+        "introspection": 1.68501
+      },
+      "all_methods_mae": {
+        "OLS": 0.02518,
+        "Ridge": 0.02528,
+        "NNLS": 0.02523
+      }
+    }
+  ],
+  "gamma_needed": [],
+  "global_mae_baseline": 3.86825,
+  "global_mae_lambda": 3.26885
+}

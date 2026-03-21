@@ -1,0 +1,224 @@
+{
+  "version": "V3",
+  "method": "Ridge regression",
+  "lambda": 50.0,
+  "split": {
+    "train": 399,
+    "val": 85,
+    "holdout": 87
+  },
+  "performance": {
+    "train": {
+      "r2": 0.2249,
+      "spearman": 0.5074
+    },
+    "validation": {
+      "r2": 0.2046,
+      "spearman": 0.5877
+    },
+    "holdout": {
+      "r2": 0.1603,
+      "spearman": 0.5191,
+      "inversions_s_vs_d": 32,
+      "total_pairs_s_vs_d": 45
+    },
+    "full": {
+      "r2": 0.2177,
+      "spearman": 0.5185,
+      "inversions_s_vs_d": 581,
+      "total_pairs_s_vs_d": 2780
+    }
+  },
+  "tier_predictions": {
+    "train": {
+      "S": 4.1607,
+      "A": 3.9866,
+      "B": 3.8307,
+      "C": 3.4254,
+      "D": 3.639
+    },
+    "holdout": {
+      "S": 4.1733,
+      "A": 3.8812,
+      "B": 4.006,
+      "C": 3.4256,
+      "D": 4.3267
+    },
+    "full": {
+      "S": 4.1809,
+      "A": 4.0043,
+      "B": 3.8554,
+      "C": 3.4338,
+      "D": 3.6748
+    }
+  },
+  "intercept": 5.934701,
+  "features": {
+    "f26b_long_sent_rate": {
+      "weight_raw": 0.589303,
+      "weight_std": 0.0696,
+      "mean": 0.096524,
+      "std": 0.118131
+    },
+    "f1a_rhythm_variance": {
+      "weight_raw": 0.011339,
+      "weight_std": 0.0988,
+      "mean": 14.157977,
+      "std": 8.717312
+    },
+    "f1_mean": {
+      "weight_raw": -0.001941,
+      "weight_std": -0.0369,
+      "mean": 20.563688,
+      "std": 19.000486
+    },
+    "f24c_contrast_delta": {
+      "weight_raw": 0.019501,
+      "weight_std": 0.196,
+      "mean": 27.753606,
+      "std": 10.04876
+    },
+    "f28b_irony_density": {
+      "weight_raw": 0.023386,
+      "weight_std": 0.0239,
+      "mean": 0.099024,
+      "std": 1.022554
+    },
+    "f27a_epistemic_rate": {
+      "weight_raw": 0.00528,
+      "weight_std": 0.1135,
+      "mean": 9.498198,
+      "std": 21.498158
+    },
+    "f9a_contradiction_rate": {
+      "weight_raw": -0.088281,
+      "weight_std": -0.0803,
+      "mean": 0.854107,
+      "std": 0.909655
+    },
+    "f19a_approx_entropy": {
+      "weight_raw": 1.272268,
+      "weight_std": 0.1533,
+      "mean": 0.719431,
+      "std": 0.120464
+    },
+    "f27d_modal_score": {
+      "weight_raw": 0.595408,
+      "weight_std": 0.0783,
+      "mean": 0.239642,
+      "std": 0.131427
+    },
+    "f26c_period_score": {
+      "weight_raw": 0.090256,
+      "weight_std": 0.0089,
+      "mean": 0.11575,
+      "std": 0.098956
+    },
+    "f_pov_shift_rate": {
+      "weight_raw": 0.54286,
+      "weight_std": 0.082,
+      "mean": 0.324544,
+      "std": 0.151063
+    },
+    "f_subordination_depth": {
+      "weight_raw": -0.076731,
+      "weight_std": -0.0728,
+      "mean": 0.776584,
+      "std": 0.948238
+    },
+    "f_clause_per_sentence": {
+      "weight_raw": 0.134374,
+      "weight_std": 0.1111,
+      "mean": 1.345505,
+      "std": 0.82716
+    },
+    "f17_knife_count": {
+      "weight_raw": -0.003674,
+      "weight_std": -0.0258,
+      "mean": 7.266667,
+      "std": 7.026831
+    },
+    "f29d_ttr_score": {
+      "weight_raw": -4.879874,
+      "weight_std": -0.1199,
+      "mean": 0.715444,
+      "std": 0.02458
+    },
+    "f35c_hook_score": {
+      "weight_raw": -0.893573,
+      "weight_std": -0.1132,
+      "mean": 0.567643,
+      "std": 0.126654
+    },
+    "f36c_cliff_score": {
+      "weight_raw": 0.024771,
+      "weight_std": 0.0015,
+      "mean": 0.641448,
+      "std": 0.06236
+    },
+    "ix_mean_x_subdepth": {
+      "weight_raw": -0.000115,
+      "weight_std": -0.0217,
+      "mean": 32.836698,
+      "std": 188.50885
+    },
+    "ix_pov_x_irony": {
+      "weight_raw": -0.046621,
+      "weight_std": -0.0339,
+      "mean": 0.054383,
+      "std": 0.727847
+    },
+    "ix_variance_x_longrate": {
+      "weight_raw": -0.01251,
+      "weight_std": -0.066,
+      "mean": 2.263669,
+      "std": 5.278102
+    }
+  },
+  "normalization": {
+    "means": {
+      "f26b_long_sent_rate": 0.096524,
+      "f1a_rhythm_variance": 14.157977,
+      "f1_mean": 20.563688,
+      "f24c_contrast_delta": 27.753606,
+      "f28b_irony_density": 0.099024,
+      "f27a_epistemic_rate": 9.498198,
+      "f9a_contradiction_rate": 0.854107,
+      "f19a_approx_entropy": 0.719431,
+      "f27d_modal_score": 0.239642,
+      "f26c_period_score": 0.11575,
+      "f_pov_shift_rate": 0.324544,
+      "f_subordination_depth": 0.776584,
+      "f_clause_per_sentence": 1.345505,
+      "f17_knife_count": 7.266667,
+      "f29d_ttr_score": 0.715444,
+      "f35c_hook_score": 0.567643,
+      "f36c_cliff_score": 0.641448,
+      "ix_mean_x_subdepth": 32.836698,
+      "ix_pov_x_irony": 0.054383,
+      "ix_variance_x_longrate": 2.263669
+    },
+    "stds": {
+      "f26b_long_sent_rate": 0.118131,
+      "f1a_rhythm_variance": 8.717312,
+      "f1_mean": 19.000486,
+      "f24c_contrast_delta": 10.04876,
+      "f28b_irony_density": 1.022554,
+      "f27a_epistemic_rate": 21.498158,
+      "f9a_contradiction_rate": 0.909655,
+      "f19a_approx_entropy": 0.120464,
+      "f27d_modal_score": 0.131427,
+      "f26c_period_score": 0.098956,
+      "f_pov_shift_rate": 0.151063,
+      "f_subordination_depth": 0.948238,
+      "f_clause_per_sentence": 0.82716,
+      "f17_knife_count": 7.026831,
+      "f29d_ttr_score": 0.02458,
+      "f35c_hook_score": 0.126654,
+      "f36c_cliff_score": 0.06236,
+      "ix_mean_x_subdepth": 188.50885,
+      "ix_pov_x_irony": 0.727847,
+      "ix_variance_x_longrate": 5.278102
+    }
+  }
+}

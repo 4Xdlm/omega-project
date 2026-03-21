@@ -1,0 +1,801 @@
+{
+  "feature_stats": {
+    "f_clause_count": {
+      "FLAUBERT": {
+        "mean": 41.7692,
+        "median": 42,
+        "n": 13
+      },
+      "LLM_RIVIERA": {
+        "mean": 87.5714,
+        "median": 85,
+        "n": 7
+      },
+      "LLM_GPT": {
+        "mean": 53.6,
+        "median": 54,
+        "n": 5
+      }
+    },
+    "f_clause_per_sentence": {
+      "FLAUBERT": {
+        "mean": 1.6121,
+        "median": 1.6111,
+        "n": 13
+      },
+      "LLM_RIVIERA": {
+        "mean": 1.1644,
+        "median": 1.1585,
+        "n": 7
+      },
+      "LLM_GPT": {
+        "mean": 1.4312,
+        "median": 1.5,
+        "n": 5
+      }
+    },
+    "f_indirect_libre_score": {
+      "FLAUBERT": {
+        "mean": 0.0031,
+        "median": 0,
+        "n": 13
+      },
+      "LLM_RIVIERA": {
+        "mean": 0,
+        "median": 0,
+        "n": 7
+      },
+      "LLM_GPT": {
+        "mean": 0.0197,
+        "median": 0.0196,
+        "n": 5
+      }
+    },
+    "f_info_density": {
+      "FLAUBERT": {
+        "mean": 0.3314,
+        "median": 0.326,
+        "n": 13
+      },
+      "LLM_RIVIERA": {
+        "mean": 0.368,
+        "median": 0.372,
+        "n": 7
+      },
+      "LLM_GPT": {
+        "mean": 0.3148,
+        "median": 0.316,
+        "n": 5
+      }
+    },
+    "f_negation_density": {
+      "FLAUBERT": {
+        "mean": 1.8769,
+        "median": 1.4,
+        "n": 13
+      },
+      "LLM_RIVIERA": {
+        "mean": 3.6286,
+        "median": 3.8,
+        "n": 7
+      },
+      "LLM_GPT": {
+        "mean": 2.92,
+        "median": 2.6,
+        "n": 5
+      }
+    },
+    "f_negation_variety": {
+      "FLAUBERT": {
+        "mean": 4.3077,
+        "median": 3,
+        "n": 13
+      },
+      "LLM_RIVIERA": {
+        "mean": 6,
+        "median": 6,
+        "n": 7
+      },
+      "LLM_GPT": {
+        "mean": 5.2,
+        "median": 6,
+        "n": 5
+      }
+    },
+    "f_pov_shift_rate": {
+      "FLAUBERT": {
+        "mean": 0.3599,
+        "median": 0.3611,
+        "n": 13
+      },
+      "LLM_RIVIERA": {
+        "mean": 0.1038,
+        "median": 0.0732,
+        "n": 7
+      },
+      "LLM_GPT": {
+        "mean": 0.149,
+        "median": 0.1053,
+        "n": 5
+      }
+    },
+    "f_rhythm_stability": {
+      "FLAUBERT": {
+        "mean": 0.797,
+        "median": 0.7351,
+        "n": 13
+      },
+      "LLM_RIVIERA": {
+        "mean": 1.1105,
+        "median": 1.0898,
+        "n": 7
+      },
+      "LLM_GPT": {
+        "mean": 1.6119,
+        "median": 1.5794,
+        "n": 5
+      }
+    },
+    "f_sentence_variance_local": {
+      "FLAUBERT": {
+        "mean": 288.905,
+        "median": 231.5227,
+        "n": 13
+      },
+      "LLM_RIVIERA": {
+        "mean": 22.933,
+        "median": 25.265,
+        "n": 7
+      },
+      "LLM_GPT": {
+        "mean": 288.0853,
+        "median": 301.1265,
+        "n": 5
+      }
+    },
+    "f_subordination_depth": {
+      "FLAUBERT": {
+        "mean": 0.8299,
+        "median": 0.8333,
+        "n": 13
+      },
+      "LLM_RIVIERA": {
+        "mean": 0.1946,
+        "median": 0.2195,
+        "n": 7
+      },
+      "LLM_GPT": {
+        "mean": 0.4222,
+        "median": 0.3684,
+        "n": 5
+      }
+    },
+    "f_subordination_max": {
+      "FLAUBERT": {
+        "mean": 4.6154,
+        "median": 4,
+        "n": 13
+      },
+      "LLM_RIVIERA": {
+        "mean": 2,
+        "median": 2,
+        "n": 7
+      },
+      "LLM_GPT": {
+        "mean": 4,
+        "median": 4,
+        "n": 5
+      }
+    },
+    "f_variance_of_variance": {
+      "FLAUBERT": {
+        "mean": 62645.531,
+        "median": 55512.1682,
+        "n": 13
+      },
+      "LLM_RIVIERA": {
+        "mean": 784.1405,
+        "median": 464.8721,
+        "n": 7
+      },
+      "LLM_GPT": {
+        "mean": 266467.5187,
+        "median": 220865.2194,
+        "n": 5
+      }
+    }
+  },
+  "feature_verdicts": [
+    {
+      "feature": "f_clause_count",
+      "fMean": 41.7692,
+      "rMean": 87.5714,
+      "gMean": 53.6,
+      "verdict": "INV",
+      "delta": -109.7
+    },
+    {
+      "feature": "f_clause_per_sentence",
+      "fMean": 1.6121,
+      "rMean": 1.1644,
+      "gMean": 1.4312,
+      "verdict": "DISC",
+      "delta": 11.2
+    },
+    {
+      "feature": "f_indirect_libre_score",
+      "fMean": 0.0031,
+      "rMean": 0,
+      "gMean": 0.0197,
+      "verdict": "MIX",
+      "delta": -535.5
+    },
+    {
+      "feature": "f_info_density",
+      "fMean": 0.3314,
+      "rMean": 0.368,
+      "gMean": 0.3148,
+      "verdict": "MIX",
+      "delta": -11
+    },
+    {
+      "feature": "f_negation_density",
+      "fMean": 1.8769,
+      "rMean": 3.6286,
+      "gMean": 2.92,
+      "verdict": "INV",
+      "delta": -93.3
+    },
+    {
+      "feature": "f_negation_variety",
+      "fMean": 4.3077,
+      "rMean": 6,
+      "gMean": 5.2,
+      "verdict": "INV",
+      "delta": -39.3
+    },
+    {
+      "feature": "f_pov_shift_rate",
+      "fMean": 0.3599,
+      "rMean": 0.1038,
+      "gMean": 0.149,
+      "verdict": "DISC",
+      "delta": 58.6
+    },
+    {
+      "feature": "f_rhythm_stability",
+      "fMean": 0.797,
+      "rMean": 1.1105,
+      "gMean": 1.6119,
+      "verdict": "INV",
+      "delta": -102.2
+    },
+    {
+      "feature": "f_sentence_variance_local",
+      "fMean": 288.905,
+      "rMean": 22.933,
+      "gMean": 288.0853,
+      "verdict": "DISC",
+      "delta": 0.3
+    },
+    {
+      "feature": "f_subordination_depth",
+      "fMean": 0.8299,
+      "rMean": 0.1946,
+      "gMean": 0.4222,
+      "verdict": "DISC",
+      "delta": 49.1
+    },
+    {
+      "feature": "f_subordination_max",
+      "fMean": 4.6154,
+      "rMean": 2,
+      "gMean": 4,
+      "verdict": "DISC",
+      "delta": 13.3
+    },
+    {
+      "feature": "f_variance_of_variance",
+      "fMean": 62645.531,
+      "rMean": 784.1405,
+      "gMean": 266467.5187,
+      "verdict": "MIX",
+      "delta": -325.4
+    }
+  ],
+  "individual_results": [
+    {
+      "source": "Flaubert-Bovary[0]",
+      "category": "FLAUBERT",
+      "passageIndex": 0,
+      "features": {
+        "f_clause_count": 67,
+        "f_clause_per_sentence": 3.7222,
+        "f_subordination_depth": 1.5,
+        "f_subordination_max": 4,
+        "f_info_density": 0.382,
+        "f_pov_shift_rate": 0.5556,
+        "f_indirect_libre_score": 0,
+        "f_negation_density": 3.6,
+        "f_negation_variety": 8,
+        "f_sentence_variance_local": 352.7429,
+        "f_variance_of_variance": 18273.1857,
+        "f_rhythm_stability": 0.3832
+      }
+    },
+    {
+      "source": "Flaubert-Bovary[1]",
+      "category": "FLAUBERT",
+      "passageIndex": 1,
+      "features": {
+        "f_clause_count": 58,
+        "f_clause_per_sentence": 1.6111,
+        "f_subordination_depth": 0.5,
+        "f_subordination_max": 3,
+        "f_info_density": 0.354,
+        "f_pov_shift_rate": 0.3611,
+        "f_indirect_libre_score": 0,
+        "f_negation_density": 2.6,
+        "f_negation_variety": 7,
+        "f_sentence_variance_local": 197.2188,
+        "f_variance_of_variance": 72641.0177,
+        "f_rhythm_stability": 1.3666
+      }
+    },
+    {
+      "source": "Flaubert-Bovary[2]",
+      "category": "FLAUBERT",
+      "passageIndex": 2,
+      "features": {
+        "f_clause_count": 74,
+        "f_clause_per_sentence": 2,
+        "f_subordination_depth": 0.5135,
+        "f_subordination_max": 3,
+        "f_info_density": 0.356,
+        "f_pov_shift_rate": 0.2703,
+        "f_indirect_libre_score": 0,
+        "f_negation_density": 2.4,
+        "f_negation_variety": 4,
+        "f_sentence_variance_local": 177.4788,
+        "f_variance_of_variance": 17020.0955,
+        "f_rhythm_stability": 0.7351
+      }
+    },
+    {
+      "source": "Flaubert-Bovary[3]",
+      "category": "FLAUBERT",
+      "passageIndex": 3,
+      "features": {
+        "f_clause_count": 78,
+        "f_clause_per_sentence": 1.7333,
+        "f_subordination_depth": 0.3111,
+        "f_subordination_max": 2,
+        "f_info_density": 0.302,
+        "f_pov_shift_rate": 0.3778,
+        "f_indirect_libre_score": 0,
+        "f_negation_density": 4.6,
+        "f_negation_variety": 7,
+        "f_sentence_variance_local": 81.222,
+        "f_variance_of_variance": 4309.9923,
+        "f_rhythm_stability": 0.8083
+      }
+    },
+    {
+      "source": "Flaubert-Education[0]",
+      "category": "FLAUBERT",
+      "passageIndex": 0,
+      "features": {
+        "f_clause_count": 42,
+        "f_clause_per_sentence": 1.75,
+        "f_subordination_depth": 0.8333,
+        "f_subordination_max": 4,
+        "f_info_density": 0.35,
+        "f_pov_shift_rate": 0.0833,
+        "f_indirect_libre_score": 0,
+        "f_negation_density": 0.8,
+        "f_negation_variety": 3,
+        "f_sentence_variance_local": 135.46,
+        "f_variance_of_variance": 9583.2741,
+        "f_rhythm_stability": 0.7227
+      }
+    },
+    {
+      "source": "Flaubert-Education[1]",
+      "category": "FLAUBERT",
+      "passageIndex": 1,
+      "features": {
+        "f_clause_count": 45,
+        "f_clause_per_sentence": 1.8,
+        "f_subordination_depth": 0.6,
+        "f_subordination_max": 4,
+        "f_info_density": 0.326,
+        "f_pov_shift_rate": 0.36,
+        "f_indirect_libre_score": 0.04,
+        "f_negation_density": 2,
+        "f_negation_variety": 5,
+        "f_sentence_variance_local": 46.1,
+        "f_variance_of_variance": 815.573,
+        "f_rhythm_stability": 0.6195
+      }
+    },
+    {
+      "source": "Flaubert-Education[2]",
+      "category": "FLAUBERT",
+      "passageIndex": 2,
+      "features": {
+        "f_clause_count": 56,
+        "f_clause_per_sentence": 2.24,
+        "f_subordination_depth": 0.92,
+        "f_subordination_max": 5,
+        "f_info_density": 0.3,
+        "f_pov_shift_rate": 0.44,
+        "f_indirect_libre_score": 0,
+        "f_negation_density": 3.2,
+        "f_negation_variety": 8,
+        "f_sentence_variance_local": 163.9952,
+        "f_variance_of_variance": 24173.2075,
+        "f_rhythm_stability": 0.9481
+      }
+    },
+    {
+      "source": "Flaubert-Salammbo[0]",
+      "category": "FLAUBERT",
+      "passageIndex": 0,
+      "features": {
+        "f_clause_count": 26,
+        "f_clause_per_sentence": 1,
+        "f_subordination_depth": 0.5385,
+        "f_subordination_max": 3,
+        "f_info_density": 0.268,
+        "f_pov_shift_rate": 0.2308,
+        "f_indirect_libre_score": 0,
+        "f_negation_density": 1.4,
+        "f_negation_variety": 2,
+        "f_sentence_variance_local": 231.5227,
+        "f_variance_of_variance": 82861.3752,
+        "f_rhythm_stability": 1.2433
+      }
+    },
+    {
+      "source": "Flaubert-Salammbo[1]",
+      "category": "FLAUBERT",
+      "passageIndex": 1,
+      "features": {
+        "f_clause_count": 23,
+        "f_clause_per_sentence": 1.0455,
+        "f_subordination_depth": 1.0909,
+        "f_subordination_max": 6,
+        "f_info_density": 0.318,
+        "f_pov_shift_rate": 0.2273,
+        "f_indirect_libre_score": 0,
+        "f_negation_density": 1,
+        "f_negation_variety": 2,
+        "f_sentence_variance_local": 324.7667,
+        "f_variance_of_variance": 55512.1682,
+        "f_rhythm_stability": 0.7255
+      }
+    },
+    {
+      "source": "Flaubert-Salammbo[2]",
+      "category": "FLAUBERT",
+      "passageIndex": 2,
+      "features": {
+        "f_clause_count": 19,
+        "f_clause_per_sentence": 1,
+        "f_subordination_depth": 1.2105,
+        "f_subordination_max": 8,
+        "f_info_density": 0.364,
+        "f_pov_shift_rate": 0.4211,
+        "f_indirect_libre_score": 0,
+        "f_negation_density": 0.6,
+        "f_negation_variety": 3,
+        "f_sentence_variance_local": 521.7667,
+        "f_variance_of_variance": 187130.2867,
+        "f_rhythm_stability": 0.8291
+      }
+    },
+    {
+      "source": "Flaubert-TroisContes[0]",
+      "category": "FLAUBERT",
+      "passageIndex": 0,
+      "features": {
+        "f_clause_count": 16,
+        "f_clause_per_sentence": 1,
+        "f_subordination_depth": 0.9375,
+        "f_subordination_max": 4,
+        "f_info_density": 0.326,
+        "f_pov_shift_rate": 0.3125,
+        "f_indirect_libre_score": 0,
+        "f_negation_density": 0.8,
+        "f_negation_variety": 3,
+        "f_sentence_variance_local": 487.7917,
+        "f_variance_of_variance": 94180.5317,
+        "f_rhythm_stability": 0.6291
+      }
+    },
+    {
+      "source": "Flaubert-TroisContes[1]",
+      "category": "FLAUBERT",
+      "passageIndex": 1,
+      "features": {
+        "f_clause_count": 20,
+        "f_clause_per_sentence": 1,
+        "f_subordination_depth": 1,
+        "f_subordination_max": 9,
+        "f_info_density": 0.302,
+        "f_pov_shift_rate": 0.65,
+        "f_indirect_libre_score": 0,
+        "f_negation_density": 0.4,
+        "f_negation_variety": 2,
+        "f_sentence_variance_local": 523.25,
+        "f_variance_of_variance": 150680.3987,
+        "f_rhythm_stability": 0.7419
+      }
+    },
+    {
+      "source": "Flaubert-TroisContes[2]",
+      "category": "FLAUBERT",
+      "passageIndex": 2,
+      "features": {
+        "f_clause_count": 19,
+        "f_clause_per_sentence": 1.0556,
+        "f_subordination_depth": 0.8333,
+        "f_subordination_max": 5,
+        "f_info_density": 0.36,
+        "f_pov_shift_rate": 0.3889,
+        "f_indirect_libre_score": 0,
+        "f_negation_density": 1,
+        "f_negation_variety": 2,
+        "f_sentence_variance_local": 512.45,
+        "f_variance_of_variance": 97210.7965,
+        "f_rhythm_stability": 0.6084
+      }
+    },
+    {
+      "source": "Riviera[0]",
+      "category": "LLM_RIVIERA",
+      "passageIndex": 0,
+      "features": {
+        "f_clause_count": 77,
+        "f_clause_per_sentence": 1.3051,
+        "f_subordination_depth": 0.2881,
+        "f_subordination_max": 2,
+        "f_info_density": 0.382,
+        "f_pov_shift_rate": 0.2034,
+        "f_indirect_libre_score": 0,
+        "f_negation_density": 3.8,
+        "f_negation_variety": 7,
+        "f_sentence_variance_local": 25.3291,
+        "f_variance_of_variance": 761.981,
+        "f_rhythm_stability": 1.0898
+      }
+    },
+    {
+      "source": "Riviera[1]",
+      "category": "LLM_RIVIERA",
+      "passageIndex": 1,
+      "features": {
+        "f_clause_count": 80,
+        "f_clause_per_sentence": 1.039,
+        "f_subordination_depth": 0.1558,
+        "f_subordination_max": 1,
+        "f_info_density": 0.4,
+        "f_pov_shift_rate": 0.026,
+        "f_indirect_libre_score": 0,
+        "f_negation_density": 2.2,
+        "f_negation_variety": 6,
+        "f_sentence_variance_local": 16.9548,
+        "f_variance_of_variance": 161.5617,
+        "f_rhythm_stability": 0.7497
+      }
+    },
+    {
+      "source": "Riviera[2]",
+      "category": "LLM_RIVIERA",
+      "passageIndex": 2,
+      "features": {
+        "f_clause_count": 100,
+        "f_clause_per_sentence": 1.1236,
+        "f_subordination_depth": 0.0899,
+        "f_subordination_max": 1,
+        "f_info_density": 0.354,
+        "f_pov_shift_rate": 0.0562,
+        "f_indirect_libre_score": 0,
+        "f_negation_density": 3.4,
+        "f_negation_variety": 7,
+        "f_sentence_variance_local": 19.3059,
+        "f_variance_of_variance": 403.0937,
+        "f_rhythm_stability": 1.04
+      }
+    },
+    {
+      "source": "Riviera-test[0]",
+      "category": "LLM_RIVIERA",
+      "passageIndex": 0,
+      "features": {
+        "f_clause_count": 95,
+        "f_clause_per_sentence": 1.1585,
+        "f_subordination_depth": 0.2195,
+        "f_subordination_max": 2,
+        "f_info_density": 0.39,
+        "f_pov_shift_rate": 0.061,
+        "f_indirect_libre_score": 0,
+        "f_negation_density": 2.6,
+        "f_negation_variety": 5,
+        "f_sentence_variance_local": 26.609,
+        "f_variance_of_variance": 1188.3746,
+        "f_rhythm_stability": 1.2955
+      }
+    },
+    {
+      "source": "Riviera-test[1]",
+      "category": "LLM_RIVIERA",
+      "passageIndex": 1,
+      "features": {
+        "f_clause_count": 96,
+        "f_clause_per_sentence": 1.1707,
+        "f_subordination_depth": 0.2317,
+        "f_subordination_max": 4,
+        "f_info_density": 0.316,
+        "f_pov_shift_rate": 0.0732,
+        "f_indirect_libre_score": 0,
+        "f_negation_density": 5,
+        "f_negation_variety": 6,
+        "f_sentence_variance_local": 16.7962,
+        "f_variance_of_variance": 433.7487,
+        "f_rhythm_stability": 1.24
+      }
+    },
+    {
+      "source": "Riviera-test[2]",
+      "category": "LLM_RIVIERA",
+      "passageIndex": 2,
+      "features": {
+        "f_clause_count": 80,
+        "f_clause_per_sentence": 1.25,
+        "f_subordination_depth": 0.1563,
+        "f_subordination_max": 2,
+        "f_info_density": 0.362,
+        "f_pov_shift_rate": 0.2031,
+        "f_indirect_libre_score": 0,
+        "f_negation_density": 4.6,
+        "f_negation_variety": 6,
+        "f_sentence_variance_local": 25.265,
+        "f_variance_of_variance": 464.8721,
+        "f_rhythm_stability": 0.8534
+      }
+    },
+    {
+      "source": "Riviera-test[3]",
+      "category": "LLM_RIVIERA",
+      "passageIndex": 3,
+      "features": {
+        "f_clause_count": 85,
+        "f_clause_per_sentence": 1.1039,
+        "f_subordination_depth": 0.2208,
+        "f_subordination_max": 2,
+        "f_info_density": 0.372,
+        "f_pov_shift_rate": 0.1039,
+        "f_indirect_libre_score": 0,
+        "f_negation_density": 3.8,
+        "f_negation_variety": 5,
+        "f_sentence_variance_local": 30.2712,
+        "f_variance_of_variance": 2075.3515,
+        "f_rhythm_stability": 1.5049
+      }
+    },
+    {
+      "source": "GPT-5.4[0]",
+      "category": "LLM_GPT",
+      "passageIndex": 0,
+      "features": {
+        "f_clause_count": 54,
+        "f_clause_per_sentence": 1.5,
+        "f_subordination_depth": 0.5833,
+        "f_subordination_max": 4,
+        "f_info_density": 0.294,
+        "f_pov_shift_rate": 0.2222,
+        "f_indirect_libre_score": 0,
+        "f_negation_density": 1.8,
+        "f_negation_variety": 3,
+        "f_sentence_variance_local": 331.3281,
+        "f_variance_of_variance": 333837.935,
+        "f_rhythm_stability": 1.7439
+      }
+    },
+    {
+      "source": "GPT-5.4[1]",
+      "category": "LLM_GPT",
+      "passageIndex": 1,
+      "features": {
+        "f_clause_count": 52,
+        "f_clause_per_sentence": 1.3684,
+        "f_subordination_depth": 0.3684,
+        "f_subordination_max": 4,
+        "f_info_density": 0.314,
+        "f_pov_shift_rate": 0.1053,
+        "f_indirect_libre_score": 0.0526,
+        "f_negation_density": 3.6,
+        "f_negation_variety": 6,
+        "f_sentence_variance_local": 301.1265,
+        "f_variance_of_variance": 209476.1832,
+        "f_rhythm_stability": 1.5199
+      }
+    },
+    {
+      "source": "GPT-original[0]",
+      "category": "LLM_GPT",
+      "passageIndex": 0,
+      "features": {
+        "f_clause_count": 44,
+        "f_clause_per_sentence": 1.5714,
+        "f_subordination_depth": 0.4643,
+        "f_subordination_max": 4,
+        "f_info_density": 0.316,
+        "f_pov_shift_rate": 0.2143,
+        "f_indirect_libre_score": 0,
+        "f_negation_density": 1.4,
+        "f_negation_variety": 4,
+        "f_sentence_variance_local": 401.825,
+        "f_variance_of_variance": 545769.1872,
+        "f_rhythm_stability": 1.8385
+      }
+    },
+    {
+      "source": "GPT-original[1]",
+      "category": "LLM_GPT",
+      "passageIndex": 1,
+      "features": {
+        "f_clause_count": 58,
+        "f_clause_per_sentence": 1.1373,
+        "f_subordination_depth": 0.3529,
+        "f_subordination_max": 4,
+        "f_info_density": 0.332,
+        "f_pov_shift_rate": 0.098,
+        "f_indirect_libre_score": 0.0196,
+        "f_negation_density": 2.6,
+        "f_negation_variety": 6,
+        "f_sentence_variance_local": 108.5851,
+        "f_variance_of_variance": 22389.0687,
+        "f_rhythm_stability": 1.378
+      }
+    },
+    {
+      "source": "GPT-original[2]",
+      "category": "LLM_GPT",
+      "passageIndex": 2,
+      "features": {
+        "f_clause_count": 60,
+        "f_clause_per_sentence": 1.5789,
+        "f_subordination_depth": 0.3421,
+        "f_subordination_max": 4,
+        "f_info_density": 0.318,
+        "f_pov_shift_rate": 0.1053,
+        "f_indirect_libre_score": 0.0263,
+        "f_negation_density": 5.2,
+        "f_negation_variety": 7,
+        "f_sentence_variance_local": 297.5618,
+        "f_variance_of_variance": 220865.2194,
+        "f_rhythm_stability": 1.5794
+      }
+    }
+  ],
+  "summary": {
+    "total_features": 12,
+    "discriminant_count": 5,
+    "discriminant_features": [
+      "f_pov_shift_rate",
+      "f_subordination_depth",
+      "f_subordination_max",
+      "f_clause_per_sentence",
+      "f_sentence_variance_local"
+    ],
+    "inverted_features": [
+      "f_clause_count",
+      "f_negation_density",
+      "f_negation_variety",
+      "f_rhythm_stability"
+    ],
+    "verdict": "PASS — Depth features separent Flaubert des LLM. Integrer dans V3."
+  }
+}

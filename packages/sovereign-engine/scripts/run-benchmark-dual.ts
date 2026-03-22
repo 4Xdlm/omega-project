@@ -463,6 +463,7 @@ async function main(): Promise<void> {
 
   const profileNames = getProfileNames();
   const results: DualSceneResult[] = [];
+  const proseTexts: Array<{id: string; label: string; text: string}> = [];
 
   // ── Build scene list ────────────────────────────────────────────────────
   // API mode: use phase-w ForgePacketInputs (same 8 scenes, same config)
@@ -632,6 +633,7 @@ async function main(): Promise<void> {
     };
 
     results.push(result);
+    proseTexts.push({ id: sceneId, label, text: prose });
     console.log(
       `  [${pad(label, 22)}] V3=${rpad(legacyComposite.toFixed(2), 6)} | ` +
       `R6=${rpad(r6Default.composite.score.toFixed(2), 6)} LOC=${rpad(r6Default.local.score.toFixed(2), 6)} ` +
@@ -736,8 +738,19 @@ async function main(): Promise<void> {
   fs.writeFileSync(path.join(packDir, 'scenes.jsonl'),
     results.map(r => JSON.stringify(r)).join('\n') + '\n');
 
+  // ── Save prose texts for GB V1 tribunal ──────────────────────────────
+  const proseDir = path.join(packDir, 'prose');
+  fs.mkdirSync(proseDir, { recursive: true });
+  for (const pt of proseTexts) {
+    fs.writeFileSync(path.join(proseDir, `${pt.id}.txt`), pt.text, 'utf-8');
+  }
+  console.log(`[DUAL] Saved ${proseTexts.length} prose files to ${proseDir}`);
+
   // SHA256SUMS
   const files = ['summary.json', 'scenes.jsonl'];
+  for (const pt of proseTexts) {
+    files.push(`prose/${pt.id}.txt`);
+  }
   const sums = files.map(f => {
     const hash = createHash('sha256').update(fs.readFileSync(path.join(packDir, f))).digest('hex');
     return `${hash}  ${f}`;

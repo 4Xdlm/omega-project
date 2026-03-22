@@ -1,11 +1,19 @@
 /**
- * OMEGA Passage Classifier — Phase R-7 Pre-Seal Audit 3
+ * OMEGA Passage Classifier — R-LAB-TYPE Rebuild
+ * Date: 2026-03-22
  *
  * Returns a normalized vector of passage type probabilities:
  *   { narration, description, dialogue, introspection, action }
  * Sum = 1.0. Plus dominant_type string.
  *
- * Pure TypeScript, no dependencies.
+ * REBUILT based on 64-passage gold set + 15 novels audit.
+ * Key fixes:
+ * - Dialogue: detect theatre format (SPEAKER NAMES), not just tirets/guillemets
+ * - Introspection: detect 1st person + mental verbs + conditional
+ * - Narration vs Description: temporal markers separate narration from static
+ * - Action: short sentences + action verbs + passe simple
+ *
+ * Pure TypeScript — no dependencies.
  */
 
 // ═══════════════════════════════════════════════════════════════════════
@@ -22,247 +30,233 @@ export interface PassageClassification {
 }
 
 // ═══════════════════════════════════════════════════════════════════════
-// UTILS
+// MARKER DETECTION
 // ═══════════════════════════════════════════════════════════════════════
 
 function splitSentences(text: string): string[] {
-  return text.split(/(?<=[.!?…»])\s+/).map(s => s.trim()).filter(s => s.length > 5);
+  return text.split(/(?<=[.!?\u2026\u00bb])\s+/).map(s => s.trim()).filter(s => s.length > 5);
 }
 
-function r4(v: number): number {
-  return Math.round(v * 10000) / 10000;
+/**
+ * Detect dialogue: tirets, guillemets, quotes, AND theatre format.
+ * Theatre format: lines starting with UPPERCASE NAME followed by colon or period.
+ * e.g., "SGANARELLE.--" or "DON JUAN:" or "HARPAGON,"
+ */
+function computeDialogueScore(text: string): number {
+  const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+  if (lines.length === 0) return 0;
+
+  let dialogueLines = 0;
+  for (const line of lines) {
+    // Standard dialogue markers
+    if (line.startsWith('\u2014') || line.startsWith('\u2013') ||
+        line.startsWith('- ') || line.startsWith('\u00ab') ||
+        line.includes('\u00ab ') || line.includes(' \u00bb') ||
+        /^[""\u201c]/.test(line)) {
+      dialogueLines++;
+      continue;
+    }
+    // Theatre format: line starts with ALLCAPS word(s) followed by . -- : ,
+    // e.g., "SGANARELLE.--Il faut...", "DON JUAN: ..."
+    if (/^[A-Z\u00c0-\u00dc][A-Z\u00c0-\u00dc\s]{1,30}[.,:\-]/.test(line)) {
+      dialogueLines++;
+      continue;
+    }
+    // Speech verbs near start of line (dit-il, murmura-t-elle, etc.)
+    if (/^.{0,5}(dit|murmura|cria|demanda|repondit|chuchota|s'exclama|said|asked|replied|whispered|shouted)\b/i.test(line)) {
+      dialogueLines++;
+    }
+  }
+
+  // Also count speech verb density in the full text
+  const speechVerbs = /\b(?:dit|disait|repondit|murmura|cria|demanda|ajouta|reprit|declara|chuchota|s'ecria|s'exclama|said|asked|replied|whispered|shouted|exclaimed|answered|cried)\b/gi;
+  const speechCount = (text.toLowerCase().match(speechVerbs) || []).length;
+  const words = text.split(/\s+/).length;
+
+  const lineRatio = dialogueLines / lines.length;
+  const speechRate = speechCount / Math.max(words, 1);
+
+  // Score: heavily weighted on line ratio (structural signal)
+  return Math.min(1.0, lineRatio * 1.2 + speechRate * 8);
 }
 
-// ═══════════════════════════════════════════════════════════════════════
-// MARKER SETS
-// ═══════════════════════════════════════════════════════════════════════
+/**
+ * Detect description: adjectives, sensory words, static verbs, low temporal markers.
+ */
+function computeDescriptionScore(text: string): number {
+  const words = text.split(/\s+/);
+  const nw = Math.max(words.length, 1);
 
-const SENSORY_WORDS = new Set([
-  'lumiere', 'ombre', 'couleur', 'brillant', 'sombre', 'clair', 'lueur', 'reflet',
-  'bruit', 'son', 'silence', 'murmure', 'voix', 'echo', 'souffle',
-  'froid', 'chaud', 'doux', 'rugeux', 'humide', 'sec', 'peau',
-  'odeur', 'parfum', 'senteur', 'fumee',
-  'gout', 'amer', 'sucre',
-  'light', 'shadow', 'dark', 'bright', 'noise', 'sound', 'whisper',
-  'cold', 'warm', 'smooth', 'rough', 'smell', 'scent',
-]);
+  // Adjective endings
+  const adjEndings = ['eux', 'euse', 'ique', 'able', 'ible', 'ent', 'ente',
+    'al', 'el', 'ous', 'ful', 'less', 'ive', 'ose', 'ated'];
+  let adjCount = 0;
+  for (const w of words) {
+    const lower = w.toLowerCase().replace(/[.,;:!?"'()]/g, '');
+    if (lower.length > 4 && adjEndings.some(e => lower.endsWith(e))) adjCount++;
+  }
 
-const ADJ_ENDINGS = ['eux', 'euse', 'ique', 'able', 'ible', 'ant', 'ent', 'al', 'el',
-  'ous', 'ful', 'less', 'ive', 'oso', 'osa'];
+  // Static verbs (descriptive state, not action)
+  const staticVerbs = /\b(?:etait|etaient|fut|semblait|paraissait|demeurait|restait|regnait|flottait|planait|was|were|seemed|appeared|remained|lay|stood|hung)\b/gi;
+  const staticCount = (text.toLowerCase().match(staticVerbs) || []).length;
 
-const ACTION_VERBS = new Set([
-  'marcha', 'marchait', 'courut', 'courait', 'bondit', 'bondissait',
-  'saisit', 'saisissait', 'frappa', 'frappait', 'lanca', 'lancait',
-  'jeta', 'jetait', 'tira', 'tirait', 'poussa', 'poussait',
-  'sauta', 'sautait', 'attrapa', 'attrapait', 'tomba', 'tombait',
-  'coupa', 'coupait', 'brisa', 'brisait', 'arracha', 'arrachait',
-  'ouvrit', 'ouvrait', 'ferma', 'fermait', 'prit', 'prenait',
-  'walked', 'ran', 'jumped', 'grabbed', 'threw', 'hit', 'kicked',
-  'pushed', 'pulled', 'struck', 'seized', 'caught',
-]);
+  // Sensory words
+  const sensoryRe = /\b(?:lumiere|ombre|couleur|brillant|sombre|clair|lueur|reflet|bruit|silence|murmure|odeur|parfum|froid|chaud|doux|light|shadow|dark|bright|noise|silence|smell|scent|cold|warm|smooth|rough)\b/gi;
+  const sensoryCount = (text.toLowerCase().match(sensoryRe) || []).length;
 
-const SPEECH_VERBS = new Set([
-  'dit', 'disait', 'repondit', 'repondait', 'murmura', 'murmurait',
-  'cria', 'criait', 'demanda', 'demandait', 'ajouta', 'ajoutait',
-  'reprit', 'reprenait', 'declara', 'declarait', 'chuchota',
-  'said', 'asked', 'replied', 'whispered', 'shouted', 'exclaimed',
-]);
+  // Temporal markers (ABSENCE of temporal = more descriptive)
+  const temporalRe = /\b(?:puis|ensuite|alors|soudain|enfin|aussitot|d'abord|then|suddenly|finally|next|meanwhile|first|immediately)\b/gi;
+  const temporalCount = (text.toLowerCase().match(temporalRe) || []).length;
 
-const MODAL_MARKERS = new Set([
-  'semblait', 'paraissait', 'apparemment', 'peut-etre', 'probablement',
-  'sans doute', 'comme si', 'dirait-on', 'il semblait',
-  'seemed', 'appeared', 'perhaps', 'probably', 'possibly', 'as if',
-]);
+  const adjRate = adjCount / nw;
+  const staticRate = staticCount / nw;
+  const sensoryRate = sensoryCount / nw;
+  const temporalPenalty = Math.min(1, temporalCount / 5) * 0.3;
 
-const PS_ENDINGS = ['a', 'it', 'ut', 'int', 'urent', 'irent', 'erent'];
-const IMP_ENDINGS = ['ait', 'aient', 'ais'];
+  return Math.min(1.0,
+    adjRate * 6 +
+    staticRate * 8 +
+    sensoryRate * 10 -
+    temporalPenalty
+  );
+}
+
+/**
+ * Detect action: action verbs, passe simple, short sentences, physical movement.
+ */
+function computeActionScore(text: string): number {
+  const sents = splitSentences(text);
+  const words = text.split(/\s+/);
+  const nw = Math.max(words.length, 1);
+
+  // Action verbs (physical movement)
+  const actionRe = /\b(?:frappa|bondit|courut|saisit|lanca|jeta|tira|poussa|sauta|tomba|coupa|brisa|arracha|ouvrit|ferma|marcha|s'elanca|walked|ran|jumped|grabbed|threw|hit|kicked|pushed|pulled|struck|seized|caught|fired|rode|charged|crashed|fell|rushed|leapt)\b/gi;
+  const actionCount = (text.toLowerCase().match(actionRe) || []).length;
+
+  // Passe simple endings (indicator of narrative action in French)
+  const longWords = words.filter(w => w.length > 3).map(w => w.toLowerCase().replace(/[.,;:!?"']/g, ''));
+  const psEndings = ['a', 'it', 'ut', 'int', 'urent', 'irent'];
+  const psCount = longWords.filter(w => psEndings.some(e => w.endsWith(e))).length;
+
+  // Short sentences (pace/urgency)
+  const sentLens = sents.map(s => s.split(/\s+/).length);
+  const shortRate = sentLens.filter(l => l < 10).length / Math.max(sentLens.length, 1);
+  const meanLen = sentLens.length > 0 ? sentLens.reduce((a, b) => a + b, 0) / sentLens.length : 20;
+
+  return Math.min(1.0,
+    (actionCount / nw) * 15 +
+    (psCount / Math.max(longWords.length, 1)) * 1.5 +
+    shortRate * 0.3 +
+    (meanLen < 12 ? 0.15 : 0)
+  );
+}
+
+/**
+ * Detect introspection: 1st person + mental verbs + conditional + modalisateurs.
+ */
+function computeIntrospectionScore(text: string): number {
+  const words = text.split(/\s+/);
+  const nw = Math.max(words.length, 1);
+  const lower = text.toLowerCase();
+
+  // 1st person pronouns
+  const firstPersonRe = /\b(?:je|j'|me|m'|moi|mon|ma|mes|my|mine|myself)\b/gi;
+  const fpCount = (lower.match(firstPersonRe) || []).length;
+
+  // Mental/perception verbs
+  const mentalRe = /\b(?:pensait|pensais|pensai|croyait|croyais|savait|savais|comprenait|comprenais|sentait|sentais|semblait|imaginait|imaginais|revait|revais|souviens|souvenait|wondered|thought|felt|believed|knew|understood|imagined|remembered|seemed|realized)\b/gi;
+  const mentalCount = (lower.match(mentalRe) || []).length;
+
+  // Conditional/subjunctive (hypothetical thinking)
+  const condRe = /\b(?:aurait|serait|pourrait|devrait|voudrait|faudrait|would|could|should|might)\b/gi;
+  const condCount = (lower.match(condRe) || []).length;
+
+  // Modalisateurs (uncertainty, subjectivity)
+  const modalRe = /\b(?:peut-etre|sans doute|probablement|apparemment|semble|semblait|perhaps|probably|apparently|maybe|possibly)\b/gi;
+  const modalCount = (lower.match(modalRe) || []).length;
+
+  return Math.min(1.0,
+    (fpCount / nw) * 3 +
+    (mentalCount / nw) * 12 +
+    (condCount / nw) * 8 +
+    (modalCount / nw) * 10
+  );
+}
+
+/**
+ * Detect narration: 3rd person + temporal markers + passe simple/imparfait + event sequence.
+ */
+function computeNarrationScore(text: string): number {
+  const words = text.split(/\s+/);
+  const nw = Math.max(words.length, 1);
+  const lower = text.toLowerCase();
+
+  // 3rd person pronouns
+  const thirdPersonRe = /\b(?:il|elle|ils|elles|son|sa|ses|leur|he|she|they|his|her|their)\b/gi;
+  const tpCount = (lower.match(thirdPersonRe) || []).length;
+
+  // Temporal progression markers
+  const temporalRe = /\b(?:puis|ensuite|alors|soudain|enfin|d'abord|aussitot|tout a coup|apres|pendant|des|lorsqu|quand|then|suddenly|finally|next|meanwhile|first|immediately|after|before|during|when|while|soon)\b/gi;
+  const temporalCount = (lower.match(temporalRe) || []).length;
+
+  // Imparfait (narrative background)
+  const impEndings = ['ait', 'aient', 'ais'];
+  const longWords = words.filter(w => w.length > 3).map(w => w.toLowerCase().replace(/[.,;:!?"']/g, ''));
+  const impCount = longWords.filter(w => impEndings.some(e => w.endsWith(e))).length;
+
+  // Event sequence markers (actions in sequence)
+  const sequenceRe = /\b(?:il fit|elle fit|il alla|elle alla|il prit|elle prit|il dit|elle dit|he did|she did|he went|she went|he took|she took|he said|she said)\b/gi;
+  const seqCount = (lower.match(sequenceRe) || []).length;
+
+  return Math.min(1.0,
+    (tpCount / nw) * 2.5 +
+    (temporalCount / nw) * 6 +
+    (impCount / Math.max(longWords.length, 1)) * 1.2 +
+    (seqCount / nw) * 10
+  );
+}
 
 // ═══════════════════════════════════════════════════════════════════════
 // CLASSIFIER
 // ═══════════════════════════════════════════════════════════════════════
 
+function r4(v: number): number {
+  return Math.round(v * 10000) / 10000;
+}
+
 /**
  * Classify a text passage into 5 types with normalized probabilities.
- *
- * @param text - Raw text passage (typically 500-2000 words)
- * @returns Classification vector (sum = 1.0)
  */
 export function classifyPassage(text: string): PassageClassification {
-  const sents = splitSentences(text);
-  const words = text.split(/\s+/).filter(w => w.length > 0);
-  const nWords = Math.max(words.length, 1);
-  const nSents = Math.max(sents.length, 1);
-  const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
-  const nLines = Math.max(lines.length, 1);
-
-  // ─── DIALOGUE SIGNALS ───
-  let dialogueLines = 0;
-  for (const line of lines) {
-    if (
-      line.startsWith('—') || line.startsWith('–') || line.startsWith('- ') ||
-      line.startsWith('«') || line.includes('« ') || line.includes(' »') ||
-      /^[""\u201C]/.test(line) || /^\s*[""\u201C]/.test(line)
-    ) {
-      dialogueLines++;
-    }
-  }
-  const dialogueRatio = dialogueLines / nLines;
-
-  // Speech verbs count
-  let speechVerbCount = 0;
-  for (const w of words) {
-    if (SPEECH_VERBS.has(w.toLowerCase().replace(/[.,;:!?"'()]/g, ''))) {
-      speechVerbCount++;
-    }
-  }
-  const speechVerbRate = speechVerbCount / nWords;
-
-  // Dialogue raw score
-  const dialogueScore = Math.min(1.0,
-    dialogueRatio * 1.5 +
-    speechVerbRate * 10
-  );
-
-  // ─── DESCRIPTION SIGNALS ───
-  let adjCount = 0;
-  let sensoryCount = 0;
-  for (const w of words) {
-    const lower = w.toLowerCase().replace(/[.,;:!?"'()]/g, '');
-    if (ADJ_ENDINGS.some(e => lower.endsWith(e)) && lower.length > 4) adjCount++;
-    if (SENSORY_WORDS.has(lower)) sensoryCount++;
-  }
-  const adjRate = adjCount / nWords;
-  const sensoryRate = sensoryCount / nWords;
-
-  // Static verbs (etre/avoir forms)
-  let staticVerbCount = 0;
-  const staticVerbs = new Set(['etait', 'etaient', 'fut', 'semblait', 'paraissait',
-    'demeurait', 'restait', 'was', 'were', 'seemed', 'appeared', 'remained']);
-  for (const w of words) {
-    if (staticVerbs.has(w.toLowerCase().replace(/[.,;:!?"'()]/g, ''))) staticVerbCount++;
-  }
-  const staticRate = staticVerbCount / nWords;
-
-  const descriptionScore = Math.min(1.0,
-    adjRate * 8 +
-    sensoryRate * 15 +
-    staticRate * 10
-  );
-
-  // ─── ACTION SIGNALS ───
-  let actionVerbCount = 0;
-  for (const w of words) {
-    if (ACTION_VERBS.has(w.toLowerCase().replace(/[.,;:!?"'()]/g, ''))) actionVerbCount++;
-  }
-  const actionVerbRate = actionVerbCount / nWords;
-
-  // Passe simple detection
-  const longWords = words.filter(w => w.length > 3).map(w => w.toLowerCase().replace(/[.,;:!?"']/g, ''));
-  const psCount = longWords.filter(w => PS_ENDINGS.some(e => w.endsWith(e))).length;
-  const psRate = psCount / Math.max(longWords.length, 1);
-
-  // Short sentences (speed)
-  const sentLens = sents.map(s => s.split(/\s+/).length);
-  const meanSentLen = sentLens.reduce((a, b) => a + b, 0) / nSents;
-  const shortSentRate = sentLens.filter(l => l < 10).length / nSents;
-
-  const actionScore = Math.min(1.0,
-    actionVerbRate * 20 +
-    psRate * 2 +
-    shortSentRate * 0.5 +
-    (meanSentLen < 12 ? 0.2 : 0)
-  );
-
-  // ─── INTROSPECTION SIGNALS ───
-  let modalCount = 0;
-  const txtLower = text.toLowerCase();
-  for (const marker of MODAL_MARKERS) {
-    let pos = 0;
-    while ((pos = txtLower.indexOf(marker, pos)) !== -1) {
-      modalCount++;
-      pos += marker.length;
-    }
-  }
-  const modalRate = modalCount / nWords;
-
-  // Conditional forms
-  const condForms = ['aurait', 'serait', 'pourrait', 'devrait', 'voudrait',
-    'would', 'could', 'should', 'might'];
-  let condCount = 0;
-  for (const w of words) {
-    if (condForms.includes(w.toLowerCase().replace(/[.,;:!?"'()]/g, ''))) condCount++;
-  }
-  const condRate = condCount / nWords;
-
-  // First person (introspective narration)
-  const firstPersonCount = (txtLower.match(/\b(?:je|j'|me|m'|moi|i\b|my\b|me\b)\b/g) || []).length;
-  const firstPersonRate = firstPersonCount / nWords;
-
-  const introspectionScore = Math.min(1.0,
-    modalRate * 15 +
-    condRate * 12 +
-    firstPersonRate * 3
-  );
-
-  // ─── NARRATION SIGNALS ───
-  // 3rd person + imparfait/PS + temporal markers
-  const thirdPersonCount = (txtLower.match(/\b(?:il|elle|ils|elles|son|sa|ses|he\b|she\b|his\b|her\b)\b/g) || []).length;
-  const thirdPersonRate = thirdPersonCount / nWords;
-
-  const impCount = longWords.filter(w => IMP_ENDINGS.some(e => w.endsWith(e))).length;
-  const impRate = impCount / Math.max(longWords.length, 1);
-
-  const temporalMarkers = ['puis', 'ensuite', 'alors', 'soudain', 'enfin',
-    'aussitot', 'then', 'suddenly', 'finally', 'next'];
-  let temporalCount = 0;
-  for (const w of words) {
-    if (temporalMarkers.includes(w.toLowerCase().replace(/[.,;:!?"'()]/g, ''))) temporalCount++;
-  }
-  const temporalRate = temporalCount / nWords;
-
-  const narrationScore = Math.min(1.0,
-    thirdPersonRate * 4 +
-    impRate * 2 +
-    psRate * 2 +
-    temporalRate * 8
-  );
-
-  // ─── NORMALIZE ───
   const raw = {
-    narration: narrationScore,
-    description: descriptionScore,
-    dialogue: dialogueScore,
-    introspection: introspectionScore,
-    action: actionScore,
+    narration: computeNarrationScore(text),
+    description: computeDescriptionScore(text),
+    dialogue: computeDialogueScore(text),
+    introspection: computeIntrospectionScore(text),
+    action: computeActionScore(text),
   };
 
   const total = raw.narration + raw.description + raw.dialogue + raw.introspection + raw.action;
 
   if (total === 0) {
-    // Default: description
     return {
       narration: 0, description: 1, dialogue: 0, introspection: 0, action: 0,
       dominant_type: 'description',
     };
   }
 
-  const normalized: Record<string, number> = {};
   let maxVal = 0;
-  let maxType: string = 'description';
-  for (const [k, v] of Object.entries(raw)) {
-    normalized[k] = r4(v / total);
-    if (v > maxVal) {
-      maxVal = v;
-      maxType = k;
-    }
+  let maxType: keyof typeof raw = 'description';
+  for (const [k, v] of Object.entries(raw) as Array<[keyof typeof raw, number]>) {
+    if (v > maxVal) { maxVal = v; maxType = k; }
   }
 
   return {
-    narration: normalized['narration'],
-    description: normalized['description'],
-    dialogue: normalized['dialogue'],
-    introspection: normalized['introspection'],
-    action: normalized['action'],
-    dominant_type: maxType as PassageClassification['dominant_type'],
+    narration: r4(raw.narration / total),
+    description: r4(raw.description / total),
+    dialogue: r4(raw.dialogue / total),
+    introspection: r4(raw.introspection / total),
+    action: r4(raw.action / total),
+    dominant_type: maxType,
   };
 }

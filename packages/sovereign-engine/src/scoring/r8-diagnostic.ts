@@ -11,6 +11,8 @@ import { computeAllGBFeatures, scoreText } from './gb-scorer.js';
 import { classifyPassage, type PassageClassification } from './passage-classifier.js';
 import {
   TypologicalNormalizer,
+  type TypologicalData,
+  type TippingPointsData,
   type NormalizationReport,
   type TippingPointResult,
 } from './typological-normalizer.js';
@@ -52,11 +54,26 @@ let normalizer: TypologicalNormalizer | null = null;
 function getNormalizer(): TypologicalNormalizer {
   if (!normalizer) {
     normalizer = new TypologicalNormalizer(
-      typologicalData as Record<string, unknown>,
-      tippingPointsData as Record<string, unknown>,
+      typologicalData as unknown as TypologicalData,
+      tippingPointsData as unknown as TippingPointsData,
     );
   }
   return normalizer;
+}
+
+/**
+ * Extract pure numeric type proportions from PassageClassification.
+ * Strips dominant_type (string) to produce a clean Record<string, number>
+ * compatible with TypologicalNormalizer.normalize().
+ */
+function toTypeVector(pc: PassageClassification): Record<string, number> {
+  return {
+    action: pc.action,
+    narration: pc.narration,
+    description: pc.description,
+    dialogue: pc.dialogue,
+    introspection: pc.introspection,
+  };
 }
 
 // ═══════════════════════════════════════════════════════════════════════
@@ -84,7 +101,7 @@ export function diagnose(text: string): R8DiagnosticReport {
   // 4. Full normalization (if normalizer supports it)
   let normReport: NormalizationReport | undefined;
   try {
-    normReport = norm.normalize(gbResult.features, typeVec);
+    normReport = norm.normalize(gbResult.features, toTypeVector(typeVec));
   } catch {
     // Normalization may fail if feature names don't match — non-blocking
   }

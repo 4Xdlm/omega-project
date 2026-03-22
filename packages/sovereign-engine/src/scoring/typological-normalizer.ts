@@ -82,7 +82,7 @@ interface FeatureConstants {
   status?: string;  // R-8.3 lambda status
 }
 
-interface TypologicalData {
+export interface TypologicalData {
   _types: string[];
   _gamma_features: string[];
   features: Record<string, FeatureConstants>;
@@ -96,7 +96,7 @@ interface TippingPoint {
   importance: number;
 }
 
-interface TippingPointsData {
+export interface TippingPointsData {
   tipping_points: TippingPoint[];
   gb_spearman: number;
 }

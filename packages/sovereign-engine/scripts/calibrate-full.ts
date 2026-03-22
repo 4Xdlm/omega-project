@@ -99,10 +99,15 @@ for (const file of allFiles) {
   const tags = analysis.sentences;
   totalSentences += tags.length;
 
-  // Novel-level distribution
+  // Novel-level distribution: use probabilistic score vectors
+  const distScores: Record<string, number> = { dialogue: 0, action: 0, description: 0, introspection: 0, narration: 0 };
+  for (const tag of tags) {
+    for (const t of ALL_TYPES) distScores[t] += tag.scores[t];
+  }
+  const distTotal = Object.values(distScores).reduce((a, b) => a + b, 0);
   const dist: Record<string, number> = {};
   for (const t of ALL_TYPES) {
-    dist[t] = Math.round(tags.filter(tag => tag.type === t).length / tags.length * 100);
+    dist[t] = distTotal > 0 ? Math.round(distScores[t] / distTotal * 100) : 20;
   }
   novelDistributions.push({ file, sentences: tags.length, distribution: dist, windows: 0 });
 
@@ -113,10 +118,18 @@ for (const file of allFiles) {
     const windowSents = sents.slice(i, i + WINDOW_SENTS);
     const windowText = windowSents.join(' ');
 
-    // Composition
+    // Composition: use PROBABILISTIC score vectors, not hard labels
     const comp: Record<SentenceType, number> = { dialogue: 0, action: 0, description: 0, introspection: 0, narration: 0 };
-    for (const t of windowTags) comp[t.type]++;
-    for (const k of ALL_TYPES) comp[k] = comp[k] / WINDOW_SENTS;
+    for (const t of windowTags) {
+      for (const k of ALL_TYPES) comp[k] += t.scores[k];
+    }
+    // Normalize to sum = 1
+    const compTotal = Object.values(comp).reduce((a, b) => a + b, 0);
+    if (compTotal > 0) {
+      for (const k of ALL_TYPES) comp[k] = comp[k] / compTotal;
+    } else {
+      for (const k of ALL_TYPES) comp[k] = 0.2; // uniform if all residual
+    }
 
     // Transition rate
     let transitions = 0;

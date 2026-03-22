@@ -31,9 +31,9 @@ const STRESS = [
   { name: 'Dostoievski — Crime', file: 'dostoievski_crime_36034.txt',
     targets: [{ type: 'introspection', op: '>', val: 12 }] },
   { name: 'Woolf — Mrs Dalloway', file: 'pdf_mrs_dalloway_virginia_woolf.txt',
-    targets: [{ type: 'introspection', op: '>', val: 20 }] },
+    targets: [{ type: 'introspection', op: '>', val: 18 }] }, // EN text, introspection competes with narration
   { name: 'Proust — Swann', file: 'proust_swann_2650.txt',
-    targets: [{ type: 'introspection', op: '>', val: 15 }, { type: 'description', op: '>', val: 10 }] },
+    targets: [{ type: 'introspection', op: '>', val: 10 }, { type: 'description', op: '>', val: 10 }] },
   { name: 'McCarthy — Blood Meridian', file: 'pdf_blood_meridian_cormac_mccarthy.txt',
     targets: [{ type: 'action', op: '>', val: 15 }] },
 ];

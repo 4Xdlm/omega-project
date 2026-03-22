@@ -104,7 +104,9 @@ const ADJ_ENDINGS = ['eux', 'euse', 'ique', 'able', 'ible', 'ente', 'ous', 'ful'
 // ═══════════════════════════════════════════════════════════════════════
 
 function splitSentences(text: string): string[] {
-  return text.split(/(?<=[.!?\u2026\u00bb])\s+/).map(s => s.trim()).filter(s => s.length > 5);
+  return text.split(/(?<=[.!?\u2026\u00bb])\s+/)
+    .map(s => s.trim())
+    .filter(s => s.length > 5 && s.split(/\s+/).length >= 3); // Min 3 words to avoid fragments
 }
 
 function cleanWord(w: string): string {
@@ -278,10 +280,12 @@ function scoreNarration(sentence: string): number {
   // Temporal progression markers
   if (/\b(?:puis|ensuite|le lendemain|trois jours|le soir|le matin|un an|quelques|aussitot|tout a coup|soudain|enfin|d'abord|meanwhile|then|next|afterwards|the next day|soon|finally|first|immediately|later|eventually)\b/i.test(lower)) score += 0.3;
 
-  // Third person + past tense
+  // Third person + past tense = basic narrative signal (MOST literary prose)
   const hasThirdPerson = /\b(?:il|elle|ils|elles|on|he|she|they)\b/i.test(lower);
-  const hasPast = words.some(w => w.length > 3 && /(?:ait|aient|ut|int|it)$/.test(w));
-  if (hasThirdPerson && hasPast) score += 0.15;
+  const hasPast = words.some(w => w.length > 3 && /(?:ait|aient|ut|int|it|ed)$/.test(w));
+  if (hasThirdPerson && hasPast) score += 0.25;
+  // Third person alone is still a narrative signal
+  if (hasThirdPerson && !hasPast) score += 0.1;
 
   // Causal narrative connectors
   if (/\b(?:car|donc|c'est pourquoi|si bien que|de sorte que|because|therefore|consequently|as a result|thus)\b/i.test(lower)) score += 0.15;
@@ -291,6 +295,13 @@ function scoreNarration(sentence: string): number {
 
   // Accomplishment verbs (event summary)
   if (/\b(?:obtint|quitta|epousa|mourut|naquit|devint|perdit|gagna|trouva|apprit|achieved|left|married|died|became|lost|won|found|learned)\b/i.test(lower)) score += 0.2;
+
+  // Generic prose markers — il y avait, c'etait, on voyait (transition/exposition)
+  if (/\b(?:il y avait|c'etait|on voyait|on entendait|il faisait|there was|there were|it was|one could)\b/i.test(lower)) score += 0.2;
+
+  // Past tense markers alone (imparfait/passe simple common in narration)
+  const pastCount = words.filter(w => w.length > 3 && /(?:ait|aient|ais)$/.test(w)).length;
+  if (pastCount >= 2) score += 0.1;
 
   return Math.max(0, Math.min(1, score));
 }
@@ -309,7 +320,7 @@ function scoreSentence(sentence: string): SentenceProfile {
   };
 
   const total = Object.values(scores).reduce((a, b) => a + b, 0);
-  const residual = total < 0.1 ? 1.0 : 0;
+  const residual = total < 0.05 ? 1.0 : 0; // Lowered from 0.1 to reduce residual
 
   let maxType: SentenceType = 'narration';
   let maxVal = 0;

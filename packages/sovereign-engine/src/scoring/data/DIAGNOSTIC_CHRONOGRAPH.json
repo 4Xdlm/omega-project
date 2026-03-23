@@ -1,0 +1,113 @@
+{
+  "started_at": "2026-03-23T18:40:45.322Z",
+  "completed_at": "2026-03-23T18:40:45.387Z",
+  "events": [
+    {
+      "timestamp": "2026-03-23T18:40:45.322Z",
+      "step": "1.2a",
+      "action": "SceneBrief contract file",
+      "result": "EXISTS",
+      "verdict": "OK"
+    },
+    {
+      "timestamp": "2026-03-23T18:40:45.323Z",
+      "step": "1.2b",
+      "action": "V4 assembler",
+      "result": "EXISTS (active)",
+      "verdict": "OK"
+    },
+    {
+      "timestamp": "2026-03-23T18:40:45.323Z",
+      "step": "1.2c",
+      "action": "V2 assembler",
+      "result": "EXISTS (fallback)",
+      "verdict": "OK"
+    },
+    {
+      "timestamp": "2026-03-23T18:40:45.323Z",
+      "step": "1.2d",
+      "action": "System IDs in V2 prompt",
+      "result": "INV-xxx=true, DEBT[xxx]=false",
+      "verdict": "FAIL"
+    },
+    {
+      "timestamp": "2026-03-23T18:40:45.338Z",
+      "step": "1.3",
+      "action": "Rosetta in runtime code",
+      "result": "NOT FOUND",
+      "verdict": "NOT_BRANCHED"
+    },
+    {
+      "timestamp": "2026-03-23T18:40:45.338Z",
+      "step": "1.3",
+      "action": "Rosetta data: 08_dictionnaire_omega_llm_v1.json",
+      "result": "EXISTS",
+      "verdict": "OK"
+    },
+    {
+      "timestamp": "2026-03-23T18:40:45.338Z",
+      "step": "1.3",
+      "action": "Rosetta data: 05_table_rosette.json",
+      "result": "EXISTS",
+      "verdict": "OK"
+    },
+    {
+      "timestamp": "2026-03-23T18:40:45.339Z",
+      "step": "1.3",
+      "action": "Rosetta data: phase2/dictionnaire_v2_calibre.json",
+      "result": "EXISTS",
+      "verdict": "OK"
+    },
+    {
+      "timestamp": "2026-03-23T18:40:45.339Z",
+      "step": "1.3",
+      "action": "Rosetta data: phase3/dictionnaire_v3_llm_driven.json",
+      "result": "EXISTS",
+      "verdict": "OK"
+    },
+    {
+      "timestamp": "2026-03-23T18:40:45.353Z",
+      "step": "4.1",
+      "action": "Flaubert Bovary",
+      "result": "GB=4.091 tier=A CV=0.761 f26b=0.115",
+      "verdict": "JUDGE_CORRECT"
+    },
+    {
+      "timestamp": "2026-03-23T18:40:45.378Z",
+      "step": "4.1",
+      "action": "Proust Swann",
+      "result": "GB=4.138 tier=A CV=0.744 f26b=0.115",
+      "verdict": "JUDGE_CORRECT"
+    },
+    {
+      "timestamp": "2026-03-23T18:40:45.387Z",
+      "step": "4.1",
+      "action": "McCarthy Blood Meridian",
+      "result": "GB=3.702 tier=A CV=0.738 f26b=0.037",
+      "verdict": "JUDGE_CORRECT"
+    },
+    {
+      "timestamp": "2026-03-23T18:40:45.387Z",
+      "step": "6.2",
+      "action": "Rhythm CV > 0.65",
+      "result": "feature=f1b_rhythm_ratio pilotability=NOT_IN_ROSETTA",
+      "verdict": "NOT_EVALUATED"
+    },
+    {
+      "timestamp": "2026-03-23T18:40:45.387Z",
+      "step": "6.2",
+      "action": "Contradiction (adversatives)",
+      "result": "feature=f9a_contradiction_rate pilotability=NOT_IN_ROSETTA",
+      "verdict": "NOT_EVALUATED"
+    },
+    {
+      "timestamp": "2026-03-23T18:40:45.387Z",
+      "step": "6.2",
+      "action": "Knife sentences < 8 words",
+      "result": "feature=f17_knife_count pilotability=NOT_IN_ROSETTA",
+      "verdict": "NOT_EVALUATED"
+    }
+  ],
+  "total_api_calls": 0,
+  "note": "Steps 2 and 3 (INTENT_TRACE and LANGUAGE_TEST) require ANTHROPIC_API_KEY"
+}

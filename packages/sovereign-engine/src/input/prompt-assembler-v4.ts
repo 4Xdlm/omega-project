@@ -86,6 +86,7 @@ export function buildSovereignPrompt_V4(
   if (exemplarBlock) blocks.push(exemplarBlock);
 
   blocks.push(compileInterdictions());
+  blocks.push(compileRosettaConstraints(packet));
   blocks.push(compileFinalInstruction());
 
   const fullPrompt = blocks.join('\n\n');
@@ -117,7 +118,8 @@ export function buildSovereignPrompt_V4(
 function compilePersona(packet: ForgePacket): string {
   const register = packet.style_genome.tone.dominant_register;
   const lang = packet.language === 'fr' ? 'française' : 'English';
-  return `Tu es un écrivain de fiction ${register} ${lang} contemporaine, maître de la narration par détails sensoriels et du sous-texte psychologique.`;
+  // D-SYNTH-1 FIX: Removed "contemporaine" which biased toward modern/short style
+  return `Tu es un écrivain de fiction ${register} ${lang}, maître de la narration par détails sensoriels, du sous-texte psychologique et de la subordination syntaxique.`;
 }
 
 // ── BLOC 2 — Context (~100 tokens) ──────────────────────────────────────────
@@ -226,13 +228,13 @@ function compileDirectives(genome: StyleProfile): string {
 
   directives.push('Ancre chaque émotion dans un détail physique précis (geste, objet, sensation corporelle).');
 
+  // D-SYNTH-1 FIX: Always encourage long sentences + variation
+  // Masters avg 28.8 words/sentence — never constrain below that
   const target = genome.rhythm.avg_sentence_length_target;
   if (target <= 12) {
-    directives.push('Phrases courtes et sèches dominantes, syncopes fréquentes.');
-  } else if (target <= 18) {
-    directives.push('Alterne phrases courtes percutantes et périodes plus amples.');
+    directives.push('Alterne phrases très courtes (frappes sèches) et périodes longues de 30+ mots.');
   } else {
-    directives.push('Phrases longues et sinueuses, rythme méditatif.');
+    directives.push('Alterne phrases courtes (< 8 mots, frappes percutantes) et longues arches syntaxiques de 30-50 mots (subordination, incises, participiales). Au moins 10% de tes phrases doivent dépasser 40 mots.');
   }
 
   directives.push(`Registre ${genome.tone.dominant_register}.`);
@@ -303,15 +305,40 @@ function compileExemplar(packetId: string): string | null {
 // ── BLOC 9 — Interdictions (~40 tokens) ─────────────────────────────────────
 
 function compileInterdictions(): string {
+  // D-SYNTH-1 FIX: Removed ban on temporal markers (soudain, alors, puis)
+  // which are essential for f_temporal_anchor_rate and narration scoring.
   return `Interdits (3 règles) :
 1. Ne nomme jamais une émotion directement (pas de "il était triste" ou "elle avait peur").
-2. Pas de transitions mécaniques (soudain, alors, puis, ensuite, tout à coup).
+2. Pas de résumé d'action — montre les gestes, les corps, les sensations, pas les intentions.
 3. Pas de lyrisme décoratif — chaque image doit servir l'histoire.`;
 }
 
-// ── BLOC 10 — Final Instruction V4.3 (~30 tokens) ──────────────────────────
+// ── BLOC 10 — Rosetta Mechanical Constraints (D-SYNTH-1) ────────────────────
+// Validated on 450 tests in Phase S0. Only SOLIDE constraints injected.
+
+function compileRosettaConstraints(packet: ForgePacket): string {
+  const isFR = packet.language === 'fr';
+  const lines = [
+    'Contraintes mécaniques (calibrées sur 450 tests) :',
+    '- Vocabulaire : au moins 70 mots uniques pour 100 mots consécutifs.',
+    '- Contraste : une phrase sur trois < 8 mots, une sur trois > 25 mots.',
+    '- Redondance : aucun bigramme ne doit apparaître plus de 2 fois.',
+    '- Originalité : > 85% des bigrammes doivent être uniques.',
+    '- Accroche : la première phrase contient une tension en moins de 15 mots.',
+    '- Suspense : les 20 derniers mots laissent une question ouverte.',
+    '- Sensoriel : au moins 6 mots sensoriels pour 100 mots.',
+  ];
+  if (isFR) {
+    lines.push('');
+    lines.push('Langue — FR natif :');
+    lines.push('Écris directement en français natif. Pas de calques syntaxiques anglais.');
+    lines.push('Utilise des subordonnées, des incises, des appositions. Cadence majeure française.');
+  }
+  return lines.join('\n');
+}
+
+// ── BLOC 11 — Final Instruction V4.3 (~30 tokens) ──────────────────────────
 // V4.3: Organic directive. No "EXACTEMENT". Asymmetry reinforced.
-// The Semantic Slicer guarantees quartile structure for the scorer.
 
 function compileFinalInstruction(): string {
   return `Écris la scène en 4 paragraphes séparés par une ligne vide. Varie leurs tailles — alterne court et long. Commence par une sensation ou un geste.`;

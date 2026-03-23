@@ -767,47 +767,99 @@ function buildRhythmPrescriptionSection(packet: ForgePacket): PromptSection {
   const _shortMax = Math.max(5, Math.floor(targetLen * 0.35));
   const _longMin = Math.max(20, Math.ceil(targetLen * 1.4));
 
-  const content = `## ⚡ RHYTHM MINIMUM — CV ≥ 0.75 OU REJET
-Ton texte actuel risque CV ~0.55. Chaque phrase de longueur monotone te coûte 5 points de rhythm.
+  const content = `## ⚡ RHYTHM IS PHYSICS — QUANTIFIED CONSTRAINTS (Phase R validated)
 
 # RHYTHM PRESCRIPTION — MANDATORY
 
-Your prose WILL BE SCORED on rhythmic quality. Follow these rules:
+THE SINGLE MOST IMPORTANT RULE. This alone separates literature from text.
+Your prose WILL BE SCORED. Coefficient of variation (CV) of sentence lengths MUST exceed 0.65.
 
-## Distribution des longueurs de phrase (CV cible ≥ 0.75)
-Ton texte sera NOTÉ sur le coefficient de variation (CV) des longueurs de phrases.
-CV optimal = 0.75. En dessous de 0.55 = score rythme < 80.
+## A. LONG SENTENCES (40+ words) — AT LEAST 20%
+At least 20% of your sentences must exceed 40 words. These are the architectural
+arches — subordinated, layered, carrying the reader through currents of thought
+and sensation. They allow complexity, nuance, contradiction.
+WITHOUT THEM, YOUR PROSE IS FLAT AND YOUR SCORE WILL BE LOW.
 
-Règle de distribution OBLIGATOIRE :
-- **25% des phrases ≤ 5 mots** : fragments, coups de poing narratifs, éclairs de conscience.
-- **25% des phrases ≥ 28 mots** : développements lents, descriptions distillées, respirations.
-- **50% des phrases** : longueur médiane 14-20 mots (fluence narrative).
+## B. SHORT SENTENCES (under 8 words) — AT LEAST 15%
+At least 15% of your sentences must be under 8 words. These are the blows.
+The irreversible moments. The silence after the explosion.
 
-Pour une scène de ~30 phrases : ~8 très courtes + ~8 très longues + ~14 moyennes.
+## C. MEDIUM SENTENCES — THE REMAINING 65%
+Between 8 and 40 words. The connective tissue. Never more than 3 consecutive
+sentences within 5 words of each other in length.
 
-Exemple de bonne alternance (syncopes = mots du répertoire, JAMAIS pronoms) :
-"Trop tard. [2 mots] — L'air avait changé, quelque chose de différent dans la densité des ombres qui pesaient sous les poutres du couloir. [28 mots] — Du sang. [2 mots] — Ou peut-être rien, juste l'odeur du bois mouillé et la façon dont la lumière refusait d'entrer. [23 mots]"
+## D. PLACEMENT OF SHORT SENTENCES
+Short sentences go at IMPACT POINTS:
+- End of paragraphs (the last word lingers)
+- After a 40+ word sentence (the contrast creates vertigo)
+- At moments of irreversible change (the blow that cannot be undone)
+NEVER place short sentences randomly in the middle of flowing narration.
 
-⚠️ COHÉRENCE INTER-RÈGLES : Les syncopes dans RHYTHM PRESCRIPTION et dans VOICE COMPLIANCE
-obéissent aux MÊMES contraintes. "Elle savait." / "Il attendit." sont INTERDITS comme syncopes
-car commencent par un pronom (voir RÈGLE 1 — SYNCOPES MÉTRIQUES). Utilise exclusivement
-le répertoire imposé : "Rien.", "Silence.", "Trop.", "Du sang.", "Fini.", "Jamais.", etc.
+## E. EXAMPLE (correct rhythm):
+"La pluie tombait sur le zinc du comptoir avec cette régularité de métronome
+que seuls les après-midi d'automne dans les cafés du bord de mer savent
+produire, goutte après goutte, comme un décompte vers quelque chose que
+personne n'attendait plus." [43 mots — arche]
 
-## Ruptures rythmiques (syncopes)
-- Après chaque longue phrase (≥25 mots) : enchaîne au moins une fois avec une phrase de ≤4 mots.
-- Minimum 3 syncopes par scène.
+"Personne ne leva les yeux." [5 mots — frappe]
 
-## Sentence Openings
+"Le patron essuya un verre déjà propre, le reposa à sa place exacte sur
+l'étagère, puis en prit un autre, identique, qu'il entreprit d'essuyer
+avec le même geste circulaire, comme si la répétition du mouvement pouvait
+conjurer ce qui venait de se dire." [47 mots — arche]
+
+"La porte resta ouverte." [4 mots — frappe irréversible]
+
+## F. SYNCOPES (ultra-short ≤ 4 mots)
+- Minimum 3 syncopes par scène (after a long phrase ≥ 25 mots).
+- Syncopes = mots du répertoire, JAMAIS pronoms seuls.
+- ❌ INTERDIT: "Elle savait." / "Il attendit." → pronom en ouverture.
+- ✅ CORRECT: "Rien.", "Silence.", "Trop tard.", "Du sang.", "Fini."
+
+## G. SENTENCE OPENINGS
 - NEVER start more than 2 sentences with the same word in any paragraph.
-- Vary grammatical structures: start some sentences with a verb, some with a noun, some with a prepositional phrase, some with a subordinate clause.
+- Vary grammatical structures: verb, noun, prepositional phrase, subordinate clause.
 
-## Compression Moments
-- Include at least 1 ultra-short sentence (3 words or fewer) at a moment of emotional intensity.
-- Elles créent l'impact par la brièveté : "Du sang. Rien d'autre." ou "Trop tard." ou "Silence."
-- ❌ JAMAIS "Elle savait." / "Il attendit." comme syncope → pronom interdit en ouverture de syncope.
+# DIALECTICAL THINKING — MANDATORY (French prose)
 
-## Breathing Spaces
-- Include at least 1 long, flowing sentence (30+ words) that creates a "breathing space" — a moment of contemplation or description that slows the pace.
+Great prose thinks AGAINST itself. Every assertion contains the seed of
+its own contradiction.
+
+RULE: Each paragraph of 3+ sentences must contain at least ONE adversative
+turn — a moment where the text reverses, nuances, or complicates what it
+just established.
+
+ADVERSATIVES TO USE: mais, cependant, pourtant, néanmoins, toutefois,
+or, en revanche, bien que, quoique, malgré.
+
+"Il marchait vite, le col relevé contre le vent qui charriait une odeur
+de sel et de mazout. Cependant, chaque pas le rapprochait moins du port
+qu'il ne l'éloignait de la certitude qui l'avait fait partir."
+
+The first sentence establishes direction. The adversative DESTROYS the
+certainty of that direction. The reader must rebuild understanding.
+
+WARNING: Do NOT use adversatives as decoration. Each must create a genuine
+reversal of meaning, perspective, or emotional direction.
+
+# IRREVERSIBLE IMPACT — MANDATORY
+
+When a short sentence appears (under 8 words), it must CHANGE something
+permanently. Not describe. Not observe. CHANGE.
+
+GOOD (irreversible):
+× "Le verre se brisa." → broken forever
+× "Elle ne revint pas." → permanent absence
+× "Il mentit." → trust destroyed
+× "Le sang sécha." → violence committed
+
+BAD (decorative):
+× "Il faisait froid." → describes, changes nothing
+× "Le silence régnait." → atmosphere, not action
+× "Elle sourit." → reaction, not transformation
+
+Each short sentence is a bullet. Bullets change what they hit.
+If your short sentence could be removed without changing the story, DELETE IT.
 
 FAILURE TO FOLLOW THESE RULES = REJECTION.
 `;

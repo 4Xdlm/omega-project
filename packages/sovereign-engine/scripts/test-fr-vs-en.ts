@@ -18,74 +18,68 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const MODEL = 'claude-sonnet-4-20250514';
 const TEMPERATURE = 0.75;
-const MAX_TOKENS = 2000;
+const MAX_TOKENS = 8000; // 3000 words ≈ 4500-6000 tokens
 
 const SCENES = [
   {
     id: 'confrontation', archetype: 'BRUTAL',
-    brief_fr: `Tu es un romancier français. Écris une scène de confrontation violente.
-Un homme entre dans un bar. Il cherche celui qui a trahi sa sœur.
-La tension monte. Les regards se croisent. Quelqu'un va tomber.
-Écris 500 mots de prose littéraire française. Pas de préambule.
-Contraintes : vocabulaire varié, alternance phrases courtes et longues,
-associations de mots originales, zéro redondance.`,
-    brief_en: `You are a novelist. Write a scene of violent confrontation.
-A man enters a bar. He is looking for the one who betrayed his sister.
-Tension rises. Their eyes meet. Someone is going to fall.
-Write 500 words of literary prose in English. No preamble.
-Constraints: varied vocabulary, alternating short and long sentences,
-original word associations, zero redundancy.`
+    brief_fr: `Tu es un romancier français de premier plan. Écris une longue scène de confrontation.
+Un homme entre dans un bar de bord de route. Il cherche celui qui a trahi sa sœur il y a dix ans. Le lieu est presque vide. La serveuse nettoie les verres. La lumière est mauvaise. L'homme s'assoit. Il attend. Puis l'autre arrive.
+La scène se déploie lentement : le lieu d'abord, les corps, les odeurs. Puis les pensées de l'homme. Le dialogue s'engage — d'abord banal, puis chargé. Les masques tombent. Quelqu'un va tomber.
+Écris 3000 mots de prose littéraire française. Pas de préambule.
+La scène doit MÉLANGER naturellement description, dialogue, introspection et narration — pas en blocs séparés.
+Contraintes : vocabulaire très varié, alternance phrases très courtes (3-8 mots) et longues (25-40+ mots), au moins 10% des phrases > 40 mots, associations originales, zéro redondance.`,
+    brief_en: `You are a top-tier novelist. Write a long confrontation scene.
+A man enters a roadside bar. He is looking for the one who betrayed his sister ten years ago. The place is nearly empty. The bartender wipes glasses. The light is bad. The man sits. He waits. Then the other one arrives.
+The scene unfolds slowly: the place first, the bodies, the smells. Then the man's thoughts. Dialogue begins — mundane at first, then loaded. Masks fall. Someone is going to fall.
+Write 3000 words of literary prose in English. No preamble.
+The scene must naturally BLEND description, dialogue, introspection and narration — not in separate blocks.
+Constraints: highly varied vocabulary, alternate very short sentences (3-8 words) and long (25-40+ words), at least 10% of sentences must exceed 40 words, original associations, zero redundancy.`
   },
   {
     id: 'contemplation', archetype: 'SENSORY',
-    brief_fr: `Tu es un romancier français. Écris une scène de contemplation.
-Une femme seule sur un quai de gare vide au crépuscule.
-Elle regarde les rails qui s'enfoncent dans la brume.
-Elle pense à tout ce qu'elle laisse derrière elle.
-Écris 500 mots de prose littéraire française. Pas de préambule.
-Contraintes : vocabulaire varié, alternance phrases courtes et longues,
-associations de mots originales, zéro redondance.`,
-    brief_en: `You are a novelist. Write a scene of contemplation.
-A woman alone on an empty train platform at dusk.
-She watches the rails disappearing into the mist.
-She thinks about everything she is leaving behind.
-Write 500 words of literary prose in English. No preamble.
-Constraints: varied vocabulary, alternating short and long sentences,
-original word associations, zero redundancy.`
+    brief_fr: `Tu es un romancier français de premier plan. Écris une longue scène de contemplation.
+Une femme seule sur un quai de gare vide, la nuit. Le dernier train est parti. Elle ne l'a pas pris. Elle a choisi de rester. Elle regarde les rails qui s'enfoncent dans l'obscurité, et tout ce qu'elle a laissé derrière elle remonte.
+La scène est lente mais pas immobile. Des gens passent au loin. Un employé ferme des portes. Ses pensées se mêlent aux sensations. Elle se souvient d'une conversation — peut-être la dernière. Le dialogue revient par fragments.
+Écris 3000 mots de prose littéraire française. Pas de préambule.
+La scène doit MÉLANGER description, dialogue rapporté, introspection et narration — fondus, pas successifs.
+Contraintes : vocabulaire très varié, alternance phrases courtes et longues (>30 mots), au moins 10% des phrases > 40 mots, associations originales, zéro redondance.`,
+    brief_en: `You are a top-tier novelist. Write a long contemplation scene.
+A woman alone on an empty train platform, at night. The last train has left. She didn't take it. She chose to stay. She watches the rails disappearing into darkness, and everything she left behind rises up.
+The scene is slow but not still. People pass in the distance. An employee closes doors. Her thoughts blend with sensations. She remembers a conversation — perhaps the last one. Dialogue returns in fragments.
+Write 3000 words of literary prose in English. No preamble.
+The scene must naturally BLEND description, reported dialogue, introspection and narration — merged, not sequential.
+Constraints: highly varied vocabulary, alternate short and long sentences (>30 words), at least 10% of sentences > 40 words, original associations, zero redundancy.`
   },
   {
     id: 'action_pure', archetype: 'BRUTAL',
-    brief_fr: `Tu es un romancier français. Écris une scène d'action pure.
-Une poursuite à travers les ruelles d'une ville méditerranéenne la nuit.
-Deux silhouettes. L'une fuit. L'autre chasse.
-Les toits, les escaliers, les passages étroits.
-Écris 500 mots de prose littéraire française. Pas de préambule.
-Contraintes : vocabulaire varié, alternance phrases courtes et longues,
-associations de mots originales, zéro redondance.`,
-    brief_en: `You are a novelist. Write a scene of pure action.
-A chase through the narrow streets of a Mediterranean city at night.
-Two silhouettes. One flees. The other hunts.
-Rooftops, staircases, narrow passages.
-Write 500 words of literary prose in English. No preamble.
-Constraints: varied vocabulary, alternating short and long sentences,
-original word associations, zero redundancy.`
+    brief_fr: `Tu es un romancier français de premier plan. Écris une longue scène d'action.
+Une poursuite à travers une ville méditerranéenne la nuit. Deux silhouettes : l'une fuit, l'autre chasse. Les ruelles étroites, les escaliers, les toits, les passages. Ce n'est pas que de la course — celui qui fuit pense, se souvient de pourquoi il court. Celui qui chasse doute de ce qu'il fera en cas de capture.
+La ville est un personnage : ses murs, ses odeurs, ses chats, ses fenêtres éclairées.
+Écris 3000 mots de prose littéraire française. Pas de préambule.
+La scène doit MÉLANGER description, introspection, narration et micro-dialogues dans le flux.
+Contraintes : vocabulaire très varié, alternance phrases courtes (coups secs) et longues (descriptions en mouvement), au moins 10% des phrases > 40 mots, associations originales, zéro redondance.`,
+    brief_en: `You are a top-tier novelist. Write a long action scene.
+A chase through a Mediterranean city at night. Two silhouettes: one flees, the other hunts. Narrow alleys, staircases, rooftops, passages. It's not just running — the one who flees thinks, remembers why he runs. The one who hunts doubts what he'll do if he catches him.
+The city is a character: its walls, its smells, its cats, its lit windows.
+Write 3000 words of literary prose in English. No preamble.
+The scene must BLEND description, introspection, narration and micro-dialogue in the flow.
+Constraints: highly varied vocabulary, alternate short sentences (sharp blows) and long (descriptions in motion), at least 10% of sentences > 40 words, original associations, zero redundancy.`
   },
   {
     id: 'elegie', archetype: 'INTERIOR',
-    brief_fr: `Tu es un romancier français. Écris une scène d'élégie intérieure.
-Un vieil homme assis dans la chambre de son fils mort.
-Les objets parlent. La lumière décline.
-Le souvenir et le présent se confondent.
-Écris 500 mots de prose littéraire française. Pas de préambule.
-Contraintes : vocabulaire varié, alternance phrases courtes et longues,
-associations de mots originales, zéro redondance.`,
-    brief_en: `You are a novelist. Write a scene of interior elegy.
-An old man sitting in the bedroom of his dead son.
-Objects speak. The light fades.
-Memory and present blur together.
-Write 500 words of literary prose in English. No preamble.
-Constraints: varied vocabulary, alternating short and long sentences,
-original word associations, zero redundancy.`
+    brief_fr: `Tu es un romancier français de premier plan. Écris une longue scène d'élégie.
+Un vieil homme dans la chambre de son fils mort depuis six mois. Il n'a rien touché. Les objets sont exactement comme avant. Il vient chaque jour, s'assoit sur le lit, et reste. Aujourd'hui il a décidé de ranger. Mais chaque objet arrête le geste.
+Un livre ouvert à une page. Un pull qui sent encore. Une photo dans un tiroir. Et le souvenir qui vient avec.
+Écris 3000 mots de prose littéraire française. Pas de préambule.
+La scène doit MÉLANGER description, dialogue rapporté, introspection et narration dans un flux unique.
+Contraintes : vocabulaire très varié, alternance phrases courtes et longues (>30 mots), au moins 10% des phrases > 40 mots, associations originales, zéro redondance.`,
+    brief_en: `You are a top-tier novelist. Write a long elegy scene.
+An old man in the bedroom of his son, dead six months now. He hasn't touched anything. Objects are exactly as before. He comes every day, sits on the bed, stays. Today he decided to pack things up. But each object stops his hand.
+A book open to a page. A sweater that still carries scent. A photograph in a drawer. And the memory that comes with it.
+Write 3000 words of literary prose in English. No preamble.
+The scene must BLEND description, reported dialogue, introspection and narration into a single flow.
+Constraints: highly varied vocabulary, alternate short and long sentences (>30 words), at least 10% of sentences > 40 words, original associations, zero redundancy.`
   }
 ];
 

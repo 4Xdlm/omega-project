@@ -1,0 +1,330 @@
+{
+  "metadata": {
+    "test": "P1_REDESIGN_V3",
+    "timestamp": "2026-03-24T20-22-33",
+    "model": "claude-sonnet-4-20250514"
+  },
+  "results": [
+    {
+      "config": "PF_base_Duras_correcteur_K2_v3",
+      "run": 1,
+      "word_count": 2281,
+      "gb_v1": 4.070937845079995,
+      "v2_final": 100,
+      "v2_raw": 6.7619,
+      "v2_score100": 100,
+      "v2_confidence": 1,
+      "f26b": 0.549,
+      "mean_sentence_length": 44.705882352941174,
+      "cv": 0.8701816284443119,
+      "drift": -13.153846153846153,
+      "chunk1_mean": 54.55555555555556,
+      "chunk_final_mean": 43.714285714285715,
+      "bonus_rhythmic_mastery": true,
+      "bonus_controlled_breathing": true,
+      "bonus_narrative_depth": true,
+      "penalty_knife_excess": true,
+      "chunks": [
+        {
+          "chunk": 1,
+          "word_count": 491,
+          "mean_len": 54.55555555555556,
+          "cv": 0.7607408573476988
+        },
+        {
+          "chunk": 2,
+          "word_count": 587,
+          "mean_len": 39.13333333333333,
+          "cv": 0.6552154894173714
+        },
+        {
+          "chunk": 3,
+          "word_count": 590,
+          "mean_len": 45.38461538461539,
+          "cv": 0.9418850096720869
+        },
+        {
+          "chunk": 4,
+          "word_count": 613,
+          "mean_len": 43.714285714285715,
+          "cv": 0.9990971617524981
+        }
+      ],
+      "windows": [
+        {
+          "position": 0,
+          "mean_len": 57,
+          "cv": 0.7026310313859926,
+          "word_count": 570
+        },
+        {
+          "position": 0.25,
+          "mean_len": 35.625,
+          "cv": 0.695188582531118,
+          "word_count": 570
+        },
+        {
+          "position": 0.5,
+          "mean_len": 38,
+          "cv": 1.0112022593099812,
+          "word_count": 570
+        },
+        {
+          "position": 0.75,
+          "mean_len": 43.84615384615385,
+          "cv": 0.8828972424816941,
+          "word_count": 571
+        }
+      ],
+      "top5_contributions": [
+        {
+          "feature": "f29d_ttr_score",
+          "value": 0.7502,
+          "contribution": -3.5327
+        },
+        {
+          "feature": "f24c_contrast_delta",
+          "value": 91.31,
+          "contribution": 1.8221
+        },
+        {
+          "feature": "f19a_approx_entropy",
+          "value": 0.8788,
+          "contribution": 1.3913
+        },
+        {
+          "feature": "f26b_long_sent_rate",
+          "value": 0.549,
+          "contribution": 1.3599
+        },
+        {
+          "feature": "f35c_hook_score",
+          "value": 0.3,
+          "contribution": -0.4544
+        }
+      ]
+    },
+    {
+      "config": "PF_base_Duras_correcteur_K2_v3",
+      "run": 2,
+      "word_count": 2338,
+      "gb_v1": 4.070937845079995,
+      "v2_final": 100,
+      "v2_raw": 7.5173,
+      "v2_score100": 100,
+      "v2_confidence": 1,
+      "f26b": 0.5476,
+      "mean_sentence_length": 55.666666666666664,
+      "cv": 0.9736623747278946,
+      "drift": 23.3968253968254,
+      "chunk1_mean": 45.333333333333336,
+      "chunk_final_mean": 65.44444444444444,
+      "bonus_rhythmic_mastery": true,
+      "bonus_controlled_breathing": true,
+      "bonus_narrative_depth": false,
+      "penalty_knife_excess": true,
+      "chunks": [
+        {
+          "chunk": 1,
+          "word_count": 544,
+          "mean_len": 45.333333333333336,
+          "cv": 0.9097463428365612
+        },
+        {
+          "chunk": 2,
+          "word_count": 590,
+          "mean_len": 42.142857142857146,
+          "cv": 0.9589686119060861
+        },
+        {
+          "chunk": 3,
+          "word_count": 615,
+          "mean_len": 87.85714285714286,
+          "cv": 0.8386303984501002
+        },
+        {
+          "chunk": 4,
+          "word_count": 589,
+          "mean_len": 65.44444444444444,
+          "cv": 0.8844050599824028
+        }
+      ],
+      "windows": [
+        {
+          "position": 0,
+          "mean_len": 41.714285714285715,
+          "cv": 0.9494581224124893,
+          "word_count": 584
+        },
+        {
+          "position": 0.25,
+          "mean_len": 41.714285714285715,
+          "cv": 0.9136329072088647,
+          "word_count": 584
+        },
+        {
+          "position": 0.5,
+          "mean_len": 73,
+          "cv": 0.9730608606576552,
+          "word_count": 584
+        },
+        {
+          "position": 0.75,
+          "mean_len": 65.11111111111111,
+          "cv": 0.8869649893508845,
+          "word_count": 586
+        }
+      ],
+      "top5_contributions": [
+        {
+          "feature": "f29d_ttr_score",
+          "value": 0.7236,
+          "contribution": -3.4074
+        },
+        {
+          "feature": "f24c_contrast_delta",
+          "value": 127.937,
+          "contribution": 2.553
+        },
+        {
+          "feature": "f19a_approx_entropy",
+          "value": 0.9855,
+          "contribution": 1.5602
+        },
+        {
+          "feature": "f26b_long_sent_rate",
+          "value": 0.5476,
+          "contribution": 1.3564
+        },
+        {
+          "feature": "f9a_contradiction_rate",
+          "value": 1.7143,
+          "contribution": -0.4858
+        }
+      ]
+    },
+    {
+      "config": "PF_base_Duras_correcteur_K2_v3",
+      "run": 3,
+      "word_count": 2378,
+      "gb_v1": 3.969538486754996,
+      "v2_final": 100,
+      "v2_raw": 7.6709,
+      "v2_score100": 100,
+      "v2_confidence": 1,
+      "f26b": 0.5581,
+      "mean_sentence_length": 55.30232558139535,
+      "cv": 0.9063600107477462,
+      "drift": -9.733333333333334,
+      "chunk1_mean": 64.22222222222223,
+      "chunk_final_mean": 51.90909090909091,
+      "bonus_rhythmic_mastery": true,
+      "bonus_controlled_breathing": true,
+      "bonus_narrative_depth": true,
+      "penalty_knife_excess": true,
+      "chunks": [
+        {
+          "chunk": 1,
+          "word_count": 578,
+          "mean_len": 64.22222222222223,
+          "cv": 0.9937725901432419
+        },
+        {
+          "chunk": 2,
+          "word_count": 610,
+          "mean_len": 50.833333333333336,
+          "cv": 0.7921884139543066
+        },
+        {
+          "chunk": 3,
+          "word_count": 619,
+          "mean_len": 56.27272727272727,
+          "cv": 0.7336047015867335
+        },
+        {
+          "chunk": 4,
+          "word_count": 571,
+          "mean_len": 51.90909090909091,
+          "cv": 1.0402625199720024
+        }
+      ],
+      "windows": [
+        {
+          "position": 0,
+          "mean_len": 59.4,
+          "cv": 1.0480037994357791,
+          "word_count": 594
+        },
+        {
+          "position": 0.25,
+          "mean_len": 49.5,
+          "cv": 0.7532085118163212,
+          "word_count": 594
+        },
+        {
+          "position": 0.5,
+          "mean_len": 54,
+          "cv": 0.7167408326060603,
+          "word_count": 594
+        },
+        {
+          "position": 0.75,
+          "mean_len": 49.666666666666664,
+          "cv": 1.0516587929728347,
+          "word_count": 596
+        }
+      ],
+      "top5_contributions": [
+        {
+          "feature": "f29d_ttr_score",
+          "value": 0.7383,
+          "contribution": -3.4769
+        },
+        {
+          "feature": "f24c_contrast_delta",
+          "value": 118.308,
+          "contribution": 2.3608
+        },
+        {
+          "feature": "f19a_approx_entropy",
+          "value": 0.9171,
+          "contribution": 1.4519
+        },
+        {
+          "feature": "f26b_long_sent_rate",
+          "value": 0.5581,
+          "contribution": 1.3825
+        },
+        {
+          "feature": "f9a_contradiction_rate",
+          "value": 1.6744,
+          "contribution": -0.4745
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "v2_median": 100,
+    "gb_v1_median": 4.070937845079995,
+    "cv_median": 0.9063600107477462,
+    "f26b_median": 0.549,
+    "drift_median": -9.733333333333334,
+    "chunk1_mean_median": 54.55555555555556,
+    "chunk4_mean_median": 51.90909090909091,
+    "min_chunk_final_mean": 43.714285714285715,
+    "pass": true
+  },
+  "progression": {
+    "cv": {
+      "v1": 0.625,
+      "v2": 0.702,
+      "v3": 0.9063600107477462
+    },
+    "drift": {
+      "v1": -14.4,
+      "v2": -47.4,
+      "v3": -9.733333333333334
+    }
+  },
+  "verdict": "VALIDATED"
+}

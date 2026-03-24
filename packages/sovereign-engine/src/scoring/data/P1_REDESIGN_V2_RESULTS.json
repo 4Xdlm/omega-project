@@ -1,0 +1,315 @@
+{
+  "metadata": {
+    "test": "P1_REDESIGN_V2",
+    "timestamp": "2026-03-24T20-05-03",
+    "model": "claude-sonnet-4-20250514"
+  },
+  "results": [
+    {
+      "config": "PF_base_Duras_correcteur_K2_v2",
+      "run": 1,
+      "word_count": 2295,
+      "gb_v1": 4.002348556889999,
+      "v2_final": 100,
+      "v2_raw": 7.0319,
+      "v2_score100": 100,
+      "v2_confidence": 1,
+      "f26b": 0.6471,
+      "mean_sentence_length": 67.5,
+      "cv": 0.7015722794968082,
+      "drift": -73.45714285714286,
+      "chunk_final_mean": 43.46153846153846,
+      "bonus_rhythmic_mastery": true,
+      "bonus_controlled_breathing": true,
+      "bonus_narrative_depth": false,
+      "penalty_knife_excess": true,
+      "chunks": [
+        {
+          "chunk": 1,
+          "word_count": 614,
+          "mean_len": 122.8,
+          "cv": 0.21492201266401115
+        },
+        {
+          "chunk": 2,
+          "word_count": 527,
+          "mean_len": 87.83333333333333,
+          "cv": 0.21525923138356645
+        },
+        {
+          "chunk": 3,
+          "word_count": 589,
+          "mean_len": 58.9,
+          "cv": 0.9188322622355878
+        },
+        {
+          "chunk": 4,
+          "word_count": 565,
+          "mean_len": 43.46153846153846,
+          "cv": 0.7895868614029816
+        }
+      ],
+      "windows": [
+        {
+          "position": 0,
+          "mean_len": 114.6,
+          "cv": 0.3401843400395287,
+          "word_count": 573
+        },
+        {
+          "position": 0.25,
+          "mean_len": 71.625,
+          "cv": 0.4708259098243367,
+          "word_count": 573
+        },
+        {
+          "position": 0.5,
+          "mean_len": 57.3,
+          "cv": 0.9385237629130028,
+          "word_count": 573
+        },
+        {
+          "position": 0.75,
+          "mean_len": 41.142857142857146,
+          "cv": 0.8290325943159724,
+          "word_count": 576
+        }
+      ],
+      "top5_contributions": [
+        {
+          "feature": "f29d_ttr_score",
+          "value": 0.7323,
+          "contribution": -3.4485
+        },
+        {
+          "feature": "f24c_contrast_delta",
+          "value": 119.556,
+          "contribution": 2.3857
+        },
+        {
+          "feature": "f26b_long_sent_rate",
+          "value": 0.6471,
+          "contribution": 1.6029
+        },
+        {
+          "feature": "f19a_approx_entropy",
+          "value": 0.7121,
+          "contribution": 1.1274
+        },
+        {
+          "feature": "f9a_contradiction_rate",
+          "value": 2.2059,
+          "contribution": -0.6251
+        }
+      ]
+    },
+    {
+      "config": "PF_base_Duras_correcteur_K2_v2",
+      "run": 2,
+      "word_count": 2286,
+      "gb_v1": 4.053798197349996,
+      "v2_final": 100,
+      "v2_raw": 7.3149,
+      "v2_score100": 100,
+      "v2_confidence": 1,
+      "f26b": 0.6316,
+      "mean_sentence_length": 60.1578947368421,
+      "cv": 0.7623546220601977,
+      "drift": -47.41666666666667,
+      "chunk_final_mean": 50.5,
+      "bonus_rhythmic_mastery": true,
+      "bonus_controlled_breathing": true,
+      "bonus_narrative_depth": false,
+      "penalty_knife_excess": true,
+      "chunks": [
+        {
+          "chunk": 1,
+          "word_count": 534,
+          "mean_len": 106.8,
+          "cv": 0.20602655489850288
+        },
+        {
+          "chunk": 2,
+          "word_count": 570,
+          "mean_len": 81.42857142857143,
+          "cv": 0.4533585892698609
+        },
+        {
+          "chunk": 3,
+          "word_count": 576,
+          "mean_len": 41.142857142857146,
+          "cv": 0.8323851666064334
+        },
+        {
+          "chunk": 4,
+          "word_count": 606,
+          "mean_len": 50.5,
+          "cv": 1.0116305645075405
+        }
+      ],
+      "windows": [
+        {
+          "position": 0,
+          "mean_len": 95.16666666666667,
+          "cv": 0.34534640815615825,
+          "word_count": 571
+        },
+        {
+          "position": 0.25,
+          "mean_len": 71.375,
+          "cv": 0.43954479665627993,
+          "word_count": 571
+        },
+        {
+          "position": 0.5,
+          "mean_len": 38.06666666666667,
+          "cv": 0.8303590225426088,
+          "word_count": 571
+        },
+        {
+          "position": 0.75,
+          "mean_len": 47.75,
+          "cv": 0.9638865268030052,
+          "word_count": 573
+        }
+      ],
+      "top5_contributions": [
+        {
+          "feature": "f29d_ttr_score",
+          "value": 0.7389,
+          "contribution": -3.4794
+        },
+        {
+          "feature": "f24c_contrast_delta",
+          "value": 116.1,
+          "contribution": 2.3168
+        },
+        {
+          "feature": "f26b_long_sent_rate",
+          "value": 0.6316,
+          "contribution": 1.5645
+        },
+        {
+          "feature": "f19a_approx_entropy",
+          "value": 0.7741,
+          "contribution": 1.2255
+        },
+        {
+          "feature": "f1_mean",
+          "value": 60.0789,
+          "contribution": -0.4998
+        }
+      ]
+    },
+    {
+      "config": "PF_base_Duras_correcteur_K2_v2",
+      "run": 3,
+      "word_count": 2344,
+      "gb_v1": 3.9236753173150016,
+      "v2_final": 100,
+      "v2_raw": 7.648,
+      "v2_score100": 100,
+      "v2_confidence": 1,
+      "f26b": 0.7059,
+      "mean_sentence_length": 68.94117647058823,
+      "cv": 0.6777709308842592,
+      "drift": 0,
+      "chunk_final_mean": 61.7,
+      "bonus_rhythmic_mastery": true,
+      "bonus_controlled_breathing": true,
+      "bonus_narrative_depth": false,
+      "penalty_knife_excess": true,
+      "chunks": [
+        {
+          "chunk": 1,
+          "word_count": 563,
+          "mean_len": 62.55555555555556,
+          "cv": 0.21209035075345495
+        },
+        {
+          "chunk": 2,
+          "word_count": 558,
+          "mean_len": 79.71428571428571,
+          "cv": 0.29180118189315585
+        },
+        {
+          "chunk": 3,
+          "word_count": 606,
+          "mean_len": 75.75,
+          "cv": 0.8001173546139048
+        },
+        {
+          "chunk": 4,
+          "word_count": 617,
+          "mean_len": 61.7,
+          "cv": 0.9911770042847728
+        }
+      ],
+      "windows": [
+        {
+          "position": 0,
+          "mean_len": 58.6,
+          "cv": 0.2951971817906992,
+          "word_count": 586
+        },
+        {
+          "position": 0.25,
+          "mean_len": 73.25,
+          "cv": 0.3210913085359637,
+          "word_count": 586
+        },
+        {
+          "position": 0.5,
+          "mean_len": 65.11111111111111,
+          "cv": 0.9249209727377802,
+          "word_count": 586
+        },
+        {
+          "position": 0.75,
+          "mean_len": 58.6,
+          "cv": 0.9872924374143762,
+          "word_count": 586
+        }
+      ],
+      "top5_contributions": [
+        {
+          "feature": "f29d_ttr_score",
+          "value": 0.735,
+          "contribution": -3.4614
+        },
+        {
+          "feature": "f24c_contrast_delta",
+          "value": 119.444,
+          "contribution": 2.3835
+        },
+        {
+          "feature": "f26b_long_sent_rate",
+          "value": 0.7059,
+          "contribution": 1.7486
+        },
+        {
+          "feature": "f19a_approx_entropy",
+          "value": 0.688,
+          "contribution": 1.0892
+        },
+        {
+          "feature": "f9a_contradiction_rate",
+          "value": 2.3529,
+          "contribution": -0.6668
+        }
+      ]
+    }
+  ],
+  "summary": {
+    "v2_median": 100,
+    "gb_v1_median": 4.002348556889999,
+    "cv_median": 0.7015722794968082,
+    "f26b_median": 0.6471,
+    "drift_median": -47.41666666666667,
+    "min_chunk_final_mean": 43.46153846153846,
+    "delta_cv_v1_v2": 0.07657227949680823,
+    "correcteur_dose": "TROP_FAIBLE",
+    "pass": false
+  },
+  "verdict": "CV_INSUFFICIENT"
+}

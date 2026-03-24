@@ -1,0 +1,1427 @@
+{
+  "date": "2026-03-24T01:58:44.736Z",
+  "model": "claude-sonnet-4-20250514",
+  "temperature": 0.75,
+  "variants": [
+    "BASELINE",
+    "F3_flaubert",
+    "D3_exemplar"
+  ],
+  "scenes": [
+    "confrontation",
+    "deuil",
+    "contemplation"
+  ],
+  "runs": 2,
+  "results": [
+    {
+      "variant": "BASELINE",
+      "scene": "confrontation",
+      "run": 1,
+      "words": 4066,
+      "sents": 414,
+      "mean_len": 9.3986,
+      "cv": 0.5965,
+      "long_count": 0,
+      "long_rate": 0,
+      "max_sent": 34,
+      "gb": 3.7644,
+      "tier": "A",
+      "type": "dialogue",
+      "f26b": 0,
+      "f1a": 5.7319,
+      "f29d": 0.7705,
+      "f9a": 0.1986,
+      "f17": 151,
+      "windows": [
+        {
+          "pos": 0,
+          "words": 500,
+          "sents": 29,
+          "mean_len": 17.0345,
+          "cv": 0.4878,
+          "long_rate": 0,
+          "max_sent": 34
+        },
+        {
+          "pos": 0.123,
+          "words": 500,
+          "sents": 40,
+          "mean_len": 12.2,
+          "cv": 0.5479,
+          "long_rate": 0,
+          "max_sent": 34
+        },
+        {
+          "pos": 0.2459,
+          "words": 500,
+          "sents": 44,
+          "mean_len": 11.0455,
+          "cv": 0.5091,
+          "long_rate": 0,
+          "max_sent": 26
+        },
+        {
+          "pos": 0.3689,
+          "words": 500,
+          "sents": 58,
+          "mean_len": 8.2759,
+          "cv": 0.506,
+          "long_rate": 0,
+          "max_sent": 20
+        },
+        {
+          "pos": 0.4919,
+          "words": 500,
+          "sents": 60,
+          "mean_len": 7.7833,
+          "cv": 0.3973,
+          "long_rate": 0,
+          "max_sent": 15
+        },
+        {
+          "pos": 0.6149,
+          "words": 500,
+          "sents": 58,
+          "mean_len": 8.1379,
+          "cv": 0.5077,
+          "long_rate": 0,
+          "max_sent": 18
+        },
+        {
+          "pos": 0.7378,
+          "words": 500,
+          "sents": 63,
+          "mean_len": 7.381,
+          "cv": 0.54,
+          "long_rate": 0,
+          "max_sent": 21
+        },
+        {
+          "pos": 0.8608,
+          "words": 500,
+          "sents": 61,
+          "mean_len": 7.7541,
+          "cv": 0.5595,
+          "long_rate": 0,
+          "max_sent": 20
+        }
+      ],
+      "drift_mean_len": -9.2804,
+      "drift_cv": 0.0717,
+      "drift_long": 0
+    },
+    {
+      "variant": "BASELINE",
+      "scene": "confrontation",
+      "run": 2,
+      "words": 3953,
+      "sents": 416,
+      "mean_len": 8.9567,
+      "cv": 0.7486,
+      "long_count": 1,
+      "long_rate": 0.0024,
+      "max_sent": 61,
+      "gb": 3.8672,
+      "tier": "A",
+      "type": "dialogue",
+      "f26b": 0.0021,
+      "f1a": 6.7035,
+      "f29d": 0.7675,
+      "f9a": 0.2714,
+      "f17": 214,
+      "windows": [
+        {
+          "pos": 0,
+          "words": 500,
+          "sents": 25,
+          "mean_len": 19.84,
+          "cv": 0.6348,
+          "long_rate": 0.04,
+          "max_sent": 61
+        },
+        {
+          "pos": 0.1265,
+          "words": 500,
+          "sents": 42,
+          "mean_len": 11.4524,
+          "cv": 0.6951,
+          "long_rate": 0,
+          "max_sent": 35
+        },
+        {
+          "pos": 0.253,
+          "words": 500,
+          "sents": 61,
+          "mean_len": 7.5082,
+          "cv": 0.6803,
+          "long_rate": 0,
+          "max_sent": 22
+        },
+        {
+          "pos": 0.3795,
+          "words": 500,
+          "sents": 54,
+          "mean_len": 8.7963,
+          "cv": 0.6936,
+          "long_rate": 0,
+          "max_sent": 32
+        },
+        {
+          "pos": 0.5059,
+          "words": 500,
+          "sents": 56,
+          "mean_len": 8.2679,
+          "cv": 0.5882,
+          "long_rate": 0,
+          "max_sent": 23
+        },
+        {
+          "pos": 0.6324,
+          "words": 500,
+          "sents": 69,
+          "mean_len": 6.6667,
+          "cv": 0.5733,
+          "long_rate": 0,
+          "max_sent": 19
+        },
+        {
+          "pos": 0.7589,
+          "words": 500,
+          "sents": 65,
+          "mean_len": 7.0769,
+          "cv": 0.5865,
+          "long_rate": 0,
+          "max_sent": 23
+        },
+        {
+          "pos": 0.8854,
+          "words": 453,
+          "sents": 45,
+          "mean_len": 9.5333,
+          "cv": 0.5902,
+          "long_rate": 0,
+          "max_sent": 25
+        }
+      ],
+      "drift_mean_len": -10.3067,
+      "drift_cv": -0.0446,
+      "drift_long": -0.04
+    },
+    {
+      "variant": "BASELINE",
+      "scene": "deuil",
+      "run": 1,
+      "words": 3093,
+      "sents": 240,
+      "mean_len": 12.6833,
+      "cv": 0.6263,
+      "long_count": 2,
+      "long_rate": 0.0083,
+      "max_sent": 47,
+      "gb": 4.1792,
+      "tier": "A",
+      "type": "narration",
+      "f26b": 0.0079,
+      "f1a": 8.1048,
+      "f29d": 0.7564,
+      "f9a": 0.3636,
+      "f17": 62,
+      "windows": [
+        {
+          "pos": 0,
+          "words": 500,
+          "sents": 31,
+          "mean_len": 15.9032,
+          "cv": 0.6537,
+          "long_rate": 0.0323,
+          "max_sent": 47
+        },
+        {
+          "pos": 0.1617,
+          "words": 500,
+          "sents": 40,
+          "mean_len": 12.3,
+          "cv": 0.5639,
+          "long_rate": 0,
+          "max_sent": 28
+        },
+        {
+          "pos": 0.3233,
+          "words": 500,
+          "sents": 41,
+          "mean_len": 12,
+          "cv": 0.6141,
+          "long_rate": 0,
+          "max_sent": 26
+        },
+        {
+          "pos": 0.485,
+          "words": 500,
+          "sents": 36,
+          "mean_len": 13.5556,
+          "cv": 0.6519,
+          "long_rate": 0,
+          "max_sent": 33
+        },
+        {
+          "pos": 0.6466,
+          "words": 500,
+          "sents": 45,
+          "mean_len": 10.9333,
+          "cv": 0.5656,
+          "long_rate": 0,
+          "max_sent": 25
+        },
+        {
+          "pos": 0.8083,
+          "words": 500,
+          "sents": 41,
+          "mean_len": 11.9268,
+          "cv": 0.6447,
+          "long_rate": 0.0244,
+          "max_sent": 43
+        }
+      ],
+      "drift_mean_len": -3.9764,
+      "drift_cv": -0.009,
+      "drift_long": -0.0079
+    },
+    {
+      "variant": "BASELINE",
+      "scene": "deuil",
+      "run": 2,
+      "words": 3601,
+      "sents": 208,
+      "mean_len": 17.2308,
+      "cv": 0.4618,
+      "long_count": 2,
+      "long_rate": 0.0096,
+      "max_sent": 48,
+      "gb": 3.9233,
+      "tier": "A",
+      "type": "narration",
+      "f26b": 0.0095,
+      "f1a": 8.0666,
+      "f29d": 0.7446,
+      "f9a": 0.5619,
+      "f17": 11,
+      "windows": [
+        {
+          "pos": 0,
+          "words": 500,
+          "sents": 31,
+          "mean_len": 16.0645,
+          "cv": 0.4639,
+          "long_rate": 0,
+          "max_sent": 31
+        },
+        {
+          "pos": 0.1389,
+          "words": 500,
+          "sents": 26,
+          "mean_len": 19.1154,
+          "cv": 0.4499,
+          "long_rate": 0,
+          "max_sent": 36
+        },
+        {
+          "pos": 0.2777,
+          "words": 500,
+          "sents": 32,
+          "mean_len": 15.5625,
+          "cv": 0.5207,
+          "long_rate": 0,
+          "max_sent": 38
+        },
+        {
+          "pos": 0.4166,
+          "words": 500,
+          "sents": 28,
+          "mean_len": 17.8214,
+          "cv": 0.4046,
+          "long_rate": 0,
+          "max_sent": 34
+        },
+        {
+          "pos": 0.5554,
+          "words": 500,
+          "sents": 31,
+          "mean_len": 16.0323,
+          "cv": 0.5157,
+          "long_rate": 0.0323,
+          "max_sent": 42
+        },
+        {
+          "pos": 0.6943,
+          "words": 500,
+          "sents": 30,
+          "mean_len": 16.5,
+          "cv": 0.4116,
+          "long_rate": 0,
+          "max_sent": 29
+        },
+        {
+          "pos": 0.8331,
+          "words": 500,
+          "sents": 31,
+          "mean_len": 16.0968,
+          "cv": 0.596,
+          "long_rate": 0.0323,
+          "max_sent": 48
+        },
+        {
+          "pos": 0.972,
+          "words": 101,
+          "sents": 6,
+          "mean_len": 16.8333,
+          "cv": 0.4623,
+          "long_rate": 0,
+          "max_sent": 28
+        }
+      ],
+      "drift_mean_len": 0.7688,
+      "drift_cv": -0.0016,
+      "drift_long": 0
+    },
+    {
+      "variant": "BASELINE",
+      "scene": "contemplation",
+      "run": 1,
+      "words": 1828,
+      "sents": 140,
+      "mean_len": 12.8286,
+      "cv": 0.4931,
+      "long_count": 0,
+      "long_rate": 0,
+      "max_sent": 37,
+      "gb": 3.7082,
+      "tier": "A",
+      "type": "narration",
+      "f26b": 0,
+      "f1a": 6.5467,
+      "f29d": 0.7527,
+      "f9a": 0.2,
+      "f17": 21,
+      "windows": [
+        {
+          "pos": 0,
+          "words": 500,
+          "sents": 30,
+          "mean_len": 16.5333,
+          "cv": 0.3922,
+          "long_rate": 0,
+          "max_sent": 33
+        },
+        {
+          "pos": 0.2735,
+          "words": 500,
+          "sents": 39,
+          "mean_len": 12.4359,
+          "cv": 0.5733,
+          "long_rate": 0,
+          "max_sent": 37
+        },
+        {
+          "pos": 0.547,
+          "words": 500,
+          "sents": 43,
+          "mean_len": 11.4651,
+          "cv": 0.4469,
+          "long_rate": 0,
+          "max_sent": 24
+        },
+        {
+          "pos": 0.8206,
+          "words": 328,
+          "sents": 31,
+          "mean_len": 10.3871,
+          "cv": 0.5376,
+          "long_rate": 0,
+          "max_sent": 24
+        }
+      ],
+      "drift_mean_len": -6.1462,
+      "drift_cv": 0.1454,
+      "drift_long": 0
+    },
+    {
+      "variant": "BASELINE",
+      "scene": "contemplation",
+      "run": 2,
+      "words": 2348,
+      "sents": 164,
+      "mean_len": 14.2256,
+      "cv": 0.5097,
+      "long_count": 0,
+      "long_rate": 0,
+      "max_sent": 37,
+      "gb": 3.7825,
+      "tier": "A",
+      "type": "narration",
+      "f26b": 0,
+      "f1a": 7.4819,
+      "f29d": 0.7648,
+      "f9a": 0.3647,
+      "f17": 26,
+      "windows": [
+        {
+          "pos": 0,
+          "words": 500,
+          "sents": 30,
+          "mean_len": 16.5667,
+          "cv": 0.4068,
+          "long_rate": 0,
+          "max_sent": 37
+        },
+        {
+          "pos": 0.2129,
+          "words": 500,
+          "sents": 36,
+          "mean_len": 13.8611,
+          "cv": 0.5226,
+          "long_rate": 0,
+          "max_sent": 32
+        },
+        {
+          "pos": 0.4259,
+          "words": 500,
+          "sents": 37,
+          "mean_len": 13.4595,
+          "cv": 0.5489,
+          "long_rate": 0,
+          "max_sent": 31
+        },
+        {
+          "pos": 0.6388,
+          "words": 500,
+          "sents": 34,
+          "mean_len": 14.6471,
+          "cv": 0.5196,
+          "long_rate": 0,
+          "max_sent": 32
+        },
+        {
+          "pos": 0.8518,
+          "words": 348,
+          "sents": 31,
+          "mean_len": 11,
+          "cv": 0.6112,
+          "long_rate": 0,
+          "max_sent": 30
+        }
+      ],
+      "drift_mean_len": -5.5667,
+      "drift_cv": 0.2044,
+      "drift_long": 0
+    },
+    {
+      "variant": "F3_flaubert",
+      "scene": "confrontation",
+      "run": 1,
+      "words": 2405,
+      "sents": 85,
+      "mean_len": 28.0941,
+      "cv": 0.7463,
+      "long_count": 21,
+      "long_rate": 0.2471,
+      "max_sent": 90,
+      "gb": 3.9641,
+      "tier": "A",
+      "type": "narration",
+      "f26b": 0.2234,
+      "f1a": 21.3815,
+      "f29d": 0.7453,
+      "f9a": 0.7979,
+      "f17": 20,
+      "windows": [
+        {
+          "pos": 0,
+          "words": 500,
+          "sents": 8,
+          "mean_len": 62.25,
+          "cv": 0.2452,
+          "long_rate": 1,
+          "max_sent": 90
+        },
+        {
+          "pos": 0.2079,
+          "words": 500,
+          "sents": 11,
+          "mean_len": 45.0909,
+          "cv": 0.5257,
+          "long_rate": 0.6364,
+          "max_sent": 80
+        },
+        {
+          "pos": 0.4158,
+          "words": 500,
+          "sents": 20,
+          "mean_len": 24.75,
+          "cv": 0.7042,
+          "long_rate": 0.2,
+          "max_sent": 55
+        },
+        {
+          "pos": 0.6237,
+          "words": 500,
+          "sents": 26,
+          "mean_len": 19,
+          "cv": 0.7533,
+          "long_rate": 0.0769,
+          "max_sent": 65
+        },
+        {
+          "pos": 0.8316,
+          "words": 405,
+          "sents": 22,
+          "mean_len": 18.3182,
+          "cv": 0.6304,
+          "long_rate": 0,
+          "max_sent": 38
+        }
+      ],
+      "drift_mean_len": -43.9318,
+      "drift_cv": 0.3852,
+      "drift_long": -1
+    },
+    {
+      "variant": "F3_flaubert",
+      "scene": "confrontation",
+      "run": 2,
+      "words": 2349,
+      "sents": 105,
+      "mean_len": 22.0667,
+      "cv": 1.0674,
+      "long_count": 23,
+      "long_rate": 0.219,
+      "max_sent": 136,
+      "gb": 4.1289,
+      "tier": "A",
+      "type": "dialogue",
+      "f26b": 0.215,
+      "f1a": 23.4896,
+      "f29d": 0.7428,
+      "f9a": 0.6355,
+      "f17": 18,
+      "windows": [
+        {
+          "pos": 0,
+          "words": 500,
+          "sents": 13,
+          "mean_len": 38.3846,
+          "cv": 0.8164,
+          "long_rate": 0.4615,
+          "max_sent": 104
+        },
+        {
+          "pos": 0.2129,
+          "words": 500,
+          "sents": 13,
+          "mean_len": 38.2308,
+          "cv": 0.793,
+          "long_rate": 0.4615,
+          "max_sent": 104
+        },
+        {
+          "pos": 0.4257,
+          "words": 500,
+          "sents": 27,
+          "mean_len": 18.1111,
+          "cv": 0.9269,
+          "long_rate": 0.1852,
+          "max_sent": 52
+        },
+        {
+          "pos": 0.6386,
+          "words": 500,
+          "sents": 38,
+          "mean_len": 12.7895,
+          "cv": 1.024,
+          "long_rate": 0.0789,
+          "max_sent": 61
+        },
+        {
+          "pos": 0.8514,
+          "words": 349,
+          "sents": 17,
+          "mean_len": 20.3529,
+          "cv": 0.8021,
+          "long_rate": 0.1765,
+          "max_sent": 54
+        }
+      ],
+      "drift_mean_len": -18.0317,
+      "drift_cv": -0.0143,
+      "drift_long": -0.285
+    },
+    {
+      "variant": "F3_flaubert",
+      "scene": "deuil",
+      "run": 1,
+      "words": 2583,
+      "sents": 35,
+      "mean_len": 73.7429,
+      "cv": 0.6188,
+      "long_count": 31,
+      "long_rate": 0.8857,
+      "max_sent": 248,
+      "gb": 4.1436,
+      "tier": "A",
+      "type": "narration",
+      "f26b": 0.8611,
+      "f1a": 46.5387,
+      "f29d": 0.7437,
+      "f9a": 2.6111,
+      "f17": 1,
+      "windows": [
+        {
+          "pos": 0,
+          "words": 500,
+          "sents": 8,
+          "mean_len": 62.25,
+          "cv": 0.4921,
+          "long_rate": 0.75,
+          "max_sent": 93
+        },
+        {
+          "pos": 0.1936,
+          "words": 500,
+          "sents": 8,
+          "mean_len": 62.5,
+          "cv": 0.198,
+          "long_rate": 1,
+          "max_sent": 81
+        },
+        {
+          "pos": 0.3871,
+          "words": 500,
+          "sents": 7,
+          "mean_len": 71.4286,
+          "cv": 1.2323,
+          "long_rate": 0.5714,
+          "max_sent": 248
+        },
+        {
+          "pos": 0.5807,
+          "words": 500,
+          "sents": 6,
+          "mean_len": 83.3333,
+          "cv": 0.7012,
+          "long_rate": 0.8333,
+          "max_sent": 178
+        },
+        {
+          "pos": 0.7743,
+          "words": 500,
+          "sents": 9,
+          "mean_len": 55.5556,
+          "cv": 0.516,
+          "long_rate": 0.7778,
+          "max_sent": 119
+        }
+      ],
+      "drift_mean_len": -6.6944,
+      "drift_cv": 0.0239,
+      "drift_long": 0.0278
+    },
+    {
+      "variant": "F3_flaubert",
+      "scene": "deuil",
+      "run": 2,
+      "words": 2706,
+      "sents": 49,
+      "mean_len": 55.2245,
+      "cv": 0.4354,
+      "long_count": 33,
+      "long_rate": 0.6735,
+      "max_sent": 121,
+      "gb": 3.8018,
+      "tier": "A",
+      "type": "narration",
+      "f26b": 0.6735,
+      "f1a": 24.0445,
+      "f29d": 0.7356,
+      "f9a": 1.4898,
+      "f17": 0,
+      "windows": [
+        {
+          "pos": 0,
+          "words": 500,
+          "sents": 8,
+          "mean_len": 62.5,
+          "cv": 0.5367,
+          "long_rate": 0.75,
+          "max_sent": 121
+        },
+        {
+          "pos": 0.1848,
+          "words": 500,
+          "sents": 7,
+          "mean_len": 71.1429,
+          "cv": 0.2333,
+          "long_rate": 1,
+          "max_sent": 97
+        },
+        {
+          "pos": 0.3695,
+          "words": 500,
+          "sents": 11,
+          "mean_len": 45.4545,
+          "cv": 0.402,
+          "long_rate": 0.4545,
+          "max_sent": 80
+        },
+        {
+          "pos": 0.5543,
+          "words": 500,
+          "sents": 13,
+          "mean_len": 38.4615,
+          "cv": 0.5872,
+          "long_rate": 0.3846,
+          "max_sent": 100
+        },
+        {
+          "pos": 0.7391,
+          "words": 500,
+          "sents": 10,
+          "mean_len": 50,
+          "cv": 0.4087,
+          "long_rate": 0.6,
+          "max_sent": 88
+        },
+        {
+          "pos": 0.9239,
+          "words": 206,
+          "sents": 4,
+          "mean_len": 51.5,
+          "cv": 0.3638,
+          "long_rate": 0.75,
+          "max_sent": 67
+        }
+      ],
+      "drift_mean_len": -11,
+      "drift_cv": -0.1729,
+      "drift_long": 0
+    },
+    {
+      "variant": "F3_flaubert",
+      "scene": "contemplation",
+      "run": 1,
+      "words": 2737,
+      "sents": 77,
+      "mean_len": 35.4675,
+      "cv": 0.5367,
+      "long_count": 32,
+      "long_rate": 0.4156,
+      "max_sent": 88,
+      "gb": 3.8745,
+      "tier": "A",
+      "type": "narration",
+      "f26b": 0.3625,
+      "f1a": 19.738,
+      "f29d": 0.7396,
+      "f9a": 0.8125,
+      "f17": 7,
+      "windows": [
+        {
+          "pos": 0,
+          "words": 500,
+          "sents": 11,
+          "mean_len": 45.4545,
+          "cv": 0.446,
+          "long_rate": 0.7273,
+          "max_sent": 76
+        },
+        {
+          "pos": 0.1827,
+          "words": 500,
+          "sents": 17,
+          "mean_len": 29.1765,
+          "cv": 0.6788,
+          "long_rate": 0.2941,
+          "max_sent": 67
+        },
+        {
+          "pos": 0.3654,
+          "words": 500,
+          "sents": 17,
+          "mean_len": 29.4118,
+          "cv": 0.6498,
+          "long_rate": 0.2353,
+          "max_sent": 72
+        },
+        {
+          "pos": 0.548,
+          "words": 500,
+          "sents": 15,
+          "mean_len": 33.2,
+          "cv": 0.5788,
+          "long_rate": 0.3333,
+          "max_sent": 72
+        },
+        {
+          "pos": 0.7307,
+          "words": 500,
+          "sents": 15,
+          "mean_len": 33.3333,
+          "cv": 0.6273,
+          "long_rate": 0.3333,
+          "max_sent": 88
+        },
+        {
+          "pos": 0.9134,
+          "words": 237,
+          "sents": 6,
+          "mean_len": 39.5,
+          "cv": 0.28,
+          "long_rate": 0.6667,
+          "max_sent": 48
+        }
+      ],
+      "drift_mean_len": -5.9545,
+      "drift_cv": -0.166,
+      "drift_long": -0.0606
+    },
+    {
+      "variant": "F3_flaubert",
+      "scene": "contemplation",
+      "run": 2,
+      "words": 1940,
+      "sents": 31,
+      "mean_len": 62.5806,
+      "cv": 0.4268,
+      "long_count": 27,
+      "long_rate": 0.871,
+      "max_sent": 107,
+      "gb": 4.0723,
+      "tier": "A",
+      "type": "narration",
+      "f26b": 0.871,
+      "f1a": 26.7093,
+      "f29d": 0.727,
+      "f9a": 1.5806,
+      "f17": 2,
+      "windows": [
+        {
+          "pos": 0,
+          "words": 500,
+          "sents": 8,
+          "mean_len": 62.5,
+          "cv": 0.5316,
+          "long_rate": 0.875,
+          "max_sent": 106
+        },
+        {
+          "pos": 0.2577,
+          "words": 500,
+          "sents": 9,
+          "mean_len": 55.5556,
+          "cv": 0.662,
+          "long_rate": 0.6667,
+          "max_sent": 105
+        },
+        {
+          "pos": 0.5155,
+          "words": 500,
+          "sents": 9,
+          "mean_len": 55.5556,
+          "cv": 0.4637,
+          "long_rate": 0.7778,
+          "max_sent": 91
+        },
+        {
+          "pos": 0.7732,
+          "words": 440,
+          "sents": 8,
+          "mean_len": 55,
+          "cv": 0.3286,
+          "long_rate": 0.75,
+          "max_sent": 81
+        }
+      ],
+      "drift_mean_len": -7.5,
+      "drift_cv": -0.203,
+      "drift_long": -0.125
+    },
+    {
+      "variant": "D3_exemplar",
+      "scene": "confrontation",
+      "run": 1,
+      "words": 2484,
+      "sents": 212,
+      "mean_len": 11.2877,
+      "cv": 0.8935,
+      "long_count": 5,
+      "long_rate": 0.0236,
+      "max_sent": 75,
+      "gb": 4.1618,
+      "tier": "A",
+      "type": "narration",
+      "f26b": 0.0211,
+      "f1a": 9.963,
+      "f29d": 0.7655,
+      "f9a": 0.27,
+      "f17": 93,
+      "windows": [
+        {
+          "pos": 0,
+          "words": 500,
+          "sents": 22,
+          "mean_len": 22.4545,
+          "cv": 0.9436,
+          "long_rate": 0.2273,
+          "max_sent": 75
+        },
+        {
+          "pos": 0.2013,
+          "words": 500,
+          "sents": 36,
+          "mean_len": 13.6111,
+          "cv": 0.6374,
+          "long_rate": 0,
+          "max_sent": 33
+        },
+        {
+          "pos": 0.4026,
+          "words": 500,
+          "sents": 57,
+          "mean_len": 8.1754,
+          "cv": 0.8784,
+          "long_rate": 0,
+          "max_sent": 35
+        },
+        {
+          "pos": 0.6039,
+          "words": 500,
+          "sents": 50,
+          "mean_len": 9.64,
+          "cv": 0.5727,
+          "long_rate": 0,
+          "max_sent": 25
+        },
+        {
+          "pos": 0.8052,
+          "words": 484,
+          "sents": 48,
+          "mean_len": 9.5833,
+          "cv": 0.5525,
+          "long_rate": 0,
+          "max_sent": 29
+        }
+      ],
+      "drift_mean_len": -12.8712,
+      "drift_cv": -0.3911,
+      "drift_long": -0.2273
+    },
+    {
+      "variant": "D3_exemplar",
+      "scene": "confrontation",
+      "run": 2,
+      "words": 2605,
+      "sents": 117,
+      "mean_len": 22.2137,
+      "cv": 0.7874,
+      "long_count": 22,
+      "long_rate": 0.188,
+      "max_sent": 70,
+      "gb": 3.8953,
+      "tier": "A",
+      "type": "dialogue",
+      "f26b": 0.1667,
+      "f1a": 17.5583,
+      "f29d": 0.7375,
+      "f9a": 0.525,
+      "f17": 22,
+      "windows": [
+        {
+          "pos": 0,
+          "words": 500,
+          "sents": 17,
+          "mean_len": 29.4118,
+          "cv": 0.8141,
+          "long_rate": 0.3529,
+          "max_sent": 70
+        },
+        {
+          "pos": 0.1919,
+          "words": 500,
+          "sents": 17,
+          "mean_len": 29.4118,
+          "cv": 0.6985,
+          "long_rate": 0.3529,
+          "max_sent": 59
+        },
+        {
+          "pos": 0.3839,
+          "words": 500,
+          "sents": 26,
+          "mean_len": 19.1538,
+          "cv": 0.8988,
+          "long_rate": 0.1923,
+          "max_sent": 56
+        },
+        {
+          "pos": 0.5758,
+          "words": 500,
+          "sents": 28,
+          "mean_len": 17.7143,
+          "cv": 0.7394,
+          "long_rate": 0.0357,
+          "max_sent": 55
+        },
+        {
+          "pos": 0.7678,
+          "words": 500,
+          "sents": 28,
+          "mean_len": 17.8571,
+          "cv": 0.6834,
+          "long_rate": 0.0714,
+          "max_sent": 43
+        },
+        {
+          "pos": 0.9597,
+          "words": 105,
+          "sents": 5,
+          "mean_len": 21,
+          "cv": 0.6236,
+          "long_rate": 0.2,
+          "max_sent": 40
+        }
+      ],
+      "drift_mean_len": -8.4118,
+      "drift_cv": -0.1905,
+      "drift_long": -0.1529
+    },
+    {
+      "variant": "D3_exemplar",
+      "scene": "deuil",
+      "run": 1,
+      "words": 2667,
+      "sents": 136,
+      "mean_len": 19.5,
+      "cv": 0.8168,
+      "long_count": 16,
+      "long_rate": 0.1176,
+      "max_sent": 78,
+      "gb": 3.8953,
+      "tier": "A",
+      "type": "narration",
+      "f26b": 0.1049,
+      "f1a": 15.9865,
+      "f29d": 0.7477,
+      "f9a": 0.5315,
+      "f17": 29,
+      "windows": [
+        {
+          "pos": 0,
+          "words": 500,
+          "sents": 18,
+          "mean_len": 27.5,
+          "cv": 0.9028,
+          "long_rate": 0.2222,
+          "max_sent": 78
+        },
+        {
+          "pos": 0.1875,
+          "words": 500,
+          "sents": 17,
+          "mean_len": 29.2941,
+          "cv": 0.6772,
+          "long_rate": 0.2941,
+          "max_sent": 64
+        },
+        {
+          "pos": 0.375,
+          "words": 500,
+          "sents": 29,
+          "mean_len": 16.9655,
+          "cv": 0.7493,
+          "long_rate": 0.069,
+          "max_sent": 47
+        },
+        {
+          "pos": 0.5624,
+          "words": 500,
+          "sents": 33,
+          "mean_len": 15.1515,
+          "cv": 0.7037,
+          "long_rate": 0.0606,
+          "max_sent": 46
+        },
+        {
+          "pos": 0.7499,
+          "words": 500,
+          "sents": 30,
+          "mean_len": 16.6,
+          "cv": 0.6837,
+          "long_rate": 0.0667,
+          "max_sent": 53
+        },
+        {
+          "pos": 0.9374,
+          "words": 167,
+          "sents": 12,
+          "mean_len": 13.75,
+          "cv": 0.595,
+          "long_rate": 0,
+          "max_sent": 32
+        }
+      ],
+      "drift_mean_len": -13.75,
+      "drift_cv": -0.3078,
+      "drift_long": -0.2222
+    },
+    {
+      "variant": "D3_exemplar",
+      "scene": "deuil",
+      "run": 2,
+      "words": 1753,
+      "sents": 78,
+      "mean_len": 22.3974,
+      "cv": 0.9016,
+      "long_count": 14,
+      "long_rate": 0.1795,
+      "max_sent": 94,
+      "gb": 3.9076,
+      "tier": "A",
+      "type": "narration",
+      "f26b": 0.1481,
+      "f1a": 20.1999,
+      "f29d": 0.7387,
+      "f9a": 0.6914,
+      "f17": 17,
+      "windows": [
+        {
+          "pos": 0,
+          "words": 500,
+          "sents": 15,
+          "mean_len": 33.3333,
+          "cv": 0.8739,
+          "long_rate": 0.4,
+          "max_sent": 94
+        },
+        {
+          "pos": 0.2852,
+          "words": 500,
+          "sents": 22,
+          "mean_len": 22.4545,
+          "cv": 0.8068,
+          "long_rate": 0.2273,
+          "max_sent": 70
+        },
+        {
+          "pos": 0.5705,
+          "words": 500,
+          "sents": 26,
+          "mean_len": 19.2308,
+          "cv": 0.6381,
+          "long_rate": 0.1154,
+          "max_sent": 48
+        },
+        {
+          "pos": 0.8557,
+          "words": 253,
+          "sents": 18,
+          "mean_len": 14.0556,
+          "cv": 0.7719,
+          "long_rate": 0.0556,
+          "max_sent": 42
+        }
+      ],
+      "drift_mean_len": -19.2777,
+      "drift_cv": -0.102,
+      "drift_long": -0.3444
+    },
+    {
+      "variant": "D3_exemplar",
+      "scene": "contemplation",
+      "run": 1,
+      "words": 2231,
+      "sents": 72,
+      "mean_len": 30.9028,
+      "cv": 1.0258,
+      "long_count": 27,
+      "long_rate": 0.375,
+      "max_sent": 89,
+      "gb": 3.7776,
+      "tier": "A",
+      "type": "narration",
+      "f26b": 0.36,
+      "f1a": 31.5698,
+      "f29d": 0.7421,
+      "f9a": 0.7333,
+      "f17": 24,
+      "windows": [
+        {
+          "pos": 0,
+          "words": 500,
+          "sents": 15,
+          "mean_len": 33.2,
+          "cv": 0.9397,
+          "long_rate": 0.4667,
+          "max_sent": 81
+        },
+        {
+          "pos": 0.2241,
+          "words": 500,
+          "sents": 15,
+          "mean_len": 33.3333,
+          "cv": 0.9972,
+          "long_rate": 0.3333,
+          "max_sent": 89
+        },
+        {
+          "pos": 0.4482,
+          "words": 500,
+          "sents": 14,
+          "mean_len": 35.7143,
+          "cv": 0.9304,
+          "long_rate": 0.4286,
+          "max_sent": 89
+        },
+        {
+          "pos": 0.6723,
+          "words": 500,
+          "sents": 21,
+          "mean_len": 23.5238,
+          "cv": 1.1035,
+          "long_rate": 0.2381,
+          "max_sent": 87
+        },
+        {
+          "pos": 0.8965,
+          "words": 231,
+          "sents": 10,
+          "mean_len": 23.1,
+          "cv": 1.2701,
+          "long_rate": 0.2,
+          "max_sent": 87
+        }
+      ],
+      "drift_mean_len": -10.1,
+      "drift_cv": 0.3304,
+      "drift_long": -0.2667
+    },
+    {
+      "variant": "D3_exemplar",
+      "scene": "contemplation",
+      "run": 2,
+      "words": 3655,
+      "sents": 121,
+      "mean_len": 30.0331,
+      "cv": 0.8823,
+      "long_count": 56,
+      "long_rate": 0.4628,
+      "max_sent": 79,
+      "gb": 3.9491,
+      "tier": "A",
+      "type": "narration",
+      "f26b": 0.4553,
+      "f1a": 26.52,
+      "f29d": 0.7267,
+      "f9a": 0.8618,
+      "f17": 41,
+      "windows": [
+        {
+          "pos": 0,
+          "words": 500,
+          "sents": 14,
+          "mean_len": 35.6429,
+          "cv": 0.9672,
+          "long_rate": 0.4286,
+          "max_sent": 79
+        },
+        {
+          "pos": 0.1368,
+          "words": 500,
+          "sents": 16,
+          "mean_len": 31.125,
+          "cv": 0.9026,
+          "long_rate": 0.4375,
+          "max_sent": 71
+        },
+        {
+          "pos": 0.2736,
+          "words": 500,
+          "sents": 16,
+          "mean_len": 31.125,
+          "cv": 0.9154,
+          "long_rate": 0.375,
+          "max_sent": 78
+        },
+        {
+          "pos": 0.4104,
+          "words": 500,
+          "sents": 18,
+          "mean_len": 27.5,
+          "cv": 0.8539,
+          "long_rate": 0.3889,
+          "max_sent": 65
+        },
+        {
+          "pos": 0.5472,
+          "words": 500,
+          "sents": 18,
+          "mean_len": 27.4444,
+          "cv": 0.8467,
+          "long_rate": 0.4444,
+          "max_sent": 64
+        },
+        {
+          "pos": 0.684,
+          "words": 500,
+          "sents": 18,
+          "mean_len": 27.5556,
+          "cv": 0.836,
+          "long_rate": 0.4444,
+          "max_sent": 59
+        },
+        {
+          "pos": 0.8208,
+          "words": 500,
+          "sents": 21,
+          "mean_len": 23.7143,
+          "cv": 0.857,
+          "long_rate": 0.3333,
+          "max_sent": 53
+        },
+        {
+          "pos": 0.9576,
+          "words": 155,
+          "sents": 6,
+          "mean_len": 25.8333,
+          "cv": 0.9931,
+          "long_rate": 0.3333,
+          "max_sent": 57
+        }
+      ],
+      "drift_mean_len": -9.8096,
+      "drift_cv": 0.0259,
+      "drift_long": -0.0953
+    }
+  ],
+  "summary": {
+    "BASELINE": {
+      "gb": 3.8708,
+      "f26b": 0.0033,
+      "cv": 0.5727,
+      "long_rate": 0.0034,
+      "drift": -5.7513
+    },
+    "F3_flaubert": {
+      "gb": 3.9975,
+      "f26b": 0.5344,
+      "cv": 0.6386,
+      "long_rate": 0.552,
+      "drift": -15.5187
+    },
+    "D3_exemplar": {
+      "gb": 3.9311,
+      "f26b": 0.2094,
+      "cv": 0.8846,
+      "long_rate": 0.2244,
+      "drift": -12.37
+    }
+  }
+}

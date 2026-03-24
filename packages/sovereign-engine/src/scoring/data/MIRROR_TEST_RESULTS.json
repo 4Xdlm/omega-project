@@ -1,0 +1,1013 @@
+{
+  "metadata": {
+    "test": "MIRROR_TEST",
+    "timestamp": "2026-03-24T11-16-13",
+    "model": "claude-sonnet-4-20250514",
+    "personas": 20
+  },
+  "results": [
+    {
+      "id": "flaubert",
+      "category": "FR_SOLO",
+      "display_name": "Gustave Flaubert",
+      "declared": {
+        "mean_sent_len": 28,
+        "f26b": 0.35,
+        "knife_rate": 0.05,
+        "cv": 0.85,
+        "subordinate_per_sentence": 2.8,
+        "sensory_per_100w": 12,
+        "dialogue_rate": 0.15,
+        "narration_rate": 0.45,
+        "description_rate": 0.35,
+        "introspection_rate": 0.05,
+        "contrast_score": 1.6,
+        "dominant_mode": "narration_descriptive",
+        "forbidden_patterns": [
+          "phrases_telegraphiques_repetees",
+          "dialogue_dominant",
+          "introspection_psychologique_moderne",
+          "phrases_uniformes"
+        ],
+        "signature_move": "cascade_subordonnees_avec_chute_brutale"
+      },
+      "measured": {
+        "word_count": 429,
+        "sentence_count": 10,
+        "mean_sent_len": 42.9,
+        "f26b": 0.5,
+        "knife_rate": 0.4,
+        "cv": 0.813279330743674,
+        "subordinate_per_sentence": 2.3,
+        "gb_score": 3.989895591589997,
+        "gb_tier": "A",
+        "f1a": 36.777,
+        "f29d": 0.73441,
+        "f24e": 0.93,
+        "f9a": 1.2,
+        "f17": 3
+      },
+      "e1_delta": {
+        "mean_sent_len": 14.899999999999999,
+        "f26b": 0.15000000000000002,
+        "knife_rate": 0.35000000000000003,
+        "cv": -0.036720669256326
+      }
+    },
+    {
+      "id": "proust",
+      "category": "FR_SOLO",
+      "display_name": "Marcel Proust",
+      "declared": {
+        "mean_sent_len": 45,
+        "f26b": 0.85,
+        "knife_rate": 0.02,
+        "cv": 0.65,
+        "subordinate_per_sentence": 3.2,
+        "sensory_per_100w": 12,
+        "dialogue_rate": 0.15,
+        "narration_rate": 0.25,
+        "description_rate": 0.35,
+        "introspection_rate": 0.25,
+        "contrast_score": 0.8,
+        "dominant_mode": "description_introspective",
+        "forbidden_patterns": [
+          "phrases_courtes_successives",
+          "dialogue_dominant",
+          "action_directe",
+          "ellipses_temporelles",
+          "syntaxe_simple"
+        ],
+        "signature_move": "enchainement_associatif_sensoriel"
+      },
+      "measured": {
+        "word_count": 464,
+        "sentence_count": 10,
+        "mean_sent_len": 46.4,
+        "f26b": 0.6,
+        "knife_rate": 0.1,
+        "cv": 0.5275728249373409,
+        "subordinate_per_sentence": 2.6,
+        "gb_score": 3.830461009585001,
+        "gb_tier": "A",
+        "f1a": 25.8035,
+        "f29d": 0.72171,
+        "f24e": 0.92,
+        "f9a": 1,
+        "f17": 1
+      },
+      "e1_delta": {
+        "mean_sent_len": 1.3999999999999986,
+        "f26b": -0.25,
+        "knife_rate": 0.08,
+        "cv": -0.1224271750626591
+      }
+    },
+    {
+      "id": "duras",
+      "category": "FR_SOLO",
+      "display_name": "Marguerite Duras",
+      "declared": {
+        "mean_sent_len": 8.5,
+        "f26b": 0.02,
+        "knife_rate": 0.75,
+        "cv": 0.45,
+        "subordinate_per_sentence": 0.15,
+        "sensory_per_100w": 12,
+        "dialogue_rate": 0.65,
+        "narration_rate": 0.25,
+        "description_rate": 0.05,
+        "introspection_rate": 0.05,
+        "contrast_score": 0.3,
+        "dominant_mode": "dialogue_minimal",
+        "forbidden_patterns": [
+          "phrases_complexes",
+          "subordonnees_multiples",
+          "descriptions_ornementales",
+          "adverbes_superflus",
+          "metaphores_elaborees"
+        ],
+        "signature_move": "repetition_obsessionnelle_avec_variations_microscopiques"
+      },
+      "measured": {
+        "word_count": 415,
+        "sentence_count": 129,
+        "mean_sent_len": 3.2093023255813953,
+        "f26b": 0,
+        "knife_rate": 1,
+        "cv": 0.47466072887214017,
+        "subordinate_per_sentence": 0.07751937984496124,
+        "gb_score": 4.046488549300002,
+        "gb_tier": "A",
+        "f1a": 1.5293,
+        "f29d": 0.63816,
+        "f24e": 0.44781,
+        "f9a": 0.093,
+        "f17": 120
+      },
+      "e1_delta": {
+        "mean_sent_len": -5.290697674418604,
+        "f26b": -0.02,
+        "knife_rate": 0.25,
+        "cv": 0.02466072887214016
+      }
+    },
+    {
+      "id": "celine",
+      "category": "FR_SOLO",
+      "display_name": "Louis-Ferdinand Céline",
+      "declared": {
+        "mean_sent_len": 8.5,
+        "f26b": 0.05,
+        "knife_rate": 0.65,
+        "cv": 1.2,
+        "subordinate_per_sentence": 0.3,
+        "sensory_per_100w": 12,
+        "dialogue_rate": 0.4,
+        "narration_rate": 0.35,
+        "description_rate": 0.15,
+        "introspection_rate": 0.1,
+        "contrast_score": 1.8,
+        "dominant_mode": "dialogue_oral_retranscrit",
+        "forbidden_patterns": [
+          "phrases_academiques",
+          "subordonnees_multiples",
+          "ponctuation_classique",
+          "registre_soutenu_uniforme",
+          "descriptions_longues"
+        ],
+        "signature_move": "rupture_syntaxique_avec_trois_points_et_telescopage_registres"
+      },
+      "measured": {
+        "word_count": 398,
+        "sentence_count": 99,
+        "mean_sent_len": 4.02020202020202,
+        "f26b": 0,
+        "knife_rate": 0.9696969696969697,
+        "cv": 0.6344009648697508,
+        "subordinate_per_sentence": 0.23232323232323232,
+        "gb_score": 4.0817781178600026,
+        "gb_tier": "A",
+        "f1a": 2.5634,
+        "f29d": 0.67739,
+        "f24e": 0.55753,
+        "f9a": 0.202,
+        "f17": 76
+      },
+      "e1_delta": {
+        "mean_sent_len": -4.47979797979798,
+        "f26b": -0.05,
+        "knife_rate": 0.3196969696969697,
+        "cv": -0.5655990351302491
+      }
+    },
+    {
+      "id": "hugo",
+      "category": "FR_SOLO",
+      "display_name": "Victor Hugo",
+      "declared": {
+        "mean_sent_len": 28,
+        "f26b": 0.35,
+        "knife_rate": 0.08,
+        "cv": 0.95,
+        "subordinate_per_sentence": 2.1,
+        "sensory_per_100w": 12,
+        "dialogue_rate": 0.15,
+        "narration_rate": 0.25,
+        "description_rate": 0.35,
+        "introspection_rate": 0.25,
+        "contrast_score": 1.8,
+        "dominant_mode": "description_lyrique_amplifiee",
+        "forbidden_patterns": [
+          "phrases_uniformes",
+          "sobriete_descriptive",
+          "economie_de_moyens",
+          "understatement",
+          "phrases_courtes_successives"
+        ],
+        "signature_move": "antithese_brutale_apres_crescendo_oratoire"
+      },
+      "measured": {
+        "word_count": 442,
+        "sentence_count": 34,
+        "mean_sent_len": 12.941176470588236,
+        "f26b": 0,
+        "knife_rate": 0.35294117647058826,
+        "cv": 0.606694743999562,
+        "subordinate_per_sentence": 0.7058823529411765,
+        "gb_score": 3.151279395169999,
+        "gb_tier": "B",
+        "f1a": 7.9694,
+        "f29d": 0.75595,
+        "f24e": 0.94618,
+        "f9a": 0.4118,
+        "f17": 4
+      },
+      "e1_delta": {
+        "mean_sent_len": -15.058823529411764,
+        "f26b": -0.35,
+        "knife_rate": 0.27294117647058824,
+        "cv": -0.34330525600043793
+      }
+    },
+    {
+      "id": "woolf",
+      "category": "EN_SOLO",
+      "display_name": "Virginia Woolf",
+      "declared": {
+        "mean_sent_len": 28.5,
+        "f26b": 0.35,
+        "knife_rate": 0.08,
+        "cv": 0.95,
+        "subordinate_per_sentence": 2.8,
+        "sensory_per_100w": 12.4,
+        "dialogue_rate": 0.15,
+        "narration_rate": 0.25,
+        "description_rate": 0.2,
+        "introspection_rate": 0.4,
+        "contrast_score": 1.7,
+        "dominant_mode": "introspection",
+        "forbidden_patterns": [
+          "phrases courtes répétitives",
+          "dialogue dominant",
+          "action linéaire",
+          "ponctuation rigide",
+          "présent simple factuel"
+        ],
+        "signature_move": "enchâssement de subordonnées sensorielles dans des périodes ondulantes avec ruptures temporelles"
+      },
+      "measured": {
+        "word_count": 420,
+        "sentence_count": 40,
+        "mean_sent_len": 10.5,
+        "f26b": 0,
+        "knife_rate": 0.575,
+        "cv": 0.799659791606984,
+        "subordinate_per_sentence": 0.375,
+        "gb_score": 3.7033181656200003,
+        "gb_tier": "A",
+        "f1a": 8.5034,
+        "f29d": 0.7552,
+        "f24e": 0.93591,
+        "f9a": 0.425,
+        "f17": 13
+      },
+      "e1_delta": {
+        "mean_sent_len": -18,
+        "f26b": -0.35,
+        "knife_rate": 0.49499999999999994,
+        "cv": -0.15034020839301598
+      }
+    },
+    {
+      "id": "austen",
+      "category": "EN_SOLO",
+      "display_name": "Jane Austen",
+      "declared": {
+        "mean_sent_len": 18,
+        "f26b": 0.15,
+        "knife_rate": 0.05,
+        "cv": 0.65,
+        "subordinate_per_sentence": 1.2,
+        "sensory_per_100w": 3.5,
+        "dialogue_rate": 0.45,
+        "narration_rate": 0.35,
+        "description_rate": 0.1,
+        "introspection_rate": 0.1,
+        "contrast_score": 0.8,
+        "dominant_mode": "dialogue_ironique",
+        "forbidden_patterns": [
+          "phrases_exclamatives_multiples",
+          "descriptions_sensorielles_excessives",
+          "monologues_interieurs_longs",
+          "phrases_courtes_repetitives"
+        ],
+        "signature_move": "inversion_ironique_en_fin_de_phrase"
+      },
+      "measured": {
+        "word_count": 438,
+        "sentence_count": 15,
+        "mean_sent_len": 29.2,
+        "f26b": 0.2667,
+        "knife_rate": 0,
+        "cv": 0.40985391780496166,
+        "subordinate_per_sentence": 1.9333333333333333,
+        "gb_score": 3.8778203550500008,
+        "gb_tier": "A",
+        "f1a": 12.3878,
+        "f29d": 0.7324,
+        "f24e": 0.95667,
+        "f9a": 1.4,
+        "f17": 0
+      },
+      "e1_delta": {
+        "mean_sent_len": 11.2,
+        "f26b": 0.1167,
+        "knife_rate": -0.05,
+        "cv": -0.24014608219503836
+      }
+    },
+    {
+      "id": "morrison",
+      "category": "EN_SOLO",
+      "display_name": "Toni Morrison",
+      "declared": {
+        "mean_sent_len": 18.5,
+        "f26b": 0.25,
+        "knife_rate": 0.15,
+        "cv": 0.95,
+        "subordinate_per_sentence": 1.8,
+        "sensory_per_100w": 12,
+        "dialogue_rate": 0.3,
+        "narration_rate": 0.25,
+        "description_rate": 0.2,
+        "introspection_rate": 0.25,
+        "contrast_score": 1.6,
+        "dominant_mode": "introspection_sensorielle",
+        "forbidden_patterns": [
+          "phrases_decoratives_sans_corps",
+          "dialogue_sans_poids_historique",
+          "description_detachee_du_vecu",
+          "linearite_chronologique_stricte"
+        ],
+        "signature_move": "rupture_temporelle_par_detail_sensoriel_qui_convoque_memoire_collective"
+      },
+      "measured": {
+        "word_count": 455,
+        "sentence_count": 34,
+        "mean_sent_len": 13.352941176470589,
+        "f26b": 0.0588,
+        "knife_rate": 0.5,
+        "cv": 0.8903583940328516,
+        "subordinate_per_sentence": 0.8529411764705882,
+        "gb_score": 3.9097263995250002,
+        "gb_tier": "A",
+        "f1a": 12.0677,
+        "f29d": 0.65726,
+        "f24e": 0.95118,
+        "f9a": 0.4412,
+        "f17": 8
+      },
+      "e1_delta": {
+        "mean_sent_len": -5.147058823529411,
+        "f26b": -0.1912,
+        "knife_rate": 0.35,
+        "cv": -0.0596416059671484
+      }
+    },
+    {
+      "id": "conrad",
+      "category": "EN_SOLO",
+      "display_name": "Joseph Conrad",
+      "declared": {
+        "mean_sent_len": 28.5,
+        "f26b": 0.45,
+        "knife_rate": 0.08,
+        "cv": 0.62,
+        "subordinate_per_sentence": 2.8,
+        "sensory_per_100w": 12.4,
+        "dialogue_rate": 0.15,
+        "narration_rate": 0.35,
+        "description_rate": 0.25,
+        "introspection_rate": 0.25,
+        "contrast_score": 0.7,
+        "dominant_mode": "narration_introspective",
+        "forbidden_patterns": [
+          "phrases_telegraphiques",
+          "dialogue_dominant",
+          "action_directe",
+          "certitudes_narratives",
+          "present_immediat"
+        ],
+        "signature_move": "enchassement_subordination_spiralante"
+      },
+      "measured": {
+        "word_count": 468,
+        "sentence_count": 8,
+        "mean_sent_len": 58.5,
+        "f26b": 0.75,
+        "knife_rate": 0,
+        "cv": 0.3641266393870221,
+        "subordinate_per_sentence": 5.125,
+        "gb_score": 3.7601212329350004,
+        "gb_tier": "A",
+        "f1a": 22.7722,
+        "f29d": 0.72589,
+        "f24e": 0,
+        "f9a": 2.5,
+        "f17": 0
+      },
+      "e1_delta": {
+        "mean_sent_len": 30,
+        "f26b": 0.3,
+        "knife_rate": -0.08,
+        "cv": -0.2558733606129779
+      }
+    },
+    {
+      "id": "mccarthy",
+      "category": "EN_SOLO",
+      "display_name": "Cormac McCarthy",
+      "declared": {
+        "mean_sent_len": 18.5,
+        "f26b": 0.25,
+        "knife_rate": 0.35,
+        "cv": 0.95,
+        "subordinate_per_sentence": 1.8,
+        "sensory_per_100w": 12,
+        "dialogue_rate": 0.15,
+        "narration_rate": 0.65,
+        "description_rate": 0.2,
+        "introspection_rate": 0,
+        "contrast_score": 1.8,
+        "dominant_mode": "narration_descriptive",
+        "forbidden_patterns": [
+          "guillemets_dialogue",
+          "introspection_psychologique",
+          "phrases_moyennes_uniformes",
+          "ponctuation_traditionnelle_dialogue"
+        ],
+        "signature_move": "contraste_brutal_phrases_cosmiques_vers_fragments_secs"
+      },
+      "measured": {
+        "word_count": 439,
+        "sentence_count": 38,
+        "mean_sent_len": 11.552631578947368,
+        "f26b": 0,
+        "knife_rate": 0.39473684210526316,
+        "cv": 0.4899401016768232,
+        "subordinate_per_sentence": 0.5,
+        "gb_score": 3.923591709809999,
+        "gb_tier": "A",
+        "f1a": 5.7361,
+        "f29d": 0.71027,
+        "f24e": 0.80903,
+        "f9a": 0.5263,
+        "f17": 6
+      },
+      "e1_delta": {
+        "mean_sent_len": -6.947368421052632,
+        "f26b": -0.25,
+        "knife_rate": 0.044736842105263186,
+        "cv": -0.46005989832317673
+      }
+    },
+    {
+      "id": "faulkner",
+      "category": "EN_SOLO",
+      "display_name": "William Faulkner",
+      "declared": {
+        "mean_sent_len": 65,
+        "f26b": 0.75,
+        "knife_rate": 0.05,
+        "cv": 0.95,
+        "subordinate_per_sentence": 3.8,
+        "sensory_per_100w": 12,
+        "dialogue_rate": 0.15,
+        "narration_rate": 0.25,
+        "description_rate": 0.35,
+        "introspection_rate": 0.25,
+        "contrast_score": 1.6,
+        "dominant_mode": "description_introspective",
+        "forbidden_patterns": [
+          "phrases_simples_successives",
+          "chronologie_lineaire",
+          "ponctuation_traditionnelle_stricte",
+          "une_seule_perspective_temporelle"
+        ],
+        "signature_move": "phrases_spirales_temporelles_avec_enchassements_multiples"
+      },
+      "measured": {
+        "word_count": 498,
+        "sentence_count": 5,
+        "mean_sent_len": 99.6,
+        "f26b": 1,
+        "knife_rate": 0,
+        "cv": 0.23916665802625287,
+        "subordinate_per_sentence": 9.8,
+        "gb_score": 3.8934335234300006,
+        "gb_tier": "A",
+        "f1a": 26.6327,
+        "f29d": 0.69221,
+        "f24e": 0,
+        "f9a": 3,
+        "f17": 0
+      },
+      "e1_delta": {
+        "mean_sent_len": 34.599999999999994,
+        "f26b": 0.25,
+        "knife_rate": -0.05,
+        "cv": -0.7108333419737471
+      }
+    },
+    {
+      "id": "dickens",
+      "category": "EN_SOLO",
+      "display_name": "Charles Dickens",
+      "declared": {
+        "mean_sent_len": 28,
+        "f26b": 0.35,
+        "knife_rate": 0.08,
+        "cv": 0.95,
+        "subordinate_per_sentence": 2.1,
+        "sensory_per_100w": 12,
+        "dialogue_rate": 0.25,
+        "narration_rate": 0.45,
+        "description_rate": 0.25,
+        "introspection_rate": 0.05,
+        "contrast_score": 1.6,
+        "dominant_mode": "narration_descriptive",
+        "forbidden_patterns": [
+          "phrases_sans_subordonnees_consecutives",
+          "absence_details_sensoriels",
+          "ton_uniforme_sans_contraste_emotionnel",
+          "phrases_courtes_sans_amplification"
+        ],
+        "signature_move": "accumulation_sensorielle_avec_chute_humoristique_ou_pathetique"
+      },
+      "measured": {
+        "word_count": 422,
+        "sentence_count": 14,
+        "mean_sent_len": 30.142857142857142,
+        "f26b": 0.2857,
+        "knife_rate": 0.21428571428571427,
+        "cv": 0.6070607215225364,
+        "subordinate_per_sentence": 1.5,
+        "gb_score": 4.154739482579998,
+        "gb_tier": "A",
+        "f1a": 18.9893,
+        "f29d": 0.7255,
+        "f24e": 0.94524,
+        "f9a": 1,
+        "f17": 3
+      },
+      "e1_delta": {
+        "mean_sent_len": 2.1428571428571423,
+        "f26b": -0.06429999999999997,
+        "knife_rate": 0.13428571428571429,
+        "cv": -0.3429392784774635
+      }
+    },
+    {
+      "id": "mann",
+      "category": "DE_SOLO",
+      "display_name": "Thomas Mann",
+      "declared": {
+        "mean_sent_len": 75,
+        "f26b": 0.95,
+        "knife_rate": 0.02,
+        "cv": 0.65,
+        "subordinate_per_sentence": 4.2,
+        "sensory_per_100w": 8,
+        "dialogue_rate": 0.15,
+        "narration_rate": 0.25,
+        "description_rate": 0.35,
+        "introspection_rate": 0.25,
+        "contrast_score": 0.8,
+        "dominant_mode": "description_philosophique",
+        "forbidden_patterns": [
+          "phrases_simples_coordonnees",
+          "action_directe",
+          "dialogue_spontane",
+          "present_immediat"
+        ],
+        "signature_move": "subordonnee_gigogne_avec_incise_ironique"
+      },
+      "measured": {
+        "word_count": 377,
+        "sentence_count": 7,
+        "mean_sent_len": 53.857142857142854,
+        "f26b": 0.8571,
+        "knife_rate": 0,
+        "cv": 0.19710917987436924,
+        "subordinate_per_sentence": 3.4285714285714284,
+        "gb_score": 3.692162666319999,
+        "gb_tier": "A",
+        "f1a": 11.4663,
+        "f29d": 0.73255,
+        "f24e": 0,
+        "f9a": 1.8571,
+        "f17": 0
+      },
+      "e1_delta": {
+        "mean_sent_len": -21.142857142857146,
+        "f26b": -0.09289999999999998,
+        "knife_rate": -0.02,
+        "cv": -0.45289082012563076
+      }
+    },
+    {
+      "id": "kafka",
+      "category": "DE_SOLO",
+      "display_name": "Franz Kafka",
+      "declared": {
+        "mean_sent_len": 18.5,
+        "f26b": 0.15,
+        "knife_rate": 0.25,
+        "cv": 0.65,
+        "subordinate_per_sentence": 1.8,
+        "sensory_per_100w": 3.2,
+        "dialogue_rate": 0.2,
+        "narration_rate": 0.65,
+        "description_rate": 0.1,
+        "introspection_rate": 0.05,
+        "contrast_score": 0.8,
+        "dominant_mode": "narration_administrative",
+        "forbidden_patterns": [
+          "phrases_exclamatives",
+          "lyrisme",
+          "descriptions_sensorielles_luxuriantes",
+          "dialogues_spontanes",
+          "emotions_explicites"
+        ],
+        "signature_move": "precision_bureaucratique_pour_impossibilite_logique"
+      },
+      "measured": {
+        "word_count": 415,
+        "sentence_count": 29,
+        "mean_sent_len": 14.310344827586206,
+        "f26b": 0.0345,
+        "knife_rate": 0.3448275862068966,
+        "cv": 0.6832249570928188,
+        "subordinate_per_sentence": 0.3793103448275862,
+        "gb_score": 3.7661165523300006,
+        "gb_tier": "A",
+        "f1a": 9.9502,
+        "f29d": 0.71815,
+        "f24e": 0.91522,
+        "f9a": 0.5172,
+        "f17": 5
+      },
+      "e1_delta": {
+        "mean_sent_len": -4.189655172413794,
+        "f26b": -0.11549999999999999,
+        "knife_rate": 0.09482758620689657,
+        "cv": 0.03322495709281881
+      }
+    },
+    {
+      "id": "garcia_marquez",
+      "category": "ES_SOLO",
+      "display_name": "García Márquez",
+      "declared": {
+        "mean_sent_len": 28.5,
+        "f26b": 0.65,
+        "knife_rate": 0.08,
+        "cv": 0.72,
+        "subordinate_per_sentence": 2.8,
+        "sensory_per_100w": 12.3,
+        "dialogue_rate": 0.25,
+        "narration_rate": 0.45,
+        "description_rate": 0.2,
+        "introspection_rate": 0.1,
+        "contrast_score": 1.1,
+        "dominant_mode": "narration_magique",
+        "forbidden_patterns": [
+          "phrases_telegraphiques",
+          "dialogue_dominant",
+          "present_simple_factuel",
+          "linearite_chronologique_stricte",
+          "realisme_pur"
+        ],
+        "signature_move": "enumeration_incantation_avec_subordonnees_gigognes"
+      },
+      "measured": {
+        "word_count": 467,
+        "sentence_count": 5,
+        "mean_sent_len": 93.4,
+        "f26b": 1,
+        "knife_rate": 0,
+        "cv": 0.24959100200571144,
+        "subordinate_per_sentence": 4.8,
+        "gb_score": 3.8462936950700013,
+        "gb_tier": "A",
+        "f1a": 26.0634,
+        "f29d": 0.72271,
+        "f24e": 0,
+        "f9a": 2.4,
+        "f17": 0
+      },
+      "e1_delta": {
+        "mean_sent_len": 64.9,
+        "f26b": 0.35,
+        "knife_rate": -0.08,
+        "cv": -0.47040899799428854
+      }
+    },
+    {
+      "id": "trio_fdp",
+      "category": "TRIO",
+      "display_name": "Trio Flaubert+Duras+Proust",
+      "declared": {
+        "mean_sent_len": 28.5,
+        "f26b": 0.35,
+        "knife_rate": 0.15,
+        "cv": 0.95,
+        "subordinate_per_sentence": 2.8,
+        "sensory_per_100w": 12,
+        "dialogue_rate": 0.05,
+        "narration_rate": 0.25,
+        "description_rate": 0.45,
+        "introspection_rate": 0.25,
+        "contrast_score": 1.8,
+        "dominant_mode": "description_sensorielle_structurée",
+        "forbidden_patterns": [
+          "dialogue_familier",
+          "phrases_simples_consécutives",
+          "présent_narratif_sans_justification",
+          "descriptions_neutres"
+        ],
+        "signature_move": "subordonnée_sensorielle_en_cascade_avec_rupture_brutale",
+        "hierarchy": {
+          "dominant": "FLAUBERT",
+          "correcteur": "PROUST",
+          "inhibé": "DURAS",
+          "émergence": "architecture_mémorielle_contrainte"
+        },
+        "règles_concrètes": {
+          "flaubert_impose": "minimum_2_subordonnées_par_période",
+          "duras_impose": "alternance_obligatoire_tous_les_3_à_5_phrases",
+          "proust_impose": "minimum_8_mots_sensoriels_par_100_mots",
+          "interdiction_collective": "jamais_plus_de_2_phrases_consécutives_même_longueur"
+        }
+      },
+      "measured": {
+        "word_count": 454,
+        "sentence_count": 10,
+        "mean_sent_len": 45.4,
+        "f26b": 0.4,
+        "knife_rate": 0.4,
+        "cv": 0.8840916909195546,
+        "subordinate_per_sentence": 2.4,
+        "gb_score": 4.087350765654999,
+        "gb_tier": "A",
+        "f1a": 42.3089,
+        "f29d": 0.67921,
+        "f24e": 0.89,
+        "f9a": 0.6,
+        "f17": 3
+      },
+      "e1_delta": {
+        "mean_sent_len": 16.9,
+        "f26b": 0.050000000000000044,
+        "knife_rate": 0.25,
+        "cv": -0.06590830908044532
+      }
+    },
+    {
+      "id": "trio_wdf",
+      "category": "TRIO",
+      "display_name": "Trio Woolf+Duras+Flaubert",
+      "declared": {
+        "mean_sent_len": 18.5,
+        "f26b": 0.25,
+        "knife_rate": 0.2,
+        "cv": 0.95,
+        "subordinate_per_sentence": 1.8,
+        "sensory_per_100w": 12,
+        "dialogue_rate": 0.15,
+        "narration_rate": 0.25,
+        "description_rate": 0.3,
+        "introspection_rate": 0.3,
+        "contrast_score": 1.6,
+        "dominant_mode": "introspection_descriptive",
+        "forbidden_patterns": [
+          "phrases_uniformes",
+          "dialogue_dominant",
+          "action_pure",
+          "transitions_abruptes_sans_ancrage"
+        ],
+        "signature_move": "oscillation_woolf_duras_avec_ancrage_flaubert",
+        "hierarchie": {
+          "dominant": "WOOLF",
+          "correcteur": "FLAUBERT",
+          "inhibe": "DURAS",
+          "emergence": "phrases_respiratoires_entre_flux_et_ciseau"
+        },
+        "regles_concretes": {
+          "woolf_impose": "subordinate_per_sentence >= 1.5 ET sensory_per_100w >= 10",
+          "duras_impose": "knife_rate >= 0.15 ET contrast_score >= 1.4",
+          "flaubert_impose": "description_rate >= 0.25 ET cv <= 1.0",
+          "equilibre_force": "f26b entre 0.20 et 0.30"
+        }
+      },
+      "measured": {
+        "word_count": 432,
+        "sentence_count": 11,
+        "mean_sent_len": 39.27272727272727,
+        "f26b": 0.5455,
+        "knife_rate": 0.45454545454545453,
+        "cv": 0.8205161437244748,
+        "subordinate_per_sentence": 1.8181818181818181,
+        "gb_score": 3.9572644853699988,
+        "gb_tier": "A",
+        "f1a": 33.7967,
+        "f29d": 0.72836,
+        "f24e": 0.79727,
+        "f9a": 1.1818,
+        "f17": 5
+      },
+      "e1_delta": {
+        "mean_sent_len": 20.772727272727273,
+        "f26b": 0.2955,
+        "knife_rate": 0.2545454545454545,
+        "cv": -0.12948385627552517
+      }
+    },
+    {
+      "id": "trio_fpc",
+      "category": "TRIO",
+      "display_name": "Trio Flaubert+Proust+Céline",
+      "declared": {
+        "mean_sent_len": 28.5,
+        "f26b": 0.35,
+        "knife_rate": 0.15,
+        "cv": 0.95,
+        "subordinate_per_sentence": 2.8,
+        "sensory_per_100w": 12,
+        "dialogue_rate": 0.05,
+        "narration_rate": 0.25,
+        "description_rate": 0.35,
+        "introspection_rate": 0.35,
+        "contrast_score": 1.6,
+        "dominant_mode": "description_introspective_architecturée",
+        "forbidden_patterns": [
+          "phrases_uniformes",
+          "transitions_molles",
+          "sensations_non_décomposées",
+          "rythme_académique_pur"
+        ],
+        "signature_move": "période_flaubertienne_brisée_par_fragment_célinien_puis_expansion_proustienne",
+        "hierarchie_auteurs": {
+          "dominant": "FLAUBERT",
+          "correcteur": "PROUST",
+          "inhibe": "CÉLINE",
+          "emergence_chimique": "architecture_émotionnelle_explosive"
+        },
+        "regles_concretes": {
+          "flaubert_structure": "jamais_plus_de_3_phrases_consecutives_meme_longueur",
+          "proust_profondeur": "chaque_sensation_minimum_15_mots_deploiement",
+          "celine_rythme": "1_phrase_knife_obligatoire_tous_les_4_phrases_longues",
+          "equilibre_force": "subordinate_per_sentence_jamais_sous_2.0"
+        }
+      },
+      "measured": {
+        "word_count": 492,
+        "sentence_count": 21,
+        "mean_sent_len": 23.428571428571427,
+        "f26b": 0.3333,
+        "knife_rate": 0.6666666666666666,
+        "cv": 1.2570739752214508,
+        "subordinate_per_sentence": 1.3333333333333333,
+        "gb_score": 4.029824691344997,
+        "gb_tier": "A",
+        "f1a": 30.1788,
+        "f29d": 0.72655,
+        "f24e": 0.87343,
+        "f9a": 0.6667,
+        "f17": 13
+      },
+      "e1_delta": {
+        "mean_sent_len": -5.071428571428573,
+        "f26b": -0.016699999999999993,
+        "knife_rate": 0.5166666666666666,
+        "cv": 0.30707397522145086
+      }
+    },
+    {
+      "id": "anon_architecte",
+      "category": "ANONYMOUS",
+      "display_name": "Architecte syntaxe (anonyme)",
+      "declared": {
+        "mean_sent_len": 28.5,
+        "f26b": 0.65,
+        "knife_rate": 0.2,
+        "cv": 1.15,
+        "subordinate_per_sentence": 2.8,
+        "sensory_per_100w": 12,
+        "dialogue_rate": 0.05,
+        "narration_rate": 0.25,
+        "description_rate": 0.45,
+        "introspection_rate": 0.25,
+        "contrast_score": 1.8,
+        "dominant_mode": "description_architecturale",
+        "forbidden_patterns": [
+          "phrases_moyennes_15_25_mots",
+          "uniformite_rythmique",
+          "absence_de_subordination",
+          "abstraction_pure"
+        ],
+        "signature_move": "alternance_edifice_piquet_avec_empilement_subordonnes"
+      },
+      "measured": {
+        "word_count": 397,
+        "sentence_count": 11,
+        "mean_sent_len": 36.09090909090909,
+        "f26b": 0.5455,
+        "knife_rate": 0.45454545454545453,
+        "cv": 0.8518398620077393,
+        "subordinate_per_sentence": 3,
+        "gb_score": 3.67466229707,
+        "gb_tier": "A",
+        "f1a": 32.2442,
+        "f29d": 0.72955,
+        "f24e": 0.87182,
+        "f9a": 1,
+        "f17": 5
+      },
+      "e1_delta": {
+        "mean_sent_len": 7.5909090909090935,
+        "f26b": -0.10450000000000004,
+        "knife_rate": 0.2545454545454545,
+        "cv": -0.2981601379922606
+      }
+    },
+    {
+      "id": "anon_rythme",
+      "category": "ANONYMOUS",
+      "display_name": "Maître du rythme (anonyme)",
+      "declared": {
+        "mean_sent_len": 32,
+        "f26b": 0.4,
+        "knife_rate": 0.3,
+        "cv": 1.2,
+        "subordinate_per_sentence": 2.1,
+        "sensory_per_100w": 8,
+        "dialogue_rate": 0.15,
+        "narration_rate": 0.7,
+        "description_rate": 0.1,
+        "introspection_rate": 0.05,
+        "contrast_score": 1.8,
+        "dominant_mode": "narration_contrastée",
+        "forbidden_patterns": [
+          "phrases_moyennes_consécutives",
+          "longueurs_graduelles",
+          "transitions_douces"
+        ],
+        "signature_move": "alternance_systématique_longue_courte"
+      },
+      "measured": {
+        "word_count": 407,
+        "sentence_count": 24,
+        "mean_sent_len": 16.958333333333332,
+        "f26b": 0.2083,
+        "knife_rate": 0.5,
+        "cv": 0.9700617853053454,
+        "subordinate_per_sentence": 0.625,
+        "gb_score": 3.889173288819999,
+        "gb_tier": "A",
+        "f1a": 16.8044,
+        "f29d": 0.7315,
+        "f24e": 0.835,
+        "f9a": 0.5833,
+        "f17": 11
+      },
+      "e1_delta": {
+        "mean_sent_len": -15.041666666666668,
+        "f26b": -0.1917,
+        "knife_rate": 0.2,
+        "cv": -0.22993821469465459
+      }
+    }
+  ]
+}

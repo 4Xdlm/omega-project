@@ -1,18 +1,19 @@
 # ═══════════════════════════════════════════════════════════════════════════════
 # OMEGA — SESSION_SAVE COMPLET
 # Date : 2026-03-25
-# Objet : Scellage moteur + Exécution plan audit ChatGPT/Gemini
+# Objet : Scellage moteur + Audit ChatGPT/Gemini + P0/P3/P2 Gate GREEN
 # ═══════════════════════════════════════════════════════════════════════════════
 #
 # Rédigé par    : Claude (IA Principal)
 # Validé par    : Francky (Architecte Suprême)
 # Branche       : phase-r-metrology-rebuild
-# Tests système : 1911 PASS
+# Tests système : 1911 PASS + 31 tests CI doctrine
 #
 # Commits cette session :
 #   9e0263b4 — test(p4-v4): PASS critères révisés + tag moteur-production-v1
 #   a09c2abd — fix(doctrine): purge violations L3 + bandeaux HISTORICAL
 #   ce4b45ab — refactor(p3): archive legacy + ENGINE_STATUS SSOT + SCHEMA_VERSION
+#   16a90c7a — test(p2-gate): 8 tests CI invariants moteur v4 — 31/31 GREEN
 #
 # ═══════════════════════════════════════════════════════════════════════════════
 
@@ -20,11 +21,12 @@
 
 # 1. RÉSUMÉ EXÉCUTIF
 
-Cette session a accompli 3 objectifs majeurs :
+Cette session a accompli 4 objectifs majeurs :
 
 1. **Scellage du moteur PF_base_Duras_correcteur_K2_v4** — tag `moteur-production-v1`
 2. **Analyse croisée des audits ChatGPT + Gemini** — 15 points traités
-3. **Exécution du plan correctif P0 + P3** — 3 commits poussés
+3. **Exécution du plan correctif P0 + P3** — corrections poussées
+4. **Gate P2 GREEN** — 31 tests CI invariants moteur v4 — moteur durci
 
 ---
 
@@ -49,6 +51,10 @@ Cette session a accompli 3 objectifs majeurs :
 | 15 | Exécution P3-E : ENGINE_STATUS.md | SSOT runtime créé |
 | 16 | Commit P3 | `ce4b45ab` |
 | 17 | Rapport pour ChatGPT + Gemini | Produit |
+| 18 | Réception retours ChatGPT + Gemini sur rapport | Convergence 3/3 |
+| 19 | Écriture 8 tests CI (P2 Gate) | 31 assertions, 1 fichier |
+| 20 | Exécution tests P2 | 31/31 PASS en 141ms |
+| 21 | Commit P2 Gate | `16a90c7a` |
 
 ---
 
@@ -92,17 +98,31 @@ L28 : ΔGB V1 n'est pas un critère de continuité inter-chapitres.
 
 ---
 
-# 5. PLAN AUDIT — EXÉCUTION
+# 5. GATE P2 — RÉALISÉE (commit 16a90c7a)
 
-## 5.1 P0 — Intégrité contractuelle (FAIT — commit a09c2abd)
+9 invariants couverts — 31 assertions — 31/31 GREEN en 141ms :
 
-### P0-A : Purge L3
+| Test | Assertions | Résultat |
+|------|-----------|----------|
+| CI-L3-01 | 2 | ✅ Zéro chiffre prescriptif dans RAPPEL_CHUNKS12/34 |
+| CI-L27-01 | 4 | ✅ Seuils contextuels contemplation |
+| CI-L27-02 | 3 | ✅ Seuils contextuels dialogue |
+| CI-L27-03 | 3 | ✅ Seuils contextuels confrontation |
+| CI-L28-01 | 5 | ✅ Critères P4 révisés (ΔGB exclu du verdict) |
+| CI-V1V2-01 | 3 | ✅ Routage GB V1 microbench / V2 longue forme |
+| CI-V1V2-02 | 5 | ✅ Garde OOD mean < 8w → V1 INVALID |
+| CI-KNIFE-01 | 6 | ✅ Garde knife_rate monitoring |
+| INV-PROMPT-01 | existant | ✅ Non-contamination prompt Scribe |
 
-4 scripts actifs corrigés :
-- `test-p4-continuite.ts` — RAPPEL_CHUNKS12 + RAPPEL_CHUNKS34 (aligné v4)
-- `test-p3-regime-cible.ts` — RAPPEL_CHUNKS12 + RAPPEL_CHUNKS34 (aligné v4)
-- `test-p3-v4-confirmation.ts` — RAPPEL_CHUNKS12 + "quelques mots à peine"
-- `test-p1-redesign-v3.ts` — RAPPEL_PF_CHUNKS12 + RAPPEL_DURAS_EXTERNE_V3 (aligné v4)
+Fichier : `tests/doctrine/moteur-v4-invariants.test.ts`
+
+---
+
+# 6. PLAN AUDIT — EXÉCUTION COMPLÈTE
+
+## P0 — Intégrité contractuelle (commit a09c2abd)
+
+### P0-A : Purge L3 — 4 scripts actifs corrigés
 
 Ancien (violation) :
 ```
@@ -116,48 +136,26 @@ MURMURE DE DURAS : phrase brève et nue, verdict pas résumé
 CHUNKS34 : "quelques mots à peine"
 ```
 
-Vérification : grep "60-80 mots" = 0 résultats. grep "3 à 6 mots" = 0 résultats.
-Résiduel dans 2 scripts legacy (archivés en P3-B).
+### P0-B : Bandeaux HISTORICAL — 3 docs marqués
 
-### P0-B : Bandeaux HISTORICAL
-
-3 fichiers marqués :
 - `docs/OMEGA_BLUEPRINT_JUGE_SCRIBE_v1.md`
 - `docs/OMEGA_ROADMAP_SYNTHESE_v1.md`
 - `docs/OMEGA_RELATIONS_METRIQUES_v1.md`
 
-Renvoi vers `docs/SESSION_SAVE_2026-03-25_SCELLAGE_MOTEUR.md`.
+## P3 — Housekeeping (commit ce4b45ab)
 
-## 5.2 P3 — Housekeeping (FAIT — commit ce4b45ab)
+- P3-A : s-score.ts audité — 1 consumer actif, quarantaine documentaire
+- P3-B : 2 scripts legacy archivés (test-p1-redesign, test-p1-redesign-v2)
+- P3-D : SCHEMA_VERSION.md créé (traçabilité Python↔TS)
+- P3-E : ENGINE_STATUS.md créé (SSOT runtime)
 
-### P3-A : Audit s-score.ts
+## P2 — Gate CI (commit 16a90c7a)
 
-```
-grep "from '../oracle/s-score" → targeted-patch.ts (PARKING)
-grep "from './s-score" → aesthetic-oracle.ts (ACTIF)
-Verdict : 1 consumer actif. Quarantaine documentaire. Migration requise.
-```
-
-### P3-B : Archive scripts legacy
-
-```
-test-p1-redesign.ts → sessions/ARCHIVE/
-test-p1-redesign-v2.ts → sessions/ARCHIVE/
-```
-
-### P3-D : SCHEMA_VERSION.md
-
-Créé dans `src/scoring/`. Documente Python F1-F30 vs TS F1-F38+3ix.
-Règle de synchronisation obligatoire.
-
-### P3-E : ENGINE_STATUS.md
-
-Créé dans `docs/`. SSOT runtime unique. Contient :
-moteur actif, juges, seuils L27, critères L28, invariants, lois, cibles.
+31 assertions, 31/31 GREEN. V-RECAL-1 débloqué.
 
 ---
 
-# 6. LOIS SCELLÉES (28 — L1 à L28)
+# 7. LOIS SCELLÉES (28 — L1 à L28)
 
 | # | Loi | Phase |
 |---|-----|-------|
@@ -192,40 +190,19 @@ moteur actif, juges, seuils L27, critères L28, invariants, lois, cibles.
 
 ---
 
-# 7. CE QUI RESTE — PROCHAINES SESSIONS
+# 8. CE QUI RESTE — PROCHAINES SESSIONS
 
-## Gate P2 — BLOQUANT (avant V-RECAL-1)
-
-9 tests CI à implémenter :
-
-| Test | Invariant |
-|------|-----------|
-| CI-L3-01 | Zéro chiffre prescriptif dans prompt assemblé |
-| CI-L27-01/02/03 | Seuils contextuels (contemplation/dialogue/confrontation) |
-| CI-L28-01 | Critères P4 révisés (ΔGB absent du verdict) |
-| CI-V1V2-01 | Routage GB V1 microbench / V2 longue forme |
-| CI-V1V2-02 | Garde OOD mean < 8w → V1 INVALID |
-| CI-INV-PROMPT-01 | Non-contamination prompt Scribe |
-| CI-KNIFE-01 | Garde knife_rate > 0.15 |
-
-Budget : 4-6h, 0 API.
-
-## V-RECAL-1 — Après P2
-
-Baseline composite MacroSScore. 56 API total.
-- Étape 1 : 5 runs contemplation (20 API)
-- Étape 2 : 3 types × 3 runs (36 API)
-- Cible : SAGA_READY ≥ 92.0, min_axis ≥ 85
-
-## Housekeeping résiduel
-
-- Migration s-score.ts → s-oracle-v2 dans aesthetic-oracle.ts
-- Typage `any` dans scoring/ (34 fichiers)
-- V2 raw mode (si nécessaire pour ranking fin)
+| Priorité | Bloc | Contenu | Statut |
+|----------|------|---------|--------|
+| **P2 — GATE** | Tests CI invariants v4 | 31 assertions, 9 invariants | ✅ **GREEN — 16a90c7a** |
+| **P1** | Monitoring V-RECAL-1 | knife_rate + composite + min_axis | Pendant V-RECAL-1 |
+| **V-RECAL-1** | Baseline composite | 56 API (5 runs + 3×3 multi-scènes) | **DÉBLOQUÉ** |
+| **P3-A** | Migration s-score.ts | Migrer dans aesthetic-oracle.ts | Sprint housekeeping |
+| **P3-C** | Typage scoring/ | 34 fichiers `any` | Sprint housekeeping |
 
 ---
 
-# 8. FICHIERS MODIFIÉS CETTE SESSION
+# 9. FICHIERS MODIFIÉS CETTE SESSION
 
 | Fichier | Action |
 |---------|--------|
@@ -243,51 +220,51 @@ Baseline composite MacroSScore. 56 API total.
 | `src/scoring/SCHEMA_VERSION.md` | Créé |
 | `scripts/test-p1-redesign.ts` | Archivé → sessions/ARCHIVE/ |
 | `scripts/test-p1-redesign-v2.ts` | Archivé → sessions/ARCHIVE/ |
+| `tests/doctrine/moteur-v4-invariants.test.ts` | Créé (P2 Gate — 31 tests CI) |
 
 ---
 
-# 9. INSTRUCTION DE REPRISE
+# 10. INSTRUCTION DE REPRISE
 
 ```
-OMEGA SESSION — REPRISE POST-SCELLAGE + AUDIT
+OMEGA SESSION — REPRISE POST-SCELLAGE + AUDIT + P2 GREEN
 
 Version: moteur-production-v1
 Dernier état: SESSION_SAVE_2026-03-25_COMPLET.md
 Branche: phase-r-metrology-rebuild
-Commit HEAD: ce4b45ab
-Tests: 1911 PASS
+Commit HEAD: 16a90c7a
+Tests: 1911 PASS + 31 tests CI doctrine
 SSOT: docs/ENGINE_STATUS.md
 
 Moteur SCELLÉ : PF_base_Duras_correcteur_K2_v4
-28 lois scellées (L1-L28)
+  Scellé fonctionnellement ET durci par CI
+  28 lois scellées (L1-L28)
+  31 assertions CI GREEN (tests/doctrine/moteur-v4-invariants.test.ts)
 
-Prochaine action : P2 — Tests CI invariants v4 (GATE BLOQUANTE)
-  9 tests à implémenter (4-6h, 0 API)
-  Tous doivent être GREEN avant V-RECAL-1
-
-Après P2 : V-RECAL-1 (56 API)
-  Baseline composite MacroSScore
+Prochaine action : V-RECAL-1 (56 API) — DÉBLOQUÉ
+  Étape 1 : 5 runs contemplation (20 API)
+  Étape 2 : 3 types × 3 runs (36 API)
   Cible : SAGA_READY >= 92.0, min_axis >= 85.0
+  Monitoring P1 : knife_rate, composite, min_axis
 
 Rapport audit : OMEGA_RAPPORT_EXECUTION_POST_AUDIT_2026-03-25.md
-  ChatGPT : 7/7 points traités
-  Gemini : 8/8 points traités (3 erreurs corrigées)
-  3 questions ouvertes pour les auditeurs (Q1/Q2/Q3)
+  ChatGPT : 7/7 points traités — convergence validée
+  Gemini : 8/8 points traités — convergence validée
 ```
 
 ---
 
-# 10. PHRASE DE CLÔTURE
+# 11. PHRASE DE CLÔTURE
 
-> "Le moteur est scellé. Le contrat est nettoyé. Les lois sont dans le code.
-> L'écosystème autour du moteur est maintenant aussi propre que le moteur lui-même.
+> "Le moteur est scellé fonctionnellement et durci par CI.
+> 31 assertions protègent les 28 lois. Le contrat L3 est pur.
 > Il reste à prouver que la qualité composite atteint le seuil de production.
-> Mais d'abord, les invariants doivent devenir des tests."
+> V-RECAL-1 est débloqué. La route vers SAGA_READY est ouverte."
 
 ---
 
 *SESSION_SAVE COMPLET — 2026-03-25*
-*3 commits : 9e0263b4, a09c2abd, ce4b45ab*
-*Tag : moteur-production-v1*
+*4 commits : 9e0263b4, a09c2abd, ce4b45ab, 16a90c7a*
+*Tag : moteur-production-v1 — Gate P2 : 31/31 GREEN*
 *Standard NASA-Grade L4 / DO-178C Level A*
-*"PF construit. Duras coupe. La scène décide. Le moteur est scellé. Le code est propre."*
+*"PF construit. Duras coupe. La scène décide. Le moteur est scellé et durci."*

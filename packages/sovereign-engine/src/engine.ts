@@ -70,6 +70,9 @@ import { applySemanticSlicing } from './guards/semantic-slicer.js';
 // ★ V4.3 Sprint 3C: Micro-surgeon — targeted tension_14d interventions
 import { runMicroSurgery } from './microsurgery/micro-surgeon.js';
 import { type ArchetypeId } from './microsurgery/damage-gate.js';
+// ★ V-ENGINE-BRIDGE: Chunked generator K2 (moteur v4)
+import { generateChunkedDraft, isChunkedV4Active } from './generation/chunked-generator.js';
+import { forgePacketToSceneBrief } from './generation/forge-to-brief.js';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // ARCHETYPE DERIVATION — INV-ARCH-DERIVE-01
@@ -211,11 +214,31 @@ export async function runSovereignForge(
     prompt = buildSovereignPrompt(enrichedPacket, symbolMap, emotionBrief, partition);
   }
 
-  let initialDraft = await provider.generateDraft(
-    prompt.sections.map((s) => s.content).join('\n\n'),
-    SOVEREIGN_CONFIG.DRAFT_MODES[0],
-    enrichedPacket.seeds.llm_seed,
-  );
+  let initialDraft: string;
+
+  if (isChunkedV4Active()) {
+    // ★ V-ENGINE-BRIDGE: Moteur v4 chunké K2 (PF+Duras, 4×750w)
+    console.log('[V4-CHUNKED] Moteur v4 K2 activé — 4 chunks × 750w');
+    const sceneBrief = forgePacketToSceneBrief(enrichedPacket);
+    const chunkedResult = await generateChunkedDraft(
+      {
+        sceneBrief,
+        signatureWords: enrichedPacket.style_genome.lexicon.signature_words,
+        language: enrichedPacket.language as 'fr' | 'en',
+        seed: enrichedPacket.seeds.llm_seed,
+      },
+      provider,
+    );
+    initialDraft = chunkedResult.prose;
+    console.log(`[V4-CHUNKED] ${chunkedResult.total_words}w en ${chunkedResult.api_calls} API calls`);
+    console.log(`[V4-CHUNKED] Chunks: ${chunkedResult.words_per_chunk.join(', ')}w`);
+  } else {
+    initialDraft = await provider.generateDraft(
+      prompt.sections.map((s) => s.content).join('\n\n'),
+      SOVEREIGN_CONFIG.DRAFT_MODES[0],
+      enrichedPacket.seeds.llm_seed,
+    );
+  }
 
   // ★ V4.3 Sprint 2: Semantic Slicer — CALC pure, 0 API calls
   // Guarantees >= 4 paragraphs for tension_14d scorer by splitting at sentence boundaries.

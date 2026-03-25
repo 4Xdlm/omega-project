@@ -216,32 +216,57 @@ export function createAnthropicProvider(config: AnthropicProviderConfig): Sovere
     },
 
     async scoreNecessity(prose: string, beat_count: number, beat_actions?: string, scene_goal?: string, conflict_type?: string): Promise<number> {
-      // INV-JUDGE-NECESSITY-01: Rubric-based necessity scoring.
-      // Previous prompt ("Rate narrative necessity 0-100") returned 85 on 21/24 scenes
-      // because it lacked discrimination criteria. At temp=0, the LLM anchors.
-      // Fix: force evaluation of 5 specific criteria, each scored, then compute average.
-      const systemPrompt = `You are a literary scoring engine for French literary prose. You evaluate narrative necessity using 5 criteria.
+      // INV-JUDGE-NECESSITY-02: Literary-calibrated necessity scoring.
+      // V1 (INV-JUDGE-NECESSITY-01) used utilitarian criteria:
+      //   "no filler", "compressed storytelling", "every word earns its place"
+      // This penalized literary respiration, sensory construction, temporal dilation.
+      // Result: NEC=54-75 on dense literary prose (Flaubert would score ~65).
+      //
+      // V2 recalibrates for literary prose:
+      //   - Respiration and atmosphere ARE necessary
+      //   - Sensory density IS information
+      //   - Temporal dilation IS compressed (emotionally, not factually)
+      //   - Prompt in French (matching the prose language)
+      //   - Reference: Flaubert/Proust/Duras = 90+ in necessity
+      const systemPrompt = `Tu es un évaluateur littéraire expert en prose française. Tu évalues la NÉCESSITÉ NARRATIVE : chaque phrase sert-elle la scène ?
 
-For each criterion, give a score from 0 to 100:
-1. ECONOMY: No filler sentences, no redundancy, every word earns its place
-2. BEAT_COVERAGE: Each plot beat is serviced (${beat_count} beats expected)  
-3. DENSITY: High information-per-sentence ratio, compressed storytelling
-4. GOAL_ADVANCE: The scene goal is actively advanced, not merely referenced
-5. IRREDUCIBILITY: Removing any sentence would damage narrative coherence
+IMPORTANT — En littérature, la nécessité n'est PAS la concision utilitaire.
+Sont NÉCESSAIRES :
+- La construction d'atmosphère (lumière, sons, odeurs, textures)
+- La respiration narrative (ralentissements qui créent la tension ou l'émotion)
+- La dilatation temporelle (une seconde qui dure un paragraphe = densité émotionnelle)
+- Les échos intérieurs (pensées, sensations, mémoire involontaire)
+- Le silence narratif (ce qui n'est pas dit mais est montré par le corps)
 
-Output format (strictly):
-ECONOMY: [score]
-BEAT_COVERAGE: [score]
-DENSITY: [score]
-GOAL_ADVANCE: [score]
-IRREDUCIBILITY: [score]
-NECESSITY: [average]`;
+N'est PAS nécessaire :
+- La redite (même information reformulée)
+- Le remplissage décoratif sans ancrage émotionnel ou sensoriel
+- Les transitions mécaniques ("Puis il...", "Ensuite elle...")
+- Les explications de ce qui est déjà montré
+- Les descriptions qui ne servent ni l'atmosphère ni l'émotion
 
-      const contextLines: string[] = [`Beat Count: ${beat_count}`];
-      if (scene_goal) contextLines.push(`Scene Goal: ${scene_goal}`);
-      if (conflict_type) contextLines.push(`Conflict Type: ${conflict_type}`);
-      if (beat_actions) contextLines.push(`Beat Actions: ${beat_actions}`);
-      const userPrompt = `Evaluate narrative necessity of this French literary prose.\n${contextLines.join('\n')}\n\nProse:\n${prose}`;
+Référence de calibration : un passage de Madame Bovary (Flaubert) ou de L'Amant (Duras) où chaque phrase construit l'atmosphère doit obtenir 85-95.
+
+Évalue ces 5 critères de 0 à 100 :
+1. JUSTESSE : Chaque phrase apporte quelque chose (émotion, sensation, tension, image) — pas de redite
+2. COUVERTURE : Les beats narratifs de la scène sont traités (${beat_count} beats attendus)
+3. DENSITÉ_LITTÉRAIRE : Haute densité sensorielle et émotionnelle par phrase (pas informationnelle)
+4. PROGRESSION : La scène avance (en tension, en émotion, en compréhension) — même si l'intrigue ne bouge pas
+5. IRRÉDUCTIBILITÉ : Retirer une phrase abîmerait le tissu narratif
+
+Format de sortie (strictement) :
+JUSTESSE: [score]
+COUVERTURE: [score]
+DENSITÉ_LITTÉRAIRE: [score]
+PROGRESSION: [score]
+IRRÉDUCTIBILITÉ: [score]
+NECESSITY: [moyenne]`;
+
+      const contextLines: string[] = [`Nombre de beats: ${beat_count}`];
+      if (scene_goal) contextLines.push(`Objectif de la scène: ${scene_goal}`);
+      if (conflict_type) contextLines.push(`Type de conflit: ${conflict_type}`);
+      if (beat_actions) contextLines.push(`Actions des beats: ${beat_actions}`);
+      const userPrompt = `Évalue la nécessité narrative de cette prose littéraire française.\n${contextLines.join('\n')}\n\nProse :\n${prose}`;
 
       const necessityConfig = { ...config, judgeMaxTokens: 300 };
       const response = callClaudeSync(systemPrompt, userPrompt, necessityConfig, config.judgeStable);

@@ -288,6 +288,25 @@ describe('prompt-assembler-v4', () => {
     expect(result1.sections[0].content).toBe(result2.sections[0].content);
   });
 
+  // LEVIER B — Rhythm Anchor
+  it('prompt V4 contient ANCRE RYTHMIQUE', () => {
+    const result = buildSovereignPrompt_V4(packet, symbolMap);
+    const content = result.sections[0].content;
+    expect(content).toContain('ANCRE RYTHMIQUE');
+    expect(content).toContain('Bovary');
+  });
+
+  it('RHYTHM_ANCHOR ne contient aucun chiffre prescriptif (L3)', () => {
+    const result = buildSovereignPrompt_V4(packet, symbolMap);
+    const content = result.sections[0].content;
+    const anchorStart = content.indexOf('ANCRE RYTHMIQUE');
+    const anchorEnd = content.indexOf('\n\n', anchorStart);
+    const anchor = content.slice(anchorStart, anchorEnd > anchorStart ? anchorEnd : undefined);
+    // No prescriptive numbers like "30 mots", "8 mots", percentages
+    expect(anchor).not.toMatch(/\d+\s*mots/);
+    expect(anchor).not.toMatch(/\d+%/);
+  });
+
   // Version
   it('exports PROMPT_ASSEMBLER_V4_VERSION = 4.3.0', () => {
     expect(PROMPT_ASSEMBLER_V4_VERSION).toBe('4.3.0');

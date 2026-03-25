@@ -1,9 +1,9 @@
 /**
  * golden-exemplars.ts — Golden Exemplar Corpus for V4 Prompt
- * Phase V4-2 — Best OMEGA passages for few-shot exemplar injection
+ * Phase V4-2 → SAGA_READY upgrade (Phase R)
  *
- * Source: retro-engineering/B1_omega_best_1.txt (composite 89.35)
- *         retro-engineering/B2_omega_best_2.txt (composite 89.20)
+ * Source: VRECAL1_ENGINE_2026-03-25 (composite 92.3)
+ *         VATOMIC_2026-03-25 (composite 91.9)
  *
  * Standard: NASA-Grade L4 / DO-178C Level A
  */
@@ -17,22 +17,16 @@ export interface GoldenExemplar {
 
 export const GOLDEN_EXEMPLARS: readonly GoldenExemplar[] = [
   {
-    id: 'GE-01',
-    text: 'Pierre posa ses clés sur le comptoir, le métal traça un arc métallique contre la pierre froide. Le silence s\'accrocha aux angles de la cuisine comme un résidu de conversations jamais finies. Elle se tenait près de l\'évier, ses mains sous l\'eau tiède, mais ses épaules gardaient cette tension larvée qui habitait leurs gestes quotidiens depuis des mois. Du sang. Sous ses ongles, Marie grattait les dernières traces de sa garde aux urgences, mais Pierre savait que ce rouge-là n\'expliquait pas tout. L\'ancrage thermique de leurs corps dans l\'espace domestique avait changé — ils évoluaient comme deux aimants de même polarité, se repoussant sans jamais se toucher. « Tu rentres tard. » Les mots sortirent de sa gorge sans qu\'il les ait vraiment choisis. Marie ne se retourna pas, continua de frotter ses paumes contre le savon blanc.',
-    source: 'B1_omega_best_1',
-    composite_score: 89.35,
+    id: 'GE-SAGA-01',
+    text: `La théière tremblait contre ses doigts. Dans la cuisine aux carreaux disjoints, l'eau refusait de bouillir.\n\nL'odeur de bergamote montait par vagues tièdes tandis qu'elle versait l'eau fumante sur les feuilles noires, ses gestes ralentis par cette pesanteur qui s'installait chaque soir à la même heure, quand les ombres commençaient à ramper le long des murs écaillés et que le vent marin portait jusqu'à sa fenêtre ces effluves salés qui lui rappelaient d'autres automnes, d'autres attentes. Le thé infusait dans la porcelaine ébréchée — celle qu'elle gardait pour les occasions qui n'arrivaient plus — et ses paumes épousaient la chaleur de la tasse comme pour y puiser une consolation que les mots ne savaient plus offrir. Par la baie vitrée aux joints rongés par l'humidité, la mer étendait sa surface plombée jusqu'à l'horizon brouillé, ses vagues léchant la grève avec cette régularité hypnotique qui berçait ses journées vides depuis qu'elle avait appris à ne plus compter les heures.\n\nUn rire brisé. Cristallin. Porté par la brise d'été. Ses épaules se contractèrent. Le passé venait de la gifler.\n\nMais ce n'était qu'un goéland qui criaillait au-dessus des rochers noirs, et elle laissa retomber sa nuque contre le dossier de la chaise cannée, acceptant enfin que cette journée s'achève comme toutes les autres, dans ce silence peuplé qu'elle avait appris à habiter avec la patience minérale des falaises qui encadraient sa maison.`,
+    source: 'VRECAL1_ENGINE_2026-03-25_winner_92.3',
+    composite_score: 92.3,
   },
   {
-    id: 'GE-02',
-    text: 'Pierre s\'approcha. Jamais. Jamais il n\'avait ressenti cette distance entre eux, cette membrane percée qui laissait s\'échapper quelque chose d\'essentiel. Il observait la nuque de Marie, ces cheveux châtains qu\'il connaissait par cœur, et ne reconnaissait rien. « Marie. » Le prénom tomba dans l\'air comme un couteau. Elle se figea. Ses mains devinrent blanches sur l\'inox, ses articulations saillant sous la peau. Une anticipation corporelle la traversa, ce frisson qui précède les aveux ou les mensonges. « Quoi ? » Sa voix avait changé. Plus rauque. Défensive. Pierre sentit la chaleur domestique se retirer de la pièce, aspirée par ce froid qui n\'avait rien à voir avec janvier. Il pensa aux racines enchevêtrées sous la terre gelée, à ces réseaux souterrains qui continuent de vivre quand tout semble mort en surface.',
-    source: 'B2_omega_best_2',
-    composite_score: 89.20,
-  },
-  {
-    id: 'GE-03',
-    text: 'Pierre connaissait cette géologie intime de sa voix quand elle préparait un mensonge. Chaque intonation révélait les fractures silencieuses de ce qu\'elle ne disait pas. Dehors, le froid de janvier cognait contre les vitres, mais à l\'intérieur l\'air portait cette croissance secrète que Pierre avait appris à reconnaître — l\'érosion conjugale qui travaillait leur maison comme l\'eau use la pierre. Jamais. Il n\'y avait eu aucun appel. Pierre le savait parce qu\'il était resté dans le couloir pendant qu\'elle téléphonait ce matin, et les mots qu\'elle avait murmurés ne s\'adressaient pas à l\'hôpital. Cette rage contenue qu\'il portait dans sa poitrine depuis des semaines remonta comme une marée silencieuse.',
-    source: 'B1_omega_best_1',
-    composite_score: 89.35,
+    id: 'GE-SAGA-02',
+    text: `Les rosiers de septembre exigeaient cette attention méticuleuse que seules les mains vieillies savent dispenser, et Henri, courbé sur les tiges encore gorgées de la chaleur estivale, maniait le sécateur avec cette précision d'horloger qu'avaient acquise ses doigts au fil des décennies passées dans ce même jardin. Chaque coup sec qui tranchait les tiges mortes résonnait dans l'air immobile avec cette netteté particulière aux fins d'été, quand la terre commence à exhaler ses parfums concentrés.\n\nL'épine qui venait de lui percer l'index droit ne lui arracha qu'un paisible tressaillement. Il porta machinalement le doigt à ses lèvres, goûtant cette saveur métallique qui se mêlait aux effluves de la Rosa Mundi qu'il venait de tailler.\n\n— Tu vois, Henri, les roses galliques ont une âme que n'ont pas les hybrides modernes.\n\nIl parlait maintenant à voix haute, comme si cette habitude prise depuis qu'elle n'était plus là pouvait conjurer l'absence qui s'étalait dans chaque recoin du jardin.\n\nElle n'était plus là.\n\nLe parfum du Zéphirine Drouhin continuait de monter vers lui par vagues successives, et chacune de ces vagues portait avec elle un fragment de leur histoire commune.`,
+    source: 'VATOMIC_2026-03-25_souvenir_91.9',
+    composite_score: 91.9,
   },
 ] as const;
 

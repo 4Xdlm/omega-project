@@ -85,6 +85,7 @@ export function buildSovereignPrompt_V4(
   const exemplarBlock = compileExemplar(packet.packet_id);
   if (exemplarBlock) blocks.push(exemplarBlock);
 
+  blocks.push(compileRhythmAnchor());
   blocks.push(compileInterdictions());
   blocks.push(compileRosettaConstraints(packet));
   blocks.push(compileFinalInstruction());
@@ -300,6 +301,22 @@ function compileExemplar(packetId: string): string | null {
   const exemplar = selectExemplarDeterministic(packetId);
   if (!exemplar) return null;
   return `Exemple du niveau de qualité attendu :\n« ${exemplar.text} »`;
+}
+
+// ── BLOC 8b — Rhythm Anchor (~80 tokens) — ANCRE RYTHMIQUE ──────────────────
+// Levier B: Guide le LLM vers le rythme des maîtres (Flaubert/Proust/Duras)
+// Lore-coding pur, zéro chiffre prescriptif (L3)
+
+const RHYTHM_ANCHOR = `ANCRE RYTHMIQUE — Le souffle de Bovary :
+Ton rythme est celui de Flaubert dans Madame Bovary : des périodes
+amples qui tiennent dans un souffle de lecture à voix haute,
+ponctuées de verdicts nets — une phrase complète, pas un télégramme.
+Le contraste vient de la variation organique, pas de l'excès.
+Les phrases longues respirent sans s'égarer. Les phrases courtes
+tombent comme des portes qui se ferment : brèves mais achevées.`;
+
+function compileRhythmAnchor(): string {
+  return RHYTHM_ANCHOR;
 }
 
 // ── BLOC 9 — Interdictions (~40 tokens) ─────────────────────────────────────

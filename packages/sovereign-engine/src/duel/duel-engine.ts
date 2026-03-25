@@ -21,6 +21,23 @@ import { SOVEREIGN_CONFIG } from '../config.js';
 import { scoreV2 } from '../oracle/s-oracle-v2.js';
 import { sha256, canonicalize } from '@omega/canon-kernel';
 
+// ── CV Gate — Pre-filter for rhythm outliers ─────────────────────────────────
+// Levier C: Reject drafts with CV_sent > 1.05 (above Duras max 1.031)
+// Étalonnage maîtres: Flaubert max=0.795, Proust max=0.784, Duras max=1.031
+
+const CV_GATE_REJECT = 1.05;
+const CV_GATE_MAX_RETRIES = 2;
+
+export function computeCVSent(prose: string): number {
+  const sentences = prose.split(/[.!?]+/).map(s => s.trim()).filter(s => s.length > 0);
+  const wordCounts = sentences.map(s => s.split(/\s+/).filter(w => w.length > 0).length);
+  if (wordCounts.length < 2) return 0;
+  const mean = wordCounts.reduce((a, b) => a + b, 0) / wordCounts.length;
+  if (mean === 0) return 0;
+  const variance = wordCounts.reduce((s, v) => s + Math.pow(v - mean, 2), 0) / wordCounts.length;
+  return Math.sqrt(variance) / mean;
+}
+
 export async function runDuel(
   packet: ForgePacket,
   prompt: string,
@@ -44,13 +61,38 @@ export async function runDuel(
 
   for (let i = 0; i < modes.length; i++) {
     const mode = modes[i];
-    const prose = await provider.generateDraft(prompt, mode, `${packet.seeds.llm_seed}_${mode}`);
-    const score = await judgeAesthetic(packet, prose, provider);
+    let bestCandidate: { prose: string; cv: number } | null = null;
 
+    for (let attempt = 0; attempt <= CV_GATE_MAX_RETRIES; attempt++) {
+      const seed = attempt === 0
+        ? `${packet.seeds.llm_seed}_${mode}`
+        : `${packet.seeds.llm_seed}_${mode}_retry${attempt}`;
+
+      const prose = await provider.generateDraft(prompt, mode, seed);
+      const cv = computeCVSent(prose);
+
+      if (cv <= CV_GATE_REJECT) {
+        console.log(`[DUEL] CV_GATE: mode=${mode} CV=${cv.toFixed(2)} → PASS`);
+        bestCandidate = { prose, cv };
+        break;
+      } else {
+        console.log(`[DUEL] CV_GATE: mode=${mode} CV=${cv.toFixed(2)} → REJECT (retry ${attempt + 1}/${CV_GATE_MAX_RETRIES})`);
+        if (!bestCandidate || cv < bestCandidate.cv) {
+          bestCandidate = { prose, cv };
+        }
+      }
+    }
+
+    const finalProse = bestCandidate!.prose;
+    if (bestCandidate!.cv > CV_GATE_REJECT) {
+      console.log(`[DUEL] CV_GATE: mode=${mode} FAIL-OPEN CV=${bestCandidate!.cv.toFixed(2)} (best of ${CV_GATE_MAX_RETRIES + 1} attempts)`);
+    }
+
+    const score = await judgeAesthetic(packet, finalProse, provider);
     drafts.push({
       draft_id: `DRAFT_${mode}_${i}`,
       mode,
-      prose,
+      prose: finalProse,
       score,
     });
   }

@@ -4,7 +4,7 @@
  */
 
 import { describe, it, expect } from 'vitest';
-import { duelProses } from '../../src/duel/duel-engine.js';
+import { duelProses, computeCVSent } from '../../src/duel/duel-engine.js';
 import type { OfflineDuelResult } from '../../src/duel/duel-engine.js';
 import { createTestPacket } from '../helpers/test-packet-factory.js';
 import { PROSE_GOOD, PROSE_BAD } from '../fixtures/mock-prose.js';
@@ -53,5 +53,34 @@ describe('Duel Engine (offline)', () => {
     } else {
       expect(r2.winner_index).toBe(0);
     }
+  });
+});
+
+// ── CV Gate Tests ─────────────────────────────────────────────────────────────
+
+describe('CV Gate (computeCVSent)', () => {
+  it('computeCVSent calcule correctement le CV', () => {
+    // 3 sentences of equal length → CV ≈ 0
+    const uniform = 'Un deux trois quatre. Un deux trois quatre. Un deux trois quatre.';
+    expect(computeCVSent(uniform)).toBeLessThan(0.1);
+  });
+
+  it('CV Gate PASS pour prose avec CV < 1.05', () => {
+    // Sentences of similar lengths → low CV
+    const prose = 'Les murs de pierre gardaient la fraîcheur du matin. Elle posa sa tasse sur la table en bois massif. Le silence occupait chaque recoin de la pièce.';
+    const cv = computeCVSent(prose);
+    expect(cv).toBeLessThanOrEqual(1.05);
+  });
+
+  it('CV Gate REJECT pour prose avec CV > 1.05', () => {
+    // One 1-word sentence + one very long → extreme CV
+    const prose = 'Non. Oui. Elle traversa la pièce en longueur ses pas résonnant sur le carrelage froid tandis que le vent faisait claquer les volets de la cuisine contre les murs de pierre recouverts de lierre et que les dernières lueurs du crépuscule filtraient à travers les rideaux usés de la fenêtre donnant sur le jardin abandonné depuis des mois où personne ne venait plus jamais.';
+    const cv = computeCVSent(prose);
+    expect(cv).toBeGreaterThan(1.05);
+  });
+
+  it('computeCVSent retourne 0 pour prose sans phrases', () => {
+    expect(computeCVSent('')).toBe(0);
+    expect(computeCVSent('mot unique')).toBe(0);
   });
 });

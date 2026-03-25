@@ -13,6 +13,18 @@ describe('golden-exemplars', () => {
     expect(GOLDEN_EXEMPLARS.length).toBeGreaterThanOrEqual(2);
   });
 
+  it('GOLDEN_EXEMPLARS contains GE-SAGA-01 and GE-SAGA-02', () => {
+    const ids = GOLDEN_EXEMPLARS.map(e => e.id);
+    expect(ids).toContain('GE-SAGA-01');
+    expect(ids).toContain('GE-SAGA-02');
+  });
+
+  it('all exemplars have composite_score >= 91.0 (SAGA_READY tier)', () => {
+    for (const ex of GOLDEN_EXEMPLARS) {
+      expect(ex.composite_score).toBeGreaterThanOrEqual(91.0);
+    }
+  });
+
   it('each exemplar has id, text (50-300 words), source, composite_score', () => {
     for (const ex of GOLDEN_EXEMPLARS) {
       expect(ex.id).toBeTruthy();
@@ -42,7 +54,7 @@ describe('golden-exemplars', () => {
       const result = selectExemplarDeterministic(`packet-${i}`);
       if (result) results.add(result.id);
     }
-    // With 3 exemplars and 20 different inputs, we should hit at least 2
+    // With 2 exemplars and 20 different inputs, we should hit both
     expect(results.size).toBeGreaterThanOrEqual(2);
   });
 });

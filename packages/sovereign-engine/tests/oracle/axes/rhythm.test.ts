@@ -46,10 +46,12 @@ describe('scoreRhythm', () => {
     expect(result.method).toBe('CALC');
   });
 
-  it('texte monotone (phrases toutes identiques) → score bas (<40)', () => {
+  it('texte monotone (phrases toutes identiques) → score bas (<70)', () => {
+    // R3 confidence scaling: short texts (~50w) get conf=0.30, score pulled toward 75
+    // Raw monotone score ~15-20 → attenuated ~57-63. Threshold raised accordingly.
     const result = scoreRhythm(mockPacket as ForgePacket, PROSE_FLAT);
 
-    expect(result.score).toBeLessThan(40);
+    expect(result.score).toBeLessThan(70);
     expect(result.details).toContain('CV_sent='); // V2: uses CV instead of Gini
   });
 

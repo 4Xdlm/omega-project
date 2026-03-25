@@ -21,9 +21,11 @@ describe('scoreRhythm V2 (CV-based)', () => {
     const prose = `One two three four. Five six seven eight. Nine ten eleven twelve.`;
     const score = scoreRhythm(MOCK_PACKET, prose);
 
-    // All sentences have 4 words → CV ≈ 0 → low score
+    // All sentences have 4 words → CV ≈ 0 → low raw score
+    // R3 confidence scaling: short texts (~12w) get conf=0.30, score pulled toward 75
+    // Raw ~20 → attenuated ~59. Threshold raised to account for R3 attenuation.
     expect(score.details).toMatch(/CV_sent=0\.0+/);
-    expect(score.score).toBeLessThan(50);
+    expect(score.score).toBeLessThan(65);
   });
 
   it('varied prose → CV in optimal range → high score', () => {

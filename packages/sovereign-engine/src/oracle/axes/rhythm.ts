@@ -132,7 +132,15 @@ export function scoreRhythm(packet: ForgePacket, prose: string): AxisScore {
 
   score = Math.max(0, Math.min(100, score));
 
-  const details = `CV_sent=${sentenceCV.toFixed(2)}, CV_para=${paragraphWordCounts.length >= 2 ? computeCV(paragraphWordCounts).toFixed(2) : 'N/A'}, range=${wordCounts.length >= 2 ? Math.max(...wordCounts) - Math.min(...wordCounts) : 0}, monotony=${styleDelta.monotony_sequences}, opening_rep=${(styleDelta.opening_repetition_rate * 100).toFixed(0)}%`;
+  // R3 Confidence Scaling — atténuation pour textes courts
+  // Phase R3 a mesuré confidence(f1a) par taille sur 181 œuvres.
+  // Sur briques 400-600w, le CV est statistiquement volatile.
+  // On tire le score vers NEUTRAL_RHYTHM proportionnellement à la confiance.
+  const totalWordCount = prose.split(/\s+/).filter(w => w.length > 0).length;
+  const conf = rhythmConfidence(totalWordCount);
+  score = Math.max(0, Math.min(100, conf * score + (1 - conf) * NEUTRAL_RHYTHM));
+
+  const details = `CV_sent=${sentenceCV.toFixed(2)}, CV_para=${paragraphWordCounts.length >= 2 ? computeCV(paragraphWordCounts).toFixed(2) : 'N/A'}, range=${wordCounts.length >= 2 ? Math.max(...wordCounts) - Math.min(...wordCounts) : 0}, monotony=${styleDelta.monotony_sequences}, opening_rep=${(styleDelta.opening_repetition_rate * 100).toFixed(0)}%, conf_r3=${conf.toFixed(2)}`;
 
   return {
     name: 'rhythm',
@@ -141,6 +149,52 @@ export function scoreRhythm(packet: ForgePacket, prose: string): AxisScore {
     method: 'CALC',
     details,
   };
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// R3 CONFIDENCE SCALING — INV-RCI-CONF-01
+// ═══════════════════════════════════════════════════════════════════════════════
+
+/**
+ * Score neutre pour le rhythm — moyenne corpus pour bonne prose littéraire.
+ * Quand la confiance est < 1.0, le score est tiré vers cette valeur.
+ */
+const NEUTRAL_RHYTHM = 75;
+
+/**
+ * Confidence factor for rhythm scoring based on text length.
+ *
+ * Data from Phase R3 (181 works, OMEGA_COEFFICIENTS_PROPORTIONNELS_v1.json):
+ * confidence(f1a_rhythm_variance, n_words) measured empirically.
+ *
+ * On short bricks (400-600w), sentence length CV is statistically volatile —
+ * the scorer would punish volatility instead of quality. This function
+ * returns a confidence in [0.30, 1.0] that attenuates the raw score
+ * toward NEUTRAL_RHYTHM for short texts.
+ */
+export function rhythmConfidence(wordCount: number): number {
+  if (wordCount >= 3000) return 1.0;
+  if (wordCount <= 100) return 0.30;
+
+  // Anchor points from R3 empirical measurement
+  const points: [number, number][] = [
+    [100, 0.30],
+    [300, 0.65],
+    [600, 0.80],
+    [1500, 0.95],
+    [3000, 1.0],
+  ];
+
+  // Linear interpolation between nearest anchor points
+  for (let i = 0; i < points.length - 1; i++) {
+    const [w0, c0] = points[i];
+    const [w1, c1] = points[i + 1];
+    if (wordCount >= w0 && wordCount <= w1) {
+      const t = (wordCount - w0) / (w1 - w0);
+      return c0 + t * (c1 - c0);
+    }
+  }
+  return 1.0;
 }
 
 /**

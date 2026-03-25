@@ -61,6 +61,27 @@ describe('AAI Macro-Axis (ART-SCORE-01)', () => {
     // Note: Le verdict SEAL vérifie ce plancher dans s-score.ts
   });
 
+  it('BUG-01: AAI varies for different prose types (CALC path)', async () => {
+    // BUG-01 diagnostic: with real provider (no llm_generate), adversarial judge
+    // falls back to CALC-only. Show_dont_tell CALC is deterministic.
+    // This test verifies that AAI DOES vary when telling violations differ.
+    const prose_showing = 'Ses mains tremblaient sur la porcelaine. Le thé fumait.';
+    const prose_telling = 'Il était triste. Il sentait la peur. Il éprouvait de la joie.';
+
+    // Use provider WITHOUT llm_generate to simulate production path
+    const calcOnlyProvider: SovereignProvider = {} as SovereignProvider;
+
+    const result_show = await computeAAI(mockPacket, prose_showing, calcOnlyProvider);
+    const result_tell = await computeAAI(mockPacket, prose_telling, calcOnlyProvider);
+
+    // AAI MUST differ between showing and telling prose
+    expect(result_show.score).toBeGreaterThan(result_tell.score);
+    // Showing prose → high AAI (CALC: 0 violations)
+    expect(result_show.score).toBeGreaterThanOrEqual(85);
+    // Telling prose → lower AAI (CALC: multiple telling violations)
+    expect(result_tell.score).toBeLessThan(90);
+  });
+
   it('MACRO-AAI-03: redistribution poids totale = 100%', () => {
     // Vérifier que la somme des poids macro = 100%
     const weights = SOVEREIGN_CONFIG.MACRO_WEIGHTS;

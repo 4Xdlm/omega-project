@@ -1,20 +1,28 @@
 /**
  * ═══════════════════════════════════════════════════════════════════════════════
- * OMEGA SOVEREIGN STYLE ENGINE — MACRO AXES v3
+ * OMEGA SOVEREIGN STYLE ENGINE — MACRO AXES SCORING
  * ═══════════════════════════════════════════════════════════════════════════════
  *
- * Module: oracle/macro-axes.ts
- * Version: 1.0.0
+ * 5 macro-axes : ECC, RCI, SII, IFI, AAI
+ *
+ * Poids actuels (vérifié 2026-03-25) :
+ *   ECC (Emotional Coherence & Craft)  : 0.33 (33%)
+ *   RCI (Rhythmic Craft Index)         : 0.17 (17%)
+ *   SII (Signature Integrity Index)    : 0.15 (15%)
+ *   IFI (Immersion Force Index)        : 0.10 (10%)
+ *   AAI (Artistic Authenticity Index)  : 0.25 (25%)
+ *   Total                              : 1.00
+ *
+ * Seuils :
+ *   SAGA_READY : composite >= 92.0 AND min_axis >= 85.0
+ *   SEAL_ATOMIC : composite >= 93.0 AND min_axis >= 85.0
+ *
+ * Corrections actives :
+ *   INV-RCI-CONF-01 : rhythm weight *= rhythmConfidence(wordCount)
+ *   SII-FIX-01 : metaphor_novelty weight 1.5 → 1.0
+ *   INV-EUPHONY-WEIGHT-01 : euphony weight 1.0 → 0.5
+ *
  * Standard: NASA-Grade L4 / DO-178C Level A
- *
- * Consolidation 9 axes → 4 macro-axes:
- * - ECC: Emotional Control Core (60%, floor 88)
- * - RCI: Rhythmic Control Index (15%, floor 85)
- * - SII: Signature Integrity Index (15%, floor 85)
- * - IFI: Immersion Force Index (10%, floor 85)
- *
- * Avec anti-gaming cap (+3) et ScoreReasons (top3/top3)
- *
  * ═══════════════════════════════════════════════════════════════════════════════
  */
 
@@ -389,17 +397,14 @@ export async function computeRCI(
   };
 
   // 3. Sprint 13: Voice Conformity (100% CALC — always included)
-  // ★ Sprint 3 FIX: voice_conformity NEUTRALIZED — style_genome.voice is never populated
-  // in the ForgePacket, so the scorer always returns fallback 70.0.
-  // This drags RCI down by ~5 pts on every run.
-  // Neutralize by overriding weight to 0 until the pipeline populates style_genome.voice.
-  // Data proof: voice_conformity=70.0 on ALL 8 bench runs (V3 and V4).
+  // ★ Sprint 3 FIX (now resolved): voice_conformity was NEUTRALIZED because
+  // style_genome.voice was never populated in ForgePacket → always returned 70.
+  // FIX: forge-packet-assembler.ts now wires DEFAULT_VOICE_GENOME when voice absent.
+  // Weight restored to 0.3 (conservative — calibrated for PF persona).
   const voice_conformity = await scoreVoiceConformity(packet, prose);
-  // Override weight to 0 — neutralized (will appear in sub_scores for audit but won't affect RCI)
-  const voice_conformity_neutralized: AxisScore = {
+  const voice_conformity_active: AxisScore = {
     ...voice_conformity,
-    weight: 0, // NEUTRALIZED — Sprint 3
-    details: `${voice_conformity.details} | NEUTRALIZED (w=0): style_genome.voice not populated`,
+    weight: 0.3, // Re-enabled — voice genome now wired via DEFAULT_VOICE_GENOME
   };
 
   // 4. Sprint 15: Euphony basic
@@ -416,7 +421,7 @@ export async function computeRCI(
     details: `${rhythm.details} | w_eff=${(rhythm.weight * conf).toFixed(2)}`,
   };
 
-  const sub_scores: AxisScore[] = [rhythm_weighted, signature, hook_presence, euphony, voice_conformity_neutralized];
+  const sub_scores: AxisScore[] = [rhythm_weighted, signature, hook_presence, euphony, voice_conformity_active];
 
   // 4. Fusionner avec poids automatiques basés sur weights des axes
   const totalWeight = sub_scores.reduce((sum, s) => sum + s.weight, 0);

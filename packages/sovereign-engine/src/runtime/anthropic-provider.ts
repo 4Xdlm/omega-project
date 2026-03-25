@@ -200,10 +200,36 @@ export function createAnthropicProvider(config: AnthropicProviderConfig): Sovere
       prose: string,
       context: { readonly pov: string; readonly character_state: string },
     ): Promise<number> {
-      const systemPrompt = `You are a literary scoring engine. Return ONLY a single integer between 0 and 100. No explanation. No text. Just the number.`;
-      const userPrompt = `Rate interiority depth (0-100) of this prose.\nPOV: ${context.pov}\nCharacter State: ${context.character_state}\n\nProse:\n${prose}\n\nReturn ONLY the integer score:`;
+      // INV-JUDGE-INTERIORITY-01: Literary-calibrated interiority scoring.
+      // V0 used minimal prompt ("Rate interiority depth 0-100") — no rubric,
+      // high variance, no discrimination criteria.
+      // V1 recalibrates with 5 French criteria aligned with OMEGA doctrine:
+      //   - Incarnation (thoughts in the body, not abstract)
+      //   - Flux de conscience (organic flow, not mechanical monologue)
+      //   - Filtre perceptif (world through character's prism)
+      //   - Silence narratif (what is NOT said matters)
+      //   - Profondeur du temps (inner time ≠ action time)
+      const systemPrompt = `Tu es un évaluateur littéraire expert en prose française. Tu évalues la PROFONDEUR D'INTÉRIORITÉ : le texte fait-il vivre la conscience du personnage de l'intérieur ?
 
-      const response = callClaudeSync(systemPrompt, userPrompt, config, config.judgeStable);
+Évalue ces 5 critères de 0 à 100 :
+1. INCARNATION : Les pensées sont-elles logées dans le corps (sensations, gestes, perceptions) plutôt que déclarées abstraitement ?
+2. FLUX_CONSCIENCE : Y a-t-il un flux de pensée organique (associations, digressions, retours) ou un monologue mécanique ?
+3. FILTRE_PERCEPTIF : Le monde est-il perçu à travers le prisme du personnage (sa mémoire, ses obsessions, ses angles morts) ?
+4. SILENCE_NARRATIF : Ce qui n'est PAS dit est-il aussi important que ce qui est dit (non-dits, ellipses, sous-entendus) ?
+5. PROFONDEUR_TEMPS : Le temps intérieur (mémoire, anticipation, dilatation) est-il différent du temps de l'action ?
+
+Format de sortie (strictement) :
+INCARNATION: [score]
+FLUX_CONSCIENCE: [score]
+FILTRE_PERCEPTIF: [score]
+SILENCE_NARRATIF: [score]
+PROFONDEUR_TEMPS: [score]
+INTERIORITY: [moyenne]`;
+
+      const userPrompt = `Évalue la profondeur d'intériorité de cette prose littéraire française.\nPOV: ${context.pov}\nÉtat émotionnel: ${context.character_state}\n\nProse :\n${prose}`;
+
+      const interiorityConfig = { ...config, judgeMaxTokens: 300 };
+      const response = callClaudeSync(systemPrompt, userPrompt, interiorityConfig, config.judgeStable);
       return extractScore(response);
     },
 

@@ -66,6 +66,7 @@ import type {
 import type { GenesisPlan, Scene } from '@omega/genesis-planner';
 
 import { SOVEREIGN_CONFIG } from '../config.js';
+import { DEFAULT_VOICE_GENOME } from '../voice/voice-genome.js';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // ASSEMBLY INPUT
@@ -176,7 +177,7 @@ export function assembleForgePacket(input: ForgePacketInput): ForgePacket {
     beats,
     subtext,
     sensory,
-    style_genome: style_profile,
+    style_genome: style_profile.voice ? style_profile : { ...style_profile, voice: DEFAULT_VOICE_GENOME },
     kill_lists,
     canon,
     continuity,

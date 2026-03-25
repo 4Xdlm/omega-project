@@ -50,10 +50,10 @@ import { SOVEREIGN_CONFIG } from '../config.js';
  * calcComposite() — Score a draft using 5 CALC-only axes.
  * INV-ORCH-02 : 0 API calls.
  *
- * Axes and weights (from macro-axes):
+ * Axes and weights (CALC-only pre-duel selection, NOT the same as macro-axes):
  *   tension_14d        × 3.0
  *   emotion_coherence  × 2.5
- *   rhythm             × 1.5
+ *   rhythm             × 1.5  (note: macro-axes RCI uses rhythm×conf, different system)
  *   signature          × 1.0
  *   anti_cliche        × 1.5
  */

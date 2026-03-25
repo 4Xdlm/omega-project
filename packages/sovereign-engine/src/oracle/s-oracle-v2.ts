@@ -402,6 +402,9 @@ export function scoreV2(
   let verdict: 'SEAL' | 'REJECT' = 'SEAL';
   let rejectionReason: string | undefined;
 
+  // Note: 92 = legacy s-score REJECT threshold (micro-axes path).
+  // SOVEREIGN_THRESHOLD=93 in config.ts is the SEAL_ATOMIC threshold (macro-axes path).
+  // SAGA_READY=92 (core/thresholds.ts), SEAL_ATOMIC=93 (config.ts).
   if (composite < 92) {
     verdict = 'REJECT';
     rejectionReason = 'composite_below_threshold';
@@ -527,6 +530,7 @@ export async function scoreV2Async(
   let verdict: 'SEAL' | 'REJECT' = 'SEAL';
   let rejectionReason: string | undefined;
 
+  // Legacy s-score path: 92 threshold (see note at line 405)
   if (composite < 92) {
     verdict = 'REJECT';
     rejectionReason = 'composite_below_threshold';

@@ -8,7 +8,7 @@
  * Standard: NASA-Grade L4 / DO-178C Level A
  *
  * All configuration values are frozen constants.
- * SOVEREIGN_THRESHOLD = 92 is NON-NEGOTIABLE.
+ * SOVEREIGN_THRESHOLD = 93 (SEAL_ATOMIC). SAGA_READY = 92 (core/thresholds.ts).
  * Emotion weight = 63.3% (interiority 2.0 + tension_14d 3.0 + emotion_coherence 2.5 + impact 2.0).
  *
  * DELTA_THRESHOLD: calibrated from goldens — see calibration/delta-threshold.json
@@ -445,6 +445,11 @@ export const SOVEREIGN_CONFIG = {
     // Phase W corpus: BRUTAL archetype (McCarthy) has LEXIQUE=3, MUSIQUE=18.
     // SII=80 on a BRUTAL scene with ECC=94, RCI=89 = SEAL candidate, not REJECT.
     // The old floor=85 made SEAL physically impossible for BRUTAL scenes.
+    //
+    // Note: ZONES.GREEN.min_axis=80 = operational floor (pipeline keeps running).
+    // SEAL_FLOOR_MIN=85 (core/thresholds.ts) = certification floor (SAGA_READY/SEAL).
+    // These are INTENTIONALLY different: 80 allows pipeline to continue scoring,
+    // 85 is the quality gate for SAGA_READY certification.
     GREEN: { min_composite: 93, min_axis: 80, min_ecc: 88 }, // min_axis: 85→80
     YELLOW: { min_composite: 85, min_axis: 75 },
     RED: { max_composite: 84 },
@@ -529,7 +534,7 @@ export const SOVEREIGN_CONFIG = {
 
 /**
  * Vérification à la compilation :
- * - SOVEREIGN_THRESHOLD = 92
+ * - SOVEREIGN_THRESHOLD = 93 (SEAL_ATOMIC), SAGA_READY = 92 (core/thresholds.ts)
  * - EMOTION_WEIGHT_PCT = 63.3
  * - MAX_CORRECTION_PASSES = 2
  */

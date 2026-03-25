@@ -159,6 +159,36 @@ export async function runSovereignForge(
 
   simulateSceneBattle(packet);
 
+  return executePipeline(packet, provider, cdeInput);
+}
+
+/**
+ * Run the sovereign forge pipeline with a pre-constructed ForgePacket.
+ * Skips assembleForgePacket() and validateForgePacket() — the caller is
+ * responsible for providing a valid packet (e.g. from test fixtures or
+ * V-RECAL-1 benchmark scripts).
+ *
+ * The full pipeline executes identically: SymbolMap, EmotionBrief,
+ * prompt generation, chunked/standard draft, SovereignLoop, Duel,
+ * MicroSurgery, judgeAestheticV3, TargetedPatch, QualityReport.
+ */
+export async function runSovereignForgeWithPacket(
+  packet: import('./types.js').ForgePacket,
+  provider: SovereignProvider,
+  cdeInput?: CDEInput,
+): Promise<SovereignForgeResult> {
+  return executePipeline(packet, provider, cdeInput);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// INTERNAL PIPELINE — shared by runSovereignForge and runSovereignForgeWithPacket
+// ═══════════════════════════════════════════════════════════════════════════
+
+async function executePipeline(
+  packet: import('./types.js').ForgePacket,
+  provider: SovereignProvider,
+  cdeInput?: CDEInput,
+): Promise<SovereignForgeResult> {
   // ★ NOUVEAU v3: Symbol Mapper (FAIL-CLOSED si échec)
   const symbolMap = await generateSymbolMap(packet, provider);
 

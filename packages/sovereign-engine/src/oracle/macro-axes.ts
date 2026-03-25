@@ -27,7 +27,7 @@ import { scoreTension14D } from './axes/tension-14d.js';
 import { scoreEmotionCoherence } from './axes/emotion-coherence.js';
 import { scoreInteriority } from './axes/interiority.js';
 import { scoreImpact } from './axes/impact.js';
-import { scoreRhythm } from './axes/rhythm.js';
+import { scoreRhythm, rhythmConfidence } from './axes/rhythm.js';
 import { scoreSignature } from './axes/signature.js';
 import { scoreAntiCliche } from './axes/anti-cliche.js';
 import { scoreNecessity } from './axes/necessity.js';
@@ -405,7 +405,18 @@ export async function computeRCI(
   // 4. Sprint 15: Euphony basic
   const euphony = scoreEuphonyBasic(packet, prose);
 
-  const sub_scores: AxisScore[] = [rhythm, signature, hook_presence, euphony, voice_conformity_neutralized];
+  // INV-RCI-CONF-01: Scale rhythm weight by R3 confidence for short texts.
+  // "faible confiance = faible AUTORITÉ du signal, pas retour à la moyenne"
+  // The raw rhythm score stays intact; only its influence on RCI is reduced.
+  const wordCount = prose.split(/\s+/).filter(w => w.length > 0).length;
+  const conf = rhythmConfidence(wordCount);
+  const rhythm_weighted: AxisScore = {
+    ...rhythm,
+    weight: rhythm.weight * conf,
+    details: `${rhythm.details} | w_eff=${(rhythm.weight * conf).toFixed(2)}`,
+  };
+
+  const sub_scores: AxisScore[] = [rhythm_weighted, signature, hook_presence, euphony, voice_conformity_neutralized];
 
   // 4. Fusionner avec poids automatiques basés sur weights des axes
   const totalWeight = sub_scores.reduce((sum, s) => sum + s.weight, 0);

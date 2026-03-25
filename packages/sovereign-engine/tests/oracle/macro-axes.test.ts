@@ -31,9 +31,11 @@ describe('computeRCI', () => {
   });
 
   it('RCI avec texte plat → score bas', async () => {
+    // Correction B: short flat text gets reduced rhythm weight (conf ~0.30)
+    // So rhythm's low score drags RCI down LESS → threshold raised to 75
     const result = await computeRCI(MOCK_PACKET, PROSE_FLAT);
 
-    expect(result.score).toBeLessThan(65);
+    expect(result.score).toBeLessThan(75);
   });
 
   it('RCI a des ScoreReasons (top contributors + penalties)', async () => {

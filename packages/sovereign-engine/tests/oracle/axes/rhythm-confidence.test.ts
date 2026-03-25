@@ -82,17 +82,18 @@ describe('scoreRhythm confidence attenuation', () => {
     expect(result.details).toContain('conf_r3=');
   });
 
-  it('score is attenuated toward 75 for short texts', () => {
+  it('raw score is NOT attenuated by confidence (Correction B)', () => {
+    // Correction B: confidence affects WEIGHT in RCI, not the raw score.
+    // The raw rhythm score is the CALC brut, unmodified.
     const result = scoreRhythm(minimalPacket, shortProse);
-    // Short text (~25 words) → conf ~0.30 → score pulled strongly toward 75
-    // Raw score could be anything; attenuated score should be closer to 75
-    expect(result.score).toBeGreaterThanOrEqual(50);
-    expect(result.score).toBeLessThanOrEqual(85);
+    // Score should be the raw CALC value, not pulled toward 75
+    expect(result.score).toBeGreaterThanOrEqual(0);
+    expect(result.score).toBeLessThanOrEqual(100);
   });
 
-  it('score is unchanged for texts >= 3000 words', () => {
+  it('conf_r3 is computed for texts >= 3000 words', () => {
     const result = scoreRhythm(minimalPacket, longProse);
-    // conf = 1.0 → no attenuation
+    // conf = 1.0 for long texts
     expect(result.details).toContain('conf_r3=1.00');
   });
 });

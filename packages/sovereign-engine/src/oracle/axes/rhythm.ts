@@ -132,13 +132,10 @@ export function scoreRhythm(packet: ForgePacket, prose: string): AxisScore {
 
   score = Math.max(0, Math.min(100, score));
 
-  // R3 Confidence Scaling — atténuation pour textes courts
-  // Phase R3 a mesuré confidence(f1a) par taille sur 181 œuvres.
-  // Sur briques 400-600w, le CV est statistiquement volatile.
-  // On tire le score vers NEUTRAL_RHYTHM proportionnellement à la confiance.
+  // R3 Confidence — computed for traceability, applied as WEIGHT in computeRCI (macro-axes.ts)
+  // NOT applied to the raw score here (Correction B: faible confiance = faible AUTORITÉ, pas retour à la moyenne)
   const totalWordCount = prose.split(/\s+/).filter(w => w.length > 0).length;
   const conf = rhythmConfidence(totalWordCount);
-  score = Math.max(0, Math.min(100, conf * score + (1 - conf) * NEUTRAL_RHYTHM));
 
   const details = `CV_sent=${sentenceCV.toFixed(2)}, CV_para=${paragraphWordCounts.length >= 2 ? computeCV(paragraphWordCounts).toFixed(2) : 'N/A'}, range=${wordCounts.length >= 2 ? Math.max(...wordCounts) - Math.min(...wordCounts) : 0}, monotony=${styleDelta.monotony_sequences}, opening_rep=${(styleDelta.opening_repetition_rate * 100).toFixed(0)}%, conf_r3=${conf.toFixed(2)}`;
 
@@ -154,12 +151,6 @@ export function scoreRhythm(packet: ForgePacket, prose: string): AxisScore {
 // ═══════════════════════════════════════════════════════════════════════════════
 // R3 CONFIDENCE SCALING — INV-RCI-CONF-01
 // ═══════════════════════════════════════════════════════════════════════════════
-
-/**
- * Score neutre pour le rhythm — moyenne corpus pour bonne prose littéraire.
- * Quand la confiance est < 1.0, le score est tiré vers cette valeur.
- */
-const NEUTRAL_RHYTHM = 75;
 
 /**
  * Confidence factor for rhythm scoring based on text length.

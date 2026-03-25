@@ -68,10 +68,15 @@ describe('RCI Wiring Fix [RCI-FIX]', () => {
     expect(totalWeight).toBeGreaterThanOrEqual(vcWeight);
 
     // 5 sub_scores with current weights:
-    // rhythm(1.0) + signature(1.0) + hook(0.20) + euphony(0.5) + voice(0) = 2.70
-    // INV-EUPHONY-WEIGHT-01: euphony_basic recalibrated 1.0→0.5 (not Phase W calibrated,
-    // systemic floor 68-70 = structural bias against BRUTAL/action prose consonance)
+    // rhythm(1.0 × conf_r3) + signature(1.0) + hook(0.20) + euphony(0.5) + voice(0)
+    // Correction B: rhythm weight scaled by R3 confidence (depends on text length)
+    // For short test prose: conf < 1.0, so totalWeight < 2.70
+    // For long prose (>=3000w): conf=1.0, totalWeight=2.70
+    // INV-EUPHONY-WEIGHT-01: euphony_basic recalibrated 1.0→0.5
     expect(result.sub_scores).toHaveLength(5);
-    expect(totalWeight).toBeCloseTo(2.70, 1);
+    // Non-rhythm weights sum to 1.70 (signature 1.0 + hook 0.20 + euphony 0.5 + voice 0)
+    // Rhythm weight is in [0.30, 1.0] depending on text length
+    expect(totalWeight).toBeGreaterThanOrEqual(1.70);
+    expect(totalWeight).toBeLessThanOrEqual(2.70);
   });
 });

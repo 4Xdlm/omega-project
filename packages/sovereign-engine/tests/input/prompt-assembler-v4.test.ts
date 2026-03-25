@@ -201,11 +201,11 @@ describe('prompt-assembler-v4', () => {
   const packet = makeTestPacket();
   const symbolMap = makeTestSymbolMap();
 
-  // INV-V4-01
-  it('INV-V4-01: prompt ≤ 1500 tokens', () => {
+  // INV-V4-01 (updated: 1500→1700 after glossary + rhythm anchor injection)
+  it('INV-V4-01: prompt ≤ 1700 tokens', () => {
     const result = buildSovereignPrompt_V4(packet, symbolMap);
     const tokenEstimate = Math.ceil(result.total_length / 4);
-    expect(tokenEstimate).toBeLessThanOrEqual(1500);
+    expect(tokenEstimate).toBeLessThanOrEqual(1700);
   });
 
   // INV-V4-02
@@ -305,6 +305,15 @@ describe('prompt-assembler-v4', () => {
     // No prescriptive numbers like "30 mots", "8 mots", percentages
     expect(anchor).not.toMatch(/\d+\s*mots/);
     expect(anchor).not.toMatch(/\d+%/);
+  });
+
+  // Glossaire OMEGA
+  it('prompt V4 contient VOCABULAIRE OMEGA', () => {
+    const result = buildSovereignPrompt_V4(packet, symbolMap);
+    const content = result.sections[0].content;
+    expect(content).toContain('VOCABULAIRE OMEGA');
+    expect(content).toContain('Souffle de Flaubert');
+    expect(content).toContain('Murmure de Duras');
   });
 
   // Version

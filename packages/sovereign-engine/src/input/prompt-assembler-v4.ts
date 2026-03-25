@@ -30,6 +30,7 @@ import type { ForgePacket, SovereignPrompt, PromptSection, StyleProfile, ForgeBe
 import type { SymbolMap } from '../symbol/symbol-map-types.js';
 import type { EmotionContract } from '../types.js';
 import { selectExemplarDeterministic } from './golden-exemplars.js';
+import { compileGlossary } from './omega-glossary.js';
 
 export const PROMPT_ASSEMBLER_V4_VERSION = '4.3.0';
 
@@ -86,6 +87,7 @@ export function buildSovereignPrompt_V4(
   if (exemplarBlock) blocks.push(exemplarBlock);
 
   blocks.push(compileRhythmAnchor());
+  blocks.push(compileGlossary());
   blocks.push(compileInterdictions());
   blocks.push(compileRosettaConstraints(packet));
   blocks.push(compileFinalInstruction());
@@ -93,8 +95,8 @@ export function buildSovereignPrompt_V4(
   const fullPrompt = blocks.join('\n\n');
 
   const tokenEstimate = Math.ceil(fullPrompt.length / 4);
-  if (tokenEstimate > 1500) {
-    console.warn(`[V4] WARNING: prompt ${tokenEstimate}t exceeds 1500t target`);
+  if (tokenEstimate > 1700) {
+    console.warn(`[V4] WARNING: prompt ${tokenEstimate}t exceeds 1700t target`);
   }
 
   const sections: PromptSection[] = [{

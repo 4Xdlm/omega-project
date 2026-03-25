@@ -53,24 +53,32 @@ Les phrases longues sont bienvenues — c'est leur nature commune.`;
 // NOUVEAU : mini-correcteur doux + ancre mean pour chunks 1-2
 const RAPPEL_PF_CHUNKS12 = `RAPPEL DUO : Flaubert construit les périodes, Proust creuse chaque sensation.
 
-RESPIRATION : leurs phrases sont longues et denses, mais pas infinies.
-De temps en temps, une phrase courte tranche le flot — sèche, factuelle,
-3 à 6 mots — avant que le duo reprenne son développement. Rare ici,
-mais présente. La longueur moyenne reste dans un registre modéré-long
-(autour de 60-80 mots), pas dans l'illimité.`;
+SOUFFLE DE FLAUBERT : chaque période se déploie jusqu'à épuiser la sensation
+ou l'idée — elle prend le temps d'une respiration complète, ni écourtée
+ni interminable. Le rythme naturel d'une phrase lue à voix haute
+dans le gueuloir.
+
+MURMURE DE DURAS : de loin en loin, une phrase brève et nue coupe le flux
+— un verdict, pas un résumé. Elle apparaît comme un silence entre deux
+mouvements d'orchestre.`;
 
 // v2 + ancre cohérence drift pour chunks 3-4
 const RAPPEL_DURAS_EXTERNE_V3 = `RAPPEL DUO : Flaubert construit les périodes, Proust creuse chaque sensation.
 
 CORRECTEUR DE RYTHME EXTERNE : régulièrement, à intervalles sentis,
 brise le flot des longues périodes par une phrase-couteau — sèche,
-factuelle, 3 à 5 mots maximum. Pas exceptionnellement : souvent.
+factuelle, quelques mots à peine. Pas exceptionnellement : souvent.
 Flaubert et Proust reprennent aussitôt le contrôle. Duras ponctionne,
 disparaît, revient.
 
-ANCRE DE TENUE : la base reste Flaubert et Proust. Leurs longues périodes
-dominent. Les propositions subordonnées, les digressions sensorielles
-restent présentes. Duras coupe — elle ne remplace pas.
+ANCRE DE TENUE : la cadence de fin ne s'effondre pas.
+Les chunks 3-4 gardent le souffle installé par les chunks 1-2.
+Duras frappe par éclairs brefs — elle n'abaisse pas
+la nappe phrastique dominante. Même dans le dialogue
+ou la confrontation, les répliques s'enchâssent dans
+des périodes narratives et descriptives amples.
+La lame Duras crée le contraste — elle ne change pas
+le registre de fond.
 
 COHÉRENCE DE LONGUEUR : la longueur moyenne des phrases reste dans
 la continuité de ce qui précède — ni soudainement plus courte,

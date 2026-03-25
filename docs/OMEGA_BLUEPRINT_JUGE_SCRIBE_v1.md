@@ -1,3 +1,9 @@
+# ⚠️ HISTORICAL SNAPSHOT — NE FAIT PAS AUTORITÉ
+# Ce document reflète l'état au moment de sa génération (session nuit 2026-03-24).
+# Le moteur a évolué depuis (v3 → v4, seuils contextuels, P4 PASS, L28).
+# DOCUMENT D'AUTORITÉ : docs/SESSION_SAVE_2026-03-25_SCELLAGE_MOTEUR.md
+# Tag de référence : moteur-production-v1
+
 # OMEGA — Blueprint Juge + Scribe v1
 
 # GENERATED 2026-03-24 — SESSION NUIT AUTONOME — OMEGA v1.0

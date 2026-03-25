@@ -1,0 +1,191 @@
+{
+  "metadata": {
+    "test": "P3_V4_CONFIRMATION",
+    "timestamp": "2026-03-24T21-44-17",
+    "model": "claude-sonnet-4-20250514"
+  },
+  "results": [
+    {
+      "scene": "confrontation",
+      "word_count": 2262,
+      "gb_v1": 4.257854404769997,
+      "v2_final": 100,
+      "f26b": 0.5088,
+      "cv": 0.9848289572683213,
+      "mean_sentence_length": 40.392857142857146,
+      "drift": -31.27777777777778,
+      "chunk_final_mean": 31.5,
+      "chunks": [
+        {
+          "chunk": 1,
+          "mean_len": 70.5,
+          "cv": 0.8170508268887755,
+          "word_count": 564
+        },
+        {
+          "chunk": 2,
+          "mean_len": 40.15384615384615,
+          "cv": 0.7734720294514857,
+          "word_count": 522
+        },
+        {
+          "chunk": 3,
+          "mean_len": 35.8235294117647,
+          "cv": 0.9307231099092036,
+          "word_count": 609
+        },
+        {
+          "chunk": 4,
+          "mean_len": 31.5,
+          "cv": 1.099829346115556,
+          "word_count": 567
+        }
+      ],
+      "pass": false,
+      "bonuses": [
+        {
+          "name": "rhythmic_mastery",
+          "triggered": true
+        },
+        {
+          "name": "controlled_breathing",
+          "triggered": true
+        },
+        {
+          "name": "narrative_depth",
+          "triggered": false
+        }
+      ],
+      "penalties": [
+        {
+          "name": "knife_excess",
+          "triggered": true
+        }
+      ]
+    },
+    {
+      "scene": "contemplation",
+      "word_count": 2318,
+      "gb_v1": 4.123832777249995,
+      "v2_final": 100,
+      "f26b": 0.6,
+      "cv": 0.8495996467276928,
+      "mean_sentence_length": 51.51111111111111,
+      "drift": -11.136363636363633,
+      "chunk_final_mean": 42.714285714285715,
+      "chunks": [
+        {
+          "chunk": 1,
+          "mean_len": 56.3,
+          "cv": 0.9293119673322033,
+          "word_count": 563
+        },
+        {
+          "chunk": 2,
+          "mean_len": 64.44444444444444,
+          "cv": 0.57917691402609,
+          "word_count": 580
+        },
+        {
+          "chunk": 3,
+          "mean_len": 48.083333333333336,
+          "cv": 0.6250975732491587,
+          "word_count": 577
+        },
+        {
+          "chunk": 4,
+          "mean_len": 42.714285714285715,
+          "cv": 1.1275516854832879,
+          "word_count": 598
+        }
+      ],
+      "pass": true,
+      "bonuses": [
+        {
+          "name": "rhythmic_mastery",
+          "triggered": true
+        },
+        {
+          "name": "controlled_breathing",
+          "triggered": true
+        },
+        {
+          "name": "narrative_depth",
+          "triggered": false
+        }
+      ],
+      "penalties": [
+        {
+          "name": "knife_excess",
+          "triggered": true
+        }
+      ]
+    },
+    {
+      "scene": "dialogue",
+      "word_count": 2291,
+      "gb_v1": 3.903243589235001,
+      "v2_final": 100,
+      "f26b": 0.5085,
+      "cv": 0.6902271316451501,
+      "mean_sentence_length": 41.63636363636363,
+      "drift": 0.2142857142857153,
+      "chunk_final_mean": 41,
+      "chunks": [
+        {
+          "chunk": 1,
+          "mean_len": 42,
+          "cv": 0.7801165901941709,
+          "word_count": 546
+        },
+        {
+          "chunk": 2,
+          "mean_len": 39.8,
+          "cv": 0.6367054288969023,
+          "word_count": 597
+        },
+        {
+          "chunk": 3,
+          "mean_len": 43.857142857142854,
+          "cv": 0.6758388579316166,
+          "word_count": 615
+        },
+        {
+          "chunk": 4,
+          "mean_len": 41,
+          "cv": 0.6562046126492844,
+          "word_count": 533
+        }
+      ],
+      "pass": false,
+      "bonuses": [
+        {
+          "name": "rhythmic_mastery",
+          "triggered": true
+        },
+        {
+          "name": "controlled_breathing",
+          "triggered": true
+        },
+        {
+          "name": "narrative_depth",
+          "triggered": true
+        }
+      ],
+      "penalties": [
+        {
+          "name": "knife_excess",
+          "triggered": true
+        }
+      ]
+    }
+  ],
+  "pass_count": 1,
+  "all_pass": false,
+  "v3_reference_drifts": {
+    "confrontation": -15.3,
+    "contemplation": -11.3,
+    "dialogue": -17.6
+  },
+  "verdict": "1/3_PASS"
+}

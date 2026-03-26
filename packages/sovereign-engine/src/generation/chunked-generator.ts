@@ -182,6 +182,14 @@ export async function generateChunkedDraft(
     fullProse += (fullProse ? '\n\n' : '') + chunkProse;
   }
 
+  // Telemetry: CHUNKED_DRAFT snapshot
+  try {
+    const { telemetry } = await import('../telemetry/pipeline-telemetry.js');
+    telemetry.recordFromProse('CHUNKED_DRAFT', fullProse, undefined, {
+      chunks_words: chunks.map(c => c.split(/\s+/).length),
+    });
+  } catch { /* telemetry is optional */ }
+
   return {
     prose: fullProse,
     chunks,

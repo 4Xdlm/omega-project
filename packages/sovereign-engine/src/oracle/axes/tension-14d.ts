@@ -94,6 +94,39 @@ export async function scoreTension14D(
 
     const similarity = cosineSimilarity14D(targetState as any, actualState as any);
     similarities.push(similarity);
+
+    // Telemetry: emotion 14D per quartile
+    try {
+      const { telemetry } = await import('../../telemetry/pipeline-telemetry.js');
+      if (telemetry.enabled) {
+        const lastSnap = telemetry.snapshots[telemetry.snapshots.length - 1];
+        const emotion_14d = lastSnap?.emotion_14d ? [...lastSnap.emotion_14d] : [];
+        emotion_14d.push({
+          quartile: i,
+          target: targetState as Record<string, number>,
+          actual: actualState as Record<string, number>,
+          cosine_similarity: Math.round(similarity * 1000) / 1000,
+        });
+        // Store on the latest DUEL_WINNER or FINAL snapshot by re-recording
+        // We store this data so the script can read it later
+        if (!telemetry.snapshots.find(s => s.stage === 'EMOTION_14D')) {
+          telemetry.record({
+            stage: 'EMOTION_14D',
+            timestamp: Date.now(),
+            words: 0,
+            prose_hash: '',
+            features: { f1_mean_sent_len: 0, f1a_rhythm_variance: 0, f26b_long_sent_rate: 0, cv_sent: 0, cv_para: 0, f17_knife_count: 0, f19a_approx_entropy: 0, paragraph_count: 0 },
+            emotion_14d: emotion_14d,
+          });
+        } else {
+          // Update existing EMOTION_14D snapshot — replace with accumulated data
+          const existing = telemetry.snapshots.find(s => s.stage === 'EMOTION_14D');
+          if (existing) {
+            (existing as any).emotion_14d = emotion_14d;
+          }
+        }
+      }
+    } catch { /* telemetry is optional */ }
   }
 
   const avgSimilarity = similarities.reduce((a, b) => a + b, 0) / similarities.length;

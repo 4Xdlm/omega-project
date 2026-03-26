@@ -428,6 +428,19 @@ async function executePipeline(
   }
   console.log(`[AUTOPSY] ═══════════════════════`);
 
+  // Telemetry: FINAL snapshot with full scores
+  try {
+    const { telemetry } = await import('./telemetry/pipeline-telemetry.js');
+    telemetry.recordFromProse('FINAL', final_prose, {
+      composite: final_score_v3.composite, min_axis: final_score_v3.min_axis,
+      ECC: ma.ecc.score, RCI: ma.rci.score,
+      SII: ma.sii.score, IFI: ma.ifi.score, AAI: ma.aai.score,
+    }, {
+      verdict: final_score_v3.verdict,
+      saga_ready: final_score_v3.composite >= 92 && final_score_v3.min_axis >= 85,
+    });
+  } catch { /* telemetry is optional */ }
+
   // Convertir en SScore pour backward compatibility
   const final_score: SScore = {
     score_id: final_score_v3.score_id,

@@ -432,8 +432,28 @@ export async function runMicroSurgery(
   // Gemini: "exclusion mutuelle" — tension must not target a sentence already modified by hook.
   const allInterventions = [...hookInterventions, ...tensionInterventions];
 
+  // Telemetry: PRE_MICROSURGERY snapshot
+  try {
+    const { telemetry } = await import('../telemetry/pipeline-telemetry.js');
+    telemetry.recordFromProse('PRE_MICROSURGERY', prose, undefined, {
+      diagnostics: diagnostics.map(d => ({ quartile: d.quartile, similarity: d.similarity, target: d.target_dominant })),
+      interventions_planned: allInterventions.length,
+      tension_count: tensionInterventions.length,
+      hook_count: hookInterventions.length,
+    });
+  } catch { /* telemetry is optional */ }
+
   if (allInterventions.length === 0) {
     console.log(`[MICRO-SURGEON] No intervention needed`);
+
+    // Telemetry: POST_MICROSURGERY (no-op)
+    try {
+      const { telemetry } = await import('../telemetry/pipeline-telemetry.js');
+      telemetry.recordFromProse('POST_MICROSURGERY', prose, undefined, {
+        interventions_applied: 0, interventions_rejected: 0,
+      });
+    } catch { /* telemetry is optional */ }
+
     return {
       interventions_planned: 0,
       interventions_applied: 0,
@@ -446,7 +466,22 @@ export async function runMicroSurgery(
   console.log(`[MICRO-SURGEON] ${allInterventions.length} intervention(s) planned (${tensionInterventions.length} tension + ${hookInterventions.length} hook)`);
 
   // 5. Execute
-  return await executeMicroSurgery(prose, allInterventions, provider, archetype);
+  const surgeryResult = await executeMicroSurgery(prose, allInterventions, provider, archetype);
+
+  // Telemetry: POST_MICROSURGERY snapshot
+  try {
+    const { telemetry } = await import('../telemetry/pipeline-telemetry.js');
+    telemetry.recordFromProse('POST_MICROSURGERY', surgeryResult.prose, undefined, {
+      interventions_applied: surgeryResult.interventions_applied,
+      interventions_rejected: surgeryResult.interventions_rejected,
+      details: surgeryResult.details.map(d => ({
+        type: d.intervention.type, quartile: d.intervention.quartile,
+        accepted: d.accepted, reject_reason: d.reject_reason,
+      })),
+    });
+  } catch { /* telemetry is optional */ }
+
+  return surgeryResult;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════

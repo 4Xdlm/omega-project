@@ -57,6 +57,12 @@ export async function runDuel(
       prose: existingProse,
       score,
     });
+
+    // Telemetry: DUEL_loop_refined snapshot
+    try {
+      const { telemetry } = await import('../telemetry/pipeline-telemetry.js');
+      telemetry.recordFromProse('DUEL_loop_refined', existingProse, undefined, { mode: 'loop_refined' });
+    } catch { /* telemetry is optional */ }
   }
 
   for (let i = 0; i < modes.length; i++) {
@@ -95,6 +101,14 @@ export async function runDuel(
       prose: finalProse,
       score,
     });
+
+    // Telemetry: DUEL_CANDIDATE snapshot
+    try {
+      const { telemetry } = await import('../telemetry/pipeline-telemetry.js');
+      telemetry.recordFromProse(`DUEL_${mode}`, finalProse, undefined, {
+        mode, cv: bestCandidate!.cv, cv_gate_pass: bestCandidate!.cv <= CV_GATE_REJECT,
+      });
+    } catch { /* telemetry is optional */ }
   }
 
   // ★ V4.3 Sprint 1: Hostile selection — min_axis priority + composite tiebreak
@@ -103,8 +117,9 @@ export async function runDuel(
   // Selection score = composite - 1.5 * max(0, 85 - min_axis)
   // Effect: a draft with (ECC 95, RCI 70) loses to (ECC 86, RCI 84)
   let winnerIdx = 0;
+  let v3Scores: Awaited<ReturnType<typeof judgeAestheticV3>>[] | null = null;
   if (symbolMap) {
-    const v3Scores = await Promise.all(
+    v3Scores = await Promise.all(
       drafts.map((d) => judgeAestheticV3(packet, d.prose, provider, symbolMap)),
     );
 
@@ -131,6 +146,24 @@ export async function runDuel(
   }
 
   const winner = drafts[winnerIdx];
+
+  // Telemetry: DUEL_WINNER snapshot with scores
+  try {
+    const { telemetry } = await import('../telemetry/pipeline-telemetry.js');
+    const ws = symbolMap && v3Scores ? v3Scores[winnerIdx] : null;
+    telemetry.recordFromProse('DUEL_WINNER', winner.prose, ws ? {
+      composite: ws.composite, min_axis: ws.min_axis,
+      ECC: ws.ecc_score, RCI: ws.macro_axes.rci.score,
+      SII: ws.macro_axes.sii.score, IFI: ws.macro_axes.ifi.score,
+      AAI: ws.macro_axes.aai.score,
+    } : undefined, {
+      winner_mode: winner.mode, winner_idx: winnerIdx,
+      all_candidates: drafts.map((d, idx) => ({
+        mode: d.mode, words: d.prose.split(/\s+/).length,
+        composite: symbolMap && v3Scores ? v3Scores[idx].composite : d.score.composite,
+      })),
+    });
+  } catch { /* telemetry is optional */ }
 
   return {
     drafts,

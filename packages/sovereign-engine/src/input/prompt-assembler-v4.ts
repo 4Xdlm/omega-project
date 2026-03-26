@@ -88,7 +88,8 @@ export function buildSovereignPrompt_V4(
 
   blocks.push(compileRhythmAnchor());
   // Glossary injection — controlled by env flag for A/B testing
-  if (process.env.OMEGA_GLOSSARY_ENABLED !== 'false') {
+  // Default OFF — glossary not validated in A/B testing (factoriel 2x2 inconclusive)
+  if (process.env.OMEGA_GLOSSARY_ENABLED === 'true') {
     blocks.push(compileGlossary());
   }
   blocks.push(compileInterdictions());

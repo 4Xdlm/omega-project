@@ -404,7 +404,7 @@ export async function computeRCI(
   const voice_conformity = await scoreVoiceConformity(packet, prose);
   const voice_conformity_active: AxisScore = {
     ...voice_conformity,
-    weight: parseFloat(process.env.OMEGA_VOICE_WEIGHT ?? '0.3'), // Re-enabled — voice genome now wired via DEFAULT_VOICE_GENOME
+    weight: parseFloat(process.env.OMEGA_VOICE_WEIGHT ?? '0'), // Neutralized — factorial 2x2 showed no benefit, score fixed at 70
   };
 
   // 4. Sprint 15: Euphony basic

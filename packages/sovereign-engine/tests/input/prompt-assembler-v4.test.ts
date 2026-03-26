@@ -307,13 +307,22 @@ describe('prompt-assembler-v4', () => {
     expect(anchor).not.toMatch(/\d+%/);
   });
 
-  // Glossaire OMEGA
-  it('prompt V4 contient VOCABULAIRE OMEGA', () => {
+  // Glossaire OMEGA (disabled by default, enabled via OMEGA_GLOSSARY_ENABLED=true)
+  it('prompt V4 contient VOCABULAIRE OMEGA quand flag actif', () => {
+    process.env.OMEGA_GLOSSARY_ENABLED = 'true';
     const result = buildSovereignPrompt_V4(packet, symbolMap);
     const content = result.sections[0].content;
     expect(content).toContain('VOCABULAIRE OMEGA');
     expect(content).toContain('Souffle de Flaubert');
     expect(content).toContain('Murmure de Duras');
+    delete process.env.OMEGA_GLOSSARY_ENABLED;
+  });
+
+  it('prompt V4 ne contient PAS glossaire par defaut', () => {
+    delete process.env.OMEGA_GLOSSARY_ENABLED;
+    const result = buildSovereignPrompt_V4(packet, symbolMap);
+    const content = result.sections[0].content;
+    expect(content).not.toContain('VOCABULAIRE OMEGA');
   });
 
   // Version

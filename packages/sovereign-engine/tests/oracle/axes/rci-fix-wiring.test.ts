@@ -17,7 +17,7 @@ describe('RCI Wiring Fix [RCI-FIX]', () => {
 
     const vc = result.sub_scores.find(s => s.name === 'voice_conformity');
     expect(vc).toBeDefined();
-    expect(vc!.weight).toBe(0.3); // Re-enabled: voice genome wired via DEFAULT_VOICE_GENOME
+    expect(vc!.weight).toBe(0); // Neutralized: factorial 2x2 showed no benefit (score fixed at 70)
     expect(vc!.method).toBe('CALC');
     expect(vc!.score).toBeGreaterThanOrEqual(0);
     expect(vc!.score).toBeLessThanOrEqual(100);
@@ -68,15 +68,16 @@ describe('RCI Wiring Fix [RCI-FIX]', () => {
     expect(totalWeight).toBeGreaterThanOrEqual(vcWeight);
 
     // 5 sub_scores with current weights:
-    // rhythm(1.0 × conf_r3) + signature(1.0) + hook(0.20) + euphony(0.5) + voice(0.3)
+    // rhythm(1.0 × conf_r3) + signature(1.0) + hook(0.20) + euphony(0.5) + voice(0)
     // Correction B: rhythm weight scaled by R3 confidence (depends on text length)
-    // For short test prose: conf < 1.0, so totalWeight < 3.00
-    // For long prose (>=3000w): conf=1.0, totalWeight=3.00
+    // For short test prose: conf < 1.0, so totalWeight < 2.70
+    // For long prose (>=3000w): conf=1.0, totalWeight=2.70
     // INV-EUPHONY-WEIGHT-01: euphony_basic recalibrated 1.0→0.5
+    // Voice neutralized: factorial 2x2 showed no benefit (weight=0)
     expect(result.sub_scores).toHaveLength(5);
-    // Non-rhythm weights sum to 2.00 (signature 1.0 + hook 0.20 + euphony 0.5 + voice 0.3)
+    // Non-rhythm weights sum to 1.70 (signature 1.0 + hook 0.20 + euphony 0.5 + voice 0)
     // Rhythm weight is in [0.30, 1.0] depending on text length
-    expect(totalWeight).toBeGreaterThanOrEqual(2.00);
-    expect(totalWeight).toBeLessThanOrEqual(3.00);
+    expect(totalWeight).toBeGreaterThanOrEqual(1.70);
+    expect(totalWeight).toBeLessThanOrEqual(2.70);
   });
 });

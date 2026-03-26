@@ -87,7 +87,10 @@ export function buildSovereignPrompt_V4(
   if (exemplarBlock) blocks.push(exemplarBlock);
 
   blocks.push(compileRhythmAnchor());
-  blocks.push(compileGlossary());
+  // Glossary injection — controlled by env flag for A/B testing
+  if (process.env.OMEGA_GLOSSARY_ENABLED !== 'false') {
+    blocks.push(compileGlossary());
+  }
   blocks.push(compileInterdictions());
   blocks.push(compileRosettaConstraints(packet));
   blocks.push(compileFinalInstruction());

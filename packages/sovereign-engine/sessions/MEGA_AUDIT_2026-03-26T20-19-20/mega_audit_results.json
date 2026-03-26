@@ -1,0 +1,115 @@
+{
+  "points": 33,
+  "corrMatrix": {
+    "ECC": {
+      "ECC": 1,
+      "RCI": -0.044,
+      "SII": 0.301,
+      "IFI": 0.255,
+      "AAI": 0.183,
+      "composite": 0.736
+    },
+    "RCI": {
+      "ECC": -0.044,
+      "RCI": 1,
+      "SII": 0.304,
+      "IFI": 0.108,
+      "AAI": 0.043,
+      "composite": 0.353
+    },
+    "SII": {
+      "ECC": 0.301,
+      "RCI": 0.304,
+      "SII": 1,
+      "IFI": -0.067,
+      "AAI": 0.268,
+      "composite": 0.731
+    },
+    "IFI": {
+      "ECC": 0.255,
+      "RCI": 0.108,
+      "SII": -0.067,
+      "IFI": 1,
+      "AAI": -0.009,
+      "composite": 0.354
+    },
+    "AAI": {
+      "ECC": 0.183,
+      "RCI": 0.043,
+      "SII": 0.268,
+      "IFI": -0.009,
+      "AAI": 1,
+      "composite": 0.508
+    },
+    "composite": {
+      "ECC": 0.736,
+      "RCI": 0.353,
+      "SII": 0.731,
+      "IFI": 0.354,
+      "AAI": 0.508,
+      "composite": 1
+    }
+  },
+  "bloc6Results": [
+    {
+      "label": "A (emotion NOMMEE — controle positif)",
+      "emotions": {
+        "joy": 0,
+        "trust": 0,
+        "fear": 1,
+        "surprise": 0.1,
+        "sadness": 0.2,
+        "disgust": 0.1,
+        "anger": 0,
+        "anticipation": 0.3,
+        "love": 0,
+        "submission": 0.7,
+        "awe": 0,
+        "disapproval": 0,
+        "remorse": 0,
+        "contempt": 0
+      }
+    },
+    {
+      "label": "B (emotion INCARNEE — le vrai test)",
+      "emotions": {
+        "joy": 0,
+        "trust": 0.1,
+        "fear": 0.9,
+        "surprise": 0.3,
+        "sadness": 0.1,
+        "disgust": 0.2,
+        "anger": 0.1,
+        "anticipation": 0.8,
+        "love": 0,
+        "submission": 0,
+        "awe": 0,
+        "disapproval": 0,
+        "remorse": 0,
+        "contempt": 0
+      }
+    },
+    {
+      "label": "C (description NEUTRE — controle negatif)",
+      "emotions": {
+        "joy": 0.1,
+        "trust": 0.2,
+        "fear": 0,
+        "surprise": 0,
+        "sadness": 0.1,
+        "disgust": 0,
+        "anger": 0,
+        "anticipation": 0.3,
+        "love": 0,
+        "submission": 0,
+        "awe": 0.2,
+        "disapproval": 0,
+        "remorse": 0,
+        "contempt": 0
+      }
+    }
+  ],
+  "reweighting": {
+    "verdict": "N'AIDE PAS"
+  }
+}

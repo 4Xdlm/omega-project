@@ -1,0 +1,338 @@
+{
+  "scene": "confrontation",
+  "attempt": 1,
+  "snapshots": [
+    {
+      "stage": "CHUNKED_DRAFT",
+      "timestamp": 1774547935352,
+      "words": 2405,
+      "prose_hash": "f008e08f60452ea6",
+      "features": {
+        "f1_mean_sent_len": 31.1,
+        "f1a_rhythm_variance": 613.16,
+        "f26b_long_sent_rate": 0.351,
+        "cv_sent": 0.796,
+        "cv_para": 0.717,
+        "f17_knife_count": 18,
+        "f19a_approx_entropy": 0,
+        "paragraph_count": 36
+      },
+      "details": {
+        "chunks_words": [
+          549,
+          630,
+          599,
+          627
+        ]
+      }
+    },
+    {
+      "stage": "EMOTION_14D",
+      "timestamp": 1774547938412,
+      "words": 0,
+      "prose_hash": "",
+      "features": {
+        "f1_mean_sent_len": 0,
+        "f1a_rhythm_variance": 0,
+        "f26b_long_sent_rate": 0,
+        "cv_sent": 0,
+        "cv_para": 0,
+        "f17_knife_count": 0,
+        "f19a_approx_entropy": 0,
+        "paragraph_count": 0
+      },
+      "emotion_14d": [
+        {
+          "quartile": 3,
+          "target": {
+            "joy": 0.04615384615384615,
+            "trust": 0.04615384615384615,
+            "fear": 0.04615384615384615,
+            "surprise": 0.04615384615384615,
+            "sadness": 0.04615384615384615,
+            "disgust": 0.4,
+            "anger": 0.04615384615384615,
+            "anticipation": 0.04615384615384615,
+            "love": 0.04615384615384615,
+            "submission": 0.04615384615384615,
+            "awe": 0.04615384615384615,
+            "disapproval": 0.04615384615384615,
+            "remorse": 0.04615384615384615,
+            "contempt": 0.04615384615384615
+          },
+          "actual": {
+            "joy": 0,
+            "trust": 0.1,
+            "fear": 0.3,
+            "surprise": 0.2,
+            "sadness": 0.7,
+            "disgust": 0.6,
+            "anger": 0.8,
+            "anticipation": 0.1,
+            "love": 0,
+            "submission": 0.2,
+            "awe": 0,
+            "disapproval": 0.9,
+            "remorse": 0.4,
+            "contempt": 0.7
+          },
+          "cosine_similarity": 0.577
+        }
+      ]
+    },
+    {
+      "stage": "DUEL_loop_refined",
+      "timestamp": 1774548298490,
+      "words": 581,
+      "prose_hash": "78f3c8a3a7fc2767",
+      "features": {
+        "f1_mean_sent_len": 15.54,
+        "f1a_rhythm_variance": 165.11,
+        "f26b_long_sent_rate": 0.054,
+        "cv_sent": 0.827,
+        "cv_para": 0.911,
+        "f17_knife_count": 15,
+        "f19a_approx_entropy": 0,
+        "paragraph_count": 19
+      },
+      "details": {
+        "mode": "loop_refined"
+      }
+    },
+    {
+      "stage": "DUEL_tranchant_minimaliste",
+      "timestamp": 1774548352677,
+      "words": 365,
+      "prose_hash": "604032539e4eed3c",
+      "features": {
+        "f1_mean_sent_len": 36.5,
+        "f1a_rhythm_variance": 983.85,
+        "f26b_long_sent_rate": 0.5,
+        "cv_sent": 0.859,
+        "cv_para": 0.821,
+        "f17_knife_count": 4,
+        "f19a_approx_entropy": 0,
+        "paragraph_count": 4
+      },
+      "details": {
+        "mode": "tranchant_minimaliste",
+        "cv": 0.8593529665457045,
+        "cv_gate_pass": true
+      }
+    },
+    {
+      "stage": "DUEL_sensoriel_dense",
+      "timestamp": 1774548432117,
+      "words": 464,
+      "prose_hash": "b62f01c48791854f",
+      "features": {
+        "f1_mean_sent_len": 38.67,
+        "f1a_rhythm_variance": 1062.72,
+        "f26b_long_sent_rate": 0.5,
+        "cv_sent": 0.843,
+        "cv_para": 0.799,
+        "f17_knife_count": 5,
+        "f19a_approx_entropy": 0,
+        "paragraph_count": 4
+      },
+      "details": {
+        "mode": "sensoriel_dense",
+        "cv": 0.8430884633038248,
+        "cv_gate_pass": true
+      }
+    },
+    {
+      "stage": "DUEL_experimental_signature",
+      "timestamp": 1774548528805,
+      "words": 453,
+      "prose_hash": "2262006bda364813",
+      "features": {
+        "f1_mean_sent_len": 32.36,
+        "f1a_rhythm_variance": 1239.94,
+        "f26b_long_sent_rate": 0.357,
+        "cv_sent": 1.088,
+        "cv_para": 0.712,
+        "f17_knife_count": 8,
+        "f19a_approx_entropy": 0,
+        "paragraph_count": 4
+      },
+      "details": {
+        "mode": "experimental_signature",
+        "cv": 1.0882554428411524,
+        "cv_gate_pass": false
+      }
+    },
+    {
+      "stage": "DUEL_WINNER",
+      "timestamp": 1774548650865,
+      "words": 581,
+      "prose_hash": "78f3c8a3a7fc2767",
+      "features": {
+        "f1_mean_sent_len": 15.54,
+        "f1a_rhythm_variance": 165.11,
+        "f26b_long_sent_rate": 0.054,
+        "cv_sent": 0.827,
+        "cv_para": 0.911,
+        "f17_knife_count": 15,
+        "f19a_approx_entropy": 0,
+        "paragraph_count": 19
+      },
+      "scores": {
+        "composite": 89.11666431357905,
+        "min_axis": 86.88651605670799,
+        "ECC": 86.88651605670799,
+        "RCI": 89.75629727414439,
+        "SII": 88.39999999999999,
+        "IFI": 87.25543478260869,
+        "AAI": 92.80000000000001
+      },
+      "details": {
+        "winner_mode": "loop_refined",
+        "winner_idx": 0,
+        "all_candidates": [
+          {
+            "mode": "loop_refined",
+            "words": 581,
+            "composite": 89.11666431357905
+          },
+          {
+            "mode": "tranchant_minimaliste",
+            "words": 365,
+            "composite": 87.96572438999873
+          },
+          {
+            "mode": "sensoriel_dense",
+            "words": 464,
+            "composite": 90.99766494753334
+          },
+          {
+            "mode": "experimental_signature",
+            "words": 453,
+            "composite": 84.55150889796212
+          }
+        ]
+      }
+    },
+    {
+      "stage": "PRE_MICROSURGERY",
+      "timestamp": 1774548650874,
+      "words": 581,
+      "prose_hash": "78f3c8a3a7fc2767",
+      "features": {
+        "f1_mean_sent_len": 15.54,
+        "f1a_rhythm_variance": 165.11,
+        "f26b_long_sent_rate": 0.054,
+        "cv_sent": 0.827,
+        "cv_para": 0.911,
+        "f17_knife_count": 15,
+        "f19a_approx_entropy": 0,
+        "paragraph_count": 19
+      },
+      "details": {
+        "diagnostics": [
+          {
+            "quartile": 2,
+            "similarity": 0.10279278535093245,
+            "target": "anger"
+          },
+          {
+            "quartile": 0,
+            "similarity": 0.1283881477532739,
+            "target": "anticipation"
+          },
+          {
+            "quartile": 1,
+            "similarity": 0.1796053020267749,
+            "target": "anticipation"
+          },
+          {
+            "quartile": 3,
+            "similarity": 0.18452078282356418,
+            "target": "disgust"
+          }
+        ],
+        "interventions_planned": 3,
+        "tension_count": 2,
+        "hook_count": 1
+      }
+    },
+    {
+      "stage": "POST_MICROSURGERY",
+      "timestamp": 1774548657527,
+      "words": 584,
+      "prose_hash": "7e5707e3b65985ba",
+      "features": {
+        "f1_mean_sent_len": 15.62,
+        "f1a_rhythm_variance": 166.07,
+        "f26b_long_sent_rate": 0.054,
+        "cv_sent": 0.825,
+        "cv_para": 0.904,
+        "f17_knife_count": 15,
+        "f19a_approx_entropy": 0,
+        "paragraph_count": 19
+      },
+      "details": {
+        "interventions_applied": 2,
+        "interventions_rejected": 1,
+        "details": [
+          {
+            "type": "HOOK_INJECTION",
+            "quartile": 18,
+            "accepted": false,
+            "reject_reason": "Too long: 106 chars vs 42 original (max 63)"
+          },
+          {
+            "type": "TENSION_14D",
+            "quartile": 2,
+            "accepted": true
+          },
+          {
+            "type": "TENSION_14D",
+            "quartile": 0,
+            "accepted": true
+          }
+        ]
+      }
+    },
+    {
+      "stage": "FINAL",
+      "timestamp": 1774548705760,
+      "words": 584,
+      "prose_hash": "7e5707e3b65985ba",
+      "features": {
+        "f1_mean_sent_len": 15.62,
+        "f1a_rhythm_variance": 166.07,
+        "f26b_long_sent_rate": 0.054,
+        "cv_sent": 0.825,
+        "cv_para": 0.904,
+        "f17_knife_count": 15,
+        "f19a_approx_entropy": 0,
+        "paragraph_count": 19
+      },
+      "scores": {
+        "composite": 88.31687207907082,
+        "min_axis": 84.20006661250581,
+        "ECC": 84.20006661250581,
+        "RCI": 89.83794378214503,
+        "SII": 88.06666666666666,
+        "IFI": 88.48399653979239,
+        "AAI": 92.80000000000001
+      },
+      "details": {
+        "verdict": "PITCH",
+        "saga_ready": false
+      }
+    }
+  ],
+  "summary": {
+    "total_stages": 10,
+    "duration_ms": 895105,
+    "winner_stage": "DUEL_WINNER",
+    "winner_words": 581,
+    "delta_draft_to_winner": {
+      "words": -1821,
+      "delta_cv": 0.029,
+      "delta_mean_sent": -15.48
+    }
+  }
+}

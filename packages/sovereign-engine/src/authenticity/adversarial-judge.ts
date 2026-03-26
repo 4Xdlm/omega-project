@@ -12,6 +12,10 @@
  * FAIL-CLOSED : si provider indispo → fraud_score = null, fallback CALC.
  * Cache obligatoire (réutilise cache Sprint 9).
  *
+ * BUG-01 FIX: provider.llm_generate() n'existait pas dans SovereignProvider.
+ * Remplacé par provider.generateStructuredJSON() (v1.1.0).
+ * Avant ce fix, fraud_score était TOUJOURS null → fallback CALC → AAI=95.6 invariant.
+ *
  * ═══════════════════════════════════════════════════════════════════════════════
  */
 
@@ -29,7 +33,7 @@ export interface FraudResult {
 /**
  * Version du prompt adversarial (à incrémenter si le prompt change)
  */
-const ADVERSARIAL_PROMPT_VERSION = 'v1.0.0';
+const ADVERSARIAL_PROMPT_VERSION = 'v1.1.0';
 
 /**
  * Prompt LLM stable pour détection humain vs IA
@@ -93,14 +97,11 @@ export async function judgeFraudScore(
 
   // Appel LLM (FAIL-CLOSED)
   try {
-    const response = await provider.llm_generate({
-      prompt,
-      max_tokens: 300,
-      temperature: 0.1, // Déterminisme maximal
-    });
+    const response = await provider.generateStructuredJSON(prompt);
 
-    // Parse JSON response
-    const parsed = parseAdversarialResponse(response.text);
+    // generateStructuredJSON retourne le texte brut ou un objet
+    const responseText = typeof response === 'string' ? response : JSON.stringify(response);
+    const parsed = parseAdversarialResponse(responseText);
 
     const result: FraudResult = {
       fraud_score: parsed.score,

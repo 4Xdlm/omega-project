@@ -23,19 +23,16 @@ describe('Adversarial Judge Cache (ART-AUTH-02)', () => {
   function createMockProvider(): SovereignProvider {
     return {
       model_id: 'mock-model-v1',
-      llm_generate: async (params) => {
+      generateStructuredJSON: async (_prompt: string) => {
         callCount++;
         // Retourner un JSON valide simulé
-        return {
-          text: JSON.stringify({
-            score: 75,
-            rationale: 'Quelques transitions rigides mais présence d\'aspérités humaines.',
-            worst_sentences: ['Phrase 1', 'Phrase 2', 'Phrase 3'],
-          }),
-          usage: { input_tokens: 100, output_tokens: 50 },
-        };
+        return JSON.stringify({
+          score: 75,
+          rationale: 'Quelques transitions rigides mais présence d\'aspérités humaines.',
+          worst_sentences: ['Phrase 1', 'Phrase 2', 'Phrase 3'],
+        });
       },
-    };
+    } as unknown as SovereignProvider;
   }
 
   it('AUTH-02: cache → 2 appels identiques → 1 seule requête provider', async () => {

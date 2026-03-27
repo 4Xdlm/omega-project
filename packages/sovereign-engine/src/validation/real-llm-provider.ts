@@ -36,7 +36,13 @@ const ANTHROPIC_VERSION = '2023-06-01';
 const MAX_RETRIES = 3;
 const DEFAULT_RATE_LIMIT_MS = 3000;
 const DEFAULT_RETRY_BASE_MS = 5000;
-const MAX_GENERATION_TOKENS = 2000;
+const DEFAULT_GENERATION_TOKENS = 2000;
+// Volume-aware: compute tokens from target_word_count (FR ~4 tokens/word)
+function computeGenerationTokens(packet?: { intent?: { target_word_count?: number } }): number {
+  const targetWords = packet?.intent?.target_word_count ?? 500;
+  // 4 tokens/word for French, +20% margin, minimum 2000
+  return Math.max(DEFAULT_GENERATION_TOKENS, Math.ceil(targetWords * 4 * 1.2));
+}
 const MAX_JUDGE_TOKENS = 100;
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -143,13 +149,14 @@ export class AnthropicLLMProvider implements LLMProvider {
     }
 
     const promptHash = sha256(canonicalize({ model_id: this.model_id, user_prompt: finalPrompt }));
-    const prose = await this.callAnthropic([{ role: 'user', content: finalPrompt }], MAX_GENERATION_TOKENS);
+    const genTokens = computeGenerationTokens(packet);
+    const prose = await this.callAnthropic([{ role: 'user', content: finalPrompt }], genTokens);
 
     // Safety refusal detection — retry without Focal Paradox constraints
     if (transcendentPlan && isRefusal(prose)) {
       const fallbackPrompt = buildFinalPrompt(directive);
       const fallbackHash = sha256(canonicalize({ model_id: this.model_id, user_prompt: fallbackPrompt }));
-      const fallbackProse = await this.callAnthropic([{ role: 'user', content: fallbackPrompt }], MAX_GENERATION_TOKENS);
+      const fallbackProse = await this.callAnthropic([{ role: 'user', content: fallbackPrompt }], genTokens);
       return { prose: fallbackProse, prompt_hash: fallbackHash, transcendent_plan: undefined };
     }
 

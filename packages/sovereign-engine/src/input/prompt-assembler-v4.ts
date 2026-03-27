@@ -153,7 +153,10 @@ function compileContext(packet: ForgePacket): string {
     ? ` Sous-texte : ${sub.layers[0].statement}.`
     : '';
 
-  return `${previousContext}${sceneGoal}. ${characters}. Conflit : ${conflict}.${subtextLine} Narration ${pov}, au ${tense}. ~${intent.target_word_count} mots.`;
+  const volumeInstruction = intent.target_word_count > 600
+    ? `MINIMUM ${intent.target_word_count} mots — déploie largement chaque paragraphe, ne coupe pas court.`
+    : `~${intent.target_word_count} mots.`;
+  return `${previousContext}${sceneGoal}. ${characters}. Conflit : ${conflict}.${subtextLine} Narration ${pov}, au ${tense}. ${volumeInstruction}`;
 }
 
 // ── BLOC 3 — Trajectory V4.3 (~200 tokens) — ASYMÉTRIE ORGANIQUE ────────────

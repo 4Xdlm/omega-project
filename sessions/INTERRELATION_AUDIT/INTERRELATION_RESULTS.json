@@ -1,0 +1,515 @@
+{
+  "n_windows": 141366,
+  "top_correlations": [
+    {
+      "a": "std_sent_len",
+      "b": "f1a_rhythm_variance",
+      "rho": 1.0
+    },
+    {
+      "a": "cv_sent",
+      "b": "f19a_approx_entropy",
+      "rho": 1.0
+    },
+    {
+      "a": "knife_rate",
+      "b": "f17_knife_count",
+      "rho": 0.9727
+    },
+    {
+      "a": "std_sent_len",
+      "b": "longest_sent_words",
+      "rho": 0.9491
+    },
+    {
+      "a": "f1a_rhythm_variance",
+      "b": "longest_sent_words",
+      "rho": 0.9491
+    },
+    {
+      "a": "std_sent_len",
+      "b": "f24c_contrast_delta",
+      "rho": 0.9344
+    },
+    {
+      "a": "f1a_rhythm_variance",
+      "b": "f24c_contrast_delta",
+      "rho": 0.9344
+    },
+    {
+      "a": "std_sent_len",
+      "b": "f26b_long_sent_rate",
+      "rho": 0.9065
+    },
+    {
+      "a": "f1a_rhythm_variance",
+      "b": "f26b_long_sent_rate",
+      "rho": 0.9065
+    },
+    {
+      "a": "mean_sent_len",
+      "b": "f17_knife_count",
+      "rho": -0.9009
+    },
+    {
+      "a": "longest_sent_words",
+      "b": "f26b_long_sent_rate",
+      "rho": 0.8853
+    },
+    {
+      "a": "std_sent_len",
+      "b": "mean_sent_len",
+      "rho": 0.8826
+    },
+    {
+      "a": "f1a_rhythm_variance",
+      "b": "mean_sent_len",
+      "rho": 0.8826
+    },
+    {
+      "a": "mean_sent_len",
+      "b": "f24c_contrast_delta",
+      "rho": 0.8622
+    },
+    {
+      "a": "f26b_long_sent_rate",
+      "b": "mean_sent_len",
+      "rho": 0.8507
+    },
+    {
+      "a": "longest_sent_words",
+      "b": "f24c_contrast_delta",
+      "rho": 0.8457
+    },
+    {
+      "a": "f26b_long_sent_rate",
+      "b": "f24c_contrast_delta",
+      "rho": 0.8445
+    },
+    {
+      "a": "f9a_contradiction_rate",
+      "b": "mean_sent_len",
+      "rho": 0.8113
+    },
+    {
+      "a": "longest_sent_words",
+      "b": "mean_sent_len",
+      "rho": 0.8008
+    },
+    {
+      "a": "mean_sent_len",
+      "b": "knife_rate",
+      "rho": -0.7868
+    },
+    {
+      "a": "f9a_contradiction_rate",
+      "b": "f17_knife_count",
+      "rho": -0.727
+    },
+    {
+      "a": "std_sent_len",
+      "b": "f9a_contradiction_rate",
+      "rho": 0.7232
+    },
+    {
+      "a": "f1a_rhythm_variance",
+      "b": "f9a_contradiction_rate",
+      "rho": 0.7232
+    },
+    {
+      "a": "sub_per_sentence",
+      "b": "mean_sent_len",
+      "rho": 0.713
+    },
+    {
+      "a": "f9a_contradiction_rate",
+      "b": "f26b_long_sent_rate",
+      "rho": 0.706
+    },
+    {
+      "a": "f9a_contradiction_rate",
+      "b": "f24c_contrast_delta",
+      "rho": 0.7005
+    },
+    {
+      "a": "f26b_long_sent_rate",
+      "b": "f17_knife_count",
+      "rho": -0.6809
+    },
+    {
+      "a": "std_sent_len",
+      "b": "f17_knife_count",
+      "rho": -0.6709
+    },
+    {
+      "a": "f1a_rhythm_variance",
+      "b": "f17_knife_count",
+      "rho": -0.6709
+    },
+    {
+      "a": "longest_sent_words",
+      "b": "f9a_contradiction_rate",
+      "rho": 0.6594
+    }
+  ],
+  "elasticity": {
+    "f26b_long_sent_rate": {
+      "semicolon_count": 0.326,
+      "dash_count": -0.321,
+      "excl_count": -0.147,
+      "dialogue_ratio": -0.089,
+      "f1a_rhythm_variance": 0.619
+    },
+    "mean_sent_len": {
+      "semicolon_count": 0.299,
+      "dash_count": -0.355,
+      "excl_count": -0.177,
+      "dialogue_ratio": -0.048,
+      "f1a_rhythm_variance": 0.85
+    },
+    "cv_sent": {
+      "semicolon_count": 0.189,
+      "dash_count": -0.028,
+      "excl_count": 0.18,
+      "dialogue_ratio": 0.062,
+      "f1a_rhythm_variance": 0.513
+    },
+    "knife_rate": {
+      "semicolon_count": -0.241,
+      "dash_count": 0.541,
+      "excl_count": 0.34,
+      "dialogue_ratio": 0.239,
+      "f1a_rhythm_variance": -0.266
+    },
+    "ratio_alt": {
+      "semicolon_count": 0.249,
+      "dash_count": -0.289,
+      "excl_count": -0.013,
+      "dialogue_ratio": -0.117,
+      "f1a_rhythm_variance": 0.32
+    },
+    "sub_per_sentence": {
+      "semicolon_count": 0.153,
+      "dash_count": -0.233,
+      "excl_count": -0.173,
+      "dialogue_ratio": -0.044,
+      "f1a_rhythm_variance": 0.639
+    },
+    "f17_knife_count": {
+      "semicolon_count": -0.262,
+      "dash_count": 0.557,
+      "excl_count": 0.303,
+      "dialogue_ratio": 0.22,
+      "f1a_rhythm_variance": -0.306
+    },
+    "f29d_ttr_score": {
+      "semicolon_count": 0.021,
+      "dash_count": -0.013,
+      "excl_count": 0.012,
+      "dialogue_ratio": -0.013,
+      "f1a_rhythm_variance": 0.056
+    },
+    "f24c_contrast_delta": {
+      "semicolon_count": 0.361,
+      "dash_count": -0.405,
+      "excl_count": -0.107,
+      "dialogue_ratio": -0.183,
+      "f1a_rhythm_variance": 0.429
+    },
+    "f35c_hook_score": {
+      "semicolon_count": -0.192,
+      "dash_count": 0.386,
+      "excl_count": 0.298,
+      "dialogue_ratio": 0.166,
+      "f1a_rhythm_variance": -0.337
+    },
+    "f36c_cliff_score": {
+      "semicolon_count": -0.114,
+      "dash_count": 0.072,
+      "excl_count": 0.056,
+      "dialogue_ratio": -0.001,
+      "f1a_rhythm_variance": -0.286
+    },
+    "std_sent_len": {
+      "semicolon_count": 0.276,
+      "dash_count": -0.247,
+      "excl_count": -0.083,
+      "dialogue_ratio": 0.055,
+      "f1a_rhythm_variance": 1.0
+    },
+    "longest_sent_words": {
+      "semicolon_count": 0.333,
+      "dash_count": -0.307,
+      "excl_count": -0.082,
+      "dialogue_ratio": -0.012,
+      "f1a_rhythm_variance": 0.919
+    }
+  },
+  "interactions": [
+    {
+      "f1": "std_sent_len",
+      "f2": "f1a_rhythm_variance",
+      "r2_add": 0.0696,
+      "r2_interaction": 0.1362,
+      "delta_r2": 0.0666,
+      "interaction_coef": -0.0302
+    },
+    {
+      "f1": "std_sent_len",
+      "f2": "sub_per_sentence",
+      "r2_add": 0.0697,
+      "r2_interaction": 0.0981,
+      "delta_r2": 0.0284,
+      "interaction_coef": -0.0218
+    },
+    {
+      "f1": "f1a_rhythm_variance",
+      "f2": "sub_per_sentence",
+      "r2_add": 0.0697,
+      "r2_interaction": 0.0981,
+      "delta_r2": 0.0284,
+      "interaction_coef": -0.0218
+    },
+    {
+      "f1": "semicolon_count",
+      "f2": "std_sent_len",
+      "r2_add": 0.205,
+      "r2_interaction": 0.2332,
+      "delta_r2": 0.0282,
+      "interaction_coef": -0.0693
+    },
+    {
+      "f1": "semicolon_count",
+      "f2": "f1a_rhythm_variance",
+      "r2_add": 0.205,
+      "r2_interaction": 0.2332,
+      "delta_r2": 0.0282,
+      "interaction_coef": -0.0693
+    },
+    {
+      "f1": "dialogue_ratio",
+      "f2": "f16a_bigram_rarity",
+      "r2_add": 0.0911,
+      "r2_interaction": 0.1119,
+      "delta_r2": 0.0207,
+      "interaction_coef": -0.1053
+    },
+    {
+      "f1": "semicolon_count",
+      "f2": "sub_per_sentence",
+      "r2_add": 0.1943,
+      "r2_interaction": 0.2033,
+      "delta_r2": 0.0089,
+      "interaction_coef": -0.0694
+    },
+    {
+      "f1": "excl_count",
+      "f2": "sub_per_sentence",
+      "r2_add": 0.0478,
+      "r2_interaction": 0.0558,
+      "delta_r2": 0.008,
+      "interaction_coef": 0.2049
+    },
+    {
+      "f1": "std_sent_len",
+      "f2": "f16a_bigram_rarity",
+      "r2_add": 0.0795,
+      "r2_interaction": 0.0873,
+      "delta_r2": 0.0078,
+      "interaction_coef": 0.0548
+    },
+    {
+      "f1": "f1a_rhythm_variance",
+      "f2": "f16a_bigram_rarity",
+      "r2_add": 0.0795,
+      "r2_interaction": 0.0873,
+      "delta_r2": 0.0078,
+      "interaction_coef": 0.0548
+    },
+    {
+      "f1": "dialogue_ratio",
+      "f2": "std_sent_len",
+      "r2_add": 0.1546,
+      "r2_interaction": 0.1623,
+      "delta_r2": 0.0076,
+      "interaction_coef": 0.0114
+    },
+    {
+      "f1": "dialogue_ratio",
+      "f2": "f1a_rhythm_variance",
+      "r2_add": 0.1546,
+      "r2_interaction": 0.1623,
+      "delta_r2": 0.0076,
+      "interaction_coef": 0.0114
+    },
+    {
+      "f1": "semicolon_count",
+      "f2": "ellipsis_count",
+      "r2_add": 0.1901,
+      "r2_interaction": 0.1964,
+      "delta_r2": 0.0063,
+      "interaction_coef": 0.1399
+    },
+    {
+      "f1": "dialogue_ratio",
+      "f2": "sub_per_sentence",
+      "r2_add": 0.1034,
+      "r2_interaction": 0.1095,
+      "delta_r2": 0.0061,
+      "interaction_coef": 0.0562
+    },
+    {
+      "f1": "semicolon_count",
+      "f2": "dash_count",
+      "r2_add": 0.3353,
+      "r2_interaction": 0.3405,
+      "delta_r2": 0.0052,
+      "interaction_coef": 0.1279
+    },
+    {
+      "f1": "ellipsis_count",
+      "f2": "f16a_bigram_rarity",
+      "r2_add": 0.0373,
+      "r2_interaction": 0.0425,
+      "delta_r2": 0.0052,
+      "interaction_coef": -0.0587
+    }
+  ],
+  "causal_chains": [
+    {
+      "source": "std_sent_len",
+      "mediator": "mean_sent_len",
+      "total_effect": 0.02523,
+      "indirect_via_med": 0.02679,
+      "direct_effect": -0.00156,
+      "mediation_pct": 106.2,
+      "direction": "AMPLIFY"
+    },
+    {
+      "source": "std_sent_len",
+      "mediator": "f26b_long_sent_rate",
+      "total_effect": 0.02523,
+      "indirect_via_med": 0.01639,
+      "direct_effect": 0.00884,
+      "mediation_pct": 64.9,
+      "direction": "AMPLIFY"
+    },
+    {
+      "source": "excl_count",
+      "mediator": "mean_sent_len",
+      "total_effect": 0.02809,
+      "indirect_via_med": -0.01748,
+      "direct_effect": 0.04557,
+      "mediation_pct": 62.2,
+      "direction": "SUPPRESS"
+    },
+    {
+      "source": "excl_count",
+      "mediator": "f26b_long_sent_rate",
+      "total_effect": 0.02809,
+      "indirect_via_med": -0.01507,
+      "direct_effect": 0.04316,
+      "mediation_pct": 53.6,
+      "direction": "SUPPRESS"
+    },
+    {
+      "source": "ellipsis_count",
+      "mediator": "mean_sent_len",
+      "total_effect": -0.06185,
+      "indirect_via_med": -0.02889,
+      "direct_effect": -0.03296,
+      "mediation_pct": 46.7,
+      "direction": "AMPLIFY"
+    },
+    {
+      "source": "ellipsis_count",
+      "mediator": "f26b_long_sent_rate",
+      "total_effect": -0.06185,
+      "indirect_via_med": -0.02748,
+      "direct_effect": -0.03437,
+      "mediation_pct": 44.4,
+      "direction": "AMPLIFY"
+    },
+    {
+      "source": "excl_count",
+      "mediator": "sub_per_sentence",
+      "total_effect": 0.02809,
+      "indirect_via_med": -0.00986,
+      "direct_effect": 0.03795,
+      "mediation_pct": 35.1,
+      "direction": "SUPPRESS"
+    },
+    {
+      "source": "excl_count",
+      "mediator": "cv_sent",
+      "total_effect": 0.02809,
+      "indirect_via_med": 0.00917,
+      "direct_effect": 0.01892,
+      "mediation_pct": 32.6,
+      "direction": "AMPLIFY"
+    },
+    {
+      "source": "colon_count",
+      "mediator": "ratio_alt",
+      "total_effect": 0.03933,
+      "indirect_via_med": 0.01236,
+      "direct_effect": 0.02696,
+      "mediation_pct": 31.4,
+      "direction": "AMPLIFY"
+    },
+    {
+      "source": "std_sent_len",
+      "mediator": "ratio_alt",
+      "total_effect": 0.02523,
+      "indirect_via_med": 0.00765,
+      "direct_effect": 0.01758,
+      "mediation_pct": 30.3,
+      "direction": "AMPLIFY"
+    },
+    {
+      "source": "ellipsis_count",
+      "mediator": "ratio_alt",
+      "total_effect": -0.06185,
+      "indirect_via_med": -0.01711,
+      "direct_effect": -0.04475,
+      "mediation_pct": 27.7,
+      "direction": "AMPLIFY"
+    },
+    {
+      "source": "colon_count",
+      "mediator": "cv_sent",
+      "total_effect": 0.03933,
+      "indirect_via_med": 0.01016,
+      "direct_effect": 0.02917,
+      "mediation_pct": 25.8,
+      "direction": "AMPLIFY"
+    },
+    {
+      "source": "colon_count",
+      "mediator": "f26b_long_sent_rate",
+      "total_effect": 0.03933,
+      "indirect_via_med": 0.00679,
+      "direct_effect": 0.03254,
+      "mediation_pct": 17.3,
+      "direction": "AMPLIFY"
+    },
+    {
+      "source": "semicolon_count",
+      "mediator": "f26b_long_sent_rate",
+      "total_effect": 0.15076,
+      "indirect_via_med": 0.02514,
+      "direct_effect": 0.12563,
+      "mediation_pct": 16.7,
+      "direction": "AMPLIFY"
+    },
+    {
+      "source": "ellipsis_count",
+      "mediator": "sub_per_sentence",
+      "total_effect": -0.06185,
+      "indirect_via_med": -0.00942,
+      "direct_effect": -0.05244,
+      "mediation_pct": 15.2,
+      "direction": "AMPLIFY"
+    }
+  ]
+}

@@ -1,0 +1,580 @@
+{
+  "generated": "2026-03-27",
+  "status": "PRELIMINARY — consolidation existant, 0 API supplementaire",
+  "model": "claude-sonnet-4-20250514",
+  "baseline": {
+    "words": {
+      "mean": 511.8,
+      "std": 86.259,
+      "min": 418.0,
+      "max": 605.0
+    },
+    "sentence_count": {
+      "mean": 16.2,
+      "std": 2.683,
+      "min": 14.0,
+      "max": 20.0
+    },
+    "paragraph_count": {
+      "mean": 4.8,
+      "std": 1.789,
+      "min": 4.0,
+      "max": 8.0
+    },
+    "mean_sent_len": {
+      "mean": 31.564,
+      "std": 1.917,
+      "min": 29.86,
+      "max": 33.93
+    },
+    "std_sent_len": {
+      "mean": 25.184,
+      "std": 3.528,
+      "min": 20.87,
+      "max": 28.62
+    },
+    "cv_sent": {
+      "mean": 0.8,
+      "std": 0.119,
+      "min": 0.626,
+      "max": 0.915
+    },
+    "f26b_long_sent_rate": {
+      "mean": 0.376,
+      "std": 0.09,
+      "min": 0.267,
+      "max": 0.5
+    },
+    "f17_knife_count": {
+      "mean": 2.4,
+      "std": 1.517,
+      "min": 1.0,
+      "max": 4.0
+    },
+    "knife_rate": {
+      "mean": 0.147,
+      "std": 0.088,
+      "min": 0.056,
+      "max": 0.267
+    },
+    "ratio_alt": {
+      "mean": 0.113,
+      "std": 0.032,
+      "min": 0.067,
+      "max": 0.143
+    },
+    "T_LC": {
+      "mean": 1.0,
+      "std": 0.707,
+      "min": 0.0,
+      "max": 2.0
+    },
+    "T_CL": {
+      "mean": 0.8,
+      "std": 0.447,
+      "min": 0.0,
+      "max": 1.0
+    },
+    "semicolon_count": {
+      "mean": 0.2,
+      "std": 0.447,
+      "min": 0.0,
+      "max": 1.0
+    },
+    "dash_count": {
+      "mean": 2.6,
+      "std": 1.673,
+      "min": 0.0,
+      "max": 4.0
+    },
+    "colon_count": {
+      "mean": 1.2,
+      "std": 1.643,
+      "min": 0.0,
+      "max": 4.0
+    },
+    "excl_count": {
+      "mean": 0.0,
+      "std": 0.0,
+      "min": 0.0,
+      "max": 0.0
+    },
+    "quest_count": {
+      "mean": 0.0,
+      "std": 0.0,
+      "min": 0.0,
+      "max": 0.0
+    },
+    "ellipsis_count": {
+      "mean": 0.0,
+      "std": 0.0,
+      "min": 0.0,
+      "max": 0.0
+    },
+    "dialogue_markers": {
+      "mean": 3.0,
+      "std": 2.828,
+      "min": 0.0,
+      "max": 6.0
+    },
+    "sub_per_sentence": {
+      "mean": 1.697,
+      "std": 0.111,
+      "min": 1.533,
+      "max": 1.8
+    },
+    "longest_sent": {
+      "mean": 79.8,
+      "std": 11.122,
+      "min": 61.0,
+      "max": 89.0
+    },
+    "shortest_sent": {
+      "mean": 3.0,
+      "std": 0.707,
+      "min": 2.0,
+      "max": 4.0
+    }
+  },
+  "pilotability": {
+    "f29d_ttr_score": {
+      "pilotability": 0.8,
+      "category": "SOLIDE",
+      "taux_declared": 0.8,
+      "taux_optimized": 0.8
+    },
+    "f24e_contrast_score": {
+      "pilotability": 1,
+      "category": "SOLIDE",
+      "taux_declared": 1,
+      "taux_optimized": 1
+    },
+    "f15b_redundancy_compression": {
+      "pilotability": 1,
+      "category": "SOLIDE",
+      "taux_declared": 1,
+      "taux_optimized": 1
+    },
+    "f16a_bigram_rarity": {
+      "pilotability": 1,
+      "category": "SOLIDE",
+      "taux_declared": 1,
+      "taux_optimized": 1
+    },
+    "f25g_description_score": {
+      "pilotability": 0,
+      "category": "SOLIDE",
+      "taux_declared": 0.8,
+      "taux_optimized": 0.8
+    },
+    "f17_knife_count": {
+      "pilotability": 0,
+      "category": "ILLUSION_DÉCLARATIVE",
+      "taux_declared": 0.2,
+      "taux_optimized": null
+    },
+    "f35c_hook_score": {
+      "pilotability": 0,
+      "category": "SOLIDE",
+      "taux_declared": 0.9,
+      "taux_optimized": null
+    },
+    "f36c_cliff_score": {
+      "pilotability": 0,
+      "category": "SOLIDE",
+      "taux_declared": 1,
+      "taux_optimized": null
+    }
+  },
+  "confusion_matrix": {
+    "DESCRIPTION": {
+      "produced": "INTROSPECTION",
+      "verdict": "SUBSTITUTION — produit du INTROSPECTION au lieu de DESCRIPTION",
+      "distances": {
+        "ACTION": 1.2729,
+        "DESCRIPTION": 0.8194,
+        "DIALOGUE": 0.7482,
+        "INTROSPECTION": 0.6454,
+        "TRANSITION": 0.7415
+      }
+    },
+    "ACTION": {
+      "produced": "INTROSPECTION",
+      "verdict": "SUBSTITUTION — produit du INTROSPECTION au lieu de ACTION",
+      "distances": {
+        "ACTION": 8.2858,
+        "DESCRIPTION": 6.6025,
+        "DIALOGUE": 5.8815,
+        "INTROSPECTION": 5.4763,
+        "TRANSITION": 6.6584
+      }
+    },
+    "INTROSPECTION": {
+      "produced": "INTROSPECTION",
+      "verdict": "MATCH — produit du INTROSPECTION",
+      "distances": {
+        "ACTION": 5.2839,
+        "DESCRIPTION": 3.4259,
+        "DIALOGUE": 7.8381,
+        "INTROSPECTION": 1.102,
+        "TRANSITION": 3.8212
+      }
+    },
+    "CONTEMPLATION": {
+      "produced": "INTROSPECTION",
+      "verdict": "SUBSTITUTION — produit du INTROSPECTION au lieu de DESCRIPTION",
+      "distances": {
+        "ACTION": 3.6408,
+        "DESCRIPTION": 2.027,
+        "DIALOGUE": 1.7662,
+        "INTROSPECTION": 1.3664,
+        "TRANSITION": 1.6408
+      }
+    },
+    "LYRIQUE": {
+      "produced": "INTROSPECTION",
+      "verdict": "SUBSTITUTION — produit du INTROSPECTION au lieu de DESCRIPTION",
+      "distances": {
+        "ACTION": 1.6688,
+        "DESCRIPTION": 1.1959,
+        "DIALOGUE": 1.0677,
+        "INTROSPECTION": 0.975,
+        "TRANSITION": 1.18
+      }
+    },
+    "DIALOGUE": {
+      "produced": "INTROSPECTION",
+      "verdict": "SUBSTITUTION — produit du INTROSPECTION au lieu de DIALOGUE",
+      "distances": {
+        "ACTION": 5.3768,
+        "DESCRIPTION": 4.2684,
+        "DIALOGUE": 3.9666,
+        "INTROSPECTION": 3.551,
+        "TRANSITION": 4.3161
+      }
+    },
+    "TRANSITION": {
+      "produced": "INTROSPECTION",
+      "verdict": "SUBSTITUTION — produit du INTROSPECTION au lieu de TRANSITION",
+      "distances": {
+        "ACTION": 2.1559,
+        "DESCRIPTION": 1.629,
+        "DIALOGUE": 1.7376,
+        "INTROSPECTION": 1.3271,
+        "TRANSITION": 1.652
+      }
+    }
+  },
+  "duel_modes": {
+    "loop_refined": {
+      "n": 5,
+      "mean_words": 572.2,
+      "mean_f1": 36.73,
+      "mean_f26b": 0.3758,
+      "mean_f17": 3.8
+    },
+    "tranchant_minimaliste": {
+      "n": 5,
+      "mean_words": 378.0,
+      "mean_f1": 30.98,
+      "mean_f26b": 0.439,
+      "mean_f17": 5.8
+    },
+    "sensoriel_dense": {
+      "n": 5,
+      "mean_words": 429.2,
+      "mean_f1": 32.79,
+      "mean_f26b": 0.4464,
+      "mean_f17": 6.0
+    },
+    "experimental_signature": {
+      "n": 5,
+      "mean_words": 401.2,
+      "mean_f1": 31.88,
+      "mean_f26b": 0.4318,
+      "mean_f17": 6.4
+    }
+  },
+  "volume_compression": [
+    {
+      "scene": "menace",
+      "target_words": 500,
+      "actual_words": 302,
+      "composite": 87.66817115734898,
+      "min_axis": 61.86666666666667,
+      "axes": {
+        "ECC": 91.5640136002719,
+        "RCI": 86.74879419782415,
+        "SII": 61.86666666666667,
+        "IFI": 97.24751655629139,
+        "AAI": 94.80000000000001
+      },
+      "saga_ready": false,
+      "prose_hash": "TGUgc2VudGllciBz"
+    },
+    {
+      "scene": "menace",
+      "target_words": 750,
+      "actual_words": 320,
+      "composite": 90.75188367603798,
+      "min_axis": 81.71118624303881,
+      "axes": {
+        "ECC": 91.71415004461022,
+        "RCI": 81.71118624303881,
+        "SII": 90,
+        "IFI": 96.953125,
+        "AAI": 93.6
+      },
+      "saga_ready": false,
+      "prose_hash": "TGUgY3LDqXB1c2N1"
+    },
+    {
+      "scene": "menace",
+      "target_words": 1000,
+      "actual_words": 470,
+      "composite": 91.78572401312788,
+      "min_axis": 83.9374079872213,
+      "axes": {
+        "ECC": 93.3794308273659,
+        "RCI": 83.9374079872213,
+        "SII": 89,
+        "IFI": 96.51152482269504,
+        "AAI": 94.80000000000001
+      },
+      "saga_ready": false,
+      "prose_hash": "TGEgbW91c3NlIGPD"
+    },
+    {
+      "scene": "revelation",
+      "target_words": 500,
+      "actual_words": 302,
+      "composite": 90.08751492300192,
+      "min_axis": 81.28936530435544,
+      "axes": {
+        "ECC": 92.14720207392772,
+        "RCI": 81.28936530435544,
+        "SII": 90.53333333333335,
+        "IFI": 81.79746136865342,
+        "AAI": 96.4
+      },
+      "saga_ready": false,
+      "prose_hash": "TGVzIHZvaXggZGVz"
+    },
+    {
+      "scene": "revelation",
+      "target_words": 750,
+      "actual_words": 394,
+      "composite": 91.27358824799384,
+      "min_axis": 84.20774708861676,
+      "axes": {
+        "ECC": 94.27093680239466,
+        "RCI": 84.20774708861676,
+        "SII": 91.26666666666667,
+        "IFI": 84.58862098138748,
+        "AAI": 94.80000000000001
+      },
+      "saga_ready": false,
+      "prose_hash": "U2VzIGRvaWd0cyBl"
+    },
+    {
+      "scene": "revelation",
+      "target_words": 1000,
+      "actual_words": 550,
+      "composite": 84.72239998898023,
+      "min_axis": 58.86666666666667,
+      "axes": {
+        "ECC": 87.50842687729822,
+        "RCI": 85.23973813593048,
+        "SII": 58.86666666666667,
+        "IFI": 88.23863636363636,
+        "AAI": 94.80000000000001
+      },
+      "saga_ready": false,
+      "prose_hash": "TGUgcGFycXVldCBk"
+    }
+  ],
+  "laws": [
+    {
+      "id": "L01",
+      "statement": "Claude produit de l'INTROSPECTION quel que soit le mode demande",
+      "confidence": "OBSERVE",
+      "evidence": "confusion_matrix.json — 7/7 modes -> INTROSPECTION"
+    },
+    {
+      "id": "L02",
+      "statement": "f17_knife_count est une ILLUSION DECLARATIVE — Claude pretend ajouter des phrases-couteau mais ne le fait pas",
+      "confidence": "OBSERVE",
+      "evidence": "rosetta — taux_respect = 20%"
+    },
+    {
+      "id": "L03",
+      "statement": "Le point-virgule est le marqueur #1 de qualite litteraire",
+      "confidence": "OBSERVE",
+      "evidence": "Angostura — importance permutation 0.42"
+    },
+    {
+      "id": "L04",
+      "statement": "Le volume produit est compresse vers 300-500w quel que soit le target",
+      "confidence": "OBSERVE",
+      "evidence": "Volume test — 6/6 runs sous-produisent"
+    },
+    {
+      "id": "L05",
+      "statement": "La micro-chirurgie phrase-par-phrase ne fonctionne pas",
+      "confidence": "OBSERVE",
+      "evidence": "Rosetta — taux_succes = 0"
+    },
+    {
+      "id": "L06",
+      "statement": "f24e_contrast_score est parfaitement pilotable (100%)",
+      "confidence": "OBSERVE",
+      "evidence": "Rosetta — pilotability = 1.0"
+    },
+    {
+      "id": "L07",
+      "statement": "Les features lexicales (TTR, bigram) sont stables mais non discriminantes",
+      "confidence": "OBSERVE",
+      "evidence": "Angostura — TTR = THERMOMETER, importance ~0.004"
+    },
+    {
+      "id": "L08",
+      "statement": "Le conflit structurel ECC/SII vs IFI est insoluble — les phrases longues tuent les hooks",
+      "confidence": "INFERE",
+      "evidence": "Angostura — 26 features en conflit inter-axes"
+    },
+    {
+      "id": "L09",
+      "statement": "semicolon_count + dash_count capturent 64% de l'importance totale a 500w",
+      "confidence": "OBSERVE",
+      "evidence": "Angostura — 0.42 + 0.22 = 0.64"
+    },
+    {
+      "id": "L10",
+      "statement": "R2 de prediction du tier augmente avec la taille du texte (0.20 a 200w -> 0.39 a 2000w)",
+      "confidence": "OBSERVE",
+      "evidence": "Audit hierarchique — 5 tailles mesurees"
+    }
+  ],
+  "bestof3_features": {
+    "contemplation": {
+      "words": 475,
+      "sentence_count": 14,
+      "paragraph_count": 4,
+      "mean_sent_len": 33.93,
+      "std_sent_len": 28.62,
+      "cv_sent": 0.844,
+      "f26b_long_sent_rate": 0.5,
+      "f17_knife_count": 1,
+      "knife_rate": 0.0714,
+      "ratio_alt": 0.1429,
+      "T_LC": 1,
+      "T_CL": 1,
+      "semicolon_count": 0,
+      "dash_count": 3,
+      "colon_count": 1,
+      "excl_count": 0,
+      "quest_count": 0,
+      "ellipsis_count": 0,
+      "dialogue_markers": 0,
+      "sub_per_sentence": 1.643,
+      "longest_sent": 89,
+      "shortest_sent": 3
+    },
+    "confrontation": {
+      "words": 605,
+      "sentence_count": 20,
+      "paragraph_count": 4,
+      "mean_sent_len": 30.1,
+      "std_sent_len": 27.53,
+      "cv_sent": 0.915,
+      "f26b_long_sent_rate": 0.35,
+      "f17_knife_count": 4,
+      "knife_rate": 0.2,
+      "ratio_alt": 0.1,
+      "T_LC": 2,
+      "T_CL": 0,
+      "semicolon_count": 0,
+      "dash_count": 0,
+      "colon_count": 0,
+      "excl_count": 0,
+      "quest_count": 0,
+      "ellipsis_count": 0,
+      "dialogue_markers": 5,
+      "sub_per_sentence": 1.8,
+      "longest_sent": 87,
+      "shortest_sent": 3
+    },
+    "souvenir": {
+      "words": 602,
+      "sentence_count": 18,
+      "paragraph_count": 8,
+      "mean_sent_len": 33.33,
+      "std_sent_len": 20.87,
+      "cv_sent": 0.626,
+      "f26b_long_sent_rate": 0.3333,
+      "f17_knife_count": 1,
+      "knife_rate": 0.0556,
+      "ratio_alt": 0.1111,
+      "T_LC": 1,
+      "T_CL": 1,
+      "semicolon_count": 1,
+      "dash_count": 2,
+      "colon_count": 4,
+      "excl_count": 0,
+      "quest_count": 0,
+      "ellipsis_count": 0,
+      "dialogue_markers": 6,
+      "sub_per_sentence": 1.722,
+      "longest_sent": 82,
+      "shortest_sent": 4
+    },
+    "menace": {
+      "words": 418,
+      "sentence_count": 14,
+      "paragraph_count": 4,
+      "mean_sent_len": 29.86,
+      "std_sent_len": 21.92,
+      "cv_sent": 0.734,
+      "f26b_long_sent_rate": 0.4286,
+      "f17_knife_count": 2,
+      "knife_rate": 0.1429,
+      "ratio_alt": 0.1429,
+      "T_LC": 1,
+      "T_CL": 1,
+      "semicolon_count": 0,
+      "dash_count": 4,
+      "colon_count": 0,
+      "excl_count": 0,
+      "quest_count": 0,
+      "ellipsis_count": 0,
+      "dialogue_markers": 0,
+      "sub_per_sentence": 1.786,
+      "longest_sent": 61,
+      "shortest_sent": 2
+    },
+    "revelation": {
+      "words": 459,
+      "sentence_count": 15,
+      "paragraph_count": 4,
+      "mean_sent_len": 30.6,
+      "std_sent_len": 26.98,
+      "cv_sent": 0.882,
+      "f26b_long_sent_rate": 0.2667,
+      "f17_knife_count": 4,
+      "knife_rate": 0.2667,
+      "ratio_alt": 0.0667,
+      "T_LC": 0,
+      "T_CL": 1,
+      "semicolon_count": 0,
+      "dash_count": 4,
+      "colon_count": 1,
+      "excl_count": 0,
+      "quest_count": 0,
+      "ellipsis_count": 0,
+      "dialogue_markers": 4,
+      "sub_per_sentence": 1.533,
+      "longest_sent": 80,
+      "shortest_sent": 3
+    }
+  }
+}

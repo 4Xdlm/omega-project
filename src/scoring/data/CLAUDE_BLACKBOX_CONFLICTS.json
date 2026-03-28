@@ -1,0 +1,165 @@
+{
+  "protocol": "BLOC 5 — CONFLITS ENTRE CONSIGNES",
+  "model": "claude-sonnet-4-20250514",
+  "date": "2026-03-28",
+  "n_conflicts": 6,
+  "n_results": 18,
+  "conflicts": {
+    "long_vs_speed": {
+      "consigneA": "phrases_longues",
+      "consigneB": "rythme_rapide",
+      "featureA": {
+        "key": "f1_mean",
+        "stats": {
+          "mean": 79.9952,
+          "std": 16.1028,
+          "min": 65.2857,
+          "max": 97.2,
+          "median": 77.5,
+          "n": 3
+        }
+      },
+      "featureB": {
+        "key": "f38c_speed_score",
+        "stats": {
+          "mean": 0.0845,
+          "std": 0.0367,
+          "min": 0.0438,
+          "max": 0.1152,
+          "median": 0.0946,
+          "n": 3
+        }
+      }
+    },
+    "lyrisme_vs_dialogue_cru": {
+      "consigneA": "lyrisme",
+      "consigneB": "dialogue_cru",
+      "featureA": {
+        "key": "f25g_description_score",
+        "stats": {
+          "mean": 0.5645,
+          "std": 0.0094,
+          "min": 0.5565,
+          "max": 0.5748,
+          "median": 0.5622,
+          "n": 3
+        }
+      },
+      "featureB": {
+        "key": "f34b_para_per_1000w",
+        "stats": {
+          "mean": 40.9967,
+          "std": 1.1356,
+          "min": 39.84,
+          "max": 42.11,
+          "median": 41.04,
+          "n": 3
+        }
+      }
+    },
+    "ampleur_vs_urgence": {
+      "consigneA": "ampleur_syntaxique",
+      "consigneB": "urgence",
+      "featureA": {
+        "key": "f26c_period_score",
+        "stats": {
+          "mean": 1,
+          "std": 0,
+          "min": 1,
+          "max": 1,
+          "median": 1,
+          "n": 3
+        }
+      },
+      "featureB": {
+        "key": "f38c_speed_score",
+        "stats": {
+          "mean": 0.2026,
+          "std": 0.0212,
+          "min": 0.1784,
+          "max": 0.2182,
+          "median": 0.2112,
+          "n": 3
+        }
+      }
+    },
+    "subordination_vs_lisibilite": {
+      "consigneA": "subordination_forte",
+      "consigneB": "lisibilite",
+      "featureA": {
+        "key": "f_subordination_depth",
+        "stats": {
+          "mean": 0.0999,
+          "std": 0.0075,
+          "min": 0.094,
+          "max": 0.1084,
+          "median": 0.0973,
+          "n": 3
+        }
+      },
+      "featureB": {
+        "key": "f1_mean",
+        "stats": {
+          "mean": 65.5357,
+          "std": 8.9395,
+          "min": 60.25,
+          "max": 75.8571,
+          "median": 60.5,
+          "n": 3
+        }
+      }
+    },
+    "sensoriel_vs_necessite": {
+      "consigneA": "densite_sensorielle",
+      "consigneB": "necessite_maximale",
+      "featureA": {
+        "key": "f25g_description_score",
+        "stats": {
+          "mean": 0.5893,
+          "std": 0.1051,
+          "min": 0.4709,
+          "max": 0.6717,
+          "median": 0.6253,
+          "n": 3
+        }
+      },
+      "featureB": {
+        "key": "f38c_speed_score",
+        "stats": {
+          "mean": 0.7127,
+          "std": 0.1641,
+          "min": 0.567,
+          "max": 0.8904,
+          "median": 0.6806,
+          "n": 3
+        }
+      }
+    },
+    "ampleur_vs_hooks": {
+      "consigneA": "narration_ample",
+      "consigneB": "hooks_frequents",
+      "featureA": {
+        "key": "f26c_period_score",
+        "stats": {
+          "mean": 0.0864,
+          "std": 0.0217,
+          "min": 0.0703,
+          "max": 0.1111,
+          "median": 0.0778,
+          "n": 3
+        }
+      },
+      "featureB": {
+        "key": "f35c_hook_score",
+        "stats": {
+          "mean": 0.6,
+          "std": 0.1732,
+          "min": 0.5,
+          "max": 0.8,
+          "median": 0.5,
+          "n": 3
+        }
+      }
+    }
+  }
+}

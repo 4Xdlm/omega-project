@@ -1,0 +1,473 @@
+{
+  "protocol": "BLOC 3 — PLAFONDS MÉCANIQUES",
+  "model": "claude-sonnet-4-20250514",
+  "date": "2026-03-28",
+  "n_gradients": 6,
+  "n_results": 78,
+  "gradients": {
+    "sentence_length": {
+      "feature_key": "f1_mean",
+      "levels": {
+        "20w": {
+          "n": 3,
+          "primary_feature": "f1_mean",
+          "primary_stats": {
+            "mean": 18.241,
+            "std": 0.3403,
+            "min": 17.9231,
+            "max": 18.6,
+            "median": 18.2,
+            "n": 3
+          }
+        },
+        "35w": {
+          "n": 3,
+          "primary_feature": "f1_mean",
+          "primary_stats": {
+            "mean": 35.3519,
+            "std": 2.3966,
+            "min": 33.0667,
+            "max": 37.8462,
+            "median": 35.1429,
+            "n": 3
+          }
+        },
+        "50w": {
+          "n": 3,
+          "primary_feature": "f1_mean",
+          "primary_stats": {
+            "mean": 52.6435,
+            "std": 10.4673,
+            "min": 41.75,
+            "max": 62.625,
+            "median": 53.5556,
+            "n": 3
+          }
+        },
+        "70w": {
+          "n": 3,
+          "primary_feature": "f1_mean",
+          "primary_stats": {
+            "mean": 61.825,
+            "std": 16.9998,
+            "min": 48.6,
+            "max": 81,
+            "median": 55.875,
+            "n": 3
+          }
+        },
+        "90w": {
+          "n": 3,
+          "primary_feature": "f1_mean",
+          "primary_stats": {
+            "mean": 96.1333,
+            "std": 3.1005,
+            "min": 93,
+            "max": 99.2,
+            "median": 96.2,
+            "n": 3
+          }
+        }
+      },
+      "level_means": [
+        {
+          "label": "20w",
+          "mean": 18.241
+        },
+        {
+          "label": "35w",
+          "mean": 35.3519
+        },
+        {
+          "label": "50w",
+          "mean": 52.6435
+        },
+        {
+          "label": "70w",
+          "mean": 61.825
+        },
+        {
+          "label": "90w",
+          "mean": 96.1333
+        }
+      ],
+      "ceiling_detected_at": "none_detected"
+    },
+    "knife_rate": {
+      "feature_key": "f17_knife_count",
+      "levels": {
+        "faible": {
+          "n": 3,
+          "primary_feature": "f17_knife_count",
+          "primary_stats": {
+            "mean": 0.6667,
+            "std": 1.1547,
+            "min": 0,
+            "max": 2,
+            "median": 0,
+            "n": 3
+          }
+        },
+        "moyen": {
+          "n": 3,
+          "primary_feature": "f17_knife_count",
+          "primary_stats": {
+            "mean": 15.3333,
+            "std": 1.5275,
+            "min": 14,
+            "max": 17,
+            "median": 15,
+            "n": 3
+          }
+        },
+        "eleve": {
+          "n": 3,
+          "primary_feature": "f17_knife_count",
+          "primary_stats": {
+            "mean": 84,
+            "std": 40.9268,
+            "min": 49,
+            "max": 129,
+            "median": 74,
+            "n": 3
+          }
+        },
+        "extreme": {
+          "n": 3,
+          "primary_feature": "f17_knife_count",
+          "primary_stats": {
+            "mean": 52.3333,
+            "std": 20.5994,
+            "min": 29,
+            "max": 68,
+            "median": 60,
+            "n": 3
+          }
+        }
+      },
+      "level_means": [
+        {
+          "label": "faible",
+          "mean": 0.6667
+        },
+        {
+          "label": "moyen",
+          "mean": 15.3333
+        },
+        {
+          "label": "eleve",
+          "mean": 84
+        },
+        {
+          "label": "extreme",
+          "mean": 52.3333
+        }
+      ],
+      "ceiling_detected_at": "eleve"
+    },
+    "dialogue_ratio": {
+      "feature_key": "f34b_para_per_1000w",
+      "levels": {
+        "10pct": {
+          "n": 3,
+          "primary_feature": "f34b_para_per_1000w",
+          "primary_stats": {
+            "mean": 23.5467,
+            "std": 3.3885,
+            "min": 21.36,
+            "max": 27.45,
+            "median": 21.83,
+            "n": 3
+          }
+        },
+        "30pct": {
+          "n": 3,
+          "primary_feature": "f34b_para_per_1000w",
+          "primary_stats": {
+            "mean": 57.34,
+            "std": 5.9961,
+            "min": 51.28,
+            "max": 63.27,
+            "median": 57.47,
+            "n": 3
+          }
+        },
+        "50pct": {
+          "n": 3,
+          "primary_feature": "f34b_para_per_1000w",
+          "primary_stats": {
+            "mean": 57.98,
+            "std": 8.2232,
+            "min": 50.72,
+            "max": 66.91,
+            "median": 56.31,
+            "n": 3
+          }
+        },
+        "70pct": {
+          "n": 3,
+          "primary_feature": "f34b_para_per_1000w",
+          "primary_stats": {
+            "mean": 81.3133,
+            "std": 16.2501,
+            "min": 63.72,
+            "max": 95.76,
+            "median": 84.46,
+            "n": 3
+          }
+        },
+        "90pct": {
+          "n": 3,
+          "primary_feature": "f34b_para_per_1000w",
+          "primary_stats": {
+            "mean": 112.12,
+            "std": 12.2971,
+            "min": 99.52,
+            "max": 124.09,
+            "median": 112.75,
+            "n": 3
+          }
+        }
+      },
+      "level_means": [
+        {
+          "label": "10pct",
+          "mean": 23.5467
+        },
+        {
+          "label": "30pct",
+          "mean": 57.34
+        },
+        {
+          "label": "50pct",
+          "mean": 57.98
+        },
+        {
+          "label": "70pct",
+          "mean": 81.3133
+        },
+        {
+          "label": "90pct",
+          "mean": 112.12
+        }
+      ],
+      "ceiling_detected_at": "30pct"
+    },
+    "ponctuation_forte": {
+      "feature_key": "f33a_dots_count",
+      "levels": {
+        "faible": {
+          "n": 3,
+          "primary_feature": "f33a_dots_count",
+          "primary_stats": {
+            "mean": 36.6667,
+            "std": 1.5275,
+            "min": 35,
+            "max": 38,
+            "median": 37,
+            "n": 3
+          }
+        },
+        "moyenne": {
+          "n": 3,
+          "primary_feature": "f33a_dots_count",
+          "primary_stats": {
+            "mean": 60.3333,
+            "std": 5.5076,
+            "min": 55,
+            "max": 66,
+            "median": 60,
+            "n": 3
+          }
+        },
+        "haute": {
+          "n": 3,
+          "primary_feature": "f33a_dots_count",
+          "primary_stats": {
+            "mean": 76.6667,
+            "std": 6.6583,
+            "min": 69,
+            "max": 81,
+            "median": 80,
+            "n": 3
+          }
+        },
+        "extreme": {
+          "n": 3,
+          "primary_feature": "f33a_dots_count",
+          "primary_stats": {
+            "mean": 93.3333,
+            "std": 12.0968,
+            "min": 84,
+            "max": 107,
+            "median": 89,
+            "n": 3
+          }
+        }
+      },
+      "level_means": [
+        {
+          "label": "faible",
+          "mean": 36.6667
+        },
+        {
+          "label": "moyenne",
+          "mean": 60.3333
+        },
+        {
+          "label": "haute",
+          "mean": 76.6667
+        },
+        {
+          "label": "extreme",
+          "mean": 93.3333
+        }
+      ],
+      "ceiling_detected_at": "none_detected"
+    },
+    "subordination": {
+      "feature_key": "f_subordination_depth",
+      "levels": {
+        "faible": {
+          "n": 3,
+          "primary_feature": "f_subordination_depth",
+          "primary_stats": {
+            "mean": 0.0275,
+            "std": 0.0083,
+            "min": 0.0194,
+            "max": 0.036,
+            "median": 0.0272,
+            "n": 3
+          }
+        },
+        "moyenne": {
+          "n": 3,
+          "primary_feature": "f_subordination_depth",
+          "primary_stats": {
+            "mean": 0.0994,
+            "std": 0.0098,
+            "min": 0.0915,
+            "max": 0.1103,
+            "median": 0.0963,
+            "n": 3
+          }
+        },
+        "forte": {
+          "n": 3,
+          "primary_feature": "f_subordination_depth",
+          "primary_stats": {
+            "mean": 0.098,
+            "std": 0.0034,
+            "min": 0.096,
+            "max": 0.1019,
+            "median": 0.096,
+            "n": 3
+          }
+        },
+        "saturee": {
+          "n": 3,
+          "primary_feature": "f_subordination_depth",
+          "primary_stats": {
+            "mean": 0.1288,
+            "std": 0.0152,
+            "min": 0.1193,
+            "max": 0.1463,
+            "median": 0.1208,
+            "n": 3
+          }
+        }
+      },
+      "level_means": [
+        {
+          "label": "faible",
+          "mean": 0.0275
+        },
+        {
+          "label": "moyenne",
+          "mean": 0.0994
+        },
+        {
+          "label": "forte",
+          "mean": 0.098
+        },
+        {
+          "label": "saturee",
+          "mean": 0.1288
+        }
+      ],
+      "ceiling_detected_at": "moyenne"
+    },
+    "style_indirect_libre": {
+      "feature_key": "f28d_sil_score",
+      "levels": {
+        "leger": {
+          "n": 3,
+          "primary_feature": "f28d_sil_score",
+          "primary_stats": {
+            "mean": 0.0794,
+            "std": 0.0263,
+            "min": 0.0637,
+            "max": 0.1098,
+            "median": 0.0646,
+            "n": 3
+          }
+        },
+        "moyen": {
+          "n": 3,
+          "primary_feature": "f28d_sil_score",
+          "primary_stats": {
+            "mean": 0.1376,
+            "std": 0.0263,
+            "min": 0.1088,
+            "max": 0.1603,
+            "median": 0.1438,
+            "n": 3
+          }
+        },
+        "fort": {
+          "n": 3,
+          "primary_feature": "f28d_sil_score",
+          "primary_stats": {
+            "mean": 0.0671,
+            "std": 0.0673,
+            "min": 0,
+            "max": 0.1346,
+            "median": 0.0667,
+            "n": 3
+          }
+        },
+        "quasi_total": {
+          "n": 3,
+          "primary_feature": "f28d_sil_score",
+          "primary_stats": {
+            "mean": 0.0167,
+            "std": 0.0289,
+            "min": 0,
+            "max": 0.05,
+            "median": 0,
+            "n": 3
+          }
+        }
+      },
+      "level_means": [
+        {
+          "label": "leger",
+          "mean": 0.0794
+        },
+        {
+          "label": "moyen",
+          "mean": 0.1376
+        },
+        {
+          "label": "fort",
+          "mean": 0.0671
+        },
+        {
+          "label": "quasi_total",
+          "mean": 0.0167
+        }
+      ],
+      "ceiling_detected_at": "moyen"
+    }
+  }
+}

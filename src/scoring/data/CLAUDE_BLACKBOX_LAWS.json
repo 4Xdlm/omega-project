@@ -1,0 +1,122 @@
+{
+  "protocol": "BLOC 6 — SYNTHÈSE DES LOIS ÉMERGENTES",
+  "date": "2026-03-28",
+  "model": "claude-sonnet-4-20250514",
+  "note": "Lois INFÉRÉES à partir de données empiriques. Aucune extraction de secrets internes.",
+  "classification": {
+    "thermometres": [
+      "f29d_ttr_score — stable entre catégories, faible pouvoir discriminant",
+      "f19a_approx_entropy — régulier, peu sensible aux consignes",
+      "f16a_bigram_rarity — varie peu d'une catégorie à l'autre"
+    ],
+    "drivers": [
+      "f1_mean — très discriminant entre styles, mais plafonné en extrême",
+      "f28d_sil_score — levier majeur, exécuté sur exemplar",
+      "f26b_long_sent_rate — corrélé à f1_mean, plafonné après 50w",
+      "f25g_description_score — varie fortement selon la scène",
+      "f38c_speed_score — sensible à la consigne, inversement lié à f1_mean",
+      "f34b_para_per_1000w — proxy dialogue fiable"
+    ],
+    "regles_emergentes": [
+      {
+        "loi": "Claude recentre les extrêmes syntaxiques",
+        "confiance": "MOYENNE",
+        "score": 0.6829,
+        "evidence": "B4: oralite_sale f1_mean delta=+0.91 (7% baseline), zero_description desc -15%, prose_lyrique f1 +52.7%",
+        "delta_mean": 0.348,
+        "std_inter_runs": 2.1367
+      },
+      {
+        "loi": "Claude exécute mieux l'exemplar que la consigne abstraite",
+        "confiance": "FAIBLE",
+        "score": 0.25,
+        "evidence": "B2: exemplar >= best abstract in 3/12 families",
+        "delta_mean": 6.4046,
+        "std_inter_runs": 10.3772
+      },
+      {
+        "loi": "Claude comprime les demandes d'alternance",
+        "confiance": "FAIBLE",
+        "score": 0,
+        "evidence": "B2: alternance demandée, rhythm_ratio baseline=16.3969, simple=60.6667, exemplar=35.6667",
+        "delta_mean": 29.492,
+        "std_inter_runs": 8.612
+      },
+      {
+        "loi": "Claude favorise un régime introspectif par défaut",
+        "confiance": "HAUTE",
+        "score": 0.7467,
+        "evidence": "B1: introspection markers in 4/4 non-introsp categories. B4: zero_introsp modal=0.0778",
+        "delta_mean": 0.0778,
+        "std_inter_runs": 0.0697
+      },
+      {
+        "loi": "Claude lisse la violence et l'inconfort",
+        "confiance": "MOYENNE",
+        "score": 0.5592,
+        "evidence": "B4: inconfort f1 delta=-1.7164 (13.2%), speed delta=-0.0487",
+        "delta_mean": 0.113,
+        "std_inter_runs": 0.5863
+      },
+      {
+        "loi": "Claude injecte de l'introspection spontanée même sans consigne",
+        "confiance": "FAIBLE",
+        "score": 0.2251,
+        "evidence": "B1: action SIL=0.009, desc SIL=0.0202. B4: zero_introsp modal=0.0778",
+        "delta_mean": 0.0357,
+        "std_inter_runs": 0.0431
+      },
+      {
+        "loi": "Claude ferme sémantiquement (résolution) même sans consigne",
+        "confiance": "HAUTE",
+        "score": 0.964,
+        "evidence": "B1: cliff_score mean=0.4989, std across categories=0.0035",
+        "delta_mean": 0.4989,
+        "std_inter_runs": 0.0105
+      },
+      {
+        "loi": "En conflit de consignes, la consigne la plus standard gagne",
+        "confiance": "MOYENNE",
+        "score": 0.5,
+        "evidence": "B5: structural/safe consigne won in ~3/6 conflicts. Not strongly directional.",
+        "delta_mean": 0,
+        "std_inter_runs": 0
+      }
+    ],
+    "contraintes_observees": [
+      {
+        "contrainte": "Plafond phrase longue",
+        "details": "B3: 20w→18.2, 35w→35.4, 50w→52.6, 70w→61.8 (std=17.0), 90w→96.1. Variance haute au-delà de 50w.",
+        "confiance": "FAIBLE",
+        "score": 0.0801
+      },
+      {
+        "contrainte": "Plafond oralité",
+        "details": "B4: oralite_sale TTR=0.6852 (baseline 0.7401), delta=0.0549. Vocabulaire reste riche.",
+        "confiance": "HAUTE",
+        "score": 0.9258
+      },
+      {
+        "contrainte": "Résistance au dialogue pur",
+        "details": "B4: dialogue_pur desc_score=0.4077 (baseline 0.5785). 70.4754% description survit.",
+        "confiance": "MOYENNE",
+        "score": 0.6517
+      },
+      {
+        "contrainte": "Difficulté à maintenir deux leviers contradictoires",
+        "details": "B5: les deux leviers exécutés simultanément dans 3/6 conflits seulement.",
+        "confiance": "MOYENNE",
+        "score": 0.5
+      },
+      {
+        "contrainte": "Subordination maximale atteinte",
+        "details": "B3: moyenne=0.0994, forte=0.098, saturée=0.1288. Plafond entre moyenne et forte (delta=0.0014).",
+        "confiance": "HAUTE",
+        "score": 0.9859
+      }
+    ]
+  },
+  "methodology_note": "Confiance calculée: SNR (signal-to-noise) basé sur delta moyen vs baseline et écart-type inter-runs (n=3). HAUTE >= 0.7, MOYENNE >= 0.4, FAIBLE < 0.4.",
+  "confidence_computed": true,
+  "confidence_date": "2026-03-28"
+}

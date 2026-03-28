@@ -1,0 +1,148 @@
+{
+  "r2_global": 0.10082256482076066,
+  "top5_global": [
+    [
+      "f1a_rhythm_variance",
+      0.09357621280721122
+    ],
+    [
+      "std_sent_len",
+      0.08351544123136656
+    ],
+    [
+      "f16a_bigram_rarity",
+      0.07771886574374798
+    ],
+    [
+      "ellipsis_count",
+      0.06872298018052483
+    ],
+    [
+      "semicolon_count",
+      0.05811246867368157
+    ]
+  ],
+  "clusters": {
+    "0": {
+      "n_windows": 229000,
+      "tier_dist": {
+        "S": 105326,
+        "B": 48860,
+        "A": 40156,
+        "C": 34658
+      },
+      "r2_cv": 0.09974413352511773,
+      "gain_vs_global": -0.0010784312956429315,
+      "top_10": [
+        [
+          "f16a_bigram_rarity",
+          0.08360074091639541
+        ],
+        [
+          "ellipsis_count",
+          0.0832292058179987
+        ],
+        [
+          "f1a_rhythm_variance",
+          0.07945985697687272
+        ],
+        [
+          "std_sent_len",
+          0.06593061057553477
+        ],
+        [
+          "semicolon_count",
+          0.058197302910758954
+        ],
+        [
+          "dialogue_ratio",
+          0.05486718043787157
+        ],
+        [
+          "excl_count",
+          0.03915504480822306
+        ],
+        [
+          "dash_count",
+          0.03542401327504443
+        ],
+        [
+          "f9a_contradiction_rate",
+          0.028469727587315342
+        ],
+        [
+          "longest_sent_words",
+          0.02431848347843495
+        ]
+      ],
+      "centroid": {
+        "mean_sent_len": -0.34589934034324893,
+        "f1a_rhythm_variance": -0.2869673139179313,
+        "f17_knife_count": 0.1201102124951513,
+        "f26b_long_sent_rate": -0.3905899195630971,
+        "sub_per_sentence": -0.3181278563109069
+      }
+    },
+    "1": {
+      "n_windows": 38651,
+      "tier_dist": {
+        "S": 25792,
+        "A": 7792,
+        "B": 4983,
+        "C": 84
+      },
+      "r2_cv": -0.3083077611434989,
+      "gain_vs_global": -0.4091303259642596,
+      "top_10": [
+        [
+          "dialogue_ratio",
+          0.1326827170442749
+        ],
+        [
+          "colon_count",
+          0.12248886762662628
+        ],
+        [
+          "semicolon_count",
+          0.10903602072844183
+        ],
+        [
+          "dash_count",
+          0.10575966236818082
+        ],
+        [
+          "sub_per_sentence",
+          0.06776563192495377
+        ],
+        [
+          "f16a_bigram_rarity",
+          0.06370807794820052
+        ],
+        [
+          "longest_sent_words",
+          0.04853682065810776
+        ],
+        [
+          "f9a_contradiction_rate",
+          0.04791832747407524
+        ],
+        [
+          "f1a_rhythm_variance",
+          0.04357683742561789
+        ],
+        [
+          "std_sent_len",
+          0.03686765884036802
+        ]
+      ],
+      "centroid": {
+        "mean_sent_len": 1.415954039624368,
+        "f1a_rhythm_variance": 1.1747132185306475,
+        "f17_knife_count": -0.49167639468140406,
+        "f26b_long_sent_rate": 1.5988968752964343,
+        "sub_per_sentence": 1.3022702582013086
+      }
+    }
+  },
+  "verdict": "FAIL"
+}

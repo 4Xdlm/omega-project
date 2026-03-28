@@ -1,0 +1,233 @@
+{
+  "C1": {
+    "3000w": {
+      "n_windows": 2492,
+      "r2_train": 0.9215822138072178,
+      "r2_cv": 0.5193925265669654,
+      "top_10": [
+        {
+          "feature": "f26b_long_sent_rate",
+          "perm_importance_mean": 0.2413107336330646,
+          "perm_importance_std": 0.009725122562842983,
+          "gini_importance": 0.4383424757989537
+        },
+        {
+          "feature": "dash_count",
+          "perm_importance_mean": 0.2381064043170645,
+          "perm_importance_std": 0.009098155210489501,
+          "gini_importance": 0.08579871812401597
+        },
+        {
+          "feature": "cv_para",
+          "perm_importance_mean": 0.16325484705335885,
+          "perm_importance_std": 0.008329846931668938,
+          "gini_importance": 0.07315183958115876
+        },
+        {
+          "feature": "semicolon_count",
+          "perm_importance_mean": 0.14626788340992633,
+          "perm_importance_std": 0.0043558124550873555,
+          "gini_importance": 0.05852808777017819
+        },
+        {
+          "feature": "mean_para_len",
+          "perm_importance_mean": 0.09859257035292007,
+          "perm_importance_std": 0.005951247480247824,
+          "gini_importance": 0.050576940966544394
+        },
+        {
+          "feature": "excl_count",
+          "perm_importance_mean": 0.05901920024418285,
+          "perm_importance_std": 0.003053219905062084,
+          "gini_importance": 0.025761497595240265
+        },
+        {
+          "feature": "ratio_alt",
+          "perm_importance_mean": 0.04109467823513184,
+          "perm_importance_std": 0.0015826014606801393,
+          "gini_importance": 0.0077592203288230676
+        },
+        {
+          "feature": "dialogue_ratio",
+          "perm_importance_mean": 0.022507142927274394,
+          "perm_importance_std": 0.0009877118425823653,
+          "gini_importance": 0.019565310337184606
+        },
+        {
+          "feature": "ellipsis_count",
+          "perm_importance_mean": 0.016494017165012097,
+          "perm_importance_std": 0.0010525509733268776,
+          "gini_importance": 0.01269642900275526
+        },
+        {
+          "feature": "std_sent_len",
+          "perm_importance_mean": 0.015344740829722082,
+          "perm_importance_std": 0.0007272354597471796,
+          "gini_importance": 0.04935929794317376
+        }
+      ]
+    },
+    "5000w": {
+      "n_windows": 1375,
+      "r2_train": 0.9522558488213598,
+      "r2_cv": 0.42183012649403795,
+      "top_10": [
+        {
+          "feature": "f26b_long_sent_rate",
+          "perm_importance_mean": 0.22488890872837794,
+          "perm_importance_std": 0.006293799122146204,
+          "gini_importance": 0.3557560972341012
+        },
+        {
+          "feature": "mean_para_len",
+          "perm_importance_mean": 0.2091208074650158,
+          "perm_importance_std": 0.01718991747174855,
+          "gini_importance": 0.09075696871657936
+        },
+        {
+          "feature": "ratio_alt",
+          "perm_importance_mean": 0.14733572890595123,
+          "perm_importance_std": 0.007899857181078574,
+          "gini_importance": 0.01231850914458698
+        },
+        {
+          "feature": "semicolon_count",
+          "perm_importance_mean": 0.11243161556267763,
+          "perm_importance_std": 0.00887546728922578,
+          "gini_importance": 0.028636544135633674
+        },
+        {
+          "feature": "cv_para",
+          "perm_importance_mean": 0.1066042773056475,
+          "perm_importance_std": 0.008535549423386043,
+          "gini_importance": 0.0635859455613987
+        },
+        {
+          "feature": "excl_count",
+          "perm_importance_mean": 0.08128146362619922,
+          "perm_importance_std": 0.004558901382348602,
+          "gini_importance": 0.01726165759731402
+        },
+        {
+          "feature": "f1a_rhythm_variance",
+          "perm_importance_mean": 0.045165968798998854,
+          "perm_importance_std": 0.00172434936911661,
+          "gini_importance": 0.15917361796835705
+        },
+        {
+          "feature": "dash_count",
+          "perm_importance_mean": 0.03340998241229026,
+          "perm_importance_std": 0.0014077427591588842,
+          "gini_importance": 0.01918309394861933
+        },
+        {
+          "feature": "dialogue_ratio",
+          "perm_importance_mean": 0.025959656426945678,
+          "perm_importance_std": 0.0011179541099279123,
+          "gini_importance": 0.01608780289144467
+        },
+        {
+          "feature": "std_sent_len",
+          "perm_importance_mean": 0.025463769100132906,
+          "perm_importance_std": 0.0010708071261034471,
+          "gini_importance": 0.09141024406897304
+        }
+      ]
+    }
+  },
+  "C2": {
+    "top3_removed": [
+      "pdf_pale_fire_vladimir",
+      "la_legende_des_siecles_victor",
+      "les_contemplations_victor"
+    ],
+    "n_windows_before": 141366,
+    "n_windows_after": 140640,
+    "r2_cv": 0.3178604376700019,
+    "semicolon_rank": 1,
+    "top_10": [
+      {
+        "feature": "semicolon_count",
+        "perm_importance_mean": 0.38760999652616857,
+        "perm_importance_std": 0.002223993776931583,
+        "gini_importance": 0.5469159766815007
+      },
+      {
+        "feature": "dash_count",
+        "perm_importance_mean": 0.18712603439139114,
+        "perm_importance_std": 0.0011126313685023781,
+        "gini_importance": 0.2079906608643018
+      },
+      {
+        "feature": "excl_count",
+        "perm_importance_mean": 0.05292483761072986,
+        "perm_importance_std": 0.0008251195254341848,
+        "gini_importance": 0.03255245465405331
+      },
+      {
+        "feature": "dialogue_ratio",
+        "perm_importance_mean": 0.040764980562362975,
+        "perm_importance_std": 0.00040932797230722065,
+        "gini_importance": 0.024875231257186683
+      },
+      {
+        "feature": "std_sent_len",
+        "perm_importance_mean": 0.03845482855845456,
+        "perm_importance_std": 0.000496571760118909,
+        "gini_importance": 0.03411951924674326
+      },
+      {
+        "feature": "f16a_bigram_rarity",
+        "perm_importance_mean": 0.036687868733504735,
+        "perm_importance_std": 0.0006341935837346186,
+        "gini_importance": 0.02446503156828428
+      },
+      {
+        "feature": "colon_count",
+        "perm_importance_mean": 0.035399046373519226,
+        "perm_importance_std": 0.00040732914352111795,
+        "gini_importance": 0.020117481053835127
+      },
+      {
+        "feature": "ellipsis_count",
+        "perm_importance_mean": 0.024785347160974226,
+        "perm_importance_std": 0.0003644068684071065,
+        "gini_importance": 0.015668270956463306
+      },
+      {
+        "feature": "f1a_rhythm_variance",
+        "perm_importance_mean": 0.02399225078348475,
+        "perm_importance_std": 0.00040100859494828677,
+        "gini_importance": 0.02637314488428442
+      },
+      {
+        "feature": "sub_per_sentence",
+        "perm_importance_mean": 0.015610525636441474,
+        "perm_importance_std": 0.000312180849842643,
+        "gini_importance": 0.012073112726039907
+      }
+    ]
+  },
+  "C3": {
+    "std_x_f1a_200w": {
+      "rho": 0.39718498180665074,
+      "n": 213722
+    },
+    "std_x_f1a_500w": {
+      "rho": 0.5298389681395299,
+      "n": 141366
+    },
+    "std_x_f1a_1000w": {
+      "rho": 0.5826411037357123,
+      "n": 95149
+    },
+    "std_x_f1a_2000w": {
+      "rho": 0.5985853842515524,
+      "n": 52329
+    },
+    "semicolon_x_dash_500w": {
+      "rho": 0.23102186865147034,
+      "n": 141366
+    }
+  }
+}

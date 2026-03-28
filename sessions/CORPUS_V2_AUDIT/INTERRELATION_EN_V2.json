@@ -1,0 +1,554 @@
+{
+  "lang": "en",
+  "n_windows": 267651,
+  "top_25_correlations": [
+    {
+      "a": "words",
+      "b": "sentence_count",
+      "rho": NaN
+    },
+    {
+      "a": "words",
+      "b": "paragraph_count",
+      "rho": NaN
+    },
+    {
+      "a": "words",
+      "b": "mean_sent_len",
+      "rho": NaN
+    },
+    {
+      "a": "words",
+      "b": "median_sent_len",
+      "rho": NaN
+    },
+    {
+      "a": "words",
+      "b": "std_sent_len",
+      "rho": NaN
+    },
+    {
+      "a": "words",
+      "b": "cv_sent",
+      "rho": NaN
+    },
+    {
+      "a": "words",
+      "b": "mean_para_len",
+      "rho": NaN
+    },
+    {
+      "a": "words",
+      "b": "std_para_len",
+      "rho": NaN
+    },
+    {
+      "a": "words",
+      "b": "cv_para",
+      "rho": NaN
+    },
+    {
+      "a": "words",
+      "b": "f1_mean",
+      "rho": NaN
+    },
+    {
+      "a": "words",
+      "b": "f1a_rhythm_variance",
+      "rho": NaN
+    },
+    {
+      "a": "words",
+      "b": "f1b_rhythm_ratio",
+      "rho": NaN
+    },
+    {
+      "a": "words",
+      "b": "range_sent_len",
+      "rho": NaN
+    },
+    {
+      "a": "words",
+      "b": "f26b_long_sent_rate",
+      "rho": NaN
+    },
+    {
+      "a": "words",
+      "b": "f17_knife_count",
+      "rho": NaN
+    },
+    {
+      "a": "words",
+      "b": "knife_rate",
+      "rho": NaN
+    },
+    {
+      "a": "words",
+      "b": "n_long_sentences",
+      "rho": NaN
+    },
+    {
+      "a": "words",
+      "b": "n_short_sentences",
+      "rho": NaN
+    },
+    {
+      "a": "words",
+      "b": "T_LC",
+      "rho": NaN
+    },
+    {
+      "a": "words",
+      "b": "T_CL",
+      "rho": NaN
+    },
+    {
+      "a": "words",
+      "b": "ratio_alt",
+      "rho": NaN
+    },
+    {
+      "a": "words",
+      "b": "longest_sent_words",
+      "rho": NaN
+    },
+    {
+      "a": "words",
+      "b": "shortest_sent_words",
+      "rho": NaN
+    },
+    {
+      "a": "words",
+      "b": "longest_run_long",
+      "rho": NaN
+    },
+    {
+      "a": "words",
+      "b": "longest_run_short",
+      "rho": NaN
+    }
+  ],
+  "elasticity": {
+    "std_sent_len": {
+      "f1a_rhythm_variance": {
+        "rho": 0.9999999999999998,
+        "beta_std": 1.000000000000003
+      },
+      "longest_sent_words": {
+        "rho": 0.9455343608054282,
+        "beta_std": 0.9294277691486039
+      },
+      "f26b_long_sent_rate": {
+        "rho": 0.9081488393890454,
+        "beta_std": 0.6959617721861866
+      },
+      "n_long_sentences": {
+        "rho": 0.8833321415756168,
+        "beta_std": 0.5730523808797424
+      },
+      "range_sent_len": {
+        "rho": 0.9374251970622659,
+        "beta_std": 0.9178798366954551
+      },
+      "f24c_contrast_delta": {
+        "rho": 0.9096273524696069,
+        "beta_std": 0.5571900340108494
+      },
+      "sentence_count": {
+        "rho": -0.8539368692033352,
+        "beta_std": -0.6092305958079889
+      }
+    }
+  },
+  "top_15_interactions": [
+    {
+      "f1": "words",
+      "f2": "paragraph_count",
+      "rho_inter": NaN,
+      "rho_f1": NaN,
+      "rho_f2": NaN,
+      "gain": NaN
+    },
+    {
+      "f1": "words",
+      "f2": "std_sent_len",
+      "rho_inter": 0.35929827377840495,
+      "rho_f1": NaN,
+      "rho_f2": 0.35929827377840495,
+      "gain": NaN
+    },
+    {
+      "f1": "words",
+      "f2": "mean_para_len",
+      "rho_inter": NaN,
+      "rho_f1": NaN,
+      "rho_f2": NaN,
+      "gain": NaN
+    },
+    {
+      "f1": "words",
+      "f2": "std_para_len",
+      "rho_inter": NaN,
+      "rho_f1": NaN,
+      "rho_f2": NaN,
+      "gain": NaN
+    },
+    {
+      "f1": "words",
+      "f2": "cv_para",
+      "rho_inter": NaN,
+      "rho_f1": NaN,
+      "rho_f2": NaN,
+      "gain": NaN
+    },
+    {
+      "f1": "words",
+      "f2": "f1a_rhythm_variance",
+      "rho_inter": 0.35929827377840495,
+      "rho_f1": NaN,
+      "rho_f2": 0.35929827377840495,
+      "gain": NaN
+    },
+    {
+      "f1": "words",
+      "f2": "longest_sent_words",
+      "rho_inter": 0.3392289264887156,
+      "rho_f1": NaN,
+      "rho_f2": 0.3392289264887156,
+      "gain": NaN
+    },
+    {
+      "f1": "words",
+      "f2": "f26b_long_sent_rate",
+      "rho_inter": 0.3389475537467944,
+      "rho_f1": NaN,
+      "rho_f2": 0.3389475537467944,
+      "gain": NaN
+    },
+    {
+      "f1": "words",
+      "f2": "n_long_sentences",
+      "rho_inter": 0.3310360021970652,
+      "rho_f1": NaN,
+      "rho_f2": 0.3310360021970652,
+      "gain": NaN
+    },
+    {
+      "f1": "words",
+      "f2": "range_sent_len",
+      "rho_inter": 0.33063597157147717,
+      "rho_f1": NaN,
+      "rho_f2": 0.33063597157147717,
+      "gain": NaN
+    },
+    {
+      "f1": "words",
+      "f2": "f24c_contrast_delta",
+      "rho_inter": 0.3274240915650366,
+      "rho_f1": NaN,
+      "rho_f2": 0.3274240915650366,
+      "gain": NaN
+    },
+    {
+      "f1": "words",
+      "f2": "sentence_count",
+      "rho_inter": -0.32487779427147,
+      "rho_f1": NaN,
+      "rho_f2": -0.32487779427147,
+      "gain": NaN
+    },
+    {
+      "f1": "words",
+      "f2": "mean_sent_len",
+      "rho_inter": 0.32431629574870213,
+      "rho_f1": NaN,
+      "rho_f2": 0.32431629574870213,
+      "gain": NaN
+    },
+    {
+      "f1": "words",
+      "f2": "f1_mean",
+      "rho_inter": 0.32431629574870213,
+      "rho_f1": NaN,
+      "rho_f2": 0.32431629574870213,
+      "gain": NaN
+    },
+    {
+      "f1": "paragraph_count",
+      "f2": "std_sent_len",
+      "rho_inter": 0.35929827377840495,
+      "rho_f1": NaN,
+      "rho_f2": 0.35929827377840495,
+      "gain": NaN
+    }
+  ],
+  "top_20_causal_chains": [
+    {
+      "path": "sentence_count -> mean_sent_len -> f1_mean",
+      "r12": -0.9997003890595055,
+      "r23": 1.0,
+      "r13": -0.9997003890595055,
+      "chain_strength": 0.9997003890595055,
+      "mediation": 0.9997003890595055
+    },
+    {
+      "path": "std_sent_len -> f1a_rhythm_variance -> longest_sent_words",
+      "r12": 0.9999999999999998,
+      "r23": 0.9455343608054282,
+      "r13": 0.9455343608054282,
+      "chain_strength": 0.945534360805428,
+      "mediation": 0.945534360805428
+    },
+    {
+      "path": "std_sent_len -> longest_sent_words -> range_sent_len",
+      "r12": 0.9455343608054282,
+      "r23": 0.991781612510715,
+      "r13": 0.9374251970622659,
+      "chain_strength": 0.9377635930438957,
+      "mediation": 0.9370868010806361
+    },
+    {
+      "path": "f1a_rhythm_variance -> longest_sent_words -> range_sent_len",
+      "r12": 0.9455343608054282,
+      "r23": 0.991781612510715,
+      "r13": 0.9374251970622659,
+      "chain_strength": 0.9377635930438957,
+      "mediation": 0.9370868010806361
+    },
+    {
+      "path": "std_sent_len -> f1a_rhythm_variance -> range_sent_len",
+      "r12": 0.9999999999999998,
+      "r23": 0.9374251970622659,
+      "r13": 0.9374251970622659,
+      "chain_strength": 0.9374251970622657,
+      "mediation": 0.9374251970622657
+    },
+    {
+      "path": "std_sent_len -> f1a_rhythm_variance -> f24c_contrast_delta",
+      "r12": 0.9999999999999998,
+      "r23": 0.9096273524696069,
+      "r13": 0.9096273524696069,
+      "chain_strength": 0.9096273524696067,
+      "mediation": 0.9096273524696067
+    },
+    {
+      "path": "std_sent_len -> f1a_rhythm_variance -> f26b_long_sent_rate",
+      "r12": 0.9999999999999998,
+      "r23": 0.9081488393890454,
+      "r13": 0.9081488393890454,
+      "chain_strength": 0.9081488393890452,
+      "mediation": 0.9081488393890452
+    },
+    {
+      "path": "std_sent_len -> f26b_long_sent_rate -> n_long_sentences",
+      "r12": 0.9081488393890454,
+      "r23": 0.9835796810425148,
+      "r13": 0.8833321415756168,
+      "chain_strength": 0.8932367457854073,
+      "mediation": 0.8734275373658262
+    },
+    {
+      "path": "f1a_rhythm_variance -> f26b_long_sent_rate -> n_long_sentences",
+      "r12": 0.9081488393890454,
+      "r23": 0.9835796810425148,
+      "r13": 0.8833321415756168,
+      "chain_strength": 0.8932367457854073,
+      "mediation": 0.8734275373658262
+    },
+    {
+      "path": "f26b_long_sent_rate -> sentence_count -> mean_sent_len",
+      "r12": -0.887876721642616,
+      "r23": -0.9997003890595055,
+      "r13": 0.8865409474244639,
+      "chain_strength": 0.8876107040630015,
+      "mediation": 0.8854711907859263
+    },
+    {
+      "path": "f26b_long_sent_rate -> sentence_count -> f1_mean",
+      "r12": -0.887876721642616,
+      "r23": -0.9997003890595055,
+      "r13": 0.8865409474244639,
+      "chain_strength": 0.8876107040630015,
+      "mediation": 0.8854711907859263
+    },
+    {
+      "path": "mean_sent_len -> f1_mean -> f26b_long_sent_rate",
+      "r12": 1.0,
+      "r23": 0.886540947424464,
+      "r13": 0.886540947424464,
+      "chain_strength": 0.886540947424464,
+      "mediation": 0.886540947424464
+    },
+    {
+      "path": "n_long_sentences -> std_sent_len -> f1a_rhythm_variance",
+      "r12": 0.8833321415756169,
+      "r23": 0.9999999999999998,
+      "r13": 0.8833321415756169,
+      "chain_strength": 0.8833321415756167,
+      "mediation": 0.8833321415756167
+    },
+    {
+      "path": "sentence_count -> f26b_long_sent_rate -> n_long_sentences",
+      "r12": -0.887876721642616,
+      "r23": 0.9835796810425148,
+      "r13": -0.8147726560760128,
+      "chain_strength": 0.873297502678318,
+      "mediation": 0.7562478094737076
+    },
+    {
+      "path": "mean_sent_len -> f26b_long_sent_rate -> n_long_sentences",
+      "r12": 0.886540947424464,
+      "r23": 0.9835796810425148,
+      "r13": 0.8131273293548549,
+      "chain_strength": 0.8719836622988831,
+      "mediation": 0.7542709964108266
+    },
+    {
+      "path": "f1_mean -> f26b_long_sent_rate -> n_long_sentences",
+      "r12": 0.886540947424464,
+      "r23": 0.9835796810425148,
+      "r13": 0.8131273293548549,
+      "chain_strength": 0.8719836622988831,
+      "mediation": 0.7542709964108266
+    },
+    {
+      "path": "f24c_contrast_delta -> std_sent_len -> longest_sent_words",
+      "r12": 0.9096273524696069,
+      "r23": 0.9455343608054282,
+      "r13": 0.8134532246870404,
+      "chain_strength": 0.8600839172884837,
+      "mediation": 0.7668225320855971
+    },
+    {
+      "path": "f24c_contrast_delta -> f1a_rhythm_variance -> longest_sent_words",
+      "r12": 0.9096273524696069,
+      "r23": 0.9455343608054282,
+      "r13": 0.8134532246870404,
+      "chain_strength": 0.8600839172884837,
+      "mediation": 0.7668225320855971
+    },
+    {
+      "path": "longest_sent_words -> std_sent_len -> f26b_long_sent_rate",
+      "r12": 0.9455343608054281,
+      "r23": 0.9081488393890454,
+      "r13": 0.8467008573332967,
+      "chain_strength": 0.8586859323679125,
+      "mediation": 0.8347157822986809
+    },
+    {
+      "path": "longest_sent_words -> f1a_rhythm_variance -> f26b_long_sent_rate",
+      "r12": 0.9455343608054281,
+      "r23": 0.9081488393890454,
+      "r13": 0.8467008573332967,
+      "chain_strength": 0.8586859323679125,
+      "mediation": 0.8347157822986809
+    }
+  ],
+  "proportionality_tier_s": {
+    "words": {
+      "p25": 500.0,
+      "median": 500.0,
+      "p75": 500.0,
+      "iqr": 0.0,
+      "ratio_p75_p25": 1.0
+    },
+    "paragraph_count": {
+      "p25": 1.0,
+      "median": 1.0,
+      "p75": 1.0,
+      "iqr": 0.0,
+      "ratio_p75_p25": 1.0
+    },
+    "std_sent_len": {
+      "p25": 10.488,
+      "median": 13.969,
+      "p75": 18.854,
+      "iqr": 8.366,
+      "ratio_p75_p25": 1.797673531655225
+    },
+    "mean_para_len": {
+      "p25": 500.0,
+      "median": 500.0,
+      "p75": 500.0,
+      "iqr": 0.0,
+      "ratio_p75_p25": 1.0
+    },
+    "std_para_len": {
+      "p25": 0.0,
+      "median": 0.0,
+      "p75": 0.0,
+      "iqr": 0.0,
+      "ratio_p75_p25": null
+    },
+    "cv_para": {
+      "p25": 0.0,
+      "median": 0.0,
+      "p75": 0.0,
+      "iqr": 0.0,
+      "ratio_p75_p25": null
+    },
+    "f1a_rhythm_variance": {
+      "p25": 10.488,
+      "median": 13.969,
+      "p75": 18.854,
+      "iqr": 8.366,
+      "ratio_p75_p25": 1.797673531655225
+    },
+    "longest_sent_words": {
+      "p25": 44.0,
+      "median": 58.0,
+      "p75": 76.0,
+      "iqr": 32.0,
+      "ratio_p75_p25": 1.7272727272727273
+    },
+    "f26b_long_sent_rate": {
+      "p25": 0.0303,
+      "median": 0.0833,
+      "p75": 0.1875,
+      "iqr": 0.1572,
+      "ratio_p75_p25": 6.188118811881188
+    },
+    "n_long_sentences": {
+      "p25": 1.0,
+      "median": 2.0,
+      "p75": 4.0,
+      "iqr": 3.0,
+      "ratio_p75_p25": 4.0
+    },
+    "range_sent_len": {
+      "p25": 42.0,
+      "median": 54.0,
+      "p75": 72.0,
+      "iqr": 30.0,
+      "ratio_p75_p25": 1.7142857142857142
+    },
+    "f24c_contrast_delta": {
+      "p25": 22.91025,
+      "median": 30.4,
+      "p75": 40.033,
+      "iqr": 17.12275,
+      "ratio_p75_p25": 1.7473838129221637
+    },
+    "sentence_count": {
+      "p25": 19.0,
+      "median": 25.0,
+      "p75": 33.0,
+      "iqr": 14.0,
+      "ratio_p75_p25": 1.736842105263158
+    },
+    "mean_sent_len": {
+      "p25": 15.152,
+      "median": 19.96,
+      "p75": 26.316,
+      "iqr": 11.164,
+      "ratio_p75_p25": 1.7368004223864837
+    },
+    "f1_mean": {
+      "p25": 15.152,
+      "median": 19.96,
+      "p75": 26.316,
+      "iqr": 11.164,
+      "ratio_p75_p25": 1.7368004223864837
+    }
+  }
+}

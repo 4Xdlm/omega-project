@@ -1,0 +1,619 @@
+{
+  "tiering_en": {
+    "S": {
+      "n_books": 220,
+      "n_windows": 131118
+    },
+    "A": {
+      "n_books": 79,
+      "n_windows": 47948
+    },
+    "B": {
+      "n_books": 94,
+      "n_windows": 53843
+    },
+    "C": {
+      "n_books": 62,
+      "n_windows": 34742
+    },
+    "D": {
+      "n_books": 64,
+      "n_windows": 31628
+    }
+  },
+  "tiering_fr": {
+    "S": {
+      "n_books": 127,
+      "n_windows": 78446
+    },
+    "A": {
+      "n_books": 37,
+      "n_windows": 21654
+    },
+    "B": {
+      "n_books": 34,
+      "n_windows": 23788
+    },
+    "C": {
+      "n_books": 37,
+      "n_windows": 17478
+    },
+    "D": {
+      "n_books": 0,
+      "n_windows": 0
+    }
+  },
+  "r2_en": {
+    "r2_train": 0.35473474480150036,
+    "r2_cv": 0.10082256482076071,
+    "n_windows": 267651,
+    "n_books": 455,
+    "top_20": [
+      {
+        "feature": "f1a_rhythm_variance",
+        "perm_importance_mean": 0.0935762128072112,
+        "perm_importance_std": 0.000394157402545547,
+        "gini_importance": 0.2487101558105902
+      },
+      {
+        "feature": "std_sent_len",
+        "perm_importance_mean": 0.08351544123136656,
+        "perm_importance_std": 0.00036401057545813536,
+        "gini_importance": 0.22246353771370653
+      },
+      {
+        "feature": "f16a_bigram_rarity",
+        "perm_importance_mean": 0.07771886574374796,
+        "perm_importance_std": 0.00038773363080253946,
+        "gini_importance": 0.08303133840025642
+      },
+      {
+        "feature": "ellipsis_count",
+        "perm_importance_mean": 0.06872298018052482,
+        "perm_importance_std": 0.0005543524855824646,
+        "gini_importance": 0.05304619165187642
+      },
+      {
+        "feature": "semicolon_count",
+        "perm_importance_mean": 0.05811246867368155,
+        "perm_importance_std": 0.00032870526034446446,
+        "gini_importance": 0.04169954028698764
+      },
+      {
+        "feature": "dialogue_ratio",
+        "perm_importance_mean": 0.05570068369434185,
+        "perm_importance_std": 0.00048298157856767316,
+        "gini_importance": 0.04787320593079088
+      },
+      {
+        "feature": "dash_count",
+        "perm_importance_mean": 0.03571248620608007,
+        "perm_importance_std": 0.0002010673601727048,
+        "gini_importance": 0.03220834613814506
+      },
+      {
+        "feature": "excl_count",
+        "perm_importance_mean": 0.033346400098477016,
+        "perm_importance_std": 0.00034265952305661087,
+        "gini_importance": 0.035762370529929324
+      },
+      {
+        "feature": "f9a_contradiction_rate",
+        "perm_importance_mean": 0.025987256605124364,
+        "perm_importance_std": 0.00032302195784766343,
+        "gini_importance": 0.027947101904442696
+      },
+      {
+        "feature": "colon_count",
+        "perm_importance_mean": 0.02121973655024395,
+        "perm_importance_std": 0.00018282602367710097,
+        "gini_importance": 0.021789928088381306
+      },
+      {
+        "feature": "sub_per_sentence",
+        "perm_importance_mean": 0.021077931881105405,
+        "perm_importance_std": 0.0001683726904191637,
+        "gini_importance": 0.022478869170860234
+      },
+      {
+        "feature": "longest_sent_words",
+        "perm_importance_mean": 0.017173555051518807,
+        "perm_importance_std": 0.00016975985949416623,
+        "gini_importance": 0.028302362774584998
+      },
+      {
+        "feature": "quest_count",
+        "perm_importance_mean": 0.012121409075608214,
+        "perm_importance_std": 0.0001297259282743785,
+        "gini_importance": 0.014147165746628713
+      },
+      {
+        "feature": "f26c_period_score",
+        "perm_importance_mean": 0.01087099145170145,
+        "perm_importance_std": 2.7832716030378843e-05,
+        "gini_importance": 0.014002490078008465
+      },
+      {
+        "feature": "knife_rate",
+        "perm_importance_mean": 0.010425901768818325,
+        "perm_importance_std": 0.00010936482915226085,
+        "gini_importance": 0.01321009150021135
+      },
+      {
+        "feature": "shortest_sent_words",
+        "perm_importance_mean": 0.007726572423880418,
+        "perm_importance_std": 0.00017486203486642615,
+        "gini_importance": 0.009086057239735143
+      },
+      {
+        "feature": "f24c_contrast_delta",
+        "perm_importance_mean": 0.006769836752023639,
+        "perm_importance_std": 6.255696219551832e-05,
+        "gini_importance": 0.0077942753341186475
+      },
+      {
+        "feature": "mean_sent_len",
+        "perm_importance_mean": 0.00636078998618308,
+        "perm_importance_std": 8.411950975382796e-05,
+        "gini_importance": 0.007786545473560662
+      },
+      {
+        "feature": "f29d_ttr_score",
+        "perm_importance_mean": 0.006194951756955602,
+        "perm_importance_std": 4.10430158108762e-05,
+        "gini_importance": 0.010475589538244066
+      },
+      {
+        "feature": "f1_mean",
+        "perm_importance_mean": 0.006064350338643798,
+        "perm_importance_std": 8.640118054528727e-05,
+        "gini_importance": 0.007437152692199954
+      }
+    ]
+  },
+  "r2_fr": {
+    "r2_train": 0.6886948464108837,
+    "r2_cv": 0.2973765758136304,
+    "n_windows": 141366,
+    "top_20": [
+      {
+        "feature": "semicolon_count",
+        "perm_importance_mean": 0.4156515655051968,
+        "perm_importance_std": 0.0014872163732632972,
+        "gini_importance": 0.4990863981612719
+      },
+      {
+        "feature": "dash_count",
+        "perm_importance_mean": 0.2129808609932196,
+        "perm_importance_std": 0.0012138791094749104,
+        "gini_importance": 0.19205413560270385
+      },
+      {
+        "feature": "excl_count",
+        "perm_importance_mean": 0.07634253475130401,
+        "perm_importance_std": 0.0007327340204792381,
+        "gini_importance": 0.03648220009266156
+      },
+      {
+        "feature": "dialogue_ratio",
+        "perm_importance_mean": 0.06980316771697634,
+        "perm_importance_std": 0.0006103066640065994,
+        "gini_importance": 0.031772756834823244
+      },
+      {
+        "feature": "colon_count",
+        "perm_importance_mean": 0.05346357050126475,
+        "perm_importance_std": 0.0007850201790974243,
+        "gini_importance": 0.02360512166360076
+      },
+      {
+        "feature": "f16a_bigram_rarity",
+        "perm_importance_mean": 0.04718198919210086,
+        "perm_importance_std": 0.0007918228979969374,
+        "gini_importance": 0.02741922847618804
+      },
+      {
+        "feature": "ellipsis_count",
+        "perm_importance_mean": 0.04564013452697404,
+        "perm_importance_std": 0.0005200444190739606,
+        "gini_importance": 0.021091566445509125
+      },
+      {
+        "feature": "std_sent_len",
+        "perm_importance_mean": 0.03696525189141192,
+        "perm_importance_std": 0.00034296704508661495,
+        "gini_importance": 0.028676918735696045
+      },
+      {
+        "feature": "f1a_rhythm_variance",
+        "perm_importance_mean": 0.0358792951206248,
+        "perm_importance_std": 0.00030423237042013037,
+        "gini_importance": 0.02756646094865228
+      },
+      {
+        "feature": "sub_per_sentence",
+        "perm_importance_mean": 0.02823537092823971,
+        "perm_importance_std": 0.00029460531521248055,
+        "gini_importance": 0.016049497958715884
+      },
+      {
+        "feature": "longest_sent_words",
+        "perm_importance_mean": 0.017790290545194376,
+        "perm_importance_std": 0.0002955295646909064,
+        "gini_importance": 0.01594653078674872
+      },
+      {
+        "feature": "quest_count",
+        "perm_importance_mean": 0.013889618195591303,
+        "perm_importance_std": 0.00022792466371750731,
+        "gini_importance": 0.009165938912137794
+      },
+      {
+        "feature": "f9a_contradiction_rate",
+        "perm_importance_mean": 0.012475633604478365,
+        "perm_importance_std": 0.00016835112805487913,
+        "gini_importance": 0.007389808689904025
+      },
+      {
+        "feature": "f26c_period_score",
+        "perm_importance_mean": 0.008049859862547082,
+        "perm_importance_std": 0.00010866503087955715,
+        "gini_importance": 0.005567328281125219
+      },
+      {
+        "feature": "range_sent_len",
+        "perm_importance_mean": 0.007924485188867857,
+        "perm_importance_std": 0.00010735440227236744,
+        "gini_importance": 0.005599307123131767
+      },
+      {
+        "feature": "cv_sent",
+        "perm_importance_mean": 0.0075475039611679895,
+        "perm_importance_std": 0.00016063153131211052,
+        "gini_importance": 0.005149278186205706
+      },
+      {
+        "feature": "f19a_approx_entropy",
+        "perm_importance_mean": 0.00737684960881071,
+        "perm_importance_std": 0.0001417834656654015,
+        "gini_importance": 0.005018781173453717
+      },
+      {
+        "feature": "f24c_contrast_delta",
+        "perm_importance_mean": 0.006186567061347759,
+        "perm_importance_std": 8.144860000973682e-05,
+        "gini_importance": 0.004702454167068112
+      },
+      {
+        "feature": "f26b_long_sent_rate",
+        "perm_importance_mean": 0.006091072976388667,
+        "perm_importance_std": 0.00011177141784848265,
+        "gini_importance": 0.00446426175540888
+      },
+      {
+        "feature": "f1b_rhythm_ratio",
+        "perm_importance_mean": 0.005089469353098652,
+        "perm_importance_std": 7.770988259338505e-05,
+        "gini_importance": 0.004835436896397888
+      }
+    ]
+  },
+  "cohens_d": {
+    "f9a_contradiction_rate": {
+      "cohens_d": 0.548946599657686,
+      "auc_en_s_vs_c": 0.7375777287618936,
+      "auc_fr_s_vs_c": 0.7804107569897707
+    },
+    "dash_count": {
+      "cohens_d": -0.4817081032323177,
+      "auc_en_s_vs_c": 0.4836210653492904,
+      "auc_fr_s_vs_c": 0.14790602597929592
+    },
+    "f16a_bigram_rarity": {
+      "cohens_d": -0.39303743471108943,
+      "auc_en_s_vs_c": 0.4498936009627373,
+      "auc_fr_s_vs_c": 0.47167386293956354
+    },
+    "sentence_count": {
+      "cohens_d": -0.3873149961519884,
+      "auc_en_s_vs_c": 0.1664427875255247,
+      "auc_fr_s_vs_c": 0.1509310416285015
+    },
+    "n_short_sentences": {
+      "cohens_d": -0.351202609306126,
+      "auc_en_s_vs_c": 0.21407133918841703,
+      "auc_fr_s_vs_c": 0.1917394817898731
+    },
+    "n_long_sentences": {
+      "cohens_d": 0.34050005531846034,
+      "auc_en_s_vs_c": 0.8285151844731133,
+      "auc_fr_s_vs_c": 0.8301390710774905
+    },
+    "f35c_hook_score": {
+      "cohens_d": -0.32648896237523944,
+      "auc_en_s_vs_c": 0.38059343353821207,
+      "auc_fr_s_vs_c": 0.31659238488856706
+    },
+    "f24c_contrast_delta": {
+      "cohens_d": 0.3109131685560819,
+      "auc_en_s_vs_c": 0.833681243450922,
+      "auc_fr_s_vs_c": 0.8500065209216785
+    },
+    "longest_run_long": {
+      "cohens_d": 0.30124445985943593,
+      "auc_en_s_vs_c": 0.7944106129996018,
+      "auc_fr_s_vs_c": 0.8075344449032654
+    },
+    "f26b_long_sent_rate": {
+      "cohens_d": 0.2972245394741789,
+      "auc_en_s_vs_c": 0.8372694974444409,
+      "auc_fr_s_vs_c": 0.8384778965079003
+    },
+    "f17_knife_count": {
+      "cohens_d": -0.27521935932129654,
+      "auc_en_s_vs_c": 0.24061520429011088,
+      "auc_fr_s_vs_c": 0.21647281178043817
+    },
+    "colon_count": {
+      "cohens_d": -0.27045922141912737,
+      "auc_en_s_vs_c": 0.623824015395217,
+      "auc_fr_s_vs_c": 0.6073960871762573
+    },
+    "f29d_ttr_score": {
+      "cohens_d": 0.2624523116769974,
+      "auc_en_s_vs_c": 0.5171165077748368,
+      "auc_fr_s_vs_c": 0.5320525385292334
+    },
+    "mean_sent_len": {
+      "cohens_d": 0.25745382352433227,
+      "auc_en_s_vs_c": 0.8327398722931001,
+      "auc_fr_s_vs_c": 0.8474206779368019
+    },
+    "f1_mean": {
+      "cohens_d": 0.25745382352433227,
+      "auc_en_s_vs_c": 0.8327398722931001,
+      "auc_fr_s_vs_c": 0.8474206779368019
+    },
+    "sub_per_sentence": {
+      "cohens_d": -0.2508014872655625,
+      "auc_en_s_vs_c": 0.7884408310508785,
+      "auc_fr_s_vs_c": 0.6548119855933514
+    },
+    "knife_rate": {
+      "cohens_d": -0.25038510672137915,
+      "auc_en_s_vs_c": 0.301734264263931,
+      "auc_fr_s_vs_c": 0.27248013445887126
+    },
+    "ratio_alt": {
+      "cohens_d": 0.2453695298924206,
+      "auc_en_s_vs_c": 0.6929807211867491,
+      "auc_fr_s_vs_c": 0.73033755764368
+    },
+    "median_sent_len": {
+      "cohens_d": 0.2444427938617042,
+      "auc_en_s_vs_c": 0.7636267797503415,
+      "auc_fr_s_vs_c": 0.7773833545345887
+    },
+    "longest_run_short": {
+      "cohens_d": -0.2330570108991371,
+      "auc_en_s_vs_c": 0.28361007095092083,
+      "auc_fr_s_vs_c": 0.2581194354763994
+    },
+    "longest_sent_words": {
+      "cohens_d": 0.21960536691029872,
+      "auc_en_s_vs_c": 0.8456435943140006,
+      "auc_fr_s_vs_c": 0.8606020110488323
+    },
+    "range_sent_len": {
+      "cohens_d": 0.2129604478509011,
+      "auc_en_s_vs_c": 0.8369960603328278,
+      "auc_fr_s_vs_c": 0.8505652432089867
+    },
+    "T_CL": {
+      "cohens_d": 0.18819287184868824,
+      "auc_en_s_vs_c": 0.6014982778452966,
+      "auc_fr_s_vs_c": 0.6298081708610984
+    },
+    "semicolon_count": {
+      "cohens_d": 0.18004320686522615,
+      "auc_en_s_vs_c": 0.741312135318929,
+      "auc_fr_s_vs_c": 0.8541586746045773
+    },
+    "std_sent_len": {
+      "cohens_d": 0.1779373575585319,
+      "auc_en_s_vs_c": 0.859556642927988,
+      "auc_fr_s_vs_c": 0.8729873956047532
+    },
+    "f1a_rhythm_variance": {
+      "cohens_d": 0.1779373575585319,
+      "auc_en_s_vs_c": 0.859556642927988,
+      "auc_fr_s_vs_c": 0.8729873956047532
+    },
+    "T_LC": {
+      "cohens_d": 0.16062813941096396,
+      "auc_en_s_vs_c": 0.6082654405942471,
+      "auc_fr_s_vs_c": 0.6464223206486305
+    },
+    "quest_count": {
+      "cohens_d": 0.14229507510511935,
+      "auc_en_s_vs_c": 0.3577719460423796,
+      "auc_fr_s_vs_c": 0.26129202611745866
+    },
+    "shortest_sent_words": {
+      "cohens_d": 0.1210587121695959,
+      "auc_en_s_vs_c": 0.6700909707019186,
+      "auc_fr_s_vs_c": 0.7019714331044167
+    },
+    "excl_count": {
+      "cohens_d": -0.1174817744301567,
+      "auc_en_s_vs_c": 0.5573128852811342,
+      "auc_fr_s_vs_c": 0.5573565857379201
+    }
+  },
+  "clustering_tier_s_en": {
+    "silhouette": 0.24942216907715828,
+    "clusters": {
+      "0": {
+        "n_windows": 38546,
+        "n_books": 189,
+        "example_books": [
+          "alain_fournier_meaulnes_13368.txt",
+          "amy_hempel_the_collected_stories.txt",
+          "austen_northanger_121.txt",
+          "austen_orgueil_42671.txt",
+          "austen_persuasion_105.txt",
+          "austen_pride_1342.txt",
+          "austen_sense_161.txt",
+          "balzac_eugenie_1715.txt",
+          "balzac_illusions_13141.txt",
+          "balzac_lys_1237.txt"
+        ]
+      },
+      "1": {
+        "n_windows": 92572,
+        "n_books": 213,
+        "example_books": [
+          "alain_fournier_meaulnes_13368.txt",
+          "amy_hempel_the_collected_stories.txt",
+          "austen_northanger_121.txt",
+          "austen_orgueil_42671.txt",
+          "austen_persuasion_105.txt",
+          "austen_pride_1342.txt",
+          "austen_sense_161.txt",
+          "balzac_eugenie_1715.txt",
+          "balzac_illusions_13141.txt",
+          "balzac_lys_1237.txt"
+        ]
+      }
+    },
+    "bimodality_detected": true
+  },
+  "anova_fr_vs_en": {
+    "words": {
+      "F": NaN,
+      "p": NaN
+    },
+    "paragraph_count": {
+      "F": NaN,
+      "p": NaN
+    },
+    "mean_para_len": {
+      "F": NaN,
+      "p": NaN
+    },
+    "std_para_len": {
+      "F": NaN,
+      "p": NaN
+    },
+    "cv_para": {
+      "F": NaN,
+      "p": NaN
+    },
+    "f9a_contradiction_rate": {
+      "F": 26046.454636803097,
+      "p": 0.0
+    },
+    "dash_count": {
+      "F": 24901.707498259722,
+      "p": 0.0
+    },
+    "sentence_count": {
+      "F": 14434.136620251385,
+      "p": 0.0
+    },
+    "f16a_bigram_rarity": {
+      "F": 13002.31362578995,
+      "p": 0.0
+    },
+    "n_short_sentences": {
+      "F": 12130.554656204044,
+      "p": 0.0
+    },
+    "n_long_sentences": {
+      "F": 10391.995439146873,
+      "p": 0.0
+    },
+    "f35c_hook_score": {
+      "F": 10226.979599639313,
+      "p": 0.0
+    },
+    "f24c_contrast_delta": {
+      "F": 8688.0939841309,
+      "p": 0.0
+    },
+    "longest_run_long": {
+      "F": 8146.315033353323,
+      "p": 0.0
+    },
+    "f26b_long_sent_rate": {
+      "F": 7679.829611596684,
+      "p": 0.0
+    },
+    "f17_knife_count": {
+      "F": 7270.737119187262,
+      "p": 0.0
+    },
+    "colon_count": {
+      "F": 6840.3251400590825,
+      "p": 0.0
+    },
+    "sub_per_sentence": {
+      "F": 6261.944375879532,
+      "p": 0.0
+    },
+    "mean_sent_len": {
+      "F": 6190.215446349958,
+      "p": 0.0
+    },
+    "f1_mean": {
+      "F": 6190.215446349958,
+      "p": 0.0
+    },
+    "f29d_ttr_score": {
+      "F": 6180.259585404818,
+      "p": 0.0
+    },
+    "knife_rate": {
+      "F": 5921.971623475073,
+      "p": 0.0
+    },
+    "median_sent_len": {
+      "F": 5535.7426698803365,
+      "p": 0.0
+    },
+    "ratio_alt": {
+      "F": 5358.5405807598945,
+      "p": 0.0
+    },
+    "longest_run_short": {
+      "F": 5041.962952703617,
+      "p": 0.0
+    },
+    "longest_sent_words": {
+      "F": 4587.12174899513,
+      "p": 0.0
+    },
+    "range_sent_len": {
+      "F": 4317.437183625374,
+      "p": 0.0
+    },
+    "T_CL": {
+      "F": 3187.5338201230825,
+      "p": 0.0
+    },
+    "std_sent_len": {
+      "F": 3111.7926316245025,
+      "p": 0.0
+    },
+    "f1a_rhythm_variance": {
+      "F": 3111.7926316245025,
+      "p": 0.0
+    }
+  },
+  "r2_comparison": {
+    "r2_en_old_corpus": 0.02,
+    "r2_en_new_corpus": 0.10082256482076071,
+    "r2_fr": 0.2973765758136304,
+    "improvement": 0.08082256482076071
+  }
+}

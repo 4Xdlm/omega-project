@@ -1,0 +1,233 @@
+{
+  "C1": {
+    "3000w": {
+      "n_windows": 4318,
+      "r2_train": 0.7347455008845554,
+      "r2_cv": -0.1271860724191116,
+      "top_10": [
+        {
+          "feature": "std_para_len",
+          "perm_importance_mean": 0.1688209264471517,
+          "perm_importance_std": 0.0035016043794618965,
+          "gini_importance": 0.07376565584462978
+        },
+        {
+          "feature": "f1a_rhythm_variance",
+          "perm_importance_mean": 0.08693580772082302,
+          "perm_importance_std": 0.0013636485135308308,
+          "gini_importance": 0.10712690670567739
+        },
+        {
+          "feature": "f26b_long_sent_rate",
+          "perm_importance_mean": 0.0850921284886782,
+          "perm_importance_std": 0.0016139891578107544,
+          "gini_importance": 0.10026492368227097
+        },
+        {
+          "feature": "dash_count",
+          "perm_importance_mean": 0.0680020997146425,
+          "perm_importance_std": 0.0022818520047233623,
+          "gini_importance": 0.041054794882540706
+        },
+        {
+          "feature": "semicolon_count",
+          "perm_importance_mean": 0.06602120397569775,
+          "perm_importance_std": 0.0020599223359250973,
+          "gini_importance": 0.038743507252423696
+        },
+        {
+          "feature": "std_sent_len",
+          "perm_importance_mean": 0.059167200324993396,
+          "perm_importance_std": 0.0012112420625236629,
+          "gini_importance": 0.0773594006497662
+        },
+        {
+          "feature": "f9a_contradiction_rate",
+          "perm_importance_mean": 0.05727354166328182,
+          "perm_importance_std": 0.0016221477581601677,
+          "gini_importance": 0.055985581811741875
+        },
+        {
+          "feature": "mean_para_len",
+          "perm_importance_mean": 0.057148471625496446,
+          "perm_importance_std": 0.001802260596428737,
+          "gini_importance": 0.03744397152956876
+        },
+        {
+          "feature": "f19a_approx_entropy",
+          "perm_importance_mean": 0.053313477101840624,
+          "perm_importance_std": 0.0012805264307135288,
+          "gini_importance": 0.029387458008114046
+        },
+        {
+          "feature": "cv_sent",
+          "perm_importance_mean": 0.05329027710401853,
+          "perm_importance_std": 0.0014891485469274088,
+          "gini_importance": 0.029900038137089052
+        }
+      ]
+    },
+    "5000w": {
+      "n_windows": 1888,
+      "r2_train": 0.8559731419817969,
+      "r2_cv": -8.983611476878206e-05,
+      "top_10": [
+        {
+          "feature": "std_para_len",
+          "perm_importance_mean": 0.19263116570620245,
+          "perm_importance_std": 0.008636239010697197,
+          "gini_importance": 0.08429341351027819
+        },
+        {
+          "feature": "dash_count",
+          "perm_importance_mean": 0.10457453147126179,
+          "perm_importance_std": 0.003947487241766532,
+          "gini_importance": 0.05845604762838072
+        },
+        {
+          "feature": "f1a_rhythm_variance",
+          "perm_importance_mean": 0.10185605706509349,
+          "perm_importance_std": 0.0021966719987218737,
+          "gini_importance": 0.11839257121720849
+        },
+        {
+          "feature": "excl_count",
+          "perm_importance_mean": 0.09194414060977422,
+          "perm_importance_std": 0.004220920765037478,
+          "gini_importance": 0.04153887348223762
+        },
+        {
+          "feature": "std_sent_len",
+          "perm_importance_mean": 0.0874895165490838,
+          "perm_importance_std": 0.0021440402805768767,
+          "gini_importance": 0.10648469876822234
+        },
+        {
+          "feature": "f29d_ttr_score",
+          "perm_importance_mean": 0.08273148859457413,
+          "perm_importance_std": 0.006193032683057004,
+          "gini_importance": 0.060130486231625285
+        },
+        {
+          "feature": "mean_para_len",
+          "perm_importance_mean": 0.07604019784568465,
+          "perm_importance_std": 0.002434805676571593,
+          "gini_importance": 0.04552497107217457
+        },
+        {
+          "feature": "f19a_approx_entropy",
+          "perm_importance_mean": 0.06872506223979649,
+          "perm_importance_std": 0.0020692455932411332,
+          "gini_importance": 0.031179800079390915
+        },
+        {
+          "feature": "cv_sent",
+          "perm_importance_mean": 0.0653444852364298,
+          "perm_importance_std": 0.0018086334680149614,
+          "gini_importance": 0.02790523918362664
+        },
+        {
+          "feature": "f9a_contradiction_rate",
+          "perm_importance_mean": 0.043438957160169364,
+          "perm_importance_std": 0.00233660809132085,
+          "gini_importance": 0.03739030828924342
+        }
+      ]
+    }
+  },
+  "C2": {
+    "top3_removed": [
+      "nerval_aurelia",
+      "voltaire_candide",
+      "pdf_the_waves_virginia"
+    ],
+    "n_windows_before": 267651,
+    "n_windows_after": 266913,
+    "r2_cv": 0.09494714763755197,
+    "semicolon_rank": 6,
+    "top_10": [
+      {
+        "feature": "f1a_rhythm_variance",
+        "perm_importance_mean": 0.08957981546195389,
+        "perm_importance_std": 0.0003608321106167711,
+        "gini_importance": 0.3134557670365998
+      },
+      {
+        "feature": "std_sent_len",
+        "perm_importance_mean": 0.06127219660984242,
+        "perm_importance_std": 0.00028408292780019795,
+        "gini_importance": 0.25421626061505315
+      },
+      {
+        "feature": "f16a_bigram_rarity",
+        "perm_importance_mean": 0.05493633683547383,
+        "perm_importance_std": 0.0004934613787372538,
+        "gini_importance": 0.08043110948881202
+      },
+      {
+        "feature": "ellipsis_count",
+        "perm_importance_mean": 0.052346665626759756,
+        "perm_importance_std": 0.0005726527611925257,
+        "gini_importance": 0.059346622686353136
+      },
+      {
+        "feature": "dialogue_ratio",
+        "perm_importance_mean": 0.035467120355413294,
+        "perm_importance_std": 0.0004090231038348294,
+        "gini_importance": 0.04564224479105601
+      },
+      {
+        "feature": "semicolon_count",
+        "perm_importance_mean": 0.033688567846236896,
+        "perm_importance_std": 0.0004440568891264958,
+        "gini_importance": 0.03470021095762829
+      },
+      {
+        "feature": "excl_count",
+        "perm_importance_mean": 0.021806045386910965,
+        "perm_importance_std": 0.00012765835876244274,
+        "gini_importance": 0.03448140405634014
+      },
+      {
+        "feature": "dash_count",
+        "perm_importance_mean": 0.01720783273705607,
+        "perm_importance_std": 0.00017223709081044223,
+        "gini_importance": 0.02182937413795938
+      },
+      {
+        "feature": "f9a_contradiction_rate",
+        "perm_importance_mean": 0.011853048383862853,
+        "perm_importance_std": 0.0002529320008845337,
+        "gini_importance": 0.018405784874544185
+      },
+      {
+        "feature": "colon_count",
+        "perm_importance_mean": 0.011160337010792876,
+        "perm_importance_std": 0.00011491272993810776,
+        "gini_importance": 0.017225906592006276
+      }
+    ]
+  },
+  "C3": {
+    "std_x_f1a_200w": {
+      "rho": 0.29230747386878275,
+      "n": 367394
+    },
+    "std_x_f1a_500w": {
+      "rho": 0.35929827377840495,
+      "n": 267651
+    },
+    "std_x_f1a_1000w": {
+      "rho": 0.3991908732280707,
+      "n": 178628
+    },
+    "std_x_f1a_2000w": {
+      "rho": 0.40160294041050704,
+      "n": 87592
+    },
+    "semicolon_x_dash_500w": {
+      "rho": 0.055860901732196246,
+      "n": 267651
+    }
+  }
+}

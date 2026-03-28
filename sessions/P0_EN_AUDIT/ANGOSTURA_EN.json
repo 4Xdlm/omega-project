@@ -1,0 +1,392 @@
+{
+  "n_windows": 143653,
+  "n_features": 42,
+  "features": [
+    "words",
+    "sentence_count",
+    "paragraph_count",
+    "mean_sent_len",
+    "median_sent_len",
+    "std_sent_len",
+    "cv_sent",
+    "mean_para_len",
+    "std_para_len",
+    "cv_para",
+    "f1_mean",
+    "f1a_rhythm_variance",
+    "f1b_rhythm_ratio",
+    "range_sent_len",
+    "f26b_long_sent_rate",
+    "f17_knife_count",
+    "knife_rate",
+    "n_long_sentences",
+    "n_short_sentences",
+    "T_LC",
+    "T_CL",
+    "ratio_alt",
+    "longest_sent_words",
+    "shortest_sent_words",
+    "longest_run_long",
+    "longest_run_short",
+    "f29d_ttr_score",
+    "f16a_bigram_rarity",
+    "sub_per_sentence",
+    "dash_count",
+    "colon_count",
+    "semicolon_count",
+    "excl_count",
+    "quest_count",
+    "ellipsis_count",
+    "dialogue_ratio",
+    "f35c_hook_score",
+    "f36c_cliff_score",
+    "f9a_contradiction_rate",
+    "f26c_period_score",
+    "f24c_contrast_delta",
+    "f19a_approx_entropy"
+  ],
+  "tier_distribution": {
+    "S": 78842,
+    "B": 29109,
+    "A": 23776,
+    "C": 11926
+  },
+  "rf_r2_cv_mean": 0.0203,
+  "rf_r2_cv_std": 0.3131,
+  "rf_importance_mdi": {
+    "f1a_rhythm_variance": 0.216997,
+    "std_sent_len": 0.194857,
+    "f16a_bigram_rarity": 0.098996,
+    "semicolon_count": 0.053051,
+    "dialogue_ratio": 0.04648,
+    "longest_sent_words": 0.044224,
+    "excl_count": 0.041863,
+    "dash_count": 0.038196,
+    "ellipsis_count": 0.031436,
+    "f9a_contradiction_rate": 0.027058,
+    "colon_count": 0.02461,
+    "sub_per_sentence": 0.024115,
+    "knife_rate": 0.020289,
+    "quest_count": 0.017223,
+    "f29d_ttr_score": 0.013417,
+    "f26c_period_score": 0.012853,
+    "f1b_rhythm_ratio": 0.010544,
+    "n_short_sentences": 0.008569,
+    "mean_sent_len": 0.007648,
+    "f17_knife_count": 0.007367,
+    "f26b_long_sent_rate": 0.007218,
+    "f1_mean": 0.006923,
+    "f24c_contrast_delta": 0.006449,
+    "shortest_sent_words": 0.006288,
+    "longest_run_short": 0.005482,
+    "median_sent_len": 0.005109,
+    "f19a_approx_entropy": 0.004587,
+    "cv_sent": 0.004463,
+    "ratio_alt": 0.004205,
+    "range_sent_len": 0.003453,
+    "sentence_count": 0.001784,
+    "f35c_hook_score": 0.001369,
+    "T_LC": 0.000983,
+    "T_CL": 0.00076,
+    "longest_run_long": 0.000407,
+    "n_long_sentences": 0.000372,
+    "f36c_cliff_score": 0.000357,
+    "words": 0.0,
+    "paragraph_count": 0.0,
+    "mean_para_len": 0.0,
+    "std_para_len": 0.0,
+    "cv_para": 0.0
+  },
+  "permutation_importance": {
+    "f16a_bigram_rarity": {
+      "mean": 0.126567,
+      "std": 0.001248
+    },
+    "f1a_rhythm_variance": {
+      "mean": 0.109176,
+      "std": 0.000704
+    },
+    "std_sent_len": {
+      "mean": 0.089281,
+      "std": 0.000653
+    },
+    "semicolon_count": {
+      "mean": 0.086381,
+      "std": 0.000624
+    },
+    "dialogue_ratio": {
+      "mean": 0.076923,
+      "std": 0.000812
+    },
+    "excl_count": {
+      "mean": 0.069414,
+      "std": 0.000697
+    },
+    "dash_count": {
+      "mean": 0.06263,
+      "std": 0.000634
+    },
+    "ellipsis_count": {
+      "mean": 0.041773,
+      "std": 0.000758
+    },
+    "longest_sent_words": {
+      "mean": 0.037497,
+      "std": 0.000352
+    },
+    "f9a_contradiction_rate": {
+      "mean": 0.03468,
+      "std": 0.000291
+    },
+    "sub_per_sentence": {
+      "mean": 0.034545,
+      "std": 0.000427
+    },
+    "knife_rate": {
+      "mean": 0.031652,
+      "std": 0.000378
+    },
+    "colon_count": {
+      "mean": 0.025558,
+      "std": 0.00036
+    },
+    "quest_count": {
+      "mean": 0.017928,
+      "std": 0.00016
+    },
+    "f26c_period_score": {
+      "mean": 0.015974,
+      "std": 0.000206
+    },
+    "f29d_ttr_score": {
+      "mean": 0.01434,
+      "std": 0.000294
+    },
+    "f26b_long_sent_rate": {
+      "mean": 0.012944,
+      "std": 0.000261
+    },
+    "f1b_rhythm_ratio": {
+      "mean": 0.011058,
+      "std": 0.000152
+    },
+    "f24c_contrast_delta": {
+      "mean": 0.010789,
+      "std": 0.000115
+    },
+    "f1_mean": {
+      "mean": 0.007422,
+      "std": 7.8e-05
+    },
+    "mean_sent_len": {
+      "mean": 0.007145,
+      "std": 7.6e-05
+    },
+    "longest_run_short": {
+      "mean": 0.006767,
+      "std": 5e-05
+    },
+    "f17_knife_count": {
+      "mean": 0.005854,
+      "std": 8.3e-05
+    },
+    "n_short_sentences": {
+      "mean": 0.00575,
+      "std": 7.1e-05
+    },
+    "shortest_sent_words": {
+      "mean": 0.005385,
+      "std": 0.000119
+    },
+    "median_sent_len": {
+      "mean": 0.005176,
+      "std": 7.9e-05
+    },
+    "f19a_approx_entropy": {
+      "mean": 0.004816,
+      "std": 6.5e-05
+    },
+    "range_sent_len": {
+      "mean": 0.004275,
+      "std": 6.5e-05
+    },
+    "cv_sent": {
+      "mean": 0.004121,
+      "std": 6.8e-05
+    },
+    "ratio_alt": {
+      "mean": 0.003557,
+      "std": 6.6e-05
+    },
+    "sentence_count": {
+      "mean": 0.002673,
+      "std": 3e-05
+    },
+    "f35c_hook_score": {
+      "mean": 0.001535,
+      "std": 3.6e-05
+    },
+    "T_CL": {
+      "mean": 0.000819,
+      "std": 1.9e-05
+    },
+    "T_LC": {
+      "mean": 0.000739,
+      "std": 1.5e-05
+    },
+    "n_long_sentences": {
+      "mean": 0.000436,
+      "std": 1.4e-05
+    },
+    "longest_run_long": {
+      "mean": 0.000331,
+      "std": 7e-06
+    },
+    "f36c_cliff_score": {
+      "mean": 0.000307,
+      "std": 9e-06
+    },
+    "words": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "paragraph_count": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "mean_para_len": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "std_para_len": {
+      "mean": 0.0,
+      "std": 0.0
+    },
+    "cv_para": {
+      "mean": 0.0,
+      "std": 0.0
+    }
+  },
+  "top20_permutation": [
+    {
+      "rank": 1,
+      "feature": "f16a_bigram_rarity",
+      "importance": 0.126567,
+      "std": 0.001248
+    },
+    {
+      "rank": 2,
+      "feature": "f1a_rhythm_variance",
+      "importance": 0.109176,
+      "std": 0.000704
+    },
+    {
+      "rank": 3,
+      "feature": "std_sent_len",
+      "importance": 0.089281,
+      "std": 0.000653
+    },
+    {
+      "rank": 4,
+      "feature": "semicolon_count",
+      "importance": 0.086381,
+      "std": 0.000624
+    },
+    {
+      "rank": 5,
+      "feature": "dialogue_ratio",
+      "importance": 0.076923,
+      "std": 0.000812
+    },
+    {
+      "rank": 6,
+      "feature": "excl_count",
+      "importance": 0.069414,
+      "std": 0.000697
+    },
+    {
+      "rank": 7,
+      "feature": "dash_count",
+      "importance": 0.06263,
+      "std": 0.000634
+    },
+    {
+      "rank": 8,
+      "feature": "ellipsis_count",
+      "importance": 0.041773,
+      "std": 0.000758
+    },
+    {
+      "rank": 9,
+      "feature": "longest_sent_words",
+      "importance": 0.037497,
+      "std": 0.000352
+    },
+    {
+      "rank": 10,
+      "feature": "f9a_contradiction_rate",
+      "importance": 0.03468,
+      "std": 0.000291
+    },
+    {
+      "rank": 11,
+      "feature": "sub_per_sentence",
+      "importance": 0.034545,
+      "std": 0.000427
+    },
+    {
+      "rank": 12,
+      "feature": "knife_rate",
+      "importance": 0.031652,
+      "std": 0.000378
+    },
+    {
+      "rank": 13,
+      "feature": "colon_count",
+      "importance": 0.025558,
+      "std": 0.00036
+    },
+    {
+      "rank": 14,
+      "feature": "quest_count",
+      "importance": 0.017928,
+      "std": 0.00016
+    },
+    {
+      "rank": 15,
+      "feature": "f26c_period_score",
+      "importance": 0.015974,
+      "std": 0.000206
+    },
+    {
+      "rank": 16,
+      "feature": "f29d_ttr_score",
+      "importance": 0.01434,
+      "std": 0.000294
+    },
+    {
+      "rank": 17,
+      "feature": "f26b_long_sent_rate",
+      "importance": 0.012944,
+      "std": 0.000261
+    },
+    {
+      "rank": 18,
+      "feature": "f1b_rhythm_ratio",
+      "importance": 0.011058,
+      "std": 0.000152
+    },
+    {
+      "rank": 19,
+      "feature": "f24c_contrast_delta",
+      "importance": 0.010789,
+      "std": 0.000115
+    },
+    {
+      "rank": 20,
+      "feature": "f1_mean",
+      "importance": 0.007422,
+      "std": 7.8e-05
+    }
+  ]
+}

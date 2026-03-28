@@ -1,0 +1,839 @@
+{
+  "n_windows": 143653,
+  "top_correlations": [
+    {
+      "a": "std_sent_len",
+      "b": "f1a_rhythm_variance",
+      "rho": 1.0
+    },
+    {
+      "a": "cv_sent",
+      "b": "f19a_approx_entropy",
+      "rho": 1.0
+    },
+    {
+      "a": "knife_rate",
+      "b": "f17_knife_count",
+      "rho": 0.9721
+    },
+    {
+      "a": "std_sent_len",
+      "b": "longest_sent_words",
+      "rho": 0.9464
+    },
+    {
+      "a": "f1a_rhythm_variance",
+      "b": "longest_sent_words",
+      "rho": 0.9464
+    },
+    {
+      "a": "f26b_long_sent_rate",
+      "b": "mean_sent_len",
+      "rho": 0.9036
+    },
+    {
+      "a": "std_sent_len",
+      "b": "f26b_long_sent_rate",
+      "rho": 0.9005
+    },
+    {
+      "a": "f1a_rhythm_variance",
+      "b": "f26b_long_sent_rate",
+      "rho": 0.9005
+    },
+    {
+      "a": "std_sent_len",
+      "b": "f24c_contrast_delta",
+      "rho": 0.8861
+    },
+    {
+      "a": "f1a_rhythm_variance",
+      "b": "f24c_contrast_delta",
+      "rho": 0.8861
+    },
+    {
+      "a": "mean_sent_len",
+      "b": "f17_knife_count",
+      "rho": -0.855
+    },
+    {
+      "a": "std_sent_len",
+      "b": "mean_sent_len",
+      "rho": 0.8511
+    },
+    {
+      "a": "f1a_rhythm_variance",
+      "b": "mean_sent_len",
+      "rho": 0.8511
+    },
+    {
+      "a": "f9a_contradiction_rate",
+      "b": "mean_sent_len",
+      "rho": 0.8455
+    },
+    {
+      "a": "longest_sent_words",
+      "b": "f26b_long_sent_rate",
+      "rho": 0.8263
+    },
+    {
+      "a": "f26b_long_sent_rate",
+      "b": "f24c_contrast_delta",
+      "rho": 0.8181
+    },
+    {
+      "a": "sub_per_sentence",
+      "b": "mean_sent_len",
+      "rho": 0.8149
+    },
+    {
+      "a": "longest_sent_words",
+      "b": "f24c_contrast_delta",
+      "rho": 0.7916
+    },
+    {
+      "a": "mean_sent_len",
+      "b": "f24c_contrast_delta",
+      "rho": 0.7832
+    },
+    {
+      "a": "longest_sent_words",
+      "b": "mean_sent_len",
+      "rho": 0.7712
+    },
+    {
+      "a": "f9a_contradiction_rate",
+      "b": "f26b_long_sent_rate",
+      "rho": 0.7651
+    },
+    {
+      "a": "sub_per_sentence",
+      "b": "f26b_long_sent_rate",
+      "rho": 0.7488
+    },
+    {
+      "a": "mean_sent_len",
+      "b": "knife_rate",
+      "rho": -0.726
+    },
+    {
+      "a": "f9a_contradiction_rate",
+      "b": "f17_knife_count",
+      "rho": -0.7249
+    },
+    {
+      "a": "std_sent_len",
+      "b": "f9a_contradiction_rate",
+      "rho": 0.7119
+    },
+    {
+      "a": "f1a_rhythm_variance",
+      "b": "f9a_contradiction_rate",
+      "rho": 0.7119
+    },
+    {
+      "a": "std_sent_len",
+      "b": "sub_per_sentence",
+      "rho": 0.7097
+    },
+    {
+      "a": "f1a_rhythm_variance",
+      "b": "sub_per_sentence",
+      "rho": 0.7097
+    },
+    {
+      "a": "f26b_long_sent_rate",
+      "b": "f17_knife_count",
+      "rho": -0.6874
+    },
+    {
+      "a": "sub_per_sentence",
+      "b": "f17_knife_count",
+      "rho": -0.6831
+    }
+  ],
+  "elasticity": {
+    "f26b_long_sent_rate": {
+      "semicolon_count": 0.297,
+      "dash_count": -0.043,
+      "excl_count": -0.203,
+      "dialogue_ratio": 0.015,
+      "f1a_rhythm_variance": 0.697
+    },
+    "mean_sent_len": {
+      "semicolon_count": 0.277,
+      "dash_count": -0.071,
+      "excl_count": -0.238,
+      "dialogue_ratio": 0.031,
+      "f1a_rhythm_variance": 0.842
+    },
+    "cv_sent": {
+      "semicolon_count": 0.12,
+      "dash_count": 0.141,
+      "excl_count": 0.23,
+      "dialogue_ratio": 0.047,
+      "f1a_rhythm_variance": 0.429
+    },
+    "knife_rate": {
+      "semicolon_count": 0.032,
+      "dash_count": 0.172,
+      "excl_count": 0.308,
+      "dialogue_ratio": 0.007,
+      "f1a_rhythm_variance": -0.293
+    },
+    "ratio_alt": {
+      "semicolon_count": 0.111,
+      "dash_count": 0.047,
+      "excl_count": 0.038,
+      "dialogue_ratio": 0.024,
+      "f1a_rhythm_variance": 0.268
+    },
+    "sub_per_sentence": {
+      "semicolon_count": 0.199,
+      "dash_count": -0.068,
+      "excl_count": -0.205,
+      "dialogue_ratio": 0.005,
+      "f1a_rhythm_variance": 0.696
+    },
+    "f17_knife_count": {
+      "semicolon_count": 0.226,
+      "dash_count": 0.121,
+      "excl_count": 0.19,
+      "dialogue_ratio": -0.008,
+      "f1a_rhythm_variance": -0.303
+    },
+    "f29d_ttr_score": {
+      "semicolon_count": -0.019,
+      "dash_count": 0.025,
+      "excl_count": 0.058,
+      "dialogue_ratio": 0.044,
+      "f1a_rhythm_variance": -0.014
+    },
+    "f24c_contrast_delta": {
+      "semicolon_count": 0.203,
+      "dash_count": -0.002,
+      "excl_count": -0.105,
+      "dialogue_ratio": -0.021,
+      "f1a_rhythm_variance": 0.521
+    },
+    "f35c_hook_score": {
+      "semicolon_count": -0.117,
+      "dash_count": 0.118,
+      "excl_count": 0.332,
+      "dialogue_ratio": 0.009,
+      "f1a_rhythm_variance": -0.334
+    },
+    "f36c_cliff_score": {
+      "semicolon_count": -0.159,
+      "dash_count": 0.021,
+      "excl_count": 0.097,
+      "dialogue_ratio": -0.012,
+      "f1a_rhythm_variance": -0.378
+    },
+    "std_sent_len": {
+      "semicolon_count": 0.268,
+      "dash_count": -0.015,
+      "excl_count": -0.118,
+      "dialogue_ratio": 0.052,
+      "f1a_rhythm_variance": 1.0
+    },
+    "longest_sent_words": {
+      "semicolon_count": 0.272,
+      "dash_count": -0.009,
+      "excl_count": -0.112,
+      "dialogue_ratio": 0.049,
+      "f1a_rhythm_variance": 0.934
+    }
+  },
+  "interactions": [
+    {
+      "f1": "std_sent_len",
+      "f2": "f1a_rhythm_variance",
+      "r2_add": 0.0634,
+      "r2_interaction": 0.0906,
+      "delta_r2": 0.0272,
+      "interaction_coef": -0.0189
+    },
+    {
+      "f1": "std_sent_len",
+      "f2": "sub_per_sentence",
+      "r2_add": 0.0652,
+      "r2_interaction": 0.0877,
+      "delta_r2": 0.0224,
+      "interaction_coef": -0.0288
+    },
+    {
+      "f1": "f1a_rhythm_variance",
+      "f2": "sub_per_sentence",
+      "r2_add": 0.0652,
+      "r2_interaction": 0.0877,
+      "delta_r2": 0.0224,
+      "interaction_coef": -0.0288
+    },
+    {
+      "f1": "semicolon_count",
+      "f2": "f16a_bigram_rarity",
+      "r2_add": 0.0569,
+      "r2_interaction": 0.0781,
+      "delta_r2": 0.0212,
+      "interaction_coef": 0.0416
+    },
+    {
+      "f1": "semicolon_count",
+      "f2": "std_sent_len",
+      "r2_add": 0.0909,
+      "r2_interaction": 0.0985,
+      "delta_r2": 0.0076,
+      "interaction_coef": -0.0417
+    },
+    {
+      "f1": "semicolon_count",
+      "f2": "f1a_rhythm_variance",
+      "r2_add": 0.0909,
+      "r2_interaction": 0.0985,
+      "delta_r2": 0.0076,
+      "interaction_coef": -0.0417
+    },
+    {
+      "f1": "std_sent_len",
+      "f2": "f16a_bigram_rarity",
+      "r2_add": 0.077,
+      "r2_interaction": 0.0826,
+      "delta_r2": 0.0056,
+      "interaction_coef": 0.023
+    },
+    {
+      "f1": "f1a_rhythm_variance",
+      "f2": "f16a_bigram_rarity",
+      "r2_add": 0.077,
+      "r2_interaction": 0.0826,
+      "delta_r2": 0.0056,
+      "interaction_coef": 0.023
+    },
+    {
+      "f1": "colon_count",
+      "f2": "sub_per_sentence",
+      "r2_add": 0.0495,
+      "r2_interaction": 0.0543,
+      "delta_r2": 0.0048,
+      "interaction_coef": -0.0537
+    },
+    {
+      "f1": "colon_count",
+      "f2": "f16a_bigram_rarity",
+      "r2_add": 0.0199,
+      "r2_interaction": 0.0245,
+      "delta_r2": 0.0046,
+      "interaction_coef": 0.0129
+    },
+    {
+      "f1": "dialogue_ratio",
+      "f2": "sub_per_sentence",
+      "r2_add": 0.0426,
+      "r2_interaction": 0.0471,
+      "delta_r2": 0.0045,
+      "interaction_coef": -0.0282
+    },
+    {
+      "f1": "semicolon_count",
+      "f2": "sub_per_sentence",
+      "r2_add": 0.0785,
+      "r2_interaction": 0.0827,
+      "delta_r2": 0.0041,
+      "interaction_coef": -0.0564
+    },
+    {
+      "f1": "colon_count",
+      "f2": "std_sent_len",
+      "r2_add": 0.0682,
+      "r2_interaction": 0.0723,
+      "delta_r2": 0.0041,
+      "interaction_coef": -0.0173
+    },
+    {
+      "f1": "colon_count",
+      "f2": "f1a_rhythm_variance",
+      "r2_add": 0.0682,
+      "r2_interaction": 0.0723,
+      "delta_r2": 0.0041,
+      "interaction_coef": -0.0173
+    },
+    {
+      "f1": "dialogue_ratio",
+      "f2": "std_sent_len",
+      "r2_add": 0.064,
+      "r2_interaction": 0.0676,
+      "delta_r2": 0.0036,
+      "interaction_coef": -0.0259
+    },
+    {
+      "f1": "dialogue_ratio",
+      "f2": "f1a_rhythm_variance",
+      "r2_add": 0.064,
+      "r2_interaction": 0.0676,
+      "delta_r2": 0.0036,
+      "interaction_coef": -0.0259
+    },
+    {
+      "f1": "semicolon_count",
+      "f2": "dialogue_ratio",
+      "r2_add": 0.0518,
+      "r2_interaction": 0.055,
+      "delta_r2": 0.0033,
+      "interaction_coef": -0.0682
+    },
+    {
+      "f1": "semicolon_count",
+      "f2": "dash_count",
+      "r2_add": 0.052,
+      "r2_interaction": 0.0549,
+      "delta_r2": 0.0028,
+      "interaction_coef": 0.0691
+    },
+    {
+      "f1": "excl_count",
+      "f2": "dialogue_ratio",
+      "r2_add": 0.002,
+      "r2_interaction": 0.0048,
+      "delta_r2": 0.0028,
+      "interaction_coef": -0.0539
+    },
+    {
+      "f1": "excl_count",
+      "f2": "colon_count",
+      "r2_add": 0.0117,
+      "r2_interaction": 0.0139,
+      "delta_r2": 0.0023,
+      "interaction_coef": -0.0286
+    }
+  ],
+  "causal_chains": [
+    {
+      "source": "excl_count",
+      "mediator": "mean_sent_len",
+      "total_effect": 0.01345,
+      "indirect_via_med": -0.02169,
+      "direct_effect": 0.03515,
+      "mediation_pct": 161.3,
+      "direction": "SUPPRESS"
+    },
+    {
+      "source": "excl_count",
+      "mediator": "f26b_long_sent_rate",
+      "total_effect": 0.01345,
+      "indirect_via_med": -0.01907,
+      "direct_effect": 0.03253,
+      "mediation_pct": 141.8,
+      "direction": "SUPPRESS"
+    },
+    {
+      "source": "ellipsis_count",
+      "mediator": "mean_sent_len",
+      "total_effect": 0.00071,
+      "indirect_via_med": -0.00091,
+      "direct_effect": 0.00162,
+      "mediation_pct": 129.3,
+      "direction": "SUPPRESS"
+    },
+    {
+      "source": "excl_count",
+      "mediator": "sub_per_sentence",
+      "total_effect": 0.01345,
+      "indirect_via_med": -0.01439,
+      "direct_effect": 0.02784,
+      "mediation_pct": 106.9,
+      "direction": "SUPPRESS"
+    },
+    {
+      "source": "ellipsis_count",
+      "mediator": "f26b_long_sent_rate",
+      "total_effect": 0.00071,
+      "indirect_via_med": -0.00071,
+      "direct_effect": 0.00142,
+      "mediation_pct": 100.9,
+      "direction": "SUPPRESS"
+    },
+    {
+      "source": "dash_count",
+      "mediator": "mean_sent_len",
+      "total_effect": 0.00529,
+      "indirect_via_med": -0.00481,
+      "direct_effect": 0.01009,
+      "mediation_pct": 90.9,
+      "direction": "SUPPRESS"
+    },
+    {
+      "source": "dash_count",
+      "mediator": "cv_sent",
+      "total_effect": 0.00529,
+      "indirect_via_med": 0.00474,
+      "direct_effect": 0.00054,
+      "mediation_pct": 89.7,
+      "direction": "AMPLIFY"
+    },
+    {
+      "source": "dialogue_ratio",
+      "mediator": "mean_sent_len",
+      "total_effect": -0.03629,
+      "indirect_via_med": 0.02691,
+      "direct_effect": -0.06321,
+      "mediation_pct": 74.2,
+      "direction": "SUPPRESS"
+    },
+    {
+      "source": "ellipsis_count",
+      "mediator": "sub_per_sentence",
+      "total_effect": 0.00071,
+      "indirect_via_med": -0.0005,
+      "direct_effect": 0.00121,
+      "mediation_pct": 71.0,
+      "direction": "SUPPRESS"
+    },
+    {
+      "source": "excl_count",
+      "mediator": "cv_sent",
+      "total_effect": 0.01345,
+      "indirect_via_med": 0.00935,
+      "direct_effect": 0.0041,
+      "mediation_pct": 69.5,
+      "direction": "AMPLIFY"
+    },
+    {
+      "source": "dash_count",
+      "mediator": "sub_per_sentence",
+      "total_effect": 0.00529,
+      "indirect_via_med": -0.0036,
+      "direct_effect": 0.00889,
+      "mediation_pct": 68.1,
+      "direction": "SUPPRESS"
+    },
+    {
+      "source": "std_sent_len",
+      "mediator": "mean_sent_len",
+      "total_effect": 0.02655,
+      "indirect_via_med": 0.01615,
+      "direct_effect": 0.0104,
+      "mediation_pct": 60.8,
+      "direction": "AMPLIFY"
+    },
+    {
+      "source": "dash_count",
+      "mediator": "f26b_long_sent_rate",
+      "total_effect": 0.00529,
+      "indirect_via_med": -0.00302,
+      "direct_effect": 0.0083,
+      "mediation_pct": 57.1,
+      "direction": "SUPPRESS"
+    },
+    {
+      "source": "dialogue_ratio",
+      "mediator": "cv_sent",
+      "total_effect": -0.03629,
+      "indirect_via_med": 0.02056,
+      "direct_effect": -0.05685,
+      "mediation_pct": 56.7,
+      "direction": "SUPPRESS"
+    },
+    {
+      "source": "std_sent_len",
+      "mediator": "f26b_long_sent_rate",
+      "total_effect": 0.02655,
+      "indirect_via_med": 0.01476,
+      "direct_effect": 0.01179,
+      "mediation_pct": 55.6,
+      "direction": "AMPLIFY"
+    },
+    {
+      "source": "dash_count",
+      "mediator": "ratio_alt",
+      "total_effect": 0.00529,
+      "indirect_via_med": 0.00206,
+      "direct_effect": 0.00323,
+      "mediation_pct": 38.9,
+      "direction": "AMPLIFY"
+    },
+    {
+      "source": "dialogue_ratio",
+      "mediator": "ratio_alt",
+      "total_effect": -0.03629,
+      "indirect_via_med": 0.01404,
+      "direct_effect": -0.05033,
+      "mediation_pct": 38.7,
+      "direction": "SUPPRESS"
+    },
+    {
+      "source": "dialogue_ratio",
+      "mediator": "f26b_long_sent_rate",
+      "total_effect": -0.03629,
+      "indirect_via_med": 0.01401,
+      "direct_effect": -0.05031,
+      "mediation_pct": 38.6,
+      "direction": "SUPPRESS"
+    },
+    {
+      "source": "ellipsis_count",
+      "mediator": "ratio_alt",
+      "total_effect": 0.00071,
+      "indirect_via_med": -0.00025,
+      "direct_effect": 0.00095,
+      "mediation_pct": 34.9,
+      "direction": "SUPPRESS"
+    },
+    {
+      "source": "semicolon_count",
+      "mediator": "f26b_long_sent_rate",
+      "total_effect": 0.05203,
+      "indirect_via_med": 0.01576,
+      "direct_effect": 0.03626,
+      "mediation_pct": 30.3,
+      "direction": "AMPLIFY"
+    },
+    {
+      "source": "semicolon_count",
+      "mediator": "mean_sent_len",
+      "total_effect": 0.05203,
+      "indirect_via_med": 0.0139,
+      "direct_effect": 0.03812,
+      "mediation_pct": 26.7,
+      "direction": "AMPLIFY"
+    },
+    {
+      "source": "colon_count",
+      "mediator": "f26b_long_sent_rate",
+      "total_effect": 0.04905,
+      "indirect_via_med": 0.01037,
+      "direct_effect": 0.03868,
+      "mediation_pct": 21.1,
+      "direction": "AMPLIFY"
+    },
+    {
+      "source": "colon_count",
+      "mediator": "mean_sent_len",
+      "total_effect": 0.04905,
+      "indirect_via_med": 0.00951,
+      "direct_effect": 0.03954,
+      "mediation_pct": 19.4,
+      "direction": "AMPLIFY"
+    },
+    {
+      "source": "colon_count",
+      "mediator": "cv_sent",
+      "total_effect": 0.04905,
+      "indirect_via_med": 0.00924,
+      "direct_effect": 0.03981,
+      "mediation_pct": 18.8,
+      "direction": "AMPLIFY"
+    },
+    {
+      "source": "colon_count",
+      "mediator": "sub_per_sentence",
+      "total_effect": 0.04905,
+      "indirect_via_med": 0.00826,
+      "direct_effect": 0.04079,
+      "mediation_pct": 16.8,
+      "direction": "AMPLIFY"
+    }
+  ],
+  "proportionality_tier_s": {
+    "semicolon_count": {
+      "f26b_long_sent_rate": {
+        "low_mean": 0.106,
+        "high_mean": 0.2084,
+        "delta": 0.1023,
+        "pct_change": 96.5
+      },
+      "mean_sent_len": {
+        "low_mean": 20.485,
+        "high_mean": 27.651,
+        "delta": 7.166,
+        "pct_change": 35.0
+      },
+      "cv_sent": {
+        "low_mean": 0.7138,
+        "high_mean": 0.7416,
+        "delta": 0.0278,
+        "pct_change": 3.9
+      },
+      "knife_rate": {
+        "low_mean": 0.1324,
+        "high_mean": 0.1092,
+        "delta": -0.0232,
+        "pct_change": -17.5
+      },
+      "ratio_alt": {
+        "low_mean": 0.0676,
+        "high_mean": 0.087,
+        "delta": 0.0194,
+        "pct_change": 28.7
+      },
+      "f17_knife_count": {
+        "low_mean": 4.5332,
+        "high_mean": 3.6903,
+        "delta": -0.8429,
+        "pct_change": -18.6
+      },
+      "f35c_hook_score": {
+        "low_mean": 0.5221,
+        "high_mean": 0.4793,
+        "delta": -0.0429,
+        "pct_change": -8.2
+      },
+      "f24c_contrast_delta": {
+        "low_mean": 31.1071,
+        "high_mean": 39.0999,
+        "delta": 7.9928,
+        "pct_change": 25.7
+      }
+    },
+    "dash_count": {
+      "f26b_long_sent_rate": {
+        "low_mean": 0.1644,
+        "high_mean": 0.138,
+        "delta": -0.0264,
+        "pct_change": -16.0
+      },
+      "mean_sent_len": {
+        "low_mean": 24.7742,
+        "high_mean": 22.4886,
+        "delta": -2.2856,
+        "pct_change": -9.2
+      },
+      "cv_sent": {
+        "low_mean": 0.7171,
+        "high_mean": 0.7374,
+        "delta": 0.0203,
+        "pct_change": 2.8
+      },
+      "knife_rate": {
+        "low_mean": 0.1199,
+        "high_mean": 0.1243,
+        "delta": 0.0043,
+        "pct_change": 3.6
+      },
+      "ratio_alt": {
+        "low_mean": 0.0732,
+        "high_mean": 0.0803,
+        "delta": 0.0071,
+        "pct_change": 9.7
+      },
+      "f17_knife_count": {
+        "low_mean": 4.4794,
+        "high_mean": 3.7623,
+        "delta": -0.7171,
+        "pct_change": -16.0
+      },
+      "f35c_hook_score": {
+        "low_mean": 0.4921,
+        "high_mean": 0.5153,
+        "delta": 0.0233,
+        "pct_change": 4.7
+      },
+      "f24c_contrast_delta": {
+        "low_mean": 34.5171,
+        "high_mean": 34.9735,
+        "delta": 0.4564,
+        "pct_change": 1.3
+      }
+    },
+    "sub_per_sentence": {
+      "f26b_long_sent_rate": {
+        "low_mean": 0.0674,
+        "high_mean": 0.2377,
+        "delta": 0.1703,
+        "pct_change": 252.7
+      },
+      "mean_sent_len": {
+        "low_mean": 17.3233,
+        "high_mean": 30.1611,
+        "delta": 12.8378,
+        "pct_change": 74.1
+      },
+      "cv_sent": {
+        "low_mean": 0.747,
+        "high_mean": 0.7057,
+        "delta": -0.0412,
+        "pct_change": -5.5
+      },
+      "knife_rate": {
+        "low_mean": 0.1716,
+        "high_mean": 0.072,
+        "delta": -0.0997,
+        "pct_change": -58.1
+      },
+      "ratio_alt": {
+        "low_mean": 0.0704,
+        "high_mean": 0.0824,
+        "delta": 0.012,
+        "pct_change": 17.0
+      },
+      "f17_knife_count": {
+        "low_mean": 6.742,
+        "high_mean": 1.5508,
+        "delta": -5.1912,
+        "pct_change": -77.0
+      },
+      "f35c_hook_score": {
+        "low_mean": 0.561,
+        "high_mean": 0.4443,
+        "delta": -0.1167,
+        "pct_change": -20.8
+      },
+      "f24c_contrast_delta": {
+        "low_mean": 28.1262,
+        "high_mean": 41.3518,
+        "delta": 13.2256,
+        "pct_change": 47.0
+      }
+    },
+    "f1a_rhythm_variance": {
+      "f26b_long_sent_rate": {
+        "low_mean": 0.0577,
+        "high_mean": 0.247,
+        "delta": 0.1892,
+        "pct_change": 327.7
+      },
+      "mean_sent_len": {
+        "low_mean": 17.3918,
+        "high_mean": 30.067,
+        "delta": 12.6752,
+        "pct_change": 72.9
+      },
+      "cv_sent": {
+        "low_mean": 0.6718,
+        "high_mean": 0.781,
+        "delta": 0.1093,
+        "pct_change": 16.3
+      },
+      "knife_rate": {
+        "low_mean": 0.1532,
+        "high_mean": 0.0906,
+        "delta": -0.0626,
+        "pct_change": -40.9
+      },
+      "ratio_alt": {
+        "low_mean": 0.0584,
+        "high_mean": 0.0944,
+        "delta": 0.0359,
+        "pct_change": 61.5
+      },
+      "f17_knife_count": {
+        "low_mean": 6.2962,
+        "high_mean": 2.007,
+        "delta": -4.2892,
+        "pct_change": -68.1
+      },
+      "f35c_hook_score": {
+        "low_mean": 0.5587,
+        "high_mean": 0.4468,
+        "delta": -0.1119,
+        "pct_change": -20.0
+      },
+      "f24c_contrast_delta": {
+        "low_mean": 25.3526,
+        "high_mean": 44.0989,
+        "delta": 18.7463,
+        "pct_change": 73.9
+      }
+    }
+  }
+}

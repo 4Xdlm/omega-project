@@ -1,0 +1,284 @@
+{
+  "c1_extended_sizes": {
+    "2000": {
+      "n": 45094,
+      "top10": [
+        {
+          "feature": "dash_count",
+          "importance": 0.20988
+        },
+        {
+          "feature": "n_long_sentences",
+          "importance": 0.161161
+        },
+        {
+          "feature": "f16a_bigram_rarity",
+          "importance": 0.153291
+        },
+        {
+          "feature": "semicolon_count",
+          "importance": 0.129619
+        },
+        {
+          "feature": "colon_count",
+          "importance": 0.107317
+        },
+        {
+          "feature": "dialogue_ratio",
+          "importance": 0.100493
+        },
+        {
+          "feature": "excl_count",
+          "importance": 0.099165
+        },
+        {
+          "feature": "f9a_contradiction_rate",
+          "importance": 0.060745
+        },
+        {
+          "feature": "ellipsis_count",
+          "importance": 0.053311
+        },
+        {
+          "feature": "sub_per_sentence",
+          "importance": 0.048507
+        }
+      ]
+    },
+    "3000+": {
+      "n": 2225,
+      "top10": [
+        {
+          "feature": "mean_para_len",
+          "importance": 0.227255
+        },
+        {
+          "feature": "std_para_len",
+          "importance": 0.149928
+        },
+        {
+          "feature": "dash_count",
+          "importance": 0.090957
+        },
+        {
+          "feature": "excl_count",
+          "importance": 0.083865
+        },
+        {
+          "feature": "sub_per_sentence",
+          "importance": 0.07909
+        },
+        {
+          "feature": "f19a_approx_entropy",
+          "importance": 0.060084
+        },
+        {
+          "feature": "f26b_long_sent_rate",
+          "importance": 0.059234
+        },
+        {
+          "feature": "f16a_bigram_rarity",
+          "importance": 0.051454
+        },
+        {
+          "feature": "f9a_contradiction_rate",
+          "importance": 0.05138
+        },
+        {
+          "feature": "semicolon_count",
+          "importance": 0.049425
+        }
+      ]
+    },
+    "5000+": {
+      "n": 916,
+      "top10": [
+        {
+          "feature": "mean_para_len",
+          "importance": 0.324272
+        },
+        {
+          "feature": "dash_count",
+          "importance": 0.110285
+        },
+        {
+          "feature": "excl_count",
+          "importance": 0.103009
+        },
+        {
+          "feature": "f26b_long_sent_rate",
+          "importance": 0.098378
+        },
+        {
+          "feature": "sub_per_sentence",
+          "importance": 0.076823
+        },
+        {
+          "feature": "f19a_approx_entropy",
+          "importance": 0.075811
+        },
+        {
+          "feature": "std_para_len",
+          "importance": 0.064198
+        },
+        {
+          "feature": "cv_sent",
+          "importance": 0.052543
+        },
+        {
+          "feature": "semicolon_count",
+          "importance": 0.043637
+        },
+        {
+          "feature": "f29d_ttr_score",
+          "importance": 0.043151
+        }
+      ]
+    }
+  },
+  "c2_author_control": {
+    "n_major_authors": 0,
+    "semi_top3_pct": 0.0,
+    "semi_top5_pct": 0.0,
+    "top_semi_authors": [
+      "aurelia_11828",
+      "candide_4650",
+      "jekyll_43"
+    ],
+    "semi_rank_without_top_authors": 4,
+    "author_details": {},
+    "top5_without_top_authors": [
+      {
+        "rank": 1,
+        "feature": "f16a_bigram_rarity",
+        "importance": 0.149935
+      },
+      {
+        "rank": 2,
+        "feature": "f1a_rhythm_variance",
+        "importance": 0.123362
+      },
+      {
+        "rank": 3,
+        "feature": "std_sent_len",
+        "importance": 0.115775
+      },
+      {
+        "rank": 4,
+        "feature": "semicolon_count",
+        "importance": 0.0854
+      },
+      {
+        "rank": 5,
+        "feature": "dialogue_ratio",
+        "importance": 0.084241
+      }
+    ]
+  },
+  "c3_interactions_by_size": {
+    "200": {
+      "std_sent_len x f1a_rhythm_variance": {
+        "r2_add": 0.0561,
+        "r2_int": 0.0851,
+        "delta_r2": 0.029,
+        "interaction_coef": -0.0467
+      },
+      "semicolon_count x std_sent_len": {
+        "r2_add": 0.0725,
+        "r2_int": 0.0792,
+        "delta_r2": 0.0067,
+        "interaction_coef": -0.057
+      },
+      "semicolon_count x sub_per_sentence": {
+        "r2_add": 0.072,
+        "r2_int": 0.0774,
+        "delta_r2": 0.0054,
+        "interaction_coef": -0.0648
+      },
+      "semicolon_count x dash_count": {
+        "r2_add": 0.031,
+        "r2_int": 0.0311,
+        "delta_r2": 0.0,
+        "interaction_coef": 0.0047
+      }
+    },
+    "500": {
+      "std_sent_len x f1a_rhythm_variance": {
+        "r2_add": 0.0634,
+        "r2_int": 0.0906,
+        "delta_r2": 0.0272,
+        "interaction_coef": -0.0189
+      },
+      "semicolon_count x std_sent_len": {
+        "r2_add": 0.0909,
+        "r2_int": 0.0985,
+        "delta_r2": 0.0076,
+        "interaction_coef": -0.0417
+      },
+      "semicolon_count x sub_per_sentence": {
+        "r2_add": 0.0785,
+        "r2_int": 0.0827,
+        "delta_r2": 0.0041,
+        "interaction_coef": -0.0564
+      },
+      "semicolon_count x dash_count": {
+        "r2_add": 0.052,
+        "r2_int": 0.0549,
+        "delta_r2": 0.0028,
+        "interaction_coef": 0.0691
+      }
+    },
+    "1000": {
+      "std_sent_len x f1a_rhythm_variance": {
+        "r2_add": 0.0469,
+        "r2_int": 0.0804,
+        "delta_r2": 0.0335,
+        "interaction_coef": -0.0084
+      },
+      "semicolon_count x std_sent_len": {
+        "r2_add": 0.0806,
+        "r2_int": 0.0861,
+        "delta_r2": 0.0055,
+        "interaction_coef": -0.0198
+      },
+      "semicolon_count x sub_per_sentence": {
+        "r2_add": 0.0699,
+        "r2_int": 0.07,
+        "delta_r2": 0.0001,
+        "interaction_coef": -0.009
+      },
+      "semicolon_count x dash_count": {
+        "r2_add": 0.0544,
+        "r2_int": 0.061,
+        "delta_r2": 0.0065,
+        "interaction_coef": 0.1099
+      }
+    },
+    "2000": {
+      "std_sent_len x f1a_rhythm_variance": {
+        "r2_add": 0.0183,
+        "r2_int": 0.0482,
+        "delta_r2": 0.0299,
+        "interaction_coef": -0.0061
+      },
+      "semicolon_count x std_sent_len": {
+        "r2_add": 0.0445,
+        "r2_int": 0.0528,
+        "delta_r2": 0.0084,
+        "interaction_coef": -0.0174
+      },
+      "semicolon_count x sub_per_sentence": {
+        "r2_add": 0.0437,
+        "r2_int": 0.0438,
+        "delta_r2": 0.0,
+        "interaction_coef": 0.0041
+      },
+      "semicolon_count x dash_count": {
+        "r2_add": 0.0349,
+        "r2_int": 0.0448,
+        "delta_r2": 0.0099,
+        "interaction_coef": 0.1553
+      }
+    }
+  }
+}

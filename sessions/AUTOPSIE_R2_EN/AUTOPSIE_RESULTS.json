@@ -1,0 +1,662 @@
+{
+  "action1_tiering": {
+    "S": {
+      "n_books": 130,
+      "n_windows": 78842,
+      "examples": [
+        "alain_fournier_meaulnes_13368.txt",
+        "austen_northanger_121.txt",
+        "austen_orgueil_42671.txt",
+        "austen_persuasion_105.txt",
+        "austen_pride_1342.txt",
+        "austen_sense_161.txt",
+        "balzac_eugenie_1715.txt",
+        "balzac_illusions_13141.txt"
+      ]
+    },
+    "A": {
+      "n_books": 44,
+      "n_windows": 23776,
+      "examples": [
+        "americanah_chimamanda_ngozi_adichie.txt",
+        "azorin_voluntad_49791.txt",
+        "baroja_arbol_47844.txt",
+        "becquer_leyendas_44337.txt",
+        "being_and_the_meaning_of_life_a_h_almaas.txt",
+        "clarin_regenta_1_18744.txt",
+        "clarin_regenta_2_18745.txt",
+        "galdos_fortunata_17013.txt"
+      ]
+    },
+    "B": {
+      "n_books": 54,
+      "n_windows": 29109,
+      "examples": [
+        "belonging_to_the_world_barry_hoffner.txt",
+        "falling_to_pieces_annette_lyon.txt",
+        "pg10012.txt",
+        "pg11231.txt",
+        "pg11512.txt",
+        "pg1156.txt",
+        "pg12005.txt",
+        "pg12341.txt"
+      ]
+    },
+    "C": {
+      "n_books": 27,
+      "n_windows": 11926,
+      "examples": [
+        "a_symphony_of_secrets_the_sins_we_hide_series_book_4_cree_say.txt",
+        "bound_by_the_don_jade_west.txt",
+        "chancing_the_frontiersmans_heart_andrea_byrd.txt",
+        "claimed_by_the_mountain_kings_alisson_bento.txt",
+        "deadly_vaccine_zombie_apocalypse_book_two_frances_pearce.txt",
+        "gently_yours_gently_series_book_1_sweetblunch.txt",
+        "heartbreak_era_sophie_jo.txt",
+        "honey_and_harm_devan_barlow.txt"
+      ]
+    },
+    "D": {
+      "n_books": 3,
+      "n_windows": 1615,
+      "examples": [
+        "cheating_with_my_boyfriends_bully_2_manus_dare.txt",
+        "secret_twins_for_my_brothers_best_friends_hannah_ryder.txt",
+        "the_reno_man_and_my_hotwife_epub_the_reno_man.txt"
+      ]
+    }
+  },
+  "action2_separation": {
+    "fr_top15": [
+      {
+        "feature": "n_long_sentences",
+        "mean_S": 1.9163,
+        "mean_C": 0.2654,
+        "cohen_d": 1.3693,
+        "abs_cohen_d": 1.3693,
+        "auc": 0.8301
+      },
+      {
+        "feature": "dash_count",
+        "mean_S": 2.1503,
+        "mean_C": 9.6114,
+        "cohen_d": -1.3399,
+        "abs_cohen_d": 1.3399,
+        "auc": 0.1479
+      },
+      {
+        "feature": "sentence_count",
+        "mean_S": 28.9588,
+        "mean_C": 42.8888,
+        "cohen_d": -1.3233,
+        "abs_cohen_d": 1.3233,
+        "auc": 0.1509
+      },
+      {
+        "feature": "longest_run_long",
+        "mean_S": 1.0576,
+        "mean_C": 0.2109,
+        "cohen_d": 1.2896,
+        "abs_cohen_d": 1.2896,
+        "auc": 0.8075
+      },
+      {
+        "feature": "semicolon_count",
+        "mean_S": 3.2623,
+        "mean_C": 0.2013,
+        "cohen_d": 1.223,
+        "abs_cohen_d": 1.223,
+        "auc": 0.8542
+      },
+      {
+        "feature": "f24c_contrast_delta",
+        "mean_S": 29.7377,
+        "mean_C": 17.7479,
+        "cohen_d": 1.1969,
+        "abs_cohen_d": 1.1969,
+        "auc": 0.85
+      },
+      {
+        "feature": "f26b_long_sent_rate",
+        "mean_S": 0.097,
+        "mean_C": 0.0085,
+        "cohen_d": 1.036,
+        "abs_cohen_d": 1.036,
+        "auc": 0.8385
+      },
+      {
+        "feature": "n_short_sentences",
+        "mean_S": 10.4428,
+        "mean_C": 20.8515,
+        "cohen_d": -0.9987,
+        "abs_cohen_d": 0.9987,
+        "auc": 0.1917
+      },
+      {
+        "feature": "longest_sent_words",
+        "mean_S": 60.6904,
+        "mean_C": 34.6127,
+        "cohen_d": 0.9608,
+        "abs_cohen_d": 0.9608,
+        "auc": 0.8606
+      },
+      {
+        "feature": "range_sent_len",
+        "mean_S": 57.1957,
+        "mean_C": 32.6857,
+        "cohen_d": 0.936,
+        "abs_cohen_d": 0.936,
+        "auc": 0.8506
+      },
+      {
+        "feature": "mean_sent_len",
+        "mean_S": 20.3566,
+        "mean_C": 12.271,
+        "cohen_d": 0.8805,
+        "abs_cohen_d": 0.8805,
+        "auc": 0.8474
+      },
+      {
+        "feature": "f1_mean",
+        "mean_S": 20.3566,
+        "mean_C": 12.271,
+        "cohen_d": 0.8805,
+        "abs_cohen_d": 0.8805,
+        "auc": 0.8474
+      },
+      {
+        "feature": "ratio_alt",
+        "mean_S": 0.0647,
+        "mean_C": 0.0211,
+        "cohen_d": 0.8718,
+        "abs_cohen_d": 0.8718,
+        "auc": 0.7303
+      },
+      {
+        "feature": "f26c_period_score",
+        "mean_S": 0.1215,
+        "mean_C": 0.0616,
+        "cohen_d": 0.862,
+        "abs_cohen_d": 0.862,
+        "auc": 0.7573
+      },
+      {
+        "feature": "f9a_contradiction_rate",
+        "mean_S": 0.6927,
+        "mean_C": 0.3623,
+        "cohen_d": 0.8163,
+        "abs_cohen_d": 0.8163,
+        "auc": 0.7804
+      }
+    ],
+    "en_top15": [
+      {
+        "feature": "n_long_sentences",
+        "mean_S": 2.6505,
+        "mean_C": 0.3493,
+        "cohen_d": 1.73,
+        "abs_cohen_d": 1.73,
+        "auc": 0.8843
+      },
+      {
+        "feature": "longest_run_long",
+        "mean_S": 1.3613,
+        "mean_C": 0.2677,
+        "cohen_d": 1.4505,
+        "abs_cohen_d": 1.4505,
+        "auc": 0.8492
+      },
+      {
+        "feature": "sentence_count",
+        "mean_S": 25.1452,
+        "mean_C": 41.1029,
+        "cohen_d": -1.4178,
+        "abs_cohen_d": 1.4178,
+        "auc": 0.1152
+      },
+      {
+        "feature": "f24c_contrast_delta",
+        "mean_S": 34.7258,
+        "mean_C": 18.7532,
+        "cohen_d": 1.4044,
+        "abs_cohen_d": 1.4044,
+        "auc": 0.8847
+      },
+      {
+        "feature": "longest_sent_words",
+        "mean_S": 67.374,
+        "mean_C": 35.9484,
+        "cohen_d": 1.3518,
+        "abs_cohen_d": 1.3518,
+        "auc": 0.8987
+      },
+      {
+        "feature": "f26c_period_score",
+        "mean_S": 0.1396,
+        "mean_C": 0.0331,
+        "cohen_d": 1.3456,
+        "abs_cohen_d": 1.3456,
+        "auc": 0.8973
+      },
+      {
+        "feature": "range_sent_len",
+        "mean_S": 63.306,
+        "mean_C": 33.9873,
+        "cohen_d": 1.3158,
+        "abs_cohen_d": 1.3158,
+        "auc": 0.8905
+      },
+      {
+        "feature": "f26b_long_sent_rate",
+        "mean_S": 0.1523,
+        "mean_C": 0.0113,
+        "cohen_d": 1.3018,
+        "abs_cohen_d": 1.3018,
+        "auc": 0.8925
+      },
+      {
+        "feature": "mean_sent_len",
+        "mean_S": 23.7294,
+        "mean_C": 12.9123,
+        "cohen_d": 1.2793,
+        "abs_cohen_d": 1.2793,
+        "auc": 0.8842
+      },
+      {
+        "feature": "f1_mean",
+        "mean_S": 23.7294,
+        "mean_C": 12.9123,
+        "cohen_d": 1.2793,
+        "abs_cohen_d": 1.2793,
+        "auc": 0.8842
+      },
+      {
+        "feature": "std_sent_len",
+        "mean_S": 17.0879,
+        "mean_C": 8.2031,
+        "cohen_d": 1.1984,
+        "abs_cohen_d": 1.1984,
+        "auc": 0.9132
+      },
+      {
+        "feature": "f1a_rhythm_variance",
+        "mean_S": 17.0879,
+        "mean_C": 8.2031,
+        "cohen_d": 1.1984,
+        "abs_cohen_d": 1.1984,
+        "auc": 0.9132
+      },
+      {
+        "feature": "sub_per_sentence",
+        "mean_S": 0.7897,
+        "mean_C": 0.2854,
+        "cohen_d": 1.1922,
+        "abs_cohen_d": 1.1922,
+        "auc": 0.8539
+      },
+      {
+        "feature": "median_sent_len",
+        "mean_S": 19.7767,
+        "mean_C": 11.4078,
+        "cohen_d": 1.0547,
+        "abs_cohen_d": 1.0547,
+        "auc": 0.8159
+      },
+      {
+        "feature": "f9a_contradiction_rate",
+        "mean_S": 1.0601,
+        "mean_C": 0.5221,
+        "cohen_d": 1.0528,
+        "abs_cohen_d": 1.0528,
+        "auc": 0.8135
+      }
+    ],
+    "avg_abs_d_fr": 1.0656,
+    "avg_abs_d_en": 1.3049
+  },
+  "action3_bimodality": {
+    "silhouette_kmeans": 0.526,
+    "silhouette_gmm": 0.3575,
+    "cluster_profiles": {
+      "cluster_0": {
+        "n_windows": 61989,
+        "means": {
+          "mean_sent_len": 19.4005,
+          "f1a_rhythm_variance": 13.9351,
+          "f17_knife_count": 5.0971,
+          "f26b_long_sent_rate": 0.0902,
+          "sub_per_sentence": 0.5839
+        },
+        "top_authors": [
+          "pg2600",
+          "guerre_2600",
+          "pg1399",
+          "don_delillo",
+          "pg2701"
+        ],
+        "top_files": [
+          "pg2600.txt",
+          "tolstoi_guerre_2600.txt",
+          "pg1399.txt",
+          "pg2701.txt",
+          "pg1023.txt"
+        ]
+      },
+      "cluster_1": {
+        "n_windows": 16853,
+        "means": {
+          "mean_sent_len": 39.6521,
+          "f1a_rhythm_variance": 28.6846,
+          "f17_knife_count": 0.6738,
+          "f26b_long_sent_rate": 0.381,
+          "sub_per_sentence": 1.5464
+        },
+        "top_authors": [
+          "jones_6593",
+          "essais_3600",
+          "pg2600",
+          "guerre_2600",
+          "gulliver_829"
+        ],
+        "top_files": [
+          "fielding_tom_jones_6593.txt",
+          "montaigne_essais_3600.txt",
+          "pg2600.txt",
+          "tolstoi_guerre_2600.txt",
+          "swift_gulliver_829.txt"
+        ]
+      }
+    },
+    "r2_per_cluster": {
+      "cluster_0": {
+        "r2": 0.0723,
+        "std": 0.2647,
+        "n": 120311
+      },
+      "cluster_1": {
+        "r2": -2.2961,
+        "std": 2.6543,
+        "n": 23342
+      }
+    },
+    "short_cluster": 0,
+    "long_cluster": 1,
+    "silhouette_fr_comparison": 0.6124
+  },
+  "action4_anova": {
+    "fr_top15": [
+      {
+        "feature": "dash_count",
+        "f_stat": 16688.25,
+        "p_value": 0.0
+      },
+      {
+        "feature": "sentence_count",
+        "f_stat": 15048.25,
+        "p_value": 0.0
+      },
+      {
+        "feature": "semicolon_count",
+        "f_stat": 12146.64,
+        "p_value": 0.0
+      },
+      {
+        "feature": "n_long_sentences",
+        "f_stat": 11030.26,
+        "p_value": 0.0
+      },
+      {
+        "feature": "n_short_sentences",
+        "f_stat": 10642.08,
+        "p_value": 0.0
+      },
+      {
+        "feature": "longest_run_long",
+        "f_stat": 10373.03,
+        "p_value": 0.0
+      },
+      {
+        "feature": "f24c_contrast_delta",
+        "f_stat": 9395.31,
+        "p_value": 0.0
+      },
+      {
+        "feature": "f17_knife_count",
+        "f_stat": 6740.12,
+        "p_value": 0.0
+      },
+      {
+        "feature": "longest_sent_words",
+        "f_stat": 6311.6,
+        "p_value": 0.0
+      },
+      {
+        "feature": "f26b_long_sent_rate",
+        "f_stat": 6177.75,
+        "p_value": 0.0
+      },
+      {
+        "feature": "knife_rate",
+        "f_stat": 6056.53,
+        "p_value": 0.0
+      },
+      {
+        "feature": "range_sent_len",
+        "f_stat": 5992.52,
+        "p_value": 0.0
+      },
+      {
+        "feature": "mean_sent_len",
+        "f_stat": 5552.35,
+        "p_value": 0.0
+      },
+      {
+        "feature": "f1_mean",
+        "f_stat": 5552.35,
+        "p_value": 0.0
+      },
+      {
+        "feature": "ratio_alt",
+        "f_stat": 5318.74,
+        "p_value": 0.0
+      }
+    ],
+    "en_top15": [
+      {
+        "feature": "n_long_sentences",
+        "f_stat": 7181.1,
+        "p_value": 0.0
+      },
+      {
+        "feature": "sentence_count",
+        "f_stat": 6865.01,
+        "p_value": 0.0
+      },
+      {
+        "feature": "longest_run_long",
+        "f_stat": 5586.88,
+        "p_value": 0.0
+      },
+      {
+        "feature": "f24c_contrast_delta",
+        "f_stat": 5104.4,
+        "p_value": 0.0
+      },
+      {
+        "feature": "longest_sent_words",
+        "f_stat": 4545.75,
+        "p_value": 0.0
+      },
+      {
+        "feature": "f26b_long_sent_rate",
+        "f_stat": 4362.55,
+        "p_value": 0.0
+      },
+      {
+        "feature": "range_sent_len",
+        "f_stat": 4322.51,
+        "p_value": 0.0
+      },
+      {
+        "feature": "f26c_period_score",
+        "f_stat": 4149.21,
+        "p_value": 0.0
+      },
+      {
+        "feature": "mean_sent_len",
+        "f_stat": 4064.23,
+        "p_value": 0.0
+      },
+      {
+        "feature": "f1_mean",
+        "f_stat": 4064.23,
+        "p_value": 0.0
+      },
+      {
+        "feature": "n_short_sentences",
+        "f_stat": 3873.46,
+        "p_value": 0.0
+      },
+      {
+        "feature": "std_sent_len",
+        "f_stat": 3566.66,
+        "p_value": 0.0
+      },
+      {
+        "feature": "f1a_rhythm_variance",
+        "f_stat": 3566.66,
+        "p_value": 0.0
+      },
+      {
+        "feature": "f9a_contradiction_rate",
+        "f_stat": 3238.16,
+        "p_value": 0.0
+      },
+      {
+        "feature": "semicolon_count",
+        "f_stat": 3025.25,
+        "p_value": 0.0
+      }
+    ],
+    "avg_f_fr": 8868.39,
+    "avg_f_en": 4501.07
+  },
+  "action5_technical": {
+    "distributions": {
+      "FR": {
+        "n_windows": 141366,
+        "mean_sentence_count": 34.04,
+        "mean_sent_len": 17.55,
+        "mean_semicolon": 2.032,
+        "pct_zero_semicolon": 48.2,
+        "mean_dialogue_ratio": 0.127,
+        "pct_high_dialogue": 1.7,
+        "mean_dash": 4.843,
+        "std_mean_sent_len": 10.8,
+        "mean_f16a_bigram": 0.9876,
+        "std_f16a_bigram": 0.0142
+      },
+      "EN": {
+        "n_windows": 143653,
+        "mean_sentence_count": 27.86,
+        "mean_sent_len": 21.59,
+        "mean_semicolon": 3.375,
+        "pct_zero_semicolon": 26.9,
+        "mean_dialogue_ratio": 0.121,
+        "pct_high_dialogue": 9.0,
+        "mean_dash": 1.973,
+        "std_mean_sent_len": 11.02,
+        "mean_f16a_bigram": 0.9812,
+        "std_f16a_bigram": 0.0212
+      }
+    },
+    "cv_comparison_top10": [
+      {
+        "feature": "f26b_long_sent_rate",
+        "cv_fr": 1.556,
+        "cv_en": 1.161,
+        "mean_fr": 0.0688,
+        "mean_en": 0.1227
+      },
+      {
+        "feature": "n_long_sentences",
+        "cv_fr": 1.138,
+        "cv_en": 0.817,
+        "mean_fr": 1.3884,
+        "mean_en": 2.2058
+      },
+      {
+        "feature": "std_sent_len",
+        "cv_fr": 0.914,
+        "cv_en": 0.635,
+        "mean_fr": 12.526,
+        "mean_en": 15.3091
+      },
+      {
+        "feature": "f1a_rhythm_variance",
+        "cv_fr": 0.914,
+        "cv_en": 0.635,
+        "mean_fr": 12.526,
+        "mean_en": 15.3091
+      },
+      {
+        "feature": "longest_run_long",
+        "cv_fr": 1.059,
+        "cv_en": 0.825,
+        "mean_fr": 0.7836,
+        "mean_en": 1.155
+      },
+      {
+        "feature": "shortest_sent_words",
+        "cv_fr": 1.326,
+        "cv_en": 1.128,
+        "mean_fr": 2.9426,
+        "mean_en": 3.64
+      },
+      {
+        "feature": "semicolon_count",
+        "cv_fr": 1.524,
+        "cv_en": 1.326,
+        "mean_fr": 2.0323,
+        "mean_en": 3.375
+      },
+      {
+        "feature": "ratio_alt",
+        "cv_fr": 1.183,
+        "cv_en": 1.012,
+        "mean_fr": 0.0501,
+        "mean_en": 0.0683
+      },
+      {
+        "feature": "T_CL",
+        "cv_fr": 1.252,
+        "cv_en": 1.099,
+        "mean_fr": 0.6667,
+        "mean_en": 0.8316
+      },
+      {
+        "feature": "excl_count",
+        "cv_fr": 1.712,
+        "cv_en": 1.56,
+        "mean_fr": 2.227,
+        "mean_en": 2.1039
+      }
+    ]
+  },
+  "diagnostic": {
+    "tier_verdict": "SAIN",
+    "bimodal_verdict": "BIMODAL",
+    "signal_verdict": "SIGNAL PRESENT MAIS FAIBLE",
+    "anova_verdict": "TIERS COMPARABLES",
+    "pipeline_verdict": "PIPELINE SAIN",
+    "ratio_s_c_fr": 4.49,
+    "ratio_s_c_en": 6.61,
+    "signal_ratio": 0.82,
+    "anova_ratio": 1.97,
+    "r2_improved_by_cluster": true,
+    "diagnostics": [
+      "B. BIMODAL — clusters EN dans Tier S",
+      "B+. R2 s'ameliore par cluster — bimodalite contribue"
+    ]
+  }
+}

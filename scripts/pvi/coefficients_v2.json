@@ -1,0 +1,43 @@
+{
+  "modele": "MINIMAL",
+  "features": [
+    "FL",
+    "I",
+    "Omega",
+    "T"
+  ],
+  "auc_train_cv": 0.9802,
+  "auc_std": 0.0138,
+  "accuracy_train": 0.9318,
+  "f1_train": 0.9318,
+  "coefficients": {
+    "FL": -2.5362,
+    "I": 3.0344,
+    "Omega": 4.1034,
+    "T": 1.2259
+  },
+  "intercept": -4.4221,
+  "seuils": {
+    "bestseller_proba": 0.5,
+    "zone_omega_pvi": 1.59,
+    "zone_omega_qprose": 87
+  },
+  "hypotheses": {
+    "H1_U_double": {
+      "auc": 0.9723514211886306,
+      "adopted": false
+    },
+    "H2_arc_135": {
+      "auc": 0.9744186046511628,
+      "adopted": false
+    },
+    "H3_penalty": {
+      "auc": 0.9739018087855298,
+      "adopted": false
+    }
+  },
+  "date_calibration": "2026-03-29",
+  "n_train": 176,
+  "n_test_gele": 42,
+  "statut": "CALIBRE_SUR_TRAIN_UNIQUEMENT"
+}

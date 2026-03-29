@@ -281,6 +281,29 @@ async function executePipeline(
     initialDraft = slicerResult.prose;
   }
 
+  // ── CLIFF GATE (BB-01) — Phase 1 telemetry ──────────────────────────
+  // BB-01: cliff_score naturel = 0.50 ± 0.004. Ce gate MESURE et LOG sans bloquer.
+  {
+    const cliffWords = initialDraft.split(/\s+/);
+    const cliffText = cliffWords.slice(-100).join(' ');
+    const cliffSents = cliffText.split(/[.!?]+/).map(s => s.trim()).filter(s => s.length > 0);
+    if (cliffSents.length > 0) {
+      const lastSent = cliffSents[cliffSents.length - 1].trim();
+      const endsEllipsis = lastSent.endsWith('...') || lastSent.endsWith('\u2026');
+      const lastChar = lastSent[lastSent.length - 1] || '';
+      const endsIncomplete = !['.', '!', '?', '\u2026'].includes(lastChar);
+      const meanLen = cliffSents.reduce((sum, s) => sum + s.split(/\s+/).length, 0) / cliffSents.length;
+      const tension = Math.min(1.0, 20.0 / Math.max(meanLen, 1));
+      const cliffScore = Math.round((tension * 0.5 + (endsEllipsis ? 0.3 : 0) + (endsIncomplete ? 0.2 : 0)) * 10000) / 10000;
+      const CLIFF_THRESHOLD = 0.30;
+      if (cliffScore > CLIFF_THRESHOLD) {
+        console.warn(`[CLIFF-GATE] cliff_score=${cliffScore.toFixed(4)} > ${CLIFF_THRESHOLD} — brique fermee (BB-01)`);
+      } else {
+        console.log(`[CLIFF-GATE] cliff_score=${cliffScore.toFixed(4)} <= ${CLIFF_THRESHOLD} — brique ouverte`);
+      }
+    }
+  }
+
   // ★ NOUVEAU Sprint 3.1: Physics Audit (post-generation, informatif)
   // Runs after draft generation, before sovereign loop
   // Physics audit provides prescriptions for the correction loop

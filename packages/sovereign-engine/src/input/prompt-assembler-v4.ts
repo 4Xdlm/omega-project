@@ -392,8 +392,10 @@ const CONFLICT_PAIRS: Record<string, ConflictPair> = {
     b: 'Cisèle chaque fin de phrase pour qu\'elle accroche, coupe, reste en mémoire.',
   },
   societal: {
-    a: 'Une noirceur fondamentale habite chaque geste, chaque silence — le monde est hostile.',
-    b: 'La forme est retenue, clinique, économe — zéro emphase, zéro sentimentalisme.',
+    // FIX V5: noirceur_vs_sobriete causait delta=-2.4 sur confrontation.
+    // Remappé sur long_vs_hook (universel, var=0.1, delta=+2.2).
+    a: 'Déploie des phrases qui s\'étendent, s\'accumulent, respirent — subordination profonde.',
+    b: 'Cisèle chaque fin de phrase pour qu\'elle accroche, coupe, reste en mémoire.',
   },
   external: {
     a: 'Déploie des phrases qui s\'étendent, s\'accumulent, respirent — subordination profonde.',

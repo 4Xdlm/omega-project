@@ -197,52 +197,59 @@ def get_nlp(lang):
 
 def extract_FL(text_windows, lang):
     """
-    Friction Lexicale — proportion of tokens below top-10k frequency.
-    NER-filtered to avoid penalizing fantasy/SF proper nouns.
+    Friction Lexicale v2 — proportion of content tokens (len>=4) below
+    top-5000 frequency. NER-filtered. Short function words excluded to
+    measure true LEXICAL rarity, not grammatical accessibility.
+
+    Design note (P1 correction): top-10k was too permissive. top-5k with
+    len>=4 filter correctly separates Hoover(0.14) from Camus(0.22) from
+    Bovary(0.90). Proust FL is genuinely LOW (lexical, not syntactic
+    difficulty) — his friction is captured by LP instead.
     """
     wordfreq = _import_wordfreq()
     nlp = get_nlp(lang)
 
-    # Get frequency threshold for rank ~10000
-    # wordfreq.top_n_list returns top N words; we get the freq of the 10000th
-    top_10k = wordfreq.top_n_list(lang, 10000)
-    if top_10k:
-        seuil_10k = wordfreq.word_frequency(top_10k[-1], lang)
+    # Get frequency threshold for rank ~5000 (stricter than 10k)
+    top_5k = wordfreq.top_n_list(lang, 5000)
+    if top_5k:
+        seuil_5k = wordfreq.word_frequency(top_5k[-1], lang)
     else:
-        seuil_10k = 1e-6  # fallback
+        seuil_5k = 1e-5  # fallback
 
     fl_per_window = []
 
     for window in text_windows:
-        # Process with spaCy (limit to first 500k chars per window)
         doc = nlp(window[:500000])
 
         # Collect NER spans to exclude
-        ner_char_ranges = set()
+        ner_indices = set()
         for ent in doc.ents:
             if ent.label_ in ("PER", "PERS", "GPE", "ORG", "WORK_OF_ART",
                                "LOC", "PERSON", "FAC"):
                 for i in range(ent.start, ent.end):
-                    ner_char_ranges.add(i)
+                    ner_indices.add(i)
 
         total = 0
-        below_10k = 0
+        below = 0
         for token in doc:
-            if token.i in ner_char_ranges:
+            if token.i in ner_indices:
                 continue
-            if token.is_punct or token.is_space or len(token.text) < 2:
+            if token.is_punct or token.is_space:
                 continue
             if token.like_num:
+                continue
+            # Skip short function words (articles, prepositions)
+            if len(token.text) < 4:
                 continue
 
             word = token.text.lower()
             freq = wordfreq.word_frequency(word, lang)
             total += 1
-            if freq < seuil_10k:
-                below_10k += 1
+            if freq < seuil_5k:
+                below += 1
 
         if total > 0:
-            fl_per_window.append(below_10k / total)
+            fl_per_window.append(below / total)
         else:
             fl_per_window.append(0.0)
 
@@ -253,66 +260,122 @@ def extract_FL(text_windows, lang):
         "score": round(fl_mean, 4),
         "sigma": round(fl_sigma, 4),
         "per_window": [round(x, 4) for x in fl_per_window],
-        "methode": "wordfreq_NER_filtered",
-        "seuil_10k": seuil_10k,
-        "tag": "NLP-ROBUSTE",
+        "methode": "wordfreq_top5k_NER_len4",
+        "seuil_5k": seuil_5k,
+        "tag": "NLP-ROBUSTE-v2",
     }
 
 
 def extract_MS(text_windows, lang):
     """
-    Musicalite Syntaxique — rhythm variety via CV of sentence lengths,
-    max dependency depth, and syntactic structure diversity.
+    Musicalite Syntaxique v2 — 4 composantes:
+    1. Alternance rythmique (0.35) — sentence-length breathing patterns
+    2. Diversite structures debut phrase (0.25) — POS variety at sentence start
+    3. Figures syntaxiques / anaphores (0.25) — repetitive patterns
+    4. Ponctuation expressive interne (0.15) — internal rhythm markers
+
+    Design note (P1 correction): v1 used CV+depth which failed 0/5.
+    v2 captures rhythm PERCEPTION: 3/5 convergent, Proust>Hoover correct.
     """
+    from collections import Counter
     nlp = get_nlp(lang)
     ms_per_window = []
 
     for window in text_windows:
         doc = nlp(window[:500000])
         sents = list(doc.sents)
-        if len(sents) < 5:
+        if len(sents) < 10:
             ms_per_window.append(0.5)
             continue
 
-        # 1. CV of sentence lengths
+        # --- COMPONENT 1: Alternance rythmique (0.35) ---
         lengths = [len(list(s)) for s in sents]
-        mean_len = statistics.mean(lengths)
-        std_len = statistics.stdev(lengths) if len(lengths) > 1 else 0
-        cv = std_len / mean_len if mean_len > 0 else 0
+        n_triplets = 0
+        n_alternating = 0
+        for i in range(len(lengths) - 2):
+            li, lj, lk = lengths[i], lengths[i + 1], lengths[i + 2]
+            n_triplets += 1
+            # Short sandwiched: middle < both neighbors by >2 tokens
+            if lj < min(li, lk) and (min(li, lk) - lj) > 2:
+                n_alternating += 1
+            # Long sandwiched: middle > both neighbors by >2 tokens
+            elif lj > max(li, lk) and (lj - max(li, lk)) > 2:
+                n_alternating += 1
 
-        # 2. Max dependency tree depth per sentence
-        depths = []
+        rhythm_ratio = n_alternating / max(n_triplets, 1)
+        rhythm_norm = min(rhythm_ratio / 0.40, 1.0)
+
+        # --- COMPONENT 2: Diversite structures debut phrase (0.25) ---
+        first_pos_tags = []
         for sent in sents:
-            max_d = 0
+            tokens_in_sent = [t for t in sent
+                              if not t.is_space and not t.is_punct]
+            if tokens_in_sent:
+                first_pos_tags.append(tokens_in_sent[0].pos_)
+
+        if first_pos_tags:
+            n_unique_starts = len(set(first_pos_tags))
+            diversity_ratio = n_unique_starts / 7.0
+            diversity_norm = min(diversity_ratio, 1.0)
+
+            pos_counts = Counter(first_pos_tags)
+            most_common_ratio = (pos_counts.most_common(1)[0][1]
+                                 / len(first_pos_tags))
+            monotony_penalty = max(0, (most_common_ratio - 0.35) / 0.35)
+            diversity_norm *= (1 - 0.5 * min(monotony_penalty, 1.0))
+        else:
+            diversity_norm = 0.5
+
+        # --- COMPONENT 3: Figures syntaxiques / anaphores (0.25) ---
+        first_words = []
+        for sent in sents:
+            tokens_in_sent = [t for t in sent
+                              if not t.is_space and not t.is_punct]
+            if tokens_in_sent:
+                first_words.append(tokens_in_sent[0].text.lower())
+            else:
+                first_words.append("")
+
+        anaphore_count = 0
+        i = 0
+        while i < len(first_words) - 1:
+            if first_words[i] == first_words[i + 1] and first_words[i]:
+                run = 1
+                while (i + run < len(first_words)
+                       and first_words[i + run] == first_words[i]):
+                    run += 1
+                if run >= 2:
+                    anaphore_count += run
+                i += run
+            else:
+                i += 1
+
+        anaphore_ratio = anaphore_count / max(len(first_words), 1)
+        anaphore_norm = min(anaphore_ratio / 0.12, 1.0)
+
+        # Inversions: sentences starting with verb/adverb/preposition
+        inversion_count = sum(1 for pos in first_pos_tags
+                              if pos in ("VERB", "AUX", "ADV", "ADP"))
+        inversion_ratio = inversion_count / max(len(first_pos_tags), 1)
+        inversion_norm = min(inversion_ratio / 0.40, 1.0)
+
+        repetition_score = 0.70 * anaphore_norm + 0.30 * inversion_norm
+
+        # --- COMPONENT 4: Ponctuation expressive interne (0.15) ---
+        internal_punct_count = 0
+        for sent in sents:
             for token in sent:
-                d = 0
-                t = token
-                while t.head != t:
-                    d += 1
-                    t = t.head
-                    if d > 50:
-                        break
-                if d > max_d:
-                    max_d = d
-            depths.append(max_d)
-        mean_depth = statistics.mean(depths) if depths else 3
+                if token.text in (",", ";", ":", "\u2014", "\u2013", "..."):
+                    internal_punct_count += 1
 
-        # 3. Syntactic structure diversity
-        dep_types = set()
-        for token in doc:
-            dep_types.add(token.dep_)
-        struct_ratio = len(dep_types) / max(len(sents), 1)
+        punct_per_sentence = internal_punct_count / max(len(sents), 1)
+        punct_norm = min(punct_per_sentence / 5.0, 1.0)
 
-        # Normalize each component to [0,1]
-        # CV: typical range 0.3-1.5, normalize with sigmoid-like
-        cv_norm = min(cv / 1.0, 1.0)
-        # Depth: typical range 3-12, normalize
-        depth_norm = min((mean_depth - 2) / 10.0, 1.0)
-        depth_norm = max(depth_norm, 0.0)
-        # Struct ratio: typical range 0.1-1.5
-        struct_norm = min(struct_ratio / 1.0, 1.0)
-
-        ms = 0.40 * cv_norm + 0.35 * depth_norm + 0.25 * struct_norm
+        # --- COMBINE ---
+        ms = (0.35 * rhythm_norm
+              + 0.25 * diversity_norm
+              + 0.25 * repetition_score
+              + 0.15 * punct_norm)
         ms_per_window.append(ms)
 
     ms_mean = statistics.mean(ms_per_window) if ms_per_window else 0.5
@@ -322,8 +385,8 @@ def extract_MS(text_windows, lang):
         "score": round(ms_mean, 4),
         "sigma": round(ms_sigma, 4),
         "per_window": [round(x, 4) for x in ms_per_window],
-        "methode": "spacy_CV_depth",
-        "tag": "NLP-ROBUSTE",
+        "methode": "rhythm_diversity_anaphore_punct_v2",
+        "tag": "NLP-ROBUSTE-v2",
     }
 
 

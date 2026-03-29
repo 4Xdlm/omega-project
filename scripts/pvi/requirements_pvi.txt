@@ -1,0 +1,14 @@
+# OMEGA PVI NLP Scorer — Phase P1
+# Requires Python 3.11 (spaCy incompatible with 3.14)
+spacy>=3.7,<4.0
+wordfreq>=3.0
+vaderSentiment>=3.3
+textblob>=0.18
+ebooklib>=0.18
+numpy>=1.24
+# spaCy models (install separately):
+#   python -m spacy download fr_core_news_lg
+#   python -m spacy download en_core_web_lg
+# Optional for S_local (perplexity):
+#   transformers>=4.30
+#   torch>=2.0

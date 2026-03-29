@@ -16,7 +16,7 @@ export const DRAFT_MODE_INSTRUCTIONS: Readonly<Record<string, string>> = {
   tranchant_minimaliste: `
 MODE: TRANCHANT MINIMALISTE
 - Compression maximale, every word earns its place
-- Short sentences (avg 8-12 words), syncopes, brutal cuts
+- Compression maximale, syncopes, brutal cuts
 - Minimal description, maximum implication
 - Precision over abundance
 `,
@@ -24,7 +24,7 @@ MODE: TRANCHANT MINIMALISTE
 MODE: SENSORIEL DENSE
 - Sensory saturation: sight, sound, touch, smell, interoception
 - Concrete specificity: "iodine", "gravel underfoot", "copper on tongue"
-- Longer sentences (avg 15-20 words) with layered sensory details
+- Layered sensory details, each clause carrying sensory weight
 - Metaphors grounded in physical experience
 `,
   experimental_signature: `

@@ -29,33 +29,34 @@
  */
 
 import type { SovereignProvider } from '../../types.js';
+import {
+  SEAL_ATOMIC_COMPOSITE_MIN,
+  SEAL_FLOOR_MIN,
+  NEAR_SEAL_THRESHOLD as _NEAR_SEAL_THRESHOLD,
+} from '../../core/thresholds.js';
 
-// ── Constants ─────────────────────────────────────────────────────────────────
+// ── Constants (sourced from core/thresholds.ts) ──────────────────────────────
 
 /** Seuil minimal composite pour déclencher le polish (en dessous = trop dégradé) */
 export const POLISH_MIN_COMPOSITE = 89.0;
 
-/** Seuil SEAL (composite ≥ 93 + tous floors ≥ 85) */
-export const POLISH_SEAL_THRESHOLD = 93.0;
+/** Seuil SEAL — source: core/thresholds.ts */
+export const POLISH_SEAL_THRESHOLD = SEAL_ATOMIC_COMPOSITE_MIN;
 
 /** Score novelty cible après polish SII */
 export const NOVELTY_TARGET = 82.0;
 
-/** Floor SII (SEAL gate) */
-export const SII_FLOOR = 85.0;
+/** Floor SII (SEAL gate) — source: core/thresholds.ts */
+export const SII_FLOOR = SEAL_FLOOR_MIN;
 
-/** Floor RCI (SEAL gate) */
-export const RCI_FLOOR = 85.0;
+/** Floor RCI (SEAL gate) — source: core/thresholds.ts */
+export const RCI_FLOOR = SEAL_FLOOR_MIN;
 
 /**
  * INV-PE-11 : Si composite >= NEAR_SEAL_THRESHOLD ET tous floors OK → NO_OP.
- * Gap < variance oracle (~1.5 pts) → polish inutile et risqué.
- * Prouvé sur TK1 run U-ROSETTE-11 : composite=92.9945, gap=0.005 → ECC -2.1 après polish.
- * Abaissé 92.5 → 92.0 (U-ROSETTE-17) :
- *   TK0 bench U-ROSETTE-16 : composite=92.4, floors ALL OK, SII=86.8 → Polish déclenché
- *   → SII 86.8→83.7 (δ=−3.1) → REJECTED_NO_GAIN. Gap < variance oracle → NO_OP correct.
+ * Source: core/thresholds.ts
  */
-export const NEAR_SEAL_THRESHOLD = 92.0;
+export const NEAR_SEAL_THRESHOLD = _NEAR_SEAL_THRESHOLD;
 
 /** Tolérance composite pour acceptation polish (INV-PE-12) */
 export const COMPOSITE_TOLERANCE = 1.0;

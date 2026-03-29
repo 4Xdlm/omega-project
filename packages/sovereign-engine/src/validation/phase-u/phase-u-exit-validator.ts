@@ -93,10 +93,15 @@ export const GREATNESS_MEDIAN_MIN = 75;   // médiane Greatness top-1 ≥ 75
 export const GAIN_PCT_MIN         = 15;   // gain top-K vs one-shot ≥ 15%
 export const SEAL_RATE_REGRESSION = 0;    // top-K SEAL rate ≥ one-shot (0 régression)
 
-/** INV-SR-01 : SAGA_READY = composite >= 92.0 AND min_axis >= 85.0 */
-export const SAGA_READY_COMPOSITE_MIN = 92.0;  // INV-SR-01
-/** INV-SR-01 : SSI = min_axis — zéro appel API */
-export const SAGA_READY_SSI_MIN       = 85.0;  // INV-SR-01
+import {
+  SAGA_READY_COMPOSITE_MIN as _SAGA_READY_COMPOSITE_MIN,
+  SAGA_READY_SSI_MIN as _SAGA_READY_SSI_MIN,
+} from '../../core/thresholds.js';
+
+/** INV-SR-01 : SAGA_READY = composite >= 92.0 AND min_axis >= 85.0 — source: core/thresholds.ts */
+export const SAGA_READY_COMPOSITE_MIN = _SAGA_READY_COMPOSITE_MIN;
+/** INV-SR-01 : SSI = min_axis — source: core/thresholds.ts */
+export const SAGA_READY_SSI_MIN       = _SAGA_READY_SSI_MIN;
 /** MET-EU-06 : saga_ready_rate_topk ≥ 5% */
 export const SAGA_READY_RATE_MIN      = 0.05;  // MET-EU-06
 

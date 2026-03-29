@@ -19,6 +19,7 @@
 import { sha256 } from '@omega/canon-kernel';
 import { runSovereignForgeWithPacket, type SovereignForgeResult } from '../engine.js';
 import type { ForgePacket, SovereignProvider } from '../types.js';
+import { SAGA_READY_COMPOSITE_MIN, SAGA_READY_SSI_MIN } from '../core/thresholds.js';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // TYPES
@@ -50,8 +51,8 @@ export interface BrickResult {
 
 export const DEFAULT_CONFIG: BestOfNConfig = {
   max_attempts: 3,
-  early_exit_composite: 92.0,
-  early_exit_min_axis: 85.0,
+  early_exit_composite: SAGA_READY_COMPOSITE_MIN,
+  early_exit_min_axis: SAGA_READY_SSI_MIN,
 };
 
 // ═══════════════════════════════════════════════════════════════════════════════

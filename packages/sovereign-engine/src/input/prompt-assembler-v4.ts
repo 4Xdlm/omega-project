@@ -93,6 +93,7 @@ export function buildSovereignPrompt_V4(
     blocks.push(compileGlossary());
   }
   blocks.push(compileInterdictions());
+  blocks.push(compileConflictPair(packet));
   blocks.push(compileRosettaConstraints(packet));
   blocks.push(compileFinalInstruction());
 
@@ -365,6 +366,49 @@ function compileRosettaConstraints(packet: ForgePacket): string {
     lines.push('Subordination profonde : chaque paragraphe contient au moins une période de 3+ subordonnées enchâssées. C\'est la marque de la prose française de maître.');
   }
   return lines.join('\n');
+}
+
+// ── BLOC 9b — Conflit Orthogonal (BB-P07 + I1 R1/R2/R3) ────────────────────
+// 504 runs blackbox + 55 runs I1 prouvent :
+//   Conflits orthogonaux → +1.8 à +2.5 composite
+//   R1: axes ⊥ obligatoire | R2: variance < 3.0 | R3: max 1 paire par brique
+
+interface ConflictPair {
+  readonly a: string;
+  readonly b: string;
+}
+
+const CONFLICT_PAIRS: Record<string, ConflictPair> = {
+  internal: {
+    a: 'Laisse le temps se dilater dans la conscience intérieure — chaque seconde pèse une page.',
+    b: 'Brise cette immobilité par un détail sensoriel brutal, concret, inattendu.',
+  },
+  existential: {
+    a: 'Laisse le temps se dilater dans la conscience intérieure — chaque seconde pèse une page.',
+    b: 'Brise cette immobilité par un détail sensoriel brutal, concret, inattendu.',
+  },
+  relational: {
+    a: 'Déploie des phrases qui s\'étendent, s\'accumulent, respirent — subordination profonde.',
+    b: 'Cisèle chaque fin de phrase pour qu\'elle accroche, coupe, reste en mémoire.',
+  },
+  societal: {
+    a: 'Une noirceur fondamentale habite chaque geste, chaque silence — le monde est hostile.',
+    b: 'La forme est retenue, clinique, économe — zéro emphase, zéro sentimentalisme.',
+  },
+  external: {
+    a: 'Déploie des phrases qui s\'étendent, s\'accumulent, respirent — subordination profonde.',
+    b: 'Cisèle chaque fin de phrase pour qu\'elle accroche, coupe, reste en mémoire.',
+  },
+};
+
+function compileConflictPair(packet: ForgePacket): string {
+  const conflict = packet.intent.conflict_type;
+  const pair = CONFLICT_PAIRS[conflict] ?? CONFLICT_PAIRS.relational;
+
+  return `Tension stylistique (ces deux forces s'opposent dans ton écriture) :
+A : ${pair.a}
+B : ${pair.b}
+Ces deux consignes sont contradictoires. C'est voulu. Fais-les coexister.`;
 }
 
 // ── BLOC 11 — Final Instruction V4.3 (~30 tokens) ──────────────────────────

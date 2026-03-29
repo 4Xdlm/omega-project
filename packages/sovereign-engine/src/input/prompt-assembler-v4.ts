@@ -250,6 +250,10 @@ function compileDirectives(genome: StyleProfile): string {
   directives.push(`Registre ${genome.tone.dominant_register}.`);
   directives.push('Privilégie le sous-texte : dis l\'essentiel par ce qui n\'est pas dit.');
 
+  // L37 — Instruction causale : subordination syntaxique profonde
+  // Prouvé : sub → f26b (médiation 136% FR, 95% EN). La longueur ÉMERGE de la subordination.
+  directives.push('Profondeur syntaxique : enchâsse tes observations dans des subordonnées — relatives, participiales, concessives. La pensée se déploie en spirale, chaque clause portant une autre clause en son cœur.');
+
   const density = genome.imagery.density_target_per_100_words;
   if (density >= 3) {
     directives.push('Dense en sensations : chaque paragraphe active au moins 2 sens.');
@@ -358,7 +362,7 @@ function compileRosettaConstraints(packet: ForgePacket): string {
     lines.push('');
     lines.push('Langue — FR natif :');
     lines.push('Écris directement en français natif. Pas de calques syntaxiques anglais.');
-    lines.push('Utilise des subordonnées, des incises, des appositions. Cadence majeure française.');
+    lines.push('Subordination profonde : chaque paragraphe contient au moins une période de 3+ subordonnées enchâssées. C\'est la marque de la prose française de maître.');
   }
   return lines.join('\n');
 }

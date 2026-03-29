@@ -52,7 +52,12 @@ de sens, jamais de remplissage.
 
 Les deux travaillent ensemble. Flaubert construit, Proust creuse.
 Les phrases amples sont bienvenues — mais elles respirent,
-elles ne suffoquent pas.`;
+elles ne suffoquent pas.
+
+Variable de commande profonde : la subordination syntaxique.
+Enchâsse tes observations dans des relatives, des participiales,
+des concessives. La longueur de phrase ÉMERGE de la subordination —
+ne la force jamais directement.`;
 
 const RAPPEL_CHUNKS12 = `RAPPEL DUO : Flaubert construit les périodes, Proust creuse chaque sensation.
 
@@ -140,7 +145,7 @@ function buildChunkPrompt(
   }
 
   if (isLast) {
-    return `${PF_PERSONA}\n\n${rappel}\n\nContinue et TERMINE cette scène.\n\n200 derniers mots :\n"${last200}"\n\nÉcris les 750 derniers mots. Conclus sans résoudre — laisse une ouverture.\nEncadre EXCLUSIVEMENT ta prose entre <prose> et </prose>.`;
+    return `${PF_PERSONA}\n\n${rappel}\n\nContinue et TERMINE cette scène.\n\n200 derniers mots :\n"${last200}"\n\nÉcris les 750 derniers mots. IMPORTANT : ce passage NE SE TERMINE PAS. Il se suspend. La dernière phrase ouvre une question sensorielle ou une action amorcée non résolue. La dernière phrase OUVRE, elle ne ferme jamais.\nEncadre EXCLUSIVEMENT ta prose entre <prose> et </prose>.`;
   }
 
   return `${PF_PERSONA}\n\n${rappel}\n\nContinue cette scène.\n\n200 derniers mots :\n"${last200}"\n\nÉcris les 750 mots suivants.\nEncadre EXCLUSIVEMENT ta prose entre <prose> et </prose>.`;

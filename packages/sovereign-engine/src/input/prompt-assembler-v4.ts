@@ -417,7 +417,7 @@ Ces deux consignes sont contradictoires. C'est voulu. Fais-les coexister.`;
 // V4.3: Organic directive. No "EXACTEMENT". Asymmetry reinforced.
 
 function compileFinalInstruction(): string {
-  return `Écris la scène en 4 paragraphes séparés par une ligne vide. Varie leurs tailles — alterne court et long. Commence par une sensation ou un geste.
-
-OUVERTURE OBLIGATOIRE : Ce passage ne se termine pas — il se suspend. La dernière phrase ouvre une question sensorielle, une action amorcée non résolue, un détail qui appelle la suite. La dernière phrase OUVRE, elle ne ferme jamais.`;
+  // Anti-fermeture prompt RETIRÉ — token mort prouvé par bench V5 (cliff delta = -0.02).
+  // BB-01: cliff_score est un attracteur. Seul le post-processing peut agir (cliff gate actif).
+  return `Écris la scène en 4 paragraphes séparés par une ligne vide. Varie leurs tailles — alterne court et long. Commence par une sensation ou un geste.`;
 }

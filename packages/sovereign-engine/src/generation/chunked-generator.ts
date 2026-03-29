@@ -145,7 +145,8 @@ function buildChunkPrompt(
   }
 
   if (isLast) {
-    return `${PF_PERSONA}\n\n${rappel}\n\nContinue et TERMINE cette scène.\n\n200 derniers mots :\n"${last200}"\n\nÉcris les 750 derniers mots. IMPORTANT : ce passage NE SE TERMINE PAS. Il se suspend. La dernière phrase ouvre une question sensorielle ou une action amorcée non résolue. La dernière phrase OUVRE, elle ne ferme jamais.\nEncadre EXCLUSIVEMENT ta prose entre <prose> et </prose>.`;
+    // Anti-fermeture retiré du prompt — token mort (bench V5). Post-processing cliff gate actif.
+    return `${PF_PERSONA}\n\n${rappel}\n\nContinue et TERMINE cette scène.\n\n200 derniers mots :\n"${last200}"\n\nÉcris les 750 derniers mots.\nEncadre EXCLUSIVEMENT ta prose entre <prose> et </prose>.`;
   }
 
   return `${PF_PERSONA}\n\n${rappel}\n\nContinue cette scène.\n\n200 derniers mots :\n"${last200}"\n\nÉcris les 750 mots suivants.\nEncadre EXCLUSIVEMENT ta prose entre <prose> et </prose>.`;

@@ -1,0 +1,57 @@
+{
+  "FL": {
+    "score": 0.2745,
+    "sigma": 0.0288,
+    "per_window": [
+      0.3071,
+      0.264,
+      0.2524
+    ],
+    "methode": "wordfreq_top5k_NER_len4",
+    "seuil_5k": 1.48e-05,
+    "tag": "NLP-ROBUSTE-v2"
+  },
+  "MS": {
+    "score": 0.8592,
+    "sigma": 0.0108,
+    "per_window": [
+      0.8715,
+      0.8541,
+      0.8518
+    ],
+    "methode": "rhythm_diversity_anaphore_punct_v3",
+    "tag": "NLP-ROBUSTE-v3"
+  },
+  "LP": {
+    "score": 0.27,
+    "methode": "spacy_sentences",
+    "tag": "NLP-ROBUSTE"
+  },
+  "DR": {
+    "score": 0.4034,
+    "raw_density": 0.024205,
+    "methode": "spacy_NER_density",
+    "tag": "NLP-ROBUSTE"
+  },
+  "S_local": {
+    "score": 0.9798,
+    "methode": "vader_sentiment_variance",
+    "tag": "NLP-PARTIEL"
+  },
+  "A_proxy": {
+    "score": 1.0,
+    "N_rev_proxy": 10,
+    "amplitude": 1.8487,
+    "methode": "sentiment_segments",
+    "tag": "SEMI-AUTO"
+  },
+  "I_proxy": {
+    "score": 0.3803,
+    "pov_1st_person": true,
+    "pov_ratio": 0.0418,
+    "mean_neg_valence": 0.0108,
+    "mean_arousal": 0.0,
+    "methode": "fr_lexicon_protagonist_windows",
+    "tag": "PROXY-NLP-v3"
+  }
+}

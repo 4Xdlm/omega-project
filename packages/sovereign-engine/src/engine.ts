@@ -30,8 +30,9 @@ import type {
   SScore,
 } from './types.js';
 
-import { computeCIL37 } from './scoring/ci-l37.js';
-import { computeLanguageProfile } from './scoring/language-profiles.js';
+// CI_L37 et PROFILES retirés du pipeline — REJETÉS D1 (saturation BB-C01 / corrélations négatives)
+// import { computeCIL37 } from './scoring/ci-l37.js';
+// import { computeLanguageProfile } from './scoring/language-profiles.js';
 import { computeDualScale } from './scoring/dual-scale.js';
 import { assembleForgePacket, type ForgePacketInput } from './input/forge-packet-assembler.js';
 import { validateForgePacket } from './input/pre-write-validator.js';
@@ -453,39 +454,28 @@ async function executePipeline(
       const cliffScore = Math.round((tension * 0.5 + (endsEllipsis ? 0.3 : 0) + (endsIncomplete ? 0.2 : 0)) * 10000) / 10000;
       const CLIFF_THRESHOLD = 0.30;
       if (cliffScore > CLIFF_THRESHOLD) {
-        console.warn(`[CLIFF-GATE] cliff_score=${cliffScore.toFixed(4)} > ${CLIFF_THRESHOLD} — ACTIVATION POST-PROCESSING`);
-        try {
-          const fullSents = final_prose.split(/(?<=[.!?\u2026])\s+/);
-          if (fullSents.length >= 2) {
-            const proseWithoutLast = fullSents.slice(0, -1).join(' ');
-            const lastFullSent = fullSents[fullSents.length - 1];
-            const suspensionPrompt = `Voici la derni\u00e8re phrase d'un passage litt\u00e9raire :\n"${lastFullSent}"\n\nR\u00e9\u00e9cris UNIQUEMENT cette phrase pour qu'elle s'ouvre sur une incertitude sensorielle. Elle SUSPEND, elle ne conclut pas. Maximum 30 mots. Donne UNIQUEMENT la phrase r\u00e9\u00e9crite.`;
-            const rewrittenLast = await provider.generateDraft(suspensionPrompt, 'direct', enrichedPacket.seeds.llm_seed + '_cliff');
-            const cleaned = rewrittenLast.replace(/<\/?prose>/g, '').replace(/^["'\u00ab\u00bb\u201c\u201d]/g, '').replace(/["'\u00ab\u00bb\u201c\u201d]$/g, '').trim();
-            if (cleaned.length > 5 && cleaned.length < 500) {
-              final_prose = proseWithoutLast + ' ' + cleaned;
-              console.log(`[CLIFF-GATE] Derniere phrase reecrite (${cleaned.split(/\s+/).length} mots)`);
-            } else {
-              console.warn(`[CLIFF-GATE] Reecriture ignoree (longueur: ${cleaned.length})`);
-            }
-          }
-        } catch (err) {
-          console.warn(`[CLIFF-GATE] Micro-appel echoue: ${err}`);
+        // GUILLOTINE DÉTERMINISTE — pas de micro-API, troncature pure.
+        // Convergence 3/3 : Gemini "bourreau" + ChatGPT "structural offloading".
+        // On ne négocie plus avec le LLM — on coupe.
+        const fullSents = final_prose.split(/(?<=[.!?\u2026])\s+/);
+        if (fullSents.length >= 2) {
+          // Amputer la dernière phrase (qui ferme la brique)
+          final_prose = fullSents.slice(0, -1).join(' ');
+          console.warn(`[CLIFF-GATE] \u26a0\ufe0f cliff=${cliffScore.toFixed(4)} > ${CLIFF_THRESHOLD} — DERNIÈRE PHRASE AMPUTÉE (guillotine déterministe)`);
+        } else {
+          console.warn(`[CLIFF-GATE] \u26a0\ufe0f cliff=${cliffScore.toFixed(4)} > ${CLIFF_THRESHOLD} — trop peu de phrases, conservation`);
         }
       } else {
-        console.log(`[CLIFF-GATE] cliff_score=${cliffScore.toFixed(4)} <= ${CLIFF_THRESHOLD} — brique ouverte`);
+        console.log(`[CLIFF-GATE] \u2705 cliff=${cliffScore.toFixed(4)} <= ${CLIFF_THRESHOLD} — brique ouverte`);
       }
     }
   }
 
-  // ── SHADOW JUDGES (D1) — informatif uniquement, 0 changement verdict ──
-  {
-    const lang = (enrichedPacket.language ?? 'fr') as 'fr' | 'en';
-    const ciL37 = computeCIL37(final_prose);
-    const langProfile = computeLanguageProfile(final_prose, lang);
-    console.log(`[SHADOW] CI_L37_corpus=${ciL37.ci_l37_corpus.toFixed(1)} CI_L37_omega=${ciL37.ci_l37_omega.toFixed(1)} (sub=${ciL37.sub_per_sentence.toFixed(3)}, f26b=${ciL37.f26b_long_sent_rate.toFixed(3)})`);
-    console.log(`[SHADOW] PROFILE_${lang.toUpperCase()}=${langProfile.profile_score.toFixed(1)}`);
-  }
+  // ── SHADOW JUDGES (D1) — BLOC 2 CLOSEOUT ──
+  // CI_L37 : REJETÉ D1 — sature à 100, variance nulle (BB-C01 sub=constante régime Sonnet ~0.099)
+  // PROFILES FR/EN : REJETÉS D1 — corrélations faibles/négatives sur régime OMEGA
+  // DUAL_SCALE : PASS SHADOW — r=0.94, conservé en monitoring. Intégration décisionnelle
+  //   DIFFÉRÉE jusqu'à validation multi-briques où ARC ≠ LOCAL.
 
   // ★ NOUVEAU v3: Utiliser judgeAestheticV3 avec macro-axes
   const final_score_v3 = await judgeAestheticV3(enrichedPacket, final_prose, provider, symbolMap, physicsAudit);

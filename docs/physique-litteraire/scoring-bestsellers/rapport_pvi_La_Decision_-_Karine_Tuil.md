@@ -8,7 +8,7 @@ Langue : FR | Date : 2026-03-30 | Modele : MINIMAL v2 (cultural_FR)
 | I | 0.4014 | PROXY-NLP-v3 | >= 0.65 | GOULOT |
 | FL | 0.2243 | NLP-ROBUSTE-v2 | <= 0.25 | OK |
 | Omega | 0.6500 | SEMI-AUTO | >= 0.72 | GOULOT |
-| T | 0.6976 | proxy(1-DR) | >= 0.75 | GOULOT |
+| T | 0.4654 | proxy(1-DR) | >= 0.75 | GOULOT |
 | MS | 0.8843 | NLP-ROBUSTE-v3 | >= 0.85 | OK |
 | N_rev | 3 | semi-auto | >= 2 | OK |
 | S | 0.9887 | NLP-PARTIEL | — | — |
@@ -16,31 +16,31 @@ Langue : FR | Date : 2026-03-30 | Modele : MINIMAL v2 (cultural_FR)
 
 ## CALCULS
 
-E_emo = 0.5660 | E_cog = 0.2165 | CE = 2.6141
+E_emo = 0.4870 | E_cog = 0.2165 | CE = 2.2492
 
-R = 0.4848 | W = 0.4360 | Arc_rev = 1.00
+R = 0.4160 | W = 0.4360 | Arc_rev = 1.00
 
 Score etouffement FL x (1-Omega) = 0.0785
 
-**PVI = 0.4658 | SP = 9.3/100**
+**PVI = 0.3438 | SP = 6.9/100**
 
 ## VERDICT
 
 **Phase 2 : niche viable**
 
-**Probabilite bestseller : 47.8% -> FAIL — pas de potentiel bestseller intrinseque**
+**Probabilite bestseller : 43.4% -> FAIL — pas de potentiel bestseller intrinseque**
 
 ## GOULOTS ACTIFS
 
 - **GOULOT-I** : Protagoniste insuffisamment identifiable (actuel=0.40, seuil=0.55)
-- **GOULOT-R** : Lecteur n'atteint probablement pas la fin (actuel=0.48, seuil=0.5)
+- **GOULOT-R** : Lecteur n'atteint probablement pas la fin (actuel=0.42, seuil=0.5)
 - **GOULOT-W** : Transmissibilite nulle (actuel=0.44, seuil=0.5)
 
 ## TOP 3 LEVIERS
 
-1. **FL** -0.10 -> PVI +0.1633 (+35.1%)
-2. **I** +0.10 -> PVI +0.1367 (+29.3%)
-3. **Omega** +0.10 -> PVI +0.0806 (+17.3%)
+1. **FL** -0.10 -> PVI +0.1206 (+35.1%)
+2. **I** +0.10 -> PVI +0.1086 (+31.6%)
+3. **Omega** +0.10 -> PVI +0.0596 (+17.3%)
 
 ## DISTANCE ZONE OMEGA
 
@@ -50,7 +50,7 @@ Score etouffement FL x (1-Omega) = 0.0785
 | MS | 0.8843 | 0.85 | OK | OK |
 | Omega | 0.6500 | 0.72 | **-0.07** | MANQUE |
 | I | 0.4014 | 0.65 | **-0.25** | MANQUE |
-| T_proxy | 0.6976 | 0.75 | **-0.05** | MANQUE |
+| T_proxy | 0.4654 | 0.75 | **-0.28** | MANQUE |
 | N_rev | 3.0000 | 2 | OK | OK |
 
 Reference Zone OMEGA: Hemingway PVI=2.441 / Fitzgerald PVI=1.699

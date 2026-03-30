@@ -8,7 +8,7 @@ Langue : EN | Date : 2026-03-30 | Modele : MINIMAL v2 (cultural_EN)
 | I | 0.9168 | PROXY-NLP-v3 | >= 0.65 | OK |
 | FL | 0.2626 | NLP-ROBUSTE-v2 | <= 0.25 | GOULOT |
 | Omega | 0.7200 | SEMI-AUTO | >= 0.72 | OK |
-| T | 0.4859 | proxy(1-DR) | >= 0.75 | GOULOT |
+| T | 0.5390 | proxy(1-DR) | >= 0.75 | GOULOT |
 | MS | 0.8209 | NLP-ROBUSTE-v3 | >= 0.85 | GOULOT |
 | N_rev | 4 | semi-auto | >= 2 | OK |
 | S | 1.0000 | NLP-PARTIEL | — | — |
@@ -16,19 +16,19 @@ Langue : EN | Date : 2026-03-30 | Modele : MINIMAL v2 (cultural_EN)
 
 ## CALCULS
 
-E_emo = 0.7396 | E_cog = 0.2495 | CE = 2.9640
+E_emo = 0.7618 | E_cog = 0.2495 | CE = 3.0528
 
-R = 0.6589 | W = 0.6922 | Arc_rev = 1.20
+R = 0.6730 | W = 0.6922 | Arc_rev = 1.20
 
 Score etouffement FL x (1-Omega) = 0.0735
 
-**PVI = 1.3835 | SP = 27.7/100**
+**PVI = 1.4556 | SP = 29.1/100**
 
 ## VERDICT
 
 **Phase 3 : succes solide**
 
-**Probabilite bestseller : 72.3% -> PASS — potentiel bestseller detecte**
+**Probabilite bestseller : 73.4% -> PASS — potentiel bestseller detecte**
 
 ## GOULOTS ACTIFS
 
@@ -36,9 +36,9 @@ Aucun goulot critique detecte.
 
 ## TOP 3 LEVIERS
 
-1. **FL** -0.10 -> PVI +0.4107 (+29.7%)
-2. **I** +0.10 -> PVI +0.2023 (+14.6%)
-3. **Omega** +0.10 -> PVI +0.1720 (+12.4%)
+1. **FL** -0.10 -> PVI +0.4321 (+29.7%)
+2. **I** +0.10 -> PVI +0.2089 (+14.4%)
+3. **Omega** +0.10 -> PVI +0.1810 (+12.4%)
 
 ## DISTANCE ZONE OMEGA
 
@@ -48,7 +48,7 @@ Aucun goulot critique detecte.
 | MS | 0.8209 | 0.85 | **-0.03** | MANQUE |
 | Omega | 0.7200 | 0.72 | OK | OK |
 | I | 0.9168 | 0.65 | OK | OK |
-| T_proxy | 0.4859 | 0.75 | **-0.26** | MANQUE |
+| T_proxy | 0.5390 | 0.75 | **-0.21** | MANQUE |
 | N_rev | 4.0000 | 2 | OK | OK |
 
 Reference Zone OMEGA: Hemingway PVI=2.441 / Fitzgerald PVI=1.699

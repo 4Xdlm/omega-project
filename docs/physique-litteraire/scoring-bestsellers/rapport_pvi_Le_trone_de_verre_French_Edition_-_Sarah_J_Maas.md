@@ -8,7 +8,7 @@ Langue : FR | Date : 2026-03-30 | Modele : MINIMAL v2 (cultural_FR)
 | I | 0.0810 | PROXY-NLP-v3 | >= 0.65 | GOULOT |
 | FL | 0.3297 | NLP-ROBUSTE-v2 | <= 0.25 | GOULOT |
 | Omega | 0.7200 | SEMI-AUTO | >= 0.72 | OK |
-| T | 0.5858 | proxy(1-DR) | >= 0.75 | GOULOT |
+| T | 0.8391 | proxy(1-DR) | >= 0.75 | OK |
 | MS | 0.8562 | NLP-ROBUSTE-v3 | >= 0.85 | OK |
 | N_rev | 3 | semi-auto | >= 2 | OK |
 | S | 1.0000 | NLP-PARTIEL | — | — |
@@ -16,31 +16,31 @@ Langue : FR | Date : 2026-03-30 | Modele : MINIMAL v2 (cultural_FR)
 
 ## CALCULS
 
-E_emo = 0.3735 | E_cog = 0.2666 | CE = 1.4013
+E_emo = 0.4475 | E_cog = 0.2666 | CE = 1.6789
 
-R = 0.3373 | W = 0.3331 | Arc_rev = 1.00
+R = 0.4082 | W = 0.3331 | Arc_rev = 1.00
 
 Score etouffement FL x (1-Omega) = 0.0923 **ATTENTION: > 0.08 — risque abandon lecteur**
 
-**PVI = 0.1284 | SP = 2.6/100**
+**PVI = 0.1861 | SP = 3.7/100**
 
 ## VERDICT
 
 **Phase 1 : mort organique**
 
-**Probabilite bestseller : 32.6% -> FAIL — pas de potentiel bestseller intrinseque**
+**Probabilite bestseller : 37.1% -> FAIL — pas de potentiel bestseller intrinseque**
 
 ## GOULOTS ACTIFS
 
 - **GOULOT-I** : Protagoniste insuffisamment identifiable (actuel=0.08, seuil=0.55)
-- **GOULOT-R** : Lecteur n'atteint probablement pas la fin (actuel=0.34, seuil=0.5)
+- **GOULOT-R** : Lecteur n'atteint probablement pas la fin (actuel=0.41, seuil=0.5)
 - **GOULOT-W** : Transmissibilite nulle (actuel=0.33, seuil=0.5)
 
 ## TOP 3 LEVIERS
 
-1. **I** +0.10 -> PVI +0.0512 (+39.9%)
-2. **FL** -0.10 -> PVI +0.0356 (+27.7%)
-3. **Omega** +0.10 -> PVI +0.0294 (+22.9%)
+1. **I** +0.10 -> PVI +0.0686 (+36.9%)
+2. **FL** -0.10 -> PVI +0.0517 (+27.8%)
+3. **Omega** +0.10 -> PVI +0.0427 (+22.9%)
 
 ## DISTANCE ZONE OMEGA
 
@@ -50,7 +50,7 @@ Score etouffement FL x (1-Omega) = 0.0923 **ATTENTION: > 0.08 — risque abandon
 | MS | 0.8562 | 0.85 | OK | OK |
 | Omega | 0.7200 | 0.72 | OK | OK |
 | I | 0.0810 | 0.65 | **-0.57** | MANQUE |
-| T_proxy | 0.5858 | 0.75 | **-0.16** | MANQUE |
+| T_proxy | 0.8391 | 0.75 | OK | OK |
 | N_rev | 3.0000 | 2 | OK | OK |
 
 Reference Zone OMEGA: Hemingway PVI=2.441 / Fitzgerald PVI=1.699

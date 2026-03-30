@@ -8,7 +8,7 @@ Langue : EN | Date : 2026-03-30 | Modele : MINIMAL v2 (cultural_EN)
 | I | 0.5886 | PROXY-NLP-v3 | >= 0.65 | GOULOT |
 | FL | 0.2137 | NLP-ROBUSTE-v2 | <= 0.25 | OK |
 | Omega | 0.7800 | SEMI-AUTO | >= 0.72 | OK |
-| T | 0.4218 | proxy(1-DR) | >= 0.75 | GOULOT |
+| T | 0.5343 | proxy(1-DR) | >= 0.75 | GOULOT |
 | MS | 0.8444 | NLP-ROBUSTE-v3 | >= 0.85 | GOULOT |
 | N_rev | 3 | semi-auto | >= 2 | OK |
 | S | 1.0000 | NLP-PARTIEL | — | — |
@@ -16,29 +16,29 @@ Langue : EN | Date : 2026-03-30 | Modele : MINIMAL v2 (cultural_EN)
 
 ## CALCULS
 
-E_emo = 0.5608 | E_cog = 0.2332 | CE = 2.4050
+E_emo = 0.6022 | E_cog = 0.2332 | CE = 2.5827
 
-R = 0.4723 | W = 0.5841 | Arc_rev = 1.00
+R = 0.5060 | W = 0.5841 | Arc_rev = 1.00
 
 Score etouffement FL x (1-Omega) = 0.0470
 
-**PVI = 0.6010 | SP = 12.0/100**
+**PVI = 0.6915 | SP = 13.8/100**
 
 ## VERDICT
 
 **Phase 2 : niche viable**
 
-**Probabilite bestseller : 59.1% -> BORDERLINE — signal ambigu**
+**Probabilite bestseller : 61.9% -> BORDERLINE — signal ambigu**
 
 ## GOULOTS ACTIFS
 
-- **GOULOT-R** : Lecteur n'atteint probablement pas la fin (actuel=0.47, seuil=0.5)
+Aucun goulot critique detecte.
 
 ## TOP 3 LEVIERS
 
-1. **FL** -0.10 -> PVI +0.1753 (+29.2%)
-2. **I** +0.10 -> PVI +0.1530 (+25.5%)
-3. **Omega** +0.10 -> PVI +0.0797 (+13.3%)
+1. **FL** -0.10 -> PVI +0.2017 (+29.2%)
+2. **I** +0.10 -> PVI +0.1693 (+24.5%)
+3. **Omega** +0.10 -> PVI +0.0917 (+13.3%)
 
 ## DISTANCE ZONE OMEGA
 
@@ -48,7 +48,7 @@ Score etouffement FL x (1-Omega) = 0.0470
 | MS | 0.8444 | 0.85 | **-0.01** | MANQUE |
 | Omega | 0.7800 | 0.72 | OK | OK |
 | I | 0.5886 | 0.65 | **-0.06** | MANQUE |
-| T_proxy | 0.4218 | 0.75 | **-0.33** | MANQUE |
+| T_proxy | 0.5343 | 0.75 | **-0.22** | MANQUE |
 | N_rev | 3.0000 | 2 | OK | OK |
 
 Reference Zone OMEGA: Hemingway PVI=2.441 / Fitzgerald PVI=1.699

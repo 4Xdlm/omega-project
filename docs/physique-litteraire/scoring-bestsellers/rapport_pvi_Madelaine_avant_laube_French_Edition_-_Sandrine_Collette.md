@@ -8,7 +8,7 @@ Langue : FR | Date : 2026-03-30 | Modele : MINIMAL v2 (cultural_FR)
 | I | 0.1160 | PROXY-NLP-v3 | >= 0.65 | GOULOT |
 | FL | 0.2612 | NLP-ROBUSTE-v2 | <= 0.25 | GOULOT |
 | Omega | 0.7000 | SEMI-AUTO | >= 0.72 | GOULOT |
-| T | 0.6296 | proxy(1-DR) | >= 0.75 | GOULOT |
+| T | 0.6104 | proxy(1-DR) | >= 0.75 | GOULOT |
 | MS | 0.8791 | NLP-ROBUSTE-v3 | >= 0.85 | OK |
 | N_rev | 3 | semi-auto | >= 2 | OK |
 | S | 1.0000 | NLP-PARTIEL | — | — |
@@ -16,19 +16,19 @@ Langue : FR | Date : 2026-03-30 | Modele : MINIMAL v2 (cultural_FR)
 
 ## CALCULS
 
-E_emo = 0.4036 | E_cog = 0.2446 | CE = 1.6503
+E_emo = 0.3979 | E_cog = 0.2446 | CE = 1.6269
 
-R = 0.3611 | W = 0.3382 | Arc_rev = 1.00
+R = 0.3558 | W = 0.3382 | Arc_rev = 1.00
 
 Score etouffement FL x (1-Omega) = 0.0784
 
-**PVI = 0.1700 | SP = 3.4/100**
+**PVI = 0.1651 | SP = 3.3/100**
 
 ## VERDICT
 
 **Phase 1 : mort organique**
 
-**Probabilite bestseller : 35.0% -> FAIL — pas de potentiel bestseller intrinseque**
+**Probabilite bestseller : 34.7% -> FAIL — pas de potentiel bestseller intrinseque**
 
 ## GOULOTS ACTIFS
 
@@ -38,9 +38,9 @@ Score etouffement FL x (1-Omega) = 0.0784
 
 ## TOP 3 LEVIERS
 
-1. **I** +0.10 -> PVI +0.0651 (+38.3%)
-2. **FL** -0.10 -> PVI +0.0509 (+29.9%)
-3. **Omega** +0.10 -> PVI +0.0351 (+20.6%)
+1. **I** +0.10 -> PVI +0.0636 (+38.5%)
+2. **FL** -0.10 -> PVI +0.0495 (+30.0%)
+3. **Omega** +0.10 -> PVI +0.0341 (+20.7%)
 
 ## DISTANCE ZONE OMEGA
 
@@ -50,7 +50,7 @@ Score etouffement FL x (1-Omega) = 0.0784
 | MS | 0.8791 | 0.85 | OK | OK |
 | Omega | 0.7000 | 0.72 | **-0.02** | MANQUE |
 | I | 0.1160 | 0.65 | **-0.53** | MANQUE |
-| T_proxy | 0.6296 | 0.75 | **-0.12** | MANQUE |
+| T_proxy | 0.6104 | 0.75 | **-0.14** | MANQUE |
 | N_rev | 3.0000 | 2 | OK | OK |
 
 Reference Zone OMEGA: Hemingway PVI=2.441 / Fitzgerald PVI=1.699

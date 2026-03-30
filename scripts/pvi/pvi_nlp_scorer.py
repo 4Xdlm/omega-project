@@ -67,7 +67,7 @@ def _import_textblob():
 # Text extraction
 # ---------------------------------------------------------------------------
 def extract_text_from_epub(filepath):
-    """Extract raw text from .epub file."""
+    """Extract raw text from .epub file. Tries multiple encodings."""
     import ebooklib
     from ebooklib import epub
     from html.parser import HTMLParser
@@ -86,9 +86,23 @@ def extract_text_from_epub(filepath):
     book = epub.read_epub(filepath, options={"ignore_ncx": True})
     full_text = []
     for item in book.get_items_of_type(ebooklib.ITEM_DOCUMENT):
-        content = item.get_content().decode("utf-8", errors="replace")
+        raw = item.get_content()
+        # Try encodings in order: utf-8 clean, then latin-1, then utf-8 lossy
+        text_decoded = None
+        for enc in ("utf-8", "latin-1", "cp1252"):
+            try:
+                candidate = raw.decode(enc)
+                # Check for replacement chars — fewer is better
+                if "\ufffd" not in candidate:
+                    text_decoded = candidate
+                    break
+            except (UnicodeDecodeError, UnicodeError):
+                continue
+        if text_decoded is None:
+            text_decoded = raw.decode("utf-8", errors="replace")
+
         stripper = _HTMLStripper()
-        stripper.feed(content)
+        stripper.feed(text_decoded)
         text = stripper.get_text().strip()
         if len(text) > 50:
             full_text.append(text)
@@ -130,17 +144,32 @@ def extract_text_from_pdf(filepath):
         raise RuntimeError("Install pdfplumber or PyMuPDF to read PDFs")
 
 
+def _fix_mojibake(text):
+    """Fix common Latin-1/CP1252 mojibake in French text extracted from epub/pdf.
+    E.g. 'Ã©' -> 'é', 'Ã¨' -> 'è', etc."""
+    try:
+        # Try re-encoding as latin-1 then decoding as utf-8
+        fixed = text.encode('latin-1').decode('utf-8')
+        # Verify it looks better (has French accented chars)
+        if any(c in fixed for c in 'éèêëàâùûôîïçÉÈÊ'):
+            return fixed
+    except (UnicodeDecodeError, UnicodeEncodeError):
+        pass
+    return text
+
+
 def load_text(filepath):
-    """Load text from file, auto-detecting format."""
+    """Load text from file, auto-detecting format. Fixes mojibake."""
     ext = Path(filepath).suffix.lower()
     if ext == ".epub":
-        return extract_text_from_epub(filepath)
+        text = extract_text_from_epub(filepath)
     elif ext == ".txt":
-        return extract_text_from_txt(filepath)
+        text = extract_text_from_txt(filepath)
     elif ext == ".pdf":
-        return extract_text_from_pdf(filepath)
+        text = extract_text_from_pdf(filepath)
     else:
         raise ValueError(f"Unsupported format: {ext} (use .txt, .epub, or .pdf)")
+    return _fix_mojibake(text)
 
 
 # ---------------------------------------------------------------------------
@@ -303,7 +332,8 @@ def extract_MS(text_windows, lang):
                 n_alternating += 1
 
         rhythm_ratio = n_alternating / max(n_triplets, 1)
-        rhythm_norm = min(rhythm_ratio / 0.40, 1.0)
+        # v3 fix: /0.25 instead of /0.40 — commercial prose rhythm_ratio ~0.20
+        rhythm_norm = min(rhythm_ratio / 0.25, 1.0)
 
         # --- COMPONENT 2: Diversite structures debut phrase (0.25) ---
         first_pos_tags = []
@@ -315,14 +345,9 @@ def extract_MS(text_windows, lang):
 
         if first_pos_tags:
             n_unique_starts = len(set(first_pos_tags))
-            diversity_ratio = n_unique_starts / 7.0
-            diversity_norm = min(diversity_ratio, 1.0)
-
-            pos_counts = Counter(first_pos_tags)
-            most_common_ratio = (pos_counts.most_common(1)[0][1]
-                                 / len(first_pos_tags))
-            monotony_penalty = max(0, (most_common_ratio - 0.35) / 0.35)
-            diversity_norm *= (1 - 0.5 * min(monotony_penalty, 1.0))
+            # v3 fix: /5.0 instead of /7.0, removed monotony_penalty
+            # (penalty was punishing POV 1st person "I"/"Je" starts)
+            diversity_norm = min(n_unique_starts / 5.0, 1.0)
         else:
             diversity_norm = 0.5
 
@@ -351,7 +376,8 @@ def extract_MS(text_windows, lang):
                 i += 1
 
         anaphore_ratio = anaphore_count / max(len(first_words), 1)
-        anaphore_norm = min(anaphore_ratio / 0.12, 1.0)
+        # v3 fix: /0.08 instead of /0.12 — more sensitive to anaphores
+        anaphore_norm = min(anaphore_ratio / 0.08, 1.0)
 
         # Inversions: sentences starting with verb/adverb/preposition
         inversion_count = sum(1 for pos in first_pos_tags
@@ -369,7 +395,8 @@ def extract_MS(text_windows, lang):
                     internal_punct_count += 1
 
         punct_per_sentence = internal_punct_count / max(len(sents), 1)
-        punct_norm = min(punct_per_sentence / 5.0, 1.0)
+        # v3 fix: /3.5 instead of /5.0 — commercial prose has 1.5-2.5 per sent
+        punct_norm = min(punct_per_sentence / 3.5, 1.0)
 
         # --- COMBINE ---
         ms = (0.35 * rhythm_norm
@@ -385,8 +412,8 @@ def extract_MS(text_windows, lang):
         "score": round(ms_mean, 4),
         "sigma": round(ms_sigma, 4),
         "per_window": [round(x, 4) for x in ms_per_window],
-        "methode": "rhythm_diversity_anaphore_punct_v2",
-        "tag": "NLP-ROBUSTE-v2",
+        "methode": "rhythm_diversity_anaphore_punct_v3",
+        "tag": "NLP-ROBUSTE-v3",
     }
 
 
@@ -573,9 +600,8 @@ def extract_A_proxy(text_windows, lang):
 def extract_I_proxy(text_windows, lang):
     """
     Identification proxy — protagonist emotional density in POV windows.
+    v3: bilingual — VADER for EN, manual FR lexicon for FR.
     """
-    vader = _import_vader()
-
     pov_1st_markers = {
         "fr": {"je", "j'", "me", "moi", "m'", "mon", "ma", "mes"},
         "en": {"i", "me", "my", "myself", "mine"},
@@ -589,7 +615,7 @@ def extract_I_proxy(text_windows, lang):
     # Count 1st person markers
     pov_count = sum(1 for t in tokens if t.strip("'\".,;:!?()") in markers)
     pov_ratio = pov_count / max(n_tokens, 1)
-    is_first_person = pov_ratio > 0.03  # ~3% threshold
+    is_first_person = pov_ratio > 0.03
 
     # Extract 50-token windows around protagonist mentions
     protag_windows = []
@@ -598,34 +624,28 @@ def extract_I_proxy(text_windows, lang):
         if clean in markers:
             start = max(0, i - 25)
             end = min(n_tokens, i + 25)
-            window_text = " ".join(tokens[start:end])
-            protag_windows.append(window_text)
+            protag_windows.append(tokens[start:end])
             if len(protag_windows) >= 200:
                 break
 
-    # Analyze emotional density in protagonist windows
     if not protag_windows:
-        # Fallback: sample from full text
-        protag_windows = [" ".join(tokens[i:i+50])
+        protag_windows = [tokens[i:i+50]
                           for i in range(0, min(n_tokens, 5000), 250)]
 
-    neg_scores = []
-    for w in protag_windows[:200]:
-        vs = vader.polarity_scores(w)
-        neg_scores.append(vs["neg"])
-
-    mean_neg = statistics.mean(neg_scores) if neg_scores else 0.05
-    # Arousal proxy: high absolute sentiment
-    arousal_scores = [abs(vader.polarity_scores(w)["compound"])
-                      for w in protag_windows[:200]]
-    mean_arousal = statistics.mean(arousal_scores) if arousal_scores else 0.3
-
-    # Normalize components
-    neg_norm = min(mean_neg / 0.15, 1.0)  # typical neg 0.02-0.15
-    arousal_norm = min(mean_arousal / 0.5, 1.0)
+    # Branch by language for emotional density
+    if lang == "fr":
+        mean_neg, mean_arousal = _fr_emotional_density(protag_windows)
+        method = "fr_lexicon_protagonist_windows"
+        # FR lexicon yields lower raw densities than VADER
+        neg_norm = min(mean_neg / 0.06, 1.0)
+        arousal_norm = min(mean_arousal / 0.025, 1.0)
+    else:
+        mean_neg, mean_arousal = _en_emotional_density(protag_windows)
+        method = "vader_protagonist_windows"
+        neg_norm = min(mean_neg / 0.12, 1.0)
+        arousal_norm = min(mean_arousal / 0.40, 1.0)
     pov_bonus = 0.15 if is_first_person else 0.0
 
-    # I_proxy = weighted combination
     i_proxy = (0.35 * neg_norm + 0.30 * arousal_norm +
                0.20 * min(pov_ratio / 0.05, 1.0) + pov_bonus)
     i_proxy = min(i_proxy, 1.0)
@@ -636,9 +656,138 @@ def extract_I_proxy(text_windows, lang):
         "pov_ratio": round(pov_ratio, 4),
         "mean_neg_valence": round(mean_neg, 4),
         "mean_arousal": round(mean_arousal, 4),
-        "methode": "vader_protagonist_windows",
-        "tag": "PROXY-NLP",
+        "methode": method,
+        "tag": "PROXY-NLP-v3",
     }
+
+
+# --- FR emotional lexicon (200 words, zero external dependency) ---
+_FR_NEGATIVE_WORDS = {
+    # douleur/souffrance
+    "souffre", "souffrir", "souffrait", "souffrance", "douleur", "douloureux",
+    "mal", "blessure", "blessé", "blesser", "peine", "chagrin",
+    "tristesse", "triste", "pleurer", "pleurait", "pleurs", "larme", "larmes",
+    "sanglot", "sangloter", "sanglotait",
+    # peur/anxiete
+    "peur", "crainte", "craindre", "craignait", "terreur", "angoisse",
+    "angoisser", "effroi", "effrayant", "terrifiant", "trembler", "tremblait",
+    "tremblement", "redouter", "redoutait", "horreur", "horrible",
+    "inquiet", "inquiète", "inquiétude", "anxieux", "anxiété", "nerveux",
+    # colere/haine
+    "colère", "haine", "haïr", "haïssait", "fureur", "furieux", "rage",
+    "enrager", "violence", "violent", "brutal", "brutalité", "agressif",
+    "détester", "détestait", "mépris", "mépriser", "méprisait",
+    # desespoir/mort
+    "désespoir", "désespéré", "désespérée", "mort", "mourir", "mourait",
+    "tuer", "tué", "tuait", "meurtre", "meurtrier", "meurtrière",
+    "sang", "cadavre", "agonie", "agoniser", "funèbre", "enterrement",
+    "cercueil", "tombeau", "tombe", "deuil",
+    # abandon/solitude
+    "seul", "seule", "solitude", "abandon", "abandonner", "abandonné",
+    "rejeter", "rejet", "trahir", "trahison", "trahi", "mentir",
+    "mensonge", "mentait", "isolé", "isolement",
+    # honte/culpabilite
+    "honte", "honteux", "coupable", "culpabilité", "faute", "punir",
+    "punition", "humilier", "humiliation", "humilié",
+    # manque/perte
+    "manque", "manquer", "manquait", "absence", "absent", "vide",
+    "perdre", "perdu", "perte", "regret", "regretter", "regrettait",
+    "nostalgie", "mélancolie", "mélancolique",
+    # conflit/rupture
+    "rupture", "briser", "brisé", "crier", "criait", "hurler", "hurlait",
+    "accuser", "accusait", "dispute", "disputer", "querelle",
+    # emotion haute intensite (y compris positive-intense)
+    "amour", "aimer", "aimait", "aimé", "désir", "désirer", "désirait",
+    "passion", "passionné", "obsession", "obséder", "obsédait",
+    "jalousie", "jaloux", "espoir", "espérer", "espérait",
+    "bonheur", "heureux", "heureuse", "joie", "plaisir",
+    "émotion", "émouvoir", "émouvant", "bouleverser", "bouleversé",
+    "tendresse", "tendre", "doux", "douce", "caresse", "embrasser",
+    # psychologique/cerebral (littéraire)
+    "tourment", "tourmenter", "tourmenté", "trouble", "troubler", "troublé",
+    "vertige", "fascination", "fasciner", "fasciné", "obsédant",
+    "enchantement", "ivresse", "extase", "ravissement", "délice",
+    "impression", "sensation", "sentiment", "ressentir", "ressentait",
+    "éprouver", "éprouvait", "éprouvé",
+    # physique/incarne
+    "brûler", "brûlait", "froid", "froideur", "serrer", "serrait",
+    "suffoquer", "suffoquait", "nausée", "vertige", "épuisement",
+    "frisson", "frissonner", "frissonnait", "chaleur", "sueur",
+    "battement", "battre", "battait",
+    # etats negatifs quotidiens
+    "ennui", "ennuyer", "ennuyait", "fatigue", "fatigué", "lassitude",
+    "lasse", "las", "dégoût", "dégoûter", "indifférent", "indifférence",
+    "gêne", "gêner", "gêné", "malaise", "mal-être",
+}
+
+_FR_HIGH_AROUSAL = {
+    "trembler", "tremblait", "sangloter", "sanglotait", "crier", "criait",
+    "hurler", "hurlait", "fuir", "fuyait", "saisir", "saisissait",
+    "frapper", "frappait", "arracher", "arrachait", "serrer", "serrait",
+    "brûler", "brûlait", "exploser", "explosait", "courir", "courait",
+    "bondir", "bondissait", "supplier", "suppliait", "gémir", "gémissait",
+    "suffoquer", "suffoquait", "étouffer", "étouffait", "claquer", "claquait",
+    "mordre", "mordait", "griffer", "griffait", "déchirer", "déchirait",
+    # ajout v3: verbes mouvement/action intense
+    "jeter", "jetait", "lancer", "lançait", "pousser", "poussait",
+    "tomber", "tombait", "précipiter", "précipitait",
+    "pleurer", "pleurait", "embrasser", "embrassait",
+    "agripper", "agrippait", "retenir", "retenait",
+}
+
+
+def _strip_accents(s):
+    """Remove French accents for fuzzy matching."""
+    import unicodedata
+    nfkd = unicodedata.normalize('NFKD', s)
+    return "".join(c for c in nfkd if not unicodedata.combining(c))
+
+# Pre-build accent-stripped versions for matching (rebuilt after lexicon expansion)
+_FR_NEG_STRIPPED = {_strip_accents(w) for w in _FR_NEGATIVE_WORDS}
+_FR_AROUSAL_STRIPPED = {_strip_accents(w) for w in _FR_HIGH_AROUSAL}
+# Also add all words WITHOUT accents as direct matches (handles mojibake)
+_FR_NEGATIVE_WORDS = _FR_NEGATIVE_WORDS | _FR_NEG_STRIPPED
+_FR_HIGH_AROUSAL = _FR_HIGH_AROUSAL | _FR_AROUSAL_STRIPPED
+
+
+def _fr_emotional_density(protag_windows):
+    """Compute neg and arousal density for FR text using manual lexicon.
+    Matches both accented and stripped forms for PDF robustness."""
+    neg_ratios = []
+    arousal_ratios = []
+    for window_tokens in protag_windows[:200]:
+        n = max(len(window_tokens), 1)
+        neg = 0
+        aro = 0
+        for t in window_tokens:
+            clean = t.strip("'\".,;:!?()\u00ab\u00bb\u2019\u2018")
+            stripped = _strip_accents(clean)
+            if clean in _FR_NEGATIVE_WORDS or stripped in _FR_NEG_STRIPPED:
+                neg += 1
+            if clean in _FR_HIGH_AROUSAL or stripped in _FR_AROUSAL_STRIPPED:
+                aro += 1
+        neg_ratios.append(neg / n)
+        arousal_ratios.append(aro / n)
+
+    mean_neg = statistics.mean(neg_ratios) if neg_ratios else 0.02
+    mean_arousal = statistics.mean(arousal_ratios) if arousal_ratios else 0.005
+    return mean_neg, mean_arousal
+
+
+def _en_emotional_density(protag_windows):
+    """Compute neg and arousal density for EN text using VADER."""
+    vader = _import_vader()
+    neg_scores = []
+    arousal_scores = []
+    for window_tokens in protag_windows[:200]:
+        text = " ".join(window_tokens)
+        vs = vader.polarity_scores(text)
+        neg_scores.append(vs["neg"])
+        arousal_scores.append(abs(vs["compound"]))
+
+    mean_neg = statistics.mean(neg_scores) if neg_scores else 0.05
+    mean_arousal = statistics.mean(arousal_scores) if arousal_scores else 0.3
+    return mean_neg, mean_arousal
 
 
 # ---------------------------------------------------------------------------

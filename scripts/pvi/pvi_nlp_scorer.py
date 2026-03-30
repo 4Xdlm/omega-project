@@ -503,6 +503,161 @@ def extract_DR(text_windows, lang):
 
 
 # ---------------------------------------------------------------------------
+# T_v2: TRANSPORTATION — 3 composantes
+# ---------------------------------------------------------------------------
+
+def extract_T_sensoriel(text_windows, lang):
+    """Sensory immersion: density of sensory verbs and nouns."""
+    SENSORY_VERBS = {
+        "fr": {"voir", "entendre", "sentir", "toucher", "goûter", "regarder",
+               "observer", "remarquer", "percevoir", "flairer", "palper",
+               "écouter", "humer", "contempler", "distinguer", "apercevoir",
+               "discerner", "ressentir"},
+        "en": {"see", "hear", "smell", "touch", "taste", "watch", "observe",
+               "notice", "perceive", "feel", "listen", "gaze", "glimpse",
+               "spot", "sense", "stare"},
+    }
+    SENSORY_NOUNS = {
+        "fr": {"lumière", "ombre", "bruit", "silence", "odeur", "chaleur",
+               "froid", "douleur", "texture", "couleur", "parfum", "saveur",
+               "son", "voix", "ténèbres", "obscurité", "soleil", "pluie",
+               "vent", "fumée", "poussière"},
+        "en": {"light", "shadow", "sound", "silence", "smell", "heat", "cold",
+               "pain", "texture", "color", "scent", "taste", "noise", "voice",
+               "darkness", "sun", "rain", "wind", "smoke", "dust", "air"},
+    }
+    verbs = SENSORY_VERBS.get(lang, SENSORY_VERBS["en"])
+    nouns = SENSORY_NOUNS.get(lang, SENSORY_NOUNS["en"])
+    # Add accent-stripped versions for FR
+    if lang == "fr":
+        verbs = verbs | {_strip_accents(w) for w in verbs}
+        nouns = nouns | {_strip_accents(w) for w in nouns}
+
+    scores = []
+    for window in text_windows:
+        tokens = window.lower().split()
+        n = max(len(tokens), 1)
+        v_count = sum(1 for t in tokens if t.strip("'\".,;:!?()") in verbs)
+        n_count = sum(1 for t in tokens if t.strip("'\".,;:!?()") in nouns)
+        # Natural sensory density ~0.5-2% → multiply by 60 to get 0.30-1.0
+        score = min((v_count + n_count) / n * 60.0, 1.0)
+        scores.append(score)
+
+    return statistics.mean(scores) if scores else 0.4
+
+
+def extract_T_situationnel(text_windows, lang):
+    """World coherence: spatio-temporal markers + recurring locations."""
+    nlp = get_nlp(lang)
+    scores = []
+    all_locs = []
+
+    PERCEPTION = {
+        "fr": {"regarder", "observer", "remarquer", "noter", "souvenir",
+               "rappeler", "penser", "imaginer", "se"},
+        "en": {"watch", "observe", "notice", "note", "remember", "recall",
+               "think", "imagine", "realize", "wonder"},
+    }
+    perc_set = PERCEPTION.get(lang, PERCEPTION["en"])
+    if lang == "fr":
+        perc_set = perc_set | {_strip_accents(w) for w in perc_set}
+
+    for window in text_windows:
+        doc = nlp(window[:300000])
+
+        ctx_ents = [e for e in doc.ents
+                    if e.label_ in ("TIME", "DATE", "LOC", "GPE", "FAC")]
+        n_sents = max(len(list(doc.sents)), 1)
+        ctx_norm = min(len(ctx_ents) / n_sents / 0.8, 1.0)
+
+        locs = [e.text.lower() for e in doc.ents
+                if e.label_ in ("LOC", "GPE", "FAC")]
+        all_locs.extend(locs)
+
+        tokens_lower = [t.text.lower() for t in doc if not t.is_punct]
+        perc_count = sum(1 for t in tokens_lower if t in perc_set)
+        perc_norm = min(perc_count / max(len(tokens_lower), 1) / 0.008, 1.0)
+
+        scores.append(0.50 * ctx_norm + 0.50 * perc_norm)
+
+    if all_locs:
+        from collections import Counter
+        recurring = sum(1 for c in Counter(all_locs).values() if c >= 2)
+        recurrence_bonus = min(recurring / 5.0, 0.20)
+    else:
+        recurrence_bonus = 0
+
+    base = statistics.mean(scores) if scores else 0.3
+    return min(base + recurrence_bonus, 1.0)
+
+
+def extract_T_relationnel(text_windows, lang):
+    """Interpersonal dynamics: dialogue ratio + interaction verbs + pronouns."""
+    INTERACTION_VERBS = {
+        "fr": {"dire", "répondre", "demander", "regarder", "sourire", "toucher",
+               "murmurer", "chuchoter", "crier", "rire", "pleurer", "embrasser",
+               "fuir", "tendre", "serrer", "appeler", "écouter", "comprendre",
+               "aimer", "promettre", "mentir", "pardonner", "accuser", "supplier",
+               "dit", "répondit", "demanda", "murmura", "cria"},
+        "en": {"say", "reply", "ask", "look", "smile", "touch", "grab",
+               "whisper", "shout", "laugh", "cry", "kiss", "run", "lean",
+               "reach", "pull", "push", "call", "listen", "understand", "love",
+               "hate", "fear", "promise", "lie", "forgive", "accuse", "beg",
+               "hold", "comfort", "ignore", "follow", "leave",
+               "said", "asked", "replied", "whispered", "shouted", "called"},
+    }
+    REL_PRONOUNS = {
+        "fr": {"tu", "vous", "il", "elle", "nous", "ils", "elles", "lui", "leur"},
+        "en": {"you", "he", "she", "we", "they", "him", "her", "us", "them"},
+    }
+    verbs = INTERACTION_VERBS.get(lang, INTERACTION_VERBS["en"])
+    pronouns = REL_PRONOUNS.get(lang, REL_PRONOUNS["en"])
+    if lang == "fr":
+        verbs = verbs | {_strip_accents(w) for w in verbs}
+
+    scores = []
+    for window in text_windows:
+        lines = window.split('\n')
+        tokens = window.lower().split()
+        n = max(len(tokens), 1)
+
+        dialogue_lines = sum(1 for l in lines
+                             if l.strip().startswith(
+                                 ('\u00ab', '"', '\u2014', '-', '\u201c', '\u2019')))
+        dialogue_norm = min(dialogue_lines / max(len(lines), 1) / 0.25, 1.0)
+
+        v_density = sum(1 for t in tokens
+                        if t.strip("'\".,;:!?()") in verbs) / n
+        v_norm = min(v_density / 0.015, 1.0)
+
+        p_density = sum(1 for t in tokens if t in pronouns) / n
+        p_norm = min(p_density / 0.04, 1.0)
+
+        score = 0.40 * dialogue_norm + 0.35 * v_norm + 0.25 * p_norm
+        scores.append(score)
+
+    return statistics.mean(scores) if scores else 0.3
+
+
+def extract_T_v2(text_windows, lang):
+    """Transportation v2: sensory + situational + relational immersion."""
+    T_s = extract_T_sensoriel(text_windows, lang)
+    T_sit = extract_T_situationnel(text_windows, lang)
+    T_rel = extract_T_relationnel(text_windows, lang)
+
+    T_v2 = 0.40 * T_s + 0.35 * T_sit + 0.25 * T_rel
+
+    return {
+        "score": round(T_v2, 4),
+        "T_sensoriel": round(T_s, 4),
+        "T_situationnel": round(T_sit, 4),
+        "T_relationnel": round(T_rel, 4),
+        "methode": "T_v2_trois_composantes",
+        "tag": "NLP-ROBUSTE-v2",
+    }
+
+
+# ---------------------------------------------------------------------------
 # LEVEL 2: EXPERIMENTAL VARIABLES
 # ---------------------------------------------------------------------------
 
@@ -802,8 +957,11 @@ def calculate_pvi(variables, omega_default=0.65):
     S = variables.get("S_local", {}).get("score", 0.5)
     I = variables.get("I_proxy", {}).get("score", 0.6)
 
-    # T_proxy = 1 - DR (less referential density = more immersive)
-    T_proxy = max(1.0 - DR, 0.1)
+    # T_v2 if available, fallback to 1-DR
+    if "T_v2" in variables:
+        T_proxy = variables["T_v2"]["score"]
+    else:
+        T_proxy = max(1.0 - DR, 0.1)
 
     E_emo = 0.40 * I + 0.28 * T_proxy + 0.17 * S + 0.15 * I * T_proxy
     E_cog = 0.40 * FL + 0.25 * FL * (1 - MS) + 0.20 * DR + 0.15 * LP
@@ -864,13 +1022,19 @@ def score_book(filepath, lang="fr"):
     dr = extract_DR(windows, lang)
     print(f"       DR = {dr['score']} (raw={dr['raw_density']})")
 
-    # 7. S_local
-    print("[7/8] Computing S_local (Surprise locale) [EXPERIMENTAL]...")
+    # 7. T_v2
+    print("[7/9] Computing T_v2 (Transportation 3 composantes)...")
+    t_v2 = extract_T_v2(windows, lang)
+    print(f"       T_v2 = {t_v2['score']} (sens={t_v2['T_sensoriel']}, "
+          f"sit={t_v2['T_situationnel']}, rel={t_v2['T_relationnel']})")
+
+    # 8. S_local
+    print("[8/9] Computing S_local (Surprise locale) [EXPERIMENTAL]...")
     s_local = extract_S_local(windows, lang)
     print(f"       S_local = {s_local['score']}")
 
-    # 8. I_proxy + A_proxy
-    print("[8/8] Computing I_proxy + A_proxy [EXPERIMENTAL]...")
+    # 9. I_proxy + A_proxy
+    print("[9/9] Computing I_proxy + A_proxy [EXPERIMENTAL]...")
     i_proxy = extract_I_proxy(windows, lang)
     a_proxy = extract_A_proxy(windows, lang)
     print(f"       I_proxy = {i_proxy['score']} (POV 1st: {i_proxy['pov_1st_person']})")
@@ -882,6 +1046,7 @@ def score_book(filepath, lang="fr"):
         "MS": ms,
         "LP": lp,
         "DR": dr,
+        "T_v2": t_v2,
         "S_local": s_local,
         "A_proxy": a_proxy,
         "I_proxy": i_proxy,

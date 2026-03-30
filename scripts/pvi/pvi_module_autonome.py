@@ -27,7 +27,7 @@ from pathlib import Path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from pvi_nlp_scorer import (
     load_text, extract_windows, get_nlp,
-    extract_FL, extract_MS, extract_LP, extract_DR,
+    extract_FL, extract_MS, extract_LP, extract_DR, extract_T_v2,
     extract_S_local, extract_A_proxy, extract_I_proxy,
 )
 
@@ -110,7 +110,11 @@ def calculate_full_pvi(variables, omega, u, n_rev):
     DR = variables["DR"]["score"]
     S = variables.get("S_local", {}).get("score", 0.5)
     I = variables.get("I_proxy", {}).get("score", 0.6)
-    T_proxy = max(1.0 - DR, 0.1)
+    # T_v2 if available, fallback to 1-DR
+    if "T_v2" in variables:
+        T_proxy = variables["T_v2"]["score"]
+    else:
+        T_proxy = max(1.0 - DR, 0.1)
 
     E_emo = 0.40 * I + 0.28 * T_proxy + 0.17 * S + 0.15 * I * T_proxy
     E_cog = 0.40 * FL + 0.25 * FL * (1 - MS) + 0.20 * DR + 0.15 * LP
@@ -431,6 +435,9 @@ def run_module(filepath, lang, assisted=False):
     print(f"  LP = {lp['score']}")
     dr = extract_DR(windows, lang)
     print(f"  DR = {dr['score']}")
+    t_v2 = extract_T_v2(windows, lang)
+    print(f"  T  = {t_v2['score']} (sens={t_v2['T_sensoriel']:.3f}, "
+          f"sit={t_v2['T_situationnel']:.3f}, rel={t_v2['T_relationnel']:.3f})")
     s_local = extract_S_local(windows, lang)
     print(f"  S  = {s_local['score']}")
     a_proxy = extract_A_proxy(windows, lang)
@@ -439,7 +446,7 @@ def run_module(filepath, lang, assisted=False):
     print(f"  I  = {i_proxy['score']} (POV 1st: {i_proxy['pov_1st_person']})")
 
     variables = {
-        "FL": fl, "MS": ms, "LP": lp, "DR": dr,
+        "FL": fl, "MS": ms, "LP": lp, "DR": dr, "T_v2": t_v2,
         "S_local": s_local, "A_proxy": a_proxy, "I_proxy": i_proxy,
     }
 

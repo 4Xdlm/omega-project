@@ -15,7 +15,7 @@ from pathlib import Path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from pvi_nlp_scorer import (
     load_text, extract_windows, get_nlp,
-    extract_FL, extract_MS, extract_LP, extract_DR,
+    extract_FL, extract_MS, extract_LP, extract_DR, extract_T_v2,
     extract_S_local, extract_A_proxy, extract_I_proxy,
 )
 from pvi_module_autonome import (
@@ -175,12 +175,13 @@ def score_single(filepath, lang):
     ms = extract_MS(windows, lang)
     lp = extract_LP(windows, lang)
     dr = extract_DR(windows, lang)
+    t_v2 = extract_T_v2(windows, lang)
     s_local = extract_S_local(windows, lang)
     a_proxy = extract_A_proxy(windows, lang)
     i_proxy = extract_I_proxy(windows, lang)
 
     variables = {
-        "FL": fl, "MS": ms, "LP": lp, "DR": dr,
+        "FL": fl, "MS": ms, "LP": lp, "DR": dr, "T_v2": t_v2,
         "S_local": s_local, "A_proxy": a_proxy, "I_proxy": i_proxy,
     }
     return variables, text

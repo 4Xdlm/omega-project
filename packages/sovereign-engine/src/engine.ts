@@ -281,54 +281,6 @@ async function executePipeline(
     initialDraft = slicerResult.prose;
   }
 
-  // ── CLIFF GATE ACTIF (BB-01) — Phase 2 : post-processing ──────────────
-  // BB-01: cliff_score = 0.50 ± 0.004 est un attracteur du modele.
-  // Le prompt ne peut pas le vaincre (bench V5 : delta = -0.02).
-  // Solution : detecter la fermeture, amputer la derniere phrase,
-  // et la reecrire avec un micro-appel API (~50 tokens).
-  {
-    const cliffWords = initialDraft.split(/\s+/);
-    const cliffText = cliffWords.slice(-100).join(' ');
-    const cliffSents = cliffText.split(/[.!?]+/).map(s => s.trim()).filter(s => s.length > 0);
-    if (cliffSents.length > 0) {
-      const lastSent = cliffSents[cliffSents.length - 1].trim();
-      const endsEllipsis = lastSent.endsWith('...') || lastSent.endsWith('\u2026');
-      const lastChar = lastSent[lastSent.length - 1] || '';
-      const endsIncomplete = !['.', '!', '?', '\u2026'].includes(lastChar);
-      const meanLen = cliffSents.reduce((sum, s) => sum + s.split(/\s+/).length, 0) / cliffSents.length;
-      const tension = Math.min(1.0, 20.0 / Math.max(meanLen, 1));
-      const cliffScore = Math.round((tension * 0.5 + (endsEllipsis ? 0.3 : 0) + (endsIncomplete ? 0.2 : 0)) * 10000) / 10000;
-      const CLIFF_THRESHOLD = 0.30;
-      if (cliffScore > CLIFF_THRESHOLD) {
-        console.warn(`[CLIFF-GATE] cliff_score=${cliffScore.toFixed(4)} > ${CLIFF_THRESHOLD} — ACTIVATION POST-PROCESSING`);
-        try {
-          const fullSents = initialDraft.split(/(?<=[.!?\u2026])\s+/);
-          if (fullSents.length >= 2) {
-            const proseWithoutLast = fullSents.slice(0, -1).join(' ');
-            const lastFullSent = fullSents[fullSents.length - 1];
-            const suspensionPrompt = `Voici la derni\u00e8re phrase d'un passage litt\u00e9raire :\n"${lastFullSent}"\n\nR\u00e9\u00e9cris UNIQUEMENT cette phrase pour qu'elle s'ouvre sur une incertitude sensorielle ou une action amorc\u00e9e non r\u00e9solue. Elle ne doit PAS conclure ni fermer. Elle SUSPEND. Maximum 30 mots. Donne UNIQUEMENT la phrase r\u00e9\u00e9crite, rien d'autre.`;
-            const rewrittenLast = await provider.generateDraft(suspensionPrompt, 'direct', enrichedPacket.seeds.llm_seed + '_cliff_fix');
-            const cleaned = rewrittenLast
-              .replace(/<\/?prose>/g, '')
-              .replace(/^["'\u00ab\u00bb\u201c\u201d]/g, '')
-              .replace(/["'\u00ab\u00bb\u201c\u201d]$/g, '')
-              .trim();
-            if (cleaned.length > 5 && cleaned.length < 500) {
-              initialDraft = proseWithoutLast + ' ' + cleaned;
-              console.log(`[CLIFF-GATE] Derniere phrase reecrite (${cleaned.split(/\s+/).length} mots)`);
-            } else {
-              console.warn(`[CLIFF-GATE] Reecriture ignoree (longueur suspecte: ${cleaned.length})`);
-            }
-          }
-        } catch (err) {
-          console.warn(`[CLIFF-GATE] Micro-appel echoue, prose conservee: ${err}`);
-        }
-      } else {
-        console.log(`[CLIFF-GATE] cliff_score=${cliffScore.toFixed(4)} <= ${CLIFF_THRESHOLD} — brique ouverte`);
-      }
-    }
-  }
-
   // ★ NOUVEAU Sprint 3.1: Physics Audit (post-generation, informatif)
   // Runs after draft generation, before sovereign loop
   // Physics audit provides prescriptions for the correction loop
@@ -434,6 +386,48 @@ async function executePipeline(
     if (surgeryResult.interventions_applied > 0) {
       console.log(`[MICRO-SURGEON] ${surgeryResult.interventions_applied} applied, ${surgeryResult.interventions_rejected} rejected`);
       final_prose = surgeryResult.prose;
+    }
+  }
+
+  // ── CLIFF GATE ACTIF (BB-01) — Post-duel/microsurgery ──────────────
+  // BB-01: cliff_score = 0.50 ± 0.004 est un attracteur RLHF.
+  // Positionne APRES duel + microsurgery pour agir sur le texte FINAL.
+  {
+    const cliffWords = final_prose.split(/\s+/);
+    const cliffText = cliffWords.slice(-100).join(' ');
+    const cliffSents = cliffText.split(/[.!?]+/).map(s => s.trim()).filter(s => s.length > 0);
+    if (cliffSents.length > 0) {
+      const lastSent = cliffSents[cliffSents.length - 1].trim();
+      const endsEllipsis = lastSent.endsWith('...') || lastSent.endsWith('\u2026');
+      const lastChar = lastSent[lastSent.length - 1] || '';
+      const endsIncomplete = !['.', '!', '?', '\u2026'].includes(lastChar);
+      const meanLen = cliffSents.reduce((sum, s) => sum + s.split(/\s+/).length, 0) / cliffSents.length;
+      const tension = Math.min(1.0, 20.0 / Math.max(meanLen, 1));
+      const cliffScore = Math.round((tension * 0.5 + (endsEllipsis ? 0.3 : 0) + (endsIncomplete ? 0.2 : 0)) * 10000) / 10000;
+      const CLIFF_THRESHOLD = 0.30;
+      if (cliffScore > CLIFF_THRESHOLD) {
+        console.warn(`[CLIFF-GATE] cliff_score=${cliffScore.toFixed(4)} > ${CLIFF_THRESHOLD} — ACTIVATION POST-PROCESSING`);
+        try {
+          const fullSents = final_prose.split(/(?<=[.!?\u2026])\s+/);
+          if (fullSents.length >= 2) {
+            const proseWithoutLast = fullSents.slice(0, -1).join(' ');
+            const lastFullSent = fullSents[fullSents.length - 1];
+            const suspensionPrompt = `Voici la derni\u00e8re phrase d'un passage litt\u00e9raire :\n"${lastFullSent}"\n\nR\u00e9\u00e9cris UNIQUEMENT cette phrase pour qu'elle s'ouvre sur une incertitude sensorielle. Elle SUSPEND, elle ne conclut pas. Maximum 30 mots. Donne UNIQUEMENT la phrase r\u00e9\u00e9crite.`;
+            const rewrittenLast = await provider.generateDraft(suspensionPrompt, 'direct', enrichedPacket.seeds.llm_seed + '_cliff');
+            const cleaned = rewrittenLast.replace(/<\/?prose>/g, '').replace(/^["'\u00ab\u00bb\u201c\u201d]/g, '').replace(/["'\u00ab\u00bb\u201c\u201d]$/g, '').trim();
+            if (cleaned.length > 5 && cleaned.length < 500) {
+              final_prose = proseWithoutLast + ' ' + cleaned;
+              console.log(`[CLIFF-GATE] Derniere phrase reecrite (${cleaned.split(/\s+/).length} mots)`);
+            } else {
+              console.warn(`[CLIFF-GATE] Reecriture ignoree (longueur: ${cleaned.length})`);
+            }
+          }
+        } catch (err) {
+          console.warn(`[CLIFF-GATE] Micro-appel echoue: ${err}`);
+        }
+      } else {
+        console.log(`[CLIFF-GATE] cliff_score=${cliffScore.toFixed(4)} <= ${CLIFF_THRESHOLD} — brique ouverte`);
+      }
     }
   }
 

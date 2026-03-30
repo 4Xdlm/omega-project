@@ -93,7 +93,9 @@ function computeCliff(prose: string): number {
 }
 
 async function main() {
-  const provider = createAnthropicProvider();
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  if (!apiKey) { console.error('ERROR: ANTHROPIC_API_KEY not set'); process.exit(1); }
+  const provider = createAnthropicProvider({ apiKey, model: 'claude-sonnet-4-20250514', judgeStable: false, draftTemperature: 0.75, judgeTemperature: 0.0, judgeTopP: 1.0, judgeMaxTokens: 2000 });
   const RUNS_PER_SCENE = 6;
   const sessionDir = path.join(__dirname, '../sessions/BESTOF3_VALIDATION');
   if (!fs.existsSync(sessionDir)) fs.mkdirSync(sessionDir, { recursive: true });

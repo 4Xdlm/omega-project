@@ -183,6 +183,50 @@ export async function runSovereignForgeWithPacket(
   return executePipeline(packet, provider, cdeInput);
 }
 
+/**
+ * Run sovereign forge with best-of-N selection.
+ * Activable by env: OMEGA_BEST_OF_N=1 OMEGA_BEST_OF_N_COUNT=3
+ * Generates N candidates, keeps the best (early exit on SAGA_READY).
+ * COSTLY: N × full pipeline API calls. Use only when needed.
+ */
+export async function runSovereignForgeBestOfN(
+  packet: import('./types.js').ForgePacket,
+  provider: SovereignProvider,
+  n: number = 3,
+): Promise<SovereignForgeResult> {
+  const SAGA_COMPOSITE = 92.0;
+  const SAGA_MIN_AXIS = 85.0;
+
+  let best: SovereignForgeResult | null = null;
+  let bestScore = -1;
+
+  for (let i = 0; i < n; i++) {
+    console.log(`[BEST-OF-${n}] Run ${i + 1}/${n}...`);
+    const result = await executePipeline(packet, provider);
+    const comp = result.macro_score?.composite ?? 0;
+    const minAxis = result.macro_score?.min_axis ?? 0;
+
+    const selScore = comp - 1.5 * Math.max(0, SAGA_MIN_AXIS - minAxis);
+    console.log(`[BEST-OF-${n}] comp=${comp.toFixed(1)} min=${minAxis.toFixed(1)} sel=${selScore.toFixed(1)}`);
+
+    if (selScore > bestScore) {
+      best = result;
+      bestScore = selScore;
+    }
+
+    // Early exit on SAGA_READY
+    if (comp >= SAGA_COMPOSITE && minAxis >= SAGA_MIN_AXIS) {
+      console.log(`[BEST-OF-${n}] SAGA_READY — early exit at run ${i + 1}`);
+      return result;
+    }
+
+    if (i < n - 1) await new Promise(r => setTimeout(r, 2000));
+  }
+
+  console.log(`[BEST-OF-${n}] Best: comp=${best?.macro_score?.composite.toFixed(1)} sel=${bestScore.toFixed(1)}`);
+  return best!;
+}
+
 // ═══════════════════════════════════════════════════════════════════════════
 // INTERNAL PIPELINE — shared by runSovereignForge and runSovereignForgeWithPacket
 // ═══════════════════════════════════════════════════════════════════════════
@@ -439,7 +483,7 @@ async function executePipeline(
     const lang = (enrichedPacket.language ?? 'fr') as 'fr' | 'en';
     const ciL37 = computeCIL37(final_prose);
     const langProfile = computeLanguageProfile(final_prose, lang);
-    console.log(`[SHADOW] CI_L37=${ciL37.ci_l37.toFixed(1)} (sub=${ciL37.sub_per_sentence.toFixed(3)}, f26b=${ciL37.f26b_long_sent_rate.toFixed(3)})`);
+    console.log(`[SHADOW] CI_L37_corpus=${ciL37.ci_l37_corpus.toFixed(1)} CI_L37_omega=${ciL37.ci_l37_omega.toFixed(1)} (sub=${ciL37.sub_per_sentence.toFixed(3)}, f26b=${ciL37.f26b_long_sent_rate.toFixed(3)})`);
     console.log(`[SHADOW] PROFILE_${lang.toUpperCase()}=${langProfile.profile_score.toFixed(1)}`);
   }
 

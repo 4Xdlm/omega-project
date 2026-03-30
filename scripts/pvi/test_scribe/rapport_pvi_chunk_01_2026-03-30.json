@@ -1,0 +1,190 @@
+{
+  "titre": "chunk_01",
+  "langue": "fr",
+  "date": "2026-03-30",
+  "modele": "cultural_FR",
+  "assisted": true,
+  "variables_nlp": {
+    "FL": {
+      "score": 0.3688,
+      "sigma": 0.0486,
+      "per_window": [
+        0.4109,
+        0.3801,
+        0.3156
+      ],
+      "methode": "wordfreq_top5k_NER_len4",
+      "seuil_5k": 1.48e-05,
+      "tag": "NLP-ROBUSTE-v2"
+    },
+    "MS": {
+      "score": 0.7298,
+      "sigma": 0.0642,
+      "per_window": [
+        0.7611,
+        0.7724,
+        0.656
+      ],
+      "methode": "rhythm_diversity_anaphore_punct_v3",
+      "tag": "NLP-ROBUSTE-v3"
+    },
+    "LP": {
+      "score": 0.5201,
+      "methode": "spacy_sentences",
+      "tag": "NLP-ROBUSTE"
+    },
+    "DR": {
+      "score": 0.11,
+      "raw_density": 0.006598,
+      "methode": "spacy_NER_density",
+      "tag": "NLP-ROBUSTE"
+    },
+    "T_v2": {
+      "score": 0.5977,
+      "T_sensoriel": 0.9388,
+      "T_situationnel": 0.3905,
+      "T_relationnel": 0.3422,
+      "methode": "T_v2_trois_composantes",
+      "tag": "NLP-ROBUSTE-v2"
+    },
+    "S_local": {
+      "score": 0.8006,
+      "methode": "vader_sentiment_variance",
+      "tag": "NLP-PARTIEL"
+    },
+    "A_proxy": {
+      "score": 0.9907,
+      "N_rev_proxy": 7,
+      "amplitude": 1.465,
+      "methode": "sentiment_segments",
+      "tag": "SEMI-AUTO"
+    },
+    "I_proxy": {
+      "score": 0.1197,
+      "pov_1st_person": false,
+      "pov_ratio": 0.0008,
+      "mean_neg_valence": 0.02,
+      "mean_arousal": 0.0,
+      "methode": "fr_lexicon_protagonist_windows",
+      "tag": "PROXY-NLP-v3"
+    }
+  },
+  "calculs": {
+    "I": 0.1197,
+    "T_proxy": 0.5977,
+    "FL": 0.3688,
+    "MS": 0.7298,
+    "LP": 0.5201,
+    "DR": 0.11,
+    "S_local": 0.8006,
+    "Omega": 0.0,
+    "U": 0.65,
+    "N_rev": 7,
+    "E_emo": 0.3621,
+    "E_cog": 0.2724,
+    "CE": 1.329,
+    "Arc_rev": 1.2,
+    "R": 0.4005,
+    "W": 0.1126,
+    "PVI": 0.0189,
+    "SP": 0.38,
+    "score_etouffement": 0.3688,
+    "warning_etouffement": true
+  },
+  "proba_bestseller": 0.07,
+  "phase": "Phase 1 : mort organique",
+  "verdict": "FAIL — pas de potentiel bestseller intrinseque",
+  "goulots": [
+    {
+      "id": "GOULOT-I",
+      "actuel": 0.1197,
+      "seuil": 0.55,
+      "desc": "Protagoniste insuffisamment identifiable"
+    },
+    {
+      "id": "GOULOT-Omega",
+      "actuel": 0.0,
+      "seuil": 0.45,
+      "desc": "Fin ne declenche pas la recommandation"
+    },
+    {
+      "id": "GOULOT-R",
+      "actuel": 0.4005,
+      "seuil": 0.5,
+      "desc": "Lecteur n'atteint probablement pas la fin"
+    },
+    {
+      "id": "GOULOT-W",
+      "actuel": 0.1126,
+      "seuil": 0.5,
+      "desc": "Transmissibilite nulle"
+    }
+  ],
+  "top_leviers": [
+    {
+      "variable": "FL",
+      "delta": "-0.10",
+      "gain_pvi": 0.0212,
+      "gain_pct": 112.2
+    },
+    {
+      "variable": "Omega",
+      "delta": "+0.10",
+      "gain_pvi": 0.0099,
+      "gain_pct": 52.4
+    },
+    {
+      "variable": "I",
+      "delta": "+0.10",
+      "gain_pvi": 0.0085,
+      "gain_pct": 45.0
+    }
+  ],
+  "zone_omega": {
+    "atteinte": false,
+    "distances": [
+      {
+        "variable": "FL",
+        "actuel": 0.3688,
+        "cible": 0.25,
+        "delta": 0.1188,
+        "atteint": false
+      },
+      {
+        "variable": "MS",
+        "actuel": 0.7298,
+        "cible": 0.85,
+        "delta": 0.1202,
+        "atteint": false
+      },
+      {
+        "variable": "Omega",
+        "actuel": 0.0,
+        "cible": 0.72,
+        "delta": 0.72,
+        "atteint": false
+      },
+      {
+        "variable": "I",
+        "actuel": 0.1197,
+        "cible": 0.65,
+        "delta": 0.5303,
+        "atteint": false
+      },
+      {
+        "variable": "T_proxy",
+        "actuel": 0.5977,
+        "cible": 0.75,
+        "delta": 0.1523,
+        "atteint": false
+      },
+      {
+        "variable": "N_rev",
+        "actuel": 7,
+        "cible": 2,
+        "delta": 0,
+        "atteint": true
+      }
+    ]
+  }
+}

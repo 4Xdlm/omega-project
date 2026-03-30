@@ -30,6 +30,9 @@ import type {
   SScore,
 } from './types.js';
 
+import { computeCIL37 } from './scoring/ci-l37.js';
+import { computeLanguageProfile } from './scoring/language-profiles.js';
+import { computeDualScale } from './scoring/dual-scale.js';
 import { assembleForgePacket, type ForgePacketInput } from './input/forge-packet-assembler.js';
 import { validateForgePacket } from './input/pre-write-validator.js';
 import { simulateSceneBattle } from './input/pre-write-simulator.js';
@@ -431,8 +434,23 @@ async function executePipeline(
     }
   }
 
+  // ── SHADOW JUDGES (D1) — informatif uniquement, 0 changement verdict ──
+  {
+    const lang = (enrichedPacket.language ?? 'fr') as 'fr' | 'en';
+    const ciL37 = computeCIL37(final_prose);
+    const langProfile = computeLanguageProfile(final_prose, lang);
+    console.log(`[SHADOW] CI_L37=${ciL37.ci_l37.toFixed(1)} (sub=${ciL37.sub_per_sentence.toFixed(3)}, f26b=${ciL37.f26b_long_sent_rate.toFixed(3)})`);
+    console.log(`[SHADOW] PROFILE_${lang.toUpperCase()}=${langProfile.profile_score.toFixed(1)}`);
+  }
+
   // ★ NOUVEAU v3: Utiliser judgeAestheticV3 avec macro-axes
   const final_score_v3 = await judgeAestheticV3(enrichedPacket, final_prose, provider, symbolMap, physicsAudit);
+
+  // ── SHADOW DUAL-SCALE ──
+  {
+    const dualScale = computeDualScale(final_score_v3.composite);
+    console.log(`[SHADOW] DUAL_SCALE: local=${dualScale.local_score.toFixed(1)} arc=${dualScale.arc_score.toFixed(1)} dual=${dualScale.dual_score.toFixed(1)} (window=${dualScale.arc_window_size})`);
+  }
 
   // ★ Sprint 3 PREP: Sub-score autopsy for RCI and SII
   // This telemetry identifies EXACTLY which sub-component drags each macro-axis down.

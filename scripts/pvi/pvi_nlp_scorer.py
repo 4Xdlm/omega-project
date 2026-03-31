@@ -946,6 +946,151 @@ def _en_emotional_density(protag_windows):
 
 
 # ---------------------------------------------------------------------------
+# I_PROXY v2 — Correction bug FR 3e personne distancée (Phase P5-B)
+# ---------------------------------------------------------------------------
+_FR_FOCALISATION_INTERNE = {
+    "pensa", "pensait", "songea", "songeait", "sentit", "sentait",
+    "comprit", "comprenait", "sut", "savait", "réalisa", "voyait",
+    "remarqua", "remarquait", "se demanda", "se souvint", "se rappela",
+    "éprouva", "ressentit", "imaginait", "craignait", "espérait",
+    "voulait", "cherchait", "hésita", "décida", "regarda", "observa",
+    "croyait", "devinait", "percevait", "reconnut", "découvrit",
+}
+
+_FR_ANCRAGE_CORPOREL = {
+    "ses mains", "ses doigts", "son visage", "ses yeux", "sa voix",
+    "son corps", "ses jambes", "ses épaules", "son cœur", "sa gorge",
+    "ses lèvres", "son souffle", "sa poitrine", "son ventre", "ses bras",
+    "son coeur", "sa nuque", "ses pieds", "ses paumes", "son front",
+}
+
+_FR_DESIR_NARRATIF = {
+    "voulait", "désirait", "cherchait", "espérait", "attendait",
+    "craignait", "redoutait", "devait", "fallait", "souhaitait",
+    "rêvait", "avait besoin", "ne pouvait pas", "ne parvenait pas",
+    "tentait", "essayait", "s'efforçait", "luttait", "refusait",
+}
+
+# Pre-build accent-stripped variants
+_FR_FOCAL_STRIPPED = {_strip_accents(w) for w in _FR_FOCALISATION_INTERNE}
+_FR_DESIR_STRIPPED = {_strip_accents(w) for w in _FR_DESIR_NARRATIF}
+
+
+def _count_multiword(text_lower, patterns):
+    """Count occurrences of single-word and multi-word patterns in text."""
+    count = 0
+    for p in patterns:
+        if " " in p:
+            count += text_lower.count(p)
+        else:
+            # Single word: match as token boundary
+            count += len(re.findall(r'\b' + re.escape(p) + r'\b', text_lower))
+    return count
+
+
+def extract_I_proxy_v2(text_windows, lang):
+    """
+    I_proxy v2 — corrected for FR 3rd-person distanced narration.
+
+    Bug P5-B: v1 underestimates I for FR prose with internal focalisation
+    but few dialogues and low 1st-person markers.
+
+    v2 adds 3 FR-specific components:
+      A) focalisation_interne (mental verbs + perception)
+      B) ancrage_corporel (body parts tied to protagonist)
+      C) desir_narratif (want/need/fear markers)
+
+    EN uses v1 formula unchanged (no bug detected).
+    """
+    if lang != "fr":
+        return extract_I_proxy(text_windows, lang)
+
+    full = " ".join(text_windows)
+    full_lower = full.lower()
+    tokens = full_lower.split()
+    n_tokens = max(len(tokens), 1)
+
+    # --- v1 components (reweighted) ---
+    pov_1st_markers = {"je", "j'", "me", "moi", "m'", "mon", "ma", "mes"}
+    pov_count = sum(1 for t in tokens if t.strip("'\".,;:!?()") in pov_1st_markers)
+    pov_ratio = pov_count / n_tokens
+    is_first_person = pov_ratio > 0.03
+
+    # Protagonist windows for emotional density
+    protag_windows = []
+    for i, tok in enumerate(tokens):
+        clean = tok.strip("'\".,;:!?()")
+        if clean in pov_1st_markers:
+            start = max(0, i - 25)
+            end = min(n_tokens, i + 25)
+            protag_windows.append(tokens[start:end])
+            if len(protag_windows) >= 200:
+                break
+    if not protag_windows:
+        protag_windows = [tokens[i:i+50]
+                          for i in range(0, min(n_tokens, 5000), 250)]
+
+    mean_neg, mean_arousal = _fr_emotional_density(protag_windows)
+    neg_norm = min(mean_neg / 0.06, 1.0)
+    arousal_norm = min(mean_arousal / 0.025, 1.0)
+
+    # v1 sub-scores
+    dialogue_norm = neg_norm   # emotional density as dialogue proxy
+    v_norm = arousal_norm      # arousal as verb intensity proxy
+    p_norm = min(pov_ratio / 0.05, 1.0)  # POV pronoun density
+
+    # --- v2 NEW components (FR-specific) ---
+
+    # A) Focalisation interne — mental verbs + perception
+    focal_count = 0
+    for w in _FR_FOCALISATION_INTERNE:
+        if " " in w:
+            focal_count += full_lower.count(w)
+        else:
+            focal_count += sum(1 for t in tokens
+                               if t.strip("'\".,;:!?()") == w
+                               or _strip_accents(t.strip("'\".,;:!?()")) in _FR_FOCAL_STRIPPED)
+    # Deduplicate: stripped matching may double-count, use set-based approach
+    focal_count = _count_multiword(full_lower, _FR_FOCALISATION_INTERNE)
+    focalisation_score = min(focal_count / n_tokens / 0.012, 1.0)
+
+    # B) Ancrage corporel — body parts in possessive 3rd person
+    ancrage_count = _count_multiword(full_lower, _FR_ANCRAGE_CORPOREL)
+    ancrage_score = min(ancrage_count / n_tokens / 0.010, 1.0)
+
+    # C) Désir narratif — want/need/fear markers
+    desir_count = _count_multiword(full_lower, _FR_DESIR_NARRATIF)
+    desir_score = min(desir_count / n_tokens / 0.008, 1.0)
+
+    # --- v2 formula ---
+    # Reweighted: less reliance on dialogue/POV, more on focalisation/ancrage
+    pov_bonus = 0.10 if is_first_person else 0.0
+    i_proxy = (0.15 * dialogue_norm +
+               0.10 * v_norm +
+               0.10 * p_norm +
+               0.30 * focalisation_score +
+               0.20 * ancrage_score +
+               0.15 * desir_score +
+               pov_bonus)
+    i_proxy = min(i_proxy, 1.0)
+
+    return {
+        "score": round(i_proxy, 4),
+        "pov_1st_person": is_first_person,
+        "pov_ratio": round(pov_ratio, 4),
+        "focalisation_interne": round(focalisation_score, 4),
+        "ancrage_corporel": round(ancrage_score, 4),
+        "desir_narratif": round(desir_score, 4),
+        "dialogue_norm": round(dialogue_norm, 4),
+        "v_norm": round(v_norm, 4),
+        "mean_neg_valence": round(mean_neg, 4),
+        "mean_arousal": round(mean_arousal, 4),
+        "methode": "fr_v2_focalisation+ancrage+desir",
+        "tag": "PROXY-NLP-v2-FR",
+    }
+
+
+# ---------------------------------------------------------------------------
 # PVI CALCULATION
 # ---------------------------------------------------------------------------
 def calculate_pvi(variables, omega_default=0.65):

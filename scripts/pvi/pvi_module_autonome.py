@@ -28,7 +28,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from pvi_nlp_scorer import (
     load_text, extract_windows, get_nlp,
     extract_FL, extract_MS, extract_LP, extract_DR, extract_T_v2,
-    extract_S_local, extract_A_proxy, extract_I_proxy,
+    extract_S_local, extract_A_proxy, extract_I_proxy, extract_I_proxy_v2,
 )
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -442,8 +442,11 @@ def run_module(filepath, lang, assisted=False):
     print(f"  S  = {s_local['score']}")
     a_proxy = extract_A_proxy(windows, lang)
     print(f"  A  = {a_proxy['score']} (N_rev_proxy={a_proxy['N_rev_proxy']})")
-    i_proxy = extract_I_proxy(windows, lang)
-    print(f"  I  = {i_proxy['score']} (POV 1st: {i_proxy['pov_1st_person']})")
+    i_proxy = extract_I_proxy_v2(windows, lang) if lang == "fr" else extract_I_proxy(windows, lang)
+    if lang == "fr":
+        print(f"  I  = {i_proxy['score']} (POV 1st: {i_proxy['pov_1st_person']}) [v2-FR: focal={i_proxy.get('focalisation_interne', 'N/A')}, ancrage={i_proxy.get('ancrage_corporel', 'N/A')}, desir={i_proxy.get('desir_narratif', 'N/A')}]")
+    else:
+        print(f"  I  = {i_proxy['score']} (POV 1st: {i_proxy['pov_1st_person']})")
 
     variables = {
         "FL": fl, "MS": ms, "LP": lp, "DR": dr, "T_v2": t_v2,

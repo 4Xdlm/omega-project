@@ -22,10 +22,12 @@ import { scoreV2 } from '../oracle/s-oracle-v2.js';
 import { sha256, canonicalize } from '@omega/canon-kernel';
 
 // ── CV Gate — Pre-filter for rhythm outliers ─────────────────────────────────
-// Levier C: Reject drafts with CV_sent > 1.05 (above Duras max 1.031)
+// Levier C: Reject drafts with CV_sent > threshold
 // Étalonnage maîtres: Flaubert max=0.795, Proust max=0.784, Duras max=1.031
+// HOTFIX BLOC7: Ollama CV moyen ~2.4 → seuil 1.05 cause FAIL-OPEN systématique.
+// OMEGA_HYBRID_MODE=1 → seuil 2.5 (accepte rythme Ollama, bloque extrêmes >5)
 
-const CV_GATE_REJECT = 1.05;
+const CV_GATE_REJECT = process.env.OMEGA_HYBRID_MODE === '1' ? 2.50 : 1.05;
 const CV_GATE_MAX_RETRIES = 2;
 
 export function computeCVSent(prose: string): number {

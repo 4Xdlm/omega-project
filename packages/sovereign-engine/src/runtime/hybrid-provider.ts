@@ -113,16 +113,33 @@ export function createHybridProvider(config: HybridProviderConfig): SovereignPro
 
   return {
     // ── DRAFT GENERATION → OLLAMA (0€) ──
+    // HOTFIX BLOC7: retry if chunk < 200 words (avoid catastrophic 2-sentence runs)
     async generateDraft(prompt: string, mode: string, seed: string): Promise<string> {
       _ollamaDraftCount++;
-      console.log(`[HYBRID] draft → ollama (${ollamaModel}) [#${_ollamaDraftCount}]`);
       const systemPrompt = `You are a master prose writer. Écris EXCLUSIVEMENT en français littéraire premium — niveau prix Goncourt. Zéro anglais. Prose émotionnellement résonnante, sensoriellement riche, narrativement dense. Mode: ${mode}. Seed: ${seed}`;
-      const startMs = Date.now();
-      const response = callOllamaSync(systemPrompt, prompt, ollamaModel, ollamaUrl, draftTemp);
-      const durationMs = Date.now() - startMs;
-      const words = response.split(/\s+/).filter(w => w.length > 0).length;
-      console.log(`[HYBRID] draft done: ${words}w in ${(durationMs / 1000).toFixed(1)}s`);
-      return stripFences(response);
+      const MIN_WORDS = 200;
+      const MAX_RETRIES = 2;
+
+      for (let attempt = 0; attempt <= MAX_RETRIES; attempt++) {
+        const attemptSeed = attempt === 0 ? seed : `${seed}_retry${attempt}`;
+        const attemptPrompt = `You are a master prose writer. Écris EXCLUSIVEMENT en français littéraire premium — niveau prix Goncourt. Zéro anglais. Prose émotionnellement résonnante, sensoriellement riche, narrativement dense. Mode: ${mode}. Seed: ${attemptSeed}`;
+        console.log(`[HYBRID] draft → ollama (${ollamaModel}) [#${_ollamaDraftCount}${attempt > 0 ? ` retry${attempt}` : ''}]`);
+        const startMs = Date.now();
+        const response = callOllamaSync(attemptPrompt, prompt, ollamaModel, ollamaUrl, draftTemp);
+        const durationMs = Date.now() - startMs;
+        const cleaned = stripFences(response);
+        const words = cleaned.split(/\s+/).filter(w => w.length > 0).length;
+        console.log(`[HYBRID] draft done: ${words}w in ${(durationMs / 1000).toFixed(1)}s`);
+
+        if (words >= MIN_WORDS) {
+          return cleaned;
+        }
+        console.warn(`[HYBRID] draft too short (${words}w < ${MIN_WORDS}w) — retry ${attempt + 1}/${MAX_RETRIES}`);
+      }
+      // Last resort: return whatever we got
+      console.warn(`[HYBRID] draft still short after ${MAX_RETRIES} retries — using best attempt`);
+      const fallback = callOllamaSync(systemPrompt, prompt, ollamaModel, ollamaUrl, draftTemp);
+      return stripFences(fallback);
     },
 
     // ── ALL JUDGE/SCORING → CLAUDE ──

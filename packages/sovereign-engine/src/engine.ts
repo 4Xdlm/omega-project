@@ -32,7 +32,7 @@ import type {
 
 // CI_L37 et PROFILES retirés du pipeline — REJETÉS D1 (saturation BB-C01 / corrélations négatives)
 // import { computeCIL37 } from './scoring/ci-l37.js';
-// import { computeLanguageProfile } from './scoring/language-profiles.js';
+import { computeLanguageProfile } from './scoring/language-profiles.js';
 import { computeDualScale } from './scoring/dual-scale.js';
 import { assembleForgePacket, type ForgePacketInput } from './input/forge-packet-assembler.js';
 import { validateForgePacket } from './input/pre-write-validator.js';
@@ -453,7 +453,10 @@ async function executePipeline(
       const tension = Math.min(1.0, 20.0 / Math.max(meanLen, 1));
       const cliffScore = Math.round((tension * 0.5 + (endsEllipsis ? 0.3 : 0) + (endsIncomplete ? 0.2 : 0)) * 10000) / 10000;
       const CLIFF_THRESHOLD = 0.30;
-      if (cliffScore > CLIFF_THRESHOLD) {
+      const CLIFF_QUALITY_TARGET = 0.50;
+      const cliffActivated = cliffScore > CLIFF_THRESHOLD;
+      const cliffQuality = cliffScore >= CLIFF_QUALITY_TARGET;
+      if (cliffActivated) {
         // GUILLOTINE DÉTERMINISTE — pas de micro-API, troncature pure.
         // Convergence 3/3 : Gemini "bourreau" + ChatGPT "structural offloading".
         // On ne négocie plus avec le LLM — on coupe.
@@ -461,21 +464,33 @@ async function executePipeline(
         if (fullSents.length >= 2) {
           // Amputer la dernière phrase (qui ferme la brique)
           final_prose = fullSents.slice(0, -1).join(' ');
-          console.warn(`[CLIFF-GATE] \u26a0\ufe0f cliff=${cliffScore.toFixed(4)} > ${CLIFF_THRESHOLD} — DERNIÈRE PHRASE AMPUTÉE (guillotine déterministe)`);
+          console.warn(`[CLIFF-GATE] cliff_score=${cliffScore.toFixed(4)} > ${CLIFF_THRESHOLD} — ACTIVATION POST-PROCESSING`);
         } else {
-          console.warn(`[CLIFF-GATE] \u26a0\ufe0f cliff=${cliffScore.toFixed(4)} > ${CLIFF_THRESHOLD} — trop peu de phrases, conservation`);
+          console.warn(`[CLIFF-GATE] cliff_score=${cliffScore.toFixed(4)} > ${CLIFF_THRESHOLD} — trop peu de phrases, conservation`);
         }
       } else {
-        console.log(`[CLIFF-GATE] \u2705 cliff=${cliffScore.toFixed(4)} <= ${CLIFF_THRESHOLD} — brique ouverte`);
+        console.log(`[CLIFF-GATE] cliff_score=${cliffScore.toFixed(4)} <= ${CLIFF_THRESHOLD} — brique ouverte`);
       }
+      // D-B3-4: cliff_quality logging (shadow D1 — BLOC 3)
+      // Target: cliff_score >= 0.50 = suspension narrative forte
+      console.log(`[CLIFF-GATE] cliff_quality=${cliffQuality} (score=${cliffScore.toFixed(4)}, target>=${CLIFF_QUALITY_TARGET})`);
     }
   }
 
-  // ── SHADOW JUDGES (D1) — BLOC 2 CLOSEOUT ──
+  // ── SHADOW JUDGES (D1) — BLOC 2/3 ──
   // CI_L37 : REJETÉ D1 — sature à 100, variance nulle (BB-C01 sub=constante régime Sonnet ~0.099)
-  // PROFILES FR/EN : REJETÉS D1 — corrélations faibles/négatives sur régime OMEGA
+  // PROFILES FR/EN : shadow monitoring — branching_signal ajouté BLOC 3
   // DUAL_SCALE : PASS SHADOW — r=0.94, conservé en monitoring. Intégration décisionnelle
   //   DIFFÉRÉE jusqu'à validation multi-briques où ARC ≠ LOCAL.
+
+  // D-B3-2: Branching FR→EN signal (shadow D1 — BLOC 3)
+  {
+    const profileFr = computeLanguageProfile(final_prose, 'fr');
+    const profileEnMax = computeLanguageProfile(final_prose, 'en', 'max');
+    const branchingSignal = Math.round((profileEnMax.profile_score - profileFr.profile_score) * 100) / 100;
+    const branchingFlag = branchingSignal > 10 ? 'BRANCH_CANDIDATE' : (branchingSignal < 5 ? 'FR_STABLE' : 'NEUTRAL');
+    console.log(`[SHADOW] BRANCHING: FR=${profileFr.profile_score.toFixed(1)} EN_MAX=${profileEnMax.profile_score.toFixed(1)} signal=${branchingSignal.toFixed(1)} flag=${branchingFlag}`);
+  }
 
   // ★ NOUVEAU v3: Utiliser judgeAestheticV3 avec macro-axes
   const final_score_v3 = await judgeAestheticV3(enrichedPacket, final_prose, provider, symbolMap, physicsAudit);

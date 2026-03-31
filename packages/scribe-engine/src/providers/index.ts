@@ -6,3 +6,5 @@
 export * from './types.js';
 export * from './factory.js';
 export * from './prompt-builder.js';
+
+export * from './ollama-provider.js';

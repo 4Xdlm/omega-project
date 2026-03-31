@@ -4,7 +4,7 @@
  */
 
 /** Provider mode */
-export type ScribeProviderMode = 'mock' | 'llm' | 'cache';
+export type ScribeProviderMode = 'mock' | 'llm' | 'cache' | 'ollama';
 
 /** Provider configuration */
 export interface ScribeProviderConfig {

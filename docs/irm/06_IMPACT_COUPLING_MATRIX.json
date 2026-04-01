@@ -1,0 +1,713 @@
+{
+  "scan_date": "2026-04-02",
+  "method": "Import analysis — first 50 lines of each file + grep reverse lookup across all .ts in src/",
+  "total_files_scanned": 160,
+  "criticality_legend": {
+    "C4": "FATAL — removal breaks entire pipeline or public API",
+    "C3": "HIGH — removal breaks major subsystem (scoring, correction, generation)",
+    "C2": "MEDIUM — removal breaks single feature, workaround possible",
+    "C1": "LOW — leaf module, limited blast radius"
+  },
+  "files": {
+    "engine.ts": {
+      "criticality": "C4",
+      "imports_from": [
+        "types.ts",
+        "scoring/language-profiles.ts",
+        "scoring/dual-scale.ts",
+        "input/forge-packet-assembler.ts",
+        "input/pre-write-validator.ts",
+        "input/pre-write-simulator.ts",
+        "input/prompt-assembler-v2.ts",
+        "pitch/sovereign-loop.ts",
+        "duel/duel-engine.ts",
+        "polish/musical-engine.ts",
+        "polish/anti-cliche-sweep.ts",
+        "polish/signature-enforcement.ts",
+        "oracle/axes/rhythm.ts",
+        "oracle/aesthetic-oracle.ts",
+        "symbol/symbol-mapper.ts",
+        "symbol/symbol-map-types.ts",
+        "oracle/s-score.ts",
+        "config.ts",
+        "input/signature-bridge.ts",
+        "oracle/physics-audit.ts",
+        "prescriptions/index.ts",
+        "input/emotion-brief-bridge.ts",
+        "quality/quality-bridge.ts",
+        "compiler/prompt-compiler.ts",
+        "compiler/static-analyzer.ts",
+        "compiler/types.ts",
+        "prose-directive/lot1-instructions.ts",
+        "prose-directive/lot2-instructions.ts",
+        "prose-directive/lot3-instructions.ts",
+        "cde/types.ts",
+        "polish/targeted-patch.ts",
+        "input/prompt-assembler-v4.ts",
+        "guards/semantic-slicer.ts",
+        "microsurgery/micro-surgeon.ts",
+        "microsurgery/damage-gate.ts",
+        "generation/chunked-generator.ts",
+        "generation/forge-to-brief.ts",
+        "@omega/omega-forge"
+      ],
+      "imported_by": [
+        "index.ts",
+        "cde/cde-pipeline.ts"
+      ],
+      "import_count_out": 38,
+      "imported_by_count": 2,
+      "impact_if_removed": "Entire pipeline breaks — main orchestrator runSovereignForge() is the sole entry point for prose generation. CDE pipeline and public API both depend on it."
+    },
+    "index.ts": {
+      "criticality": "C4",
+      "imports_from": [
+        "engine.ts",
+        "types.ts",
+        "input/forge-packet-assembler.ts",
+        "input/pre-write-validator.ts",
+        "input/pre-write-simulator.ts",
+        "input/prompt-assembler-v2.ts",
+        "oracle/aesthetic-oracle.ts",
+        "oracle/s-score.ts",
+        "oracle/macro-axes.ts",
+        "duel/duel-engine.ts",
+        "pitch/sovereign-loop.ts",
+        "polish/musical-engine.ts",
+        "polish/anti-cliche-sweep.ts",
+        "polish/signature-enforcement.ts"
+      ],
+      "imported_by": [],
+      "import_count_out": 14,
+      "imported_by_count": 0,
+      "impact_if_removed": "Public API surface destroyed — all external consumers lose access to every exported function and type. Package becomes unusable."
+    },
+    "types.ts": {
+      "criticality": "C4",
+      "imports_from": [
+        "oracle/macro-axes.ts",
+        "oracle/s-score.ts"
+      ],
+      "imported_by_count": 111,
+      "imported_by": [
+        "engine.ts",
+        "index.ts",
+        "oracle/aesthetic-oracle.ts",
+        "oracle/macro-axes.ts",
+        "oracle/s-score.ts",
+        "oracle/s-oracle-v2.ts",
+        "oracle/llm-judge.ts",
+        "duel/duel-engine.ts",
+        "pitch/sovereign-loop.ts",
+        "input/forge-packet-assembler.ts",
+        "input/prompt-assembler-v2.ts",
+        "input/prompt-assembler-v4.ts",
+        "input/pre-write-validator.ts",
+        "input/pre-write-simulator.ts",
+        "microsurgery/micro-surgeon.ts",
+        "polish/musical-engine.ts",
+        "polish/anti-cliche-sweep.ts",
+        "polish/signature-enforcement.ts",
+        "generation/chunked-generator.ts",
+        "generation/forge-to-brief.ts",
+        "scoring/multi-stage-scorer.ts",
+        "compiler/prompt-compiler.ts",
+        "...(111 files total — every module with typed interfaces)"
+      ],
+      "impact_if_removed": "TOTAL CATASTROPHE — 111 files import from types.ts. Every interface (ForgePacket, SScore, SovereignProvider, DeltaReport, etc.) vanishes. Nothing compiles."
+    },
+    "config.ts": {
+      "criticality": "C4",
+      "imports_from": [
+        "node:fs",
+        "node:path",
+        "node:url"
+      ],
+      "imported_by_count": 35,
+      "imported_by": [
+        "engine.ts",
+        "oracle/macro-axes.ts",
+        "oracle/s-score.ts",
+        "oracle/s-oracle-v2.ts",
+        "oracle/axes/rhythm.ts",
+        "duel/duel-engine.ts",
+        "pitch/sovereign-loop.ts",
+        "input/forge-packet-assembler.ts",
+        "input/prompt-assembler-v2.ts",
+        "input/pre-write-simulator.ts",
+        "microsurgery/micro-surgeon.ts",
+        "polish/signature-enforcement.ts",
+        "delta/delta-style.ts",
+        "delta/delta-tension.ts",
+        "delta/delta-emotion.ts",
+        "delta/delta-report.ts",
+        "delta/delta-computer.ts",
+        "quality/quality-bridge.ts",
+        "polish/re-score-guard.ts",
+        "...(35 files total)"
+      ],
+      "impact_if_removed": "All thresholds vanish — SOVEREIGN_THRESHOLD, MAX_CORRECTION_PASSES, DRAFT_MODES, MACRO_WEIGHTS. Every scoring/correction/generation module fails at runtime."
+    },
+    "oracle/aesthetic-oracle.ts": {
+      "criticality": "C4",
+      "imports_from": [
+        "types.ts",
+        "symbol/symbol-map-types.ts",
+        "oracle/axes/tension-14d.ts",
+        "oracle/axes/anti-cliche.ts",
+        "oracle/axes/rhythm.ts",
+        "oracle/axes/signature.ts",
+        "oracle/axes/emotion-coherence.ts",
+        "oracle/axes/interiority.ts",
+        "oracle/axes/sensory-density.ts",
+        "oracle/axes/necessity.ts",
+        "oracle/axes/impact.ts",
+        "oracle/s-score.ts",
+        "oracle/macro-axes.ts"
+      ],
+      "imported_by": [
+        "engine.ts",
+        "index.ts",
+        "duel/duel-engine.ts",
+        "pitch/sovereign-loop.ts",
+        "polish/musical-engine.ts",
+        "polish/anti-cliche-sweep.ts",
+        "polish/signature-enforcement.ts",
+        "polish/targeted-patch.ts",
+        "polish/re-score-guard.ts",
+        "validation/phase-u/benchmark/run-dual-benchmark.ts"
+      ],
+      "import_count_out": 13,
+      "imported_by_count": 10,
+      "impact_if_removed": "S-Score computation destroyed — judgeAesthetic() and judgeAestheticV3() are the core scoring functions used by engine, duel, sovereign-loop, and all polish modules. No prose can be scored or sealed."
+    },
+    "oracle/macro-axes.ts": {
+      "criticality": "C4",
+      "imports_from": [
+        "@omega/omega-forge",
+        "types.ts",
+        "config.ts",
+        "oracle/axes/tension-14d.ts",
+        "oracle/axes/emotion-coherence.ts",
+        "oracle/axes/interiority.ts",
+        "oracle/axes/impact.ts",
+        "oracle/axes/rhythm.ts",
+        "oracle/axes/signature.ts",
+        "oracle/axes/anti-cliche.ts",
+        "oracle/axes/necessity.ts",
+        "oracle/axes/sensory-density.ts",
+        "oracle/axes/physics-compliance.ts",
+        "oracle/physics-audit.ts",
+        "oracle/axes/show-dont-tell.ts",
+        "oracle/axes/authenticity.ts",
+        "oracle/axes/metaphor-novelty.ts"
+      ],
+      "imported_by": [
+        "types.ts",
+        "index.ts",
+        "oracle/aesthetic-oracle.ts",
+        "oracle/s-score.ts",
+        "polish/targeted-patch.ts",
+        "validation/damage-gate.ts",
+        "utils/math-utils.ts"
+      ],
+      "import_count_out": 17,
+      "imported_by_count": 7,
+      "impact_if_removed": "5 macro-axes (ECC/RCI/SII/IFI/AAI) vanish — the entire V2 scoring system collapses. aesthetic-oracle, types.ts re-exports, and targeted-patch all break."
+    },
+    "oracle/s-score.ts": {
+      "criticality": "C3",
+      "imports_from": [
+        "@omega/canon-kernel",
+        "types.ts",
+        "oracle/macro-axes.ts",
+        "config.ts"
+      ],
+      "imported_by": [
+        "engine.ts",
+        "index.ts",
+        "types.ts",
+        "oracle/aesthetic-oracle.ts",
+        "polish/targeted-patch.ts",
+        "validation/phase-u/benchmark/run-dual-benchmark.ts"
+      ],
+      "import_count_out": 4,
+      "imported_by_count": 6,
+      "impact_if_removed": "Legacy S-Score composite computation lost — computeSScore() and computeMacroSScore() used by aesthetic-oracle and engine. Deprecated but still active in pipeline."
+    },
+    "oracle/s-oracle-v2.ts": {
+      "criticality": "C4",
+      "imports_from": [
+        "types.ts",
+        "delta/delta-computer.ts",
+        "oracle/llm-judge.ts",
+        "@omega/canon-kernel",
+        "delta/delta-style.ts",
+        "delta/delta-cliche.ts",
+        "config.ts",
+        "@omega/omega-forge",
+        "oracle/calc-judges/soma-gate.ts",
+        "oracle/calc-judges/budget-gate.ts",
+        "oracle/genesis-v2/paradox-gate.ts",
+        "oracle/genesis-v2/transcendent-planner.ts"
+      ],
+      "imported_by": [
+        "duel/duel-engine.ts",
+        "pipeline/sovereign-pipeline.ts",
+        "validation/validation-types.ts",
+        "validation/validation-runner.ts",
+        "oracle/genesis-v2/diffusion-runner.ts"
+      ],
+      "import_count_out": 12,
+      "imported_by_count": 5,
+      "impact_if_removed": "V2 scoring authority destroyed — scoreV2() and scoreV2Async() are the SSOT for scoring decisions. Duel engine, pipeline, and validation all break."
+    },
+    "oracle/llm-judge.ts": {
+      "criticality": "C3",
+      "imports_from": [
+        "@omega/canon-kernel",
+        "validation/judge-cache.ts"
+      ],
+      "imported_by": [
+        "oracle/s-oracle-v2.ts",
+        "pipeline/sovereign-pipeline.ts",
+        "validation/validation-runner.ts",
+        "oracle/genesis-v2/diffusion-runner.ts"
+      ],
+      "import_count_out": 2,
+      "imported_by_count": 4,
+      "impact_if_removed": "LLM-based axis judging breaks — all 5 async axes (tension_14d, interiorite, impact, densite_sensorielle, necessite) lose their API caller. V2 scoring falls back to CALC-only or fails."
+    },
+    "oracle/physics-audit.ts": {
+      "criticality": "C3",
+      "imports_from": [
+        "@omega/omega-forge",
+        "@omega/canon-kernel"
+      ],
+      "imported_by": [
+        "engine.ts",
+        "oracle/macro-axes.ts",
+        "delta/delta-computer.ts",
+        "delta/delta-physics.ts",
+        "delta/delta-report.ts",
+        "polish/targeted-patch.ts",
+        "prescriptions/generate-prescriptions.ts",
+        "oracle/axes/physics-compliance.ts"
+      ],
+      "import_count_out": 2,
+      "imported_by_count": 8,
+      "impact_if_removed": "Physics compliance scoring lost — 8 modules depend on PhysicsAuditResult type. Engine loses physics audit step, macro-axes loses physics_compliance axis, prescriptions lose physics-based repair guidance."
+    },
+    "scoring/text-features.ts": {
+      "criticality": "C3",
+      "imports_from": [],
+      "imported_by": [
+        "scoring/ci-l37.ts",
+        "scoring/gb-scorer.ts",
+        "scoring/language-profiles.ts"
+      ],
+      "import_count_out": 0,
+      "imported_by_count": 3,
+      "impact_if_removed": "F24-F38 text features vanish — language-profiles (used by engine.ts), gb-scorer, and ci-l37 all lose their feature extraction. Scoring pipeline degrades."
+    },
+    "scoring/language-profiles.ts": {
+      "criticality": "C3",
+      "imports_from": [
+        "scoring/text-features.ts",
+        "config.ts"
+      ],
+      "imported_by": [
+        "engine.ts"
+      ],
+      "import_count_out": 2,
+      "imported_by_count": 1,
+      "impact_if_removed": "Language profile computation lost — engine.ts calls computeLanguageProfile() during pipeline. Prose generation loses language-aware scoring."
+    },
+    "scoring/dual-scale.ts": {
+      "criticality": "C3",
+      "imports_from": [
+        "config.ts"
+      ],
+      "imported_by": [
+        "engine.ts"
+      ],
+      "import_count_out": 1,
+      "imported_by_count": 1,
+      "impact_if_removed": "Dual-scale scoring computation lost — engine.ts calls computeDualScale() in pipeline."
+    },
+    "duel/duel-engine.ts": {
+      "criticality": "C4",
+      "imports_from": [
+        "types.ts",
+        "oracle/aesthetic-oracle.ts",
+        "symbol/symbol-map-types.ts",
+        "config.ts",
+        "oracle/s-oracle-v2.ts",
+        "@omega/canon-kernel"
+      ],
+      "imported_by": [
+        "engine.ts",
+        "index.ts",
+        "pipeline/sovereign-pipeline.ts"
+      ],
+      "import_count_out": 6,
+      "imported_by_count": 3,
+      "impact_if_removed": "Multi-draft generation + selection destroyed — runDuel() is the fallback when sovereign-loop fails to reach threshold. Engine loses its rescue mechanism for sub-92 prose."
+    },
+    "input/forge-packet-assembler.ts": {
+      "criticality": "C4",
+      "imports_from": [
+        "@omega/canon-kernel",
+        "@omega/genesis-planner",
+        "@omega/omega-forge",
+        "@omega/signal-registry",
+        "types.ts",
+        "config.ts"
+      ],
+      "imported_by": [
+        "engine.ts",
+        "index.ts",
+        "cde/cde-pipeline.ts",
+        "cde/scene-chain.ts",
+        "runtime/golden-loader.ts",
+        "validation/phase-u/top-k-selection.ts",
+        "validation/phase-u/benchmark/run-dual-benchmark.ts"
+      ],
+      "import_count_out": 6,
+      "imported_by_count": 7,
+      "impact_if_removed": "ForgePacket assembly destroyed — assembleForgePacket() is the ONLY way to create a valid ForgePacket from GenesisPlan inputs. Engine, CDE, validation, and golden-loader all break."
+    },
+    "input/pre-write-validator.ts": {
+      "criticality": "C3",
+      "imports_from": [
+        "types.ts",
+        "input/emotion-adapter.ts"
+      ],
+      "imported_by": [
+        "engine.ts",
+        "index.ts"
+      ],
+      "import_count_out": 2,
+      "imported_by_count": 2,
+      "impact_if_removed": "ForgePacket validation lost — engine skips pre-generation validation. Invalid packets could reach generation, causing silent failures or garbage output."
+    },
+    "input/pre-write-simulator.ts": {
+      "criticality": "C2",
+      "imports_from": [
+        "@omega/canon-kernel",
+        "types.ts",
+        "config.ts"
+      ],
+      "imported_by": [
+        "engine.ts",
+        "index.ts"
+      ],
+      "import_count_out": 3,
+      "imported_by_count": 2,
+      "impact_if_removed": "Scene battle plan simulation lost — engine loses pre-generation obstacle prediction. Pipeline still functions but without predictive mitigation."
+    },
+    "input/prompt-assembler-v2.ts": {
+      "criticality": "C4",
+      "imports_from": [
+        "@omega/canon-kernel",
+        "types.ts",
+        "symbol/symbol-map-types.ts",
+        "constraints/constraint-compiler.ts",
+        "@omega/omega-forge",
+        "config.ts",
+        "prose-directive/lot1-instructions.ts",
+        "prose-directive/lot2-instructions.ts",
+        "prose-directive/lot3-instructions.ts",
+        "compiler/types.ts",
+        "compiler/prompt-compiler.ts"
+      ],
+      "imported_by": [
+        "engine.ts",
+        "index.ts",
+        "orchestrator/scribe-orchestrator.ts"
+      ],
+      "import_count_out": 11,
+      "imported_by_count": 3,
+      "impact_if_removed": "Sovereign prompt construction destroyed — buildSovereignPrompt() assembles the 12-section prompt sent to LLM. Without it, no prose can be generated."
+    },
+    "input/prompt-assembler-v4.ts": {
+      "criticality": "C3",
+      "imports_from": [
+        "types.ts"
+      ],
+      "imported_by": [
+        "engine.ts"
+      ],
+      "import_count_out": 1,
+      "imported_by_count": 1,
+      "impact_if_removed": "V4 native prompt path lost — engine falls back to V2 assembler. Production continues on V2 path but V4 experiments break."
+    },
+    "pitch/sovereign-loop.ts": {
+      "criticality": "C4",
+      "imports_from": [
+        "types.ts",
+        "delta/delta-computer.ts",
+        "pitch/triple-pitch-engine.ts",
+        "delta/delta-report.ts",
+        "oracle/aesthetic-oracle.ts",
+        "pitch/triple-pitch.ts",
+        "pitch/pitch-oracle.ts",
+        "pitch/patch-engine.ts",
+        "prescriptions/index.ts",
+        "config.ts",
+        "oracle/physics-audit.ts"
+      ],
+      "imported_by": [
+        "engine.ts",
+        "index.ts",
+        "pipeline/sovereign-pipeline.ts",
+        "validation/validation-types.ts",
+        "validation/validation-runner.ts"
+      ],
+      "import_count_out": 11,
+      "imported_by_count": 5,
+      "impact_if_removed": "Correction loop destroyed — runSovereignLoop() is the delta-pitch-patch cycle that improves prose from initial draft to seal threshold. Without it, engine can only produce unrefined first drafts."
+    },
+    "polish/musical-engine.ts": {
+      "criticality": "C3",
+      "imports_from": [
+        "types.ts",
+        "delta/delta-style.ts",
+        "polish/sentence-surgeon.ts",
+        "oracle/aesthetic-oracle.ts"
+      ],
+      "imported_by": [
+        "engine.ts",
+        "index.ts",
+        "pipeline/sovereign-pipeline.ts"
+      ],
+      "import_count_out": 4,
+      "imported_by_count": 3,
+      "impact_if_removed": "Rhythm polish lost — polishRhythm() detects and fixes monotony in final prose. Output quality degrades (rhythm axis score drops) but pipeline still completes."
+    },
+    "polish/anti-cliche-sweep.ts": {
+      "criticality": "C3",
+      "imports_from": [
+        "types.ts",
+        "delta/delta-cliche.ts",
+        "polish/sentence-surgeon.ts",
+        "oracle/aesthetic-oracle.ts"
+      ],
+      "imported_by": [
+        "engine.ts",
+        "index.ts",
+        "pipeline/sovereign-pipeline.ts"
+      ],
+      "import_count_out": 4,
+      "imported_by_count": 3,
+      "impact_if_removed": "Cliche sweep lost — sweepCliches() removes banned cliches in final polish pass. Anti-cliche axis score drops, seal probability decreases."
+    },
+    "polish/signature-enforcement.ts": {
+      "criticality": "C3",
+      "imports_from": [
+        "types.ts",
+        "delta/delta-style.ts",
+        "config.ts",
+        "polish/sentence-surgeon.ts",
+        "oracle/aesthetic-oracle.ts"
+      ],
+      "imported_by": [
+        "engine.ts",
+        "index.ts",
+        "pipeline/sovereign-pipeline.ts"
+      ],
+      "import_count_out": 5,
+      "imported_by_count": 3,
+      "impact_if_removed": "Signature enforcement lost — enforceSignature() ensures author genome markers are present. Signature axis score drops but pipeline completes."
+    },
+    "polish/targeted-patch.ts": {
+      "criticality": "C3",
+      "imports_from": [
+        "types.ts",
+        "oracle/s-score.ts",
+        "oracle/macro-axes.ts",
+        "oracle/aesthetic-oracle.ts",
+        "validation/damage-gate.ts",
+        "oracle/physics-audit.ts",
+        "microsurgery/damage-gate.ts"
+      ],
+      "imported_by": [
+        "engine.ts"
+      ],
+      "import_count_out": 7,
+      "imported_by_count": 1,
+      "impact_if_removed": "Targeted patch mechanism lost — P5 precision repair of specific weak axes. Engine loses its most targeted correction tool."
+    },
+    "microsurgery/micro-surgeon.ts": {
+      "criticality": "C3",
+      "imports_from": [
+        "@omega/omega-forge",
+        "types.ts",
+        "config.ts",
+        "microsurgery/damage-gate.ts"
+      ],
+      "imported_by": [
+        "engine.ts"
+      ],
+      "import_count_out": 4,
+      "imported_by_count": 1,
+      "impact_if_removed": "Micro-surgery lost — runMicroSurgery() performs targeted tension_14d interventions on individual sentences. Engine loses fine-grained emotion repair."
+    },
+    "microsurgery/damage-gate.ts": {
+      "criticality": "C3",
+      "imports_from": [],
+      "imported_by": [
+        "engine.ts",
+        "microsurgery/micro-surgeon.ts",
+        "microsurgery/style-presets.ts",
+        "polish/targeted-patch.ts"
+      ],
+      "import_count_out": 0,
+      "imported_by_count": 4,
+      "impact_if_removed": "Damage prediction lost — evaluateDamageGate() prevents harmful micro-interventions. Without it, micro-surgeon and targeted-patch operate blind to collateral damage."
+    },
+    "generation/chunked-generator.ts": {
+      "criticality": "C3",
+      "imports_from": [
+        "types.ts"
+      ],
+      "imported_by": [
+        "engine.ts"
+      ],
+      "import_count_out": 1,
+      "imported_by_count": 1,
+      "impact_if_removed": "Chunked V4 generation lost — generateChunkedDraft() produces prose in 4x750-word chunks with Flaubert+Proust persona. Engine falls back to single-shot generation."
+    },
+    "generation/forge-to-brief.ts": {
+      "criticality": "C3",
+      "imports_from": [
+        "types.ts"
+      ],
+      "imported_by": [
+        "engine.ts"
+      ],
+      "import_count_out": 1,
+      "imported_by_count": 1,
+      "impact_if_removed": "ForgePacket-to-SceneBrief conversion lost — chunked generator cannot receive dramatic brief. V4 generation path breaks."
+    },
+    "compiler/prompt-compiler.ts": {
+      "criticality": "C3",
+      "imports_from": [
+        "@omega/canon-kernel",
+        "types.ts",
+        "cde/types.ts",
+        "prose-directive/lot1-instructions.ts",
+        "prose-directive/instruction-toggle-table.ts",
+        "constraints/token-counter.ts",
+        "compiler/types.ts",
+        "compiler/constraint-pool.ts",
+        "compiler/level-router.ts",
+        "compiler/budget-manager.ts"
+      ],
+      "imported_by": [
+        "engine.ts",
+        "input/prompt-assembler-v2.ts",
+        "cde/cde-pipeline.ts",
+        "cde/scene-chain.ts",
+        "compiler/partition-profiles.ts"
+      ],
+      "import_count_out": 10,
+      "imported_by_count": 5,
+      "impact_if_removed": "V3 prompt compiler destroyed — compilePartition() and isV3Active() are used by engine, prompt-assembler-v2, and CDE. All V3 constraint compilation and budget management lost."
+    },
+    "gates/seal-disk-gate.ts": {
+      "criticality": "C2",
+      "imports_from": [
+        "node:fs",
+        "node:path",
+        "proofpack/seal-lock.ts"
+      ],
+      "imported_by": [],
+      "import_count_out": 3,
+      "imported_by_count": 0,
+      "impact_if_removed": "Seal disk validation lost — validateSealDisk() checks proofpack artifact existence. Not imported by any src/ module (used externally or in tests). Low runtime impact."
+    },
+    "cde/cde-pipeline.ts": {
+      "criticality": "C3",
+      "imports_from": [
+        "types.ts",
+        "input/forge-packet-assembler.ts",
+        "engine.ts",
+        "cde/types.ts",
+        "cde/distiller.ts",
+        "cde/delta-extractor.ts",
+        "compiler/prompt-compiler.ts"
+      ],
+      "imported_by": [
+        "cde/scene-chain.ts",
+        "cde/index.ts"
+      ],
+      "import_count_out": 7,
+      "imported_by_count": 2,
+      "impact_if_removed": "CDE scene generation lost — runCDEScene() wraps engine with context distillation. Scene chain and CDE public API break. Multi-scene generation impossible."
+    },
+    "cde/index.ts": {
+      "criticality": "C3",
+      "imports_from": [
+        "cde/types.ts",
+        "cde/distiller.ts",
+        "cde/delta-extractor.ts",
+        "cde/cde-pipeline.ts",
+        "cde/scene-chain.ts"
+      ],
+      "imported_by": [],
+      "import_count_out": 5,
+      "imported_by_count": 0,
+      "impact_if_removed": "CDE public exports lost — external consumers lose access to distillBrief, extractDelta, runCDEScene, runSceneChain. CDE subsystem becomes inaccessible."
+    },
+    "scoring/multi-stage-scorer.ts": {
+      "criticality": "C2",
+      "imports_from": [
+        "scoring/coefficients-loader.ts",
+        "scoring/normalizer.ts",
+        "scoring/passage-type-detector.ts",
+        "scoring/quality-profiles.ts",
+        "scoring/types.ts"
+      ],
+      "imported_by": [],
+      "import_count_out": 5,
+      "imported_by_count": 0,
+      "impact_if_removed": "Standalone multi-stage scorer lost — used for external/benchmark scoring. Main pipeline uses aesthetic-oracle path, not this module directly."
+    }
+  },
+  "coupling_hotspots": {
+    "description": "Modules with highest fan-in (imported_by_count) — single points of failure",
+    "rank": [
+      { "file": "types.ts", "fan_in": 111, "risk": "EXTREME — universal dependency" },
+      { "file": "config.ts", "fan_in": 35, "risk": "CRITICAL — all thresholds and weights" },
+      { "file": "oracle/aesthetic-oracle.ts", "fan_in": 10, "risk": "HIGH — core scoring orchestrator" },
+      { "file": "oracle/physics-audit.ts", "fan_in": 8, "risk": "HIGH — physics type dependency" },
+      { "file": "oracle/macro-axes.ts", "fan_in": 7, "risk": "HIGH — 5 macro-axes computation" },
+      { "file": "input/forge-packet-assembler.ts", "fan_in": 7, "risk": "HIGH — sole packet assembler" },
+      { "file": "oracle/s-score.ts", "fan_in": 6, "risk": "MEDIUM — legacy but still active" },
+      { "file": "oracle/s-oracle-v2.ts", "fan_in": 5, "risk": "HIGH — V2 scoring SSOT" },
+      { "file": "pitch/sovereign-loop.ts", "fan_in": 5, "risk": "HIGH — correction loop" },
+      { "file": "compiler/prompt-compiler.ts", "fan_in": 5, "risk": "MEDIUM — V3 compiler" }
+    ]
+  },
+  "fan_out_hotspots": {
+    "description": "Modules with highest fan-out (imports_from count) — most coupled to others",
+    "rank": [
+      { "file": "engine.ts", "fan_out": 38, "risk": "EXTREME — orchestrator depends on everything" },
+      { "file": "oracle/macro-axes.ts", "fan_out": 17, "risk": "HIGH — imports all axes + physics" },
+      { "file": "index.ts", "fan_out": 14, "risk": "HIGH — re-exports from many modules" },
+      { "file": "oracle/aesthetic-oracle.ts", "fan_out": 13, "risk": "HIGH — orchestrates 9 axes" },
+      { "file": "oracle/s-oracle-v2.ts", "fan_out": 12, "risk": "HIGH — V2 scoring imports many" },
+      { "file": "pitch/sovereign-loop.ts", "fan_out": 11, "risk": "HIGH — correction loop touches many" },
+      { "file": "input/prompt-assembler-v2.ts", "fan_out": 11, "risk": "HIGH — prompt construction" },
+      { "file": "compiler/prompt-compiler.ts", "fan_out": 10, "risk": "MEDIUM — compiler dependencies" }
+    ]
+  },
+  "circular_dependencies": "NONE DETECTED — all imports flow downward (engine -> subsystems -> leaf modules)",
+  "external_dependencies": {
+    "@omega/canon-kernel": "Used by: engine.ts (via sub-modules), s-score.ts, s-oracle-v2.ts, forge-packet-assembler.ts, prompt-assembler-v2.ts, pre-write-simulator.ts, llm-judge.ts, prompt-compiler.ts, physics-audit.ts",
+    "@omega/omega-forge": "Used by: forge-packet-assembler.ts, macro-axes.ts, micro-surgeon.ts, s-oracle-v2.ts, physics-audit.ts, types.ts (forge_brief)",
+    "@omega/genesis-planner": "Used by: forge-packet-assembler.ts (Beat, EmotionWaypoint types)",
+    "@omega/signal-registry": "Used by: forge-packet-assembler.ts (validateConsumerRequirements)"
+  }
+}

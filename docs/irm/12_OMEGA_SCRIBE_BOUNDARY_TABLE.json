@@ -1,0 +1,182 @@
+{
+  "scan_date": "2026-04-02",
+  "HEAD": "e1b92dd3",
+  "source_docs": [
+    "docs/contracts/CONTRAT_OMEGA_SCRIBE_v1.md",
+    "src/input/prompt-assembler-v4.ts",
+    "src/input/prompt-assembler-v2.ts",
+    "src/runtime/anthropic-provider.ts",
+    "src/generation/chunked-generator.ts",
+    "src/generation/forge-to-brief.ts",
+    "src/cde/distiller.ts"
+  ],
+
+  "data_flows_authorized": [
+    {
+      "field": "SceneBrief",
+      "direction": "OMEGA→SCRIBE",
+      "authorized": true,
+      "when": "pré-génération (étape 5 pipeline)",
+      "source_file": "src/generation/forge-to-brief.ts",
+      "format": "must_remain_true, in_tension, must_move, must_not_break (≤150t)",
+      "contract_ref": "CONTRAT_OMEGA_SCRIBE Art.4"
+    },
+    {
+      "field": "SovereignPrompt (11 blocs V4)",
+      "direction": "OMEGA→SCRIBE",
+      "authorized": true,
+      "when": "pré-génération (étape 4 pipeline)",
+      "source_file": "src/input/prompt-assembler-v4.ts",
+      "format": "Persona + Context + Trajectory + Beats + Directives + Voice + Symbols + Exemplar + Rhythm + Interdits + Rosetta + Final (~800t)",
+      "contract_ref": "CONTRAT_OMEGA_SCRIBE Art.2+4"
+    },
+    {
+      "field": "Persona instruction",
+      "direction": "OMEGA→SCRIBE",
+      "authorized": true,
+      "when": "Bloc 1 du prompt (Persona Flaubert+Proust)",
+      "source_file": "src/input/prompt-assembler-v4.ts",
+      "format": "écrivain fiction [register], maître narration sensorielle"
+    },
+    {
+      "field": "Trajectory quartiles (Q1-Q4)",
+      "direction": "OMEGA→SCRIBE",
+      "authorized": true,
+      "when": "Bloc 3 du prompt",
+      "source_file": "src/input/prompt-assembler-v4.ts",
+      "format": "P1 incisif, P2 AMPLE, P3 HACHÉ, P4 AMPLE + physical behaviors"
+    },
+    {
+      "field": "Beat actions + sensory tags",
+      "direction": "OMEGA→SCRIBE",
+      "authorized": true,
+      "when": "Bloc 4 du prompt",
+      "source_file": "src/input/prompt-assembler-v4.ts",
+      "format": "Actions narratives + tags sensoriels (2 max par beat)"
+    },
+    {
+      "field": "Signature words + motifs",
+      "direction": "OMEGA→SCRIBE",
+      "authorized": true,
+      "when": "Bloc 7 du prompt (enrichi par SymbolMap)",
+      "source_file": "src/input/signature-bridge.ts",
+      "format": "Palette signature (6 mots) + motifs + hooks (8 max)"
+    },
+    {
+      "field": "Golden exemplar",
+      "direction": "OMEGA→SCRIBE",
+      "authorized": true,
+      "when": "Bloc 8 du prompt (déterministe par packet_id)",
+      "source_file": "src/input/golden-exemplars.ts",
+      "format": "1 exemplar SAGA-ready (~150t)"
+    },
+    {
+      "field": "Rosetta constraints métriques",
+      "direction": "OMEGA→SCRIBE",
+      "authorized": true,
+      "when": "Bloc 10 du prompt",
+      "source_file": "src/input/prompt-assembler-v4.ts",
+      "format": "Contraintes issues de Rosetta cross-test"
+    },
+    {
+      "field": "prose brute (draft)",
+      "direction": "SCRIBE→OMEGA",
+      "authorized": true,
+      "when": "post-génération (retour étape 5)",
+      "source_file": "src/runtime/anthropic-provider.ts",
+      "format": "Texte libre ~3000w"
+    },
+    {
+      "field": "rewritten sentence",
+      "direction": "SCRIBE→OMEGA",
+      "authorized": true,
+      "when": "micro-surgery rewrite (étape 13)",
+      "source_file": "src/runtime/anthropic-provider.ts",
+      "format": "Phrase réécrite avec contexte prev/next"
+    },
+    {
+      "field": "patched prose",
+      "direction": "SCRIBE→OMEGA",
+      "authorized": true,
+      "when": "Targeted patch P5 (étape 16)",
+      "source_file": "src/runtime/anthropic-provider.ts",
+      "format": "Prose patchée sur axe faible"
+    },
+    {
+      "field": "SymbolMap",
+      "direction": "SCRIBE→OMEGA",
+      "authorized": true,
+      "when": "Étape 1 — LLM génère la carte symbolique",
+      "source_file": "src/symbol/symbol-mapper.ts",
+      "format": "JSON structuré — quartiles + global + hooks"
+    },
+    {
+      "field": "LLM judge scores (5 axes)",
+      "direction": "SCRIBE→OMEGA",
+      "authorized": true,
+      "when": "Scoring V3 (étapes 10/15)",
+      "source_file": "src/oracle/aesthetic-oracle.ts",
+      "format": "interiority, sensory_density, necessity, impact, emotion_coherence (chacun 0-100)"
+    }
+  ],
+
+  "data_flows_forbidden": [
+    {
+      "field": "Liste de dettes narratives (DEBT[id])",
+      "direction": "INTERDIT vers SCRIBE",
+      "contract_ref": "CONTRAT Art.2 — Ce que le Scribe NE REÇOIT PAS",
+      "repo_enforced": true,
+      "verification": "grep 'DEBT' prompt-assembler-v4.ts = 0 matches"
+    },
+    {
+      "field": "Identifiants de canon (cf-*, canon-*)",
+      "direction": "INTERDIT vers SCRIBE",
+      "contract_ref": "CONTRAT Art.2 + R5",
+      "repo_enforced": true,
+      "verification": "SceneBrief ≤150t, langue de scène"
+    },
+    {
+      "field": "Instructions de vérification ('vérifie que', 'assure-toi')",
+      "direction": "INTERDIT vers SCRIBE",
+      "contract_ref": "CONTRAT Art.2",
+      "repo_enforced": true,
+      "verification": "Bloc 9 Interdits = ce qu'il ne faut PAS faire, pas de vérification"
+    },
+    {
+      "field": "Rappels de cohérence / gestion d'arc",
+      "direction": "INTERDIT vers SCRIBE",
+      "contract_ref": "CONTRAT Art.2",
+      "repo_enforced": true
+    },
+    {
+      "field": "Bible brute / dump world model",
+      "direction": "INTERDIT vers SCRIBE",
+      "contract_ref": "CONTRAT Art.2",
+      "repo_enforced": true,
+      "verification": "CDE distillation → SceneBrief ≤150t"
+    },
+    {
+      "field": "Canon brut dans le prompt",
+      "direction": "INTERDIT",
+      "contract_ref": "CONTRAT R2 — Canon ne passe jamais brut",
+      "repo_enforced": true,
+      "verification": "CDE.distillBrief filtre"
+    },
+    {
+      "field": "Vérification canonique pré-génération",
+      "direction": "INTERDIT",
+      "contract_ref": "CONTRAT R4 — Vérification = gate post-génération uniquement",
+      "repo_enforced": true
+    }
+  ],
+
+  "contract_rules": {
+    "R1": "Le Scribe ne vérifie jamais la cohérence",
+    "R2": "Le Canon ne passe jamais brut dans le prompt",
+    "R3": "Les dettes narratives ne sont jamais exposées au Scribe",
+    "R4": "La vérification canonique = gate post-génération uniquement",
+    "R5": "Le SceneBrief ne contient jamais d'identifiants système",
+    "R6": "Le Scribe génère à l'aveugle (ne sait pas ce qui suit)",
+    "R7": "La plume ne peut jamais être sacrifiée pour la cohérence dans le prompt"
+  }
+}

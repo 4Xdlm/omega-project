@@ -1,0 +1,584 @@
+{
+  "scan_date": "2026-04-02",
+  "HEAD": "e1b92dd3",
+  "method": "Manual cross-reference from governance docs read + source file listing",
+  "note": "Bidirectional: doc->code and code->doc mappings",
+
+  "doc_to_code": {
+    "docs/OMEGA_PHYSIQUE_LITTERAIRE_v3.md": {
+      "role": "Research dossier — literary physics, feature importance, Flaubert techniques",
+      "references_code": [
+        "packages/sovereign-engine/src/scoring/text-features.ts",
+        "packages/sovereign-engine/src/scoring/gb-scorer.ts",
+        "packages/sovereign-engine/src/scoring/gb-inference.ts",
+        "packages/sovereign-engine/src/scoring/depth-features.ts",
+        "packages/sovereign-engine/src/oracle/axes/rhythm.ts",
+        "packages/sovereign-engine/src/oracle/axes/metaphor-novelty.ts",
+        "packages/sovereign-engine/src/oracle/axes/interiority.ts"
+      ],
+      "references_data": [
+        "packages/sovereign-engine/src/scoring/data/OMEGA_COEFFICIENTS_PROPORTIONNELS_v1.json",
+        "packages/sovereign-engine/src/scoring/data/R8_TYPOLOGICAL_CONSTANTS.json"
+      ]
+    },
+    "docs/OMEGA_PHYSIQUE_LITTERAIRE_MANUEL_v1.0.md": {
+      "role": "Equations, laws, piloting manual — S1/S2 physics",
+      "references_code": [
+        "packages/sovereign-engine/src/scoring/text-features.ts",
+        "packages/sovereign-engine/src/scoring/multi-stage-scorer.ts",
+        "packages/sovereign-engine/src/scoring/typological-normalizer.ts",
+        "packages/sovereign-engine/src/scoring/coefficients-loader.ts",
+        "packages/sovereign-engine/src/scoring/passage-type-detector.ts",
+        "packages/sovereign-engine/src/input/prompt-assembler-v4.ts",
+        "packages/sovereign-engine/src/runtime/anthropic-provider.ts"
+      ],
+      "references_data": [
+        "packages/sovereign-engine/src/scoring/data/OMEGA_COEFFICIENTS_PROPORTIONNELS_v1.json",
+        "packages/sovereign-engine/src/scoring/data/R8_TYPOLOGICAL_CONSTANTS.json",
+        "packages/sovereign-engine/src/scoring/data/MEASURE_ROLES.json"
+      ]
+    },
+    "docs/OMEGA_DECISIONS_LOCK_v1.md": {
+      "role": "Sealed decisions BB-01/02/03 — semicolons, mean_sent plancher, conflits",
+      "references_code": [
+        "packages/sovereign-engine/src/input/prompt-assembler-v4.ts",
+        "packages/sovereign-engine/src/scoring/text-features.ts",
+        "packages/sovereign-engine/src/polish/targeted-patch.ts"
+      ]
+    },
+    "docs/contracts/CONTRAT_OMEGA_SCRIBE_v1.md": {
+      "role": "OMEGA/SCRIBE separation contract — SceneBrief, forbidden flows",
+      "references_code": [
+        "packages/sovereign-engine/src/input/prompt-assembler-v4.ts",
+        "packages/sovereign-engine/src/input/prompt-assembler-v2.ts",
+        "packages/sovereign-engine/src/cde/distiller.ts",
+        "packages/sovereign-engine/src/generation/forge-to-brief.ts",
+        "packages/sovereign-engine/src/runtime/anthropic-provider.ts",
+        "packages/sovereign-engine/src/engine.ts"
+      ]
+    },
+    "docs/contracts/CONTRAT_TRAVAIL_OMEGA_v1.md": {
+      "role": "Work contract — roles (Francky/Claude/Gemini/ChatGPT), hierarchy",
+      "references_code": []
+    },
+    "docs/contracts/OMEGA_BUILD_GOVERNANCE_CONTRACT.md": {
+      "role": "BUILD vs GOUVERNANCE boundary — seal, drift, override rules",
+      "references_code": [
+        "packages/sovereign-engine/src/proofpack/seal-lock.ts",
+        "packages/sovereign-engine/src/proofpack/certification.ts",
+        "packages/sovereign-engine/src/gates/seal-disk-gate.ts"
+      ]
+    },
+    "docs/OMEGA_AUTHORITY_MODEL.md": {
+      "role": "Authority chain — Machine SAIT, Gouvernance VOIT, Humain DÉCIDE",
+      "references_code": []
+    },
+    "docs/OMEGA_ROADMAP_v8_0.md": {
+      "role": "General roadmap v8 — all phases, packages, scoring architecture",
+      "references_code": [
+        "packages/sovereign-engine/src/engine.ts",
+        "packages/sovereign-engine/src/oracle/aesthetic-oracle.ts",
+        "packages/sovereign-engine/src/oracle/macro-axes.ts",
+        "packages/sovereign-engine/src/duel/duel-engine.ts",
+        "packages/genome/",
+        "packages/mycelium/",
+        "packages/scribe-engine/",
+        "gateway/src/memory/",
+        "gateway/src/creation/",
+        "omega-autopsie/full_work_analyzer_v4.py"
+      ]
+    },
+    "docs/OMEGA_PHASE_R_ROADMAP_v2.md": {
+      "role": "Phase R roadmap — metrological rebuild R0-R6",
+      "references_code": [
+        "packages/sovereign-engine/src/scoring/text-features.ts",
+        "packages/sovereign-engine/src/scoring/coefficients-loader.ts",
+        "packages/sovereign-engine/src/scoring/multi-stage-scorer.ts",
+        "packages/sovereign-engine/src/scoring/passage-type-detector.ts",
+        "packages/sovereign-engine/src/scoring/quality-profiles.ts",
+        "omega-autopsie/full_work_analyzer_v4.py",
+        "omega-autopsie/full_work_analyzer_v5.py"
+      ],
+      "references_data": [
+        "packages/sovereign-engine/src/scoring/data/OMEGA_COEFFICIENTS_PROPORTIONNELS_v1.json"
+      ]
+    },
+    "docs/OMEGA_SCRIBE_ARCHITECTURE_MAP_2026-03-29.md": {
+      "role": "Topological map of the 16-step pipeline with LLM/CALC classification",
+      "references_code": [
+        "packages/sovereign-engine/src/engine.ts",
+        "packages/sovereign-engine/src/symbol/symbol-mapper.ts",
+        "packages/sovereign-engine/src/input/signature-bridge.ts",
+        "packages/sovereign-engine/src/input/emotion-brief-bridge.ts",
+        "packages/sovereign-engine/src/compiler/prompt-compiler.ts",
+        "packages/sovereign-engine/src/input/prompt-assembler-v4.ts",
+        "packages/sovereign-engine/src/generation/chunked-generator.ts",
+        "packages/sovereign-engine/src/guards/semantic-slicer.ts",
+        "packages/sovereign-engine/src/oracle/physics-audit.ts",
+        "packages/sovereign-engine/src/pitch/sovereign-loop.ts",
+        "packages/sovereign-engine/src/delta/delta-computer.ts",
+        "packages/sovereign-engine/src/pitch/triple-pitch.ts",
+        "packages/sovereign-engine/src/pitch/patch-engine.ts",
+        "packages/sovereign-engine/src/oracle/aesthetic-oracle.ts",
+        "packages/sovereign-engine/src/duel/duel-engine.ts",
+        "packages/sovereign-engine/src/microsurgery/micro-surgeon.ts",
+        "packages/sovereign-engine/src/microsurgery/damage-gate.ts",
+        "packages/sovereign-engine/src/polish/targeted-patch.ts",
+        "packages/sovereign-engine/src/quality/quality-bridge.ts",
+        "packages/sovereign-engine/src/oracle/macro-axes.ts",
+        "packages/sovereign-engine/src/oracle/llm-judge.ts",
+        "packages/sovereign-engine/src/scoring/text-features.ts",
+        "packages/sovereign-engine/src/oracle/s-score.ts"
+      ]
+    },
+    "docs/RAPPORT_SCAN_ARCHITECTURAL.md": {
+      "role": "Architecture scan report — 194 files, 42 dirs, 4 pipelines, suspects+doubles",
+      "references_code": [
+        "packages/sovereign-engine/src/engine.ts",
+        "packages/sovereign-engine/src/oracle/",
+        "packages/sovereign-engine/src/scoring/",
+        "packages/sovereign-engine/src/input/",
+        "packages/sovereign-engine/src/polish/",
+        "packages/sovereign-engine/src/cde/",
+        "packages/sovereign-engine/src/genius/",
+        "packages/sovereign-engine/src/filter/"
+      ]
+    },
+    "docs/CLAUDE_BLACKBOX_AUDIT.md": {
+      "role": "Blackbox audit — Claude Sonnet behavior under constraints",
+      "references_code": [
+        "packages/sovereign-engine/src/input/prompt-assembler-v4.ts",
+        "packages/sovereign-engine/src/scoring/text-features.ts"
+      ]
+    },
+    "docs/CLAUDE_BLACKBOX_LITERARY_CONSTRAINTS.md": {
+      "role": "Literary constraints — what Claude can/cannot produce",
+      "references_code": [
+        "packages/sovereign-engine/src/input/prompt-assembler-v4.ts",
+        "packages/sovereign-engine/src/scoring/text-features.ts"
+      ]
+    },
+    "docs/CLAUDE_OBSERVABLE_LAWS.md": {
+      "role": "Observable laws from blackbox experiments",
+      "references_code": [
+        "packages/sovereign-engine/src/scoring/text-features.ts",
+        "packages/sovereign-engine/src/scoring/data/"
+      ]
+    },
+    "docs/INVARIANTS.md": {
+      "role": "Core invariants of the system",
+      "references_code": [
+        "packages/sovereign-engine/src/engine.ts",
+        "packages/sovereign-engine/src/oracle/aesthetic-oracle.ts",
+        "packages/sovereign-engine/src/proofpack/"
+      ]
+    },
+    "docs/ARCHITECTURE.md": {
+      "role": "General architecture doc",
+      "references_code": [
+        "packages/sovereign-engine/src/engine.ts",
+        "packages/sovereign-engine/src/types.ts"
+      ]
+    },
+    "docs/SESSION_SAVE_2026-04-01_BLOC7_FINAL.md": {
+      "role": "Latest session — hybrid rejected, Claude-pure confirmed",
+      "references_code": [
+        "packages/sovereign-engine/src/runtime/hybrid-provider.ts",
+        "packages/sovereign-engine/src/runtime/ollama-provider.ts",
+        "packages/sovereign-engine/src/runtime/anthropic-provider.ts"
+      ]
+    },
+    "docs/SESSION_SAVE_2026-04-01_PVI_FINAL.md": {
+      "role": "PVI module sealed — T_v3, I_proxy FR v2, Zone OMEGA",
+      "references_code": [
+        "scripts/pvi/pvi_module_autonome.py"
+      ]
+    },
+    "docs/ENGINE_STATUS.md": {
+      "role": "Engine status tracking",
+      "references_code": [
+        "packages/sovereign-engine/src/engine.ts"
+      ]
+    },
+    "docs/OMEGA_BLUEPRINT_JUGE_SCRIBE_v1.md": {
+      "role": "Blueprint for judge-scribe architecture",
+      "references_code": [
+        "packages/sovereign-engine/src/oracle/aesthetic-oracle.ts",
+        "packages/sovereign-engine/src/oracle/llm-judge.ts",
+        "packages/sovereign-engine/src/oracle/macro-axes.ts"
+      ]
+    },
+    "docs/OMEGA_AUDIT_CODE_v1.md": {
+      "role": "Code audit v1",
+      "references_code": [
+        "packages/sovereign-engine/src/"
+      ]
+    },
+    "docs/OMEGA_CARTE_REPO_v1.md": {
+      "role": "Repo map v1",
+      "references_code": [
+        "packages/"
+      ]
+    },
+    "docs/OMEGA_CONFLICT_TAXONOMY.md": {
+      "role": "Conflict taxonomy for prose generation",
+      "references_code": [
+        "packages/sovereign-engine/src/input/prompt-assembler-v4.ts",
+        "packages/sovereign-engine/src/pitch/triple-pitch.ts"
+      ]
+    },
+    "docs/OMEGA_ADDENDUM_INVENTAIRE.md": {
+      "role": "Inventory addendum — uncovered packages",
+      "references_code": [
+        "packages/genome/",
+        "packages/mycelium/",
+        "packages/omega-aggregate-dna/",
+        "packages/scribe-engine/",
+        "gateway/"
+      ]
+    },
+    "docs/SESSION_SAVE_R3.md": {
+      "role": "R3 session — coefficients proportionnels produced",
+      "references_code": [
+        "packages/sovereign-engine/src/scoring/data/OMEGA_COEFFICIENTS_PROPORTIONNELS_v1.json",
+        "omega-autopsie/"
+      ]
+    },
+    "docs/SESSION_SAVE_R4.md": {
+      "role": "R4 session — scorer multi-stage",
+      "references_code": [
+        "packages/sovereign-engine/src/scoring/multi-stage-scorer.ts",
+        "packages/sovereign-engine/src/scoring/quality-profiles.ts"
+      ]
+    },
+    "OMEGA_MASTER_PLAN_v2.md": {
+      "role": "Master plan — genesis-forge focused, OMEGA 2.0 spec",
+      "references_code": [
+        "packages/sovereign-engine/src/engine.ts",
+        "packages/sovereign-engine/src/oracle/",
+        "packages/sovereign-engine/src/cde/"
+      ]
+    },
+    "OMEGA_MASTER_PLAN_ANNEXES.md": {
+      "role": "Impact matrix, assumptions, phantom sub-classification",
+      "references_code": [
+        "packages/sovereign-engine/src/engine.ts"
+      ]
+    },
+    "OMEGA_EXECUTOR_SYSTEM.md": {
+      "role": "Executor system — CI checklist, prompt executor, artefact structure",
+      "references_code": []
+    }
+  },
+
+  "code_to_doc": {
+    "packages/sovereign-engine/src/engine.ts": {
+      "criticality": "C4",
+      "governed_by": [
+        "docs/OMEGA_SCRIBE_ARCHITECTURE_MAP_2026-03-29.md",
+        "docs/RAPPORT_SCAN_ARCHITECTURAL.md",
+        "docs/OMEGA_ROADMAP_v8_0.md",
+        "docs/INVARIANTS.md",
+        "docs/ARCHITECTURE.md",
+        "docs/contracts/CONTRAT_OMEGA_SCRIBE_v1.md"
+      ]
+    },
+    "packages/sovereign-engine/src/oracle/aesthetic-oracle.ts": {
+      "criticality": "C4",
+      "governed_by": [
+        "docs/OMEGA_SCRIBE_ARCHITECTURE_MAP_2026-03-29.md",
+        "docs/OMEGA_BLUEPRINT_JUGE_SCRIBE_v1.md",
+        "docs/OMEGA_ROADMAP_v8_0.md"
+      ]
+    },
+    "packages/sovereign-engine/src/oracle/macro-axes.ts": {
+      "criticality": "C4",
+      "governed_by": [
+        "docs/OMEGA_SCRIBE_ARCHITECTURE_MAP_2026-03-29.md",
+        "docs/OMEGA_BLUEPRINT_JUGE_SCRIBE_v1.md",
+        "docs/OMEGA_ROADMAP_v8_0.md"
+      ]
+    },
+    "packages/sovereign-engine/src/oracle/llm-judge.ts": {
+      "criticality": "C4",
+      "governed_by": [
+        "docs/OMEGA_SCRIBE_ARCHITECTURE_MAP_2026-03-29.md",
+        "docs/OMEGA_BLUEPRINT_JUGE_SCRIBE_v1.md"
+      ]
+    },
+    "packages/sovereign-engine/src/oracle/s-score.ts": {
+      "criticality": "C3",
+      "governed_by": [
+        "docs/OMEGA_SCRIBE_ARCHITECTURE_MAP_2026-03-29.md",
+        "docs/RAPPORT_SCAN_ARCHITECTURAL.md"
+      ],
+      "note": "SUSPECT-03: LEGACY vs s-oracle-v2.ts"
+    },
+    "packages/sovereign-engine/src/oracle/s-oracle-v2.ts": {
+      "criticality": "C4",
+      "governed_by": [
+        "docs/RAPPORT_SCAN_ARCHITECTURAL.md"
+      ]
+    },
+    "packages/sovereign-engine/src/scoring/text-features.ts": {
+      "criticality": "C4",
+      "governed_by": [
+        "docs/OMEGA_PHYSIQUE_LITTERAIRE_v3.md",
+        "docs/OMEGA_PHYSIQUE_LITTERAIRE_MANUEL_v1.0.md",
+        "docs/CLAUDE_BLACKBOX_AUDIT.md",
+        "docs/CLAUDE_BLACKBOX_LITERARY_CONSTRAINTS.md",
+        "docs/CLAUDE_OBSERVABLE_LAWS.md",
+        "docs/OMEGA_PHASE_R_ROADMAP_v2.md"
+      ]
+    },
+    "packages/sovereign-engine/src/scoring/gb-scorer.ts": {
+      "criticality": "C3",
+      "governed_by": [
+        "docs/OMEGA_PHYSIQUE_LITTERAIRE_v3.md"
+      ]
+    },
+    "packages/sovereign-engine/src/scoring/gb-inference.ts": {
+      "criticality": "C3",
+      "governed_by": [
+        "docs/OMEGA_PHYSIQUE_LITTERAIRE_v3.md"
+      ]
+    },
+    "packages/sovereign-engine/src/scoring/multi-stage-scorer.ts": {
+      "criticality": "C4",
+      "governed_by": [
+        "docs/OMEGA_PHASE_R_ROADMAP_v2.md",
+        "docs/SESSION_SAVE_R4.md"
+      ]
+    },
+    "packages/sovereign-engine/src/scoring/coefficients-loader.ts": {
+      "criticality": "C4",
+      "governed_by": [
+        "docs/OMEGA_PHASE_R_ROADMAP_v2.md",
+        "docs/OMEGA_PHYSIQUE_LITTERAIRE_MANUEL_v1.0.md"
+      ]
+    },
+    "packages/sovereign-engine/src/scoring/passage-type-detector.ts": {
+      "criticality": "C3",
+      "governed_by": [
+        "docs/OMEGA_PHASE_R_ROADMAP_v2.md"
+      ]
+    },
+    "packages/sovereign-engine/src/scoring/typological-normalizer.ts": {
+      "criticality": "C3",
+      "governed_by": [
+        "docs/OMEGA_PHYSIQUE_LITTERAIRE_MANUEL_v1.0.md"
+      ]
+    },
+    "packages/sovereign-engine/src/scoring/depth-features.ts": {
+      "criticality": "C3",
+      "governed_by": [
+        "docs/OMEGA_PHYSIQUE_LITTERAIRE_v3.md"
+      ]
+    },
+    "packages/sovereign-engine/src/input/prompt-assembler-v4.ts": {
+      "criticality": "C4",
+      "governed_by": [
+        "docs/contracts/CONTRAT_OMEGA_SCRIBE_v1.md",
+        "docs/OMEGA_SCRIBE_ARCHITECTURE_MAP_2026-03-29.md",
+        "docs/OMEGA_DECISIONS_LOCK_v1.md",
+        "docs/CLAUDE_BLACKBOX_AUDIT.md",
+        "docs/CLAUDE_BLACKBOX_LITERARY_CONSTRAINTS.md",
+        "docs/OMEGA_CONFLICT_TAXONOMY.md"
+      ]
+    },
+    "packages/sovereign-engine/src/input/prompt-assembler-v2.ts": {
+      "criticality": "C3",
+      "governed_by": [
+        "docs/contracts/CONTRAT_OMEGA_SCRIBE_v1.md"
+      ]
+    },
+    "packages/sovereign-engine/src/input/forge-packet-assembler.ts": {
+      "criticality": "C4",
+      "governed_by": [
+        "docs/RAPPORT_SCAN_ARCHITECTURAL.md"
+      ]
+    },
+    "packages/sovereign-engine/src/duel/duel-engine.ts": {
+      "criticality": "C4",
+      "governed_by": [
+        "docs/OMEGA_SCRIBE_ARCHITECTURE_MAP_2026-03-29.md",
+        "docs/OMEGA_ROADMAP_v8_0.md"
+      ]
+    },
+    "packages/sovereign-engine/src/microsurgery/micro-surgeon.ts": {
+      "criticality": "C4",
+      "governed_by": [
+        "docs/OMEGA_SCRIBE_ARCHITECTURE_MAP_2026-03-29.md"
+      ]
+    },
+    "packages/sovereign-engine/src/microsurgery/damage-gate.ts": {
+      "criticality": "C4",
+      "governed_by": [
+        "docs/OMEGA_SCRIBE_ARCHITECTURE_MAP_2026-03-29.md"
+      ]
+    },
+    "packages/sovereign-engine/src/pitch/sovereign-loop.ts": {
+      "criticality": "C4",
+      "governed_by": [
+        "docs/OMEGA_SCRIBE_ARCHITECTURE_MAP_2026-03-29.md"
+      ]
+    },
+    "packages/sovereign-engine/src/pitch/triple-pitch.ts": {
+      "criticality": "C3",
+      "governed_by": [
+        "docs/OMEGA_SCRIBE_ARCHITECTURE_MAP_2026-03-29.md",
+        "docs/OMEGA_CONFLICT_TAXONOMY.md"
+      ]
+    },
+    "packages/sovereign-engine/src/generation/chunked-generator.ts": {
+      "criticality": "C4",
+      "governed_by": [
+        "docs/OMEGA_SCRIBE_ARCHITECTURE_MAP_2026-03-29.md"
+      ]
+    },
+    "packages/sovereign-engine/src/cde/distiller.ts": {
+      "criticality": "C3",
+      "governed_by": [
+        "docs/contracts/CONTRAT_OMEGA_SCRIBE_v1.md",
+        "docs/RAPPORT_SCAN_ARCHITECTURAL.md"
+      ]
+    },
+    "packages/sovereign-engine/src/runtime/anthropic-provider.ts": {
+      "criticality": "C4",
+      "governed_by": [
+        "docs/contracts/CONTRAT_OMEGA_SCRIBE_v1.md",
+        "docs/OMEGA_SCRIBE_ARCHITECTURE_MAP_2026-03-29.md",
+        "docs/SESSION_SAVE_2026-04-01_BLOC7_FINAL.md"
+      ]
+    },
+    "packages/sovereign-engine/src/runtime/hybrid-provider.ts": {
+      "criticality": "C2",
+      "governed_by": [
+        "docs/SESSION_SAVE_2026-04-01_BLOC7_FINAL.md"
+      ],
+      "note": "Hybrid rejected by 3/3 IAs — potential DEAD"
+    },
+    "packages/sovereign-engine/src/runtime/ollama-provider.ts": {
+      "criticality": "C2",
+      "governed_by": [
+        "docs/SESSION_SAVE_2026-04-01_BLOC7_FINAL.md"
+      ]
+    },
+    "packages/sovereign-engine/src/polish/targeted-patch.ts": {
+      "criticality": "C3",
+      "governed_by": [
+        "docs/OMEGA_SCRIBE_ARCHITECTURE_MAP_2026-03-29.md",
+        "docs/OMEGA_DECISIONS_LOCK_v1.md"
+      ]
+    },
+    "packages/sovereign-engine/src/guards/semantic-slicer.ts": {
+      "criticality": "C3",
+      "governed_by": [
+        "docs/OMEGA_SCRIBE_ARCHITECTURE_MAP_2026-03-29.md"
+      ]
+    },
+    "packages/sovereign-engine/src/oracle/physics-audit.ts": {
+      "criticality": "C3",
+      "governed_by": [
+        "docs/OMEGA_SCRIBE_ARCHITECTURE_MAP_2026-03-29.md"
+      ]
+    },
+    "packages/sovereign-engine/src/compiler/prompt-compiler.ts": {
+      "criticality": "C3",
+      "governed_by": [
+        "docs/OMEGA_SCRIBE_ARCHITECTURE_MAP_2026-03-29.md"
+      ]
+    },
+    "packages/sovereign-engine/src/symbol/symbol-mapper.ts": {
+      "criticality": "C3",
+      "governed_by": [
+        "docs/OMEGA_SCRIBE_ARCHITECTURE_MAP_2026-03-29.md"
+      ]
+    },
+    "packages/sovereign-engine/src/proofpack/proofpack-v3.ts": {
+      "criticality": "C3",
+      "governed_by": [
+        "docs/contracts/OMEGA_BUILD_GOVERNANCE_CONTRACT.md",
+        "docs/INVARIANTS.md"
+      ]
+    },
+    "packages/sovereign-engine/src/proofpack/seal-lock.ts": {
+      "criticality": "C3",
+      "governed_by": [
+        "docs/contracts/OMEGA_BUILD_GOVERNANCE_CONTRACT.md"
+      ]
+    },
+    "packages/sovereign-engine/src/gates/seal-disk-gate.ts": {
+      "criticality": "C3",
+      "governed_by": [
+        "docs/contracts/OMEGA_BUILD_GOVERNANCE_CONTRACT.md"
+      ]
+    },
+    "packages/sovereign-engine/src/quality/quality-bridge.ts": {
+      "criticality": "C3",
+      "governed_by": [
+        "docs/OMEGA_SCRIBE_ARCHITECTURE_MAP_2026-03-29.md"
+      ]
+    },
+    "packages/sovereign-engine/src/filter/soul-layer.ts": {
+      "criticality": "C3",
+      "governed_by": [
+        "docs/RAPPORT_SCAN_ARCHITECTURAL.md"
+      ]
+    },
+    "packages/sovereign-engine/src/scoring/quality-profiles.ts": {
+      "criticality": "C3",
+      "governed_by": [
+        "docs/OMEGA_PHASE_R_ROADMAP_v2.md",
+        "docs/SESSION_SAVE_R4.md"
+      ]
+    },
+    "packages/sovereign-engine/src/config.ts": {
+      "criticality": "C3",
+      "governed_by": [
+        "docs/RAPPORT_SCAN_ARCHITECTURAL.md"
+      ],
+      "note": "R-09 Phase R: moteur gelé including config.ts"
+    },
+    "packages/sovereign-engine/src/types.ts": {
+      "criticality": "C4",
+      "governed_by": [
+        "docs/ARCHITECTURE.md",
+        "docs/RAPPORT_SCAN_ARCHITECTURAL.md"
+      ]
+    },
+    "packages/sovereign-engine/src/scoring/data/OMEGA_COEFFICIENTS_PROPORTIONNELS_v1.json": {
+      "criticality": "C4",
+      "governed_by": [
+        "docs/OMEGA_PHASE_R_ROADMAP_v2.md",
+        "docs/OMEGA_PHYSIQUE_LITTERAIRE_MANUEL_v1.0.md",
+        "docs/SESSION_SAVE_R3.md"
+      ]
+    },
+    "packages/sovereign-engine/src/scoring/data/R8_TYPOLOGICAL_CONSTANTS.json": {
+      "criticality": "C3",
+      "governed_by": [
+        "docs/OMEGA_PHYSIQUE_LITTERAIRE_MANUEL_v1.0.md"
+      ]
+    },
+    "packages/sovereign-engine/src/scoring/data/MEASURE_ROLES.json": {
+      "criticality": "C3",
+      "governed_by": [
+        "docs/OMEGA_PHYSIQUE_LITTERAIRE_MANUEL_v1.0.md"
+      ]
+    },
+    "scripts/pvi/pvi_module_autonome.py": {
+      "criticality": "C4",
+      "governed_by": [
+        "docs/SESSION_SAVE_2026-04-01_PVI_FINAL.md"
+      ]
+    },
+    "omega-autopsie/full_work_analyzer_v4.py": {
+      "criticality": "C3",
+      "governed_by": [
+        "docs/OMEGA_ROADMAP_v8_0.md",
+        "docs/OMEGA_PHASE_R_ROADMAP_v2.md"
+      ]
+    }
+  }
+}

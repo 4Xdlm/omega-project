@@ -27,7 +27,7 @@ from pathlib import Path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from pvi_nlp_scorer import (
     load_text, extract_windows, get_nlp,
-    extract_FL, extract_MS, extract_LP, extract_DR, extract_T_v2,
+    extract_FL, extract_MS, extract_LP, extract_DR, extract_T_v2, extract_T_v3,
     extract_S_local, extract_A_proxy, extract_I_proxy, extract_I_proxy_v2,
 )
 
@@ -435,9 +435,10 @@ def run_module(filepath, lang, assisted=False):
     print(f"  LP = {lp['score']}")
     dr = extract_DR(windows, lang)
     print(f"  DR = {dr['score']}")
-    t_v2 = extract_T_v2(windows, lang)
+    t_v2 = extract_T_v3(windows, lang)
     print(f"  T  = {t_v2['score']} (sens={t_v2['T_sensoriel']:.3f}, "
-          f"sit={t_v2['T_situationnel']:.3f}, rel={t_v2['T_relationnel']:.3f})")
+          f"sit={t_v2['T_situationnel']:.3f}, rel={t_v2['T_relationnel']:.3f}, "
+          f"nar={t_v2.get('T_narratif', 0):.3f})")
     s_local = extract_S_local(windows, lang)
     print(f"  S  = {s_local['score']}")
     a_proxy = extract_A_proxy(windows, lang)

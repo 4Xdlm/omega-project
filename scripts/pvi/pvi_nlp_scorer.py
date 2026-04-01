@@ -658,6 +658,94 @@ def extract_T_v2(text_windows, lang):
 
 
 # ---------------------------------------------------------------------------
+# T_NARRATIF — Narrative tension (suspense, questions, ruptures)
+# Phase P: fixes Flynn (Gone Girl) and Murakami (Kafka on the Shore)
+# ---------------------------------------------------------------------------
+
+_SUSPENSE_MARKERS = {
+    "fr": {"soudain", "brusquement", "pourtant", "néanmoins", "cependant",
+           "mais", "or", "donc", "ainsi", "malgré", "contrairement",
+           "bizarrement", "curieusement", "étrangement", "soudainement"},
+    "en": {"suddenly", "but", "however", "yet", "though", "although",
+           "nevertheless", "meanwhile", "until", "unless", "instead",
+           "except", "despite", "whereas", "otherwise", "unexpectedly"},
+}
+_SUSPENSE_MULTI = {
+    "fr": {"quand même", "alors que", "tandis que", "à ce moment",
+           "c'est alors", "il s'avéra", "au contraire", "malgré tout"},
+    "en": {"all of a sudden", "at that moment", "on the contrary",
+           "as though", "even though", "in spite of"},
+}
+_DRAMATIC_NEG = {
+    "fr": {"jamais", "plus", "rien", "personne", "aucun", "aucune", "nulle"},
+    "en": {"never", "nothing", "nobody", "nowhere", "none", "neither"},
+}
+
+
+def extract_T_narratif(text_windows, lang):
+    """Narrative tension: suspense markers, questions, ruptures, negations."""
+    markers = _SUSPENSE_MARKERS.get(lang, _SUSPENSE_MARKERS["en"])
+    multi = _SUSPENSE_MULTI.get(lang, _SUSPENSE_MULTI["en"])
+    neg = _DRAMATIC_NEG.get(lang, _DRAMATIC_NEG["en"])
+    if lang == "fr":
+        markers = markers | {_strip_accents(w) for w in markers}
+
+    scores = []
+    for window in text_windows:
+        tokens = window.lower().split()
+        n_tokens = max(len(tokens), 1)
+        text_lower = window.lower()
+
+        # Suspense density
+        s_count = sum(1 for t in tokens
+                      if t.strip("'\".,;:!?()") in markers)
+        for phrase in multi:
+            s_count += text_lower.count(phrase)
+        # Dramatic negations
+        for neg_word in neg:
+            s_count += sum(1 for t in tokens
+                           if t.strip("'\".,;:!?()") == neg_word)
+        suspense_density = min(s_count / n_tokens / 0.025, 1.0)
+
+        # Question density
+        sentences = [s.strip() for s in re.split(r'[.!?]+', window) if s.strip()]
+        n_phrases = max(len(sentences), 1)
+        questions = window.count('?')
+        question_density = min(questions / n_phrases / 0.08, 1.0)
+
+        # Rupture ratio (short sentences < 5 words = narrative syncopes)
+        short_sents = sum(1 for s in sentences if len(s.split()) < 5)
+        rupture_ratio = min(short_sents / n_phrases / 0.12, 1.0)
+
+        score = 0.50 * suspense_density + 0.30 * question_density + 0.20 * rupture_ratio
+        scores.append(score)
+
+    return statistics.mean(scores) if scores else 0.3
+
+
+def extract_T_v3(text_windows, lang):
+    """Transportation v3: sensory + situational + relational + narrative tension.
+    v3 adds T_narratif to capture suspense, questions, and ruptures
+    that v2 misses on Flynn (Gone Girl) and Murakami (Kafka)."""
+    T_s = extract_T_sensoriel(text_windows, lang)
+    T_sit = extract_T_situationnel(text_windows, lang)
+    T_rel = extract_T_relationnel(text_windows, lang)
+    T_nar = extract_T_narratif(text_windows, lang)
+
+    T_v3 = 0.35 * T_s + 0.30 * T_sit + 0.20 * T_rel + 0.15 * T_nar
+
+    return {
+        "score": round(T_v3, 4),
+        "T_sensoriel": round(T_s, 4),
+        "T_situationnel": round(T_sit, 4),
+        "T_relationnel": round(T_rel, 4),
+        "T_narratif": round(T_nar, 4),
+        "methode": "T_v3_quatre_composantes",
+        "tag": "NLP-ROBUSTE-v3",
+    }
+
+
+# ---------------------------------------------------------------------------
 # LEVEL 2: EXPERIMENTAL VARIABLES
 # ---------------------------------------------------------------------------
 

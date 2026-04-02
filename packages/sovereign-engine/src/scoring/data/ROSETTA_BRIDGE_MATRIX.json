@@ -1,0 +1,326 @@
+{
+  "version": "1.0",
+  "date": "2026-04-02",
+  "source": "Rosetta S0 (s06_classification_regles.json) + table_rosette (05) + BB-01/BB-02 decisions",
+  "total_features": 19,
+  "category_distribution": {
+    "PILOTABLE": 7,
+    "ILLUSION": 7,
+    "IRREDUCTIBLE": 1,
+    "INDIRECT": 3,
+    "CONTOURNABLE": 1
+  },
+  "features": {
+    "f29d_ttr_score": {
+      "name": "Richesse lexicale (TTR)",
+      "category": "PILOTABLE",
+      "compliance_rate": 0.8,
+      "instruction": "Vocabulaire vari\u00c3\u0192\u00c2\u00a9. M\u00c3\u0192\u00e2\u20ac\u00b0TRIQUE : le ratio types/tokens doit d\u00c3\u0192\u00c2\u00a9passer 0.75 sur chaque fen\u00c3\u0192\u00c2\u00aatre de 100 mots.",
+      "instruction_variant": "variante_C",
+      "route": "PROMPT_DIRECT",
+      "s06_categorie": "SOLIDE",
+      "llm_vs_classique": {
+        "DESCRIPTION": 1.173,
+        "ACTION": 1.5894,
+        "INTROSPECTION": 1.0118,
+        "CONTEMPLATION": 1.1932,
+        "LYRIQUE": 1.1986,
+        "DIALOGUE": 1.0392,
+        "TRANSITION": 1.0188
+      }
+    },
+    "f24e_contrast_score": {
+      "name": "Contraste syntaxique",
+      "category": "PILOTABLE",
+      "compliance_rate": 1,
+      "instruction": "Une phrase sur trois doit faire moins de 8 mots. Une phrase sur trois doit d\u00c3\u0192\u00c2\u00a9passer 25 mots.",
+      "instruction_variant": "variante_B",
+      "route": "PROMPT_DIRECT",
+      "s06_categorie": "SOLIDE",
+      "llm_vs_classique": {
+        "DESCRIPTION": 0.9441,
+        "ACTION": 0.7847,
+        "INTROSPECTION": 0,
+        "CONTEMPLATION": 0,
+        "LYRIQUE": 0.9832,
+        "DIALOGUE": 0.6441,
+        "TRANSITION": 0.8502
+      }
+    },
+    "f15b_redundancy_compression": {
+      "name": "Anti-r\u00c3\u0192\u00c2\u00a9p\u00c3\u0192\u00c2\u00a9tition (compression)",
+      "category": "PILOTABLE",
+      "compliance_rate": 1,
+      "instruction": "Z\u00c3\u0192\u00c2\u00a9ro redondance. M\u00c3\u0192\u00e2\u20ac\u00b0TRIQUE : aucun bigramme ne doit appara\u00c3\u0192\u00c2\u00aetre plus de 2 fois dans le texte entier.",
+      "instruction_variant": "variante_C",
+      "route": "PROMPT_DIRECT",
+      "s06_categorie": "SOLIDE",
+      "llm_vs_classique": {
+        "DESCRIPTION": 0.9755,
+        "ACTION": 1.0077,
+        "INTROSPECTION": 0.9796,
+        "CONTEMPLATION": 1.0013,
+        "LYRIQUE": 1.0055,
+        "DIALOGUE": 0.9932,
+        "TRANSITION": 0.973
+      }
+    },
+    "f16a_bigram_rarity": {
+      "name": "Originalit\u00c3\u0192\u00c2\u00a9 (raret\u00c3\u0192\u00c2\u00a9 bigrammes)",
+      "category": "PILOTABLE",
+      "compliance_rate": 1,
+      "instruction": "Associations originales. M\u00c3\u0192\u00e2\u20ac\u00b0TRIQUE : plus de 90% des bigrammes du texte doivent \u00c3\u0192\u00c2\u00aatre uniques.",
+      "instruction_variant": "variante_C",
+      "route": "PROMPT_DIRECT",
+      "s06_categorie": "SOLIDE",
+      "llm_vs_classique": {
+        "DESCRIPTION": 1.0177,
+        "ACTION": 1.0259,
+        "INTROSPECTION": 1.0245,
+        "CONTEMPLATION": 1.0446,
+        "LYRIQUE": 1.0491,
+        "DIALOGUE": 1.069,
+        "TRANSITION": 1.0246
+      }
+    },
+    "f25g_description_score": {
+      "name": "Description sensorielle",
+      "category": "PILOTABLE",
+      "compliance_rate": 0,
+      "instruction": "Description sensorielle dense. M\u00c3\u0192\u00e2\u20ac\u00b0TRIQUE : au moins 8 mots sensoriels pour 100 mots.",
+      "instruction_variant": "variante_C",
+      "route": "SHADOW",
+      "s06_categorie": "SOLIDE",
+      "llm_vs_classique": {
+        "DESCRIPTION": 1.2168,
+        "ACTION": 1.6387,
+        "INTROSPECTION": 1.0029,
+        "CONTEMPLATION": 1.3842,
+        "LYRIQUE": 1.2226,
+        "DIALOGUE": 0.6882,
+        "TRANSITION": 1.0133
+      }
+    },
+    "f17_knife_count": {
+      "name": "Mots percutants",
+      "category": "ILLUSION",
+      "compliance_rate": 0,
+      "instruction": "Ajoute des mots percutants, des images vives, des contrastes forts.",
+      "instruction_variant": "variante_A",
+      "route": "SHADOW",
+      "s06_categorie": "ILLUSION_D\u00c3\u0192\u00e2\u20ac\u00b0CLARATIVE",
+      "llm_vs_classique": {
+        "DESCRIPTION": 0,
+        "ACTION": 0.6829,
+        "INTROSPECTION": 0,
+        "CONTEMPLATION": 0,
+        "LYRIQUE": 0,
+        "DIALOGUE": 0.4933,
+        "TRANSITION": 0.012
+      }
+    },
+    "f35c_hook_score": {
+      "name": "Accroche d\u00c3\u0192\u00c2\u00a9but",
+      "category": "PILOTABLE",
+      "compliance_rate": 0,
+      "instruction": "Commence par une phrase d'accroche qui cr\u00c3\u0192\u00c2\u00a9e de la tension.",
+      "instruction_variant": "variante_A",
+      "route": "SHADOW",
+      "s06_categorie": "SOLIDE",
+      "llm_vs_classique": {
+        "DESCRIPTION": 0.5648,
+        "ACTION": 0.7787,
+        "INTROSPECTION": 0.4418,
+        "CONTEMPLATION": 0.3766,
+        "LYRIQUE": 0.7531,
+        "DIALOGUE": 1.9444,
+        "TRANSITION": 0.9443
+      }
+    },
+    "f36c_cliff_score": {
+      "name": "Suspense fin",
+      "category": "PILOTABLE",
+      "compliance_rate": 0,
+      "instruction": "Termine sur une note de suspense ou d'incompl\u00c3\u0192\u00c2\u00a9tude.",
+      "instruction_variant": "variante_A",
+      "route": "SHADOW",
+      "s06_categorie": "SOLIDE",
+      "llm_vs_classique": {
+        "DESCRIPTION": 0.6275,
+        "ACTION": 0.7621,
+        "INTROSPECTION": 0.3425,
+        "CONTEMPLATION": 0.3137,
+        "LYRIQUE": 0.7844,
+        "DIALOGUE": 0.9451,
+        "TRANSITION": 0.7828
+      }
+    },
+    "f1_mean": {
+      "name": "f1_mean",
+      "category": "IRREDUCTIBLE",
+      "compliance_rate": 0,
+      "instruction": "BB-02: plancher 35w irr\u00c3\u00a9ductible en r\u00c3\u00a9gime OMEGA",
+      "route": "IRREDUCTIBLE",
+      "rosette_status": "DIVERGENT",
+      "llm_vs_classique": {
+        "DESCRIPTION": 2.4571,
+        "ACTION": 0.8217,
+        "INTROSPECTION": 2.6858,
+        "CONTEMPLATION": 5.9308,
+        "LYRIQUE": 1.6874,
+        "DIALOGUE": 0.335,
+        "TRANSITION": 0.7817
+      }
+    },
+    "f5a_verb_density": {
+      "name": "f5a_verb_density",
+      "category": "INDIRECT",
+      "compliance_rate": 0,
+      "instruction": "",
+      "route": "SHADOW",
+      "rosette_status": "DECALE",
+      "llm_vs_classique": {
+        "DESCRIPTION": 0.5755,
+        "ACTION": 0.0965,
+        "INTROSPECTION": 0.929,
+        "CONTEMPLATION": 1.5526,
+        "LYRIQUE": 0.6826,
+        "DIALOGUE": 1.5955,
+        "TRANSITION": 0.6473
+      }
+    },
+    "f28d_sil_score": {
+      "name": "f28d_sil_score",
+      "category": "ILLUSION",
+      "compliance_rate": 0,
+      "instruction": "",
+      "route": "SHADOW",
+      "rosette_status": "DIVERGENT",
+      "llm_vs_classique": {
+        "DESCRIPTION": 0,
+        "ACTION": 0,
+        "INTROSPECTION": 3.0264,
+        "CONTEMPLATION": 0,
+        "LYRIQUE": 0,
+        "DIALOGUE": 6.2405,
+        "TRANSITION": 2.458
+      }
+    },
+    "f27d_modal_score": {
+      "name": "f27d_modal_score",
+      "category": "ILLUSION",
+      "compliance_rate": 0,
+      "instruction": "",
+      "route": "SHADOW",
+      "rosette_status": "DIVERGENT",
+      "llm_vs_classique": {
+        "DESCRIPTION": 0,
+        "ACTION": 0,
+        "INTROSPECTION": 1.1155,
+        "CONTEMPLATION": 3.3474,
+        "LYRIQUE": 0.5907,
+        "DIALOGUE": 0.7229,
+        "TRANSITION": 0.2918
+      }
+    },
+    "f38c_speed_score": {
+      "name": "f38c_speed_score",
+      "category": "INDIRECT",
+      "compliance_rate": 0,
+      "instruction": "",
+      "route": "SHADOW",
+      "rosette_status": "DECALE",
+      "llm_vs_classique": {
+        "DESCRIPTION": 0.5392,
+        "ACTION": 1.998,
+        "INTROSPECTION": 0.6298,
+        "CONTEMPLATION": 0.5296,
+        "LYRIQUE": 0.863,
+        "DIALOGUE": 1.4351,
+        "TRANSITION": 1.0112
+      }
+    },
+    "f1b_rhythm_ratio": {
+      "name": "f1b_rhythm_ratio",
+      "category": "ILLUSION",
+      "compliance_rate": 0,
+      "instruction": "",
+      "route": "SHADOW",
+      "rosette_status": "DIVERGENT",
+      "llm_vs_classique": {
+        "DESCRIPTION": 2.3597,
+        "ACTION": 35.0732,
+        "INTROSPECTION": 1.7546,
+        "CONTEMPLATION": 2.0357,
+        "LYRIQUE": 5.1969,
+        "DIALOGUE": 16.3402,
+        "TRANSITION": 7.3597
+      }
+    },
+    "f5c_action_verb_ratio": {
+      "name": "f5c_action_verb_ratio",
+      "category": "ILLUSION",
+      "compliance_rate": 0,
+      "instruction": "",
+      "route": "SHADOW",
+      "rosette_status": "DIVERGENT",
+      "llm_vs_classique": {
+        "DESCRIPTION": 0.3174,
+        "ACTION": 0.4043,
+        "INTROSPECTION": 0.1677,
+        "CONTEMPLATION": 0.0984,
+        "LYRIQUE": 0.2741,
+        "DIALOGUE": 0.0964,
+        "TRANSITION": 0.1942
+      }
+    },
+    "f9a_contradiction_rate": {
+      "name": "f9a_contradiction_rate",
+      "category": "ILLUSION",
+      "compliance_rate": 0,
+      "instruction": "",
+      "route": "SHADOW",
+      "rosette_status": "DIVERGENT",
+      "llm_vs_classique": {
+        "DESCRIPTION": 2.4783,
+        "ACTION": 0.8702,
+        "INTROSPECTION": 3.9277,
+        "CONTEMPLATION": 6.712,
+        "LYRIQUE": 2.5077,
+        "DIALOGUE": 0.2564,
+        "TRANSITION": 1.6899
+      }
+    },
+    "f21c_diacope_rate": {
+      "name": "f21c_diacope_rate",
+      "category": "ILLUSION",
+      "compliance_rate": 0,
+      "instruction": "",
+      "route": "SHADOW",
+      "rosette_status": "DIVERGENT",
+      "llm_vs_classique": {
+        "DESCRIPTION": 0.0054,
+        "ACTION": 0.0343,
+        "INTROSPECTION": 0.0182,
+        "CONTEMPLATION": 0.0316,
+        "LYRIQUE": 0.0311,
+        "DIALOGUE": 0.0629,
+        "TRANSITION": 0.0128
+      }
+    },
+    "f26b_long_sent_rate": {
+      "name": "Taux phrases longues",
+      "category": "INDIRECT",
+      "compliance_rate": 0,
+      "instruction": "Pilot\u00c3\u00a9 indirectement via sub_per_sentence (L37: sub\u00e2\u2020\u2019f26b\u00e2\u2020\u2019Tier)",
+      "route": "INDIRECT_VIA_L37"
+    },
+    "semicolon_count": {
+      "name": "Nombre de points-virgules",
+      "category": "CONTOURNABLE",
+      "compliance_rate": 0.13,
+      "instruction": "BB-01: compliance 13% par prompt. Route POST_PROCESSING uniquement.",
+      "route": "POST_PROCESSING"
+    }
+  }
+}

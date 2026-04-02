@@ -207,6 +207,13 @@ function validateStyleProfile(packet: ForgePacket): ValidationError[] {
   if (sp.rhythm.avg_sentence_length_target <= 0) {
     errors.push({ field: 'style_genome.rhythm.avg_sentence_length_target', message: 'Target must be > 0', severity: 'ERROR' });
   }
+  // BB-02 (DEC-20260328-BB-02): Claude plancher mean_sent = 35w irréductible.
+  // Toute cible < 35 est ignorée par le modèle → inutile et trompeur.
+  // NOTE: Not added to errors[] to preserve valid=true (errors.length===0 check).
+  // Console warning only — the value is accepted but flagged.
+  if (sp.rhythm.avg_sentence_length_target > 0 && sp.rhythm.avg_sentence_length_target < 35) {
+    console.warn(`[PRE-WRITE-VALIDATOR] BB-02: avg_sentence_length_target=${sp.rhythm.avg_sentence_length_target} < 35w plancher Claude. Cible sera ignorée par le modèle.`);
+  }
 
   if (sp.rhythm.gini_target < 0 || sp.rhythm.gini_target > 1) {
     errors.push({ field: 'style_genome.rhythm.gini_target', message: 'Gini out of [0, 1]', severity: 'ERROR' });

@@ -20,12 +20,15 @@ import type { SymbolMap } from '../symbol/symbol-map-types.js';
 import { SOVEREIGN_CONFIG } from '../config.js';
 import { scoreV2 } from '../oracle/s-oracle-v2.js';
 import { sha256, canonicalize } from '@omega/canon-kernel';
+// P0-03: Unified floor threshold — single source of truth
+import { SEAL_FLOOR_MIN } from '../core/thresholds.js';
 
 // ── CV Gate — Pre-filter for rhythm outliers ─────────────────────────────────
 // Levier C: Reject drafts with CV_sent > threshold
 // Étalonnage maîtres: Flaubert max=0.795, Proust max=0.784, Duras max=1.031
 // HOTFIX BLOC7: Ollama CV moyen ~2.4 → seuil 1.05 cause FAIL-OPEN systématique.
 // OMEGA_HYBRID_MODE=1 → seuil 2.5 (accepte rythme Ollama, bloque extrêmes >5)
+// BLOC7: hybrid mode rejeté 3/3 IAs + Francky. Env var conservée pour compatibilité.
 
 const CV_GATE_REJECT = process.env.OMEGA_HYBRID_MODE === '1' ? 2.50 : 1.05;
 const CV_GATE_MAX_RETRIES = 2;
@@ -133,8 +136,9 @@ export async function runDuel(
     }
 
     // Hostile selection: penalize low min_axis heavily
+    // floorPenalty multiplier 1.5 : empirique Sprint hostile selection — ADR-FLOOR-01
     const selectionScores = v3Scores.map((s) => {
-      const floorPenalty = 1.5 * Math.max(0, 85 - s.min_axis);
+      const floorPenalty = 1.5 * Math.max(0, SEAL_FLOOR_MIN - s.min_axis);
       return s.composite - floorPenalty;
     });
 

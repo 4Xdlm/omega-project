@@ -40,9 +40,10 @@ import { simulateSceneBattle } from './input/pre-write-simulator.js';
 import { buildSovereignPrompt } from './input/prompt-assembler-v2.js';
 import { runSovereignLoop } from './pitch/sovereign-loop.js';
 import { runDuel } from './duel/duel-engine.js';
-import { polishRhythm } from './polish/musical-engine.js';
-import { sweepCliches } from './polish/anti-cliche-sweep.js';
-import { enforceSignature } from './polish/signature-enforcement.js';
+// ★ Sprint 2: Polish DISABLED — proven NO-OP (delta 0.0 on ALL runs)
+// import { polishRhythm } from './polish/musical-engine.js';
+// import { sweepCliches } from './polish/anti-cliche-sweep.js';
+// import { enforceSignature } from './polish/signature-enforcement.js';
 // ★ Sprint 1: Instrumentation — measure rhythm CALC before/after each polish pass
 import { scoreRhythm } from './oracle/axes/rhythm.js';
 import { judgeAesthetic, judgeAestheticV3 } from './oracle/aesthetic-oracle.js';
@@ -77,6 +78,8 @@ import { type ArchetypeId } from './microsurgery/damage-gate.js';
 // ★ V-ENGINE-BRIDGE: Chunked generator K2 (moteur v4)
 import { generateChunkedDraft, isChunkedV4Active } from './generation/chunked-generator.js';
 import { forgePacketToSceneBrief } from './generation/forge-to-brief.js';
+// P0-02: Unified thresholds — single source of truth
+import { SAGA_READY_COMPOSITE_MIN, SAGA_READY_SSI_MIN } from './core/thresholds.js';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // ARCHETYPE DERIVATION — INV-ARCH-DERIVE-01
@@ -195,8 +198,8 @@ export async function runSovereignForgeBestOfN(
   provider: SovereignProvider,
   n: number = 3,
 ): Promise<SovereignForgeResult> {
-  const SAGA_COMPOSITE = 92.0;
-  const SAGA_MIN_AXIS = 85.0;
+  const SAGA_COMPOSITE = SAGA_READY_COMPOSITE_MIN;
+  const SAGA_MIN_AXIS = SAGA_READY_SSI_MIN;
 
   let best: SovereignForgeResult | null = null;
   let bestScore = -1;
@@ -546,7 +549,7 @@ async function executePipeline(
       SII: ma.sii.score, IFI: ma.ifi.score, AAI: ma.aai.score,
     }, {
       verdict: final_score_v3.verdict,
-      saga_ready: final_score_v3.composite >= 92 && final_score_v3.min_axis >= 85,
+      saga_ready: final_score_v3.composite >= SAGA_READY_COMPOSITE_MIN && final_score_v3.min_axis >= SAGA_READY_SSI_MIN,
     });
   } catch { /* telemetry is optional */ }
 

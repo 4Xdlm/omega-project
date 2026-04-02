@@ -63,14 +63,15 @@ const MAX_ADJUSTMENT = 0.5;
 
 /**
  * Default macro-axis weights (ECC, RCI, SII, IFI, AAI).
- * From current SOVEREIGN_CONFIG.
+ * ALIGNED with SOVEREIGN_CONFIG (config.ts) — Sprint 11+ values.
+ * Previous values (pre-Sprint 11): ECC=0.30, SII=0.18, IFI=0.15, AAI=0.20
  */
 export const DEFAULT_MACRO_WEIGHTS: readonly WeightConfig[] = [
-  { axis: 'ecc', weight: 0.30 },
+  { axis: 'ecc', weight: 0.33 },
   { axis: 'rci', weight: 0.17 },
-  { axis: 'sii', weight: 0.18 },
-  { axis: 'ifi', weight: 0.15 },
-  { axis: 'aai', weight: 0.20 },
+  { axis: 'sii', weight: 0.15 },
+  { axis: 'ifi', weight: 0.10 },
+  { axis: 'aai', weight: 0.25 },
 ];
 
 // ═══════════════════════════════════════════════════════════════════════════════

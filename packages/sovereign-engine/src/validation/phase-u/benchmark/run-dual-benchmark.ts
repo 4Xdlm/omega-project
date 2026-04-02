@@ -34,7 +34,7 @@ import {
 } from '../phase-u-exit-validator.js';
 import type { JudgeCache } from '../../../judge-cache.js';
 import { GREATNESS_PROMPT_VERSION } from '../greatness-judge.js';
-import type { MacroSScore } from '../../../oracle/s-score.js';
+import type { MacroSScore } from '../../../oracle/macro-score-types.js';
 import { SOVEREIGN_CONFIG } from '../../../config.js';
 import {
   shouldApplyPolish,

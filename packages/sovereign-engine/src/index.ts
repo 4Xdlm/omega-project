@@ -189,7 +189,7 @@ export type { ImagerySeed } from './symbol/emotion-to-imagery.js';
 // ═══════════════════════════════════════════════════════════════════════════════
 
 export { computeECC, computeRCI, computeSII, computeIFI } from './oracle/macro-axes.js';
-export { computeMacroSScore } from './oracle/s-score.js';
+export { computeMacroSScore } from './oracle/macro-axes.js';
 export { judgeAestheticV3 } from './oracle/aesthetic-oracle.js';
 
 export type {
@@ -199,7 +199,7 @@ export type {
   ScoreReasons,
 } from './oracle/macro-axes.js';
 
-export type { MacroSScore } from './oracle/s-score.js';
+export type { MacroSScore } from './oracle/macro-score-types.js';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // QUALITY M1-M12 (Sprint 6.1 / Roadmap 4.1)

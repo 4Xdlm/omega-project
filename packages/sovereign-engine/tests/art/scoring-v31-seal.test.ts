@@ -7,7 +7,7 @@
  */
 import { describe, it, expect } from 'vitest';
 import { SOVEREIGN_CONFIG } from '../../src/config.js';
-import { computeMacroSScore } from '../../src/oracle/s-score.js';
+import { computeMacroSScore } from '../../src/oracle/macro-axes.js';
 import type { MacroAxesScores, MacroAxisScore } from '../../src/oracle/macro-axes.js';
 
 function createMockMacro(name: string, score: number, weight: number): MacroAxisScore {

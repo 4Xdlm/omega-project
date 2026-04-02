@@ -1,0 +1,20 @@
+{
+  "date": "2026-04-02",
+  "version": "V2 (post-P0/P1)",
+  "changes_from_INV10": {
+    "engine.ts": "fan_out +1 (added import core/thresholds.ts). Risk unchanged: still CRITICAL (160→164)",
+    "duel-engine.ts": "fan_out +1 (added import core/thresholds.ts). Risk unchanged: still CRITICAL",
+    "macro-axes.ts": "fan_out +2 (added imports sha256/canonicalize + macro-score-types). Risk increased slightly",
+    "weight-calibrator.ts": "content changed (values aligned) but fan_in/out unchanged",
+    "new_file": "macro-score-types.ts created (fan_in=8 from day 1, C3)"
+  },
+  "net_assessment": "MINIMAL DEGRADATION — P0/P1 added 3-4 imports total across the codebase. No new coupling hotspots. macro-score-types.ts is a clean extraction (reduces s-score.ts coupling).",
+  "top_5_riskiest_unchanged": [
+    {"module": "engine.ts", "risk": "~164", "level": "CRITICAL", "note": "fan_out +1 vs INV-10"},
+    {"module": "types.ts", "risk": "100", "level": "CRITICAL", "note": "unchanged"},
+    {"module": "macro-axes.ts", "risk": "~100", "level": "CRITICAL", "note": "fan_out +2 (now has computeMacroSScore)"},
+    {"module": "config.ts", "risk": "92", "level": "CRITICAL", "note": "unchanged"},
+    {"module": "aesthetic-oracle.ts", "risk": "92", "level": "CRITICAL", "note": "import split (cosmetic)"}
+  ],
+  "improvement": "s-score.ts coupling reduced from 13 imports to 2. Migration distributes responsibility to proper modules."
+}

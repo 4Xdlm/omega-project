@@ -49,7 +49,7 @@ import { scoreRhythm } from './oracle/axes/rhythm.js';
 import { judgeAesthetic, judgeAestheticV3 } from './oracle/aesthetic-oracle.js';
 import { generateSymbolMap } from './symbol/symbol-mapper.js';
 import type { SymbolMap } from './symbol/symbol-map-types.js';
-import type { MacroSScore } from './oracle/s-score.js';
+import type { MacroSScore } from './oracle/macro-score-types.js';
 import { SOVEREIGN_CONFIG } from './config.js';
 import { bridgeSignatureFromSymbolMap } from './input/signature-bridge.js';
 import { runPhysicsAudit, type PhysicsAuditResult } from './oracle/physics-audit.js';

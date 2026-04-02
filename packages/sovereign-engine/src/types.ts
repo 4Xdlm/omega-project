@@ -540,4 +540,4 @@ export type {
   ScoreReasons,
 } from './oracle/macro-axes.js';
 
-export type { MacroSScore } from './oracle/s-score.js';
+export type { MacroSScore } from './oracle/macro-score-types.js';

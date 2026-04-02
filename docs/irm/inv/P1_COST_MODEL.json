@@ -1,0 +1,19 @@
+{
+  "date": "2026-04-02",
+  "model": "claude-sonnet-4-20250514",
+  "pipeline_version": "V4 post-P0/P1",
+  "changes_from_INV03": [
+    "P0: polish imports commentés dans engine.ts → 0 impact (already disabled Sprint 2)",
+    "P0: weight-calibrator aligned → 0 impact on API calls",
+    "P1: MacroSScore migré → 0 impact on API calls",
+    "P1: ollama-provider archivé → 0 impact (unused)"
+  ],
+  "estimated_calls_per_run": 34,
+  "estimated_cost_per_run_usd": 0.21,
+  "cost_30_runs_usd": 6.30,
+  "cost_100_scenes_novel_usd": 21.0,
+  "cost_bestof3_novel_usd": 63.0,
+  "reduction_target_P2": "Reduce calls from 34 to ~15 (skip duel if loop SEAL)",
+  "reduction_target_cost_P2_usd": 0.10,
+  "note": "INV-03 estimation validated. P0/P1 changes have ZERO impact on API call count or token usage. All changes are structural/organizational."
+}

@@ -27,8 +27,12 @@
  */
 
 import { analyzeEmotionFromText } from '@omega/omega-forge';
+import { sha256, canonicalize } from '@omega/canon-kernel';
 import type { ForgePacket, AxisScore, SovereignProvider } from '../types.js';
 import { SOVEREIGN_CONFIG } from '../config.js';
+// P1-01: MacroSScore migré depuis s-score.ts
+import type { MacroSScore } from './macro-score-types.js';
+export type { MacroSScore } from './macro-score-types.js';
 
 // Import des axes existants (sous-composants)
 import { scoreTension14D } from './axes/tension-14d.js';
@@ -842,5 +846,64 @@ function buildIFIReasons(sub_scores: readonly AxisScore[]): ScoreReasons {
   return {
     top_contributors,
     top_penalties,
+  };
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// computeMacroSScore — Migré depuis s-score.ts le 2026-04-02 (P1-01)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+/**
+ * Calcule le S-Score composite à partir des 5 macro-axes.
+ * ZONES:
+ * - GREEN: composite ≥93 AND min_axis ≥80 AND ecc ≥88 AND aai ≥85 → SEAL
+ * - YELLOW: composite ≥85 AND min_axis ≥75 → PITCH
+ * - RED: composite <85 → REJECT
+ */
+export function computeMacroSScore(
+  macroAxes: MacroAxesScores,
+  scene_id: string,
+  seed: string,
+): MacroSScore {
+  const composite =
+    macroAxes.ecc.score * SOVEREIGN_CONFIG.MACRO_WEIGHTS.ecc +
+    macroAxes.rci.score * SOVEREIGN_CONFIG.MACRO_WEIGHTS.rci +
+    macroAxes.sii.score * SOVEREIGN_CONFIG.MACRO_WEIGHTS.sii +
+    macroAxes.ifi.score * SOVEREIGN_CONFIG.MACRO_WEIGHTS.ifi +
+    macroAxes.aai.score * SOVEREIGN_CONFIG.MACRO_WEIGHTS.aai;
+
+  const min_axis = Math.min(
+    macroAxes.ecc.score,
+    macroAxes.rci.score,
+    macroAxes.sii.score,
+    macroAxes.ifi.score,
+    macroAxes.aai.score,
+  );
+
+  const verdict: 'SEAL' | 'PITCH' | 'REJECT' =
+    composite >= SOVEREIGN_CONFIG.ZONES.GREEN.min_composite &&
+    min_axis >= SOVEREIGN_CONFIG.ZONES.GREEN.min_axis &&
+    macroAxes.ecc.score >= SOVEREIGN_CONFIG.MACRO_FLOORS.ecc &&
+    macroAxes.aai.score >= SOVEREIGN_CONFIG.MACRO_FLOORS.aai
+      ? 'SEAL'
+      : composite >= SOVEREIGN_CONFIG.ZONES.YELLOW.min_composite &&
+        min_axis >= SOVEREIGN_CONFIG.ZONES.YELLOW.min_axis
+        ? 'PITCH'
+        : 'REJECT';
+
+  const data = { scene_id, seed, macroAxes, composite, verdict, min_axis };
+  const score_hash = sha256(canonicalize(data));
+
+  return {
+    score_id: `MACRO_${scene_id}_${Date.now()}`,
+    score_hash,
+    scene_id,
+    seed,
+    macro_axes: macroAxes,
+    composite,
+    min_axis,
+    verdict,
+    ecc_score: macroAxes.ecc.score,
+    emotion_weight_pct: SOVEREIGN_CONFIG.MACRO_WEIGHTS.ecc * 100,
   };
 }

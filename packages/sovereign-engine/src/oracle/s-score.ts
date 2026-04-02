@@ -3,14 +3,14 @@
  * OMEGA SOVEREIGN STYLE ENGINE — S-SCORE COMPOSITE (LEGACY)
  * ═══════════════════════════════════════════════════════════════════════════════
  *
- * @deprecated Use s-oracle-v2.ts for all scoring decisions.
- * This module is kept for backward compatibility only.
- * The 9-axis weighting system here (total=15.0) is superseded by
- * the macro-axes system (ECC/RCI/SII/IFI/AAI, total=1.00) in s-oracle-v2.ts.
+ * @deprecated TERMINAL — Ne contient plus que computeSScore (legacy V1 9-axis).
+ * MacroSScore → oracle/macro-score-types.ts
+ * computeMacroSScore → oracle/macro-axes.ts
+ * Migration P1-01 du 2026-04-02.
  *
  * @see src/oracle/s-oracle-v2.ts — Source de verite pour le scoring
- * @see src/oracle/macro-axes.ts — Calcul des 5 macro-axes
- * @see src/config.ts MACRO_WEIGHTS — Ponderations officielles (ECC=33%, AAI=25%, RCI=17%, SII=15%, IFI=10%)
+ * @see src/oracle/macro-axes.ts — Calcul des 5 macro-axes + computeMacroSScore
+ * @see src/oracle/macro-score-types.ts — Interface MacroSScore
  *
  * Module: oracle/s-score.ts
  * Standard: NASA-Grade L4 / DO-178C Level A

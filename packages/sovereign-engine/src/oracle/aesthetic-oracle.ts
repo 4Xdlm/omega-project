@@ -32,8 +32,9 @@ import { scoreSensoryDensity } from './axes/sensory-density.js';
 import { scoreNecessity } from './axes/necessity.js';
 import { scoreImpact } from './axes/impact.js';
 
-import { computeSScore, computeMacroSScore, type MacroSScore } from './s-score.js';
-import { computeECC, computeRCI, computeSII, computeIFI, computeAAI, type MacroAxesScores } from './macro-axes.js';
+import { computeSScore } from './s-score.js';
+import type { MacroSScore } from './macro-score-types.js';
+import { computeECC, computeRCI, computeSII, computeIFI, computeAAI, computeMacroSScore, type MacroAxesScores } from './macro-axes.js';
 
 export async function judgeAesthetic(
   packet: ForgePacket,

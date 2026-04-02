@@ -17,7 +17,7 @@
  */
 
 import type { ForgePacket, SovereignProvider } from '../types.js';
-import type { MacroSScore } from '../oracle/s-score.js';
+import type { MacroSScore } from '../oracle/macro-score-types.js';
 import type { MacroAxesScores } from '../oracle/macro-axes.js';
 import { evaluateDamage, type DamageGateResult } from '../validation/damage-gate.js';
 import { judgeAestheticV3 } from '../oracle/aesthetic-oracle.js';

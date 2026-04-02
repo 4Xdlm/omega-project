@@ -22,7 +22,7 @@ import {
   DEFAULT_PATCH_CONFIG,
 } from '../../src/polish/targeted-patch.js';
 import type { MacroAxesScores } from '../../src/oracle/macro-axes.js';
-import type { MacroSScore } from '../../src/oracle/s-score.js';
+import type { MacroSScore } from '../../src/oracle/macro-score-types.js';
 import type { SovereignProvider } from '../../src/types.js';
 import { MINIMAL_FORGE_PACKET } from '../input/__fixtures__/minimal-forge-packet.js';
 

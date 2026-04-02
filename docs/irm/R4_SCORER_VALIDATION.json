@@ -1,0 +1,527 @@
+{
+  "date": "2026-04-02",
+  "method": "Python reimplementation of V1 multi-stage-scorer + GB V1 inference on 30 corpus works",
+  "corpus_size": 30,
+  "languages": {
+    "fr": 15,
+    "en": 15,
+    "other": 5
+  },
+  "scorers": {
+    "GB_V1": {
+      "type": "Gradient Boosting 50 trees",
+      "features": 42
+    },
+    "V1_multi_stage": {
+      "type": "R3 coefficients LOCAL+ARC",
+      "alpha": 0.43,
+      "beta": 0.57
+    }
+  },
+  "correlations": {
+    "GB_V1_vs_V1": {
+      "spearman": -0.2209,
+      "p_value": 0.240742
+    },
+    "GB_V1_vs_V1_with_type": {
+      "spearman": -0.2209,
+      "p_value": 0.240742
+    },
+    "V1_vs_V1_with_type": {
+      "spearman": 1.0,
+      "p_value": 0.0
+    }
+  },
+  "type_modifier_experiment": {
+    "delta_mean": 0.0,
+    "verdict": "NEUTRAL",
+    "spearman_without": -0.2209,
+    "spearman_with": -0.2209
+  },
+  "top_5_gb": [
+    {
+      "author": "carver_j",
+      "title": "Dragons in the Stars",
+      "gb": 4.3652,
+      "v1": 1058.03
+    },
+    {
+      "author": "carrere",
+      "title": "L'Adversaire",
+      "gb": 4.3463,
+      "v1": 1122.56
+    },
+    {
+      "author": "delillo",
+      "title": "Underworld",
+      "gb": 4.3461,
+      "v1": 1067.92
+    },
+    {
+      "author": "carrere",
+      "title": "The Kingdom (EN)",
+      "gb": 4.327,
+      "v1": 1081.45
+    },
+    {
+      "author": "chopin",
+      "title": "The Awakening",
+      "gb": 4.3249,
+      "v1": 1069.14
+    }
+  ],
+  "bottom_5_gb": [
+    {
+      "author": "carver_j",
+      "title": "Going Alien",
+      "gb": 4.0908,
+      "v1": 1082.76
+    },
+    {
+      "author": "carrere",
+      "title": "Limonov",
+      "gb": 4.0844,
+      "v1": 1120.19
+    },
+    {
+      "author": "carrere",
+      "title": "La Moustache",
+      "gb": 4.0776,
+      "v1": 1133.76
+    },
+    {
+      "author": "butor",
+      "title": "La Modification",
+      "gb": 4.0219,
+      "v1": 1125.6
+    },
+    {
+      "author": "crane",
+      "title": "The Red Badge of Courage",
+      "gb": 3.9841,
+      "v1": 1058.91
+    }
+  ],
+  "texts": [
+    {
+      "file": "apollinaire_Alcools.json",
+      "author": "apollinaire",
+      "title": "Alcools",
+      "language": "fr",
+      "word_count": 119387,
+      "gb_v1_score": 4.2226,
+      "v1_composite": 1069.56,
+      "v1_local": 833.52,
+      "v1_arc": 1247.63,
+      "v1_with_type": 1069.56,
+      "n_features_local": 47,
+      "n_features_arc": 78
+    },
+    {
+      "file": "balzac_Eugenie_Grandet.json",
+      "author": "balzac",
+      "title": "Eugenie Grandet",
+      "language": "fr",
+      "word_count": 9747,
+      "gb_v1_score": 4.123,
+      "v1_composite": 1037.11,
+      "v1_local": 777.22,
+      "v1_arc": 1233.17,
+      "v1_with_type": 1037.11,
+      "n_features_local": 47,
+      "n_features_arc": 78
+    },
+    {
+      "file": "balzac_Le_Pere_Goriot.json",
+      "author": "balzac",
+      "title": "Le Pere Goriot",
+      "language": "fr",
+      "word_count": 36798,
+      "gb_v1_score": 4.2634,
+      "v1_composite": 1042.22,
+      "v1_local": 819.46,
+      "v1_arc": 1210.27,
+      "v1_with_type": 1042.22,
+      "n_features_local": 47,
+      "n_features_arc": 78
+    },
+    {
+      "file": "beauvoir_Les_Mandarins.json",
+      "author": "beauvoir",
+      "title": "Les Mandarins",
+      "language": "fr",
+      "word_count": 150213,
+      "gb_v1_score": 4.3069,
+      "v1_composite": 1053.17,
+      "v1_local": 828.35,
+      "v1_arc": 1222.77,
+      "v1_with_type": 1053.17,
+      "n_features_local": 47,
+      "n_features_arc": 78
+    },
+    {
+      "file": "beckett_Molloy.json",
+      "author": "beckett",
+      "title": "Molloy",
+      "language": "fr",
+      "word_count": 100008,
+      "gb_v1_score": 4.2027,
+      "v1_composite": 1071.58,
+      "v1_local": 824.49,
+      "v1_arc": 1257.97,
+      "v1_with_type": 1071.58,
+      "n_features_local": 47,
+      "n_features_arc": 78
+    },
+    {
+      "file": "butor_La_Modification.json",
+      "author": "butor",
+      "title": "La Modification",
+      "language": "fr",
+      "word_count": 82980,
+      "gb_v1_score": 4.0219,
+      "v1_composite": 1125.6,
+      "v1_local": 842.23,
+      "v1_arc": 1339.36,
+      "v1_with_type": 1125.6,
+      "n_features_local": 47,
+      "n_features_arc": 78
+    },
+    {
+      "file": "camus_L_Etranger.json",
+      "author": "camus",
+      "title": "L'Etranger",
+      "language": "fr",
+      "word_count": 32278,
+      "gb_v1_score": 4.2036,
+      "v1_composite": 1081.28,
+      "v1_local": 807.43,
+      "v1_arc": 1287.87,
+      "v1_with_type": 1081.28,
+      "n_features_local": 47,
+      "n_features_arc": 78
+    },
+    {
+      "file": "camus_L_Exil_et_le_Royaume.json",
+      "author": "camus",
+      "title": "L'Exil et le Royaume",
+      "language": "fr",
+      "word_count": 44768,
+      "gb_v1_score": 4.2388,
+      "v1_composite": 1124.96,
+      "v1_local": 868.36,
+      "v1_arc": 1318.53,
+      "v1_with_type": 1124.96,
+      "n_features_local": 47,
+      "n_features_arc": 78
+    },
+    {
+      "file": "camus_La_Mort_Heureuse.json",
+      "author": "camus",
+      "title": "La Mort Heureuse",
+      "language": "fr",
+      "word_count": 38786,
+      "gb_v1_score": 4.2717,
+      "v1_composite": 1097.81,
+      "v1_local": 849.33,
+      "v1_arc": 1285.26,
+      "v1_with_type": 1097.81,
+      "n_features_local": 47,
+      "n_features_arc": 78
+    },
+    {
+      "file": "camus_La_Peste.json",
+      "author": "camus",
+      "title": "La Peste",
+      "language": "fr",
+      "word_count": 83776,
+      "gb_v1_score": 4.2545,
+      "v1_composite": 1106.39,
+      "v1_local": 862.21,
+      "v1_arc": 1290.6,
+      "v1_with_type": 1106.39,
+      "n_features_local": 47,
+      "n_features_arc": 78
+    },
+    {
+      "file": "carrere_Kolkhoze.json",
+      "author": "carrere",
+      "title": "Kolkhoze",
+      "language": "fr",
+      "word_count": 125909,
+      "gb_v1_score": 4.1505,
+      "v1_composite": 1106.56,
+      "v1_local": 846.16,
+      "v1_arc": 1302.99,
+      "v1_with_type": 1106.56,
+      "n_features_local": 47,
+      "n_features_arc": 78
+    },
+    {
+      "file": "carrere_L_Adversaire.json",
+      "author": "carrere",
+      "title": "L'Adversaire",
+      "language": "fr",
+      "word_count": 45947,
+      "gb_v1_score": 4.3463,
+      "v1_composite": 1122.56,
+      "v1_local": 862.73,
+      "v1_arc": 1318.58,
+      "v1_with_type": 1122.56,
+      "n_features_local": 47,
+      "n_features_arc": 78
+    },
+    {
+      "file": "carrere_La_Moustache.json",
+      "author": "carrere",
+      "title": "La Moustache",
+      "language": "fr",
+      "word_count": 43340,
+      "gb_v1_score": 4.0776,
+      "v1_composite": 1133.76,
+      "v1_local": 878.16,
+      "v1_arc": 1326.58,
+      "v1_with_type": 1133.76,
+      "n_features_local": 47,
+      "n_features_arc": 78
+    },
+    {
+      "file": "carrere_Limonov.json",
+      "author": "carrere",
+      "title": "Limonov",
+      "language": "fr",
+      "word_count": 120526,
+      "gb_v1_score": 4.0844,
+      "v1_composite": 1120.19,
+      "v1_local": 861.89,
+      "v1_arc": 1315.04,
+      "v1_with_type": 1120.19,
+      "n_features_local": 47,
+      "n_features_arc": 78
+    },
+    {
+      "file": "carrere_The_Kingdom__EN_.json",
+      "author": "carrere",
+      "title": "The Kingdom (EN)",
+      "language": "fr",
+      "word_count": 154449,
+      "gb_v1_score": 4.327,
+      "v1_composite": 1081.45,
+      "v1_local": 812.45,
+      "v1_arc": 1284.38,
+      "v1_with_type": 1081.45,
+      "n_features_local": 47,
+      "n_features_arc": 78
+    },
+    {
+      "file": "austen_Emma.json",
+      "author": "austen",
+      "title": "Emma",
+      "language": "en",
+      "word_count": 157558,
+      "gb_v1_score": 4.1296,
+      "v1_composite": 1068.64,
+      "v1_local": 815.48,
+      "v1_arc": 1259.63,
+      "v1_with_type": 1068.64,
+      "n_features_local": 47,
+      "n_features_arc": 78
+    },
+    {
+      "file": "baldwin_La_Chambre_de_Giovan.json",
+      "author": "baldwin",
+      "title": "La Chambre de Giovanni (FR)",
+      "language": "en",
+      "word_count": 61930,
+      "gb_v1_score": 4.2003,
+      "v1_composite": 1058.26,
+      "v1_local": 816.17,
+      "v1_arc": 1240.9,
+      "v1_with_type": 1058.26,
+      "n_features_local": 47,
+      "n_features_arc": 78
+    },
+    {
+      "file": "carver_j_Battlestar_Galactica.json",
+      "author": "carver_j",
+      "title": "Battlestar Galactica",
+      "language": "en",
+      "word_count": 77078,
+      "gb_v1_score": 4.1768,
+      "v1_composite": 1088.1,
+      "v1_local": 833.07,
+      "v1_arc": 1280.49,
+      "v1_with_type": 1088.1,
+      "n_features_local": 47,
+      "n_features_arc": 78
+    },
+    {
+      "file": "carver_j_Dragons_in_the_Stars.json",
+      "author": "carver_j",
+      "title": "Dragons in the Stars",
+      "language": "en",
+      "word_count": 100724,
+      "gb_v1_score": 4.3652,
+      "v1_composite": 1058.03,
+      "v1_local": 817.03,
+      "v1_arc": 1239.83,
+      "v1_with_type": 1058.03,
+      "n_features_local": 47,
+      "n_features_arc": 78
+    },
+    {
+      "file": "carver_j_Going_Alien.json",
+      "author": "carver_j",
+      "title": "Going Alien",
+      "language": "en",
+      "word_count": 53435,
+      "gb_v1_score": 4.0908,
+      "v1_composite": 1082.76,
+      "v1_local": 860.73,
+      "v1_arc": 1250.25,
+      "v1_with_type": 1082.76,
+      "n_features_local": 47,
+      "n_features_arc": 78
+    },
+    {
+      "file": "carver_j_Neptune_Crossing.json",
+      "author": "carver_j",
+      "title": "Neptune Crossing",
+      "language": "en",
+      "word_count": 98421,
+      "gb_v1_score": 4.1368,
+      "v1_composite": 1088.03,
+      "v1_local": 834.6,
+      "v1_arc": 1279.22,
+      "v1_with_type": 1088.03,
+      "n_features_local": 47,
+      "n_features_arc": 78
+    },
+    {
+      "file": "carver_j_Panglor.json",
+      "author": "carver_j",
+      "title": "Panglor",
+      "language": "en",
+      "word_count": 77335,
+      "gb_v1_score": 4.1101,
+      "v1_composite": 1106.28,
+      "v1_local": 879.91,
+      "v1_arc": 1277.06,
+      "v1_with_type": 1106.28,
+      "n_features_local": 47,
+      "n_features_arc": 78
+    },
+    {
+      "file": "chopin_The_Awakening.json",
+      "author": "chopin",
+      "title": "The Awakening",
+      "language": "en",
+      "word_count": 100362,
+      "gb_v1_score": 4.3249,
+      "v1_composite": 1069.14,
+      "v1_local": 826.58,
+      "v1_arc": 1252.12,
+      "v1_with_type": 1069.14,
+      "n_features_local": 47,
+      "n_features_arc": 78
+    },
+    {
+      "file": "conrad_Heart_of_Darkness.json",
+      "author": "conrad",
+      "title": "Heart of Darkness",
+      "language": "en",
+      "word_count": 37917,
+      "gb_v1_score": 4.2892,
+      "v1_composite": 1092.06,
+      "v1_local": 849.76,
+      "v1_arc": 1274.84,
+      "v1_with_type": 1092.06,
+      "n_features_local": 47,
+      "n_features_arc": 78
+    },
+    {
+      "file": "conrad_Lord_Jim.json",
+      "author": "conrad",
+      "title": "Lord Jim",
+      "language": "en",
+      "word_count": 130012,
+      "gb_v1_score": 4.1887,
+      "v1_composite": 1070.44,
+      "v1_local": 839.59,
+      "v1_arc": 1244.59,
+      "v1_with_type": 1070.44,
+      "n_features_local": 47,
+      "n_features_arc": 78
+    },
+    {
+      "file": "conrad_Nostromo.json",
+      "author": "conrad",
+      "title": "Nostromo",
+      "language": "en",
+      "word_count": 170410,
+      "gb_v1_score": 4.3236,
+      "v1_composite": 1083.58,
+      "v1_local": 846.51,
+      "v1_arc": 1262.42,
+      "v1_with_type": 1083.58,
+      "n_features_local": 47,
+      "n_features_arc": 78
+    },
+    {
+      "file": "crane_The_Red_Badge_of_Cou.json",
+      "author": "crane",
+      "title": "The Red Badge of Courage",
+      "language": "en",
+      "word_count": 46094,
+      "gb_v1_score": 3.9841,
+      "v1_composite": 1058.91,
+      "v1_local": 831.96,
+      "v1_arc": 1230.11,
+      "v1_with_type": 1058.91,
+      "n_features_local": 47,
+      "n_features_arc": 78
+    },
+    {
+      "file": "delillo_End_Zone.json",
+      "author": "delillo",
+      "title": "End Zone",
+      "language": "en",
+      "word_count": 60092,
+      "gb_v1_score": 4.3162,
+      "v1_composite": 1039.18,
+      "v1_local": 814.4,
+      "v1_arc": 1208.75,
+      "v1_with_type": 1039.18,
+      "n_features_local": 47,
+      "n_features_arc": 78
+    },
+    {
+      "file": "delillo_L_Etoile_de_Ratner__.json",
+      "author": "delillo",
+      "title": "L'Etoile de Ratner (FR)",
+      "language": "en",
+      "word_count": 163128,
+      "gb_v1_score": 4.2969,
+      "v1_composite": 1130.78,
+      "v1_local": 883.19,
+      "v1_arc": 1317.56,
+      "v1_with_type": 1130.78,
+      "n_features_local": 47,
+      "n_features_arc": 78
+    },
+    {
+      "file": "delillo_Underworld.json",
+      "author": "delillo",
+      "title": "Underworld",
+      "language": "en",
+      "word_count": 275131,
+      "gb_v1_score": 4.3461,
+      "v1_composite": 1067.92,
+      "v1_local": 821.36,
+      "v1_arc": 1253.91,
+      "v1_with_type": 1067.92,
+      "n_features_local": 47,
+      "n_features_arc": 78
+    }
+  ]
+}

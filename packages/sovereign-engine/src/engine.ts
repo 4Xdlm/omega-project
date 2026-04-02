@@ -70,6 +70,8 @@ import type { CDEInput } from './cde/types.js';
 import { runTargetedPatch, isTargetedPatchActive } from './polish/targeted-patch.js';
 // ★ V4: Native Prompt
 import { isV4Active, buildSovereignPrompt_V4 } from './input/prompt-assembler-v4.js';
+// ★ V5: Bridge-Driven Prompt (V4 + Rosetta Bridge dynamique)
+import { isV5Active, buildSovereignPrompt_V5 } from './input/prompt-assembler-v5.js';
 // ★ V4.3 Sprint 2: Semantic Slicer replaces paragraph guard (CALC pure, 0 API)
 import { applySemanticSlicing } from './guards/semantic-slicer.js';
 // ★ V4.3 Sprint 3C: Micro-surgeon — targeted tension_14d interventions
@@ -286,9 +288,12 @@ async function executePipeline(
     console.log(`[V3] Partition: ${partition.total_tokens}t | hash=${partition.partition_hash.slice(0, 12)}`);
   }
 
-  // ★ Prompt selection: V4 > V3 > V2
+  // ★ Prompt selection: V5 > V4 > V2
   let prompt: import('./types.js').SovereignPrompt;
-  if (isV4Active()) {
+  if (isV5Active()) {
+    prompt = buildSovereignPrompt_V5(enrichedPacket, symbolMap);
+    console.log(`[V5] Prompt: ${Math.ceil(prompt.total_length / 4)}t | hash=${prompt.prompt_hash.slice(0, 12)}`);
+  } else if (isV4Active()) {
     prompt = buildSovereignPrompt_V4(enrichedPacket, symbolMap);
     console.log(`[V4] Prompt: ${Math.ceil(prompt.total_length / 4)}t | hash=${prompt.prompt_hash.slice(0, 12)}`);
   } else {

@@ -1,0 +1,89 @@
+{
+  "scan_date": "2026-04-02",
+  "method": "Cross-analysis of VATOMIC_RESULTS.json (5 scenes, GB V1 + V3 macro) + RESCORED_A (R3 confidence scaling) + RESCORED_B (confidence as weight)",
+  "source_files": [
+    "src/scoring/data/VATOMIC_RESULTS.json",
+    "src/scoring/data/VATOMIC_RESCORED_A.json",
+    "src/scoring/data/VATOMIC_RESCORED_B.json"
+  ],
+
+  "texts_compared": 5,
+  "scenes": ["contemplation", "confrontation", "souvenir", "menace", "revelation"],
+
+  "gb_v1_vs_v3_comparison": [
+    {
+      "scene": "contemplation",
+      "gb_v1_score": 4.12,
+      "gb_tier": "A",
+      "v3_composite": 84.25,
+      "v3_verdict": "REJECT",
+      "v3_min_axis": 76.53,
+      "concordance": "CONCORDANT",
+      "note": "Both agree: good quality but not SAGA_READY"
+    },
+    {
+      "scene": "confrontation",
+      "gb_v1_score": 3.89,
+      "gb_tier": "A",
+      "v3_composite": 89.91,
+      "v3_verdict": "REJECT",
+      "v3_min_axis": 82.08,
+      "concordance": "CONCORDANT",
+      "note": "Both agree: high quality but min_axis drag"
+    },
+    {
+      "scene": "souvenir",
+      "gb_v1_score": 3.41,
+      "gb_tier": "B",
+      "v3_composite": 89.35,
+      "v3_verdict": "REJECT",
+      "v3_min_axis": 81.27,
+      "concordance": "DIVERGENT",
+      "note": "GB rates tier B (lower) but V3 composite is 89.35 (close to SAGA). GB is MORE pessimistic here"
+    },
+    {
+      "scene": "menace",
+      "gb_v1_score": 3.65,
+      "gb_tier": "A",
+      "v3_composite": 92.47,
+      "v3_verdict": "REJECT",
+      "v3_min_axis": 84.37,
+      "concordance": "DIVERGENT",
+      "note": "V3 composite >= 92 but min_axis < 85 → REJECT. GB tier A = agrees on quality. But V3 ALMOST SAGA_READY while GB gives median tier A score"
+    },
+    {
+      "scene": "revelation",
+      "gb_v1_score": 4.04,
+      "gb_tier": "A",
+      "v3_composite": 91.22,
+      "v3_verdict": "REJECT",
+      "v3_min_axis": 81.07,
+      "concordance": "CONCORDANT",
+      "note": "Both agree high quality, not SAGA"
+    }
+  ],
+
+  "rescoring_impact": {
+    "rescored_A_method": "R3 confidence scaling (lower confidence = lower weight)",
+    "rescored_A_effect": "RCI drops -3.2 to -4.9 pts, composite drops -0.5 to -0.8 pts. More conservative.",
+    "rescored_B_method": "Confidence as weight (w_eff = confidence)",
+    "rescored_B_effect": "RCI moves +0.5 to +1.6 pts, composite stable or +0.1 to +0.3. Slightly optimistic. Souvenir becomes SAGA_READY.",
+    "souvenir_flip": {
+      "original_composite": 91.93,
+      "rescored_B_composite": 92.02,
+      "rescored_B_saga_ready": true,
+      "note": "Single text flipped from REJECT to SAGA_READY by rescoring method B"
+    }
+  },
+
+  "concordance_rate": 0.60,
+  "concordance_detail": "3/5 CONCORDANT, 2/5 DIVERGENT (souvenir tier mismatch, menace near-SAGA not captured by GB)",
+
+  "gb_v1_f26b_inversion_impact": {
+    "finding": "INV-01 proved GB V1 treats f26b as NEGATIVE (7 neg vs 3 pos in leaf splits). L37 says f26b is POSITIVE for quality.",
+    "implication": "GB V1 PENALIZES long sentence rate, which L37 says is a quality DRIVER. This explains why GB is more pessimistic on texts with higher f26b.",
+    "severity": "HIGH — GB V1 scorer systematically undervalues texts that exhibit L37 causally beneficial patterns"
+  },
+
+  "conclusion": "MIXED — GB V1 and V3 agree on general ranking but diverge on edge cases near SAGA threshold. The f26b polarity inversion in GB V1 (INV-01) is a structural flaw that biases GB against L37-compliant prose."
+}

@@ -1,0 +1,357 @@
+{
+  "scan_date": "2026-04-02",
+  "method": "risk = (fan_out + fan_in) * criticality_weight. C4=4, C3=3, C2=2, C1=1, C0=0.5",
+  "total_modules": 33,
+  "critical": 10,
+  "high": 9,
+  "medium": 5,
+  "low": 9,
+  "top_10_riskiest": [
+    {
+      "module": "engine.ts",
+      "fan_in": 2,
+      "fan_out": 38,
+      "criticality": "C4",
+      "risk_score": 160,
+      "risk_level": "CRITICAL"
+    },
+    {
+      "module": "types.ts",
+      "fan_in": 23,
+      "fan_out": 2,
+      "criticality": "C4",
+      "risk_score": 100,
+      "risk_level": "CRITICAL"
+    },
+    {
+      "module": "oracle/macro-axes.ts",
+      "fan_in": 7,
+      "fan_out": 17,
+      "criticality": "C4",
+      "risk_score": 96,
+      "risk_level": "CRITICAL"
+    },
+    {
+      "module": "config.ts",
+      "fan_in": 20,
+      "fan_out": 3,
+      "criticality": "C4",
+      "risk_score": 92,
+      "risk_level": "CRITICAL"
+    },
+    {
+      "module": "oracle/aesthetic-oracle.ts",
+      "fan_in": 10,
+      "fan_out": 13,
+      "criticality": "C4",
+      "risk_score": 92,
+      "risk_level": "CRITICAL"
+    },
+    {
+      "module": "oracle/s-oracle-v2.ts",
+      "fan_in": 5,
+      "fan_out": 12,
+      "criticality": "C4",
+      "risk_score": 68,
+      "risk_level": "CRITICAL"
+    },
+    {
+      "module": "pitch/sovereign-loop.ts",
+      "fan_in": 5,
+      "fan_out": 11,
+      "criticality": "C4",
+      "risk_score": 64,
+      "risk_level": "CRITICAL"
+    },
+    {
+      "module": "index.ts",
+      "fan_in": 0,
+      "fan_out": 14,
+      "criticality": "C4",
+      "risk_score": 56,
+      "risk_level": "CRITICAL"
+    },
+    {
+      "module": "input/prompt-assembler-v2.ts",
+      "fan_in": 3,
+      "fan_out": 11,
+      "criticality": "C4",
+      "risk_score": 56,
+      "risk_level": "CRITICAL"
+    },
+    {
+      "module": "input/forge-packet-assembler.ts",
+      "fan_in": 7,
+      "fan_out": 6,
+      "criticality": "C4",
+      "risk_score": 52,
+      "risk_level": "CRITICAL"
+    }
+  ],
+  "all_modules": [
+    {
+      "module": "engine.ts",
+      "fan_in": 2,
+      "fan_out": 38,
+      "criticality": "C4",
+      "risk_score": 160,
+      "risk_level": "CRITICAL"
+    },
+    {
+      "module": "types.ts",
+      "fan_in": 23,
+      "fan_out": 2,
+      "criticality": "C4",
+      "risk_score": 100,
+      "risk_level": "CRITICAL"
+    },
+    {
+      "module": "oracle/macro-axes.ts",
+      "fan_in": 7,
+      "fan_out": 17,
+      "criticality": "C4",
+      "risk_score": 96,
+      "risk_level": "CRITICAL"
+    },
+    {
+      "module": "config.ts",
+      "fan_in": 20,
+      "fan_out": 3,
+      "criticality": "C4",
+      "risk_score": 92,
+      "risk_level": "CRITICAL"
+    },
+    {
+      "module": "oracle/aesthetic-oracle.ts",
+      "fan_in": 10,
+      "fan_out": 13,
+      "criticality": "C4",
+      "risk_score": 92,
+      "risk_level": "CRITICAL"
+    },
+    {
+      "module": "oracle/s-oracle-v2.ts",
+      "fan_in": 5,
+      "fan_out": 12,
+      "criticality": "C4",
+      "risk_score": 68,
+      "risk_level": "CRITICAL"
+    },
+    {
+      "module": "pitch/sovereign-loop.ts",
+      "fan_in": 5,
+      "fan_out": 11,
+      "criticality": "C4",
+      "risk_score": 64,
+      "risk_level": "CRITICAL"
+    },
+    {
+      "module": "index.ts",
+      "fan_in": 0,
+      "fan_out": 14,
+      "criticality": "C4",
+      "risk_score": 56,
+      "risk_level": "CRITICAL"
+    },
+    {
+      "module": "input/prompt-assembler-v2.ts",
+      "fan_in": 3,
+      "fan_out": 11,
+      "criticality": "C4",
+      "risk_score": 56,
+      "risk_level": "CRITICAL"
+    },
+    {
+      "module": "input/forge-packet-assembler.ts",
+      "fan_in": 7,
+      "fan_out": 6,
+      "criticality": "C4",
+      "risk_score": 52,
+      "risk_level": "CRITICAL"
+    },
+    {
+      "module": "compiler/prompt-compiler.ts",
+      "fan_in": 5,
+      "fan_out": 10,
+      "criticality": "C3",
+      "risk_score": 45,
+      "risk_level": "HIGH"
+    },
+    {
+      "module": "duel/duel-engine.ts",
+      "fan_in": 3,
+      "fan_out": 6,
+      "criticality": "C4",
+      "risk_score": 36,
+      "risk_level": "HIGH"
+    },
+    {
+      "module": "oracle/s-score.ts",
+      "fan_in": 6,
+      "fan_out": 4,
+      "criticality": "C3",
+      "risk_score": 30,
+      "risk_level": "HIGH"
+    },
+    {
+      "module": "oracle/physics-audit.ts",
+      "fan_in": 8,
+      "fan_out": 2,
+      "criticality": "C3",
+      "risk_score": 30,
+      "risk_level": "HIGH"
+    },
+    {
+      "module": "cde/cde-pipeline.ts",
+      "fan_in": 2,
+      "fan_out": 7,
+      "criticality": "C3",
+      "risk_score": 27,
+      "risk_level": "HIGH"
+    },
+    {
+      "module": "polish/signature-enforcement.ts",
+      "fan_in": 3,
+      "fan_out": 5,
+      "criticality": "C3",
+      "risk_score": 24,
+      "risk_level": "HIGH"
+    },
+    {
+      "module": "polish/targeted-patch.ts",
+      "fan_in": 1,
+      "fan_out": 7,
+      "criticality": "C3",
+      "risk_score": 24,
+      "risk_level": "HIGH"
+    },
+    {
+      "module": "polish/musical-engine.ts",
+      "fan_in": 3,
+      "fan_out": 4,
+      "criticality": "C3",
+      "risk_score": 21,
+      "risk_level": "HIGH"
+    },
+    {
+      "module": "polish/anti-cliche-sweep.ts",
+      "fan_in": 3,
+      "fan_out": 4,
+      "criticality": "C3",
+      "risk_score": 21,
+      "risk_level": "HIGH"
+    },
+    {
+      "module": "oracle/llm-judge.ts",
+      "fan_in": 4,
+      "fan_out": 2,
+      "criticality": "C3",
+      "risk_score": 18,
+      "risk_level": "MEDIUM"
+    },
+    {
+      "module": "microsurgery/micro-surgeon.ts",
+      "fan_in": 1,
+      "fan_out": 4,
+      "criticality": "C3",
+      "risk_score": 15,
+      "risk_level": "MEDIUM"
+    },
+    {
+      "module": "cde/index.ts",
+      "fan_in": 0,
+      "fan_out": 5,
+      "criticality": "C3",
+      "risk_score": 15,
+      "risk_level": "MEDIUM"
+    },
+    {
+      "module": "input/pre-write-validator.ts",
+      "fan_in": 2,
+      "fan_out": 2,
+      "criticality": "C3",
+      "risk_score": 12,
+      "risk_level": "MEDIUM"
+    },
+    {
+      "module": "microsurgery/damage-gate.ts",
+      "fan_in": 4,
+      "fan_out": 0,
+      "criticality": "C3",
+      "risk_score": 12,
+      "risk_level": "MEDIUM"
+    },
+    {
+      "module": "input/pre-write-simulator.ts",
+      "fan_in": 2,
+      "fan_out": 3,
+      "criticality": "C2",
+      "risk_score": 10,
+      "risk_level": "LOW"
+    },
+    {
+      "module": "scoring/multi-stage-scorer.ts",
+      "fan_in": 0,
+      "fan_out": 5,
+      "criticality": "C2",
+      "risk_score": 10,
+      "risk_level": "LOW"
+    },
+    {
+      "module": "scoring/text-features.ts",
+      "fan_in": 3,
+      "fan_out": 0,
+      "criticality": "C3",
+      "risk_score": 9,
+      "risk_level": "LOW"
+    },
+    {
+      "module": "scoring/language-profiles.ts",
+      "fan_in": 1,
+      "fan_out": 2,
+      "criticality": "C3",
+      "risk_score": 9,
+      "risk_level": "LOW"
+    },
+    {
+      "module": "scoring/dual-scale.ts",
+      "fan_in": 1,
+      "fan_out": 1,
+      "criticality": "C3",
+      "risk_score": 6,
+      "risk_level": "LOW"
+    },
+    {
+      "module": "input/prompt-assembler-v4.ts",
+      "fan_in": 1,
+      "fan_out": 1,
+      "criticality": "C3",
+      "risk_score": 6,
+      "risk_level": "LOW"
+    },
+    {
+      "module": "generation/chunked-generator.ts",
+      "fan_in": 1,
+      "fan_out": 1,
+      "criticality": "C3",
+      "risk_score": 6,
+      "risk_level": "LOW"
+    },
+    {
+      "module": "generation/forge-to-brief.ts",
+      "fan_in": 1,
+      "fan_out": 1,
+      "criticality": "C3",
+      "risk_score": 6,
+      "risk_level": "LOW"
+    },
+    {
+      "module": "gates/seal-disk-gate.ts",
+      "fan_in": 0,
+      "fan_out": 3,
+      "criticality": "C2",
+      "risk_score": 6,
+      "risk_level": "LOW"
+    }
+  ]
+}

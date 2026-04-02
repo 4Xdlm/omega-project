@@ -1,0 +1,258 @@
+{
+  "investigation": "INV-05",
+  "title": "TEST COVERAGE BY MODULE",
+  "scope": "packages/sovereign-engine",
+  "date": "2026-04-02",
+  "modules_with_tests": [
+    {
+      "module": "art",
+      "test_files": 23,
+      "estimated_tests": 194
+    },
+    {
+      "module": "assembly",
+      "test_files": 2,
+      "estimated_tests": 18
+    },
+    {
+      "module": "authenticity",
+      "test_files": 2,
+      "estimated_tests": 4
+    },
+    {
+      "module": "bench",
+      "test_files": 1,
+      "estimated_tests": 9
+    },
+    {
+      "module": "benchmark",
+      "test_files": 3,
+      "estimated_tests": 22
+    },
+    {
+      "module": "calibration",
+      "test_files": 8,
+      "estimated_tests": 49
+    },
+    {
+      "module": "cde",
+      "test_files": 4,
+      "estimated_tests": 54
+    },
+    {
+      "module": "compat",
+      "test_files": 1,
+      "estimated_tests": 5
+    },
+    {
+      "module": "compiler",
+      "test_files": 3,
+      "estimated_tests": 64
+    },
+    {
+      "module": "constraints",
+      "test_files": 4,
+      "estimated_tests": 21
+    },
+    {
+      "module": "core",
+      "test_files": 2,
+      "estimated_tests": 15
+    },
+    {
+      "module": "delta",
+      "test_files": 4,
+      "estimated_tests": 25
+    },
+    {
+      "module": "doctrine",
+      "test_files": 1,
+      "estimated_tests": 31
+    },
+    {
+      "module": "duel",
+      "test_files": 1,
+      "estimated_tests": 9
+    },
+    {
+      "module": "e2e",
+      "test_files": 1,
+      "estimated_tests": 11
+    },
+    {
+      "module": "exemplar",
+      "test_files": 1,
+      "estimated_tests": 7
+    },
+    {
+      "module": "filter",
+      "test_files": 2,
+      "estimated_tests": 42
+    },
+    {
+      "module": "gates",
+      "test_files": 5,
+      "estimated_tests": 44
+    },
+    {
+      "module": "generation",
+      "test_files": 1,
+      "estimated_tests": 24
+    },
+    {
+      "module": "genius",
+      "test_files": 11,
+      "estimated_tests": 108
+    },
+    {
+      "module": "guards",
+      "test_files": 2,
+      "estimated_tests": 26
+    },
+    {
+      "module": "input",
+      "test_files": 10,
+      "estimated_tests": 110
+    },
+    {
+      "module": "metaphor",
+      "test_files": 2,
+      "estimated_tests": 7
+    },
+    {
+      "module": "microsurgery",
+      "test_files": 5,
+      "estimated_tests": 42
+    },
+    {
+      "module": "oracle",
+      "test_files": 36,
+      "estimated_tests": 216
+    },
+    {
+      "module": "orchestrator",
+      "test_files": 2,
+      "estimated_tests": 16
+    },
+    {
+      "module": "phantom",
+      "test_files": 2,
+      "estimated_tests": 7
+    },
+    {
+      "module": "phonetic",
+      "test_files": 2,
+      "estimated_tests": 9
+    },
+    {
+      "module": "pitch",
+      "test_files": 7,
+      "estimated_tests": 38
+    },
+    {
+      "module": "polish",
+      "test_files": 11,
+      "estimated_tests": 55
+    },
+    {
+      "module": "prescriptions",
+      "test_files": 2,
+      "estimated_tests": 9
+    },
+    {
+      "module": "proofpack",
+      "test_files": 3,
+      "estimated_tests": 28
+    },
+    {
+      "module": "prose-directive",
+      "test_files": 3,
+      "estimated_tests": 16
+    },
+    {
+      "module": "quality",
+      "test_files": 1,
+      "estimated_tests": 6
+    },
+    {
+      "module": "runtime",
+      "test_files": 6,
+      "estimated_tests": 43
+    },
+    {
+      "module": "scoring",
+      "test_files": 3,
+      "estimated_tests": 11
+    },
+    {
+      "module": "semantic",
+      "test_files": 7,
+      "estimated_tests": 49
+    },
+    {
+      "module": "silence",
+      "test_files": 1,
+      "estimated_tests": 5
+    },
+    {
+      "module": "ssot",
+      "test_files": 5,
+      "estimated_tests": 88
+    },
+    {
+      "module": "symbol",
+      "test_files": 2,
+      "estimated_tests": 24
+    },
+    {
+      "module": "temporal",
+      "test_files": 3,
+      "estimated_tests": 16
+    },
+    {
+      "module": "validation",
+      "test_files": 15,
+      "estimated_tests": 345
+    },
+    {
+      "module": "voice",
+      "test_files": 7,
+      "estimated_tests": 31
+    }
+  ],
+  "root_level_test_files": [
+    {
+      "file": "config.test.ts",
+      "estimated_tests": "unknown"
+    },
+    {
+      "file": "typological-normalizer.test.ts",
+      "estimated_tests": "unknown"
+    }
+  ],
+  "modules_WITHOUT_tests": [
+    "data",
+    "telemetry",
+    "utils"
+  ],
+  "total_test_files": 219,
+  "total_estimated_tests": 1953,
+  "test_directories_count": 46,
+  "src_modules_count": 42,
+  "coverage_ratio": "39/42 src modules have test dirs",
+  "coverage_gaps": [
+    "src/data/ has NO corresponding test directory",
+    "src/telemetry/ has NO corresponding test directory",
+    "src/utils/ has NO corresponding test directory",
+    "tests/art/ exists but has no corresponding src/art/ module",
+    "tests/bench/ exists but has no corresponding src/bench/ module",
+    "tests/doctrine/ exists but has no corresponding src/doctrine/ module",
+    "tests/e2e/ exists but has no corresponding src/e2e/ module",
+    "tests/ssot/ exists but has no corresponding src/ssot/ module"
+  ],
+  "notes": [
+    "fixtures/ and helpers/ are support directories, not test modules",
+    "pipeline/ has 0 it() calls - may be empty or structural only",
+    "Estimated tests counted via it() calls in .test.ts files"
+  ]
+}

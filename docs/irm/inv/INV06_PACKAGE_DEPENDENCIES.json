@@ -1,0 +1,530 @@
+{
+  "investigation": "INV-06",
+  "title": "INTER-PACKAGE DEPENDENCIES",
+  "scope": "omega-project/packages/",
+  "date": "2026-04-02",
+  "total_packages_with_pkg_json": 41,
+  "packages_without_pkg_json": [
+    "hostile",
+    "sbom",
+    "schemas",
+    "trust-version"
+  ],
+  "packages": {
+    "canon-kernel": {
+      "internal_deps": [],
+      "depended_by": [
+        "creation-pipeline",
+        "emotion-gate",
+        "genesis-planner",
+        "omega-forge",
+        "omega-governance",
+        "omega-metrics",
+        "omega-release",
+        "omega-runner",
+        "phase-q",
+        "scribe-engine",
+        "signal-registry",
+        "sovereign-engine",
+        "style-emergence-engine",
+        "truth-gate"
+      ],
+      "fan_in": 14,
+      "fan_out": 0,
+      "isolated": false
+    },
+    "contracts-canon": {
+      "internal_deps": [
+        "@omega/orchestrator-core"
+      ],
+      "depended_by": [
+        "gold-internal",
+        "proof-pack"
+      ],
+      "fan_in": 2,
+      "fan_out": 1,
+      "isolated": false
+    },
+    "creation-pipeline": {
+      "internal_deps": [
+        "@omega/canon-kernel",
+        "@omega/genesis-planner",
+        "@omega/scribe-engine",
+        "@omega/style-emergence-engine"
+      ],
+      "depended_by": [
+        "omega-forge",
+        "omega-runner"
+      ],
+      "fan_in": 2,
+      "fan_out": 4,
+      "isolated": false
+    },
+    "decision-engine": {
+      "internal_deps": [
+        "@omega/orchestrator-core"
+      ],
+      "depended_by": [],
+      "fan_in": 0,
+      "fan_out": 1,
+      "isolated": false
+    },
+    "emotion-gate": {
+      "internal_deps": [
+        "@omega/canon-kernel"
+      ],
+      "depended_by": [],
+      "fan_in": 0,
+      "fan_out": 1,
+      "isolated": false
+    },
+    "genesis-planner": {
+      "internal_deps": [
+        "@omega/canon-kernel"
+      ],
+      "depended_by": [
+        "creation-pipeline",
+        "omega-forge",
+        "omega-runner",
+        "scribe-engine",
+        "sovereign-engine",
+        "style-emergence-engine"
+      ],
+      "fan_in": 6,
+      "fan_out": 1,
+      "isolated": false
+    },
+    "genome": {
+      "internal_deps": [
+        "@omega/mycelium"
+      ],
+      "depended_by": [
+        "sovereign-engine"
+      ],
+      "fan_in": 1,
+      "fan_out": 1,
+      "isolated": false
+    },
+    "gold-cli": {
+      "internal_deps": [
+        "@omega/gold-internal",
+        "@omega/orchestrator-core",
+        "@omega/proof-pack"
+      ],
+      "depended_by": [],
+      "fan_in": 0,
+      "fan_out": 3,
+      "isolated": false
+    },
+    "gold-internal": {
+      "internal_deps": [
+        "@omega/contracts-canon",
+        "@omega/hardening",
+        "@omega/headless-runner",
+        "@omega/orchestrator-core",
+        "@omega/performance",
+        "@omega/proof-pack"
+      ],
+      "depended_by": [
+        "gold-cli",
+        "gold-master",
+        "gold-suite"
+      ],
+      "fan_in": 3,
+      "fan_out": 6,
+      "isolated": false
+    },
+    "gold-master": {
+      "internal_deps": [
+        "@omega/gold-internal",
+        "@omega/gold-suite",
+        "@omega/hardening",
+        "@omega/orchestrator-core",
+        "@omega/performance",
+        "@omega/proof-pack"
+      ],
+      "depended_by": [],
+      "fan_in": 0,
+      "fan_out": 6,
+      "isolated": false
+    },
+    "gold-suite": {
+      "internal_deps": [
+        "@omega/gold-internal",
+        "@omega/orchestrator-core"
+      ],
+      "depended_by": [
+        "gold-master"
+      ],
+      "fan_in": 1,
+      "fan_out": 2,
+      "isolated": false
+    },
+    "hardening": {
+      "internal_deps": [
+        "@omega/orchestrator-core"
+      ],
+      "depended_by": [
+        "gold-internal",
+        "gold-master"
+      ],
+      "fan_in": 2,
+      "fan_out": 1,
+      "isolated": false
+    },
+    "headless-runner": {
+      "internal_deps": [
+        "@omega/orchestrator-core"
+      ],
+      "depended_by": [
+        "gold-internal"
+      ],
+      "fan_in": 1,
+      "fan_out": 1,
+      "isolated": false
+    },
+    "integration-nexus-dep": {
+      "internal_deps": [],
+      "depended_by": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "isolated": true
+    },
+    "mod-narrative": {
+      "internal_deps": [],
+      "depended_by": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "isolated": true
+    },
+    "mycelium": {
+      "internal_deps": [],
+      "depended_by": [
+        "genome"
+      ],
+      "fan_in": 1,
+      "fan_out": 0,
+      "isolated": false
+    },
+    "mycelium-bio": {
+      "internal_deps": [],
+      "depended_by": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "isolated": true
+    },
+    "omega-aggregate-dna": {
+      "internal_deps": [],
+      "depended_by": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "isolated": true
+    },
+    "omega-bridge-ta-mycelium": {
+      "internal_deps": [],
+      "depended_by": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "isolated": true
+    },
+    "omega-forge": {
+      "internal_deps": [
+        "@omega/canon-kernel",
+        "@omega/creation-pipeline",
+        "@omega/genesis-planner",
+        "@omega/scribe-engine",
+        "@omega/signal-registry",
+        "@omega/style-emergence-engine"
+      ],
+      "depended_by": [
+        "omega-runner",
+        "sovereign-engine"
+      ],
+      "fan_in": 2,
+      "fan_out": 6,
+      "isolated": false
+    },
+    "omega-governance": {
+      "internal_deps": [
+        "@omega/canon-kernel"
+      ],
+      "depended_by": [],
+      "fan_in": 0,
+      "fan_out": 1,
+      "isolated": false
+    },
+    "omega-metrics": {
+      "internal_deps": [
+        "@omega/canon-kernel"
+      ],
+      "depended_by": [],
+      "fan_in": 0,
+      "fan_out": 1,
+      "isolated": false
+    },
+    "omega-observability": {
+      "internal_deps": [],
+      "depended_by": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "isolated": true
+    },
+    "omega-p0": {
+      "internal_deps": [],
+      "depended_by": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "isolated": true
+    },
+    "omega-release": {
+      "internal_deps": [
+        "@omega/canon-kernel"
+      ],
+      "depended_by": [],
+      "fan_in": 0,
+      "fan_out": 1,
+      "isolated": false
+    },
+    "omega-runner": {
+      "internal_deps": [
+        "@omega/canon-kernel",
+        "@omega/creation-pipeline",
+        "@omega/genesis-planner",
+        "@omega/omega-forge",
+        "@omega/scribe-engine",
+        "@omega/style-emergence-engine"
+      ],
+      "depended_by": [],
+      "fan_in": 0,
+      "fan_out": 6,
+      "isolated": false
+    },
+    "omega-segment-engine": {
+      "internal_deps": [],
+      "depended_by": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "isolated": true
+    },
+    "oracle": {
+      "internal_deps": [],
+      "depended_by": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "isolated": true
+    },
+    "orchestrator-core": {
+      "internal_deps": [],
+      "depended_by": [
+        "contracts-canon",
+        "decision-engine",
+        "gold-cli",
+        "gold-internal",
+        "gold-master",
+        "gold-suite",
+        "hardening",
+        "headless-runner",
+        "performance",
+        "proof-pack"
+      ],
+      "fan_in": 10,
+      "fan_out": 0,
+      "isolated": false
+    },
+    "performance": {
+      "internal_deps": [
+        "@omega/orchestrator-core"
+      ],
+      "depended_by": [
+        "gold-internal",
+        "gold-master"
+      ],
+      "fan_in": 2,
+      "fan_out": 1,
+      "isolated": false
+    },
+    "phase-q": {
+      "internal_deps": [
+        "@omega/canon-kernel"
+      ],
+      "depended_by": [],
+      "fan_in": 0,
+      "fan_out": 1,
+      "isolated": false
+    },
+    "plugin-gateway": {
+      "internal_deps": [],
+      "depended_by": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "isolated": true
+    },
+    "plugin-sdk": {
+      "internal_deps": [],
+      "depended_by": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "isolated": true
+    },
+    "proof-pack": {
+      "internal_deps": [
+        "@omega/contracts-canon",
+        "@omega/orchestrator-core"
+      ],
+      "depended_by": [
+        "gold-cli",
+        "gold-internal",
+        "gold-master"
+      ],
+      "fan_in": 3,
+      "fan_out": 2,
+      "isolated": false
+    },
+    "scribe-engine": {
+      "internal_deps": [
+        "@omega/canon-kernel",
+        "@omega/genesis-planner"
+      ],
+      "depended_by": [
+        "creation-pipeline",
+        "omega-forge",
+        "omega-runner",
+        "style-emergence-engine"
+      ],
+      "fan_in": 4,
+      "fan_out": 2,
+      "isolated": false
+    },
+    "search": {
+      "internal_deps": [],
+      "depended_by": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "isolated": true
+    },
+    "sentinel-judge": {
+      "internal_deps": [],
+      "depended_by": [],
+      "fan_in": 0,
+      "fan_out": 0,
+      "isolated": true
+    },
+    "signal-registry": {
+      "internal_deps": [
+        "@omega/canon-kernel"
+      ],
+      "depended_by": [
+        "omega-forge",
+        "sovereign-engine"
+      ],
+      "fan_in": 2,
+      "fan_out": 1,
+      "isolated": false
+    },
+    "sovereign-engine": {
+      "internal_deps": [
+        "@omega/canon-kernel",
+        "@omega/genesis-planner",
+        "@omega/genome",
+        "@omega/omega-forge",
+        "@omega/phonetic-stack",
+        "@omega/signal-registry"
+      ],
+      "depended_by": [],
+      "fan_in": 0,
+      "fan_out": 6,
+      "isolated": false
+    },
+    "style-emergence-engine": {
+      "internal_deps": [
+        "@omega/canon-kernel",
+        "@omega/genesis-planner",
+        "@omega/scribe-engine"
+      ],
+      "depended_by": [
+        "creation-pipeline",
+        "omega-forge",
+        "omega-runner"
+      ],
+      "fan_in": 3,
+      "fan_out": 3,
+      "isolated": false
+    },
+    "truth-gate": {
+      "internal_deps": [
+        "@omega/canon-engine",
+        "@omega/canon-kernel"
+      ],
+      "depended_by": [],
+      "fan_in": 0,
+      "fan_out": 2,
+      "isolated": false
+    }
+  },
+  "circular_dependencies": [],
+  "orphan_packages": [
+    "hostile",
+    "integration-nexus-dep",
+    "mod-narrative",
+    "mycelium-bio",
+    "omega-aggregate-dna",
+    "omega-bridge-ta-mycelium",
+    "omega-observability",
+    "omega-p0",
+    "omega-segment-engine",
+    "oracle",
+    "plugin-gateway",
+    "plugin-sdk",
+    "sbom",
+    "schemas",
+    "search",
+    "sentinel-judge",
+    "trust-version"
+  ],
+  "hub_packages": [
+    {
+      "package": "canon-kernel",
+      "fan_in": 14
+    },
+    {
+      "package": "orchestrator-core",
+      "fan_in": 10
+    },
+    {
+      "package": "genesis-planner",
+      "fan_in": 6
+    },
+    {
+      "package": "scribe-engine",
+      "fan_in": 4
+    },
+    {
+      "package": "gold-internal",
+      "fan_in": 3
+    },
+    {
+      "package": "proof-pack",
+      "fan_in": 3
+    },
+    {
+      "package": "style-emergence-engine",
+      "fan_in": 3
+    }
+  ],
+  "external_references": [
+    {
+      "from": "sovereign-engine",
+      "dep": "@omega/phonetic-stack",
+      "note": "target package not found in monorepo"
+    },
+    {
+      "from": "truth-gate",
+      "dep": "@omega/canon-engine",
+      "note": "target package not found in monorepo"
+    }
+  ],
+  "root_package_json": {
+    "omega_deps": [],
+    "workspaces": "none (not a workspace root)"
+  }
+}

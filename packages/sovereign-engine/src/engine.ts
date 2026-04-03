@@ -36,6 +36,10 @@ import { computeLanguageProfile } from './scoring/language-profiles.js';
 import { computeDualScale, resetArcBuffer } from './scoring/dual-scale.js';
 import { setClosureTarget } from './scoring/arc-scorer.js';
 import { getProfile } from './scoring/quality-profiles.js';
+// P2-01: V3 Ridge SHADOW scorer (CALC pure, 0 LLM, diagnostic only)
+import { MultiStageScorerV3 } from './scoring/multi-stage-scorer-v3.js';
+import { computeTextFeatures } from './scoring/text-features.js';
+import { computeDepthFeatures } from './scoring/depth-features.js';
 import { assembleForgePacket, type ForgePacketInput } from './input/forge-packet-assembler.js';
 import { validateForgePacket } from './input/pre-write-validator.js';
 import { simulateSceneBattle } from './input/pre-write-simulator.js';
@@ -527,6 +531,28 @@ async function executePipeline(
     console.log(`[DUAL_SCALE] local=${dualScale.local_score.toFixed(1)} arc=${dualScale.arc_score.toFixed(1)} dual=${dualScale.dual_score.toFixed(1)}`);
     if (ad) {
       console.log(`[ARC_DETAIL] progression=${ad.progression.toFixed(1)} stability=${ad.tension_variance.toFixed(1)} closure=${ad.closure_signal.toFixed(1)} composite=${ad.arc_composite.toFixed(1)}`);
+    }
+  }
+
+  // ── V3 RIDGE SHADOW (P2-01: diagnostic only, no authority) ──
+  // Pure CALC scorer: Ridge + R3 confidence + R8 tipping points.
+  // Runs in parallel with S-Oracle. Does NOT gate decisions.
+  {
+    try {
+      const textFeats = computeTextFeatures(final_prose);
+      const depthFeats = computeDepthFeatures(final_prose);
+      const allFeats = { ...textFeats, ...depthFeats };
+      const v3Scorer = new MultiStageScorerV3(true, true);
+      const v3Result = v3Scorer.score(allFeats, { wordCount: final_prose.split(/\s+/).length, text: final_prose });
+      const delta = Math.round((v3Result.final - final_score_v3.composite) * 10) / 10;
+      console.log(`[SHADOW_V3] score100=${v3Result.score100.toFixed(1)} final=${v3Result.final.toFixed(1)} r3_conf=${v3Result.r3_mean_confidence.toFixed(3)} r8_tk=${v3Result.r8_tipping.master_count}/${v3Result.r8_tipping.total_evaluated} delta_vs_oracle=${delta > 0 ? '+' : ''}${delta}`);
+      if (v3Result.top_contributors.length > 0) {
+        const top3 = v3Result.top_contributors.slice(0, 3).map(c => `${c.feature}=${c.contribution.toFixed(2)}`).join(' ');
+        console.log(`[SHADOW_V3] top_contributors: ${top3}`);
+      }
+    } catch {
+      // SHADOW is non-critical — never crash the pipeline
+      console.log('[SHADOW_V3] SKIPPED (feature extraction error)');
     }
   }
 

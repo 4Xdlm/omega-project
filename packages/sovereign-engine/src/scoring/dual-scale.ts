@@ -5,17 +5,17 @@
  * R2 FR @3000w = 0.519 (la vraie mesure)
  * Score_FINAL = 0.43 x LOCAL + 0.57 x ARC
  *
- * SHADOW MODE (D1) : informatif uniquement.
- * ARC commence a LOCAL (pas de donnees multi-briques en shadow).
+ * P2-00 : Délègue le calcul ARC à arc-scorer.ts (3 sous-scores CALC).
+ * Conservé comme wrapper de compatibilité pour engine.ts et les tests existants.
  */
+
+import { pushScoreAndComputeArc, resetArc, type ArcScore } from './arc-scorer.js';
 
 const W_LOCAL = 0.43;
 const W_ARC = 0.57;
 
-let arcBuffer: number[] = [];
-
 export function resetArcBuffer(): void {
-  arcBuffer = [];
+  resetArc();
 }
 
 export interface DualScaleResult {
@@ -23,21 +23,20 @@ export interface DualScaleResult {
   readonly arc_score: number;
   readonly dual_score: number;
   readonly arc_window_size: number;
+  /** P2-00 : détail des 3 sous-scores ARC (progression, tension, closure). */
+  readonly arc_detail?: ArcScore;
 }
 
 export function computeDualScale(localScore: number): DualScaleResult {
-  arcBuffer.push(localScore);
+  const arcResult = pushScoreAndComputeArc(localScore);
 
-  const ARC_WINDOW = 5;
-  const recentScores = arcBuffer.slice(-ARC_WINDOW);
-  const arcScore = recentScores.reduce((a, b) => a + b, 0) / recentScores.length;
-
-  const dualScore = Math.round((W_LOCAL * localScore + W_ARC * arcScore) * 100) / 100;
+  const dualScore = Math.round((W_LOCAL * localScore + W_ARC * arcResult.arc_composite) * 100) / 100;
 
   return {
     local_score: localScore,
-    arc_score: Math.round(arcScore * 100) / 100,
+    arc_score: Math.round(arcResult.arc_composite * 100) / 100,
     dual_score: dualScore,
-    arc_window_size: recentScores.length,
+    arc_window_size: 0, // deprecated — use arc_detail for window info
+    arc_detail: arcResult,
   };
 }

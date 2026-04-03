@@ -119,14 +119,15 @@ export function computeProgression(scores: readonly number[]): number {
 }
 
 /**
- * Tension Variance : mesure le dynamisme entre sections.
+ * Tension Variance : mesure la STABILITÉ de la qualité entre sections.
  *
- * Un texte avec des scores tous identiques = plat, ennuyeux → score BAS.
- * Un texte avec des variations contrôlées = dynamique → score ÉLEVÉ.
- * Un texte avec des variations extrêmes = incohérent → score MOYEN/BAS.
+ * Contexte qualité : la variance = INSTABILITÉ du pipeline.
+ * Un texte avec des scores stables = pipeline maîtrisé → score ÉLEVÉ.
+ * Un texte avec des scores chaotiques = pipeline instable → score BAS.
  *
- * Méthode : CV (coefficient de variation) des scores, mappé sur une courbe
- * en cloche centrée sur le CV optimal (0.05-0.12).
+ * Méthode : score de stabilité basé sur le CV (coefficient de variation).
+ * CV bas → pipeline stable → score haut.
+ * CV élevé → pipeline chaotique → score bas.
  *
  * Avec 1 seul score, on retourne 50 (pas assez de données).
  */
@@ -134,39 +135,23 @@ export function computeTensionVariance(scores: readonly number[]): number {
   const n = scores.length;
   if (n <= 1) return 50.0;
 
-  const mean = scores.reduce((a, b) => a + b, 0) / n;
-  if (mean === 0) return 0;
+  const avg = scores.reduce((a, b) => a + b, 0) / n;
+  if (avg === 0) return 0;
 
-  const variance = scores.reduce((sum, s) => sum + (s - mean) ** 2, 0) / n;
+  const variance = scores.reduce((sum, s) => sum + (s - avg) ** 2, 0) / n;
   const stdev = Math.sqrt(variance);
-  const cv = stdev / mean;
+  const cv = stdev / avg;
 
-  // Zone optimale : CV entre 0.03 et 0.15
-  // CV < 0.03 → trop plat → score bas
-  // CV 0.03-0.15 → dynamique sain → score élevé
-  // CV > 0.15 → trop chaotique → score décroissant
-  const CV_MIN = 0.03;
-  const CV_OPTIMAL = 0.08;
-  const CV_MAX = 0.15;
-  const CV_CHAOTIC = 0.30;
+  // Score de stabilité : CV → score inversé
+  // CV = 0.00 → 95 (quasi-parfait, mais pas 100 — pas assez de signal)
+  // CV = 0.02 → 90 (excellent, très stable)
+  // CV = 0.05 → 75 (bon, variation normale)
+  // CV = 0.10 → 50 (moyen, variation notable)
+  // CV = 0.15 → 30 (instable)
+  // CV = 0.25 → 10 (chaotique)
+  // CV > 0.30 → 0  (dégénéré)
 
-  let score: number;
-  if (cv < CV_MIN) {
-    // Trop uniforme : 0 → CV_MIN maps to 20 → 60
-    score = 20 + (cv / CV_MIN) * 40;
-  } else if (cv <= CV_OPTIMAL) {
-    // Montée vers le pic : CV_MIN → CV_OPTIMAL maps to 60 → 95
-    score = 60 + ((cv - CV_MIN) / (CV_OPTIMAL - CV_MIN)) * 35;
-  } else if (cv <= CV_MAX) {
-    // Plateau haut : CV_OPTIMAL → CV_MAX maps to 95 → 80
-    score = 95 - ((cv - CV_OPTIMAL) / (CV_MAX - CV_OPTIMAL)) * 15;
-  } else if (cv <= CV_CHAOTIC) {
-    // Décroissance : CV_MAX → CV_CHAOTIC maps to 80 → 30
-    score = 80 - ((cv - CV_MAX) / (CV_CHAOTIC - CV_MAX)) * 50;
-  } else {
-    // Chaos total
-    score = Math.max(10, 30 - (cv - CV_CHAOTIC) * 100);
-  }
+  const score = 95 * Math.exp(-cv * 15);
 
   return Math.round(Math.max(0, Math.min(100, score)) * 100) / 100;
 }

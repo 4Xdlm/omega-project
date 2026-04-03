@@ -74,23 +74,21 @@ describe('ARC Scorer — P2-00', () => {
       expect(computeTensionVariance([85])).toBe(50.0);
     });
 
-    it('identical scores → low (too uniform)', () => {
+    it('identical scores → high (very stable)', () => {
       const result = computeTensionVariance([85, 85, 85, 85]);
-      expect(result).toBeLessThan(30);
+      expect(result).toBeGreaterThan(80);
     });
 
-    it('slight variation → high (optimal zone)', () => {
-      // CV ≈ stdev/mean. Scores [84, 86, 85, 87, 83] → mean=85, stdev≈1.41, cv≈0.017
-      // That's below CV_MIN=0.03, so actually low zone. Let's pick better values.
-      // Scores [80, 88, 84, 92, 86] → mean=86, stdev≈4.0, cv≈0.047 → in [0.03, 0.08]
-      const result = computeTensionVariance([80, 88, 84, 92, 86]);
+    it('slight variation → moderately high (stable)', () => {
+      // Scores [84, 86, 85, 87, 83] → mean=85, stdev≈1.41, cv≈0.017 → stable
+      const result = computeTensionVariance([84, 86, 85, 87, 83]);
       expect(result).toBeGreaterThan(60);
     });
 
-    it('extreme variation → low (chaotic)', () => {
+    it('extreme variation → low (chaotic/instable)', () => {
       const result = computeTensionVariance([50, 100, 50, 100, 50]);
-      // stdev≈25, mean=70, cv≈0.36 → chaotic
-      expect(result).toBeLessThan(40);
+      // stdev≈25, mean=70, cv≈0.36 → chaotic → low stability score
+      expect(result).toBeLessThan(10);
     });
 
     it('bounded [0, 100]', () => {
@@ -216,15 +214,19 @@ describe('ARC Scorer — P2-00', () => {
       expect(arc.closure_signal).toBeGreaterThan(80);
     });
 
-    it('flat mediocre → low ARC', () => {
+    it('flat mediocre → moderate ARC (stable but far from target)', () => {
       const arc = computeArcFromScores([75, 75, 75, 75, 75], 88);
-      expect(arc.arc_composite).toBeLessThan(40);
+      // Stable (high tension_variance) + neutral progression + bad closure
+      // → composite mid-range, not excellent
+      expect(arc.arc_composite).toBeLessThan(60);
       expect(arc.closure_signal).toBeLessThan(30);
+      expect(arc.tension_variance).toBeGreaterThan(80); // very stable
     });
 
-    it('chaotic scores → low tension_variance', () => {
+    it('chaotic scores → low stability (tension_variance)', () => {
       const arc = computeArcFromScores([60, 95, 55, 100, 50], 88);
-      expect(arc.tension_variance).toBeLessThan(40);
+      // Chaotic = unstable → very low stability score
+      expect(arc.tension_variance).toBeLessThan(10);
     });
   });
 });

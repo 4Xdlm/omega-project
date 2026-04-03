@@ -33,7 +33,9 @@ import type {
 // CI_L37 et PROFILES retirés du pipeline — REJETÉS D1 (saturation BB-C01 / corrélations négatives)
 // import { computeCIL37 } from './scoring/ci-l37.js';
 import { computeLanguageProfile } from './scoring/language-profiles.js';
-import { computeDualScale } from './scoring/dual-scale.js';
+import { computeDualScale, resetArcBuffer } from './scoring/dual-scale.js';
+import { setClosureTarget } from './scoring/arc-scorer.js';
+import { getProfile } from './scoring/quality-profiles.js';
 import { assembleForgePacket, type ForgePacketInput } from './input/forge-packet-assembler.js';
 import { validateForgePacket } from './input/pre-write-validator.js';
 import { simulateSceneBattle } from './input/pre-write-simulator.js';
@@ -242,6 +244,21 @@ async function executePipeline(
   provider: SovereignProvider,
   cdeInput?: CDEInput,
 ): Promise<SovereignForgeResult> {
+  // ★ P2-00: Reset ARC buffer et configurer closure target
+  resetArcBuffer();
+  {
+    const tierName = (packet.quality_tier ?? 'sovereign').toUpperCase();
+    const profileMap: Record<string, string> = {
+      'SOVEREIGN': 'LITTERAIRE', 'LITTERAIRE': 'LITTERAIRE',
+      'COMMERCIAL': 'COMMERCIAL', 'THRILLER': 'THRILLER',
+      'CONTEMPLATIF': 'CONTEMPLATIF', 'EXPERIMENTAL': 'EXPERIMENTAL',
+      'STRATOSPHERIQUE': 'STRATOSPHERIQUE',
+    };
+    const profileName = profileMap[tierName] ?? 'LITTERAIRE';
+    const profile = getProfile(profileName);
+    setClosureTarget(profile.seal_threshold);
+  }
+
   // ★ NOUVEAU v3: Symbol Mapper (FAIL-CLOSED si échec)
   const symbolMap = await generateSymbolMap(packet, provider);
 
@@ -503,10 +520,14 @@ async function executePipeline(
   // ★ NOUVEAU v3: Utiliser judgeAestheticV3 avec macro-axes
   const final_score_v3 = await judgeAestheticV3(enrichedPacket, final_prose, provider, symbolMap, physicsAudit);
 
-  // ── SHADOW DUAL-SCALE ──
+  // ── DUAL-SCALE (P2-00: ARC PRODUCTION) ──
+  const dualScale = computeDualScale(final_score_v3.composite);
   {
-    const dualScale = computeDualScale(final_score_v3.composite);
-    console.log(`[SHADOW] DUAL_SCALE: local=${dualScale.local_score.toFixed(1)} arc=${dualScale.arc_score.toFixed(1)} dual=${dualScale.dual_score.toFixed(1)} (window=${dualScale.arc_window_size})`);
+    const ad = dualScale.arc_detail;
+    console.log(`[DUAL_SCALE] local=${dualScale.local_score.toFixed(1)} arc=${dualScale.arc_score.toFixed(1)} dual=${dualScale.dual_score.toFixed(1)}`);
+    if (ad) {
+      console.log(`[ARC_DETAIL] progression=${ad.progression.toFixed(1)} stability=${ad.tension_variance.toFixed(1)} closure=${ad.closure_signal.toFixed(1)} composite=${ad.arc_composite.toFixed(1)}`);
+    }
   }
 
   // ★ Sprint 3 PREP: Sub-score autopsy for RCI and SII

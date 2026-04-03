@@ -5,7 +5,8 @@
  * R2 FR @3000w = 0.519 (la vraie mesure)
  * Score_FINAL = 0.43 x LOCAL + 0.57 x ARC
  *
- * P2-00 : Délègue le calcul ARC à arc-scorer.ts (3 sous-scores CALC).
+ * P2-00 ARC-03 : PRODUCTION MODE. SHADOW retiré.
+ * Délègue le calcul ARC à arc-scorer.ts (3 sous-scores CALC).
  * Conservé comme wrapper de compatibilité pour engine.ts et les tests existants.
  */
 

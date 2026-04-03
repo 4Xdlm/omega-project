@@ -9,6 +9,12 @@
  * - Lambda=50 Ridge (stronger regularization, less overfit)
  * - Spearman 0.52 on full corpus
  *
+ * R4-b — R3 Confidence Modulation (P2-01)
+ * Each Ridge weight is multiplied by R3 empirical confidence @600w.
+ * Source: OMEGA_COEFFICIENTS_PROPORTIONNELS_v1.json weight_table.LOCAL_600
+ * Features not in R3 (depth, R5bis) keep confidence = 1.0.
+ * Features with R3 confidence = 0 @600w use floor = 0.05.
+ *
  * STANDALONE — no dependency on V1/V2 scorers.
  *
  * Usage:
@@ -44,6 +50,19 @@ export interface V3Score {
   top_contributors: Array<{ feature: string; contribution: number }>;
   /** Active bonuses */
   bonuses: Array<{ name: string; value: number }>;
+  /** R4-b: R3 confidence modulation active */
+  r3_modulated: boolean;
+  /** R4-b: mean R3 confidence of active features */
+  r3_mean_confidence: number;
+  /** R4-c: R8 tipping points evaluation */
+  r8_tipping: {
+    /** Number of tipping points on master side */
+    master_count: number;
+    /** Total tipping points evaluated (max 10) */
+    total_evaluated: number;
+    /** Weighted bonus applied (0-10 scale, added to score100) */
+    bonus: number;
+  };
 }
 
 // ═══════════════════════════════════════════════════════════════════════
@@ -54,6 +73,133 @@ interface FeatureWeight {
   weight: number;
   mean: number;
   std: number;
+}
+
+// ═══════════════════════════════════════════════════════════════════════
+// R3 CONFIDENCE MAP (R4-b)
+// Source: OMEGA_COEFFICIENTS_PROPORTIONNELS_v1.json
+// - weight_table.LOCAL_600.{feature}.weight_effective for features in LOCAL_600
+// - confidence_table.{feature}["600"] for features not in LOCAL_600
+// - 1.0 for depth features not in R3 (R5bis additions)
+// Floor: 0.05 for features with 0 empirical confidence @600w
+// ═══════════════════════════════════════════════════════════════════════
+
+/** Minimum confidence for features with 0 R3 support. Not zeroed because Ridge found them predictive. */
+const R3_CONFIDENCE_FLOOR = 0.05;
+
+/**
+ * R3 empirical confidence @600w for each V3 Ridge feature.
+ * Values sourced from LOCAL_600 weight_effective when available,
+ * otherwise from confidence_table @600w.
+ */
+const R3_CONFIDENCE: Record<string, number> = {
+  // ── From weight_table.LOCAL_600 ──
+  f1_mean:                0.5116,
+  f9a_contradiction_rate: 0.5974,
+  f19a_approx_entropy:    0.5204,
+  f24c_contrast_delta:    0.4764,
+  f27d_modal_score:       0.3767,
+  f17_knife_count:        0.6617,
+  f29d_ttr_score:         0.9502,
+  f35c_hook_score:        0.6356,
+  f36c_cliff_score:       0.8252,
+
+  // ── From confidence_table @600w (not in LOCAL_600 weight_table) ──
+  f1a_rhythm_variance:    0.1401,
+  f26b_long_sent_rate:    R3_CONFIDENCE_FLOOR,  // 0.0 @600w, floor applied
+  f26c_period_score:      R3_CONFIDENCE_FLOOR,  // 0.0 @600w, floor applied
+  f27a_epistemic_rate:    R3_CONFIDENCE_FLOOR,  // 0.0 @600w, floor applied
+  f28b_irony_density:     R3_CONFIDENCE_FLOOR,  // 0.0 @600w, floor applied
+
+  // ── Depth features from R5bis — NOT IN R3, keep unmodulated ──
+  f_pov_shift_rate:       1.0,
+  f_subordination_depth:  1.0,
+  f_clause_per_sentence:  1.0,
+};
+
+// ═══════════════════════════════════════════════════════════════════════
+// R8 TIPPING POINTS (R4-c)
+// Source: R8_TIPPING_POINTS.json (Phase R-8.7, GB Spearman = 0.786)
+// 10 empirical thresholds from gradient-boosted tree extraction.
+// Each evaluated point on master side → weighted bonus.
+// ═══════════════════════════════════════════════════════════════════════
+
+interface TippingPoint {
+  feature: string;
+  threshold: number;
+  direction: 'HIGHER' | 'LOWER';
+  /** Delta impact from GB extraction */
+  delta: number;
+  /** Normalized importance (sum ≈ 0.66 across all 10) */
+  importance: number;
+}
+
+const R8_TIPPING_POINTS: readonly TippingPoint[] = [
+  { feature: 'f26b_long_sent_rate',   threshold: 0.02405, direction: 'HIGHER', delta: 1.11018, importance: 0.29017 },
+  { feature: 'f_pov_stability',       threshold: 0.64625, direction: 'LOWER',  delta:-0.35827, importance: 0.05832 },
+  { feature: 'ix_variance_x_longrate',threshold: 0.09608, direction: 'HIGHER', delta: 1.26294, importance: 0.05554 },
+  { feature: 'f_pov_shift_rate',      threshold: 0.34800, direction: 'HIGHER', delta: 0.45885, importance: 0.04411 },
+  { feature: 'f29d_ttr_score',        threshold: 0.70945, direction: 'LOWER',  delta:-0.46210, importance: 0.04213 },
+  { feature: 'f_causal_density',      threshold: 0.06795, direction: 'HIGHER', delta: 0.64488, importance: 0.03849 },
+  { feature: 'f1a_rhythm_variance',   threshold: 11.36105,direction: 'HIGHER', delta: 0.97566, importance: 0.03562 },
+  { feature: 'f_pov_drift_rate',      threshold: 0.11262, direction: 'HIGHER', delta: 0.42167, importance: 0.03559 },
+  { feature: 'f19a_approx_entropy',   threshold: 0.63735, direction: 'HIGHER', delta: 0.53735, importance: 0.03462 },
+  { feature: 'f_clause_per_sentence', threshold: 1.00953, direction: 'HIGHER', delta: 0.30261, importance: 0.02616 },
+] as const;
+
+/** Maximum bonus from tipping points (on 0-100 scale). */
+const R8_MAX_BONUS = 10;
+
+/**
+ * Evaluate tipping points against measured features.
+ * Returns weighted bonus in [0, R8_MAX_BONUS].
+ *
+ * For interaction features (ix_*), the caller must pre-compute and include
+ * the product in the features dict.
+ */
+function evaluateR8TippingPoints(
+  features: Record<string, number>,
+): { masterCount: number; totalEvaluated: number; bonus: number } {
+  let masterCount = 0;
+  let totalEvaluated = 0;
+  let weightedScore = 0;
+  let totalImportance = 0;
+
+  for (const tp of R8_TIPPING_POINTS) {
+    let value: number | undefined;
+
+    // For interaction features, compute product on the fly
+    if (tp.feature === 'ix_variance_x_longrate') {
+      const a = features['f1a_rhythm_variance'];
+      const b = features['f26b_long_sent_rate'];
+      if (a !== undefined && b !== undefined && Number.isFinite(a) && Number.isFinite(b)) {
+        value = a * b;
+      }
+    } else {
+      value = features[tp.feature];
+    }
+
+    if (value === undefined || !Number.isFinite(value)) continue;
+
+    totalEvaluated++;
+    totalImportance += tp.importance;
+
+    const onMasterSide = tp.direction === 'HIGHER'
+      ? value > tp.threshold
+      : value < tp.threshold;
+
+    if (onMasterSide) {
+      masterCount++;
+      weightedScore += tp.importance;
+    }
+  }
+
+  // Bonus = proportion of weighted importance on master side, scaled to R8_MAX_BONUS
+  const bonus = totalImportance > 0
+    ? r4(weightedScore / totalImportance * R8_MAX_BONUS)
+    : 0;
+
+  return { masterCount, totalEvaluated, bonus };
 }
 
 // Weights in original scale (not standardized)
@@ -105,29 +251,55 @@ const RAW_MAX = 5.5;
 // ═══════════════════════════════════════════════════════════════════════
 
 export class MultiStageScorerV3 {
+  private readonly _useR3Modulation: boolean;
+  private readonly _useR8TippingPoints: boolean;
+
+  /**
+   * @param useR3Modulation If true (default), apply R3 confidence as weight multipliers.
+   *   Set false to get original Ridge-only scoring (for A/B comparison).
+   * @param useR8TippingPoints If true (default), apply R8 tipping point bonus.
+   *   Set false to disable R8 bonus (for A/B comparison).
+   */
+  constructor(useR3Modulation = true, useR8TippingPoints = true) {
+    this._useR3Modulation = useR3Modulation;
+    this._useR8TippingPoints = useR8TippingPoints;
+  }
+
   score(features: Record<string, number>, options: ScoringOptions): V3Score {
     let raw = INTERCEPT;
     let available = 0;
     const total = Object.keys(WEIGHTS).length + INTERACTIONS.length;
     const contribs: Array<{ feature: string; contribution: number }> = [];
+    let r3ConfidenceSum = 0;
+    let r3ConfidenceCount = 0;
 
-    // Main features
+    // Main features — R4-b: contribution modulated by R3 confidence
     for (const [feat, spec] of Object.entries(WEIGHTS)) {
       const val = features[feat];
       if (val === undefined || val === null || !Number.isFinite(val)) continue;
       available++;
-      const c = spec.weight * val;
+
+      const r3Conf = this._useR3Modulation ? (R3_CONFIDENCE[feat] ?? 1.0) : 1.0;
+      r3ConfidenceSum += r3Conf;
+      r3ConfidenceCount++;
+
+      const c = spec.weight * val * r3Conf;
       raw += c;
       contribs.push({ feature: feat, contribution: r4(c) });
     }
 
-    // Interactions
+    // Interactions — R4-b: use min(conf_a, conf_b) as interaction confidence
     for (const ix of INTERACTIONS) {
       const a = features[ix.feat_a];
       const b = features[ix.feat_b];
       if (a === undefined || b === undefined || !Number.isFinite(a) || !Number.isFinite(b)) continue;
       available++;
-      const c = ix.weight * a * b;
+
+      const r3ConfA = this._useR3Modulation ? (R3_CONFIDENCE[ix.feat_a] ?? 1.0) : 1.0;
+      const r3ConfB = this._useR3Modulation ? (R3_CONFIDENCE[ix.feat_b] ?? 1.0) : 1.0;
+      const ixConf = Math.min(r3ConfA, r3ConfB);
+
+      const c = ix.weight * a * b * ixConf;
       raw += c;
       contribs.push({ feature: ix.name, contribution: r4(c) });
     }
@@ -137,6 +309,7 @@ export class MultiStageScorerV3 {
 
     const score100 = r4(clamp((raw - RAW_MIN) / (RAW_MAX - RAW_MIN) * 100, 0, 100));
     const confidence = r4(available / total);
+    const r3MeanConf = r3ConfidenceCount > 0 ? r4(r3ConfidenceSum / r3ConfidenceCount) : 0;
 
     // Passage type
     const passageType = options.text
@@ -168,7 +341,18 @@ export class MultiStageScorerV3 {
     }
 
     const bonusTotal = bonuses.reduce((s, b) => s + b.value, 0);
-    const final = r4(clamp(score100 + bonusTotal, 0, 100));
+
+    // R4-c: R8 tipping points evaluation
+    const r8 = this._useR8TippingPoints
+      ? evaluateR8TippingPoints(features)
+      : { masterCount: 0, totalEvaluated: 0, bonus: 0 };
+
+    if (r8.bonus > 0) {
+      bonuses.push({ name: 'r8_tipping_mastery', value: r4(r8.bonus) });
+    }
+
+    const totalBonus = bonusTotal + r8.bonus;
+    const final = r4(clamp(score100 + totalBonus, 0, 100));
 
     return {
       raw: r4(raw),
@@ -178,6 +362,13 @@ export class MultiStageScorerV3 {
       passage_type: passageType,
       top_contributors: contribs.slice(0, 10),
       bonuses,
+      r3_modulated: this._useR3Modulation,
+      r3_mean_confidence: r3MeanConf,
+      r8_tipping: {
+        master_count: r8.masterCount,
+        total_evaluated: r8.totalEvaluated,
+        bonus: r4(r8.bonus),
+      },
     };
   }
 }

@@ -89,4 +89,49 @@ describe('prompt-assembler-v5', () => {
 
     expect(v5.prompt_hash).not.toBe(v4.prompt_hash);
   });
+
+  // ── Bridge-02 tests (Phase 2: 5 features) ──
+
+  describe('Bridge-02 — Phase 2 prompt injection', () => {
+    it('BR02-V5-01: V5.1 version should be 5.1.0', async () => {
+      const { PROMPT_ASSEMBLER_V5_VERSION } = await import('../../src/input/prompt-assembler-v5.js');
+      expect(PROMPT_ASSEMBLER_V5_VERSION).toBe('5.1.0');
+    });
+
+    it('BR02-V5-02: V5 prompt should contain f29d directive (anti-repetition)', () => {
+      process.env.OMEGA_PROMPT_V4 = '1';
+      const prompt = buildSovereignPrompt_V5(MINIMAL_FORGE_PACKET, MOCK_SYMBOL_MAP);
+      const content = prompt.sections[0].content;
+
+      // f29d instruction should appear in the prompt
+      expect(content).toMatch(/lexicale|TTR|r[ée]p[ée]tition/i);
+    });
+
+    it('BR02-V5-03: V5 prompt should contain f35c directive (hook/accroche)', () => {
+      process.env.OMEGA_PROMPT_V4 = '1';
+      const prompt = buildSovereignPrompt_V5(MINIMAL_FORGE_PACKET, MOCK_SYMBOL_MAP);
+      const content = prompt.sections[0].content;
+
+      // f35c instruction should appear in the prompt
+      expect(content).toMatch(/accroche|tension|ouvre/i);
+    });
+
+    it('BR02-V5-04: V5 prompt must NOT contain f36c cliff directive', () => {
+      process.env.OMEGA_PROMPT_V4 = '1';
+      const prompt = buildSovereignPrompt_V5(MINIMAL_FORGE_PACKET, MOCK_SYMBOL_MAP);
+      const content = prompt.sections[0].content;
+
+      // f36c is token mort — must NOT be in the prompt
+      expect(content).not.toContain('Suspense fin');
+      expect(content).not.toMatch(/termine.*suspense/i);
+    });
+
+    it('BR02-V5-05: V5 prompt should report 5 features pilotees', () => {
+      process.env.OMEGA_PROMPT_V4 = '1';
+      const prompt = buildSovereignPrompt_V5(MINIMAL_FORGE_PACKET, MOCK_SYMBOL_MAP);
+      const content = prompt.sections[0].content;
+
+      expect(content).toContain('5 features pilot');
+    });
+  });
 });

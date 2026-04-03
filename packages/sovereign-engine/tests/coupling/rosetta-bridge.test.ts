@@ -105,4 +105,102 @@ describe('RosettaBridge', () => {
     expect(result.shadow_measures[0].feature).toBe('nonexistent_feature_xyz');
     expect(result.prompt_directives.length).toBe(0);
   });
+
+  // ── Bridge-02 tests (Phase 2: +f29d, +f35c) ──
+
+  describe('Bridge-02 — Phase 2 features', () => {
+    it('BR02-01: f29d_ttr_score should be PILOTABLE + PROMPT_DIRECT', () => {
+      const matrix = bridge.getMatrix();
+      const f29d = matrix['f29d_ttr_score'];
+      expect(f29d).toBeDefined();
+      expect(f29d.category).toBe('PILOTABLE');
+      expect(f29d.route).toBe('PROMPT_DIRECT');
+    });
+
+    it('BR02-02: f35c_hook_score should be PILOTABLE + PROMPT_DIRECT (promoted from SHADOW)', () => {
+      const matrix = bridge.getMatrix();
+      const f35c = matrix['f35c_hook_score'];
+      expect(f35c).toBeDefined();
+      expect(f35c.category).toBe('PILOTABLE');
+      expect(f35c.route).toBe('PROMPT_DIRECT');
+    });
+
+    it('BR02-03: f36c_cliff_score must remain SHADOW (token mort — not injectable)', () => {
+      const matrix = bridge.getMatrix();
+      const f36c = matrix['f36c_cliff_score'];
+      expect(f36c).toBeDefined();
+      expect(f36c.route).toBe('SHADOW');
+    });
+
+    it('BR02-04: f29d instruction must NOT contain maximisation language', () => {
+      const matrix = bridge.getMatrix();
+      const instruction = matrix['f29d_ttr_score'].instruction.toLowerCase();
+      expect(instruction).not.toContain('maximis');
+      expect(instruction).not.toContain('maximiz');
+      // Should contain band-constraint / natural language
+      expect(instruction).toMatch(/naturel|sans.*forc|entre/i);
+    });
+
+    it('BR02-05: all 5 Phase 2 features should route to prompt_directives', () => {
+      const phase2 = [
+        'f24e_contrast_score',
+        'f15b_redundancy_compression',
+        'f16a_bigram_rarity',
+        'f29d_ttr_score',
+        'f35c_hook_score',
+      ];
+      const targets: Record<string, number> = {};
+      for (const f of phase2) targets[f] = 1.0;
+
+      const result = bridge.translate({
+        target_features: targets,
+        archetype: 'BALANCED',
+        language: 'fr',
+      });
+
+      expect(result.prompt_directives.length).toBe(5);
+      const features = result.prompt_directives.map(d => d.feature);
+      for (const f of phase2) {
+        expect(features).toContain(f);
+      }
+    });
+
+    it('BR02-06: f35c instruction should reference opening/accroche', () => {
+      const matrix = bridge.getMatrix();
+      const instruction = matrix['f35c_hook_score'].instruction.toLowerCase();
+      expect(instruction).toMatch(/ouvre|accroche|tension/);
+    });
+
+    it('BR02-07: compliance rates — f29d=0.8, f35c=0 (baseline before bench)', () => {
+      const matrix = bridge.getMatrix();
+      expect(matrix['f29d_ttr_score'].compliance_rate).toBe(0.8);
+      expect(matrix['f35c_hook_score'].compliance_rate).toBe(0);
+    });
+
+    it('BR02-08: bridge should sort Phase 2 by compliance descending', () => {
+      const phase2 = [
+        'f24e_contrast_score',
+        'f15b_redundancy_compression',
+        'f16a_bigram_rarity',
+        'f29d_ttr_score',
+        'f35c_hook_score',
+      ];
+      const targets: Record<string, number> = {};
+      for (const f of phase2) targets[f] = 1.0;
+
+      const result = bridge.translate({
+        target_features: targets,
+        archetype: 'BALANCED',
+        language: 'fr',
+      });
+
+      // First 3 should be compliance=1 (contrast, redundancy, rarity)
+      // Then f29d at 0.8
+      // Then f35c at 0
+      const rates = result.prompt_directives.map(d => d.compliance_rate);
+      expect(rates[0]).toBe(1);
+      expect(rates[3]).toBe(0.8);
+      expect(rates[4]).toBe(0);
+    });
+  });
 });

@@ -12,7 +12,7 @@
  *   4. Mesurer le travail correctif, pas juste le score
  *
  * Standard: NASA-Grade L4 / DO-178C Level A
- * Date: 2026-04-02
+ * Date: 2026-04-03 (Bridge-02: +f29d, +f35c)
  */
 
 import { buildSovereignPrompt_V4 } from './prompt-assembler-v4.js';
@@ -21,13 +21,20 @@ import type { ForgePacket, SovereignPrompt } from '../types.js';
 import type { SymbolMap } from '../symbol/symbol-map-types.js';
 import { sha256, canonicalize } from '@omega/canon-kernel';
 
-export const PROMPT_ASSEMBLER_V5_VERSION = '5.0.0';
+export const PROMPT_ASSEMBLER_V5_VERSION = '5.1.0';
 
-/** Top 3 PILOTABLE features only (Phase 1 — avoid multi-dim interference) */
-const PHASE1_FEATURES = [
+/**
+ * Phase 2 PILOTABLE features (Bridge-02).
+ * Phase 1 = 3 TOP features.
+ * Phase 2 = +f29d (anti-répétition bande) + f35c (hook début de chunk).
+ * f36c_cliff_score EXCLU — token mort (bench V5, chunked-generator:148).
+ */
+const PHASE2_FEATURES = [
   'f24e_contrast_score',
   'f15b_redundancy_compression',
   'f16a_bigram_rarity',
+  'f29d_ttr_score',
+  'f35c_hook_score',
 ] as const;
 
 export function isV5Active(): boolean {
@@ -40,7 +47,7 @@ export function isV5Active(): boolean {
  * Strategy:
  *   1. Get V4 prompt (all 11 blocs)
  *   2. Find the Rosetta constraints bloc (V4 bloc 10)
- *   3. Replace with bridge-generated directives (TOP 3 PILOTABLE only)
+ *   3. Replace with bridge-generated directives (Phase 2: 5 PILOTABLE features)
  *   4. Keep everything else from V4 unchanged
  */
 export function buildSovereignPrompt_V5(
@@ -51,10 +58,10 @@ export function buildSovereignPrompt_V5(
   const v4Prompt = buildSovereignPrompt_V4(packet, symbolMap);
   const v4Content = v4Prompt.sections[0]?.content ?? '';
 
-  // 2. Get bridge directives for Phase 1 features only
+  // 2. Get bridge directives for Phase 2 features
   const bridge = new RosettaBridge();
   const targetFeatures: Record<string, number> = {};
-  for (const feat of PHASE1_FEATURES) {
+  for (const feat of PHASE2_FEATURES) {
     targetFeatures[feat] = 1.0; // target = "maximize"
   }
 

@@ -52,7 +52,7 @@ import { runDuel } from './duel/duel-engine.js';
 // import { enforceSignature } from './polish/signature-enforcement.js';
 // ★ Sprint 1: Instrumentation — measure rhythm CALC before/after each polish pass
 import { scoreRhythm } from './oracle/axes/rhythm.js';
-import { judgeAesthetic, judgeAestheticV3 } from './oracle/aesthetic-oracle.js';
+import { judgeAesthetic, judgeAestheticV3, resetProseCache } from './oracle/aesthetic-oracle.js';
 import { generateSymbolMap } from './symbol/symbol-mapper.js';
 import type { SymbolMap } from './symbol/symbol-map-types.js';
 import type { MacroSScore } from './oracle/macro-score-types.js';
@@ -87,7 +87,7 @@ import { type ArchetypeId } from './microsurgery/damage-gate.js';
 import { generateChunkedDraft, isChunkedV4Active } from './generation/chunked-generator.js';
 import { forgePacketToSceneBrief } from './generation/forge-to-brief.js';
 // P0-02: Unified thresholds — single source of truth
-import { SAGA_READY_COMPOSITE_MIN, SAGA_READY_SSI_MIN, DUEL_PREFILTER_COMPOSITE_MIN, DUEL_PREFILTER_MIN_AXIS } from './core/thresholds.js';
+import { SAGA_READY_COMPOSITE_MIN, SAGA_READY_SSI_MIN, DUEL_PREFILTER_COMPOSITE_MIN, DUEL_PREFILTER_MIN_AXIS, DUEL_PREFILTER_MAX_VARIANCE } from './core/thresholds.js';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // P2-03a: DUEL PRE-FILTER — INV-PREFILTER-01
@@ -98,6 +98,7 @@ export interface DuelPrefilterDecision {
   readonly reason: string;
   readonly v1_composite?: number;
   readonly v1_min_axis?: number;
+  readonly variance_instability?: number;
 }
 
 /**
@@ -123,24 +124,42 @@ export function shouldSkipDuel(loopResult: SovereignLoopResult): DuelPrefilterDe
 
   const v1Composite = loopResult.s_score_final.composite;
   const v1Axes = loopResult.s_score_final.axes;
-  const v1MinAxis = Math.min(
-    ...Object.values(v1Axes).map((a) => (a as { score: number }).score),
-  );
+  const axisScores = Object.values(v1Axes).map((a) => (a as { score: number }).score);
+  const v1MinAxis = Math.min(...axisScores);
 
-  if (v1Composite >= DUEL_PREFILTER_COMPOSITE_MIN && v1MinAxis >= DUEL_PREFILTER_MIN_AXIS) {
+  // P2-03 B1: variance_instability = stdev(axes) / composite
+  // Detects imbalanced profiles where composite is high but axes are dispersed.
+  const mean = axisScores.reduce((s, v) => s + v, 0) / axisScores.length;
+  const stdev = Math.sqrt(axisScores.reduce((s, v) => s + (v - mean) ** 2, 0) / axisScores.length);
+  const varianceInstability = v1Composite > 0 ? stdev / v1Composite : 1;
+
+  // Triple condition: composite + min_axis + variance (P2-03 B1 double condition)
+  const compositeOk = v1Composite >= DUEL_PREFILTER_COMPOSITE_MIN;
+  const minAxisOk = v1MinAxis >= DUEL_PREFILTER_MIN_AXIS;
+  const varianceOk = varianceInstability < DUEL_PREFILTER_MAX_VARIANCE;
+
+  if (compositeOk && minAxisOk && varianceOk) {
     return {
       skip: true,
-      reason: `SKIP — V1 composite=${v1Composite.toFixed(1)} min_axis=${v1MinAxis.toFixed(1)} (thresholds: composite>=${DUEL_PREFILTER_COMPOSITE_MIN} min_axis>=${DUEL_PREFILTER_MIN_AXIS})`,
+      reason: `SKIP — V1 composite=${v1Composite.toFixed(1)} min_axis=${v1MinAxis.toFixed(1)} variance=${varianceInstability.toFixed(3)} (thresholds: composite>=${DUEL_PREFILTER_COMPOSITE_MIN} min_axis>=${DUEL_PREFILTER_MIN_AXIS} variance<${DUEL_PREFILTER_MAX_VARIANCE})`,
       v1_composite: v1Composite,
       v1_min_axis: v1MinAxis,
+      variance_instability: varianceInstability,
     };
   }
 
+  // Build reason for PASS-THROUGH
+  const failReasons: string[] = [];
+  if (!compositeOk) failReasons.push(`composite=${v1Composite.toFixed(1)}<${DUEL_PREFILTER_COMPOSITE_MIN}`);
+  if (!minAxisOk) failReasons.push(`min_axis=${v1MinAxis.toFixed(1)}<${DUEL_PREFILTER_MIN_AXIS}`);
+  if (!varianceOk) failReasons.push(`variance=${varianceInstability.toFixed(3)}>=${DUEL_PREFILTER_MAX_VARIANCE}`);
+
   return {
     skip: false,
-    reason: `PASS-THROUGH — V1 composite=${v1Composite.toFixed(1)} min_axis=${v1MinAxis.toFixed(1)} (below threshold)`,
+    reason: `PASS-THROUGH — ${failReasons.join(', ')}`,
     v1_composite: v1Composite,
     v1_min_axis: v1MinAxis,
+    variance_instability: varianceInstability,
   };
 }
 
@@ -305,6 +324,8 @@ async function executePipeline(
 ): Promise<SovereignForgeResult> {
   // ★ P2-00: Reset ARC buffer et configurer closure target
   resetArcBuffer();
+  // ★ P2-03c: Reset prose-hash cache (new run = clean slate)
+  resetProseCache();
   {
     const tierName = (packet.quality_tier ?? 'sovereign').toUpperCase();
     const profileMap: Record<string, string> = {

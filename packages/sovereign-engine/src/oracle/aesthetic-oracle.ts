@@ -4,7 +4,7 @@
  * ═══════════════════════════════════════════════════════════════════════════════
  *
  * Module: oracle/aesthetic-oracle.ts
- * Version: 1.0.0
+ * Version: 1.1.0
  * Standard: NASA-Grade L4 / DO-178C Level A
  *
  * Orchestrates all 9 axes + computes S-Score.
@@ -15,6 +15,10 @@
  * 2. LLM axes (sequential or parallel, depends on provider): interiority, sensory_density, necessity, impact
  * 3. Compute S-Score composite
  * 4. Emit verdict: SEAL (≥92) or REJECT (<92)
+ *
+ * P2-03c: Prose-hash cache. Identical prose within a run → cached result.
+ * Saves ~4 LLM calls (existingProse re-scored in duel after sovereign loop).
+ * Toggle: OMEGA_PROSE_CACHE=0 to disable (default: enabled).
  *
  * ═══════════════════════════════════════════════════════════════════════════════
  */
@@ -36,11 +40,52 @@ import { computeSScore } from './s-score.js';
 import type { MacroSScore } from './macro-score-types.js';
 import { computeECC, computeRCI, computeSII, computeIFI, computeAAI, computeMacroSScore, type MacroAxesScores } from './macro-axes.js';
 
+// ── P2-03c: Prose-hash cache ────────────────────────────────────────────────
+// Key: scene_id + prose length + prose content (identity, not hash — Map handles it)
+// Scoped per run — resetProseCache() at run start.
+
+const _v1Cache = new Map<string, SScore>();
+const _v3Cache = new Map<string, MacroSScore>();
+let _v1Hits = 0;
+let _v3Hits = 0;
+
+function makeCacheKey(prose: string, sceneId: string): string {
+  return `${sceneId}::${prose.length}::${prose}`;
+}
+
+/** Reset cache between runs. Call at the start of runSovereignForge. */
+export function resetProseCache(): void {
+  if (_v1Hits > 0 || _v3Hits > 0) {
+    console.log(`[PROSE-CACHE] Session end — V1 hits=${_v1Hits} V3 hits=${_v3Hits} (saved ~${_v1Hits * 4 + _v3Hits * 6} LLM calls)`);
+  }
+  _v1Cache.clear();
+  _v3Cache.clear();
+  _v1Hits = 0;
+  _v3Hits = 0;
+}
+
+/** Expose cache stats for telemetry/tests. */
+export function getProseCacheStats(): { v1_size: number; v3_size: number; v1_hits: number; v3_hits: number } {
+  return { v1_size: _v1Cache.size, v3_size: _v3Cache.size, v1_hits: _v1Hits, v3_hits: _v3Hits };
+}
+
 export async function judgeAesthetic(
   packet: ForgePacket,
   prose: string,
   provider: SovereignProvider,
 ): Promise<SScore> {
+  // P2-03c: cache check
+  const cacheEnabled = process.env.OMEGA_PROSE_CACHE !== '0';
+  if (cacheEnabled) {
+    const key = makeCacheKey(prose, packet.scene_id);
+    const cached = _v1Cache.get(key);
+    if (cached) {
+      _v1Hits++;
+      console.log(`[PROSE-CACHE] V1 HIT #${_v1Hits} (scene=${packet.scene_id}, words=${prose.split(/\s+/).length}, composite=${cached.composite.toFixed(1)})`);
+      return cached;
+    }
+  }
+
   const tension_14d = await scoreTension14D(packet, prose, provider);
   const anti_cliche = scoreAntiCliche(packet, prose);
   const rhythm = scoreRhythm(packet, prose);
@@ -66,6 +111,12 @@ export async function judgeAesthetic(
 
   const s_score = computeSScore(axes, packet.scene_id, packet.seeds.llm_seed);
 
+  // P2-03c: store in cache
+  if (cacheEnabled) {
+    const key = makeCacheKey(prose, packet.scene_id);
+    _v1Cache.set(key, s_score);
+  }
+
   return s_score;
 }
 
@@ -85,6 +136,18 @@ export async function judgeAestheticV3(
   _symbolMap: SymbolMap | null, // symbolMap pour usage futur
   physicsAudit?: import('./physics-audit.js').PhysicsAuditResult,
 ): Promise<MacroSScore> {
+  // P2-03c: V3 cache check
+  const cacheEnabled = process.env.OMEGA_PROSE_CACHE !== '0';
+  if (cacheEnabled) {
+    const key = makeCacheKey(prose, packet.scene_id);
+    const cached = _v3Cache.get(key);
+    if (cached) {
+      _v3Hits++;
+      console.log(`[PROSE-CACHE] V3 HIT #${_v3Hits} (scene=${packet.scene_id}, composite=${cached.composite.toFixed(1)})`);
+      return cached;
+    }
+  }
+
   const ecc = await computeECC(packet, prose, provider, physicsAudit);
   const rci = await computeRCI(packet, prose, provider);
   const sii = await computeSII(packet, prose, provider);
@@ -93,5 +156,13 @@ export async function judgeAestheticV3(
 
   const macroAxes: MacroAxesScores = { ecc, rci, sii, ifi, aai };
 
-  return computeMacroSScore(macroAxes, packet.scene_id, packet.seeds.llm_seed);
+  const result = computeMacroSScore(macroAxes, packet.scene_id, packet.seeds.llm_seed);
+
+  // P2-03c: store in V3 cache
+  if (cacheEnabled) {
+    const key = makeCacheKey(prose, packet.scene_id);
+    _v3Cache.set(key, result);
+  }
+
+  return result;
 }

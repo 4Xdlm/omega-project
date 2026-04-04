@@ -24,18 +24,28 @@ import { sha256, canonicalize } from '@omega/canon-kernel';
 export const PROMPT_ASSEMBLER_V5_VERSION = '5.1.0';
 
 /**
- * Phase 2 PILOTABLE features (Bridge-02).
- * Phase 1 = 3 TOP features.
+ * Phase 1 = 3 TOP PILOTABLE features (original V5).
  * Phase 2 = +f29d (anti-répétition bande) + f35c (hook début de chunk).
  * f36c_cliff_score EXCLU — token mort (bench V5, chunked-generator:148).
+ *
+ * Toggle: OMEGA_BRIDGE_PHASE=1 → Phase 1 (3 features)
+ *         OMEGA_BRIDGE_PHASE=2 or unset → Phase 2 (5 features, default)
  */
-const PHASE2_FEATURES = [
+const PHASE1_FEATURES = [
   'f24e_contrast_score',
   'f15b_redundancy_compression',
   'f16a_bigram_rarity',
+] as const;
+
+const PHASE2_FEATURES = [
+  ...PHASE1_FEATURES,
   'f29d_ttr_score',
   'f35c_hook_score',
 ] as const;
+
+function getActiveFeatures(): readonly string[] {
+  return process.env.OMEGA_BRIDGE_PHASE === '1' ? PHASE1_FEATURES : PHASE2_FEATURES;
+}
 
 export function isV5Active(): boolean {
   return process.env.OMEGA_PROMPT_V5 === '1';
@@ -58,10 +68,11 @@ export function buildSovereignPrompt_V5(
   const v4Prompt = buildSovereignPrompt_V4(packet, symbolMap);
   const v4Content = v4Prompt.sections[0]?.content ?? '';
 
-  // 2. Get bridge directives for Phase 2 features
+  // 2. Get bridge directives for active features (Phase 1 or Phase 2)
   const bridge = new RosettaBridge();
+  const activeFeatures = getActiveFeatures();
   const targetFeatures: Record<string, number> = {};
-  for (const feat of PHASE2_FEATURES) {
+  for (const feat of activeFeatures) {
     targetFeatures[feat] = 1.0; // target = "maximize"
   }
 

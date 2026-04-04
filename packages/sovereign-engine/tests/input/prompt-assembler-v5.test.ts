@@ -134,4 +134,42 @@ describe('prompt-assembler-v5', () => {
       expect(content).toContain('5 features pilot');
     });
   });
+
+  // ── Phase toggle tests (isolation bench support) ──
+
+  describe('Phase toggle — OMEGA_BRIDGE_PHASE', () => {
+    afterEach(() => {
+      delete process.env.OMEGA_BRIDGE_PHASE;
+    });
+
+    it('ISO-01: OMEGA_BRIDGE_PHASE=1 → 3 features (Phase 1 only)', () => {
+      process.env.OMEGA_PROMPT_V4 = '1';
+      process.env.OMEGA_BRIDGE_PHASE = '1';
+      const prompt = buildSovereignPrompt_V5(MINIMAL_FORGE_PACKET, MOCK_SYMBOL_MAP);
+      const content = prompt.sections[0].content;
+
+      expect(content).toContain('3 features pilot');
+      // f29d and f35c should NOT be present in Phase 1
+      expect(content).not.toMatch(/lexicale|TTR/i);
+      expect(content).not.toMatch(/accroche.*tension|ouvre.*tension/i);
+    });
+
+    it('ISO-02: OMEGA_BRIDGE_PHASE=2 → 5 features (Phase 2)', () => {
+      process.env.OMEGA_PROMPT_V4 = '1';
+      process.env.OMEGA_BRIDGE_PHASE = '2';
+      const prompt = buildSovereignPrompt_V5(MINIMAL_FORGE_PACKET, MOCK_SYMBOL_MAP);
+      const content = prompt.sections[0].content;
+
+      expect(content).toContain('5 features pilot');
+    });
+
+    it('ISO-03: no OMEGA_BRIDGE_PHASE → defaults to Phase 2 (5 features)', () => {
+      process.env.OMEGA_PROMPT_V4 = '1';
+      delete process.env.OMEGA_BRIDGE_PHASE;
+      const prompt = buildSovereignPrompt_V5(MINIMAL_FORGE_PACKET, MOCK_SYMBOL_MAP);
+      const content = prompt.sections[0].content;
+
+      expect(content).toContain('5 features pilot');
+    });
+  });
 });

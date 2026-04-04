@@ -15,18 +15,22 @@ const REPO_ROOT = resolve(__dirname, '..', '..', '..', '..');
 
 describe('ProofPack Generator (HARDEN-PP-01)', () => {
   beforeEach(() => {
-    // Clean test output dir before each test
-    if (existsSync(TEST_OUT_DIR)) {
-      rmSync(TEST_OUT_DIR, { recursive: true, force: true });
-    }
+    // Clean test output dir before each test (tolerant to cross-mount EPERM)
+    try {
+      if (existsSync(TEST_OUT_DIR)) {
+        rmSync(TEST_OUT_DIR, { recursive: true, force: true });
+      }
+    } catch { /* EPERM on cross-mount — dir will be reused */ }
     mkdirSync(TEST_OUT_DIR, { recursive: true });
   });
 
   afterEach(() => {
-    // Clean test output dir after each test
-    if (existsSync(TEST_OUT_DIR)) {
-      rmSync(TEST_OUT_DIR, { recursive: true, force: true });
-    }
+    // Clean test output dir after each test (tolerant to cross-mount EPERM)
+    try {
+      if (existsSync(TEST_OUT_DIR)) {
+        rmSync(TEST_OUT_DIR, { recursive: true, force: true });
+      }
+    } catch { /* EPERM on cross-mount — temp dir persists until manual cleanup */ }
   });
 
   it('PP-01: generateProofPack creates MANIFEST.json + HASHES.sha256 + EVIDENCE.md', async () => {

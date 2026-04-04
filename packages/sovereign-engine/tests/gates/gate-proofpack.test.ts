@@ -3,59 +3,61 @@
  * Invariants: GP-PP-01 to GP-PP-04
  */
 
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, afterAll } from 'vitest';
 import { existsSync, mkdirSync, writeFileSync, rmSync } from 'fs';
 import { resolve, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { verifyProofPack } from '../../../../scripts/gate-proofpack.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const TEST_DIR = resolve(__dirname, 'temp-gate-proofpack-test');
+const TEST_DIR_BASE = resolve(__dirname, 'temp-gate-proofpack-test');
 const VALID_FIXTURE = resolve(__dirname, '..', 'fixtures', 'proofpack-valid');
 
-describe('Gate ProofPack (HARDEN-GATE-PP-01)', () => {
-  beforeEach(() => {
-    // Clean test dir
-    if (existsSync(TEST_DIR)) {
-      rmSync(TEST_DIR, { recursive: true, force: true });
-    }
-    mkdirSync(TEST_DIR, { recursive: true });
-  });
+// Each test gets its own isolated subdirectory to avoid cross-mount rmSync issues
+let testCounter = 0;
+function freshTestDir(): string {
+  testCounter++;
+  const dir = resolve(TEST_DIR_BASE, `t${testCounter}`);
+  mkdirSync(dir, { recursive: true });
+  return dir;
+}
 
-  afterEach(() => {
-    // Clean test dir
-    if (existsSync(TEST_DIR)) {
-      rmSync(TEST_DIR, { recursive: true, force: true });
-    }
+describe('Gate ProofPack (HARDEN-GATE-PP-01)', () => {
+  afterAll(() => {
+    try {
+      if (existsSync(TEST_DIR_BASE)) {
+        rmSync(TEST_DIR_BASE, { recursive: true, force: true });
+      }
+    } catch { /* EPERM on cross-mount — temp dir persists until manual cleanup */ }
   });
 
   it('GP-PP-01: FAIL if MANIFEST absent', () => {
-    // Create only HASHES and EVIDENCE
-    writeFileSync(resolve(TEST_DIR, 'HASHES.sha256'), 'test', 'utf-8');
-    writeFileSync(resolve(TEST_DIR, 'EVIDENCE.md'), 'test', 'utf-8');
+    const dir = freshTestDir();
+    writeFileSync(resolve(dir, 'HASHES.sha256'), 'test', 'utf-8');
+    writeFileSync(resolve(dir, 'EVIDENCE.md'), 'test', 'utf-8');
 
-    const result = verifyProofPack({ dir: TEST_DIR });
+    const result = verifyProofPack({ dir });
     expect(result.valid).toBe(false);
     expect(result.errors).toContain('MANIFEST.json not found');
   });
 
   it('GP-PP-02: FAIL if HASHES absent', () => {
-    // Create only MANIFEST and EVIDENCE
-    writeFileSync(resolve(TEST_DIR, 'MANIFEST.json'), '{}', 'utf-8');
-    writeFileSync(resolve(TEST_DIR, 'EVIDENCE.md'), 'test', 'utf-8');
+    const dir = freshTestDir();
+    writeFileSync(resolve(dir, 'MANIFEST.json'), '{}', 'utf-8');
+    writeFileSync(resolve(dir, 'EVIDENCE.md'), 'test', 'utf-8');
 
-    const result = verifyProofPack({ dir: TEST_DIR });
+    const result = verifyProofPack({ dir });
     expect(result.valid).toBe(false);
     expect(result.errors).toContain('HASHES.sha256 not found');
   });
 
   it('GP-PP-03: FAIL if ROADMAP_CHECKPOINT.md absent from HASHES', () => {
-    // Create files but HASHES missing required files
-    writeFileSync(resolve(TEST_DIR, 'MANIFEST.json'), '{}', 'utf-8');
-    writeFileSync(resolve(TEST_DIR, 'HASHES.sha256'), 'abc123  some/other/file.ts\n', 'utf-8');
-    writeFileSync(resolve(TEST_DIR, 'EVIDENCE.md'), 'test', 'utf-8');
+    const dir = freshTestDir();
+    writeFileSync(resolve(dir, 'MANIFEST.json'), '{}', 'utf-8');
+    writeFileSync(resolve(dir, 'HASHES.sha256'), 'abc123  some/other/file.ts\n', 'utf-8');
+    writeFileSync(resolve(dir, 'EVIDENCE.md'), 'test', 'utf-8');
 
-    const result = verifyProofPack({ dir: TEST_DIR });
+    const result = verifyProofPack({ dir });
     expect(result.valid).toBe(false);
     expect(result.errors.some(e => e.includes('ROADMAP_CHECKPOINT.md'))).toBe(true);
   });

@@ -156,11 +156,32 @@ export async function judgeAestheticV3(
     }
   }
 
-  const ecc = await computeECC(packet, prose, provider, physicsAudit);
-  const rci = await computeRCI(packet, prose, provider);
-  const sii = await computeSII(packet, prose, provider);
-  const ifi = await computeIFI(packet, prose, provider);
-  const aai = await computeAAI(packet, prose, provider);
+  // P3-04: Parallelize macro-axes computation
+  // RCI is mostly CALC, but all 5 are independent and can run concurrently.
+  // Toggle: OMEGA_PARALLEL_AXES=0 to disable (default: enabled)
+  const parallelEnabled = process.env.OMEGA_PARALLEL_AXES !== '0';
+
+  let ecc: Awaited<ReturnType<typeof computeECC>>;
+  let rci: Awaited<ReturnType<typeof computeRCI>>;
+  let sii: Awaited<ReturnType<typeof computeSII>>;
+  let ifi: Awaited<ReturnType<typeof computeIFI>>;
+  let aai: Awaited<ReturnType<typeof computeAAI>>;
+
+  if (parallelEnabled) {
+    [ecc, rci, sii, ifi, aai] = await Promise.all([
+      computeECC(packet, prose, provider, physicsAudit),
+      computeRCI(packet, prose, provider),
+      computeSII(packet, prose, provider),
+      computeIFI(packet, prose, provider),
+      computeAAI(packet, prose, provider),
+    ]);
+  } else {
+    ecc = await computeECC(packet, prose, provider, physicsAudit);
+    rci = await computeRCI(packet, prose, provider);
+    sii = await computeSII(packet, prose, provider);
+    ifi = await computeIFI(packet, prose, provider);
+    aai = await computeAAI(packet, prose, provider);
+  }
 
   const macroAxes: MacroAxesScores = { ecc, rci, sii, ifi, aai };
 

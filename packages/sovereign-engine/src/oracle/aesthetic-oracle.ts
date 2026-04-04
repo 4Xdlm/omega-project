@@ -31,6 +31,8 @@ import { scoreAntiCliche } from './axes/anti-cliche.js';
 import { scoreRhythm } from './axes/rhythm.js';
 import { scoreSignature } from './axes/signature.js';
 import { scoreEmotionCoherence } from './axes/emotion-coherence.js';
+// P3-02: Shared emotion analysis
+import { analyzeProseEmotions } from './shared-emotion-analysis.js';
 import { scoreInteriority } from './axes/interiority.js';
 import { scoreSensoryDensity } from './axes/sensory-density.js';
 import { scoreNecessity } from './axes/necessity.js';
@@ -86,11 +88,17 @@ export async function judgeAesthetic(
     }
   }
 
-  const tension_14d = await scoreTension14D(packet, prose, provider);
+  // P3-02: Shared emotion analysis for V1 path too
+  const sharedEnabled = process.env.OMEGA_SHARED_EMOTION !== '0';
+  const sharedEmotions = sharedEnabled
+    ? await analyzeProseEmotions(prose, packet, provider)
+    : undefined;
+
+  const tension_14d = await scoreTension14D(packet, prose, provider, sharedEmotions);
   const anti_cliche = scoreAntiCliche(packet, prose);
   const rhythm = scoreRhythm(packet, prose);
   const signature = scoreSignature(packet, prose);
-  const emotion_coherence = await scoreEmotionCoherence(packet, prose, provider);
+  const emotion_coherence = await scoreEmotionCoherence(packet, prose, provider, sharedEmotions);
 
   const interiority = await scoreInteriority(packet, prose, provider);
   const sensory_density = await scoreSensoryDensity(packet, prose, provider);

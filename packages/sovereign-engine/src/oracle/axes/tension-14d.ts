@@ -36,6 +36,9 @@ import type { ForgePacket, AxisScore, SovereignProvider } from '../../types.js';
 import { SOVEREIGN_CONFIG } from '../../config.js';
 import { analyzeEmotionSemantic } from '../../semantic/semantic-analyzer.js';
 import type { SemanticEmotionResult } from '../../semantic/types.js';
+// P3-02: Shared emotion analysis — reuse paragraph-level data
+import type { SharedEmotionData } from '../shared-emotion-analysis.js';
+import { computeQuartileStates } from '../shared-emotion-analysis.js';
 
 /**
  * Analyzes emotion using semantic (if enabled + provider) or fallback to keywords.
@@ -74,6 +77,7 @@ export async function scoreTension14D(
   packet: ForgePacket,
   prose: string,
   provider?: SovereignProvider,
+  sharedEmotions?: SharedEmotionData,
 ): Promise<AxisScore> {
   const paragraphs = prose.split(/\n\s*\n/).filter((p) => p.trim().length > 0);
   const total = paragraphs.length;
@@ -81,15 +85,28 @@ export async function scoreTension14D(
   const bounds = SOVEREIGN_CONFIG.QUARTILE_BOUNDS;
   const quartiles = ['Q1', 'Q2', 'Q3', 'Q4'] as const;
 
+  // P3-02: Use shared data if available (0 LLM), else original path
+  const quartileStates = sharedEmotions
+    ? computeQuartileStates(sharedEmotions)
+    : null;
+
   const similarities: number[] = [];
 
   for (let i = 0; i < 4; i++) {
-    const [startFrac, endFrac] = bounds[quartiles[i]];
-    const startIdx = Math.floor(startFrac * total);
-    const endIdx = Math.ceil(endFrac * total);
+    let actualState: SemanticEmotionResult;
 
-    const quartileText = paragraphs.slice(startIdx, endIdx).join('\n\n');
-    const actualState = await analyzeEmotion(quartileText, packet.language, provider);
+    if (quartileStates) {
+      // P3-02: reuse pre-computed quartile state (0 LLM calls)
+      actualState = quartileStates[i].state;
+    } else {
+      // Original path: analyze quartile text directly
+      const [startFrac, endFrac] = bounds[quartiles[i]];
+      const startIdx = Math.floor(startFrac * total);
+      const endIdx = Math.ceil(endFrac * total);
+      const quartileText = paragraphs.slice(startIdx, endIdx).join('\n\n');
+      actualState = await analyzeEmotion(quartileText, packet.language, provider);
+    }
+
     const targetState = packet.emotion_contract.curve_quartiles[i].target_14d;
 
     const similarity = cosineSimilarity14D(targetState as any, actualState as any);
@@ -146,15 +163,18 @@ export async function scoreTension14D(
   }
 
   if (packet.emotion_contract.rupture.exists) {
-    const actualStates = await Promise.all(
-      quartiles.map(async (q, _idx) => {
-        const [startFrac, endFrac] = bounds[q];
-        const startIdx = Math.floor(startFrac * total);
-        const endIdx = Math.ceil(endFrac * total);
-        const text = paragraphs.slice(startIdx, endIdx).join('\n\n');
-        return await analyzeEmotion(text, packet.language, provider);
-      }),
-    );
+    // P3-02: Reuse quartile states from shared data or from first pass above
+    const actualStates: SemanticEmotionResult[] = quartileStates
+      ? quartileStates.map((q) => q.state)
+      : await Promise.all(
+          quartiles.map(async (q, _idx) => {
+            const [startFrac, endFrac] = bounds[q];
+            const startIdx = Math.floor(startFrac * total);
+            const endIdx = Math.ceil(endFrac * total);
+            const text = paragraphs.slice(startIdx, endIdx).join('\n\n');
+            return await analyzeEmotion(text, packet.language, provider);
+          }),
+        );
 
     let maxDist = 0;
     let ruptureIdx = -1;

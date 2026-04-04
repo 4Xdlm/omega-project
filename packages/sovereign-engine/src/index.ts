@@ -110,6 +110,9 @@ export { computeClicheDelta } from './delta/delta-cliche.js';
 
 export { judgeAesthetic, resetProseCache, getProseCacheStats } from './oracle/aesthetic-oracle.js';
 export { computeSScore } from './oracle/s-score.js';
+// P3-02: Shared emotion analysis (paragraph-level, reused by tension_14d + emotion_coherence)
+export { analyzeProseEmotions, computeQuartileStates } from './oracle/shared-emotion-analysis.js';
+export type { SharedEmotionData, QuartileEmotionState } from './oracle/shared-emotion-analysis.js';
 
 export { scoreTension14D } from './oracle/axes/tension-14d.js';
 export { scoreAntiCliche } from './oracle/axes/anti-cliche.js';

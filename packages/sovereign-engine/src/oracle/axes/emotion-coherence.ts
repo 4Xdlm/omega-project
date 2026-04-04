@@ -30,6 +30,8 @@ import type { ForgePacket, AxisScore, SovereignProvider } from '../../types.js';
 import { SOVEREIGN_CONFIG } from '../../config.js';
 import { analyzeEmotionSemantic } from '../../semantic/semantic-analyzer.js';
 import type { SemanticEmotionResult } from '../../semantic/types.js';
+// P3-02: Shared emotion analysis — reuse paragraph-level data
+import type { SharedEmotionData } from '../shared-emotion-analysis.js';
 
 /**
  * Analyzes emotion using semantic (if enabled + provider) or fallback to keywords.
@@ -68,6 +70,7 @@ export async function scoreEmotionCoherence(
   packet: ForgePacket,
   prose: string,
   provider?: SovereignProvider,
+  sharedEmotions?: SharedEmotionData,
 ): Promise<AxisScore> {
   const paragraphs = prose.split(/\n\s*\n/).filter((p) => p.trim().length > 0);
 
@@ -81,9 +84,12 @@ export async function scoreEmotionCoherence(
     };
   }
 
-  const states = await Promise.all(
-    paragraphs.map((p) => analyzeEmotion(p, packet.language, provider)),
-  );
+  // P3-02: Use shared paragraph states if available (0 LLM), else original path
+  const states = sharedEmotions
+    ? [...sharedEmotions.paragraph_states]
+    : await Promise.all(
+        paragraphs.map((p) => analyzeEmotion(p, packet.language, provider)),
+      );
 
   const distances: number[] = [];
   for (let i = 0; i < states.length - 1; i++) {

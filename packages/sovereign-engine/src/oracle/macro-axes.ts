@@ -37,6 +37,8 @@ export type { MacroSScore } from './macro-score-types.js';
 // Import des axes existants (sous-composants)
 import { scoreTension14D } from './axes/tension-14d.js';
 import { scoreEmotionCoherence } from './axes/emotion-coherence.js';
+// P3-02: Shared emotion analysis — single pass for both tension_14d + emotion_coherence
+import { analyzeProseEmotions } from './shared-emotion-analysis.js';
 import { scoreInteriority } from './axes/interiority.js';
 import { scoreImpact } from './axes/impact.js';
 import { scoreRhythm, rhythmConfidence } from './axes/rhythm.js';
@@ -105,9 +107,17 @@ export async function computeECC(
   provider: SovereignProvider,
   physicsAudit?: PhysicsAuditResult,
 ): Promise<MacroAxisScore> {
+  // P3-02: Shared emotion analysis — analyze paragraphs ONCE for both axes
+  // Toggle: OMEGA_SHARED_EMOTION=0 to disable (default: enabled)
+  const sharedEnabled = process.env.OMEGA_SHARED_EMOTION !== '0';
+  const sharedEmotions = sharedEnabled
+    ? await analyzeProseEmotions(prose, packet, provider)
+    : undefined;
+
   // 1. Appeler les sous-composants (4 originaux + physics_compliance)
-  const tension_14d = await scoreTension14D(packet, prose, provider);
-  const emotion_coherence = await scoreEmotionCoherence(packet, prose, provider);
+  // P3-02: tension_14d + emotion_coherence reuse sharedEmotions (0 extra LLM calls)
+  const tension_14d = await scoreTension14D(packet, prose, provider, sharedEmotions);
+  const emotion_coherence = await scoreEmotionCoherence(packet, prose, provider, sharedEmotions);
   const interiority = await scoreInteriority(packet, prose, provider);
   const impact = await scoreImpact(packet, prose, provider);
   const physics_compliance = scorePhysicsCompliance(physicsAudit); // Sprint 3.4 — informatif (weight=0)

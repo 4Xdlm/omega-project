@@ -53,7 +53,17 @@ export async function runDuel(
   const modes = SOVEREIGN_CONFIG.DRAFT_MODES;
   const drafts: Draft[] = [];
 
+  // ── P2-03b: V1 SKIP — économise ~12 appels LLM (3 modes × 4 axes V1) ────
+  // Condition sécurisée: skip V1 seulement si V3 est réellement disponible.
+  // INV-DUEL-V1-01: symbolMap absent → V1 FORCÉ (pas de sélection aveugle).
+  // Directive Francky: garder V1 sur existingProse dans tous les cas.
+  const skipV1ForModes = process.env.OMEGA_DUEL_SKIP_V1 === '1' && !!symbolMap;
+  if (skipV1ForModes) {
+    console.log(`[DUEL] V1 scoring SKIPPED for mode drafts (OMEGA_DUEL_SKIP_V1=1, symbolMap present). Saved ~${modes.length * 4} LLM calls.`);
+  }
+
   // Include existing loop prose as first candidate (preserves refinement work)
+  // V1 scoring ALWAYS runs on existingProse (diagnostic baseline)
   if (existingProse) {
     const score = await judgeAesthetic(packet, existingProse, provider);
     drafts.push({
@@ -61,6 +71,7 @@ export async function runDuel(
       mode: 'loop_refined',
       prose: existingProse,
       score,
+      v1_skipped: false,
     });
 
     // Telemetry: DUEL_loop_refined snapshot
@@ -99,13 +110,25 @@ export async function runDuel(
       console.log(`[DUEL] CV_GATE: mode=${mode} FAIL-OPEN CV=${bestCandidate!.cv.toFixed(2)} (best of ${CV_GATE_MAX_RETRIES + 1} attempts)`);
     }
 
-    const score = await judgeAesthetic(packet, finalProse, provider);
-    drafts.push({
-      draft_id: `DRAFT_${mode}_${i}`,
-      mode,
-      prose: finalProse,
-      score,
-    });
+    // P2-03b: skip V1 scoring when V3 handles selection
+    if (skipV1ForModes) {
+      drafts.push({
+        draft_id: `DRAFT_${mode}_${i}`,
+        mode,
+        prose: finalProse,
+        score: null,
+        v1_skipped: true,
+      });
+    } else {
+      const score = await judgeAesthetic(packet, finalProse, provider);
+      drafts.push({
+        draft_id: `DRAFT_${mode}_${i}`,
+        mode,
+        prose: finalProse,
+        score,
+        v1_skipped: false,
+      });
+    }
 
     // Telemetry: DUEL_CANDIDATE snapshot
     try {
@@ -146,7 +169,10 @@ export async function runDuel(
     winnerIdx = selectionScores.indexOf(maxSelection);
     console.log(`[DUEL] Winner: [${winnerIdx}] ${drafts[winnerIdx].mode} (selection_score=${maxSelection.toFixed(1)})`);
   } else {
-    const scores = drafts.map((d) => d.score.composite);
+    // Fallback V1 selection — INV-DUEL-V1-01: requires non-null V1 scores
+    // If V1 was skipped without symbolMap, this is a logic error — should never happen
+    // because skipV1ForModes requires !!symbolMap.
+    const scores = drafts.map((d) => d.score?.composite ?? -Infinity);
     const maxScore = Math.max(...scores);
     winnerIdx = scores.indexOf(maxScore);
   }
@@ -166,15 +192,21 @@ export async function runDuel(
       winner_mode: winner.mode, winner_idx: winnerIdx,
       all_candidates: drafts.map((d, idx) => ({
         mode: d.mode, words: d.prose.split(/\s+/).length,
-        composite: symbolMap && v3Scores ? v3Scores[idx].composite : d.score.composite,
+        composite: symbolMap && v3Scores ? v3Scores[idx].composite : (d.score?.composite ?? 0),
+        v1_skipped: d.v1_skipped,
       })),
     });
   } catch { /* telemetry is optional */ }
 
+  // P2-03b: winner_score from V3 when V1 skipped, from V1 otherwise
+  const winnerScore = symbolMap && v3Scores
+    ? v3Scores[winnerIdx].composite
+    : (winner.score?.composite ?? 0);
+
   return {
     drafts,
     winner_id: winner.draft_id,
-    winner_score: winner.score.composite,
+    winner_score: winnerScore,
     fusion_applied: false,
     final_prose: winner.prose,
   };

@@ -452,7 +452,9 @@ export interface Draft {
   readonly draft_id: string;
   readonly mode: string;
   readonly prose: string;
-  readonly score: SScore;
+  readonly score: SScore | null;
+  /** P2-03b: true when V1 scoring was skipped (V3 handles selection) */
+  readonly v1_skipped: boolean;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════

@@ -108,7 +108,7 @@ export { computeClicheDelta } from './delta/delta-cliche.js';
 // ORACLE
 // ═══════════════════════════════════════════════════════════════════════════════
 
-export { judgeAesthetic } from './oracle/aesthetic-oracle.js';
+export { judgeAesthetic, resetProseCache, getProseCacheStats } from './oracle/aesthetic-oracle.js';
 export { computeSScore } from './oracle/s-score.js';
 
 export { scoreTension14D } from './oracle/axes/tension-14d.js';

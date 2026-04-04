@@ -399,7 +399,7 @@ async function main() {
     const candidates: any[] = [];
     for (const d of duelResult.drafts) {
       const words = countWords(d.prose);
-      const comp = d.score.composite;
+      const comp = d.score?.composite ?? 0; // P2-03b: score null when V1 skipped
       // Approximate min_axis from draft score (not available in SScore v1)
       const selScore = comp; // simplified — real sel_score from v3 scoring in duel
       const isWinner = d.draft_id === duelResult.winner_id;

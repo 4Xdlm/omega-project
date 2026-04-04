@@ -47,8 +47,17 @@ function getActiveFeatures(): readonly string[] {
   return process.env.OMEGA_BRIDGE_PHASE === '1' ? PHASE1_FEATURES : PHASE2_FEATURES;
 }
 
+/**
+ * Bridge-03: V5 is default in production.
+ * V5 = V4 + Rosetta Bridge dynamique (Phase 2: 5 PILOTABLE features).
+ *
+ * Fallback to V4: set OMEGA_PROMPT_V4_FORCE=1
+ * Explicit disable: set OMEGA_PROMPT_V5=0
+ * Legacy compat: OMEGA_PROMPT_V5=1 still works (but no longer needed).
+ */
 export function isV5Active(): boolean {
-  return process.env.OMEGA_PROMPT_V5 === '1';
+  if (process.env.OMEGA_PROMPT_V4_FORCE === '1') return false;
+  return process.env.OMEGA_PROMPT_V5 !== '0';
 }
 
 /**

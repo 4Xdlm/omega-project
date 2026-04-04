@@ -36,8 +36,19 @@ export const PROMPT_ASSEMBLER_V4_VERSION = '4.3.0';
 
 // ── Flag ─────────────────────────────────────────────────────────────────────
 
+/**
+ * V4 pipeline features: semantic slicer, micro-surgeon, archetype derivation.
+ * Active when V4 is explicitly set OR V5 is active (V5 = V4 superset).
+ *
+ * Bridge-03: Since V5 is now default, V4 features are always active
+ * unless explicitly running in legacy V2/V3 mode (OMEGA_PROMPT_V5=0).
+ */
 export function isV4Active(): boolean {
-  return process.env.OMEGA_PROMPT_V4 === '1';
+  if (process.env.OMEGA_PROMPT_V4 === '1') return true;
+  if (process.env.OMEGA_PROMPT_V4_FORCE === '1') return true;
+  // V5 default mode → V4 features active (V5 superset)
+  if (process.env.OMEGA_PROMPT_V5 !== '0') return true;
+  return false;
 }
 
 // ── Emotion → Physical Behavior Mapping ──────────────────────────────────────

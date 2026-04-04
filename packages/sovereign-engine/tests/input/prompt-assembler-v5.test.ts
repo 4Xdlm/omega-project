@@ -31,15 +31,34 @@ describe('prompt-assembler-v5', () => {
   afterEach(() => {
     delete process.env.OMEGA_PROMPT_V5;
     delete process.env.OMEGA_PROMPT_V4;
+    delete process.env.OMEGA_PROMPT_V4_FORCE;
   });
 
-  it('should not be active by default', () => {
+  // ── Bridge-03: V5 default ON ──
+
+  it('Bridge-03: V5 is active by default (production mode)', () => {
+    expect(isV5Active()).toBe(true);
+  });
+
+  it('Bridge-03: V5 disabled when OMEGA_PROMPT_V5=0', () => {
+    process.env.OMEGA_PROMPT_V5 = '0';
     expect(isV5Active()).toBe(false);
   });
 
-  it('should be active when OMEGA_PROMPT_V5=1', () => {
+  it('Bridge-03: V5 disabled when OMEGA_PROMPT_V4_FORCE=1 (V4 fallback)', () => {
+    process.env.OMEGA_PROMPT_V4_FORCE = '1';
+    expect(isV5Active()).toBe(false);
+  });
+
+  it('Bridge-03: legacy OMEGA_PROMPT_V5=1 still works', () => {
     process.env.OMEGA_PROMPT_V5 = '1';
     expect(isV5Active()).toBe(true);
+  });
+
+  it('Bridge-03: V4_FORCE takes priority over V5=1', () => {
+    process.env.OMEGA_PROMPT_V5 = '1';
+    process.env.OMEGA_PROMPT_V4_FORCE = '1';
+    expect(isV5Active()).toBe(false);
   });
 
   it('should build a valid V5 prompt', () => {

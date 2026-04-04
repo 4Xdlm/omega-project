@@ -190,11 +190,21 @@ describe('prompt-assembler-v4', () => {
     }
   });
 
-  // INV-V4-10
+  // INV-V4-10 (updated Bridge-03: V4 features are default ON because V5 is default)
   it('INV-V4-10: isV4Active() returns true when OMEGA_PROMPT_V4=1', () => {
     process.env.OMEGA_PROMPT_V4 = '1';
     expect(isV4Active()).toBe(true);
+  });
+
+  it('INV-V4-10b: isV4Active() true by default (V5 is V4 superset, Bridge-03)', () => {
     delete process.env.OMEGA_PROMPT_V4;
+    // V5 is default ON → V4 features active
+    expect(isV4Active()).toBe(true);
+  });
+
+  it('INV-V4-10c: isV4Active() false only in legacy V2/V3 mode', () => {
+    delete process.env.OMEGA_PROMPT_V4;
+    process.env.OMEGA_PROMPT_V5 = '0';
     expect(isV4Active()).toBe(false);
   });
 

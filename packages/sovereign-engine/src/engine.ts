@@ -87,7 +87,62 @@ import { type ArchetypeId } from './microsurgery/damage-gate.js';
 import { generateChunkedDraft, isChunkedV4Active } from './generation/chunked-generator.js';
 import { forgePacketToSceneBrief } from './generation/forge-to-brief.js';
 // P0-02: Unified thresholds — single source of truth
-import { SAGA_READY_COMPOSITE_MIN, SAGA_READY_SSI_MIN } from './core/thresholds.js';
+import { SAGA_READY_COMPOSITE_MIN, SAGA_READY_SSI_MIN, DUEL_PREFILTER_COMPOSITE_MIN, DUEL_PREFILTER_MIN_AXIS } from './core/thresholds.js';
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// P2-03a: DUEL PRE-FILTER — INV-PREFILTER-01
+// ═══════════════════════════════════════════════════════════════════════════════
+
+export interface DuelPrefilterDecision {
+  readonly skip: boolean;
+  readonly reason: string;
+  readonly v1_composite?: number;
+  readonly v1_min_axis?: number;
+}
+
+/**
+ * Decide whether to skip the duel for a given sovereign loop result.
+ *
+ * Saves ~11 LLM calls when loop prose is already strong enough.
+ * INV-PREFILTER-01: NEVER skip if V1 SEAL + V3 REJECT — V3 found a problem
+ * V1 missed. In that case loop_result.verdict === 'SEAL' and we fell through
+ * from the V3 confirmation check, so we must duel to find a better candidate.
+ * Toggle: OMEGA_DUEL_PREFILTER=0 to disable (default: enabled).
+ */
+export function shouldSkipDuel(loopResult: SovereignLoopResult): DuelPrefilterDecision {
+  const enabled = process.env.OMEGA_DUEL_PREFILTER !== '0';
+
+  if (!enabled) {
+    return { skip: false, reason: 'DISABLED (OMEGA_DUEL_PREFILTER=0)' };
+  }
+
+  // INV-PREFILTER-01: V1 SEAL but V3 rejected → V3 saw a problem → must duel
+  if (loopResult.verdict === 'SEAL') {
+    return { skip: false, reason: 'PASS-THROUGH — V1 SEAL + V3 REJECT (INV-PREFILTER-01)' };
+  }
+
+  const v1Composite = loopResult.s_score_final.composite;
+  const v1Axes = loopResult.s_score_final.axes;
+  const v1MinAxis = Math.min(
+    ...Object.values(v1Axes).map((a) => (a as { score: number }).score),
+  );
+
+  if (v1Composite >= DUEL_PREFILTER_COMPOSITE_MIN && v1MinAxis >= DUEL_PREFILTER_MIN_AXIS) {
+    return {
+      skip: true,
+      reason: `SKIP — V1 composite=${v1Composite.toFixed(1)} min_axis=${v1MinAxis.toFixed(1)} (thresholds: composite>=${DUEL_PREFILTER_COMPOSITE_MIN} min_axis>=${DUEL_PREFILTER_MIN_AXIS})`,
+      v1_composite: v1Composite,
+      v1_min_axis: v1MinAxis,
+    };
+  }
+
+  return {
+    skip: false,
+    reason: `PASS-THROUGH — V1 composite=${v1Composite.toFixed(1)} min_axis=${v1MinAxis.toFixed(1)} (below threshold)`,
+    v1_composite: v1Composite,
+    v1_min_axis: v1MinAxis,
+  };
+}
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // ARCHETYPE DERIVATION — INV-ARCH-DERIVE-01
@@ -412,15 +467,26 @@ async function executePipeline(
 
   // Pass loop's refined prose as candidate + symbolMap for V3 selection
   const loopProse = loop_result.final_prose;
-  const duel_result = await runDuel(
-    enrichedPacket,
-    prompt.sections.map((s) => s.content).join('\n\n'),
-    provider,
-    loopProse,
-    symbolMap,
-  );
 
-  let final_prose = duel_result.final_prose;
+  // ── P2-03a: DUEL PRE-FILTER ──────────────────────────────────────────────
+  const prefilterDecision = shouldSkipDuel(loop_result);
+  const duelSkipped = prefilterDecision.skip;
+  console.log(`[DUEL-PREFILTER] ${prefilterDecision.reason}`);
+
+  let final_prose: string;
+
+  if (duelSkipped) {
+    final_prose = loopProse;
+  } else {
+    const duel_result = await runDuel(
+      enrichedPacket,
+      prompt.sections.map((s) => s.content).join('\n\n'),
+      provider,
+      loopProse,
+      symbolMap,
+    );
+    final_prose = duel_result.final_prose;
+  }
 
   // ★ V4.3 Sprint 2: Semantic Slicer on duel winner
   if (isV4Active()) {
@@ -659,7 +725,7 @@ async function executePipeline(
     macro_score: patchedScore,
     verdict: patchedSScore.verdict,
     loop_result,
-    passes_executed: loop_result.passes_executed + SOVEREIGN_CONFIG.MAX_DRAFTS,
+    passes_executed: loop_result.passes_executed + (duelSkipped ? 0 : SOVEREIGN_CONFIG.MAX_DRAFTS),
     symbol_map: symbolMap,
     physics_audit: physicsAudit,
     prescriptions,

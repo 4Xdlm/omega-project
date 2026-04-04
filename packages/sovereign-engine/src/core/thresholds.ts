@@ -48,3 +48,16 @@ export const NEAR_SEAL_THRESHOLD = 92.0;
 
 /** Floor minimum pour entrer dans le Top-K (candidacy gate) */
 export const CANDIDATE_FLOOR_COMPOSITE = 85.0;
+
+// ── DUEL PRE-FILTER (P2-03a) ────────────────────────────────────────────────
+// Skip duel if loop prose already meets quality thresholds (V1 scoring).
+// Saves ~11 LLM calls (3 generations + 4 V1 scores + 4 V3 scores).
+// Conservative: below SEAL (93) but high enough to avoid false skips.
+// Toggle: OMEGA_DUEL_PREFILTER=0 to disable (default: enabled).
+// INV-PREFILTER-01: NEVER skip if V1 SEAL + V3 REJECT (V3 saw a problem).
+
+/** V1 composite minimum pour skip le duel */
+export const DUEL_PREFILTER_COMPOSITE_MIN = 90.0;
+
+/** V1 min_axis minimum pour skip le duel (9 axes individuels, pas macro) */
+export const DUEL_PREFILTER_MIN_AXIS = 80.0;

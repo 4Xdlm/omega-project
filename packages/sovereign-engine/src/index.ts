@@ -17,7 +17,7 @@
 // MAIN ENGINE
 // ═══════════════════════════════════════════════════════════════════════════════
 
-export { runSovereignForge, type SovereignForgeResult } from './engine.js';
+export { runSovereignForge, shouldSkipDuel, type SovereignForgeResult, type DuelPrefilterDecision } from './engine.js';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // TYPES

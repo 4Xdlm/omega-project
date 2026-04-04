@@ -217,3 +217,19 @@ export type {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 export { assertVersion2 } from './compat/version-guard.js';
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// COUPLING — Bridge-04: Compliance Tracker
+// ═══════════════════════════════════════════════════════════════════════════════
+
+export {
+  measureCompliance,
+  getDowngradeSignals,
+  logCompliance,
+  resetComplianceCounters,
+} from './coupling/compliance-tracker.js';
+export type {
+  FeatureComplianceResult,
+  ComplianceSnapshot,
+  DowngradeSignal,
+} from './coupling/compliance-tracker.js';

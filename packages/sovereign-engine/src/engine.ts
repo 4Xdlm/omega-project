@@ -88,6 +88,8 @@ import { generateChunkedDraft, isChunkedV4Active } from './generation/chunked-ge
 import { forgePacketToSceneBrief } from './generation/forge-to-brief.js';
 // P0-02: Unified thresholds — single source of truth
 import { SAGA_READY_COMPOSITE_MIN, SAGA_READY_SSI_MIN, DUEL_PREFILTER_COMPOSITE_MIN, DUEL_PREFILTER_MIN_AXIS, DUEL_PREFILTER_MAX_VARIANCE } from './core/thresholds.js';
+// ★ Bridge-04: Compliance Tracker — CALC-based PILOTABLE feature adherence
+import { measureCompliance, logCompliance, resetComplianceCounters } from './coupling/compliance-tracker.js';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // P2-03a: DUEL PRE-FILTER — INV-PREFILTER-01
@@ -326,6 +328,8 @@ async function executePipeline(
   resetArcBuffer();
   // ★ P2-03c: Reset prose-hash cache (new run = clean slate)
   resetProseCache();
+  // ★ Bridge-04: Reset compliance counters (new run = clean slate)
+  resetComplianceCounters();
   {
     const tierName = (packet.quality_tier ?? 'sovereign').toUpperCase();
     const profileMap: Record<string, string> = {
@@ -466,6 +470,17 @@ async function executePipeline(
       // V1 SEAL + V3 SEAL = genuine SEAL
       // Sprint 6.1: Quality M1-M12 rapport annexe (INFORMATIF)
       const quality_m12 = buildQualityReport(loop_result.final_prose, enrichedPacket);
+
+      // ★ Bridge-04: Compliance tracking (CALC, 0 LLM, telemetry only)
+      if (isV5Active()) {
+        const complianceFeatures = process.env.OMEGA_BRIDGE_PHASE === '1'
+          ? ['f24e_contrast_score', 'f15b_redundancy_compression', 'f16a_bigram_rarity']
+          : ['f24e_contrast_score', 'f15b_redundancy_compression', 'f16a_bigram_rarity', 'f29d_ttr_score', 'f35c_hook_score'];
+        const expectedCompliance: Record<string, number> = {};
+        for (const f of complianceFeatures) expectedCompliance[f] = 1.0;
+        const complianceSnap = measureCompliance(loop_result.final_prose, enrichedPacket.scene_id, complianceFeatures, expectedCompliance);
+        logCompliance(complianceSnap);
+      }
 
       return {
         version: '2.0.0',
@@ -738,6 +753,17 @@ async function executePipeline(
 
   // Sprint 6.1: Quality M1-M12 rapport annexe (INFORMATIF)
   const quality_m12 = buildQualityReport(patchedProse, enrichedPacket);
+
+  // ★ Bridge-04: Compliance tracking (CALC, 0 LLM, telemetry only)
+  if (isV5Active()) {
+    const complianceFeatures = process.env.OMEGA_BRIDGE_PHASE === '1'
+      ? ['f24e_contrast_score', 'f15b_redundancy_compression', 'f16a_bigram_rarity']
+      : ['f24e_contrast_score', 'f15b_redundancy_compression', 'f16a_bigram_rarity', 'f29d_ttr_score', 'f35c_hook_score'];
+    const expectedCompliance: Record<string, number> = {};
+    for (const f of complianceFeatures) expectedCompliance[f] = 1.0;
+    const complianceSnap = measureCompliance(patchedProse, enrichedPacket.scene_id, complianceFeatures, expectedCompliance);
+    logCompliance(complianceSnap);
+  }
 
   return {
     version: '2.0.0',

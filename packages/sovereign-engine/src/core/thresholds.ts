@@ -61,3 +61,13 @@ export const DUEL_PREFILTER_COMPOSITE_MIN = 90.0;
 
 /** V1 min_axis minimum pour skip le duel (9 axes individuels, pas macro) */
 export const DUEL_PREFILTER_MIN_AXIS = 80.0;
+
+/**
+ * Variance instability maximum pour skip le duel.
+ * Formule : stdev(axes_scores) / composite.
+ * Un texte avec composite=90 mais axes très dispersés (e.g., 72/98)
+ * a un profil DÉSÉQUILIBRÉ — le duel peut le sauver.
+ * Seuil 0.12 = stdev ~10.8 pts pour composite 90 = tolérable.
+ * P2-03 B1 enhancement (double condition score + variance).
+ */
+export const DUEL_PREFILTER_MAX_VARIANCE = 0.12;

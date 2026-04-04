@@ -137,6 +137,9 @@ export { CORRECTION_CATALOG, getOperationDescriptor, getOperationsByPrimaryAxis 
 
 export { runDuel } from './duel/duel-engine.js';
 export { getDraftModeInstruction } from './duel/draft-modes.js';
+// P3-01: CALC pre-scorer (rejector, 0 LLM)
+export { calcPreScore } from './duel/calc-pre-scorer.js';
+export type { CalcPreScoreResult, PreScorerOutput } from './duel/calc-pre-scorer.js';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // POLISH

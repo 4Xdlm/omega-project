@@ -22,6 +22,8 @@ import { scoreV2 } from '../oracle/s-oracle-v2.js';
 import { sha256, canonicalize } from '@omega/canon-kernel';
 // P0-03: Unified floor threshold — single source of truth
 import { SEAL_FLOOR_MIN } from '../core/thresholds.js';
+// P3-01: CALC pre-scorer — reject dead candidates before expensive V3 scoring
+import { calcPreScore } from './calc-pre-scorer.js';
 
 // ── CV Gate — Pre-filter for rhythm outliers ─────────────────────────────────
 // Levier C: Reject drafts with CV_sent > threshold
@@ -139,6 +141,22 @@ export async function runDuel(
     } catch { /* telemetry is optional */ }
   }
 
+  // ═══ P3-01: CALC Pre-Scorer — reject dead candidates before V3 ═══════════
+  // Toggle: OMEGA_CALC_PRESCORER=1 to enable (default: disabled for safety)
+  // INV-P3-PRESCORE-01: Rejector only — never selects a winner
+  // INV-P3-PRESCORE-02: At least 2 candidates always survive
+  // INV-P3-PRESCORE-03: 0 LLM calls
+  let draftsForV3: Draft[] = [...drafts];
+  const calcPrescorerEnabled = process.env.OMEGA_CALC_PRESCORER === '1';
+
+  if (calcPrescorerEnabled && symbolMap) {
+    const preScoreResult = calcPreScore(drafts, packet);
+    draftsForV3 = [...preScoreResult.survivors];
+    if (preScoreResult.total_rejected > 0) {
+      console.log(`[DUEL] CALC_PRESCORER: ${preScoreResult.total_rejected} rejected, ${preScoreResult.survivors.length} survive. Saved ~${preScoreResult.total_rejected * 8} LLM calls.`);
+    }
+  }
+
   // ★ V4.3 Sprint 1: Hostile selection — min_axis priority + composite tiebreak
   // Convergence 3/3: Claude + ChatGPT + Gemini — composite-only selection lets
   // high-ECC/low-RCI drafts win. This penalizes axis imbalance.
@@ -148,14 +166,15 @@ export async function runDuel(
   let v3Scores: Awaited<ReturnType<typeof judgeAestheticV3>>[] | null = null;
   if (symbolMap) {
     v3Scores = await Promise.all(
-      drafts.map((d) => judgeAestheticV3(packet, d.prose, provider, symbolMap)),
+      draftsForV3.map((d) => judgeAestheticV3(packet, d.prose, provider, symbolMap)),
     );
 
     // Log all candidates for audit (Sprint 1 instrumentation)
+    // P3-01: draftsForV3 may be a subset of drafts (pre-scorer filtered)
     console.log('[DUEL] Candidates:');
     for (let i = 0; i < v3Scores.length; i++) {
       const s = v3Scores[i];
-      console.log(`  [${i}] ${drafts[i].mode} | composite=${s.composite.toFixed(1)} min_axis=${s.min_axis.toFixed(1)} ECC=${s.ecc_score.toFixed(1)} RCI=${s.macro_axes.rci.score.toFixed(1)}`);
+      console.log(`  [${i}] ${draftsForV3[i].mode} | composite=${s.composite.toFixed(1)} min_axis=${s.min_axis.toFixed(1)} ECC=${s.ecc_score.toFixed(1)} RCI=${s.macro_axes.rci.score.toFixed(1)}`);
     }
 
     // Hostile selection: penalize low min_axis heavily
@@ -167,7 +186,7 @@ export async function runDuel(
 
     const maxSelection = Math.max(...selectionScores);
     winnerIdx = selectionScores.indexOf(maxSelection);
-    console.log(`[DUEL] Winner: [${winnerIdx}] ${drafts[winnerIdx].mode} (selection_score=${maxSelection.toFixed(1)})`);
+    console.log(`[DUEL] Winner: [${winnerIdx}] ${draftsForV3[winnerIdx].mode} (selection_score=${maxSelection.toFixed(1)})`);
   } else {
     // Fallback V1 selection — INV-DUEL-V1-01: requires non-null V1 scores
     // If V1 was skipped without symbolMap, this is a logic error — should never happen
@@ -177,7 +196,8 @@ export async function runDuel(
     winnerIdx = scores.indexOf(maxScore);
   }
 
-  const winner = drafts[winnerIdx];
+  // P3-01: winner comes from draftsForV3 (V3 path) or drafts (V1 fallback)
+  const winner = symbolMap ? draftsForV3[winnerIdx] : drafts[winnerIdx];
 
   // Telemetry: DUEL_WINNER snapshot with scores
   try {
@@ -190,11 +210,14 @@ export async function runDuel(
       AAI: ws.macro_axes.aai.score,
     } : undefined, {
       winner_mode: winner.mode, winner_idx: winnerIdx,
-      all_candidates: drafts.map((d, idx) => ({
+      // Telemetry logs ALL original drafts + V3-scored subset
+      all_candidates: draftsForV3.map((d, idx) => ({
         mode: d.mode, words: d.prose.split(/\s+/).length,
         composite: symbolMap && v3Scores ? v3Scores[idx].composite : (d.score?.composite ?? 0),
         v1_skipped: d.v1_skipped,
       })),
+      prescorer_active: calcPrescorerEnabled,
+      prescorer_rejected: calcPrescorerEnabled ? drafts.length - draftsForV3.length : 0,
     });
   } catch { /* telemetry is optional */ }
 

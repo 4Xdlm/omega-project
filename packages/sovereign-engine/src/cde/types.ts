@@ -75,6 +75,10 @@ export interface StateDelta {
   readonly arc_movements:   Array<{ character_id: string; movement: string }>;
   readonly drift_flags:     string[];   // incoherences potentielles detectees
   readonly prose_hash:      string;     // SHA256 de la prose analysee
+  // ── R2 extensions (optional, backward-compatible) ──────────────────────────
+  readonly scene_summary?:        string;    // 1-2 phrases clés extraites (CALC)
+  readonly characters_present?:   string[];  // IDs personnages détectés dans prose
+  readonly motifs?:               string[];  // éléments thématiques récurrents
 }
 
 export class CDEError extends Error {

@@ -90,6 +90,16 @@ import { forgePacketToSceneBrief } from './generation/forge-to-brief.js';
 import { SAGA_READY_COMPOSITE_MIN, SAGA_READY_SSI_MIN, DUEL_PREFILTER_COMPOSITE_MIN, DUEL_PREFILTER_MIN_AXIS, DUEL_PREFILTER_MAX_VARIANCE } from './core/thresholds.js';
 // ★ Bridge-04: Compliance Tracker — CALC-based PILOTABLE feature adherence
 import { measureCompliance, logCompliance, resetComplianceCounters } from './coupling/compliance-tracker.js';
+// ★ P4: Loom — Cross-chapter narrative memory (INV-LOOM-01 toggle)
+import { enrichPacketWithLoom, buildLoomReadInput } from './loom/loom-reader.js';
+import { updateLoomFromSealedProse, type LoomWriteContext } from './loom/loom-writer.js';
+import { getLoomConfig } from './loom/loom-config.js';
+import { NullLoomAdapter } from './loom/loom-adapter.js';
+import { createJsonFileLoomAdapter } from './loom/jsonfile-loom-adapter.js';
+import type { LoomAdapter } from './loom/loom-types.js';
+import { extractDelta, type DeltaContext } from './cde/delta-extractor.js';
+import type { StateDelta, CanonFact, DebtEntry, ArcState } from './cde/types.js';
+import { sha256 as loomSha256 } from '@omega/canon-kernel';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // P2-03a: DUEL PRE-FILTER — INV-PREFILTER-01
@@ -241,7 +251,28 @@ export async function runSovereignForge(
   provider: SovereignProvider,
   cdeInput?: CDEInput,
 ): Promise<SovereignForgeResult> {
-  const packet = assembleForgePacket(input);
+  // ── P4: Loom pre-read — enrichit continuity avec contexte cross-chapitre ──
+  // INV-LOOM-01 : si Loom OFF, enrichedInput === input (passthrough exact)
+  let enrichedInput = input;
+  let loomAdapter: LoomAdapter = new NullLoomAdapter();
+  const loomConfig = getLoomConfig();
+
+  if (loomConfig.ENABLED) {
+    try {
+      loomAdapter = await createJsonFileLoomAdapter();
+      const bookId = input.plan.plan_id || 'default';
+      // Extraire chapter depuis scene_id (format: "scene-N" ou arc_id)
+      const chapterMatch = input.scene.scene_id.match(/(\d+)/);
+      const chapter = chapterMatch ? parseInt(chapterMatch[1], 10) : 1;
+      const readInput = buildLoomReadInput(input, bookId, chapter);
+      enrichedInput = await enrichPacketWithLoom(input, loomAdapter, readInput);
+    } catch {
+      // Loom read failed → continue sans enrichissement (degrade gracefully)
+      enrichedInput = input;
+    }
+  }
+
+  const packet = assembleForgePacket(enrichedInput);
 
   const validation = validateForgePacket(packet);
   if (!validation.valid) {
@@ -250,7 +281,96 @@ export async function runSovereignForge(
 
   simulateSceneBattle(packet);
 
-  return executePipeline(packet, provider, cdeInput);
+  const result = await executePipeline(packet, provider, cdeInput);
+
+  // ── P4: Loom post-write — persiste état narratif si SEAL/SAGA_READY ──
+  // INV-LOOM-02 : JAMAIS sur verdict REJECT
+  if (loomConfig.ENABLED && result.verdict === 'SEAL') {
+    try {
+      const bookId = input.plan.plan_id || 'default';
+      const chapterMatch2 = input.scene.scene_id.match(/(\d+)/);
+      const chapter = chapterMatch2 ? parseInt(chapterMatch2[1], 10) : 1;
+      const sceneId = input.scene.scene_id;
+      const proseHash = loomSha256(result.final_prose);
+
+      // ── Construire DeltaContext depuis les données du ForgePacketInput ──
+      // Convertir CanonEntry[] → CanonFact[] (types différents)
+      const canonFacts: CanonFact[] = input.canon.map((c) => ({
+        id: c.id,
+        fact: c.statement,
+        sealed_at: new Date().toISOString(),
+      }));
+
+      // Convertir open_threads → DebtEntry[]
+      const openDebts: DebtEntry[] = input.continuity.open_threads.map((thread, idx) => ({
+        id: `thread-${idx}`,
+        content: thread,
+        opened_at: String(chapter),
+        resolved: false,
+      }));
+
+      // ArcStates depuis CDE si disponible, sinon depuis continuity
+      const arcStates: ArcState[] = cdeInput?.hot_elements
+        ?.filter((h) => h.type === 'persona')
+        ?.map((h) => ({
+          character_id: h.id,
+          arc_phase: 'unknown' as const,
+          current_need: h.content,
+          current_mask: '',
+          tension: '',
+        })) ?? input.continuity.character_states.map((cs) => ({
+          character_id: cs.character_id,
+          arc_phase: 'unknown' as const,
+          current_need: cs.emotional_state,
+          current_mask: '',
+          tension: '',
+        }));
+
+      // ── extractDelta() — CALC pur, 0 LLM ──
+      const deltaCtx: DeltaContext = {
+        canon_facts: canonFacts,
+        open_debts: openDebts,
+        arc_states: arcStates,
+      };
+
+      let realDelta: StateDelta;
+      try {
+        realDelta = extractDelta(result.final_prose, deltaCtx);
+      } catch {
+        // extractDelta peut throw si prose vide — fallback minimal
+        realDelta = {
+          new_facts: [], modified_facts: [], debts_opened: [],
+          debts_resolved: [], arc_movements: [], drift_flags: [],
+          prose_hash: proseHash,
+        };
+      }
+
+      const writeCtx: LoomWriteContext = {
+        book_id: bookId,
+        chapter,
+        scene_id: sceneId,
+        cde_delta: realDelta,
+        arc_states: arcStates,
+        canon_facts: canonFacts,
+        open_debts: openDebts,
+        sealed_prose: result.final_prose,
+        prose_hash: proseHash,
+        characters_present: realDelta.characters_present
+          ?? input.continuity.character_states.map((c) => c.character_id),
+        conflict_type: input.scene.conflict_type || 'unknown',
+        terminal_emotion: '',
+        terminal_valence: result.macro_score?.composite ?? 0,
+        input_continuity: input.continuity,
+      };
+
+      await updateLoomFromSealedProse(loomAdapter, writeCtx, provider);
+    } catch {
+      // Loom write failed → log mais pas de crash pipeline
+      console.warn('[LOOM] Post-write failed — pipeline result unaffected');
+    }
+  }
+
+  return result;
 }
 
 /**

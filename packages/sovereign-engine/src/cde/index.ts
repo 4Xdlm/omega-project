@@ -25,7 +25,7 @@ export {
   FIELD_BUDGET_MUST_NOT_BREAK,
 } from './distiller.js';
 
-export { extractDelta } from './delta-extractor.js';
+export { extractDelta, normalizeFR } from './delta-extractor.js';
 export type { DeltaContext } from './delta-extractor.js';
 
 // V-PROTO exports

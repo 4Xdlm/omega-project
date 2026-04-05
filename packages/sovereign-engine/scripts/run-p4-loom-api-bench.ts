@@ -43,9 +43,12 @@ import { createAnthropicProvider } from '../src/runtime/anthropic-provider.js';
 import { CreditExhaustedError } from '../src/runtime/anthropic-provider.js';
 import { resetLoomConfig } from '../src/loom/loom-config.js';
 import { extractDelta } from '../src/cde/delta-extractor.js';
+import type { DeltaContext } from '../src/cde/delta-extractor.js';
+import type { CanonFact, DebtEntry, ArcState } from '../src/cde/types.js';
 import type { AnthropicProviderConfig } from '../src/runtime/live-types.js';
-import type { ForgeContinuity } from '../src/types.js';
+import type { ForgeContinuity, CharacterState } from '../src/types.js';
 import type { SovereignForgeResult } from '../src/engine.js';
+import { sha256 } from '@omega/canon-kernel';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PKG_ROOT = resolve(__dirname, '..');
@@ -294,12 +297,17 @@ async function runArm(
   process.env.OMEGA_LOOM_EXTRACTION = '0';  // CALC only, pas de LLM extraction
   resetLoomConfig();  // Force re-resolve du singleton
 
-  // Continuity chaînée: la sortie de la scène N alimente la scène N+1
+  // J11 FIX: Continuity chaînée COMPLÈTE — summary + characters + threads évoluent
   let rollingContinuity: ForgeContinuity = {
     previous_scene_summary: '',
     character_states: [],
     open_threads: [],
   };
+
+  // J12 FIX: Contexte extractDelta accumulé (pas vide) — dettes + arcs + canon réels
+  let accumulatedCanonFacts: CanonFact[] = [];
+  let accumulatedOpenDebts: DebtEntry[] = [];
+  let accumulatedArcStates: ArcState[] = [];
 
   for (let i = 0; i < sceneCount; i++) {
     const sceneLabel = `${armName} scene ${i + 1}/${sceneCount}`;
@@ -326,28 +334,101 @@ async function runArm(
       // Exécuter le pipeline complet
       result = await runSovereignForge(chainedInput, provider);
 
-      // Mesurer extractDelta isolément (pour le KPI latence)
+      // J12 FIX: Mesurer extractDelta avec le VRAI contexte accumulé
       if (result.final_prose) {
         const tD0 = performance.now();
         try {
-          extractDelta(result.final_prose, {
-            canon_facts: [],
-            open_debts: [],
-            arc_states: [],
-          });
+          const deltaCtx: DeltaContext = {
+            canon_facts: accumulatedCanonFacts,
+            open_debts: accumulatedOpenDebts,
+            arc_states: accumulatedArcStates,
+          };
+          const measuredDelta = extractDelta(result.final_prose, deltaCtx);
+
+          // Accumuler les nouveaux faits comme canon pour les scènes suivantes
+          for (const fact of measuredDelta.new_facts) {
+            accumulatedCanonFacts.push({
+              id: `bench-fact-${sha256(fact).slice(0, 12)}`,
+              fact,
+              sealed_at: new Date().toISOString(),
+            });
+          }
+
+          // Accumuler les nouvelles dettes ouvertes (J6 FIX: ID stable)
+          for (const debt of measuredDelta.debts_opened) {
+            accumulatedOpenDebts.push({
+              id: `debt-${sha256(debt.content.toLowerCase().trim()).slice(0, 12)}`,
+              content: debt.content,
+              opened_at: String(i + 1),
+              resolved: false,
+            });
+          }
+
+          // Marquer les dettes résolues
+          for (const resolved of measuredDelta.debts_resolved) {
+            accumulatedOpenDebts = accumulatedOpenDebts.map((d) =>
+              d.id === resolved.id ? { ...d, resolved: true } : d,
+            );
+          }
+
+          // Accumuler les arc_states depuis les mouvements
+          for (const movement of measuredDelta.arc_movements) {
+            const existing = accumulatedArcStates.findIndex(
+              (a) => a.character_id === movement.character_id,
+            );
+            const newPhase = movement.movement.split(' -> ')[1] as ArcState['arc_phase'] || 'unknown';
+            const newArc: ArcState = {
+              character_id: movement.character_id,
+              arc_phase: newPhase,
+              current_need: '',
+              current_mask: '',
+              tension: '',
+            };
+            if (existing >= 0) {
+              accumulatedArcStates[existing] = newArc;
+            } else {
+              accumulatedArcStates.push(newArc);
+            }
+          }
         } catch { /* ignore */ }
         extractDeltaMs = performance.now() - tD0;
       }
 
-      // Mettre à jour la continuité pour la scène suivante
+      // J11 FIX: Mettre à jour la continuité COMPLÈTE pour la scène suivante
       if (result.final_prose) {
-        // Extraire un résumé de la prose pour la continuité
         const sentences = result.final_prose.split(/[.!?]+/).filter(Boolean);
         const summary = sentences.slice(0, 3).join('. ').trim();
+
+        // Reconstruire character_states depuis le résultat + golden run
+        const baseChars = chainedInput.continuity.character_states;
+        // Ajouter les nouveaux personnages détectés par extractDelta
+        const detectedCharIds = new Set(
+          accumulatedArcStates.map((a) => a.character_id),
+        );
+        const existingCharIds = new Set(baseChars.map((c) => c.character_id));
+        const newChars: CharacterState[] = [];
+        for (const charId of detectedCharIds) {
+          if (!existingCharIds.has(charId)) {
+            newChars.push({
+              character_id: charId,
+              character_name: charId,
+              emotional_state: '',
+              physical_state: '',
+              location: '',
+            });
+          }
+        }
+        const updatedChars = [...baseChars, ...newChars];
+
+        // Reconstruire open_threads depuis les dettes non résolues accumulées
+        const openThreads = accumulatedOpenDebts
+          .filter((d) => !d.resolved)
+          .map((d) => d.content);
+
         rollingContinuity = {
           previous_scene_summary: summary.slice(0, 500),
-          character_states: chainedInput.continuity.character_states,
-          open_threads: chainedInput.continuity.open_threads,
+          character_states: updatedChars,
+          open_threads: openThreads,
         };
       }
     } catch (err: unknown) {
@@ -371,14 +452,16 @@ async function runArm(
     let loomCharacters = 0;
     let loomNewFacts = 0;
 
+    // J12 FIX: Métriques Loom avec le vrai contexte accumulé
     if (loomEnabled && result?.final_prose) {
       try {
         const tIO0 = performance.now();
-        const delta = extractDelta(result.final_prose, {
-          canon_facts: [],
-          open_debts: [],
-          arc_states: [],
-        });
+        const deltaCtx: DeltaContext = {
+          canon_facts: accumulatedCanonFacts,
+          open_debts: accumulatedOpenDebts,
+          arc_states: accumulatedArcStates,
+        };
+        const delta = extractDelta(result.final_prose, deltaCtx);
         loomIoMs = performance.now() - tIO0;
         loomDebtsOpened = delta.debts_opened.length;
         loomDebtsResolved = delta.debts_resolved.length;

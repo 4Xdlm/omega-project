@@ -101,11 +101,12 @@ export function mergeContinuity(
   loomContext: LoomContext,
 ): LoomEnrichedContinuity {
   // ── Summary : original en priorité, Loom en enrichissement ──
+  // J4 FIX: pas de tags internes [Loom]/[Motifs] — texte naturel uniquement
   let mergedSummary = original.previous_scene_summary;
   if (loomContext.enriched_summary && loomContext.enriched_summary.length > 0) {
     if (mergedSummary.length > 0) {
-      // Ajouter le contexte Loom APRÈS l'original, séparé clairement
-      mergedSummary = `${mergedSummary} | [Loom] ${loomContext.enriched_summary}`;
+      // Ajouter le contexte Loom APRÈS l'original, en prose naturelle
+      mergedSummary = `${mergedSummary} Par ailleurs, ${loomContext.enriched_summary}`;
     } else {
       // Pas de summary original → utiliser Loom
       mergedSummary = loomContext.enriched_summary;
@@ -113,12 +114,13 @@ export function mergeContinuity(
   }
 
   // ── R2/R3: Motifs récurrents injectés dans le summary ──
+  // J4 FIX: formulation naturelle au lieu de tag [Motifs]
   if (loomContext.active_motifs.length > 0) {
     const motifList = loomContext.active_motifs
       .slice(0, 5) // max 5 motifs
       .map((m) => m.content)
       .join(', ');
-    mergedSummary = `${mergedSummary} | [Motifs] ${motifList}`;
+    mergedSummary = `${mergedSummary} Motifs récurrents à maintenir : ${motifList}.`;
   }
 
   // ── Character states : originaux prioritaires, Loom comble les absents ──

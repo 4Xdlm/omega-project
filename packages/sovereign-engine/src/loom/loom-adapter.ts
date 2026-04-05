@@ -233,15 +233,21 @@ export class InMemoryLoomAdapter implements LoomAdapter {
       }
     }
 
-    // ── Scene : résumé depuis CDE new_facts + scene metadata ──
-    const sceneSummary = input.cde_delta.new_facts.join('. ') || `Scène ${input.scene_id}`;
+    // ── Scene : résumé depuis CDE — J13 FIX: aligné avec JsonFileLoomAdapter (prefer scene_summary) ──
+    const sceneSummary = input.cde_delta.scene_summary
+      || input.cde_delta.new_facts.join('. ')
+      || `Scène ${input.scene_id}`;
+    // J13 FIX: prefer cde_delta.characters_present if available (comme JsonFileLoomAdapter)
+    const sceneCharacters = (input.cde_delta.characters_present && input.cde_delta.characters_present.length > 0)
+      ? input.cde_delta.characters_present
+      : input.characters_present;
     const sceneKey = `${input.book_id}:${input.chapter}:${input.scene_id}`;
     this.scenes.set(sceneKey, {
       book_id: input.book_id,
       chapter: input.chapter,
       scene_id: input.scene_id,
       summary: sceneSummary,
-      characters_present: input.characters_present,
+      characters_present: sceneCharacters,
       conflict_type: input.conflict_type,
       terminal_emotion: input.terminal_emotion,
       terminal_valence: input.terminal_valence,

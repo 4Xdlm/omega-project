@@ -238,8 +238,9 @@ function mergeDebtsWithExtraction(
 ): readonly DebtEntry[] {
   if (emergentThreads.length === 0) return cdeDebts;
 
-  const newDebts: DebtEntry[] = emergentThreads.map((thread, i) => ({
-    id: `loom-extracted-${chapter}-${i}`,
+  // J6 FIX: ID stable par hash du contenu (plus d'index instable)
+  const newDebts: DebtEntry[] = emergentThreads.map((thread) => ({
+    id: `loom-debt-${sha256(thread.toLowerCase().trim()).slice(0, 12)}`,
     content: thread,
     opened_at: String(chapter),
     resolved: false,

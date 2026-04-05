@@ -237,8 +237,8 @@ describe('E2E: 2 chapitres consécutifs avec Loom', () => {
 
     // INV-LOOM-06: original summary preserved
     expect(merged.previous_scene_summary).toContain('Morel est arrivé en ville.');
-    // Loom enrichment added
-    expect(merged.previous_scene_summary).toContain('[Loom]');
+    // J4 FIX: Loom enrichment en texte naturel (plus de tag [Loom])
+    expect(merged.previous_scene_summary).toContain('Par ailleurs,');
     // Morel's original state preserved (not overwritten by ch1)
     const morel = merged.character_states.find(c => c.character_id === 'Morel');
     expect(morel!.emotional_state).toBe('déterminé'); // original, not 'nostalgique' from ch1

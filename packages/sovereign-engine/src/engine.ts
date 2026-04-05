@@ -295,32 +295,41 @@ export async function runSovereignForge(
 
       // ── Construire DeltaContext depuis les données du ForgePacketInput ──
       // Convertir CanonEntry[] → CanonFact[] (types différents)
+      // J5 FIX: sealed_at = hash déterministe du contenu (pas de Date() non-déterministe)
+      // CanonEntry n'a pas de sealed_at. On utilise un proxy déterministe :
+      // le hash du fact statement — même input = même sealed_at, toujours.
       const canonFacts: CanonFact[] = input.canon.map((c) => ({
         id: c.id,
         fact: c.statement,
-        sealed_at: new Date().toISOString(),
+        sealed_at: `chapter-${chapter}-${loomSha256(c.statement).slice(0, 8)}`,
       }));
 
       // Convertir open_threads → DebtEntry[]
-      const openDebts: DebtEntry[] = input.continuity.open_threads.map((thread, idx) => ({
-        id: `thread-${idx}`,
+      // J6 FIX: ID stable par hash du contenu normalisé (plus d'index instable)
+      const openDebts: DebtEntry[] = input.continuity.open_threads.map((thread) => ({
+        id: `debt-${loomSha256(thread.toLowerCase().trim()).slice(0, 12)}`,
         content: thread,
         opened_at: String(chapter),
         resolved: false,
       }));
 
       // ArcStates depuis CDE si disponible, sinon depuis continuity
+      // J7 FIX: fallback 3-actes au lieu de 'unknown' partout
+      // unknown cause des arc_movements erronés dans extractDelta
+      const fallbackArcPhase: ArcState['arc_phase'] =
+        chapter <= 2 ? 'setup' : chapter <= 5 ? 'confrontation' : 'resolution';
+
       const arcStates: ArcState[] = cdeInput?.hot_elements
         ?.filter((h) => h.type === 'persona')
         ?.map((h) => ({
           character_id: h.id,
-          arc_phase: 'unknown' as const,
+          arc_phase: fallbackArcPhase,
           current_need: h.content,
           current_mask: '',
           tension: '',
         })) ?? input.continuity.character_states.map((cs) => ({
           character_id: cs.character_id,
-          arc_phase: 'unknown' as const,
+          arc_phase: fallbackArcPhase,
           current_need: cs.emotional_state,
           current_mask: '',
           tension: '',

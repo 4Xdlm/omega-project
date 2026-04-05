@@ -359,7 +359,8 @@ describe('mergeContinuity — INV-LOOM-06', () => {
     };
 
     const merged = mergeContinuity(original, loomCtx);
-    expect(merged.previous_scene_summary).toBe('Résumé original. | [Loom] Contexte Loom enrichi.');
+    // J4 FIX: plus de tag [Loom], texte naturel
+    expect(merged.previous_scene_summary).toBe('Résumé original. Par ailleurs, Contexte Loom enrichi.');
   });
 
   it('INV-LOOM-06-b: si original vide, Loom pris tel quel', () => {

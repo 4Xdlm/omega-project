@@ -39,6 +39,7 @@
     "benchmark:phase-u": "tsx scripts/run-benchmark-phase-u.ts",
     "benchmark:phase-w": "tsx scripts/run-benchmark-phase-w.ts",
     "benchmark:dual": "tsx scripts/run-benchmark-dual.ts",
+    "bench:p4-loom": "tsx scripts/run-p4-loom-api-bench.ts",
     "rosetta": "tsx scripts/rosetta-orchestrator.ts",
     "rosetta:measure": "tsx scripts/rosetta-measure.ts"
   },
@@ -49,7 +50,8 @@
     "@omega/genome": "file:../genome",
     "@omega/omega-forge": "file:../omega-forge",
     "@omega/phonetic-stack": "file:../omega-p0",
-    "@omega/signal-registry": "file:../signal-registry"
+    "@omega/signal-registry": "file:../signal-registry",
+    "@rollup/rollup-linux-x64-gnu": "^4.60.1"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

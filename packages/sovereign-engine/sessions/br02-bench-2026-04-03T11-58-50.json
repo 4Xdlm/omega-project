@@ -1,0 +1,216 @@
+{
+  "bench_id": "BENCH_BR02_MINI_20260403115850",
+  "protocol": "V4 vs V5.1 (Bridge-02) — 4 scenes, meme seed/modele/temperature",
+  "bridge_02_features": [
+    "f24e_contrast_score",
+    "f15b_redundancy_compression",
+    "f16a_bigram_rarity",
+    "f29d_ttr_score",
+    "f35c_hook_score"
+  ],
+  "model": "claude-sonnet-4-20250514",
+  "temperature": {
+    "draft": 0.75,
+    "judge": 0
+  },
+  "n_scenes": 4,
+  "valid_scenes": {
+    "v4": 0,
+    "v5": 0
+  },
+  "v4_results": {
+    "scores": [
+      {
+        "scene_id": "contemplation",
+        "composite": 0,
+        "min_axis": 0,
+        "ecc": 0,
+        "rci": 0,
+        "sii": 0,
+        "ifi": 0,
+        "aai": 0,
+        "loop_passes": 0,
+        "word_count": 0
+      },
+      {
+        "scene_id": "menace",
+        "composite": 0,
+        "min_axis": 0,
+        "ecc": 0,
+        "rci": 0,
+        "sii": 0,
+        "ifi": 0,
+        "aai": 0,
+        "loop_passes": 0,
+        "word_count": 0
+      },
+      {
+        "scene_id": "confrontation",
+        "composite": 0,
+        "min_axis": 0,
+        "ecc": 0,
+        "rci": 0,
+        "sii": 0,
+        "ifi": 0,
+        "aai": 0,
+        "loop_passes": 0,
+        "word_count": 0
+      },
+      {
+        "scene_id": "passion",
+        "composite": 0,
+        "min_axis": 0,
+        "ecc": 0,
+        "rci": 0,
+        "sii": 0,
+        "ifi": 0,
+        "aai": 0,
+        "loop_passes": 0,
+        "word_count": 0
+      }
+    ],
+    "composite_mean": 0
+  },
+  "v5_results": {
+    "scores": [
+      {
+        "scene_id": "contemplation",
+        "composite": 0,
+        "min_axis": 0,
+        "ecc": 0,
+        "rci": 0,
+        "sii": 0,
+        "ifi": 0,
+        "aai": 0,
+        "loop_passes": 0,
+        "word_count": 0
+      },
+      {
+        "scene_id": "menace",
+        "composite": 0,
+        "min_axis": 0,
+        "ecc": 0,
+        "rci": 0,
+        "sii": 0,
+        "ifi": 0,
+        "aai": 0,
+        "loop_passes": 0,
+        "word_count": 0
+      },
+      {
+        "scene_id": "confrontation",
+        "composite": 0,
+        "min_axis": 0,
+        "ecc": 0,
+        "rci": 0,
+        "sii": 0,
+        "ifi": 0,
+        "aai": 0,
+        "loop_passes": 0,
+        "word_count": 0
+      },
+      {
+        "scene_id": "passion",
+        "composite": 0,
+        "min_axis": 0,
+        "ecc": 0,
+        "rci": 0,
+        "sii": 0,
+        "ifi": 0,
+        "aai": 0,
+        "loop_passes": 0,
+        "word_count": 0
+      }
+    ],
+    "composite_mean": 0
+  },
+  "comparison": {
+    "composite_delta": 0,
+    "ecc_delta": 0,
+    "per_scene": [
+      {
+        "scene_id": "contemplation",
+        "composite_delta": 0,
+        "ecc_delta": 0,
+        "rci_delta": 0,
+        "sii_delta": 0,
+        "ifi_delta": 0,
+        "aai_delta": 0
+      },
+      {
+        "scene_id": "menace",
+        "composite_delta": 0,
+        "ecc_delta": 0,
+        "rci_delta": 0,
+        "sii_delta": 0,
+        "ifi_delta": 0,
+        "aai_delta": 0
+      },
+      {
+        "scene_id": "confrontation",
+        "composite_delta": 0,
+        "ecc_delta": 0,
+        "rci_delta": 0,
+        "sii_delta": 0,
+        "ifi_delta": 0,
+        "aai_delta": 0
+      },
+      {
+        "scene_id": "passion",
+        "composite_delta": 0,
+        "ecc_delta": 0,
+        "rci_delta": 0,
+        "sii_delta": 0,
+        "ifi_delta": 0,
+        "aai_delta": 0
+      }
+    ]
+  },
+  "errors": [
+    {
+      "scene": "contemplation",
+      "version": "V4",
+      "error": "Claude API call failed: Command failed: \"C:\\Program Files\\nodejs\\node.exe\" -e \"     const https = require('https');     let stdinBuf = '';     process.stdin.on('data', (chunk) => stdinBuf += chunk);  "
+    },
+    {
+      "scene": "contemplation",
+      "version": "V5.1",
+      "error": "Claude API call failed: Command failed: \"C:\\Program Files\\nodejs\\node.exe\" -e \"     const https = require('https');     let stdinBuf = '';     process.stdin.on('data', (chunk) => stdinBuf += chunk);  "
+    },
+    {
+      "scene": "menace",
+      "version": "V4",
+      "error": "Claude API call failed: Command failed: \"C:\\Program Files\\nodejs\\node.exe\" -e \"     const https = require('https');     let stdinBuf = '';     process.stdin.on('data', (chunk) => stdinBuf += chunk);  "
+    },
+    {
+      "scene": "menace",
+      "version": "V5.1",
+      "error": "Claude API call failed: Command failed: \"C:\\Program Files\\nodejs\\node.exe\" -e \"     const https = require('https');     let stdinBuf = '';     process.stdin.on('data', (chunk) => stdinBuf += chunk);  "
+    },
+    {
+      "scene": "confrontation",
+      "version": "V4",
+      "error": "Claude API call failed: Command failed: \"C:\\Program Files\\nodejs\\node.exe\" -e \"     const https = require('https');     let stdinBuf = '';     process.stdin.on('data', (chunk) => stdinBuf += chunk);  "
+    },
+    {
+      "scene": "confrontation",
+      "version": "V5.1",
+      "error": "Claude API call failed: Command failed: \"C:\\Program Files\\nodejs\\node.exe\" -e \"     const https = require('https');     let stdinBuf = '';     process.stdin.on('data', (chunk) => stdinBuf += chunk);  "
+    },
+    {
+      "scene": "passion",
+      "version": "V4",
+      "error": "Claude API call failed: Command failed: \"C:\\Program Files\\nodejs\\node.exe\" -e \"     const https = require('https');     let stdinBuf = '';     process.stdin.on('data', (chunk) => stdinBuf += chunk);  "
+    },
+    {
+      "scene": "passion",
+      "version": "V5.1",
+      "error": "Claude API call failed: Command failed: \"C:\\Program Files\\nodejs\\node.exe\" -e \"     const https = require('https');     let stdinBuf = '';     process.stdin.on('data', (chunk) => stdinBuf += chunk);  "
+    }
+  ],
+  "verdict": "INCONCLUSIVE",
+  "verdict_reason": "Donnees insuffisantes: V4=0 V5.1=0 valides (min 2)",
+  "created_at": "2026-04-03T11:58:50.859Z",
+  "prompt_assembler_version": "5.1.0",
+  "standard": "NASA-Grade L4 / DO-178C Level A"
+}

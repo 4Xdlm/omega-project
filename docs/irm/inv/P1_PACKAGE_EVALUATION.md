@@ -1,75 +1,91 @@
-# P1-06: PACKAGE EVALUATION — 11 packages isolés
-Date: 2026-04-02
+# P1-06: PACKAGE EVALUATION -- 11 packages isoles
+Date: 2026-04-02 | Scan: P1-06 rebuild
+
+## Method
+For each package:
+1. `find packages/[name]/src -name "*.ts" | wc -l`
+2. `grep -rl "@omega/[name]" packages/ --include="*.json" | grep -v node_modules | grep -v packages/[name]`
+3. `grep -l "[name]" docs/OMEGA_ROADMAP_v8_0.md`
+
+## Results
 
 ### decision-engine
-- Fichiers .ts : 31
-- Importé par : AUCUN
-- Verdict : ARCHIVER — 0 dépendants, 31 fichiers non utilisés
-- Raison : Ancien module NASA-Grade, remplacé par le système de zones dans config.ts
+- .ts files: 31
+- Imported by: NONE
+- Roadmap: NO
+- Verdict: ARCHIVER -- 31 fichiers, 0 dependants, 0 roadmap
 
 ### headless-runner
-- Fichiers .ts : 7
-- Importé par : 1 package (dépend de gateway)
-- Verdict : GARDER — actif pour CLI execution
-- Raison : Runner sans UI, utilisé pour replay déterministe
+- .ts files: 7
+- Imported by: gold-internal (package.json), gold-cli (lock), gold-master (lock), gold-suite (lock)
+- Roadmap: NO
+- Verdict: GARDER -- actif pour CLI execution via gold-internal
 
 ### mod-narrative
-- Fichiers .ts : 2
-- Importé par : AUCUN
-- Verdict : ARCHIVER — module embryonnaire, 0 consommateurs
-- Raison : Emotion v2 adapter jamais connecté
+- .ts files: 2
+- Imported by: NONE
+- Roadmap: YES (OMEGA_ROADMAP_v8_0.md)
+- Verdict: PLANNED -- module embryonnaire, reference roadmap
 
 ### omega-aggregate-dna
-- Fichiers .ts : 6
-- Importé par : AUCUN
-- Verdict : GARDER — roadmap Phase V (certification style)
-- Raison : Merkle DNA aggregation, sera nécessaire pour voice certification
+- .ts files: 6
+- Imported by: NONE
+- Roadmap: YES (OMEGA_ROADMAP_v8_0.md)
+- Verdict: PLANNED -- roadmap Phase V (certification style)
 
 ### omega-observability
-- Fichiers .ts : 5
-- Importé par : AUCUN
-- Verdict : GARDER — infrastructure observabilité
-- Raison : Zero-impact callbacks, utile pour monitoring production
+- .ts files: 5
+- Imported by: NONE
+- Roadmap: NO
+- Verdict: GARDER -- infrastructure observabilite, zero-impact callbacks
 
 ### omega-p0
-- Fichiers .ts : 10
-- Importé par : sovereign-engine (via @omega/phonetic-stack alias)
-- Verdict : GARDER — actif dans genius/omega-p0-adapter.ts
-- Raison : Stack phonétique + genius scoring
+- .ts files: 10
+- Imported by: NONE (grep @omega/omega-p0 returns 0)
+- Roadmap: NO
+- Verdict: A EVALUER -- potential internal usage via alias non-detectable par grep package.json
 
 ### omega-segment-engine
-- Fichiers .ts : 11
-- Importé par : AUCUN
-- Verdict : GARDER — roadmap (segmentation déterministe)
-- Raison : NASA-grade text segmentation, potentiel Phase W
+- .ts files: 11
+- Imported by: NONE
+- Roadmap: NO
+- Verdict: GARDER -- NASA-grade segmentation deterministe
 
 ### oracle (standalone package)
-- Fichiers .ts : 8
-- Importé par : AUCUN (distinct de sovereign-engine/oracle/)
-- Verdict : À ÉVALUER — doublon potentiel avec SE oracle
-- Raison : AI emotional analysis avec streaming/caching, rôle séparé du SE oracle
+- .ts files: 8
+- Imported by: NONE
+- Roadmap: NO
+- Verdict: A EVALUER -- doublon potentiel avec sovereign-engine/src/oracle/
 
 ### plugin-gateway
-- Fichiers .ts : 12
-- Importé par : AUCUN
-- Verdict : GARDER — infrastructure plugin system
-- Raison : Schema validation + sandbox pour modules externes
+- .ts files: 12
+- Imported by: NONE
+- Roadmap: NO
+- Verdict: GARDER -- infrastructure plugin system (pair avec plugin-sdk)
 
 ### plugin-sdk
-- Fichiers .ts : 9
-- Importé par : AUCUN
-- Verdict : GARDER — SDK compagnon de plugin-gateway
-- Raison : Kit de construction de plugins conformes
+- .ts files: 9
+- Imported by: NONE
+- Roadmap: NO
+- Verdict: GARDER -- SDK compagnon de plugin-gateway
 
 ### search
-- Fichiers .ts : 11
-- Importé par : AUCUN
-- Verdict : GARDER — module indépendant, potentiellement utile
-- Raison : Moteur de recherche texte avec analytics
+- .ts files: 11
+- Imported by: NONE
+- Roadmap: NO
+- Verdict: GARDER -- moteur de recherche texte standalone
 
-## RÉSUMÉ
-| Verdict | Packages |
-|---------|----------|
-| GARDER | headless-runner, omega-aggregate-dna, omega-observability, omega-p0, omega-segment-engine, plugin-gateway, plugin-sdk, search |
-| ARCHIVER | decision-engine, mod-narrative |
-| À ÉVALUER | oracle (standalone) |
+## RESUME
+
+| Verdict | Count | Packages |
+|---------|-------|----------|
+| GARDER | 6 | headless-runner, omega-observability, omega-segment-engine, plugin-gateway, plugin-sdk, search |
+| PLANNED | 2 | mod-narrative, omega-aggregate-dna |
+| A EVALUER | 2 | omega-p0, oracle |
+| ARCHIVER | 1 | decision-engine |
+
+## Raw counts
+- Total .ts files across 11 packages: 121
+- Packages with 0 external consumers: 10/11
+- Packages with roadmap mention: 2/11
+- Only active consumer chain: headless-runner <- gold-internal

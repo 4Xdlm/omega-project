@@ -1,0 +1,175 @@
+{
+  "bench_id": "BENCH_BR02_MINI_20260403134902",
+  "protocol": "V4 vs V5.1 (Bridge-02) — 4 scenes, meme seed/modele/temperature",
+  "bridge_02_features": [
+    "f24e_contrast_score",
+    "f15b_redundancy_compression",
+    "f16a_bigram_rarity",
+    "f29d_ttr_score",
+    "f35c_hook_score"
+  ],
+  "model": "claude-sonnet-4-20250514",
+  "temperature": {
+    "draft": 0.75,
+    "judge": 0
+  },
+  "n_scenes": 4,
+  "valid_scenes": {
+    "v4": 4,
+    "v5": 4
+  },
+  "v4_results": {
+    "scores": [
+      {
+        "scene_id": "contemplation",
+        "composite": 89.61555699998448,
+        "min_axis": 83.7292374870776,
+        "ecc": 91.12546820598781,
+        "rci": 83.7292374870776,
+        "sii": 84.66666666666667,
+        "ifi": 89.10182119205298,
+        "aai": 94.80000000000001,
+        "loop_passes": 0,
+        "word_count": 756
+      },
+      {
+        "scene_id": "menace",
+        "composite": 90.64601362971729,
+        "min_axis": 85.3978251586999,
+        "ecc": 92.23331655711942,
+        "rci": 85.3978251586999,
+        "sii": 88.60000000000001,
+        "ifi": 87.01388888888889,
+        "aai": 94.80000000000001,
+        "loop_passes": 0,
+        "word_count": 315
+      },
+      {
+        "scene_id": "confrontation",
+        "composite": 86.58109803702374,
+        "min_axis": 81.95765506167912,
+        "ecc": 81.95765506167912,
+        "rci": 82.10981713578305,
+        "sii": 89.73333333333333,
+        "ifi": 84.16402953586498,
+        "aai": 94.80000000000001,
+        "loop_passes": 0,
+        "word_count": 474
+      },
+      {
+        "scene_id": "passion",
+        "composite": 87.5750306028132,
+        "min_axis": 83.18672371824411,
+        "ecc": 83.18672371824411,
+        "rci": 84.58037991047883,
+        "sii": 88.53333333333335,
+        "ifi": 87.64747191011236,
+        "aai": 94.80000000000001,
+        "loop_passes": 0,
+        "word_count": 356
+      }
+    ],
+    "composite_mean": 88.60442481738468
+  },
+  "v5_results": {
+    "scores": [
+      {
+        "scene_id": "contemplation",
+        "composite": 90.82961466636328,
+        "min_axis": 85.54680814126884,
+        "ecc": 91.04100691620476,
+        "rci": 85.54680814126884,
+        "sii": 90.60000000000001,
+        "ifi": 89.53125,
+        "aai": 94.80000000000001,
+        "loop_passes": 0,
+        "word_count": 352
+      },
+      {
+        "scene_id": "menace",
+        "composite": 85.89047944048767,
+        "min_axis": 80.06666666666666,
+        "ecc": 90.39694654559406,
+        "rci": 82.77366566421085,
+        "sii": 80.06666666666666,
+        "ifi": 90.77963917525773,
+        "aai": 83.6,
+        "loop_passes": 0,
+        "word_count": 485
+      },
+      {
+        "scene_id": "confrontation",
+        "composite": 91.2540829546242,
+        "min_axis": 83.73333333333333,
+        "ecc": 92.69029399863705,
+        "rci": 86.72132395717098,
+        "sii": 83.73333333333333,
+        "ifi": 96.63660862354892,
+        "aai": 94.80000000000001,
+        "loop_passes": 0,
+        "word_count": 603
+      },
+      {
+        "scene_id": "passion",
+        "composite": 85.122175169766,
+        "min_axis": 77.85826802790646,
+        "ecc": 77.85826802790646,
+        "rci": 83.03047261771182,
+        "sii": 85.73333333333333,
+        "ifi": 90.53766375545851,
+        "aai": 93.6,
+        "loop_passes": 0,
+        "word_count": 458
+      }
+    ],
+    "composite_mean": 88.27408805781027
+  },
+  "comparison": {
+    "composite_delta": -0.3303367595744078,
+    "ecc_delta": 0.8708379863279561,
+    "per_scene": [
+      {
+        "scene_id": "contemplation",
+        "composite_delta": 1.2140576663788067,
+        "ecc_delta": -0.08446128978305012,
+        "rci_delta": 1.8175706541912433,
+        "sii_delta": 5.933333333333337,
+        "ifi_delta": 0.4294288079470192,
+        "aai_delta": 0
+      },
+      {
+        "scene_id": "menace",
+        "composite_delta": -4.755534189229621,
+        "ecc_delta": -1.8363700115253607,
+        "rci_delta": -2.6241594944890494,
+        "sii_delta": -8.533333333333346,
+        "ifi_delta": 3.765750286368842,
+        "aai_delta": -11.200000000000017
+      },
+      {
+        "scene_id": "confrontation",
+        "composite_delta": 4.672984917600459,
+        "ecc_delta": 10.732638936957926,
+        "rci_delta": 4.611506821387934,
+        "sii_delta": -6,
+        "ifi_delta": 12.47257908768394,
+        "aai_delta": 0
+      },
+      {
+        "scene_id": "passion",
+        "composite_delta": -2.4528554330472048,
+        "ecc_delta": -5.328455690337648,
+        "rci_delta": -1.5499072927670028,
+        "sii_delta": -2.8000000000000114,
+        "ifi_delta": 2.890191845346152,
+        "aai_delta": -1.200000000000017
+      }
+    ]
+  },
+  "errors": [],
+  "verdict": "GO_CONDITIONNEL",
+  "verdict_reason": "V5.1 (88.3) vs V4 (88.6): delta=-0.3, loops V5.1=0.0 vs V4=0.0",
+  "created_at": "2026-04-03T13:49:02.881Z",
+  "prompt_assembler_version": "5.1.0",
+  "standard": "NASA-Grade L4 / DO-178C Level A"
+}

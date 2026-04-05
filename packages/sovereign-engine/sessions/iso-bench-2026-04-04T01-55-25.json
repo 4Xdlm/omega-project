@@ -1,0 +1,82 @@
+{
+  "bench_id": "ISO_BENCH_20260404015525",
+  "protocol": "Isolation: V5.0 (Phase1, 3 features) vs V5.1 (Phase2, 5 features) — N=2 per scene",
+  "scenes": [
+    "menace",
+    "passion"
+  ],
+  "runs_per_scene": 2,
+  "model": "claude-sonnet-4-20250514",
+  "temperature": {
+    "draft": 0.75,
+    "judge": 0
+  },
+  "results": [],
+  "global": {
+    "phase1": {
+      "composite_mean": 0,
+      "ecc_mean": 0,
+      "ecc_std": 0
+    },
+    "phase2": {
+      "composite_mean": 0,
+      "ecc_mean": 0,
+      "ecc_std": 0
+    },
+    "delta_composite": 0,
+    "delta_ecc": 0
+  },
+  "errors": [
+    {
+      "scene": "menace",
+      "phase": "Phase1",
+      "run": 0,
+      "error": "Claude API call failed: Command failed: \"C:\\Program Files\\nodejs\\node.exe\" -e \"     const https = require('https');     let stdinBuf = '';     process.stdin.on('data', (chunk) => stdinBuf += chunk);  "
+    },
+    {
+      "scene": "menace",
+      "phase": "Phase1",
+      "run": 1,
+      "error": "Claude API call failed: Command failed: \"C:\\Program Files\\nodejs\\node.exe\" -e \"     const https = require('https');     let stdinBuf = '';     process.stdin.on('data', (chunk) => stdinBuf += chunk);  "
+    },
+    {
+      "scene": "menace",
+      "phase": "Phase2",
+      "run": 0,
+      "error": "Claude API call failed: Command failed: \"C:\\Program Files\\nodejs\\node.exe\" -e \"     const https = require('https');     let stdinBuf = '';     process.stdin.on('data', (chunk) => stdinBuf += chunk);  "
+    },
+    {
+      "scene": "menace",
+      "phase": "Phase2",
+      "run": 1,
+      "error": "Claude API call failed: Command failed: \"C:\\Program Files\\nodejs\\node.exe\" -e \"     const https = require('https');     let stdinBuf = '';     process.stdin.on('data', (chunk) => stdinBuf += chunk);  "
+    },
+    {
+      "scene": "passion",
+      "phase": "Phase1",
+      "run": 0,
+      "error": "Claude API call failed: Command failed: \"C:\\Program Files\\nodejs\\node.exe\" -e \"     const https = require('https');     let stdinBuf = '';     process.stdin.on('data', (chunk) => stdinBuf += chunk);  "
+    },
+    {
+      "scene": "passion",
+      "phase": "Phase1",
+      "run": 1,
+      "error": "Claude API call failed: Command failed: \"C:\\Program Files\\nodejs\\node.exe\" -e \"     const https = require('https');     let stdinBuf = '';     process.stdin.on('data', (chunk) => stdinBuf += chunk);  "
+    },
+    {
+      "scene": "passion",
+      "phase": "Phase2",
+      "run": 0,
+      "error": "Claude API call failed: Command failed: \"C:\\Program Files\\nodejs\\node.exe\" -e \"     const https = require('https');     let stdinBuf = '';     process.stdin.on('data', (chunk) => stdinBuf += chunk);  "
+    },
+    {
+      "scene": "passion",
+      "phase": "Phase2",
+      "run": 1,
+      "error": "Claude API call failed: Command failed: \"C:\\Program Files\\nodejs\\node.exe\" -e \"     const https = require('https');     let stdinBuf = '';     process.stdin.on('data', (chunk) => stdinBuf += chunk);  "
+    }
+  ],
+  "verdict": "INCONCLUSIVE",
+  "verdict_reason": "Données insuffisantes: Phase1=0 Phase2=0 runs valides",
+  "created_at": "2026-04-04T01:55:25.491Z"
+}

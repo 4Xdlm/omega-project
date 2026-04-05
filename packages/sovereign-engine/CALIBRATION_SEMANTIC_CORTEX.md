@@ -21,26 +21,26 @@ Calibration of semantic cortex (LLM-based emotion analysis) vs keywords on 5 CAL
 
 | Case | Composite (KW) | Composite (Sem) | Δ Composite | Tension (KW) | Tension (Sem) | Δ Tension | Coherence (KW) | Coherence (Sem) | Δ Coherence |
 |------|----------------|-----------------|-------------|--------------|---------------|-----------|----------------|-----------------|-------------|
-| CAL-CASE-01 | 76.50 | 73.92 | -2.58 | 54.09 | 41.17 | -12.92 | 100.00 | 100.00 | +0.00 |
-| CAL-CASE-02 | 62.17 | 69.67 | +7.50 | 3.65 | 41.17 | +37.52 | 100.00 | 100.00 | +0.00 |
-| CAL-CASE-03 | 65.00 | 70.04 | +5.04 | 15.97 | 41.17 | +25.20 | 100.00 | 100.00 | +0.00 |
-| CAL-CASE-04 | 76.29 | 72.33 | -3.96 | 60.96 | 41.17 | -19.79 | 100.00 | 100.00 | +0.00 |
-| CAL-CASE-05 | 64.74 | 71.03 | +6.29 | 9.73 | 41.17 | +31.44 | 100.00 | 100.00 | +0.00 |
+| CAL-CASE-01 | 75.98 | 75.98 | +0.00 | 51.50 | 51.50 | +0.00 | 100.00 | 100.00 | +0.00 |
+| CAL-CASE-02 | 62.05 | 62.05 | +0.00 | 3.07 | 3.07 | +0.00 | 100.00 | 100.00 | +0.00 |
+| CAL-CASE-03 | 65.00 | 65.00 | +0.00 | 15.97 | 15.97 | +0.00 | 100.00 | 100.00 | +0.00 |
+| CAL-CASE-04 | 76.29 | 76.29 | +0.00 | 60.96 | 60.96 | +0.00 | 100.00 | 100.00 | +0.00 |
+| CAL-CASE-05 | 64.74 | 64.74 | +0.00 | 9.73 | 9.73 | +0.00 | 100.00 | 100.00 | +0.00 |
 
 ### Averages
 
 | Metric | Keywords | Semantic | Δ (Semantic - Keywords) |
 |--------|----------|----------|-------------------------|
-| **Composite** | 68.94 | 71.40 | +2.46 |
-| **Tension 14D** | 28.88 | 41.17 | +12.29 |
+| **Composite** | 68.81 | 68.81 | +0.00 |
+| **Tension 14D** | 28.25 | 28.25 | +0.00 |
 | **Emotion Coherence** | 100.00 | 100.00 | +0.00 |
 
 ## Analysis
 
 ### Observations
 
-1. **Composite Score**: Semantic analysis shows positive delta of 2.46 points on average.
-2. **Tension 14D**: Semantic analysis shows positive delta of 12.29 points on average.
+1. **Composite Score**: Semantic analysis shows positive delta of 0.00 points on average.
+2. **Tension 14D**: Semantic analysis shows positive delta of 0.00 points on average.
 3. **Emotion Coherence**: Semantic analysis shows positive delta of 0.00 points on average.
 
 ### Interpretation

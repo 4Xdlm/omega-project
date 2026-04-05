@@ -1,0 +1,369 @@
+{
+  "bench_id": "BENCH_V5AB_20260402222819",
+  "protocol": "V4 vs V5 A/B — 10 scenes identiques, meme seed/modele/temperature",
+  "model": "claude-sonnet-4-20250514",
+  "temperature": {
+    "draft": 0.75,
+    "judge": 0
+  },
+  "n_scenes": 10,
+  "valid_scenes": {
+    "v4": 10,
+    "v5": 10
+  },
+  "v4_results": {
+    "scores": [
+      {
+        "scene_id": "contemplation",
+        "composite": 90.24645876332343,
+        "min_axis": 82.77412280701753,
+        "ecc": 93.65843505125225,
+        "rci": 86.59860538652023,
+        "sii": 86.26666666666667,
+        "ifi": 82.77412280701753,
+        "aai": 93.6,
+        "loop_passes": 0,
+        "word_count": 684
+      },
+      {
+        "scene_id": "menace",
+        "composite": 88.8356735806529,
+        "min_axis": 83.54006392969406,
+        "ecc": 91.1229293718315,
+        "rci": 83.54006392969406,
+        "sii": 84.73333333333333,
+        "ifi": 86.53296019900498,
+        "aai": 92.80000000000001,
+        "loop_passes": 0,
+        "word_count": 402
+      },
+      {
+        "scene_id": "revelation",
+        "composite": 86.48487861346379,
+        "min_axis": 61.4,
+        "ecc": 91.25953113025263,
+        "rci": 84.06747166226874,
+        "sii": 61.4,
+        "ifi": 91.67763157894737,
+        "aai": 94.80000000000001,
+        "loop_passes": 0,
+        "word_count": 475
+      },
+      {
+        "scene_id": "confrontation",
+        "composite": 84.70179084670019,
+        "min_axis": 82.33333333333333,
+        "ecc": 82.48024614105194,
+        "rci": 83.95390652539498,
+        "sii": 82.33333333333333,
+        "ifi": 84.61145510835914,
+        "aai": 89.6,
+        "loop_passes": 0,
+        "word_count": 646
+      },
+      {
+        "scene_id": "deuil",
+        "composite": 91.34928999910592,
+        "min_axis": 84.49279217215133,
+        "ecc": 92.69196911116393,
+        "rci": 84.49279217215133,
+        "sii": 86.46666666666665,
+        "ifi": 97.27165523156089,
+        "aai": 94.80000000000001,
+        "loop_passes": 0,
+        "word_count": 583
+      },
+      {
+        "scene_id": "fuite",
+        "composite": 88.59769781931948,
+        "min_axis": 80.09769303201506,
+        "ecc": 90.74571747333871,
+        "rci": 81.36377499950702,
+        "sii": 87.39999999999999,
+        "ifi": 80.09769303201506,
+        "aai": 94.80000000000001,
+        "loop_passes": 0,
+        "word_count": 531
+      },
+      {
+        "scene_id": "retrouvailles",
+        "composite": 87.55772520246217,
+        "min_axis": 83.34926847360396,
+        "ecc": 83.34926847360396,
+        "rci": 85.13637560747475,
+        "sii": 87.60000000000001,
+        "ifi": 90.39282752902156,
+        "aai": 93.6,
+        "loop_passes": 0,
+        "word_count": 603
+      },
+      {
+        "scene_id": "dilemme",
+        "composite": 81.29699828596415,
+        "min_axis": 61.26666666666667,
+        "ecc": 77.79660210615734,
+        "rci": 88.10963020465807,
+        "sii": 61.26666666666667,
+        "ifi": 77.5548245614035,
+        "aai": 94.80000000000001,
+        "loop_passes": 0,
+        "word_count": 285
+      },
+      {
+        "scene_id": "passion",
+        "composite": 88.4849590168125,
+        "min_axis": 82.25994990086637,
+        "ecc": 91.85081070807637,
+        "rci": 82.25994990086637,
+        "sii": 90.60000000000001,
+        "ifi": 100,
+        "aai": 82.4,
+        "loop_passes": 0,
+        "word_count": 577
+      },
+      {
+        "scene_id": "trahison",
+        "composite": 82.69377291355312,
+        "min_axis": 71.69664031620553,
+        "ecc": 81.9515064918018,
+        "rci": 85.17712788022337,
+        "sii": 86.66666666666667,
+        "ifi": 71.69664031620553,
+        "aai": 84,
+        "loop_passes": 0,
+        "word_count": 507
+      }
+    ],
+    "composite_mean": 87.02492450413577
+  },
+  "v5_results": {
+    "scores": [
+      {
+        "scene_id": "contemplation",
+        "composite": 90.73226350378755,
+        "min_axis": 84.7396072330006,
+        "ecc": 92.6516130883855,
+        "rci": 84.7396072330006,
+        "sii": 87.2,
+        "ifi": 89.71497955010224,
+        "aai": 94.80000000000001,
+        "loop_passes": 0,
+        "word_count": 489
+      },
+      {
+        "scene_id": "menace",
+        "composite": 86.46232574951009,
+        "min_axis": 80.30741042345277,
+        "ecc": 85.62907749452259,
+        "rci": 80.43523019983738,
+        "sii": 85.33333333333333,
+        "ifi": 80.30741042345277,
+        "aai": 94.80000000000001,
+        "loop_passes": 0,
+        "word_count": 614
+      },
+      {
+        "scene_id": "revelation",
+        "composite": 89.04918168038886,
+        "min_axis": 83.18454341747588,
+        "ecc": 89.39902382758663,
+        "rci": 83.18454341747588,
+        "sii": 86.66666666666667,
+        "ifi": 87.06131436314362,
+        "aai": 94.80000000000001,
+        "loop_passes": 0,
+        "word_count": 369
+      },
+      {
+        "scene_id": "confrontation",
+        "composite": 84.44356696437416,
+        "min_axis": 74.05701754385964,
+        "ecc": 90.36907419155781,
+        "rci": 80.68276898102413,
+        "sii": 84,
+        "ifi": 74.05701754385964,
+        "aai": 83.6,
+        "loop_passes": 0,
+        "word_count": 456
+      },
+      {
+        "scene_id": "deuil",
+        "composite": 88.2690148482437,
+        "min_axis": 83.99329836829837,
+        "ecc": 86.01001852811432,
+        "rci": 86.68458174785961,
+        "sii": 87,
+        "ifi": 83.99329836829837,
+        "aai": 94.80000000000001,
+        "loop_passes": 0,
+        "word_count": 429
+      },
+      {
+        "scene_id": "fuite",
+        "composite": 88.76631598894241,
+        "min_axis": 82.02171361502347,
+        "ecc": 89.17548648216776,
+        "rci": 83.97784757838055,
+        "sii": 87.73333333333333,
+        "ifi": 82.02171361502347,
+        "aai": 94.80000000000001,
+        "loop_passes": 0,
+        "word_count": 142
+      },
+      {
+        "scene_id": "retrouvailles",
+        "composite": 86.66914771042916,
+        "min_axis": 81.9329173348858,
+        "ecc": 81.9329173348858,
+        "rci": 83.9296720539771,
+        "sii": 87.73333333333333,
+        "ifi": 88.0324074074074,
+        "aai": 93.6,
+        "loop_passes": 0,
+        "word_count": 406
+      },
+      {
+        "scene_id": "dilemme",
+        "composite": 83.85107083731188,
+        "min_axis": 75.80133731558743,
+        "ecc": 77.17631463574689,
+        "rci": 75.80133731558743,
+        "sii": 85.06666666666666,
+        "ifi": 88.36659663865547,
+        "aai": 95.6,
+        "loop_passes": 0,
+        "word_count": 595
+      },
+      {
+        "scene_id": "passion",
+        "composite": 84.25836979295488,
+        "min_axis": 81.45617984025637,
+        "ecc": 81.45617984025637,
+        "rci": 85.95572531066556,
+        "sii": 86.06666666666666,
+        "ifi": 89.55357142857143,
+        "aai": 83.6,
+        "loop_passes": 0,
+        "word_count": 182
+      },
+      {
+        "scene_id": "trahison",
+        "composite": 87.01762686659545,
+        "min_axis": 81.30551886516345,
+        "ecc": 83.3196859146223,
+        "rci": 81.30551886516345,
+        "sii": 89.53333333333335,
+        "ifi": 88.70192307692308,
+        "aai": 93.6,
+        "loop_passes": 0,
+        "word_count": 522
+      }
+    ],
+    "composite_mean": 86.95188839425381
+  },
+  "comparison": {
+    "composite_delta": -0.0730361098819543,
+    "per_scene": [
+      {
+        "scene_id": "contemplation",
+        "composite_delta": 0.48580474046411837,
+        "ecc_delta": -1.006821962866752,
+        "rci_delta": -1.8589981535196358,
+        "sii_delta": 0.9333333333333371,
+        "ifi_delta": 6.940856743084709,
+        "aai_delta": 1.200000000000017
+      },
+      {
+        "scene_id": "menace",
+        "composite_delta": -2.3733478311428087,
+        "ecc_delta": -5.493851877308913,
+        "rci_delta": -3.1048337298566793,
+        "sii_delta": 0.5999999999999943,
+        "ifi_delta": -6.22554977555221,
+        "aai_delta": 2
+      },
+      {
+        "scene_id": "revelation",
+        "composite_delta": 2.5643030669250635,
+        "ecc_delta": -1.8605073026659937,
+        "rci_delta": -0.8829282447928648,
+        "sii_delta": 25.266666666666673,
+        "ifi_delta": -4.616317215803747,
+        "aai_delta": 0
+      },
+      {
+        "scene_id": "confrontation",
+        "composite_delta": -0.25822388232603544,
+        "ecc_delta": 7.888828050505879,
+        "rci_delta": -3.271137544370859,
+        "sii_delta": 1.6666666666666714,
+        "ifi_delta": -10.554437564499494,
+        "aai_delta": -6
+      },
+      {
+        "scene_id": "deuil",
+        "composite_delta": -3.080275150862221,
+        "ecc_delta": -6.681950583049613,
+        "rci_delta": 2.1917895757082846,
+        "sii_delta": 0.5333333333333456,
+        "ifi_delta": -13.278356863262516,
+        "aai_delta": 0
+      },
+      {
+        "scene_id": "fuite",
+        "composite_delta": 0.1686181696229312,
+        "ecc_delta": -1.570230991170959,
+        "rci_delta": 2.6140725788735324,
+        "sii_delta": 0.3333333333333428,
+        "ifi_delta": 1.9240205830084136,
+        "aai_delta": 0
+      },
+      {
+        "scene_id": "retrouvailles",
+        "composite_delta": -0.8885774920330078,
+        "ecc_delta": -1.4163511387181558,
+        "rci_delta": -1.206703553497647,
+        "sii_delta": 0.13333333333332575,
+        "ifi_delta": -2.3604201216141547,
+        "aai_delta": 0
+      },
+      {
+        "scene_id": "dilemme",
+        "composite_delta": 2.55407255134773,
+        "ecc_delta": -0.620287470410446,
+        "rci_delta": -12.308292889070643,
+        "sii_delta": 23.79999999999999,
+        "ifi_delta": 10.811772077251959,
+        "aai_delta": 0.799999999999983
+      },
+      {
+        "scene_id": "passion",
+        "composite_delta": -4.226589223857616,
+        "ecc_delta": -10.394630867819998,
+        "rci_delta": 3.6957754097991824,
+        "sii_delta": -4.533333333333346,
+        "ifi_delta": -10.44642857142857,
+        "aai_delta": 1.1999999999999886
+      },
+      {
+        "scene_id": "trahison",
+        "composite_delta": 4.323853953042331,
+        "ecc_delta": 1.3681794228205035,
+        "rci_delta": -3.871609015059917,
+        "sii_delta": 2.8666666666666742,
+        "ifi_delta": 17.00528276071755,
+        "aai_delta": 9.599999999999994
+      }
+    ]
+  },
+  "errors": [],
+  "verdict": "GO_CONDITIONNEL",
+  "verdict_reason": "V5 (87.0) >= V4-0.5 (86.5), loops réduits",
+  "go_criteria": {
+    "rule": "V5 passes <= V4 passes ET composite V5 >= composite V4 - 0.5 -> GO",
+    "source": "docs/irm/V5_AB_TEST_REPORT.md"
+  },
+  "created_at": "2026-04-02T22:28:19.723Z",
+  "head": "83d5d187",
+  "standard": "NASA-Grade L4 / DO-178C Level A"
+}

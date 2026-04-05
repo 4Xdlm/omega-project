@@ -1,19 +1,52 @@
 {
   "date": "2026-04-02",
+  "version": "P1-08 rebuild",
   "model": "claude-sonnet-4-20250514",
   "pipeline_version": "V4 post-P0/P1",
-  "changes_from_INV03": [
-    "P0: polish imports commentés dans engine.ts → 0 impact (already disabled Sprint 2)",
-    "P0: weight-calibrator aligned → 0 impact on API calls",
-    "P1: MacroSScore migré → 0 impact on API calls",
-    "P1: ollama-provider archivé → 0 impact (unused)"
+  "reference": "INV03_TOKEN_BUDGET.json",
+
+  "p0_p1_changes_impact_analysis": [
+    {
+      "change": "P0: polish imports commented in engine.ts",
+      "api_impact": "ZERO -- imports were already disabled at Sprint 2, commenting is cosmetic",
+      "token_impact": "ZERO"
+    },
+    {
+      "change": "P0: weight-calibrator values aligned",
+      "api_impact": "ZERO -- weight values affect scoring math, not API call count",
+      "token_impact": "ZERO"
+    },
+    {
+      "change": "P1: MacroSScore type migrated to macro-score-types.ts",
+      "api_impact": "ZERO -- type extraction, no runtime change",
+      "token_impact": "ZERO"
+    },
+    {
+      "change": "P1: ollama-provider archived",
+      "api_impact": "ZERO -- was unused",
+      "token_impact": "ZERO"
+    }
   ],
+
+  "inv03_estimates_status": "UNCHANGED",
   "estimated_calls_per_run": 34,
   "estimated_cost_per_run_usd": 0.21,
+  "cost_breakdown": {
+    "input_tokens_per_run": 27700,
+    "output_tokens_per_run": 8450,
+    "total_tokens_per_run": 36150,
+    "input_price_per_M": 3.0,
+    "output_price_per_M": 15.0
+  },
   "cost_30_runs_usd": 6.30,
   "cost_100_scenes_novel_usd": 21.0,
   "cost_bestof3_novel_usd": 63.0,
-  "reduction_target_P2": "Reduce calls from 34 to ~15 (skip duel if loop SEAL)",
-  "reduction_target_cost_P2_usd": 0.10,
-  "note": "INV-03 estimation validated. P0/P1 changes have ZERO impact on API call count or token usage. All changes are structural/organizational."
+
+  "conclusion": "INV-03 estimates remain valid post-P0/P1. All changes are structural/organizational with ZERO impact on API call count or token usage. No recalculation needed.",
+
+  "reduction_targets_p2": {
+    "target_calls": 15,
+    "strategy": "Skip duel if sovereign-loop SEAL on first pass",
+    "target_cost_per_run_usd": 0.10
+  }
 }

@@ -1,0 +1,137 @@
+# OMEGA IRM INVESTIGATION SESSION — MANIFEST
+Date: 2026-04-02
+Duration: Analysis & synthesis of IRM Phase (Feb 3 – Apr 2)
+Output Location: /omega-project/outputs/
+
+## DELIVERABLES GENERATED (7 files)
+
+1. FRANCKY_SUMMARY_1PAGE.md (4.2 KB)
+   - Executive 1-page summary for decision-making
+   - 3 critical findings + P0/P1/P2 timeline
+   - Read time: 3 minutes
+   
+2. IRM_TOTAL_SYNTHESIS_REPORT.md (15 KB)
+   - Complete analysis of all IRM findings
+   - Full P0/P1/P2/P3 roadmap with effort/risk
+   - 10 critical/important findings detailed
+   - Read time: 30 minutes
+   
+3. IRM_KEY_FINDINGS_SUMMARY.md (11 KB)
+   - Condensed findings (F1–F10) by priority
+   - Quick glossary + memory for next session
+   - Open questions for Francky
+   - Read time: 5 minutes
+   
+4. P0_P1_EXECUTION_CHECKLIST.md (16 KB)
+   - 27 step-by-step operational items
+   - Exact file paths, bash commands, test gates
+   - P0 (40 min) + P1 (12h, can parallelize)
+   - Read time: 20 minutes
+   
+5. P2_DEPENDENCIES_AND_BLOCKING_MATRIX.md (9.1 KB)
+   - P2 (6 weeks) detailed planning
+   - Internal task dependencies + blockers
+   - Architecture decisions (D1–D3)
+   - Read time: 15 minutes
+   
+6. README_IRM_SESSION.md (9.1 KB)
+   - Session overview + document relationships
+   - Execution sequence + critical questions
+   - Notes for memory / next session
+   - Read time: 5 minutes
+   
+7. IRM_DOCUMENTS_INDEX.md (7.7 KB)
+   - Navigation index for all IRM documents (25+ files)
+   - Reading paths by role (Francky, Claude, Auditor)
+   - Key document relationships
+   - Read time: 5 minutes
+
+Total new outputs: 71 KB
+Estimated total reading time: 1.5 hours
+
+## FINDINGS SUMMARY
+
+Critical Findings (P0 action required):
+- F1: weight-calibrator.ts weights divergent (ECC 0.33 vs 0.30) → P0-09 (5 min)
+- F2: SAGA_READY 92.0 hardcoded 3 places → P0-01 (5 min)
+- F3: avg_sentence_length_target < 35 contradicts BB-02 → P0-05 (5 min)
+
+Plus: 7 important findings (F4–F10) requiring P1 investigations
+
+Validated: Phase W slopes (18/18 PASS), Rosetta Bridge (7/7 PASS), Gateway isolation (zero coupling)
+
+## EXECUTION PLAN
+
+P0: 40 minutes (assainissement immédiat)
+P1: 12 hours (week 1, code cleanup + 10 investigations, can parallelize)
+P2: 6 weeks (alignment S1→S2)
+P3: 3+ months (architectural mutation)
+
+Deadline for P0+P1: 2026-04-09
+Prerequisite for P2 start: R3/R8 data location confirmation
+
+## KEY QUALITY METRICS
+
+Tests: 2038 PASS, 0 FAIL
+IRM Coverage: 17 livrables complete
+Audit Depth: 45 packages, 556 KB documentation
+Confidence: HAUTE (grid-verified findings)
+
+## NAVIGATION
+
+Start here:
+1. FRANCKY_SUMMARY_1PAGE.md (3 min)
+2. IRM_KEY_FINDINGS_SUMMARY.md (5 min)
+3. README_IRM_SESSION.md (5 min)
+
+Then choose path:
+- For execution: P0_P1_EXECUTION_CHECKLIST.md
+- For planning: P2_DEPENDENCIES_AND_BLOCKING_MATRIX.md
+- For deep analysis: IRM_TOTAL_SYNTHESIS_REPORT.md
+- For reference: IRM_DOCUMENTS_INDEX.md
+
+## FILES CHECKLIST
+
+Synthesis documents (this session):
+✓ FRANCKY_SUMMARY_1PAGE.md
+✓ IRM_TOTAL_SYNTHESIS_REPORT.md
+✓ IRM_KEY_FINDINGS_SUMMARY.md
+✓ P0_P1_EXECUTION_CHECKLIST.md
+✓ P2_DEPENDENCIES_AND_BLOCKING_MATRIX.md
+✓ README_IRM_SESSION.md
+✓ IRM_DOCUMENTS_INDEX.md
+✓ SESSION_MANIFEST.txt (this file)
+
+Total: 71 KB new outputs
+Previous IRM: 17 livrables (556 KB) in /docs/irm/
+Data files: ROSETTA_BRIDGE_MATRIX.json, etc.
+
+## STATUS
+
+✓ IRM analysis complete
+✓ 4-IA synthesis converged
+✓ P0+P1+P2+P3 planning documented
+✓ Ready for P0 execution
+
+Not yet executed:
+- P0 (40 min)
+- P1 (12h)
+- P2 (6 weeks)
+
+## NEXT IMMEDIATE ACTION
+
+Execute P0 today (40 min):
+1. Unify SAGA_READY threshold
+2. Unify SEAL_FLOOR
+3. Archive dead code (compat/, polish/, etc.)
+4. Validate avg_sentence_length >= 35
+5. ALIGN weight-calibrator (F1 — critical)
+6. Document ADRs
+
+Then: npm test GREEN
+Then: Start P1 code cleanup + parallel investigations
+
+---
+Generated: 2026-04-02
+Authority: Francky (architect)
+Standard: NASA-Grade L4 / DO-178C Level A

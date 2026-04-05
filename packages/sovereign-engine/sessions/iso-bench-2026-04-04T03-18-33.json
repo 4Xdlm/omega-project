@@ -1,0 +1,146 @@
+{
+  "bench_id": "ISO_BENCH_20260404031833",
+  "protocol": "Isolation: V5.0 (Phase1, 3 features) vs V5.1 (Phase2, 5 features) — N=2 per scene",
+  "scenes": [
+    "menace",
+    "passion"
+  ],
+  "runs_per_scene": 2,
+  "model": "claude-sonnet-4-20250514",
+  "temperature": {
+    "draft": 0.75,
+    "judge": 0
+  },
+  "results": [
+    {
+      "scene_id": "menace",
+      "phase": "Phase1",
+      "run_idx": 0,
+      "composite": 91.34827819298509,
+      "ecc": 92.46120527946682,
+      "rci": 84.15816894963363,
+      "sii": 87.26666666666667,
+      "ifi": 97.39191729323308,
+      "aai": 94.80000000000001,
+      "word_count": 665,
+      "tension_14d": 88.62715005164495,
+      "loop_passes": 0
+    },
+    {
+      "scene_id": "menace",
+      "phase": "Phase1",
+      "run_idx": 1,
+      "composite": 88.24892695381362,
+      "ecc": 92.31776940754726,
+      "rci": 79.44285878262335,
+      "sii": 83.06666666666666,
+      "ifi": 81.18777056277057,
+      "aai": 94.80000000000001,
+      "word_count": 385,
+      "tension_14d": 86.00626979056635,
+      "loop_passes": 0
+    },
+    {
+      "scene_id": "menace",
+      "phase": "Phase2",
+      "run_idx": 0,
+      "composite": 90.5801473092811,
+      "ecc": 92.0173796738288,
+      "rci": 86.12658741208735,
+      "sii": 85.53333333333335,
+      "ifi": 90.42892156862746,
+      "aai": 94.80000000000001,
+      "word_count": 408,
+      "tension_14d": 87.05503563379122,
+      "loop_passes": 0
+    },
+    {
+      "scene_id": "menace",
+      "phase": "Phase2",
+      "run_idx": 1,
+      "composite": 87.93728136597859,
+      "ecc": 86.402678206214,
+      "rci": 83.37254432650847,
+      "sii": 82.66666666666667,
+      "ifi": 91.51065022421525,
+      "aai": 94.80000000000001,
+      "word_count": 446,
+      "tension_14d": 67.275147653011,
+      "loop_passes": 0
+    },
+    {
+      "scene_id": "passion",
+      "phase": "Phase1",
+      "run_idx": 0,
+      "composite": 92.30410733117209,
+      "ecc": 92.74722427670433,
+      "rci": 82.718274430547,
+      "sii": 90,
+      "ifi": 96.35416666666666,
+      "aai": 98,
+      "word_count": 480,
+      "tension_14d": 84.19954354289705,
+      "loop_passes": 0
+    },
+    {
+      "scene_id": "passion",
+      "phase": "Phase1",
+      "run_idx": 1,
+      "composite": 87.98580203462684,
+      "ecc": 84.72506713014089,
+      "rci": 82.00592132862582,
+      "sii": 89.86666666666667,
+      "ifi": 89.05523255813954,
+      "aai": 94.80000000000001,
+      "word_count": 430,
+      "tension_14d": 70.29604591211282,
+      "loop_passes": 0
+    },
+    {
+      "scene_id": "passion",
+      "phase": "Phase2",
+      "run_idx": 0,
+      "composite": 81.98288435592859,
+      "ecc": 65.99760462118263,
+      "rci": 87.30042198914596,
+      "sii": 89.53333333333335,
+      "ifi": 87.32603092783505,
+      "aai": 92.80000000000001,
+      "word_count": 485,
+      "tension_14d": 66.992414633745,
+      "loop_passes": 0
+    },
+    {
+      "scene_id": "passion",
+      "phase": "Phase2",
+      "run_idx": 1,
+      "composite": 86.47864341870508,
+      "ecc": 86.12085526859161,
+      "rci": 77.45057146146644,
+      "sii": 82.73333333333333,
+      "ifi": 83.82164031620553,
+      "aai": 96.4,
+      "word_count": 253,
+      "tension_14d": 76.71604168387344,
+      "loop_passes": 0
+    }
+  ],
+  "global": {
+    "phase1": {
+      "composite_mean": 89.97177862814941,
+      "ecc_mean": 90.56281652346482,
+      "ecc_std": 3.8959249952538424
+    },
+    "phase2": {
+      "composite_mean": 86.74473911247334,
+      "ecc_mean": 82.63462944245427,
+      "ecc_std": 11.418968996146509
+    },
+    "delta_composite": -3.2270395156760685,
+    "delta_ecc": -7.928187081010549
+  },
+  "errors": [],
+  "verdict": "NOISE_CONFIRMED",
+  "verdict_reason": "|ΔECC|=7.9 ≤ 1.5×σ=17.1 — la variation ECC est dans la bande de bruit LLM",
+  "created_at": "2026-04-04T03:18:33.350Z"
+}

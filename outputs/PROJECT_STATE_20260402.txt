@@ -1,0 +1,176 @@
+# OMEGA PROJECT STATE — 2026-04-02
+# Internal memory snapshot for next session / team coordination
+
+## CURRENT BRANCH & HEAD
+
+Branch: phase-r-metrology-rebuild
+HEAD: 83d5d187 (tag: omega-v5-bridge-v1)
+Status: clean (all changes committed)
+
+## PROJECT PHASE STATUS
+
+Phase R (IRM Metrology Rebuild): COMPLETE
+  - IRM Analysis: 17 livrables (556 KB) ✓
+  - 4-IA Synthesis: CONVERGED ✓
+  - Planning documents: 7 new files (71 KB) ✓
+  
+Next phase: P0 (Cleanup, 40 min) → P1 (Structural, 12h) → P2 (Alignment, 6 weeks) → P3 (Mutation, 3+ months)
+
+## KEY METRICS
+
+Code quality:
+  - Tests: 2038 PASS, 0 FAIL ✓
+  - Packages: 45 total (~40 active)
+  - Thresholds: 51 identified + audited
+  - Laws: 38 sealed
+  
+Scoring:
+  - S-Oracle: GB V1 (262 KB, opaque but valid)
+  - Rosetta Bridge: 19 features classified, 7/7 tests PASS
+  - V5 AB Test: CONDITIONAL GO (env var activation ready)
+  
+Integration:
+  - Sovereign-engine: Core active, all layers present
+  - Gateway: 34 files, isolated (ZERO coupling), sealed foundation
+  - Pipeline: 11 major components, integration verified
+
+## CRITICAL FINDINGS (3)
+
+F1: weight-calibrator.ts weights divergent from config.ts (ECC 0.33 vs 0.30)
+    → P0-09 action required (5 min)
+    → Severity: HAUTE if calibration runs on wrong baseline
+    
+F2: SAGA_READY 92.0 hardcoded 3 places vs SSOT core/thresholds.ts
+    → P0-01 unification required (5 min)
+    → Severity: MOYENNE (silent drift risk)
+    
+F3: avg_sentence_length_target = 18 contradicts BB-02 plancher = 35
+    → P0-05 validation required (5 min)
+    → Severity: BASSE (token waste, impact = 0)
+
+## ROSETTA BRIDGE STATUS
+
+Status: Production-ready
+  - Code: src/coupling/rosetta-bridge.ts (exists)
+  - Tests: 7/7 PASS
+  - Matrix: 19 features classified
+  - Mode: SHADOW (ready for injection)
+  
+Features classification:
+  - PILOTABLE (7, 100% compliance): f24e_contrast, f15b_redundancy, f16a_bigram + 4 others
+  - ILLUSION (7, 0%): Don't inject (LLM claims but no effect)
+  - INDIRECT (3): Via L37 only
+  - CONTOURNABLE (1): Post-processing
+  - IRREDUCTIBLE (1): Ignore
+
+Activation: P2-02 when V3 scorer ready (week 4)
+
+## V5 STATUS
+
+Status: CONDITIONAL GO
+  - 7/7 unit tests PASS
+  - engine.ts integration: +3 lines (isV5Active check)
+  - Default: V4 (no production change)
+  - Activation: OMEGA_PROMPT_V5=1 env var
+  
+Bench required: 10 V4 vs 10 V5 (identical packets)
+Success criteria: composite_V5 >= composite_V4 - 0.5
+
+## INVESTIGATIONS COMPLETED (P1-ready)
+
+INV-04: Gateway deep scan → 34 files, 16 tests, ZERO coupling ✓
+INV-07: Phase W slopes → 18/18 cells CONCORDANT ✓
+INV-09: PVI interface design → 8 variables + TypeScript interface ✓
+INVB: Weight divergence → ECC/SII/IFI/AAI divergences documented ✓
+
+## INVESTIGATIONS PLANNED (P1, week 1)
+
+INV-01: f26b direction (50 arbres) → 2h script
+INV-02: Scorer concordance (20 textes × 4 scorers) → 2h bench
+INV-03: Token budget (5 runs) → 1h logging
+INV-05: Test coverage by module → 30 min analysis
+INV-06: Package dependency graph → 1h mapping
+INV-08: JSON scoring data obsolescence → 1h audit
+INV-10: Module regression risk → 1h scoring
+
+## BLOCKERS FOR P2 START
+
+1. R3 Phase coefficients: Location unknown (required P2-01 R4-b)
+2. R8 CIF + lambda data: Location unknown (required P2-01 R4-c)
+3. Feature mapping: 7/42 mapped (17%), sufficiency unknown for P2-02
+
+Actions before P2:
+  - Locate R3/R8 archives in nexus/ or omega-autopsie/
+  - Confirm feature mapping sufficiency with Francky
+  - Decision on Rosetta activation mode (A: direct vs B: A/B test)
+
+## DEADLINES
+
+P0+P1 DEADLINE: 2026-04-09 (end of week 1)
+P2 START: 2026-04-10 (conditional on R3/R8 location + decision)
+P2 END: 2026-05-23 (6 weeks from start)
+
+## DOCUMENTATION OUTPUTS
+
+This session (outputs/):
+  1. FRANCKY_SUMMARY_1PAGE.md - Executive summary (3 min read)
+  2. IRM_TOTAL_SYNTHESIS_REPORT.md - Full analysis (30 min read)
+  3. IRM_KEY_FINDINGS_SUMMARY.md - Quick ref (5 min read)
+  4. P0_P1_EXECUTION_CHECKLIST.md - 27 ops items (20 min read)
+  5. P2_DEPENDENCIES_AND_BLOCKING_MATRIX.md - Planning (15 min read)
+  6. README_IRM_SESSION.md - Session overview (5 min read)
+  7. IRM_DOCUMENTS_INDEX.md - Navigation guide (5 min read)
+  8. SESSION_MANIFEST.txt - This manifest
+
+Previous IRM (docs/irm/):
+  - 14 main livrables (02–16)
+  - 10 investigation files (inv/)
+  - 1 plan file (POST_IRM_PLAN_CONVERGENT)
+
+## MEMORY FOR NEXT SESSION
+
+If resuming P1 or P2 later:
+
+Current status:
+  ✓ IRM analysis complete
+  ✓ Planning documented
+  ✗ P0+P1 NOT YET EXECUTED
+
+Blocking items:
+  - weight-calibrator alignment (F1, P0-09)
+  - R3/R8 data location (P2 blocker)
+
+Quick start:
+  - Read FRANCKY_SUMMARY_1PAGE.md (3 min)
+  - Execute P0_P1_EXECUTION_CHECKLIST.md items in order
+  - npm test must be GREEN after each phase
+
+Confidence:
+  - HAUTE (2038 tests, complete audit coverage)
+
+## CONTACTS / AUTHORITY
+
+Architect: Francky
+IA Principal: Claude Code (this session)
+Decisions required: Francky (3 questions in IRM_KEY_FINDINGS_SUMMARY.md)
+
+## FILES GENERATED (VERIFICATION)
+
+outputs/:
+  - FRANCKY_SUMMARY_1PAGE.md (4.2 KB)
+  - IRM_TOTAL_SYNTHESIS_REPORT.md (15 KB)
+  - IRM_KEY_FINDINGS_SUMMARY.md (11 KB)
+  - P0_P1_EXECUTION_CHECKLIST.md (16 KB)
+  - P2_DEPENDENCIES_AND_BLOCKING_MATRIX.md (9.1 KB)
+  - README_IRM_SESSION.md (9.1 KB)
+  - IRM_DOCUMENTS_INDEX.md (7.7 KB)
+  - SESSION_MANIFEST.txt (manifest)
+  - PROJECT_STATE_20260402.txt (this file)
+
+Total new outputs: ~71 KB
+All files verified present and readable.
+
+---
+Generated: 2026-04-02T18:17:00Z
+Authority: Francky (architect)
+Standard: NASA-Grade L4 / DO-178C Level A

@@ -1,13 +1,6 @@
-fix(top-k): dissocier candidacy gate (85) du SEAL gate (93) [U-ROSETTE-02]
+feat(bridge): Bridge-02 - add f29d_ttr_score + f35c_hook_score to V5 Phase 2 (5 features)
 
-PHASE HEADER: U-ROSETTE-02
-roadmap_item: Phase U — Top-K Selection Engine
-deviation: none
-evidence: 1437/1444 PASS, 0 regression
-
-- Introduit CANDIDATE_FLOOR_COMPOSITE=85 distinct du seuil SEAL (93)
-- is_candidate remplace survived_seal comme critere d'entree GreatnessJudge
-- ZERO_SURVIVORS -> ZERO_CANDIDATES (INV-TK-03 redesign)
-- k_candidates ajoute dans KSelectionReport
-- INV-TK-CANDIDATE-01: CANDIDATE_FLOOR(85) < SEAL_THRESHOLD(93)
-- Ref: Gemini+ChatGPT audit 2026-03-07
+f29d: anti-repetition bande (TTR 0.72-0.82), pas maximisation
+f35c: hook debut de chunk, promu SHADOW->PROMPT_DIRECT
+f36c cliff EXCLU: token mort (chunked-generator:148)
+Version: 5.1.0 | Tests: 2120 PASS (+13), 0 regression

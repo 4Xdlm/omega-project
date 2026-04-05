@@ -1,0 +1,8 @@
+fix(tests): resolve 8 pre-existing FAIL — EPERM cross-mount + hash fixture
+
+- gate-proofpack.test.ts: isolated subdirs per test (avoid rmSync EPERM on cross-mount)
+- generate-proofpack.test.ts: try/catch on cleanup (tolerant to cross-mount EPERM)
+- HASHES.sha256: updated duel-engine.ts hash after P2-03b modification
+- Suite: 22/22 PASS on previously failing tests, 2190+ total PASS
+
+Co-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>

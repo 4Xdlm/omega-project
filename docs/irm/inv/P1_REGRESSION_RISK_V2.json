@@ -1,20 +1,68 @@
 {
   "date": "2026-04-02",
-  "version": "V2 (post-P0/P1)",
-  "changes_from_INV10": {
-    "engine.ts": "fan_out +1 (added import core/thresholds.ts). Risk unchanged: still CRITICAL (160→164)",
-    "duel-engine.ts": "fan_out +1 (added import core/thresholds.ts). Risk unchanged: still CRITICAL",
-    "macro-axes.ts": "fan_out +2 (added imports sha256/canonicalize + macro-score-types). Risk increased slightly",
-    "weight-calibrator.ts": "content changed (values aligned) but fan_in/out unchanged",
-    "new_file": "macro-score-types.ts created (fan_in=8 from day 1, C3)"
+  "version": "P1-09 rebuild",
+  "base_reference": "INV10_REGRESSION_RISK_MATRIX.json",
+  "method": "risk = (fan_out + fan_in) * criticality_weight. C4=4, C3=3, C2=2, C1=1, C0=0.5",
+
+  "p0_p1_delta": {
+    "engine.ts": {
+      "inv10_fan_out": 38,
+      "inv10_fan_in": 2,
+      "delta": "+1 import (core/thresholds.ts)",
+      "new_fan_out": 39,
+      "new_risk_score": 164,
+      "risk_level": "CRITICAL",
+      "note": "Was 160, now 164. Still #1 riskiest module."
+    },
+    "duel-engine.ts": {
+      "inv10_fan_out": 6,
+      "inv10_fan_in": 3,
+      "delta": "+1 import (core/thresholds.ts)",
+      "new_fan_out": 7,
+      "new_risk_score": 40,
+      "risk_level": "HIGH",
+      "note": "Was 36, now 40. Rank unchanged."
+    },
+    "macro-axes.ts": {
+      "inv10_fan_out": 17,
+      "inv10_fan_in": 7,
+      "delta": "+2 imports (sha256/canonicalize + macro-score-types.ts)",
+      "new_fan_out": 19,
+      "new_risk_score": 104,
+      "risk_level": "CRITICAL",
+      "note": "Was 96, now 104. Contains computeMacroSScore migrated from s-score."
+    },
+    "macro-score-types.ts": {
+      "status": "NEW FILE",
+      "fan_in": 8,
+      "fan_out": 0,
+      "criticality": "C3",
+      "risk_score": 24,
+      "risk_level": "HIGH",
+      "note": "Clean type extraction. High fan_in from day 1 (8 importers) but zero fan_out."
+    },
+    "weight-calibrator.ts": {
+      "delta": "Content changed (values aligned), fan_in/fan_out unchanged",
+      "risk_score": "unchanged",
+      "note": "Cosmetic: calibration values updated, no structural change"
+    }
   },
-  "net_assessment": "MINIMAL DEGRADATION — P0/P1 added 3-4 imports total across the codebase. No new coupling hotspots. macro-score-types.ts is a clean extraction (reduces s-score.ts coupling).",
-  "top_5_riskiest_unchanged": [
-    {"module": "engine.ts", "risk": "~164", "level": "CRITICAL", "note": "fan_out +1 vs INV-10"},
-    {"module": "types.ts", "risk": "100", "level": "CRITICAL", "note": "unchanged"},
-    {"module": "macro-axes.ts", "risk": "~100", "level": "CRITICAL", "note": "fan_out +2 (now has computeMacroSScore)"},
-    {"module": "config.ts", "risk": "92", "level": "CRITICAL", "note": "unchanged"},
-    {"module": "aesthetic-oracle.ts", "risk": "92", "level": "CRITICAL", "note": "import split (cosmetic)"}
+
+  "top_10_riskiest_post_p1": [
+    {"module": "engine.ts", "risk_score": 164, "level": "CRITICAL", "delta": "+4"},
+    {"module": "macro-axes.ts", "risk_score": 104, "level": "CRITICAL", "delta": "+8"},
+    {"module": "types.ts", "risk_score": 100, "level": "CRITICAL", "delta": "0"},
+    {"module": "config.ts", "risk_score": 92, "level": "CRITICAL", "delta": "0"},
+    {"module": "aesthetic-oracle.ts", "risk_score": 92, "level": "CRITICAL", "delta": "0"},
+    {"module": "s-oracle-v2.ts", "risk_score": 68, "level": "CRITICAL", "delta": "0"},
+    {"module": "sovereign-loop.ts", "risk_score": 64, "level": "CRITICAL", "delta": "0"},
+    {"module": "index.ts", "risk_score": 56, "level": "CRITICAL", "delta": "0"},
+    {"module": "prompt-assembler-v2.ts", "risk_score": 56, "level": "CRITICAL", "delta": "0"},
+    {"module": "forge-packet-assembler.ts", "risk_score": 52, "level": "CRITICAL", "delta": "0"}
   ],
-  "improvement": "s-score.ts coupling reduced from 13 imports to 2. Migration distributes responsibility to proper modules."
+
+  "net_assessment": "MINIMAL DEGRADATION",
+  "total_risk_delta": "+12 points across 3 modules (engine +4, macro-axes +8, duel-engine +4). 1 new module (macro-score-types +24). No new coupling hotspots created.",
+  "improvement": "s-score.ts coupling reduced: computeMacroSScore extracted to macro-axes.ts, types extracted to macro-score-types.ts. Net effect is better separation of concerns despite slight fan_out increase in macro-axes.",
+  "recommendation": "No action required. Risk profile remains stable. Next optimization target: engine.ts fan_out (39) via facade pattern in P2/R5."
 }

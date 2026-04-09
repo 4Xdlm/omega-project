@@ -35,6 +35,7 @@ import { scoreImpact } from './axes/impact.js';
 import { computeSScore } from './s-score.js';
 import type { MacroSScore } from './macro-score-types.js';
 import { computeECC, computeRCI, computeSII, computeIFI, computeAAI, computeMacroSScore, type MacroAxesScores } from './macro-axes.js';
+import { isDispatcherLangActive, runDispatcherLang } from '../scoring/dispatcher/dispatcher-lang.js';
 
 export async function judgeAesthetic(
   packet: ForgePacket,
@@ -93,5 +94,40 @@ export async function judgeAestheticV3(
 
   const macroAxes: MacroAxesScores = { ecc, rci, sii, ifi, aai };
 
-  return computeMacroSScore(macroAxes, packet.scene_id, packet.seeds.llm_seed);
+  const baseScore = computeMacroSScore(macroAxes, packet.scene_id, packet.seeds.llm_seed);
+
+  return maybeAttachDispatcher(baseScore, prose, packet);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// DISPATCHER LANG V3.1 — ATTACHEMENT SHADOW MODE
+// ═══════════════════════════════════════════════════════════════════════════════
+
+/**
+ * Attache le résultat du M0b_slim V3.1 Language Dispatcher à un MacroSScore,
+ * conditionnellement au feature flag `OMEGA_DISPATCHER_LANG_V33`.
+ *
+ * Contrat (shadow mode uniquement) :
+ *   - Flag OFF → retourne baseScore **inchangé** (référence identique,
+ *     aucun champ baseline_m0b présent). Garantit une parité bit-for-bit
+ *     avec le comportement pré-dispatcher.
+ *   - Flag ON  → retourne `{ ...baseScore, baseline_m0b: attachment }`
+ *     où attachment est le résultat de runDispatcherLang.
+ *
+ * INV-NR-01, INV-NR-02, INV-NR-04 : ne touche jamais composite, verdict,
+ * min_axis, macro_axes, ecc_score, emotion_weight_pct.
+ *
+ * Exporté pour permettre un test d'intégration du branchement sans devoir
+ * invoquer toute la pipeline LLM de judgeAestheticV3.
+ */
+export function maybeAttachDispatcher(
+  baseScore: MacroSScore,
+  prose: string,
+  packet: { readonly language?: unknown; readonly scene_id?: string },
+): MacroSScore {
+  if (!isDispatcherLangActive()) {
+    return baseScore;
+  }
+  const attachment = runDispatcherLang(prose, packet);
+  return { ...baseScore, baseline_m0b: attachment };
 }

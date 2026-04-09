@@ -11,6 +11,7 @@
  */
 
 import type { MacroAxesScores } from './macro-axes.js';
+import type { DispatcherAttachment } from '../scoring/dispatcher/types.js';
 
 export interface MacroSScore {
   readonly score_id: string;
@@ -23,4 +24,11 @@ export interface MacroSScore {
   readonly verdict: 'SEAL' | 'PITCH' | 'REJECT';
   readonly ecc_score: number;
   readonly emotion_weight_pct: number;
+  /**
+   * Shadow-mode attachement du M0b_slim V3.1 Language Dispatcher.
+   * Champ OPTIONNEL : présent UNIQUEMENT si OMEGA_DISPATCHER_LANG_V33='1'.
+   * N'influe JAMAIS sur composite, verdict, min_axis (INV-NR-01, INV-NR-02).
+   * Voir : src/scoring/dispatcher/dispatcher-lang.ts
+   */
+  readonly baseline_m0b?: DispatcherAttachment;
 }

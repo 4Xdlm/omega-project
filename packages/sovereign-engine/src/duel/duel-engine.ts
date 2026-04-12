@@ -22,6 +22,8 @@ import { scoreV2 } from '../oracle/s-oracle-v2.js';
 import { sha256, canonicalize } from '@omega/canon-kernel';
 // P0-03: Unified floor threshold — single source of truth
 import { SEAL_FLOOR_MIN } from '../core/thresholds.js';
+// P2-FIX: mode-specific instructions for duel drafts
+import { getDraftModeInstruction } from './draft-modes.js';
 
 // ── CV Gate — Pre-filter for rhythm outliers ─────────────────────────────────
 // Levier C: Reject drafts with CV_sent > threshold
@@ -70,8 +72,16 @@ export async function runDuel(
     } catch { /* telemetry is optional */ }
   }
 
+  // P2-FIX: Build enriched prompt with mode instructions + word count target
+  // The base prompt already contains scene/emotion/structure directives.
+  // We add: (a) mode-specific writing instructions, (b) explicit word count floor.
+  const targetWords = packet.intent.target_word_count ?? 2200;
+  const wordCountDirective = `\n\n=== VOLUME OBLIGATOIRE ===\nMINIMUM ${targetWords} mots. Déploie chaque paragraphe largement. NE COUPE PAS COURT. Si tu produis moins de ${Math.round(targetWords * 0.8)} mots, c'est un ÉCHEC.`;
+
   for (let i = 0; i < modes.length; i++) {
     const mode = modes[i];
+    const modeInstruction = getDraftModeInstruction(mode);
+    const enrichedPrompt = `${prompt}\n\n=== MODE D'ÉCRITURE ===\n${modeInstruction}${wordCountDirective}`;
     let bestCandidate: { prose: string; cv: number } | null = null;
 
     for (let attempt = 0; attempt <= CV_GATE_MAX_RETRIES; attempt++) {
@@ -79,7 +89,7 @@ export async function runDuel(
         ? `${packet.seeds.llm_seed}_${mode}`
         : `${packet.seeds.llm_seed}_${mode}_retry${attempt}`;
 
-      const prose = await provider.generateDraft(prompt, mode, seed);
+      const prose = await provider.generateDraft(enrichedPrompt, mode, seed);
       const cv = computeCVSent(prose);
 
       if (cv <= CV_GATE_REJECT) {

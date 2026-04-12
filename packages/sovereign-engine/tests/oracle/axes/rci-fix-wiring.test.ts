@@ -51,7 +51,7 @@ describe('RCI Wiring Fix [RCI-FIX]', () => {
     // Verify the function works with exactly 2 arguments
     const result = await scoreVoiceConformity(MOCK_PACKET, PROSE_GOOD);
 
-    expect(result.axis_id).toBe('voice_conformity');
+    expect(result.name).toBe('voice_conformity');
     expect(result.method).toBe('CALC');
     expect(result.score).toBeGreaterThanOrEqual(0);
     expect(result.score).toBeLessThanOrEqual(100);

@@ -37,8 +37,8 @@ describe('AAI Macro-Axis (ART-SCORE-01)', () => {
 
     // Vérifier 2 sous-composants
     expect(result.sub_scores.length).toBe(2);
-    const sdt = result.sub_scores.find((s) => s.axis_id === 'show_dont_tell');
-    const auth = result.sub_scores.find((s) => s.axis_id === 'authenticity');
+    const sdt = result.sub_scores.find((s) => s.name === 'show_dont_tell');
+    const auth = result.sub_scores.find((s) => s.name === 'authenticity');
     expect(sdt).toBeDefined();
     expect(auth).toBeDefined();
 

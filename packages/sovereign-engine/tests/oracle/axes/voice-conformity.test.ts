@@ -76,7 +76,7 @@ C'est tout. Rien de plus.
     // Avec U-VOICE-05 : 3 params applicables seulement (ellipsis_rate, paragraph_rhythm, opening_variety)
     // Prose courte → ellipsis_rate élevé, opening_variety faible → score ~55-75
     expect(result.score).toBeGreaterThanOrEqual(50);
-    expect(result.axis_id).toBe('voice_conformity');
+    expect(result.name).toBe('voice_conformity');
     expect(result.method).toBe('CALC');
   });
 
@@ -112,7 +112,7 @@ existence contingente et perpétuellement suspendue entre l'être et le néant.
     // Invariant résiduel : le score n'est pas parfait (< 100) et des pénalités existent.
     expect(result.score).toBeLessThan(100);
     expect(result.score).toBeGreaterThanOrEqual(0);
-    expect(result.axis_id).toBe('voice_conformity');
+    expect(result.name).toBe('voice_conformity');
     // Les penalties continuent d'être remontées même avec 3 params
     expect(result.reasons).toBeDefined();
   });

@@ -36,7 +36,7 @@ export async function scoreShowDontTell(
   const result = detectTelling(prose);
 
   return {
-    axis_id: 'show_dont_tell',
+    name: 'show_dont_tell',
     score: result.score, // 0-100, 100 = excellent showing
     weight: 3.0, // Poids élevé (pénalisation forte)
     method: 'HYBRID', // CALC pour l'instant, LLM OFF (feature flag futur)

@@ -40,7 +40,7 @@ export async function scoreAuthenticityAxis(
   const result = await scoreAuthenticity(prose, provider, globalCache);
 
   return {
-    axis_id: 'authenticity',
+    name: 'authenticity',
     score: result.combined_score, // 0-100, 100 = très authentique (humain)
     weight: 2.0,
     method: 'HYBRID', // CALC 60% + LLM 40%

@@ -28,7 +28,7 @@ describe('Authenticity Axis (ART-AUTH-01)', () => {
     const result = await scoreAuthenticityAxis(mockPacket, prose, mockProvider);
 
     // Vérifier structure AxisScore
-    expect(result.axis_id).toBe('authenticity');
+    expect(result.name).toBe('authenticity');
     expect(result.score).toBeGreaterThanOrEqual(0);
     expect(result.score).toBeLessThanOrEqual(100);
     expect(result.weight).toBe(2.0); // Poids ×2.0 comme spécifié

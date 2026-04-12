@@ -23,7 +23,7 @@ export async function scoreVoiceConformity(
   if (!packet.style_genome || !packet.style_genome.voice) {
     return {
       name: 'voice_conformity',
-      axis_id: 'voice_conformity',
+
       score: 70,
       weight: 1.0,
       method: 'CALC',
@@ -83,7 +83,6 @@ export async function scoreVoiceConformity(
 
   return {
     name: 'voice_conformity',
-    axis_id: 'voice_conformity',
     score,
     weight: 1.0,
     method: 'CALC',

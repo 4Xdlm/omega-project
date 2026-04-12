@@ -25,7 +25,7 @@ describe('Show Don\'t Tell Axis (ART-SDT-02)', () => {
     const result = await scoreShowDontTell(mockPacket, prose, mockProvider);
 
     // Vérifier structure AxisScore
-    expect(result.axis_id).toBe('show_dont_tell');
+    expect(result.name).toBe('show_dont_tell');
     expect(result.score).toBeGreaterThanOrEqual(0);
     expect(result.score).toBeLessThanOrEqual(100);
     expect(result.weight).toBe(3.0); // Poids ×3.0 comme spécifié

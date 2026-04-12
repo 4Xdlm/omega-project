@@ -27,13 +27,14 @@ function callClaudeSync(
   userPrompt: string,
   config: AnthropicProviderConfig,
   structured: boolean = false,
+  maxTokensOverride?: number,
 ): string {
   if (!config.apiKey) {
     throw new Error('Anthropic API key required');
   }
 
   const temperature = structured ? 0.0 : config.draftTemperature;
-  const maxTokens = config.judgeMaxTokens;
+  const maxTokens = maxTokensOverride ?? config.judgeMaxTokens;
 
   const requestBody = JSON.stringify({
     model: config.model,
@@ -341,7 +342,9 @@ IMPACT: [average]`;
       const systemPrompt = `You are an expert literary editor. Tu corriges de la prose française littéraire premium. Apply the requested correction to the prose while respecting all constraints. La sortie DOIT rester en français. Return ONLY the revised prose, no commentary.`;
       const userPrompt = `Canon:\n${constraints.canon.join('\n')}\n\nBeats:\n${constraints.beats.join('\n')}\n\nCorrection: ${pitch.correction_text}\nTarget: ${pitch.target_axis}\n\nProse:\n${prose}\n\nProvide revised prose:`;
 
-      const response = callClaudeSync(systemPrompt, userPrompt, config, false);
+      // P0-FIX: patchMaxTokens séparé du budget judge — fallback draftMaxTokens → 8192
+      const patchBudget = config.patchMaxTokens ?? config.draftMaxTokens ?? 8192;
+      const response = callClaudeSync(systemPrompt, userPrompt, config, false, patchBudget);
       return stripFences(response);
     },
 
@@ -349,9 +352,9 @@ IMPACT: [average]`;
       const systemPrompt = `You are a master prose writer. Écris EXCLUSIVEMENT en français littéraire premium — niveau prix Goncourt. Zéro anglais. Prose émotionnellement résonnante, sensoriellement riche, narrativement dense. Mode: ${mode}. Seed: ${seed}`;
       const userPrompt = prompt;
 
-      // generateDraft requires much more tokens than scoring calls
-      const draftConfig = { ...config, judgeMaxTokens: 2000 };
-      const response = callClaudeSync(systemPrompt, userPrompt, draftConfig, false);
+      // P0-FIX: draftMaxTokens séparé du budget judge — default 8192 (~2500 mots FR)
+      const draftBudget = config.draftMaxTokens ?? 8192;
+      const response = callClaudeSync(systemPrompt, userPrompt, config, false, draftBudget);
       return stripFences(response);
     },
 

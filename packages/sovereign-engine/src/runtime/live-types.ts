@@ -83,4 +83,10 @@ export interface AnthropicProviderConfig {
   readonly judgeTemperature: number;
   readonly judgeTopP: number;
   readonly judgeMaxTokens: number;
+  /** Token budget for generateDraft / applyPatch (prose output).
+   *  Defaults to 8192 when omitted — enough for ~2500 words FR. */
+  readonly draftMaxTokens?: number;
+  /** Token budget for applyPatch specifically.
+   *  Falls back to draftMaxTokens, then 8192. */
+  readonly patchMaxTokens?: number;
 }

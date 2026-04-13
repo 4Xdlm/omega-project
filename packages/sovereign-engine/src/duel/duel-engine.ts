@@ -41,13 +41,17 @@ const CV_GATE_MAX_RETRIES = 2;
 
 // ── R7: Duel N=8 (Best-of-N selection) ──────────────────────────────────────
 // OMEGA_DUEL_RUNS: Number of independent runs per duel mode.
-//   '1' (default) = N=4 classic (1 loop_refined + 3 modes × 1 run)
-//   '2' = N=7 (1 loop_refined + 3 modes × 2 runs with different seeds)
+//   '1' (default engine) = N=4 classic (1 loop_refined + 3 modes × 1 run)
+//   '2' (production)     = N=7 (1 loop_refined + 3 modes × 2 runs with different seeds)
+//   '3' (max, unvalidated) = N=10
+// POLICY (ADR-R7, 2026-04-13):
+//   - Default engine = 1 (dev/bench rapide)
+//   - Production profile = 2 (réduction variance -85%, σ 3.32→0.51)
+//   - N=3 non validé, interdit sans bench dédié
 // MECHANISM: More candidates = higher probability that the best achievable
 // prose for this scene appears in the pool. The hostile selector (composite
 // minus min_axis penalty) picks the most balanced candidate.
-// COST: Each additional run adds 4 K2 API calls (chunk generation) + 1 V3
-// scoring pass. N=2 doubles duel generation cost but NOT post-processing.
+// COST: N=2 → ×1.8 total pipeline cost (28 API calls/scene vs 16).
 const DUEL_RUNS = Math.max(1, Math.min(3, parseInt(process.env.OMEGA_DUEL_RUNS || '1', 10)));
 
 export function computeCVSent(prose: string): number {

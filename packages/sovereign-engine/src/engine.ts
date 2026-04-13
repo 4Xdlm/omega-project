@@ -82,6 +82,8 @@ import { generateChunkedDraft, isChunkedV4Active } from './generation/chunked-ge
 import { forgePacketToSceneBrief } from './generation/forge-to-brief.js';
 // P0-02: Unified thresholds — single source of truth
 import { SAGA_READY_COMPOSITE_MIN, SAGA_READY_SSI_MIN } from './core/thresholds.js';
+// ★ R6: Rejection Gate — CALC V3.4 pre-filter (ADR-003)
+import { isR6GateEnabled, runR6GateInPipeline } from './gate/r6-pipeline-adapter.js';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // ARCHETYPE DERIVATION — INV-ARCH-DERIVE-01
@@ -152,6 +154,8 @@ export interface SovereignForgeResult {
   readonly quality_m12?: QualityM12Report; // Sprint 6.1 (Roadmap 4.1): Quality M1-M12 rapport annexe (INFORMATIF)
   /** U-ROSETTE-10: expose le ForgePacket enrichi pour le Polish Engine post-génération */
   readonly forge_packet?: import('./types.js').ForgePacket;
+  /** P3C: Full duel scoring matrix — all candidates with V3 scores + selection_score */
+  readonly duel_matrix?: readonly import('./types.js').DuelCandidateScore[];
 }
 
 export async function runSovereignForge(
@@ -318,6 +322,19 @@ async function executePipeline(
     initialDraft = chunkedResult.prose;
     console.log(`[V4-CHUNKED] ${chunkedResult.total_words}w en ${chunkedResult.api_calls} API calls`);
     console.log(`[V4-CHUNKED] Chunks: ${chunkedResult.words_per_chunk.join(', ')}w`);
+  } else if (isR6GateEnabled()) {
+    // ★ R6: Rejection Gate wraps standard generation (ADR-003)
+    // Gate runs CALC V3.4 on each attempt, accept/reject, retry blind.
+    // Shadow mode: logs only, no rejection. Active mode: rejects below threshold.
+    const promptText = prompt.sections.map((s) => s.content).join('\n\n');
+    const r6Result = await runR6GateInPipeline(
+      provider,
+      promptText,
+      SOVEREIGN_CONFIG.DRAFT_MODES[0],
+      enrichedPacket.seeds.llm_seed,
+      enrichedPacket.language as 'fr' | 'en',
+    );
+    initialDraft = r6Result.prose;
   } else {
     initialDraft = await provider.generateDraft(
       prompt.sections.map((s) => s.content).join('\n\n'),
@@ -359,7 +376,34 @@ async function executePipeline(
     ? generatePrescriptions(physicsAudit, SOVEREIGN_CONFIG.PRESCRIPTIONS_TOP_K)
     : undefined;
 
-  const loop_result = await runSovereignLoop(initialDraft, enrichedPacket, provider, physicsAudit);
+  // ★ P3C: Bypass sovereign loop when K2 is active.
+  // REASON: The sovereign loop's applyPatch() calls the LLM in single-shot to rewrite
+  // the full text. On a ~2300w K2 draft, the LLM compresses to ~500-800w (Pilier 2.4:
+  // Plafond d'Asphyxie). This creates an unfair duel: 3 K2 candidates at ~2300w vs
+  // 1 loop_refined at ~600w. The Oracle's hostile selection then favors the shorter text.
+  // DECISION: When K2 is active, the raw K2 draft enters the duel directly at full volume.
+  // Validated by: Francky (Architect) + Gemini + ChatGPT — unanimité 3/3.
+  let loop_result: SovereignLoopResult;
+  if (isChunkedV4Active()) {
+    // K2 bypass: synthetic loop result, no LLM rewrite.
+    // Score the raw K2 draft for telemetry (V1 aesthetic, 0 extra API calls).
+    const k2_score = await judgeAesthetic(enrichedPacket, initialDraft, provider);
+    const k2Words = initialDraft.split(/\s+/).filter((w: string) => w.length > 0).length;
+    console.log(`[K2-BYPASS] Sovereign loop SKIPPED — K2 draft preserved at ${k2Words}w (composite=${k2_score.composite.toFixed(1)})`);
+
+    loop_result = {
+      final_prose: initialDraft,
+      s_score_initial: k2_score,
+      s_score_final: k2_score,
+      pitches_applied: [],
+      passes_executed: 0,
+      verdict: 'REJECT', // Force duel path — we want all 4 candidates scored
+      verdict_reason: `K2 bypass: sovereign loop skipped, draft preserved at ${k2Words}w`,
+      forensic_data: { rollback_count: 0, rollbacks: [] },
+    };
+  } else {
+    loop_result = await runSovereignLoop(initialDraft, enrichedPacket, provider, physicsAudit);
+  }
 
   if (loop_result.verdict === 'SEAL') {
     // V3 is the AUTHORITY — check macro-axes before accepting SEAL
@@ -464,18 +508,15 @@ async function executePipeline(
       const CLIFF_QUALITY_TARGET = 0.50;
       const cliffActivated = cliffScore > CLIFF_THRESHOLD;
       const cliffQuality = cliffScore >= CLIFF_QUALITY_TARGET;
+      // R7-B: Cliff Gate NEUTRALIZED → shadow mode only.
+      // DIAGNOSTIC (2026-04-13): cliff_score=0.7 triggers on 100% of K2 prose
+      // because meanLen(100 last words) ≈ 15-20 → tension=1.0 → score ≥ 0.5.
+      // Threshold 0.30 is structurally impossible to pass with French K2 prose.
+      // Amputating the last sentence degrades impact scorer (sentences.slice(-3))
+      // and contributes to the duel→final gap (up to +3.3 pts lost).
+      // DECISION: Log only. No prose modification. Code preserved for future use.
       if (cliffActivated) {
-        // GUILLOTINE DÉTERMINISTE — pas de micro-API, troncature pure.
-        // Convergence 3/3 : Gemini "bourreau" + ChatGPT "structural offloading".
-        // On ne négocie plus avec le LLM — on coupe.
-        const fullSents = final_prose.split(/(?<=[.!?\u2026])\s+/);
-        if (fullSents.length >= 2) {
-          // Amputer la dernière phrase (qui ferme la brique)
-          final_prose = fullSents.slice(0, -1).join(' ');
-          console.warn(`[CLIFF-GATE] cliff_score=${cliffScore.toFixed(4)} > ${CLIFF_THRESHOLD} — ACTIVATION POST-PROCESSING`);
-        } else {
-          console.warn(`[CLIFF-GATE] cliff_score=${cliffScore.toFixed(4)} > ${CLIFF_THRESHOLD} — trop peu de phrases, conservation`);
-        }
+        console.warn(`[CLIFF-GATE] cliff_score=${cliffScore.toFixed(4)} > ${CLIFF_THRESHOLD} — SHADOW (amputation disabled R7-B)`);
       } else {
         console.log(`[CLIFF-GATE] cliff_score=${cliffScore.toFixed(4)} <= ${CLIFF_THRESHOLD} — brique ouverte`);
       }
@@ -618,5 +659,6 @@ async function executePipeline(
     prescriptions,
     quality_m12,
     forge_packet: enrichedPacket, // U-ROSETTE-10
+    duel_matrix: duel_result.duel_matrix, // P3C: full candidate telemetry
   };
 }

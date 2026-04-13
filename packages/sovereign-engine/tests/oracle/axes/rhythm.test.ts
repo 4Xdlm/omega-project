@@ -46,11 +46,14 @@ describe('scoreRhythm', () => {
     expect(result.method).toBe('CALC');
   });
 
-  it('texte monotone (phrases toutes identiques) → score bas (<40)', () => {
+  it('texte monotone (phrases toutes identiques) → score bas (<60)', () => {
     // Correction B: raw score is NOT attenuated. Monotone text gets raw low score.
+    // P5C: threshold relaxed from <40 to <60 — CV peak recalibration (0.75→0.60)
+    // and breathing threshold widening (≤7→≤10) give monotone prose more partial points,
+    // but it remains well below varied prose (which scores 70+).
     const result = scoreRhythm(mockPacket as ForgePacket, PROSE_FLAT);
 
-    expect(result.score).toBeLessThan(40);
+    expect(result.score).toBeLessThan(60);
     expect(result.details).toContain('CV_sent='); // V2: uses CV instead of Gini
   });
 

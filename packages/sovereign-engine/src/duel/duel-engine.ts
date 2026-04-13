@@ -14,7 +14,7 @@
  * ═══════════════════════════════════════════════════════════════════════════════
  */
 
-import type { ForgePacket, SovereignProvider, DuelResult, Draft } from '../types.js';
+import type { ForgePacket, SovereignProvider, DuelResult, Draft, DuelCandidateScore } from '../types.js';
 import { judgeAesthetic, judgeAestheticV3 } from '../oracle/aesthetic-oracle.js';
 import type { SymbolMap } from '../symbol/symbol-map-types.js';
 import { SOVEREIGN_CONFIG } from '../config.js';
@@ -24,6 +24,10 @@ import { sha256, canonicalize } from '@omega/canon-kernel';
 import { SEAL_FLOOR_MIN } from '../core/thresholds.js';
 // P2-FIX: mode-specific instructions for duel drafts
 import { getDraftModeInstruction } from './draft-modes.js';
+// P3A: K2 chunked generation for all duel modes — volume equity
+import { generateChunkedDraft, isChunkedV4Active } from '../generation/chunked-generator.js';
+import { forgePacketToSceneBrief } from '../generation/forge-to-brief.js';
+import { getDuelK2Persona, getDuelK2Rappel } from './draft-modes.js';
 
 // ── CV Gate — Pre-filter for rhythm outliers ─────────────────────────────────
 // Levier C: Reject drafts with CV_sent > threshold
@@ -72,16 +76,20 @@ export async function runDuel(
     } catch { /* telemetry is optional */ }
   }
 
-  // P2-FIX: Build enriched prompt with mode instructions + word count target
-  // The base prompt already contains scene/emotion/structure directives.
-  // We add: (a) mode-specific writing instructions, (b) explicit word count floor.
+  // P3A: K2 chunked generation for all duel modes — volume equity.
+  // Each mode generates via 4×750w chunks with its own persona (Option A).
+  // Fallback: if OMEGA_CHUNKED_V4 is not active, revert to single-shot + P2 word directive.
+  const useK2ForDuel = isChunkedV4Active();
+
+  // P2-FIX (retained as fallback for non-K2 mode):
   const targetWords = packet.intent.target_word_count ?? 2200;
   const wordCountDirective = `\n\n=== VOLUME OBLIGATOIRE ===\nMINIMUM ${targetWords} mots. Déploie chaque paragraphe largement. NE COUPE PAS COURT. Si tu produis moins de ${Math.round(targetWords * 0.8)} mots, c'est un ÉCHEC.`;
 
+  // P3A: Pre-compute sceneBrief for K2 duel (same source as engine.ts loop_refined)
+  const sceneBrief = useK2ForDuel ? forgePacketToSceneBrief(packet) : '';
+
   for (let i = 0; i < modes.length; i++) {
     const mode = modes[i];
-    const modeInstruction = getDraftModeInstruction(mode);
-    const enrichedPrompt = `${prompt}\n\n=== MODE D'ÉCRITURE ===\n${modeInstruction}${wordCountDirective}`;
     let bestCandidate: { prose: string; cv: number } | null = null;
 
     for (let attempt = 0; attempt <= CV_GATE_MAX_RETRIES; attempt++) {
@@ -89,7 +97,34 @@ export async function runDuel(
         ? `${packet.seeds.llm_seed}_${mode}`
         : `${packet.seeds.llm_seed}_${mode}_retry${attempt}`;
 
-      const prose = await provider.generateDraft(enrichedPrompt, mode, seed);
+      let prose: string;
+
+      if (useK2ForDuel) {
+        // P3A: K2 chunked generation with mode-specific persona override
+        const personaOverride = getDuelK2Persona(mode);
+        const rappelOverride = getDuelK2Rappel(mode);
+        const chunkedResult = await generateChunkedDraft(
+          {
+            sceneBrief,
+            signatureWords: packet.style_genome.lexicon.signature_words,
+            language: packet.language as 'fr' | 'en',
+            seed,
+            personaOverride,
+            rappelOverride,
+          },
+          provider,
+        );
+        prose = chunkedResult.prose;
+        if (attempt === 0) {
+          console.log(`[DUEL-K2] mode=${mode}: ${chunkedResult.total_words}w en ${chunkedResult.api_calls} chunks (${chunkedResult.words_per_chunk.join(', ')}w)`);
+        }
+      } else {
+        // Fallback: single-shot with P2 word count directive
+        const modeInstruction = getDraftModeInstruction(mode);
+        const enrichedPrompt = `${prompt}\n\n=== MODE D'ÉCRITURE ===\n${modeInstruction}${wordCountDirective}`;
+        prose = await provider.generateDraft(enrichedPrompt, mode, seed);
+      }
+
       const cv = computeCVSent(prose);
 
       if (cv <= CV_GATE_REJECT) {
@@ -122,6 +157,7 @@ export async function runDuel(
       const { telemetry } = await import('../telemetry/pipeline-telemetry.js');
       telemetry.recordFromProse(`DUEL_${mode}`, finalProse, undefined, {
         mode, cv: bestCandidate!.cv, cv_gate_pass: bestCandidate!.cv <= CV_GATE_REJECT,
+        k2_duel: useK2ForDuel,
       });
     } catch { /* telemetry is optional */ }
   }
@@ -133,6 +169,7 @@ export async function runDuel(
   // Effect: a draft with (ECC 95, RCI 70) loses to (ECC 86, RCI 84)
   let winnerIdx = 0;
   let v3Scores: Awaited<ReturnType<typeof judgeAestheticV3>>[] | null = null;
+  let duel_matrix: DuelCandidateScore[] | undefined;
   if (symbolMap) {
     v3Scores = await Promise.all(
       drafts.map((d) => judgeAestheticV3(packet, d.prose, provider, symbolMap)),
@@ -147,14 +184,44 @@ export async function runDuel(
 
     // Hostile selection: penalize low min_axis heavily
     // floorPenalty multiplier 1.5 : empirique Sprint hostile selection — ADR-FLOOR-01
-    const selectionScores = v3Scores.map((s) => {
+    // P4E: Word count floor — penalize short drafts that score high due to density bias
+    // K2 target = 4×750w = ~2500w minimum viable. Floor at 60% = 1500w.
+    const WORD_COUNT_FLOOR = Math.round((packet.intent.target_word_count ?? 2200) * 0.60);
+    const WORD_COUNT_PENALTY_RATE = 0.02; // -2 pts per 100 words below floor
+    const selectionScores = v3Scores.map((s, idx) => {
       const floorPenalty = 1.5 * Math.max(0, SEAL_FLOOR_MIN - s.min_axis);
-      return s.composite - floorPenalty;
+      const words = drafts[idx].prose.split(/\s+/).filter((w: string) => w.length > 0).length;
+      const wordDeficit = Math.max(0, WORD_COUNT_FLOOR - words);
+      const wordPenalty = wordDeficit * WORD_COUNT_PENALTY_RATE;
+      if (wordPenalty > 0) {
+        console.log(`[DUEL] WORD_FLOOR: mode=${drafts[idx].mode} words=${words} < floor=${WORD_COUNT_FLOOR} → penalty=-${wordPenalty.toFixed(1)}`);
+      }
+      return s.composite - floorPenalty - wordPenalty;
     });
 
     const maxSelection = Math.max(...selectionScores);
     winnerIdx = selectionScores.indexOf(maxSelection);
     console.log(`[DUEL] Winner: [${winnerIdx}] ${drafts[winnerIdx].mode} (selection_score=${maxSelection.toFixed(1)})`);
+
+    // ★ P3C: Build duel matrix — full scoring telemetry for all candidates
+    duel_matrix = drafts.map((d, idx) => {
+      const s = v3Scores![idx];
+      const words = d.prose.split(/\s+/).filter((w: string) => w.length > 0).length;
+      return {
+        mode: d.mode,
+        words,
+        composite: s.composite,
+        min_axis: s.min_axis,
+        selection_score: selectionScores[idx],
+        ECC: s.ecc_score,
+        RCI: s.macro_axes.rci.score,
+        SII: s.macro_axes.sii.score,
+        IFI: s.macro_axes.ifi.score,
+        AAI: s.macro_axes.aai.score,
+      };
+    });
+    // Log matrix for immediate visibility (even if bench-output.log is buffered)
+    console.log(`[DUEL-MATRIX] ${JSON.stringify(duel_matrix)}`);
   } else {
     const scores = drafts.map((d) => d.score.composite);
     const maxScore = Math.max(...scores);
@@ -187,6 +254,7 @@ export async function runDuel(
     winner_score: winner.score.composite,
     fusion_applied: false,
     final_prose: winner.prose,
+    duel_matrix,
   };
 }
 

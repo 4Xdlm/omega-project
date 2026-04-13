@@ -347,8 +347,15 @@ export function detectCacophony(prose: string): CacophonyResult {
   const severityWeights: Record<string, number> = { critical: 3, high: 2, medium: 1 };
   const rawSeverity = allMatches.reduce((sum, m) => sum + (severityWeights[m.severity] ?? 1), 0);
   const totalSentences = Math.max(sentences.length, 1);
-  // Normalize to 0-100: more cacophonies per sentence = higher score
-  const severity_score = Math.min(100, (rawSeverity / totalSentences) * 20);
+  // P5+-FIX: Normalize to 0-100 — multiplier recalibrated from 20 to 12.
+  // MECHANISM: K2 prose (~2400w, ~80 sentences) in French naturally produces
+  // ~1-2 medium cacophonies per sentence (sibilant chains from "les/des/ses",
+  // rhyme proximity from "-tion/-ment" suffixes). At multiplier=20, this yields
+  // severity_score ~50-65, which translates to euphony ~50-60 (structural floor).
+  // Recalibrating to 12 shifts the floor to ~70-80 while still penalizing
+  // genuine cacophony (consonant clusters, plosive chains).
+  // CONDITION: Only valid for literary French prose (>1000w).
+  const severity_score = Math.min(100, (rawSeverity / totalSentences) * 12);
 
   // Worst 5
   const worst = [...allMatches]

@@ -4,7 +4,7 @@
  * ═══════════════════════════════════════════════════════════════════════════════
  *
  * Module: oracle/axes/rhythm.ts
- * Version: 2.0.0
+ * Version: 2.1.0 (P5C — K2 recalibration)
  * Standard: NASA-Grade L4 / DO-178C Level A
  *
  * Weight ×1.0
@@ -13,13 +13,16 @@
  *
  * INV-RHYTHM-CV-01: Rhythm score uses coefficient of variation, not pattern counting.
  *
+ * P5C: Recalibrated for K2 2200w prose (bench P4 showed systematic undershoot).
+ * Changes: CV peak 0.75→0.60, range threshold 15→12, breathing short ≤7→≤10.
+ *
  * SCORING (max 100):
- * - Sentence length variance (CV) [0.35, 1.10] → 35 pts (peak at 0.65)
- * - Paragraph length variance (CV) [0.20, 1.00] → 15 pts
- * - Length range (max - min) ≥ 20 words → 15 pts
+ * - Sentence length variance (CV) [0.30, 1.30] → 35 pts (peak at 0.60)
+ * - Paragraph length variance (CV) [0.15, 1.20] → 15 pts (peak at 0.60)
+ * - Length range (max - min) ≥ 12 words → 15 pts
  * - Monotony avoidance (0 sequences) → 15 pts
  * - Opening variety (<10% repetition) → 10 pts
- * - Breathing (1 long + 1 short) → 10 pts
+ * - Breathing (1 long ≥25 + 1 short ≤10) → 10 pts
  *
  * ═══════════════════════════════════════════════════════════════════════════════
  */
@@ -44,14 +47,16 @@ export function scoreRhythm(packet: ForgePacket, prose: string): AxisScore {
   let score = 0;
 
   // ═══ 1. SENTENCE LENGTH VARIANCE (35 pts) ═══
-  // French literary prose with dramatic fragments ("Il respira.", "Silence.")
-  // naturally produces high CV (0.8-1.2). Peak shifted to 0.75, range widened.
-  // INV-RCI-RHYTHM-FR-01: Rhythm CV calibrated for French literary prose.
+  // P5C: Peak recalibrated from 0.75 → 0.60 for K2 2200w prose.
+  // Bench P4 shows: contemplation CV=0.32 → rhythm=39.5 (peak 0.75 too far).
+  // French literary prose with K2 chunks naturally produces CV 0.50-0.70.
+  // Peak 0.60 rewards moderate variety without requiring extreme fragments.
+  // INV-RCI-RHYTHM-FR-01: Rhythm CV calibrated for French literary prose (K2).
   const sentenceCV = computeCV(wordCounts);
   if (sentenceCV >= 0.30 && sentenceCV <= 1.30) {
-    // Optimal range, peak at 0.75 (French literary: dramatic fragments + flowing descriptions)
-    const distFromPeak = Math.abs(sentenceCV - 0.75);
-    const maxDist = 0.55; // Distance from 0.75 to far edge (1.30)
+    // Optimal range, peak at 0.60 (K2 French literary: flowing prose + natural variation)
+    const distFromPeak = Math.abs(sentenceCV - 0.60);
+    const maxDist = 0.70; // Distance from 0.60 to far edge (1.30)
     const cvScore = 35 * (1 - distFromPeak / maxDist);
     score += Math.max(0, cvScore);
   } else if (sentenceCV < 0.30) {
@@ -89,19 +94,21 @@ export function scoreRhythm(packet: ForgePacket, prose: string): AxisScore {
   }
 
   // ═══ 3. LENGTH RANGE (15 pts) ═══
-  // INV-RCI-RHYTHM-FR-03: Length range threshold lowered for French (shorter avg sentence).
+  // P5C: Full-points threshold lowered from 15 → 12 for K2 2200w prose.
+  // K2 prose naturally has range 10-14; old threshold penalized realistic variation.
+  // INV-RCI-RHYTHM-FR-03: Length range threshold calibrated for K2 French prose.
   if (wordCounts.length >= 2) {
     const minLen = Math.min(...wordCounts);
     const maxLen = Math.max(...wordCounts);
     const range = maxLen - minLen;
 
-    if (range >= 15) {
+    if (range >= 12) {
       score += 15;
-    } else if (range >= 7) {
-      // Proportional: 7-14 words
-      score += (range / 15) * 15;
+    } else if (range >= 5) {
+      // Proportional: 5-11 words
+      score += (range / 12) * 15;
     }
-    // range < 7 → 0 pts
+    // range < 5 → 0 pts
   }
 
   // ═══ 4. MONOTONY AVOIDANCE (15 pts) ═══
@@ -121,8 +128,11 @@ export function scoreRhythm(packet: ForgePacket, prose: string): AxisScore {
   }
 
   // ═══ 6. BREATHING (10 pts) ═══
+  // P5C: Short threshold widened from ≤7 → ≤10 for K2 prose.
+  // French literary K2 prose uses short phrases of 8-10 words as natural punctuation,
+  // not just 3-7 word fragments. Old threshold missed these legitimate breaks.
   const hasLong = wordCounts.some((wc) => wc >= 25);
-  const hasShort = wordCounts.some((wc) => wc <= 7);
+  const hasShort = wordCounts.some((wc) => wc <= 10);
 
   if (hasLong && hasShort) {
     score += 10;

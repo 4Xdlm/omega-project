@@ -188,6 +188,50 @@ function extractScore(response: string): number {
   throw new Error(`Failed to extract score from response: ${trimmed.slice(0, 100)}`);
 }
 
+/**
+ * P5A-FIX: Extract labeled score from structured LLM response.
+ * Looks for a specific "LABEL: [score]" line first — avoids Pattern 4 false matches.
+ * The label is case-insensitive and matches "LABEL: 85", "LABEL : 85", "LABEL:85/100".
+ *
+ * MECHANISM: The generic extractScore() fallback (Pattern 4: last number in text)
+ * can match beat_count or other incidental numbers when the LLM truncates or
+ * reformats its output. By targeting the exact label, we eliminate this class of
+ * false extraction. If the label is not found, we compute the average of all
+ * NAMED criteria scores (JUSTESSE, COUVERTURE, etc.) as a robust fallback.
+ *
+ * FAILURE MODE: If neither the label nor any criteria scores are found,
+ * falls back to generic extractScore() — which may still be wrong, but this
+ * path should be extremely rare with well-formatted prompts.
+ */
+function extractLabeledScore(response: string, label: string, criteriaLabels?: readonly string[]): number {
+  const trimmed = response.trim();
+
+  // Primary: Look for the specific summary label (e.g., "NECESSITY: 83")
+  const labelRegex = new RegExp(`${label}\\s*:\\s*(\\d+(?:\\.\\d+)?)`, 'i');
+  const match = trimmed.match(labelRegex);
+  if (match) return clamp(parseFloat(match[1]));
+
+  // Secondary: If criteria labels provided, compute their average
+  if (criteriaLabels && criteriaLabels.length > 0) {
+    const scores: number[] = [];
+    for (const cl of criteriaLabels) {
+      const clRegex = new RegExp(`${cl}\\s*:\\s*(\\d+(?:\\.\\d+)?)`, 'i');
+      const clMatch = trimmed.match(clRegex);
+      if (clMatch) scores.push(clamp(parseFloat(clMatch[1])));
+    }
+    if (scores.length >= 3) {
+      // At least 3 of 5 criteria found — average is reliable
+      const avg = scores.reduce((s, v) => s + v, 0) / scores.length;
+      console.log(`[extractLabeledScore] Label "${label}" not found, computed avg from ${scores.length} criteria: ${avg.toFixed(1)}`);
+      return Math.round(avg * 10) / 10;
+    }
+  }
+
+  // Tertiary: fall back to generic extraction
+  console.log(`[extractLabeledScore] WARN: Label "${label}" not found, falling back to generic extraction`);
+  return extractScore(response);
+}
+
 function clamp(n: number): number {
   return Number.isNaN(n) ? 0 : Math.max(0, Math.min(100, n));
 }
@@ -231,7 +275,9 @@ INTERIORITY: [moyenne]`;
 
       const interiorityConfig = { ...config, judgeMaxTokens: 300 };
       const response = callClaudeSync(systemPrompt, userPrompt, interiorityConfig, config.judgeStable);
-      return extractScore(response);
+      // P5A-FIX: Use labeled extraction for interiority
+      const INTERIORITY_CRITERIA = ['INCARNATION', 'FLUX_CONSCIENCE', 'FILTRE_PERCEPTIF', 'SILENCE_NARRATIF', 'PROFONDEUR_TEMPS'] as const;
+      return extractLabeledScore(response, 'INTERIORITY', INTERIORITY_CRITERIA);
     },
 
     async scoreSensoryDensity(prose: string, sensory_counts: Record<string, number>): Promise<number> {
@@ -297,7 +343,9 @@ NECESSITY: [moyenne]`;
 
       const necessityConfig = { ...config, judgeMaxTokens: 300 };
       const response = callClaudeSync(systemPrompt, userPrompt, necessityConfig, config.judgeStable);
-      return extractScore(response);
+      // P5A-FIX: Use labeled extraction to avoid beat_count false match
+      const NECESSITY_CRITERIA = ['JUSTESSE', 'COUVERTURE', 'DENSIT', 'PROGRESSION', 'IRRÉDUCTIBILITÉ'] as const;
+      return extractLabeledScore(response, 'NECESSITY', NECESSITY_CRITERIA);
     },
 
     async scoreImpact(
@@ -331,7 +379,9 @@ IMPACT: [average]`;
 
       const impactConfig = { ...config, judgeMaxTokens: 300 };
       const response = callClaudeSync(systemPrompt, userPrompt, impactConfig, config.judgeStable);
-      return extractScore(response);
+      // P5A-FIX: Use labeled extraction for impact too
+      const IMPACT_CRITERIA = ['HOOK', 'RESONANCE', 'SURPRISE', 'EMOTIONAL_PAYLOAD', 'MEMORABILITY'] as const;
+      return extractLabeledScore(response, 'IMPACT', IMPACT_CRITERIA);
     },
 
     async applyPatch(

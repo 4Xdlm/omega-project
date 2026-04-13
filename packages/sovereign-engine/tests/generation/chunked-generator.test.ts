@@ -19,6 +19,10 @@ import {
   PF_PERSONA,
   RAPPEL_CHUNKS12,
   RAPPEL_CHUNKS34_V4,
+  PF_PERSONA_V2,
+  RAPPEL_CHUNKS12_V2,
+  RAPPEL_CHUNKS34_V2,
+  DEAD_METAPHOR_PROMPT,
   type ChunkedGenerationInput,
 } from '../../src/generation/chunked-generator.js';
 import { forgePacketToSceneBrief } from '../../src/generation/forge-to-brief.js';
@@ -99,12 +103,71 @@ describe('Loi L3 — zero prescriptive numbers', () => {
     expect(PF_PERSONA).not.toMatch(prescriptivePattern);
   });
 
+  it('PF_PERSONA_V2 contains no prescriptive number patterns', () => {
+    expect(PF_PERSONA_V2).not.toMatch(prescriptivePattern);
+  });
+
   it('RAPPEL_CHUNKS12 contains no prescriptive number patterns', () => {
     expect(RAPPEL_CHUNKS12).not.toMatch(prescriptivePattern);
   });
 
+  it('RAPPEL_CHUNKS12_V2 contains no prescriptive number patterns', () => {
+    expect(RAPPEL_CHUNKS12_V2).not.toMatch(prescriptivePattern);
+  });
+
   it('RAPPEL_CHUNKS34_V4 contains no prescriptive number patterns', () => {
     expect(RAPPEL_CHUNKS34_V4).not.toMatch(prescriptivePattern);
+  });
+
+  it('RAPPEL_CHUNKS34_V2 contains no prescriptive number patterns', () => {
+    expect(RAPPEL_CHUNKS34_V2).not.toMatch(prescriptivePattern);
+  });
+});
+
+// ═══════════════════════════════════════════════════════════════════════════
+// P4 — DEAD METAPHOR + NECESSITY ANCHOR IN ALL CHUNKS
+// ═══════════════════════════════════════════════════════════════════════════
+
+describe('P4 — dead metaphor blacklist + necessity anchor', () => {
+  it('all 4 chunks contain DEAD_METAPHOR_PROMPT', async () => {
+    const provider = createMockProvider();
+    await generateChunkedDraft(TEST_INPUT, provider);
+    for (let i = 0; i < 4; i++) {
+      expect(provider.capturedPrompts[i]).toContain('MÉTAPHORES INTERDITES');
+      expect(provider.capturedPrompts[i]).toContain('le cœur serré');
+    }
+  });
+
+  it('all 4 chunks contain necessity anchor', async () => {
+    const provider = createMockProvider();
+    await generateChunkedDraft(TEST_INPUT, provider);
+    for (let i = 0; i < 4; i++) {
+      expect(provider.capturedPrompts[i]).toContain('Zéro filler');
+    }
+  });
+
+  it('personaOverride replaces PF_PERSONA_V2', async () => {
+    const provider = createMockProvider();
+    const input: ChunkedGenerationInput = {
+      ...TEST_INPUT,
+      personaOverride: 'PERSONA CUSTOM TEST',
+    };
+    await generateChunkedDraft(input, provider);
+    expect(provider.capturedPrompts[0]).toContain('PERSONA CUSTOM TEST');
+    expect(provider.capturedPrompts[0]).not.toContain('nécessité et du contraste');
+  });
+
+  it('rappelOverride replaces V2 rappels', async () => {
+    const provider = createMockProvider();
+    const input: ChunkedGenerationInput = {
+      ...TEST_INPUT,
+      rappelOverride: 'RAPPEL CUSTOM TEST',
+    };
+    await generateChunkedDraft(input, provider);
+    for (let i = 0; i < 4; i++) {
+      expect(provider.capturedPrompts[i]).toContain('RAPPEL CUSTOM TEST');
+      expect(provider.capturedPrompts[i]).not.toContain('ANTI-RECYCLAGE');
+    }
   });
 });
 
@@ -151,13 +214,19 @@ describe('Chunk prompt structure', () => {
     expect(provider.capturedPrompts).toHaveLength(4);
   });
 
-  it('chunk 1 contains PF_PERSONA + RAPPEL_CHUNKS12 + sceneBrief', async () => {
+  it('chunk 1 contains PF_PERSONA_V2 + RAPPEL_CHUNKS12_V2 + sceneBrief + DEAD_METAPHOR', async () => {
     const provider = createMockProvider();
     await generateChunkedDraft(TEST_INPUT, provider);
     const p = provider.capturedPrompts[0];
-    expect(p).toContain('Flaubert');
-    expect(p).toContain('Proust');
-    expect(p).toContain('SOUFFLE DE FLAUBERT');
+    // P4C: PF_PERSONA_V2 (nécessité + contraste)
+    expect(p).toContain('nécessité');
+    expect(p).toContain('contraste');
+    // P4D: RAPPEL V2
+    expect(p).toContain('NÉCESSITÉ');
+    // P4B: Dead metaphor blacklist
+    expect(p).toContain('MÉTAPHORES INTERDITES');
+    // P4A: Necessity anchor
+    expect(p).toContain('Zéro filler');
     expect(p).toContain(TEST_INPUT.sceneBrief);
   });
 
@@ -178,22 +247,30 @@ describe('Chunk prompt structure', () => {
     expect(provider.capturedPrompts[2]).toContain('200 derniers mots');
   });
 
-  it('chunks 1-2 use RAPPEL_CHUNKS12', async () => {
+  it('chunks 1-2 use RAPPEL_CHUNKS12_V2 (P4D)', async () => {
     const provider = createMockProvider();
     await generateChunkedDraft(TEST_INPUT, provider);
-    expect(provider.capturedPrompts[0]).toContain('SOUFFLE DE FLAUBERT');
-    expect(provider.capturedPrompts[1]).toContain('SOUFFLE DE FLAUBERT');
+    // V2 rappels: NÉCESSITÉ + CONTRASTE + ANCRAGE SENSORIEL
+    expect(provider.capturedPrompts[0]).toContain('NÉCESSITÉ');
+    expect(provider.capturedPrompts[1]).toContain('NÉCESSITÉ');
+    expect(provider.capturedPrompts[0]).toContain('ANCRAGE SENSORIEL');
+    expect(provider.capturedPrompts[1]).toContain('ANCRAGE SENSORIEL');
+    // Should NOT contain V1 rappels
     expect(provider.capturedPrompts[0]).not.toContain('CORRECTEUR DE RYTHME EXTERNE');
     expect(provider.capturedPrompts[1]).not.toContain('CORRECTEUR DE RYTHME EXTERNE');
   });
 
-  it('chunks 3-4 use RAPPEL_CHUNKS34_V4', async () => {
+  it('chunks 3-4 use RAPPEL_CHUNKS34_V2 (P4D)', async () => {
     const provider = createMockProvider();
     await generateChunkedDraft(TEST_INPUT, provider);
-    expect(provider.capturedPrompts[2]).toContain('CORRECTEUR DE RYTHME EXTERNE');
-    expect(provider.capturedPrompts[3]).toContain('CORRECTEUR DE RYTHME EXTERNE');
-    expect(provider.capturedPrompts[2]).toContain('ANCRE DE TENUE');
-    expect(provider.capturedPrompts[3]).toContain('ANCRE DE TENUE');
+    // V2 rappels: ANTI-RECYCLAGE + COHÉRENCE
+    expect(provider.capturedPrompts[2]).toContain('ANTI-RECYCLAGE');
+    expect(provider.capturedPrompts[3]).toContain('ANTI-RECYCLAGE');
+    expect(provider.capturedPrompts[2]).toContain('COHÉRENCE');
+    expect(provider.capturedPrompts[3]).toContain('COHÉRENCE');
+    // Should NOT contain V1 rappels
+    expect(provider.capturedPrompts[2]).not.toContain('ANCRE DE TENUE');
+    expect(provider.capturedPrompts[3]).not.toContain('ANCRE DE TENUE');
   });
 
   it('chunk 4 contains TERMINE', async () => {

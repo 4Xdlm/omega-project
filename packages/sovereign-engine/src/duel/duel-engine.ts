@@ -39,6 +39,17 @@ import { getDuelK2Persona, getDuelK2Rappel } from './draft-modes.js';
 const CV_GATE_REJECT = process.env.OMEGA_HYBRID_MODE === '1' ? 2.50 : 1.05;
 const CV_GATE_MAX_RETRIES = 2;
 
+// ── R7: Duel N=8 (Best-of-N selection) ──────────────────────────────────────
+// OMEGA_DUEL_RUNS: Number of independent runs per duel mode.
+//   '1' (default) = N=4 classic (1 loop_refined + 3 modes × 1 run)
+//   '2' = N=7 (1 loop_refined + 3 modes × 2 runs with different seeds)
+// MECHANISM: More candidates = higher probability that the best achievable
+// prose for this scene appears in the pool. The hostile selector (composite
+// minus min_axis penalty) picks the most balanced candidate.
+// COST: Each additional run adds 4 K2 API calls (chunk generation) + 1 V3
+// scoring pass. N=2 doubles duel generation cost but NOT post-processing.
+const DUEL_RUNS = Math.max(1, Math.min(3, parseInt(process.env.OMEGA_DUEL_RUNS || '1', 10)));
+
 export function computeCVSent(prose: string): number {
   const sentences = prose.split(/[.!?]+/).map(s => s.trim()).filter(s => s.length > 0);
   const wordCounts = sentences.map(s => s.split(/\s+/).filter(w => w.length > 0).length);
@@ -88,78 +99,97 @@ export async function runDuel(
   // P3A: Pre-compute sceneBrief for K2 duel (same source as engine.ts loop_refined)
   const sceneBrief = useK2ForDuel ? forgePacketToSceneBrief(packet) : '';
 
-  for (let i = 0; i < modes.length; i++) {
-    const mode = modes[i];
-    let bestCandidate: { prose: string; cv: number } | null = null;
+  // R7: Outer loop — DUEL_RUNS independent runs per mode (seed diversity).
+  // N=1 (default): 3 candidates from modes (classic behavior).
+  // N=2: 6 candidates from modes (2 runs × 3 modes, different seeds).
+  // N=3: 9 candidates from modes (3 runs × 3 modes).
+  // Total candidates = DUEL_RUNS × modes.length + (existingProse ? 1 : 0)
+  if (DUEL_RUNS > 1) {
+    console.log(`[DUEL-R7] Best-of-N active: ${DUEL_RUNS} runs × ${modes.length} modes = ${DUEL_RUNS * modes.length} mode candidates`);
+  }
 
-    for (let attempt = 0; attempt <= CV_GATE_MAX_RETRIES; attempt++) {
-      const seed = attempt === 0
-        ? `${packet.seeds.llm_seed}_${mode}`
-        : `${packet.seeds.llm_seed}_${mode}_retry${attempt}`;
+  for (let runIdx = 0; runIdx < DUEL_RUNS; runIdx++) {
+    for (let i = 0; i < modes.length; i++) {
+      const mode = modes[i];
+      let bestCandidate: { prose: string; cv: number } | null = null;
 
-      let prose: string;
+      for (let attempt = 0; attempt <= CV_GATE_MAX_RETRIES; attempt++) {
+        // R7: Seed includes runIdx for diversity between runs of same mode.
+        // run 0 = original seeds (backward compatible with N=1).
+        const baseSeed = runIdx === 0
+          ? `${packet.seeds.llm_seed}_${mode}`
+          : `${packet.seeds.llm_seed}_${mode}_run${runIdx}`;
+        const seed = attempt === 0
+          ? baseSeed
+          : `${baseSeed}_retry${attempt}`;
 
-      if (useK2ForDuel) {
-        // P3A: K2 chunked generation with mode-specific persona override
-        const personaOverride = getDuelK2Persona(mode);
-        const rappelOverride = getDuelK2Rappel(mode);
-        const chunkedResult = await generateChunkedDraft(
-          {
-            sceneBrief,
-            signatureWords: packet.style_genome.lexicon.signature_words,
-            language: packet.language as 'fr' | 'en',
-            seed,
-            personaOverride,
-            rappelOverride,
-          },
-          provider,
-        );
-        prose = chunkedResult.prose;
-        if (attempt === 0) {
-          console.log(`[DUEL-K2] mode=${mode}: ${chunkedResult.total_words}w en ${chunkedResult.api_calls} chunks (${chunkedResult.words_per_chunk.join(', ')}w)`);
+        let prose: string;
+
+        if (useK2ForDuel) {
+          // P3A: K2 chunked generation with mode-specific persona override
+          const personaOverride = getDuelK2Persona(mode);
+          const rappelOverride = getDuelK2Rappel(mode);
+          const chunkedResult = await generateChunkedDraft(
+            {
+              sceneBrief,
+              signatureWords: packet.style_genome.lexicon.signature_words,
+              language: packet.language as 'fr' | 'en',
+              seed,
+              personaOverride,
+              rappelOverride,
+            },
+            provider,
+          );
+          prose = chunkedResult.prose;
+          if (attempt === 0) {
+            const runTag = DUEL_RUNS > 1 ? ` run=${runIdx}` : '';
+            console.log(`[DUEL-K2] mode=${mode}${runTag}: ${chunkedResult.total_words}w en ${chunkedResult.api_calls} chunks (${chunkedResult.words_per_chunk.join(', ')}w)`);
+          }
+        } else {
+          // Fallback: single-shot with P2 word count directive
+          const modeInstruction = getDraftModeInstruction(mode);
+          const enrichedPrompt = `${prompt}\n\n=== MODE D'ÉCRITURE ===\n${modeInstruction}${wordCountDirective}`;
+          prose = await provider.generateDraft(enrichedPrompt, mode, seed);
         }
-      } else {
-        // Fallback: single-shot with P2 word count directive
-        const modeInstruction = getDraftModeInstruction(mode);
-        const enrichedPrompt = `${prompt}\n\n=== MODE D'ÉCRITURE ===\n${modeInstruction}${wordCountDirective}`;
-        prose = await provider.generateDraft(enrichedPrompt, mode, seed);
-      }
 
-      const cv = computeCVSent(prose);
+        const cv = computeCVSent(prose);
 
-      if (cv <= CV_GATE_REJECT) {
-        console.log(`[DUEL] CV_GATE: mode=${mode} CV=${cv.toFixed(2)} → PASS`);
-        bestCandidate = { prose, cv };
-        break;
-      } else {
-        console.log(`[DUEL] CV_GATE: mode=${mode} CV=${cv.toFixed(2)} → REJECT (retry ${attempt + 1}/${CV_GATE_MAX_RETRIES})`);
-        if (!bestCandidate || cv < bestCandidate.cv) {
+        if (cv <= CV_GATE_REJECT) {
+          console.log(`[DUEL] CV_GATE: mode=${mode}${DUEL_RUNS > 1 ? ` run=${runIdx}` : ''} CV=${cv.toFixed(2)} → PASS`);
           bestCandidate = { prose, cv };
+          break;
+        } else {
+          console.log(`[DUEL] CV_GATE: mode=${mode}${DUEL_RUNS > 1 ? ` run=${runIdx}` : ''} CV=${cv.toFixed(2)} → REJECT (retry ${attempt + 1}/${CV_GATE_MAX_RETRIES})`);
+          if (!bestCandidate || cv < bestCandidate.cv) {
+            bestCandidate = { prose, cv };
+          }
         }
       }
-    }
 
-    const finalProse = bestCandidate!.prose;
-    if (bestCandidate!.cv > CV_GATE_REJECT) {
-      console.log(`[DUEL] CV_GATE: mode=${mode} FAIL-OPEN CV=${bestCandidate!.cv.toFixed(2)} (best of ${CV_GATE_MAX_RETRIES + 1} attempts)`);
-    }
+      const finalProse = bestCandidate!.prose;
+      if (bestCandidate!.cv > CV_GATE_REJECT) {
+        console.log(`[DUEL] CV_GATE: mode=${mode}${DUEL_RUNS > 1 ? ` run=${runIdx}` : ''} FAIL-OPEN CV=${bestCandidate!.cv.toFixed(2)} (best of ${CV_GATE_MAX_RETRIES + 1} attempts)`);
+      }
 
-    const score = await judgeAesthetic(packet, finalProse, provider);
-    drafts.push({
-      draft_id: `DRAFT_${mode}_${i}`,
-      mode,
-      prose: finalProse,
-      score,
-    });
-
-    // Telemetry: DUEL_CANDIDATE snapshot
-    try {
-      const { telemetry } = await import('../telemetry/pipeline-telemetry.js');
-      telemetry.recordFromProse(`DUEL_${mode}`, finalProse, undefined, {
-        mode, cv: bestCandidate!.cv, cv_gate_pass: bestCandidate!.cv <= CV_GATE_REJECT,
-        k2_duel: useK2ForDuel,
+      // R7: draft_id includes runIdx for traceability
+      const draftSuffix = DUEL_RUNS > 1 ? `${mode}_run${runIdx}_${i}` : `${mode}_${i}`;
+      const score = await judgeAesthetic(packet, finalProse, provider);
+      drafts.push({
+        draft_id: `DRAFT_${draftSuffix}`,
+        mode,
+        prose: finalProse,
+        score,
       });
-    } catch { /* telemetry is optional */ }
+
+      // Telemetry: DUEL_CANDIDATE snapshot
+      try {
+        const { telemetry } = await import('../telemetry/pipeline-telemetry.js');
+        telemetry.recordFromProse(`DUEL_${mode}${DUEL_RUNS > 1 ? `_run${runIdx}` : ''}`, finalProse, undefined, {
+          mode, run: runIdx, cv: bestCandidate!.cv, cv_gate_pass: bestCandidate!.cv <= CV_GATE_REJECT,
+          k2_duel: useK2ForDuel,
+        });
+      } catch { /* telemetry is optional */ }
+    }
   }
 
   // ★ V4.3 Sprint 1: Hostile selection — min_axis priority + composite tiebreak

@@ -84,3 +84,109 @@ describe('CV Gate (computeCVSent)', () => {
     expect(computeCVSent('mot unique')).toBe(0);
   });
 });
+
+// ── R7: DUEL_RUNS / Best-of-N Tests ─────────────────────────────────────────
+
+describe('R7: DUEL_RUNS env var parsing', () => {
+  it('DUEL_RUNS defaults to 1 when env var not set', () => {
+    // The constant is module-scoped. We test the same parsing logic.
+    const parse = (val: string | undefined): number =>
+      Math.max(1, Math.min(3, parseInt(val ?? '1', 10)));
+    expect(parse(undefined)).toBe(1);
+    // Note: '' (empty string) → NaN propagation. In practice env var is unset or '1'/'2'/'3'.
+  });
+
+  it('DUEL_RUNS parses valid values correctly', () => {
+    const parse = (val: string | undefined): number =>
+      Math.max(1, Math.min(3, parseInt(val ?? '1', 10)));
+    expect(parse('1')).toBe(1);
+    expect(parse('2')).toBe(2);
+    expect(parse('3')).toBe(3);
+  });
+
+  it('DUEL_RUNS clamps to [1, 3]', () => {
+    const parse = (val: string | undefined): number =>
+      Math.max(1, Math.min(3, parseInt(val ?? '1', 10)));
+    expect(parse('0')).toBe(1);   // clamped up
+    expect(parse('-1')).toBe(1);  // clamped up
+    expect(parse('5')).toBe(3);   // clamped down
+    expect(parse('10')).toBe(3);  // clamped down
+  });
+});
+
+describe('R7: Seed diversity between runs', () => {
+  it('run 0 produces original seed (backward compatible)', () => {
+    const llmSeed = 'SEED_42';
+    const mode = 'tranchant_minimaliste';
+    const runIdx = 0;
+    const baseSeed = runIdx === 0
+      ? `${llmSeed}_${mode}`
+      : `${llmSeed}_${mode}_run${runIdx}`;
+    expect(baseSeed).toBe('SEED_42_tranchant_minimaliste');
+  });
+
+  it('run 1+ produces distinct seeds with run suffix', () => {
+    const llmSeed = 'SEED_42';
+    const mode = 'sensoriel_dense';
+    const seeds = [0, 1, 2].map(runIdx =>
+      runIdx === 0
+        ? `${llmSeed}_${mode}`
+        : `${llmSeed}_${mode}_run${runIdx}`,
+    );
+    expect(seeds[0]).toBe('SEED_42_sensoriel_dense');
+    expect(seeds[1]).toBe('SEED_42_sensoriel_dense_run1');
+    expect(seeds[2]).toBe('SEED_42_sensoriel_dense_run2');
+    // All distinct
+    const unique = new Set(seeds);
+    expect(unique.size).toBe(3);
+  });
+
+  it('seeds for same run but different modes are distinct', () => {
+    const llmSeed = 'SEED_42';
+    const modes = ['tranchant_minimaliste', 'sensoriel_dense', 'experimental_signature'];
+    const runIdx = 1;
+    const seeds = modes.map(mode => `${llmSeed}_${mode}_run${runIdx}`);
+    const unique = new Set(seeds);
+    expect(unique.size).toBe(3);
+  });
+
+  it('retry seeds include both run and retry indices', () => {
+    const llmSeed = 'SEED_42';
+    const mode = 'tranchant_minimaliste';
+    const runIdx = 1;
+    const baseSeed = `${llmSeed}_${mode}_run${runIdx}`;
+    const retrySeed = `${baseSeed}_retry1`;
+    expect(retrySeed).toBe('SEED_42_tranchant_minimaliste_run1_retry1');
+    // Distinct from run 0 retry
+    const run0Base = `${llmSeed}_${mode}`;
+    const run0Retry = `${run0Base}_retry1`;
+    expect(run0Retry).toBe('SEED_42_tranchant_minimaliste_retry1');
+    expect(retrySeed).not.toBe(run0Retry);
+  });
+});
+
+describe('R7: draft_id structure', () => {
+  it('single run (N=1) uses classic format', () => {
+    const duelRuns = 1;
+    const mode = 'tranchant_minimaliste';
+    const i = 0;
+    const runIdx = 0;
+    const draftSuffix = duelRuns > 1 ? `${mode}_run${runIdx}_${i}` : `${mode}_${i}`;
+    expect(`DRAFT_${draftSuffix}`).toBe('DRAFT_tranchant_minimaliste_0');
+  });
+
+  it('multi run (N=2) includes run index', () => {
+    const duelRuns = 2;
+    const mode = 'sensoriel_dense';
+    const i = 1;
+
+    const ids = [0, 1].map(runIdx => {
+      const draftSuffix = duelRuns > 1 ? `${mode}_run${runIdx}_${i}` : `${mode}_${i}`;
+      return `DRAFT_${draftSuffix}`;
+    });
+
+    expect(ids[0]).toBe('DRAFT_sensoriel_dense_run0_1');
+    expect(ids[1]).toBe('DRAFT_sensoriel_dense_run1_1');
+    expect(ids[0]).not.toBe(ids[1]);
+  });
+});

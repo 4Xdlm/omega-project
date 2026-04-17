@@ -2,8 +2,44 @@
 
 **Opened**: 2026-04-17
 **Severity**: HIGH (P1) — promu 2026-04-17 suite ROLLBACK B+ V2-C (G1 INTERIOR FAIL -2.752)
-**Status**: OPEN — chemin critique, investigation ablation obligatoire avant tout nouveau variant chunker
-**Owner**: Francky (investigation ablation directive_silence — plan section 6)
+**Status**: **CLOSED_CONFIRMED** (2026-04-17, 21:47:49 CEST) — bench ablation factoriel 2×2 (24 runs qwen3:32b) a isolé la cause : directive adaptive cause Δ(A→B)=-2.027 sur plan V1 static inchangé, seuil ≥1.0 largement dépassé. Scope effectif INTERIOR uniquement (-3.903) ; CATHEDRAL non concernée (-0.150) → cause distincte, ouverture NCR_CATHEDRAL_BASELINE.
+**Owner**: Francky (redesign directives — action ouverte)
+
+## Clôture (2026-04-17)
+
+**Verdict** : `DIRECTIVE_BLOAT_CONFIRMED` (INTERIOR scope).
+
+**Evidence** (SHA256 scellés) :
+- Bench JSON : `packages/sovereign-engine/bench-ablation-directive-results.json`
+  `F33209CD3C9A8237BDC7C14316FE26F3E7153D6D1FC1CB92CD0424004A561555`
+- Report : `packages/sovereign-engine/bench-ablation-directive-results-report.md`
+  `688542027EE3D1901FD6803E152D2CD73FE72347CC5F7F512C55C1FEAF9E9A81`
+- Verdict final : `outputs/DIRECTIVE_ABLATION_VERDICT_v1.md`
+- Script bench : `packages/sovereign-engine/scripts/bench-ablation-directive.ts`
+  `06E3C4E0229242D25A08484CBF2B452EB1CA8351649BBEB93DD76A6FB23404F7`
+- Code modifié : `packages/sovereign-engine/src/generation/adaptive-chunker.ts`
+  `DBF6A4B2B6519F57E5310B2BC3011F7FE2DEC9292BEEC90B53733DDF032C438D`
+
+**Mesures** (24 runs, 4 variants × 2 scenes × 3 seeds) :
+- A (V1 + baseline) μ=3.298 — **contrôle gagnant**
+- B (V1 + adaptive) μ=1.271 → Δ(A→B)=-2.027 (directive seule)
+- C (V2-B.2 + baseline) μ=2.574 → Δ(A→C)=-0.724 (word_target seul)
+- D (V2-B.2 + adaptive) μ=1.332 → Δ(B→D)=+0.061 (saturation)
+
+**Per-scene Δ(A→B)** :
+- INTERIOR : **-3.903** (catastrophique, 3× le seuil 1.0)
+- CATHEDRAL : **-0.150** (sous seuil REJETÉ 0.5 — neutre)
+
+**Conclusion causale** :
+1. Directive adaptive silence/introspective toxique en INTERIOR (cause primaire, ~73% régression).
+2. `word_target` V2-B.2 contribue ~27% mais saturé dès que directive ON.
+3. CATHEDRAL baseline μ=0.503 vs INTERIOR μ=6.093 → **cause distincte** non couverte par cette ablation → ouverture NCR_CATHEDRAL_BASELINE (P1).
+
+**Actions post-clôture** :
+1. Redesigner `REGISTER_TABLE['litteraire']['silence']` OU conditionner `pickPacingDirective` par archétype (bloquer silence/introspective quand `archetype==='INTERIOR'`).
+2. Bench ablation étendue (4 archétypes × 4 modes directive) AVANT réactivation V2-B.2/V2-C.
+3. Ouvrir NCR_CATHEDRAL_BASELINE (P1) — biais scoring scène-dépendant suspecté.
+4. Production reste **V1 static + directives baseline** (`OMEGA_ADAPTIVE_CHUNKING=0` ; `buildStaticPlan` émet `pacing_state='baseline'` partout donc l'env `OMEGA_DIRECTIVE_MODE` est inopérant en prod → pas de modification runtime nécessaire).
 
 ## Promotion P1 (2026-04-17)
 

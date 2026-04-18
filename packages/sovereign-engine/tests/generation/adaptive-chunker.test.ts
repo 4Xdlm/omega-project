@@ -744,6 +744,162 @@ describe('pickPacingDirective() — mode parameter (NCR_DIRECTIVE_BLOAT)', () =>
 });
 
 // -----------------------------------------------------------------------------
+// pickPacingDirective — archetype gating (R-D.1 ADOPT_A, 2026-04-18)
+// -----------------------------------------------------------------------------
+
+describe('pickPacingDirective() — archetype gating (R-D.1 ADOPT_A)', () => {
+  let snapshot: Record<string, string | undefined>;
+
+  beforeEach(() => {
+    snapshot = saveEnv();
+    for (const k of ENV_KEYS) delete process.env[k];
+  });
+  afterEach(() => {
+    restoreEnv(snapshot);
+  });
+
+  it("INTERIOR × 'silence' → directive baseline (gating actif)", () => {
+    const baseline = pickPacingDirective('litteraire', 'baseline', 'adaptive');
+    const gated = pickPacingDirective('litteraire', 'silence', 'adaptive', 'INTERIOR');
+    expect(gated).toBe(baseline);
+  });
+
+  it("INTERIOR × 'introspective' → directive baseline (gating actif)", () => {
+    const baseline = pickPacingDirective('litteraire', 'baseline', 'adaptive');
+    const gated = pickPacingDirective('litteraire', 'introspective', 'adaptive', 'INTERIOR');
+    expect(gated).toBe(baseline);
+  });
+
+  it("INTERIOR × 'action' → directive adaptive (pas de gating, état non ciblé)", () => {
+    const baseline = pickPacingDirective('litteraire', 'baseline', 'adaptive');
+    const action_gated = pickPacingDirective('litteraire', 'action', 'adaptive', 'INTERIOR');
+    const action_bare = pickPacingDirective('litteraire', 'action', 'adaptive');
+    expect(action_gated).not.toBe(baseline);
+    expect(action_gated).toBe(action_bare);
+  });
+
+  it("INTERIOR × 'pivot' → directive adaptive (pivot non ciblé par le gating)", () => {
+    const baseline = pickPacingDirective('litteraire', 'baseline', 'adaptive');
+    const pivot_gated = pickPacingDirective('litteraire', 'pivot', 'adaptive', 'INTERIOR');
+    expect(pivot_gated).not.toBe(baseline);
+  });
+
+  it("CATHEDRAL × 'silence' → directive adaptive (gating ne s'applique PAS hors INTERIOR)", () => {
+    // NCR_CATHEDRAL_BASELINE reste ouvert, traitement séparé du gating.
+    const silence_bare = pickPacingDirective('litteraire', 'silence', 'adaptive');
+    const silence_cathedral = pickPacingDirective(
+      'litteraire',
+      'silence',
+      'adaptive',
+      'CATHEDRAL',
+    );
+    expect(silence_cathedral).toBe(silence_bare);
+  });
+
+  it("ACTION × 'silence' → directive adaptive (gating INTERIOR-only)", () => {
+    const silence_bare = pickPacingDirective('litteraire', 'silence', 'adaptive');
+    const silence_action = pickPacingDirective(
+      'litteraire',
+      'silence',
+      'adaptive',
+      'ACTION',
+    );
+    expect(silence_action).toBe(silence_bare);
+  });
+
+  it("SENSORY × 'introspective' → directive adaptive (gating INTERIOR-only)", () => {
+    const intro_bare = pickPacingDirective('litteraire', 'introspective', 'adaptive');
+    const intro_sensory = pickPacingDirective(
+      'litteraire',
+      'introspective',
+      'adaptive',
+      'SENSORY',
+    );
+    expect(intro_sensory).toBe(intro_bare);
+  });
+
+  it('archetype omis (undefined) → rétrocompat, pas de gating', () => {
+    const silence_bare = pickPacingDirective('litteraire', 'silence', 'adaptive');
+    const silence_noarch = pickPacingDirective(
+      'litteraire',
+      'silence',
+      'adaptive',
+      undefined,
+    );
+    expect(silence_noarch).toBe(silence_bare);
+  });
+
+  it("mode='baseline' ∧ archetype=INTERIOR → baseline (mode prime sur gating)", () => {
+    // Mode baseline court-circuite tout, gating inclus (ordre d'évaluation).
+    const baseline = pickPacingDirective('litteraire', 'baseline', 'adaptive');
+    const result = pickPacingDirective('litteraire', 'action', 'baseline', 'INTERIOR');
+    expect(result).toBe(baseline);
+  });
+
+  it('gating cohérent sur les 4 registres (INTERIOR × silence)', () => {
+    const registers: readonly PacingRegister[] = ['litteraire', 'technique', 'argot', 'commun'];
+    for (const r of registers) {
+      const baseline = pickPacingDirective(r, 'baseline', 'adaptive');
+      const gated = pickPacingDirective(r, 'silence', 'adaptive', 'INTERIOR');
+      expect(gated).toBe(baseline);
+    }
+  });
+});
+
+// -----------------------------------------------------------------------------
+// planAdaptiveChunkingV2B2 — gating archétypal en sortie (intégration)
+// -----------------------------------------------------------------------------
+
+describe('planAdaptiveChunkingV2B2() — archetype gating integration (R-D.1)', () => {
+  it('scène INTERIOR → chunks silence/introspective portent la directive baseline', () => {
+    // Scène INTERIOR : a_mean ≤ 0.35 && silence_total ≥ 0.30 (cf. detectArchetype R2).
+    const contract = makeContract({
+      arousals: [0.2, 0.25, 0.3, 0.25],
+      silence_zones: [
+        { start_pct: 0.0, end_pct: 0.25 },
+        { start_pct: 0.5, end_pct: 0.75 },
+      ],
+    });
+    // Sanity : la scène est bien détectée INTERIOR.
+    expect(detectArchetype(contract)).toBe('INTERIOR');
+
+    const plans = planAdaptiveChunkingV2B2(contract, BASELINE_CONFIG);
+    const baseline_dir = pickPacingDirective('litteraire', 'baseline', 'adaptive');
+
+    // Pour tous les chunks dont l'état est silence ou introspective,
+    // la directive DOIT être la baseline (gating actif).
+    for (const p of plans) {
+      if (p.pacing_state === 'silence' || p.pacing_state === 'introspective') {
+        expect(p.pacing_directive).toBe(baseline_dir);
+      }
+    }
+  });
+
+  it('scène CATHEDRAL → chunks silence gardent leur directive adaptive (gating INTERIOR-only)', () => {
+    // Scène CATHEDRAL : silence_total ≥ 0.25 && 0.35 < a_mean < 0.60.
+    const contract = makeContract({
+      arousals: [0.45, 0.5, 0.45, 0.5],
+      silence_zones: [{ start_pct: 0.25, end_pct: 0.75 }],
+    });
+    expect(detectArchetype(contract)).toBe('CATHEDRAL');
+
+    const plans = planAdaptiveChunkingV2B2(contract, BASELINE_CONFIG);
+    const baseline_dir = pickPacingDirective('litteraire', 'baseline', 'adaptive');
+    const silence_dir = pickPacingDirective('litteraire', 'silence', 'adaptive');
+
+    // Au moins un chunk silence (la scène a un seuil silence=0.5 avec overlap massif).
+    const silence_chunks = plans.filter((p) => p.pacing_state === 'silence');
+    if (silence_chunks.length > 0) {
+      // CATHEDRAL n'est PAS gaté : les chunks silence gardent la directive adaptive.
+      for (const p of silence_chunks) {
+        expect(p.pacing_directive).toBe(silence_dir);
+        expect(p.pacing_directive).not.toBe(baseline_dir);
+      }
+    }
+  });
+});
+
+// -----------------------------------------------------------------------------
 // planAdaptiveChunkingV2B2 — N=4 hard constraint (1 quartile = 1 chunk)
 // -----------------------------------------------------------------------------
 

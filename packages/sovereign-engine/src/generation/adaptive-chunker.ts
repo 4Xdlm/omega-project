@@ -270,18 +270,46 @@ const REGISTER_TABLE: Readonly<Record<PacingRegister, Readonly<Record<PacingStat
  * Le mode est soit passé explicitement via `mode`, soit lu depuis
  * `OMEGA_DIRECTIVE_MODE` (défaut = 'adaptive').
  *
+ * **Gating archétypal R-D.1 (ADOPT_A — bench 2026-04-18)** : si
+ * `archetype === 'INTERIOR'` ET `state ∈ {silence, introspective}`,
+ * la directive baseline est retournée à la place de la directive adaptive
+ * spécifique. Justification empirique : le bench R-D.1 (48 runs, 4
+ * archétypes × 4 modes × 3 seeds) a démontré que les directives `silence`
+ * et `introspective` du registre litteraire dégradent INTERIOR de
+ * ΔI = +5.379 quand court-circuitées vers baseline (M3_gated_A : μ = 7.084
+ * vs M2_adaptive : μ = 1.705), avec non-régression vérifiée sur
+ * ACTION/SENSORY/CATHEDRAL (Δ = -0.199 / +0.446 / +1.174). Le gating ne
+ * s'applique pas aux autres archétypes (CATHEDRAL × silence reste
+ * directive registre — voir NCR_CATHEDRAL_BASELINE pour traitement séparé).
+ *
+ * Si `archetype` est omis (rétrocompat), aucun gating n'est appliqué.
+ *
  * @param register Registre de pacing (litteraire/technique/argot/commun).
  * @param state État demandé (action/introspective/silence/pivot/baseline).
  * @param mode Mode de résolution (optionnel ; fallback sur env var).
+ * @param archetype Archétype émotionnel détecté (optionnel ; active le
+ *   gating R-D.1 INTERIOR × {silence, introspective} → baseline).
  * @returns La directive textuelle correspondante.
  */
 export function pickPacingDirective(
   register: PacingRegister,
   state: PacingState,
   mode: DirectiveMode = getDirectiveMode(),
+  archetype?: Archetype,
 ): string {
-  const effective_state: PacingState = mode === 'baseline' ? 'baseline' : state;
-  return REGISTER_TABLE[register][effective_state];
+  // Mode baseline : court-circuit total (NCR_DIRECTIVE_BLOAT ablation).
+  if (mode === 'baseline') {
+    return REGISTER_TABLE[register].baseline;
+  }
+  // Gating archétypal R-D.1 ADOPT_A (2026-04-18) :
+  // INTERIOR × {silence, introspective} → baseline du registre.
+  if (
+    archetype === 'INTERIOR' &&
+    (state === 'silence' || state === 'introspective')
+  ) {
+    return REGISTER_TABLE[register].baseline;
+  }
+  return REGISTER_TABLE[register][state];
 }
 
 // ---------------------------------------------------------------------------
@@ -404,6 +432,11 @@ export function planAdaptiveChunking(
   const quartiles = emotion_contract.curve_quartiles;
   const silence_zones = emotion_contract.tension.silence_zones;
 
+  // 0. Archétype détecté une seule fois puis propagé aux appels directive
+  //    (gating R-D.1 ADOPT_A : INTERIOR × {silence, introspective} → baseline).
+  //    CALC pur, déterministe, zéro LLM (cf. detectArchetype).
+  const archetype = detectArchetype(emotion_contract);
+
   // 1. Budget total modulé
   const w_total = computeTotalBudget(quartiles, config);
   const q_weights = computeQuartileWeights(quartiles, config);
@@ -476,6 +509,8 @@ export function planAdaptiveChunking(
           pacing_directive: pickPacingDirective(
             config.register,
             derivePacingState(arousal, silence_overlap, false, config),
+            undefined,
+            archetype,
           ),
           arousal,
           is_pivot: false,
@@ -490,7 +525,12 @@ export function planAdaptiveChunking(
         position_pct: pivot_in_quartile.position_pct,
         word_target: pivot_words,
         pacing_state: 'pivot',
-        pacing_directive: pickPacingDirective(config.register, 'pivot'),
+        pacing_directive: pickPacingDirective(
+          config.register,
+          'pivot',
+          undefined,
+          archetype,
+        ),
         arousal,
         is_pivot: true,
         quartile: q.q,
@@ -509,6 +549,8 @@ export function planAdaptiveChunking(
           pacing_directive: pickPacingDirective(
             config.register,
             derivePacingState(arousal, silence_overlap, false, config),
+            undefined,
+            archetype,
           ),
           arousal,
           is_pivot: false,
@@ -523,7 +565,12 @@ export function planAdaptiveChunking(
       const n = Math.max(1, Math.ceil(w_q / l_target));
       const chunk_words = Math.round(w_q / n);
       const state = derivePacingState(arousal, silence_overlap, false, config);
-      const directive = pickPacingDirective(config.register, state);
+      const directive = pickPacingDirective(
+        config.register,
+        state,
+        undefined,
+        archetype,
+      );
 
       for (let k = 0; k < n; k++) {
         plans.push({
@@ -595,6 +642,11 @@ export function planAdaptiveChunkingV2B2(
 ): readonly ChunkPlan[] {
   const quartiles = emotion_contract.curve_quartiles;
   const silence_zones = emotion_contract.tension.silence_zones;
+
+  // 0. Archétype détecté une seule fois puis propagé aux appels directive
+  //    (gating R-D.1 ADOPT_A : INTERIOR × {silence, introspective} → baseline).
+  //    CALC pur, déterministe, zéro LLM (cf. detectArchetype).
+  const archetype = detectArchetype(emotion_contract);
 
   // 1. Budget total modulé par δ
   const w_total = computeTotalBudget(quartiles, config);
@@ -680,7 +732,12 @@ export function planAdaptiveChunkingV2B2(
     position_pct: r.position_pct,
     word_target: clamp(Math.round(r.raw_target * scale), config.l_min, config.l_max),
     pacing_state: r.state,
-    pacing_directive: pickPacingDirective(config.register, r.state),
+    pacing_directive: pickPacingDirective(
+      config.register,
+      r.state,
+      undefined,
+      archetype,
+    ),
     arousal: r.arousal,
     is_pivot: r.is_pivot,
     quartile: r.quartile,

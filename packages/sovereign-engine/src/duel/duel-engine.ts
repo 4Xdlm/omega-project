@@ -76,7 +76,17 @@ export async function runDuel(
   existingProse?: string,
   symbolMap?: SymbolMap,
 ): Promise<DuelResult> {
-  const modes = SOVEREIGN_CONFIG.DRAFT_MODES;
+  // P8-bis: Mode quarantine — exclude unstable modes via env var.
+  // OMEGA_DUEL_EXCLUDE_MODES=experimental_signature (comma-separated)
+  // Does NOT modify SOVEREIGN_CONFIG (sealed). Filters at runtime.
+  const excludeRaw = process.env.OMEGA_DUEL_EXCLUDE_MODES ?? '';
+  const excludeSet = new Set(excludeRaw.split(',').map(s => s.trim()).filter(Boolean));
+  const modes = excludeSet.size > 0
+    ? SOVEREIGN_CONFIG.DRAFT_MODES.filter(m => !excludeSet.has(m))
+    : SOVEREIGN_CONFIG.DRAFT_MODES;
+  if (excludeSet.size > 0) {
+    console.log(`[DUEL] Mode quarantine active: excluded=[${[...excludeSet].join(',')}] → ${modes.length} modes active`);
+  }
   const drafts: Draft[] = [];
 
   // Include existing loop prose as first candidate (preserves refinement work)

@@ -128,12 +128,18 @@ describe('ValidationRunner — Phase VALIDATION', () => {
 
   // T08: proofpack HASHES.sha256 matches disk [INV-VAL-05]
   it('T08: sealed pipeline source unchanged [INV-VAL-05]', () => {
-    const hashesPath = resolve(__dirname, '../../proofpack/phase-s-sealed/HASHES.sha256');
+    const currentRefPath = resolve(__dirname, '../../proofpack/CURRENT_REF.md');
+    const currentRef = readFileSync(currentRefPath, 'utf-8');
+    const sealMatch = currentRef.match(/\*\*Active seal\*\*\s*:\s*(\S+)/);
+    if (!sealMatch) {
+      throw new Error('CURRENT_REF.md: cannot parse **Active seal** line');
+    }
+    const hashesPath = resolve(__dirname, `../../proofpack/${sealMatch[1]}/HASHES.sha256`);
     const hashesContent = readFileSync(hashesPath, 'utf-8');
     const lines = hashesContent.trim().split('\n');
 
     for (const line of lines) {
-      const [expectedHash, relPath] = line.split('  ');
+      const [expectedHash, relPath] = line.trim().split('  ');
       const filePath = resolve(__dirname, '../..', relPath);
       const content = readFileSync(filePath);
       const actualHash = createHash('sha256').update(content).digest('hex');

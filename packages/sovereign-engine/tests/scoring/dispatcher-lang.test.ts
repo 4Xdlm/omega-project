@@ -35,10 +35,10 @@ import {
   CALIBRATION_ID,
   CALIBRATION_SHA256_EXPECTED,
   MODEL_VERSION,
-  COEFFICIENTS_V3_1,
+  COEFFICIENTS_V3_4,
   computeCoefficientsSha256,
   getLangModel,
-} from '../../src/scoring/dispatcher/coefficients-v3-1.js';
+} from '../../src/scoring/dispatcher/coefficients-v3-4.js';
 import {
   DISPATCHER_FEATURE_NAMES,
   extractDispatcherFeatures,
@@ -220,7 +220,7 @@ describe('Dispatcher Lang V3.1 — Unit Tests', () => {
     expect(res.status).toBe('ok');
     if (res.status === 'ok') {
       expect(res.result.calibration_sha256).toBe(
-        'a45309090b4f65c32a1f4763a3527b7e7f8b8536ac92285c5340a3a92b5e00b2',
+        'e75e3bb07d8655c6e0ee1ca99b32a2a043a44cb9c1681ee3d7a3dd305fe8424c',
       );
       expect(res.result.calibration_sha256).toBe(CALIBRATION_SHA256_EXPECTED);
     }
@@ -416,7 +416,7 @@ describe('Dispatcher Lang V3.1 — Unit Tests', () => {
     const cfg = getDispatcherConfig();
     expect(cfg.enabled).toBe(true);
     expect(cfg.mode).toBe('shadow');
-    expect(cfg.version).toBe('3.1');
+    expect(cfg.version).toBe('3.4');
     expect(cfg.min_prose_length).toBeGreaterThan(0);
   });
 
@@ -425,9 +425,9 @@ describe('Dispatcher Lang V3.1 — Unit Tests', () => {
     expect(recomputed).toBe(CALIBRATION_SHA256_EXPECTED);
   });
 
-  it('COEFFICIENTS_V3_1: 5 features × 3 routes, intercept finite', () => {
+  it('COEFFICIENTS_V3_4: 5 features × 3 routes, intercept finite', () => {
     for (const lang of ['fr', 'en', 'fallback'] as const) {
-      const m = COEFFICIENTS_V3_1[lang];
+      const m = COEFFICIENTS_V3_4[lang];
       expect(Number.isFinite(m.intercept)).toBe(true);
       expect(Object.keys(m.features).length).toBe(5);
       for (const name of DISPATCHER_FEATURE_NAMES) {
@@ -436,8 +436,8 @@ describe('Dispatcher Lang V3.1 — Unit Tests', () => {
     }
   });
 
-  it('MODEL_VERSION constant verrouillé à 3.1', () => {
-    expect(MODEL_VERSION).toBe('3.1');
+  it('MODEL_VERSION constant verrouillé à 3.4', () => {
+    expect(MODEL_VERSION).toBe('3.4');
   });
 });
 

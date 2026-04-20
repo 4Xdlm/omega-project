@@ -1,10 +1,10 @@
 /**
  * ═══════════════════════════════════════════════════════════════════════════════
- * OMEGA SOVEREIGN — DISPATCHER LANG V3.1 — CORE LOGIC (SHADOW MODE)
+ * OMEGA SOVEREIGN — DISPATCHER LANG V3.4 — CORE LOGIC (SHADOW MODE)
  * ═══════════════════════════════════════════════════════════════════════════════
  *
  * Module:   src/scoring/dispatcher/dispatcher-lang.ts
- * Version:  3.1.0
+ * Version:  3.4.0
  * Standard: NASA-Grade L4 / DO-178C Level A
  * ADR:      outputs/dispatcher_v33/ADR-001-dispatcher-lang_v2.md §2-§5
  *
@@ -33,9 +33,9 @@
  *                              / model.features[f].std
  *
  * Pourquoi ça marche :
- *   Ridge α=1.0 entraîné avec seed=42 sur n_train=437 (110 holdout, 80/20
- *   stratifié tier×lang, lang_corrected). Trois modèles (FR, EN, FALLBACK)
- *   capturent les sign flips documentés (f33c, f12). Le score est bounded
+ *   Ridge α=1.0 entraîné avec seed=42 sur n_train=1070 (264 holdout V2, 80/20
+ *   stratifié tier×lang, 1334 œuvres). Trois modèles (FR, EN, FALLBACK)
+ *   sans sign flips (résolu par volume corpus). Le score est bounded
  *   par la variance du corpus : sous z∈[-2, +2] typique, score∈[2.2, 5.6]
  *   (voir ADR §Annexe C). Hors de ce régime, le score devient indicatif
  *   (risque d'extrapolation), d'où shadow mode stricte.
@@ -52,8 +52,8 @@
  *   - Z-scores extrêmes (prose stylistiquement hors distribution) peuvent
  *     produire un tier_score < 1.0 ou > 7.5. En shadow mode c'est toléré
  *     car non exploité. En mode gated futur, il faudra clipper.
- *   - Sign flips fragiles (f33c_dot_comma_ratio FR: 85%, f1a EN: 93%) :
- *     petite instabilité statistique du modèle, à re-calibrer en V3.2.
+ *   - V3.4 : sign flips résolus par expansion corpus (1334 œuvres).
+ *     Toutes features cohérentes FR/EN.
  *
  * R-04 : Counter singleton
  * ------------------------
@@ -94,7 +94,7 @@ import {
   getLangModel,
   type LangKey,
   type LangModel,
-} from './coefficients-v3-1.js';
+} from './coefficients-v3-4.js';
 
 // ──────────────────────────────────────────────────────────────────────────────
 // CONFIG PAR DÉFAUT
@@ -161,7 +161,7 @@ export function getDispatcherConfig(): DispatcherConfig {
   return {
     enabled: isDispatcherLangActive(),
     mode: 'shadow',
-    version: '3.1',
+    version: '3.4',
     min_prose_length: DEFAULT_MIN_PROSE_LENGTH,
   };
 }
@@ -302,7 +302,7 @@ export function runDispatcherLang(
   const effectiveConfig: DispatcherConfig = {
     enabled: true,
     mode: 'shadow',
-    version: '3.1',
+    version: '3.4',
     min_prose_length: config?.min_prose_length ?? DEFAULT_MIN_PROSE_LENGTH,
   };
 

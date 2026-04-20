@@ -156,6 +156,10 @@ export async function runDuel(
               seed,
               personaOverride,
               rappelOverride,
+              // V2-B: propagate emotion_contract so every duel candidate can
+              // use the adaptive plan when OMEGA_ADAPTIVE_CHUNKING='shadow'|'1'.
+              // Absence → silent legacy fallback inside generateChunkedDraft.
+              emotionContract: packet.emotion_contract,
             },
             provider,
           );

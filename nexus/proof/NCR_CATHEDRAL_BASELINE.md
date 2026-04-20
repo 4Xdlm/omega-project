@@ -2,8 +2,85 @@
 
 **Opened**: 2026-04-18
 **Severity**: **HIGH (P1)** — découvert suite à clôture NCR_DIRECTIVE_BLOAT
-**Status**: OPEN — investigation causale requise
+**Status**: **DIAGNOSED** (2026-04-18, Phase 1 H1 confirmée 81.1 %) — décision D2 validée unanimité 3/3 IA
 **Owner**: Francky (décision finale sur architecture scoring/emotionContract CATHEDRAL)
+
+---
+
+## VERDICT Phase 1 — H1 CONFIRMÉE (2026-04-18)
+
+Phase 1 terminée : audit full 6 runs variant A re-run (Ollama qwen3:32b,
+6.77 min, reproductibilité parfaite à 3 décimales).
+
+**Résultat décisif** : `f33b_commas_count` porte **81.1 %** du gap
+CATHEDRAL−INTERIOR (Δcontrib = −4.532 sur −5.590). Seuil ex-ante 50 %
+largement dépassé → H1 CONFIRMÉE.
+
+**Mécanisme causal** : f33b est un compte BRUT (non normalisé par
+mots/phrases). Coefficient FR +0.3465 encode une corrélation agrégée
+valide sur corpus 1334 (ρ=0.6138) mais **registre-aveugle**. La prose
+liturgique-contemplatif (CATHEDRAL, peu de virgules stylistiquement
+correct) est mécaniquement pénalisée.
+
+**Biais de calibration**, pas bug moteur ni défaut qwen3:32b.
+
+Décomposition complète :
+
+| Feature | Δ contrib | % du gap |
+|---|---|---|
+| **f33b_commas_count** | **−4.532** | **81.1 %** |
+| f12_tense_switches | −0.846 | 15.1 % |
+| f24c_contrast_delta | −0.218 | 3.9 % |
+| f1a_rhythm_variance | −0.052 | 0.9 % |
+| f33c_dot_comma_ratio | +0.059 | −1.1 % |
+| **TOTAL** | **−5.590** | **100 %** |
+
+Rapport : `outputs/PHASE_1_CATHEDRAL_DIAGNOSTIC_v1.md`
+Audit JSON : `packages/sovereign-engine/audit-cathedral-features-v1-results.json`
+SHA256 audit : `7B720C9183D41B976D10C27348A2647DE2EF7B5188E6018CE2C7EA3ADDE58941`
+
+## Décision Francky — D2 (unanimité 3/3 IA)
+
+**Choix validé** : D2 — Lancer R-D.1 bench étendu (48 runs) avec V3.4
+inchangé, CATHEDRAL traité comme groupe témoin de biais constant.
+
+**Rejetés** :
+- D1 (clore sur diagnostic seul) — rejeté par Gemini + ChatGPT : ne pas
+  figer un biais architectural identifié.
+- D3 (modifier f33b avant bench) — rejeté par les 3 IA : contamine la
+  baseline, casse la chaîne de preuve.
+
+**Logique D2** :
+- R-D.1 mesure l'effet réel de la directive `silence` sur INTERIOR /
+  ACTION / SENSORY (où le biais f33b ne domine pas).
+- CATHEDRAL reste bas et stable par construction (témoin aveugle). Si
+  CATHEDRAL bougeait > 0.5 dans R-D.1 → Phase 1 incomplète, alerte
+  majeure.
+- Phases 2-3 du plan NCR initial deviennent CONDITIONNELLES (secondaires,
+  15.1 % par f12 seulement).
+
+## NCR dérivé ouvert — NCR_SCORER_STYLE_BIAS (proposé Gemini)
+
+Le biais identifié dépasse le scope CATHEDRAL : il affecte TOUT registre
+minimaliste/liturgique/anaphorique jugé par V3.4. Ouvrir un ticket séparé
+**NCR_SCORER_STYLE_BIAS** pour traiter la refonte architecturale future
+(scoring conditionnel par registre ou features normalisées) — hors scope
+immédiat R-D.1, à adresser post-R-D.1.
+
+## Pistes correctives (POST R-D.1, aucune lancée maintenant)
+
+- **Piste A** — feature normalisée `f33b_per_word` (nécessite retrain
+  Ridge corpus 1334, chantier V4)
+- **Piste B** — `type_modifier` per-archétype downstream V3.4 (patch
+  rapide, modifie scoring composite pas le dispatcher)
+- **Piste C** — scoring conditionnel multi-registre (refonte propre,
+  `score = V3.4 + type_mod(register)`)
+
+Question Francky à trancher post-R-D.1 (ChatGPT) :
+- A — patch rapide f33b
+- B — bascule scoring conditionnel (refonte)
+
+---
 
 ## Déclencheur
 

@@ -52,7 +52,12 @@ const CV_GATE_MAX_RETRIES = 2;
 // prose for this scene appears in the pool. The hostile selector (composite
 // minus min_axis penalty) picks the most balanced candidate.
 // COST: N=2 → ×1.8 total pipeline cost (28 API calls/scene vs 16).
-const DUEL_RUNS = Math.max(1, Math.min(3, parseInt(process.env.OMEGA_DUEL_RUNS || '1', 10)));
+// P8-FIX: Lazy read — env var must be read at call-time, not module-load-time.
+// ESM hoists imports before top-level code, so a module-scope const reads env
+// BEFORE the importing script sets it. Bug confirmed: DUEL=4 instead of 7.
+function getDuelRuns(): number {
+  return Math.max(1, Math.min(3, parseInt(process.env.OMEGA_DUEL_RUNS || '1', 10)));
+}
 
 export function computeCVSent(prose: string): number {
   const sentences = prose.split(/[.!?]+/).map(s => s.trim()).filter(s => s.length > 0);
@@ -108,11 +113,11 @@ export async function runDuel(
   // N=2: 6 candidates from modes (2 runs × 3 modes, different seeds).
   // N=3: 9 candidates from modes (3 runs × 3 modes).
   // Total candidates = DUEL_RUNS × modes.length + (existingProse ? 1 : 0)
-  if (DUEL_RUNS > 1) {
-    console.log(`[DUEL-R7] Best-of-N active: ${DUEL_RUNS} runs × ${modes.length} modes = ${DUEL_RUNS * modes.length} mode candidates`);
+  if (getDuelRuns() > 1) {
+    console.log(`[DUEL-R7] Best-of-N active: ${getDuelRuns()} runs × ${modes.length} modes = ${getDuelRuns() * modes.length} mode candidates`);
   }
 
-  for (let runIdx = 0; runIdx < DUEL_RUNS; runIdx++) {
+  for (let runIdx = 0; runIdx < getDuelRuns(); runIdx++) {
     for (let i = 0; i < modes.length; i++) {
       const mode = modes[i];
       let bestCandidate: { prose: string; cv: number } | null = null;
@@ -146,7 +151,7 @@ export async function runDuel(
           );
           prose = chunkedResult.prose;
           if (attempt === 0) {
-            const runTag = DUEL_RUNS > 1 ? ` run=${runIdx}` : '';
+            const runTag = getDuelRuns() > 1 ? ` run=${runIdx}` : '';
             console.log(`[DUEL-K2] mode=${mode}${runTag}: ${chunkedResult.total_words}w en ${chunkedResult.api_calls} chunks (${chunkedResult.words_per_chunk.join(', ')}w)`);
           }
         } else {
@@ -159,11 +164,11 @@ export async function runDuel(
         const cv = computeCVSent(prose);
 
         if (cv <= CV_GATE_REJECT) {
-          console.log(`[DUEL] CV_GATE: mode=${mode}${DUEL_RUNS > 1 ? ` run=${runIdx}` : ''} CV=${cv.toFixed(2)} → PASS`);
+          console.log(`[DUEL] CV_GATE: mode=${mode}${getDuelRuns() > 1 ? ` run=${runIdx}` : ''} CV=${cv.toFixed(2)} → PASS`);
           bestCandidate = { prose, cv };
           break;
         } else {
-          console.log(`[DUEL] CV_GATE: mode=${mode}${DUEL_RUNS > 1 ? ` run=${runIdx}` : ''} CV=${cv.toFixed(2)} → REJECT (retry ${attempt + 1}/${CV_GATE_MAX_RETRIES})`);
+          console.log(`[DUEL] CV_GATE: mode=${mode}${getDuelRuns() > 1 ? ` run=${runIdx}` : ''} CV=${cv.toFixed(2)} → REJECT (retry ${attempt + 1}/${CV_GATE_MAX_RETRIES})`);
           if (!bestCandidate || cv < bestCandidate.cv) {
             bestCandidate = { prose, cv };
           }
@@ -172,11 +177,11 @@ export async function runDuel(
 
       const finalProse = bestCandidate!.prose;
       if (bestCandidate!.cv > CV_GATE_REJECT) {
-        console.log(`[DUEL] CV_GATE: mode=${mode}${DUEL_RUNS > 1 ? ` run=${runIdx}` : ''} FAIL-OPEN CV=${bestCandidate!.cv.toFixed(2)} (best of ${CV_GATE_MAX_RETRIES + 1} attempts)`);
+        console.log(`[DUEL] CV_GATE: mode=${mode}${getDuelRuns() > 1 ? ` run=${runIdx}` : ''} FAIL-OPEN CV=${bestCandidate!.cv.toFixed(2)} (best of ${CV_GATE_MAX_RETRIES + 1} attempts)`);
       }
 
       // R7: draft_id includes runIdx for traceability
-      const draftSuffix = DUEL_RUNS > 1 ? `${mode}_run${runIdx}_${i}` : `${mode}_${i}`;
+      const draftSuffix = getDuelRuns() > 1 ? `${mode}_run${runIdx}_${i}` : `${mode}_${i}`;
       const score = await judgeAesthetic(packet, finalProse, provider);
       drafts.push({
         draft_id: `DRAFT_${draftSuffix}`,
@@ -188,7 +193,7 @@ export async function runDuel(
       // Telemetry: DUEL_CANDIDATE snapshot
       try {
         const { telemetry } = await import('../telemetry/pipeline-telemetry.js');
-        telemetry.recordFromProse(`DUEL_${mode}${DUEL_RUNS > 1 ? `_run${runIdx}` : ''}`, finalProse, undefined, {
+        telemetry.recordFromProse(`DUEL_${mode}${getDuelRuns() > 1 ? `_run${runIdx}` : ''}`, finalProse, undefined, {
           mode, run: runIdx, cv: bestCandidate!.cv, cv_gate_pass: bestCandidate!.cv <= CV_GATE_REJECT,
           k2_duel: useK2ForDuel,
         });

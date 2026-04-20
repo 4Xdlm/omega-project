@@ -184,3 +184,37 @@ src/scoring/data/MASTER_RAW_WINDOWS_V1_BACKUP.csv
 src/scoring/data/MASTER_RAW_WINDOWS_V2_BACKUP.csv
 PROMPT_CLAUDE_CODE_*.md
 scripts/tmp_*.py
+# === BLOC Q DRIFT 2026-04-20 — transients exclusion ===
+
+# Sessions (K2 Chunked artifacts)
+packages/sovereign-engine/sessions/
+
+# Bench R6 + corpus_r JSON (preserve CORPUS_FEATURES_MASTER.json — see audit)
+omega-autopsie/bench_r6/
+omega-autopsie/corpus_r/*.json
+!omega-autopsie/corpus_r/CORPUS_FEATURES_MASTER.json
+
+# Bench results (sovereign-engine scripts)
+packages/sovereign-engine/bench-*-results*.json
+packages/sovereign-engine/bench-*-results*.md
+packages/sovereign-engine/bench-*-results*.csv
+
+# Grid search + validation shortlist + audit cathedral
+packages/sovereign-engine/grid-search-results*
+packages/sovereign-engine/validate-shortlist-results*
+packages/sovereign-engine/audit-cathedral-features*-results*
+
+# Dryrun V2 artifacts
+packages/sovereign-engine/dryrun-v2*.json
+
+# Test sandboxes
+.test_*
+
+# Root-level drift logs (P1/P3/P4 runs)
+phase*_*.txt
+validation*_*.txt
+corpus_d_integration_log.txt
+
+# Roadmap hash cache (CI transient)
+.roadmap-hash.json
+

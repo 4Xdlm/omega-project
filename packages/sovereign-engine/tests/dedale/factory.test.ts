@@ -181,6 +181,7 @@ describe('createDedale', () => {
       telemetry_dir: '/tmp/test',
       oracle_thresholds: {
         c1_threshold: 0.15,
+        c1_high_threshold: 0.20,
         c2_threshold: 0.60,
         c4_threshold: 0.30,
       },

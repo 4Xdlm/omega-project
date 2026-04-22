@@ -337,6 +337,8 @@ export function createOrchestrator(
 /**
  * Construit un OracleResult neutre pour mode 'off' (métriques à 0).
  * Permet de remplir l'entry télémétrie sans évaluer l'oracle.
+ *
+ * ADR-005 r2 : metrics.c2_info_elevated = false (aucune évaluation).
  */
 function buildNeutralOracleResult(
   deps: Pick<DedaleDependencies, 'clock'>,
@@ -349,6 +351,7 @@ function buildNeutralOracleResult(
       c1_trigram_ratio: 0,
       c2_repetition_score: 0,
       c4_unique_ratio: 1,
+      c2_info_elevated: false,
     },
     thresholds_used: config.oracle_thresholds,
     evaluated_at_ms: deps.clock(),

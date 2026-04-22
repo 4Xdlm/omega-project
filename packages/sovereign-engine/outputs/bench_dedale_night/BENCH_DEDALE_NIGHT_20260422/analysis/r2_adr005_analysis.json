@@ -1,0 +1,61 @@
+{
+  "bench_id": "BENCH_DEDALE_NIGHT_20260422",
+  "phase": "R2",
+  "total_runs": 60,
+  "total_chunks": 164,
+  "errored_runs": 20,
+  "per_scene": {
+    "N02": {
+      "kind": "neutral",
+      "chunks": 47,
+      "hard_fail": 0,
+      "no_loop": 47,
+      "rate_pct": 0.0,
+      "c1_mean": 0.0527,
+      "c1_max": 0.1909,
+      "c4_mean": 0.4601,
+      "c4_min": 0.3184
+    },
+    "T01": {
+      "kind": "trigger",
+      "chunks": 61,
+      "hard_fail": 1,
+      "no_loop": 60,
+      "rate_pct": 1.64,
+      "c1_mean": 0.0545,
+      "c1_max": 0.7906,
+      "c4_mean": 0.46,
+      "c4_min": 0.0756
+    },
+    "T04": {
+      "kind": "trigger",
+      "chunks": 56,
+      "hard_fail": 0,
+      "no_loop": 56,
+      "rate_pct": 0.0,
+      "c1_mean": 0.035,
+      "c1_max": 0.1303,
+      "c4_mean": 0.482,
+      "c4_min": 0.3085
+    }
+  },
+  "hard_fail_reasons": {
+    "c1_trigram_ratio": 1
+  },
+  "c2_info_elevated_events": 1,
+  "adr_005_r2_check": {
+    "N02_fp_rate_pct": 0.0,
+    "N02_fp_target_max": 10,
+    "N02_verdict": "PASS",
+    "T_tp_rate_pct": 0.8547008547008548,
+    "T_tp_target_min": 50,
+    "T_tp_verdict": "FAIL",
+    "T04_tp_rate_pct": 0.0,
+    "T01_tp_rate_pct": 1.64
+  },
+  "ollama_failure_breakdown": {
+    "T01": 5,
+    "T04": 6,
+    "N02": 9
+  }
+}

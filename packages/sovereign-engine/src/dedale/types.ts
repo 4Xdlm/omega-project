@@ -56,15 +56,29 @@ export type OracleVerdict = 'no_loop' | 'hard_fail';
 /**
  * Raison détaillée du hard_fail (pour télémétrie + audit).
  * Une seule raison dominante par verdict (première règle déclenchée).
+ *
+ * ADR-005 r2 (composite rule, 2026-04-22) :
+ *   - 'c1_trigram_ratio'    : C1 > c1_high_threshold (seuil haut, ex. 0.20)
+ *   - 'c1_c4_composite'     : C1 > c1_threshold (seuil bas, ex. 0.15) AND C4 < c4_threshold
+ *   - 'c4_fingerprint_distance' : réservé historique — NE DÉCLENCHE PLUS seul (C4 alone
+ *                                  n'est plus un trigger dans r2 ; conservé pour
+ *                                  compat télémétrie legacy ré-analysée)
+ *   - 'c2_repetition_score' : réservé historique — DEPRECATED r2, C2 est info-tag,
+ *                              ne déclenche plus hard_fail (conservé pour compat)
  */
 export type HardFailReason =
-  | 'c1_trigram_ratio'  // C1 : trigram ratio > seuil P8
-  | 'c2_repetition_score'  // C2 : repetition_score INV-FP-09
-  | 'c4_fingerprint_distance';  // C4 : fingerprint distance unique_ratio
+  | 'c1_trigram_ratio'        // C1 > c1_high_threshold (seuil haut)
+  | 'c1_c4_composite'         // ADR-005 r2 : C1 > c1_threshold AND C4 < c4_threshold
+  | 'c2_repetition_score'     // DEPRECATED r2 — legacy (C2 est info-tag désormais)
+  | 'c4_fingerprint_distance'; // DEPRECATED r2 — legacy (C4 seul ne déclenche plus)
 
 /**
  * Résultat complet d'un appel oracle.
  * Si verdict === 'no_loop' alors reason === undefined.
+ *
+ * ADR-005 r2 additions :
+ *   - thresholds_used.c1_high_threshold  : seuil C1 haut (déclenche seul)
+ *   - metrics.c2_info_elevated           : tag info C2 > seuil (ne déclenche pas)
  */
 export interface OracleResult {
   readonly verdict: OracleVerdict;
@@ -73,11 +87,14 @@ export interface OracleResult {
     readonly c1_trigram_ratio: number;
     readonly c2_repetition_score: number;
     readonly c4_unique_ratio: number;
+    /** ADR-005 r2 : C2 > c2_threshold — info-tag uniquement, ne déclenche pas hard_fail. */
+    readonly c2_info_elevated: boolean;
   };
   readonly thresholds_used: {
-    readonly c1_threshold: number;
-    readonly c2_threshold: number;
-    readonly c4_threshold: number;
+    readonly c1_threshold: number;       // seuil bas (composite)
+    readonly c1_high_threshold: number;  // ADR-005 r2 : seuil haut (déclenche seul)
+    readonly c2_threshold: number;       // seuil info-tag (ne déclenche plus)
+    readonly c4_threshold: number;       // seuil composite
   };
   readonly evaluated_at_ms: number;  // timestamp monotonic (via deps.clock)
 }
@@ -352,8 +369,9 @@ export interface DedaleConfig {
   readonly telemetry_dir: string;  // chemin absolu dossier JSON telemetry
   /** Seuils oracle résolus (alignés sur chunked-generator.ts pour C1, prose-fingerprint.ts pour C2). */
   readonly oracle_thresholds: {
-    readonly c1_threshold: number;
-    readonly c2_threshold: number;
-    readonly c4_threshold: number;
+    readonly c1_threshold: number;       // seuil bas (composite ADR-005 r2)
+    readonly c1_high_threshold: number;  // ADR-005 r2 : seuil haut (déclenche seul)
+    readonly c2_threshold: number;       // info-tag uniquement (ne déclenche plus)
+    readonly c4_threshold: number;       // seuil composite
   };
 }

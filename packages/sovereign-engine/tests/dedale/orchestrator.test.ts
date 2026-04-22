@@ -51,8 +51,9 @@ function buildOracleResult(verdict: 'no_loop' | 'hard_fail'): OracleResult {
       c1_trigram_ratio: verdict === 'no_loop' ? 0.05 : 0.25,
       c2_repetition_score: 0.2,
       c4_unique_ratio: 0.5,
+      c2_info_elevated: false,
     },
-    thresholds_used: { c1_threshold: 0.15, c2_threshold: 0.60, c4_threshold: 0.30 },
+    thresholds_used: { c1_threshold: 0.15, c1_high_threshold: 0.20, c2_threshold: 0.60, c4_threshold: 0.30 },
     evaluated_at_ms: 1_000,
   };
 }
@@ -160,7 +161,7 @@ function buildConfig(mode: 'off' | 'shadow' | 'on'): DedaleConfig {
   return {
     mode,
     telemetry_dir: '/tmp/dedale',
-    oracle_thresholds: { c1_threshold: 0.15, c2_threshold: 0.60, c4_threshold: 0.30 },
+    oracle_thresholds: { c1_threshold: 0.15, c1_high_threshold: 0.20, c2_threshold: 0.60, c4_threshold: 0.30 },
   };
 }
 

@@ -1,27 +1,45 @@
 /**
  * ═══════════════════════════════════════════════════════════════════════════════
- * OMEGA SOVEREIGN — DÉDALE v0.55 — ORACLE
+ * OMEGA SOVEREIGN — DÉDALE v0.55 — ORACLE (ADR-005 r2 COMPOSITE)
  * ═══════════════════════════════════════════════════════════════════════════════
  *
  * Module:   src/dedale/oracle.ts
- * Version:  0.55.0
+ * Version:  0.55.1 (ADR-005 r2)
  * Standard: NASA-Grade L4 / DO-178C Level A
  * Upstream: DEDALE_v0.55_SYNTHESE_3IA_ET_SPEC_AMENDED.md §D.1
+ *           ADR-005 r2 — Dédale Bench Night Phase S recalibration (2026-04-22)
  *
  * Oracle multi-critère pour détection de boucles de génération.
  *
- * Critères actifs v0.55 (OR logique) :
- *   C1 — trigram_ratio > c1_threshold
+ * ─── ADR-005 r2 : RÈGLE COMPOSITE (2026-04-22, unanime gemini+chatgpt+me) ────
+ *
+ * Règle active :
+ *   hard_fail  ⇔  (C1 > c1_high_threshold)
+ *                 OR
+ *                 (C1 > c1_threshold AND C4 < c4_threshold)
+ *
+ * Motivation (post-bench Phase S, 120 runs qwen3:32b) :
+ *   - C1=0.15 produisait ~92% vrais positifs mais trop sensible sur scènes
+ *     neutres (N02 déclencheur 60% des runs HF faux positifs).
+ *   - C4 seul jamais déclencheur en pratique, mais utile comme renforcement.
+ *   - C2 (repetition_score INV-FP-09) non-discriminant sur qwen3:32b
+ *     → rétrogradé en info-tag (calculé, loggé, ne déclenche plus).
+ *
+ * Critères :
+ *   C1 (trigram_ratio) — seuil bas = c1_threshold (0.15), seuil haut = c1_high_threshold (0.20)
  *        (miroir computeTrigramRepeatRatio de chunked-generator.ts:316-338)
- *   C2 — repetition_score > c2_threshold
+ *   C2 (repetition_score) — DÉPRÉCIÉ comme trigger, conservé comme info-tag
  *        (miroir INV-FP-09 de validation/phase-u/audit/prose-fingerprint.ts:205)
- *   C4 — unique_ratio < c4_threshold
- *        (nouvelle, calibration H5 — faiblesse auto-reconnue design §H)
+ *   C4 (unique_ratio) — composite uniquement avec C1 (seuil 0.30)
+ *        (calibration H5 — faiblesse auto-reconnue design §H)
  *
  * Critère retiré v0.55 (blocante unanime 3/3 IA) :
  *   C3 — hash_repeat (orphelin dans flow même-seed post-reset, réservé v0.6+)
  *
- * Agrégation : hard_fail ⇔ (C1 OR C2 OR C4) — plus sensible que AND.
+ * Ordre d'évaluation (première règle = raison dominante) :
+ *   1. C1 > c1_high_threshold             → 'c1_trigram_ratio'
+ *   2. C1 > c1_threshold AND C4 < c4_threshold → 'c1_c4_composite'
+ *   Sinon → 'no_loop' (C2 info-tag évalué et tagué dans metrics.c2_info_elevated)
  *
  * ═══════════════════════════════════════════════════════════════════════════════
  */
@@ -137,17 +155,20 @@ export function computeUniqueRatio(text: string): number {
 
 /**
  * Seuils par défaut. Les tests et le prod peuvent override via env vars :
- *   OMEGA_DEDALE_C1_THRESHOLD (default 0.15, aligné REPEAT_TRIGRAM_THRESHOLD)
- *   OMEGA_DEDALE_C2_THRESHOLD (default 0.60, H5 — NB4 calibrer)
- *   OMEGA_DEDALE_C4_THRESHOLD (default 0.30, H5 — NB4 calibrer)
+ *   OMEGA_DEDALE_C1_THRESHOLD       (default 0.15, composite bas, aligné REPEAT_TRIGRAM_THRESHOLD)
+ *   OMEGA_DEDALE_C1_HIGH_THRESHOLD  (default 0.20, ADR-005 r2, déclenche seul)
+ *   OMEGA_DEDALE_C2_THRESHOLD       (default 0.60, info-tag uniquement r2)
+ *   OMEGA_DEDALE_C4_THRESHOLD       (default 0.30, composite avec C1, calibration H5)
  */
 export function resolveDefaultOracleThresholds(): {
   c1_threshold: number;
+  c1_high_threshold: number;
   c2_threshold: number;
   c4_threshold: number;
 } {
   return {
     c1_threshold: parseFloat(process.env.OMEGA_DEDALE_C1_THRESHOLD ?? '0.15'),
+    c1_high_threshold: parseFloat(process.env.OMEGA_DEDALE_C1_HIGH_THRESHOLD ?? '0.20'),
     c2_threshold: parseFloat(process.env.OMEGA_DEDALE_C2_THRESHOLD ?? '0.60'),
     c4_threshold: parseFloat(process.env.OMEGA_DEDALE_C4_THRESHOLD ?? '0.30'),
   };
@@ -160,10 +181,15 @@ export function resolveDefaultOracleThresholds(): {
 export interface Oracle {
   /**
    * Évalue un chunk de prose. Retourne verdict + raison + métriques.
-   * Ordre d'évaluation (première règle déclenchée = raison dominante) : C1 → C2 → C4.
+   *
+   * ADR-005 r2 — Ordre d'évaluation (première règle = raison dominante) :
+   *   1. C1 > c1_high_threshold             → 'c1_trigram_ratio'
+   *   2. C1 > c1_threshold AND C4 < c4_threshold → 'c1_c4_composite'
+   *   Sinon → 'no_loop' (C2 tagué dans metrics.c2_info_elevated, ne déclenche pas)
    */
   evaluate(text: string, thresholds?: {
     c1_threshold?: number;
+    c1_high_threshold?: number;
     c2_threshold?: number;
     c4_threshold?: number;
   }): OracleResult;
@@ -180,6 +206,7 @@ export function createOracle(
       const defaults = resolveDefaultOracleThresholds();
       const thresholds = {
         c1_threshold: thresholdsOverride?.c1_threshold ?? defaults.c1_threshold,
+        c1_high_threshold: thresholdsOverride?.c1_high_threshold ?? defaults.c1_high_threshold,
         c2_threshold: thresholdsOverride?.c2_threshold ?? defaults.c2_threshold,
         c4_threshold: thresholdsOverride?.c4_threshold ?? defaults.c4_threshold,
       };
@@ -188,18 +215,33 @@ export function createOracle(
       const c2 = computeRepetitionScore(text);
       const c4 = computeUniqueRatio(text);
 
-      // Ordre d'évaluation : C1 → C2 → C4 (première règle = raison dominante)
+      // ADR-005 r2 — Règle composite (première règle = raison dominante) :
+      //   1. C1 > c1_high_threshold              → 'c1_trigram_ratio'
+      //   2. C1 > c1_threshold AND C4 < c4_threshold → 'c1_c4_composite'
+      //   Sinon → 'no_loop' (C2 info-tag, ne déclenche pas)
       let reason: HardFailReason | undefined;
-      if (c1 > thresholds.c1_threshold) reason = 'c1_trigram_ratio';
-      else if (c2 > thresholds.c2_threshold) reason = 'c2_repetition_score';
-      else if (c4 < thresholds.c4_threshold) reason = 'c4_fingerprint_distance';
+      if (c1 > thresholds.c1_high_threshold) {
+        reason = 'c1_trigram_ratio';
+      } else if (c1 > thresholds.c1_threshold && c4 < thresholds.c4_threshold) {
+        reason = 'c1_c4_composite';
+      }
+
+      // C2 info-tag : calculé, loggé dans metrics, mais ne déclenche pas hard_fail
+      const c2_info_elevated = c2 > thresholds.c2_threshold;
 
       const verdict = reason === undefined ? 'no_loop' : 'hard_fail';
       const evaluated_at_ms = deps.clock();
 
       if (verdict === 'hard_fail') {
-        deps.logger.warn('[dedale.oracle] hard_fail detected', {
+        deps.logger.warn('[dedale.oracle] hard_fail detected (ADR-005 r2)', {
           reason,
+          c1, c2, c4,
+          c2_info_elevated,
+          thresholds,
+        });
+      } else if (c2_info_elevated) {
+        // Info-tag C2 élevé mais pas de hard_fail — diagnostic télémétrie
+        deps.logger.info('[dedale.oracle] c2_info_elevated (no hard_fail)', {
           c1, c2, c4,
           thresholds,
         });
@@ -212,6 +254,7 @@ export function createOracle(
           c1_trigram_ratio: c1,
           c2_repetition_score: c2,
           c4_unique_ratio: c4,
+          c2_info_elevated,
         },
         thresholds_used: thresholds,
         evaluated_at_ms,

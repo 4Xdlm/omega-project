@@ -55,7 +55,7 @@ function mockDeps(): DedaleDependencies {
   };
 }
 
-function buildOracleResult(verdict: 'no_loop' | 'hard_fail', reason?: 'c1_trigram_ratio' | 'c2_repetition_score' | 'c4_fingerprint_distance'): OracleResult {
+function buildOracleResult(verdict: 'no_loop' | 'hard_fail', reason?: 'c1_trigram_ratio' | 'c1_c4_composite' | 'c2_repetition_score' | 'c4_fingerprint_distance'): OracleResult {
   return {
     verdict,
     reason: verdict === 'no_loop' ? undefined : (reason ?? 'c1_trigram_ratio'),
@@ -63,9 +63,11 @@ function buildOracleResult(verdict: 'no_loop' | 'hard_fail', reason?: 'c1_trigra
       c1_trigram_ratio: verdict === 'no_loop' ? 0.05 : 0.25,
       c2_repetition_score: 0.3,
       c4_unique_ratio: 0.5,
+      c2_info_elevated: false,
     },
     thresholds_used: {
       c1_threshold: 0.15,
+      c1_high_threshold: 0.20,
       c2_threshold: 0.60,
       c4_threshold: 0.30,
     },

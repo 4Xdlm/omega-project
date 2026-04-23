@@ -31,6 +31,7 @@ import type {
   ResetProof,
   ResetResult,
   ExecResult,
+  SpawnProof,
 } from './types.js';
 import { DEDALE_BUDGETS } from './types.js';
 
@@ -339,6 +340,240 @@ export async function healthCheckOllama(
 }
 
 // ──────────────────────────────────────────────────────────────────────────────
+// BRIQUE A — SPAWN PLATFORM-AWARE (Δ v1.2 §8.1 D2bis)
+// BRIQUE B — HEALTH PROBE EXPONENTIEL (Δ v1.2 §8.2)
+// ──────────────────────────────────────────────────────────────────────────────
+
+/**
+ * Détecte la plateforme (normalisation SpawnProof.platform).
+ */
+function getPlatform(): SpawnProof['platform'] {
+  const p = process.platform;
+  if (p === 'win32' || p === 'linux' || p === 'darwin') return p;
+  return 'other';
+}
+
+/**
+ * Brique A+B combinées : spawn enfant détaché `ollama serve` + probe /api/tags
+ * en backoff exponentiel (500 → 1000 → 2000 → 4000 → 8000 → 16000 ms).
+ *
+ * Invariants §8.1 D2bis :
+ *   - Pas d'appel direct `child_process.spawn` ici : tout via `deps.spawnFn`.
+ *   - Si `deps.spawnFn === undefined` → verdict 'spawn_failed' avec message
+ *     explicite (le caller doit alors faire fallback service restart).
+ *   - Toujours `detached: true` + `stdio: 'ignore'` + `windowsHide: true`.
+ *     Sur POSIX `detached:true` appelle `setsid()` (nouveau session leader,
+ *     équivalent `nohup setsid`). Sur Windows `windowsHide:true` + `detached:true`
+ *     assure la survie post-exit du parent OMEGA.
+ *   - `child.unref()` invoqué si méthode présente → parent peut exit sans
+ *     attendre le daemon.
+ *
+ * Invariants §8.2 D3 probe :
+ *   - Budget total capé par `HEALTH_PROBE_TOTAL_MS=32_000` ms.
+ *   - Sleep AVANT chaque probe (laisse Ollama cold-load démarrer).
+ *   - Per-attempt timeout fetch capé à 5000 ms (API normalement < 100 ms on
+ *     success). Suffisant pour cold-load measured max=2760 ms (§0.1).
+ *   - Exit anticipé dès premier probe PASS (ts_ready_ms capturé).
+ *   - Exit budget_exceeded si `elapsed + delay > HEALTH_PROBE_TOTAL_MS` avant
+ *     la prochaine attente.
+ *
+ * Retourne un SpawnProof intégral (evidence structurée consommée par l'agrégat
+ * ResetProof dans `execute()`).
+ */
+/**
+ * Exporté pour tests unitaires Brique A+B (Étape 7 NCR_DEDALE_RESET_HEALTH).
+ * Couverture isolée sans passer par execute() + setup snapshot complet.
+ * Discipline DO-178C Level A : chaque unité critique doit être testable seule.
+ */
+export async function spawnAndProbe(
+  deps: Pick<DedaleDependencies,
+    'spawnFn' | 'fetchFn' | 'sleep' | 'clockMonotonic' | 'logger'>,
+): Promise<SpawnProof> {
+  const cmd = 'ollama';
+  const args: readonly string[] = ['serve'] as const;
+  const platform = getPlatform();
+  const tStart = deps.clockMonotonic();
+
+  // Garde spawnFn absent (Pick optional → runtime check obligatoire).
+  if (deps.spawnFn === undefined) {
+    deps.logger.warn('[dedale.reset] spawnFn not injected, spawn skipped');
+    return {
+      cmd, args, platform,
+      pid: null, detached: false, unref_called: false,
+      ts_spawn_ms: 0, ts_ready_ms: null,
+      probe_attempts: [],
+      verdict: 'spawn_failed',
+      error_message: 'spawnFn not injected (DedaleDependencies.spawnFn undefined)',
+    };
+  }
+
+  // 1. SPAWN détaché
+  let pid: number | null = null;
+  let unref_called = false;
+  let spawnError: string | null = null;
+
+  try {
+    const child = deps.spawnFn(cmd, args, {
+      detached: true,
+      stdio: 'ignore',
+      windowsHide: true,
+    });
+    pid = (typeof child.pid === 'number' && Number.isFinite(child.pid)) ? child.pid : null;
+    if (typeof child.unref === 'function') {
+      child.unref();
+      unref_called = true;
+    }
+  } catch (err) {
+    spawnError = err instanceof Error ? err.message : String(err);
+  }
+
+  const ts_spawn_ms = deps.clockMonotonic() - tStart;
+
+  if (pid === null) {
+    const msg = spawnError ?? 'spawn returned no PID';
+    deps.logger.warn('[dedale.reset] spawn failed', {
+      cmd, args, platform, error: msg, ts_spawn_ms,
+    });
+    return {
+      cmd, args, platform,
+      pid: null, detached: true, unref_called,
+      ts_spawn_ms, ts_ready_ms: null,
+      probe_attempts: [],
+      verdict: 'spawn_failed',
+      error_message: msg,
+    };
+  }
+
+  deps.logger.info('[dedale.reset] spawn ok', { pid, ts_spawn_ms, platform });
+
+  // 2. PROBE backoff exponentiel
+  const delays: readonly number[] = [
+    DEDALE_BUDGETS.HEALTH_PROBE_INITIAL_MS,       // 500
+    DEDALE_BUDGETS.HEALTH_PROBE_INITIAL_MS * 2,   // 1000
+    DEDALE_BUDGETS.HEALTH_PROBE_INITIAL_MS * 4,   // 2000
+    DEDALE_BUDGETS.HEALTH_PROBE_INITIAL_MS * 8,   // 4000
+    DEDALE_BUDGETS.HEALTH_PROBE_INITIAL_MS * 16,  // 8000
+    DEDALE_BUDGETS.HEALTH_PROBE_MAX_MS,           // 16000
+  ];
+  const budget_total = DEDALE_BUDGETS.HEALTH_PROBE_TOTAL_MS;
+  const per_attempt_max = 5_000;
+
+  const probeLoopStart = deps.clockMonotonic();
+  const probe_attempts: Array<{
+    attempt_index: number;
+    delay_ms: number;
+    elapsed_ms: number;
+    status: 'ok' | 'timeout' | 'error';
+    http_code: number | null;
+  }> = [];
+
+  let ts_ready_ms: number | null = null;
+  let verdict: SpawnProof['verdict'] = 'probe_timeout';
+  let error_message: string | null = null;
+
+  for (let i = 0; i < delays.length; i++) {
+    const delay = delays[i]!;
+    const elapsed_total = deps.clockMonotonic() - probeLoopStart;
+    if (elapsed_total + delay > budget_total) {
+      verdict = 'probe_total_exceeded';
+      error_message =
+        `budget ${budget_total}ms exhausted before attempt ${i + 1} ` +
+        `(elapsed=${Math.round(elapsed_total)}, next_delay=${delay})`;
+      break;
+    }
+
+    await deps.sleep(delay);
+
+    const attemptStart = deps.clockMonotonic();
+    const remaining = budget_total - (attemptStart - probeLoopStart);
+    const attempt_timeout = Math.max(100, Math.min(per_attempt_max, remaining));
+
+    let status: 'ok' | 'timeout' | 'error' = 'error';
+    let http_code: number | null = null;
+    try {
+      const controller = new AbortController();
+      const timer = setTimeout(() => controller.abort(), attempt_timeout);
+      try {
+        const res = await deps.fetchFn(OLLAMA_HEALTH_URL, { signal: controller.signal });
+        http_code = typeof res.status === 'number' ? res.status : null;
+        status = res.ok ? 'ok' : 'error';
+      } finally {
+        clearTimeout(timer);
+      }
+    } catch (err) {
+      const errStr = err instanceof Error ? err.message : String(err);
+      status = errStr.toLowerCase().includes('abort') ? 'timeout' : 'error';
+    }
+
+    const elapsed_ms = deps.clockMonotonic() - attemptStart;
+    probe_attempts.push({
+      attempt_index: i + 1,  // 1-based per spec §8.2
+      delay_ms: delay,
+      elapsed_ms,
+      status,
+      http_code,
+    });
+
+    if (status === 'ok') {
+      ts_ready_ms = deps.clockMonotonic() - tStart;
+      verdict = 'success';
+      error_message = null;
+      deps.logger.info('[dedale.reset] probe success', {
+        attempt_index: i + 1, ts_ready_ms, http_code,
+      });
+      break;
+    }
+  }
+
+  if (verdict === 'probe_timeout' && error_message === null) {
+    error_message =
+      probe_attempts.length === 0
+        ? 'no probe attempts executed (budget too tight)'
+        : `probe failed after ${probe_attempts.length} attempts`;
+  }
+
+  return {
+    cmd, args, platform,
+    pid, detached: true, unref_called,
+    ts_spawn_ms, ts_ready_ms,
+    probe_attempts,
+    verdict,
+    error_message,
+  };
+}
+
+/**
+ * Agrège un SpawnProof (potentiellement null) vers les 4 champs flat de
+ * ResetProof (§3.4 Δ v1.2). Zéro-impact si SpawnProof est null (path legacy
+ * ou fallback).
+ */
+function aggregateSpawnHealthFields(sp: SpawnProof | null): {
+  spawn_used: boolean;
+  spawn_success: boolean;
+  health_probe_attempts: number;
+  health_probe_total_ms: number;
+} {
+  if (sp === null) {
+    return {
+      spawn_used: false,
+      spawn_success: false,
+      health_probe_attempts: 0,
+      health_probe_total_ms: 0,
+    };
+  }
+  const total = sp.probe_attempts.reduce(
+    (acc, a) => acc + a.delay_ms + a.elapsed_ms,
+    0,
+  );
+  return {
+    spawn_used: true,
+    spawn_success: sp.verdict === 'success',
+    health_probe_attempts: sp.probe_attempts.length,
+    health_probe_total_ms: Math.round(total),
+  };
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
 // RESET SESSION — SÉQUENCE COMPLÈTE
 // ──────────────────────────────────────────────────────────────────────────────
 
@@ -365,10 +600,16 @@ export interface ResetSession {
 
 /**
  * Factory reset session. Consomme DI complet (execCmd, fetchFn, sleep, clock, logger).
+ *
+ * Δ v1.2 §8.1 D2bis : `spawnFn` ajouté à la signature Pick comme OPTIONNEL.
+ * - Présent → exécute Brique A (spawn détaché) + Brique B (probe exponentiel).
+ * - Absent  → path legacy v0.55 (healthCheckOllama 1-shot), rétro-compat 11
+ *   fichiers consommateurs existants (tests + factories non mutés).
  */
 export function createResetSession(
   deps: Pick<DedaleDependencies,
-    'execCmd' | 'fetchFn' | 'sleep' | 'clock' | 'clockMonotonic' | 'logger'>
+    'execCmd' | 'fetchFn' | 'sleep' | 'clock' | 'clockMonotonic' | 'logger'
+    | 'spawnFn'>
 ): ResetSession {
   return {
     async execute(): Promise<ResetResult> {
@@ -389,9 +630,49 @@ export function createResetSession(
       // 3. Wait disparition
       const gone = await waitForSnapshotDisappearance(deps, before);
 
-      // 4. Fallback si disparition échoue
+      // 4. Respawn path (Δ v1.2 §8.1 D2bis + §8.2 D3) :
+      //    - Si disparition OK ET spawnFn injecté → Brique A (spawn détaché)
+      //      + Brique B (probe exponentiel). Succès probe → skip fallback.
+      //    - Si disparition OK mais spawnFn absent → path legacy v0.55
+      //      (healthCheckOllama 1-shot). Rétro-compat tests existants.
+      //    - Si disparition KO OU spawn/probe KO → fallback service restart
+      //      + healthCheckOllama 1-shot.
       let fallback_used = false;
-      if (!gone) {
+      let spawnProof: SpawnProof | null = null;
+      let healthLegacy: { ok: boolean; latency_ms: number } | null = null;
+
+      if (gone && deps.spawnFn !== undefined) {
+        // 4a. Brique A + B : spawn détaché + probe exponentiel
+        spawnProof = await spawnAndProbe(deps);
+        logger.info('[dedale.reset] spawnAndProbe done', {
+          verdict: spawnProof.verdict,
+          pid: spawnProof.pid,
+          ts_ready_ms: spawnProof.ts_ready_ms,
+          attempts: spawnProof.probe_attempts.length,
+        });
+        if (spawnProof.verdict !== 'success') {
+          logger.warn('[dedale.reset] spawn/probe failed, triggering fallback', {
+            verdict: spawnProof.verdict,
+            error: spawnProof.error_message,
+          });
+          fallback_used = await fallbackRestartService(deps);
+          if (!fallback_used) {
+            const agg = aggregateSpawnHealthFields(spawnProof);
+            return {
+              outcome: 'failed',
+              proof: null,
+              elapsed_ms: deps.clockMonotonic() - tStart,
+              error:
+                `spawn verdict=${spawnProof.verdict} ` +
+                `(msg=${spawnProof.error_message ?? 'n/a'}) ` +
+                `+ fallback failed; attempts=${agg.health_probe_attempts}`,
+            };
+          }
+          await deps.sleep(2000);
+          healthLegacy = await healthCheckOllama(deps);
+        }
+      } else if (!gone) {
+        // 4b. Disparition échouée → fallback obligatoire
         logger.warn('[dedale.reset] disappearance timeout, triggering fallback');
         fallback_used = await fallbackRestartService(deps);
         if (!fallback_used) {
@@ -402,9 +683,32 @@ export function createResetSession(
             error: 'kill timeout + fallback failed',
           };
         }
-        // Laisse au service le temps de redémarrer
         await deps.sleep(2000);
+        healthLegacy = await healthCheckOllama(deps);
+      } else {
+        // 4c. Path legacy v0.55 (spawnFn non injecté) → healthCheckOllama 1-shot
+        logger.warn('[dedale.reset] spawnFn absent, legacy health check path');
+        healthLegacy = await healthCheckOllama(deps);
       }
+
+      // Détermination booléenne de l'état "Ollama répond"
+      const spawnOk = spawnProof !== null && spawnProof.verdict === 'success';
+      const legacyOk = healthLegacy !== null && healthLegacy.ok;
+      const ollamaReady = spawnOk || legacyOk;
+
+      // Agrégat SpawnProof → 4 champs flat ResetProof
+      const agg = aggregateSpawnHealthFields(spawnProof);
+
+      // Latence health_check_ms (legacy field, préservée pour compat télémétrie) :
+      //   - spawnProof success → ts_ready_ms (durée totale spawn+probe)
+      //   - healthLegacy       → latency_ms
+      //   - Échec total        → -1 (sentinelle legacy)
+      const health_check_ms =
+        spawnOk && spawnProof?.ts_ready_ms !== null && spawnProof?.ts_ready_ms !== undefined
+          ? Math.round(spawnProof.ts_ready_ms)
+          : legacyOk && healthLegacy !== null
+            ? Math.round(healthLegacy.latency_ms)
+            : -1;
 
       // 5. Snapshot après
       const after = await enumerateOllamaProcesses(deps);
@@ -424,15 +728,17 @@ export function createResetSession(
             kill_order: [...OLLAMA_RUNNER_NAMES, ...OLLAMA_DAEMON_NAMES],
             fallback_used,
             health_check_ms: -1,
+            spawn_used: agg.spawn_used,
+            spawn_success: agg.spawn_success,
+            health_probe_attempts: agg.health_probe_attempts,
+            health_probe_total_ms: agg.health_probe_total_ms,
           },
           elapsed_ms: deps.clockMonotonic() - tStart,
           error: 'proof invalid (same PID + same start_time)',
         };
       }
 
-      // 6. Health check
-      const health = await healthCheckOllama(deps);
-      if (!health.ok) {
+      if (!ollamaReady) {
         return {
           outcome: 'failed',
           proof: {
@@ -440,10 +746,16 @@ export function createResetSession(
             after,
             kill_order: [...OLLAMA_RUNNER_NAMES, ...OLLAMA_DAEMON_NAMES],
             fallback_used,
-            health_check_ms: health.latency_ms,
+            health_check_ms,
+            spawn_used: agg.spawn_used,
+            spawn_success: agg.spawn_success,
+            health_probe_attempts: agg.health_probe_attempts,
+            health_probe_total_ms: agg.health_probe_total_ms,
           },
           elapsed_ms: deps.clockMonotonic() - tStart,
-          error: 'health check failed',
+          error: spawnProof !== null
+            ? `spawn verdict=${spawnProof.verdict}, fallback_used=${fallback_used}, legacy=${legacyOk}`
+            : 'health check failed',
         };
       }
 
@@ -452,7 +764,11 @@ export function createResetSession(
         after,
         kill_order: [...OLLAMA_RUNNER_NAMES, ...OLLAMA_DAEMON_NAMES],
         fallback_used,
-        health_check_ms: health.latency_ms,
+        health_check_ms,
+        spawn_used: agg.spawn_used,
+        spawn_success: agg.spawn_success,
+        health_probe_attempts: agg.health_probe_attempts,
+        health_probe_total_ms: agg.health_probe_total_ms,
       };
 
       return {

@@ -25,6 +25,14 @@
  */
 
 // ──────────────────────────────────────────────────────────────────────────────
+// NODE TYPES (type-only imports — zéro runtime footprint)
+// ──────────────────────────────────────────────────────────────────────────────
+// Utilisés par DedaleDependencies.spawnFn (Δ v1.2 §8.1 D2bis).
+// `import type` garantit zéro require au runtime ; les types disparaissent post-tsc.
+
+import type { ChildProcess, SpawnOptions } from 'node:child_process';
+
+// ──────────────────────────────────────────────────────────────────────────────
 // FEATURE FLAG
 // ──────────────────────────────────────────────────────────────────────────────
 
@@ -117,6 +125,18 @@ export interface ProcessSnapshot {
  * Preuve que le reset session a réellement eu lieu.
  * before.pid DOIT différer strictement de after.pid (ou after.pid === null
  * avant health check, puis re-populated après).
+ *
+ * Δ additifs v1.2 §3.4 (NCR_DEDALE_RESET_HEALTH, 2026-04-23) :
+ *   - spawn_used             : un spawn a été tenté (true/false)
+ *   - spawn_success          : le spawn a produit un PID exploitable (true/false)
+ *   - health_probe_attempts  : nombre d'appels /api/tags en backoff exponentiel
+ *   - health_probe_total_ms  : durée totale cumulée des probes health (ms)
+ *
+ * Rétro-compat v0.55 : les 4 champs sont OPTIONNELS (`?`) pour que les 5
+ * constructeurs existants (3 call-sites reset-session.ts + 2 tests) compilent
+ * sans modification à l'étape 1 types.ts. Ils seront peuplés en dur par
+ * reset-session.ts (Brique A/B étapes 3-4) ; `undefined` équivaut alors à
+ * "chemin legacy sans spawn" (fallback service restart).
  */
 export interface ResetProof {
   readonly before: {
@@ -130,6 +150,12 @@ export interface ResetProof {
   readonly kill_order: readonly string[];  // ex: ["ollama_llama_server", "ollama serve"]
   readonly fallback_used: boolean;  // true si service restart utilisé
   readonly health_check_ms: number;  // latence curl /api/tags post-reset
+
+  // Δ additifs v1.2 §3.4 (NCR_DEDALE_RESET_HEALTH) — optional pour rétro-compat v0.55
+  readonly spawn_used?: boolean;
+  readonly spawn_success?: boolean;
+  readonly health_probe_attempts?: number;
+  readonly health_probe_total_ms?: number;
 }
 
 /**
@@ -266,6 +292,16 @@ export type C5Verdict = 'pass_exploratory' | 'pass_robust' | 'fail' | 'inconclus
 
 /**
  * Budgets maximaux Dédale. Gelés en v0.55.
+ *
+ * Δ additifs v1.2 §0.1 + §8 (NCR_DEDALE_RESET_HEALTH, 2026-04-23) :
+ *   - SPAWN_TIMEOUT_MS         : temps max alloué à `spawn('ollama serve')` avant abandon
+ *   - HEALTH_PROBE_INITIAL_MS  : délai de base avant 1er probe /api/tags (baseline cold-load)
+ *   - HEALTH_PROBE_MAX_MS      : délai maximal entre 2 probes (cap backoff exponentiel)
+ *   - HEALTH_PROBE_TOTAL_MS    : budget total cumulé des probes (mesure empirique cold-load
+ *                                 MRED-FRANCKY 2026-04-23 : max=2760 ms, budget 32000 ms = 91% headroom)
+ *
+ * Référentiel cold-load : _RESULTS.json SHA256 8650F0FDEF31A849615CF9D8AE69752A03C0AFF1B9AA5D68A6269428301D7ACF.
+ * Surprovisionné intentionnellement pour tolérer futurs modèles plus lourds.
  */
 export const DEDALE_BUDGETS = {
   /** Nombre maximum de resets session par run. Invariant : exactement 1. */
@@ -276,6 +312,16 @@ export const DEDALE_BUDGETS = {
   HEALTH_CHECK_TIMEOUT_MS: 15_000,
   /** Timeout total d'un reset (kill + wait + health) (en ms). */
   RESET_BUDGET_MS: 45_000,
+
+  // Δ additifs v1.2 §0.1 + §8 (NCR_DEDALE_RESET_HEALTH)
+  /** Timeout spawn `ollama serve` avant abandon (détection daemon mort rapide). */
+  SPAWN_TIMEOUT_MS: 5_000,
+  /** Délai initial avant 1er probe /api/tags (baseline cold-load). */
+  HEALTH_PROBE_INITIAL_MS: 500,
+  /** Cap du délai entre 2 probes (backoff exponentiel × 2 capé). */
+  HEALTH_PROBE_MAX_MS: 16_000,
+  /** Budget cumulé total des probes health (surprovisionné 91% headroom). */
+  HEALTH_PROBE_TOTAL_MS: 32_000,
 } as const;
 
 // ──────────────────────────────────────────────────────────────────────────────
@@ -355,6 +401,34 @@ export interface DedaleDependencies {
   readonly atomicWrite: (path: string, content: string) => Promise<void>;
   /** Logger structuré. */
   readonly logger: DedaleLogger;
+  /**
+   * Spawn natif d'un process détaché (pour respawn Ollama post-kill).
+   *
+   * Δ additif v1.2 §8.1 D2bis (NCR_DEDALE_RESET_HEALTH, 2026-04-23).
+   * Rationale : `execCmd` (exec/spawn+stdio:'pipe') attend terminaison — incompatible
+   * avec un daemon long-vivant. `spawnFn` retourne un ChildProcess dont on capture
+   * le PID immédiatement puis `unref()` pour couper le lien parent, laissant Ollama
+   * vivre. Arbitrage D2bis : (c) `child_process.spawn` retenu sur (a) nohup/setsid
+   * shell et (b) PM2/service manager (voir spec §6.4 matrice décisionnelle).
+   *
+   * Implémentation attendue :
+   *   - Prod : `await import('node:child_process').then(m => m.spawn)`
+   *   - Test : mock retournant un stub `{ pid: 12345, unref: () => {}, on: () => {} }`
+   *
+   * Contrat : MUST retourner synchrone, PID disponible immédiatement post-return.
+   * NON-GOAL : gestion stdio (caller utilise `stdio: 'ignore'`).
+   *
+   * OPTIONALITÉ (rétro-compat v0.55) : marqué `?` pour que les factories et mocks
+   * existants (6 tests + 3 prod call-sites) compilent sans modification à l'étape 1.
+   * reset-session.ts (Brique A, étape 3) lèvera une erreur explicite si
+   * `deps.spawnFn === undefined` au moment du spawn (chemin runtime impossible
+   * en prod dès que `buildDefaultDependencies` câble le spawn natif à l'étape 2).
+   */
+  readonly spawnFn?: (
+    cmd: string,
+    args: readonly string[],
+    opts: SpawnOptions,
+  ) => ChildProcess;
 }
 
 // ──────────────────────────────────────────────────────────────────────────────
@@ -374,4 +448,103 @@ export interface DedaleConfig {
     readonly c2_threshold: number;       // info-tag uniquement (ne déclenche plus)
     readonly c4_threshold: number;       // seuil composite
   };
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
+// SPAWN PROOF (Δ v1.2 §8.1 D2bis — NCR_DEDALE_RESET_HEALTH)
+// ──────────────────────────────────────────────────────────────────────────────
+
+/**
+ * Preuve granulaire d'un spawn `ollama serve` post-kill.
+ *
+ * Δ additif v1.2 §8.1 (2026-04-23). Capture le cycle complet :
+ * lancement → capture PID → tentatives probe /api/tags en backoff exponentiel →
+ * verdict success|timeout|crash.
+ *
+ * Consommé par reset-session.ts (Brique A + Brique B) et agrégé dans ResetProof
+ * via les 4 champs flat (spawn_used, spawn_success, health_probe_attempts,
+ * health_probe_total_ms). SpawnProof reste l'évidence détaillée, ResetProof
+ * en fait le résumé compact pour télémétrie.
+ *
+ * Contrat de temporalité :
+ *   - ts_spawn_ms : timestamp deps.clockMonotonic() AVANT spawnFn()
+ *   - ts_ready_ms : timestamp deps.clockMonotonic() APRÈS 1er probe PASS (null si fail)
+ *   - probe_attempts[i].delay_ms : délai backoff appliqué AVANT cet appel
+ *   - probe_attempts[i].elapsed_ms : durée de l'appel fetch /api/tags
+ */
+export interface SpawnProof {
+  readonly cmd: string;                        // "ollama"
+  readonly args: readonly string[];            // ["serve"]
+  readonly platform: 'win32' | 'linux' | 'darwin' | 'other';
+  readonly pid: number | null;                 // PID capturé, null si spawn a jeté
+  readonly detached: boolean;                  // toujours true post-D2bis
+  readonly unref_called: boolean;              // true si unref() invoqué
+  readonly ts_spawn_ms: number;                // deps.clockMonotonic() avant spawn
+  readonly ts_ready_ms: number | null;         // deps.clockMonotonic() au 1er probe PASS
+  readonly probe_attempts: readonly {
+    readonly attempt_index: number;            // 1-based
+    readonly delay_ms: number;                 // backoff appliqué avant cet appel
+    readonly elapsed_ms: number;               // durée effective du fetch
+    readonly status: 'ok' | 'timeout' | 'error';
+    readonly http_code: number | null;         // 200 si ok, null si timeout/error
+  }[];
+  readonly verdict: 'success' | 'spawn_failed' | 'probe_timeout' | 'probe_total_exceeded';
+  readonly error_message: string | null;       // détail erreur, null si success
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
+// ERREUR DÉDIÉE — SIGNAL RESET FAILED (Δ v1.2 D7)
+// ──────────────────────────────────────────────────────────────────────────────
+
+/**
+ * Erreur dédiée signalant qu'un reset session Dédale a échoué définitivement.
+ *
+ * Δ additif v1.2 §8 D7 (NCR_DEDALE_RESET_HEALTH, 2026-04-23).
+ * Rationale : le catch générique dans chunked-generator.ts:799-803 absorbe toute
+ * `Error` et fallback en legacy 4×750w (silencieux, mauvais). Pour propager
+ * proprement un échec de reset hors de `generateChunkedDraft` jusqu'à
+ * `orchestrator.ts:273-293` (qui gère `outcome='failed'`), on a besoin d'une
+ * classe dédiée que le catch peut distinguer via `instanceof` et re-throw.
+ *
+ * Pattern réutilisable : ce repo en compte 14 précédents (CreditExhaustedError,
+ * JudgeTimeoutError, etc.) — convention établie.
+ *
+ * Utilisation V2-B-LOOP (chunked-generator.ts:645-648, Brique C étape 5) :
+ *   throw new DedaleResetFailedError('reset_outcome_failed', {
+ *     resetResult,
+ *     chunkIndex,
+ *     mode: dedaleMode,
+ *   });
+ *
+ * Re-throw dans catch (chunked-generator.ts:799-803, Brique C étape 6) :
+ *   } catch (err) {
+ *     if (err instanceof DedaleResetFailedError) throw err;  // <-- Δ v1.2
+ *     // ... fallback legacy existant
+ *   }
+ *
+ * F-F3-1 (spec §12) : vérifier à l'impl Brique D que `orchestrator.ts:273-293`
+ * n'a pas de try/catch englobant aveugle au-dessus des call-sites
+ * `engine.ts:316` et `duel-engine.ts:151` qui absorberait à nouveau cette classe.
+ */
+export class DedaleResetFailedError extends Error {
+  public readonly name: 'DedaleResetFailedError' = 'DedaleResetFailedError';
+  public readonly code: string;
+  public readonly context: Readonly<Record<string, unknown>>;
+
+  constructor(
+    code: string,
+    context: Readonly<Record<string, unknown>> = {},
+    message?: string,
+  ) {
+    super(message ?? `DedaleResetFailedError[${code}]`);
+    this.code = code;
+    this.context = context;
+
+    // Préserver la stack native V8 (Node ≥ 10).
+    if (typeof Error.captureStackTrace === 'function') {
+      Error.captureStackTrace(this, DedaleResetFailedError);
+    }
+    // Fix instanceof cross-realm (TS/Node ES target).
+    Object.setPrototypeOf(this, DedaleResetFailedError.prototype);
+  }
 }

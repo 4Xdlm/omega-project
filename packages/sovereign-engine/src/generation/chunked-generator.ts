@@ -32,6 +32,7 @@ import {
   resolveDedaleConfig,
   buildDefaultDependencies,
   createDedale,
+  DedaleResetFailedError,
   type Dedale,
   type RunContext as DedaleRunContext,
 } from '../dedale/index.js';
@@ -646,6 +647,24 @@ async function generateAdaptiveDraftInternal(
         if (res.verdict !== 'no_loop') {
           console.log(`[DEDALE] chunk=${chunkIdx1} attempt=${attempt} verdict=${res.verdict} resets_used=${dedale.state.resets_used}`);
         }
+        // Δ v1.2 §8 D7 / Brique C Point 1 (NCR_DEDALE_RESET_HEALTH étape 5).
+        // Quand l'orchestrator signale reset_failed, on REFUSE de continuer
+        // silencieusement sur Ollama mort. On throw une classe dédiée que le
+        // catch générique `generateChunkedDraft` (ligne ~799-803) doit re-throw
+        // (étape 6) pour atteindre `orchestrator.ts:273-293` côté appelant qui
+        // matérialise `outcome='failed'`. Sans ce throw, le run continuait
+        // silencieusement avec `text1` sur daemon mort (bug NCR originel).
+        if (res.verdict === 'reset_failed') {
+          throw new DedaleResetFailedError('reset_outcome_failed', {
+            run_id: dedaleRunCtx.run_id,
+            chunk_index: chunkIdx1,
+            attempt,
+            seed,
+            mode: dedaleConfig.mode,
+            trigger_path: 'v2b',
+            resets_used: dedale.state.resets_used,
+          });
+        }
       } else {
         raw = await provider.generateDraft(prompt, 'chunked_k2', seed);
       }
@@ -797,6 +816,18 @@ export async function generateChunkedDraft(
         // Shadow mode → plan logged, keep plan for result, fall through to legacy
         shadowPlan = plan;
       } catch (err) {
+        // Δ v1.2 §8 D7 / Brique C Point 2 (NCR_DEDALE_RESET_HEALTH étape 6).
+        // Coupe-circuit Dédale : le catch générique fallbackait silencieusement
+        // en legacy 4×750w même sur reset_failed (bug NCR originel). On
+        // re-throw explicitement les DedaleResetFailedError pour qu'elles
+        // atteignent `orchestrator.ts:273-293` via l'appelant (engine.ts:316
+        // ou duel-engine.ts:151, F3 CLOSED) qui les traduit en outcome='failed'.
+        // Les autres erreurs (plan compute fail, module load fail, etc.)
+        // conservent le fallback legacy historique — ne pas régresser ce
+        // comportement hors-scope Dédale.
+        if (err instanceof DedaleResetFailedError) {
+          throw err;
+        }
         const msg = err instanceof Error ? err.message : String(err);
         console.log(`[V2-B] FALLBACK: adaptive plan computation failed (${msg}) — using legacy 4×750w`);
         fallbackTriggered = true;

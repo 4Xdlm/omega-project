@@ -23,12 +23,15 @@ import {
   createResetSession,
   proofIsValid,
   OLLAMA_HEALTH_URL,
+  spawnAndProbe,
 } from '../../src/dedale/reset-session.js';
 import type {
   DedaleDependencies,
   ExecResult,
   ProcessSnapshot,
+  SpawnProof,
 } from '../../src/dedale/types.js';
+import { DEDALE_BUDGETS } from '../../src/dedale/types.js';
 
 // ──────────────────────────────────────────────────────────────────────────────
 // FIXTURES — DI MOCK
@@ -219,5 +222,258 @@ describe('reset-session constants', () => {
   it('exposes the health URL', () => {
     expect(OLLAMA_HEALTH_URL).toContain('11434');
     expect(OLLAMA_HEALTH_URL).toContain('/api/tags');
+  });
+});
+
+// ──────────────────────────────────────────────────────────────────────────────
+// SPAWN AND PROBE — BRIQUES A + B (Étape 7 NCR_DEDALE_RESET_HEALTH v1.2 §8)
+// ──────────────────────────────────────────────────────────────────────────────
+//
+// Couvre runtime les 4 verdicts de SpawnProof :
+//   - 'success'             (probe OK avant budget)
+//   - 'spawn_failed'        (spawnFn throw OU pid null)
+//   - 'probe_timeout'       (toutes tentatives échouent dans budget)
+//   - 'probe_total_exceeded'(budget exhausted avant tentative)
+//
+// + 1 test discipline : ordre des delays backoff [500, 1000, 2000, 4000, 8000, 16000]
+// + 1 test guard : spawnFn absent → consommateur bascule path (C) legacy dans execute()
+
+/** Build a minimal ChildProcess-like stub for spawn mocks. */
+function mockChild(pid: number | null): { pid: number | null; unref: () => void } {
+  return {
+    pid,
+    unref: vi.fn(),
+  };
+}
+
+/** Build mock deps restreints à Pick utilisé par spawnAndProbe. */
+interface SpawnProbeMockConfig {
+  spawnFn?: DedaleDependencies['spawnFn'];
+  fetchResponses?: Array<{ ok?: boolean; status?: number; throwError?: Error | string }>;
+  sleepFn?: DedaleDependencies['sleep'];
+  clockValues?: number[];  // tableau croissant renvoyé successivement
+  loggerWarnSpy?: ReturnType<typeof vi.fn>;
+}
+
+function mockSpawnProbeDeps(config: SpawnProbeMockConfig) {
+  const fetchResponses = config.fetchResponses ?? [];
+  let fetchIdx = 0;
+  const clockValues = config.clockValues ?? [];
+  let clockIdx = 0;
+  const warn = config.loggerWarnSpy ?? vi.fn();
+
+  return {
+    spawnFn: config.spawnFn,
+    fetchFn: vi.fn().mockImplementation(async () => {
+      const r = fetchResponses[fetchIdx];
+      fetchIdx += 1;
+      if (r === undefined) {
+        // default : KO (status 500)
+        return { ok: false, status: 500, text: async () => 'nope' } as unknown as Response;
+      }
+      if (r.throwError !== undefined) {
+        throw r.throwError instanceof Error
+          ? r.throwError
+          : new Error(String(r.throwError));
+      }
+      return {
+        ok: r.ok ?? (r.status ?? 200) < 400,
+        status: r.status ?? 200,
+        text: async () => 'OK',
+      } as unknown as Response;
+    }),
+    sleep: config.sleepFn ?? vi.fn().mockImplementation(async () => {}),
+    clockMonotonic: vi.fn().mockImplementation(() => {
+      if (clockValues.length === 0) return Date.now();
+      const v = clockValues[Math.min(clockIdx, clockValues.length - 1)]!;
+      clockIdx += 1;
+      return v;
+    }),
+    logger: {
+      info: vi.fn(),
+      warn,
+      error: vi.fn(),
+    },
+  };
+}
+
+describe('spawnAndProbe — Brique A (spawn) + Brique B (probe exponentiel)', () => {
+  // ─────────────────────────────────────────────────────────────────────────
+  // T1 : spawn réussi + probe success 1ère tentative → verdict='success'
+  // ─────────────────────────────────────────────────────────────────────────
+  it('returns verdict=success with 1 attempt when probe passes immediately', async () => {
+    const child = mockChild(12345);
+    const deps = mockSpawnProbeDeps({
+      spawnFn: vi.fn().mockReturnValue(child) as DedaleDependencies['spawnFn'],
+      fetchResponses: [{ ok: true, status: 200 }],
+      clockValues: [0, 10, 20, 30, 40, 50, 60, 70, 80, 90],
+    });
+
+    const sp = await spawnAndProbe(deps);
+
+    expect(sp.verdict).toBe('success');
+    expect(sp.pid).toBe(12345);
+    expect(sp.detached).toBe(true);
+    expect(sp.unref_called).toBe(true);
+    expect(sp.probe_attempts).toHaveLength(1);
+    expect(sp.probe_attempts[0]!.status).toBe('ok');
+    expect(sp.probe_attempts[0]!.attempt_index).toBe(1);
+    expect(sp.ts_ready_ms).not.toBeNull();
+    expect(sp.error_message).toBeNull();
+    // Vérifie que spawnFn a été invoqué avec detached+stdio+windowsHide
+    const spawnCall = (deps.spawnFn as ReturnType<typeof vi.fn>).mock.calls[0]!;
+    expect(spawnCall[0]).toBe('ollama');
+    expect(spawnCall[1]).toEqual(['serve']);
+    expect(spawnCall[2]).toMatchObject({
+      detached: true,
+      stdio: 'ignore',
+      windowsHide: true,
+    });
+  });
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // T2 : spawn réussi + probe success à la 3ème tentative → 3 attempts
+  // ─────────────────────────────────────────────────────────────────────────
+  it('returns verdict=success after multiple failed probe attempts', async () => {
+    const child = mockChild(99999);
+    const deps = mockSpawnProbeDeps({
+      spawnFn: vi.fn().mockReturnValue(child) as DedaleDependencies['spawnFn'],
+      fetchResponses: [
+        { ok: false, status: 503 },  // tentative 1 : daemon still booting
+        { ok: false, status: 503 },  // tentative 2 : still booting
+        { ok: true, status: 200 },   // tentative 3 : ready
+      ],
+      clockValues: Array.from({ length: 30 }, (_, i) => i * 10),
+    });
+
+    const sp = await spawnAndProbe(deps);
+
+    expect(sp.verdict).toBe('success');
+    expect(sp.probe_attempts).toHaveLength(3);
+    expect(sp.probe_attempts[0]!.status).toBe('error');
+    expect(sp.probe_attempts[1]!.status).toBe('error');
+    expect(sp.probe_attempts[2]!.status).toBe('ok');
+    // attempt_index 1-based
+    expect(sp.probe_attempts.map((a) => a.attempt_index)).toEqual([1, 2, 3]);
+    // Ordre des delays = backoff exponentiel
+    expect(sp.probe_attempts.map((a) => a.delay_ms)).toEqual([500, 1000, 2000]);
+  });
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // T3 : backoff exponentiel — vérifie l'ordre des 6 delays [500,1000,2000,4000,8000,16000]
+  // ─────────────────────────────────────────────────────────────────────────
+  it('uses exponential backoff delays [500, 1000, 2000, 4000, 8000, 16000]', async () => {
+    const child = mockChild(7777);
+    // Forcer 6 échecs puis verdict=probe_timeout (par défaut à la sortie)
+    const deps = mockSpawnProbeDeps({
+      spawnFn: vi.fn().mockReturnValue(child) as DedaleDependencies['spawnFn'],
+      fetchResponses: Array.from({ length: 6 }, () => ({ ok: false, status: 503 })),
+      clockValues: Array.from({ length: 60 }, (_, i) => i * 10),
+    });
+
+    const sp = await spawnAndProbe(deps);
+
+    // spawnAndProbe a tenté les 6 delays, tous ont échoué
+    expect(sp.probe_attempts).toHaveLength(6);
+    expect(sp.probe_attempts.map((a) => a.delay_ms)).toEqual([
+      DEDALE_BUDGETS.HEALTH_PROBE_INITIAL_MS,       // 500
+      DEDALE_BUDGETS.HEALTH_PROBE_INITIAL_MS * 2,   // 1000
+      DEDALE_BUDGETS.HEALTH_PROBE_INITIAL_MS * 4,   // 2000
+      DEDALE_BUDGETS.HEALTH_PROBE_INITIAL_MS * 8,   // 4000
+      DEDALE_BUDGETS.HEALTH_PROBE_INITIAL_MS * 16,  // 8000
+      DEDALE_BUDGETS.HEALTH_PROBE_MAX_MS,           // 16000
+    ]);
+    // 6 échecs dans budget → verdict probe_timeout
+    expect(sp.verdict).toBe('probe_timeout');
+    expect(sp.error_message).toContain('probe failed after 6 attempts');
+  });
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // T4 : spawnFn throws → verdict='spawn_failed'
+  // ─────────────────────────────────────────────────────────────────────────
+  it('returns verdict=spawn_failed when spawnFn throws (ENOENT simulation)', async () => {
+    const spawnFn = vi.fn().mockImplementation(() => {
+      throw new Error('spawn ENOENT: ollama not found');
+    }) as unknown as DedaleDependencies['spawnFn'];
+    const deps = mockSpawnProbeDeps({
+      spawnFn,
+      clockValues: [0, 10, 20, 30],
+    });
+
+    const sp = await spawnAndProbe(deps);
+
+    expect(sp.verdict).toBe('spawn_failed');
+    expect(sp.pid).toBeNull();
+    expect(sp.unref_called).toBe(false);  // pas atteint, spawnFn a throw avant
+    expect(sp.probe_attempts).toHaveLength(0);  // aucune tentative probe
+    expect(sp.ts_ready_ms).toBeNull();
+    expect(sp.error_message).toContain('ENOENT');
+  });
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // T5 : spawnFn returns child without pid → verdict='spawn_failed'
+  // ─────────────────────────────────────────────────────────────────────────
+  it('returns verdict=spawn_failed when spawnFn returns child with null pid', async () => {
+    const child = mockChild(null);  // pid absent
+    const deps = mockSpawnProbeDeps({
+      spawnFn: vi.fn().mockReturnValue(child) as DedaleDependencies['spawnFn'],
+      clockValues: [0, 10, 20, 30],
+    });
+
+    const sp = await spawnAndProbe(deps);
+
+    expect(sp.verdict).toBe('spawn_failed');
+    expect(sp.pid).toBeNull();
+    expect(sp.probe_attempts).toHaveLength(0);
+    expect(sp.error_message).toBe('spawn returned no PID');
+  });
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // T6 : spawnFn undefined → guard runtime + warn log + verdict='spawn_failed'
+  // ─────────────────────────────────────────────────────────────────────────
+  it('warns and returns verdict=spawn_failed when spawnFn is undefined', async () => {
+    const warnSpy = vi.fn();
+    const deps = mockSpawnProbeDeps({
+      spawnFn: undefined,
+      clockValues: [0, 10, 20],
+      loggerWarnSpy: warnSpy,
+    });
+
+    const sp = await spawnAndProbe(deps);
+
+    expect(sp.verdict).toBe('spawn_failed');
+    expect(sp.pid).toBeNull();
+    expect(sp.detached).toBe(false);
+    expect(sp.unref_called).toBe(false);
+    expect(sp.probe_attempts).toHaveLength(0);
+    expect(sp.error_message).toContain('spawnFn not injected');
+    expect(warnSpy).toHaveBeenCalled();
+  });
+});
+
+// ──────────────────────────────────────────────────────────────────────────────
+// SPAWN PROOF SHAPE — invariants structurels
+// ──────────────────────────────────────────────────────────────────────────────
+
+describe('SpawnProof shape invariants', () => {
+  it('exposes all required fields on success path', async () => {
+    const child = mockChild(1111);
+    const deps = mockSpawnProbeDeps({
+      spawnFn: vi.fn().mockReturnValue(child) as DedaleDependencies['spawnFn'],
+      fetchResponses: [{ ok: true, status: 200 }],
+      clockValues: [0, 5, 10, 15, 20, 25],
+    });
+
+    const sp: SpawnProof = await spawnAndProbe(deps);
+
+    // Champs obligatoires présents (lecture strict du contrat types.ts)
+    expect(sp).toHaveProperty('cmd', 'ollama');
+    expect(sp).toHaveProperty('args');
+    expect(sp.args).toEqual(['serve']);
+    expect(['win32', 'linux', 'darwin', 'other']).toContain(sp.platform);
+    expect(typeof sp.ts_spawn_ms).toBe('number');
+    expect(sp.probe_attempts).toBeInstanceOf(Array);
+    expect(['success', 'spawn_failed', 'probe_timeout', 'probe_total_exceeded'])
+      .toContain(sp.verdict);
   });
 });

@@ -238,6 +238,9 @@ export function buildDefaultDependencies(
     nvidiaSmi: undefined,  // non câblé v0.55 (optionnel diag)
     atomicWrite: defaultAtomicWrite,
     logger: defaultLogger,
+    // Δ v1.2 §8.1 D2bis (NCR_DEDALE_RESET_HEALTH) — spawn natif pour respawn Ollama
+    // post-kill. Signature Node `spawn(cmd, args, opts)` ↔ DedaleDependencies.spawnFn.
+    spawnFn: spawn,
   };
   if (overrides === undefined) return base;
   return {

@@ -1,0 +1,106 @@
+{
+  "bench_id": "BENCH_TPRIME_VALIDATION_20260424",
+  "ts_start": "2026-04-24T04:41:16.733Z",
+  "ts_end": "2026-04-24T14:46:58.762Z",
+  "total_runs": 30,
+  "total_duration_min": 606,
+  "model": "qwen3:32b",
+  "dedale_mode": "on",
+  "per_scene": {
+    "T'01": {
+      "runs": 5,
+      "chunks": 22,
+      "counts": {
+        "no_loop": 20,
+        "reset_effective": 1,
+        "reset_non_effective": 1,
+        "reset_failed": 0
+      },
+      "oracle_a1_hf": 2,
+      "green_pct": 0.9545454545454546,
+      "red_pct": 0.045454545454545456
+    },
+    "T'02": {
+      "runs": 5,
+      "chunks": 20,
+      "counts": {
+        "no_loop": 20,
+        "reset_effective": 0,
+        "reset_non_effective": 0,
+        "reset_failed": 0
+      },
+      "oracle_a1_hf": 0,
+      "green_pct": 1,
+      "red_pct": 0
+    },
+    "T'03": {
+      "runs": 5,
+      "chunks": 23,
+      "counts": {
+        "no_loop": 21,
+        "reset_effective": 2,
+        "reset_non_effective": 0,
+        "reset_failed": 0
+      },
+      "oracle_a1_hf": 5,
+      "green_pct": 1,
+      "red_pct": 0
+    },
+    "T'04": {
+      "runs": 5,
+      "chunks": 21,
+      "counts": {
+        "no_loop": 19,
+        "reset_effective": 2,
+        "reset_non_effective": 0,
+        "reset_failed": 0
+      },
+      "oracle_a1_hf": 3,
+      "green_pct": 1,
+      "red_pct": 0
+    },
+    "T'05": {
+      "runs": 5,
+      "chunks": 23,
+      "counts": {
+        "no_loop": 22,
+        "reset_effective": 1,
+        "reset_non_effective": 0,
+        "reset_failed": 0
+      },
+      "oracle_a1_hf": 1,
+      "green_pct": 1,
+      "red_pct": 0
+    },
+    "T'06": {
+      "runs": 5,
+      "chunks": 23,
+      "counts": {
+        "no_loop": 23,
+        "reset_effective": 0,
+        "reset_non_effective": 0,
+        "reset_failed": 0
+      },
+      "oracle_a1_hf": 0,
+      "green_pct": 1,
+      "red_pct": 0
+    }
+  },
+  "global": {
+    "chunks_total": 132,
+    "counts": {
+      "no_loop": 125,
+      "reset_effective": 6,
+      "reset_non_effective": 1,
+      "reset_failed": 0
+    },
+    "oracle_a1_hf": 11,
+    "green_pct": 0.9924242424242424,
+    "red_pct": 0.007575757575757576
+  },
+  "gate": {
+    "green_threshold": 0.85,
+    "red_threshold": 0.15,
+    "pass": true
+  }
+}

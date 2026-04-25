@@ -28,12 +28,6 @@ export interface MetaphorHit {
 }
 
 /**
- * Prompt version for cache key stability.
- * U-META-02: bumped to v2.0.0 — prompt borné (max 5, expression courte) + parser résilient.
- */
-const PROMPT_VERSION = 'v2.0.0';
-
-/**
  * Détecte les métaphores dans une prose via LLM.
  * ART-META-03: Cache obligatoire (sha256 key).
  * FAIL-CLOSED: si provider down → retourner [].
@@ -46,7 +40,7 @@ const PROMPT_VERSION = 'v2.0.0';
 export async function detectMetaphors(
   prose: string,
   provider: SovereignProvider,
-  cache: SemanticCache,
+  _cache: SemanticCache,
 ): Promise<MetaphorHit[]> {
   try {
     const prompt = buildDetectionPrompt(prose);

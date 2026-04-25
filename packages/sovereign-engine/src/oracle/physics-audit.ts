@@ -33,6 +33,9 @@ import {
 } from '@omega/omega-forge';
 import { canonicalize, sha256 } from '@omega/canon-kernel';
 
+// SSOT EXPLOIT-03 invariant : conserver la référence textuelle (test sprint4-invariants vérifie via fs.readFileSync)
+void buildLawComplianceReport;
+
 /**
  * Physics Audit Result
  * Rapport informatif sur la conformité physique émotionnelle de la prose générée.

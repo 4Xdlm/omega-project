@@ -81,7 +81,6 @@ function generateInstruction(
   }
 
   const isLow = value < 0.3;
-  const isHigh = value > 0.7;
 
   const instructionMap: Record<
     keyof VoiceGenome,

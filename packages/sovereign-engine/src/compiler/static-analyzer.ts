@@ -34,7 +34,6 @@ export function analyzePreFlight(
   const budgetL1 = config?.budget_l1 ?? DEFAULT_COMPILER_CONFIG.budget_l1;
   const budgetL2 = config?.budget_l2 ?? DEFAULT_COMPILER_CONFIG.budget_l2;
   const budgetL3 = config?.budget_l3 ?? DEFAULT_COMPILER_CONFIG.budget_l3;
-  const tokenizerId = config?.tokenizer_id ?? DEFAULT_COMPILER_CONFIG.tokenizer_id;
   const budgetContract = config?.budget_contract ?? DEFAULT_COMPILER_CONFIG.budget_contract;
 
   const inst = partition.instrumentation;

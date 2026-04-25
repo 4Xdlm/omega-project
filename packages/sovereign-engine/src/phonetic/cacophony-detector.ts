@@ -47,8 +47,6 @@ export type CacophonyType =
 // ═══════════════════════════════════════════════════════════════════════════════
 
 const CONSONANTS = new Set('bcdfghjklmnpqrstvwxz'.split(''));
-const SIBILANTS = new Set(['s', 'z', 'ch', 'j']);
-const PLOSIVES = new Set(['p', 't', 'k', 'b', 'd', 'g']);
 const VOWELS = new Set('aeiouyàâäéèêëïîôùûüÿœæ'.split(''));
 
 /** Normalize text: lowercase, strip non-letter except spaces */

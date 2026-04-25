@@ -160,8 +160,6 @@ export function runCertificationGates(): CertificationVerdict {
   const gatesPassed = gates.filter(g => g.status === 'PASS').length;
   const allGatesPass = gatesPassed === gates.length;
 
-  const totalTestIds = ART_INVARIANTS.reduce((sum, inv) => sum + inv.test_ids.length, 0);
-
   return {
     verdict: allGatesPass ? 'GO' : 'NO-GO',
     version_tag: 'v3.0.0-art',

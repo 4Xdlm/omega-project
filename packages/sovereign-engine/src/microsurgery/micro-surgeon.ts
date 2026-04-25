@@ -150,12 +150,6 @@ const INTERVENTION_THRESHOLD = 0.35; // Sprint SEAL: lowered from 0.45 to catch 
 /** Maximum TENSION interventions per run */
 const MAX_TENSION_INTERVENTIONS = 2;
 
-/** Maximum HOOK interventions per run */
-const MAX_HOOK_INTERVENTIONS = 1;
-
-/** Hook presence score threshold for intervention */
-const HOOK_INTERVENTION_THRESHOLD = 70;
-
 /**
  * Plan micro-interventions for the weakest quartiles.
  * Only targets quartiles with similarity < INTERVENTION_THRESHOLD.

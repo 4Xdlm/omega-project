@@ -604,8 +604,6 @@ async function generateAdaptiveDraftInternal(
     const last200 = fullProse.split(/\s+/).slice(-200).join(' ');
 
     let chunkProse = '';
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    let _accepted = false;
     let bestAttemptProse = '';
     let bestAttemptRatio = Infinity;
 
@@ -724,7 +722,6 @@ async function generateAdaptiveDraftInternal(
         console.log(`[V2-B-ANAPHORA] Chunk ${chunkIdx1}: ${anaphoraViolations} anaphora violations detected`);
       }
 
-      _accepted = true;
       break;
     }
 
@@ -845,8 +842,6 @@ export async function generateChunkedDraft(
     const last200 = fullProse.split(/\s+/).slice(-200).join(' ');
 
     let chunkProse = '';
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    let _accepted = false;
     // P8-FIX: Track best attempt across retries (lowest trigram ratio wins)
     let bestAttemptProse = '';
     let bestAttemptRatio = Infinity;
@@ -929,7 +924,6 @@ export async function generateChunkedDraft(
         console.log(`[K2-ANAPHORA] Chunk ${chunk}: ${anaphoraViolations} anaphora violations detected`);
       }
 
-      _accepted = true;
       break;
     }
 

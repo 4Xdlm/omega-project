@@ -198,7 +198,7 @@ function safeCompute(name: string, fn: () => number): MetricResult {
   }
 }
 
-function degraded(name: string, reason: string): MetricResult {
+function degraded(_name: string, reason: string): MetricResult {
   return { value: 0, status: 'degraded', reason };
 }
 

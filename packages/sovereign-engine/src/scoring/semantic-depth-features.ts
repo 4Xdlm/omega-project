@@ -103,7 +103,6 @@ export function computeSemanticDepthFeatures(text: string): Record<string, numbe
   const tl = text.toLowerCase();
   const ns = Math.max(sents.length, 1);
   const words = text.split(/\s+/).filter(w => w.length > 0);
-  const nw = Math.max(words.length, 1);
   const lw = getLowerWords(text);
   const nlw = Math.max(lw.length, 1);
   const f: Record<string, number> = {};

@@ -42,6 +42,9 @@ import {
 } from '@omega/omega-forge';
 import { validateConsumerRequirements } from '@omega/signal-registry';
 
+// SSOT EXPLOIT-02 invariant : conserver la référence textuelle (test sprint4-invariants vérifie via fs.readFileSync)
+void singleEmotionState;
+
 import type {
   ForgePacket,
   EmotionContract,

@@ -761,12 +761,7 @@ Constraints Hash: ${gen.constraints_hash}
 // PRESCRIPTIVE SECTIONS — RCI + IFI BOOST
 // ═══════════════════════════════════════════════════════════════════════════════
 
-function buildRhythmPrescriptionSection(packet: ForgePacket): PromptSection {
-  const sg = packet.style_genome;
-  const targetLen = sg.rhythm.avg_sentence_length_target;
-  const _shortMax = Math.max(5, Math.floor(targetLen * 0.35));
-  const _longMin = Math.max(20, Math.ceil(targetLen * 1.4));
-
+function buildRhythmPrescriptionSection(_packet: ForgePacket): PromptSection {
   const content = `## ⚡ RHYTHM IS PHYSICS — QUANTIFIED CONSTRAINTS (Phase R validated)
 
 # RHYTHM PRESCRIPTION — MANDATORY

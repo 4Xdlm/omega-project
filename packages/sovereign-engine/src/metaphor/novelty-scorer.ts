@@ -40,7 +40,7 @@ export interface MetaphorNoveltyResult {
  */
 export async function scoreMetaphorNovelty(
   metaphors: MetaphorHit[],
-  blacklist: DeadMetaphor[],
+  _blacklist: DeadMetaphor[],
 ): Promise<MetaphorNoveltyResult> {
   // Si aucune métaphore → score neutre 70
   if (metaphors.length === 0) {

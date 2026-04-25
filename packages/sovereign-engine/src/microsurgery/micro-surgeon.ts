@@ -161,8 +161,8 @@ const HOOK_INTERVENTION_THRESHOLD = 70;
  * Only targets quartiles with similarity < INTERVENTION_THRESHOLD.
  */
 export function planInterventions(
-  packet: ForgePacket,
-  prose: string,
+  _packet: ForgePacket,
+  _prose: string,
   diagnostics: QuartileDiagnostic[],
 ): MicroIntervention[] {
   const interventions: MicroIntervention[] = [];

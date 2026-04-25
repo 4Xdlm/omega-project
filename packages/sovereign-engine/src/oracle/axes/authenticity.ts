@@ -32,7 +32,7 @@ const globalCache = new SemanticCache();
  * @returns AxisScore [0-100], poids 2.0, méthode HYBRID
  */
 export async function scoreAuthenticityAxis(
-  packet: ForgePacket,
+  _packet: ForgePacket,
   prose: string,
   provider: SovereignProvider,
 ): Promise<AxisScore> {

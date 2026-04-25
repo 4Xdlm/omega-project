@@ -24,7 +24,6 @@ import type { ForgePacket, SovereignProvider } from '../types.js';
 import type { CDEInput } from '../cde/types.js';
 import type { PDBInstruction } from '../prose-directive/lot1-instructions.js';
 import type { SymbolMap } from '../symbol/symbol-map-types.js';
-import type { CompiledPartition } from '../compiler/types.js';
 import type {
   CalcCompositeResult,
   OrchestratorResult,

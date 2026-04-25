@@ -97,7 +97,7 @@ export class AnthropicLLMProvider implements LLMProvider {
   // LLMProvider INTERFACE
   // ═══════════════════════════════════════════════════════════════════════════
 
-  async generateDraft(packet: ForgePacket, seed: string): Promise<LLMProviderResult> {
+  async generateDraft(packet: ForgePacket, _seed: string): Promise<LLMProviderResult> {
     const expId = (packet as any).experiment_id as string ?? '';  // eslint-disable-line @typescript-eslint/no-explicit-any
 
     let transcendentPlan: TranscendentPlanJSON | undefined;

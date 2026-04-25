@@ -15,7 +15,6 @@
  * ═══════════════════════════════════════════════════════════════════════════════
  */
 
-import { sha256 } from '@omega/canon-kernel';
 import type { SovereignProvider } from '../types.js';
 import type { SemanticCache } from '../semantic/semantic-cache.js';
 import { isDeadMetaphor } from './dead-metaphor-blacklist.js';

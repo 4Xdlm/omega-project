@@ -14,8 +14,8 @@
  * ═══════════════════════════════════════════════════════════════════════════════
  */
 
-import { generateProofPackV3, type ProofPackV3 } from './proofpack-v3.js';
-import { generateBlueprintV2, type BlueprintV2 } from './blueprint-v2.js';
+import { generateProofPackV3 } from './proofpack-v3.js';
+import { generateBlueprintV2 } from './blueprint-v2.js';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // TYPES

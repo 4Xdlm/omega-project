@@ -36,7 +36,6 @@ import { runSovereignForge, type SovereignForgeResult } from '../../engine.js';
 import {
   GreatnessJudge,
   type GreatnessResult,
-  type SelectionTrace,
 } from './greatness-judge.js';
 import type { JudgeCache } from '../judge-cache.js';
 import {

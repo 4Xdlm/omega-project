@@ -31,7 +31,7 @@ import { analyzeRhythmVariation } from '../../phonetic/rhythm-variation.js';
  * Clamp [0, 100].
  */
 export function scoreEuphonyBasic(
-  packet: ForgePacket,
+  _packet: ForgePacket,
   prose: string,
 ): AxisScore {
   const cacophony = detectCacophony(prose);

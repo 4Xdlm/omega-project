@@ -18,7 +18,6 @@
  */
 
 import { TELLING_PATTERNS_FR, isNotFalsePositive } from './telling-patterns.js';
-import type { TellingPattern } from './telling-patterns.js';
 
 export interface TellingViolation {
   readonly sentence_index: number;

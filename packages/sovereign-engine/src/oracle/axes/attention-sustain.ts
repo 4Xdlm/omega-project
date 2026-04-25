@@ -29,7 +29,7 @@ import { runPhantom } from '../../phantom/phantom-runner.js';
  * Clamp [0, 100].
  */
 export function scoreAttentionSustain(
-  packet: ForgePacket,
+  _packet: ForgePacket,
   prose: string,
 ): AxisScore {
   const trace = runPhantom(prose);

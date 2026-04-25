@@ -383,7 +383,7 @@ function buildAAIReasons(sub_scores: readonly AxisScore[]): ScoreReasons {
 export async function computeRCI(
   packet: ForgePacket,
   prose: string,
-  provider?: SovereignProvider
+  _provider?: SovereignProvider
 ): Promise<MacroAxisScore> {
   // 1. Sous-composants
   const rhythm = scoreRhythm(packet, prose);

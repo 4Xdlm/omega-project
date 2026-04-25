@@ -37,7 +37,6 @@ import {
   DEFAULT_CANONICAL_TABLE,
   type EmotionState14D,
   type Emotion14,
-  type PrescribedState,
   type OmegaState,
   type ForgeEmotionBrief,
 } from '@omega/omega-forge';

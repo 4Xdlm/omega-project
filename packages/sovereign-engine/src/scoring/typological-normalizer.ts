@@ -19,8 +19,6 @@
  * NASA-Grade L4 — all constants LEARNED, zero hand-tuning.
  */
 
-import type { PassageClassification } from './passage-classifier.js';
-
 // ═══════════════════════════════════════════════════════════════════════
 // TYPES
 // ═══════════════════════════════════════════════════════════════════════

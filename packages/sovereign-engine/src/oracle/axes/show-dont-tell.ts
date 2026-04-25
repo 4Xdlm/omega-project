@@ -28,9 +28,9 @@ import { detectTelling } from '../../silence/show-dont-tell.js';
  * @returns AxisScore [0-100], poids 3.0, méthode HYBRID
  */
 export async function scoreShowDontTell(
-  packet: ForgePacket,
+  _packet: ForgePacket,
   prose: string,
-  provider: SovereignProvider,
+  _provider: SovereignProvider,
 ): Promise<AxisScore> {
   // Détection CALC (déterministe)
   const result = detectTelling(prose);

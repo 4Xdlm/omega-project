@@ -37,7 +37,7 @@ const globalCache = new SemanticCache(3600); // 1 hour TTL
  * @returns AxisScore for metaphor_novelty
  */
 export async function scoreMetaphorNoveltyAxis(
-  packet: ForgePacket,
+  _packet: ForgePacket,
   prose: string,
   provider: SovereignProvider,
 ): Promise<AxisScore> {

@@ -15,7 +15,6 @@ import type {
   PartitionDump,
 } from './types.js';
 import { DEFAULT_COMPILER_CONFIG } from './types.js';
-import { countTokens } from '../constraints/token-counter.js';
 
 // ── ECC / RCI / SII axis keywords ───────────────────────────────────────────
 

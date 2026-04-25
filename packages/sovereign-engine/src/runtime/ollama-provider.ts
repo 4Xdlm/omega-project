@@ -200,7 +200,7 @@ Réponds UNIQUEMENT par un nombre entre 0 et 100. Format: INTERIORITY: XX`;
       return extractScore(response, 'INTERIORITY');
     },
 
-    async scoreSensoryDensity(prose: string, sensoryCounts: Record<string, number>): Promise<number> {
+    async scoreSensoryDensity(prose: string, _sensoryCounts: Record<string, number>): Promise<number> {
       const systemPrompt = `Tu es un évaluateur littéraire expert. Évalue la DENSITÉ SENSORIELLE du texte.
 Le texte doit engager les 5 sens (vue, ouïe, toucher, odorat, goût) avec des détails concrets et spécifiques.
 Réponds UNIQUEMENT par un nombre entre 0 et 100. Format: SENSORY: XX`;
@@ -233,7 +233,7 @@ Réponds UNIQUEMENT par un nombre entre 0 et 100. Format: IMPACT: XX`;
     async applyPatch(
       prose: string,
       pitch: CorrectionPitch,
-      constraints: { readonly canon: readonly string[]; readonly beats: readonly string[] },
+      _constraints: { readonly canon: readonly string[]; readonly beats: readonly string[] },
     ): Promise<string> {
       const systemPrompt = `Tu es un éditeur littéraire expert. Corrige la prose française selon les instructions.
 Retourne UNIQUEMENT la prose corrigée, sans commentaire.`;

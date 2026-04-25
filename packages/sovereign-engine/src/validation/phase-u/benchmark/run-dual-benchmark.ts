@@ -26,7 +26,7 @@ import { join } from 'node:path';
 import type { SovereignProvider } from '../../../types.js';
 import type { ForgePacketInput } from '../../../input/forge-packet-assembler.js';
 import { runSovereignForge } from '../../../engine.js';
-import { TopKSelectionEngine, generateDistinctSeeds, type KSelectionReport } from '../top-k-selection.js';
+import { TopKSelectionEngine, type KSelectionReport } from '../top-k-selection.js';
 import {
   PhaseUExitValidator,
   type OneShotRecord,

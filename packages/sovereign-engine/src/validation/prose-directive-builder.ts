@@ -293,7 +293,7 @@ export function buildFinalPrompt(directive: ProseDirective): string {
 // INTERNAL
 // ═══════════════════════════════════════════════════════════════════════════════
 
-function buildQuartileDirective(quartile: EmotionQuartile, packet: ForgePacket): QuartileDirective {
+function buildQuartileDirective(quartile: EmotionQuartile, _packet: ForgePacket): QuartileDirective {
   const target14d = quartile.target_14d;
 
   // Find dominant emotion and its intensity

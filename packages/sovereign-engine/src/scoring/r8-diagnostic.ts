@@ -7,7 +7,7 @@
  * Does NOT replace the judge — provides EXPLANATORY diagnostics.
  */
 
-import { computeAllGBFeatures, scoreText } from './gb-scorer.js';
+import { scoreText } from './gb-scorer.js';
 import { classifyPassage, type PassageClassification } from './passage-classifier.js';
 import {
   TypologicalNormalizer,

@@ -79,6 +79,8 @@ import { runMicroSurgery } from './microsurgery/micro-surgeon.js';
 import { type ArchetypeId } from './microsurgery/damage-gate.js';
 // ★ V-ENGINE-BRIDGE: Chunked generator K2 (moteur v4)
 import { generateChunkedDraft, isChunkedV4Active } from './generation/chunked-generator.js';
+// ★ P0-3: Anaphore gate — opening repetition detection
+import { computeStyleDelta } from './delta/delta-style.js';
 import { forgePacketToSceneBrief } from './generation/forge-to-brief.js';
 // P0-02: Unified thresholds — single source of truth
 import { SAGA_READY_COMPOSITE_MIN, SAGA_READY_SSI_MIN } from './core/thresholds.js';
@@ -112,7 +114,6 @@ function deriveArchetypeFromPacket(packet: import('./types.js').ForgePacket): Ar
   // Q3 (index 2) = climax quartile — most representative of peak emotional intensity
   const climaxQuartile = packet.emotion_contract.curve_quartiles[2];
   const dominantEmotion = climaxQuartile.dominant.toLowerCase();
-  const peakArousal = climaxQuartile.arousal;
 
   // BRUTAL: anger/fear dominance + non-internal conflict → BRUTAL always
   // INV-ARCH-CORPUS-01: Phase W corpus (413 works). McCarthy LEXIQUE=3, MUSIQUE=18.
@@ -288,15 +289,16 @@ async function executePipeline(
       console.warn('[V3] PreFlight RED — partition may produce suboptimal results');
     }
 
-    const dump = dumpPartition(partition);
+    dumpPartition(partition);
     console.log(`[V3] Partition: ${partition.total_tokens}t | hash=${partition.partition_hash.slice(0, 12)}`);
   }
 
   // ★ Prompt selection: V5 > V4 > V2
   let prompt: import('./types.js').SovereignPrompt;
   if (isV5Active()) {
-    prompt = buildSovereignPrompt_V5(enrichedPacket, symbolMap);
-    console.log(`[V5] Prompt: ${Math.ceil(prompt.total_length / 4)}t | hash=${prompt.prompt_hash.slice(0, 12)}`);
+    const sceneArchetype = deriveArchetypeFromPacket(enrichedPacket);
+    prompt = buildSovereignPrompt_V5(enrichedPacket, symbolMap, sceneArchetype);
+    console.log(`[V5] Prompt: ${Math.ceil(prompt.total_length / 4)}t | archetype=${sceneArchetype} | hash=${prompt.prompt_hash.slice(0, 12)}`);
   } else if (isV4Active()) {
     prompt = buildSovereignPrompt_V4(enrichedPacket, symbolMap);
     console.log(`[V4] Prompt: ${Math.ceil(prompt.total_length / 4)}t | hash=${prompt.prompt_hash.slice(0, 12)}`);
@@ -316,12 +318,20 @@ async function executePipeline(
         signatureWords: enrichedPacket.style_genome.lexicon.signature_words,
         language: enrichedPacket.language as 'fr' | 'en',
         seed: enrichedPacket.seeds.llm_seed,
+        // V2-B: pass emotion_contract to enable adaptive chunking when
+        // OMEGA_ADAPTIVE_CHUNKING='shadow'|'1'. Absence → silent legacy fallback.
+        emotionContract: enrichedPacket.emotion_contract,
       },
       provider,
     );
     initialDraft = chunkedResult.prose;
     console.log(`[V4-CHUNKED] ${chunkedResult.total_words}w en ${chunkedResult.api_calls} API calls`);
     console.log(`[V4-CHUNKED] Chunks: ${chunkedResult.words_per_chunk.join(', ')}w`);
+    if (chunkedResult.adaptive_mode && chunkedResult.adaptive_mode !== '0') {
+      const plan = chunkedResult.adaptive_plan;
+      const fallback = chunkedResult.adaptive_fallback_triggered;
+      console.log(`[V2-B][engine] mode=${chunkedResult.adaptive_mode} fallback=${fallback} plan_chunks=${plan ? plan.length : 'n/a'}`);
+    }
   } else if (isR6GateEnabled()) {
     // ★ R6: Rejection Gate wraps standard generation (ADR-003)
     // Gate runs CALC V3.4 on each attempt, accept/reject, retry blind.
@@ -465,6 +475,26 @@ async function executePipeline(
   // final_prose = await sweepCliches(enrichedPacket, final_prose, provider);
   // final_prose = await enforceSignature(enrichedPacket, final_prose, provider);
   console.log(`[POLISH-AUDIT] Polish DISABLED (Sprint 2 — NO-OP proven). Saved 3 API calls.`);
+
+  // ★ P0-3: Anaphore Gate — detect excessive opening repetition (shadow mode by default)
+  // ADR-003: CALC=douanier (rejection sampling). Gate logue le ratio, ne rejette pas en shadow.
+  // Activable via OMEGA_ANAPHORE_GATE='1' (reject) ou 'shadow' (default: log only).
+  {
+    const anaphoreMode = process.env.OMEGA_ANAPHORE_GATE ?? 'shadow';
+    if (anaphoreMode !== '0') {
+      const styleDelta = computeStyleDelta(enrichedPacket, final_prose);
+      const openingRep = styleDelta.opening_repetition_rate;
+      const threshold = SOVEREIGN_CONFIG.OPENING_REPETITION_MAX;
+      const exceeded = openingRep > threshold;
+      const tag = exceeded ? 'EXCEEDED' : 'OK';
+      console.log(`[ANAPHORE-GATE] opening_rep=${(openingRep * 100).toFixed(1)}% | threshold=${(threshold * 100).toFixed(0)}% | ${tag} | mode=${anaphoreMode}`);
+      if (exceeded && anaphoreMode === '1') {
+        console.warn(`[ANAPHORE-GATE] REJECT — opening repetition ${(openingRep * 100).toFixed(1)}% > ${(threshold * 100).toFixed(0)}% threshold`);
+        // In active mode, flag the prose for downstream handling (R6 gate or verdict coercion)
+        // For now: log only. Future: integrate with R6 rejection sampling.
+      }
+    }
+  }
 
   // ★ Sprint 3C: Micro-surgeon — targeted tension_14d interventions
   // Replaces the disabled polish with precision interventions.

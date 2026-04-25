@@ -1,0 +1,172 @@
+{
+  "bench_id": "BENCH_ANAPHORE_BETA_20260425",
+  "ts_start": "2026-04-25T09:53:33.227Z",
+  "ts_end": "2026-04-25T11:34:11.790Z",
+  "total_runs": 72,
+  "total_duration_min": 101,
+  "model": "qwen3:32b",
+  "threshold": 0.1,
+  "class_stats": {
+    "adversarial": {
+      "mean": 0.2972872567590469,
+      "std": 0.1257543031165947,
+      "cv": 0.4230060329108533,
+      "exceeded_count": 36,
+      "total_runs": 36
+    },
+    "canonical": {
+      "mean": 0.2723281038622464,
+      "std": 0.08552170306583941,
+      "cv": 0.31403921171903526,
+      "exceeded_count": 24,
+      "total_runs": 24
+    },
+    "borderline": {
+      "mean": 0.38884533665126203,
+      "std": 0.10792503943580882,
+      "cv": 0.2775526135024784,
+      "exceeded_count": 12,
+      "total_runs": 12
+    }
+  },
+  "scene_stats": [
+    {
+      "scene_id": "ANA01",
+      "anaphore_class": "adversarial",
+      "mean_opening_rep": 0.4904613535640944,
+      "cv_inter_seeds": 0.19221792888927539,
+      "exceeded_count": 6,
+      "runs_count": 6
+    },
+    {
+      "scene_id": "ANA02",
+      "anaphore_class": "adversarial",
+      "mean_opening_rep": 0.20392882088506795,
+      "cv_inter_seeds": 0.27669195667694485,
+      "exceeded_count": 6,
+      "runs_count": 6
+    },
+    {
+      "scene_id": "ANA03",
+      "anaphore_class": "adversarial",
+      "mean_opening_rep": 0.26693728861082516,
+      "cv_inter_seeds": 0.4192171254591571,
+      "exceeded_count": 6,
+      "runs_count": 6
+    },
+    {
+      "scene_id": "ANA04",
+      "anaphore_class": "adversarial",
+      "mean_opening_rep": 0.21216088650735423,
+      "cv_inter_seeds": 0.2313288401168246,
+      "exceeded_count": 6,
+      "runs_count": 6
+    },
+    {
+      "scene_id": "ANA05",
+      "anaphore_class": "adversarial",
+      "mean_opening_rep": 0.23093179713276354,
+      "cv_inter_seeds": 0.19690438270561347,
+      "exceeded_count": 6,
+      "runs_count": 6
+    },
+    {
+      "scene_id": "ANA06",
+      "anaphore_class": "adversarial",
+      "mean_opening_rep": 0.3793033938541753,
+      "cv_inter_seeds": 0.14990617263037812,
+      "exceeded_count": 6,
+      "runs_count": 6
+    },
+    {
+      "scene_id": "CAN01",
+      "anaphore_class": "canonical",
+      "mean_opening_rep": 0.24372837338904516,
+      "cv_inter_seeds": 0.18489137457526592,
+      "exceeded_count": 6,
+      "runs_count": 6
+    },
+    {
+      "scene_id": "CAN02",
+      "anaphore_class": "canonical",
+      "mean_opening_rep": 0.33770041581235816,
+      "cv_inter_seeds": 0.3548879472964208,
+      "exceeded_count": 6,
+      "runs_count": 6
+    },
+    {
+      "scene_id": "CAN03",
+      "anaphore_class": "canonical",
+      "mean_opening_rep": 0.21820271176971354,
+      "cv_inter_seeds": 0.2971153237579669,
+      "exceeded_count": 6,
+      "runs_count": 6
+    },
+    {
+      "scene_id": "CAN04",
+      "anaphore_class": "canonical",
+      "mean_opening_rep": 0.2896809144778683,
+      "cv_inter_seeds": 0.19098448319297479,
+      "exceeded_count": 6,
+      "runs_count": 6
+    },
+    {
+      "scene_id": "BRD01",
+      "anaphore_class": "borderline",
+      "mean_opening_rep": 0.43940291149793037,
+      "cv_inter_seeds": 0.11817243684086895,
+      "exceeded_count": 6,
+      "runs_count": 6
+    },
+    {
+      "scene_id": "BRD02",
+      "anaphore_class": "borderline",
+      "mean_opening_rep": 0.3382877618045936,
+      "cv_inter_seeds": 0.38308559007635495,
+      "exceeded_count": 6,
+      "runs_count": 6
+    }
+  ],
+  "gate_verdicts": [
+    {
+      "id": "B1",
+      "description": "Discrimination adv vs canon",
+      "observed": "Δmean = 0.0250 (adv=0.2973 - canon=0.2723)",
+      "threshold": "≥ 0.05",
+      "pass": false
+    },
+    {
+      "id": "B2",
+      "description": "Borderline placement",
+      "observed": "border=0.3888 (canon=0.2723 | adv=0.2973)",
+      "threshold": "mean(canon) < mean(border) < mean(adv)",
+      "pass": false
+    },
+    {
+      "id": "B3",
+      "description": "Faux positifs canon",
+      "observed": "24/24 EXCEEDED",
+      "threshold": "≤ 1/24",
+      "pass": false
+    },
+    {
+      "id": "B4",
+      "description": "CV inter-seeds par famille",
+      "observed": "adv=0.423 canon=0.314 border=0.278",
+      "threshold": "≤ 0.3 chaque famille",
+      "pass": false
+    },
+    {
+      "id": "B5",
+      "description": "NO-OP runtime mode shadow",
+      "observed": "36/36 paires divergentes",
+      "threshold": "= 0",
+      "pass": false
+    }
+  ],
+  "overall": {
+    "passed": 0,
+    "total": 5,
+    "verdict": "REJECT"
+  }
+}

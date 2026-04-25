@@ -79,8 +79,6 @@ import { runMicroSurgery } from './microsurgery/micro-surgeon.js';
 import { type ArchetypeId } from './microsurgery/damage-gate.js';
 // ★ V-ENGINE-BRIDGE: Chunked generator K2 (moteur v4)
 import { generateChunkedDraft, isChunkedV4Active } from './generation/chunked-generator.js';
-// ★ P0-3: Anaphore gate — opening repetition detection
-import { computeStyleDelta } from './delta/delta-style.js';
 import { forgePacketToSceneBrief } from './generation/forge-to-brief.js';
 // P0-02: Unified thresholds — single source of truth
 import { SAGA_READY_COMPOSITE_MIN, SAGA_READY_SSI_MIN } from './core/thresholds.js';
@@ -476,25 +474,10 @@ async function executePipeline(
   // final_prose = await enforceSignature(enrichedPacket, final_prose, provider);
   console.log(`[POLISH-AUDIT] Polish DISABLED (Sprint 2 — NO-OP proven). Saved 3 API calls.`);
 
-  // ★ P0-3: Anaphore Gate — detect excessive opening repetition (shadow mode by default)
-  // ADR-003: CALC=douanier (rejection sampling). Gate logue le ratio, ne rejette pas en shadow.
-  // Activable via OMEGA_ANAPHORE_GATE='1' (reject) ou 'shadow' (default: log only).
-  {
-    const anaphoreMode = process.env.OMEGA_ANAPHORE_GATE ?? 'shadow';
-    if (anaphoreMode !== '0') {
-      const styleDelta = computeStyleDelta(enrichedPacket, final_prose);
-      const openingRep = styleDelta.opening_repetition_rate;
-      const threshold = SOVEREIGN_CONFIG.OPENING_REPETITION_MAX;
-      const exceeded = openingRep > threshold;
-      const tag = exceeded ? 'EXCEEDED' : 'OK';
-      console.log(`[ANAPHORE-GATE] opening_rep=${(openingRep * 100).toFixed(1)}% | threshold=${(threshold * 100).toFixed(0)}% | ${tag} | mode=${anaphoreMode}`);
-      if (exceeded && anaphoreMode === '1') {
-        console.warn(`[ANAPHORE-GATE] REJECT — opening repetition ${(openingRep * 100).toFixed(1)}% > ${(threshold * 100).toFixed(0)}% threshold`);
-        // In active mode, flag the prose for downstream handling (R6 gate or verdict coercion)
-        // For now: log only. Future: integrate with R6 rejection sampling.
-      }
-    }
-  }
+  // P0-3 Anaphore Gate REMOVED 2026-04-25 — bench β REJECT 0/5 critères (commit b7dec7dd evidence)
+  // Métrique opening_repetition_rate empiriquement invalidée pour qwen3:32b FR (mean 30%, seuil 10%).
+  // Code accessible via git history (parent commit 9859659d). Convergence 3/3 IA.
+  // Voir : OMEGA/outputs/BENCH_ANAPHORE_GATE_BETA_SPEC_DRAFT.md (CLOSED-REJECTED)
 
   // ★ Sprint 3C: Micro-surgeon — targeted tension_14d interventions
   // Replaces the disabled polish with precision interventions.

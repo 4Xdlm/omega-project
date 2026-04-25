@@ -71,6 +71,10 @@ function callOllamaSync(
     ],
     stream: false,
     think: false,
+    // F-T31-1: empêche eviction qwen3:32b entre chunks (KEEP_ALIVE default=5m insuffisant)
+    // Per-request override → zéro side-effect cross-project (Ollama partagé entre projets)
+    // Référence : NCR_OLLAMA_TIMEOUT_600S DRAFT, traite H2 (eviction). H1 (timeout 600s) reste à valider post-bench.
+    keep_alive: '24h',
     options: {
       temperature: temp,
       num_predict: maxTokens,

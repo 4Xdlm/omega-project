@@ -56,7 +56,8 @@
     "gate:roadmap:update": "cd packages/sovereign-engine && npx tsx scripts/gate-roadmap.ts --update",
     "gate:idl": "cd packages/signal-registry && npm run codegen:verify",
     "gate:proofpack": "npx tsx scripts/gate-proofpack.ts --dir proofpacks/local",
-    "gate:all": "npm run gate:no-shadow && npm run gate:no-todo && npm run gate:active && npm run gate:roadmap && npm run gate:idl && npm run gate:proofpack",
+    "gate:imports": "npx tsx scripts/gate-imports.ts",
+    "gate:all": "npm run gate:no-shadow && npm run gate:no-todo && npm run gate:active && npm run gate:roadmap && npm run gate:idl && npm run gate:proofpack && npm run gate:imports",
     "proofpack:generate": "npx tsx scripts/proofpack/generate-proofpack.ts --outDir proofpacks/local",
     "proofpack:clean": "npx tsx scripts/proofpack/generate-proofpack.ts --clean --outDir proofpacks/local"
   },

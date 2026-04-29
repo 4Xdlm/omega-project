@@ -1,4 +1,12 @@
 /**
+ * ⚠️ LIMITATION CONNUE — NCR_GATE_IMPORTS_BUNDLER_BLINDNESS (P1 DRAFT) :
+ * Ce gate s'exécute sous `npx tsx` (esbuild = bundler resolution). Il NE PEUT
+ * PAS détecter les bugs ESM Node natif (imports sans extension dans dist/).
+ * Voir mission S6.2 pour Test 4 (spawn `node` strict en child_process).
+ * Source : OMEGA TRIBUNAL S6.1 hotfix 2026-04-27
+ */
+
+/**
  * GATE IMPORTS — NCR_E2E_ENGINE_IMPORT_GATE_MISSING resolution
  *
  * Smoke test runtime : vérifie que pipeline souverain complet est importable.
@@ -11,10 +19,21 @@
  * Convergence 3-IA Tribunal S6 : Cowork + ChatGPT + Gemini.
  *
  * Usage : npx tsx scripts/gate-imports.ts
+ *         (CWD-INDEPENDENT post-S6.1 : peut être invoqué depuis n'importe où)
  * Exit  : 0 = OK, 1 = FAIL critique (CI block)
+ *
+ * S6.1 HOTFIX (2026-04-27, NCR_GATE_IMPORTS_PATH_BUG P0 RESOLVED) :
+ *   Path resolution basée sur import.meta.url (script location), PAS process.cwd().
+ *   Anciennement : path.resolve(process.cwd(), 'packages/...') → FAIL si cwd ≠ project root.
+ *   Empirique pré-fix : `cd scripts && npx tsx gate-imports.ts` → path résolu
+ *                       'scripts/packages/sovereign-engine/src/engine.ts' (FAIL).
  *
  * Standard : NASA-Grade L4 / DO-178C Level A
  */
+
+import { fileURLToPath, pathToFileURL } from 'node:url';
+import * as path from 'node:path';
+import * as fs from 'node:fs';
 
 const CRITICAL_PACKAGES = [
   '@omega/omega-forge',
@@ -25,13 +44,12 @@ const CRITICAL_PACKAGES = [
   '@omega/signal-registry',
 ];
 
-// Path résolu depuis project root (gate-imports.ts lives in scripts/, but invoked via
-// `npm run gate:imports` so process.cwd() = project root)
-import { pathToFileURL } from 'node:url';
-import * as path from 'node:path';
-const ENGINE_PATH = pathToFileURL(
-  path.resolve(process.cwd(), 'packages/sovereign-engine/src/engine.ts'),
-).href;
+// S6.1 HOTFIX — Path resolution CWD-independent (NCR_GATE_IMPORTS_PATH_BUG P0)
+// Base sur l'emplacement réel du script via import.meta.url, pas process.cwd().
+const SCRIPT_PATH = fileURLToPath(import.meta.url);
+const PROJECT_ROOT = path.resolve(path.dirname(SCRIPT_PATH), '..');
+const ENGINE_PATH_FS = path.join(PROJECT_ROOT, 'packages/sovereign-engine/src/engine.ts');
+const ENGINE_PATH = pathToFileURL(ENGINE_PATH_FS).href;
 const REQUIRED_EXPORTS = [
   'runSovereignForge',
   'runSovereignForgeBestOfN',
@@ -43,7 +61,19 @@ const startTs = Date.now();
 
 console.log('═══ GATE IMPORTS — pipeline souverain runtime check ═══');
 console.log(`Date: ${new Date().toISOString()}`);
+console.log(`SCRIPT_PATH  : ${SCRIPT_PATH}`);
+console.log(`PROJECT_ROOT : ${PROJECT_ROOT}`);
+console.log(`ENGINE_PATH  : ${ENGINE_PATH_FS}`);
 console.log('');
+
+// S6.1 — Pre-flight check : engine.ts doit exister sur le filesystem AVANT import
+if (!fs.existsSync(ENGINE_PATH_FS)) {
+  console.error(`❌ engine.ts NOT FOUND on filesystem at: ${ENGINE_PATH_FS}`);
+  console.error(`   PROJECT_ROOT may be incorrect. Verify scripts/ location relative to project root.`);
+  console.error(`   See: NCR_GATE_IMPORTS_PATH_BUG (S6.1)`);
+  process.exit(1);
+}
+
 
 // Test 1 : 6 packages critiques @omega/*
 console.log('--- Test 1 : 6 critical packages ---');

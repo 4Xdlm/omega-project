@@ -2,12 +2,14 @@
 
 **ID** : NCR_R6_BENCH_SOURCE_MISSING_S7P1
 **Title** : Bench source `bench-r6-hybrid.ts` validant R6 Rejection Gate Mode B (ADR DEC-20260411-003) absent du repo — décision architecturalement scellée mais empiriquement non reproductible
-**Status** : **OPEN** (S7.3-bis promotion 2026-04-29 post-S7.2 PASS)
+**Status** : **ACCEPTED_DIAGNOSED_UNKNOWN** (S7.3 closure 2026-04-30 — Voie B finale)
 **Severity** : MEDIUM (architecture validée par tests + ADR consensus 4/4 IA, mais bench source manquant pour reproductibilité empirique)
-**Priority** : **P2** (Architecte arbitrage 2026-04-28 — Option C : documenter UNKNOWN, accepter via tests + ADR)
+**Priority** : **P2** (Architecte arbitrage 2026-04-28 — Option C confirmée 2026-04-30 Voie B)
 **Opened** : 2026-04-28 (sprint S7.1, mapping bench ↔ pipeline)
+**Closed** : 2026-04-30 (S7.3 closure ACCEPTED_DIAGNOSED_UNKNOWN, Voie B convergence 3/3 IA)
 **Owner** : Francky (décision finale) + Claude (instruction S7P1, drafter S7P2)
 **Décision Architecte (2026-04-28)** : **OPTION C** — documenter UNKNOWN, ne pas reconstruire le bench, accepter R6 Mode B comme architecturalement validé via tests d'intégration + ADR consensus
+**Décision Architecte (2026-04-30)** : **VOIE B** — confirmation Option C après tentative de reconstruction abandonnée (cf §10)
 
 ---
 
@@ -325,7 +327,8 @@ Le NCR sera promu P1/P0 si l'une des conditions suivantes survient :
 NCR-ID    : NCR_R6_BENCH_SOURCE_MISSING_S7P1
 DRAFTED   : 2026-04-28 (S7.1 mapping post-S6)
 OPENED    : 2026-04-29 (S7.3-bis post S7.2 PASS, decision-confirmé Option C)
-RESOLVED  : DOCUMENTED_UNKNOWN (Option C)
+CLOSED    : 2026-04-30 (S7.3 closure ACCEPTED_DIAGNOSED_UNKNOWN — Voie B)
+RESOLVED  : ACCEPTED_DIAGNOSED_UNKNOWN (Option C confirmée + tentative reconstruction abandonnée)
 ARCHITECT : Francky
 DRAFTER   : Claude (IA Principal)
 STANDARD  : NASA-Grade L4 / DO-178C Level A
@@ -336,4 +339,68 @@ STANDARD  : NASA-Grade L4 / DO-178C Level A
 - ✅ NCR OVER HEROICS — ouverture NCR plutôt que silence ou reconstruction non-arbitrée
 - ✅ E-12 — uncertainty NOT hidden (NCR explicite)
 - ✅ Read-only S7.1 — aucune modification code/test, aucun re-bench
+- ✅ Audit avant action — Voie B retenue post-évaluation ROI (§10)
+
+---
+
+## 10. Décision Architecte 2026-04-30 — Voie B (S7.3 closure)
+
+### 10.1 Contexte
+
+Après ouverture du NCR le 2026-04-29 (S7.3-bis post S7.2 PASS), une tentative
+exploratoire de **Voie A** (reconstruction du bench R6 Mode B) a été initiée
+en sprint S7.3 :
+
+| Action | Statut | Artefact |
+|--------|--------|----------|
+| Création script `scripts/bench-v-atomic-v5-ollama-r6-mode-b.ts` | DONE | Untracked working tree |
+| Lancement empirique du bench (10 scènes × 3 modes A/B/C, qwen3:32b) | **JAMAIS EXÉCUTÉ** | aucune sortie produite |
+| Validation reproductibilité Mode B | **NON RÉALISÉE** | absence de runs |
+
+Le bench n'a **jamais été lancé empiriquement** (PC redémarré ou crash silent
+durant la fenêtre prévue 18-22h GPU). Aucun résultat n'a été produit.
+
+### 10.2 Décision finale — Voie B (ABANDON Voie A)
+
+**Convergence 3/3 IA** (Cowork + Gemini + ChatGPT) recommandant Voie B :
+
+1. **ABANDON** de la tentative de reconstruction R6 Mode B (bench non relancé).
+2. **CONSERVATION** du script `bench-v-atomic-v5-ollama-r6-mode-b.ts` en
+   working tree Untracked comme **template référence** pour un sprint futur si
+   les conditions de réouverture (§5.1) sont déclenchées.
+3. **CLASSIFICATION** R6 Mode B comme `ACCEPTED_DIAGNOSED_UNKNOWN` :
+   - Architecturalement validé via ADR DEC-20260411-003 (consensus 4/4 IA)
+   - Couvert par 82 tests unit (`r6-rejection-gate.test.ts` +
+     `r6-integration.test.ts` + scorer V3.4 tests)
+   - Wired engine.ts (l.86 import + l.338 appel) — runtime importable post-S6
+   - **NON validé E2E pipeline empirique** post-S6 (état documenté, accepté)
+
+### 10.3 Justifications Voie B
+
+| Critère | Évaluation |
+|---------|------------|
+| **ROI bench R6 Mode B** | NÉGATIF — 18-22h GPU pour confirmer un détail tactique déjà couvert par 82 tests unit ADR-003 |
+| **Couverture architecturale** | SUFFISANTE — ADR consensus 4/4 IA + tests unit + wiring engine.ts |
+| **Risque drift M0B_SLIM_V34** | FAIBLE — coefficients SHA256-scellés, drift détectable via tests existants |
+| **Coût opportunité Sprint S8** | ÉLEVÉ — Sprint S8 prévoit scellage NCRs Vagues 1+2+3 (~3h40), priorité supérieure |
+| **Doctrine PROVE IT** | RESPECTÉE — UNKNOWN explicitement documenté, pas de claim "validated" sans preuve |
+
+### 10.4 Conditions de réouverture (inchangées vs §5.1)
+
+R6 Mode B sera **réévalué** (potentiel passage P1/P0) si :
+1. Drift suspecté du scorer CALC V3.4 (modification coefficients M0B_SLIM_V34
+   sans re-validation Tribunal)
+2. Régression observée production sur Mode B (passage gate < 80%)
+3. Décision dérivée ADR (rejet Mode C) contestée techniquement
+4. Sprint dédié à reconstruction bench R6 décidé par Architecte
+
+### 10.5 Traçabilité Voie B
+
+- **Script template Untracked** : `scripts/bench-v-atomic-v5-ollama-r6-mode-b.ts`
+  (working tree, NON committé — réservé sprint futur)
+- **Sprint S7 closure** : `99_S7_CLOSURE_REPORT.md`
+- **Tag S7.2 sealing** : `phase-s-s7p2-v1-seal-revalidated-ollama-2026-04-29`
+- **Convergence IA** : Cowork + Gemini + ChatGPT (3/3) — décision Architecte
+  Francky 2026-04-30
+- **Doctrine respectée** : PROVE IT + Audit avant action + NCR OVER HEROICS
 

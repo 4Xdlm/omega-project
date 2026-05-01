@@ -4,7 +4,8 @@
 **Title** : `f33b_commas_count` (count brut non normalisé) introduit un biais
 de registre dans le scorer M0b_slim V3.4 — candidat migration vers
 `f33b_per_word` (ratio normalisé).
-**Status** : **DRAFT / DIAGNOSTIC ONLY** (non officiellement ouvert)
+**Status** : **DEFERRED** (Sprint S8 V3A 2026-05-01 — DRAFT discipline maintenue, 3 conditions de promotion empiriquement non remplies)
+**Précédent** : DRAFT / DIAGNOSTIC ONLY (non officiellement ouvert) — discipline préservée
 **Severity** : MEDIUM (diagnostic confirmé Phase 1 CATHEDRAL, mais hors chemin critique P1)
 **Priority** : **P2** (chantier parallèle non bloquant — ne démarre PAS tant que NCR_M2 P0 ouvert)
 **Opened** : 2026-04-19 matin (post-arbitrage 3-IA)
@@ -279,3 +280,92 @@ testée, possible que la normalisation ne réduise pas le gap).
 1. NCR_M2_ADAPTIVE_DEADLOCK_INTERIOR fermé.
 2. Décision Francky : GO chantier V3.5 / KEEP V3.4 / ABANDON.
 3. Si GO : ouvrir ADR formel pour V3.5 et exécuter Phase A smoke diagnostic.
+
+---
+
+## 9. S8 V3A CLASSIFICATION — 2026-05-01
+
+### Evidence checked
+
+- ✅ `packages/sovereign-engine/src/scoring/text-features.ts:420` `computeF33` intact (pas de drift L vs §1)
+- ✅ L427 contient seulement `f33b_commas_count: commas` — **aucun `f33b_per_word` ajouté** : DRAFT discipline empiriquement maintenue
+- ✅ `coefficients-v3-4.ts` présent
+- ❌ NCR_M2_ADAPTIVE_DEADLOCK_INTERIOR : status **FIX_VALIDATED_SCOPED** (Vague 1 C9 commit `7d4bff66`) — **PAS fermé** (transition vers RESOLVED rejetée empiriquement § 11.4)
+- ❌ Aucun commit V3.5 / retrain / `f33b_per_word` post-NCR (3 jours sans avancée)
+
+### Mapping DRAFT → status doctrinal
+
+L'instruction Vague 2 doctrine impose les statuts autorisés :
+RESOLVED / CLOSED_CONFIRMED / FIX_VALIDATED_SCOPED / ACCEPTED_DIAGNOSED_UNKNOWN /
+DEFERRED / STILL_OPEN / SUPERSEDED.
+
+"DRAFT / DIAGNOSTIC ONLY" n'est pas dans la liste. Mapping doctrinal :
+
+| Critère | Vérif | Match status |
+|---------|-------|-------------|
+| Issue persistante | ✅ f33b_commas_count brut intact | OPEN-family |
+| Décision corrective non prise | ✅ §"Action requise (DRAFT)" — aucune | OPEN-family |
+| Plan d'attaque documenté | ✅ §3 spec complète | DOCUMENTED |
+| Promotion vers exécution **conditionnée et non démarrable** | ✅ 3/3 conditions promotion non remplies | DEFERRED |
+| Discipline auto-imposée maintenue | ✅ DRAFT respect total empirique | DEFERRED (volontaire, pas STILL_OPEN passive) |
+
+→ **DEFERRED** est le mapping correct : la discipline DRAFT est elle-même
+une forme de différement volontaire et tracé.
+
+### Decision rationale
+
+3 conditions de promotion vers OPEN (§"Promotion vers OPEN") :
+
+1. **NCR_M2 P0 fermé** : ❌ NCR_M2 = FIX_VALIDATED_SCOPED (Vague 1 C9), explicitement
+   non transformable en RESOLVED. PRIO 1-3 §10.13 PENDING.
+2. **Décision explicite Francky GO/KEEP/ABANDON** : ❌ aucune décision tracée
+3. **Budget compute alloué** : ❌ aucun budget tracé
+
+→ Aucune des 3 conditions empiriquement remplie. NCR reste en discipline
+DRAFT, mappé doctrinalement vers DEFERRED.
+
+### Final status
+
+**DEFERRED** (severity MEDIUM P2 maintenue — chantier parallèle non bloquant)
+
+### Scope
+
+- **Diagnostic acquis** : Phase 1 CATHEDRAL audit confirme 81.1% du gap
+- **DRAFT discipline maintenue** : aucune modification code (text-features.ts intact, coefficients-v3-4.ts intact)
+- **Plan d'attaque préservé** : §3 spec V3.5 candidate complète
+- **Interdictions §4 respectées** : aucune action interdite empiriquement engagée
+
+### Remaining risks
+
+- **R1** — Bias f33b structural persiste : couplage avec NCR_CATHEDRAL_BASELINE (DEFERRED en C22) — toute scène CATHEDRAL/registre minimaliste reste artificiellement basse en bench
+- **R2** — Discipline DRAFT impose dépendance NCR_M2 : tant que M2 ne sort pas de FIX_VALIDATED_SCOPED, V3.5 chantier ne peut démarrer
+- **R3** — Risque de feature creep parallèle : autres features brutes (f12_tense_switches count, f33a_dots_count) pourraient bénéficier d'un audit similaire — non planifié
+
+### Next sprint if deferred
+
+**Sprint S9+ — déclenchement conditionnel** :
+- Si NCR_M2 promu RESOLVED (replay A.1 PRIO 1 exécuté + drift résolu) :
+  débloquer condition 1
+- Décision Architecte explicite GO/KEEP/ABANDON V3.5 chantier (condition 2)
+- Allocation budget compute (~3-4h pour Phase A smoke + Phase B retrain + Phase C bench downstream)
+- Coordination avec NCR_CATHEDRAL_BASELINE (Pistes A/B/C cohérentes — C22)
+
+### Anchor empirique runtime arbitrage
+
+```
+S8 V3A CLASSIFICATION — NCR_SCORER_STYLE_BIAS
+==============================================
+Date            : 2026-05-01 (Sprint S8 V3A)
+Status          : DRAFT/DIAGNOSTIC ONLY → DEFERRED
+                  (discipline DRAFT maintenue empiriquement)
+Severity        : MEDIUM P2 (inchangée)
+Authority       : Claude Code (runtime arbiter S8 V3A)
+                  + Tribunal 3 IA convergence 2026-04-19 (HOLD)
+Evidence anchor : text-features.ts L420 computeF33 intact, L427 sans
+                  f33b_per_word (discipline empiriquement maintenue),
+                  NCR_M2 status FIX_VALIDATED_SCOPED (cond 1 non remplie)
+Scope           : diagnostic acquis 81.1%, discipline DRAFT maintenue,
+                  plan d'attaque §3 préservé pour activation conditionnelle
+Risks           : R1 bias structural persiste (couplage CATHEDRAL),
+                  R2 dépendance NCR_M2 closure, R3 feature creep parallèle
+```

@@ -2,7 +2,8 @@
 
 **Opened**: 2026-04-18
 **Severity**: **HIGH (P1)** — découvert suite à clôture NCR_DIRECTIVE_BLOAT
-**Status**: **DIAGNOSED** (2026-04-18, Phase 1 H1 confirmée 81.1 %) — décision D2 validée unanimité 3/3 IA
+**Status**: **DEFERRED** (Sprint S8 V3A 2026-05-01 — D2 exécutée, Pistes A/B/C explicitement POST R-D.1, sprint dédié S9+)
+**Précédent**: DIAGNOSED (2026-04-18, Phase 1 H1 confirmée 81.1 %) — décision D2 validée unanimité 3/3 IA
 **Owner**: Francky (décision finale sur architecture scoring/emotionContract CATHEDRAL)
 
 ---
@@ -266,3 +267,85 @@ OU saut direct Phase 4 si ressources compute disponibles.
 
 Par défaut, recommandation = Phase 1 (coût faible, signal potentiellement
 décisif avant d'engager 48 runs compute).
+
+---
+
+## S8 V3A CLASSIFICATION — 2026-05-01
+
+### Evidence checked
+
+- ✅ `packages/sovereign-engine/audit-cathedral-features-v1-results.json` présent (88 447 bytes)
+- ✅ `audit-cathedral-features-preliminary-results.json` + 2 reports markdown présents (4 fichiers cathedral audit total)
+- ❌ `outputs/PHASE_1_CATHEDRAL_DIAGNOSTIC_v1.md` cité §"VERDICT Phase 1" : **INTROUVABLE** filesystem (couvert par NCR_EVIDENCE_ARTIFACT_GAP_PATTERN F1 umbrella, commit `3bfcdbde`)
+- ❌ `outputs/DIRECTIVE_ABLATION_VERDICT_v1.md` cité §"Traçabilité" : INTROUVABLE (couvert NCR_DIRECTIVE_BLOAT_ARTIFACT_MISSING + F1 umbrella)
+- ❌ `M0B_SLIM_V34_COEFFICIENTS.json` cité §"Traçabilité" SHA256 e75e3bb0..fe8424c : INTROUVABLE (couvert F1 umbrella)
+- ✅ `NCR_SCORER_STYLE_BIAS` dérivé existe (mentionné §"NCR dérivé ouvert")
+- ⚠️ Anchor Cowork "S8-prep livré spec dans `outputs/OMEGA_TRIBUNAL_2026-04-26/S8_PREP*/CATHEDRAL_*`" : **NON VÉRIFIABLE** — aucun fichier `S8_PREP*` ni CATHEDRAL n'existe à ce path. Anchor `[À VÉRIFIER]` non confirmé empiriquement, ne pas inclure dans la closure.
+
+### Decision rationale
+
+**D2 (lancer R-D.1) est EXÉCUTÉE empiriquement** :
+- Commit `7e89f95f` (2026-04-18 15:18) "feat(adaptive-chunker): P1 archetype gating wiring (R-D.1 ADOPT_A)"
+- R-D.1 bench complet lancé selon plan §"Décision D2"
+
+**Pistes correctives A/B/C (refonte scoring conditionnel ou patch f33b)** :
+- Toutes explicitement marquées **POST R-D.1** dans le NCR
+- Aucune n'a été engagée dans le code (pas de commit relatif post-2026-04-18)
+- Toutes nécessitent sprint dédié (refonte Ridge / patch type_modifier)
+
+→ **DEFERRED** est correct :
+- Cannot RESOLVED (Pistes A/B/C non appliquées, biais persiste)
+- Cannot CLOSED_CONFIRMED (corrective action pas faite)
+- Cannot STILL_OPEN passive (D2 explicitement EXÉCUTÉE — pas en attente passive)
+- DEFERRED reflète : diagnostic acquis, action corrective différée à sprint dédié S9+
+
+### Final status
+
+**DEFERRED** (severity HIGH P1 maintenue — biais structural identifié et persistant)
+
+### Scope
+
+- **Diagnostic acquis** : H1 confirmée 81.1% (Phase 1 audit), mécanisme causal identifié (f33b registre-aveugle)
+- **Décision D2 exécutée** : R-D.1 bench lancé (commit `7e89f95f`)
+- **Pistes correctives DEFERRED** : A (feature normalisée `f33b_per_word`, retrain Ridge), B (`type_modifier` per-archétype downstream V3.4), C (scoring conditionnel multi-registre — refonte propre)
+
+### Remaining risks
+
+- **R1** — Biais f33b persiste en prod : toute scène CATHEDRAL en bench est artificiellement basse → §"Conséquences si non résolu" §3 (kill-switch +0.02 peut rejeter à tort)
+- **R2** — Evidence-gap multiple : 3 fichiers cités introuvables (PHASE_1, DIRECTIVE_ABLATION, M0B_SLIM_V34) — impacte traçabilité empirique du diagnostic
+- **R3** — Décision A vs B vs C non prise : Question Francky §"Pistes correctives" ("A patch rapide vs B refonte") en attente depuis 13 jours
+- **R4** — Décision NCR_SCORER_STYLE_BIAS : NCR dérivé ouvert, hérite du même DEFERRED (à voir C23)
+
+### Next sprint if deferred
+
+**Sprint S9+ dédié** (cohérent avec instruction Cowork D2 logique) :
+1. Décision Architecte explicite Piste A (patch rapide f33b) vs B (refonte scoring conditionnel)
+2. Audit empirique Phase 3 (corpus liturgique 1334) si Piste A retenue
+3. Bench Phase 4 (4 archétypes × 4 modes × 3 seeds = 48 runs) si refonte
+4. Coordination avec NCR_SCORER_STYLE_BIAS (refonte commune si Piste C globale)
+5. Régler evidence-gaps (couvert F1 umbrella) en parallèle
+
+### Anchor empirique runtime arbitrage
+
+```
+S8 V3A CLASSIFICATION — NCR_CATHEDRAL_BASELINE
+================================================
+Date            : 2026-05-01 (Sprint S8 V3A)
+Status          : DIAGNOSED → DEFERRED (D2 exécutée, Pistes POST R-D.1)
+Severity        : HIGH P1 (inchangée — biais structural)
+Authority       : Claude Code (runtime arbiter S8 V3A)
+                  + Tribunal 3 IA convergence Phase 1 (3/3 D2)
+Evidence anchor : audit-cathedral-features-v1-results.json (88 KB) +
+                  3 autres fichiers audit cathedral présents
+                  + commit 7e89f95f wiring R-D.1 ADOPT_A
+Evidence gaps   : PHASE_1_CATHEDRAL_DIAGNOSTIC_v1.md introuvable,
+                  DIRECTIVE_ABLATION_VERDICT_v1.md introuvable,
+                  M0B_SLIM_V34_COEFFICIENTS.json introuvable
+                  (tous couverts F1 umbrella commit 3bfcdbde)
+Anchor non vérifié : Cowork "S8-prep livré spec CATHEDRAL_*"
+                  introuvable empiriquement — non cité dans closure
+Scope           : diagnostic complet acquis, corrective action
+                  Pistes A/B/C reportée Sprint S9+
+Risks           : R1 biais persiste prod, R2 evidence-gaps,
+                  R3 décision A/B 13 jours sans choix, R4 scorer-style-bias coupling
+```

@@ -2,7 +2,7 @@
 
 **ID** : NCR_GATE_IMPORTS_BUNDLER_BLINDNESS
 **Title** : `gate:imports` exécuté sous `npx tsx` (esbuild) ne détecte pas les bugs ESM Node natif (imports sans extension dans `dist/`)
-**Status** : **OPEN** (DRAFT 2026-04-27, à résoudre en mission S6.2)
+**Status** : **STILL_OPEN** (Sprint S8 Vague 2 reconfirmation 2026-05-01 — annotation in-code OK, Test 4 implémentation non-faite)
 **Severity** : P1 — gate fonctionnellement aveugle à toute une classe de bugs runtime
 **Priority** : P1
 **Opened** : 2026-04-27 (Tribunal 3-IA, S6.1 préamble)
@@ -159,8 +159,86 @@ en sprint S6.2 dédié.
 ```
 NCR-ID    : NCR_GATE_IMPORTS_BUNDLER_BLINDNESS
 OPENED    : 2026-04-27 (Tribunal 3-IA)
-STATUS    : OPEN — résolution S6.2
+STATUS    : STILL_OPEN — issue empiriquement reconfirmée 2026-05-01 (Sprint S8 Vague 2)
 ARCHITECT : Francky
 DRAFTER   : Claude (IA Principal)
 STANDARD  : NASA-Grade L4 / DO-178C Level A
+```
+
+---
+
+## 10. Reconfirmation empirique (Sprint S8 Vague 2, 2026-05-01)
+
+### 10.1 Vérifications empiriques runtime
+
+| Test | Commande | Résultat |
+|------|----------|----------|
+| EMP-1 | `Get-Content scripts/gate-imports.ts | Select-Object -First 30` | Commentaire LIMITATION CONNUE présent lignes 2-7 (S6.1 hotfix annotation) |
+| EMP-2 | `Select-String "Test 4|child_process|spawn.*node"` dans gate-imports.ts | **1 seule occurrence ligne 5** — c'est le commentaire mention, **pas l'implémentation** |
+| EMP-3 | `git log --all --grep "bundler|Test 4"` | **0 commit** post-S6.1 implémentant Test 4 |
+| EMP-4 | `(Get-Content scripts/gate-imports.ts | Measure-Object -Line).Lines` | 127 lignes — taille inchangée vs S6.1, pas de Test 4 ajouté |
+
+### 10.2 État du plan §7
+
+| # | Action | Statut S6.1 | Statut 2026-05-01 |
+|---|--------|-------------|-------------------|
+| 1 | Drafter ce NCR | DONE | DONE |
+| 2 | Ajouter avertissement dans gate-imports.ts | DONE | DONE (vérifié EMP-1) |
+| 3 | Décision Architecte sur Option A/B/C | PENDING | **PENDING (4 jours sans avancée)** |
+| 4 | Implémenter Test 4 (spawn node) | PENDING | **PENDING — empiriquement non fait (EMP-2)** |
+| 5 | Audit packages dist/ pour imports sans extension | PENDING | **PENDING** |
+
+### 10.3 Critères STILL_OPEN justifiés
+
+| Critère RESOLVED | État |
+|------------------|------|
+| Test 4 (spawn node child_process) implémenté | ❌ Annotation seule, code absent |
+| Architecte décision Option A/B/C tracée | ❌ Aucune décision tracée |
+| Audit dist/ packages pour imports sans extension | ❌ Non fait |
+| Régression test pour ce gap | ❌ Aucun |
+
+→ Aucun critère RESOLVED satisfait. Status **STILL_OPEN**.
+
+### 10.4 Observation positive
+
+L'annotation in-code (lignes 2-7 de `gate-imports.ts`) sert de **trace
+auto-documentaire active** : tout futur dev/IA lisant le script verra
+explicitement la limitation. Cette mitigation partielle est un acquis
+S6.1, même sans Test 4. Elle ne RÉSOUT pas le NCR mais réduit le risque
+de surprise lors d'un audit futur.
+
+### 10.5 Risques restants
+
+- **R1 — Faux positif gate persistant** : un module avec import sans
+  extension passera le gate sous tsx, crashera sous node natif. **Risque
+  P1 maintenu**.
+- **R2 — Décision Architecte absente** : §7 #3 PENDING depuis 4 jours
+  bloque #4 (implémentation). Sans décision A/B/C, le travail ne peut
+  démarrer.
+- **R3 — Audit dist/ non fait** : §7 #5 — on ignore combien de modules
+  sont concrètement vulnérables. Sans audit, on ne peut estimer le
+  périmètre du risque.
+- **R4 — NCR jumeau ESM** : `NCR_ESM_BUNDLER_VS_NODE_RUNTIME` (P1, OPEN)
+  partage le même mécanisme. Coordonner les résolutions.
+
+### 10.6 Closure officielle
+
+```
+RECONFIRMATION EMPIRIQUE NCR_GATE_IMPORTS_BUNDLER_BLINDNESS
+============================================================
+Date            : 2026-05-01 (Sprint S8 Vague 2)
+Status final    : STILL_OPEN (transition OPEN → STILL_OPEN
+                  pour lever ambiguïté DRAFT vs ouverture active)
+Authority       : Claude Code (runtime arbiter Sprint S8 Vague 2)
+                  + Francky décisionnaire pour §7 #3 (Option A/B/C)
+Evidence anchor : EMP-1..EMP-4 — annotation in-code présente (S6.1 acquis),
+                  Test 4 spawn node NON implémenté, 0 commit post-S6.1
+                  adressant le gap, 127 lignes gate-imports.ts inchangées
+Scope           : gate `gate:imports` aveugle aux bugs ESM Node natif —
+                  issue persistante depuis 2026-04-27
+Risks           : R1 faux positif P1 maintenu, R2 décision Architecte
+                  PENDING, R3 audit dist/ non fait, R4 NCR jumeau ESM
+                  à coordonner
+Recommandation  : décision Architecte Sprint S9+ §7 #3 (Option A retenue
+                  S6.1 sur Test 4 child_process) pour débloquer #4
 ```

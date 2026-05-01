@@ -2,7 +2,7 @@
 
 **Opened**: 2026-04-17
 **Severity**: LOW
-**Status**: OPEN — observation, pas bloquant
+**Status**: **DEFERRED** (Sprint S8 V3A 2026-05-01 — V2-C arbitrage path closed by ROLLBACK a156b0a3, sprint dédié S9+ requis)
 **Owner**: Claude Code (IA Principal)
 
 ## Issue
@@ -87,3 +87,80 @@ Arbitrage à l'issue de V2-C.
 
 - Grid search découverte : `packages/sovereign-engine/grid-search-results.json`
 - Fichier concerné : `packages/sovereign-engine/src/generation/adaptive-chunker.ts:234-244`
+
+---
+
+## S8 V3A CLASSIFICATION — 2026-05-01
+
+### Evidence checked
+
+- ✅ `grid-search-results.json` présent (`Test-Path` True)
+- ⚠️ `adaptive-chunker.ts` L234-244 contient maintenant `REGISTER_TABLE`
+  (drift numérotation depuis 2026-04-17 — `computeTargetLength` déplacé)
+- ❌ V2-C arbitrage path **fermé** : commit `a156b0a3` "chore(v2c):
+  ROLLBACK B+ — bench FAIL 3/4 gates, retour V1 static" (2026-04-17 20:32)
+- ✅ γ=0.2 comme DEFAULT V2-B reste opérationnel (décision Francky 2026-04-17)
+
+### Decision rationale
+
+Le NCR planifiait l'arbitrage des Options A/B/C **en V2-C**. V2-C a été
+ROLLBACKé le même jour (2026-04-17, commit `a156b0a3`). Le path d'arbitrage
+n'a donc jamais été emprunté et **ne le sera pas** sous cette forme.
+
+Cependant :
+- L'**observation** (γ inerte mathématiquement, annulé par redistribution)
+  reste empiriquement valide
+- La **décision opérationnelle** (γ=0.2 en DEFAULT) est appliquée
+- Aucun risque runtime (LOW severity confirmée)
+
+→ **DEFERRED** sprint dédié S9+ pour décider Options A/B/C dans un
+nouveau contexte (post V2-B/V2-C rollback). Pas STILL_OPEN car aucune
+investigation active n'est en cours et le NCR n'est pas en attente
+d'une décision Architecte immédiate.
+
+### Final status
+
+**DEFERRED** (severity LOW maintenue)
+
+### Scope
+
+- **INCLUS** : observation γ inerte, décision γ=0.2 DEFAULT V2-B
+- **DEFERRED S9+** : arbitrage Options A/B/C (refactor formulation,
+  modulation w_ref, ou suppression γ)
+
+### Remaining risks
+
+- **R1** — Drift numérotation NCR vs code : ligne 239 référencée n'est
+  plus la bonne (REGISTER_TABLE à L234-244). Toute future investigation
+  devra re-localiser `computeTargetLength`.
+- **R2** — γ silencieusement présent mais inerte : risque de fausse
+  intuition pour futur dev modifiant adaptive-chunker (croyant tuner γ
+  alors qu'aucun effet)
+- **R3** — Décision V2-C arbitrage perdue : aucun nouveau path n'a été
+  défini pour reprendre la question
+
+### Next sprint if deferred
+
+**Sprint S9+ dédié** :
+- Re-localiser `computeTargetLength` dans adaptive-chunker.ts (drift L)
+- Décider Option A (γ après redistribution) / Option B (modulation w_ref) /
+  Option C (suppression γ du modèle)
+- Si Option C retenue : refactor adaptive-chunker.ts + mise à jour DEFAULTS
+
+### Anchor empirique runtime arbitrage
+
+```
+S8 V3A CLASSIFICATION — NCR_GAMMA_INERT
+========================================
+Date            : 2026-05-01 (Sprint S8 V3A)
+Status          : OPEN → DEFERRED (path V2-C closed)
+Severity        : LOW (inchangée)
+Authority       : Claude Code (runtime arbiter S8 V3A)
+                  + Francky décisionnaire pour Options A/B/C S9+
+Evidence anchor : grid-search-results.json présent + commit a156b0a3
+                  ROLLBACK V2-C confirmant fermeture path arbitrage
+Scope           : observation γ inerte + décision DEFAULT γ=0.2 maintenue,
+                  arbitrage Options A/B/C reporté
+Risks           : R1 drift L numérotation, R2 fausse intuition future,
+                  R3 path V2-C arbitrage perdu
+```

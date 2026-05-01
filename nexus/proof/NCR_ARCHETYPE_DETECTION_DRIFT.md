@@ -2,7 +2,7 @@
 
 **Opened**: 2026-04-18
 **Severity**: MEDIUM (P2) — non-bloquant pour P1 (gating wiring) mais symptomatique pour bench B1-B4
-**Status**: **OPEN_DIAGNOSED**
+**Status**: **STILL_OPEN** (Sprint S8 V3A 2026-05-01 — diagnostic OK, aucune décision Architecte appliquée 13 jours)
 **Owner**: Francky (décision seuil) + Claude (autopsie)
 
 ## Issue
@@ -98,3 +98,81 @@ relaxer le seuil. Nécessite audit corpus — pas pré-bench B1-B4.
 - NCR_DIRECTIVE_BLOAT (CLOSED_CONFIRMED 2026-04-17) — directive adaptive toxique INTERIOR
 - NCR_CATHEDRAL_BASELINE (OPEN 2026-04-18) — biais f33b_commas_count registre-aveugle
 - memory/project_rd1_bench_ready_2026-04-18.md — bench R-D.1 ADOPT_A + P1 scellé `7e89f95f`
+
+---
+
+## S8 V3A CLASSIFICATION — 2026-05-01
+
+### Evidence checked
+
+- ✅ `packages/sovereign-engine/scripts/smoke-p1-gating-propagation-v2.ts` présent
+- ✅ `detectArchetype` toujours à L779 dans `adaptive-chunker.ts` (référence §Issue intacte, pas de drift L)
+- ✅ Commit P1 wiring `7e89f95f` (2026-04-18 15:18) confirmé "feat(adaptive-chunker): P1 archetype gating wiring (R-D.1 ADOPT_A)"
+- ❌ Aucun commit post-NCR portant sur archetype detection / Option A/B/C
+- ⚠️ "EN ATTENTE Francky" depuis 2026-04-18 → **13 jours sans décision** au 2026-05-01
+
+### Decision rationale
+
+Le NCR est diagnostiqué (mismatch label vs detection identifié) et l'impact
+sur P1 wiring est ZERO (cf. §"Impact sur P1"). Mais :
+
+- Aucune Option A/B/C n'a été appliquée en code
+- Aucune décision Architecte n'a été tracée formellement
+- Le pack B1-B4 (mentionné §"Impact sur bench B1-B4") n'a pas été
+  empiriquement augmenté avec une scène ACTION pure
+
+→ **STILL_OPEN** plutôt que DEFERRED : pas de décision formelle de
+différement, le NCR est en attente passive depuis 13 jours. Honnête
+reflet empirique.
+
+→ Pas RESOLVED : issue persiste en code (`fr_action_poursuite` reste
+classée SENSORY par l'algorithme).
+
+→ Pas CLOSED_CONFIRMED : aucune confirmation/closure formelle.
+
+### Final status
+
+**STILL_OPEN** (severity P2 MEDIUM maintenue)
+
+### Scope
+
+- **Persistant** : mismatch `fr_action_poursuite` label=ACTION vs detection=SENSORY
+- **Mitigation acquise** : ZERO impact P1 wiring (smoke v2 confirme pipeline correct)
+- **Non traité** : Options A/B/C, augmentation pack B1-B4 avec ACTION pure
+
+### Remaining risks
+
+- **R1** — Bench B1-B4 interprétation biaisée : si un futur bench évalue
+  cellule "ACTION", il mesure de facto SENSORY pour `fr_action_poursuite`.
+  Risque de fausse conclusion sur la branche ACTION du gating.
+- **R2** — Décision Architecte 13 jours en attente : risque de bit-rot
+  contextuel (Francky pourrait perdre le contexte fin pour décider Option A/B/C
+  si re-réveil du NCR trop tardif).
+- **R3** — Pack corpus bench non-augmenté : aucune scène ACTION pure
+  (silence_total < 0.10) n'a été ajoutée. La branche R1 ACTION de
+  `detectArchetype` reste empiriquement non-exercée par le bench actuel.
+
+### Next sprint if not addressed
+
+**Sprint S9+ recommandé** :
+- Décision Architecte explicite Option A (relax seuil silence) / B (recalibrer
+  corpus) / C (ajouter R1-bis ACTION_WITH_CLOSURE)
+- Si Option B retenue : ajouter ≥1 scène ACTION pure au pack bench
+- Mise à jour `detectArchetype` si Option A ou C
+
+### Anchor empirique runtime arbitrage
+
+```
+S8 V3A CLASSIFICATION — NCR_ARCHETYPE_DETECTION_DRIFT
+======================================================
+Date            : 2026-05-01 (Sprint S8 V3A)
+Status          : OPEN_DIAGNOSED → STILL_OPEN (pas de décision formelle)
+Severity        : MEDIUM P2 (inchangée)
+Authority       : Claude Code (runtime arbiter S8 V3A)
+                  + Francky décisionnaire pour Options A/B/C S9+
+Evidence anchor : detectArchetype L779 intact, smoke v2 script présent,
+                  commit 7e89f95f wiring confirmé, 0 commit post-NCR
+Scope           : mismatch persiste, P1 ZERO impact, pack B1-B4 non patché
+Risks           : R1 bench interprétation biaisée, R2 bit-rot 13 jours,
+                  R3 R1 ACTION branche non-exercée
+```

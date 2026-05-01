@@ -2,7 +2,7 @@
 
 **ID** : NCR_ESM_BUNDLER_VS_NODE_RUNTIME
 **Title** : Divergence comportementale entre bundler resolution (esbuild/tsx) et Node ESM strict — packages workspace potentiellement cassés en prod
-**Status** : **OPEN** (DRAFT 2026-04-27, audit S6.2)
+**Status** : **STILL_OPEN** (Sprint S8 Vague 2 reconfirmation 2026-05-01 — H1 EMPIRIQUEMENT CONFIRMÉE, fix non appliqué)
 **Severity** : P1 — bugs latents non détectables par gates actuels
 **Priority** : P1
 **Opened** : 2026-04-27 (Tribunal 3-IA)
@@ -161,8 +161,115 @@ résolu (Test 4 spawn node) pour avoir un détecteur automatisé.
 ```
 NCR-ID    : NCR_ESM_BUNDLER_VS_NODE_RUNTIME
 OPENED    : 2026-04-27 (Tribunal 3-IA)
-STATUS    : OPEN — résolution S6.2
+STATUS    : STILL_OPEN — H1 EMPIRIQUEMENT CONFIRMÉE 2026-05-01 (Sprint S8 Vague 2)
 ARCHITECT : Francky
 DRAFTER   : Claude (IA Principal)
 STANDARD  : NASA-Grade L4 / DO-178C Level A
+```
+
+---
+
+## 11. Reconfirmation empirique + confirmation H1 (Sprint S8 Vague 2, 2026-05-01)
+
+### 11.1 Vérifications empiriques runtime
+
+| Test | Commande | Résultat |
+|------|----------|----------|
+| EMP-1 | `Get-Content tsconfig.json` filtre moduleResolution | **`moduleResolution: "bundler"`** (racine) |
+| EMP-2 | `Get-Content packages/canon-kernel/tsconfig.json` filtre moduleResolution | **`moduleResolution: "bundler"`** (canon-kernel idem) |
+| EMP-3 | grep `from '\./|from '\.\./` dans `packages/canon-kernel/dist/*.js` | **Imports SANS extension détectés** : `export * from './types'`, `export * from './id'`, `export * from './hash'`, `export * from './schema'` |
+| EMP-4 | `git log --all --grep "ESM|NodeNext|canon-kernel.*patch"` | **0 commit** post-S6.1 |
+| EMP-5 | Recherche tests `*node-native*` ou `*esm-runtime*` | **0 fichier** trouvé |
+
+### 11.2 Confirmation empirique H1 (§5.1)
+
+**Hypothèse H1** : *"`@omega/canon-kernel` non conforme ESM Node — imports relatifs sans extension dans dist/canon-kernel/..."*
+
+**Statut** : **EMPIRIQUEMENT CONFIRMÉE** par EMP-3.
+
+L'extrait observable de `packages/canon-kernel/dist/index.js` (lecture 2026-05-01) :
+
+```javascript
+export * from './types';      // ❌ FAIL Node ESM strict
+export * from './id';         // ❌ FAIL Node ESM strict
+export * from './hash';       // ❌ FAIL Node ESM strict
+export * from './schema';     // ❌ FAIL Node ESM strict
+```
+
+Ces imports sans extension `.js` provoquent `ERR_MODULE_NOT_FOUND` sous
+`node --input-type=module`. Ils passent sous tsx/esbuild par bundler resolution.
+
+→ **`@omega/canon-kernel` est aujourd'hui empiriquement non-importable
+sous Node ESM strict.** Toute exécution prod direct via Node natif
+crasherait sur le premier `import '@omega/canon-kernel'`.
+
+### 11.3 État du plan §8
+
+| # | Action | Statut S6.1 | Statut 2026-05-01 |
+|---|--------|-------------|-------------------|
+| 1 | Drafter ce NCR | DONE | DONE |
+| 2 | Audit `dist/*` pour imports sans extension | PENDING | **PARTIELLEMENT FAIT** (canon-kernel échantillon EMP-3) |
+| 3 | Décision Option A/B Architecte | PENDING | **PENDING (4 jours sans avancée)** |
+| 4 | Patch canon-kernel ESM (Option A) | PENDING | **PENDING — H1 confirmée, patch URGENT** |
+| 5 | Migration NodeNext (Option B) | PENDING | **PENDING** |
+
+### 11.4 Critères STILL_OPEN justifiés
+
+| Critère RESOLVED | État |
+|------------------|------|
+| Option A (audit + fix canon-kernel) appliquée | ❌ EMP-3 confirme imports cassés présents |
+| Option B (NodeNext) appliquée | ❌ EMP-1/2 confirment "bundler" partout |
+| Tests Node natif runtime ajoutés | ❌ EMP-5 aucun fichier trouvé |
+| Architecte décision Option A/B tracée | ❌ EMP-4 aucun commit |
+| Périmètre exhaustif audit dist/ | ❌ Seul canon-kernel échantillonné (autres 15 packages buildés non audités) |
+
+→ Aucun critère RESOLVED satisfait. Status **STILL_OPEN**.
+
+### 11.5 Severity reconsidérée
+
+P1 (au header) **maintenu** mais avec note d'urgence accentuée :
+
+> **NOUVELLE ACCENTUATION 2026-05-01** : H1 n'est plus une hypothèse,
+> c'est un fait empirique. `canon-kernel` est cassé sous Node ESM strict.
+> Toute migration prod vers exécution Node native (cloud functions,
+> daemons sans tsx, workers Node) **crashera** au premier import.
+> Le mitigant actuel est l'usage exclusif de tsx/esbuild en prod, ce qui
+> est un workaround coûteux et non-doctrinal.
+
+### 11.6 Risques restants
+
+- **R1 — canon-kernel non-importable Node natif (CONFIRMÉ EMP-3)** :
+  bug latent prêt à se déclencher dès toute migration runtime hors-tsx.
+- **R2 — Périmètre des autres 15 packages BUILT non audité** : combien
+  d'autres packages contiennent le même pattern ? Inconnu.
+- **R3 — Décision Architecte PENDING depuis 4 jours** : §8 #3 bloque #4
+  et #5.
+- **R4 — `gate:imports` (jumeau NCR_GATE_IMPORTS_BUNDLER_BLINDNESS)
+  toujours aveugle** : aucun outil automatisé ne détecte ces bugs
+  aujourd'hui dans la CI.
+
+### 11.7 Closure officielle
+
+```
+RECONFIRMATION EMPIRIQUE NCR_ESM_BUNDLER_VS_NODE_RUNTIME
+=========================================================
+Date            : 2026-05-01 (Sprint S8 Vague 2)
+Status final    : STILL_OPEN — H1 EMPIRIQUEMENT CONFIRMÉE
+                  (transition OPEN → STILL_OPEN avec accentuation P1)
+Authority       : Claude Code (runtime arbiter Sprint S8 Vague 2)
+                  + Francky décisionnaire pour §8 #3 (Option A/B)
+Evidence anchor : EMP-1..EMP-5 — moduleResolution "bundler" partout,
+                  4 imports sans extension détectés dans canon-kernel/dist,
+                  0 commit fix post-S6.1, 0 test Node natif
+Scope           : Divergence bundler vs ESM Node confirmée empiriquement,
+                  canon-kernel non-importable Node natif aujourd'hui
+Risks           : R1 canon-kernel bug latent CONFIRMÉ, R2 audit autres
+                  packages non fait, R3 décision Architecte PENDING,
+                  R4 gate:imports aveugle
+Recommandation  : décision Architecte Sprint S9+ §8 #3 (Option B NodeNext
+                  + Option A patch canon-kernel ponctuel) — débloquer
+                  #4 et #5 simultanément vu confirmation empirique H1
+Doctrine        : NCR jumeau NCR_GATE_IMPORTS_BUNDLER_BLINDNESS doit
+                  être résolu en parallèle (Test 4 spawn node = détecteur
+                  automatisé pour valider patch ESM)
 ```

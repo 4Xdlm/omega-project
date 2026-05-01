@@ -154,8 +154,8 @@ Path `scripts/packages/` éliminé du gate, indépendamment du CWD.
 
 ## 7. Traçabilité
 
-- **Hotfix commit** : à venir (post-rapport S6.1)
-- **Tag correctif** : `phase-s-s6-engine-runtime-restored-r2-2026-04-27`
+- **Hotfix commit** : `045597c4` — "S6.1: HOTFIX gate:imports path bug — CWD-independent resolution" (2026-04-29 18:20 +0200)
+- **Tag correctif** : `phase-s-s6-engine-runtime-restored-r2-2026-04-27` (présent dans le repo)
 - **Tag historique préservé** : `phase-s-s6-engine-runtime-restored-2026-04-27` → `aca0f393`
   (NE PAS écraser, preuve de l'état pré-hotfix)
 - **Rapport** : `nexus/proof/S6_1_GATE_IMPORTS_HOTFIX/01_S6_1_REPORT.md`
@@ -166,8 +166,71 @@ Path `scripts/packages/` éliminé du gate, indépendamment du CWD.
 ```
 NCR-ID    : NCR_GATE_IMPORTS_PATH_BUG
 OPENED    : 2026-04-27 (Tribunal 3-IA)
-RESOLVED  : 2026-04-27 (S6.1 hotfix, fix CWD-independent)
+RESOLVED  : 2026-04-29 (S6.1 hotfix, fix CWD-independent, commit 045597c4)
 ARCHITECT : Francky
 DRAFTER   : Claude (IA Principal)
 STANDARD  : NASA-Grade L4 / DO-178C Level A
+```
+
+---
+
+## 10. Closure (enrichissement Sprint S8 Vague 1, 2026-05-01)
+
+### 10.1 Date de closure et statut final
+
+- **Date closure réelle** : 2026-04-29 18:20 +0200 (timestamp commit `045597c4`)
+- **Status final** : **RESOLVED** (inchangé)
+- **Date d'enrichissement closure section** : 2026-05-01 (Sprint S8 Vague 1)
+
+### 10.2 Décision d'autorité
+
+- **Détecteur** : Tribunal 3-IA (Cowork + Gemini + ChatGPT) le 2026-04-27
+- **Décisionnaire** : Francky (Architect)
+- **Implémenteur** : Claude (autonome, sous validation Architecte)
+
+### 10.3 Evidence empirique consolidée
+
+| Type | Référence | Vérification |
+|------|-----------|--------------|
+| Commit fix | `045597c4` | `git show 045597c4` — message "S6.1: HOTFIX gate:imports path bug — CWD-independent resolution" |
+| Tag correctif | `phase-s-s6-engine-runtime-restored-r2-2026-04-27` | `git tag -l "phase-s-s6-engine-runtime-restored-r2*"` — présent |
+| Tag historique pré-fix | `phase-s-s6-engine-runtime-restored-2026-04-27` → `aca0f393` | Préservé pour audit |
+| Rapport empirique | `nexus/proof/S6_1_GATE_IMPORTS_HOTFIX/01_S6_1_REPORT.md` | `Test-Path` = True |
+| Logs avant fix | `gate-imports-BEFORE-fix-CWD-SCRIPTS.log` | Cité §2.1 |
+| Logs après fix | `gate-imports-AFTER-fix-CWD-ROOT.log` + `-CWD-SCRIPTS.log` | Cité §2.2 |
+| Tests post-fix | 2 CWD différents : project root + scripts/ → PASS (241ms / 242ms) | Tableau §6 |
+
+### 10.4 Portée du fix
+
+**INCLUS dans la closure** :
+- Path resolution CWD-independent via `import.meta.url`
+- Pre-flight `fs.existsSync` check
+- Logging explicite SCRIPT_PATH / PROJECT_ROOT / ENGINE_PATH
+- Validation empirique 2 CWDs distincts
+
+**HORS closure (NCRs séparés)** :
+- `NCR_S6_TAG_PREMATURE` (P1) — tag historique pré-hotfix posé prématurément, à traiter séparément
+- `NCR_GATE_IMPORTS_BUNDLER_BLINDNESS` (P1) — bundler ne voit pas certains imports runtime, scope distinct
+
+### 10.5 Risques restants (post-closure)
+
+- **R1 — Couverture CWD limitée** : seulement 2 CWDs testés empiriquement (project root + `scripts/`). Un CWD exotique (UNC path Windows, dossier monté, junction) pourrait théoriquement défaillir, bien que la solution `import.meta.url` soit robuste par construction.
+- **R2 — Convention non formalisée** : le rapport S6.1 §10.2 propose une convention OMEGA (interdiction `process.cwd()` pour gates de safety). Cette convention n'est pas encore intégrée à `CLAUDE.md` ni à un linter custom.
+- **R3 — CI test multi-CWD non implémenté** : §10.3 du rapport S6.1 propose un job CI matrix testant 3 CWDs. Non implémenté à date du 2026-05-01.
+
+### 10.6 Lien doctrinal
+
+Action corrective Sprint S9+ proposée dans NCR `NCR_REGISTRY_BROKEN_FILTER` §6 : amender `CLAUDE.md` pour formaliser la convention "gates de safety = `import.meta.url` only, jamais `process.cwd()`".
+
+### 10.7 Closure officielle
+
+```
+CLOSURE OFFICIELLE NCR_GATE_IMPORTS_PATH_BUG
+============================================
+Date            : 2026-04-29 (fix) / 2026-05-01 (enrichissement section)
+Status final    : RESOLVED
+Authority       : Francky (Architect)
+Evidence anchor : commit 045597c4 + tag phase-s-s6-engine-runtime-restored-r2-2026-04-27
+Scope           : path resolution CWD-independent (NCRs liés P1 hors scope)
+Risks           : R1/R2/R3 (couverture CWDs, convention, CI multi-CWD) — Sprint S9+
 ```

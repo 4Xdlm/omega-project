@@ -2,7 +2,7 @@
 
 **ID** : NCR_S6_TAG_PREMATURE
 **Title** : Tag `phase-s-s6-engine-runtime-restored-2026-04-27` posé sur état où gate:imports échouait empiriquement (CWD ≠ project root)
-**Status** : **DOCUMENTED** (tag préservé comme preuve historique, tag correctif `r2` ajouté en S6.1)
+**Status** : **RESOLVED** (Sprint S8 Vague 2, 2026-05-01 — closure formelle, dual-tag mitigation empiriquement vérifiée)
 **Severity** : P1 — non destructif, mais doctrine "PROVE IT" violée par le scellage
 **Priority** : P1
 **Opened** : 2026-04-27 (Tribunal 3-IA post-S6.P3)
@@ -128,8 +128,78 @@ Convention OMEGA : tout script de gate de safety DOIT utiliser `import.meta.url`
 ```
 NCR-ID    : NCR_S6_TAG_PREMATURE
 OPENED    : 2026-04-27 (Tribunal 3-IA)
-RESOLVED  : DOCUMENTED (tag préservé, r2 ajouté)
+RESOLVED  : 2026-05-01 (Sprint S8 Vague 2 — dual-tag mitigation empiriquement vérifiée)
 ARCHITECT : Francky
 DRAFTER   : Claude (IA Principal)
 STANDARD  : NASA-Grade L4 / DO-178C Level A
+```
+
+---
+
+## 10. Closure formelle (Sprint S8 Vague 2, 2026-05-01)
+
+### 10.1 Transition de status
+
+`DOCUMENTED` → **`RESOLVED`** — basé sur vérification empirique runtime
+de la mitigation dual-tag.
+
+### 10.2 Vérifications empiriques runtime
+
+```powershell
+$ git tag -l "phase-s-s6-engine-runtime-restored*"
+phase-s-s6-engine-runtime-restored-2026-04-27       # historique préservé
+phase-s-s6-engine-runtime-restored-r2-2026-04-27    # correctif post-hotfix
+
+$ git rev-list -n 1 phase-s-s6-engine-runtime-restored-2026-04-27
+aca0f393  # commit S6.P3 GUARDS
+
+$ git show --stat 045597c4 | head -3
+commit 045597c4
+    S6.1: HOTFIX gate:imports path bug — CWD-independent resolution
+```
+
+### 10.3 Critères de RESOLVED satisfaits
+
+| Critère | État | Preuve |
+|---------|------|--------|
+| Tag historique préservé (immutabilité) | ✅ | `git tag -l` confirme présence |
+| Tag correctif r2 ajouté (transparence) | ✅ | `git tag -l` confirme présence |
+| NCR_GATE_IMPORTS_PATH_BUG (cause racine) RESOLVED | ✅ | Vague 1 C6, commit `0a7311f5` |
+| Doctrine "PROVE IT" violation mitigée par dual-tag | ✅ | Lecture humaine non-ambiguë : tag = état pré-hotfix, r2 = état post-hotfix |
+| Décision Architecte tracée (§5) | ✅ | "Préserver le tag historique INTACT" — §5 ce NCR |
+
+### 10.4 Recommandations §7 — statut différé
+
+Les §7.2 et §7.3 sont des **mesures préventives forward-looking**, distinctes
+de la résolution du tag premature lui-même :
+
+| Reco | Statut | Tracking |
+|------|--------|----------|
+| §7.1 Protocole scellage gate (cross-CWD + pre-flight + logging) | ✅ Appliqué dans hotfix S6.1 | `045597c4` implementation |
+| §7.2 CI test multi-CWD (workflow matrix 3 CWDs) | ❌ Non implémenté | Tracké comme R3 dans `NCR_GATE_IMPORTS_PATH_BUG` §10.5 |
+| §7.3 Convention OMEGA `import.meta.url` dans CLAUDE.md | ❌ Non implémenté | Tracké comme R2 dans `NCR_GATE_IMPORTS_PATH_BUG` §10.5 |
+
+**Justification du RESOLVED malgré §7.2/§7.3 non-implémentés** : ces
+recommandations sont forward-looking (prévention de récurrences futures).
+Elles sont distinctes de la fermeture de l'instance spécifique du tag
+premature de 2026-04-27. Per doctrine NASA-Grade L4, la fermeture d'un
+NCR concerne l'instance, pas l'éradication globale du pattern. Les
+mesures préventives sont gérées comme R-séparés dans le NCR P0 lié.
+
+### 10.5 Closure officielle
+
+```
+CLOSURE OFFICIELLE NCR_S6_TAG_PREMATURE
+========================================
+Date            : 2026-05-01 (Sprint S8 Vague 2 enrichissement + transition)
+Status final    : RESOLVED (transition DOCUMENTED → RESOLVED)
+Authority       : Francky (Architect, décision §5 préserver tag) +
+                  Claude Code (runtime arbiter Sprint S8 Vague 2)
+Evidence anchor : git tag -l + commit aca0f393 (historique) +
+                  commit 045597c4 (hotfix) + NCR_GATE_IMPORTS_PATH_BUG
+                  RESOLVED (Vague 1 C6 commit 0a7311f5)
+Scope           : tag premature instance 2026-04-27 — dual-tag mitigation
+                  empiriquement vérifiée
+Forward-looking : §7.2 CI multi-CWD + §7.3 convention CLAUDE.md
+                  trackés dans NCR_GATE_IMPORTS_PATH_BUG §10.5 R2/R3
 ```

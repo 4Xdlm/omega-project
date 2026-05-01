@@ -2,7 +2,7 @@
 
 **ID** : NCR_CANON_ENGINE_JUNCTION_ORPHAN
 **Title** : Junction `canon-engine` orpheline détectée — package non listé dans workspaces[], origine et utilité indéterminée
-**Status** : **DOCUMENTED** (DRAFT 2026-04-27, auto-cleanup futur)
+**Status** : **RESOLVED** (2026-05-01 — closure rétroactive post-cleanup de facto)
 **Severity** : P3 — non bloquant production, dette technique
 **Priority** : P3
 **Opened** : 2026-04-27 (Tribunal 3-IA, retro S6 forensics)
@@ -141,8 +141,97 @@ investigation puis supprimer si non utilisé.
 ```
 NCR-ID    : NCR_CANON_ENGINE_JUNCTION_ORPHAN
 OPENED    : 2026-04-27 (Tribunal 3-IA observation)
-STATUS    : DOCUMENTED — résolution S6.2+ (auto-cleanup futur)
+STATUS    : RESOLVED — closure rétroactive 2026-05-01 (post-cleanup de facto)
 ARCHITECT : Francky
 DRAFTER   : Claude (IA Principal)
 STANDARD  : NASA-Grade L4 / DO-178C Level A
 ```
+
+---
+
+## 9bis. Post-mortem investigation rétroactive (2026-05-01)
+
+### 9bis.1 Constat brut — violation procédurale
+
+- **Le cleanup `canon-engine` a eu lieu de facto sans suivre la procédure §7.**
+- **Aucune investigation H1/H2/H3 documentée n'a été produite au moment du cleanup.**
+- **Aucune décision Architecte tracée** dans un NCR de décision ou commit log.
+- **Aucun commit de fermeture formel** ne marque la transition orphan → cleaned.
+- **Le drift `package-lock.json`** (entrée `packages/canon-engine: { extraneous: true }`)
+  **est l'unique preuve observable** du cleanup, détectée incidemment lors du
+  diagnostic working tree non-clean en session 2026-05-01.
+
+### 9bis.2 Évidences empiriques collectées en analyse rétroactive (2026-05-01)
+
+Commandes exécutées sur le repo dans son état post-cleanup :
+
+| Test | Commande | Résultat |
+|------|----------|----------|
+| EMP-1 | `git log --all --diff-filter=D --summary -- packages/canon-engine/package.json` | VIDE |
+| EMP-2 | `git log --all --oneline -- packages/canon-engine/` | VIDE |
+| EMP-3 | `git log --all --diff-filter=A --summary -- "packages/canon-engine/*"` | VIDE |
+| EMP-4 | `git log --all --diff-filter=R -- canon-kernel canon-engine` | VIDE |
+| EMP-5 | grep `canon-engine` dans tous `packages/*/package.json` | 0 référence |
+| EMP-6 | `Test-Path packages/canon-engine` | False |
+| EMP-7 | SBOM `nexus/proof/phase_sbom/SBOM_BASELINE.json` + `SBOM.json` | 2 entrées : `@omega/canon-engine` ET `@omega/canon-kernel` (noms distincts) |
+| EMP-8 | Phase-C report `WORKSPACE_STABILIZATION_REPORT_2026-01-27.md:152` | `canon-engine` listé comme membre actif aux côtés de `canon-kernel` |
+
+### 9bis.3 Diagnostic des hypothèses §3
+
+**H1 — Restant Phase Q (renommage canon-engine → canon-kernel)** : **REFUTÉE partiellement**.
+EMP-8 montre que les deux packages coexistaient comme membres distincts au 2026-01-27.
+Un renommage produirait l'extinction de l'un en faveur de l'autre, pas leur coexistence.
+
+**H2 — Branche WIP abandonnée fusionnée** : **PLAUSIBLE mais non confirmée**.
+Cohérente avec EMP-1/2/3/4 (zéro trace git), mais aucune évidence directe d'un merge
+commit creating canon-engine n'est observable. Si fusion il y a eu, elle a été
+ultérieurement reset ou rebased hors de la lignée actuelle.
+
+**H3 — Junction Windows (symlink vers canon-kernel)** : **AFFAIBLIE par EMP-7**.
+SBOM enregistre `@omega/canon-engine` ET `@omega/canon-kernel` comme entités à noms
+distincts. Une junction exposerait le `package.json` de la cible (canon-kernel) sous
+les deux chemins, produisant typiquement le même nom dédupliqué. Deux noms distincts
+suggèrent une identité propre de canon-engine.
+
+### 9bis.4 Conclusion rétroactive
+
+**Hypothèse confirmée empiriquement : INDÉTERMINABLE RÉTROACTIVEMENT.**
+
+L'absence totale de trace git (EMP-1 à EMP-4) combinée à la présence d'évidences
+externes (EMP-7 SBOM, EMP-8 Phase-C report) crée une **contradiction empirique** :
+canon-engine existait comme entité scannée par les outils tooling, mais n'a jamais
+été commité dans aucune branche accessible.
+
+Explications candidates non discriminables sans logs forensics S6.P1/P2 complets :
+- (a) Variante H3 affaiblie : junction avec `package.json` shadow distinct
+- (b) Variante H2 plausible : commit perdu (reset/rebase ultérieur effaçant la trace)
+- (c) Hypothèse non listée §3 : `packages/canon-engine` créé par un script local
+  (scaffolding, build artifact) ignoré par `.gitignore` à un moment donné
+
+### 9bis.5 Violation doctrinale
+
+**Violation §7 (plan d'action) : ADMISE.**
+
+Sévérité : **P3** (résultat physique correct : orphelin supprimé, repo propre ;
+process violé : aucune décision Architecte tracée, aucune investigation préalable).
+
+### 9bis.6 Action corrective Sprint S9+
+
+Amendement Plan Max v3.1.0 — **doctrine RECOVERY TEST** :
+
+> Tout cleanup de package, dossier, ou artefact dans `packages/` ou `nexus/proof/`
+> DOIT être précédé d'un commit ou NCR formel documentant :
+> - L'état pré-cleanup (ls, hash, git log)
+> - La décision Architecte (ou auto-décision motivée)
+> - L'investigation H1/H2/H3 si NCR ouvert
+>
+> Objectif : empêcher futurs cleanups silencieux ne laissant que des drifts
+> incidemment détectés comme unique preuve a posteriori.
+
+### 9bis.7 Preuve observable du cleanup (closure)
+
+Commit accompagnant cette closure :
+- **Modifié** : `package-lock.json` — alignement lockfile sur état réel post-cleanup
+  (`canon-engine: { extraneous: true }` retiré, références `node_modules/@omega/canon-engine`
+  et `file:../canon-engine` supprimées)
+- **Modifié** : ce fichier (NCR_CANON_ENGINE_JUNCTION_ORPHAN.md) — status RESOLVED + section 9bis

@@ -2,7 +2,7 @@
 
 **ID** : NCR_R6_BENCH_SOURCE_MISSING_S7P1
 **Title** : Bench source `bench-r6-hybrid.ts` validant R6 Rejection Gate Mode B (ADR DEC-20260411-003) absent du repo — décision architecturalement scellée mais empiriquement non reproductible
-**Status** : **OPEN** (S7.3-bis promotion 2026-04-29 post-S7.2 PASS)
+**Status** : **ACCEPTED_DIAGNOSED_UNKNOWN** (Sprint S8 Vague 2, 2026-05-01 — alignement sur S7.3 closure `1cf38864`, autorité ABANDON Voie A)
 **Severity** : MEDIUM (architecture validée par tests + ADR consensus 4/4 IA, mais bench source manquant pour reproductibilité empirique)
 **Priority** : **P2** (Architecte arbitrage 2026-04-28 — Option C : documenter UNKNOWN, accepter via tests + ADR)
 **Opened** : 2026-04-28 (sprint S7.1, mapping bench ↔ pipeline)
@@ -336,4 +336,111 @@ STANDARD  : NASA-Grade L4 / DO-178C Level A
 - ✅ NCR OVER HEROICS — ouverture NCR plutôt que silence ou reconstruction non-arbitrée
 - ✅ E-12 — uncertainty NOT hidden (NCR explicite)
 - ✅ Read-only S7.1 — aucune modification code/test, aucun re-bench
+
+---
+
+## 10. Classification ACCEPTED_DIAGNOSED_UNKNOWN (Sprint S8 Vague 2, 2026-05-01)
+
+### 10.1 Transition de status
+
+`OPEN` (header)/`DOCUMENTED_UNKNOWN` (signature §9 incohérence) → **`ACCEPTED_DIAGNOSED_UNKNOWN`**.
+
+Alignement explicite sur le pattern adopté par la closure S7.3 (commit
+`1cf38864`, 2026-04-30) : *"docs(s7.3): closure ACCEPTED_DIAGNOSED_UNKNOWN
++ S7 closure report"*.
+
+### 10.2 Vérifications empiriques runtime
+
+| Test | Commande | Résultat |
+|------|----------|----------|
+| EMP-1 | `Test-Path scripts/bench-v-atomic-v5-ollama-r6-mode-b.ts` (Voie A template) | **True** (préservé commit `242b5664`) |
+| EMP-2 | `Get-ChildItem -Recurse -Filter "bench-r6-hybrid*"` | **VIDE** (confirme §1.1 absence) |
+| EMP-3 | `git show 1cf38864` | S7.3 closure ACCEPTED_DIAGNOSED_UNKNOWN, "ABANDON Voie A reconstruction bench R6 Mode B (jamais lancé empirique)" |
+| EMP-4 | `git show b05851f5` | R6 anti-loss landing 2026-04-20, "anti-loss D1+D2 — R6 gate + V3.4 coefficients + sensors V2" |
+| EMP-5 | grep R6 imports `engine.ts` | l.86 import, l.333 `isR6GateEnabled()`, l.338 `runR6GateInPipeline(...)` |
+| EMP-6 | `Get-ChildItem -Recurse -Filter "*M0B*"` | **VIDE** — `M0B_SLIM_V34_COEFFICIENTS.json` cité §4.3 introuvable |
+
+### 10.3 Décision empirique fondée sur S7.3 closure
+
+L'autorité finale est le commit `1cf38864` (S7.3 closure 2026-04-30) :
+- *"ABANDON Voie A reconstruction bench R6 Mode B (jamais lancé empirique)"*
+- Convergence 3/3 IA Cowork + ChatGPT + Gemini
+
+Le NCR Option C (Architecte 2026-04-28) a été **superseded** par la
+décision S7.3 (2026-04-30) qui transforme l'acceptation conditionnelle
+en acceptation formelle avec abandonnement définitif de Voie A.
+
+### 10.4 Critères ACCEPTED_DIAGNOSED_UNKNOWN satisfaits
+
+| Critère | État | Preuve |
+|---------|------|--------|
+| Diagnostic empirique exhaustif | ✅ | §2.1 + EMP-1/2 |
+| Décision Architecte tracée | ✅ | §5.1 Option C + S7.3 closure `1cf38864` |
+| Convergence multi-IA documentée | ✅ | ADR 4/4 IA + S7.3 closure 3/3 IA |
+| Sécurité décisionnelle préservée | ✅ | Architecture wired (EMP-5), tests présents §2.4, ADR scellé |
+| Conditions de réouverture explicitement énoncées | ✅ | §5.1 (4 triggers) + §6 moyen/long terme |
+| UNKNOWN explicitement admis | ✅ | "ACCEPTED_DIAGNOSED_UNKNOWN" — bench non reproductible empiriquement |
+
+### 10.5 Evidence-gap supplémentaire détecté Vague 2 (EMP-6)
+
+Le NCR §4.3 cite `M0B_SLIM_V34_COEFFICIENTS.json` SHA256 `e75e3bb0..fe8424c`
+comme prérequis surveillé pour drift detection. Vérification empirique
+2026-05-01 :
+
+```powershell
+$ Get-ChildItem -Recurse -Filter "*M0B*"
+(empty)
+
+$ git ls-files | Select-String "M0B|m0b_slim"
+(empty)
+```
+
+→ Le fichier coefficients **n'est pas trouvable** dans le repo sous le nom
+cité. Conséquences :
+- (a) Le SHA256 cité ne peut être vérifié empiriquement
+- (b) La surveillance "drift M0B_SLIM_V34" mentionnée §7 plan d'action #6
+  (CONTINUOUS) n'a pas de cible vérifiable
+- (c) Risque méta similaire à `NCR_DIRECTIVE_BLOAT_ARTIFACT_MISSING` (commit `5f0236d6`)
+
+Ce drift est **noté** mais **hors scope** de la transition vers
+ACCEPTED_DIAGNOSED_UNKNOWN. Une investigation séparée est nécessaire
+(possible NCR émergent Sprint S9+).
+
+### 10.6 Risques restants (post-classification)
+
+- **R1 — Drift coefficients V3.4 indétectable** : sans bench reproductible
+  ET sans `M0B_SLIM_V34_COEFFICIENTS.json` vérifiable, toute dérive du scorer
+  CALC V3.4 passe silencieusement (§4.3).
+- **R2 — Reconstruction Voie A hors scope définitif** : la décision S7.3
+  ABANDON Voie A est sealed. Si une régression Mode B est observée en prod,
+  la réouverture nécessitera scope dédié Sprint S9+ (§5.1 trigger #2 ou #4).
+- **R3 — Fichier coefficients non vérifiable** : evidence-gap EMP-6 nouveau,
+  à investiguer hors scope V2.
+- **R4 — Décisions dérivées dépendantes** : §4.4 — la décision "Mode C
+  REJETÉ DÉFINITIVEMENT" repose sur le bench manquant. Si contestée,
+  aucune preuve empirique reproductible disponible.
+
+### 10.7 Closure officielle
+
+```
+CLOSURE OFFICIELLE NCR_R6_BENCH_SOURCE_MISSING_S7P1
+====================================================
+Date            : 2026-04-30 (S7.3 closure 1cf38864) /
+                  2026-05-01 (Sprint S8 Vague 2 — alignement status)
+Status final    : ACCEPTED_DIAGNOSED_UNKNOWN
+                  (transition OPEN → ACCEPTED_DIAGNOSED_UNKNOWN)
+Authority       : Francky (Architect) + S7.3 convergence 3/3 IA
+                  (Cowork + ChatGPT + Gemini)
+Evidence anchor : commits 1cf38864 (S7.3 closure ABANDON Voie A) +
+                  b05851f5 (R6 anti-loss landing) + 242b5664 (Voie A
+                  template préservé)
+Scope           : R6 Mode B architecturalement validé (wired engine.ts +
+                  tests + ADR 4/4 IA), bench source EMPIRIQUEMENT NON
+                  REPRODUCTIBLE — accepté formellement comme UNKNOWN
+Risks           : R1 drift coefficients indétectable, R2 reconstruction
+                  Voie A hors scope, R3 evidence-gap M0B coefficients
+                  (nouveau Vague 2), R4 décisions dérivées dépendantes
+Réouverture     : §5.1 (4 triggers) — drift V3.4 / régression prod Mode B /
+                  contestation rejet Mode C / sprint dédié reconstruction
+```
 

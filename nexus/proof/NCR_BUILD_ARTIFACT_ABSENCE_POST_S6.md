@@ -3,9 +3,12 @@
 **ID** : NCR_BUILD_ARTIFACT_ABSENCE_POST_S6
 **Title** : 4 packages listés BUILT en S6.P2 absents de dist/ aujourd'hui (cause non tranchée)
 **Status** : **OPEN_DIAGNOSED**
-**Severity** : **POTENTIAL_P0** (à confirmer ou downgrader Sprint S9+)
+**Severity** : **P0_PROOF_INTEGRITY** (preuve CI/build cassée — Tribunal 3 IA 2026-05-01)
+**Runtime severity** : **UNKNOWN** (impact runtime non encore prouvé)
+**Disposition** : **DEFERRED_TO_S9** (capture S8, fix Sprint S9 dédié)
 **Priority** : P0_PROVISIONAL
 **Opened** : 2026-05-01 (Sprint S8 Vague 2 — découverte forensics F2)
+**Refined** : 2026-05-01 (Sprint S8 V3 Étape 0 — Tribunal 3 IA convergence)
 **Owner** : Francky + Claude
 
 ---
@@ -85,3 +88,79 @@ Discussion stratégique demain :
 NCR OVER HEROICS — régression empirique capturée ouvertement, sans
 panique ni minimisation. PROVE IT — observation factuelle, pas
 conclusion forcée.
+
+---
+
+## 11. Tribunal 3 IA arbitrage (2026-05-01)
+
+### 11.1 Convergence atteinte
+
+Convergence Tribunal 3 IA (2026-05-01, post-capture C18) :
+- **Gemini** : "P0_PROOF_INTEGRITY — preuve cassée, runtime non prouvé"
+- **ChatGPT** : "Severity refined, deferred S9, capture suffit S8"
+- **Cowork** : "Stratégie OPT_HYBRID — capture immédiate, investigation S9"
+
+### 11.2 Refinement de sévérité
+
+| Champ | Valeur initiale C18 | Valeur refinée Étape 0 | Justification |
+|-------|---------------------|------------------------|---------------|
+| Severity | POTENTIAL_P0 | **P0_PROOF_INTEGRITY** | Preuve CI/build empiriquement cassée (vérifiable), distincte d'un P0 brut |
+| Runtime severity | (implicite POTENTIAL) | **UNKNOWN** | Impact runtime non encore mesuré (pas de bench prouvant les casses runtime) |
+| Disposition | (implicite "S9+") | **DEFERRED_TO_S9** | Capture S8 = suffisante, fix nécessite sprint dédié S9 |
+
+### 11.3 Distinction P0 vs P0_PROOF_INTEGRITY
+
+P0 brut impliquerait : runtime production cassé, perte de fonctionnalité
+critique, action immédiate.
+
+P0_PROOF_INTEGRITY (nouvelle catégorie OMEGA) implique :
+- Preuve CI ou build empiriquement cassée
+- Confiance dans la documentation/scellage compromise
+- Runtime peut être OK (UNKNOWN) ou KO — non discriminé
+- Action : capture immédiate + investigation dédiée, **pas hotfix**
+
+Cette distinction permet de capturer la gravité **doctrinale** (PROVE IT
+violé par overclaim S6) sans déclencher un branle-bas runtime non justifié
+empiriquement.
+
+### 11.4 Action S8
+
+**Aucun fix dans Sprint S8.**
+
+- S8 V2 : capture C18 (déjà fait)
+- S8 V3 Étape 0 : refinement sévérité (présent commit C19a)
+- S8 V3 Étape 1+ : continue Vague 3 sur autres NCRs (F2 hors scope V3A-D)
+
+### 11.5 Action S9 (déférée)
+
+Tests §7 du présent NCR seront exécutés en Sprint S9 dédié :
+1. `git log --all -- "packages/<name>/dist/**"` (4 packages)
+2. `.gitignore` audit pour `dist/`
+3. Lecture S6.P2 evidence pack
+4. Rebuild ciblé (réussite ou échec)
+5. Test import runtime depuis sovereign-engine
+6. Audit dépendances cross-packages
+
+### 11.6 Tag potentiel overclaimed (R3 reconfirmé)
+
+Le tag `phase-s-s6-engine-runtime-restored-2026-04-27` reste **potentiellement
+overclaimed**. Décision Tribunal 3 IA : ne PAS retirer ni modifier le tag
+(immutabilité Phase Q), mais documenter explicitement l'overclaim post-fix
+S9 dans un rider tag-side ou amendement NCR_S6_TAG_PREMATURE §11 si
+confirmé.
+
+### 11.7 Closure officielle Étape 0
+
+```
+REFINEMENT ÉTAPE 0 NCR_BUILD_ARTIFACT_ABSENCE_POST_S6
+======================================================
+Date            : 2026-05-01 (Sprint S8 V3 Étape 0)
+Status          : OPEN_DIAGNOSED (inchangé)
+Severity        : POTENTIAL_P0 → P0_PROOF_INTEGRITY (refined)
+Runtime         : UNKNOWN (explicit)
+Disposition     : DEFERRED_TO_S9 (explicit)
+Authority       : Tribunal 3 IA convergence (Gemini + ChatGPT + Cowork)
+                  + Architecte Francky
+Action S8       : NONE (capture refinement only)
+Action S9       : tests §7 (6 actions)
+```

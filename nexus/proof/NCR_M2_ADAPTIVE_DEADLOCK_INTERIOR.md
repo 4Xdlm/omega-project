@@ -467,3 +467,93 @@ Cette closure NCR_M2 SCOPED ouvre la voie à :
 - `outputs/NCR_M2_FIX_PLAN_v2.md` (plan consolidé 3-IA, 5 amendements)
 - `outputs/NCR_M2_PHASE1_ANALYSIS.md` (analyse 15 sections post-bench A.1)
 - `outputs/log_quality.md` (entrées 2026-04-19 soir + nuit + nuit+)
+
+---
+
+## 11. Closure formelle (enrichissement Sprint S8 Vague 1, 2026-05-01)
+
+> Ce NCR contient déjà une §10 "Résolution Phase 1 A.1 STRICT" très complète (§10.1-§10.14).
+> La présente §11 ajoute uniquement les ancrages commit/tag manquants et le verdict
+> formel sur la question RESOLVED-candidate posée Sprint S8 Vague 1.
+
+### 11.1 Date closure et statut final
+
+- **Date closure réelle** : 2026-04-20 06:21 +0200 (timestamp commit `10d9fbcf`)
+- **Status final** : **FIX_VALIDATED_SCOPED** (inchangé — voir §11.4)
+- **Date enrichissement** : 2026-05-01 (Sprint S8 Vague 1)
+
+### 11.2 Anchors empiriquement validés
+
+| Type | Référence | Note |
+|------|-----------|------|
+| Commit closure scellage | `10d9fbcf` | "docs(ncr-m2/closure): FIX_VALIDATED_SCOPED - Phase 1 A.1 STRICT bench PASS" — header transition Status OPEN → FIX_VALIDATED_SCOPED |
+| Bench JSON Phase 1 A.1 | `packages/sovereign-engine/bench-p1-robustness-v3-phase1-A1.json` | SHA256 `C8C2E8DC..1DA42ED`, 15/15 OK 0 timeout |
+| Bench JSON v3 baseline | `packages/sovereign-engine/bench-p1-robustness-v3-results.json` | SHA256 `7DA99121..DC0FE89`, 11/12 timeouts REPRO (gap référence) |
+| Drift archive externe | `docs/archive/drift-20260420.md` (in-repo) | Pointe vers `Claude-Workspace/OMEGA/archive/drift-20260420/MANIFEST.md` (31 fichiers archivés) |
+
+### 11.3 Anchors NON validés (vérification user-instruction Sprint S8 Vague 1)
+
+L'instruction Vague 1 mentionnait à vérifier :
+- **Tag `phase-s-ncr-m2-closure-2026-04-20`** : ❌ **N'existe pas** dans le repo (`git tag -l "phase-s-ncr-m2*"` → vide). Aucun tag dédié à cette closure.
+- **Tests "2411/2411 PASS"** : ❌ Référence empirique non trouvée. Le NCR §10.4 cite seuil T7 "≥2424 PASS" (pas 2411). User a probablement confondu un compte de tests d'une autre closure.
+- **"Drift 18 files toujours en attente Sprint S12"** : ⚠️ Numérotation imprécise. Le drift archive réel (`docs/archive/drift-20260420.md`) totalise **31 fichiers archivés** hors-source (D4-bench=30, D14B-bench_r6=1) post-seal `phase-s-r7-sealed-2026-04-20`. L'archive est **terminée**, pas en attente Sprint S12. Le différé concerne les NCR ouverts cités §3 du drift doc (D3/D5/D6 MODs sous NCRs), pas un compte exact de "18 files".
+
+### 11.4 Verdict RESOLVED-candidate : **REJETÉ**
+
+L'instruction Vague 1 proposait deux branches :
+- **(a)** Si preuve test 2411/2411 PASS + drift cleared → RESOLVED candidate
+- **(b)** Si drift toujours en attente → FIX_VALIDATED_SCOPED + note "scope: fix code only"
+
+**Réponse empirique** : la branche (a) ne peut pas être validée. Raisons :
+
+1. **Le NCR §"Clôture SCOPED" (header) est explicite** : *"FIX_VALIDATED_SCOPED, pas FIX_VALIDATED_GLOBAL tant que bench élargi hors INTERIOR et drift archétype non résolus"*. Cette contrainte a été posée par consensus 3/3 IA. La transformer en RESOLVED sans satisfaire les conditions reviendrait à violer le consensus initial.
+2. **§10.13 liste 3 PRIOs Francky PENDING** :
+   - PRIO 1 — Replay A.1 ON vs OFF mêmes seeds (~18min GPU) — **non exécuté**
+   - PRIO 2 — `NCR_GATING_EFFECT_SIZE_UNSTABLE` redesign — **NCR séparé OPEN**
+   - PRIO 3 — `NCR_SCORER_STYLE_BIAS` outlier seed 3 — **NCR séparé OPEN**
+3. **§10.9 "Faiblesses résiduelles"** liste 4 limitations non comblées (généralisation NON-INTERIOR, outlier scorer, preuve différentielle, drift Ollama inter-session).
+4. **§10.10 "Risques restants"** liste 4 risques non mitigés (R1 activation prod sans replay, R2 surface config env, R3 drift archétype, R4 scoring drift).
+
+**Conclusion** : le statut **FIX_VALIDATED_SCOPED reste correct** et conforme à la doctrine de gradation NASA-Grade L4. Aucune transition vers RESOLVED n'est empiriquement justifiée au 2026-05-01.
+
+### 11.5 Décision d'autorité
+
+- **Détecteur initial** : bench v3 144 runs (2026-04-19 matin)
+- **Promotion P1 → P0** : consensus 3-IA (ChatGPT + Gemini + Claude) post-bench v3
+- **Closure scope** : consensus 3/3 IA (Gemini + ChatGPT #1 + ChatGPT #2) sur OPT1 env-gated
+- **Décisionnaire** : Francky (Architect)
+- **Implémenteur** : Claude (autonome)
+
+### 11.6 Lien doctrinal — Note "scope: fix code only"
+
+Conformément à la branche (b) de l'instruction Vague 1 :
+
+> **Scope NCR_M2_ADAPTIVE_DEADLOCK_INTERIOR FIX_VALIDATED_SCOPED** :
+> - **INCLUS** : fix code env-gated `OMEGA_P1V3_ANTI_REPEAT` (default OFF), 15/15 bench
+>   PASS sur INTERIOR REPRO+CTRL, 24 tests `ncr-m2-phase1-anti-repeat.test.ts` PASS,
+>   gates v3 §8.2 PHASE1_A1_PASS, 8 invariants scellés vérifiés ex-post.
+> - **EXCLUS (différé)** : généralisation NON-INTERIOR, drift archétype dispatch,
+>   replay différentiel ON vs OFF, scorer outlier seed 3.
+> - **DEFERRED Sprint S9+ (PRIO 1-2-3 §10.13)** : replay A.1 (~18min GPU),
+>   `NCR_GATING_EFFECT_SIZE_UNSTABLE` redesign, `NCR_SCORER_STYLE_BIAS` diagnostic.
+
+### 11.7 Closure officielle
+
+```
+CLOSURE OFFICIELLE NCR_M2_ADAPTIVE_DEADLOCK_INTERIOR
+=====================================================
+Date            : 2026-04-20 06:21 +0200 (commit 10d9fbcf) /
+                  2026-05-01 (enrichissement section 11)
+Status final    : FIX_VALIDATED_SCOPED (NON transformable en RESOLVED — voir §11.4)
+Authority       : Francky (Architect) + consensus 3/3 IA (Gemini + ChatGPT #1+#2)
+Evidence anchor : commit 10d9fbcf + bench JSON SHA256 C8C2E8DC..1DA42ED
+                  (15/15 OK 0 timeout) vs baseline v3 SHA256 7DA99121..DC0FE89
+                  (11/12 timeouts REPRO) — gap -91.7 pts
+Tag dédié       : ⚠ AUCUN (user-suggested phase-s-ncr-m2-closure-2026-04-20 inexistant)
+Test count      : ⚠ User-cited "2411/2411 PASS" non vérifiable ;
+                  empirique = T7 seuil ≥2424 PASS + 24 tests ncr-m2-phase1
+Scope           : fix code env-gated INTERIOR-only (OPT1)
+                  EXCLUS : généralisation, drift archétype, replay diff., scorer outlier
+Risks           : §10.9 (4 faiblesses) + §10.10 (4 risques) + §10.13 (3 PRIOs PENDING)
+Drift           : archive 31 fichiers hors-source via docs/archive/drift-20260420.md
+```

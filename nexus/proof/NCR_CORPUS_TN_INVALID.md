@@ -13,9 +13,16 @@
 
 ### Evidence empirique (chunk-level, R2)
 
-- `outputs/bench_dedale_night/BENCH_DEDALE_NIGHT_20260422/runs_R2.jsonl` (60 runs, 95 897 bytes)
-- `outputs/bench_dedale_night/BENCH_DEDALE_NIGHT_20260422/DEDALE_BENCH_R2_ADR005_VERDICT_v1.md` (verdict détaillé)
-- `outputs/bench_dedale_night/BENCH_DEDALE_NIGHT_20260422/analysis/r2_adr005_analysis.json`
+> **PATH DRIFT CORRECTION — Sprint S8 Vague 2 (2026-05-01)** : les paths
+> ci-dessous ont été corrigés in-place du chemin original `outputs/...`
+> (incorrect — fichier introuvable à ce path) vers le chemin réel vérifié
+> empiriquement `packages/sovereign-engine/outputs/...`.
+> Méthode : `Test-Path` + `Get-ChildItem` + `git ls-files`. Voir §10.3 pour
+> table de correspondance complète et §11 pour audit trail Vague 2.
+
+- `packages/sovereign-engine/outputs/bench_dedale_night/BENCH_DEDALE_NIGHT_20260422/runs_R2.jsonl` (60 runs ; **NON tracké git** — voir §11.3)
+- `packages/sovereign-engine/outputs/bench_dedale_night/BENCH_DEDALE_NIGHT_20260422/DEDALE_BENCH_R2_ADR005_VERDICT_v1.md` (verdict détaillé ; tracké git ✓)
+- `packages/sovereign-engine/outputs/bench_dedale_night/BENCH_DEDALE_NIGHT_20260422/analysis/r2_adr005_analysis.json` (tracké git ✓)
 
 ### Mesures (164 chunks, oracle attempt_1, ADR-005 r2 seuils c1_high=0.20, c1_low=0.15, c4=0.30)
 
@@ -211,4 +218,76 @@ Scope           : verdict empirique T04/T01/N02 + décision reclassement (chanti
                   ouvert mais non démarré, hors closure)
 Risks           : R1/R2/R3/R4 — dette corpus T', BENCH_CORPUS non patché,
                   path drift documentaire, runs_R2.jsonl non tracké
+```
+
+---
+
+## 11. PATH DRIFT CORRECTION (Sprint S8 Vague 2, 2026-05-01)
+
+### 11.1 Patch in-place appliqué
+
+Le §"Clôture > Evidence empirique" a été **corrigé in-place** ce jour pour
+refléter la réalité filesystem. Anciens paths (incorrects) → nouveaux paths
+(vérifiés empiriquement).
+
+| Fichier | Path original (avant Vague 2) | Path corrigé Vague 2 (vérifié) |
+|---------|-------------------------------|--------------------------------|
+| `runs_R2.jsonl` | `outputs/bench_dedale_night/BENCH_DEDALE_NIGHT_20260422/runs_R2.jsonl` | `packages/sovereign-engine/outputs/bench_dedale_night/BENCH_DEDALE_NIGHT_20260422/runs_R2.jsonl` (NON tracké git) |
+| `DEDALE_BENCH_R2_ADR005_VERDICT_v1.md` | `outputs/bench_dedale_night/.../DEDALE_BENCH_R2_ADR005_VERDICT_v1.md` | `packages/sovereign-engine/outputs/bench_dedale_night/BENCH_DEDALE_NIGHT_20260422/DEDALE_BENCH_R2_ADR005_VERDICT_v1.md` |
+| `analysis/r2_adr005_analysis.json` | `outputs/bench_dedale_night/.../analysis/r2_adr005_analysis.json` | `packages/sovereign-engine/outputs/bench_dedale_night/BENCH_DEDALE_NIGHT_20260422/analysis/r2_adr005_analysis.json` |
+
+### 11.2 Méthode de vérification
+
+```powershell
+# Test-Path sur paths réels
+Test-Path "packages/sovereign-engine/outputs/bench_dedale_night/BENCH_DEDALE_NIGHT_20260422/DEDALE_BENCH_R2_ADR005_VERDICT_v1.md"
+# → True
+
+# git ls-files pour confirmer tracking
+git ls-files packages/sovereign-engine/outputs/bench_dedale_night
+# → 5 fichiers trackés (verdicts v1+v2, report, manifest, analysis JSON)
+
+# Confirmation NON-tracking jsonl
+git ls-files packages/sovereign-engine/outputs/bench_dedale_night/BENCH_DEDALE_NIGHT_20260422/runs_R2.jsonl
+# → vide (non tracké)
+```
+
+### 11.3 Statut runs_R2.jsonl (NON tracké)
+
+Le fichier `runs_R2.jsonl` (60 runs source) est **présent localement sur disque**
+au path corrigé mais **n'a jamais été tracké dans git**. Hypothèses non
+discriminées sur cette absence :
+
+- (a) Format `.jsonl` exclu par `.gitignore` (à vérifier — pattern non identifié dans Vague 1 préflight)
+- (b) Taille/format intentionnellement laissé en workspace (artefact transient)
+- (c) Oubli au commit `558c57fd` (5 artefacts CORE bench sealed, mais jsonl pas inclus)
+
+Risque R4 confirmé : si le fichier est perdu localement → mesures §"Mesures"
+deviennent non-reproductibles. **Action future** : décision Sprint S9+ pour
+soit (a) tracker explicitement le jsonl, soit (b) accepter la perte de
+reproductibilité avec note formelle.
+
+### 11.4 Impact
+
+Traçabilité documentaire **restaurée**. Tout futur audit du NCR pourra
+trouver les évidences via les paths corrigés sans investigation inverse.
+La §10.3 (table complète Vague 1) reste comme audit trail historique de
+la découverte du drift.
+
+### 11.5 Doctrine
+
+`REPO = TRUTH` (CLAUDE.md §C.9) — un NCR documentaire qui ment sur les
+paths viole cette règle. Le patch in-place restaure la cohérence avec
+filesystem au prix de la modification du texte historique du NCR. Le
+trail audit (§10.3 + §11) préserve la trace de l'erreur initiale et de
+sa correction.
+
+```
+PATCH IN-PLACE NCR_CORPUS_TN_INVALID — Sprint S8 Vague 2
+=========================================================
+Date            : 2026-05-01
+Authority       : Francky (Architect) — instruction Vague 2 D6
+Implementation  : Claude Code (IA Principal, runtime arbiter)
+Verification    : Test-Path + git ls-files
+Status NCR      : CLOSED_CONFIRMED (inchangé)
 ```

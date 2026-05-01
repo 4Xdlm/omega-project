@@ -128,3 +128,87 @@ découverte, traitée **séparément** de la dette oracle (ADR-005 r2).
       OU la reclasser explicitement `neutral:action_pass_through`
 - [ ] Conserver T01 en `episodic_trigger`, usage statistique insuffisant
       (≥ 100 chunks requis pour CI 95 % sur rate ≈ 1-2 %)
+
+---
+
+## 10. Closure (enrichissement Sprint S8 Vague 1, 2026-05-01)
+
+### 10.1 Date de closure et statut final
+
+- **Date closure réelle** : 2026-04-22 23:59 +0200 (timestamp commit `558c57fd`)
+- **Status final** : **CLOSED_CONFIRMED** (inchangé)
+- **Date d'enrichissement closure section** : 2026-05-01 (Sprint S8 Vague 1)
+
+### 10.2 Décision d'autorité
+
+- **Décisionnaire** : Francky (Architect)
+- **Arbitrage** : Tribunal 3-IA (consensus 3/3 cité §"Décisions & plan de remédiation")
+- **Source verdict** : ChatGPT verbatim (cf. message commit `558c57fd` "VERDICT DISSOCIE 4-AXES")
+- **Implémenteur** : Claude (IA Principal)
+
+### 10.3 Evidence empirique consolidée
+
+**ATTENTION — drift de path détecté lors de l'enrichissement** :
+
+Les paths cités §"Clôture > Evidence empirique" (`outputs/bench_dedale_night/...`)
+sont **incorrects**. Les fichiers réels sont sous
+`packages/sovereign-engine/outputs/bench_dedale_night/BENCH_DEDALE_NIGHT_20260422/`.
+Vérification 2026-05-01 :
+
+| Fichier cité | Path NCR original | Path réel (vérifié 2026-05-01) | Tracké git ? |
+|-------------|-------------------|--------------------------------|--------------|
+| `runs_R2.jsonl` | `outputs/bench_dedale_night/BENCH_DEDALE_NIGHT_20260422/runs_R2.jsonl` | **NON TROUVÉ** sur disque | NON tracké (probablement `.gitignore` taille/format) |
+| `DEDALE_BENCH_R2_ADR005_VERDICT_v1.md` | `outputs/bench_dedale_night/BENCH_DEDALE_NIGHT_20260422/...` | `packages/sovereign-engine/outputs/bench_dedale_night/BENCH_DEDALE_NIGHT_20260422/DEDALE_BENCH_R2_ADR005_VERDICT_v1.md` | **OUI** (`git ls-files`) |
+| `analysis/r2_adr005_analysis.json` | `outputs/bench_dedale_night/BENCH_DEDALE_NIGHT_20260422/analysis/r2_adr005_analysis.json` | `packages/sovereign-engine/outputs/bench_dedale_night/BENCH_DEDALE_NIGHT_20260422/analysis/r2_adr005_analysis.json` | **OUI** |
+
+Bonus tracké également (non cité dans le NCR original) :
+- `packages/sovereign-engine/outputs/bench_dedale_night/BENCH_DEDALE_NIGHT_20260422/DEDALE_BENCH_R2_ADR005_VERDICT_v2.md` (verdict strict 4-axes)
+- `packages/sovereign-engine/outputs/bench_dedale_night/BENCH_DEDALE_NIGHT_20260422/DEDALE_BENCH_NIGHT_REPORT_v1.md`
+- `packages/sovereign-engine/outputs/bench_dedale_night/BENCH_DEDALE_NIGHT_20260422/analysis/MANIFEST_SHA256.txt` (1328 artefacts bench hashés)
+
+### 10.4 Anchor commit
+
+| Type | Référence | Note |
+|------|-----------|------|
+| Commit closure | `558c57fd` — "feat(dedale): ADR-005 r2 composite oracle + bench R2 mini-validation" | 19 fichiers, 14 CORE + 5 artefacts bench |
+| Date commit | 2026-04-22 23:59 +0200 | Aligné sur date Status §header |
+| ADR référencé | `docs/DEC-20260422-005-ORACLE-THRESHOLDS-RECALIBRATION.md` (r1+r2+r3) | Cité dans message commit |
+| Tag dédié | **Aucun tag spécifique** pour CORPUS_TN closure | Note: `phase-s-ncr-dedale-reset-health-validated-r4-5351554b` couvre RESET_HEALTH (NCR distinct) |
+
+### 10.5 Portée du fix
+
+**INCLUS dans la closure** :
+- Verdict empirique : T04 INERT, T01 RARE-TRIGGER, N02 reference baseline (mesures §"Mesures" tableau 3 scènes)
+- Décision scellée Tribunal 3-IA : reclasser/retirer T04, conserver T01 et N02 (§"Décisions > Scellée")
+- Acceptation explicite : `BENCH_CORPUS` actuel **invalide** comme source TP statistique
+- ADR-005 r2 oracle COMMIT malgré FAIL TP corpus, raisons §"Lien vers ADR-005 r2"
+
+**HORS closure (chantiers ouverts)** :
+- Design corpus T' adversarial qwen3:32b (§"Chantier successeur") — **non démarré**
+- Action concrète sur T04 dans `BENCH_CORPUS` (retrait ou reclassement) — **non implémentée**
+- T01 statistique : ≥ 100 chunks pour CI 95 % — **non collectés**
+- `NCR_DEDALE_RESET_HEALTH_NOT_ENFORCED` (OPEN P1, créé même commit) — séparé
+
+### 10.6 Risques restants (post-closure)
+
+- **R1 — Dette corpus T' non comblée** : aucun bench Dédale ne peut produire de TP statistique fiable tant que T' n'existe pas. Tout futur sprint Dédale dépendant d'une mesure de TP est **bloqué empiriquement** (pas seulement bureaucratiquement).
+- **R2 — `BENCH_CORPUS` toujours utilisé tel quel** : aucune modification commit-side de `packages/sovereign-engine/scripts/bench-dedale-night.ts` n'a retiré T04. Tout opérateur lançant ce bench sans relire ce NCR risque de tirer de fausses conclusions sur des runs futurs.
+- **R3 — Path drift dans la documentation** : la NCR §"Clôture > Evidence" cite des paths incorrects (root `outputs/` au lieu de `packages/sovereign-engine/outputs/`). Risque de non-retrouvabilité des preuves lors d'audits futurs.
+- **R4 — `runs_R2.jsonl` non tracké** : la jsonl source des 60 runs n'est pas dans le repo. Si le fichier est perdu localement, **les mesures §"Mesures" deviennent non-reproductibles**.
+
+### 10.7 Closure officielle
+
+```
+CLOSURE OFFICIELLE NCR_CORPUS_TN_INVALID
+========================================
+Date            : 2026-04-22 (verdict + commit) / 2026-05-01 (enrichissement section)
+Status final    : CLOSED_CONFIRMED
+Authority       : Francky (Architect) + consensus Tribunal 3-IA
+Evidence anchor : commit 558c57fd + 5 artefacts bench dans
+                  packages/sovereign-engine/outputs/bench_dedale_night/BENCH_DEDALE_NIGHT_20260422/
+                  (path original NCR incorrect — voir §10.3)
+Scope           : verdict empirique T04/T01/N02 + décision reclassement (chantier T'
+                  ouvert mais non démarré, hors closure)
+Risks           : R1/R2/R3/R4 — dette corpus T', BENCH_CORPUS non patché,
+                  path drift documentaire, runs_R2.jsonl non tracké
+```

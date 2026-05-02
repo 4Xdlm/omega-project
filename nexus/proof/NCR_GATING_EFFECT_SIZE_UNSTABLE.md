@@ -2,7 +2,8 @@
 
 **ID** : NCR_GATING_EFFECT_SIZE_UNSTABLE
 **Title** : ΔI INTERIOR (M_prod_p1 − M2_adaptive) oscille de +5.379 (R-D.1 n=3) à −0.083 (v2 n=6) inter-session
-**Status** : OPEN_EXTENDED (renforcé 2026-04-19 matin — bench v3 confirme variance LLM intrinsèque)
+**Status** : **ACCEPTED_DIAGNOSED_UNKNOWN** (Sprint S8 V3B 2026-05-02 — mapping OPEN_EXTENDED → ACCEPTED_DIAGNOSED_UNKNOWN, diagnostic confirmé empiriquement, gain quantitatif UNKNOWN, Option F SHADOW de facto sans scellage formel)
+**Précédent** : OPEN_EXTENDED (renforcé 2026-04-19 matin — bench v3 confirme variance LLM intrinsèque)
 **Severity** : HIGH (empêche calibrage fiable des seuils kill-switch)
 **Priority** : P1 (promu après v3 — bloque scellement V1-R-D.1-PROD)
 **Opened** : 2026-04-18 soir
@@ -452,3 +453,137 @@ mesure.
    avant. Pas de "collecte passive" tant que les données restent polluées.
 4. **Option E (qwen3:72b)** = rejetée (ChatGPT+Gemini+Claude) — change le
    modèle ne prouve rien sur la méthode, et 72b ne rentre pas en VRAM.
+
+---
+
+## 10. S8 V3B CLASSIFICATION — 2026-05-02
+
+### 10.1 Anchors empiriques vérifiés (canon-engine quality bar EMP-N)
+
+| Test | Commande | Résultat |
+|------|----------|----------|
+| EMP-1 | SHA256 `bench-p1-robustness-v3-results.json` | **EXACT MATCH** : `7DA991210E0C78A1D2972F05F1EE7FC5EB3A5515E3E94CE3B498D9C99DC0FE89` ✅ (déjà vérifié C24) |
+| EMP-2 | `Test-Path bench-r-d-1-extended-results.json` | True ✅ |
+| EMP-3 | `Test-Path bench-p1-robustness-v2-results.json` | True ✅ |
+| EMP-4 | NCR_M2 status check | Confirmé `FIX_VALIDATED_SCOPED` (Vague 1 C9, ligne 5 du NCR M2) ✅ |
+| EMP-5 | P1 wiring commit `7e89f95f` | Confirmé "feat(adaptive-chunker): P1 archetype gating wiring (R-D.1 ADOPT_A)" — intact, R-D.1 ADOPT_A active en prod ✅ |
+| EMP-6 | Search `OMEGA_V1_SEAL_CERTIFICATE.md` filesystem | **NON TROUVÉ** ❌ — Evidence Rot supplémentaire |
+| EMP-7 | git log grep "SHADOW.*permanent\|Option F\|P1 SHADOW" | **0 commit** — Architecte arbitrage D/E/F **non scellé** empiriquement |
+
+### 10.2 Mapping OPEN_EXTENDED → status doctrinal
+
+`OPEN_EXTENDED` n'est pas dans la liste statuts autorisés.
+
+| Critère | Vérif | Match status |
+|---------|-------|-------------|
+| Diagnostic confirmé empiriquement (G4 PASS bit-identical, 144 runs) | ✅ EMP-1 | DIAGNOSED-family |
+| Architect décision Option D/E/F formellement scellée | ❌ EMP-7 | NOT RESOLVED |
+| Status quo SHADOW de facto (P1 commit intact) | ✅ EMP-5 | UNKNOWN gain quantitatif accepté |
+| `OMEGA_V1_SEAL_CERTIFICATE.md` amendement P1 SHADOW présent | ❌ EMP-6 (introuvable) | UNKNOWN sealing status |
+| NCR_M2 closure (condition Option D) | ❌ EMP-4 (FIX_VALIDATED_SCOPED, pas RESOLVED) | UNKNOWN remaining path |
+
+→ **ACCEPTED_DIAGNOSED_UNKNOWN** est le mapping correct :
+- ACCEPTED : recommandation Option F implicitement appliquée (P1 intact, R-D.1 ADOPT_A active)
+- DIAGNOSED : variance LLM intrinsèque empiriquement prouvée (G4 PASS)
+- UNKNOWN : gain mesurable quantitatif structurellement non atteignable, scellage formel manquant
+
+### 10.3 Decision rationale
+
+Cannot RESOLVED :
+- Aucun commit "P1 SHADOW" tracé
+- OMEGA_V1_SEAL_CERTIFICATE.md introuvable → impossible de vérifier amendement P1 SHADOW
+- Architecte arbitrage D/E/F non tracé formellement
+
+Cannot CLOSED_CONFIRMED :
+- "Closure" requires explicit decision; only Claude recommandation (line 392-394) emitted, not Architect-sealed
+
+Cannot DEFERRED :
+- DEFERRED implies sprint dédié S9+ to act ; ici le diagnostic est complet et la doctrine accepte UNKNOWN
+
+Cannot STILL_OPEN :
+- L'investigation est complète (bench v3 144 runs, G4 PASS), pas en attente passive
+
+Cannot FIX_VALIDATED_SCOPED :
+- Pas de fix appliqué scoped ; Option F est acceptation pas fix
+
+→ **ACCEPTED_DIAGNOSED_UNKNOWN** est doctrinalement aligné.
+
+### 10.4 Evidence-gap supplémentaire détecté Vague 2 (EMP-6)
+
+Le NCR §9.7 et §9.8 cite `OMEGA_V1_SEAL_CERTIFICATE.md` comme cible
+pour amendement P1 SHADOW canonique. Vérification 2026-05-02 :
+
+```powershell
+$ Get-ChildItem -Recurse -Filter "OMEGA_V1_SEAL*"
+(empty)
+```
+
+→ Le fichier **n'existe pas** dans le repo. Pattern parallèle à
+`NCR_DIRECTIVE_BLOAT_ARTIFACT_MISSING` et `M0B_SLIM_V34_COEFFICIENTS.json`.
+Cet evidence-gap supplémentaire doit être ajouté à l'audit S9+ du F1
+umbrella `NCR_EVIDENCE_ARTIFACT_GAP_PATTERN` (commit `3bfcdbde`).
+
+### 10.5 Final status
+
+**ACCEPTED_DIAGNOSED_UNKNOWN** (severity HIGH P1 maintenue dans le header
+pour trace historique du blocage scellement V1-R-D.1-PROD)
+
+### 10.6 Scope
+
+- **DIAGNOSED ACCEPTED** : variance LLM intrinsèque confirmée (G4 PASS),
+  gain quantitatif G1=+3.0 non atteignable sous dilution linéaire,
+  Option F SHADOW de facto via P1 commit intact
+- **UNKNOWN** : gain mesurable quantitatif, scellage formel V1-R-D.1-PROD,
+  amendement OMEGA_V1_SEAL_CERTIFICATE
+- **HORS scope** : actions correctives (Options D/E si NCR_M2 fermé)
+
+### 10.7 Remaining risks
+
+- **R1** — Scellage formel V1-R-D.1-PROD bloqué : OMEGA_V1_SEAL_CERTIFICATE.md
+  introuvable + aucun commit P1 SHADOW → la canonique scellement n'existe pas
+  empiriquement
+- **R2** — Décision Architecte D/E/F en attente 13 jours (depuis 2026-04-19) :
+  pattern bit-rot contextuel
+- **R3** — NCR_M2 condition non remplie : Option D bloquée tant que NCR_M2
+  reste FIX_VALIDATED_SCOPED (cf. C9 V1)
+- **R4** — Evidence Rot OMEGA_V1_SEAL_CERTIFICATE.md : 4ème cas pattern
+  Evidence Rot détecté (après DIRECTIVE_ABLATION + M0B + PHASE_1_CATHEDRAL) →
+  audit S9+ F1 umbrella requis
+
+### 10.8 Cross-references
+
+- `NCR_M2_ADAPTIVE_DEADLOCK_INTERIOR` (FIX_VALIDATED_SCOPED, Vague 1 C9
+  commit `7d4bff66`) : condition pour Option D, non remplie
+- `NCR_BENCH_METHOD_DRIFT` (CLOSED_CONFIRMED, Vague 2 C24 commit `87a400cb`) :
+  hérite de cette NCR via §9.7 cross-impact (méthode bench valide, mais
+  effet-size instable)
+- `NCR_EVIDENCE_ARTIFACT_GAP_PATTERN` (F1 umbrella commit `3bfcdbde`) :
+  doit ajouter `OMEGA_V1_SEAL_CERTIFICATE.md` à l'audit S9+ §5
+- `NCR_FROZEN_BREACH_DUEL_ENGINE_2026-04-20` (CLOSED_CONFIRMED Vague 2 C26
+  commit `458df9ab`) : V1_SEAL_CERTIFICATE intact selon NCR §12.5,
+  contradiction empirique avec EMP-6 — investigation S9+ requise
+
+### 10.9 Closure officielle
+
+```
+CLASSIFICATION S8 V3B — NCR_GATING_EFFECT_SIZE_UNSTABLE
+=========================================================
+Date            : 2026-05-02 (Sprint S8 V3B)
+Status          : OPEN_EXTENDED → ACCEPTED_DIAGNOSED_UNKNOWN (mapping)
+Severity        : HIGH P1 (inchangée, blocage scellement V1-R-D.1-PROD)
+Authority       : Claude Code (runtime arbiter S8 V3B) +
+                  Recommandation Claude consolidée 2026-04-19 (Option F)
+                  + 3-IA consensus pre-existing
+Evidence anchor : 7/7 EMP runtime — bench v3 SHA256 match exact +
+                  3 bench JSON présents + NCR_M2 status confirmé +
+                  P1 wiring commit intact
+Evidence gaps   : EMP-6 OMEGA_V1_SEAL_CERTIFICATE.md introuvable +
+                  EMP-7 0 commit Option F scellé →
+                  4ème evidence-gap pattern (audit F1 umbrella S9+)
+Anchors Cowork  : aucun anchor [À VÉRIFIER] explicite dans brief V3B C27.
+                  Anchors NCR-internes vérifiés.
+Scope           : diagnostic accepté + Option F SHADOW de facto, gain
+                  quantitatif UNKNOWN, scellage formel pending S9+
+Risks           : R1 scellage bloqué, R2 Architect 13 jours bit-rot,
+                  R3 NCR_M2 condition Option D, R4 Evidence Rot V1_SEAL
+```

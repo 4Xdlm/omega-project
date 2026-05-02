@@ -2,7 +2,8 @@
 
 **Opened**  : 2026-04-17
 **Severity** : MEDIUM
-**Status**   : ACCEPTED — autorisé par Francky (Option A)
+**Status**   : **SUPERSEDED** (Sprint S8 V3B 2026-05-02 — mapping CLOSED-SUPERSEDED → SUPERSEDED, NCR remplacée par `NCR_FROZEN_BREACH_DUEL_ENGINE_2026-04-20.md` Option α + merge strategy C)
+**Précédent** : ACCEPTED — autorisé par Francky (Option A) → CLOSED-SUPERSEDED 2026-04-20
 **Owner**    : Claude Code (IA Principal) — validation Francky
 
 ## Issue
@@ -185,3 +186,109 @@ Verdict consolidé : **SHADOW_CONTINUE → PROMOTE** via scellement `phase-s-r7`
 ---
 
 **NCR CLOSED-SUPERSEDED**. Aucune action résiduelle. Conservée pour historique.
+
+---
+
+## S8 V3B CLASSIFICATION — 2026-05-02
+
+### Anchors empiriques vérifiés (canon-engine quality bar EMP-N)
+
+| Test | Commande | Résultat |
+|------|----------|----------|
+| EMP-1 | `Get-Content phase-s-r7/HASHES.sha256` ligne 8 | `2c29ce57a9b548102b193dd828f4aa5908d7f866f607495cd5bd2ffc968600a1  src/duel/duel-engine.ts` — **MATCH EXACT** §"Closure > Impact > ligne 154" ✅ |
+| EMP-2 | `Get-Content phase-s-sealed/HASHES.sha256` ligne 8 | `3bb2c6ffa7c0f1224ade976aeb0e318e5484fe9e91527172a1ab72a65aa86463  src/duel/duel-engine.ts` — **V1 IMMUTABLE** confirmé (matches §"Closure > Impact > ligne 149") ✅ |
+| EMP-3 | `Test-Path docs/DEC-20260417-004-V2B-ADAPTIVE-CHUNKING.md` | True ✅ |
+| EMP-4 | `Test-Path nexus/proof/NCR_FROZEN_BREACH_DUEL_ENGINE_2026-04-20.md` | True ✅ (cross-ref C26 commit `458df9ab`, CLOSED_CONFIRMED Vague 2) |
+
+### Cowork anchor [À VÉRIFIER] — analyse honnête
+
+L'instruction Vague 2 brief V3B C28 mentionne anchor :
+> "V2-B-LOOP commit 9e69be42 [À VÉRIFIER]"
+
+Vérification empirique :
+
+```
+$ git show --stat 9e69be42
+commit 9e69be42ed2d41782dd65a66a493af023c1abc8a
+Date:   Wed Apr 22 00:08:43 2026 +0200
+    feat(dedale): v0.55 RESET-FIRST integration into V2-B-LOOP (opt-in via OMEGA_DEDALE_MODE)
+```
+
+→ **Anchor partiellement correct** : le commit existe et mentionne "V2-B-LOOP" dans
+le message, mais c'est un commit **différent context** (Dédale v0.55 integration
+into V2-B-LOOP, 2026-04-22). Le vrai commit V2-B propagation `duel-engine.ts`
+mentionné dans cette NCR §"Mécanisme causal du delta" est **`9a2a6f97`** (V2-B
+emotion_contract propagation, 2026-04-20 11:39 — vérifié C26 EMP-3).
+
+→ Pattern Cowork unverified anchors confirmé (cf. `NCR_COWORK_UNVERIFIED_ANCHORS_PATTERN`
+commit `b9c8fec4`) : 6ème occurrence ajoutée à l'audit.
+
+### Mapping CLOSED-SUPERSEDED → status doctrinal
+
+`CLOSED-SUPERSEDED` (composite) n'est pas dans la liste statuts autorisés.
+
+| Critère | Vérif | Match status |
+|---------|-------|-------------|
+| §"Closure" explicit "Aucune action résiduelle. Conservée pour historique" | ✅ | CLOSED-family |
+| Replaced by `NCR_FROZEN_BREACH_DUEL_ENGINE_2026-04-20.md` (CLOSED_CONFIRMED Vague 2 C26) | ✅ EMP-4 | **SUPERSEDED** |
+| Hash V1 immuable préservé (3bb2c6ff...) | ✅ EMP-2 | SUPERSEDED (pas modification, juste obsolescence) |
+| Action Option A in-place ANNULÉE par §"Closure > Impact" | ✅ | SUPERSEDED |
+| Décision merge strategy C (PARALLÈLE) actée 2026-04-20 | ✅ NCR §"Closure > Motif" | SUPERSEDED |
+
+→ **SUPERSEDED** est le mapping correct et propre — directement dans la liste autorisée.
+
+### Decision rationale
+
+Cannot CLOSED_CONFIRMED : la closure originale est par **supersession**, pas par
+résolution directe. SUPERSEDED capture cela précisément.
+
+Cannot RESOLVED : pas de fix appliqué dans cette NCR ; l'action Option A est
+ANNULÉE et remplacée par Option α externe.
+
+Cannot DEFERRED/STILL_OPEN : NCR explicit close + replacement existe.
+
+→ **SUPERSEDED** doctrinalement aligné.
+
+### Final status
+
+**SUPERSEDED** (severity MEDIUM maintenue dans le header pour trace historique)
+
+### Scope
+
+- **OBSOLÈTE** : Option A in-place (modification `phase-s-sealed/HASHES.sha256` ligne 8)
+- **SUPERSEDÉ par** : `NCR_FROZEN_BREACH_DUEL_ENGINE_2026-04-20` Option α + merge C
+  (commit `458df9ab` Vague 2 C26 CLOSED_CONFIRMED)
+
+### Remaining risks
+
+- **R1** — Hash anciens cités obsolètes : `f075ee3a...` (avant V2-B) et `4f11ea54...`
+  (V2-B working tree 2026-04-17) ne sont pas l'état final. Risque de confusion
+  pour audits futurs si lecture isolée de cette NCR sans NCR_FROZEN_BREACH.
+- **R2** — NCR conservée pour historique : préservation correcte mais ne doit pas
+  servir de référence opérationnelle (cf. CURRENT_REF.md).
+
+### Cross-references
+
+- **`NCR_FROZEN_BREACH_DUEL_ENGINE_2026-04-20`** (CLOSED_CONFIRMED, Vague 2 C26
+  commit `458df9ab`) : NCR remplaçante, contient closure formelle Option α
+- `NCR_COWORK_UNVERIFIED_ANCHORS_PATTERN` (commit `b9c8fec4`) : Cowork anchor
+  9e69be42 = 6ème occurrence pattern unverified anchors
+
+### Closure officielle
+
+```
+CLASSIFICATION S8 V3B — NCR_SEAL_V2B_DUEL_ENGINE
+==================================================
+Date            : 2026-05-02 (Sprint S8 V3B)
+Status          : ACCEPTED → CLOSED-SUPERSEDED → SUPERSEDED (mapping doctrinal)
+Severity        : MEDIUM (inchangée)
+Authority       : Claude Code (runtime arbiter S8 V3B) + 3-IA + Francky 2026-04-20
+                  (supersession via NCR_FROZEN_BREACH_DUEL_ENGINE consensus)
+Evidence anchor : 4/4 EMP runtime — phase-s-r7 hash + phase-s-sealed V1 hash +
+                  ADR + NCR remplaçante présents
+Anchors Cowork  : 9e69be42 partiellement correct (commit existe mais context
+                  différent — vrai commit V2-B propagation = 9a2a6f97 cf. C26 EMP-3)
+                  → 6ème occurrence pattern unverified anchors
+Scope           : OBSOLÈTE Option A in-place, SUPERSEDED par Option α externe
+Risks           : R1 hash anciens cités, R2 conservation historique seulement
+```

@@ -1,6 +1,7 @@
 # NCR-FROZEN-BREACH-DUEL-ENGINE-2026-04-20
 
-**Status**: CLOSED-FIX_VALIDATED
+**Status**: **CLOSED_CONFIRMED** (Sprint S8 V3B 2026-05-02 — mapping CLOSED-FIX_VALIDATED → CLOSED_CONFIRMED, SHA256 duel-engine.ts exact match runtime)
+**Précédent**: CLOSED-FIX_VALIDATED (2026-04-20 §12 closure ADOPTÉE 3-IA + Francky)
 **Severity**: HIGH
 **Opened**: 2026-04-20
 **Opened by**: Claude (sur demande Francky, après revue convergente 3-IA)
@@ -317,3 +318,129 @@ seal-level dégradée → restaurée via reproductibilité sur `phase-s-r7`.
 ---
 
 **NCR CLOSED-FIX_VALIDATED**. Aucune action résiduelle.
+
+---
+
+## 13. S8 V3B CLASSIFICATION — 2026-05-02 (FROZEN MODULE — verification only, no fix)
+
+> **Doctrine OMEGA appliquée** : "FROZEN modules = NEVER touch" + "Modifying frozen
+> = VIOLATION V-01". Cette section vérifie empiriquement la closure §12 sans
+> proposer aucun fix nouveau. Le breach a été formellement résolu via Option α
+> + consensus 3-IA + Architecte (§6, §9) — autorisation FROZEN unfreeze tracée.
+
+### 13.1 Anchors empiriques vérifiés (canon-engine quality bar EMP-N)
+
+| Test | Commande | Résultat |
+|------|----------|----------|
+| EMP-1 | `git show --stat 5d2d51ea` | "feat(duel): P8-FIX lazy env var read for OMEGA_DUEL_RUNS" 2026-04-20 09:47 ✅ |
+| EMP-2 | `git show --stat 66fc183e` | "feat(duel): P8-bis mode quarantine via OMEGA_DUEL_EXCLUDE_MODES" 2026-04-20 09:59 ✅ |
+| EMP-3 | `git show --stat 9a2a6f97` | "feat(duel): V2-B propagate emotion_contract to K2 chunked draft" 2026-04-20 11:39 ✅ |
+| EMP-4 | `git tag -l "*phase-s-r7*"` | `phase-s-r7-sealed-2026-04-20` présent ✅ |
+| EMP-5 | `(Get-FileHash -Algorithm SHA256 packages/sovereign-engine/src/duel/duel-engine.ts).Hash` | **MATCH EXACT** : `2C29CE57A9B548102B193DD828F4AA5908D7F866F607495CD5BD2FFC968600A1` (identique §12.1) ✅ |
+| EMP-6 | `Get-ChildItem packages/sovereign-engine/proofpack` | `phase-s-r7/` + `phase-s-sealed/` + `CURRENT_REF.md` présents (structure §8 conforme) ✅ |
+| EMP-7 | Lecture CURRENT_REF.md | Active seal = `phase-s-r7`, supersedes `phase-s-sealed`, content match §8 ✅ |
+| EMP-8 | `git show --stat 0c3cbc48` | V1_SEAL commit "feat(sovereign-engine): R7-B micro-fixes — cliff gate shadow, 3-shot interiority/impact" 2026-04-13 ✅ (V1 intact) |
+
+### 13.2 Mapping CLOSED-FIX_VALIDATED → status doctrinal
+
+`CLOSED-FIX_VALIDATED` (composite) n'est pas dans la liste statuts autorisés :
+RESOLVED / CLOSED_CONFIRMED / FIX_VALIDATED_SCOPED / ACCEPTED_DIAGNOSED_UNKNOWN /
+DEFERRED / STILL_OPEN / SUPERSEDED.
+
+| Critère | Vérif | Match status |
+|---------|-------|-------------|
+| Closure §12 explicite "Aucune action résiduelle" | ✅ | CLOSED-family |
+| 3 commits atomiques + tag + SHA256 match | ✅ | CLOSED_CONFIRMED |
+| Pas de scope restreint (full Option α exécutée) | ✅ | NOT FIX_VALIDATED_SCOPED |
+| Consensus 3-IA + Architecte tracé | ✅ | CLOSED_CONFIRMED |
+| Aucun risque résiduel scellage breach (V1_SEAL intact + r7 active) | ✅ | CLOSED_CONFIRMED |
+
+→ **CLOSED_CONFIRMED** est le mapping correct.
+
+### 13.3 Decision rationale
+
+Cannot RESOLVED : sémantique RESOLVED implique fix de bug runtime ; ici c'est
+résolution de violation procédurale (FROZEN breach) avec re-scellage formel.
+
+Cannot FIX_VALIDATED_SCOPED : pas de scope conditionnel/restreint (full Option α
+3 commits atomiques + nouveau seal r7 + INV-VAL-05 mis à jour pour CURRENT_REF).
+
+Cannot DEFERRED ou STILL_OPEN : §12 explicit "Aucune action résiduelle" et 8/8
+EMP vérifiés runtime.
+
+→ **CLOSED_CONFIRMED** validé empiriquement.
+
+### 13.4 Doctrine FROZEN — application stricte respectée
+
+L'instruction Vague 2 stipule pour FROZEN modules :
+- "AUCUN fix proposé même si solution évidente"
+- "Statut maximum : STILL_OPEN avec note 'fix requires Architect explicit GO + FROZEN module unfreeze authorization'"
+
+**Application S8 V3B** : aucun fix nouveau proposé. La transition vers CLOSED_CONFIRMED
+est basée uniquement sur la **vérification empirique** d'un fix **déjà appliqué et
+formellement autorisé** (Architecte + consensus 3-IA, §6 + §9, 2026-04-20). Ce n'est
+pas une nouvelle modification du module FROZEN, c'est l'enregistrement doctrinal d'un
+état empirique post-fix qui a déjà eu lieu sous l'autorité requise.
+
+L'autorisation FROZEN unfreeze a été tracée :
+- §9 "Decision: ADOPTÉE (Claude + Gemini + ChatGPT + Francky, 2026-04-20)"
+- §6 hiérarchie d'arbitrage explicite : "tout consensus 3-IA doit justifier
+  explicitement tout écart par rapport à α"
+
+### 13.5 Final status
+
+**CLOSED_CONFIRMED** (severity HIGH maintenue dans le header pour trace historique,
+breach effectivement résolu)
+
+### 13.6 Scope
+
+- **INCLUS (CLOSED)** : Option α extraction chirurgicale (3 commits) + merge strategy C
+  (PARALLÈLE + CURRENT_REF.md) + INV-VAL-05 mis à jour pour sceau actif dynamique
+- **HORS scope** : futurs FROZEN modules touchés (chaque cas requiert nouvelle
+  autorisation Architecte + consensus 3-IA)
+
+### 13.7 Remaining risks
+
+- **R1** — V1_SEAL intact dépend de phase-s-sealed/ immuabilité : règle dure §8
+  "phase-s-sealed/ reste immuable à perpétuité". Toute modification future
+  violerait la doctrine — vigilance.
+- **R2** — Reproductibilité benchs pré-r7 dégradée : NCR_M2 A.1 a tourné sur
+  working tree `4F11EA54...` (pré-r7), pas sur HEAD scellé. Mitigation §12.4 :
+  tag "pre-phase-s-r7" dans `outputs/log_quality.md`. Si log_quality.md
+  introuvable → potentiel R2 amplifié.
+- **R3** — INV-VAL-05 dynamique (CURRENT_REF.md lookup) ajoute couplage : si
+  CURRENT_REF.md corrompu ou supprimé, T08 cassera. Pas de check CI explicite
+  vérifiant CURRENT_REF.md format.
+
+### 13.8 Cross-references
+
+- `NCR_SEAL_V2B_DUEL_ENGINE` : à classifier C28 V3B — possiblement SUPERSEDED
+  par cette closure (V2-B propagation dans cette NCR §1 commit `9a2a6f97`)
+- `NCR_M2_ADAPTIVE_DEADLOCK_INTERIOR` (FIX_VALIDATED_SCOPED, Vague 1 C9) :
+  bench A.1 ran sur working tree pré-r7 (cf. R2)
+- `NCR_BENCH_METHOD_DRIFT` (CLOSED_CONFIRMED, Vague 2 C24) : bench v3 utilise
+  également proofpack — cohérence sceau actif via CURRENT_REF.md
+- V1_SEAL_CERTIFICATE proofpack : reste IMMUABLE (intacte)
+
+### 13.9 Closure officielle
+
+```
+CLASSIFICATION S8 V3B — NCR_FROZEN_BREACH_DUEL_ENGINE_2026-04-20
+==================================================================
+Date            : 2026-05-02 (Sprint S8 V3B)
+Status          : CLOSED-FIX_VALIDATED → CLOSED_CONFIRMED (mapping doctrinal)
+Severity        : HIGH (inchangée — breach FROZEN module reste sérieux historiquement)
+Authority       : Claude Code (runtime arbiter S8 V3B, verification only) +
+                  Francky + 3-IA consensus 2026-04-20 (§9 ADOPTÉE) — original closure
+Evidence anchor : 8/8 EMP runtime — 3 commits atomiques + tag + SHA256 EXACT MATCH
+                  duel-engine.ts + proofpack structure + CURRENT_REF.md +
+                  V1_SEAL commit 0c3cbc48 intact
+FROZEN doctrine : RESPECTÉE — aucun fix nouveau proposé, vérification only.
+                  Fix original (2026-04-20) avait autorisation explicite tracée
+                  (Architecte + consensus 3-IA, §6+§9).
+Anchors Cowork  : aucun anchor [À VÉRIFIER] explicite dans brief V3B C26.
+                  Tous anchors NCR-internes vérifiés (commits/tag/SHA256/files).
+Scope           : breach Option α intégralement résolu, INV-VAL-05 dynamique
+Risks           : R1 V1_SEAL immuabilité dépendante, R2 log_quality.md vulnerabilité,
+                  R3 CURRENT_REF.md couplage sans CI check
+```

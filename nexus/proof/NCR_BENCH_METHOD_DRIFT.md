@@ -2,7 +2,8 @@
 
 **ID** : NCR_BENCH_METHOD_DRIFT
 **Title** : Divergence méthodologique entre bench R-D.1 et benches P1 robustness v1/v2 (deux drifts distincts)
-**Status** : FIX_VALIDATED (v1 drift résolu par v2 ; v2 drift résolu par v3 design — G3/G4/G5/G6 PASS confirment méthodologie)
+**Status** : **CLOSED_CONFIRMED** (Sprint S8 V3B 2026-05-02 — mapping FIX_VALIDATED → CLOSED_CONFIRMED, SHA256 bench v3 vérifié exact match)
+**Précédent** : FIX_VALIDATED (v1 drift résolu par v2 ; v2 drift résolu par v3 design — G3/G4/G5/G6 PASS confirment méthodologie)
 **Severity** : HIGH (bloque validation empirique P1 wiring)
 **Priority** : P2 (bench v3 conçu, exécution pending Francky)
 **Opened** : 2026-04-18 (v1 drift)
@@ -287,3 +288,104 @@ Les FAIL G1/G2 v3 ne sont plus un drift méthodologique mais révèlent deux pro
 2. La variance LLM intrinsèque > effet attendu → NCR_GATING_EFFECT_SIZE_UNSTABLE renforcé et promu `OPEN_EXTENDED`.
 
 Le problème de **méthode bench** est clos. Les problèmes de **variance LLM** et de **stabilité d'effet** sont déportés sur les deux NCRs spécialisés.
+
+---
+
+## 10. S8 V3B CLASSIFICATION — 2026-05-02
+
+### 10.1 Anchors empiriques vérifiés
+
+| Anchor | Vérification | Résultat |
+|--------|--------------|----------|
+| **Bench v3 JSON SHA256** `7DA9912..DC0FE89` (§9.1) | `Get-FileHash -Algorithm SHA256 packages/sovereign-engine/bench-p1-robustness-v3-results.json` | **MATCH EXACT** : `7DA991210E0C78A1D2972F05F1EE7FC5EB3A5515E3E94CE3B498D9C99DC0FE89` ✅ |
+| `bench-r-d-1-extended-results.json` (R-D.1 source vérité) | `Test-Path` | **True** ✅ |
+| `bench-p1-robustness-v1.ts` | `Test-Path` | **True** ✅ |
+| `bench-p1-robustness-v2.ts` | `Test-Path` | **True** ✅ |
+| `bench-p1-robustness-v3.ts` | `Test-Path` | **True** ✅ |
+| Commit P1 wiring `7e89f95f` | `git show --stat` | "feat(adaptive-chunker): P1 archetype gating wiring (R-D.1 ADOPT_A)" 2026-04-18 ✅ |
+
+### 10.2 Evidence-gaps détectés (Evidence Rot pattern)
+
+| Fichier cité | Vérification | Résultat |
+|--------------|--------------|----------|
+| `bench-r-d-1-extended.ts` (script source R-D.1) | `Test-Path packages/sovereign-engine/scripts/bench-r-d-1-extended.ts` | **False** — script source absent |
+| `outputs/BENCH_P1_AUTOPSY_v1.md` | `Test-Path` | **False** |
+| `outputs/BENCH_P1_V2_AUTOPSY.md` | `Test-Path` | **False** |
+| `outputs/BENCH_P1_V3_AUTOPSY.md` | `Test-Path` | **False** |
+| `outputs/BENCH_P1_V3_DESIGN.md` | `Test-Path` | **False** |
+
+**5 fichiers documentaires manquants** → couverts par `NCR_EVIDENCE_ARTIFACT_GAP_PATTERN`
+(commit `3bfcdbde` F1 umbrella, Sprint S8 V3 Étape 0). À ajouter à l'audit S9+ §5 du F1 umbrella.
+
+### 10.3 Mapping FIX_VALIDATED → status doctrinal
+
+`FIX_VALIDATED` (utilisé header) n'est pas dans la liste des statuts autorisés :
+RESOLVED / CLOSED_CONFIRMED / FIX_VALIDATED_SCOPED / ACCEPTED_DIAGNOSED_UNKNOWN /
+DEFERRED / STILL_OPEN / SUPERSEDED.
+
+| Critère | Vérif | Match status |
+|---------|-------|-------------|
+| §9.4 dit "Clôture définitive" | ✅ | CLOSED-family |
+| Preuve empirique forte (SHA256 match) | ✅ | CLOSED_CONFIRMED |
+| Pas de scope restreint (méthode entière validée, pas un sous-set) | ✅ | NOT FIX_VALIDATED_SCOPED |
+| Aucun risque méthodologique résiduel (4 gates fonctionnels PASS) | ✅ | CLOSED_CONFIRMED |
+
+→ **CLOSED_CONFIRMED** est le mapping correct.
+
+### 10.4 Decision rationale
+
+Cannot RESOLVED : la sémantique RESOLVED implique souvent un fix d'issue
+opérationnelle ; ici le fix est une **validation méthodologique** (gates
+fonctionnels PASS), pas un fix de bug runtime.
+
+Cannot FIX_VALIDATED_SCOPED : le scope n'est pas restreint (toute la
+méthode bench v3 est validée, pas un sous-set conditionnel comme NCR_M2).
+
+Cannot DEFERRED ou STILL_OPEN : le NCR §9.4 dit explicitement "Clôture
+définitive" et l'évidence empirique (SHA256 exact match) confirme.
+
+→ **CLOSED_CONFIRMED** avec note evidence-gaps documentaires (couverts F1).
+
+### 10.5 Final status
+
+**CLOSED_CONFIRMED** (severity HIGH P2 maintenue dans le header pour trace
+historique, mais issue effectivement close)
+
+### 10.6 Scope
+
+- **INCLUS (CLOSED)** : drift méthodologique v1 (plan V2B2 vs V1 static), drift v2 (gates mal-spécifiés), méthodologie v3 validée (G3/G4/G5/G6 PASS)
+- **HORS scope** :
+  - Variance LLM intrinsèque → `NCR_GATING_EFFECT_SIZE_UNSTABLE` (audit C27 V3B)
+  - Deadlock M2_adaptive INTERIOR → `NCR_M2_ADAPTIVE_DEADLOCK_INTERIOR` (FIX_VALIDATED_SCOPED Vague 1 C9)
+
+### 10.7 Remaining risks
+
+- **R1** — Evidence Rot 5 fichiers : bench-r-d-1-extended.ts + 4 markdown autopsy/design introuvables. Couvert par F1 umbrella, à intégrer à l'audit S9+
+- **R2** — NCRs hérités (M2 deadlock, gating effect-size unstable) : la closure de cette méthode bench n'invalide pas les 2 NCRs spécialisés qui héritent des FAILs G1/G2
+
+### 10.8 Cross-references
+
+- `NCR_M2_ADAPTIVE_DEADLOCK_INTERIOR` : FIX_VALIDATED_SCOPED (Vague 1 C9 commit `7d4bff66`) — hérite du FAIL G1 v3 indéterminable
+- `NCR_GATING_EFFECT_SIZE_UNSTABLE` : à classifier C27 V3B — hérite du FAIL G2 (variance ΔI inter-session)
+- `NCR_EVIDENCE_ARTIFACT_GAP_PATTERN` : F1 umbrella (commit `3bfcdbde`) — couvre 5 evidence-gaps détectés ici
+
+### 10.9 Closure officielle
+
+```
+CLASSIFICATION S8 V3B — NCR_BENCH_METHOD_DRIFT
+================================================
+Date            : 2026-05-02 (Sprint S8 V3B)
+Status          : FIX_VALIDATED → CLOSED_CONFIRMED (mapping doctrinal)
+Severity        : HIGH P2 (inchangée dans header, issue effectivement close)
+Authority       : Claude Code (runtime arbiter S8 V3B) — SHA256 match exact
+                  + §9.4 self-statement "Clôture définitive"
+Evidence anchor : bench v3 SHA256 7DA9912..DC0FE89 EXACT MATCH (vérifié runtime)
+                  + 3 scripts bench v1/v2/v3 + R-D.1 source JSON présents
+                  + commit 7e89f95f wiring R-D.1 ADOPT_A
+Evidence gaps   : 5 fichiers documentaires absents (bench-r-d-1-extended.ts +
+                  4 markdown autopsy/design) — couverts F1 umbrella
+Anchors Cowork  : aucun anchor [À VÉRIFIER] explicite — note "R-D.1 ADOPT_A
+                  reference" du brief V3B confirmée empiriquement (commit 7e89f95f)
+Scope           : méthode bench v3 INCLUS (closed), variance LLM/deadlock M2 HORS scope
+Risks           : R1 evidence rot 5 fichiers (audit S9+), R2 NCRs hérités M2/gating-effect
+```

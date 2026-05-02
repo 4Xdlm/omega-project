@@ -119,6 +119,54 @@ WORKSPACE_VS_REPO_DRIFT.
 Sprint S12 (plan livré)" devient empiriquement INCORRECTE — drift
 résolu 2026-04-20 via phase-s-r7 sealing, aucun Sprint S12 nécessaire.
 
+### EMP-8 — Plan Max v3.0.0 phantom anchor (Sprint S9 Étape 3 préflight 2026-05-02)
+
+**Contexte** : Tout au long du Sprint S8 (commits C5-C35), Cowork
+a référencé "Plan Max v3.X amendements" dans plusieurs NCRs
+(NCR_CANON_ENGINE §9bis.6, NCR_COWORK §5.1, NCR_DIRECTIVE_BLOAT_ARTIFACT
+§7, NCR_REGISTRY §6, SPRINT_S8_FINAL_REPORT §6.1) comme s'il
+existait une lignée canonique "Plan Max v3.0.0".
+
+**Vérification empirique Sprint S9 Étape 3 préflight (2026-05-02)** :
+- Recherche `Get-ChildItem -Recurse -Filter "*PLAN_MAX*"` : 0 résultat
+- Recherche `*plan-max*` / `*PlanMax*` / `*v3.0.0*` / `*v3.1.0*` : 0
+- Recherche grep "Plan Max v3" : 5 fichiers, TOUS NCRs créés Cowork S8
+
+**Verdict** : "Plan Max v3.X" est une inférence Cowork ad-hoc,
+**jamais matérialisée**. 6e evidence-gap empirique.
+
+**Sub-pattern** : Différent de WORKSPACE_VS_REPO_DRIFT (EMP-6) car
+le document n'existe ni dans sandbox Cowork ni dans repo. C'est
+une inférence pure (pattern type halluciné), pas un drift de path.
+
+**Distinction nouvelle (mémoire vs preuve)** :
+- Mémoires structurées Cowork (project_*.md) = pistes utiles
+- Inférences ad-hoc Cowork (concepts, versions inventées) = non fiables
+- AUCUNE des deux ne constitue preuve sans recoupage repo
+
+**Impact résolution** :
+- Concept "Plan Max" déclassé comme non-canonique
+- Doctrine consolidée dans `docs/governance/SPRINT_S8_DOCTRINAL_AMENDMENTS.md`
+  (commit `5fc32f31` C37)
+- CLAUDE.md v3.155.0 → v3.156.0 (versioning aligné réalité,
+  commit `00431276` C38 — Section H ajoutée)
+
+**8e occurrence pattern méta** confirmée. Pattern persiste même
+après scellage formel C17 + C34 → preuve que la doctrine renforcée
+reste critique S9+.
+
+**Application immédiate doctrine sealed C37 §5 (RECOVERY_TEST_DOCTRINE)** :
+Lors du C38 (CLAUDE.md activation), l'instruction Cowork demandait
+aussi update de `docs/INDEX/OMEGA_DOCS_INDEX.md`. Claude Code a
+détecté que ce fichier est auto-généré par `tools/omega_cleanup_and_index.ps1`
+qui effectue mass deletion (coverage/, dist/, out/, .warmup/, .claude/).
+Per amendment 5 (RECOVERY_TEST_DOCTRINE) juste scellé en C37, cette
+opération requiert NCR + test reverse préalable. Scope C38 réduit à
+CLAUDE.md seul, index regen DEFERRED Sprint S10+.
+
+→ **Premier cas empirique d'application immédiate** des amendements
+juste scellés. Doctrine fonctionnelle.
+
 ## 3. Pattern méta confirmé
 
 > **Cowork PLAN + Claude Code DETECTION RUNTIME = MULTI-IA RUNTIME ARBITER**

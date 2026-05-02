@@ -2,13 +2,14 @@
 
 **ID** : NCR_BUILD_ARTIFACT_ABSENCE_POST_S6
 **Title** : 4 packages listés BUILT en S6.P2 absents de dist/ aujourd'hui (cause non tranchée)
-**Status** : **OPEN_DIAGNOSED**
-**Severity** : **P0_PROOF_INTEGRITY** (preuve CI/build cassée — Tribunal 3 IA 2026-05-01)
-**Runtime severity** : **UNKNOWN** (impact runtime non encore prouvé)
-**Disposition** : **DEFERRED_TO_S9** (capture S8, fix Sprint S9 dédié)
-**Priority** : P0_PROVISIONAL
+**Status** : **OPEN_DIAGNOSED** (split scope post-investigation S9)
+**Severity** : **CAS D MIXED** — 2 packages CAS A (P3 doc only) + 2 packages CAS C (**P0_RUNTIME**)
+**Runtime severity** : **CONFIRMED P0** sur 2/4 packages (integration-nexus-dep + omega-segment-engine FAIL build)
+**Disposition** : **SPLIT** — 2 packages DEFERRED_S10+ doc only / 2 packages ESCALATE Sprint S9 dédié fix code
+**Priority** : P0 sur 2 packages (régression code confirmée empirique)
 **Opened** : 2026-05-01 (Sprint S8 Vague 2 — découverte forensics F2)
 **Refined** : 2026-05-01 (Sprint S8 V3 Étape 0 — Tribunal 3 IA convergence)
+**Investigated** : 2026-05-02 (Sprint S9 Étape 1 — empirical investigation Phase 1+2, CAS D verdict)
 **Owner** : Francky + Claude
 
 ---
@@ -163,4 +164,133 @@ Authority       : Tribunal 3 IA convergence (Gemini + ChatGPT + Cowork)
                   + Architecte Francky
 Action S8       : NONE (capture refinement only)
 Action S9       : tests §7 (6 actions)
+```
+
+---
+
+## 12. Sprint S9 Étape 1 — Investigation empirique tranchée (2026-05-02)
+
+### 12.1 Méthodologie
+
+Investigation Phase 1 (lecture seule) + Phase 2 (rebuild trial autorisé)
+selon brief Sprint S9 Étape 1. Aucune modification code, aucun commit
+de dist/ (gitignored par design).
+
+### 12.2 Phase 1 — Traçabilité git per-package
+
+```bash
+$ git log --all --oneline -- "packages/<name>/dist/**"
+$ git log --all --oneline --diff-filter=D -- "packages/<name>/dist/**"
+$ git log --all --oneline --diff-filter=A -- "packages/<name>/dist/**"
+```
+
+| Package | Versionné historiquement ? | Cleanup commit |
+|---------|---------------------------|----------------|
+| `contracts-canon` | OUI (commit `03ace4b2` Phase 65 "Contracts Canon - unified interface contracts [CERTIFIED]") | `d54873ea` (2026-01-17 "fix(repo): stop tracking node_modules and build artifacts") |
+| `hardening` | **JAMAIS** (0 commits dist/**) | n/a |
+| `integration-nexus-dep` | OUI (commit `40a2c73c` Phase 66 "Wiring NEXUS DEP - orchestrator adapter integration [CERTIFIED]") | `d54873ea` (idem) |
+| `omega-segment-engine` | **JAMAIS** (0 commits dist/**) | n/a |
+
+**Observation** : commit `d54873ea` (2026-01-17) explicit cleanup
+"Remove dist/ build outputs from Git index" + "Ensure .gitignore covers
+node_modules/** and build dirs". Décision délibérée d'untrack dist/.
+
+### 12.3 Phase 1.2 — `.gitignore` racine
+
+```bash
+$ Get-Content .gitignore | Select-String "dist"
+21  dist/
+22  **/dist/
+```
+
+→ **`.gitignore` racine ligne 21-22 EXCLUT GLOBALEMENT TOUS les `dist/`** dans le repo. Aucun `.gitignore` local par-package (héritent du racine).
+
+### 12.4 Phase 2 — Rebuild trial empirique
+
+Commande standard : `npm run build --workspace=packages/<name>` depuis racine.
+
+| Package | Build | Durée | dist/ files | Erreurs |
+|---------|-------|-------|-------------|---------|
+| `contracts-canon` | ✅ **SUCCESS** | 2.3s | 20 | 0 |
+| `hardening` | ✅ **SUCCESS** | 2.2s | 18 | 0 |
+| `integration-nexus-dep` | ❌ **FAIL** | 2.4s | 116 (partial) | **7 TS errors** |
+| `omega-segment-engine` | ❌ **FAIL** | 2.0s | 44 (partial) | **8 TS errors** |
+
+**Erreurs `integration-nexus-dep`** (7) :
+- `src/scheduler/scheduler.ts(16,1)` TS6133 'PipelineResult' unused
+- `src/scheduler/scheduler.ts(25,3)` TS6196 'Policy' unused
+- `src/scheduler/scheduler.ts(29,3)` TS6196 'DEFAULT_SCHEDULER_OPTIONS' unused
+- `src/scheduler/scheduler.ts(30,3)` TS6196 'PRIORITY_VALUES' unused
+- `src/translators/module.ts(49,14)` TS2741 missing 'envy' property in Emotion14 Record
+- `src/translators/module.ts(89,11)` TS2741 missing 'envy' property in number Record
+- `src/translators/module.ts(171,5)` TS6133 'source' unused
+- `src/translators/output.ts(16,3)` TS6196 'ExecutionTrace' unused
+
+**Erreurs `omega-segment-engine`** (8) :
+- `src/stream/index.ts(181-186)` TS2300 Duplicate identifiers (GatewayConfig, GatewayPolicy, RecorderEntry, DispatchResult, GatewayError, ModuleHandler) × 6
+- `src/stream/index.ts(187,8)` **TS2834 Relative import paths need explicit file extensions** (moduleResolution node16/nodenext)
+- `src/stream/stream_segmenter.ts(288,20)` TS2345 SegmentMode type mismatch
+
+### 12.5 Verdict CAS D — Mix split per-package
+
+Per la rubrique §"PHASE 3 — DÉCISION EMPIRIQUE TRANCHÉE" du brief :
+
+| Package | Cas | Sévérité | Disposition |
+|---------|-----|----------|-------------|
+| `contracts-canon` | **CAS A** (H1 confirmée, dist gitignored, rebuild OK) | DOWNGRADE → **P3** doc only | DEFERRED_S10+ |
+| `hardening` | **CAS A** (H1 confirmée + jamais versionné, rebuild OK) | DOWNGRADE → **P3** doc only | DEFERRED_S10+ |
+| `integration-nexus-dep` | **CAS C** (H4 confirmée, rebuild FAIL 7 errors) | ESCALATE → **P0_RUNTIME** | ESCALATE Sprint S9 dédié fix code |
+| `omega-segment-engine` | **CAS C** (H4 confirmée, rebuild FAIL 8 errors dont ESM extension) | ESCALATE → **P0_RUNTIME** | ESCALATE Sprint S9 dédié fix code |
+
+### 12.6 Hypothèses tranchées (H1-H5)
+
+- **H1 (`dist/` non versionné, généré pendant S6.P2 puis cleanup ultérieur)** : ✅ **CONFIRMÉE** pour 2/4 packages. `.gitignore` racine ligne 21-22 + commit cleanup `d54873ea` explicit.
+- **H2 (Claim "BUILT" en S6.P2 trop large ou mal documentée)** : ✅ **PARTIELLEMENT CONFIRMÉE**. Pour les 4 packages, le claim S6.P2 reflétait l'état **disque/working tree** au moment du build, pas un état persisté git. Pour les 2 packages CAS C, le claim était **probablement faux** (build ne passe pas aujourd'hui).
+- **H3 (Build outputs présents en worktree/quarantaine puis perdus)** : ✅ **CONFIRMÉE** par H1 (le pattern est le même : disque transient).
+- **H4 (Packages réellement non buildables aujourd'hui — régression code)** : ✅ **CONFIRMÉE** pour 2/4 packages (integration-nexus-dep + omega-segment-engine). 15 erreurs TS au total.
+- **H5 (Packages non requis runtime, build incomplet volontaire post-S6.P2)** : ❌ **REFUTÉE**. Si volontaire, devrait être documenté quelque part. Aucune trace doctrinale.
+
+### 12.7 Cross-references Sprint S9+ découvertes
+
+L'erreur **TS2834** dans omega-segment-engine (`Relative import paths need
+explicit file extensions in ECMAScript imports when '--moduleResolution'
+is 'node16' or 'nodenext'`) **confirme indépendamment** la découverte de
+`NCR_ESM_BUNDLER_VS_NODE_RUNTIME` (Sprint S8 Vague 2 C16 STILL_OPEN —
+H1 EMPIRIQUEMENT CONFIRMÉE) :
+
+- canon-kernel/dist contient des imports sans extension (Vague 2 C16 EMP-3)
+- omega-segment-engine ne compile **pas** car son tsconfig est `node16/nodenext`
+  et exige les extensions
+
+→ **Cohérence empirique transversale** : 2 NCRs distincts révèlent la même
+classe de bug ESM Node natif. Refonte coordonnée S9+ recommandée.
+
+### 12.8 Working tree git après Phase 2
+
+Vérification : `git status --short` post-rebuild affiche **exactement les
+mêmes 7 untracked résiduels** depuis Sprint S8 Phase 0 (gateway_baseline.log
++ 5 phase-c logs + NCR_REGISTRY CSV). Aucun `dist/` n'apparaît car le
+`.gitignore` les exclut globalement. Working tree git **propre et stable**.
+
+### 12.9 Closure officielle Sprint S9 Étape 1
+
+```
+INVESTIGATION SPRINT S9 ÉTAPE 1 — NCR_BUILD_ARTIFACT_ABSENCE_POST_S6
+=====================================================================
+Date            : 2026-05-02 (Sprint S9 Étape 1)
+Verdict         : CAS D (mixed split per-package)
+- 2 packages CAS A (P3, DEFERRED_S10+)
+- 2 packages CAS C (P0_RUNTIME, ESCALATE Sprint S9 dédié)
+Severity revisée : P0_PROOF_INTEGRITY → CAS D mixed (split per-package)
+Runtime         : CONFIRMED P0 sur 2/4 packages (integration-nexus-dep
+                  + omega-segment-engine — 15 TS errors total)
+Disposition     : SPLIT — doc only S10+ vs ESCALATE Sprint S9 dédié
+Authority       : Claude Code (runtime arbiter Sprint S9 Étape 1) +
+                  Architecte Francky pour décisions Sprint dédié S9
+Hypotheses      : H1 ✅, H2 ✅ partial, H3 ✅, H4 ✅, H5 ❌
+Cross-ref       : NCR_ESM_BUNDLER_VS_NODE_RUNTIME (C16) — convergence
+                  empirique TS2834 dans omega-segment-engine
+Action S9       : Sprint dédié 2 packages FAIL (fix code 15 TS errors)
+Action S10+     : Documentation pattern dist/ gitignored canonique
+                  + decision archive S6.P2 NCR §2.2 list inaccuracy
 ```

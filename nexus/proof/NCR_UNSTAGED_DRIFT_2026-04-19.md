@@ -2,7 +2,8 @@
 
 **ID** : NCR_UNSTAGED_DRIFT_2026-04-19
 **Title** : 18+ fichiers modifiés non-stagés découverts à la clôture NCR_M2 — drift worktree pré-P1-seal
-**Status** : OPEN
+**Status** : **RESOLVED** (Sprint S8 V3C 2026-05-02 — 20/20 drift files RESOLVED empiriquement, drift cleanup réalisé via phase-s-r7 sealing 2026-04-20 + 9 commits post-2026-04-19)
+**Précédent** : OPEN (2026-04-19 nuit) — stale 13 jours malgré drift résolu 2026-04-20
 **Severity** : MEDIUM (pas de bug fonctionnel ; intégrité chaîne traçabilité NASA-Grade L4)
 **Priority** : P1 (à traiter avant prochain commit non-atomique)
 **Opened** : 2026-04-19 nuit (autonome, post-clôture NCR_M2 Phase 1 A.1)
@@ -299,3 +300,113 @@ Date: 2026-04-18 15:18:12 +0200
 **Owner** : Claude (autonome — investigation seulement, pas de commit)
 **Décideur** : Francky
 **Standard** : NASA-Grade L4 / DO-178C Level A — traçabilité chain restoration
+
+---
+
+## 10. S8 V3C CLASSIFICATION — 2026-05-02
+
+### 10.1 Anchors empiriques vérifiés (canon-engine quality bar EMP-N)
+
+| Test | Commande | Résultat |
+|------|----------|----------|
+| EMP-1 | `git diff HEAD --` sur les 20 fichiers §2.1 | **20/20 files NO DIFF** → drift entièrement résolu ✅ |
+| EMP-2 | HASHES.sha256 line 8 (FROZEN) | `3bb2c6ff...` — V1 IMMUTABLE préservé (cf. NCR_FROZEN_BREACH §12.5 + cette NCR §C) ✅ |
+| EMP-3 | `Test-Path docs/archive/drift-20260420.md` | True — drift archive externe documentée (31 fichiers) ✅ |
+| EMP-4 | `git tag -l "*r7-sealed*"` | `phase-s-r7-sealed-2026-04-20` présent (drift cleanup event) ✅ |
+| EMP-5 | git log --since="2026-04-19" --until="2026-04-21" | 9 commits dont `a20dcdbb` "D8+D9 — NCR cathedral verdict + gamma inert + **unstaged drift** + ADR R6" et `da6e96c0` "feat(proofpack): phase-s-r7 seal" ✅ |
+| EMP-6 | git log --grep "drift" -i | Multiple commits `cleanup`, `gitignore Bloc Q`, `archive SSOT drift-20260420` traitant drift ✅ |
+
+### 10.2 Anchor Cowork [À VÉRIFIER] — 5e evidence-gap + 7e occurrence unverified
+
+L'instruction Vague 3C C29 mentionne :
+> "Sprint S12 plan livré dans omega/outputs/OMEGA_TRIBUNAL_2026-04-26/S8_PREP_LONG_TERME_AUTONOMIE/06_SPRINT_S12_DRIFT_CLEANUP_PLAN.md [À VÉRIFIER chemin]"
+
+Vérification empirique :
+
+```powershell
+$ Test-Path "omega/outputs/OMEGA_TRIBUNAL_2026-04-26/S8_PREP_LONG_TERME_AUTONOMIE/06_SPRINT_S12_DRIFT_CLEANUP_PLAN.md"
+False
+
+$ Get-ChildItem -Recurse -Filter "*SPRINT_S12*"
+(empty)
+
+$ Get-ChildItem -Recurse -Filter "*S8_PREP*" -Path omega/outputs/OMEGA_TRIBUNAL_2026-04-26
+(empty)
+```
+
+**Verdict** :
+- ❌ **5e evidence-gap** : path Cowork introuvable filesystem
+- ❌ **Prediction Cowork "DEFERRED Sprint S12" INCORRECTE** : drift résolu 2026-04-20 via phase-s-r7 sealing — aucun Sprint S12 nécessaire
+- ❌ **7e occurrence Cowork unverified anchors** (à ajouter `NCR_COWORK_UNVERIFIED_ANCHORS_PATTERN` commit `b9c8fec4`)
+
+### 10.3 Decision rationale
+
+**OPEN → RESOLVED** transition empiriquement justifiée :
+
+1. **20/20 fichiers drift §2.1 RESOLVED** (EMP-1) — preuve binaire absolue
+2. **HASHES.sha256 FROZEN violation §C** : traitée par NCR_FROZEN_BREACH_DUEL_ENGINE Option α (commit `458df9ab` Vague 2 C26 CLOSED_CONFIRMED). V1 préservé immuable + nouveau hash dans phase-s-r7
+3. **Drift archive externe** documenté (drift-20260420.md → 31 fichiers Claude-Workspace)
+4. **OPT_A "consolidation drift"** §4.1 effectivement réalisée via 9 commits post-2026-04-19 + sealing phase-s-r7
+
+Cannot CLOSED_CONFIRMED : RESOLVED est plus précis (drift effectivement nettoyé, pas seulement clos)
+Cannot DEFERRED : aucun Sprint S12 plan empiriquement existant + drift déjà fait
+Cannot STILL_OPEN : 20/20 files RESOLVED + 9 commits + sealing event documentés
+
+→ **RESOLVED** est doctrinalement aligné.
+
+### 10.4 Pattern stale (3e occurrence sprint S8)
+
+C29 = 3e cas de NCR stale détecté Sprint S8 :
+1. C3 (Vague 0) : `NCR_CANON_ENGINE_JUNCTION_ORPHAN` (DOCUMENTED → RESOLVED, cleanup de facto)
+2. C25 (Vague 3B) : `NCR_DEDALE_RESET_HEALTH_NOT_ENFORCED` (OPEN → RESOLVED, sealed 10 jours sans update)
+3. **C29 (Vague 3C) : `NCR_UNSTAGED_DRIFT_2026-04-19` (OPEN → RESOLVED, drift résolu 13 jours sans update)**
+
+Le pattern récurrent renforce le besoin doctrinal d'**EVIDENCE_HASH_PRECONDITION** + audit registry sync (cf. `NCR_REGISTRY_BROKEN_FILTER` commit `d46587fc` + `NCR_EVIDENCE_ARTIFACT_GAP_PATTERN` commit `3bfcdbde`).
+
+### 10.5 Final status
+
+**RESOLVED** (severity MEDIUM maintenue dans le header pour trace historique,
+priorité P1 effectivement adressée)
+
+### 10.6 Scope
+
+- **INCLUS (RESOLVED)** : 20 fichiers drift §2.1 entièrement résolus + HASHES.sha256 FROZEN handled + drift archive externe
+- **HORS scope** : drift résiduels actuels (7 untracked résiduels Sprint S8 V0+V1 — gateway_baseline.log + 5 phase-c logs + NCR_REGISTRY) — différents de cette NCR (post-Sprint S6)
+
+### 10.7 Remaining risks
+
+- **R1** — Cowork unverified anchor 7e occurrence : pattern "Sprint S12 plan" introuvable confirme dérive Cowork mémoire vs filesystem
+- **R2** — Pattern stale récurrent : 3 cas Sprint S8 → besoin de check CI sync NCR header vs git state (intégrer à F1 umbrella S9+)
+- **R3** — Drift archive externe Claude-Workspace : non vérifiable runtime depuis Claude Code (manifest hors-source). Si Claude-Workspace inaccessible, audit forensique complet drift-20260420 impossible.
+
+### 10.8 Cross-references
+
+- `NCR_FROZEN_BREACH_DUEL_ENGINE_2026-04-20` (CLOSED_CONFIRMED, Vague 2 C26 commit `458df9ab`) : a traité §C HASHES.sha256 FROZEN violation
+- `NCR_DEDALE_RESET_HEALTH_NOT_ENFORCED` (RESOLVED, Vague 3B C25 commit `1ba6c46d`) : pattern stale parallèle (10 jours)
+- `NCR_CANON_ENGINE_JUNCTION_ORPHAN` (RESOLVED, Vague 0 C3 commit `ced89437`) : 1er cas pattern stale Sprint S8
+- `NCR_BENCH_METHOD_DRIFT` (CLOSED_CONFIRMED, Vague 2 C24 commit `87a400cb`) : bench v3 ran sur fichiers drifted (cohérence empirique préservée §3.1)
+- `NCR_REGISTRY_BROKEN_FILTER` (OPEN_DIAGNOSED, Sprint S8 V1 C5 commit `d46587fc`) : registry stale ne reflète pas RESOLVED
+- `NCR_EVIDENCE_ARTIFACT_GAP_PATTERN` (OPEN_DIAGNOSED, Sprint S8 V3 Étape 0 commit `3bfcdbde`) : 5e evidence-gap (Sprint S12 plan) + pattern stale → audit S9+
+- `NCR_COWORK_UNVERIFIED_ANCHORS_PATTERN` (DOCUMENTED, Sprint S8 V2 C17 commit `b9c8fec4`) : 7e occurrence unverified anchor
+
+### 10.9 Closure officielle
+
+```
+CLASSIFICATION S8 V3C — NCR_UNSTAGED_DRIFT_2026-04-19
+=======================================================
+Date            : 2026-05-02 (Sprint S8 V3C)
+Status          : OPEN → RESOLVED (transition formelle après 13 jours stale)
+Severity        : MEDIUM (inchangée, priorité P1 adressée)
+Authority       : Claude Code (runtime arbiter S8 V3C) +
+                  Francky + 3-IA décisions 2026-04-20 (sealing phase-s-r7)
+Evidence anchor : 6/6 EMP runtime — 20/20 files NO DIFF + HASHES V1 immuable +
+                  drift-20260420.md + tag phase-s-r7 + 9 commits cleanup
+Critère NCR     : OPT_A consolidation drift §4.1 → effectivement réalisée
+                  via phase-s-r7 sealing event (multi-commit thématique)
+Anchors Cowork  : Sprint S12 plan path INTROUVABLE (5e evidence-gap, 7e
+                  occurrence unverified anchors). Prediction "DEFERRED S12"
+                  empiriquement INCORRECTE.
+Scope           : 20 fichiers §2.1 RESOLVED + FROZEN handled + archive externe
+Risks           : R1 Cowork unverified pattern, R2 stale récurrent (3e cas),
+                  R3 archive externe non runtime-verifiable
+```

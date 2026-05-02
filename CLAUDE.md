@@ -1,5 +1,5 @@
 # OMEGA — IA OPERATIONS MANUAL
-**Version**: v3.155.0 | **Standard**: NASA-Grade L4 / DO-178C Level A
+**Version**: v3.156.0 | **Standard**: NASA-Grade L4 / DO-178C Level A
 
 ---
 
@@ -197,6 +197,26 @@ Francky (Architect) — FINAL AUTHORITY
 ```
 
 **Rule**: If unsure -> Ask. If blocked -> NCR. Never guess.
+
+---
+
+## H) DOCTRINAL AMENDMENTS (Sprint S8 sealed 2026-05-02)
+
+Six amendments scellés post Sprints S6+S7+S8. Référence complète :
+[docs/governance/SPRINT_S8_DOCTRINAL_AMENDMENTS.md](docs/governance/SPRINT_S8_DOCTRINAL_AMENDMENTS.md)
+
+| # | Amendement | Règle synthétique |
+|---|---|---|
+| 1 | ANCHOR_PRE_FLIGHT | Anchors Cowork marqués `[À VÉRIFIER]` mandatory |
+| 2 | MULTI_IA_RUNTIME_ARBITER | Claude Code = seul arbitre runtime empirique |
+| 3 | NO_UNVERIFIED_EXTERNAL_ANCHORS | Aucune clôture NCR sur anchor non vérifié |
+| 4 | STRUCTURED_MEMORY_PRIORITY | Mémoire = piste, pas preuve. Recoupage repo obligatoire |
+| 5 | RECOVERY_TEST_DOCTRINE | Cleanup mass précédé NCR + test reverse |
+| 6 | WORKSPACE_VS_REPO_DRIFT | Paths préfixés `[SANDBOX]` ou `[REPO]` |
+
+**Note** : Le concept "Plan Max v3.X" précédemment référencé dans
+NCRs Sprint S8 est NON-CANONIQUE. Le seul document canonique de
+doctrine OMEGA est ce CLAUDE.md (version v3.156.0).
 
 ---
 

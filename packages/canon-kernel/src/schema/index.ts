@@ -11,11 +11,11 @@ export {
   createRelation,
   getCriticalFields,
   hasField,
-} from './types';
+} from './types.js';
 
 export {
   type CriticalFieldDefinition,
   CriticalFieldRegistry,
   criticalFieldRegistry,
   registerCriticalField,
-} from './critical';
+} from './critical.js';

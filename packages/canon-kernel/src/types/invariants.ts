@@ -3,8 +3,8 @@
  * Invariants are rules that must always hold true in the Canon.
  */
 
-import type { EntityId, SchemaId } from './identifiers';
-import type { FieldPath } from './operations';
+import type { EntityId, SchemaId } from './identifiers.js';
+import type { FieldPath } from './operations.js';
 
 export type InvariantSeverity = 'error' | 'warning' | 'info';
 

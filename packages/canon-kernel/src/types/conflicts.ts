@@ -3,9 +3,9 @@
  * Conflict detection and resolution types.
  */
 
-import type { EntityId, OpId, TxId, RootHash } from './identifiers';
-import type { FieldPath, CanonOp } from './operations';
-import type { EvidenceRef } from './evidence';
+import type { EntityId, OpId, TxId, RootHash } from './identifiers.js';
+import type { FieldPath, CanonOp } from './operations.js';
+import type { EvidenceRef } from './evidence.js';
 
 export type ConflictType =
   | 'concurrent_write'    // Two writes to same field

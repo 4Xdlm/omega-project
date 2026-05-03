@@ -12,11 +12,11 @@
  *   }))
  */
 
-import type { TxId, RootHash } from '../types/identifiers';
-import type { CanonTx } from '../types/transactions';
-import { hashTx } from './hashable-view';
-import { sha256 } from './sha256';
-import { canonicalize } from './canonicalize';
+import type { TxId, RootHash } from '../types/identifiers.js';
+import type { CanonTx } from '../types/transactions.js';
+import { hashTx } from './hashable-view.js';
+import { sha256 } from './sha256.js';
+import { canonicalize } from './canonicalize.js';
 
 export interface HashEntry {
   readonly tx_id: TxId;

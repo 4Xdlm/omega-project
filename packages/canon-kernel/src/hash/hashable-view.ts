@@ -6,11 +6,11 @@
  * MUST produce the same hash.
  */
 
-import type { CanonTx, HashableTxView } from '../types/transactions';
-import type { CanonOp } from '../types/operations';
-import type { RootHash } from '../types/identifiers';
-import { canonicalize } from './canonicalize';
-import { sha256 } from './sha256';
+import type { CanonTx, HashableTxView } from '../types/transactions.js';
+import type { CanonOp } from '../types/operations.js';
+import type { RootHash } from '../types/identifiers.js';
+import { canonicalize } from './canonicalize.js';
+import { sha256 } from './sha256.js';
 
 /**
  * Convert a CanonTx to its hashable view.

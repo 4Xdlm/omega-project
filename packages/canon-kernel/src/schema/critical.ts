@@ -5,8 +5,8 @@
  * Kernel applies the rule: CRITICAL → no auto-resolve, requires gate approval.
  */
 
-import type { SchemaId } from '../types/identifiers';
-import type { FieldPath } from '../types/operations';
+import type { SchemaId } from '../types/identifiers.js';
+import type { FieldPath } from '../types/operations.js';
 
 export interface CriticalFieldDefinition {
   readonly schema_id: SchemaId;

@@ -4,7 +4,7 @@
  * Schemas define the structure of entities in the Canon.
  */
 
-import type { SchemaId } from '../types/identifiers';
+import type { SchemaId } from '../types/identifiers.js';
 
 export type FieldType =
   | 'string'

@@ -21,7 +21,7 @@ export {
   assertSchemaId,
   assertOpId,
   assertTxId,
-} from './identifiers';
+} from './identifiers.js';
 
 // Evidence
 export {
@@ -29,7 +29,7 @@ export {
   type EvidenceRef,
   createEvidenceRef,
   sortEvidenceRefs,
-} from './evidence';
+} from './evidence.js';
 
 // Operations
 export {
@@ -38,7 +38,7 @@ export {
   type CanonOp,
   createCanonOp,
   sortOps,
-} from './operations';
+} from './operations.js';
 
 // Transactions
 export {
@@ -46,7 +46,7 @@ export {
   type CanonTx,
   type HashableTxView,
   createCanonTx,
-} from './transactions';
+} from './transactions.js';
 
 // Invariants
 export {
@@ -59,7 +59,7 @@ export {
   combineValidationResults,
   VALID,
   invalid,
-} from './invariants';
+} from './invariants.js';
 
 // Conflicts
 export {
@@ -70,7 +70,7 @@ export {
   type ResolutionOp,
   createConflict,
   isAutoResolvable,
-} from './conflicts';
+} from './conflicts.js';
 
 // Calibration
 export {
@@ -90,4 +90,4 @@ export {
   type CalibrationConfig,
   TEST_CALIBRATION,
   getCalibrated,
-} from './calibration';
+} from './calibration.js';

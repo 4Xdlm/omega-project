@@ -10,14 +10,14 @@ export {
   type CanonicalValue,
   type CanonicalArray,
   type CanonicalObject,
-} from './canonicalize';
+} from './canonicalize.js';
 
 export {
   sha256,
   sha256Buffer,
   sha256Multi,
   verifyHash,
-} from './sha256';
+} from './sha256.js';
 
 export {
   toHashableView,
@@ -25,7 +25,7 @@ export {
   hashOps,
   verifyTimestampExclusion,
   inspectHashableFields,
-} from './hashable-view';
+} from './hashable-view.js';
 
 export {
   type HashEntry,
@@ -36,4 +36,4 @@ export {
   findChainBreak,
   buildChain,
   getChainHead,
-} from './chain';
+} from './chain.js';

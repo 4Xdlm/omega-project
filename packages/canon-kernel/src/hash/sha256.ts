@@ -4,7 +4,7 @@
  */
 
 import { createHash } from 'crypto';
-import { type RootHash, isValidRootHash } from '../types/identifiers';
+import { type RootHash, isValidRootHash } from '../types/identifiers.js';
 
 /**
  * Compute SHA-256 hash of a UTF-8 string.

@@ -12,9 +12,9 @@
  *   return `${prefix}_${idHash}`
  */
 
-import type { EntityId, SchemaId, OpId, TxId } from '../types/identifiers';
-import { canonicalize } from '../hash/canonicalize';
-import { sha256 } from '../hash/sha256';
+import type { EntityId, SchemaId, OpId, TxId } from '../types/identifiers.js';
+import { canonicalize } from '../hash/canonicalize.js';
+import { sha256 } from '../hash/sha256.js';
 
 export type IdPrefix = 'ent' | 'sch' | 'op' | 'tx';
 

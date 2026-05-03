@@ -3,9 +3,9 @@
  * Transactions are ordered sequences of operations with hash chain integrity.
  */
 
-import type { TxId, RootHash } from './identifiers';
-import type { CanonOp } from './operations';
-import type { EvidenceRef } from './evidence';
+import type { TxId, RootHash } from './identifiers.js';
+import type { CanonOp } from './operations.js';
+import type { EvidenceRef } from './evidence.js';
 
 export type RailType = 'truth' | 'interpretation';
 

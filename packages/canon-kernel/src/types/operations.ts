@@ -3,8 +3,8 @@
  * Operations are the atomic units of change in the Canon.
  */
 
-import type { EntityId, OpId, RootHash } from './identifiers';
-import type { EvidenceRef } from './evidence';
+import type { EntityId, OpId, RootHash } from './identifiers.js';
+import type { EvidenceRef } from './evidence.js';
 
 export type OpType =
   | 'SET'           // Create/Update field

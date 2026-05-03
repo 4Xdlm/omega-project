@@ -7,13 +7,13 @@
  */
 
 // Types
-export * from './types';
+export * from './types/index.js';
 
 // ID Factory
-export * from './id';
+export * from './id/index.js';
 
 // Hash Functions
-export * from './hash';
+export * from './hash/index.js';
 
 // Schema
-export * from './schema';
+export * from './schema/index.js';

@@ -11,4 +11,4 @@ export {
   verifyIdDeterminism,
   parseId,
   createIdBatch,
-} from './factory';
+} from './factory.js';

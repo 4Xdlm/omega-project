@@ -356,7 +356,7 @@ function injectSeed(input: ForgePacketInput, seed: string): ForgePacketInput {
   return {
     ...input,
     seeds: {
-      ...((input as Record<string, unknown>).seeds as object ?? {}),
+      ...((input as unknown as Record<string, unknown>).seeds as object ?? {}),
       generation: seed,
     },
   } as ForgePacketInput;

@@ -186,7 +186,7 @@ export function computeSealRateOneShotSaga(records: OneShotRecord[]): number {
  * Utilise k_saga_ready du KSelectionReport (retombe sur 0 pour rétrocompatibilité).
  */
 export function computeSagaReadyRateTopK(reports: KSelectionReport[]): number {
-  const totalSaga = reports.reduce((s, r) => s + ((r as Record<string, unknown>).k_saga_ready as number ?? 0), 0);
+  const totalSaga = reports.reduce((s, r) => s + ((r as unknown as Record<string, unknown>).k_saga_ready as number ?? 0), 0);
   const totalGen  = reports.reduce((s, r) => s + r.k_generated, 0);
   if (totalGen === 0) return 0;
   return Math.round((totalSaga / totalGen) * 10000) / 10000;
@@ -215,7 +215,7 @@ export class PhaseUExitValidator {
     const sealAtomicOneShotCount = oneShotRecords.filter(r => r.verdict === 'SEAL_ATOMIC').length;
     const sagaReadyOneShotCount  = oneShotRecords.filter(r => r.verdict === 'SEAL_ATOMIC' || r.verdict === 'SAGA_READY').length;
     const sealAtomicTopkCount    = topKReports.reduce((s, r) => s + r.k_survived_seal, 0);
-    const sagaReadyTopkCount     = topKReports.reduce((s, r) => s + ((r as Record<string, unknown>).k_saga_ready as number ?? 0), 0);
+    const sagaReadyTopkCount     = topKReports.reduce((s, r) => s + ((r as unknown as Record<string, unknown>).k_saga_ready as number ?? 0), 0);
 
     const breakdown: SealPathBreakdown = {
       seal_atomic_oneshot: sealAtomicOneShotCount,

@@ -107,7 +107,7 @@ export class AnthropicLLMProvider implements LLMProvider {
     if (isGenesisV2Active(expId)) {
       const planPrompt = buildPlanningPrompt({
         intent: packet.intent.scene_goal,
-        shape: (packet as Record<string, unknown>).narrative_shape as string ?? 'ThreatReveal',
+        shape: (packet as unknown as Record<string, unknown>).narrative_shape as string ?? 'ThreatReveal',
         context: packet.intent.story_goal,
         master_axes: ['tension_14d', 'signature', 'interiorite', 'necessite_m8'],
       });

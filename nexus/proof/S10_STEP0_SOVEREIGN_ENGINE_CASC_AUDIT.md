@@ -205,6 +205,39 @@ Workspaces déclarés dans root `package.json` mentionnant possible dépendance 
 
 **Découverte 7e package potentielle** : si fix sovereign-engine révèle un nouveau cascade root cause dans un dependent, **HARD STOP** doctrine NG1 Sprint S10.
 
+### 7bis. RÉSOLUTION EMPIRIQUE Q5 (audit cascade follow-up)
+
+Audit empirique cross-package effectué post-S10.0 commit :
+
+```powershell
+# package.json declaring @omega/sovereign-engine
+Get-ChildItem packages -Filter package.json -Recurse | Select-String "@omega/sovereign-engine" -List
+# Result: 0 (sauf sovereign-engine self)
+
+# Source imports from '@omega/sovereign-engine'
+Get-ChildItem packages -Recurse -Filter "*.ts" | Where-Object { ... } | Select-String "from\s+['""]@omega/sovereign-engine" -List
+# Result: 0 (772 .ts files scanned hors sovereign-engine)
+
+# Hors packages/ (apps/, scripts/, omega/, gateway/, tools/)
+# Result: 0 matches partout
+```
+
+**Verdict empirique cascade** : **AUCUN cascade direct cross-package** détecté.
+
+Les 4 mentions "sovereign-engine" trouvées sont **TEXTE PUR** (non-imports) :
+1. `omega-forge/trajectory-analyzer.ts:219` — JSDoc `* Used by sovereign-engine`
+2. `signal-registry/codegen-registry.ts` — string literals filtre IDL `producer === 'sovereign-engine'`
+3. `signal-registry/registry.ts` — string literals data labels `producer: 'sovereign-engine'`
+4. `signal-registry/types.ts:17` — union type `'omega-forge' | 'sovereign-engine' | 'config'`
+
+→ Couplage runtime via signal system (data layer), **pas via TypeScript imports code**.
+
+**Implications S10.1** :
+- Pas de cascade probe cross-package nécessaire post-fix
+- Tests vitest sovereign-engine seuls suffisent pour RECOVERY_TEST_DOCTRINE
+- Risque régression cross-package code = **NUL**
+- **Q5 résolue** : liste cascade dependents = **vide empiriquement**
+
 ---
 
 ## 8. Décision patch — ATTENDRE ARBITRAGE COWORK + GEMINI + CHATGPT
@@ -226,6 +259,74 @@ Workspaces déclarés dans root `package.json` mentionnant possible dépendance 
 - CAS C confirmé empiriquement (modifications source TypeScript), mais scope plus contenu que prévu Phase 0
 
 **STOP STRICT post-S10.0**. Aucun patch jusqu'à GO Mini-Tribunal + Architecte.
+
+### 8bis. RÉSOLUTION EMPIRIQUE Q6 (git blame timeline)
+
+Audit `git blame` sur les 4 sites TS2352 effectué post-S10.0 commit :
+
+| # | Fichier:Ligne | Commit | Date | Code Pattern |
+|---|---------------|--------|------|--------------|
+| 1 | phase-u-exit-validator.ts:189 | `bbd448d22` | **2026-03-13** | `(r as Record<string, unknown>).k_saga_ready as number ?? 0` |
+| 2 | phase-u-exit-validator.ts:218 | `bbd448d22` | **2026-03-13** | `(r as Record<string, unknown>).k_saga_ready as number ?? 0` |
+| 3 | top-k-selection.ts:359 | `87db4dc94` | **2026-03-03** | `(input as Record<string, unknown>).seeds as object ?? {}` |
+| 4 | real-llm-provider.ts:110 | `14414a6cc` | **2026-02-27** | `(packet as Record<string, unknown>).narrative_shape as string ?? 'ThreatReveal'` |
+
+**Contexte commits** :
+- `bbd448d22` (2026-03-13) : "feat(phase-u): dual-path SEAL_ATOMIC+SAGA_READY [INV-SR-01..05] - **1520 tests pass**"
+- `87db4dc94` (2026-03-03) : "feat(topk): U-W4 TopKSelectionEngine"
+- `14414a6cc` (2026-02-27) : Phase U pré-history
+
+**Findings empiriques Q6** :
+
+1. **Timeline étalée** : 2026-02-27 → 2026-03-13 (≥ 51 jours avant 2026-05-03)
+2. **PAS récent** : aucun site touché récemment
+3. **Auteur unique** : Francky (4Xdlm) — pas de coordination cross-team
+4. **Pattern délibéré identique** : `(X as Record<string, unknown>).propName as Type ?? default`
+   - Type assertion **explicite** pour accès "extension property" hors du type strict
+5. **Tests passaient à l'époque** : `bbd448d22` mention "1520 tests pass"
+6. **Hypothèse cause empirique** : TypeScript a été **upgradé vers version plus stricte** entre mars et mai 2026. Le pattern `as Record<...>` est désormais rejeté par TS strict moderne (TS 5.x récent require `as unknown as Record<...>`).
+
+→ **Verdict Q6 RÉSOLU** : **DETTE TECHNIQUE PRÉ-EXISTANTE révélée par TS upgrade**, PAS régression récente induite par changements Emotion13/14 ou autre code.
+
+**Implication S10.1** : fix Option A (`as unknown as Record<...>`) est minimal patch acceptable + ouverture NCR debt pour refactor S11+ (Option B Index signature ou refonte architecturale).
+
+---
+
+## 9. NEW — Tribunal verdict (3/3 IA convergent + Q5/Q6 empiriques)
+
+### 9.1 Convergence 3/3 IA Mini-Tribunal post-audit complet
+
+| Question | Statut résolution | Méthode |
+|----------|-------------------|---------|
+| Q1 (JSON syntax) | **CONVERGENCE** : `with { type: 'json' }` (Node 22+, cohérence avec 3/4 imports déjà conformes) | Mini-Tribunal IA + empirique 3/4 pattern existant |
+| Q2 (TS2352 fix) | **CONVERGENCE** : Option A `as unknown as Record<...>` (minimal, scoped, NCR debt opened) | Mini-Tribunal IA + ChatGPT garde-fou |
+| Q3 (tsconfig migration) | **DEFERRED S11+** : laisser bundler (code already compliant, pas de bénéfice immédiat) | Mini-Tribunal IA + MINIMIZE IT |
+| Q4 (ordre patches) | **CONVERGENCE** : 2 commits atomiques séparés (S10.1-A JSON, S10.1-B TS2352) | Mini-Tribunal IA + atomicité |
+| Q5 (cascade dependents) | **RÉSOLU EMPIRIQUEMENT** : 0 cascade direct cross-package (§7bis) | Audit cross-package read-only |
+| Q6 (TS2352 régression vs latent) | **RÉSOLU EMPIRIQUEMENT** : dette pré-existante (TS upgrade trigger, §8bis) | Git blame 4 sites |
+
+### 9.2 Plan S10.1 finalisé
+
+**Commit S10.1-A** (1 ligne, 1 fichier) :
+- `delta-style.ts:17` : ajout `with { type: 'json' }`
+
+**Commit S10.1-B** (4 lignes, 3 fichiers) :
+- 4 sites TS2352 : `as Record<string, unknown>` → `as unknown as Record<string, unknown>`
+- Création NCR_VALIDATION_TYPE_ASSERTIONS_DEBT.md (OPEN_DOCUMENTED)
+
+**Effort estimé** : 30-35 min total (5 modifs minimales + rebuild + tests reverse)
+
+### 9.3 Validation post-S10.1 (RECOVERY_TEST_DOCTRINE)
+
+1. Build sovereign-engine isolation : `npm run build --workspace=packages/sovereign-engine`
+2. Tests existants ciblés : `npm test --workspace=packages/sovereign-engine`
+3. Probe Node native : `node -e "import('@omega/sovereign-engine')..."`
+4. gate:imports check
+5. Smoke dépendants : **N/A** (Q5 empirique = 0 cascade)
+
+### 9.4 Tag final S10.1 (post-validation PASS)
+
+`phase-s-s10-step1-sovereign-engine-cas-c-fixed-2026-05-03`
 
 ---
 

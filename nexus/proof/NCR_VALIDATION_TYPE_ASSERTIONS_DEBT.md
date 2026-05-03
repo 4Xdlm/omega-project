@@ -23,11 +23,12 @@ Sprint S10.1-B a appliqué le pattern type assertion **Option A** (minimal scope
 (X as unknown as Record<string, unknown>).propName as Type ?? default
 ```
 
-**4 sites patchés** :
-1. `packages/sovereign-engine/src/validation/phase-u/phase-u-exit-validator.ts:189` — KSelectionReport
-2. `packages/sovereign-engine/src/validation/phase-u/phase-u-exit-validator.ts:218` — KSelectionReport
-3. `packages/sovereign-engine/src/validation/phase-u/top-k-selection.ts:359` — ForgePacketInput
-4. `packages/sovereign-engine/src/validation/real-llm-provider.ts:110` — ForgePacket
+**5 sites patchés** :
+1. `packages/sovereign-engine/src/validation/phase-u/phase-u-exit-validator.ts:189` — KSelectionReport (S10.1-B)
+2. `packages/sovereign-engine/src/validation/phase-u/phase-u-exit-validator.ts:218` — KSelectionReport (S10.1-B)
+3. `packages/sovereign-engine/src/validation/phase-u/top-k-selection.ts:359` — ForgePacketInput (S10.1-B)
+4. `packages/sovereign-engine/src/validation/real-llm-provider.ts:110` — ForgePacket (S10.1-B)
+5. `packages/sovereign-engine/src/validation/phase-u/benchmark/run-dual-benchmark.ts:590` — ForgePacketInput (**S10.1-C extension** — révélé post-batch tsc)
 
 ## 2. Origin (S10.0 audit §8bis Q6)
 
@@ -38,6 +39,7 @@ Pattern délibéré introduit par Francky (4Xdlm) pour bridge des types narrow v
 | phase-u-exit-validator.ts:189 + :218 | `bbd448d22` | 2026-03-13 |
 | top-k-selection.ts:359 | `87db4dc94` | 2026-03-03 |
 | real-llm-provider.ts:110 | `14414a6cc` | 2026-02-27 |
+| run-dual-benchmark.ts:590 | (à blamer S10.2 audit) | (probablement 2026-03 même époque) |
 
 **Trigger TS upgrade** : TypeScript a été upgradé vers une version plus stricte entre mars et mai 2026. Le pattern `as Record<string, unknown>` (sans `as unknown` intermédiaire) est désormais rejeté par TS strict moderne (TS 5.x récent).
 

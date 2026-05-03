@@ -587,6 +587,6 @@ export function writeValidationPack(pack: ValidationPack, outputDir: string): st
 
 function injectSeed(input: ForgePacketInput, seed: string): ForgePacketInput {
   // ForgePacketInput a un champ optionnel seeds (ForgeSeeds) — on l'enrichit
-  const existing = (input as Record<string, unknown>).seeds as Record<string, unknown> ?? {};
+  const existing = (input as unknown as Record<string, unknown>).seeds as Record<string, unknown> ?? {};
   return { ...input, seeds: { ...existing, generation: seed } } as ForgePacketInput;
 }

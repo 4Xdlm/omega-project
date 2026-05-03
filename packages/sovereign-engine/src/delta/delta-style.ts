@@ -14,7 +14,7 @@
 
 import type { ForgePacket, StyleDelta } from '../types.js';
 import { SOVEREIGN_CONFIG } from '../config.js';
-import sensoryLexicon from '../data/sensory-lexicon.json';
+import sensoryLexicon from '../data/sensory-lexicon.json' with { type: 'json' };
 
 export function computeStyleDelta(packet: ForgePacket, prose: string): StyleDelta {
   const sentences = splitIntoSentences(prose);

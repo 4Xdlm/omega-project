@@ -2,7 +2,8 @@
 
 **ID** : NCR_ESM_BUNDLER_VS_NODE_RUNTIME
 **Title** : Divergence comportementale entre bundler resolution (esbuild/tsx) et Node ESM strict — packages workspace potentiellement cassés en prod
-**Status** : **STILL_OPEN** (Sprint S8 Vague 2 reconfirmation 2026-05-01 — H1 EMPIRIQUEMENT CONFIRMÉE, fix non appliqué)
+**Status** : **FIX_VALIDATED_SCOPED** (Sprint S9 Étape 2 partial closure 2026-05-03 — 3/6 packages fixés ESM Node native compliant) **+ STILL_OPEN** sous-graphe S10 (3 packages restants)
+**Précédent** : STILL_OPEN (Sprint S8 Vague 2 reconfirmation — H1 EMPIRIQUEMENT CONFIRMÉE, fix non appliqué)
 **Severity** : P1 — bugs latents non détectables par gates actuels
 **Priority** : P1
 **Opened** : 2026-04-27 (Tribunal 3-IA)
@@ -272,4 +273,63 @@ Recommandation  : décision Architecte Sprint S9+ §8 #3 (Option B NodeNext
 Doctrine        : NCR jumeau NCR_GATE_IMPORTS_BUNDLER_BLINDNESS doit
                   être résolu en parallèle (Test 4 spawn node = détecteur
                   automatisé pour valider patch ESM)
+```
+
+---
+
+## 12. Sprint S9 Étape 2 partial closure (2026-05-03)
+
+### 12.1 Transition status — FIX_VALIDATED_SCOPED partiel
+
+`STILL_OPEN` → **`FIX_VALIDATED_SCOPED`** sur sous-ensemble 3 packages (canon-kernel + orchestrator-core + signal-registry) + **STILL_OPEN** maintenu sur 3 packages restants (sovereign-engine + omega-segment-engine + integration-nexus-dep).
+
+### 12.2 Anchors empiriques 3 packages fixés
+
+| Package | Commit | Probe Node native | Tests |
+|---------|--------|-------------------|-------|
+| orchestrator-core | `c50974c5` | `OK keys=38` | 158/158 PASS |
+| canon-kernel (ROOT cause primaire H1) | `372524b9` | `OK keys=67` | 67/67 PASS |
+| signal-registry (NG2 bypass) | `16569592` | `OK keys=6` | 22/22 PASS |
+
+### 12.3 Décomposition cas patches
+
+- **CAS B (config-only)** : orchestrator-core (1 fichier package.json) + signal-registry (1 fichier package.json)
+- **CAS B3 (imports + tsconfig)** : canon-kernel (16 fichiers : 15 src + 1 tsconfig — 45 imports patchés)
+
+### 12.4 H1 (canon-kernel) status
+
+H1 §11 reste **CONFIRMÉE empiriquement** (variance bundler vs Node ESM démontrée) **MAIS RÉSOLUE pour canon-kernel** via S9.2-B commit `372524b9` :
+- 21 imports identifiés Phase 0 → réalité 45 imports (multi-line patterns)
+- Patch complet exécuté + rebuild + probe + tests reverse PASS
+- canon-kernel/dist/index.js maintenant importable Node natif (`OK keys=67`)
+
+### 12.5 Sous-graphe restant STILL_OPEN (Sprint S10)
+
+3 packages non encore patchés :
+- **sovereign-engine** : nouveau root cause découvert S9.2-C cascade = JSON imports sans attribut `with { type: 'json' }` (Node ≥ 22 strict). Plus 4 imports + tsconfig.
+- **omega-segment-engine** : 8 TS errors (TS2834 + duplicates + SegmentMode). Cas C confirmé.
+- **integration-nexus-dep** : 7 TS errors (Emotion14 missing 'envy' property). Cas C/D suspecté (decision Architecte Emotion model).
+
+### 12.6 Cross-references
+
+- `nexus/proof/S9_ESM_SCOPE_REPORT.md` — Phase 0 audit (commit `37c437c3`)
+- `nexus/proof/S9_STEP2_PARTIAL_CLOSURE_REPORT.md` — closure report ce sprint (ce commit)
+- `nexus/proof/S10_RUNTIME_ESM_PHASE2_PLAN.md` — plan continuation S10 (ce commit)
+- `NCR_GATE_IMPORTS_BUNDLER_BLINDNESS` (jumeau, STILL_OPEN) — Test 4 spawn node = détecteur automatisé pour CI
+
+### 12.7 Closure officielle Sprint S9 Étape 2 partial
+
+```
+TRANSITION FIX_VALIDATED_SCOPED partial
+=========================================
+Date            : 2026-05-03 (Sprint S9 Étape 2 partial closure)
+Status          : STILL_OPEN → FIX_VALIDATED_SCOPED (3 packages) + STILL_OPEN (3 reste)
+Severity        : HIGH P1 maintenue (sous-graphe sovereign-engine reste broken)
+Authority       : Mini-Tribunal 3 IA + Architecte Francky
+Evidence anchor : 3 commits (c50974c5, 372524b9, 16569592) +
+                  3 probes Node native OK + 247/247 tests PASS
+Scope FIXED     : canon-kernel, orchestrator-core, signal-registry
+Scope OPEN      : sovereign-engine, omega-segment-engine, integration-nexus-dep
+Risks           : R1-R7 documentés dans S9_STEP2_PARTIAL_CLOSURE_REPORT §4
+NEXT            : Sprint S10 — refonte 3 packages restants (S10_RUNTIME_ESM_PHASE2_PLAN)
 ```

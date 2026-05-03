@@ -242,3 +242,67 @@ Risks           : R1 faux positif P1 maintenu, R2 décision Architecte
 Recommandation  : décision Architecte Sprint S9+ §7 #3 (Option A retenue
                   S6.1 sur Test 4 child_process) pour débloquer #4
 ```
+
+---
+
+## 11. Cross-référence Sprint S9.2 partial + S10 (2026-05-03)
+
+### 11.1 Status NCR inchangé — STILL_OPEN
+
+Cette NCR reste **STILL_OPEN**. Sprint S9 Étape 2 partial closure n'a
+pas implémenté Test 4 (spawn node child_process). Aucun changement
+de gate `gate:imports` durant S9.2.
+
+### 11.2 Mais : empirique S9.2 valide la nécessité du gate
+
+Sprint S9.2 a CONFIRMÉ EMPIRIQUEMENT que `gate:imports` (sous tsx)
+**ne détectait PAS** les bugs ESM Node natif sur 4 packages distincts :
+
+| Package | Bug détecté Node natif | Détecté gate:imports ? |
+|---------|------------------------|----------------------|
+| canon-kernel | Directory import `./types` | ❌ NON (gate sous tsx) |
+| orchestrator-core | exports → TS source + type:module manquant | ❌ NON |
+| signal-registry | main → TS source, pas exports | ❌ NON |
+| sovereign-engine | JSON imports sans `with { type: 'json' }` | ❌ NON (encore S10) |
+
+→ 4 root causes ESM Node natif distincts, 0 détection gate:imports.
+**Validation empirique R1 § R1 — faux positif P1 confirmé répétitivement**.
+
+### 11.3 Cross-référence Sprint S9.2 partial closure
+
+- 3 packages désormais Node native importable (canon-kernel, orchestrator-core, signal-registry)
+- Mais aucun outil CI ne valide cette compliance — si quelqu'un casse un import sans extension demain, gate:imports passera silencieusement
+- Risque régression silencieuse **maintenu**
+
+### 11.4 Cross-référence Sprint S10 (continuation)
+
+Sprint S10 prévu doit inclure :
+1. Fix 3 packages restants (sovereign-engine + omega-segment-engine + integration-nexus-dep) — voir `S10_RUNTIME_ESM_PHASE2_PLAN.md`
+2. **Test 4 child_process spawn node** — implémentation finale gate:imports (Option A §6 du présent NCR)
+3. Audit `dist/` exhaustif post-Sprint S10 fixes
+4. Décision CI matrix multi-CWD (cross-NCR avec NCR_GATE_IMPORTS_PATH_BUG R3)
+
+### 11.5 Doctrine
+
+Les 4 root causes empiriques distincts détectés Sprint S9.2
+**renforcent** la validité de cette NCR. Le pattern "tsc strict +
+vitest bundler + tsx bundler" laisse 4 classes de bugs ESM Node natif
+indétectables sans Test 4 child_process spawn node.
+
+→ **Priorité Sprint S10** : Test 4 implémentation OBLIGATOIRE après
+fixes 3 packages restants, pour valider non-régression future ESM Node
+natif sur l'ensemble du graphe runtime.
+
+```
+CROSS-REF SPRINT S9.2 + S10 — NCR_GATE_IMPORTS_BUNDLER_BLINDNESS
+==================================================================
+Date            : 2026-05-03
+Status          : STILL_OPEN (inchangé, validation empirique renforcée)
+Severity        : P1 (maintenue, validation empirique S9.2 = 4 bugs distincts)
+Anchors empiriques nouveaux : 4 root causes ESM Node natif détectés S9.2
+                              (canon-kernel + orchestrator-core + signal-registry
+                              + sovereign-engine), 0 détection gate:imports
+NEXT            : Sprint S10 — fix 3 packages restants + Test 4 implémentation
+Cross-refs      : S9_STEP2_PARTIAL_CLOSURE_REPORT, S10_RUNTIME_ESM_PHASE2_PLAN,
+                  NCR_ESM_BUNDLER_VS_NODE_RUNTIME §12 partial FIX_VALIDATED_SCOPED
+```

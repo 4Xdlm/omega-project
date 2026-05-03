@@ -294,3 +294,48 @@ Action S9       : Sprint dédié 2 packages FAIL (fix code 15 TS errors)
 Action S10+     : Documentation pattern dist/ gitignored canonique
                   + decision archive S6.P2 NCR §2.2 list inaccuracy
 ```
+
+---
+
+## 13. Sprint S9 Étape 2 partial closure mention (2026-05-03)
+
+### 13.1 Avancement S9.2 partial relatif à cette NCR
+
+Sprint S9 Étape 2 a réalisé refonte ESM stricte sur 3/6 packages
+runtime (post-Phase 0bis cascade discoveries) :
+
+| Package | S9 Étape 1 verdict | S9.2 status | Commit |
+|---------|--------------------|-----------|--------|
+| `contracts-canon` | CAS A (déjà OK) | ✅ Confirmé OK Phase 0 (hors scope S9.2) | — |
+| `hardening` | CAS A | ⏸️ Cascade orchestrator-core fixed S9.2-A — re-test S10 | — |
+| `integration-nexus-dep` | **CAS C** ESCALATE | ⏳ DEFERRED Sprint S10 | — |
+| `omega-segment-engine` | **CAS C** ESCALATE | ⏳ DEFERRED Sprint S10 | — |
+| `canon-kernel` (NOUVEAU scope) | (Phase 0bis cascade) | ✅ FIXED CAS B3 | `372524b9` |
+| `orchestrator-core` (NOUVEAU scope) | (Phase 0bis cascade) | ✅ FIXED CAS B | `c50974c5` |
+| `signal-registry` (NOUVEAU scope) | (Phase 0bis cascade) | ✅ FIXED CAS B (NG2 bypass) | `16569592` |
+| `sovereign-engine` (NOUVEAU scope) | (Phase 0bis cascade) | ⏳ DEFERRED Sprint S10 | — |
+
+### 13.2 Status NCR_BUILD_ARTIFACT_ABSENCE_POST_S6 inchangé
+
+Cette NCR reste **OPEN_DIAGNOSED** avec disposition **CAS D MIXED split**
+per §11.5. Sprint S9.2 partial closure n'altère pas la classification :
+
+- 2 packages CAS A (contracts-canon, hardening) : DEFERRED_S10+ doc only
+  - hardening cascade orchestrator-core désormais fixée — RE-TEST S10
+    pour confirmer hardening passe Node native via `@omega/hardening`
+- 2 packages CAS C (integration-nexus-dep, omega-segment-engine) :
+  ESCALATE Sprint S10 dédié (hérite disposition de S9.2 partial)
+
+### 13.3 Cross-references mises à jour
+
+- `nexus/proof/S9_STEP2_PARTIAL_CLOSURE_REPORT.md` (commit ce sprint) — closure report 3/6 packages
+- `nexus/proof/S10_RUNTIME_ESM_PHASE2_PLAN.md` (commit ce sprint) — plan continuation
+- `NCR_ESM_BUNDLER_VS_NODE_RUNTIME` §12 — transition partielle FIX_VALIDATED_SCOPED
+- `NCR_GATE_IMPORTS_BUNDLER_BLINDNESS` (cross-ref S10) — Test 4 nécessaire pour CI
+
+### 13.4 Note doctrinale
+
+Per RECOVERY_TEST_DOCTRINE (amendement v3.156.0 §5), aucune modification
+du registry CSV `omega/outputs/NCR_REGISTRY_2026-04-29.csv` n'est faite
+ce commit (le registry reste stale connu). Tout cleanup ou regen requiert
+NCR + reverse test préalable.

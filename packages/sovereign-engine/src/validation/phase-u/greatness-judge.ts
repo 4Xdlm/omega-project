@@ -24,7 +24,7 @@
  */
 
 import { sha256 } from '@omega/canon-kernel';
-import type { JudgeCache, JudgeResult } from '../../judge-cache.js';
+import type { JudgeCache, JudgeResult } from '../judge-cache.js';
 
 // ── Types ────────────────────────────────────────────────────────────────────
 

@@ -34,7 +34,7 @@ import {
 
 import type { ForgePacketInput } from '../../src/input/forge-packet-assembler';
 import type { SovereignProvider } from '../../src/types';
-import type { JudgeCache } from '../../src/judge-cache';
+import type { JudgeCache } from '../../src/validation/judge-cache.js';
 import { TopKSelectionEngine, type KSelectionReport, type VariantRecord } from '../../src/validation/phase-u/top-k-selection';
 import { GreatnessJudge, type GreatnessResult, GREATNESS_AXES } from '../../src/validation/phase-u/greatness-judge';
 

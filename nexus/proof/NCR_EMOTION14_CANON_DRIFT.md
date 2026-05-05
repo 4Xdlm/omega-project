@@ -1,264 +1,217 @@
-# NCR_EMOTION14_CANON_DRIFT
+# NCR_EMOTION14_CANON_DRIFT — γ recadré (GARAGE_CANON_DRIFT)
 
-**ID**       : NCR_EMOTION14_CANON_DRIFT
-**Title**    : Drift de canon `Emotion14` — 3 INTERNAL_ONLY_CANONS + 2 redéclarations locales, aucun canon central cross-package
-**Status**   : **OPEN_DIAGNOSED**
-**Severity** : **HIGH (P1)**
-**Priority** : **P1**
-**Opened**   : 2026-05-05
-**Owner**    : Francky (Architect) + Claude (IA Principal)
-**Tribunal** : 3/3 IA convergent (Cowork + Gemini OMEGA-PRIME + ChatGPT)
-**Standard** : NASA-Grade L4 / DO-178C Level A
-**Doctrine** : ANCHOR_PRE_FLIGHT · NO_UNVERIFIED_EXTERNAL_ANCHORS · STRUCTURED_MEMORY_PRIORITY · NCR OVER HEROICS · MINIMIZE IT
+**ID**             : NCR_EMOTION14_CANON_DRIFT
+**Title**          : Drift de canon `Emotion14` — legacy / GARAGE confirmé empirique
+**Classification** : **GARAGE_CANON_DRIFT / LEGACY_ONTOLOGY_DRIFT**
+**Status**         : **OPEN_DIAGNOSED**
+**Severity**       : **P2 governance** (P1 uniquement si mini-audit δ confirme runtime critical — voir §9)
+**Priority**       : **DEFERRED** (S12+ Emotion V2 architecture)
+**Opened**         : 2026-05-05
+**Owner**          : Francky (Architect) + Claude (IA Principal)
+**Tribunal**       : 3/3 IA convergent γ (Cowork + Gemini OMEGA-PRIME + ChatGPT)
+**Standard**       : NASA-Grade L4 / DO-178C Level A
+**Doctrine**       : Règle prioritaire #1 (vérification précédent ✅) · ANCHOR_PRE_FLIGHT · STRUCTURED_MEMORY_PRIORITY · NCR OVER HEROICS · MINIMIZE IT
+
+> **AVERTISSEMENT γ recadrage** : Une version antérieure de ce NCR (commit `4a98f3fe`)
+> formulait les Options B+C comme « recommandées court terme S10.4 ». Cette
+> formulation est **annulée** post-recoupage mémoire OMEGA :
+> `emotion_14d` est **DEPRECATED/GARAGE** depuis R-PHYSICS (kill-switch 2026-04-08).
+> Sprint S10.4 actif (renommage/bridge) est **ANNULÉ**. Voir §5.
 
 ---
 
 ## 1. Executive summary
 
-Trois sites distincts du repo déclarent chacun un type `Emotion14` indépendant
-(`packages/genome`, `packages/omega-forge`, `packages/integration-nexus-dep`)
-et deux redéclarations locales additionnelles existent dans
-`packages/sovereign-engine` (adapter dual `GenomeEmotion14` / `ForgeEmotion14`).
-
-Aucun de ces canons n'est référencé nominativement cross-package : tous sont
-empiriquement classés `INTERNAL_ONLY_CANON` (genome, omega-forge),
-`DUPLICATE_CANON / MIRROR` (integration-nexus-dep) ou `LOCAL_REDECLARATION`
-(sovereign-engine adapter dual).
-
-Le Tribunal 3/3 IA (Cowork + Gemini OMEGA-PRIME + ChatGPT) converge **totalement**
-sur la décision suivante :
-
-- **Court terme S10.4** : Options **B** (renommage **sémantique** non destructif) **+ C**
-  (`EmotionOntologyBridge` officiel **spec only**) en **mode additif / non destructif**.
-- **Long terme S12+** : Option **E** (refonte Emotion Ontology v2 — Sprint dédié).
-- **Rejets** : Option **A** (réalignement sur omega-forge — invalidée sous justification
-  actuelle), Option **D** (déclassement genome — interdite V-01 SEALED empirique).
+- Triple `INTERNAL_ONLY_CANON` `Emotion14` confirmé empirique (`genome` SEALED,
+  `omega-forge`, `integration-nexus-dep` MIRROR), + 2 redéclarations locales
+  `sovereign-engine` (adapter dual).
+- **MAIS** : `emotion_14d` (et son cousin `tension_14d` keyword path) est
+  **DEPRECATED/GARAGE** depuis R-PHYSICS (kill-switch `emotion_14d = 0.0`,
+  86 tests PASS, contribution marginale 0.0 % corpus PVI v2).
+- **DONC** : pas de refactor B+C immédiat. **Documentation only.**
+- Direction future : **Emotion V2 architecture** (3 vecteurs Prosodie / Simulation
+  / Inférence — `project_emotion_v2_architecture.md`) **pending validation Architecte**.
 
 ---
 
-## 2. Données empiriques V1/V2/V3 / §7 — Cross-references
+## 2. Evidence Emotion14 drift — cross-référence empirique
 
-Tout le détail empirique verbatim est consigné dans le livrable d'audit
-préalable. Ce NCR **n'éditorialise pas** ces preuves, il en synthétise les
-conclusions runtime.
-
-Cross-références :
-
-- `nexus/proof/EMOTION14_CROSS_PACKAGE_USAGE_MAP.md`
-  - V1 (commit `9515320e`) — `integration-nexus-dep` `envy` usage verbatim
-  - V2 (commit `9515320e`) — `genome` internal Emotion14 usage
-  - V3 (commit `9515320e`) — V3.4 coefficients sensitivity (canon-agnostic)
-  - §7 (commit `62664df0`) — anchor verification `omega-forge.Emotion14`
-
-Synthèse runtime (sans rééditer les verbatims) :
-
-- `genome.Emotion14` — 5 sites prod internes (`api/types.ts`, `core/emotion14.ts`,
-  `core/genome.ts`, `index.ts`), tests d'invariants `INV-GEN-12` + `28.3-A/B/C`,
-  zéro import nominatif cross-package.
-- `omega-forge.Emotion14` — 14 dimensions Plutchik primary+complex (sans `envy`),
-  exporté `packages/omega-forge/src/types.ts:22-32`, zéro import nominatif
-  cross-package (≥35 imports génériques observés mais sur dérivés
-  `EmotionState14D`, `EMOTION_14_KEYS`, etc.).
-- `integration-nexus-dep.Emotion14` — `src/contracts/types.ts:14-42`, header
-  auto-déclaré MIRROR de `@omega/genome` (FROZEN), translator `module.ts:46`
-  mapping `envy → anger` (INV-TRANS-04 bijectif approché).
-- `sovereign-engine` — adapter dual `GenomeEmotion14` + `ForgeEmotion14`
-  (cf. EMOTION14_CROSS_PACKAGE_USAGE_MAP §7.5).
-- V3.4 dispatcher (`coefficients-v3-4.ts`) — **0 token émotionnel**, ML pur,
-  insensibilité totale au choix de canon.
-
----
-
-## 3. Classification finale verrouillée
+(Rappel verbatim consigné dans `EMOTION14_CROSS_PACKAGE_USAGE_MAP.md` —
+ce NCR ne réédite pas, il référence.)
 
 | Site | Statut | Source de vérité |
 |---|---|---|
-| `genome.Emotion14` | **`INTERNAL_ONLY_CANON`** (cognitive/social, **SEALED 1.2.0**) | `FROZEN_MODULES.md:10` + V2 |
-| `omega-forge.Emotion14` | **`INTERNAL_ONLY_CANON`** (Plutchik-like primary+complex) | §7.1–§7.3 |
-| `integration-nexus-dep.Emotion14` | **`DUPLICATE_CANON / MIRROR documenté`** (INV-TRANS-04) | §1.1–§1.4 |
-| `sovereign-engine` | **`LOCAL_REDECLARATION`** (adapter dual) | §7.5 |
+| `genome.Emotion14` | `INTERNAL_ONLY_CANON` (cognitive/social, **SEALED 1.2.0**) | `FROZEN_MODULES.md:10` + V2 |
+| `omega-forge.Emotion14` | `INTERNAL_ONLY_CANON` (Plutchik-like) | §7.1–§7.3 EMOTION14_MAP |
+| `integration-nexus-dep.Emotion14` | `DUPLICATE_CANON / MIRROR documenté` (INV-TRANS-04) | §1.1–§1.4 EMOTION14_MAP |
+| `sovereign-engine` | `LOCAL_REDECLARATION` (adapter dual) | §7.5 EMOTION14_MAP |
 
-**Conséquence** : il **n'existe aucun canon central cross-package** prouvé
-empiriquement pour `Emotion14`. L'architecture est en silos étanches.
-
----
-
-## 4. V3.4 dispatcher = CANON-AGNOSTIC ABSOLU
-
-Empirique V3 (`packages/sovereign-engine/src/scoring/dispatcher/coefficients-v3-4.ts`) :
-
-- `grep "envy|guilt|shame|pride|hope|submission|awe|disapproval|remorse|contempt"` → **0 match**
-- `grep -i "Emotion14|emotion"` → **0 match**
-- Module ML pur, 5 features `M0b_slim`, Ridge α=1.0, seed=42, `CALIBRATION_ID = 'M0b_slim_V3_4_2026-04-11'`.
-
-→ **Décision Emotion14 (canon central, renommage, bridge) = ZÉRO impact ML scoring.**
-→ V3.4 dispatcher **ne porte aucun risque de régression** sur les options Tribunal.
+Cross-ref principale : `EMOTION14_CROSS_PACKAGE_USAGE_MAP.md` (commits `9515320e` + `62664df0`).
 
 ---
 
-## 5. V-01 genome SEALED — CONFIRMÉ EMPIRIQUE
+## 3. Evidence GARAGE / DEPRECATED — mémoire OMEGA recoupée
 
-Sources empiriques :
+Sources mémoire structurée (STRUCTURED_MEMORY_PRIORITY) :
 
-- `FROZEN_MODULES.md:10` —
-  ```
-  | packages/genome | 1.2.0 | SEALED | 2026-01-07 | 109 | 14 |
-  ```
-- `CLAUDE.md §B` — `packages/genome` étiqueté `# CLIENT — FROZEN`.
-- `CLAUDE.md §D` — `packages/genome/ -> Phase 28 — SEALED` (forbidden actions).
+- `project_r_physics_results.md` — *« kill-switch `emotion_14d = 0.0`, 86 tests PASS, garage »*.
+- `project_corpus_analysis_pvi_v2.md` — *« contribution marginale 0.0 % »*.
+- `project_tribunal_complete_2026-04-26.md` — *« `tension-14d.ts` mode keyword DUAL
+  (GARAGE keyword + ACTIF semantic) »*.
+- `project_emotion_v2_architecture.md` — *« 3 vecteurs Prosodie / Simulation / Inférence
+  proposés pour remplacer `emotion_14d` »*.
+- **8 modules GARAGE / DORMANT / SHADOW** identifiés (γ Tribunal S1 + S1.5).
 
-→ **V-01 (modification module FROZEN = IMMEDIATE STOP) confirmé empirique** pour `genome`.
-→ **Option D (déclassement / archivage `genome.Emotion14`) INTERDITE.**
-
----
-
-## 6. Hypothèse pré-audit `RUNTIME_CANON omega-forge` — RÉFUTÉE
-
-Préalablement, ChatGPT avait posé l'hypothèse `omega-forge.Emotion14` =
-`RUNTIME_CANON` cross-package, **avec un filet pré-vérification** :
-> *« PARTIAL si seulement imports génériques. Précision compte. »*
-
-Vérification empirique §7.2 :
-
-- ≥35 imports `from '@omega/omega-forge'` observés (`omega-runner`, `sovereign-engine`).
-- **0 import nominatif `Emotion14`** depuis `@omega/omega-forge`.
-- Imports observés portent sur dérivés (`EmotionState14D`, `EMOTION_14_KEYS`,
-  `ForgeEmotionBrief`, `F5Config`, `CanonicalEmotionTable`,
-  `DEFAULT_CANONICAL_TABLE`, `analyzeEmotionFromText`, `computeArousal`,
-  `cosineSimilarity14D`, `computeForgeEmotionBrief`).
-
-→ Hypothèse `RUNTIME_CANON` **réfutée** : `omega-forge.Emotion14` est de
-**même statut empirique que `genome.Emotion14`** = `INTERNAL_ONLY_CANON`.
-→ **Le filet ChatGPT s'est attrapé lui-même.** Honnêteté empirique préservée.
+→ Conclusion : `emotion_14d` n'est **pas** un canon vivant nominatif consommé.
+   C'est un **canon legacy** dont le drift est **sans impact runtime** au moment
+   du recadrage γ.
 
 ---
 
-## 7. Options Tribunal — Verdict empirique post-vérification
+## 4. V3.4 ML impact — confirmation canon-agnostic
 
-| Option | Verdict | Justification |
-|---|---|---|
-| **A** — Réalignement `integration-nexus-dep` sur `omega-forge` | **INVALIDÉE sous justification actuelle** | `omega-forge` n'est pas RUNTIME_CANON prouvé empiriquement ; même statut que `genome` |
-| **B** — Renommage **sémantique** (cf. §9 taxonomie) | **RECOMMANDÉE court terme S10.4** | Désamorce confusion lexicale, additif/non destructif |
-| **C** — `EmotionOntologyBridge` officiel | **RECOMMANDÉE court terme S10.4** | Formalise dualité reconnue par adapter dual + translator INV-TRANS-04 |
-| **D** — Archiver/déclasser `genome.Emotion14` | **INTERDITE** | V-01 SEALED **confirmé empirique** (§5) |
-| **E** — Refonte Emotion Ontology v2 | **DIFFÉRÉE Sprint S12+** | Sprint dédié (estimation 20–40h), pas de patch local |
-
----
-
-## 8. Verdict Tribunal final 3/3 IA
-
-**Convergence totale** (Cowork + Gemini OMEGA-PRIME + ChatGPT) :
-
-- **Court terme S10.4** : **B + C** en mode **additif / non destructif** (DOC ONLY, alias additifs si safe).
-- **Long terme S12+** : **E** (refonte Emotion Ontology v2 — Sprint dédié, Tribunal IA dédié).
-- **Interdits maintenant** :
-  - **A brutal** (justification actuelle insuffisante).
-  - **D** (V-01 confirmé empirique).
-  - **Patch local silencieux** (NCR OVER HEROICS).
+- `coefficients-v3-4.ts` audité empirique (cf. EMOTION14_MAP §3) :
+  - 0 token émotionnel,
+  - 0 référence `Emotion14`,
+  - Module ML pur (5 features `M0b_slim`, Ridge α=1.0, seed=42, `CALIBRATION_ID = 'M0b_slim_V3_4_2026-04-11'`).
+- → **PAS d'impact ML scoring immédiat** quel que soit le sort du canon `Emotion14`.
+- → **Cohérent avec deprecation `emotion_14d`** (le ML ignore déjà le code mort).
 
 ---
 
-## 9. Taxonomie officielle — Apport ChatGPT
+## 5. Reclassification doctrinale
 
-Renommages **sémantiques** proposés (à appliquer en S10.4.2 si Architecte valide,
-**pas dans cette phase NCR**) :
-
-| Type actuel (ambigu) | Type sémantique proposé |
+| Avant (commit `4a98f3fe`, pré-mémoire-check) | Après (γ recadré, post-mémoire-check) |
 |---|---|
-| `genome.Emotion14` | **`CognitiveSocialEmotion14`** |
-| `omega-forge.Emotion14` | **`PlutchikForgeEmotion14`** |
-| `integration-nexus-dep.Emotion14` | **`NexusEmotion14Mirror`** |
-| `sovereign-engine.GenomeEmotion14` | **`LocalCognitiveSocialEmotion14`** |
-| `sovereign-engine.ForgeEmotion14` | **`LocalPlutchikForgeEmotion14`** |
-| (nouveau) | **`EmotionOntologyBridge`** (pont officiel — spec S10.4.1) |
+| « Active canon drift, B+C immédiat S10.4 » | **« Legacy / garage canon drift, doc only »** |
+| Severity P1 | **Severity P2 governance** (P1 conditionnel mini-audit δ) |
+| Sprint S10.4 = phase active de renommage/bridge | **Sprint S10.4 ANNULÉ comme refactor actif** |
+| Plan S10.4 boundary boundary engagé | **Plan S10.4 ANNULÉ post-mémoire-check** (cf. fichier `S10_4_EMOTION_ONTOLOGY_BOUNDARY_PLAN.md` recadré) |
 
-Décision finale taxonomie (sémantique vs package) : **réservée Architecte**.
+→ **Action immédiate** : DOCUMENTATION UNIQUEMENT.
 
 ---
 
-## 10. Règle doctrinale nouvelle — Apport ChatGPT
+## 6. Options revisitées (post-GARAGE)
 
-**Règle proposée pour amendement doctrinal** (à acter par Architecte) :
-
-> *« Le type nu `Emotion14` est interdit hors du module qui le définit. »*
-
-**Effet** : empêche que la confusion lexicale revienne post-renommage.
-Tout consommateur cross-package devra utiliser :
-- soit le type sémantique (`CognitiveSocialEmotion14`, `PlutchikForgeEmotion14`, etc.) ;
-- soit `EmotionOntologyBridge` (pont officiel).
-
-→ Application via code review + lint rule potentiel (à spécifier S10.4.1).
+| Option | Verdict γ recadré | Justification |
+|---|---|---|
+| **A** — Réaligner `integration-nexus-dep` sur `omega-forge` | **NO-GO** | `omega-forge` n'est pas RUNTIME_CANON empirique **ET** `emotion_14d` est garage |
+| **B** — Renommage `GenomeEmotion14` / `ForgeEmotion14` / `NexusEmotion14` | **DEFERRED — only if Emotion14 reactivated** | Improbable post Emotion V2 (renommer un type garage = bruit) |
+| **C** — `EmotionOntologyBridge` officiel | **DEFERRED — only if Emotion14 reactivated** | Improbable (formaliser une frontière garage = dette) |
+| **D** — Archiver / déclasser `genome.Emotion14` | **NO-GO** | V-01 confirmé empirique (`FROZEN_MODULES.md:10` — genome SEALED) |
+| **E** — Refonte Emotion Ontology v2 | **REMPLACÉE PAR / RELIÉE À** `project_emotion_v2_architecture.md` | Paradigme déjà proposé (3 vecteurs) |
 
 ---
 
-## 11. Risques actuels (pré-S10.4)
+## 7. Emotion V2 pending — référence (PAS d'implémentation ce sprint)
 
-- **R1 — Type collision** : 3 canons `Emotion14` même nom → ambiguïté lexicale dans toute lecture cross-package.
-- **R2 — Redéclarations locales** : `sovereign-engine` `GenomeEmotion14` / `ForgeEmotion14`
-  ne sont pas synchronisés avec leurs sources canon.
-- **R3 — Mappings avec perte** : `envy → anger` (INV-TRANS-04) **non bijectif strict**
-  (cf. `module.ts:84` *Bijective mapping with approximation for envy/despair*).
-- **R4 — Usage nu `Emotion14`** hors propriétaire (lecture cross-package) → ambiguïté
-  pour mainteneur futur.
-- **R5 — Pattern méta non scellé** doctrinalement (cf. §12).
+- 3 vecteurs proposés : **Prosodie** / **Simulation** / **Inférence**.
+- ~20 features CALC proposées.
+- Fichier de référence : `project_emotion_v2_architecture.md` (mémoire structurée).
+- Statut : **PENDING ARCHITECTE VALIDATION**.
+- **PAS implémenté dans ce sprint.**
+- Sprint dédié futur : **« Sprint Emotion V2 Architecture S12+ »**.
 
 ---
 
-## 12. Pattern méta — 3e occurrence Canons Orphelins
+## 8. Build impact `integration-nexus-dep`
+
+- Mini-audit δ requis (voir §9).
+- Si runtime critical : peut nécessiter **résolution locale tactique** (pas refonte canon).
+- Si dormant : **pas d'urgence**.
+
+---
+
+## 9. Mini-audit δ — verdict 10 lignes
+
+Commandes (PowerShell, exécutées 2026-05-05) :
+
+```powershell
+# Q1
+Get-ChildItem packages -Recurse -Filter "*.ts" -ErrorAction SilentlyContinue |
+  Where-Object { $_.FullName -notmatch "node_modules|dist|tests|garage|dormant" } |
+  Select-String -Pattern "emotion_14d|tension_14d" -List |
+  Select-Object Path | Select-Object -First 20
+
+# Q2
+Get-Content packages/integration-nexus-dep/package.json |
+  Select-String -Pattern "version|description|deprecated|garage|status"
+
+# Q3
+Get-ChildItem packages -Recurse -Filter "*.ts" -ErrorAction SilentlyContinue |
+  Where-Object { $_.FullName -notmatch "node_modules|dist|tests|integration-nexus-dep" } |
+  Select-String -Pattern "from\s+['\"]@omega/integration-nexus-dep['\"]" -List |
+  Select-Object Path | Select-Object -First 20
+```
+
+Résultats empiriques :
+
+- **Q1** : **0 match** `emotion_14d|tension_14d` dans `packages/**/*.ts` actif
+  (hors node_modules, dist, tests, garage, dormant).
+- **Q2** : `integration-nexus-dep/package.json` → `version: 0.7.0`,
+  `description: "OMEGA NEXUS DEP - Dependency Integration Layer"`,
+  **aucune marque `deprecated|garage|status`**.
+- **Q3** : **0 import cross-package** `from '@omega/integration-nexus-dep'`
+  hors du package lui-même.
+
+Verdict 10 lignes max :
+
+- `emotion_14d` runtime active ?            → **GARAGE / DORMANT** (0 match runtime).
+- `tension_14d` runtime active ?            → **GARAGE / DORMANT** (0 match runtime).
+- `integration-nexus-dep` package status    → **DORMANT** (existe en v0.7.0, **0 consommateur cross-package**).
+- Build path criticality                    → **NON-CRITICAL** (aucun chemin de build externe ne dépend du package).
+- **Severity NCR finale**                   → **P2 governance** (garage confirmé empirique, **pas runtime critical**).
+
+→ Le conditionnel « P1 si runtime critical » du header est **résolu en P2 définitif**.
+
+---
+
+## 10. Décision finale
+
+- **PAS** de patch.
+- **PAS** de bridge immédiat.
+- **PAS** de renommage immédiat.
+- **PAS** de Sprint S10.4 actif (plan recadré ANNULÉ).
+- **RETOUR priorité Sprint S10.3** — sovereign-engine build closure.
+- **Emotion V2** décision Architecte : pending future sprint S12+.
+
+---
+
+## 11. Pattern méta — 3e occurrence Canons Orphelins
 
 | # | Site | Sprint | Statut |
 |---|---|---|---|
-| 1 | `canon-engine` | S8 | **RESOLVED** (cf. `NCR_CANON_ENGINE_JUNCTION_ORPHAN.md`) |
-| 2 | `gateway/*` | NCR-013 γ | Tribunal (cf. NCR Gamma trail) |
-| 3 | `genome` + `omega-forge` (Emotion14) | S10.2.2 | **NEW (ce NCR)** |
+| 1 | `canon-engine` | S8 | **RESOLVED** (`NCR_CANON_ENGINE_JUNCTION_ORPHAN.md`) |
+| 2 | `gateway/*` | NCR-013 γ | Tribunal |
+| 3 | `genome` + `omega-forge` `Emotion14` | S10.2.2 | **NEW γ recadré (GARAGE)** |
 
-→ **3e occurrence** d'un pattern « canon orphelin / doublon non documenté ».
-→ Recommandation : **NCR umbrella futur** `NCR_ORPHAN_CANON_PATTERN`
-  ou **amendement doctrinal v3.157+** institutionnalisant la prévention.
-  (Décision : Architecte.)
+→ **NCR umbrella futur recommandé** : `NCR_ORPHAN_CANON_PATTERN`
+   ou amendement doctrinal v3.157+ — **décision Architecte**.
 
 ---
 
-## 13. Plan d'action
+## 12. Cross-references
 
-### S10.4 — Phase NCR + cadrage + bridge spec (DOC ONLY)
-- Voir livrable séparé : `nexus/proof/S10_4_EMOTION_ONTOLOGY_BOUNDARY_PLAN.md`
-- Aucune modification de code Emotion14 dans cette phase.
-- Spec `EmotionOntologyBridge` (interface + invariants + tests mapping).
-- Aliases additifs **uniquement si safe** (10.4.2).
-
-### S12+ — Refonte Emotion Ontology v2 (Sprint dédié)
-- Tribunal IA dédié (cognitif vs Plutchik vs hybride).
-- Migration progressive (alias → type officiel).
-- Adapter dual `sovereign-engine` maintenu compat le temps de la migration.
-- Estimation : **20–40 h** Sprint complet.
-
-### Décision Architecte requise
-- Choix taxonomie : **sémantique** (cf. §9) **vs** **package-prefixed**
-  (`GenomeEmotion14` / `ForgeEmotion14` / `NexusEmotion14`).
-- Acter ou non la règle « type nu interdit hors propriétaire » (§10).
-- Acter ou non le NCR umbrella `NCR_ORPHAN_CANON_PATTERN` (§12).
+- `nexus/proof/EMOTION14_CROSS_PACKAGE_USAGE_MAP.md` — audit empirique V1+V2+V3+§7.
+- `project_r_physics_results.md` — kill-switch `emotion_14d = 0.0` (mémoire).
+- `project_emotion_v2_architecture.md` — paradigme remplaçant 3 vecteurs (mémoire).
+- `FROZEN_MODULES.md:10` — V-01 source (genome SEALED 1.2.0).
+- `feedback_report_verification_corrections_2026-05-04.md` — règles méta (mémoire).
+- `nexus/proof/NCR_CANON_ENGINE_JUNCTION_ORPHAN.md` — 1ʳᵉ occurrence pattern.
+- `nexus/proof/S10_4_EMOTION_ONTOLOGY_BOUNDARY_PLAN.md` — plan **ANNULÉ post-mémoire-check** (recadré).
 
 ---
 
-## 14. Cross-references
-
-- `nexus/proof/EMOTION14_CROSS_PACKAGE_USAGE_MAP.md` — V1 + V2 + V3 + §7 (audit empirique complet).
-- `nexus/proof/NCR_CANON_ENGINE_JUNCTION_ORPHAN.md` — 1ʳᵉ occurrence pattern (RESOLVED S8).
-- `FROZEN_MODULES.md:10` — V-01 source empirique (genome SEALED 1.2.0).
-- `CLAUDE.md §B` + `§D` + `§H` — doctrine v3.156.0 (FROZEN, forbidden actions, Sprint S8 amendments).
-
----
-
-## 15. Signature
+## 13. Signature
 
 | Champ | Valeur |
 |---|---|
 | **NCR-ID**    | `NCR_EMOTION14_CANON_DRIFT` |
 | **OPENED**    | 2026-05-05 |
-| **STATUS**    | OPEN_DIAGNOSED |
-| **SEVERITY**  | HIGH / P1 |
-| **TRIBUNAL**  | 3/3 IA convergent (Cowork + Gemini OMEGA-PRIME + ChatGPT) |
+| **STATUS**    | OPEN_DIAGNOSED — GARAGE_CANON_DRIFT |
+| **SEVERITY**  | **P2 governance** (P1 conditionnel résolu en P2 par mini-audit δ) |
+| **TRIBUNAL**  | 3/3 IA convergent γ (Cowork + Gemini OMEGA-PRIME + ChatGPT) |
 | **STANDARD**  | NASA-Grade L4 / DO-178C Level A |
 
-**Fin NCR. STOP empirique post-commit. Attente directive Architecte pour Sprint S10.4.**
+**Fin NCR γ recadré. STOP. Retour priorité Sprint S10.3 sovereign-engine build closure.**

@@ -1,146 +1,103 @@
-# Sprint S10.4 — Emotion Ontology Boundary Plan
+# Sprint S10.4 — Emotion Ontology Boundary Plan — **ANNULÉ post-mémoire-check**
 
-**Sprint**   : S10.4
-**Phase**    : Emotion Ontology Boundary (DOC + DOCTRINE + BRIDGE SPEC)
-**Statut**   : **DRAFT**
-**Effort**   : 4–8 h estimation (DOC ONLY — pas de patch code massif)
-**Date**     : 2026-05-05
-**Owner**    : Francky (Architect) + Claude (IA Principal)
-**Doctrine** : ANCHOR_PRE_FLIGHT · NO_UNVERIFIED_EXTERNAL_ANCHORS · STRUCTURED_MEMORY_PRIORITY · NCR OVER HEROICS · MINIMIZE IT
-
----
-
-## 1. Objectif
-
-À l'issue du Tribunal 3/3 IA et du NCR `NCR_EMOTION14_CANON_DRIFT` :
-
-- **Documenter** les 3 ontologies émotionnelles existantes (`genome`, `omega-forge`,
-  `integration-nexus-dep`) + 2 redéclarations locales (`sovereign-engine`).
-- **Spécifier** un `EmotionOntologyBridge` officiel (interface + invariants + tests).
-- **Établir doctrinalement** la règle :
-  > *« Le type nu `Emotion14` est interdit hors du module qui le définit. »*
-- **PAS** de refonte v2 (différée Sprint **S12+**).
-- **PAS** de renommage code immédiat (alias additifs **uniquement si safe**).
+**Sprint**         : S10.4
+**Phase**          : Emotion Ontology Boundary (DOC + DOCTRINE + BRIDGE SPEC)
+**Statut**         : **ANNULÉ — RETIRED γ recadrage 2026-05-05**
+**Effort estimé**  : ~~4–8 h~~ → **0 h (annulé)**
+**Date annulation**: 2026-05-05
+**Owner**          : Francky (Architect) + Claude (IA Principal)
+**Doctrine**       : Règle prioritaire #1 (vérification précédent ✅) · STRUCTURED_MEMORY_PRIORITY · NCR OVER HEROICS · MINIMIZE IT
 
 ---
 
-## 2. Scope autorisé S10.4
+## 0. Banner d'annulation
 
-- Création d'un document de taxonomie officiel :
-  - `docs/governance/EMOTION_ONTOLOGY_TAXONOMY.md` **ou** `nexus/proof/EMOTION_ONTOLOGY_TAXONOMY.md`
-    (chemin final : décision Architecte).
-- **Spec** `EmotionOntologyBridge` (interface TS + invariants + plan tests mapping) —
-  **spec only, pas d'implémentation**.
-- **Type aliases additifs** (additif, **non destructif**) :
-  ```ts
-  type CognitiveSocialEmotion14   = genome.Emotion14;
-  type PlutchikForgeEmotion14     = omegaForge.Emotion14;
-  type NexusEmotion14Mirror       = integrationNexusDep.Emotion14;
-  ```
-  (uniquement si vérifié safe dans 10.4.0 — sinon différer 10.4.2 ultérieur).
-- Tests mapping bijectif / projection avec perte (existants ou nouveaux additifs,
-  **sans modifier les invariants existants** `INV-GEN-12`, `INV-TRANS-04`).
+> **CE PLAN EST ANNULÉ.**
+>
+> Une version antérieure de ce document (commit `4a98f3fe`) cadrait Sprint S10.4
+> comme une phase **active** de renommage sémantique (Option B) + spec
+> `EmotionOntologyBridge` (Option C), en mode additif / non destructif.
+>
+> Post-recoupage mémoire OMEGA (STRUCTURED_MEMORY_PRIORITY) :
+>
+> - `emotion_14d` est **DEPRECATED / GARAGE** depuis R-PHYSICS
+>   (kill-switch `= 0.0`, 86 tests PASS, contribution marginale 0.0 % corpus PVI v2).
+> - `tension_14d` mode keyword est en mode **DUAL** (GARAGE keyword + ACTIF semantic).
+> - `project_emotion_v2_architecture.md` propose une **refonte 3-vecteurs**
+>   (Prosodie / Simulation / Inférence) qui remplacera l'ontologie `Emotion14`.
+> - Mini-audit δ 2026-05-05 confirme : `integration-nexus-dep` est **DORMANT**
+>   (0 import cross-package), pas runtime critical.
+>
+> → Renommer / formaliser une frontière **garage** = **dette nette** (bruit + dette).
+>
+> → **Sprint S10.4 actif est ANNULÉ.** Documentation only via le NCR
+>   `nexus/proof/NCR_EMOTION14_CANON_DRIFT.md` (γ recadré, P2 governance, DEFERRED).
 
 ---
 
-## 3. Scope INTERDIT S10.4
+## 1. Ce qui devient le sort des Options B+C
 
-| Action | Raison |
+| Option | Sort post-γ-recadrage |
 |---|---|
-| Renommage destructif des types `Emotion14` → autre nom dans le code | Hors scope S10.4 (court terme additif uniquement) |
-| Modification `packages/genome` | **V-01 SEALED** (FROZEN_MODULES.md:10) |
-| Modification `packages/omega-forge` | Sans Mini-Tribunal IA dédié |
-| Modification `packages/integration-nexus-dep` | Sans Tribunal Emotion13/14 dédié |
-| Refonte Emotion Ontology v2 | **Différée S12+** (Sprint dédié) |
-| Suppression redéclarations locales `sovereign-engine` | Adapter dual nécessaire pendant migration |
+| **B** — Renommage sémantique (`CognitiveSocialEmotion14`, etc.) | **DEFERRED — only if Emotion14 reactivated** (improbable post Emotion V2) |
+| **C** — `EmotionOntologyBridge` officiel (spec) | **DEFERRED — only if Emotion14 reactivated** (improbable) |
+| **E** — Refonte Emotion Ontology v2 | **REMPLACÉE PAR / RELIÉE À** `project_emotion_v2_architecture.md` (Sprint S12+) |
+
+→ Les sub-phases initialement prévues (10.4.0 audit cascade, 10.4.1 spec bridge,
+   10.4.2 aliases additifs, 10.4.3 tests mapping, 10.4.4 NCR final) ne sont **pas**
+   exécutées.
 
 ---
 
-## 4. No-go conditions
+## 2. Ce qui survit du plan initial (référence)
 
-| ID | Condition | Action si rencontrée |
-|---|---|---|
-| **NG1** | Modification du type `genome.Emotion14` | **STOP immédiat** — V-01 risque |
-| **NG2** | Suppression d'`Emotion14` (union complète) dans un canon | **STOP** — rupture API |
-| **NG3** | Renommage destructif touchant > 3 packages | **STOP** — Tribunal requis |
-| **NG4** | Élargissement scope ontologique (Mycelium-Bio, autres ontologies) | **STOP** — scope creep |
-| **NG5** | Invariants existants cassés (`INV-GEN-12` ou `INV-TRANS-04`) | **STOP** — régression |
+Conservé comme **archive de cadrage**, sans engagement d'exécution :
 
----
+- Taxonomie sémantique proposée (`CognitiveSocialEmotion14`, `PlutchikForgeEmotion14`,
+  `NexusEmotion14Mirror`, `LocalCognitiveSocialEmotion14`, `LocalPlutchikForgeEmotion14`,
+  `EmotionOntologyBridge`).
+- Règle doctrinale candidate : *« Le type nu `Emotion14` est interdit hors du module
+  qui le définit. »*
+- No-go conditions NG1–NG5.
+- Critères PASS/FAIL.
 
-## 5. Protocole sub-phases
-
-| Sub-phase | Description | Type livrable |
-|---|---|---|
-| **10.4.0** | Audit cascade renommage — cartographier impact aliases additifs (build, tests, types) | DOC (rapport audit) |
-| **10.4.1** | Spec `EmotionOntologyBridge` — interface + invariants + plan tests mapping | DOC (spec) |
-| **10.4.2** | Aliases additifs (`type X = Y`, additif, sans rupture) — **conditionnel 10.4.0 OK** | CODE additif (1 fichier) |
-| **10.4.3** | Tests mapping (bijectif `genome ↔ nexus` + projection avec perte `genome ↔ forge`) | TESTS additifs |
-| **10.4.4** | NCR final + commit doctrinal (règle « type nu interdit » actée si Architecte valide) | DOC (NCR clôture conditionnelle) |
-| **Mini-Tribunal IA pré-S10.4** | Si décision ambiguë sur taxonomie ou spec bridge | DOC (verdict) |
+→ Tous ces éléments restent **archivés** ici comme **référence historique** au cas
+  où Emotion14 serait réactivé un jour. **Aucun n'est livrable actif.**
 
 ---
 
-## 6. Critères PASS/FAIL
+## 3. Ce qui ne survit PAS (annulé)
 
-### PASS (S10.4 complété)
-- [x] 3 canons `Emotion14` documentés (statut + structure + invariants).
-- [x] Spec `EmotionOntologyBridge` rédigée (interface + invariants + plan tests).
-- [x] Aliases additifs validés safe (10.4.0) **OU** différés explicitement.
-- [x] Tests mapping additifs présents (bijectif + projection avec perte).
-- [x] Règle doctrinale « type nu `Emotion14` interdit hors propriétaire » actée
-      si Architecte valide.
-- [x] **Aucun renommage destructif effectué.**
-
-### FAIL (S10.4 invalidé)
-- [ ] Un seul invariant cassé (`INV-GEN-12` ou `INV-TRANS-04`).
-- [ ] V3.4 ML scoring impacté (test régression `coefficients-v3-4`).
-- [ ] Scope creep (Mycelium-Bio, autres ontologies hors Emotion14).
-- [ ] Modification `genome` (V-01) ou rupture API.
+- Création / spec du fichier `EMOTION_ONTOLOGY_TAXONOMY.md` actif.
+- Aliases additifs `type CognitiveSocialEmotion14 = ...` dans le code.
+- Tests mapping additifs dédiés (les tests existants `INV-GEN-12`, `INV-TRANS-04` restent
+  à l'identique, **rien n'est ajouté ni modifié**).
+- Mini-Tribunal pré-S10.4 sur taxonomie / spec bridge.
+- Tag intermédiaire `phase-s-s10-step4-emotion-boundary-{date}` (non créé).
 
 ---
 
-## 7. Risques restants S10.4
+## 4. Cross-references
 
-| ID | Risque | Mitigation |
-|---|---|---|
-| **R1** | Aliases additifs collision noms (existants vs proposés) | 10.4.0 audit cascade exhaustif avant 10.4.2 |
-| **R2** | Tests mapping incomplets (cas non bijectifs `envy↔anger↔despair`) | 10.4.3 spec explicite des branches projection avec perte |
-| **R3** | Doctrine « type nu interdit » non appliquée en code review | Lint rule additif (à spécifier 10.4.1) **ou** check-list code review |
-| **R4** | Confusion taxonomie (sémantique vs package) post-commit | Décision Architecte requise **avant** 10.4.2 |
-
----
-
-## 8. Plan Sprint S12+ (référence — hors scope S10.4)
-
-- **Refonte Emotion Ontology v2** — Sprint complet dédié.
-- **Tribunal IA dédié** : choix entre canon cognitif (genome), canon Plutchik (omega-forge),
-  canon hybride (nouveau).
-- **Migration progressive** : aliases additifs → type officiel → suppression aliases.
-- **Adapter dual `sovereign-engine`** maintenu compat le temps de la migration.
-- **Estimation** : 20–40 h Sprint complet.
-- **Pré-requis** : NCR `NCR_EMOTION14_CANON_DRIFT` + S10.4 livrables complets.
-
----
-
-## 9. Cross-references
-
-- `nexus/proof/NCR_EMOTION14_CANON_DRIFT.md` — NCR parent (HIGH/P1, OPEN_DIAGNOSED).
+- `nexus/proof/NCR_EMOTION14_CANON_DRIFT.md` — NCR γ recadré (GARAGE_CANON_DRIFT, P2, DEFERRED).
 - `nexus/proof/EMOTION14_CROSS_PACKAGE_USAGE_MAP.md` — audit empirique V1+V2+V3+§7.
+- `project_r_physics_results.md` — kill-switch `emotion_14d = 0.0` (mémoire).
+- `project_emotion_v2_architecture.md` — paradigme remplaçant 3 vecteurs (mémoire).
 - `FROZEN_MODULES.md:10` — V-01 source (genome SEALED 1.2.0).
-- `CLAUDE.md §B` + `§D` + `§H` — doctrine v3.156.0.
 
 ---
 
-## 10. Validation post-S10.4
+## 5. Décision finale & retour priorité
 
-À l'issue de S10.4 (toutes sub-phases complètes), produire :
-
-- **Evidence pack** : test log + hashes + report (CLAUDE.md §C-7).
-- **Tag intermédiaire** : `phase-s-s10-step4-emotion-boundary-{date}` (sur GO Architecte).
-- **Mise à jour** `NCR_EMOTION14_CANON_DRIFT` :
-  - Statut → `OPEN_DIAGNOSED` → `IN_PROGRESS` → `RESOLVED_PARTIAL` (court terme B+C complétés ; E reste ouvert S12+).
+- **PAS** de Sprint S10.4 actif.
+- **RETOUR priorité Sprint S10.3** — sovereign-engine build closure :
+  - `noEmitOnError: true` ciblé `sovereign-engine`,
+  - `npm install` workspaces (résoudre symlinks `@omega/*`),
+  - re-mesure `tsc --noEmit` empirique,
+  - Mini-Tribunal IA Q1–Q6 stratégique,
+  - patch par classe N1+N4 (cascade peeling).
+- **Emotion V2** : décision Architecte, futur sprint dédié séparé (S12+).
 
 ---
 
-**Fin Plan S10.4. STOP. Attente directive Architecte pour démarrage Sprint S10.4 concrète.**
+**Fin Plan S10.4 — ANNULÉ. STOP. Retour Sprint S10.3.**

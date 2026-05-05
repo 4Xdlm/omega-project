@@ -234,3 +234,128 @@ Marqués `[À VÉRIFIER]` par doctrine ANCHOR_PRE_FLIGHT:
 ---
 
 **Fin du livrable. STOP pour mini-tribunal externe.**
+
+---
+
+## 7. ANCHOR VERIFICATION — `omega-forge.Emotion14`
+
+**Doctrine**: ANCHOR_PRE_FLIGHT · NO_UNVERIFIED_EXTERNAL_ANCHORS · STRUCTURED_MEMORY_PRIORITY
+
+### 7.1 — Existence + structure (verbatim)
+
+`packages/omega-forge/src/types.ts:22-32`
+
+```ts
+/** The 14 Plutchik-extended emotions (FIXED by design, R14) */
+export type Emotion14 =
+  | 'joy' | 'trust' | 'fear' | 'surprise' | 'sadness'
+  | 'disgust' | 'anger' | 'anticipation' | 'love' | 'submission'
+  | 'awe' | 'disapproval' | 'remorse' | 'contempt';
+```
+
+→ 14 dimensions Plutchik primary (8) + complex (6 : love, submission, awe, disapproval, remorse, contempt).
+→ `envy` ABSENT (Plutchik primary+complex ne contient pas envy ; canon Genome ≠ canon omega-forge sur ce point).
+
+### 7.2 — Imports cross-package SPÉCIFIQUES `Emotion14` depuis `@omega/omega-forge`
+
+Commande empirique (Grep) :
+
+```
+pattern: Emotion14.*from\s+['"]@omega/omega-forge['"]|from\s+['"]@omega/omega-forge['"].*Emotion14
+glob: *.ts
+path: packages
+```
+
+Résultat empirique : **0 matches**.
+
+Sondage complémentaire — imports génériques depuis `@omega/omega-forge` :
+nombreux (≥ 35 sites dans `omega-runner` et `sovereign-engine`), mais importent
+des symboles **dérivés** (`EmotionState14D`, `EMOTION_14_KEYS`, `ForgeEmotionBrief`,
+`F5Config`, `CanonicalEmotionTable`, `DEFAULT_CANONICAL_TABLE`, `analyzeEmotionFromText`,
+`computeArousal`, `cosineSimilarity14D`, `computeForgeEmotionBrief`).
+
+→ ZÉRO import cross-package SPÉCIFIQUE du **type** `Emotion14` depuis `omega-forge`.
+→ Le type `Emotion14` est consommé indirectement via dérivés (notamment `EmotionState14D = Readonly<Record<Emotion14, number>>`),
+mais jamais référencé nominativement hors du package.
+
+### 7.3 — Statut retenu : `INTERNAL_ONLY_CANON`
+
+**Pas `RUNTIME_CANON`**. Réfute hypothèse ChatGPT pre-audit.
+
+ChatGPT lui-même avait posé le filet pré-vérification :
+> *"PARTIAL si seulement imports génériques. Précision compte."*
+
+→ Le filet s'est attrapé lui-même. Les imports observés sont génériques (dérivés),
+pas spécifiques au type `Emotion14`. Le statut précis est donc :
+
+- Type `Emotion14` existe et défini ✅
+- Type `Emotion14` exporté ✅ (cf. `packages/omega-forge/src/types.ts:22`)
+- Cross-package consumption (Emotion14 nominatif) = 0 ❌
+- Pattern identique à `genome.Emotion14` (cf. §4.1)
+
+→ `omega-forge.Emotion14` = **`INTERNAL_ONLY_CANON`** au sens du référentiel autorisé.
+
+### 7.4 — Vérification anchor `genome` SEALED (ÉTAPE A)
+
+Empirique :
+
+- `FROZEN_MODULES.md:10` :
+  ```
+  | packages/genome | 1.2.0 | SEALED | 2026-01-07 | 109 | 14 |
+  ```
+- `CLAUDE.md §B` : `packages/genome` étiqueté `# CLIENT — FROZEN`
+- `CLAUDE.md §D` : `packages/genome/ -> Phase 28 — SEALED` (forbidden actions)
+
+→ **Statut SEALED confirmé empirique repo.**
+→ V-01 (modification module FROZEN = IMMEDIATE STOP) **confirmé empirique** pour `genome`.
+
+### 7.5 — Pattern méta empirique : TRIPLE `INTERNAL_ONLY_CANON`
+
+| Site | Statut | Preuve |
+|---|---|---|
+| `genome.Emotion14` | `INTERNAL_ONLY_CANON` | 5 sites prod internes, 0 import cross-package nominatif (cf. §4.1) |
+| `omega-forge.Emotion14` | `INTERNAL_ONLY_CANON` | exporté, 0 import cross-package nominatif (cf. §7.2) |
+| `integration-nexus-dep.Emotion14` | `DUPLICATE_CANON` | mirror documenté de `genome` (cf. §4.2) |
+| `sovereign-engine` | `LOCAL_REDECLARATION` | `GenomeEmotion14` + `ForgeEmotion14` dans adapter (cf. §4 référentiel BRIDGE_CANON) |
+
+→ Architecture émotionnelle Emotion14 en **silos étanches**.
+→ AUCUN canon `Emotion14` cross-package central prouvé empiriquement.
+→ Anomalie de conception Phase 1 (cohérent avec audit Gemini OMEGA-PRIME).
+
+### 7.6 — Implications Options A/B/C/D/E (formulation précise)
+
+Reformulation post-vérification empirique §7.1–§7.5 :
+
+- **A** — Réaligner `integration-nexus-dep` sur `omega-forge` :
+  **INVALIDÉE SOUS JUSTIFICATION ACTUELLE.**
+  Possible comme nouvelle décision architecturale, mais **pas comme alignement sur canon
+  vivant prouvé** (omega-forge n'est pas RUNTIME_CANON empirique — il est INTERNAL_ONLY_CANON,
+  même statut que genome).
+
+- **B** — Renommer (`GenomeEmotion14` / `ForgeEmotion14` / `NexusEmotion14`) :
+  **RECOMMANDÉE AU TRIBUNAL** (court terme — désamorce confusion lexicale immédiate,
+  coût faible, pure renaming non destructif).
+
+- **C** — Bridge officiel `EmotionOntologyBridge` :
+  **RECOMMANDÉE AU TRIBUNAL** (formalise dualité existante reconnue par adapter dual
+  `sovereign-engine` + translator `integration-nexus-dep/module.ts:46`).
+
+- **D** — Archiver/déclasser `genome.Emotion14` :
+  **INTERDITE** — `genome` SEALED confirmé empirique (`FROZEN_MODULES.md:10`, `CLAUDE.md §D`).
+  V-01 **confirmé empirique**.
+
+- **E** — Refonte Emotion Ontology v2 Sprint S12+ :
+  **PERTINENCE RENFORCÉE** par découverte triple `INTERNAL_ONLY_CANON` —
+  l'absence d'un canon cross-package central justifie une refonte planifiée
+  plutôt qu'un patch local.
+
+### 7.7 — Portée & limites §7
+
+- **AUDIT-ONLY**. Aucun fichier de code modifié par §7.
+- **Pas de décision** A/B/C/D/E — réservée mini-tribunal externe.
+- §7.4 V-01 confirmé empirique uniquement pour `genome` ; `omega-forge` n'est pas listé SEALED dans `FROZEN_MODULES.md` (statut hors scope §7).
+- §7.2 sondage limité aux imports `from '@omega/omega-forge'` — re-exports indirects via `@omega/creation-pipeline` non auditées ce sprint.
+
+---
+
+**Fin §7. STOP empirique avant Tribunal final externe.**

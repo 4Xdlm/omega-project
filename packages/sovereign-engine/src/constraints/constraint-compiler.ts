@@ -325,7 +325,7 @@ function compileContradictions(
   const totalMass = profiles.reduce((sum, p) => sum + p.mass, 0);
   if (totalMass === 0) return null;
 
-  const emotionResult: SemanticEmotionResult = {
+  const intensities: Record<keyof SemanticEmotionResult, number> = {
     joy: 0, trust: 0, fear: 0, surprise: 0, sadness: 0,
     disgust: 0, anger: 0, anticipation: 0, love: 0, submission: 0,
     awe: 0, disapproval: 0, remorse: 0, contempt: 0,
@@ -334,10 +334,12 @@ function compileContradictions(
   // Populate with normalized intensities
   for (const profile of profiles) {
     const emotionKey = profile.emotion as keyof SemanticEmotionResult;
-    if (emotionKey in emotionResult) {
-      emotionResult[emotionKey] = profile.mass / totalMass;
+    if (emotionKey in intensities) {
+      intensities[emotionKey] = profile.mass / totalMass;
     }
   }
+
+  const emotionResult: SemanticEmotionResult = intensities;
 
   // Detect contradictions
   const contradictions = detectContradictions(emotionResult, 0.15); // Lower threshold for physics profiles

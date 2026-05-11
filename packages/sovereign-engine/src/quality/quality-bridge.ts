@@ -139,8 +139,8 @@ export function buildQualityReport(
     };
   }
 
-  const paragraphs = proseToParagraphs(prose);
-  const canon = packetToCanon(packet);
+  const paragraphs = proseToParagraphs(prose) as unknown as Parameters<typeof computeM1>[0];
+  const canon = packetToCanon(packet) as unknown as Parameters<typeof computeM1>[1];
 
   // Call omega-forge SSOT metrics individually
   // Each call is wrapped in try/catch for fail-closed with degradation

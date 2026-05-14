@@ -152,7 +152,7 @@ export class MultiStageScorerV2 {
 
     // Passage type detection
     const passageType = options.text
-      ? detectPassageType(options.text)
+      ? detectPassageType(features, options.text)
       : ('INTROSPECTION' as PassageType);
 
     // ── Bonuses ──

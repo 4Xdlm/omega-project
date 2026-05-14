@@ -140,7 +140,7 @@ export class MultiStageScorerV3 {
 
     // Passage type
     const passageType = options.text
-      ? detectPassageType(options.text)
+      ? detectPassageType(features, options.text)
       : ('INTROSPECTION' as PassageType);
 
     // Bonuses (structural synergy — only if both conditions met)

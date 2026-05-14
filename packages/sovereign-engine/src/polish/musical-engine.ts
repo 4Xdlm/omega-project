@@ -60,7 +60,7 @@ export async function polishRhythm(
 
   // Create scorer for surgeonPass
   const scorer = async (p: string): Promise<number> => {
-    const result = await judgeAestheticV3(packet, p, provider, {}, null);
+    const result = await judgeAestheticV3(packet, p, provider, null);
     return result.composite;
   };
 

@@ -412,7 +412,7 @@ export class DualBenchmarkRunner {
                 // Rescorer la prose polie avec judgeAestheticV3
                 const rescored = await judgeAestheticV3(
                   forgePacket, polishResult.polished_prose, this.provider,
-                  forgeResult.symbol_map, forgeResult.physics_audit,
+                  forgeResult.symbol_map ?? null, forgeResult.physics_audit,
                 );
 
                 const axesAfter: PolishAxesSnapshot = {

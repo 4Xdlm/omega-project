@@ -1,0 +1,34 @@
+ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+ OMEGA ÔÇö TEST CORRECTIONPITCH PATCH P3.1.1
+ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+Model : qwen3:32b
+URL   : http://localhost:11434
+
+Pitch TEST_P311_PATCH: strategy=emotional_intensification, items=3
+Total expected gain: 23
+Prose input: 175 chars, ~29 mots
+
+=== Calling provider.applyPatch (P3.1.1 patched path) ===
+
+=== Patched prose (Ollama output) ===
+Q1 : Elle marchait dans la rue d├®serte, les ├®paules un peu courb├®es, comme si le poids du temps et de ses regrets sÔÇÖ├®taient accumul├®s l├á, invisibles mais tenaces. Le vent soufflait fort, sÔÇÖinsinuant entre les murs d├®labr├®s, portant avec lui des souvenirs quÔÇÖelle avait pourtant cru enterr├®s. Elle s'arr├¬ta devant la maison, celle o├╣ tout avait commenc├®, ou peut-├¬tre o├╣ tout avait fini. Les fen├¬tres ├®taient noires, sans vie, comme des yeux ├®teints qui la fixaient sans cl├®mence.  
+
+Q2 : Le silence pesait, lourd, presque palpable, et chaque respiration semblait se m├®langer ├á lui, comme si elle se perdait dans ses propres souvenirs, dans ces m├®lodies oubli├®es, ces paroles qui ne se pronon├ºaient plus.  
+
+Q3 : Elle tendit la main vers la poign├®e, h├®sitante, comme si ce simple geste pouvait ouvrir une porte sur un pass├® quÔÇÖelle ne savait plus comment refermer.  
+
+Q4 : LÔÇÖair froid de lÔÇÖint├®rieur sÔÇÖ├®chappa l├®g├¿rement, humide et charg├® dÔÇÖun relent de poussi├¿re, de feuilles mortes et de secrets jamais dits. Elle entra, et la porte se referma derri├¿re elle, avalant la lumi├¿re, et avec elle, le dernier fragment de ce quÔÇÖelle croyait encore pouvoir reconna├«tre.
+
+Duration   : 5.4s
+Output size: 1163 chars, ~191 mots
+
+=== Sanity Checks (P3.1.1 fix validation) ===
+  Ô£ô output_not_empty                         ÔåÆ 1163 chars
+  Ô£ô output_reasonable_length                 ÔåÆ 191 mots
+  Ô£ô no_undefined_literal_correction          ÔåÆ no "Correction: undefined" in output
+  Ô£ô no_undefined_literal_target              ÔåÆ no "Cible/Target: undefined" in output
+  Ô£ô duration_reasonable                      ÔåÆ 5.4s
+
+ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+ Ô£à TEST PASS ÔÇö P3.1.1 fix valid├® empiriquement
+ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ

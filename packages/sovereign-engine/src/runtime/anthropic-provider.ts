@@ -390,7 +390,12 @@ IMPACT: [average]`;
       constraints: { readonly canon: readonly string[]; readonly beats: readonly string[] },
     ): Promise<string> {
       const systemPrompt = `You are an expert literary editor. Tu corriges de la prose française littéraire premium. Apply the requested correction to the prose while respecting all constraints. La sortie DOIT rester en français. Return ONLY the revised prose, no commentary.`;
-      const userPrompt = `Canon:\n${constraints.canon.join('\n')}\n\nBeats:\n${constraints.beats.join('\n')}\n\nCorrection: ${pitch.correction_text}\nTarget: ${pitch.target_axis}\n\nProse:\n${prose}\n\nProvide revised prose:`;
+      // P3.1.1 FIX: CorrectionPitch shape is items[], not flat (correction_text/target_axis = undefined at runtime).
+      // Iterate items[] and build structured corrections block preserving zone + axe + instruction per item.
+      const correctionsBlock = pitch.items
+        .map((item, i) => `${i + 1}. [${item.zone}] [axe=${item.expected_gain.axe}] ${item.instruction}`)
+        .join('\n');
+      const userPrompt = `Canon:\n${constraints.canon.join('\n')}\n\nBeats:\n${constraints.beats.join('\n')}\n\nStrategy: ${pitch.strategy}\nCorrections to apply:\n${correctionsBlock}\n\nProse:\n${prose}\n\nProvide revised prose:`;
 
       // P0-FIX: patchMaxTokens séparé du budget judge — fallback draftMaxTokens → 8192
       const patchBudget = config.patchMaxTokens ?? config.draftMaxTokens ?? 8192;

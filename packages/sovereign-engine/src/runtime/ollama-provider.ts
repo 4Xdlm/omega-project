@@ -241,7 +241,11 @@ Réponds UNIQUEMENT par un nombre entre 0 et 100. Format: IMPACT: XX`;
     ): Promise<string> {
       const systemPrompt = `Tu es un éditeur littéraire expert. Corrige la prose française selon les instructions.
 Retourne UNIQUEMENT la prose corrigée, sans commentaire.`;
-      const userPrompt = `Correction: ${pitch.correction_text}\nCible: ${pitch.target_axis}\n\nProse:\n${prose}`;
+      // P3.1.1 FIX: CorrectionPitch shape is items[], not flat (correction_text/target_axis = undefined at runtime).
+      const correctionsBlock = pitch.items
+        .map((item, i) => `${i + 1}. [${item.zone}] [axe=${item.expected_gain.axe}] ${item.instruction}`)
+        .join('\n');
+      const userPrompt = `Stratégie: ${pitch.strategy}\nCorrections à appliquer:\n${correctionsBlock}\n\nProse:\n${prose}`;
       const draftBudget = config.draftMaxTokens ?? 4096;
       return stripFences(callOllamaSync(systemPrompt, userPrompt, config, config.draftTemperature, draftBudget));
     },

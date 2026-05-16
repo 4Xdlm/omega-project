@@ -11,7 +11,9 @@ process.env.OMEGA_CHUNKED_V4 = '1';
 process.env.OMEGA_PROMPT_V4 = '1';
 
 import { generateBestOfN, DEFAULT_CONFIG } from '../src/assembly/best-of-n.js';
-import { createOllamaProvider, getOllamaCallCount } from '../src/runtime/ollama-provider.js';
+// P3.1.1 FIX (2026-05-15): getOllamaCallCount retiré du provider post-refactor
+// (existait dans archive-runtime/ uniquement). Removed from import; line 210 noop'd.
+import { createOllamaProvider } from '../src/runtime/ollama-provider.js';
 import type { ForgePacket } from '../src/types.js';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
@@ -91,18 +93,33 @@ function computeCliff(prose: string): number {
 
 async function main() {
   const ollamaModel = process.env.OMEGA_OLLAMA_MODEL ?? 'qwen3:32b';
-  const provider = createOllamaProvider({ ollamaModel });
-  const RUNS_PER_SCENE = 6;
-  const sessionDir = path.join(__dirname, `../sessions/BESTOF3_OLLAMA_${ollamaModel.replace(/[:.]/g, '_')}`);
+  const ollamaUrl = process.env.OLLAMA_URL ?? 'http://localhost:11434';
+  // P3.1.1 FIX (2026-05-15): createOllamaProvider requires OllamaProviderConfig
+  // (not { ollamaModel }) — bug pre-existing depuis refactor provider, jamais re-runi.
+  const provider = createOllamaProvider({
+    model: ollamaModel,
+    baseUrl: ollamaUrl,
+    draftTemperature: 0.8,
+    judgeTemperature: 0.0,
+    draftMaxTokens: 4096,
+    judgeMaxTokens: 512,
+  });
+  // OMEGA_BENCH_QUICK=1 → 1 scène × 2 runs (~15 min) smoke test pipeline complète.
+  // Default: 4 scènes × 6 runs (24 runs × 3 candidates = ~2-3h).
+  const isQuick = process.env.OMEGA_BENCH_QUICK === '1';
+  const RUNS_PER_SCENE = isQuick ? 2 : 6;
+  const SCENES_RUN = isQuick ? [SCENES[0]] : SCENES;
+  const totalRuns = SCENES_RUN.length * RUNS_PER_SCENE;
+  const sessionDir = path.join(__dirname, `../sessions/BESTOF3_OLLAMA_${ollamaModel.replace(/[:.]/g, '_')}${isQuick ? '_QUICK' : ''}`);
   if (!fs.existsSync(sessionDir)) fs.mkdirSync(sessionDir, { recursive: true });
 
   console.log('═══════════════════════════════════════════════════');
-  console.log(`OMEGA — BEST-OF-3 OLLAMA (${ollamaModel}) — 24 runs × 3 candidates`);
+  console.log(`OMEGA — BEST-OF-3 OLLAMA (${ollamaModel}) — ${totalRuns} runs × 3 candidates${isQuick ? ' [QUICK MODE]' : ''}`);
   console.log('═══════════════════════════════════════════════════\n');
 
   const results: any[] = [];
 
-  for (const scene of SCENES) {
+  for (const scene of SCENES_RUN) {
     console.log(`\n── ${scene.id.toUpperCase()} (${RUNS_PER_SCENE} runs best-of-3) ──`);
     for (let run = 1; run <= RUNS_PER_SCENE; run++) {
       console.log(`  Run ${run}/${RUNS_PER_SCENE}...`);
@@ -192,7 +209,8 @@ async function main() {
   const output = { model: ollamaModel, results, anthropic_baseline: ANTHROPIC_BO3, v5_baseline: BASELINE_V5 };
   fs.writeFileSync(path.join(sessionDir, 'bestof3_results.json'), JSON.stringify(output, null, 2));
   console.log(`\nSaved: ${sessionDir}/bestof3_results.json`);
-  console.log(`Ollama calls: ${getOllamaCallCount()}`);
+  // P3.1.1 FIX: getOllamaCallCount removed (not exported by current provider).
+  // console.log(`Ollama calls: ${getOllamaCallCount()}`);
 }
 
 main().catch(err => { console.error('FATAL:', err); process.exit(1); });

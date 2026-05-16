@@ -77,7 +77,17 @@ function buildPacket(scene: typeof SCENES[0]): ForgePacket {
 
 async function main() {
   const ollamaModel = process.env.OMEGA_OLLAMA_MODEL ?? 'qwen3:32b';
-  const ollamaProvider = createOllamaProvider({ ollamaModel });
+  const ollamaUrl = process.env.OLLAMA_URL ?? 'http://localhost:11434';
+  // P3.1.6 FIX (2026-05-16): createOllamaProvider requires full OllamaProviderConfig
+  // (pattern identique au fix bench-bestof3-ollama commit e97a55a4).
+  const ollamaProvider = createOllamaProvider({
+    model: ollamaModel,
+    baseUrl: ollamaUrl,
+    draftTemperature: 0.85,
+    judgeTemperature: 0.0,
+    draftMaxTokens: 2048,
+    judgeMaxTokens: 512,
+  });
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) { console.error('ANTHROPIC_API_KEY required'); process.exit(1); }

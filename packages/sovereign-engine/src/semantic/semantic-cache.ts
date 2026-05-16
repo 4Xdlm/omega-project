@@ -15,13 +15,15 @@
  */
 
 import { sha256 } from '@omega/canon-kernel';
-import type { SemanticEmotionResult, SemanticCacheKey } from './types.js';
+import type { SemanticEmotionResult } from './types.js';
+// P3.1.5 (2026-05-16): SemanticCacheKey import removed (no longer used after generic refactor — was only in old signature).
 
 /**
  * Cache entry with TTL timestamp.
+ * P3.1.5 (2026-05-16): Generic over T to allow reuse for FraudResult (adversarial-judge) + other types.
  */
-interface CacheEntry {
-  readonly result: SemanticEmotionResult;
+interface CacheEntry<T> {
+  readonly result: T;
   readonly expiresAt: number; // Unix timestamp (ms)
 }
 
@@ -54,8 +56,8 @@ export interface CacheStats {
  * const cached = cache.get(key); // Returns result if not expired
  * ```
  */
-export class SemanticCache {
-  private cache: Map<string, CacheEntry> = new Map();
+export class SemanticCache<T = SemanticEmotionResult> {
+  private cache: Map<string, CacheEntry<T>> = new Map();
   private hits: number = 0;
   private misses: number = 0;
   private readonly ttlSeconds: number;
@@ -91,7 +93,7 @@ export class SemanticCache {
    * @param key - Cache key from computeCacheKey()
    * @returns Cached result or null if not found / expired
    */
-  get(key: string): SemanticEmotionResult | null {
+  get(key: string): T | null {
     const entry = this.cache.get(key);
 
     if (!entry) {
@@ -117,10 +119,12 @@ export class SemanticCache {
    * Stores result in cache with TTL.
    *
    * @param key - Cache key from computeCacheKey()
-   * @param result - Semantic emotion analysis result to cache
+   * @param result - Result to cache (typed T)
+   * @param ttlSecondsOverride - P3.1.5 (2026-05-16): optional per-entry TTL override (e.g. 86400 for fraud results)
    */
-  set(key: string, result: SemanticEmotionResult): void {
-    const expiresAt = Date.now() + this.ttlSeconds * 1000;
+  set(key: string, result: T, ttlSecondsOverride?: number): void {
+    const ttl = ttlSecondsOverride ?? this.ttlSeconds;
+    const expiresAt = Date.now() + ttl * 1000;
     this.cache.set(key, { result, expiresAt });
   }
 

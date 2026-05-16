@@ -103,8 +103,9 @@ export async function scoreTension14D(
         const emotion_14d = lastSnap?.emotion_14d ? [...lastSnap.emotion_14d] : [];
         emotion_14d.push({
           quartile: i,
-          target: targetState as Record<string, number>,
-          actual: actualState as Record<string, number>,
+          // P3.1.5 (2026-05-16): SemanticEmotionResult has fixed Plutchik keys (not index signature) — cast via unknown
+          target: targetState as unknown as Record<string, number>,
+          actual: actualState as unknown as Record<string, number>,
           cosine_similarity: Math.round(similarity * 1000) / 1000,
         });
         // Store on the latest DUEL_WINNER or FINAL snapshot by re-recording

@@ -35,6 +35,18 @@ import { canonicalize, sha256 } from '@omega/canon-kernel';
 
 // SSOT EXPLOIT-03 invariant : conserver la référence textuelle (test sprint4-invariants vérifie via fs.readFileSync)
 void buildLawComplianceReport;
+void ({} as LawComplianceReport); // P3.1.3: keep omega-forge type referenced (still imported)
+
+/**
+ * P3.1.3 (2026-05-16): Simplified law compliance shape used internally by sovereign-engine.
+ * Distinct from omega-forge.LawComplianceReport (which requires full GenesisPlan integration — Sprint 3.1 scope).
+ * Per audit nuit 2026-05-16: pattern "cross-package simplified shadow" formalized as local type.
+ */
+export interface LawComplianceSimplified {
+  readonly violations: readonly unknown[];
+  readonly total_checks: number;
+  readonly compliance_ratio: number;
+}
 
 /**
  * Physics Audit Result
@@ -44,7 +56,7 @@ export interface PhysicsAuditResult {
   readonly audit_id: string;
   readonly audit_hash: string;
   readonly trajectory_analysis: TrajectoryAnalysis;
-  readonly law_compliance: LawComplianceReport;
+  readonly law_compliance: LawComplianceSimplified;
   readonly dead_zones: readonly DeadZone[];
   readonly forced_transitions: number;
   readonly feasibility_failures: number;
@@ -148,7 +160,7 @@ export function runPhysicsAudit(
 
   // 6. Law compliance (simplified - full report requires GenesisPlan)
   // For Sprint 3.1, we focus on trajectory + dead zones + forced transitions
-  const lawCompliance: LawComplianceReport = {
+  const lawCompliance: LawComplianceSimplified = {
     violations: [],
     total_checks: 0,
     compliance_ratio: 1.0,
@@ -207,7 +219,7 @@ export function runPhysicsAudit(
  */
 function computePhysicsScore(params: {
   deviations: { avg_cosine_distance: number; avg_euclidean_distance: number };
-  lawCompliance: LawComplianceReport;
+  lawCompliance: LawComplianceSimplified;
   deadZones: readonly DeadZone[];
   forcedCount: number;
   feasibilityCount: number;

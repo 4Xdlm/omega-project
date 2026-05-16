@@ -23,6 +23,14 @@ import { sha256 } from '@omega/canon-kernel';
 import type { SovereignProvider } from '../types.js';
 import type { SemanticCache } from '../semantic/semantic-cache.js';
 
+/**
+ * P3.1.5 (2026-05-16): cache entry shape for fraud judgement (subset of FraudResult, without cached+method runtime flags).
+ */
+export interface FraudCacheEntry {
+  readonly fraud_score: number | null;
+  readonly rationale: string;
+}
+
 export interface FraudResult {
   readonly fraud_score: number | null; // 0-100, 100 = certainement humain, null si provider indispo
   readonly rationale: string;
@@ -76,6 +84,8 @@ ${prose}
 export async function judgeFraudScore(
   prose: string,
   provider: SovereignProvider,
+  // P3.1.5 (2026-05-16): cache uses default <SemanticEmotionResult> for back-compat;
+  // fraud entries are casted at get/set sites (cf. FraudCacheEntry type).
   cache: SemanticCache,
 ): Promise<FraudResult> {
   const prompt = buildAdversarialPrompt(prose);
@@ -83,8 +93,8 @@ export async function judgeFraudScore(
   // Cache key = sha256(prose + prompt_version + model_id)
   const cacheKey = sha256(`${prose}|${ADVERSARIAL_PROMPT_VERSION}|${provider.model_id || 'unknown'}`);
 
-  // Vérifier cache
-  const cached = await cache.get(cacheKey);
+  // Vérifier cache (P3.1.5: cast cache → FraudCacheEntry — see FraudCacheEntry type def above)
+  const cached = cache.get(cacheKey) as unknown as FraudCacheEntry | null;
   if (cached !== null) {
     // Cache hit
     return {
@@ -110,11 +120,12 @@ export async function judgeFraudScore(
       method: 'llm',
     };
 
-    // Store in cache
-    await cache.set(cacheKey, {
+    // Store in cache (P3.1.5: shape-incompatible with SemanticEmotionResult default; cast bypass via unknown)
+    const entry: FraudCacheEntry = {
       fraud_score: parsed.score,
       rationale: parsed.rationale,
-    }, 86400); // TTL 24h
+    };
+    cache.set(cacheKey, entry as unknown as import('../semantic/types.js').SemanticEmotionResult, 86400); // TTL 24h
 
     return result;
   } catch (err: unknown) {

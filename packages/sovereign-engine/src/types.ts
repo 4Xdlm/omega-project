@@ -115,6 +115,8 @@ export interface ForgeBeat {
   readonly emotion_instruction: string;
   readonly sensory_tags: readonly string[];
   readonly canon_refs: readonly string[];
+  /** P3.1.6.B (2026-05-16): optional pivot marker — used by prompt-assembler-v4 for narrative pivots */
+  readonly pivot?: boolean;
 }
 
 export interface ForgeSubtext {
@@ -342,6 +344,13 @@ export interface AxisScore {
   readonly weight: number;
   readonly method: 'CALC' | 'LLM' | 'HYBRID';
   readonly details: string;
+  /** P3.1.4 (2026-05-16): canonical axis identifier (used by macro-axes for indexing) */
+  readonly axis_id?: string;
+  /** P3.1.4 (2026-05-16): rich diagnostic reasons (top contributors + penalties) used by voice-conformity */
+  readonly reasons?: {
+    readonly top_contributors: ReadonlyArray<{ readonly reason: string; readonly impact: number }>;
+    readonly top_penalties: ReadonlyArray<{ readonly reason: string; readonly impact: number }>;
+  };
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -390,6 +399,8 @@ export interface PitchOracleResult {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 export interface SovereignProvider {
+  /** P3.1.6.B (2026-05-16): optional provider identifier (used by adversarial-judge cache key) */
+  readonly model_id?: string;
   scoreInteriority(prose: string, context: { readonly pov: string; readonly character_state: string }): Promise<number>;
   scoreSensoryDensity(prose: string, sensory_counts: Record<string, number>): Promise<number>;
   scoreNecessity(prose: string, beat_count: number, beat_actions?: string, scene_goal?: string, conflict_type?: string): Promise<number>;
@@ -440,12 +451,32 @@ export interface SovereignLoopResult {
 // DUEL ENGINE
 // ═══════════════════════════════════════════════════════════════════════════════
 
+/**
+ * P3.1.6.A (2026-05-16): full candidate telemetry per duel run.
+ * Captured by duel-engine.ts:260 for diagnostic + bench analysis ([DUEL-MATRIX] log).
+ * Shape inferred from runtime usage in duel-engine.ts and bench logs.
+ */
+export interface DuelCandidateScore {
+  readonly mode: string;
+  readonly words: number;
+  readonly composite: number;
+  readonly min_axis: number;
+  readonly selection_score: number;
+  readonly ECC: number;
+  readonly RCI: number;
+  readonly SII: number;
+  readonly IFI: number;
+  readonly AAI: number;
+}
+
 export interface DuelResult {
   readonly drafts: readonly Draft[];
   readonly winner_id: string;
   readonly winner_score: number;
   readonly fusion_applied: boolean;
   readonly final_prose: string;
+  /** P3.1.6.A (2026-05-16): optional full candidate telemetry (P3C — added by duel-engine for diagnostic). */
+  readonly duel_matrix?: readonly DuelCandidateScore[];
 }
 
 export interface Draft {

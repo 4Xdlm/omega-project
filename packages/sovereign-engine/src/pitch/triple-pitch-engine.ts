@@ -94,6 +94,8 @@ const TENSION_OPS: ReadonlySet<PitchOp> = new Set([
   'STRENGTHEN_OPENING',
   'STRENGTHEN_CLOSING',
 ]);
+// P3.1.6.D follow-up (2026-05-16): void après déclaration pour vraiment marquer "used" côté tsc strict.
+void TENSION_OPS;
 
 export function isEmotionOp(op: PitchOp): boolean {
   return EMOTION_OPS.has(op);

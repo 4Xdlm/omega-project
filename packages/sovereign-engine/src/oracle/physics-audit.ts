@@ -30,6 +30,9 @@ import {
   type LawComplianceReport,
   type DeadZone,
   type TrajectoryDeviation,
+  // P3.1.2 (2026-05-16): import wrapper sub-types pour TrajectoryAnalysisWrapper local.
+  type PrescribedState,
+  type ParagraphEmotionState,
 } from '@omega/omega-forge';
 import { canonicalize, sha256 } from '@omega/canon-kernel';
 
@@ -49,13 +52,27 @@ export interface LawComplianceSimplified {
 }
 
 /**
+ * P3.1.2 (2026-05-16): Wrapper local pour matcher la shape construite runtime de PhysicsAuditResult.trajectory_analysis.
+ * Runtime construit { prescribed, actual, deviations: TrajectoryAnalysis } qui ne matche pas TrajectoryAnalysis direct
+ * (omega-forge TrajectoryAnalysis a paragraph_states + prescribed_states + deviations: TrajectoryDeviation[] inner).
+ * Fix root cause runtime bug `trajectory_compliance: {0,0}` permanent : code accédait `.average_cosine` (mauvais nom)
+ * sur shape inconnue → undefined → Number.isFinite(undefined)=false → fallback 0. Audit nuit 2026-05-16 prédit empirique.
+ * Pattern "cross-package simplified shadow" — préférer type local distinct.
+ */
+export interface TrajectoryAnalysisWrapper {
+  readonly prescribed: readonly PrescribedState[];
+  readonly actual: readonly ParagraphEmotionState[];
+  readonly deviations: TrajectoryAnalysis;
+}
+
+/**
  * Physics Audit Result
  * Rapport informatif sur la conformité physique émotionnelle de la prose générée.
  */
 export interface PhysicsAuditResult {
   readonly audit_id: string;
   readonly audit_hash: string;
-  readonly trajectory_analysis: TrajectoryAnalysis;
+  readonly trajectory_analysis: TrajectoryAnalysisWrapper;
   readonly law_compliance: LawComplianceSimplified;
   readonly dead_zones: readonly DeadZone[];
   readonly forced_transitions: number;

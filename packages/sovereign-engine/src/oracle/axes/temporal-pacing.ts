@@ -35,7 +35,8 @@ export function scoreTemporalPacingAxis(
   prose: string,
 ): AxisScore {
   // Check if temporal_contract exists
-  const contract = (packet as Record<string, unknown>).temporal_contract as TemporalContract | undefined;
+  // P3.1.6.C (2026-05-16) TS2352 fix: ForgePacket has no index signature — cast via unknown.
+  const contract = (packet as unknown as Record<string, unknown>).temporal_contract as TemporalContract | undefined;
 
   if (!contract) {
     return {

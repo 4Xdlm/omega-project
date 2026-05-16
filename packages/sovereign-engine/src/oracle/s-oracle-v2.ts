@@ -20,6 +20,8 @@
  */
 
 import type { ForgePacket, DeltaReport } from '../types.js';
+// P3.1.6.D (2026-05-16) TS6196 SSOT: DeltaReport référence préservée (legacy interface, peut être réactivée).
+void ({} as DeltaReport);
 import type { DeltaComputerOutput } from '../delta/delta-computer.js';
 import type { LLMJudge } from './llm-judge.js';
 import { sha256, canonicalize } from '@omega/canon-kernel';
@@ -344,7 +346,7 @@ function buildHardGateReject(reason: string): SScoreV2 {
 export function scoreV2(
   prose: string,
   packet: ForgePacket,
-  delta?: DeltaComputerOutput,
+  _delta?: DeltaComputerOutput,
   transcendent_plan?: TranscendentPlanJSON,
 ): SScoreV2 {
   // ═══ HARD GATES — court-circuitent tout calcul ═══
@@ -458,7 +460,7 @@ export async function scoreV2Async(
   packet: ForgePacket,
   judge: LLMJudge,
   seed: string,
-  delta?: DeltaComputerOutput,
+  _delta?: DeltaComputerOutput,
   transcendent_plan?: TranscendentPlanJSON,
 ): Promise<SScoreV2> {
   // ═══ HARD GATES — court-circuitent tout calcul ═══

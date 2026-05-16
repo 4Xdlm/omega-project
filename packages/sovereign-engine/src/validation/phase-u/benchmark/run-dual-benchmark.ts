@@ -238,8 +238,10 @@ export class DualBenchmarkRunner {
   constructor(
     private readonly provider: SovereignProvider,
     private readonly modelId:  string,
-    private readonly apiKey:   string,
-    private readonly cache:    JudgeCache,
+    // P3.1.6.D (2026-05-16) TS6138 fix: removed `private readonly` — props jamais lues via this.X,
+    // utilisées seulement comme params dans le constructor scope (shorthand object literal L246).
+    apiKey:   string,
+    cache:    JudgeCache,
     k: number = BENCHMARK_K,
   ) {
     this.k            = k;

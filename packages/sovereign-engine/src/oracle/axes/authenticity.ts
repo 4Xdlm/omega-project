@@ -44,10 +44,11 @@ export async function scoreAuthenticityAxis(
     score: result.combined_score, // 0-100, 100 = très authentique (humain)
     weight: 2.0,
     method: 'HYBRID', // CALC 60% + LLM 40%
-    details: {
+    // P3.1.6.C (2026-05-16) TS2322 fix: AxisScore.details typed string — JSON.stringify pour serializer object diagnostic.
+    details: JSON.stringify({
       calc_score: result.calc_score,
       fraud_score: result.fraud_score,
       pattern_hits: result.pattern_hits,
-    },
+    }),
   };
 }

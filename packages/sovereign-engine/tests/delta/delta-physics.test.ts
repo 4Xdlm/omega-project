@@ -9,7 +9,8 @@ import type { PhysicsAuditResult } from '../../src/oracle/physics-audit.js';
 
 describe('buildPhysicsDelta', () => {
   it('audit disabled → enabled=false + stable hash', () => {
-    const disabledAudit: PhysicsAuditResult = {
+    // P3.1.2 (2026-05-16): mocks alignés sur TrajectoryAnalysisWrapper (wrapper local + omega-forge TrajectoryAnalysis inner).
+    const disabledAudit = {
       audit_id: 'disabled',
       audit_hash: '',
       scene_id: 'test',
@@ -18,8 +19,8 @@ describe('buildPhysicsDelta', () => {
       trajectory_analysis: {
         segment_count: 0,
         deviations: {
-          average_cosine: 0,
-          average_euclidean: 0,
+          avg_cosine_distance: 0,
+          avg_euclidean_distance: 0,
           max_cosine: 0,
           max_euclidean: 0,
         },
@@ -61,8 +62,8 @@ describe('buildPhysicsDelta', () => {
       trajectory_analysis: {
         segment_count: 10,
         deviations: {
-          average_cosine: 0.92,
-          average_euclidean: 12.5,
+          avg_cosine_distance: 0.92,
+          avg_euclidean_distance: 12.5,
           max_cosine: 0.95,
           max_euclidean: 20.0,
         },
@@ -103,8 +104,8 @@ describe('buildPhysicsDelta', () => {
       trajectory_analysis: {
         segment_count: 5,
         deviations: {
-          average_cosine: NaN,
-          average_euclidean: Infinity,
+          avg_cosine_distance: NaN,
+          avg_euclidean_distance: Infinity,
           max_cosine: NaN,
           max_euclidean: -Infinity,
         },
@@ -132,8 +133,8 @@ describe('buildPhysicsDelta', () => {
       trajectory_analysis: {
         segment_count: 8,
         deviations: {
-          average_cosine: 0.88,
-          average_euclidean: 15.0,
+          avg_cosine_distance: 0.88,
+          avg_euclidean_distance: 15.0,
           max_cosine: 0.90,
           max_euclidean: 25.0,
         },
@@ -161,8 +162,8 @@ describe('buildPhysicsDelta', () => {
       trajectory_analysis: {
         segment_count: 12,
         deviations: {
-          average_cosine: 0.80,
-          average_euclidean: 20.0,
+          avg_cosine_distance: 0.80,
+          avg_euclidean_distance: 20.0,
           max_cosine: 0.85,
           max_euclidean: 30.0,
         },
@@ -214,8 +215,8 @@ describe('buildPhysicsDelta', () => {
       trajectory_analysis: {
         segment_count: 6,
         deviations: {
-          average_cosine: 0.95,
-          average_euclidean: 8.0,
+          avg_cosine_distance: 0.95,
+          avg_euclidean_distance: 8.0,
           max_cosine: 0.98,
           max_euclidean: 12.0,
         },

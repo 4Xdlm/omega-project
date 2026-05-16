@@ -40,10 +40,11 @@ export async function scoreShowDontTell(
     score: result.score, // 0-100, 100 = excellent showing
     weight: 3.0, // Poids élevé (pénalisation forte)
     method: 'HYBRID', // CALC pour l'instant, LLM OFF (feature flag futur)
-    details: {
+    // P3.1.6.C (2026-05-16) TS2322 fix: AxisScore.details typed string — JSON.stringify pour serializer object diagnostic.
+    details: JSON.stringify({
       violations_count: result.violations.length,
       show_ratio: result.show_ratio,
       worst_violations: result.worst_violations.map((v) => v.pattern_id),
-    },
+    }),
   };
 }

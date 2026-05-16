@@ -26,11 +26,14 @@ export function buildPhysicsDelta(audit: PhysicsAuditResult | undefined): Physic
   const data: Omit<PhysicsDelta, 'delta_hash'> = {
     enabled: true,
     physics_score: audit.physics_score,
+    // P3.1.2 (2026-05-16) ROOT CAUSE FIX: code accédait .average_cosine (faux nom) au lieu de .avg_cosine_distance
+    // (vrai nom omega-forge.TrajectoryAnalysis). Bug runtime silencieux: undefined → fallback 0 → trajectory_compliance permanent {0,0}.
+    // Audit nuit 2026-05-16 a confirmé empirique. Pattern "cross-package simplified shadow" formalisé.
     trajectory_compliance: {
-      cosine_avg: Number.isFinite(audit.trajectory_analysis.deviations.average_cosine)
-        ? audit.trajectory_analysis.deviations.average_cosine : 0,
-      euclidean_avg: Number.isFinite(audit.trajectory_analysis.deviations.average_euclidean)
-        ? audit.trajectory_analysis.deviations.average_euclidean : 0,
+      cosine_avg: Number.isFinite(audit.trajectory_analysis.deviations.avg_cosine_distance)
+        ? audit.trajectory_analysis.deviations.avg_cosine_distance : 0,
+      euclidean_avg: Number.isFinite(audit.trajectory_analysis.deviations.avg_euclidean_distance)
+        ? audit.trajectory_analysis.deviations.avg_euclidean_distance : 0,
     },
     violations: {
       dead_zones_count: audit.dead_zones.length,

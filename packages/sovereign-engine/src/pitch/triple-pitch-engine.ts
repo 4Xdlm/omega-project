@@ -88,6 +88,7 @@ const EMOTION_OPS: ReadonlySet<PitchOp> = new Set([
   'ANCHOR_BEAT',
 ]);
 
+// P3.1.6.D (2026-05-16) TS6133 SSOT: TENSION_OPS référence préservée pour cohérence avec EMOTION_OPS — pas encore utilisé runtime.
 const TENSION_OPS: ReadonlySet<PitchOp> = new Set([
   'SHARPEN_TENSION',
   'STRENGTHEN_OPENING',

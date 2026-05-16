@@ -1,0 +1,30 @@
+
+> @omega/sovereign-engine@1.0.0 typecheck
+> tsc --noEmit
+
+src/engine.ts(298,65): error TS2554: Expected 2 arguments, but got 3.
+src/oracle/physics-audit.ts(169,5): error TS2554: Expected 1 arguments, but got 2.
+src/oracle/physics-audit.ts(175,5): error TS2554: Expected 1 arguments, but got 2.
+src/pitch/triple-pitch-engine.ts(92,7): error TS6133: 'TENSION_OPS' is declared but its value is never read.
+src/polish/anti-cliche-sweep.ts(104,19): error TS2339: Property 'cliche_count' does not exist on type 'ClicheDelta'.
+src/prescriptions/generate-prescriptions.ts(29,35): error TS2339: Property 'prescriptions' does not exist on type 'PhysicsAuditResult'.
+src/prescriptions/generate-prescriptions.ts(33,26): error TS7053: Element implicitly has an 'any' type because expression of type 'any' can't be used to index type '{ critical: number; high: number; medium: number; }'.
+src/prescriptions/generate-prescriptions.ts(33,54): error TS7053: Element implicitly has an 'any' type because expression of type 'any' can't be used to index type '{ critical: number; high: number; medium: number; }'.
+src/runtime/ollama-provider.ts(271,11): error TS2322: Type '(sentence: string, instruction: string, context: string) => Promise<string>' is not assignable to type '(sentence: string, reason: string, context: { readonly prev_sentence: string; readonly next_sentence: string; }) => Promise<string>'.
+  Types of parameters 'context' and 'context' are incompatible.
+    Type '{ readonly prev_sentence: string; readonly next_sentence: string; }' is not assignable to type 'string'.
+src/scoring/dispatcher/dispatcher-lang.ts(164,5): error TS2322: Type '"3.4"' is not assignable to type '"3.1"'.
+src/scoring/dispatcher/dispatcher-lang.ts(305,5): error TS2322: Type '"3.4"' is not assignable to type '"3.1"'.
+src/semantic/semantic-aggregation.ts(55,10): error TS2352: Conversion of type 'Record<string, number>' to type 'SemanticEmotionResult' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Type 'Record<string, number>' is missing the following properties from type 'SemanticEmotionResult': joy, trust, fear, surprise, and 10 more.
+src/semantic/semantic-validation.ts(76,10): error TS2352: Conversion of type 'Record<string, number>' to type 'SemanticEmotionResult' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Type 'Record<string, number>' is missing the following properties from type 'SemanticEmotionResult': joy, trust, fear, surprise, and 10 more.
+src/validation/phase-u/benchmark/run-dual-benchmark.ts(194,24): error TS2352: Conversion of type 'readonly AxisScore[]' to type '{ name: string; score: number; }[]' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  The type 'readonly AxisScore[]' is 'readonly' and cannot be assigned to the mutable type '{ name: string; score: number; }[]'.
+src/validation/phase-u/benchmark/run-dual-benchmark.ts(195,24): error TS2352: Conversion of type 'readonly AxisScore[]' to type '{ name: string; score: number; }[]' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  The type 'readonly AxisScore[]' is 'readonly' and cannot be assigned to the mutable type '{ name: string; score: number; }[]'.
+src/validation/phase-u/benchmark/run-dual-benchmark.ts(390,30): error TS2352: Conversion of type 'readonly AxisScore[]' to type '{ name: string; score: number; }[]' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  The type 'readonly AxisScore[]' is 'readonly' and cannot be assigned to the mutable type '{ name: string; score: number; }[]'.
+src/validation/phase-u/benchmark/run-dual-benchmark.ts(394,30): error TS2352: Conversion of type 'readonly AxisScore[]' to type '{ name: string; score: number; }[]' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  The type 'readonly AxisScore[]' is 'readonly' and cannot be assigned to the mutable type '{ name: string; score: number; }[]'.
+src/validation/phase-u/benchmark/run-dual-benchmark.ts(398,30): error TS2352: Conversion of type 'readonly AxisScore[]' to type '{ name: string; score: number; }[]' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.

@@ -19,8 +19,8 @@ describe('generatePrescriptions', () => {
       trajectory_analysis: {
         segment_count: 0,
         deviations: {
-          average_cosine: 0,
-          average_euclidean: 0,
+          avg_cosine_distance: 0,
+          avg_euclidean_distance: 0,
           max_cosine: 0,
           max_euclidean: 0,
         },
@@ -62,8 +62,8 @@ describe('generatePrescriptions', () => {
       trajectory_analysis: {
         segment_count: 10,
         deviations: {
-          average_cosine: 0.85,
-          average_euclidean: 15.0,
+          avg_cosine_distance: 0.85,
+          avg_euclidean_distance: 15.0,
           max_cosine: 0.90,
           max_euclidean: 25.0,
         },
@@ -129,8 +129,8 @@ describe('generatePrescriptions', () => {
       trajectory_analysis: {
         segment_count: 4,
         deviations: {
-          average_cosine: 0.80,
-          average_euclidean: 18.0,
+          avg_cosine_distance: 0.80,
+          avg_euclidean_distance: 18.0,
           max_cosine: 0.85,
           max_euclidean: 28.0,
         },

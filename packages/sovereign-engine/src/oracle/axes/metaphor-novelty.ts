@@ -53,11 +53,12 @@ export async function scoreMetaphorNoveltyAxis(
     score: result.final_score,
     weight: 1.0, // SII-FIX-01: actual weight in computeSII() is 1.0 (was 1.5 pre-fix)
     method: 'HYBRID',
-    details: {
+    // P3.1.6.C (2026-05-16) TS2322 fix: AxisScore.details typed string — JSON.stringify pour serializer object diagnostic.
+    details: JSON.stringify({
       dead_count: result.dead_count,
       total_metaphors: result.total_metaphors,
       dead_ratio: result.dead_ratio,
       avg_novelty: result.avg_novelty,
-    },
+    }),
   };
 }

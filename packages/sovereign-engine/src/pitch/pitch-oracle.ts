@@ -18,6 +18,8 @@
 import type { CorrectionPitch, PitchOracleResult, DeltaReport } from '../types.js';
 import type { PitchStrategy } from './triple-pitch-engine.js';
 import { isEmotionOp, isCraftOp } from './triple-pitch-engine.js';
+// P3.1.6.D (2026-05-16) TS6133 SSOT: isCraftOp référence préservée pour doc/cohérence avec isEmotionOp.
+void isCraftOp;
 import { sha256, canonicalize } from '@omega/canon-kernel';
 import { SOVEREIGN_CONFIG } from '../config.js';
 

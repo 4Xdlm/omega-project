@@ -14,6 +14,8 @@
  */
 
 import type { ArchetypeId, DamageCategory, DamageGateConfig } from './damage-gate.js';
+// P3.1.6.D (2026-05-16) TS6196 SSOT: DamageCategory référence préservée pour doc/futur usage (non-utilisé runtime actuellement).
+void ({} as DamageCategory);
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // TYPES

@@ -23,6 +23,9 @@ import type {
   KeyMoment,
   CompressionZone,
 } from './temporal-contract.js';
+// P3.1.6.D (2026-05-16) TS6196 SSOT: KeyMoment + CompressionZone références préservées pour doc/cohérence TemporalContract.
+void ({} as KeyMoment);
+void ({} as CompressionZone);
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // TYPES

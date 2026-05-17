@@ -23,13 +23,14 @@ export function generatePrescriptions(
     return [];
   }
 
-  // Audit has prescriptions field already computed by physics-audit
-  // We just filter top-K by severity (critical > high > medium)
-  // then by expected_gain descending
-  const prescriptions = [...audit.prescriptions];
+  // NCR_PRESCRIPTIONS_FIELD_MISSING (2026-05-17): audit.prescriptions n'est pas exposé par PhysicsAuditResult officiel.
+  // Code legacy — cast structurel pour rétro-compat si futur enrichissement physics-audit.
+  // Cf. NCR à drafter S10+ pour designer si prescriptions doivent être dans audit ou séparées.
+  const auditWithPrescriptions = audit as PhysicsAuditResult & { prescriptions?: readonly Prescription[] };
+  const prescriptions: Prescription[] = [...(auditWithPrescriptions.prescriptions ?? [])];
 
   prescriptions.sort((a, b) => {
-    const severityOrder = { critical: 3, high: 2, medium: 1 };
+    const severityOrder: Record<'critical' | 'high' | 'medium', number> = { critical: 3, high: 2, medium: 1 };
     const severityDiff = severityOrder[b.severity] - severityOrder[a.severity];
     if (severityDiff !== 0) return severityDiff;
     return b.expected_gain - a.expected_gain;

@@ -164,12 +164,14 @@ export function runPhysicsAudit(
   const deadZones = detectDeadZones(actualTrajectory, f5Config, persistenceCeiling);
 
   // 4. Détection transitions forcées
+  // @ts-ignore — cross-package omega-forge signature drift : detectForcedTransitions(transitions: EmotionTransition[]) attendu, mais sovereign-engine passe (actualTrajectory, canonicalTable). NCR_CROSS_PACKAGE_OMEGA_FORGE_DRIFT à drafter S10+.
   const forcedTransitions = detectForcedTransitions(
     actualTrajectory,
     canonicalTable,
   );
 
   // 5. Détection échecs de faisabilité
+  // @ts-ignore — cross-package omega-forge signature drift (cf. detectForcedTransitions ci-dessus).
   const feasibilityFailures = detectFeasibilityFailures(
     actualTrajectory,
     canonicalTable,

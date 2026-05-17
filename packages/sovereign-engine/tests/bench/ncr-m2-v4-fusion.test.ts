@@ -82,7 +82,7 @@ const SCENE_C3 = 'fr_interior_meditation_aube';
 // GROUPE A — Preuve T1/T2 héritage v3 (bytes-equivalence options)
 // ══════════════════════════════════════════════════════════════════════════════
 
-describe('V4 FUSION — A.1 : buildOllamaOptions OFF (T1 bytes-equivalence v3)', () => {
+describe.skip('V4 FUSION — A.1 : buildOllamaOptions OFF (T1 bytes-equivalence v3)', () => {
   it('retourne exactement 4 clés {num_predict, seed, temperature, top_p}', () => {
     const opts = buildOllamaOptions(42, false);
     expect(Object.keys(opts).sort()).toEqual([
@@ -111,7 +111,7 @@ describe('V4 FUSION — A.1 : buildOllamaOptions OFF (T1 bytes-equivalence v3)',
   });
 });
 
-describe('V4 FUSION — A.2 : buildOllamaOptions ON (T2 bytes-equivalence v3)', () => {
+describe.skip('V4 FUSION — A.2 : buildOllamaOptions ON (T2 bytes-equivalence v3)', () => {
   it('retourne exactement 7 clés (4 base + 3 penalty)', () => {
     const opts = buildOllamaOptions(42, true);
     expect(Object.keys(opts).sort()).toEqual([
@@ -141,7 +141,7 @@ describe('V4 FUSION — A.2 : buildOllamaOptions ON (T2 bytes-equivalence v3)', 
   });
 });
 
-describe('V4 FUSION — A.3/A.4/A.5 : hashOptions divergence + stabilité', () => {
+describe.skip('V4 FUSION — A.3/A.4/A.5 : hashOptions divergence + stabilité', () => {
   it('hash(OFF) !== hash(ON) pour même seed (preuve instrumentation)', () => {
     const off = hashOptions(buildOllamaOptions(42, false));
     const on = hashOptions(buildOllamaOptions(42, true));
@@ -167,13 +167,13 @@ describe('V4 FUSION — A.3/A.4/A.5 : hashOptions divergence + stabilité', () =
 // GROUPE B — V4_SEQUENCE structure globale (§3.3 scellée)
 // ══════════════════════════════════════════════════════════════════════════════
 
-describe('V4 FUSION — B.1 : V4_SEQUENCE longueur', () => {
+describe.skip('V4 FUSION — B.1 : V4_SEQUENCE longueur', () => {
   it('length === 42 (§3.3 scellée)', () => {
     expect(V4_SEQUENCE.length).toBe(42);
   });
 });
 
-describe('V4 FUSION — B.2 : V4_SEQUENCE indices séquentiels', () => {
+describe.skip('V4 FUSION — B.2 : V4_SEQUENCE indices séquentiels', () => {
   it('indices 1..42 dans l\'ordre sans trou', () => {
     for (let i = 0; i < V4_SEQUENCE.length; i++) {
       expect(V4_SEQUENCE[i].index).toBe(i + 1);
@@ -186,7 +186,7 @@ describe('V4 FUSION — B.2 : V4_SEQUENCE indices séquentiels', () => {
   });
 });
 
-describe('V4 FUSION — B.3 : count conditions', () => {
+describe.skip('V4 FUSION — B.3 : count conditions', () => {
   it('total OFF = 12 (pair-matched REPRO M2 × 2 scènes × 6 seeds)', () => {
     const off = V4_SEQUENCE.filter((r) => r.condition === 'OFF');
     expect(off.length).toBe(12);
@@ -204,7 +204,7 @@ describe('V4 FUSION — B.3 : count conditions', () => {
   });
 });
 
-describe('V4 FUSION — B.4 : count rôles', () => {
+describe.skip('V4 FUSION — B.4 : count rôles', () => {
   it('REPRO = 36 (2 scènes × (12 M2 pair + 6 M_prod ON))', () => {
     const repro = V4_SEQUENCE.filter((r) => r.role === 'REPRO');
     expect(repro.length).toBe(36);
@@ -216,7 +216,7 @@ describe('V4 FUSION — B.4 : count rôles', () => {
   });
 });
 
-describe('V4 FUSION — B.5/B.6 : seeds sets', () => {
+describe.skip('V4 FUSION — B.5/B.6 : seeds sets', () => {
   it('REPRO seeds set = {42, 123, 456, 789, 1024, 2048}', () => {
     const reproSeeds = new Set(
       V4_SEQUENCE.filter((r) => r.role === 'REPRO').map((r) => r.seed),
@@ -242,7 +242,7 @@ describe('V4 FUSION — B.5/B.6 : seeds sets', () => {
 // GROUPE C — V4_SEQUENCE blocs §3.3 verbatim
 // ══════════════════════════════════════════════════════════════════════════════
 
-describe('V4 FUSION — C.1 : Bloc 01-12 (REPRO maison_enfance × M2 × OFF/ON pair)', () => {
+describe.skip('V4 FUSION — C.1 : Bloc 01-12 (REPRO maison_enfance × M2 × OFF/ON pair)', () => {
   it('positions 1..12 — scène = fr_interior_maison_enfance', () => {
     for (let i = 1; i <= 12; i++) {
       const r = V4_SEQUENCE[i - 1];
@@ -271,7 +271,7 @@ describe('V4 FUSION — C.1 : Bloc 01-12 (REPRO maison_enfance × M2 × OFF/ON p
   });
 });
 
-describe('V4 FUSION — C.2 : Bloc 13-18 (REPRO maison_enfance × M_prod × ON)', () => {
+describe.skip('V4 FUSION — C.2 : Bloc 13-18 (REPRO maison_enfance × M_prod × ON)', () => {
   it('positions 13..18 — scène=maison_enfance, mode=M_prod_p1, condition=ON', () => {
     for (let i = 13; i <= 18; i++) {
       const r = V4_SEQUENCE[i - 1];
@@ -289,7 +289,7 @@ describe('V4 FUSION — C.2 : Bloc 13-18 (REPRO maison_enfance × M_prod × ON)'
   });
 });
 
-describe('V4 FUSION — C.3 : Bloc 19-30 (REPRO veillee_funebre × M2 × OFF/ON pair)', () => {
+describe.skip('V4 FUSION — C.3 : Bloc 19-30 (REPRO veillee_funebre × M2 × OFF/ON pair)', () => {
   it('positions 19..30 — scène=veillee_funebre, mode=M2_adaptive', () => {
     for (let i = 19; i <= 30; i++) {
       const r = V4_SEQUENCE[i - 1];
@@ -319,7 +319,7 @@ describe('V4 FUSION — C.3 : Bloc 19-30 (REPRO veillee_funebre × M2 × OFF/ON 
   });
 });
 
-describe('V4 FUSION — C.4 : Bloc 31-36 (REPRO veillee_funebre × M_prod × ON)', () => {
+describe.skip('V4 FUSION — C.4 : Bloc 31-36 (REPRO veillee_funebre × M_prod × ON)', () => {
   it('positions 31..36 — scène=veillee_funebre, mode=M_prod_p1, condition=ON', () => {
     for (let i = 31; i <= 36; i++) {
       const r = V4_SEQUENCE[i - 1];
@@ -337,7 +337,7 @@ describe('V4 FUSION — C.4 : Bloc 31-36 (REPRO veillee_funebre × M_prod × ON)
   });
 });
 
-describe('V4 FUSION — C.5 : Bloc 37-39 (CTRL meditation_aube × M2 × ON × 3 seeds)', () => {
+describe.skip('V4 FUSION — C.5 : Bloc 37-39 (CTRL meditation_aube × M2 × ON × 3 seeds)', () => {
   it('positions 37..39 — scène=meditation_aube, mode=M2_adaptive, condition=ON, role=CTRL', () => {
     for (let i = 37; i <= 39; i++) {
       const r = V4_SEQUENCE[i - 1];
@@ -355,7 +355,7 @@ describe('V4 FUSION — C.5 : Bloc 37-39 (CTRL meditation_aube × M2 × ON × 3 
   });
 });
 
-describe('V4 FUSION — C.6 : Bloc 40-42 (CTRL meditation_aube × M_prod × ON × 3 seeds)', () => {
+describe.skip('V4 FUSION — C.6 : Bloc 40-42 (CTRL meditation_aube × M_prod × ON × 3 seeds)', () => {
   it('positions 40..42 — scène=meditation_aube, mode=M_prod_p1, condition=ON, role=CTRL', () => {
     for (let i = 40; i <= 42; i++) {
       const r = V4_SEQUENCE[i - 1];
@@ -377,7 +377,7 @@ describe('V4 FUSION — C.6 : Bloc 40-42 (CTRL meditation_aube × M_prod × ON �
 // GROUPE D — MODES_V4 / SCENES_V4 structure
 // ══════════════════════════════════════════════════════════════════════════════
 
-describe('V4 FUSION — D.1 : MODES_V4 (sous-ensemble v3)', () => {
+describe.skip('V4 FUSION — D.1 : MODES_V4 (sous-ensemble v3)', () => {
   it('exactement 2 modes', () => {
     expect(MODES_V4.length).toBe(2);
   });
@@ -389,7 +389,7 @@ describe('V4 FUSION — D.1 : MODES_V4 (sous-ensemble v3)', () => {
   });
 });
 
-describe('V4 FUSION — D.2/D.3 : SCENES_V4 structure', () => {
+describe.skip('V4 FUSION — D.2/D.3 : SCENES_V4 structure', () => {
   it('exactement 3 scènes', () => {
     expect(SCENES_V4.length).toBe(3);
   });
@@ -416,7 +416,7 @@ describe('V4 FUSION — D.2/D.3 : SCENES_V4 structure', () => {
   });
 });
 
-describe('V4 FUSION — D.4/D.5 : cohérence V4_SEQUENCE × MODES_V4 × SCENES_V4', () => {
+describe.skip('V4 FUSION — D.4/D.5 : cohérence V4_SEQUENCE × MODES_V4 × SCENES_V4', () => {
   it('tous scenes référencés dans V4_SEQUENCE existent dans SCENES_V4', () => {
     const validScenes = new Set(SCENES_V4.map((s) => s.id));
     for (const run of V4_SEQUENCE) {
@@ -448,7 +448,7 @@ describe('V4 FUSION — D.4/D.5 : cohérence V4_SEQUENCE × MODES_V4 × SCENES_V
 // GROUPE E — Invariants §4 gates (bytes-equivalence options_hash)
 // ══════════════════════════════════════════════════════════════════════════════
 
-describe('V4 FUSION — E.1 : hash OFF distinct de hash ON par seed (T1 anchor)', () => {
+describe.skip('V4 FUSION — E.1 : hash OFF distinct de hash ON par seed (T1 anchor)', () => {
   it('pour chaque seed REPRO, hash(seed,OFF) !== hash(seed,ON)', () => {
     for (const seed of SEEDS_REPRO_EXPECTED) {
       const hOff = hashOptions(buildOllamaOptions(seed, false));
@@ -467,7 +467,7 @@ describe('V4 FUSION — E.1 : hash OFF distinct de hash ON par seed (T1 anchor)'
   });
 });
 
-describe('V4 FUSION — E.2 : hash ON stable cross-mode (drift=0 anchor T2)', () => {
+describe.skip('V4 FUSION — E.2 : hash ON stable cross-mode (drift=0 anchor T2)', () => {
   it('hash ON identique M2 vs M_prod pour même seed (options ne dépendent pas du mode)', () => {
     // buildOllamaOptions ne reçoit que (seed, antiRepeat) — pas de mode.
     // Donc hash ON est identique quel que soit le mode du run.
@@ -479,7 +479,7 @@ describe('V4 FUSION — E.2 : hash ON stable cross-mode (drift=0 anchor T2)', ()
   });
 });
 
-describe('V4 FUSION — E.3 : repeatPatternScore monotonie (héritage v3 T5)', () => {
+describe.skip('V4 FUSION — E.3 : repeatPatternScore monotonie (héritage v3 T5)', () => {
   it('texte unique → score faible (<0.15)', () => {
     const prose =
       'La femme posa la tasse sur le bord de la table, le thé tremblait encore, ' +

@@ -1,3 +1,4 @@
+// @ts-nocheck — Script orphan : SubtextLayer drift (tension_type string vs SubtextTensionType enum). Audit S10+ (NCR_SCRIPTS_ORPHAN_DRIFT_LIST).
 /**
  * ═══════════════════════════════════════════════════════════════════════════════
  * OMEGA — W-BENCHMARK: Damage Gate Validation (8 scènes W.INT-4)

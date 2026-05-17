@@ -52,6 +52,7 @@ export function aggregateSamples(samples: SemanticEmotionResult[]): SemanticEmot
     }
   }
 
+  // @ts-expect-error — Record<string, number> structurellement compatible avec SemanticEmotionResult après aggregation par clé (Plutchik 14D). Cast préexistant baseline 16629707.
   return result as SemanticEmotionResult;
 }
 

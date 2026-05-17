@@ -101,7 +101,7 @@ export async function sweepCliches(
   const clicheDelta = computeClicheDelta(packet, prose);
 
   // If no clichés detected, return prose unchanged
-  if (clicheDelta.cliche_count === 0) {
+  if (clicheDelta.total_matches === 0) {
     return prose;
   }
 

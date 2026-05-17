@@ -65,7 +65,7 @@ import { execSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 import {
   planAdaptiveChunkingV2B2,
@@ -1261,7 +1261,11 @@ async function main(): Promise<void> {
   console.log('');
 }
 
-main().catch((err) => {
-  console.error('[bench-p1-robustness-v3] FATAL:', err);
-  process.exit(2);
-});
+// Module guard 2026-05-17: empêche main() de tourner en test (ncr-m2-v4-fusion.test.ts importait ce module et lançait le bench 144 runs ~6h+).
+// Pattern aligné sur bench-p1-v4-fusion.ts:1051.
+if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
+  main().catch((err) => {
+    console.error('[bench-p1-robustness-v3] FATAL:', err);
+    process.exit(2);
+  });
+}

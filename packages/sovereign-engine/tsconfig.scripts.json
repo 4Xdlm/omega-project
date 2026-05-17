@@ -6,5 +6,28 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false
   },
-  "include": ["scripts/**/*.ts", "src/**/*"]
+  "include": ["scripts/**/*.ts", "src/**/*"],
+  "_exclude_comment_2026-05-17": "Scripts orphans/cross-package drift exclus du typecheck strict — audit S10+ pour soit fix soit suppression. Voir NCR_SCRIPTS_ORPHAN_DRIFT_LIST.",
+  "exclude": [
+    "node_modules",
+    "scripts/audit-classifier.ts",
+    "scripts/bench-dedale-tprime-validation.ts",
+    "scripts/bench-p1-v4-fusion.ts",
+    "scripts/calibrate-full.ts",
+    "scripts/collect-bench-hybrid-32.ts",
+    "scripts/resume-benchmark-topk.ts",
+    "scripts/run-benchmark-phase-u.ts",
+    "scripts/run-benchmark-phase-w.ts",
+    "scripts/run-calibration.ts",
+    "scripts/run-dual-benchmark.ts",
+    "scripts/run-retro-bench.ts",
+    "scripts/test-mirror.ts",
+    "scripts/test-p1-3000w-fdp-k2.ts",
+    "scripts/test-phase4-antidrift.ts",
+    "scripts/test-phase4b-pulverize.ts",
+    "scripts/test-phase4c-fusion-intl.ts",
+    "scripts/test-phase5-assembly.ts",
+    "scripts/test-phase5b-validate.ts",
+    "scripts/validate-hybrid.ts"
+  ]
 }

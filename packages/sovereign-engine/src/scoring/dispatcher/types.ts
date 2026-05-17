@@ -158,8 +158,8 @@ export interface DispatcherConfig {
   /** Mode d'opération. V3.1 : 'shadow' uniquement. */
   readonly mode: 'shadow';
 
-  /** Version du modèle. V3.1. */
-  readonly version: '3.1';
+  /** Version du modèle. V3.1 → V3.4 cabled 2026-04-11 (CLAUDE.md OMEGA). */
+  readonly version: '3.1' | '3.4';
 
   /**
    * Longueur minimale de la prose (caractères) pour déclencher le calcul.

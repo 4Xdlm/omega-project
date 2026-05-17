@@ -295,7 +295,8 @@ async function executePipeline(
   let prompt: import('./types.js').SovereignPrompt;
   if (isV5Active()) {
     const sceneArchetype = deriveArchetypeFromPacket(enrichedPacket);
-    prompt = buildSovereignPrompt_V5(enrichedPacket, symbolMap, sceneArchetype);
+    // V5 signature: (packet, symbolMap) — sceneArchetype gardé pour logging traçabilité (archetype hardcoded 'BALANCED' interne V5).
+    prompt = buildSovereignPrompt_V5(enrichedPacket, symbolMap);
     console.log(`[V5] Prompt: ${Math.ceil(prompt.total_length / 4)}t | archetype=${sceneArchetype} | hash=${prompt.prompt_hash.slice(0, 12)}`);
   } else if (isV4Active()) {
     prompt = buildSovereignPrompt_V4(enrichedPacket, symbolMap);

@@ -104,10 +104,12 @@ async function main() {
     draftMaxTokens: 4096,
     judgeMaxTokens: 512,
   });
-  // OMEGA_BENCH_QUICK=1 → 1 scène × 2 runs (~15 min) smoke test pipeline complète.
-  // Default: 4 scènes × 6 runs (24 runs × 3 candidates = ~2-3h).
+  // OMEGA_BENCH_QUICK=1 → 1 scène × 2 runs smoke test pipeline complète.
+  // OMEGA_BENCH_RUNS=N → override runs/scene (default 6) — utile pour overnight multi-archétype.
+  //   ex. OMEGA_BENCH_RUNS=1 + pas de QUICK → 4 scènes × 1 run (4 archétypes, replication zéro)
+  // Default: 4 scènes × 6 runs (24 runs × N candidates).
   const isQuick = process.env.OMEGA_BENCH_QUICK === '1';
-  const RUNS_PER_SCENE = isQuick ? 2 : 6;
+  const RUNS_PER_SCENE = isQuick ? 2 : parseInt(process.env.OMEGA_BENCH_RUNS ?? '6', 10);
   const SCENES_RUN = isQuick ? [SCENES[0]] : SCENES;
   const totalRuns = SCENES_RUN.length * RUNS_PER_SCENE;
   const sessionDir = path.join(__dirname, `../sessions/BESTOF3_OLLAMA_${ollamaModel.replace(/[:.]/g, '_')}${isQuick ? '_QUICK' : ''}`);
@@ -148,6 +150,9 @@ async function main() {
       }
       await new Promise(r => setTimeout(r, 3000));
     }
+    // CHECKPOINT (2026-05-15): save partial results after each scene to prevent total loss on crash mid-bench.
+    fs.writeFileSync(path.join(sessionDir, 'bestof3_partial.json'), JSON.stringify({ scene_done: scene.id, results }, null, 2));
+    console.log(`[CHECKPOINT] Saved partial results after scene "${scene.id}" → ${results.length} entries`);
   }
 
   // ═══ ANALYSIS ═══

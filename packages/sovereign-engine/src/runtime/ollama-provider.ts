@@ -270,12 +270,13 @@ Retourne UNIQUEMENT la prose corrigée, sans commentaire.`;
 
     async rewriteSentence(
       sentence: string,
-      instruction: string,
-      context: string,
+      reason: string,
+      context: { readonly prev_sentence: string; readonly next_sentence: string },
     ): Promise<string> {
       const systemPrompt = `Tu es un écrivain littéraire expert. Réécris la phrase selon l'instruction.
 Retourne UNIQUEMENT la phrase réécrite.`;
-      const userPrompt = `Contexte:\n${context}\n\nPhrase originale: "${sentence}"\n\nInstruction: ${instruction}`;
+      const contextStr = `[avant] ${context.prev_sentence}\n[après] ${context.next_sentence}`;
+      const userPrompt = `Contexte:\n${contextStr}\n\nPhrase originale: "${sentence}"\n\nInstruction: ${reason}`;
       return stripFences(callOllamaSync(systemPrompt, userPrompt, config, config.draftTemperature, 200));
     },
   };

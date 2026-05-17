@@ -191,8 +191,9 @@ function extractSubAxes(macroScore: MacroSScore | null | undefined): SubAxesDeta
   const toParts = (subScores: readonly { name: string; score: number }[]) =>
     Object.fromEntries(subScores.map(s => [s.name, Math.round(s.score * 10) / 10]));
   return {
-    rci_parts: toParts(m.rci.sub_scores as { name: string; score: number }[]),
-    sii_parts: toParts(m.sii.sub_scores as { name: string; score: number }[]),
+    // TS2352 fix 2026-05-17: `as unknown as` intermediate pour cast readonly AxisScore[] → mutable subset.
+    rci_parts: toParts(m.rci.sub_scores as unknown as { name: string; score: number }[]),
+    sii_parts: toParts(m.sii.sub_scores as unknown as { name: string; score: number }[]),
   };
 }
 
@@ -387,15 +388,16 @@ export class DualBenchmarkRunner {
             ifi:  macroAxes.ifi.score,
             aai:  macroAxes.aai.score,
             metaphor_novelty: (() => {
-              const siiSub = macroAxes.sii.sub_scores as { name: string; score: number }[];
+              // TS2352 fix 2026-05-17: cast via unknown intermediate.
+              const siiSub = macroAxes.sii.sub_scores as unknown as { name: string; score: number }[];
               return siiSub.find(s => s.name === 'metaphor_novelty')?.score ?? 70;
             })(),
             necessity: (() => {
-              const siiSub = macroAxes.sii.sub_scores as { name: string; score: number }[];
+              const siiSub = macroAxes.sii.sub_scores as unknown as { name: string; score: number }[];
               return siiSub.find(s => s.name === 'necessity')?.score ?? 85;
             })(),
             anti_cliche: (() => {
-              const siiSub = macroAxes.sii.sub_scores as { name: string; score: number }[];
+              const siiSub = macroAxes.sii.sub_scores as unknown as { name: string; score: number }[];
               return siiSub.find(s => s.name === 'anti_cliche')?.score ?? 90;
             })(),
           };
@@ -425,7 +427,8 @@ export class DualBenchmarkRunner {
                   ifi: rescored.macro_axes?.ifi.score ?? axesBefore.ifi,
                   aai: rescored.macro_axes?.aai.score ?? axesBefore.aai,
                   metaphor_novelty: (() => {
-                    const sub = rescored.macro_axes?.sii.sub_scores as { name: string; score: number }[] | undefined;
+                    // TS2352 fix 2026-05-17: cast via unknown intermediate.
+                    const sub = rescored.macro_axes?.sii.sub_scores as unknown as { name: string; score: number }[] | undefined;
                     return sub?.find(s => s.name === 'metaphor_novelty')?.score ?? axesBefore.metaphor_novelty;
                   })(),
                   necessity: axesBefore.necessity,

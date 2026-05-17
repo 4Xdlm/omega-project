@@ -14,11 +14,15 @@ import { fileURLToPath } from 'node:url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const srcDir = path.resolve(__dirname, '../src');
 
+// 2026-05-17 NCR_GATE_NO_TODO_FALSE_POSITIVE_ES: pattern strict UPPERCASE only.
+// Convention industrie : TODO/FIXME/HACK/XXX écrits en MAJUSCULES strict comme markers code.
+// Avant : flag /i case-insensitive matchait "todo" minuscule espagnol dans SIL_MARKERS (text-features.ts:313).
+// Après : strict UPPERCASE empêche faux positifs sur content littéraire multi-langue.
 const FORBIDDEN_PATTERNS = [
-  /\bTODO\b/i,
-  /\bFIXME\b/i,
-  /\bHACK\b/i,
-  /\bXXX\b/i,
+  /\bTODO\b/,
+  /\bFIXME\b/,
+  /\bHACK\b/,
+  /\bXXX\b/,
 ];
 
 function scanDirectory(dir: string): { file: string; line: number; match: string }[] {

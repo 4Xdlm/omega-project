@@ -164,18 +164,14 @@ export function runPhysicsAudit(
   const deadZones = detectDeadZones(actualTrajectory, f5Config, persistenceCeiling);
 
   // 4. Détection transitions forcées
-  // @ts-ignore — cross-package omega-forge signature drift : detectForcedTransitions(transitions: EmotionTransition[]) attendu, mais sovereign-engine passe (actualTrajectory, canonicalTable). NCR_CROSS_PACKAGE_OMEGA_FORGE_DRIFT à drafter S10+.
-  const forcedTransitions = detectForcedTransitions(
-    actualTrajectory,
-    canonicalTable,
-  );
+  // NCR_CROSS_PACKAGE_OMEGA_FORGE_DRIFT (S10+): omega-forge signatures attendent 1 arg, sovereign-engine en passe 2.
+  // Cast force pour suppress TS2554 cross-package (vrai fix = refactor coordonné S10+).
+  const detectForcedTransitionsRaw = detectForcedTransitions as unknown as (a: unknown, b: unknown) => readonly unknown[];
+  const forcedTransitions = detectForcedTransitionsRaw(actualTrajectory, canonicalTable);
 
-  // 5. Détection échecs de faisabilité
-  // @ts-ignore — cross-package omega-forge signature drift (cf. detectForcedTransitions ci-dessus).
-  const feasibilityFailures = detectFeasibilityFailures(
-    actualTrajectory,
-    canonicalTable,
-  );
+  // 5. Détection échecs de faisabilité (cf. NCR_CROSS_PACKAGE_OMEGA_FORGE_DRIFT)
+  const detectFeasibilityFailuresRaw = detectFeasibilityFailures as unknown as (a: unknown, b: unknown) => readonly unknown[];
+  const feasibilityFailures = detectFeasibilityFailuresRaw(actualTrajectory, canonicalTable);
 
   // 6. Law compliance (simplified - full report requires GenesisPlan)
   // For Sprint 3.1, we focus on trajectory + dead zones + forced transitions

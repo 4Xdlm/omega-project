@@ -44,11 +44,12 @@ export async function scoreAuthenticityAxis(
     score: result.combined_score, // 0-100, 100 = très authentique (humain)
     weight: 2.0,
     method: 'HYBRID', // CALC 60% + LLM 40%
-    // P3.1.6.C (2026-05-16) TS2322 fix: AxisScore.details typed string — JSON.stringify pour serializer object diagnostic.
-    details: JSON.stringify({
+    // P3.1.6.C reverted (2026-05-17) — wrap JSON.stringify cassait AXE-AUTH-01 (details.calc_score accès propriété objet). TS2322 acceptée — redesign AxisScore.details: string|object reporté S10+ (NCR_AXIS_SCORE_DETAILS_TYPE_DRIFT).
+    // @ts-expect-error — runtime shape objet, type déclaré string. Redesign futur.
+    details: {
       calc_score: result.calc_score,
       fraud_score: result.fraud_score,
       pattern_hits: result.pattern_hits,
-    }),
+    },
   };
 }

@@ -53,12 +53,13 @@ export async function scoreMetaphorNoveltyAxis(
     score: result.final_score,
     weight: 1.0, // SII-FIX-01: actual weight in computeSII() is 1.0 (was 1.5 pre-fix)
     method: 'HYBRID',
-    // P3.1.6.C (2026-05-16) TS2322 fix: AxisScore.details typed string — JSON.stringify pour serializer object diagnostic.
-    details: JSON.stringify({
+    // P3.1.6.C reverted (2026-05-17) — cohérence shape details:object avec authenticity.ts. TS2322 acceptée — voir NCR_AXIS_SCORE_DETAILS_TYPE_DRIFT.
+    // @ts-expect-error — runtime shape objet, type déclaré string. Redesign futur.
+    details: {
       dead_count: result.dead_count,
       total_metaphors: result.total_metaphors,
       dead_ratio: result.dead_ratio,
       avg_novelty: result.avg_novelty,
-    }),
+    },
   };
 }

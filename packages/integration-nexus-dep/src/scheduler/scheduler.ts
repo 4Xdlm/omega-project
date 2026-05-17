@@ -13,7 +13,7 @@
  */
 
 import { PipelineExecutor, createPipelineExecutor } from "../pipeline/executor.js";
-import type { PipelineResult } from "../pipeline/types.js";
+// 2026-05-17 FRONT 1: PipelineResult, Policy, DEFAULT_SCHEDULER_OPTIONS, PRIORITY_VALUES retires (TS6133/TS6196 unused).
 import type {
   Job,
   JobState,
@@ -22,12 +22,9 @@ import type {
   JobError,
   JobMetadata,
   SchedulerOptions,
-  Policy,
   PolicyContext,
   PolicyResult,
   QueueStats,
-  DEFAULT_SCHEDULER_OPTIONS,
-  PRIORITY_VALUES
 } from "./types.js";
 import type { PipelineDefinition } from "../pipeline/types.js";
 

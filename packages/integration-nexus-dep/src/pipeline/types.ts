@@ -12,7 +12,8 @@
  * ═══════════════════════════════════════════════════════════════════════════════
  */
 
-import type { NexusRequest, NexusResponse, NexusError } from "../contracts/types.js";
+// 2026-05-17 FRONT 1: NexusRequest, NexusResponse imports retires (TS6196 unused).
+import type { NexusError } from "../contracts/types.js";
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // PIPELINE STATUS

@@ -10,11 +10,9 @@
  * ═══════════════════════════════════════════════════════════════════════════════
  */
 
+// 2026-05-17 FRONT 1: NexusRequest, NexusResponse, ExecutionTrace retires (TS6196 unused).
 import type {
   NexusOperationType,
-  NexusRequest,
-  NexusResponse,
-  ExecutionTrace
 } from "../contracts/types.js";
 
 // ═══════════════════════════════════════════════════════════════════════════════

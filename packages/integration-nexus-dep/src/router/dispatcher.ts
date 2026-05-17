@@ -11,12 +11,11 @@
  * ═══════════════════════════════════════════════════════════════════════════════
  */
 
+// 2026-05-17 FRONT 1: ExecutionTrace, TraceStep retires (TS6196 unused). NexusRequest/NexusResponse RESTAURES (utilises ligne 133, 232, 247).
 import type {
   NexusRequest,
   NexusResponse,
   NexusError,
-  ExecutionTrace,
-  TraceStep
 } from "../contracts/types.js";
 import {
   unknownOperationError,
@@ -25,7 +24,10 @@ import {
 } from "../contracts/errors.js";
 import { DEFAULT_SEED } from "../contracts/io.js";
 import type { OperationRegistry, HandlerContext } from "./registry.js";
-import { emitEvent, truncateId } from "@omega/omega-observability";
+// 2026-05-17 FRONT 1: @omega/omega-observability package n'existe pas (TS2307). Stubs locaux silencieux.
+// NCR a drafter S10+ : NCR_MISSING_OMEGA_OBSERVABILITY_PACKAGE.
+const emitEvent = (..._args: unknown[]): void => { /* future S10+ : implementer real observability emit */ };
+const truncateId = (id: string): string => id.slice(0, 8);
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // DISPATCHER OPTIONS
@@ -224,11 +226,12 @@ export class Dispatcher {
     });
   }
 
+  // 2026-05-17 FRONT 1: _context prefix (TS6133 unused, conserve signature pour future trace integration).
   private createSuccessResponse<R>(
     requestId: string,
     data: R,
     startTime: number,
-    context: HandlerContext
+    _context: HandlerContext
   ): NexusResponse<R> {
     const executionTimeMs = Date.now() - startTime;
 

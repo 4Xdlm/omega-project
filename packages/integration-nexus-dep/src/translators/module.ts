@@ -60,7 +60,9 @@ export const BIO_TO_GENOME_EMOTION: Readonly<Record<EmotionType, Emotion14>> = {
   shame: "shame",
   pride: "pride",
   hope: "hope",
-  despair: "sadness" // despair mapped to sadness (closest low-valence emotion)
+  despair: "sadness", // despair mapped to sadness (closest low-valence emotion)
+  // 2026-05-17 FRONT 1: envy ajoute (TS2741 EmotionType requires envy mapping like GENOME_TO_BIO ligne 46).
+  envy: "anger" // envy mapped to anger (closest negative active emotion, symmetric with GENOME_TO_BIO)
 };
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -86,6 +88,7 @@ export class ModuleTranslator {
   translateEmotionsGenomeToBio(
     distribution: Readonly<Record<Emotion14, number>>
   ): Readonly<Record<EmotionType, number>> {
+    // 2026-05-17 FRONT 1: envy ajoute (TS2741 EmotionType strict requires all keys initialized).
     const result: Record<EmotionType, number> = {
       joy: 0,
       sadness: 0,
@@ -100,7 +103,8 @@ export class ModuleTranslator {
       shame: 0,
       pride: 0,
       hope: 0,
-      despair: 0
+      despair: 0,
+      envy: 0
     };
 
     for (const [emotion, value] of Object.entries(distribution)) {
@@ -166,9 +170,10 @@ export class ModuleTranslator {
    * Normalize fingerprint to unified format
    * INV-TRANS-03: Preserves semantic content
    */
+  // 2026-05-17 FRONT 1: source prefixe _ (TS6133 unused, retain API signature pour future use).
   normalizeFingerprint(
     fingerprint: string,
-    source: "genome" | "bio",
+    _source: "genome" | "bio",
     version: string,
     emotions?: Readonly<Record<string, number>>
   ): NormalizedFingerprint {

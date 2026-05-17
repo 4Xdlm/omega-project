@@ -14,19 +14,17 @@
 
 import { createNexusError } from "../contracts/errors.js";
 import type { NexusError } from "../contracts/types.js";
+// 2026-05-17 FRONT 1: imports PipelineExecution, StageStatus, DEFAULT_PIPELINE_OPTIONS retires (TS6196 unused).
 import type {
   PipelineDefinition,
   PipelineOptions,
   PipelineResult,
   PipelineStatus,
-  PipelineExecution,
   PipelineEvent,
   PipelineEventHandler,
   StageDefinition,
   StageResult,
-  StageStatus,
   StageContext,
-  DEFAULT_PIPELINE_OPTIONS
 } from "./types.js";
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -91,7 +89,8 @@ export class PipelineExecutor {
    *
    * @throws Never throws directly — errors are captured in result.error
    */
-  async execute<TInput, TOutput>(
+  // 2026-05-17 FRONT 1: TOutput generic retire (TS6133 unused). API publique inchangee (TInput conserve).
+  async execute<TInput>(
     definition: PipelineDefinition,
     input: TInput
   ): Promise<PipelineResult> {

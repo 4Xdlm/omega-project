@@ -82,10 +82,12 @@ export class GenomeAdapter implements NexusAdapter {
   readonly version = "1.2.0";
   readonly isReadOnly = true as const;
 
-  private readonly sanctuaryPath: string;
+  // 2026-05-17 FRONT 1: sanctuaryPath stocké pour usage futur (health check, validation path). Param accepté pour API compat.
+  private readonly _sanctuaryPath: string;
 
   constructor(sanctuaryPath: string = "packages/genome") {
-    this.sanctuaryPath = sanctuaryPath;
+    this._sanctuaryPath = sanctuaryPath;
+    void this._sanctuaryPath; // future use (validation path adapter)
     Object.freeze(this);
   }
 

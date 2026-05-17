@@ -10,10 +10,10 @@
  * ═══════════════════════════════════════════════════════════════════════════════
  */
 
+// 2026-05-17 FRONT 1: ExecutionTrace retire (TS6196 unused).
 import type {
   NexusResponse,
   NexusError,
-  ExecutionTrace,
   SimilarityResult,
   Emotion14
 } from "../contracts/types.js";

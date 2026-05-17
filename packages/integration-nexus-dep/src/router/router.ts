@@ -16,11 +16,10 @@ import type {
   NexusOperationType
 } from "../contracts/types.js";
 import { generateRequestId, getTimestamp } from "../index.js";
+// 2026-05-17 FRONT 1: getDefaultRegistry, HandlerContext retires (TS6133 unused).
 import {
   OperationRegistry,
-  getDefaultRegistry,
   type OperationHandler,
-  type HandlerContext
 } from "./registry.js";
 import { Dispatcher, createDispatcher, type DispatcherOptions } from "./dispatcher.js";
 
@@ -243,22 +242,24 @@ export function createDefaultRouter(options?: DefaultRouterOptions): NexusRouter
         mode: "auto"
       });
 
+      // 2026-05-17 FRONT 1: cast emotionDistribution union -> strict Record<Emotion14,number> (TS2345 variance).
       return {
         genomeFingerprint: genome.fingerprint,
         dnaRootHash: dna.rootHash,
-        emotionDistribution: genome.axes.emotion.distribution
+        emotionDistribution: genome.axes.emotion.distribution as AnalyzeTextOutput["emotionDistribution"]
       };
     }
   );
 
   // Register VALIDATE_INPUT handler
-  router.register("VALIDATE_INPUT", async (payload, context) => {
+  // 2026-05-17 FRONT 1: _context prefix (TS6133 unused — context.seed disponible si besoin futur).
+  router.register("VALIDATE_INPUT", async (payload, _context) => {
     const validation = await myceliumAdapter.validateInput(payload as never);
     return validation;
   });
 
   // Register BUILD_DNA handler
-  router.register("BUILD_DNA", async (payload, context) => {
+  router.register("BUILD_DNA", async (payload, _context) => {
     const result = await bioAdapter.buildDNA(payload as never);
     return result;
   });

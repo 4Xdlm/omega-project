@@ -15,10 +15,11 @@ export {
   MAX_LINE_LENGTH,
   DEFAULT_ENCODING
 } from "./input.js";
+// 2026-05-17 FRONT 1: InputMetadata retire (TS2308 ambiguity avec contracts/io.ts:59 même nom).
+// Le InputMetadata canonique reste celui de ./contracts/io.ts. Translators/input.ts::InputMetadata est private au module input.ts.
 export type {
   InputTranslationOptions,
   InputTranslationResult,
-  InputMetadata
 } from "./input.js";
 
 // Output Translator

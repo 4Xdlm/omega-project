@@ -78,11 +78,13 @@ export class MyceliumAdapter implements NexusAdapter {
   readonly version = "1.0.0";
   readonly isReadOnly = true as const;
 
-  private readonly sanctuaryPath: string;
+  // 2026-05-17 FRONT 1: sanctuaryPath stocké pour usage futur (health check, validation path). Param accepté pour API compat.
+  private readonly _sanctuaryPath: string;
   private readonly maxContentSize = 10 * 1024 * 1024; // 10MB
 
   constructor(sanctuaryPath: string = "packages/mycelium") {
-    this.sanctuaryPath = sanctuaryPath;
+    this._sanctuaryPath = sanctuaryPath;
+    void this._sanctuaryPath; // future use (validation path adapter)
     Object.freeze(this);
   }
 
@@ -111,7 +113,8 @@ export class MyceliumAdapter implements NexusAdapter {
    * Validate input according to DNA_INPUT_CONTRACT
    */
   async validateInput(request: ValidateInputRequest): Promise<ValidateInputResult> {
-    const { content, seed = DEFAULT_SEED, mode = "auto" } = request;
+    // 2026-05-17 FRONT 1: 'mode' retire du destructuring (TS6133 unused).
+    const { content, seed = DEFAULT_SEED } = request;
 
     // Check empty content
     if (!content || content.trim().length === 0) {

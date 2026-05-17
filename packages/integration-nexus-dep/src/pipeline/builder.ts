@@ -121,10 +121,11 @@ export class PipelineBuilder {
   addStage<TInput, TOutput>(
     stage: StageDefinition<TInput, TOutput> | StageBuilder<TInput, TOutput>
   ): this {
+    // 2026-05-17 FRONT 1: cast as StageDefinition (default unknown,unknown) pour variance check tsc strict.
     if (stage instanceof StageBuilder) {
-      this.stages.push(stage.build());
+      this.stages.push(stage.build() as StageDefinition);
     } else {
-      this.stages.push(stage);
+      this.stages.push(stage as StageDefinition);
     }
     return this;
   }
@@ -136,7 +137,8 @@ export class PipelineBuilder {
     name: string,
     handler: StageHandler<TInput, TOutput>
   ): this {
-    this.stages.push({ name, handler });
+    // 2026-05-17 FRONT 1: cast as StageHandler<unknown, unknown> pour variance check.
+    this.stages.push({ name, handler: handler as StageHandler<unknown, unknown> });
     return this;
   }
 
@@ -148,11 +150,13 @@ export class PipelineBuilder {
     return this;
   }
 
+  // 2026-05-17 FRONT 1: PipelineOptions est readonly strict (TS2540). Remplacement mutations par immutable spread.
+
   /**
    * Set stop on error behavior
    */
   stopOnError(value: boolean = true): this {
-    this.options.stopOnError = value;
+    this.options = { ...this.options, stopOnError: value };
     return this;
   }
 
@@ -160,7 +164,7 @@ export class PipelineBuilder {
    * Set default timeout for all stages
    */
   defaultTimeout(ms: number): this {
-    this.options.defaultTimeoutMs = ms;
+    this.options = { ...this.options, defaultTimeoutMs: ms };
     return this;
   }
 
@@ -168,7 +172,7 @@ export class PipelineBuilder {
    * Set default retry count for all stages
    */
   defaultRetry(count: number): this {
-    this.options.defaultRetryCount = count;
+    this.options = { ...this.options, defaultRetryCount: count };
     return this;
   }
 
@@ -176,7 +180,7 @@ export class PipelineBuilder {
    * Set seed for deterministic execution
    */
   seed(value: number): this {
-    this.options.seed = value;
+    this.options = { ...this.options, seed: value };
     return this;
   }
 
@@ -184,7 +188,7 @@ export class PipelineBuilder {
    * Enable tracing
    */
   withTrace(): this {
-    this.options.traceEnabled = true;
+    this.options = { ...this.options, traceEnabled: true };
     return this;
   }
 
@@ -316,7 +320,8 @@ export function createAnalysisPipeline(adapters: PipelineAdapters = {}): Pipelin
     )
     .stage<{ fingerprint: string; version: string }, { rootHash: string; nodeCount: number }>(
       "buildDNA",
-      async (input, ctx) => {
+      // 2026-05-17 FRONT 1: _input prefix (TS6133 unused, ctx.previousResults utilise a la place).
+      async (_input, ctx) => {
         const validateResult = ctx.previousResults["validate"] as { normalizedContent: string };
         const result = await bioAdapter.buildDNA({
           validatedContent: validateResult.normalizedContent,

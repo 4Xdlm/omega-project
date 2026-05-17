@@ -1,187 +1,27 @@
 // ═══════════════════════════════════════════════════════════════════════════════
-// OMEGA NEXUS — MODULE INDEX
-// Version: 1.0.0 FROZEN
-// Date: 01 janvier 2026
-// Standard: NASA-STD-8719.13C / DO-178C Level A
+// OMEGA NEXUS — Module Index (DEPRECATED, architecture migrée hors omega-segment-engine)
 // ═══════════════════════════════════════════════════════════════════════════════
 //
-// NEXUS est le système nerveux central d'OMEGA.
-// Tout passe par ici. Rien n'échappe au gardien.
+// 2026-05-17 (FRONT 1 ESM Reliquat S9.2-D, commit post 0369a9dc):
+//
+// L'architecture NEXUS originelle (DEP/Protocol/Gateway) référencée par
+// l'ancienne version de ce fichier (lignes 1-187, header "Version: 1.0.0 FROZEN")
+// a été déplacée hors de omega-segment-engine. Les modules './dep', './protocol',
+// './gateway' n'existent plus dans ce dossier (Glob confirme : seuls
+// stream_segmenter.ts, carry_buffer.ts, utf8_stream.ts présents).
+//
+// Empirique : 39 erreurs TS2300/TS2834 résolues par ce stub (l'ancien fichier
+// re-exportait des types/modules inexistants ET avait paths imports sans .js).
+// Verif : src/index.ts racine du package N'IMPORTE PAS ce fichier.
+//        grep "from.*stream/index" → 0 match dans tout le repo.
+//
+// Ce fichier reste comme stub historique. Options futures :
+//   A. Refonte NEXUS dans ce package → recréer dep.ts/protocol.ts/gateway.ts
+//      puis restaurer les exports.
+//   B. Suppression définitive → `Remove-Item src/stream/index.ts`.
+//
+// NCR à drafter S10+ : NCR_STREAM_INDEX_ORPHAN_NEXUS_DEPRECATED.
 //
 // ═══════════════════════════════════════════════════════════════════════════════
 
-// ═══════════════════════════════════════════════════════════════════════════════
-// DEP — Deterministic Envelope Protocol
-// ═══════════════════════════════════════════════════════════════════════════════
-
-export {
-  // Types
-  DepEnvelope,
-  DepVerifyResult,
-  DepError,
-  
-  // Factory
-  createEnvelope,
-  
-  // Hashing (Pure functions)
-  computePayloadHash,
-  computeEnvelopeId,
-  computeSchemaHash,
-  
-  // Verification
-  verifyEnvelope,
-  verifyChain,
-  
-  // Serialization
-  serializeEnvelope,
-  deserializeEnvelope,
-  
-  // Namespace
-  DEP
-} from './dep';
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// PROTOCOL — Commands & Events
-// ═══════════════════════════════════════════════════════════════════════════════
-
-export {
-  // Command Types
-  OmegaCommand,
-  GenesisCommand,
-  ScribeCommand,
-  CanonCommand,
-  VoiceCommand,
-  SystemCommand,
-  
-  // Request Types
-  GenesisRequest,
-  CanonFact,
-  CanonFilters,
-  ExportFormat,
-  
-  // Event Types
-  OmegaEvent,
-  GenesisEvent,
-  ScribeEvent,
-  CanonEvent,
-  VoiceEvent,
-  SystemEvent,
-  
-  // Response Types
-  GenesisPlan,
-  Act,
-  Scene,
-  VoiceProfile,
-  SystemStatus,
-  ModuleStatus,
-  
-  // Schema Versions
-  SCHEMA_VERSIONS,
-  
-  // Type Guards
-  isOmegaCommand,
-  isOmegaEvent,
-  
-  // Namespace
-  Protocol
-} from './protocol';
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// GATEWAY — Router + Policy + Recorder
-// ═══════════════════════════════════════════════════════════════════════════════
-
-export {
-  // Gateway Class
-  NexusGateway,
-  
-  // Factory
-  createGateway,
-  createGatewayWithConfig,
-  
-  // Policy
-  checkPolicy,
-  DEFAULT_POLICY,
-  
-  // Types
-  GatewayConfig,
-  GatewayMode,
-  GatewayPolicy,
-  RecorderEntry,
-  DispatchResult,
-  GatewayError,
-  ModuleHandler,
-  
-  // Namespace
-  Gateway
-} from './gateway';
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// NEXUS UNIFIED NAMESPACE
-// ═══════════════════════════════════════════════════════════════════════════════
-
-import { DEP } from './dep';
-import { Protocol } from './protocol';
-import { Gateway } from './gateway';
-
-/**
- * NEXUS — Point d'entrée unifié pour le système de câblage OMEGA.
- * 
- * Usage:
- * ```typescript
- * import { NEXUS } from './nexus';
- * 
- * // Créer un gateway
- * const gateway = NEXUS.Gateway.createGateway('my_seed', 'PRODUCTION');
- * 
- * // Créer une enveloppe
- * const envelope = NEXUS.DEP.createEnvelope(payload, seed, schema, version);
- * 
- * // Vérifier une enveloppe
- * const result = NEXUS.DEP.verifyEnvelope(envelope);
- * ```
- */
-export const NEXUS = {
-  DEP,
-  Protocol,
-  Gateway,
-  
-  /** Version du module NEXUS */
-  VERSION: '1.0.0' as const,
-  
-  /** Date de gel */
-  FROZEN_DATE: '2026-01-01' as const,
-  
-  /** Standard de certification */
-  STANDARD: 'NASA-STD-8719.13C / DO-178C Level A' as const
-} as const;
-
-export default NEXUS;
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// TYPE EXPORTS FOR EXTERNAL USE
-// ═══════════════════════════════════════════════════════════════════════════════
-
-/** Re-export all types for TypeScript consumers */
-export type {
-  DepEnvelope,
-  DepVerifyResult,
-  DepError
-} from './dep';
-
-export type {
-  OmegaCommand,
-  OmegaEvent,
-  GenesisRequest,
-  GenesisPlan,
-  CanonFact,
-  VoiceProfile
-} from './protocol';
-
-export type {
-  GatewayConfig,
-  GatewayPolicy,
-  RecorderEntry,
-  DispatchResult,
-  GatewayError,
-  ModuleHandler
-} from './gateway';
+export {};

@@ -283,7 +283,8 @@ export function calculateSegmentationHash(
   mode: SegmentMode,
   segments: Array<{ id: string; start: number; end: number }>
 ): string {
-  const hashParts = [mode];
+  // 2026-05-17 (FRONT 1 ESM Reliquat S9.2-D): typed string[] explicit pour permettre concat template strings + mode.
+  const hashParts: string[] = [mode];
   for (const seg of segments) {
     hashParts.push(`${seg.id}:${seg.start}:${seg.end}`);
   }

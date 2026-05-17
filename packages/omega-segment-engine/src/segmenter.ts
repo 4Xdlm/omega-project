@@ -14,7 +14,7 @@ import type {
   RawSpan,
 } from "./types.js";
 import { stableStringify, sha256Hex, shortHash } from "./canonical.js";
-import { normalizeText, countWords, countLines, trimSpan, skipWhitespace, isWhitespace } from "./normalizer.js";
+import { normalizeText, countWords, countLines, trimSpan, skipWhitespace } from "./normalizer.js";
 import { isAfterAbbreviation, isDecimalNumber, ABBREVIATIONS_DEFAULT } from "./exceptions.js";
 
 // ═══════════════════════════════════════════════════════════════════════════════

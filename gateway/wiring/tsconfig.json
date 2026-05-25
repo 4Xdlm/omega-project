@@ -5,6 +5,7 @@
     "moduleResolution": "NodeNext",
     "lib": ["ES2022"],
     "strict": true,
+    "noEmitOnError": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
@@ -20,6 +21,6 @@
     "noFallthroughCasesInSwitch": true,
     "exactOptionalPropertyTypes": true
   },
-  "include": ["src/**/*", "tests/**/*"],
+  "include": ["src/**/*"],
   "exclude": ["node_modules", "dist"]
 }

@@ -159,7 +159,7 @@ function compareSeverity(a: ThreatSeverity, b: ThreatSeverity): number {
 
 function maxSeverity(threats: Threat[]): ThreatSeverity {
   if (threats.length === 0) return ThreatSeverity.NONE;
-  return threats.reduce((max, t) => 
+  return threats.reduce<ThreatSeverity>((max, t) =>
     compareSeverity(t.severity, max) > 0 ? t.severity : max,
     ThreatSeverity.NONE
   );

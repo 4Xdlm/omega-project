@@ -120,7 +120,7 @@ export function sortMissing(missing: MissingEvidence[]): MissingEvidence[] {
  * 3. Create canonical JSON array
  * 4. Compute SHA-256
  */
-export function computeInputsDigest(proofs: Proof[]): string {
+export function computeInputsDigest(proofs: readonly Proof[]): string {
   const sortedHashes = proofs.map(p => p.hash).sort();
   return sha256(toCanonicalJson(sortedHashes));
 }

@@ -116,6 +116,7 @@ export interface Proof {
   readonly hash: string;
   readonly verdict: ProofVerdict;
   readonly details?: Record<string, unknown>;
+  readonly metrics?: Record<string, unknown>;
 }
 
 export interface MissingEvidence {
@@ -226,26 +227,9 @@ export interface InputGatesResult {
 // =============================================================================
 // TYPE GUARDS
 // =============================================================================
-
-export function isValidSha256(hash: string): boolean {
-  return PATTERNS.SHA256.test(hash);
-}
-
-export function isValidTraceId(traceId: string): boolean {
-  return PATTERNS.TRACE_ID.test(traceId);
-}
-
-export function isValidJudgementId(id: string): boolean {
-  return PATTERNS.JUDGEMENT_ID.test(id);
-}
-
-export function isValidInvariantId(id: string): boolean {
-  return PATTERNS.INVARIANT_ID.test(id);
-}
-
-export function isValidReasonCode(code: string): boolean {
-  return PATTERNS.REASON_CODE.test(code);
-}
+// Note (S11.4-B): isValidSha256, isValidTraceId, isValidJudgementId,
+// isValidInvariantId, isValidReasonCode moved to src/schema/validate.ts
+// (single source of truth, exported via index.ts re-export *).
 
 export function isValidTimestamp(timestamp: string): boolean {
   const date = new Date(timestamp);

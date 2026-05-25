@@ -111,7 +111,7 @@ export class ManifestValidator {
     }
 
     // 5. IO consistency: each input/output kind must match a declared capability
-    const capSet = new Set(manifest.capabilities);
+    const capSet = new Set<string>(manifest.capabilities);
     for (const input of manifest.io.inputs) {
       const requiredCap = `read_${input.kind}` as string;
       if (!capSet.has(requiredCap)) {

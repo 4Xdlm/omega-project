@@ -82,19 +82,19 @@ export function formatJsonl(event: Readonly<ProgressEvent>): string {
   const clean: Record<string, unknown> = {};
   
   // Always include phase and current
-  clean.phase = event.phase;
-  clean.current = event.current;
-  
+  clean['phase'] = event.phase;
+  clean['current'] = event.current;
+
   // Conditionally include other fields
-  if (event.total !== undefined) clean.total = event.total;
-  if (event.percent !== undefined) clean.percent = event.percent;
-  if (event.elapsed_ms !== undefined) clean.elapsed_ms = event.elapsed_ms;
-  if (event.eta_ms !== undefined && isFinite(event.eta_ms)) clean.eta_ms = event.eta_ms;
-  if (event.message !== undefined) clean.message = event.message;
-  if (event.file !== undefined) clean.file = event.file;
-  if (event.file_index !== undefined) clean.file_index = event.file_index;
-  if (event.files_total !== undefined) clean.files_total = event.files_total;
-  if (event.metadata !== undefined) clean.metadata = event.metadata;
+  if (event.total !== undefined) clean['total'] = event.total;
+  if (event.percent !== undefined) clean['percent'] = event.percent;
+  if (event.elapsed_ms !== undefined) clean['elapsed_ms'] = event.elapsed_ms;
+  if (event.eta_ms !== undefined && isFinite(event.eta_ms)) clean['eta_ms'] = event.eta_ms;
+  if (event.message !== undefined) clean['message'] = event.message;
+  if (event.file !== undefined) clean['file'] = event.file;
+  if (event.file_index !== undefined) clean['file_index'] = event.file_index;
+  if (event.files_total !== undefined) clean['files_total'] = event.files_total;
+  if (event.metadata !== undefined) clean['metadata'] = event.metadata;
   
   return JSON.stringify(clean);
 }
@@ -187,9 +187,10 @@ function truncateFilename(filename: string, maxLen: number): string {
   // Try to get just the filename
   const parts = filename.replace(/\\/g, "/").split("/");
   const name = parts[parts.length - 1];
-  
+  if (name === undefined) return filename;
+
   if (name.length <= maxLen) return name;
-  
+
   // Truncate with ellipsis at start
   return "..." + name.slice(-(maxLen - 3));
 }

@@ -18,11 +18,9 @@
  *   - Full evidence trail (original + all attempts + outcome)
  */
 
-import { sha256 } from '@omega/canon-kernel';
-import type { ScribeProvider, ScribeContext } from '../providers/types.js';
+import type { ScribeProvider } from '../providers/types.js';
 import type { ProsePack, ProsePackScene, ProseViolation, ProseConstraintConfig } from '../prosepack/types.js';
 import type { GenesisPlan, Scene } from '../types.js';
-import { SCRIBE_SYSTEM_PROMPT } from '../providers/master-prompt.js';
 import { analyzeSceneProse } from '../prosepack/normalize.js';
 
 // ─── Types ───────────────────────────────────────────────────────
@@ -391,7 +389,6 @@ export function repairProsePack(
 
     let repairSucceeded = false;
     let lastValidation: { pass: boolean; wordCount: number; violations: ProseViolation[] } | null = null;
-    let lastRepairedText: string = '';
 
     try {
       for (let attempt = 1; attempt <= MAX_REPAIR_ATTEMPTS; attempt++) {
@@ -425,7 +422,6 @@ export function repairProsePack(
         }
 
         lastValidation = validation;
-        lastRepairedText = repairedText;
 
         if (validation.pass) {
           // Repair successful — build new scene with full re-analysis

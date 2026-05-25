@@ -87,7 +87,7 @@ export function weaveLLM(
   plan: GenesisPlan,
   constraints: Constraints,
   genome: StyleGenomeInput,
-  emotion: EmotionTarget,
+  _emotion: EmotionTarget,
   provider: ScribeProvider,
   seed: string,
   intent?: Record<string, unknown>,
@@ -108,9 +108,6 @@ export function weaveLLM(
     canonEntries: [],
   };
 
-  // Get all scenes in order for next-scene hints
-  const allScenes = getAllScenesOrdered(plan);
-
   for (let i = 0; i < sceneIds.length; i++) {
     const sceneId = sceneIds[i];
     const found = findScene(plan, sceneId);
@@ -128,8 +125,8 @@ export function weaveLLM(
       isPivot: beat.pivot,
       tensionDelta: beat.tension_delta,
       subtextSlot: (scene.subtext as any)?.character_thinks ?? '__none__',
-      informationRevealed: beat.information_revealed ?? [],
-      informationWithheld: beat.information_withheld ?? [],
+      informationRevealed: [...(beat.information_revealed ?? [])],
+      informationWithheld: [...(beat.information_withheld ?? [])],
     }));
 
     // Build subtext layer
@@ -169,8 +166,8 @@ export function weaveLLM(
       lexicalRichness: genome.target_lexical_richness ?? 0.8,
       descriptionDensity: genome.target_description_density ?? 0.6,
       dialogueRatio: genome.target_dialogue_ratio ?? 0.1,
-      signatureTraits: genome.signature_traits ?? [],
-      bannedWords: constraints.banned_words ?? [],
+      signatureTraits: [...(genome.signature_traits ?? [])],
+      bannedWords: [...(constraints.banned_words ?? [])],
       forbiddenCliches: (constraints as any).forbidden_cliches ?? [],
       canonEntries: meta.canonEntries,
       previousSceneSummary: previousSummary,

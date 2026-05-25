@@ -4,7 +4,6 @@
  * Detects POV, tense, banned words, clichés, sensory anchors, dialogue
  */
 
-import { canonicalize, sha256 } from '@omega/canon-kernel';
 import type { ProseDoc, ProseParagraph, GenesisPlan, Scene } from '../types.js';
 import type {
   ProsePack, ProsePackMeta, ProsePackScene, ProsePackScore,
@@ -326,13 +325,6 @@ export function normalizeToProsePack(
   config: ProseConstraintConfig,
   meta: Omit<ProsePackMeta, 'version' | 'prose_hash'>,
 ): ProsePack {
-  // Group paragraphs by scene
-  const sceneIds = [...new Set(prose.paragraphs.flatMap(p => {
-    // Each paragraph has segment_ids that map to scenes
-    // We need to find which scene each paragraph belongs to
-    return p.segment_ids;
-  }))];
-
   // Build scene map from plan
   const sceneOrder: string[] = [];
   for (const arc of plan.arcs) {
@@ -346,8 +338,6 @@ export function normalizeToProsePack(
   for (const para of prose.paragraphs) {
     // Find which scene this paragraph belongs to (from segment metadata)
     // Segments carry source_scene_id — paragraphs carry segment_ids
-    // We use the first segment_id prefix to identify the scene
-    const segId = para.segment_ids[0] ?? '';
     // segment_ids follow pattern: SEG-{sceneId}-{index}
     // Find matching scene by checking which scene owns these segments
     let matchedScene = '';

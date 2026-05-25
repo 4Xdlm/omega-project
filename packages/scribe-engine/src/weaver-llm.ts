@@ -26,19 +26,6 @@ function findScene(plan: GenesisPlan, sceneId: string): { scene: Scene; arcTheme
 }
 
 /**
- * Get all scenes in order
- */
-function getAllScenesOrdered(plan: GenesisPlan): Array<{ scene: Scene; arcTheme: string }> {
-  const result: Array<{ scene: Scene; arcTheme: string }> = [];
-  for (const arc of plan.arcs) {
-    for (const scene of arc.scenes) {
-      result.push({ scene, arcTheme: arc.theme });
-    }
-  }
-  return result;
-}
-
-/**
  * Extract intent metadata from plan (stored in plan fields)
  */
 function extractIntentMetadata(intent: Record<string, unknown>): {

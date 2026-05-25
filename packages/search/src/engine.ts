@@ -16,7 +16,7 @@ import {
   DEFAULT_SEARCH_CONFIG,
   SearchError,
 } from './types';
-import { emitEvent } from '@omega/omega-observability';
+import { emitEvent } from '@omega/observability';
 
 /**
  * Inverted index entry
@@ -555,3 +555,6 @@ export class SearchEngine {
 export function createSearchEngine(config?: Partial<SearchConfig>): SearchEngine {
   return new SearchEngine(config);
 }
+
+// Re-export SearchConfig type (consumed by ./search.ts)
+export type { SearchConfig } from './types';

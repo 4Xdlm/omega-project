@@ -623,6 +623,7 @@ export class SearchImporter {
    */
   private validateXML(
     content: string,
+    _options: ImportOptions,
     errors: string[],
     _warnings: string[]
   ): number {

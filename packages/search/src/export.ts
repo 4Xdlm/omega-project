@@ -120,6 +120,7 @@ export class SearchExporter {
       results,
       totalHits: results.length,
       took: 0,
+      maxScore: results.length > 0 ? Math.max(...results.map(r => r.score)) : 0,
     };
     return this.exportResponse(response, options);
   }
@@ -296,16 +297,16 @@ export class SearchExporter {
 
     for (const result of response.results) {
       lines.push('    <result>');
-      lines.push(`      <id>${this.escapeXML(result.id)}</id>`);
-      lines.push(`      <title>${this.escapeXML(result.title)}</title>`);
-      lines.push(`      <content>${this.escapeXML(result.content)}</content>`);
+      lines.push(`      <id>${this.escapeXML(result.document.id)}</id>`);
+      lines.push(`      <title>${this.escapeXML(result.document.title)}</title>`);
+      lines.push(`      <content>${this.escapeXML(result.document.content)}</content>`);
       if (options.includeScore) {
         lines.push(`      <score>${result.score}</score>`);
       }
-      if (options.includeHighlights && result.highlights.length > 0) {
+      if (options.includeHighlights && (result.highlights?.length ?? 0) > 0) {
         lines.push('      <highlights>');
-        for (const highlight of result.highlights) {
-          lines.push(`        <highlight>${this.escapeXML(highlight)}</highlight>`);
+        for (const highlight of result.highlights ?? []) {
+          lines.push(`        <highlight>${this.escapeXML(highlight.fragment)}</highlight>`);
         }
         lines.push('      </highlights>');
       }
@@ -364,18 +365,18 @@ export class SearchExporter {
 
     for (let i = 0; i < response.results.length; i++) {
       const result = response.results[i];
-      lines.push(`### ${i + 1}. ${result.title || result.id}`);
+      lines.push(`### ${i + 1}. ${result.document.title || result.document.id}`);
       lines.push('');
       if (options.includeScore) {
         lines.push(`**Score:** ${result.score.toFixed(4)}`);
       }
       lines.push('');
-      lines.push(result.content);
+      lines.push(result.document.content);
       lines.push('');
-      if (options.includeHighlights && result.highlights.length > 0) {
+      if (options.includeHighlights && (result.highlights?.length ?? 0) > 0) {
         lines.push('**Highlights:**');
-        for (const highlight of result.highlights) {
-          lines.push(`- ...${highlight}...`);
+        for (const highlight of result.highlights ?? []) {
+          lines.push(`- ...${highlight.fragment}...`);
         }
         lines.push('');
       }
@@ -450,15 +451,15 @@ export class SearchExporter {
 
     for (const result of response.results) {
       lines.push('    <div class="result">');
-      lines.push(`      <div class="result-title">${this.escapeXML(result.title || result.id)}</div>`);
+      lines.push(`      <div class="result-title">${this.escapeXML(result.document.title || result.document.id)}</div>`);
       if (options.includeScore) {
         lines.push(`      <div class="result-score">Score: ${result.score.toFixed(4)}</div>`);
       }
-      lines.push(`      <div class="result-content">${this.escapeXML(result.content)}</div>`);
-      if (options.includeHighlights && result.highlights.length > 0) {
+      lines.push(`      <div class="result-content">${this.escapeXML(result.document.content)}</div>`);
+      if (options.includeHighlights && (result.highlights?.length ?? 0) > 0) {
         lines.push('      <div class="highlights">');
-        for (const highlight of result.highlights) {
-          lines.push(`        <p>...${highlight}...</p>`);
+        for (const highlight of result.highlights ?? []) {
+          lines.push(`        <p>...${highlight.fragment}...</p>`);
         }
         lines.push('      </div>');
       }
@@ -541,8 +542,8 @@ export class SearchExporter {
   /**
    * Get field value from object
    */
-  private getFieldValue(obj: Record<string, unknown>, field: string): unknown {
-    return obj[field];
+  private getFieldValue(obj: object, field: string): unknown {
+    return (obj as Record<string, unknown>)[field];
   }
 
   /**

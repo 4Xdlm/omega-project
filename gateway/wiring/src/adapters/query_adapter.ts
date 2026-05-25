@@ -280,7 +280,7 @@ export class QueryAdapter implements NexusHandler {
       filters: payload.filters,
       limit,
       offset,
-      sort: payload.sort,
+      ...(payload.sort !== undefined && { sort: payload.sort }),
     });
 
     return ok({ results: result.results, total: result.total });
@@ -314,7 +314,7 @@ export class QueryAdapter implements NexusHandler {
     const result = await this.query.aggregate({
       field: payload.field,
       operation: payload.operation,
-      filters: payload.filters,
+      ...(payload.filters !== undefined && { filters: payload.filters }),
     });
 
     return ok({ value: result.value });

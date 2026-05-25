@@ -92,7 +92,7 @@ export function buildEnvelope<TPayload>(
   const envelope: NexusEnvelope<TPayload> = {
     message_id,
     trace_id: args.trace_id,
-    parent_span_id: args.parent_span_id,
+    ...(args.parent_span_id !== undefined && { parent_span_id: args.parent_span_id }),
     timestamp,
     source_module: args.source_module,
     target_module: args.target_module,
@@ -100,8 +100,8 @@ export function buildEnvelope<TPayload>(
     payload_schema: args.payload_schema,
     payload_version: args.payload_version,
     module_version: args.module_version,
-    auth_context: args.auth_context,
-    expected_previous_hash: args.expected_previous_hash,
+    ...(args.auth_context !== undefined && { auth_context: args.auth_context }),
+    ...(args.expected_previous_hash !== undefined && { expected_previous_hash: args.expected_previous_hash }),
     // replay_protection_key sera calculé ci-dessous
     replay_protection_key: '',
     payload: args.payload,

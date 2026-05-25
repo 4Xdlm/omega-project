@@ -323,9 +323,12 @@ export function validateGatewayInput(raw: unknown): ValidationResult<GatewayInpu
       return { valid: true, value: { kind, hash: obj.hash } };
 
     case 'memory.listKeys':
-      return { 
-        valid: true, 
-        value: { kind, prefix: typeof obj.prefix === 'string' ? obj.prefix : undefined } 
+      return {
+        valid: true,
+        value: {
+          kind,
+          ...(typeof obj.prefix === 'string' && { prefix: obj.prefix }),
+        },
       };
 
     case 'query.search':
@@ -337,8 +340,8 @@ export function validateGatewayInput(raw: unknown): ValidationResult<GatewayInpu
         value: {
           kind,
           query: obj.query,
-          limit: typeof obj.limit === 'number' ? obj.limit : undefined,
-          offset: typeof obj.offset === 'number' ? obj.offset : undefined,
+          ...(typeof obj.limit === 'number' && { limit: obj.limit }),
+          ...(typeof obj.offset === 'number' && { offset: obj.offset }),
         },
       };
 
@@ -351,7 +354,7 @@ export function validateGatewayInput(raw: unknown): ValidationResult<GatewayInpu
         value: {
           kind,
           filters: obj.filters as Record<string, unknown>,
-          limit: typeof obj.limit === 'number' ? obj.limit : undefined,
+          ...(typeof obj.limit === 'number' && { limit: obj.limit }),
         },
       };
 

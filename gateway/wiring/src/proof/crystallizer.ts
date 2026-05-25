@@ -246,7 +246,7 @@ export class ProofCrystallizer {
       performanceProfile,
       invariants,
       verdict,
-      contaminationReason,
+      ...(contaminationReason !== undefined && { contaminationReason }),
     };
 
     // Hash final du cristal

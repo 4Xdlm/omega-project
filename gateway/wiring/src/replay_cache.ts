@@ -201,7 +201,7 @@ export function createReplayCache(
 ): ReplayCache {
   return new ReplayCache({
     clock,
-    ttlMs: options?.ttlMs,
-    maxSize: options?.maxSize,
+    ...(options?.ttlMs !== undefined && { ttlMs: options.ttlMs }),
+    ...(options?.maxSize !== undefined && { maxSize: options.maxSize }),
   });
 }

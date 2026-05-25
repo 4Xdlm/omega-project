@@ -304,7 +304,7 @@ export class MemoryAdapter implements NexusHandler {
     const payload = env.payload as MemoryListKeysPayload;
     const prefix = payload?.prefix;
 
-    const result = await this.memory.listKeys({ prefix });
+    const result = await this.memory.listKeys(prefix !== undefined ? { prefix } : {});
     return ok({ keys: result.keys });
   }
 

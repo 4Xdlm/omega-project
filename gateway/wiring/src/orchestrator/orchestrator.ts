@@ -243,8 +243,8 @@ export class Orchestrator {
   constructor(config: OrchestratorConfig) {
     this.clock = config.clock;
     this.registry = config.registry;
-    this.policy = config.policy;
-    this.replayGuard = config.replayGuard;
+    if (config.policy !== undefined) this.policy = config.policy;
+    if (config.replayGuard !== undefined) this.replayGuard = config.replayGuard;
     this.chronicle = config.chronicle ?? createChronicle();
     this.chronicleWriter = new ChronicleWriter(this.chronicle, config.clock);
     this.circuitConfig = config.circuitBreaker ?? DEFAULT_CIRCUIT_CONFIG;

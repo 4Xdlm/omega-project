@@ -72,14 +72,26 @@ export interface EmotionalInsight {
  * Narrative analysis result
  */
 export interface NarrativeAnalysis {
-  /** Overall tone description */
-  tone: string;
-  /** Narrative arc detected */
-  arc: 'rising' | 'falling' | 'stable' | 'mixed';
+  /** Overall tone description (optional, may be unset in lightweight streaming analysis) */
+  tone?: string;
+  /** Narrative arc detected (optional) */
+  arc?: 'rising' | 'falling' | 'stable' | 'mixed';
   /** Key themes identified */
   themes: string[];
-  /** Character/voice analysis */
-  voice: string;
+  /** Character/voice analysis (optional) */
+  voice?: string;
+  /** Structural decomposition (optional, returned by streaming analysis) */
+  structure?: {
+    introduction: string;
+    development: string[];
+    conclusion: string;
+  };
+  /** Style metrics (optional, returned by streaming analysis) */
+  style?: {
+    tone: string;
+    complexity: 'simple' | 'complex';
+    readabilityScore: number;
+  };
 }
 
 /**

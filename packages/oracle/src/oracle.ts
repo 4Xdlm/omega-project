@@ -127,7 +127,7 @@ export class Oracle {
 
       // Emit analyze error event
       emitEvent("oracle.analyze.error", "ERROR", "OBS-ORACLE-003", {
-        errorType: error instanceof OracleError ? error.code : "UNKNOWN",
+        errorType: error instanceof OracleError ? error.type : "UNKNOWN",
         durationMs: Date.now() - startTime,
       });
 

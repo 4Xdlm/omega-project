@@ -234,7 +234,7 @@ export function computeSimilarity(
 /**
  * Noms des fragrances par combinaison émotionnelle
  */
-const FRAGRANCE_NAMES: Record<string, string> = {
+export const FRAGRANCE_NAMES: Record<string, string> = {
   // Combinaisons principales
   "joy_love": "Romantique Lumineux",
   "joy_hope": "Optimiste Radiant",

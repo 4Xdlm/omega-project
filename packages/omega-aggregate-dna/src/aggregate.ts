@@ -17,7 +17,7 @@ import type {
   EmotionType,
 } from "./types.js";
 import { EMOTION_TYPES } from "./types.js";
-import { computeMerkleRoot, hashObject } from "./merkle.js";
+import { computeMerkleRoot } from "./merkle.js";
 
 /**
  * Version de l'agrégateur
@@ -48,7 +48,7 @@ export function aggregateDNA<DNA extends DNACore>(
   adapter: AggregateAdapter<DNA>
 ): AggregateResult<DNA> {
   const startTime = Date.now();
-  const { seed, version, segmentDNAs, segmentWeights, segmentationHash } = input;
+  const { seed, segmentDNAs, segmentWeights, segmentationHash } = input;
 
   // ─────────────────────────────────────────────────────────────────────────────
   // CAS VIDE

@@ -89,10 +89,12 @@ export {
 } from './envelope.js';
 
 // ─── Replay Cache ─────────────────────────────────────────────────────────────
+// Note: ReplayCheckResult aliased to avoid collision with orchestrator/replay_guard.ts
+// (which has a richer 4-status variant). Cache version is a simple boolean check.
 export type {
   ReplayCacheEntry,
   ReplayCacheConfig,
-  ReplayCheckResult,
+  ReplayCheckResult as ReplayCacheCheckResult,
 } from './replay_cache.js';
 
 export {

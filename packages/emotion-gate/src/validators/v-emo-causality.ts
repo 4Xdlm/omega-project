@@ -12,7 +12,7 @@ import type {
   EmotionValidatorId,
   EmotionMetrics,
 } from '../gate/types.js';
-import { OMEGA_EMO_CAUSALITY_WINDOW, OMEGA_EMO_NEGLIGIBLE_DELTA } from '../gate/types.js';
+import { OMEGA_EMO_NEGLIGIBLE_DELTA } from '../gate/types.js';
 import type { EmotionValidator } from './validator-interface.js';
 import { passResult, failResult } from './validator-interface.js';
 import { computeDriftVector } from '../metrics/drift-metrics.js';

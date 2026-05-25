@@ -384,7 +384,7 @@ export class QueryAdapter implements NexusHandler {
   }
 
   getSupportedSchemas(): string[] {
-    const schemas = [QUERY_SCHEMAS.SEARCH];
+    const schemas: QuerySchema[] = [QUERY_SCHEMAS.SEARCH];
     if (this.query.find) schemas.push(QUERY_SCHEMAS.FIND);
     if (this.query.aggregate) schemas.push(QUERY_SCHEMAS.AGGREGATE);
     if (this.query.analyze) schemas.push(QUERY_SCHEMAS.ANALYZE);

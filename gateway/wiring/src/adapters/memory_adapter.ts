@@ -319,7 +319,7 @@ export class MemoryAdapter implements NexusHandler {
    * Retourne les schemas supportés
    */
   getSupportedSchemas(): string[] {
-    const schemas = [MEMORY_SCHEMAS.WRITE, MEMORY_SCHEMAS.READ_LATEST];
+    const schemas: MemorySchema[] = [MEMORY_SCHEMAS.WRITE, MEMORY_SCHEMAS.READ_LATEST];
     if (this.memory.readByHash) schemas.push(MEMORY_SCHEMAS.READ_BY_HASH);
     if (this.memory.listKeys) schemas.push(MEMORY_SCHEMAS.LIST_KEYS);
     return schemas;

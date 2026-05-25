@@ -11,8 +11,6 @@
  *   MP6: dialogue_ratio_conformity (0..1)
  */
 
-import { sha256 } from '@omega/canon-kernel';
-
 // ─── Types ───────────────────────────────────────────────────────
 
 export interface ProseMetricsInput {
@@ -25,7 +23,7 @@ export interface ProseMetricsInput {
       readonly max_dialogue_ratio: number;
       readonly min_sensory_anchors_per_scene: number;
     };
-    readonly scenes: readonly Array<{
+    readonly scenes: ReadonlyArray<{
       readonly scene_id: string;
       readonly word_count: number;
       readonly pov_detected: string;
@@ -33,7 +31,7 @@ export interface ProseMetricsInput {
       readonly sensory_anchor_count: number;
       readonly dialogue_ratio: number;
       readonly paragraphs: readonly string[];
-      readonly violations: readonly Array<{ readonly severity: string }>;
+      readonly violations: ReadonlyArray<{ readonly severity: string }>;
     }>;
     readonly score: {
       readonly schema_ok: boolean;

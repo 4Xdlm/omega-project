@@ -3,7 +3,7 @@
  * Phase R-METRICS — Creates MetricsReport from run artifacts
  */
 
-import type { MetricsReport, MetricEvidence, MetricConfig, RunArtifacts, GlobalScore } from '../types.js';
+import type { MetricsReport, MetricEvidence, MetricConfig, RunArtifacts } from '../types.js';
 import { computeStructuralMetrics } from '../metrics/structural.js';
 import { computeSemanticMetrics } from '../metrics/semantic.js';
 import { computeDynamicMetrics } from '../metrics/dynamic.js';

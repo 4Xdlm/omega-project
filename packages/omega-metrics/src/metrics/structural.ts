@@ -3,7 +3,7 @@
  * Objective structural quality measures
  */
 
-import type { GenesisPlan, MetricConfig, Arc, Scene } from '../types.js';
+import type { GenesisPlan, MetricConfig, Scene } from '../types.js';
 
 /**
  * S1 — arc_completeness (weight: 0.15)

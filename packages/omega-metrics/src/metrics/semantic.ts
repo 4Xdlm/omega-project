@@ -4,7 +4,7 @@
  * NO NLP, NO sentiment analysis — deterministic heuristics only
  */
 
-import type { GenesisPlan, IntentPack, SemanticMetrics, Arc, Scene } from '../types.js';
+import type { GenesisPlan, IntentPack, SemanticMetrics } from '../types.js';
 
 const STOP_WORDS = new Set([
   'the', 'a', 'an', 'of', 'and', 'or', 'in', 'to', 'for', 'is', 'it', 'its',

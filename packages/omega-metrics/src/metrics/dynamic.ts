@@ -4,7 +4,7 @@
  * Deterministic, offline only
  */
 
-import type { DynamicMetrics, MetricsReport } from '../types.js';
+import type { DynamicMetrics } from '../types.js';
 
 /**
  * D1 — intra_intent_stability (weight: 0.35)

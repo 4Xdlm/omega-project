@@ -13,7 +13,7 @@ import {
   DEFAULT_CONFIG,
   OracleError,
 } from './types';
-import { emitEvent } from '@omega/omega-observability';
+import { emitEvent } from '@omega/observability';
 
 // ═══════════════════════════════════════════════════════════════════════════
 // THRESHOLDS (internal, not exported)

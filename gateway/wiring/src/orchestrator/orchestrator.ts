@@ -29,6 +29,7 @@
 import type { NexusResult, Clock } from '../types.js';
 import { ok, fail, isOk, isErr } from '../types.js';
 import { validateEnvelopeStrict } from '../envelope.js';
+import { canonicalHash } from '../canonical_json.js';
 import { adapterError, safeError } from '../errors.js';
 import type { PolicyEngine } from '../policy.js';
 import { HandlerRegistry } from './registry.js';
@@ -303,10 +304,11 @@ export class Orchestrator {
       const receivedRecordId = this.chronicleWriter.dispatchReceived(env);
 
       // Chronicle: Validation OK
+      // INV-ORCH-XX: envelope_hash computed via canonicalHash (NexusEnvelope type has no envelope_hash field, previous `env.envelope_hash ?? 'N/A'` masked TS2339 bug + always returned 'N/A')
       const validationRecordId = this.chronicleWriter.validationOk(
         env,
         receivedRecordId,
-        env.envelope_hash ?? 'N/A'
+        canonicalHash(env)
       );
 
       // ═══════════════════════════════════════════════════════════════════════

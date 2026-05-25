@@ -32,17 +32,6 @@ function computeEmotionalDistance(a: EmotionStateV2, b: EmotionStateV2): number 
 }
 
 /**
- * Check if two emotional states are coherent (similar enough).
- */
-function areStatesCoherent(
-  a: EmotionStateV2,
-  b: EmotionStateV2,
-  radius: number
-): boolean {
-  return computeEmotionalDistance(a, b) <= radius;
-}
-
-/**
  * V-EMO-COHERENCE Validator
  *
  * Checks:
@@ -91,7 +80,7 @@ export class VEmoCoherenceValidator implements EmotionValidator {
       return deferResult(
         this.id,
         this.version,
-        'No related entity frames available for coherence check'
+        ['No related entity frames available for coherence check']
       );
     }
 

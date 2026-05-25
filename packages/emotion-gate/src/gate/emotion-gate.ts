@@ -16,12 +16,10 @@ import type {
   EmotionEnforceResult,
   EmotionEnforceAction,
   EmotionValidatorResult,
-  EmotionPolicy,
   EmotionCalibration,
   EmotionSequence,
   DriftVector,
   ToxicitySignal,
-  EmotionProof,
   EmotionGateMetrics,
   DriftStatistics,
   ToxicityStatistics,
@@ -39,10 +37,9 @@ import {
   createCoherenceValidator,
   VEmoAmplificationValidator,
   VEmoToxicityValidator,
-  VEmoCoherenceValidator,
 } from '../validators/index.js';
 import { computeDriftVector, createZeroDriftVector } from '../metrics/drift-metrics.js';
-import { computeToxicitySignal, createSafeToxicitySignal } from '../metrics/toxicity-metrics.js';
+import { computeToxicitySignal } from '../metrics/toxicity-metrics.js';
 import { generateEmotionProof } from '../proof/proof-generator.js';
 
 /**

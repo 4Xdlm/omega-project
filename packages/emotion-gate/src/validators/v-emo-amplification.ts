@@ -44,7 +44,7 @@ export class VEmoAmplificationValidator implements EmotionValidator {
     this.sequence = sequence;
   }
 
-  evaluate(frame: EmotionFrame, context: EmotionGateContext): EmotionValidatorResult {
+  evaluate(_frame: EmotionFrame, context: EmotionGateContext): EmotionValidatorResult {
     const cycleThreshold = context.calibration[OMEGA_EMO_AMPLIFICATION_CYCLES];
 
     // No sequence — defer (need more data)
@@ -52,7 +52,7 @@ export class VEmoAmplificationValidator implements EmotionValidator {
       return deferResult(
         this.id,
         this.version,
-        'Insufficient sequence data for amplification detection'
+        ['Insufficient sequence data for amplification detection']
       );
     }
 

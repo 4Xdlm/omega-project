@@ -56,7 +56,7 @@ export class VEmoToxicityValidator implements EmotionValidator {
       const metrics: EmotionMetrics = {
         toxicity_signal: createSafeToxicitySignal(),
       };
-      return deferResult(this.id, this.version, 'Insufficient data for toxicity analysis', metrics);
+      return deferResult(this.id, this.version, ['Insufficient data for toxicity analysis'], metrics);
     }
 
     // Compute toxicity signal

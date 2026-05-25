@@ -6,7 +6,6 @@
 
 import type {
   EmotionStateV2,
-  EmotionFrame,
   EmotionSequence,
   StabilityMetrics,
 } from '../gate/types.js';

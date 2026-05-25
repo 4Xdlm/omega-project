@@ -37,7 +37,6 @@ export class VEmoCausalityValidator implements EmotionValidator {
   evaluate(frame: EmotionFrame, context: EmotionGateContext): EmotionValidatorResult {
     const previousFrame = context.previous_frame;
     const negligibleDelta = context.calibration[OMEGA_EMO_NEGLIGIBLE_DELTA];
-    const _causalityWindow = context.calibration[OMEGA_EMO_CAUSALITY_WINDOW];
 
     // First frame — no causality required
     if (!previousFrame) {

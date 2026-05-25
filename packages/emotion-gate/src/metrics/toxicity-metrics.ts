@@ -198,7 +198,7 @@ export function countContradictions(sequence: EmotionSequence): number {
  * Compute complete toxicity signal for a frame in context.
  */
 export function computeToxicitySignal(
-  frame: EmotionFrame,
+  _frame: EmotionFrame,
   sequence: EmotionSequence | undefined,
   calibration: EmotionCalibration
 ): ToxicitySignal {

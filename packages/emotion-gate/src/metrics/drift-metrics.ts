@@ -10,7 +10,6 @@ import type {
   EmotionSequence,
   DriftVector,
   EmotionDelta,
-  EMOTION_DIMENSIONS,
 } from '../gate/types.js';
 
 /**

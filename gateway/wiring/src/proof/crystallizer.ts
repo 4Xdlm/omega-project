@@ -312,7 +312,14 @@ export class ProofCrystallizer {
     result: NexusResult<unknown>,
     chronicle: ChronicleRecord[]
   ): ProofCrystal['invariants'] {
-    const invariants: ProofCrystal['invariants'] = [];
+    // Local mutable type pour construction progressive via .push()
+    // Retour assignable à readonly readonly{...}[] de ProofCrystal['invariants'] (covariant safe)
+    const invariants: Array<{
+      id: string;
+      name: string;
+      status: 'PASS' | 'FAIL';
+      evidence: string;
+    }> = [];
 
     // Invariants par défaut
     const defaultInvariants: Array<{

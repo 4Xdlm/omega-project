@@ -272,6 +272,33 @@ describe('V-RAIL-SEPARATION Validator', () => {
     expect(result.evidence.some(e => e.type === 'rail_violation')).toBe(true);
   });
 
+  // S11.Z generic evidence check (Q2 ChatGPT obligatoires) — invariant "PROMOTE requires at least one evidence_ref"
+  it('should DENY PROMOTE on truth rail WITHOUT evidence_refs (S11.Z generic invariant)', () => {
+    const tx = createTestTx([createTestOp('entity1', ['field'], 'value', 'PROMOTE')], 'truth');
+    const result = validator.validate(tx, createTestContext());
+    expect(result.verdict).toBe('DENY');
+    const hasEvidenceMissing = result.evidence.some(
+      e => e.type === 'rail_violation' && e.details.includes('at least one evidence reference')
+    );
+    expect(hasEvidenceMissing).toBe(true);
+  });
+
+  it('should ALLOW PROMOTE on truth rail WITH at least one canonical evidence_ref (S11.Z generic invariant)', () => {
+    // Use canon-kernel EvidenceType: 'oracle' is a canonical type
+    const opWithEvidence = createCanonOp(createTestOpId(), 'PROMOTE', createTestEntityId('entity1'), {
+      field_path: ['field'],
+      value: 'value',
+      evidence_refs: [{ type: 'oracle', path: 'oracle:test-attestation', description: 'test canonical evidence' }],
+    });
+    const tx = createTestTx([opWithEvidence], 'truth');
+    const result = validator.validate(tx, createTestContext());
+    // No rail_violation related to evidence missing (other validators may produce other violations, scope-limited check)
+    const hasEvidenceMissing = result.evidence.some(
+      e => e.type === 'rail_violation' && e.details.includes('at least one evidence reference')
+    );
+    expect(hasEvidenceMissing).toBe(false);
+  });
+
   it('should DENY canonical modification on interpretation rail', () => {
     const tx = createTestTx([createTestOpWithRawEntityId('canon:1', ['field'], 'value')], 'interpretation');
     const result = validator.validate(tx, createTestContext());

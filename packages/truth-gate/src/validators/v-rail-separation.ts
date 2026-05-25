@@ -50,15 +50,16 @@ export class VRailSeparationValidator extends BaseValidator {
         isValid = false;
       }
 
-      // PROMOTE must reference an interpretation entity
-      if (op.evidence_refs && op.evidence_refs.length > 0) {
-        const sourceEvidence = op.evidence_refs.find(e => e.type === 'interpretation_source');
-        if (!sourceEvidence) {
-          this.addEvidence(evidence, 'rail_violation', 'PROMOTE must have interpretation_source evidence', {
-            location: `op.${op.op_id}`,
-          });
-          isValid = false;
-        }
+      // PROMOTE must have at least one evidence reference (Q2 generic invariant)
+      // S11.Z DEAD CODE REMOVAL : 'interpretation_source' fantome supprime (jamais produit runtime)
+      // Audit S11.Y-TRUTH-GATE-DESIGN-AUDIT 2026-05-25 :
+      //   - bug latent runtime : tous PROMOTE generaient rail_violation (find toujours undefined)
+      //   - refactor invariant generique : au moins 1 evidence_ref (canon EvidenceType : file/url/hash/signature/timestamp/oracle/human/gate_approval)
+      if ((op.evidence_refs?.length ?? 0) === 0) {
+        this.addEvidence(evidence, 'rail_violation', 'PROMOTE must have at least one evidence reference', {
+          location: `op.${op.op_id}`,
+        });
+        isValid = false;
       }
     }
 

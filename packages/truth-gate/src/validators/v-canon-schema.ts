@@ -135,8 +135,10 @@ export class VCanonSchemaValidator extends BaseValidator {
       isValid = false;
     }
 
-    // Validate target (entity_id) for non-DELETE ops
-    if (op.type !== 'DELETE' && (!op.target || typeof op.target !== 'string')) {
+    // Validate target (entity_id) for non-TOMBSTONE ops
+    // S11.Z fix : 'DELETE' fantome remplace par 'TOMBSTONE' (canon OpType, audit S11.Y 2026-05-25)
+    // OpType canon = SET|UNSET|PATCH|LINK|UNLINK|TOMBSTONE|RESTORE|MERGE_RESOLVE|PROMOTE (no 'DELETE')
+    if (op.type !== 'TOMBSTONE' && (!op.target || typeof op.target !== 'string')) {
       this.addEvidence(evidence, 'schema_violation', `Missing target at index ${index}`, {
         location: `tx.ops[${index}].target`,
       });

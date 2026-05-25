@@ -4,7 +4,6 @@
  * Types for the append-only verdict ledger.
  */
 
-import type { RootHash } from '@omega/canon-kernel';
 import type { GateVerdict, LedgerHash } from '../gate/types.js';
 
 /**

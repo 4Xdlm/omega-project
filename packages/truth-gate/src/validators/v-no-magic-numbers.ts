@@ -10,7 +10,7 @@
  */
 
 import type { CanonTx } from '@omega/canon-kernel';
-import { getCalibrated, Ω_WINDOW, Ω_CONTINUITY_MIN, Ω_EMOTION_MIN } from '@omega/canon-kernel';
+// S11.Z cleanup : getCalibrated/Ω_WINDOW/Ω_CONTINUITY_MIN/Ω_EMOTION_MIN removed (used only by isFromCalibration which was dead-code-removed)
 import type { ValidatorId, ValidationContext, VerdictType, VerdictEvidence } from '../gate/types.js';
 import { BaseValidator } from './base-validator.js';
 
@@ -52,7 +52,7 @@ export class VNoMagicNumbersValidator extends BaseValidator {
     // Check each operation's value for magic numbers
     for (const op of tx.ops) {
       if (op.value !== undefined) {
-        const magicNumbers = this.findMagicNumbers(op.value, op.field_path || '');
+        const magicNumbers = this.findMagicNumbers(op.value, op.field_path?.join('.') ?? '');
 
         for (const magic of magicNumbers) {
           this.addEvidence(evidence, 'magic_number', `Potential magic number detected: ${magic.value}`, {
@@ -64,25 +64,11 @@ export class VNoMagicNumbersValidator extends BaseValidator {
         }
       }
 
-      // Check evidence for magic numbers
-      if (op.evidence) {
-        for (let i = 0; i < op.evidence.length; i++) {
-          const ev = op.evidence[i];
-          if (ev.confidence !== undefined && typeof ev.confidence === 'number') {
-            // Confidence should come from calibration
-            if (!this.isFromCalibration(ev.confidence, context)) {
-              // Check if it's a computed value (0-1 range is OK)
-              if (ev.confidence < 0 || ev.confidence > 1) {
-                this.addEvidence(evidence, 'magic_number', `Evidence confidence outside [0,1] range`, {
-                  location: `op.${op.op_id}.evidence[${i}].confidence`,
-                  actual: String(ev.confidence),
-                });
-                isValid = false;
-              }
-            }
-          }
-        }
-      }
+      // S11.Z DEAD CODE REMOVAL : block "op.evidence" supprime
+      // CanonOp n'a pas de champ "evidence" (seulement "evidence_refs: readonly EvidenceRef[]")
+      // Le concept "ev.confidence" n'existe pas dans EvidenceRef canon
+      // Pattern identique aux 7 valeurs fantomes v-emotion-ssot.ts / v-rail-separation.ts
+      // Audit S11.Y-TRUTH-GATE-DESIGN-AUDIT 2026-05-25 : DEAD_CODE_CONFIRMED
     }
 
     // Verify that calibration is being used
@@ -145,17 +131,9 @@ export class VNoMagicNumbersValidator extends BaseValidator {
     return this.EXEMPT_PATTERNS.some(pattern => pattern.test(fieldPath));
   }
 
-  private isFromCalibration(value: number, context: ValidationContext): boolean {
-    // Check if value matches any calibration value
-    const calibration = context.calibration;
-    const calibrationValues = [
-      getCalibrated(calibration, Ω_WINDOW),
-      getCalibrated(calibration, Ω_CONTINUITY_MIN),
-      getCalibrated(calibration, Ω_EMOTION_MIN),
-    ];
-
-    return calibrationValues.includes(value);
-  }
+  // S11.Z cleanup : isFromCalibration removed (was only called from deleted op.evidence block)
+  // If calibration-based magic number detection is needed in the future, re-implement
+  // with proper EvidenceRef.metadata structure (see audit S11.Y 2026-05-25)
 
   private verifyCalibrationUsage(
     context: ValidationContext,

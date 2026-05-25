@@ -81,23 +81,11 @@ export class VEmotionSSOTValidator extends BaseValidator {
       }
     }
 
-    // Check emotion source evidence
-    for (const op of emotionOps) {
-      if (op.evidence_refs && op.evidence_refs.length > 0) {
-        const hasValidSource = op.evidence_refs.some(e =>
-          e.type === 'oracle_analysis' ||
-          e.type === 'author_annotation' ||
-          e.type === 'computed_emotion'
-        );
-
-        if (!hasValidSource) {
-          this.addEvidence(evidence, 'emotion_ssot_violation', `Emotion update lacks valid source evidence`, {
-            location: `op.${op.op_id}`,
-          });
-          // This is a warning, not a failure
-        }
-      }
-    }
+    // S11.Z DEAD CODE REMOVAL (audit S11.Y-TRUTH-GATE-DESIGN-AUDIT 2026-05-25) :
+    // Block "Check emotion source evidence" SUPPRIME entierement
+    // 3 valeurs fantomes ('oracle_analysis'/'author_annotation'/'computed_emotion') jamais produites runtime
+    // EvidenceType canon = 'file'|'url'|'hash'|'signature'|'timestamp'|'oracle'|'human'|'gate_approval'
+    // Sans le check fantome, le block devient redondant (outer length check inutile sans semantique distincte)
 
     // If we have store snapshot, check for SSOT violations
     if (context.store_snapshot) {
@@ -108,15 +96,14 @@ export class VEmotionSSOTValidator extends BaseValidator {
           const currentValue = currentFacts.get(fieldPathStr);
 
           // Check if emotion is being changed without proper evidence
+          // S11.Z Q2-style refactor : check generique evidence_refs.length > 0
+          // (au lieu des 3 valeurs fantomes 'emotion_correction'/'oracle_reanalysis'/'author_override')
+          // Preserve l'intent semantique "emotion change requires evidence" sans dependance string fantome
           if (currentValue !== undefined && currentValue !== op.value) {
-            const hasChangeEvidence = op.evidence_refs?.some(e =>
-              e.type === 'emotion_correction' ||
-              e.type === 'oracle_reanalysis' ||
-              e.type === 'author_override'
-            );
+            const hasChangeEvidence = (op.evidence_refs?.length ?? 0) > 0;
 
             if (!hasChangeEvidence) {
-              this.addEvidence(evidence, 'emotion_ssot_violation', `Emotion change without correction evidence`, {
+              this.addEvidence(evidence, 'emotion_ssot_violation', `Emotion change without supporting evidence`, {
                 location: `${op.target}.${fieldPathStr}`,
                 expected: String(currentValue),
                 actual: String(op.value),

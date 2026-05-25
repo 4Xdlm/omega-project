@@ -72,17 +72,9 @@ export interface GateVerdict {
 }
 
 /**
- * Ledger entry for append-only verdict storage.
- */
-export interface LedgerEntry {
-  readonly index: number;
-  readonly verdict: GateVerdict;
-  readonly parent_hash: LedgerHash;
-  readonly cumulative_hash: LedgerHash;
-}
-
-/**
  * Validator interface - all validators must implement this.
+ * S11.Z cleanup : LedgerEntry duplicate REMOVED from gate/types.ts (audit S11.Y 2026-05-25)
+ * Canonical source = ledger/types.ts (5 fields with timestamp, used by VerdictLedger class)
  */
 export interface Validator {
   readonly id: ValidatorId;

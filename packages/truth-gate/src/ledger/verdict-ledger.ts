@@ -8,7 +8,7 @@
  * RULE: Hash chain must be continuous.
  */
 
-import { canonicalize, sha256, type RootHash } from '@omega/canon-kernel';
+import { canonicalize, sha256 } from '@omega/canon-kernel';
 import type { GateVerdict, LedgerHash, VerdictType } from '../gate/types.js';
 import type { LedgerEntry, LedgerSnapshot } from './types.js';
 import { LEDGER_GENESIS_HASH } from './types.js';

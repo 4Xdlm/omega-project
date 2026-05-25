@@ -24,10 +24,9 @@ export const DEFAULT_DRIFT_CONFIG: DriftDetectorConfig = {
  * NarrativeDriftDetector - Detects narrative inconsistencies.
  */
 export class NarrativeDriftDetector {
-  private readonly config: DriftDetectorConfig;
-
-  constructor(config: Partial<DriftDetectorConfig> = {}) {
-    this.config = { ...DEFAULT_DRIFT_CONFIG, ...config };
+  // S11.Z cleanup : config field removed (assigned but never read) — kept ctor for API compat
+  constructor(_config: Partial<DriftDetectorConfig> = {}) {
+    // intentionally no-op : detector stateless, config consumed via DEFAULT_DRIFT_CONFIG defaults
   }
 
   /**

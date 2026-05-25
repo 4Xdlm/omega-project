@@ -8,7 +8,7 @@
  * RULE: All verdicts are recorded in the append-only ledger.
  */
 
-import type { CanonTx, CalibrationConfig } from '@omega/canon-kernel';
+import type { CanonTx } from '@omega/canon-kernel';
 import type {
   Validator,
   ValidationContext,
@@ -16,7 +16,6 @@ import type {
   GateVerdict,
   TruthGateConfig,
   PolicyPack,
-  VerdictType,
   ValidatorId,
   StoreSnapshotRef,
 } from './types.js';

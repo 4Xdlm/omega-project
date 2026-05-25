@@ -4,8 +4,7 @@
  * Types for versioned policy management.
  */
 
-import type { RootHash } from '@omega/canon-kernel';
-import type { PolicyId, PolicyPack, PolicyRules, ValidatorId } from '../gate/types.js';
+import type { PolicyPack, PolicyRules, ValidatorId } from '../gate/types.js';
 
 /**
  * Policy creation input.

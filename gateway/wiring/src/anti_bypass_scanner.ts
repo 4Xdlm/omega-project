@@ -19,7 +19,7 @@
 // ═══════════════════════════════════════════════════════════════════════════════
 
 import { readFileSync, readdirSync, statSync } from 'fs';
-import { join, relative, extname } from 'path';
+import { join, extname } from 'path';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // TYPES

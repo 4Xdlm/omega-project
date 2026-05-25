@@ -27,7 +27,7 @@ import {
   ok,
   fail,
 } from './types.js';
-import { canonicalStringify, canonicalHash } from './canonical_json.js';
+import { canonicalHash } from './canonical_json.js';
 import { EnvelopeErrors } from './errors.js';
 
 // ═══════════════════════════════════════════════════════════════════════════════

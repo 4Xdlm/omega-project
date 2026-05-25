@@ -17,7 +17,7 @@
 //
 // ═══════════════════════════════════════════════════════════════════════════════
 
-import type { NexusEnvelope, NexusError } from '../types.js';
+import type { NexusEnvelope } from '../types.js';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // RECORD TYPES

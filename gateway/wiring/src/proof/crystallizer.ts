@@ -21,9 +21,9 @@
 // ═══════════════════════════════════════════════════════════════════════════════
 
 import type { NexusEnvelope, NexusResult, Clock } from '../types.js';
-import { ok, fail, isOk, isErr } from '../types.js';
-import type { Chronicle, ChronicleRecord } from '../orchestrator/chronicle.js';
-import { Orchestrator, createOrchestrator } from '../orchestrator/orchestrator.js';
+import { isOk } from '../types.js';
+import type { ChronicleRecord } from '../orchestrator/chronicle.js';
+import { createOrchestrator } from '../orchestrator/orchestrator.js';
 import { HandlerRegistry } from '../orchestrator/registry.js';
 import { InMemoryChronicle } from '../orchestrator/chronicle.js';
 import { ReplayGuard, InMemoryReplayStore } from '../orchestrator/replay_guard.js';
@@ -35,9 +35,7 @@ import {
   DeterminismProver,
   sha256,
   hashObject,
-  MerkleNode,
 } from './crystal.js';
-import { canonicalStringify } from '../canonical_json.js';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // TYPES
@@ -140,7 +138,6 @@ export class ProofCrystallizer {
     scenario: CrystalScenario,
     options?: CrystallizeOptions
   ): Promise<ProofCrystal> {
-    const startTime = this.clock.nowMs();
     const crystalId = `crystal-${++this.crystalCounter}-${Date.now().toString(36)}`;
 
     const detRuns = options?.determinismRuns ?? this.determinismRuns;

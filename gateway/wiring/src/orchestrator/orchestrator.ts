@@ -26,11 +26,11 @@
 //
 // ═══════════════════════════════════════════════════════════════════════════════
 
-import type { NexusEnvelope, NexusResult, Clock } from '../types.js';
+import type { NexusResult, Clock } from '../types.js';
 import { ok, fail, isOk, isErr } from '../types.js';
 import { validateEnvelopeStrict } from '../envelope.js';
 import { adapterError, safeError } from '../errors.js';
-import type { PolicyEngine, PolicyDecision } from '../policy.js';
+import type { PolicyEngine } from '../policy.js';
 import { HandlerRegistry } from './registry.js';
 import type { Chronicle } from './chronicle.js';
 import { ChronicleWriter, createChronicle } from './chronicle.js';

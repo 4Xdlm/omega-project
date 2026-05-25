@@ -36,7 +36,6 @@ import {
   type ValidationResult,
   mapToEnvelopeSpec,
   validateGatewayInput,
-  GatewayValidationCodes,
 } from './gateway_schemas.js';
 
 const MODULE = 'gateway_adapter';

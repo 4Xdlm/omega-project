@@ -316,7 +316,7 @@ contents: src/ tests/ dist/ vitest.config.ts tsconfig.json package.json
 
 ### omega-observability
 ```
-name: @omega/omega-observability
+name: @omega/observability
 path: packages/omega-observability
 role: Progress callbacks and observability — zero-impact design for NASA-grade pipeline
 files_count: 5

@@ -270,7 +270,7 @@ export const MOD_OBSERVABILITY = createModuleContract(
   V1_0_0,
   'STABLE',
   'UTILITY',
-  '@omega/omega-observability',
+  '@omega/observability',
   'Observability - event emitter, formatters, telemetry',
   [],
   [

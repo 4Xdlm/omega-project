@@ -50,10 +50,10 @@ export function diffManifests(before: Manifest, after: Manifest): DiffResult {
     entries.push(Object.freeze({
       path,
       type,
-      beforeHash: beforeEntry?.sha256,
-      afterHash: afterEntry?.sha256,
-      beforeSize: beforeEntry?.size,
-      afterSize: afterEntry?.size,
+      ...(beforeEntry?.sha256 !== undefined && { beforeHash: beforeEntry.sha256 }),
+      ...(afterEntry?.sha256 !== undefined && { afterHash: afterEntry.sha256 }),
+      ...(beforeEntry?.size !== undefined && { beforeSize: beforeEntry.size }),
+      ...(afterEntry?.size !== undefined && { afterSize: afterEntry.size }),
     }));
   }
 

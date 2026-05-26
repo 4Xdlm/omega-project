@@ -10,7 +10,7 @@ import { readFileSync, writeFileSync, statSync, existsSync, mkdirSync } from 'fs
 import { dirname } from 'path';
 import type { Snapshot, SnapshotEntry, SnapshotOptions, RestoreResult, Clock } from './types.js';
 import { systemClock } from './types.js';
-import { ProofSnapshotCreateError, ProofSnapshotRestoreError } from './errors.js';
+import { ProofSnapshotCreateError } from './errors.js';
 
 // ============================================================
 // ID Generation

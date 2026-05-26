@@ -118,7 +118,7 @@ function Invoke-WithRetry {
 
     for ($attempt = 1; $attempt -le $Retries; $attempt++) {
         try {
-            Write-Log "Attempt $attempt/$Retries: $Description" "INFO" @{ attempt = $attempt; maxRetries = $Retries }
+            Write-Log "Attempt $attempt/${Retries}: $Description" "INFO" @{ attempt = $attempt; maxRetries = $Retries }
             $result = & $Action
             Write-Log "Success: $Description" "SUCCESS" @{ attempt = $attempt }
             return $result

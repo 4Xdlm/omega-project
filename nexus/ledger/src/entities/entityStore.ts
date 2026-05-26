@@ -3,7 +3,7 @@
  * Standard: NASA-Grade L4
  */
 
-import type { Entity, Event } from '../types.js';
+import type { Entity } from '../types.js';
 import * as EventStore from '../events/eventStore.js';
 
 export function project(entityId: string): Entity | undefined {

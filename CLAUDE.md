@@ -1,5 +1,5 @@
 # OMEGA — IA OPERATIONS MANUAL
-**Version**: v3.156.0 | **Standard**: NASA-Grade L4 / DO-178C Level A
+**Version**: v3.157.0 | **Standard**: NASA-Grade L4 / DO-178C Level A
 
 ---
 
@@ -200,10 +200,11 @@ Francky (Architect) — FINAL AUTHORITY
 
 ---
 
-## H) DOCTRINAL AMENDMENTS (Sprint S8 sealed 2026-05-02)
+## H) DOCTRINAL AMENDMENTS (Sprint S8 sealed 2026-05-02 + Sprint S11 sealed 2026-05-26)
 
-Six amendments scellés post Sprints S6+S7+S8. Référence complète :
-[docs/governance/SPRINT_S8_DOCTRINAL_AMENDMENTS.md](docs/governance/SPRINT_S8_DOCTRINAL_AMENDMENTS.md)
+Huit amendments scellés post Sprints S6+S7+S8+S11. Références complètes :
+- Amendements 1-6 : [docs/governance/SPRINT_S8_DOCTRINAL_AMENDMENTS.md](docs/governance/SPRINT_S8_DOCTRINAL_AMENDMENTS.md)
+- Amendements 7-8 (EMP-09 + EMP-10) : [docs/governance/SPRINT_S11_DOCTRINAL_AMENDMENTS.md](docs/governance/SPRINT_S11_DOCTRINAL_AMENDMENTS.md)
 
 | # | Amendement | Règle synthétique |
 |---|---|---|
@@ -213,10 +214,12 @@ Six amendments scellés post Sprints S6+S7+S8. Référence complète :
 | 4 | STRUCTURED_MEMORY_PRIORITY | Mémoire = piste, pas preuve. Recoupage repo obligatoire |
 | 5 | RECOVERY_TEST_DOCTRINE | Cleanup mass précédé NCR + test reverse |
 | 6 | WORKSPACE_VS_REPO_DRIFT | Paths préfixés `[SANDBOX]` ou `[REPO]` |
+| 7 | MASK_REVEAL_AUDIT (EMP-09) | Audit DRY-RUN 5 axes Windows-MCP avant activation `noEmitOnError` ou fix mécanique massif. Seuil `MASK_REVEAL_DELTA_THRESHOLD` configurable (défaut 0 strict). État `MASK_REVEAL_DETECTED` = STOP + NCR |
+| 8 | TEST_BEFORE_COMMIT_STRICT (EMP-10) | Wrapper `commit-with-tests.ps1` obligatoire. Typologie A (code) = TSC PASS + Vitest PASS empirique requis. Typologie B (doc-only) = chemin `DOC_ONLY` du wrapper, scope diff vérifié, sans TSC/Vitest |
 
 **Note** : Le concept "Plan Max v3.X" précédemment référencé dans
 NCRs Sprint S8 est NON-CANONIQUE. Le seul document canonique de
-doctrine OMEGA est ce CLAUDE.md (version v3.156.0).
+doctrine OMEGA est ce CLAUDE.md (version v3.157.0).
 
 ---
 

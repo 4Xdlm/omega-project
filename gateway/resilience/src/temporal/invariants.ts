@@ -19,23 +19,16 @@ import {
   TemporalInvariant,
   InvariantSeverity,
   InvariantCategory,
-  LTLFormula,
 } from './types.js';
 import {
   atom,
   always,
-  eventually,
   implies,
-  and,
   not,
   or,
-  until,
-  weakUntil,
-  next,
   safety,
   liveness,
   fairness,
-  absence,
   mutualExclusion,
   boundedResponse,
 } from './ltl.js';

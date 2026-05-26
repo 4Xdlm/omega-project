@@ -33,7 +33,6 @@ import {
   runId,
   StressSeed,
   LatencyMs,
-  RunId,
   RequestsPerSecond,
 } from './types.js';
 

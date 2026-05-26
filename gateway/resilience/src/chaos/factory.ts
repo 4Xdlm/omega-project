@@ -24,7 +24,6 @@ import {
   PerturbationId,
   ChaosSeed,
   Magnitude,
-  DurationMs,
 } from './types.js';
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -72,7 +71,7 @@ export class PerturbationBuilder {
    * Set the target module
    */
   targetModule(moduleId: string): this {
-    this._target.moduleId = moduleId;
+    this._target = { ...this._target, moduleId };
     return this;
   }
 
@@ -80,7 +79,7 @@ export class PerturbationBuilder {
    * Set the target operation
    */
   targetOperation(operation: string): this {
-    this._target.operation = operation;
+    this._target = { ...this._target, operation };
     return this;
   }
 
@@ -88,7 +87,7 @@ export class PerturbationBuilder {
    * Set the target probability
    */
   probability(value: number): this {
-    this._target.probability = magnitude(value);
+    this._target = { ...this._target, probability: magnitude(value) };
     return this;
   }
 
@@ -345,7 +344,7 @@ export function raceCondition(operations: string[], seed: number): Perturbation 
 // SCENARIO FACTORIES - Pre-built chaos scenarios
 // ═══════════════════════════════════════════════════════════════════════════════
 
-import { sequence, parallel, choice, repeat } from './composition.js';
+import { sequence, parallel, repeat } from './composition.js';
 
 /**
  * Network instability scenario

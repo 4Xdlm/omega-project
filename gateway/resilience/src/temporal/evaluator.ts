@@ -20,8 +20,6 @@ import {
   isBooleanConstant,
   stateId,
   traceTime,
-  TraceTime,
-  StateId,
 } from './types.js';
 
 // ═══════════════════════════════════════════════════════════════════════════════

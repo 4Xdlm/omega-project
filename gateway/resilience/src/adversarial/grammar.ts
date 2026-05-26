@@ -26,10 +26,9 @@ import {
   ResourceAttackType,
   TimingAttackType,
   InjectionAttackType,
-  CorruptionAttackType,
-  ProtocolAttackType,
   MutationType,
   AnyAttack,
+  AttackId,
   attackId,
 } from './types.js';
 
@@ -999,7 +998,7 @@ export const ADVERSARIAL_GRAMMAR = {
    * Get attacks by category
    */
   byCategory(category: AttackCategory): ReadonlyArray<AnyAttack> {
-    return this.rules[category]?.enumerate() ?? [];
+    return this.rules[category as keyof typeof ADVERSARIAL_GRAMMAR['rules']]?.enumerate() ?? [];
   },
   
   /**

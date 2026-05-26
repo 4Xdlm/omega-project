@@ -21,10 +21,8 @@ import {
   PerturbationDomain,
   PerturbationEffect,
   isPerturbation,
-  isComposedPerturbation,
   timestampMs,
   durationMs,
-  magnitude,
   TimestampMs,
   DurationMs,
   Magnitude,
@@ -32,7 +30,6 @@ import {
   CompositionOperator,
 } from './types.js';
 import { createRandom, DeterministicRandom } from './factory.js';
-import { flatten } from './composition.js';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // INJECTION CONTEXT
@@ -285,7 +282,7 @@ export class ChaosInjector {
    */
   private applyPerturbation(
     p: Perturbation,
-    moduleState: ModuleState
+    _moduleState: ModuleState
   ): { response: SystemResponse; sideEffects: string[]; recoveryTime: DurationMs | null } {
     const sideEffects: string[] = [];
     let response: SystemResponse;

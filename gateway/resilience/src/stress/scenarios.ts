@@ -15,7 +15,6 @@ import {
   StressResponse,
   StressThresholds,
   OMEGA_THRESHOLDS,
-  requestsPerSecond,
   stressSeed,
   runId,
   latencyMs,
@@ -171,7 +170,7 @@ export function createScenario(name: string): ScenarioBuilder {
 
   const builder: ScenarioBuilder = {
     withProfile(profile: LoadProfile) {
-      config.profile = profile;
+      config = { ...config, profile };
       return builder;
     },
     withThresholds(_thresholds: StressThresholds) {
@@ -179,19 +178,19 @@ export function createScenario(name: string): ScenarioBuilder {
       return builder;
     },
     withSeed(seed: number) {
-      config.seed = stressSeed(seed);
+      config = { ...config, seed: stressSeed(seed) };
       return builder;
     },
     withWorkers(workers: number) {
-      config.workers = workers;
+      config = { ...config, workers };
       return builder;
     },
     withGenerator(generator) {
-      config.generator = generator;
+      config = { ...config, generator };
       return builder;
     },
     withHandler(handler) {
-      config.handler = handler;
+      config = { ...config, handler };
       return builder;
     },
     build(): StressRunConfig {
@@ -373,7 +372,7 @@ export const flakyHandler = (failureRate: number) =>
     return {
       requestId: req.id,
       success: !shouldFail,
-      error: shouldFail ? 'Simulated failure' : undefined,
+      ...(shouldFail && { error: 'Simulated failure' }),
       latencyMs: latencyMs(completedAt - startedAt),
       startedAt,
       completedAt,

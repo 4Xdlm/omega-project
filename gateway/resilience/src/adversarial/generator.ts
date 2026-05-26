@@ -20,7 +20,6 @@ import {
   attackId,
   testCaseId,
   AttackId,
-  TestCaseId,
   isEnvelopeAttack,
   isReplayAttack,
   isBypassAttack,
@@ -28,7 +27,6 @@ import {
   isTimingAttack,
   isInjectionAttack,
   EnvelopeAttackType,
-  MutationType,
 } from './types.js';
 import { ADVERSARIAL_GRAMMAR } from './grammar.js';
 
@@ -55,13 +53,14 @@ export function generateTestCases(attack: AnyAttack): AttackTestCase[] {
  * Generate the primary test case for an attack
  */
 function generatePrimaryTestCase(attack: AnyAttack): AttackTestCase {
+  const expectedErrorCode = getExpectedErrorCode(attack);
   return {
     id: testCaseId(`TC_${attack.id}_PRIMARY`),
     attackId: attack.id,
     input: generateAttackInput(attack),
     expectedOutcome: {
       shouldReject: attack.expectedResponse === ExpectedResponse.REJECT,
-      expectedErrorCode: getExpectedErrorCode(attack),
+      ...(expectedErrorCode !== undefined && { expectedErrorCode }),
       stateUnchanged: attack.expectedResponse === ExpectedResponse.REJECT,
       invariantsToVerify: [...attack.protectedInvariants],
     },
@@ -81,7 +80,7 @@ function generateBoundaryTestCases(attack: AnyAttack): AttackTestCase[] {
     cases.push({
       id: testCaseId(`TC_${attack.id}_BOUNDARY_LOW`),
       attackId: attack.id,
-      input: { ...generateAttackInput(attack), exhaustionLevel: attack.exhaustionLevel * 0.5 },
+      input: { ...(generateAttackInput(attack) as Record<string, unknown>), exhaustionLevel: attack.exhaustionLevel * 0.5 },
       expectedOutcome: {
         shouldReject: false,
         stateUnchanged: false,

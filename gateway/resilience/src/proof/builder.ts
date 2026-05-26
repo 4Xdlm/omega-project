@@ -23,7 +23,6 @@ import {
   crystalSeal,
   CrystalId,
   ProofId,
-  CrystalSeal,
   CRITICAL_INVARIANTS,
   ALL_PROOF_CATEGORIES,
 } from './types.js';
@@ -74,17 +73,23 @@ export class ProofBuilder {
   }
 
   withTestResults(results: ProofEvidence['testResults']): this {
-    this._evidence.testResults = results;
+    if (results !== undefined) {
+      this._evidence = { ...this._evidence, testResults: results };
+    }
     return this;
   }
 
   withFormalVerification(results: ProofEvidence['formalVerification']): this {
-    this._evidence.formalVerification = results;
+    if (results !== undefined) {
+      this._evidence = { ...this._evidence, formalVerification: results };
+    }
     return this;
   }
 
   withStressResults(results: ProofEvidence['stressResults']): this {
-    this._evidence.stressResults = results;
+    if (results !== undefined) {
+      this._evidence = { ...this._evidence, stressResults: results };
+    }
     return this;
   }
 
@@ -334,15 +339,16 @@ export class CrystalBuilder {
     const failedCount = this._proofs.filter(p => p.status === ProofStatus.FAILED).length;
     const pendingCount = this._proofs.filter(p => p.status === ProofStatus.PENDING).length;
 
-    const byCategory = {} as CrystalSummary['byCategory'];
+    const byCategoryMutable: Record<string, { total: number; proven: number; failed: number }> = {};
     for (const category of ALL_PROOF_CATEGORIES) {
       const categoryProofs = this._proofs.filter(p => p.category === category);
-      byCategory[category] = {
+      byCategoryMutable[category] = {
         total: categoryProofs.length,
         proven: categoryProofs.filter(p => p.status === ProofStatus.PROVEN).length,
         failed: categoryProofs.filter(p => p.status === ProofStatus.FAILED).length,
       };
     }
+    const byCategory = byCategoryMutable as CrystalSummary['byCategory'];
 
     // Check critical invariants
     const criticalInvariantsProven = CRITICAL_INVARIANTS.every(inv => {

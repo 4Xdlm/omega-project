@@ -1,25 +1,20 @@
 /**
  * OMEGA RESILIENCE PROOF SYSTEM
  * Main Index
- * 
+ *
  * Phase 23
- * 
- * Exports all resilience system components.
+ * 2026-05-26 : namespace re-exports to resolve cross-module ambiguities (TS2308 fix)
+ *
+ * Each sub-module exposed under its namespace to prevent name collisions
+ * (e.g. ALL_RESPONSES exists in chaos AND adversarial with different semantics).
+ *
+ * Usage:
+ *   import { Chaos, Adversarial, Temporal, Stress, Proof } from '@omega/resilience';
+ *   const cell: Adversarial.CoverageCell = ...;
  */
 
-// Chaos Algebra
-export * from './chaos/index.js';
-
-// Adversarial Grammar
-export * from './adversarial/index.js';
-
-// Temporal Logic
-export * from './temporal/index.js';
-
-// Stress Engine
-export * from './stress/index.js';
-
-// Resilience Crystal (Proof)
-export * from './proof/index.js';
-
-// Integration tests will be added
+export * as Chaos from './chaos/index.js';
+export * as Adversarial from './adversarial/index.js';
+export * as Temporal from './temporal/index.js';
+export * as Stress from './stress/index.js';
+export * as Proof from './proof/index.js';

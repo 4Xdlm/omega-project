@@ -16,7 +16,6 @@ import {
   Perturbation,
   ComposedPerturbation,
   CompositionOperator,
-  CompositionParams,
   ComputedBounds,
   PerturbationDomain,
   PerturbationEffect,

@@ -15,12 +15,9 @@ import {
   AttackCategory,
   Severity,
   ExpectedResponse,
-  Exploitability,
   AttackId,
   ALL_CATEGORIES,
   ALL_SEVERITIES,
-  SEVERITY_ORDER,
-  EXPLOITABILITY_ORDER,
 } from './types.js';
 import { ADVERSARIAL_GRAMMAR } from './grammar.js';
 

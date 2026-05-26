@@ -120,7 +120,7 @@ export abstract class OmegaError extends Error {
    * Create a formatted string representation
    * @public
    */
-  toString(): string {
+  override toString(): string {
     return `[${this.code}] ${this.message}`;
   }
 }

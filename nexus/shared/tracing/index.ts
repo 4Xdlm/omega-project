@@ -200,10 +200,10 @@ class SpanImpl implements Span {
   ) {
     this.traceId = traceId;
     this.spanId = spanId;
-    this.parentSpanId = parentSpanId;
+    if (parentSpanId !== undefined) this.parentSpanId = parentSpanId;
     this.name = name;
     this.clock = clock;
-    this.onEnd = onEnd;
+    if (onEnd !== undefined) this.onEnd = onEnd;
     this.startTime = clock();
   }
 
@@ -237,16 +237,20 @@ class SpanImpl implements Span {
   }
 
   getData(): SpanData {
-    return {
+    const base = {
       traceId: this.traceId,
       spanId: this.spanId,
-      parentSpanId: this.parentSpanId,
       name: this.name,
       startTime: this.startTime,
-      endTime: this.endTime,
       status: this.status,
       attributes: { ...this.attributes },
     };
+    const withParent = this.parentSpanId !== undefined
+      ? { ...base, parentSpanId: this.parentSpanId }
+      : base;
+    return this.endTime !== undefined
+      ? { ...withParent, endTime: this.endTime }
+      : withParent;
   }
 
   isEnded(): boolean {
@@ -273,7 +277,7 @@ export class Tracer {
     this.serviceName = config.serviceName;
     this.correlationProvider = config.correlationProvider;
     this.clock = config.clock ?? (() => Date.now());
-    this.onSpanEnd = config.onSpanEnd;
+    if (config.onSpanEnd !== undefined) this.onSpanEnd = config.onSpanEnd;
   }
 
   /**
@@ -435,10 +439,15 @@ export function parseTraceparent(header: string): { traceId: string; spanId: str
   if (parts.length !== 4 || parts[0] !== '00') {
     return null;
   }
+  const traceId = parts[1];
+  const spanId = parts[2];
+  if (traceId === undefined || spanId === undefined) {
+    return null;
+  }
 
   return {
-    traceId: parts[1],
-    spanId: parts[2],
+    traceId,
+    spanId,
   };
 }
 

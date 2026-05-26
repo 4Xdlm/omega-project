@@ -107,7 +107,7 @@ export class Logger {
     this.clock = config.clock ?? (() => Date.now());
     this.minLevel = config.minLevel ?? 'info';
     this.output = config.output ?? defaultOutput;
-    this.correlationId = config.correlationId;
+    if (config.correlationId !== undefined) this.correlationId = config.correlationId;
   }
 
   // ==========================================================================
@@ -146,12 +146,13 @@ export class Logger {
    * Create a child logger with additional context
    */
   child(config: Partial<Omit<LoggerConfig, 'clock' | 'output'>>): Logger {
+    const correlationId = config.correlationId ?? this.correlationId;
     return new Logger({
       module: config.module ?? this.module,
       clock: this.clock,
       minLevel: config.minLevel ?? this.minLevel,
       output: this.output,
-      correlationId: config.correlationId ?? this.correlationId,
+      ...(correlationId !== undefined && { correlationId }),
     });
   }
 
@@ -237,9 +238,9 @@ export function createTestLogger(
   const entries: LogEntry[] = [];
   const logger = new Logger({
     module,
-    clock,
+    ...(clock !== undefined && { clock }),
     minLevel: 'debug',
-    output: (entry) => entries.push(entry),
+    output: (entry) => { entries.push(entry); },
   });
   return { logger, entries };
 }

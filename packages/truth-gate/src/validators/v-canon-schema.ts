@@ -124,8 +124,10 @@ export class VCanonSchemaValidator extends BaseValidator {
       isValid = false;
     }
 
-    // Validate type (op_type)
-    const validOpTypes = ['SET', 'DELETE', 'PROMOTE', 'LINK', 'UNLINK'];
+    // Validate type (op_type) — canon OpType (audit 2026-05-26 P0 fix)
+    // Was: ['SET', 'DELETE', 'PROMOTE', 'LINK', 'UNLINK'] (incoherent with TOMBSTONE check below)
+    // Now: full canon OpType matching CanonOp typedef
+    const validOpTypes = ['SET', 'UNSET', 'PATCH', 'LINK', 'UNLINK', 'TOMBSTONE', 'RESTORE', 'MERGE_RESOLVE', 'PROMOTE'];
     if (!op.type || !validOpTypes.includes(op.type)) {
       this.addEvidence(evidence, 'schema_violation', `Invalid op type at index ${index}`, {
         location: `tx.ops[${index}].type`,

@@ -25,7 +25,8 @@ const VAKOG_LEXICONS = {
     'entendre', 'écouter', 'bruit', 'son', 'voix', 'cri', 'murmure', 'chuchotement',
     'silence', 'écho', 'résonner', 'musique', 'mélodie', 'rythme', 'note',
     'sonore', 'mot', 'parole', 'dire', 'parler', 'crier', 'chuchoter',
-    'whisper', 'sourd', 'aigu', 'grave', 'fort', 'doux',
+    'sourd', 'aigu', 'grave', 'fort',
+    // Audit 2026-05-26 P1 fix : removed 'whisper' (anglais) + 'doux' (polysémique, déjà dans kinesthetic+olfactory)
   ]),
   kinesthetic: new Set([
     'toucher', 'sentir', 'caresser', 'effleurer', 'serrer', 'tenir', 'pousser',
@@ -50,7 +51,8 @@ const BODY_BINDING_LEXICON = new Set([
   'main', 'doigt', 'poing', 'paume', 'bras', 'épaule', 'coude', 'poignet',
   'pied', 'jambe', 'genou', 'cheville', 'talon', 'cuisse',
   'tête', 'crâne', 'front', 'visage', 'joue', 'menton', 'tempe',
-  'œil', 'œilil', 'paupière', 'sourcil', 'regard',
+  // Audit 2026-05-26 P1 fix : removed typo 'œilil' (duplicate of 'œil')
+  'œil', 'paupière', 'sourcil', 'regard',
   'bouche', 'lèvre', 'dent', 'langue',
   'nez', 'narine', 'oreille',
   'tremblement', 'frisson', 'sueur', 'douleur', 'brûlure', 'spasme',
@@ -90,11 +92,13 @@ const CONCRETE_PROXY_LEXICON = new Set([
  * French-aware (preserves é, è, à, ç, etc.).
  */
 export function tokenize(text: string): string[] {
+  // Audit 2026-05-26 P3 fix : after normalize+replace diacritics, text is ASCII pure.
+  // Split regex no longer needs French accented chars (were dead).
   return text
     .toLowerCase()
     .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '') // remove combining diacritics for matching
-    .split(/[^a-zàâäéèêëïîôöùûüÿñç0-9-]+/)
+    .replace(/[̀-ͯ]/g, '') // remove combining diacritics (explicit Unicode range)
+    .split(/[^a-z0-9-]+/)
     .filter((t) => t.length > 0);
 }
 

@@ -74,22 +74,25 @@ export class OllamaEmbedder {
     });
 
     let response: Response;
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), this.config.timeout_ms);
     try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), this.config.timeout_ms);
       response = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body,
         signal: controller.signal,
       });
-      clearTimeout(timeoutId);
     } catch (e) {
+      const errMsg = e instanceof Error ? e.message : String(e);
       throw new EmbeddingError(
-        `Ollama API request failed: ${(e as Error).message}`,
+        `Ollama API request failed: ${errMsg}`,
         'NETWORK_ERROR',
         { endpoint: url, model: this.config.model }
       );
+    } finally {
+      // Audit 2026-05-26 P1 fix : clearTimeout in finally prevents leak + race
+      clearTimeout(timeoutId);
     }
 
     if (!response.ok) {

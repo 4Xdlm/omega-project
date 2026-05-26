@@ -70,7 +70,11 @@ export function evaluateThreshold(
   }
 
   let skipped = 0;
-  let totalQualitySkipped = 0;
+  // Audit 2026-05-26 P1 fix : drift on SAME subset (skipped samples)
+  // Was: avg_quality_full (all samples) - avg_composite (skipped subset) → biased populations
+  // Now: drift = avg(final - composite) ON skipped subset only (true skip cost)
+  let totalCompositeSkippedSubset = 0;
+  let totalFinalSkippedSubset = 0;
   let totalQualityFull = 0;
 
   for (const sample of samples) {
@@ -84,8 +88,8 @@ export function evaluateThreshold(
 
     if (wouldSkip) {
       skipped++;
-      // When skipping, quality = first candidate composite
-      totalQualitySkipped += composite;
+      totalCompositeSkippedSubset += composite;
+      totalFinalSkippedSubset += sample.final_quality;
     }
     totalQualityFull += sample.final_quality;
   }
@@ -93,9 +97,15 @@ export function evaluateThreshold(
   return {
     threshold,
     skip_rate: skipped / samples.length,
-    avg_quality_skipped: skipped > 0 ? totalQualitySkipped / skipped : 0,
+    avg_quality_skipped: skipped > 0 ? totalCompositeSkippedSubset / skipped : 0,
     avg_quality_full: totalQualityFull / samples.length,
-    quality_drift: skipped > 0 ? totalQualityFull / samples.length - totalQualitySkipped / skipped : 0,
+    // Drift on the SAME subset : ground truth - approximation
+    // Positive = we'd lose quality by skipping (skip cost)
+    // Negative = composite over-estimates final (rare)
+    quality_drift:
+      skipped > 0
+        ? (totalFinalSkippedSubset - totalCompositeSkippedSubset) / skipped
+        : 0,
     samples_count: samples.length,
   };
 }

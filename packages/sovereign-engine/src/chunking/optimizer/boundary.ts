@@ -72,7 +72,8 @@ export class ChunkBoundaryOptimizer {
     }
 
     // Generate candidate boundary sentence indices
-    const candidateBoundaries = this.generateCandidateBoundaries([], arcs, cumulWords);
+    // Audit 2026-05-26 P2 fix : sentences not needed (was passing [] hack)
+    const candidateBoundaries = this.generateCandidateBoundaries(arcs, cumulWords);
 
     // Enumerate boundary sets producing [min_chunks, max_chunks] chunks
     const bestSet = this.findBestBoundarySet(
@@ -90,7 +91,6 @@ export class ChunkBoundaryOptimizer {
    * Combines arc transitions + size-target waypoints.
    */
   private generateCandidateBoundaries(
-    _sentences: readonly string[],
     arcs: readonly EmotionalArc[],
     cumulWords: readonly number[]
   ): number[] {
@@ -227,6 +227,8 @@ export class ChunkBoundaryOptimizer {
 
   /**
    * Build a single chunk from sentence range.
+   * Audit 2026-05-26 P2 fix : arcs param is already pre-filtered by caller (buildChunks).
+   * Removed redundant arcs.filter() that duplicated O(n) work.
    */
   private buildChunk(
     sentences: readonly string[],
@@ -241,7 +243,7 @@ export class ChunkBoundaryOptimizer {
     const text = slice.join(' ');
     const wordCount = text.split(/\s+/).filter((t) => /[a-zàâäéèêëïîôöùûüÿñçA-ZÀÂÄÉÈÊËÏÎÔÖÙÛÜŸÑÇ]/.test(t)).length;
 
-    const chunkArcs = arcs.filter((a) => a.start_idx < endIdx && a.end_idx > startIdx);
+    const chunkArcs = arcs;
 
     const metadata: ChunkMetadata = {
       chunk_index: chunkIndex,

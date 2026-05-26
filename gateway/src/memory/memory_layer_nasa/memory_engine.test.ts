@@ -43,7 +43,7 @@ function createWriteRequest(
   return {
     key,
     payload,
-    provenance: createUserProvenance("test-user", "test-action"),
+    provenance: createUserProvenance("test-user", "CREATION"),
     expected_previous_hash: expectedPreviousHash,
   };
 }
@@ -55,7 +55,7 @@ function createSystemWriteRequest(
   return {
     key,
     payload,
-    provenance: createSystemProvenance("memory_engine", "auto-write"),
+    provenance: createSystemProvenance("memory_engine", "CREATION"),
   };
 }
 
@@ -724,7 +724,7 @@ describe("ATTACK TESTS — Engine Security", () => {
       const result = engine.write({
         key: "",
         payload: {},
-        provenance: createUserProvenance("test", "test"),
+        provenance: createUserProvenance("test", "CREATION"),
       });
       
       expect(result.success).toBe(false);
@@ -738,7 +738,7 @@ describe("ATTACK TESTS — Engine Security", () => {
       const result = engine.write({
         key: "char:alice",
         payload: circular,
-        provenance: createUserProvenance("test", "test"),
+        provenance: createUserProvenance("test", "CREATION"),
       });
       
       expect(result.success).toBe(false);

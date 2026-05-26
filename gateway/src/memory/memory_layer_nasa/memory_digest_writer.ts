@@ -41,13 +41,13 @@ import {
  * @param params - Paramètres d'écriture
  * @returns Response ou erreur
  */
-export function writeDigest(params: {
+export async function writeDigest(params: {
   store: MemoryStore;
   canonical_key: string;
   payload: DigestPayload;
   timestamp_utc: string;
   initial_tier?: MemoryTier;
-}): MemoryWriteResponse {
+}): Promise<MemoryWriteResponse> {
   // Write via store with RIPPLE_ENGINE source
   return params.store.write({
     source: "RIPPLE_ENGINE",
@@ -57,7 +57,7 @@ export function writeDigest(params: {
     payload: params.payload,
     timestamp_utc: params.timestamp_utc,
     initial_tier: params.initial_tier,
-  }) as MemoryWriteResponse;
+  });
 }
 
 // ─────────────────────────────────────────────────────────────────────────────────

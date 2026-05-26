@@ -185,8 +185,8 @@ export {
 
 export type {
   QueryableRecord,
-  QueryOptions,
-  QueryResult,
+  QueryOptions as QueryEngineOptions,
+  QueryResult as QueryEngineResult,
   StoreSnapshot,
   QueryConfig,
   QueryStats,

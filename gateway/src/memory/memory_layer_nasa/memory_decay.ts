@@ -150,7 +150,7 @@ export class DecayManager {
       target_entry_id: params.target_entry_id,
       event_type: "DECAY_MARKED",
       timestamp_utc: params.timestamp_utc ?? nowUtcIso(),
-      payload,
+      payload: payload as unknown as Readonly<Record<string, unknown>>,
     });
   }
 
@@ -181,7 +181,7 @@ export class DecayManager {
       target_entry_id: params.target_entry_id,
       event_type: "DECAY_COMPLETED",
       timestamp_utc: params.timestamp_utc ?? nowUtcIso(),
-      payload,
+      payload: payload as unknown as Readonly<Record<string, unknown>>,
     });
   }
 

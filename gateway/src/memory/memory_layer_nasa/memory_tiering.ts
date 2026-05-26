@@ -315,7 +315,7 @@ export function applyTieringActions(
       target_entry_id: action.target_entry_id,
       event_type: "TIER_CHANGED",
       timestamp_utc: action.timestamp_utc,
-      payload,
+      payload: payload as unknown as Readonly<Record<string, unknown>>,
     });
 
     if (result.ok) {
@@ -363,7 +363,7 @@ export function logAccess(
     target_entry_id: params.target_entry_id,
     event_type: "ACCESS_LOGGED",
     timestamp_utc: params.timestamp_utc ?? nowUtcIso(),
-    payload,
+    payload: payload as unknown as Readonly<Record<string, unknown>>,
   });
 }
 

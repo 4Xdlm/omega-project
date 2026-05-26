@@ -209,8 +209,7 @@ export class MemoryEngine {
         return failure(MemoryErrors.versionConflict(
           request.key,
           history.length,
-          history.length + 1,
-          `Expected previous_hash ${request.expected_previous_hash}, got ${actualPrevious}`
+          history.length + 1
         ));
       }
     }

@@ -66,7 +66,7 @@ export function getEffectiveTier(
 
   // Return to_tier of the last change
   const last = sorted[sorted.length - 1];
-  const payload = last.payload as TierChangedPayload;
+  const payload = last.payload as unknown as TierChangedPayload;
   return payload.to_tier;
 }
 
@@ -205,7 +205,7 @@ export class MemoryHybrid {
       target_entry_id: params.target_entry_id,
       event_type: "TIER_CHANGED",
       timestamp_utc: params.timestamp_utc ?? nowUtcIso(),
-      payload,
+      payload: payload as unknown as Readonly<Record<string, unknown>>,
     });
   }
 

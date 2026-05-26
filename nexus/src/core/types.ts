@@ -427,7 +427,6 @@ export interface ObservatorySnapshot {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 let moduleCounter = 0;
-let invariantCounter = 0;
 let testCounter = 0;
 
 export function moduleId(value?: string): ModuleId {

@@ -18,7 +18,7 @@ import {
   TestResult,
   TestStatus,
   InvariantRegistry,
-  Invariant,
+  InvariantId,
   ProofStatus,
   CertificationHash,
   SemanticVersion,
@@ -28,12 +28,10 @@ import {
   commitHash,
   timestampMs,
   coveragePercent,
-  certificationHash,
   CERTIFICATION_THRESHOLDS,
   OMEGA_VERSION,
-  ALL_MODULES,
 } from '../core/types.js';
-import { sha256, hashObject, getMerkleRoot, buildMerkleTree, MerkleTree } from '../core/crypto.js';
+import { sha256, getMerkleRoot } from '../core/crypto.js';
 import { INVARIANT_REGISTRY, getModuleInvariants, getCriticalInvariants, getRegistryStats } from '../core/registry.js';
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -153,17 +151,21 @@ export class CertificationEngine {
     let totalDuration = 0;
 
     for (const [module, data] of this.moduleData) {
-      const results: TestResult[] = data.testResults.map((t, i) => ({
-        id: `${module}_TEST_${i + 1}` as any,
-        name: t.name,
-        module,
-        invariantId: t.invariantId as any,
-        status: t.status,
-        duration: t.duration,
-        error: t.error,
-        hash: sha256(`${module}:${t.name}:${t.status}`),
-        timestamp,
-      }));
+      const results: TestResult[] = data.testResults.map((t, i): TestResult => {
+        const base = {
+          id: `${module}_TEST_${i + 1}` as TestResult['id'],
+          name: t.name,
+          module,
+          status: t.status,
+          duration: t.duration,
+          hash: sha256(`${module}:${t.name}:${t.status}`),
+          timestamp,
+        };
+        const withInv = t.invariantId !== undefined
+          ? { ...base, invariantId: t.invariantId as InvariantId }
+          : base;
+        return (t.error !== undefined ? { ...withInv, error: t.error } : withInv) as TestResult;
+      });
 
       const passed = results.filter(r => r.status === TestStatus.PASS).length;
       const failed = results.filter(r => r.status === TestStatus.FAIL).length;
@@ -327,7 +329,7 @@ export class CertificationEngine {
       CertificationLevel.DIAMOND,
     ];
 
-    let minLevel = CertificationLevel.DIAMOND;
+    let minLevel: CertificationLevel = CertificationLevel.DIAMOND;
     for (const m of modules) {
       const mIndex = levelPriority.indexOf(m.level);
       const minIndex = levelPriority.indexOf(minLevel);

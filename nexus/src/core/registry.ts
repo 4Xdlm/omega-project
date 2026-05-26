@@ -40,18 +40,18 @@ function defineInvariant(
   testIds: string[] = [],
   confidence: number = 1.0
 ): Invariant {
-  const inv = {
+  const baseInv = {
     id: invariantId(id),
     name,
     description,
     module,
     category,
     severity,
-    formula,
     status,
     testIds: testIds.map(t => testId(t)),
     confidence: confidenceLevel(confidence),
   };
+  const inv = formula !== undefined ? { ...baseInv, formula } : baseInv;
   
   return {
     ...inv,

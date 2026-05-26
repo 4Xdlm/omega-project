@@ -19,7 +19,7 @@ import {
   timestampMs,
   ALL_MODULES,
 } from '../core/types.js';
-import { sha256 } from '../core/crypto.js';
+// sha256 import removed - unused after S13.3 cleanup
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // METRIC DEFINITIONS
@@ -121,12 +121,13 @@ export class Observatory {
     );
 
     const status = this.evaluateMetricHealth(value, definition);
+    const threshold = definition?.criticalThreshold;
     const metric: ObservatoryMetric = {
       name,
       module,
       value,
       unit,
-      threshold: definition?.criticalThreshold,
+      ...(threshold !== undefined && { threshold }),
       status,
       timestamp: timestampMs(),
     };
@@ -161,7 +162,7 @@ export class Observatory {
     const alert: ObservatoryAlert = {
       id: `ALERT_${++this.alertCounter}_${Date.now()}`,
       module,
-      invariantId,
+      ...(invariantId !== undefined && { invariantId }),
       severity,
       message,
       details,
@@ -331,7 +332,7 @@ export class Observatory {
     }
 
     // Compute worst health status
-    let worstStatus = HealthStatus.HEALTHY;
+    let worstStatus: HealthStatus = HealthStatus.HEALTHY;
     for (const metric of moduleMetrics) {
       if (metric.status === HealthStatus.CRITICAL) {
         worstStatus = HealthStatus.CRITICAL;

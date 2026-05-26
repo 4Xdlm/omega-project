@@ -1,8 +1,7 @@
 /**
  * OMEGA V2.1 — Chunking Module Index
  *
- * Sprint V2.1 implementation complete — Public API surface
- * Calibration corpus 1334 livres pending (post-implementation phase)
+ * Sprint V2.1 implementation complete + calibration framework 2026-05-26
  */
 
 export * from './types.js';
@@ -42,3 +41,4 @@ export {
   computeCostBreakdown,
 } from './optimizer/cost.js';
 export type { CostBreakdown } from './optimizer/cost.js';
+export * from './calibration/index.js';

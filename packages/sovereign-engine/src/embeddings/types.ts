@@ -10,6 +10,7 @@
 export type EmbeddingModel =
   | 'paraphrase-multilingual-MiniLM-L12-v2'
   | 'all-MiniLM-L6-v2'
+  | 'nomic-embed-text' // Ollama local model — V2.2 PIVOT 2026-05-26
   | 'custom';
 
 export interface EmbedderConfig {

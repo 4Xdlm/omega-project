@@ -60,7 +60,7 @@ function createRunnerState(options: RunnerOptions): RunnerState {
   const clock = config.clock ?? new DeterministicClock(Date.now());
 
   // Create or use provided ID factory
-  const idFactory = config.idFactory ?? new SeededIdFactory(config.seed, 'run');
+  const idFactory = config.idFactory ?? new SeededIdFactory(`${config.seed}-run`);
 
   // Create logger
   const verbosityToLevel = {
@@ -203,12 +203,12 @@ export async function runHeadless(options: RunnerOptions): Promise<HeadlessRunRe
 
       // First run with fresh clock and ID factory
       const clock1 = new DeterministicClock(startMs);
-      const idFactory1 = new SeededIdFactory(config.seed, 'run');
+      const idFactory1 = new SeededIdFactory(`${config.seed}-run`);
       const result1 = await executeRun(plan, config, clock1, idFactory1, adapters, logger);
 
       // Second run with fresh clock and ID factory (same initial state)
       const clock2 = new DeterministicClock(startMs);
-      const idFactory2 = new SeededIdFactory(config.seed, 'run');
+      const idFactory2 = new SeededIdFactory(`${config.seed}-run`);
       const result2 = await executeRun(plan, config, clock2, idFactory2, adapters, logger);
 
       try {

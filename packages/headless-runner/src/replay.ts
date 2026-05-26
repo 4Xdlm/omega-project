@@ -97,7 +97,7 @@ export class InMemoryRecordingStore implements RecordingStore {
   private readonly idFactory: IdFactory;
 
   constructor(idFactory?: IdFactory) {
-    this.idFactory = idFactory ?? new SeededIdFactory('recording', 'rec');
+    this.idFactory = idFactory ?? new SeededIdFactory('recording-rec');
   }
 
   save(recording: RunRecording): string {
@@ -225,7 +225,7 @@ export function createReplayContext(
   options: ReplayOptions = {}
 ): { clock: Clock; idFactory: IdFactory; planContent: string } {
   const clock = options.clock ?? new DeterministicClock(recording.startTimeMs);
-  const idFactory = options.idFactory ?? new SeededIdFactory(recording.seed, 'run');
+  const idFactory = options.idFactory ?? new SeededIdFactory(`${recording.seed}-run`);
 
   return {
     clock,

@@ -112,13 +112,11 @@ function validatePlanFileHooks(hooks: unknown, path: string): void {
  * @param planId - Optional plan ID (defaults to generated from version)
  */
 export function planFileToPlan(file: PlanFile, planId?: string): OrchestratorPlan {
-  const steps: PlanStep[] = file.steps.map((step) => ({
-    id: step.id,
-    kind: step.kind,
-    input: step.input,
-    timeout_ms: step.timeout_ms,
-    depends_on: step.depends_on,
-  }));
+  const steps: PlanStep[] = file.steps.map((step): PlanStep => {
+    const base = { id: step.id, kind: step.kind, input: step.input };
+    const withTimeout = step.timeout_ms !== undefined ? { ...base, timeout_ms: step.timeout_ms } : base;
+    return step.depends_on !== undefined ? { ...withTimeout, depends_on: [...step.depends_on] } : withTimeout;
+  });
 
   return {
     id: planId ?? `plan-${file.version}`,

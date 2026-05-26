@@ -77,7 +77,7 @@ export function parseArgs(args: readonly string[]): ParsedArgs {
         throw new Error('run command requires a plan file path');
       }
 
-      const config: Partial<RunnerConfig> = {
+      let config: Partial<RunnerConfig> = {
         planPath,
         verbosity: 1,
         verifyDeterminism: false,
@@ -87,40 +87,46 @@ export function parseArgs(args: readonly string[]): ParsedArgs {
         const arg = args[i];
 
         switch (arg) {
-          case '--seed':
-            config.seed = args[++i];
-            if (!config.seed) {
+          case '--seed': {
+            const seedVal = args[++i];
+            if (!seedVal) {
               throw new Error('--seed requires a value');
             }
+            config = { ...config, seed: seedVal };
             break;
+          }
 
-          case '--output':
-            config.outputDir = args[++i];
-            if (!config.outputDir) {
+          case '--output': {
+            const outputVal = args[++i];
+            if (!outputVal) {
               throw new Error('--output requires a value');
             }
+            config = { ...config, outputDir: outputVal };
             break;
+          }
 
           case '--verbose':
           case '-v':
-            config.verbosity = config.verbosity === 2 ? 2 : ((config.verbosity ?? 1) + 1) as 1 | 2;
+            config = { ...config, verbosity: config.verbosity === 2 ? 2 : ((config.verbosity ?? 1) + 1) as 1 | 2 };
             break;
 
           case '--quiet':
           case '-q':
-            config.verbosity = 0;
+            config = { ...config, verbosity: 0 };
             break;
 
           case '--verify':
-            config.verifyDeterminism = true;
+            config = { ...config, verifyDeterminism: true };
             break;
 
-          case '--timeout':
-            config.timeout = parseInt(args[++i], 10);
-            if (isNaN(config.timeout)) {
+          case '--timeout': {
+            const timeoutVal = parseInt(args[++i], 10);
+            if (isNaN(timeoutVal)) {
               throw new Error('--timeout requires a numeric value');
             }
+            config = { ...config, timeout: timeoutVal };
             break;
+          }
 
           default:
             throw new Error(`Unknown option: ${arg}`);

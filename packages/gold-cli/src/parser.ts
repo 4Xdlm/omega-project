@@ -17,7 +17,7 @@ import { DEFAULT_CLI_OPTIONS } from './types.js';
  */
 export function parseArgs(args: readonly string[]): ParsedArgs {
   const positional: string[] = [];
-  const options: Partial<CliOptions> = {};
+  let options: Partial<CliOptions> = {};
 
   let command: ParsedArgs['command'] = 'help';
   let i = 0;
@@ -44,24 +44,24 @@ export function parseArgs(args: readonly string[]): ParsedArgs {
       i++;
       const format = args[i];
       if (format === 'json' || format === 'markdown' || format === 'text') {
-        options.format = format;
+        options = { ...options, format };
       }
     } else if (arg === '--output' || arg === '-o') {
       i++;
-      options.output = args[i];
+      options = { ...options, output: args[i] };
     } else if (arg === '--verbose' || arg === '-v') {
-      options.verbose = true;
+      options = { ...options, verbose: true };
     } else if (arg === '--no-proof-pack') {
-      options.proofPack = false;
+      options = { ...options, proofPack: false };
     } else if (arg === '--proof-pack' || arg === '-p') {
-      options.proofPack = true;
+      options = { ...options, proofPack: true };
     } else if (arg === '--cwd' || arg === '-C') {
       i++;
-      options.cwd = args[i];
+      options = { ...options, cwd: args[i] };
     } else if (arg === '--version' || arg === '-V') {
       if (i + 1 < args.length && !args[i + 1].startsWith('-')) {
         i++;
-        options.version = args[i];
+        options = { ...options, version: args[i] };
       } else if (command !== 'version') {
         command = 'version';
       }

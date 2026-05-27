@@ -74,15 +74,19 @@ export interface Chunk {
 // Constants
 // ============================================================
 
+// V2.1.2 calibration empirique 2026-05-27 (pilot 30 livres SPLIT_V2.1.1_MATCHED_977) :
+// Best combo w1=0.3 w2=0.2 w3=0.1 → avg_cost=0.1042 (vs default 0.5/0.3/0.2 = 0.1634, gain -36.25%)
+// Sensitivity w1 monotone (0.3→0.7 cost +42%), w2 monotone (0.2→0.4 cost +46%), w3 inerte (note architectural)
+// Calibration scope : LIMITED (30 livres ENG, bulk 977 deferred Sprint V2.1.3 si nécessaire)
 export const DEFAULT_CHUNK_CONFIG: ChunkConfig = {
   mode: 'fixed',
   target_size: 750,
   min_chunks: 2,
   max_chunks: 7,
   weights: {
-    arc_breakage: 0.5,
-    length_variance: 0.3,
-    discontinuity: 0.2,
+    arc_breakage: 0.3,
+    length_variance: 0.2,
+    discontinuity: 0.1,
   },
 };
 

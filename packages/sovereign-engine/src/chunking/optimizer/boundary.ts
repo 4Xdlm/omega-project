@@ -203,6 +203,8 @@ export class ChunkBoundaryOptimizer {
 
   /**
    * Build Chunk array from sentence boundaries.
+   * Audit 2026-05-27 V2.1.1 fix : compute total cost once and propagate to each chunk metadata.
+   * Previously costScore was hardcoded to 0 — preventing calibration signal differentiation.
    */
   private buildChunks(
     sentences: readonly string[],
@@ -211,16 +213,27 @@ export class ChunkBoundaryOptimizer {
   ): readonly Chunk[] {
     const sortedBoundaries = [...boundaries].sort((a, b) => a - b);
     const breakpoints = [0, ...sortedBoundaries, sentences.length];
-    const chunks: Chunk[] = [];
 
+    // Pre-build raw chunks with placeholder cost to compute total cost
+    const rawChunks: Chunk[] = [];
     for (let i = 0; i < breakpoints.length - 1; i++) {
       const start = breakpoints[i] ?? 0;
       const end = breakpoints[i + 1] ?? sentences.length;
       if (start >= end) continue;
       const chunkArcs = arcs.filter((a) => a.start_idx < end && a.end_idx > start);
       const chunk = this.buildChunk(sentences, chunkArcs, start, end, i, breakpoints.length - 1, 0);
-      chunks.push(chunk);
+      rawChunks.push(chunk);
     }
+
+    // Compute total cost for this boundary set and propagate average per-chunk score
+    const totalCost = computeTotalCost(rawChunks, arcs, this.config.weights, this.config.target_size);
+    const perChunkCost = rawChunks.length > 0 ? totalCost / rawChunks.length : 0;
+
+    // Re-emit chunks with proper cost_score (rebuild metadata)
+    const chunks: Chunk[] = rawChunks.map((c, i) => ({
+      ...c,
+      metadata: { ...c.metadata, cost_score: perChunkCost, total_chunks: rawChunks.length, chunk_index: i },
+    }));
 
     return chunks;
   }

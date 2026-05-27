@@ -12,7 +12,6 @@ import type {
   SubscriptionCallback,
   SubscriptionEvent,
   RNG,
-  systemRNG,
 } from './types.js';
 import {
   AtlasSubscriptionNotFoundError,
@@ -107,21 +106,22 @@ export class SubscriptionManager {
   ): Subscription {
     const id = this.rng.randomId();
 
-    const entry: SubscriptionEntry = Object.freeze({
-      id,
-      filter,
-      callback,
-    });
+    const entryBase = { id, callback };
+    const entry: SubscriptionEntry = Object.freeze(
+      filter !== undefined ? { ...entryBase, filter } : entryBase
+    );
 
     this.subscriptions.set(id, entry);
 
-    return Object.freeze({
+    const subBase = {
       id,
-      filter,
       unsubscribe: () => {
         this.subscriptions.delete(id);
       },
-    });
+    };
+    return Object.freeze(
+      filter !== undefined ? { ...subBase, filter } : subBase
+    );
   }
 
   unsubscribe(id: string): void {

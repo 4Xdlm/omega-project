@@ -7,7 +7,6 @@
 
 import type {
   RawBackend,
-  RawEntry,
   EntryMetadata,
   StoreOptions,
   ListOptions,
@@ -23,7 +22,7 @@ import {
   RawStorageNotFoundError,
   RawTTLExpiredError,
 } from './errors.js';
-import { compress, decompress, isGzipCompressed } from './utils/compression.js';
+import { compress, decompress } from './utils/compression.js';
 import { encrypt, decrypt, serializeEncrypted, deserializeEncrypted, systemRNG } from './utils/encryption.js';
 import { computeChecksum, assertChecksum } from './utils/checksum.js';
 import { sanitizeKey } from './utils/paths.js';
@@ -69,14 +68,24 @@ export class RawStorage {
   constructor(config: RawStorageConfig) {
     this.backend = config.backend;
     this.clock = config.clock;
-    this.keyring = config.keyring;
+    if (config.keyring !== undefined) {
+      this.keyring = config.keyring;
+    }
     this.rng = config.rng ?? systemRNG;
     this.defaultCompress = config.defaultCompress ?? false;
     this.defaultEncrypt = config.defaultEncrypt ?? false;
-    this.defaultTTL = config.defaultTTL;
-    this.logger = config.logger;
-    this.metrics = config.metrics;
-    this.tracer = config.tracer;
+    if (config.defaultTTL !== undefined) {
+      this.defaultTTL = config.defaultTTL;
+    }
+    if (config.logger !== undefined) {
+      this.logger = config.logger;
+    }
+    if (config.metrics !== undefined) {
+      this.metrics = config.metrics;
+    }
+    if (config.tracer !== undefined) {
+      this.tracer = config.tracer;
+    }
 
     if (this.metrics) {
       this.storeCounter = this.metrics.counter('raw_stores_total', 'Total store operations');
@@ -122,7 +131,7 @@ export class RawStorage {
     const now = this.clock.now();
     const checksum = computeChecksum(processedData);
 
-    const metadata: EntryMetadata = Object.freeze({
+    const metadataBase = {
       createdAt: now,
       updatedAt: now,
       expiresAt: ttl ? now + ttl : null,
@@ -130,8 +139,12 @@ export class RawStorage {
       encrypted,
       size: processedData.length,
       checksum,
-      custom: options.metadata ? Object.freeze({ ...options.metadata }) : undefined,
-    });
+    };
+    const metadata: EntryMetadata = Object.freeze(
+      options.metadata !== undefined
+        ? { ...metadataBase, custom: Object.freeze({ ...options.metadata }) }
+        : metadataBase
+    );
 
     await this.backend.store(safeKey, processedData, metadata);
 

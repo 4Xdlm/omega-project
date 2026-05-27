@@ -194,7 +194,8 @@ class BTreeIndex implements Index {
 
     while (low < high) {
       const mid = Math.floor((low + high) / 2);
-      if (this.compare(this.entries[mid].value, value) < 0) {
+      const entry = this.entries[mid];
+      if (entry && this.compare(entry.value, value) < 0) {
         low = mid + 1;
       } else {
         high = mid;

@@ -461,7 +461,8 @@ export class Histogram {
 export class MetricsCollector {
   private readonly clock: ClockFn;
   private readonly prefix: string;
-  private readonly defaultLabels: Labels;
+  // Reserved for future use: apply default labels to all metrics created by this collector
+  private readonly _defaultLabels: Labels;
   private readonly counters: Map<string, Counter> = new Map();
   private readonly gauges: Map<string, Gauge> = new Map();
   private readonly histograms: Map<string, Histogram> = new Map();
@@ -469,7 +470,8 @@ export class MetricsCollector {
   constructor(config: MetricsCollectorConfig = {}) {
     this.clock = config.clock ?? (() => Date.now());
     this.prefix = config.prefix ?? '';
-    this.defaultLabels = config.defaultLabels ?? {};
+    this._defaultLabels = config.defaultLabels ?? {};
+    void this._defaultLabels;
   }
 
   /**

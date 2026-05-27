@@ -5,7 +5,7 @@
  * File-system based storage backend
  */
 
-import { mkdir, readFile, writeFile, unlink, readdir, stat, rm } from 'node:fs/promises';
+import { mkdir, readFile, writeFile, unlink, readdir, rm } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { dirname } from 'node:path';
 import type {
@@ -22,7 +22,7 @@ import {
   RawStorageReadError,
   RawBackendInitError,
 } from '../errors.js';
-import { createSafePath, extractKey, getMetadataPath, isMetadataPath } from '../utils/paths.js';
+import { createSafePath, getMetadataPath, isMetadataPath } from '../utils/paths.js';
 
 // ============================================================
 // File Backend Implementation
@@ -180,12 +180,16 @@ export class FileBackend implements RawBackend {
       }
     }
 
-    return Object.freeze({
+    const baseResult = {
       keys: Object.freeze(paginatedKeys),
       total,
       hasMore,
-      entries: entries ? Object.freeze(entries) : undefined,
-    });
+    };
+    return Object.freeze(
+      entries !== undefined
+        ? { ...baseResult, entries: Object.freeze(entries) }
+        : baseResult
+    );
   }
 
   private async walkDirectory(dir: string, prefix = ''): Promise<string[]> {
@@ -252,12 +256,15 @@ export class FileBackend implements RawBackend {
       }
     }
 
-    return Object.freeze({
+    const statsBase = {
       type: 'file' as const,
       entryCount: keys.length,
       totalSize,
-      oldestEntry,
-      newestEntry,
+    };
+    return Object.freeze({
+      ...statsBase,
+      ...(oldestEntry !== undefined ? { oldestEntry } : {}),
+      ...(newestEntry !== undefined ? { newestEntry } : {}),
     });
   }
 }

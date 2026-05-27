@@ -16,11 +16,8 @@ import type {
   SubscriptionCallback,
   Clock,
   RNG,
-  systemClock,
-  systemRNG,
   LedgerEvent,
   ProjectionDefinition,
-  Projector,
 } from './types.js';
 import type { Logger } from '../../shared/logging/index.js';
 import type { MetricsCollector } from '../../shared/metrics/index.js';
@@ -74,9 +71,15 @@ export class AtlasStore {
     };
     this.indexManager = new IndexManager();
     this.subscriptionManager = new SubscriptionManager(this.rng);
-    this.logger = config.logger;
-    this.metrics = config.metrics;
-    this.tracer = config.tracer;
+    if (config.logger !== undefined) {
+      this.logger = config.logger;
+    }
+    if (config.metrics !== undefined) {
+      this.metrics = config.metrics;
+    }
+    if (config.tracer !== undefined) {
+      this.tracer = config.tracer;
+    }
 
     if (this.metrics) {
       this.insertCounter = this.metrics.counter('atlas_inserts_total', 'Total view inserts');
@@ -209,7 +212,8 @@ export class AtlasStore {
   }
 
   findMany(filter: QueryFilter, limit?: number): readonly AtlasView[] {
-    const result = this.query({ filter, limit });
+    const query: AtlasQuery = limit !== undefined ? { filter, limit } : { filter };
+    const result = this.query(query);
     return result.views;
   }
 
@@ -288,7 +292,7 @@ export class AtlasStore {
   // ============================================================
 
   registerProjection<T extends AtlasView>(definition: ProjectionDefinition<T>): void {
-    this.projections.set(definition.name, definition as ProjectionDefinition);
+    this.projections.set(definition.name, definition as unknown as ProjectionDefinition);
   }
 
   unregisterProjection(name: string): void {
@@ -336,14 +340,14 @@ export class AtlasStore {
 
   private extractViewId(event: LedgerEvent): string | undefined {
     // Try common patterns for extracting ID
-    if (typeof event.payload.id === 'string') {
-      return event.payload.id;
+    if (typeof event.payload['id'] === 'string') {
+      return event.payload['id'];
     }
-    if (typeof event.payload.viewId === 'string') {
-      return event.payload.viewId;
+    if (typeof event.payload['viewId'] === 'string') {
+      return event.payload['viewId'];
     }
-    if (typeof event.payload.entityId === 'string') {
-      return event.payload.entityId;
+    if (typeof event.payload['entityId'] === 'string') {
+      return event.payload['entityId'];
     }
     if (event.sourceId) {
       return event.sourceId;

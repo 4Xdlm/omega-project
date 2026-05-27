@@ -100,12 +100,16 @@ export class MemoryBackend implements RawBackend {
         .filter(Boolean);
     }
 
-    return Object.freeze({
+    const baseResult = {
       keys: Object.freeze(paginatedKeys),
       total,
       hasMore,
-      entries: entries ? Object.freeze(entries) : undefined,
-    });
+    };
+    return Object.freeze(
+      entries !== undefined
+        ? { ...baseResult, entries: Object.freeze(entries) }
+        : baseResult
+    );
   }
 
   async clear(): Promise<void> {
@@ -131,12 +135,15 @@ export class MemoryBackend implements RawBackend {
       }
     }
 
-    return Object.freeze({
+    const statsBase = {
       type: 'memory' as const,
       entryCount: this.entries.size,
       totalSize: this.totalSize,
-      oldestEntry,
-      newestEntry,
+    };
+    return Object.freeze({
+      ...statsBase,
+      ...(oldestEntry !== undefined ? { oldestEntry } : {}),
+      ...(newestEntry !== undefined ? { newestEntry } : {}),
     });
   }
 }

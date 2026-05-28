@@ -302,6 +302,32 @@
     - "Phase 3 V2.2-C SHADOW optimizer (baseline scope 52.4%)"
     - "Toute re-mesure scope boundary V2.1"
 
+- id: MEASURE-CHUNK-V22C-SHADOW
+  domain: chunking
+  title: "V2.2-C SHADOW boundary optimizer probe (48 livres B2)"
+  status: SEALED   # mesure session
+  date_sealed: "2026-05-28"
+  commit_tag: "phase-v2.2.c-shadow-sealed-2026-05-28"
+  source_files:
+    - "Claude-Workspace/OMEGA/outputs/V2_2_C_SHADOW_results.json"
+    - "Claude-Workspace/OMEGA/outputs/V2_2_C_SHADOW_VERDICT_2026-05-28.md"
+    - "packages/sovereign-engine/src/chunking/boundaryOptimizerShadow.ts"
+  config: "zone_words=250, shifts=[-200,-100,0,100,200], min_chunk_words=100"
+  result:
+    books: 48
+    boundaries: 288
+    pct_moved: 77.4
+    mean_improvement_cosine: 0.0414
+    mean_cos_original: 0.7632
+    mean_cos_proposed: 0.7217
+    all_valid: true
+    determinism_hash: true
+    mean_shadow_ms_per_book: 517
+    verdict: "GO_PHASE_4 (PASS 5/5)"
+  caveat: "C2 mean_improvement>0 quasi-garanti par construction (selection min cosine). Coupe nette != gain V3.4. Phase 4 kill-switch decisif."
+  reuse_before:
+    - "Phase 4 V2.2-D FULL optimizer (baseline pct_moved 77.4%, cosine -0.041)"
+
 # =============================================================================
 # 150 MAGIC NUMBERS (index seulement, voir source pour exhaustif)
 # =============================================================================
@@ -374,5 +400,5 @@ metadata:
   status: "ACTIVE_AFTER_SEAL"
   doctrine: "EMP-12 CODEX_OMEGA_PREFLIGHT_MANDATORY"
   parent_doc: "CODEX_OMEGA_LOIS_CONTRAINTES_LLM_v1-2.md"
-  total_measures: 17
+  total_measures: 18
   scope_phase_1: "Squelette mesures critiques — extension exhaustive Sprint S13+"

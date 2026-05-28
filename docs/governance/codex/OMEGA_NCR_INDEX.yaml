@@ -103,6 +103,23 @@
   related_hallucinations:
     - "HALLU-IA-011"
 
+- id: NCR_V2_2_VITEST_BENCH_BLOCKS_EMP10
+  domain: tooling
+  status: OPEN_P2
+  created: "2026-05-28"
+  severity: P2
+  source_files:
+    - "packages/sovereign-engine/vitest.config.ts (include tests/**/*.test.ts)"
+    - "packages/sovereign-engine/tests/bench/ncr-m2-v4-fusion.test.ts (bench qwen3:32b multi-heures)"
+  summary: "Le wrapper EMP-10 (A_CODE -> vitest run package) lance la suite complete sovereign-engine, qui INCLUT un bench qwen3:32b multi-heures -> commit code sovereign-engine via wrapper inutilisable"
+  evidence: "Phase 2 B2 : wrapper Vitest sovereign-engine errore/hang. Phase 3 V2.2-C : commit direct apres validation ciblee (TSC PASS + 109 tests chunking/embeddings PASS)"
+  blocking:
+    - "Commit code sovereign-engine via commit-with-tests.ps1 sans exclure tests/bench"
+  next_action: "Exclure tests/bench/** du vitest run par defaut (script test:fast) OU deplacer le bench hors include. Sprint tooling dedie."
+  workaround: "Validation ciblee TSC --noEmit + vitest run tests/<dir touche> + commit direct documente"
+  related_amendments:
+    - "EMP-10 TEST_BEFORE_COMMIT_STRICT"
+
 # =============================================================================
 # CLOSED / RESOLVED
 # =============================================================================
@@ -254,7 +271,7 @@ metadata:
   status: "ACTIVE_AFTER_SEAL"
   doctrine: "EMP-12 CODEX_OMEGA_PREFLIGHT_MANDATORY"
   parent_doc: "CODEX_OMEGA_LOIS_CONTRAINTES_LLM_v1-2.md"
-  total_ncrs: 15
+  total_ncrs: 16
   open_critical: 1
   open_p1: 3
   deferred: 2

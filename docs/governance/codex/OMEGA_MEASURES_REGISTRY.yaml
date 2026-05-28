@@ -276,6 +276,32 @@
   reuse_before:
     - "Phase 2 B2 (comparer suboptimal % diversifie vs 47.9% B1)"
 
+- id: MEASURE-CHUNK-V22B-B2
+  domain: embeddings
+  title: "V2.2-B B2 boundary candidate probe DIVERSIFIE (48 livres FR+EN)"
+  status: SEALED   # mesure session, corpus diversifie
+  date_sealed: "2026-05-28"
+  commit_tag: "phase-v2.2.b-b2-sealed-2026-05-28"
+  source_files:
+    - "Claude-Workspace/OMEGA/outputs/V2_2_B_B2_results.json"
+    - "Claude-Workspace/OMEGA/outputs/V2_2_B_B2_VERDICT_2026-05-28.md"
+    - "packages/sovereign-engine/scripts/bench-v2_2_b_b2_diversified.ts"
+  selection: "48 livres seed 42, zero doublon, 16 B1 exclus, 10 cellules lang x tier"
+  result:
+    books_processed: 48
+    books_errored: 0
+    total_boundaries: 288
+    pct_optimal: 18.8
+    pct_sub_optimal: 52.4
+    pct_ambiguous: 28.8
+    random_control_gap: -0.0028
+    verdict: "GO_PHASE_3 (>=30% SUB_OPTIMAL, generalise B1 47.9% -> 52.4%)"
+    corroborates: "HALLU-IA-014 (boundaries V2.1 quasi-aleatoires : gap ~0)"
+    en_higher_than_fr: "EN 55-69% sub vs FR 33-50% sub"
+  reuse_before:
+    - "Phase 3 V2.2-C SHADOW optimizer (baseline scope 52.4%)"
+    - "Toute re-mesure scope boundary V2.1"
+
 # =============================================================================
 # 150 MAGIC NUMBERS (index seulement, voir source pour exhaustif)
 # =============================================================================
@@ -348,5 +374,5 @@ metadata:
   status: "ACTIVE_AFTER_SEAL"
   doctrine: "EMP-12 CODEX_OMEGA_PREFLIGHT_MANDATORY"
   parent_doc: "CODEX_OMEGA_LOIS_CONTRAINTES_LLM_v1-2.md"
-  total_measures: 16
+  total_measures: 17
   scope_phase_1: "Squelette mesures critiques — extension exhaustive Sprint S13+"

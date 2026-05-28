@@ -2,7 +2,10 @@
  * OMEGA V2.2 — Embeddings Similarity Utilities
  *
  * Pure functions for vector operations (no dependencies on model).
- * IMPLEMENTED (independent of transformers library).
+ *
+ * V2.2-B.2.1 (2026-05-28): crossChunkContinuity() enriched with
+ * min_pair_score, std_pair_score, first_last_score for boundary
+ * detection on long books where mean saturates ~0.95.
  */
 
 import type { ContinuityScore } from './types.js';
@@ -10,13 +13,6 @@ import { EmbeddingError } from './types.js';
 
 /**
  * Compute cosine similarity between two vectors.
- *
- * Returns value in [-1, 1]. For embedding spaces, typically [0, 1].
- *
- * @param a - First vector
- * @param b - Second vector (must have same length as a)
- * @returns Cosine similarity
- * @throws EmbeddingError if vectors have different lengths
  */
 export function cosineSimilarity(a: Float32Array, b: Float32Array): number {
   if (a.length !== b.length) {
@@ -26,15 +22,12 @@ export function cosineSimilarity(a: Float32Array, b: Float32Array): number {
       { a_len: a.length, b_len: b.length }
     );
   }
-
   if (a.length === 0) {
     return 0;
   }
-
   let dotProduct = 0;
   let normA = 0;
   let normB = 0;
-
   for (let i = 0; i < a.length; i++) {
     const ai = a[i] ?? 0;
     const bi = b[i] ?? 0;
@@ -42,22 +35,20 @@ export function cosineSimilarity(a: Float32Array, b: Float32Array): number {
     normA += ai * ai;
     normB += bi * bi;
   }
-
   if (normA === 0 || normB === 0) {
     return 0;
   }
-
   return dotProduct / (Math.sqrt(normA) * Math.sqrt(normB));
 }
 
 /**
- * Compute cross-chunk continuity score.
+ * Compute cross-chunk continuity score (V2.2-B.2.1 enriched).
  *
- * Average of cosine similarities between adjacent chunk embeddings.
- * Higher score = chunks are semantically continuous.
- *
- * @param embeddings - Array of chunk embeddings (in order)
- * @returns Continuity score in [0, 1] (or 0 if < 2 chunks)
+ * Primary score: mean of cosine similarities between adjacent chunk embeddings.
+ * V2.2-B.2.1 enriched:
+ * - min_pair_score: smallest adjacent cosine (max rupture detected)
+ * - std_pair_score: stddev of pair_scores (narrative heterogeneity)
+ * - first_last_score: cosine(first_emb, last_emb) — global boundary
  */
 export function crossChunkContinuity(
   embeddings: readonly Float32Array[]
@@ -67,27 +58,41 @@ export function crossChunkContinuity(
       score: 0,
       pair_scores: [],
       chunk_count: embeddings.length,
+      min_pair_score: 0,
+      std_pair_score: 0,
+      first_last_score: 0,
     };
   }
-
   const pair_scores: number[] = [];
   for (let i = 0; i < embeddings.length - 1; i++) {
     const current = embeddings[i];
     const next = embeddings[i + 1];
     if (current && next) {
-      // Clamp to [0, 1] for embedding space convention
       const sim = Math.max(0, cosineSimilarity(current, next));
       pair_scores.push(sim);
     }
   }
-
   const sum = pair_scores.reduce((acc, v) => acc + v, 0);
   const score = pair_scores.length > 0 ? sum / pair_scores.length : 0;
-
+  const min_pair_score = pair_scores.length > 0 ? Math.min(...pair_scores) : 0;
+  const std_pair_score =
+    pair_scores.length > 0
+      ? Math.sqrt(
+          pair_scores.map((s) => (s - score) ** 2).reduce((a, b) => a + b, 0) /
+            pair_scores.length
+        )
+      : 0;
+  const first = embeddings[0];
+  const last = embeddings[embeddings.length - 1];
+  const first_last_score =
+    first && last ? Math.max(0, cosineSimilarity(first, last)) : 0;
   return {
     score,
     pair_scores,
     chunk_count: embeddings.length,
+    min_pair_score,
+    std_pair_score,
+    first_last_score,
   };
 }
 

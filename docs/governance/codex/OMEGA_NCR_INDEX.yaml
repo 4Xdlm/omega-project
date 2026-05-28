@@ -1,0 +1,243 @@
+# OMEGA NCR INDEX — Non-Conformity Reports
+# Version: 1.0 SEALED
+# Date: 2026-05-28
+# Status: ACTIVE_AFTER_SEAL
+# Doctrine: EMP-12 / Companion of CODEX_OMEGA_v1-2
+# Lectorat: IA + scripts CI/CD
+# Objectif: Index unique des NCRs ouvertes / résolues / différées pour empêcher actions sur points bloqués
+
+# Format: ID stable, statut, scope, blocking, next_action
+
+# Statuts normalisés:
+# - OPEN: NCR ouverte, action requise
+# - OPEN_P0_CRITICAL: blocant urgence haute
+# - OPEN_P1: bloquant haute priorité
+# - OPEN_P2: architecture/perf, non bloquant immédiat
+# - RESOLVED: corrigé, scellé
+# - RESOLVED_BY_DESIGN: pas un bug, intentionnel
+# - CLOSED: NCR closed (causes : empirique réfuté, fix appliqué, etc.)
+# - DEFERRED: report Sprint futur avec mandate
+
+# =============================================================================
+# OPEN P0 / P1 (URGENT)
+# =============================================================================
+
+- id: NCR_V2_1_WEIGHTS_SCORE_ONLY_NO_DECISION_EFFECT
+  domain: chunking
+  status: OPEN_P0_CRITICAL
+  created: "2026-05-27"
+  severity: P0
+  source_files:
+    - "Claude-Workspace/OMEGA/outputs/NCR_V2_1_WEIGHTS_SCORE_ONLY_NO_DECISION_EFFECT_2026-05-27.md"
+  summary: "Les weights V2.1 (w1, w2, w3) modifient le score mais pas les frontières de chunking — calibration cosmétique"
+  evidence: "30/30 livres × 6 configs → boundary_hash identique 100% (V2.1.5.1 BEHAVIORAL AUDIT)"
+  cause_root:
+    - "boundary.ts:162 greedy fallback weights-blind (binomial > 10000)"
+    - "w3 mort (NCR_V2_1_W3_INERT_BY_DESIGN) → discontinuity=0"
+    - "arc_breakage déterministe"
+    - "length_variance signal faible"
+  blocking:
+    - "Toute calibration weights V2.1 seule"
+    - "Claim production-ready V2.1 weights-based"
+  next_action: "Sprint V2.1.6+ audit vrais leviers (target_size, max_chunks, greedy threshold)"
+  related_laws:
+    - "LAW-CHUNK-040 [SEALED]"
+  related_forbidds:
+    - "FORBID-CHUNK-001"
+    - "FORBID-CHUNK-002"
+    - "FORBID-CHUNK-003"
+  related_hallucinations:
+    - "HALLU-IA-006"
+
+- id: NCR_V2_1_W3_INERT_BY_DESIGN
+  domain: chunking
+  status: OPEN_P1_ESCALATED
+  created: "2026-05-27"
+  severity: P1
+  escalated_from: "P2 (2026-05-27 initial) → P1 (post V2.1.4-A FAIL)"
+  source_files:
+    - "Claude-Workspace/OMEGA/outputs/NCR_V2_1_W3_INERT_BY_DESIGN_2026-05-27.md"
+  summary: "w3 discontinuity weight inerte by design — featureDistance amplitudes intrinsèquement faibles (max 0.077)"
+  evidence: "V2.1.4-A : 360 calls + 4037 distances probe"
+  cause_root: "featureDistance() amplitudes ~10^-3 à 10^-2 sur corpus lexical FR/EN"
+  blocking:
+    - "Option α threshold tuning w3 (empiriquement morte)"
+  next_action: "Sprint V2.1.6+ Options β (CUSUM/PELT) / γ (direct chunk variance) / ε (threshold relatif quantile) / ζ (window_size variations)"
+  related_laws:
+    - "LAW-CHUNK-041 [SEALED]"
+  related_forbidds:
+    - "FORBID-CHUNK-004"
+    - "FORBID-CHUNK-005"
+  related_hallucinations:
+    - "HALLU-IA-003"
+
+- id: NCR_V3_4_SEAL_DRIFT
+  domain: scoring
+  status: OPEN_P1_DEFERRED
+  created: "2026-05-27"
+  severity: P1
+  source_files:
+    - "memory/project_v2_1_1_investigation_complete_pacte_stase_2026-05-27.md"
+  summary: "SHA256 coefficients-v3-4.ts empirique ≠ doctrinal CLAUDE.md"
+  hash_doctrinal: "e75e3bb07d8655c6e0ee1ca99b32a2a043a44cb9c1681ee3d7a3dd305fe8424c"
+  hash_empirical: "adbf41024d2886bf1c7f50a723eb69e6a9bc8389b1130b7d13406370a0ba441e"
+  blocking:
+    - "Tout commit code scoring sans avoir résolu le drift"
+  next_action: "Sprint V3.5+ forensic 30 min git log investigation"
+
+# =============================================================================
+# CLOSED / RESOLVED
+# =============================================================================
+
+- id: NCR_V2_1_LONG_BOOK_STALL_SCALING
+  domain: chunking
+  status: CLOSED
+  created: "2026-05-27"
+  closed: "2026-05-27"
+  closure_reason: "NO_INTRINSIC_STALL — scaling LINÉAIRE O(N) confirmé (V2.1.4-B)"
+  source_files:
+    - "Claude-Workspace/OMEGA/outputs/NCR_V2_1_LONG_BOOK_STALL_SCALING_2026-05-27.md"
+  summary: "Stall V2.1.3 = artefact runtime non reproductible sandbox (Windows-specific suspect)"
+  evidence: "3 phases empiriques — scaling factor 0.95, 50/50 books consécutif 12s 0 timeout"
+  related_laws:
+    - "LAW-CHUNK-042 [SEALED]"
+  related_forbidds:
+    - "FORBID-CHUNK-006"
+    - "FORBID-CHUNK-007"
+  related_hallucinations:
+    - "HALLU-IA-004"
+
+- id: NCR_V2_1_CHUNK_COST_SIGNAL
+  domain: chunking
+  status: RESOLVED
+  created: "2026-05-27"
+  resolved: "2026-05-27"
+  resolution_commit: "5f918761"
+  source_files:
+    - "Claude-Workspace/OMEGA/outputs/NCR_V2_1_CHUNK_COST_SIGNAL_2026-05-27.md"
+  summary: "Bug costScore=0 hardcoded boundary.ts — fix V2.1.1"
+  evidence: "29 entries witness fix +15/-2"
+
+# =============================================================================
+# HISTORIQUES (échantillon clé)
+# =============================================================================
+
+- id: NCR_OMEGA_UI_RESOLVED_BY_DESIGN_FRONTEND_ISOLATED
+  domain: frontend
+  status: RESOLVED_BY_DESIGN
+  created: "2026"
+  source_files:
+    - "omega-project/apps/omega-ui/README.md"
+
+- id: NCR_OLLAMA_TIMEOUT_600S
+  domain: llm_runtime
+  status: CLOSED
+  created: "2026-04-25"
+  closed: "2026-04-25"
+  resolution_commit: "663f8eff"
+  fix: "keep_alive: '24h' ollama-provider.ts:74-77"
+  impact: "mean 53min → 1.17min (×45 speedup)"
+
+- id: NCR_DEDALE_RESET_HEALTH_SPEC_V12
+  domain: pipeline
+  status: SEALED
+  closed: "2026-04-23"
+  resolution_commit: "28339b2b"
+  tag: "sealed-28339b2b"
+
+- id: NCR_M2_CLOSURE
+  domain: pipeline
+  status: SEALED
+  closed: "2026-04-20"
+  resolution_commit: "10d9fbcf"
+  tests_pass: "2411 (zero régression)"
+  mechanism: "H2+H4"
+
+- id: NCR_DIRECTIVE_BLOAT
+  domain: llm
+  status: CLOSED
+  closed: "2026-04-17"
+  evidence: "Directive toxique INTERIOR Δ=-3.903"
+
+- id: NCR_STASH_PRESERVED_FROZEN_DANGER
+  domain: doctrine
+  status: OPEN
+  created: "2026-05-27"
+  severity: P1
+  source_files:
+    - "memory/feedback_stash_preserved_frozen_danger_2026-05-27.md"
+  summary: "2 stashes git OMEGA sous protection doctrinale formelle (S6-PRE-RECOVERY contient deletions FROZEN canon-kernel + genome + omega-forge + omega-p0 + genesis-planner + signal-registry)"
+  blocking:
+    - "Apply/pop/drop stashes sans double approbation"
+  next_action: "Garder en l'état, jamais apply"
+
+# =============================================================================
+# DEFERRED (Sprint futur)
+# =============================================================================
+
+- id: NCR_CHUNK_V216_TRUE_LEVERS_AUDIT
+  domain: chunking
+  status: DEFERRED
+  created: "2026-05-27"
+  mandate: "Sprint V2.1.6+ audit vrais leviers comportementaux (target_size, max_chunks, greedy threshold, window_size)"
+  prerequisites:
+    - "Lire OMEGA_PREFLIGHT_LOOKUP.md §1 CHUNKING"
+    - "Lire NCR_V2_1_WEIGHTS_SCORE_ONLY (P0)"
+    - "Test boundary_hash méthodologie obligatoire"
+  effort_estimate: "1-2h (similaire V2.1.5.1 bench)"
+
+- id: NCR_CHUNK_V217_W3_REANIMATION_DECISION
+  domain: chunking
+  status: DEFERRED
+  created: "2026-05-27"
+  mandate: "Sprint V2.1.7+ Architect choix : Option β (CUSUM/PELT 1-2j) / γ (direct chunk variance 4-6h) / ε (threshold relatif quantile 1-2h) / ζ (window_size probe 30 min)"
+  prerequisites:
+    - "Sprint V2.1.6+ vrais leviers PASS"
+  estimate_range: "30 min (ζ probe) à 1-2j (β refonte)"
+
+- id: NCR_DRAFT_OMEGA_SAVE_PS1
+  domain: infra
+  status: COMPLETED
+  closed: "2026-05"
+  source_files:
+    - "memory/feedback_powershell_*.md"
+
+# =============================================================================
+# INDEX RAPIDE PAR DOMAINE
+# =============================================================================
+
+domains_summary:
+  chunking:
+    open_p0: 1
+    open_p1: 1
+    closed: 1
+    resolved: 1
+    deferred: 2
+  scoring:
+    open_p1: 1
+  llm:
+    closed: 1
+  frontend:
+    resolved_by_design: 1
+  doctrine:
+    open: 1
+  pipeline:
+    sealed_closed: 2
+  infra:
+    completed: 1
+
+# =============================================================================
+# FOOTER
+# =============================================================================
+
+metadata:
+  version: "1.0 SEALED"
+  date: "2026-05-28"
+  status: "ACTIVE_AFTER_SEAL"
+  doctrine: "EMP-12 CODEX_OMEGA_PREFLIGHT_MANDATORY"
+  parent_doc: "CODEX_OMEGA_LOIS_CONTRAINTES_LLM_v1-2.md"
+  total_ncrs: 14
+  open_critical: 1
+  open_p1: 3
+  deferred: 2
+  scope_phase_1: "Squelette NCRs critiques + récents — extension exhaustive Sprint S13+"

@@ -1,5 +1,5 @@
 # OMEGA — IA OPERATIONS MANUAL
-**Version**: v3.158.0 | **Standard**: NASA-Grade L4 / DO-178C Level A
+**Version**: v3.159.0 | **Standard**: NASA-Grade L4 / DO-178C Level A
 
 ---
 
@@ -200,12 +200,13 @@ Francky (Architect) — FINAL AUTHORITY
 
 ---
 
-## H) DOCTRINAL AMENDMENTS (Sprint S8 sealed 2026-05-02 + Sprint S11 sealed 2026-05-26 + Sprint S12 sealed 2026-05-26)
+## H) DOCTRINAL AMENDMENTS (Sprint S8 sealed 2026-05-02 + Sprint S11 sealed 2026-05-26 + Sprint S12 sealed 2026-05-26 + CODEX v1.2 sealed 2026-05-28)
 
-Neuf amendments scellés post Sprints S6+S7+S8+S11+S12. Références complètes :
+Onze amendments scellés post Sprints S6+S7+S8+S11+S12 + CODEX v1.2. Références complètes :
 - Amendements 1-6 : [docs/governance/SPRINT_S8_DOCTRINAL_AMENDMENTS.md](docs/governance/SPRINT_S8_DOCTRINAL_AMENDMENTS.md)
 - Amendements 7-8 (EMP-09 + EMP-10) : [docs/governance/SPRINT_S11_DOCTRINAL_AMENDMENTS.md](docs/governance/SPRINT_S11_DOCTRINAL_AMENDMENTS.md)
 - Amendement 9 (EMP-11) : [docs/governance/SPRINT_S12_DOCTRINAL_AMENDMENTS.md](docs/governance/SPRINT_S12_DOCTRINAL_AMENDMENTS.md)
+- Amendements 10-11 (EMP-12 + EMP-12.1) : [docs/CODEX_OMEGA_LOIS_CONTRAINTES_LLM_v1-2.md](docs/CODEX_OMEGA_LOIS_CONTRAINTES_LLM_v1-2.md) Partie IV + [docs/governance/codex/](docs/governance/codex/)
 
 | # | Amendement | Règle synthétique |
 |---|---|---|
@@ -218,10 +219,12 @@ Neuf amendments scellés post Sprints S6+S7+S8+S11+S12. Références complètes 
 | 7 | MASK_REVEAL_AUDIT (EMP-09) | Audit DRY-RUN 5 axes Windows-MCP avant activation `noEmitOnError` ou fix mécanique massif. Seuil `MASK_REVEAL_DELTA_THRESHOLD` configurable (défaut 0 strict). État `MASK_REVEAL_DETECTED` = STOP + NCR |
 | 8 | TEST_BEFORE_COMMIT_STRICT (EMP-10) | Wrapper `commit-with-tests.ps1` obligatoire. Typologie A (code) = TSC PASS + Vitest PASS empirique requis. Typologie B (doc-only) = chemin `DOC_ONLY` du wrapper, scope diff vérifié, sans TSC/Vitest |
 | 9 | PRE_SEAL_AUDIT_CHECKLIST (EMP-11) | Avant scellement Sprint significatif (≥3 commits OU ≥1 NCR à clore OU activation production OU ≥50 fichiers cumulés) : Bloc A 7 axes orthogonaux gouvernance (TSC cross-compile / npm test full / git hygiene / cohérence ADR↔git / security scan / dead code / autonomous checks) + Bloc B 7 anti-bug patterns sémantiques (type validation / resource leak / stats same-subset / lexique cross-set / filter chains / regex dead chars / gouvernance documentaire). État `FAIL_BLOCKING` = STOP + NCR. Wrapper `commit-with-tests.ps1 --audit-mode` extension Phase 2 (Sprint S13+) |
+| 10 | CODEX_OMEGA_PREFLIGHT_MANDATORY (EMP-12) | Avant tout Sprint significatif (≥1 mesure, ≥1 calibration, ≥1 commit code production, ≥1 conclusion empirique nouvelle), consulter `docs/governance/codex/OMEGA_PREFLIGHT_LOOKUP.md` pour le domaine + lire CODEX v1.2 lois applicables + vérifier registre FORBID-* / HALLU-IA-* / NCR-*. État `FAIL_BLOCKING` = action sans preflight = invalide. Origine : 6 hallucinations 2/2 IA cumulées session 2026-05-27 (calibration cosmétique V2.1.x ~10-12h gaspillage) |
+| 11 | CONTROL_BEFORE_WRITE (EMP-12.1) | Sous-règle EMP-12. Avant toute action OMEGA significative (code, calibration, mesure, conclusion), produire un bloc `CONTROL_BEFORE_WRITE` (format strict : domaine + documents lus + lois applicables + mesures historiques + NCRs liées + interdictions + hallucinations + conflits + verdict GO_WRITE / GO_READ_MORE / STOP_ARCHITECT_ARBITRATION). Cf [docs/governance/codex/OMEGA_CODEX_CONTROL_BEFORE_WRITE.md](docs/governance/codex/OMEGA_CODEX_CONTROL_BEFORE_WRITE.md). Wrapper `commit-with-tests.ps1 --codex-preflight` extension Phase 2 (Sprint S13+) |
 
 **Note** : Le concept "Plan Max v3.X" précédemment référencé dans
 NCRs Sprint S8 est NON-CANONIQUE. Le seul document canonique de
-doctrine OMEGA est ce CLAUDE.md (version v3.158.0).
+doctrine OMEGA est ce CLAUDE.md (version v3.159.0) + [CODEX OMEGA v1.2](docs/CODEX_OMEGA_LOIS_CONTRAINTES_LLM_v1-2.md).
 
 ---
 

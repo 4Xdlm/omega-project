@@ -1,0 +1,441 @@
+# OMEGA LAWS REGISTRY — Machine-readable
+# Version: 1.0 SEALED
+# Date: 2026-05-28
+# Status: ACTIVE_AFTER_SEAL
+# Doctrine: EMP-12 / Companion of CODEX_OMEGA_v1-2
+# Lectorat: IA + scripts CI/CD
+# Format: Liste structurée. Chaque loi a ID stable, statut, sources, impact opérationnel.
+
+# Status normalisés:
+# - SEALED: vérifié empiriquement, scellé, non négociable sans preuve neuve
+# - OPERATIONAL: actif production
+# - ACTIVE_INVESTIGATION: en cours d'interprétation
+# - REFUTED: testé et invalidé empiriquement
+# - DEFERRED: décision reportée à Sprint futur
+
+# =============================================================================
+# PILIER 1 — PHYSIQUE LITTÉRAIRE (CORPUS)
+# =============================================================================
+
+- id: LAW-CORPUS-031
+  legacy_id: L31
+  title: "Monopole ponctuel FR (semicolons 7.15× plus discriminants FR vs EN)"
+  domain: corpus
+  status: SEALED
+  date_sealed: "2026-04-12"
+  source_files:
+    - "omega-project/docs/OMEGA_PHYSIQUE_LITTERAIRE_MANUEL_v1.0.md#I.3"
+  commit_tag: "phase-codex-v1.1-sealed-2026-04-12"
+  scope: "FR vs EN comparatif corpus 638K fenêtres FR"
+  measurement:
+    method: "Random Forest 200 arbres"
+    metric: "A_semi = Imp_FR / Imp_EN"
+    value: 7.15
+  operational_impact:
+    forbids:
+      - "Suggérer semicolons EN comme feature discriminante"
+    authorizes:
+      - "Pondérer fortement semicolons en FR dispatcher"
+  revalidate_if:
+    - "Corpus FR ou EN remplacé"
+    - "Random Forest paramètres modifiés"
+
+- id: LAW-CORPUS-033
+  legacy_id: L33
+  title: "Interaction ponctuelle FR-only (semi+dash bloc corrélé)"
+  domain: corpus
+  status: SEALED
+  date_sealed: "2026-04-12"
+  source_files:
+    - "omega-project/docs/OMEGA_PHYSIQUE_LITTERAIRE_MANUEL_v1.0.md#I.9"
+  scope: "FR uniquement"
+  measurement:
+    rho_FR: 0.231
+    rho_EN: 0.056
+  operational_impact:
+    forbids:
+      - "Traiter semi et dash comme features indépendantes en FR"
+
+- id: LAW-CORPUS-035
+  legacy_id: L35
+  title: "sub_per_sentence = méga-levier FR (double sub → f26b +205%)"
+  domain: corpus
+  status: SEALED
+  date_sealed: "2026-04-12"
+  source_files:
+    - "omega-project/docs/OMEGA_PHYSIQUE_LITTERAIRE_MANUEL_v1.0.md#I.6"
+  scope: "FR uniquement"
+  measurement:
+    sub_double_p25_p75:
+      f26b_delta_pct: 205
+      mean_sent_delta_pct: 56
+      f17_knife_delta_pct: -67
+
+- id: LAW-CORPUS-037
+  legacy_id: L37
+  title: "Chaîne causale universelle (sub → f26b → Tier)"
+  domain: corpus
+  status: SEALED
+  date_sealed: "2026-04-12"
+  source_files:
+    - "omega-project/docs/irm/09_LAW_REGISTRY_TOTAL.md"
+    - "omega-project/docs/OMEGA_PHYSIQUE_LITTERAIRE_MANUEL_v1.0.md#I.6"
+  scope: "Bilingue FR/EN — seule loi causale prouvée"
+  measurement:
+    mediation_FR_pct: 136
+    mediation_EN_pct: 95
+  operational_impact:
+    forbids:
+      - "Confondre avec CI_L37 (module rejeté, REJECT-CALC-002)"
+    authorizes:
+      - "Optimiser sub_per_sentence comme levier de qualité"
+
+- id: LAW-CORPUS-038
+  legacy_id: L38
+  title: "Mur sémantique EN maximaliste (R²=-0.187)"
+  domain: corpus
+  status: SEALED
+  date_sealed: "2026-04-12"
+  source_files:
+    - "omega-project/docs/OMEGA_PHYSIQUE_LITTERAIRE_MANUEL_v1.0.md#I.8"
+  scope: "EN maximaliste : Faulkner, Wallace, DFW"
+  measurement:
+    r_squared: -0.187
+    model_features_count: 42
+  operational_impact:
+    forbids:
+      - "Appliquer modèle structurel à prose EN extrême sans test préalable"
+
+# =============================================================================
+# PILIER 1 — LOIS DE SCALING
+# =============================================================================
+
+- id: LAW-SCALING-001
+  legacy_id: S1
+  title: "Scaling linéaire couteau narratif (R²=1.000)"
+  domain: corpus
+  status: SEALED
+  date_sealed: "2026-04-12"
+  formula: "f17_knife_count(size) = 0.01167 × size − 0.1136"
+  r_squared: 1.000
+
+- id: LAW-SCALING-002
+  legacy_id: S2
+  title: "Scaling logarithmique variance rythmique (R²=0.999)"
+  domain: corpus
+  status: SEALED
+  date_sealed: "2026-04-12"
+  formula: "cv_sent(size) = 0.0259 × ln(size) + 0.5355"
+  r_squared: 0.999
+
+- id: LAW-SCALING-003
+  legacy_id: S3
+  title: "Scaling logarithmique entropie syntaxique INVERSE S2 (R²=0.999)"
+  domain: corpus
+  status: SEALED
+  date_sealed: "2026-04-12"
+  formula: "f19a_entropy(size) = −0.0261 × ln(size) + 0.8187"
+  r_squared: 0.999
+
+# =============================================================================
+# PILIER 1 — NOYAU CALC V3.4 (Scoring)
+# =============================================================================
+
+- id: LAW-SCORING-V34
+  title: "Noyau CALC V3.4 — 5 features stables bilingues"
+  domain: scoring
+  status: SEALED
+  date_sealed: "2026-04-11"
+  source_files:
+    - "omega-project/packages/sovereign-engine/src/scoring/dispatcher/coefficients-v3-4.ts"
+  features_canonical:
+    - "f24c_contrast_delta"
+    - "f33b_commas_count"
+    - "f1a_rhythm_variance"
+    - "f33c_dot_comma_ratio"
+    - "f12_tense_switches"
+  model:
+    type: "Ridge"
+    alpha: 1.0
+    dispatch: "3 modèles séparés FR/EN/FALLBACK"
+  performance:
+    rho_dispatch: 0.6138
+    rho_FR: 0.5362
+    rho_EN: 0.4366
+    cv_5fold: "0.598 ± 0.040"
+    vif_max: "< 3.0"
+  corpus:
+    train_total: 1334
+    train_FR: 788
+    train_EN: 546
+    holdout_v2: 264
+  hash:
+    sha256_doctrinal_claude_md: "e75e3bb07d8655c6e0ee1ca99b32a2a043a44cb9c1681ee3d7a3dd305fe8424c"
+    sha256_empirical_2026_05_27: "adbf41024d2886bf1c7f50a723eb69e6a9bc8389b1130b7d13406370a0ba441e"
+    drift_status: "OPEN — NCR_V3_4_SEAL_DRIFT (Sprint V3.5+ forensic)"
+  operational_impact:
+    forbids:
+      - "Modèle unifié FR/EN (cf LAW-SCORING-FR-EN-DISPATCH)"
+      - "Δρ ≥ +0.02 obligatoire pour toute nouvelle feature (kill-switch)"
+      - "Abaissement post-hoc kill-switch interdit"
+  revalidate_if:
+    - "coefficients-v3-4.ts modifié"
+    - "Corpus train élargi"
+    - "Holdout V2 modifié"
+
+# =============================================================================
+# PILIER 1.8 — V2.1 CHUNKING (NOUVEAU v1.2)
+# =============================================================================
+
+- id: LAW-CHUNK-040
+  title: "Weights V2.1 cosmétiques — n'altèrent que score, pas boundaries"
+  domain: chunking
+  status: SEALED
+  date_sealed: "2026-05-27"
+  source_files:
+    - "Claude-Workspace/OMEGA/outputs/v2_1_5_1_behavioral_audit.json + memory project_v2_1_5_1_behavioral_audit_p0_critical_2026-05-27"
+    - "Claude-Workspace/OMEGA/outputs/v2_1_1/v2_1_5_1_behavioral_audit.json"
+    - "omega-project/packages/sovereign-engine/src/chunking/optimizer/boundary.ts#L134-L202"
+    - "omega-project/packages/sovereign-engine/src/chunking/optimizer/cost.ts#L119-L134"
+  commit_tag: "phase-v2.1.5.1-behavioral-audit-2026-05-27"
+  scope: "V2.1 chunking adaptatif, corpus SPLIT_V2.1.1_MATCHED 254 livres 5K-60K mots"
+  measurement:
+    method: "boundary_hash SHA256 comparison"
+    n_books: 30
+    n_configs: 6
+    configs_tested:
+      - "V2.1.2_baseline (0.3, 0.2, 0.1)"
+      - "V2.1.5_best_brut (0.1, 0.1, 0.1)"
+      - "V2.1.5_best_norm (0.3, 0.1, 0.1)"
+      - "sum06_balanced (0.2, 0.2, 0.2)"
+      - "sum06_arc_heavy (0.4, 0.1, 0.1)"
+      - "sum06_length_heavy (0.1, 0.4, 0.1)"
+    result: "30/30 books boundary_hash IDENTIQUE 100%"
+  cause_root:
+    - "boundary.ts:162 greedy fallback weights-blind (binomial > 10000)"
+    - "w3 mort by design (LAW-CHUNK-041) → discontinuity=0"
+    - "arc_breakage déterministe (arcs.length=1/livre via LAW-CHUNK-041)"
+    - "length_variance signal faible entre candidates evenly-spaced"
+    - "→ 3/3 composantes uniformes → argmin invariant weights"
+  operational_impact:
+    forbids:
+      - "FORBID-CHUNK-001: Calibrer weights (w1,w2,w3) seuls sans tester boundary_hash AVANT bench"
+      - "FORBID-CHUNK-002: Adopter best combo basé uniquement sur cost brut"
+      - "FORBID-CHUNK-003: Comparer cost brute cross-grids sum(w) différents"
+    authorizes:
+      - "Maintenir DEFAULT_ADAPTIVE_CONFIG=(0.3,0.2,0.1) par défaut conservateur"
+  revalidate_if:
+    - "cost.ts:computeTotalCost modifié"
+    - "boundary.ts:findBestBoundarySet refactoré"
+    - "greedy threshold (10000) modifié"
+
+- id: LAW-CHUNK-041
+  title: "w3 inerte by design — featureDistance amplitudes trop faibles"
+  domain: chunking
+  status: SEALED
+  date_sealed: "2026-05-27"
+  source_files:
+    - "Claude-Workspace/OMEGA/outputs/V2_1_4_A_VERDICT_OPTION_ALPHA_FAIL_2026-05-27.md"
+    - "Claude-Workspace/OMEGA/outputs/v2_1_1/v2_1_4_a_aggregate.json"
+    - "omega-project/packages/sovereign-engine/src/chunking/detector/emotionalArc.ts#L36-L37"
+  commit_tag: "phase-v2.1.4-a-option-alpha-fail-2026-05-27"
+  scope: "Corpus FR/EN lexical, window_size=5"
+  measurement:
+    method: "Bench 360 calls (4 thresholds × 3 w3 × 30 livres) + probe 4037 distances"
+    distance_max_observed: 0.077
+    distance_p99: 0.017
+    distance_median: 0.002
+    distances_above_0_1: "0 / 4037"
+    distances_above_0_05: "11 / 4037 (0.3%)"
+  cause_root:
+    - "Features VAKOG/body/concreteness/sentiment amplitudes intrinsèquement faibles"
+    - "Distance Euclidienne sur features [0,1] avec valeurs near zero"
+    - "window_size=5 lisse trop la variance"
+  operational_impact:
+    forbids:
+      - "FORBID-CHUNK-004: Abaisser intensity_threshold sous 0.1 (sursegmentation catastrophique)"
+      - "FORBID-CHUNK-005: Relancer Option α (threshold tuning seul)"
+    authorizes:
+      - "Options β (CUSUM/PELT/Bayesian), γ (direct chunk variance), ε (threshold relatif quantile), ζ (window_size variations)"
+  revalidate_if:
+    - "featureDistance() implementation modifiée"
+    - "Corpus change (amplitudes plus élevées)"
+    - "window_size modifié"
+
+- id: LAW-CHUNK-042
+  title: "chunkAdaptive() scaling LINÉAIRE O(N) — réfute O(N²)"
+  domain: chunking
+  status: SEALED
+  date_sealed: "2026-05-27"
+  source_files:
+    - "Claude-Workspace/OMEGA/outputs/V2_1_4_B_VERDICT_NO_STALL_REPRODUCED_2026-05-27.md"
+    - "Claude-Workspace/OMEGA/outputs/v2_1_1/v2_1_4_b_profile_results.json"
+    - "Claude-Workspace/OMEGA/outputs/v2_1_1/v2_1_4_b_memory_cumul.json"
+  commit_tag: "phase-v2.1.4-b-no-stall-2026-05-27"
+  scope: "sandbox Linux + chunkAdaptive() V2.1 post-fix costScore=0 (commit 5f918761)"
+  measurement:
+    method: "3 phases empiriques"
+    phase_1_profile:
+      samples_word_count: [9854, 19439, 29878, 50088, 80008]
+      samples_runtime_ms: [68, 127, 169, 304, 525]
+      rate_ms_per_kword_constant: 6
+      scaling_factor: 0.95
+      linear_pure_threshold: 1.0
+    phase_2_stall_hunt:
+      books_tested: 5
+      all_ok: true
+      max_runtime_ms: 250
+    phase_3_memory_cumul:
+      books_consecutive: 50
+      elapsed_sec: 12
+      timeouts: 0
+      crashes: 0
+      heap_growth_mb: 108.3
+      per_book_mb: 2.2
+  hypothesis_refuted:
+    source: "Gemini Tribunal 2026-05-27"
+    claim: "O(N²) cachée dans calcul limites/distances matricielles"
+    verdict: "INVALIDÉ empiriquement (scaling factor 0.95)"
+  operational_impact:
+    forbids:
+      - "FORBID-CHUNK-006: Invoquer O(N²) pour ralentissement sans preuve nouvelle post-2026-05-27"
+      - "FORBID-CHUNK-007: Refactor perf O(N²) sans benchmark factor > 1.5"
+    authorizes:
+      - "Bulk run 254 livres × 9 combos = 11 min Windows-side validé"
+      - "Option A timeout/book défensive (OMEGA_V2_1_CHUNK_TIMEOUT_MS=60000)"
+  revalidate_if:
+    - "chunkAdaptive() modifié"
+    - "ChunkBoundaryOptimizer.findBestBoundarySet() modifié"
+    - "sentences > 4000 testées"
+
+# =============================================================================
+# PILIER 2 — PSYCHOLOGIE LLM (échantillon, voir CODEX v1.2 §2 pour exhaustif)
+# =============================================================================
+
+- id: LAW-LLM-BB01
+  legacy_id: BB-01
+  title: "Semicolons non pilotables (P(respect)=13%)"
+  domain: llm
+  status: SEALED
+  date_sealed: "2026-04-12"
+  source_files:
+    - "omega-project/docs/CLAUDE_OBSERVABLE_LAWS.md#L03"
+  measurement:
+    p_respect_consigne_semicolons: 0.13
+    runs_zero_semicolons: "11 / 15"
+  operational_impact:
+    forbids:
+      - "Mention semicolon dans prompts Scribe (voie PROMPT fermée)"
+
+- id: LAW-LLM-BB02
+  legacy_id: BB-02
+  title: "Plancher mean_sent ~35w en régime OMEGA"
+  domain: llm
+  status: SEALED
+  date_sealed: "2026-04-12"
+  source_files:
+    - "omega-project/docs/CLAUDE_OBSERVABLE_LAWS.md#L04"
+  measurement:
+    plancher_mean_sent_words: 35
+    range_observed: "35-42"
+    exception_b3_extrême: "18.2w (sans contexte OMEGA)"
+  operational_impact:
+    forbids:
+      - "Demander mean_sent < 30w en régime OMEGA (ignoré)"
+
+- id: LAW-LLM-CALC-DOUANIER
+  legacy_id: "ADR-003"
+  title: "CALC = Douanier, PAS Coach (rejection sampling)"
+  domain: llm
+  status: SEALED
+  date_sealed: "2026-04-11"
+  source_files:
+    - "omega-project/docs/adr/DEC-20260411-003-R6-REJECTION-SAMPLING.md"
+  approval: "Unanimité 4/4 IA"
+  operational_impact:
+    forbids:
+      - "FORBID-LLM-001: Feedback sémantique CALC → LLM (Mode C bench R6 Δ-0.264 toxique)"
+      - "FORBID-LLM-002: Itération globale de correction (Premier tir > convergence)"
+      - "FORBID-LLM-004: Donner au LLM résultats de ses propres évaluations CALC"
+    authorizes:
+      - "Rejection sampling avec retry (temp+0.05, nouvelle seed)"
+      - "Fallback meilleur jet + flag below_threshold si 3 échecs"
+
+# =============================================================================
+# RACCOURCIS DOMAINES (lookup rapide)
+# =============================================================================
+
+domains_index:
+  - domain: corpus
+    laws_count: 8
+    primary_source: "OMEGA_PHYSIQUE_LITTERAIRE_MANUEL_v1.0.md"
+  - domain: scoring
+    laws_count: 1
+    primary_source: "coefficients-v3-4.ts + M0B_SLIM_V34_COEFFICIENTS.json"
+    seal_drift: "OPEN — Sprint V3.5+ forensic"
+  - domain: chunking
+    laws_count: 3
+    primary_source: "V2_1_4_A + V2_1_4_B + V2_1_5_1 verdicts 2026-05-27"
+    notes: "Tous SEALED 2026-05-27, calibration weights = COSMÉTIQUE"
+  - domain: llm
+    laws_count: 15+
+    primary_source: "CLAUDE_OBSERVABLE_LAWS.md (L01-L15) + CODEX v1.2 Piliers 2+3"
+
+# =============================================================================
+# FOOTER
+# =============================================================================
+
+metadata:
+  version: "1.0 SEALED"
+  date: "2026-05-28"
+  status: "ACTIVE_AFTER_SEAL"
+  doctrine: "EMP-12 CODEX_OMEGA_PREFLIGHT_MANDATORY"
+  parent_doc: "CODEX_OMEGA_LOIS_CONTRAINTES_LLM_v1-2.md"
+  scope_phase_1: "Squelette IDs stables — exhaustivité partielle"
+  scope_phase_2: "Extension exhaustive Pilier 2 + 3 + 4 (à remplir post-ratification)"
+  total_laws_v1_2: "11 documentées (sur ~40 v1.1 — extension Sprint S13+)"
+
+# =============================================================================
+# NOTE MAPPING — Numérotation lois OMEGA (héritage historique)
+# =============================================================================
+# Plusieurs systèmes coexistent depuis 2026-Q1 :
+#
+# 1. L01-L15 : CLAUDE_OBSERVABLE_LAWS.md (lois empiriques Claude LLM Phase A+B)
+#    - L01 PUITS_INTROSPECTION, L02 ILLUSION_DECLARATIVE_f17, L03 SEMICOLON_NON_PILOTABLE
+#    - L04 PLANCHER_LONGUEUR, L05 COMPRESSION_VOLUME, L06 COMPOSITE_STABLE
+#    - L11 MICRO_CHIRURGIE_ECHEC, L13 COMPOSITE_INSENSIBLE_STYLE, L14 SCENE_PLAFOND
+#
+# 2. L31-L38 : CODEX v1.X corpus / physique littéraire FR/EN
+#    - L31 SEMICOLONS_FR, L33 INTERACTION_PUNCTUATION_FR, L35 SUB_LEVIER_FR
+#    - L37 CAUSAL_CHAIN, L38 MUR_SEMANTIC_EN
+#
+# 3. S1-S3 : Scaling laws (knife / variance / entropie)
+#
+# 4. BB-xx : Black-box Claude Sonnet (DECISIONS_LOCK_v1)
+#    - BB-01 = L03 (semicolons), BB-02/BB-P04 = L04 (plancher mean_sent)
+#    - BB-03 = L07 (conflits améliorants), BB-C01 (sub constante)
+#    - BB-P06 = M_BB5 = L06 (composite stable / features instables)
+#
+# 5. LAW-XXX-NNN : v1.2+ IDs stables machine-readable (ce fichier)
+#    - LAW-CORPUS-031 ↔ L31, LAW-CORPUS-037 ↔ L37, etc.
+#    - LAW-CHUNK-040/041/042 : nouveaux v1.2 (pas de legacy_id)
+#    - LAW-LLM-BB01 ↔ BB-01 ↔ L03 (multi-mapping héritage)
+#
+# Convention v1.2+ : utiliser IDs LAW-XXX-NNN pour références futures.
+# Legacy IDs (L01-L38, S1-S3, BB-xx) conservés via champ `legacy_id` pour rétro-compatibilité.
+
+mapping_legacy_to_canonical:
+  - legacy: "L03"
+    aliases: ["BB-01"]
+    canonical: "LAW-LLM-BB01"
+    title: "Semicolons non pilotables"
+  - legacy: "L31"
+    canonical: "LAW-CORPUS-031"
+    title: "Monopole ponctuel FR"
+  - legacy: "L37"
+    canonical: "LAW-CORPUS-037"
+    title: "Chaîne causale universelle"
+  - legacy: "S1"
+    canonical: "LAW-SCALING-001"
+    title: "Scaling linéaire couteau"
+  # Mapping exhaustif à compléter Sprint S13+

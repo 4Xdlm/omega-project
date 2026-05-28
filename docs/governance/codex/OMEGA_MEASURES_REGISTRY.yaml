@@ -1,0 +1,314 @@
+# OMEGA MEASURES REGISTRY — Mesures historiques scellées
+# Version: 1.0 SEALED
+# Date: 2026-05-28
+# Status: ACTIVE_AFTER_SEAL
+# Doctrine: EMP-12 / Companion of CODEX_OMEGA_v1-2
+# Lectorat: IA + scripts CI/CD
+# Objectif: Empêcher la refaite de mesures déjà documentées (cf incident V2.1.x cosmétique 2026-05-27)
+
+# Format: Chaque mesure a ID stable, scope, méthode, résultat scellé, "reuse_before" pour signaler quand consulter.
+
+# =============================================================================
+# R-METROLOGY / SCORING (1334 livres)
+# =============================================================================
+
+- id: MEASURE-SCORING-M0BSLIM-V34
+  domain: scoring
+  title: "M0b_slim V3.4 — modèle scoring CALC final"
+  status: SEALED
+  date_sealed: "2026-04-11"
+  source_files:
+    - "omega-project/packages/sovereign-engine/src/scoring/dispatcher/coefficients-v3-4.ts"
+    - "Claude-Workspace/OMEGA/outputs/M0B_SLIM_V34_COEFFICIENTS.json"
+  corpus:
+    train_total: 1334
+    train_FR: 788
+    train_EN: 546
+    holdout_v2: 264
+    split_seed: 42
+    stratification: "tier × lang"
+  performance:
+    rho_dispatch: 0.6138
+    rho_FR: 0.5362
+    rho_EN: 0.4366
+    cv_5fold: "0.598 ± 0.040"
+  features_canonical:
+    - "f24c_contrast_delta"
+    - "f33b_commas_count"
+    - "f1a_rhythm_variance"
+    - "f33c_dot_comma_ratio"
+    - "f12_tense_switches"
+  reuse_before:
+    - "Toute nouvelle calibration scoring"
+    - "Toute proposition feature CALC nouvelle (vérifier PLATEAU CALC)"
+    - "Toute modification dispatcher FR/EN"
+
+- id: MEASURE-SCORING-HOLDOUT-V2
+  domain: scoring
+  title: "HOLDOUT_V2 — 264 œuvres stratifiées tier × lang"
+  status: SEALED
+  date_sealed: "2026-04-11"
+  source_files:
+    - "Claude-Workspace/OMEGA/outputs/HOLDOUT_V2.csv"
+  hash:
+    sha256: "56636e289f3ceba921e74fcd33c60fc82f7498277f510545d552a9851843b1cf"
+  composition:
+    total: 264
+    seed: 42
+  reuse_before:
+    - "Toute validation modèle scoring"
+    - "Toute revalidation V3.4 / V3.5+"
+
+- id: MEASURE-SCORING-SENSOR-V2
+  domain: scoring
+  title: "Sensor Bench V2 — VAKOG + body_binding + concreteness audit"
+  status: SEALED
+  date_sealed: "2026-04-11"
+  source_files:
+    - "Claude-Workspace/OMEGA/outputs/SENSOR_BENCH_REPORT_V2.md"
+    - "Claude-Workspace/OMEGA/outputs/M0B_SLIM_V35_RETRAIN_VERDICT.md"
+  findings:
+    body_binding: "Δρ +0.012 < seuil +0.02 (SHADOW)"
+    coverage: "REJETÉ — collinéarité 0.85-0.99"
+    density: "REJETÉ — collinéarité 0.85-0.99"
+    concreteness: "REJETÉ — collinéarité 0.85-0.99"
+    body_binding_rho_FR: -0.467
+    body_binding_vif: 1.244
+  reuse_before:
+    - "Proposer toute feature sensorielle nouvelle (vérifier non-redondance)"
+
+# =============================================================================
+# PVI CORPUS ANALYSIS (1698 per-work + 42 bestsellers)
+# =============================================================================
+
+- id: MEASURE-PVI-FR-CORPUS
+  domain: PVI_CORPUS
+  title: "Analyse PVI FR — 86 titres (bestsellers + chefs-d'œuvre)"
+  status: SEALED
+  date_sealed: "2026-03-29"
+  source_files:
+    - "omega-project/docs/physique-litteraire/corpus-analyse/rapport_analyse_FR.md"
+    - "omega-project/docs/physique-litteraire/corpus-analyse/pvi_corpus_FR.csv"
+  categories:
+    FR_A_bestsellers: 27
+    FR_B_chefs_oeuvre: 49
+    FR_C_upmarket: 10
+  key_findings:
+    FR_A_pvi_mean: 1.466
+    FR_B_pvi_mean: 0.271
+    discrimination_rank_1: "CE (Δ=+1.812)"
+    spearman_CE_ventes: -0.142  # "SIGNAL FAIBLE"
+  reuse_before:
+    - "Toute nouvelle analyse bestseller FR"
+    - "Toute revalidation discrimination FR"
+
+- id: MEASURE-PVI-EN-CORPUS
+  domain: PVI_CORPUS
+  title: "Analyse PVI EN — corpus comparatif"
+  status: SEALED
+  date_sealed: "2026-03-29"
+  source_files:
+    - "omega-project/docs/physique-litteraire/corpus-analyse/rapport_analyse_EN.md"
+    - "omega-project/docs/physique-litteraire/corpus-analyse/pvi_corpus_EN.csv"
+  reuse_before:
+    - "Toute nouvelle analyse bestseller EN"
+
+- id: MEASURE-PVI-COMPARATIF
+  domain: PVI_CORPUS
+  title: "Rapport comparatif FR/EN PVI"
+  status: SEALED
+  date_sealed: "2026-03-29"
+  source_files:
+    - "omega-project/docs/physique-litteraire/corpus-analyse/rapport_comparatif_FR_EN.md"
+  key_findings:
+    FR_rank_FL: 7
+    EN_rank_FL: 2
+    interpretation: "Tradition FR tolère plus de friction lexicale dans succès commerciaux"
+
+- id: MEASURE-PVI-PER-WORK
+  domain: PVI_CORPUS
+  title: "Analyses individuelles par œuvre — 1698 livres"
+  status: SEALED
+  date_started: "2026-03"
+  source_files:
+    - "Claude-Workspace/OMEGA/outputs/corpus-analysis/per-work/"
+  composition:
+    total: 1698
+    by_lang: ["FR", "EN", "DE", "ES", "IT", "other"]
+    by_tier: ["S", "A", "B", "C", "D", "bestseller", "unclassified"]
+    bestsellers_EN_count: 42
+  reuse_before:
+    - "Toute analyse individuelle livre"
+    - "Toute compilation statistique tier-based"
+
+# =============================================================================
+# V2.1 CHUNKING (post-fix bug costScore=0 commit 5f918761)
+# =============================================================================
+
+- id: MEASURE-CHUNK-V211-FIX
+  domain: chunking
+  title: "Fix costScore=0 boundary.ts — Bug discovery V2.1.1"
+  status: SEALED
+  date_sealed: "2026-05-27"
+  source_files:
+    - "Claude-Workspace/OMEGA/outputs/V2_1_1_EXECUTION_PARTIAL_2026-05-27.md"
+  commit: "5f918761"
+  fix:
+    file: "packages/sovereign-engine/src/chunking/optimizer/boundary.ts"
+    lines_changed: "+15/-2"
+    description: "Compute total cost + propagate average per-chunk score (était hardcoded à 0)"
+  evidence:
+    bug_witness_entries: 29
+    avg_cost_before: 0
+    avg_cost_after_v2_1_2_pilot: 0.1042
+  reuse_before:
+    - "Toute analyse cost_score chunk metadata"
+    - "Toute calibration weights V2.1+ (preuve que signal cost existe désormais)"
+
+- id: MEASURE-CHUNK-V212-PILOT
+  domain: chunking
+  title: "V2.1.2 Pilot 30 livres stratifié — calibration weights INITIALE"
+  status: SEALED_COSMETIC  # Marqué cosmétique par V2.1.5.1
+  date_sealed: "2026-05-27"
+  commit_local: "946bb0a9"
+  source_files:
+    - "memory/project_v2_1_2_calibration_pilot30_2026-05-27.md"
+  corpus:
+    pilot_books: 30
+    filter: "5K-30K mots, stratifié tier × lang FR+EN"
+    seed: 42
+  result:
+    best_combo_claimed: "w1=0.3 w2=0.2 w3=0.1 avg_cost=0.1042"
+    default_v21: "w1=0.5 w2=0.3 w3=0.2 avg_cost=0.1634"
+    gain_claimed_pct: -36.25
+  cosmetic_status_note: "RECONNU COSMÉTIQUE par V2.1.5.1 BEHAVIORAL AUDIT (boundary_hash identique cross-configs)"
+  reuse_before:
+    - "Toute reproduction calibration pilot 30 (inutile sans changer mécanisme — cf LAW-CHUNK-040)"
+
+- id: MEASURE-CHUNK-V215-BULK
+  domain: chunking
+  title: "V2.1.5 Bulk 254/254 livres Windows-side"
+  status: SEALED_TECHNICAL_PASS
+  date_sealed: "2026-05-27"
+  source_files:
+    - "Claude-Workspace/OMEGA/outputs/V2_1_5_BULK_VERDICT_2026-05-27.md"
+    - "Claude-Workspace/OMEGA/outputs/v2_1_1/v2_1_5_aggregate.json"
+    - "Claude-Workspace/OMEGA/outputs/v2_1_1/v2_1_5_bulk_results.jsonl"
+  execution:
+    books_processed: 254
+    total_calls: 2286
+    elapsed_sec: 661
+    elapsed_min: 11
+    crashes: 0
+    timeouts: 0
+    memory_peak_MB: 1762.8
+    avg_call_ms: 289
+    runner: "Windows-side detached PowerShell (node + tsx CLI)"
+  result_caveat: "Best combo BRUT (0.1, 0.1, 0.1) = ARTEFACT mathématique (HALLU-IA-005)"
+  reuse_before:
+    - "Toute reproduction bulk 254 (inutile sans changer mécanisme — cf LAW-CHUNK-040)"
+
+- id: MEASURE-CHUNK-V2151-AUDIT
+  domain: chunking
+  title: "V2.1.5.1 BEHAVIORAL SENSITIVITY AUDIT — découverte cosmétique"
+  status: SEALED
+  date_sealed: "2026-05-27"
+  source_files:
+    - "Claude-Workspace/OMEGA/outputs/V2_1_5_1_BEHAVIORAL_AUDIT_2026-05-27.md"
+    - "Claude-Workspace/OMEGA/outputs/v2_1_1/v2_1_5_1_behavioral_audit.json"
+  method:
+    type: "boundary_hash SHA256 comparison"
+    n_books: 30
+    n_configs: 6
+    total_calls: 180
+    elapsed_sec: 16
+  configs_tested:
+    - "V2.1.2_baseline (0.3, 0.2, 0.1)"
+    - "V2.1.5_best_brut (0.1, 0.1, 0.1)"
+    - "V2.1.5_best_norm (0.3, 0.1, 0.1)"
+    - "sum06_balanced (0.2, 0.2, 0.2)"
+    - "sum06_arc_heavy (0.4, 0.1, 0.1)"
+    - "sum06_length_heavy (0.1, 0.4, 0.1)"
+  result:
+    boundaries_identical_pct: 100
+    n_books_all_configs_identical: 30
+    n_books_some_different: 0
+    max_distinct_hashes_per_book: 1
+  importance: "CRITIQUE — invalide TOUTE la chaîne calibration V2.1.2/V2.1.3/V2.1.5 sur axis weights"
+  reuse_before:
+    - "Toute proposition calibration weights chunking V2.X"
+
+# =============================================================================
+# 150 MAGIC NUMBERS (index seulement, voir source pour exhaustif)
+# =============================================================================
+
+- id: MEASURE-MAGIC-NUMBERS-150
+  domain: doctrine
+  title: "150 Magic Numbers OMEGA — recensement exhaustif"
+  status: SEALED
+  date_sealed: "2026-04-26"
+  source_files:
+    - "Claude-Workspace/OMEGA/outputs/analyse_pour_Downloads/OMEGA_AUTOPSIE_REFERENCE_2026-04-26/08_MAGIC_NUMBERS/00_INDEX_150_MAGIC_NUMBERS.md"
+  categories:
+    - "A. Mycelium-Bio PHYSICS (14)"
+    - "B. Damage Gate Phase W bootstrap (25)"
+    - "C. Sovereign-engine WEIGHTS S-ORACLE + SEUILS SSOT (15)"
+    - "+ Plus catégories (voir source)"
+  reuse_before:
+    - "Toute proposition modification seuil/coefficient existant"
+    - "Toute calibration potentiellement collisionnante avec valeur existante"
+
+# =============================================================================
+# OMEGA V1 SEAL (Avril 2026)
+# =============================================================================
+
+- id: MEASURE-OMEGA-V1-SEAL
+  domain: pipeline
+  title: "OMEGA V1 SCELLÉ — pipeline complet"
+  status: SEALED
+  date_sealed: "2026-04-13"
+  source_files:
+    - "Claude-Workspace/OMEGA/outputs/OMEGA_V1_SEAL_CERTIFICATE.md"
+  commit: "0c3cbc48"
+  unanimity: "3/3 IA"
+  components:
+    - "S-Oracle V2 (ECC/AAI/RCI/SII/IFI)"
+    - "K2 Chunked (4×750w, Flaubert+Proust+Duras)"
+    - "Duel (3 modes + CV gate), Sovereign Loop"
+    - "Best-of-N N=7, R7 Best-of-N hostile selection"
+    - "Interiority 3-shot, Impact 3-shot, Necessity 5-shot median"
+    - "R6 Rejection Gate, Cliff Gate (SHADOW R7-B)"
+    - "5 Archétypes, Lois L31/L33/L37/L38/S1-S3/BB-01/C01/P04"
+  bench_results:
+    R7B_avg: 90.07
+    R7B_best: 91.74
+    R7B_min_axis_avg: 83.58
+
+# =============================================================================
+# DOCTRINE / GOUVERNANCE
+# =============================================================================
+
+- id: MEASURE-DOCTRINE-V3158
+  domain: doctrine
+  title: "Doctrine OMEGA v3.158.0 — 9 amendements EMP-09/10/11"
+  status: SEALED
+  date_sealed: "2026-05-26"
+  source_files:
+    - "omega-project/CLAUDE.md"
+    - "omega-project/docs/governance/SPRINT_S8_DOCTRINAL_AMENDMENTS.md (1-6)"
+    - "omega-project/docs/governance/SPRINT_S11_DOCTRINAL_AMENDMENTS.md (7-8 EMP-09/10)"
+    - "omega-project/docs/governance/SPRINT_S12_DOCTRINAL_AMENDMENTS.md (9 EMP-11)"
+  tag: "phase-s-doctrine-v3.158.0-emp11-sealed-2026-05-26"
+
+# =============================================================================
+# FOOTER
+# =============================================================================
+
+metadata:
+  version: "1.0 SEALED"
+  date: "2026-05-28"
+  status: "ACTIVE_AFTER_SEAL"
+  doctrine: "EMP-12 CODEX_OMEGA_PREFLIGHT_MANDATORY"
+  parent_doc: "CODEX_OMEGA_LOIS_CONTRAINTES_LLM_v1-2.md"
+  total_measures: 14
+  scope_phase_1: "Squelette mesures critiques — extension exhaustive Sprint S13+"

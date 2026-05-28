@@ -85,6 +85,24 @@
     - "Tout commit code scoring sans avoir résolu le drift"
   next_action: "Sprint V3.5+ forensic 30 min git log investigation"
 
+- id: NCR_V2_2_EMBED_OLLAMA_CRASH_ON_OVERSIZE
+  domain: embeddings
+  status: RESOLVED_BY_DESIGN
+  created: "2026-05-28"
+  severity: P0
+  source_files:
+    - "Claude-Workspace/OMEGA/outputs/hallu_011_probe_v2_result.json"
+    - "packages/sovereign-engine/src/embeddings/ollamaEmbedder.ts"
+  summary: "Ollama nomic-embed-text renvoie HTTP 500 sur input > ~1200 mots (~1600 tok), num_ctx 8192 non honore"
+  evidence: "Bracket 1250-1500 mots = 100% HTTP 500 ; embed OK <= 1200 mots ; pas de troncature silencieuse"
+  mitigation: "V2.2-B sub-chunking + circuit breaker (sealed RC1) — chunks sous-decoupes avant embed"
+  blocking: []
+  next_action: "Aucune (mitige). Re-tester si modele/Ollama change."
+  related_laws:
+    - "LAW-CHUNK-047 [PROPOSED]"
+  related_hallucinations:
+    - "HALLU-IA-011"
+
 # =============================================================================
 # CLOSED / RESOLVED
 # =============================================================================
@@ -236,7 +254,7 @@ metadata:
   status: "ACTIVE_AFTER_SEAL"
   doctrine: "EMP-12 CODEX_OMEGA_PREFLIGHT_MANDATORY"
   parent_doc: "CODEX_OMEGA_LOIS_CONTRAINTES_LLM_v1-2.md"
-  total_ncrs: 14
+  total_ncrs: 15
   open_critical: 1
   open_p1: 3
   deferred: 2

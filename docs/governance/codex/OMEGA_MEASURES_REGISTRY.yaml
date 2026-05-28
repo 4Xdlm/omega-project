@@ -238,6 +238,44 @@
   reuse_before:
     - "Toute proposition calibration weights chunking V2.X"
 
+- id: MEASURE-EMBED-OLLAMA-CUTOFF-V22B
+  domain: embeddings
+  title: "Re-test HALLU-IA-011 — cutoff reel nomic-embed-text Ollama"
+  status: SEALED   # mesure runtime reproductible (pas claim corpus-level)
+  date_sealed: "2026-05-28"
+  source_files:
+    - "Claude-Workspace/OMEGA/outputs/hallu_011_probe.py"
+    - "Claude-Workspace/OMEGA/outputs/hallu_011_probe_result.json"
+    - "Claude-Workspace/OMEGA/outputs/hallu_011_probe_v2.py"
+    - "Claude-Workspace/OMEGA/outputs/hallu_011_probe_v2_result.json"
+  method: "Embed prefix croissant + suffixe distinctif (confound dilution note) + auto-prefixe + bracket 500"
+  result:
+    num_ctx_declared: 8192
+    embed_ok_max_words: 1200
+    http_500_onset_words: 1250
+    silent_truncation: false
+    effective_limit_tokens_estimate: "~1600-1670"
+    verdict: "num_ctx 8192 NON honore (HALLU-IA-011 RECONFIRMED-REFINED)"
+  reuse_before:
+    - "Toute config taille chunk embeddings Ollama"
+    - "Toute re-mesure cutoff (re-utiliser ces scripts)"
+
+- id: MEASURE-CHUNK-V22B-B1
+  domain: embeddings
+  title: "V2.2-B Option E + B1 boundary candidate probe"
+  status: SEALED   # mesure session, scope non-diversifie
+  date_sealed: "2026-05-28"
+  commit_tag: "phase-v2.2.b-b1-sealed-2026-05-28 (050ae4be)"
+  source_files:
+    - "packages/sovereign-engine/src/embeddings/boundaryZone.ts"
+    - "packages/sovereign-engine/src/embeddings/boundaryCandidate.ts"
+  result:
+    option_e_range: 0.2102
+    b1_v2_1_suboptimal_pct: 47.9
+    scope_caveat: "Corpus B1 non diversifie — B2 (48 livres FR+EN tiers) requis avant claim corpus-level"
+  reuse_before:
+    - "Phase 2 B2 (comparer suboptimal % diversifie vs 47.9% B1)"
+
 # =============================================================================
 # 150 MAGIC NUMBERS (index seulement, voir source pour exhaustif)
 # =============================================================================
@@ -310,5 +348,5 @@ metadata:
   status: "ACTIVE_AFTER_SEAL"
   doctrine: "EMP-12 CODEX_OMEGA_PREFLIGHT_MANDATORY"
   parent_doc: "CODEX_OMEGA_LOIS_CONTRAINTES_LLM_v1-2.md"
-  total_measures: 14
+  total_measures: 16
   scope_phase_1: "Squelette mesures critiques — extension exhaustive Sprint S13+"

@@ -309,6 +309,60 @@
     - "sentences > 4000 testées"
 
 # =============================================================================
+# PILIER 1.9 — V2.2 EMBEDDINGS (NOUVEAU PROPOSED 2026-05-28)
+# =============================================================================
+
+- id: LAW-CHUNK-047
+  title: "Oversize input crashe daemon Ollama embeddings (HTTP 500, pas troncature)"
+  domain: chunking
+  status: PROPOSED   # corpus-level seal interdit avant B2 PASS
+  date_proposed: "2026-05-28"
+  source_files:
+    - "Claude-Workspace/OMEGA/outputs/hallu_011_probe_v2_result.json"
+    - "Claude-Workspace/OMEGA/outputs/V2_2_B_CBW_CODEX_PHASE2_2026-05-28.md"
+    - "packages/sovereign-engine/src/embeddings/ollamaEmbedder.ts (sub-chunking + circuit breaker, sealed RC1)"
+  scope: "Ollama nomic-embed-text:latest, runtime Windows-side localhost:11434"
+  measurement:
+    method: "Sonde embed prefix croissant + bracket erreur"
+    embed_ok_max_words: 1200
+    http_500_onset_words: 1250
+    bracket_500: "1250-1500 mots = 100% HTTP 500"
+    silent_truncation_detected: false
+    note: "num_ctx 8192 declare NON honore — limite reelle ~1600-1670 tokens"
+  operational_impact:
+    forbids:
+      - "FORBID-EMBED-001: Envoyer chunk > ~1200 mots a Ollama embeddings sans sub-chunking"
+    authorizes:
+      - "Sub-chunking + circuit breaker MANDATORY (deja implemente V2.2-B sealed RC1)"
+  revalidate_if:
+    - "Modele embeddings change (nomic-embed-text remplace)"
+    - "Ollama version majeure"
+    - "num_ctx runtime reellement applique (re-tester)"
+
+- id: LAW-EMBED-001
+  title: "Boundary-zone direct embed preserve le signal vs full-chunk pooling"
+  domain: embeddings
+  status: PROPOSED   # improvement scope B1, corpus-level seal interdit avant B2 PASS
+  date_proposed: "2026-05-28"
+  source_files:
+    - "packages/sovereign-engine/src/embeddings/boundaryZone.ts (Option E, sealed RC1)"
+    - "packages/sovereign-engine/src/embeddings/boundaryCandidate.ts (B1, sealed RC1)"
+    - "memory chain V2.2-B (B0 fail / Option E validated / B1 sealed)"
+  scope: "V2.2-B embeddings probe, corpus B1 (non diversifie — B2 requis pour generalisation)"
+  measurement:
+    option_e_range: 0.2102
+    b1_suboptimal_pct: 47.9
+    interpretation: "boundary-zone embed direct evite collapse std~0 du pooling massif (cf HALLU-IA-012/013)"
+  operational_impact:
+    forbids:
+      - "FORBID-EMBED-002: Reintroduire full-chunk mean/max pooling (collapse signal)"
+    authorizes:
+      - "Boundary-zone direct embedding pour continuity scoring"
+  revalidate_if:
+    - "B2 corpus diversifie INVALIDE le scope 47.9%"
+    - "boundaryZone.ts / similarity.ts modifies"
+
+# =============================================================================
 # PILIER 2 — PSYCHOLOGIE LLM (échantillon, voir CODEX v1.2 §2 pour exhaustif)
 # =============================================================================
 

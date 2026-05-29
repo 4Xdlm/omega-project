@@ -328,6 +328,25 @@
   reuse_before:
     - "Phase 4 V2.2-D FULL optimizer (baseline pct_moved 77.4%, cosine -0.041)"
 
+- id: MEASURE-VITEST-SUITE-V22
+  domain: tooling
+  title: "Baseline suite vitest sovereign-engine (2026-05-29)"
+  status: SEALED
+  date_sealed: "2026-05-29"
+  source_files:
+    - "Claude-Workspace/OMEGA/outputs/V2_2_vitest_full_run.log"
+  method: "npx vitest run (Ollama UP, Windows-side)"
+  result:
+    test_files: "230 passed / 2 skipped (232)"
+    tests: "2463 passed / 56 skipped (2519)"
+    failures: 0
+    duration_test_s: 4.46
+    bench_ncr_m2_v4_fusion: "49 tests describe.skip (neutralise)"
+  note: "Refute NCR_V2_2_VITEST_BENCH_BLOCKS_EMP10 (pas de bench 6h). Generation=mock, real-llm=mock fetch. Real Ollama = embeddings conditionnels guardes seulement."
+  reuse_before:
+    - "Toute claim sur la duree/blocage de la suite sovereign-engine"
+    - "Toute decision wrapper EMP-10 sur sovereign-engine"
+
 # =============================================================================
 # 150 MAGIC NUMBERS (index seulement, voir source pour exhaustif)
 # =============================================================================
@@ -400,5 +419,5 @@ metadata:
   status: "ACTIVE_AFTER_SEAL"
   doctrine: "EMP-12 CODEX_OMEGA_PREFLIGHT_MANDATORY"
   parent_doc: "CODEX_OMEGA_LOIS_CONTRAINTES_LLM_v1-2.md"
-  total_measures: 18
+  total_measures: 19
   scope_phase_1: "Squelette mesures critiques — extension exhaustive Sprint S13+"

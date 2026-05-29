@@ -105,7 +105,9 @@
 
 - id: NCR_V2_2_VITEST_BENCH_BLOCKS_EMP10
   domain: tooling
-  status: OPEN_P2
+  status: CLOSED
+  closed: "2026-05-29"
+  closure_reason: "PREMISSE REFUTEE par mesure 2026-05-29 : le bench ncr-m2-v4-fusion est deja describe.skip (49 tests skipped), `vitest run` sovereign-engine = 4.46s, 2463 passed / 56 skipped (2519), 0 echec. Pas de bench 6h. L'echec wrapper Phase 2/3 etait un NativeCommandError PowerShell (stderr de test capte comme fatal), pas une duree. Generation = mock providers, real-llm-provider mocke fetch ; seuls tests Ollama embeddings conditionnels font des appels reels (secondes, guardes par healthCheck). Re-test wrapper EMP-10 recommande (devrait passer). Cf MEASURE-VITEST-SUITE-V22."
   created: "2026-05-28"
   severity: P2
   source_files:

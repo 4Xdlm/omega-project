@@ -309,10 +309,18 @@ if ($codeFiles.Count -gt 0) {
 
     Write-Log 'INFO' "Vitest ciblé: cd $pkg && npm test"
     Push-Location $pkgPath
+    # NCR_EMP10_WRAPPER_STDERR (2026-05-29) : verdict sur EXIT CODE, pas sur stderr.
+    # Vitest ecrit sur stderr (tests conditionnels console.warn) meme en succes ;
+    # sous ErrorActionPreference=Stop, "& npm test 2>&1" leve NativeCommandError a tort.
+    # Fix : cmd /c merge stderr->stdout cote cmd + EAP=Continue local => PS ne termine plus,
+    # le verdict se base sur $LASTEXITCODE (vrai code de sortie npm/vitest).
+    $prevEAP_vt = $ErrorActionPreference
+    $ErrorActionPreference = 'Continue'
     try {
-      $vitestOutput = & npm test 2>&1 | Out-String
+      $vitestOutput = & cmd /c "npm test 2>&1" | Out-String
       $vitestExit = $LASTEXITCODE
     } finally {
+      $ErrorActionPreference = $prevEAP_vt
       Pop-Location
     }
     Write-Log 'INFO' "  Vitest exit: $vitestExit"

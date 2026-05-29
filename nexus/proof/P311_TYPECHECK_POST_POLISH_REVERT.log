@@ -1,0 +1,30 @@
+
+> @omega/sovereign-engine@1.0.0 typecheck
+> tsc --noEmit
+
+src/authenticity/adversarial-judge.ts(84,78): error TS2339: Property 'model_id' does not exist on type 'SovereignProvider'.
+src/authenticity/adversarial-judge.ts(91,27): error TS2339: Property 'fraud_score' does not exist on type 'SemanticEmotionResult'.
+src/authenticity/adversarial-judge.ts(92,25): error TS2339: Property 'rationale' does not exist on type 'SemanticEmotionResult'.
+src/authenticity/adversarial-judge.ts(117,8): error TS2554: Expected 2 arguments, but got 3.
+src/delta/delta-physics.ts(30,72): error TS2339: Property 'average_cosine' does not exist on type 'readonly TrajectoryDeviation[]'.
+src/delta/delta-physics.ts(31,48): error TS2339: Property 'average_cosine' does not exist on type 'readonly TrajectoryDeviation[]'.
+src/delta/delta-physics.ts(32,75): error TS2339: Property 'average_euclidean' does not exist on type 'readonly TrajectoryDeviation[]'.
+src/delta/delta-physics.ts(33,48): error TS2339: Property 'average_euclidean' does not exist on type 'readonly TrajectoryDeviation[]'.
+src/duel/duel-engine.ts(17,66): error TS2305: Module '"../types.js"' has no exported member 'DuelCandidateScore'.
+src/duel/duel-engine.ts(310,5): error TS2353: Object literal may only specify known properties, and 'duel_matrix' does not exist in type 'DuelResult'.
+src/engine.ts(157,56): error TS2694: Namespace '"C:/Users/elric/omega-project/packages/sovereign-engine/src/types"' has no exported member 'DuelCandidateScore'.
+src/engine.ts(298,65): error TS2554: Expected 2 arguments, but got 3.
+src/engine.ts(675,30): error TS2339: Property 'duel_matrix' does not exist on type 'DuelResult'.
+src/input/prompt-assembler-v4.ts(224,25): error TS2339: Property 'pivot' does not exist on type 'ForgeBeat'.
+src/microsurgery/style-presets.ts(16,28): error TS6196: 'DamageCategory' is declared but never used.
+src/oracle/axes/authenticity.ts(47,5): error TS2322: Type '{ calc_score: number; fraud_score: number | null; pattern_hits: readonly string[]; }' is not assignable to type 'string'.
+src/oracle/axes/metaphor-novelty.ts(56,5): error TS2322: Type '{ dead_count: number; total_metaphors: number; dead_ratio: number; avg_novelty: number; }' is not assignable to type 'string'.
+src/oracle/axes/show-dont-tell.ts(43,5): error TS2322: Type '{ violations_count: number; show_ratio: number; worst_violations: string[]; }' is not assignable to type 'string'.
+src/oracle/axes/temporal-pacing.ts(38,21): error TS2352: Conversion of type 'ForgePacket' to type 'Record<string, unknown>' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Index signature for type 'string' is missing in type 'ForgePacket'.
+src/oracle/axes/tension-14d.ts(107,19): error TS2352: Conversion of type 'SemanticEmotionResult' to type 'Record<string, number>' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+  Index signature for type 'string' is missing in type 'SemanticEmotionResult'.
+src/oracle/axes/voice-conformity.ts(31,7): error TS2353: Object literal may only specify known properties, and 'reasons' does not exist in type 'AxisScore'.
+src/oracle/axes/voice-conformity.ts(90,5): error TS2353: Object literal may only specify known properties, and 'reasons' does not exist in type 'AxisScore'.
+src/oracle/macro-axes.ts(365,63): error TS2339: Property 'axis_id' does not exist on type 'AxisScore'.
+src/oracle/macro-axes.ts(368,64): error TS2339: Property 'axis_id' does not exist on type 'AxisScore'.

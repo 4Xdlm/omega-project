@@ -1,0 +1,1428 @@
+
+> omega-core@5.0.0 test
+> vitest run
+
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90mC:/Users/elric/omega-project[39m
+
+ [31m❯[39m gateway/tests/gateway.test.ts [2m([22m[2m0 test[22m[2m)[22m
+[90mstdout[2m | packages/search/tests/benchmark.test.ts[2m > [22m[2mPhase 5.2 Performance Benchmark[2m > [22m[2mTokenize[2m > [22m[2mtokenize(short)
+[22m[39mtokenize(short): mean=0.0015ms, p95=0.0026ms
+
+[90mstdout[2m | test/ci-cd.test.ts[2m > [22m[2mPhase Check[2m > [22m[2mshould check phase declaration
+[22m[39m[36m[2026-01-27T07:04:31.366Z] [CI] Checking phase declaration...[0m
+[32m[2026-01-27T07:04:31.367Z] [CI] Phase 155 declared[0m
+
+[90mstdout[2m | test/ci-cd.test.ts[2m > [22m[2mPhase Check[2m > [22m[2mshould return current phase number
+[22m[39m[36m[2026-01-27T07:04:31.367Z] [CI] Checking phase declaration...[0m
+[32m[2026-01-27T07:04:31.367Z] [CI] Phase 155 declared[0m
+
+[90mstdout[2m | packages/search/tests/benchmark.test.ts[2m > [22m[2mPhase 5.2 Performance Benchmark[2m > [22m[2mTokenize[2m > [22m[2mtokenize(medium)
+[22m[39mtokenize(medium): mean=0.0097ms, p95=0.0176ms
+
+ [32m✓[39m test/gold-final.test.ts [2m([22m[2m50 tests[22m[2m)[22m[32m 120[2mms[22m[39m
+ [32m✓[39m tests/stress/edgecases.test.ts [2m([22m[2m25 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+warning: could not open directory 'nexus/proof/nightwatch__./': No such file or directory
+ [32m✓[39m tests/e2e/pipeline.test.ts [2m([22m[2m23 tests[22m[2m)[22m[32m 10[2mms[22m[39m
+ [32m✓[39m src/text_analyzer/text_analyzer.test.ts [2m([22m[2m37 tests[22m[2m)[22m[32m 151[2mms[22m[39m
+[90mstdout[2m | test/ci-cd.test.ts[2m > [22m[2mSanctuary Check[2m > [22m[2mshould check sanctuary paths
+[22m[39m[36m[2026-01-27T07:04:31.368Z] [CI] Checking sanctuary paths...[0m
+[36m[2026-01-27T07:04:31.368Z] [CI] Running: Check modified files[0m
+[31m[2026-01-27T07:04:31.475Z] [CI] Sanctuary violations found: 1[0m
+[33m[2026-01-27T07:04:31.476Z] [CI]   - packages/mycelium/package.json in packages/mycelium[0m
+
+ [32m✓[39m test/ci-cd.test.ts [2m([22m[2m25 tests[22m[2m)[22m[32m 117[2mms[22m[39m
+ [32m✓[39m test/gold-tooling.test.ts [2m([22m[2m54 tests[22m[2m)[22m[32m 255[2mms[22m[39m
+[90mstdout[2m | packages/search/tests/benchmark.test.ts[2m > [22m[2mPhase 5.2 Performance Benchmark[2m > [22m[2mTokenize[2m > [22m[2mtokenize(long)
+[22m[39mtokenize(long): mean=0.1212ms, p95=0.1625ms
+
+[90mstdout[2m | packages/search/tests/benchmark.test.ts[2m > [22m[2mPhase 5.2 Performance Benchmark[2m > [22m[2mQueryParser[2m > [22m[2mparse(query1)
+[22m[39mparse(query1): mean=0.0011ms, p95=0.0016ms
+
+[90mstdout[2m | packages/search/tests/benchmark.test.ts[2m > [22m[2mPhase 5.2 Performance Benchmark[2m > [22m[2mQueryParser[2m > [22m[2mparse(query2)
+[22m[39mparse(query2): mean=0.0021ms, p95=0.0029ms
+
+[90mstdout[2m | packages/search/tests/benchmark.test.ts[2m > [22m[2mPhase 5.2 Performance Benchmark[2m > [22m[2mQueryParser[2m > [22m[2mparse(query3)
+[22m[39mparse(query3): mean=0.0014ms, p95=0.0025ms
+
+[90mstdout[2m | packages/search/tests/benchmark.test.ts[2m > [22m[2mPhase 5.2 Performance Benchmark[2m > [22m[2mQueryParser[2m > [22m[2mparse(query4)
+[22m[39mparse(query4): mean=0.0028ms, p95=0.0042ms
+
+ [32m✓[39m gateway/cli-runner/tests/commands/health.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 287[2mms[22m[39m
+[90mstdout[2m | packages/search/tests/benchmark.test.ts[2m > [22m[2mPhase 5.2 Performance Benchmark[2m > [22m[2mQueryParser[2m > [22m[2mparse(query5)
+[22m[39mparse(query5): mean=0.0024ms, p95=0.0038ms
+
+ [32m✓[39m test/repo-hygiene.test.ts [2m([22m[2m39 tests[22m[2m)[22m[33m 425[2mms[22m[39m
+[90mstdout[2m | packages/search/tests/benchmark.test.ts[2m > [22m[2mPhase 5.2 Performance Benchmark[2m > [22m[2mSearch[2m > [22m[2msearch(simple)
+[22m[39msearch(simple): mean=0.0255ms, p95=0.0443ms
+
+[90mstdout[2m | tests/performance/budgets.test.ts[2m > [22m[2mPerformance budgets (measure only)[2m > [22m[2mmeasure atlas insert operation
+[22m[39mAtlas insert 100 items: mean=0.06ms, p95=0.12ms
+
+[90mstdout[2m | tests/performance/budgets.test.ts[2m > [22m[2mPerformance budgets (measure only)[2m > [22m[2mmeasure atlas query operation
+[22m[39mAtlas query 1k items: mean=0.07ms, p95=0.11ms
+
+ [32m✓[39m packages/omega-observability/tests/unit.test.ts [2m([22m[2m62 tests[22m[2m)[22m[33m 341[2mms[22m[39m
+[90mstdout[2m | packages/search/tests/benchmark.test.ts[2m > [22m[2mPhase 5.2 Performance Benchmark[2m > [22m[2mSearch[2m > [22m[2msearch(multi-term)
+[22m[39msearch(multi-term): mean=0.0154ms, p95=0.0197ms
+
+[90mstdout[2m | tests/performance/budgets.test.ts[2m > [22m[2mPerformance budgets (measure only)[2m > [22m[2mmeasure raw storage operation
+[22m[39mRaw store 100 items: mean=0.44ms, p95=0.92ms
+
+[90mstdout[2m | tests/stress/stress.test.ts[2m > [22m[2mSTRESS-D: Mixed Workload[2m > [22m[2mSTRESS-D-03: Rapid fire requests
+[22m[39mRapid fire: 1000 requests in 9ms
+
+ [32m✓[39m tests/edge-cases/extreme-sizes.test.ts [2m([22m[2m16 tests[22m[2m)[22m[32m 189[2mms[22m[39m
+ [32m✓[39m tests/stress/stress.test.ts [2m([22m[2m14 tests[22m[2m)[22m[32m 300[2mms[22m[39m
+[90mstdout[2m | tests/performance/budgets.test.ts[2m > [22m[2mPerformance budgets (measure only)[2m > [22m[2mmeasure raw retrieve operation
+[22m[39mRaw retrieve 100 items: mean=0.24ms, p95=0.27ms
+
+ [32m✓[39m tests/performance/budgets.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 91[2mms[22m[39m
+[90mstdout[2m | packages/search/tests/benchmark.test.ts[2m > [22m[2mPhase 5.2 Performance Benchmark[2m > [22m[2mSearch[2m > [22m[2msearch(fuzzy)
+[22m[39msearch(fuzzy): mean=0.1323ms, p95=0.2730ms
+
+[90mstdout[2m | packages/search/tests/benchmark.test.ts[2m > [22m[2mPhase 5.2 Performance Benchmark[2m > [22m[2mSUMMARY
+[22m[39m
+═══════════════════════════════════════════════════════════════════════════════
+PHASE 5.2 BASELINE RESULTS
+═══════════════════════════════════════════════════════════════════════════════
+| Benchmark                           | Mean (ms)   | P95 (ms)    |
+|-------------------------------------|-------------|-------------|
+| tokenize(short)                     |      0.0015 |      0.0026 |
+| tokenize(medium)                    |      0.0097 |      0.0176 |
+| tokenize(long)                      |      0.1212 |      0.1625 |
+| parse(query1)                       |      0.0011 |      0.0016 |
+| parse(query2)                       |      0.0021 |      0.0029 |
+| parse(query3)                       |      0.0014 |      0.0025 |
+| parse(query4)                       |      0.0028 |      0.0042 |
+| parse(query5)                       |      0.0024 |      0.0038 |
+| search(simple)                      |      0.0255 |      0.0443 |
+| search(multi-term)                  |      0.0154 |      0.0197 |
+| search(fuzzy)                       |      0.1323 |      0.2730 |
+═══════════════════════════════════════════════════════════════════════════════
+
+
+ [32m✓[39m packages/search/tests/benchmark.test.ts [2m([22m[2m12 tests[22m[2m)[22m[33m 441[2mms[22m[39m
+ [32m✓[39m test/api-surface.test.ts [2m([22m[2m19 tests[22m[2m)[22m[33m 532[2mms[22m[39m
+[90mstdout[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-01: Exit Code Coherent[2m > [22m[2msuccess=true implies exitCode=0
+[22m[39momega v3.16.0
+
+[90mstderr[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-01: Exit Code Coherent[2m > [22m[2msuccess=false implies exitCode>0
+[22m[39mError: Missing required argument: file (or use --stdin to read from pipe)
+
+[90mstdout[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-01: Exit Code Coherent[2m > [22m[2mcoherence holds for all successful commands
+[22m[39momega v3.16.0
+
+[90mstdout[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-01: Exit Code Coherent[2m > [22m[2mcoherence holds for all successful commands
+[22m[39m╔═══════════════════════════════════════════════════════════════╗
+║                    OMEGA CLI Information                       ║
+╚═══════════════════════════════════════════════════════════════╝
+
+📦 CLI
+   Name:        omega
+   Version:     v3.16.0
+   Description: OMEGA CLI — Emotional Analysis Engine for Novels
+
+🔒 OMEGA Core
+   Core Version:  3.15.0-NEXUS_CORE-STABLE
+   Sanctuarized:  YES
+   Invariants:    8
+   Tests:         226
+
+💻 Runtime
+   Platform:  win32
+   Arch:      x64
+   Node:      v24.12.0
+
+📋 Commands
+   • analyze  - Analyse émotionnelle
+   • compare  - Comparaison de textes
+   • export   - Export de projets
+   • batch    - Traitement batch
+   • health   - Diagnostic système
+   • version  - Affiche la version
+   • info     - Informations système
+   • schema   - Export JSON Schema NDJSON
+
+🔀 Routing Policy
+   NEXUS (audit):  analyze, compare, batch
+   DIRECT (local): export, health, version, info, schema
+
+⏰ 2026-01-27T07:04:31.827Z
+
+
+ [32m✓[39m tests/scribe/L4_brutal_test.ts [2m([22m[2m18 tests[22m[2m)[22m[32m 19[2mms[22m[39m
+warning: could not open directory 'nexus/proof/nightwatch__./': No such file or directory
+[90mstdout[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-01: Exit Code Coherent[2m > [22m[2mcoherence holds for all successful commands
+[22m[39m╔═══════════════════════════════════════════════════════════════╗
+║                  OMEGA Health Report                          ║
+╚═══════════════════════════════════════════════════════════════╝
+
+Status: OK
+Version: 3.16.0
+Timestamp: 2026-01-27T07:04:31.849Z
+
+Components:
+  ✅ OMEGA Core: Core engine operational (5.20ms)
+  ✅ Emotion Engine: Plutchik model loaded (15.48ms)
+
+
+[90mstdout[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-01: Exit Code Coherent[2m > [22m[2mcoherence holds for all successful commands
+[22m[39m{
+  "input": null,
+  "analysis": {
+    "summary": {
+      "wordCount": 65,
+      "sentenceCount": 7,
+      "dominantEmotion": "joy",
+      "overallIntensity": 0.785,
+      "keywordsFound": 6,
+      "keywordDensity": 0.092,
+      "intensityMethod": "v2",
+      "qualityScore": 0.65
+    },
+    "emotions": [
+      {
+        "emotion": "joy",
+        "intensity": 1,
+        "confidence": 0.333
+      },
+      {
+        "emotion": "trust",
+        "intensity": 1,
+        "confidence": 0.333
+      },
+      {
+        "emotion": "fear",
+        "intensity": 1,
+        "confidence": 0.167
+      },
+      {
+        "emotion": "surprise",
+        "intensity": 1,
+        "confidence": 0.167
+      },
+      {
+        "emotion": "sadness",
+        "intensity": 0,
+        "confidence": 0
+      },
+      {
+        "emotion": "disgust",
+        "intensity": 0,
+        "confidence": 0
+      },
+      {
+        "emotion": "anger",
+        "intensity": 0,
+        "confidence": 0
+      },
+      {
+        "emotion": "anticipation",
+        "intensity": 0,
+        "confidence": 0
+      }
+    ],
+    "excerpt": "The happy warrior marched forward with joy in his heart.\nHe trusted his companions and felt confiden...",
+    "warnings": [
+      "LOW_TEXT"
+    ]
+  },
+  "metadata": {
+    "timestamp": "2026-01-27T07:04:31.852Z",
+    "seed": 42,
+    "version": "3.17.0",
+    "lang": "en",
+    "langName": "English"
+  },
+  "errors": []
+}
+
+[90mstderr[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-01: Exit Code Coherent[2m > [22m[2mcoherence holds for all failed commands
+[22m[39mError: Missing required argument: file (or use --stdin to read from pipe)
+
+[90mstdout[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-01: Exit Code Coherent[2m > [22m[2mcoherence holds for all failed commands
+[22m[39mOMEGA CLI — Emotional Analysis Engine for Novels
+
+Usage: omega <command> [options] [arguments]
+
+Commands:
+  analyze      Analyse émotionnelle d'un fichier texte ou stdin
+  compare      Compare deux fichiers texte
+  export       Exporte un projet OMEGA
+  batch        Traitement batch de plusieurs fichiers
+  health       Diagnostic système
+  version      Affiche la version
+  info         Informations système
+  schema       Exporte le JSON Schema du format NDJSON
+
+Run "omega <command> --help" for more information on a command.
+
+
+[90mstderr[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-01: Exit Code Coherent[2m > [22m[2mcoherence holds for all failed commands
+[22m[39mError: Unknown command 'unknown'
+
+[90mstderr[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-01: Exit Code Coherent[2m > [22m[2mcoherence holds for all failed commands
+[22m[39mError: Analysis failed - ENOENT: no such file or directory, open 'C:\Users\elric\omega-project\error.txt'
+
+[90mstdout[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-02: No Silent Failure[2m > [22m[2munknown command produces error message
+[22m[39mOMEGA CLI — Emotional Analysis Engine for Novels
+
+Usage: omega <command> [options] [arguments]
+
+Commands:
+  analyze      Analyse émotionnelle d'un fichier texte ou stdin
+  compare      Compare deux fichiers texte
+  export       Exporte un projet OMEGA
+  batch        Traitement batch de plusieurs fichiers
+  health       Diagnostic système
+  version      Affiche la version
+  info         Informations système
+  schema       Exporte le JSON Schema du format NDJSON
+
+Run "omega <command> --help" for more information on a command.
+
+
+[90mstderr[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-02: No Silent Failure[2m > [22m[2munknown command produces error message
+[22m[39mError: Unknown command 'nonexistent'
+
+[90mstderr[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-02: No Silent Failure[2m > [22m[2mmissing argument produces error message
+[22m[39mError: Missing required argument: file (or use --stdin to read from pipe)
+
+[90mstderr[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-02: No Silent Failure[2m > [22m[2mfile error produces error message
+[22m[39mError: Analysis failed - ENOENT: no such file or directory, open 'C:\Users\elric\omega-project\error_file.txt'
+
+[90mstdout[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-02: No Silent Failure[2m > [22m[2minvalid option produces error message
+[22m[39mUsage: omega analyze [<file>] [--stdin] [--lang en|fr|es|de] [--intensity v1|v2] [--output json|md|both] [--save <path>] [--stream] [--events <types>] [--artifacts <dir>] [--verbose]
+
+Analyse émotionnelle d'un fichier texte ou stdin
+
+Arguments:
+  file  Fichier texte à analyser (.txt, .md) — optionnel si --stdin (optional)
+
+Options:
+  -o, --output  Format de sortie (json, md, both) [default: json]
+  -l, --lang  Langue du texte (en, fr, es, de) [default: en]
+  -i, --intensity  Méthode de calcul intensité (v1, v2) [default: v2]
+  -s, --save  Chemin pour sauvegarder les résultats
+  -S, --stream  Sortie NDJSON (streaming line-by-line)
+  -E, --events  Filter NDJSON events (comma-separated). Example: --events summary,stats. Use "all" for no filter.
+  -a, --artifacts  Répertoire pour écrire les artefacts (json + md) en mode stream
+  -v, --verbose  Mode verbeux
+  -I, --stdin  Lire le texte depuis stdin (pipe)
+
+
+[90mstderr[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-02: No Silent Failure[2m > [22m[2minvalid option produces error message
+[22m[39mError: Invalid value for --output: invalid
+
+[90mstderr[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-02: No Silent Failure[2m > [22m[2mno failure is ever silent
+[22m[39mError: Missing required argument: file (or use --stdin to read from pipe)
+
+[90mstdout[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-02: No Silent Failure[2m > [22m[2mno failure is ever silent
+[22m[39mUsage: omega compare <file1> <file2> [--output json|md]
+
+Compare deux fichiers texte
+
+Arguments:
+  file1  Premier fichier texte (required)
+  file2  Second fichier texte (required)
+
+Options:
+  -o, --output  Format de sortie (json, md) [default: json]
+
+
+[90mstderr[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-02: No Silent Failure[2m > [22m[2mno failure is ever silent
+[22m[39mError: Missing required argument(s): file2
+
+[90mstdout[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-02: No Silent Failure[2m > [22m[2mno failure is ever silent
+[22m[39mUsage: omega export <project.omega> --format md|docx|json
+
+Exporte un projet OMEGA
+
+Arguments:
+  project  Fichier projet OMEGA (.omega) (required)
+
+Options:
+  -f, --format  Format d'export (json, md, docx) [default: json]
+  -o, --output  Fichier de sortie (optionnel)
+
+
+[90mstderr[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-02: No Silent Failure[2m > [22m[2mno failure is ever silent
+[22m[39mError: Missing required argument(s): project
+
+[90mstdout[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-02: No Silent Failure[2m > [22m[2mno failure is ever silent
+[22m[39mUsage: omega batch <directory> [--recursive] [--output dir]
+
+Traitement batch de plusieurs fichiers
+
+Arguments:
+  directory  Dossier contenant les fichiers à traiter (required)
+
+Options:
+  -r, --recursive  Traiter les sous-dossiers
+  -o, --output  Dossier de sortie pour les résultats
+
+
+[90mstderr[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-02: No Silent Failure[2m > [22m[2mno failure is ever silent
+[22m[39mError: Missing required argument(s): directory
+
+[90mstdout[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-02: No Silent Failure[2m > [22m[2mno failure is ever silent
+[22m[39mOMEGA CLI — Emotional Analysis Engine for Novels
+
+Usage: omega <command> [options] [arguments]
+
+Commands:
+  analyze      Analyse émotionnelle d'un fichier texte ou stdin
+  compare      Compare deux fichiers texte
+  export       Exporte un projet OMEGA
+  batch        Traitement batch de plusieurs fichiers
+  health       Diagnostic système
+  version      Affiche la version
+  info         Informations système
+  schema       Exporte le JSON Schema du format NDJSON
+
+Run "omega <command> --help" for more information on a command.
+
+
+[90mstderr[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-02: No Silent Failure[2m > [22m[2mno failure is ever silent
+[22m[39mError: Unknown command 'unknown'
+
+[90mstdout[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-03: Deterministic Output[2m > [22m[2mcommand output is deterministic for same input
+[22m[39m{
+  "input": null,
+  "analysis": {
+    "summary": {
+      "wordCount": 65,
+      "sentenceCount": 7,
+      "dominantEmotion": "joy",
+      "overallIntensity": 0.785,
+      "keywordsFound": 6,
+      "keywordDensity": 0.092,
+      "intensityMethod": "v2",
+      "qualityScore": 0.65
+    },
+    "emotions": [
+      {
+        "emotion": "joy",
+        "intensity": 1,
+        "confidence": 0.333
+      },
+      {
+        "emotion": "trust",
+        "intensity": 1,
+        "confidence": 0.333
+      },
+      {
+        "emotion": "fear",
+        "intensity": 1,
+        "confidence": 0.167
+      },
+      {
+        "emotion": "surprise",
+        "intensity": 1,
+        "confidence": 0.167
+      },
+      {
+        "emotion": "sadness",
+        "intensity": 0,
+        "confidence": 0
+      },
+      {
+        "emotion": "disgust",
+        "intensity": 0,
+        "confidence": 0
+      },
+      {
+        "emotion": "anger",
+        "intensity": 0,
+        "confidence": 0
+      },
+      {
+        "emotion": "anticipation",
+        "intensity": 0,
+        "confidence": 0
+      }
+    ],
+    "excerpt": "The happy warrior marched forward with joy in his heart.\nHe trusted his companions and felt confiden...",
+    "warnings": [
+      "LOW_TEXT"
+    ]
+  },
+  "metadata": {
+    "timestamp": "2026-01-27T07:04:31.860Z",
+    "seed": 42,
+    "version": "3.17.0",
+    "lang": "en",
+    "langName": "English"
+  },
+  "errors": []
+}
+
+ [32m✓[39m tests/edge-cases/corruption.test.ts [2m([22m[2m19 tests[22m[2m)[22m[32m 26[2mms[22m[39m
+[90mstdout[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-03: Deterministic Output[2m > [22m[2mcommand output is deterministic for same input
+[22m[39m{
+  "input": null,
+  "analysis": {
+    "summary": {
+      "wordCount": 65,
+      "sentenceCount": 7,
+      "dominantEmotion": "joy",
+      "overallIntensity": 0.785,
+      "keywordsFound": 6,
+      "keywordDensity": 0.092,
+      "intensityMethod": "v2",
+      "qualityScore": 0.65
+    },
+    "emotions": [
+      {
+        "emotion": "joy",
+        "intensity": 1,
+        "confidence": 0.333
+      },
+      {
+        "emotion": "trust",
+        "intensity": 1,
+        "confidence": 0.333
+      },
+      {
+        "emotion": "fear",
+        "intensity": 1,
+        "confidence": 0.167
+      },
+      {
+        "emotion": "surprise",
+        "intensity": 1,
+        "confidence": 0.167
+      },
+      {
+        "emotion": "sadness",
+        "intensity": 0,
+        "confidence": 0
+      },
+      {
+        "emotion": "disgust",
+        "intensity": 0,
+        "confidence": 0
+      },
+      {
+        "emotion": "anger",
+        "intensity": 0,
+        "confidence": 0
+      },
+      {
+        "emotion": "anticipation",
+        "intensity": 0,
+        "confidence": 0
+      }
+    ],
+    "excerpt": "The happy warrior marched forward with joy in his heart.\nHe trusted his companions and felt confiden...",
+    "warnings": [
+      "LOW_TEXT"
+    ]
+  },
+  "metadata": {
+    "timestamp": "2026-01-27T07:04:31.862Z",
+    "seed": 42,
+    "version": "3.17.0",
+    "lang": "en",
+    "langName": "English"
+  },
+  "errors": []
+}
+
+[90mstdout[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-03: Deterministic Output[2m > [22m[2mcommand output is deterministic for same input
+[22m[39m{
+  "input": null,
+  "analysis": {
+    "summary": {
+      "wordCount": 65,
+      "sentenceCount": 7,
+      "dominantEmotion": "joy",
+      "overallIntensity": 0.785,
+      "keywordsFound": 6,
+      "keywordDensity": 0.092,
+      "intensityMethod": "v2",
+      "qualityScore": 0.65
+    },
+    "emotions": [
+      {
+        "emotion": "joy",
+        "intensity": 1,
+        "confidence": 0.333
+      },
+      {
+        "emotion": "trust",
+        "intensity": 1,
+        "confidence": 0.333
+      },
+      {
+        "emotion": "fear",
+        "intensity": 1,
+        "confidence": 0.167
+      },
+      {
+        "emotion": "surprise",
+        "intensity": 1,
+        "confidence": 0.167
+      },
+      {
+        "emotion": "sadness",
+        "intensity": 0,
+        "confidence": 0
+      },
+      {
+        "emotion": "disgust",
+        "intensity": 0,
+        "confidence": 0
+      },
+      {
+        "emotion": "anger",
+        "intensity": 0,
+        "confidence": 0
+      },
+      {
+        "emotion": "anticipation",
+        "intensity": 0,
+        "confidence": 0
+      }
+    ],
+    "excerpt": "The happy warrior marched forward with joy in his heart.\nHe trusted his companions and felt confiden...",
+    "warnings": [
+      "LOW_TEXT"
+    ]
+  },
+  "metadata": {
+    "timestamp": "2026-01-27T07:04:31.864Z",
+    "seed": 42,
+    "version": "3.17.0",
+    "lang": "en",
+    "langName": "English"
+  },
+  "errors": []
+}
+
+[90mstdout[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-04: Duration Always Set[2m > [22m[2mduration is set for version command
+[22m[39momega v3.16.0
+
+[90mstdout[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-04: Duration Always Set[2m > [22m[2mduration is set for info command
+[22m[39m╔═══════════════════════════════════════════════════════════════╗
+║                    OMEGA CLI Information                       ║
+╚═══════════════════════════════════════════════════════════════╝
+
+📦 CLI
+   Name:        omega
+   Version:     v3.16.0
+   Description: OMEGA CLI — Emotional Analysis Engine for Novels
+
+🔒 OMEGA Core
+   Core Version:  3.15.0-NEXUS_CORE-STABLE
+   Sanctuarized:  YES
+   Invariants:    8
+   Tests:         226
+
+💻 Runtime
+   Platform:  win32
+   Arch:      x64
+   Node:      v24.12.0
+
+📋 Commands
+   • analyze  - Analyse émotionnelle
+   • compare  - Comparaison de textes
+   • export   - Export de projets
+   • batch    - Traitement batch
+   • health   - Diagnostic système
+   • version  - Affiche la version
+   • info     - Informations système
+   • schema   - Export JSON Schema NDJSON
+
+🔀 Routing Policy
+   NEXUS (audit):  analyze, compare, batch
+   DIRECT (local): export, health, version, info, schema
+
+⏰ 2026-01-27T07:04:31.865Z
+
+
+[90mstdout[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-04: Duration Always Set[2m > [22m[2mduration is set for health command
+[22m[39m╔═══════════════════════════════════════════════════════════════╗
+║                  OMEGA Health Report                          ║
+╚═══════════════════════════════════════════════════════════════╝
+
+Status: OK
+Version: 3.16.0
+Timestamp: 2026-01-27T07:04:31.880Z
+
+Components:
+  ✅ OMEGA Core: Core engine operational (0.67ms)
+  ✅ Emotion Engine: Plutchik model loaded (14.55ms)
+
+
+ [32m✓[39m tests/scribe/L2_integration_test.ts [2m([22m[2m15 tests[22m[2m)[22m[32m 23[2mms[22m[39m
+[90mstdout[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-04: Duration Always Set[2m > [22m[2mduration is set for analyze command
+[22m[39m{
+  "input": null,
+  "analysis": {
+    "summary": {
+      "wordCount": 65,
+      "sentenceCount": 7,
+      "dominantEmotion": "joy",
+      "overallIntensity": 0.785,
+      "keywordsFound": 6,
+      "keywordDensity": 0.092,
+      "intensityMethod": "v2",
+      "qualityScore": 0.65
+    },
+    "emotions": [
+      {
+        "emotion": "joy",
+        "intensity": 1,
+        "confidence": 0.333
+      },
+      {
+        "emotion": "trust",
+        "intensity": 1,
+        "confidence": 0.333
+      },
+      {
+        "emotion": "fear",
+        "intensity": 1,
+        "confidence": 0.167
+      },
+      {
+        "emotion": "surprise",
+        "intensity": 1,
+        "confidence": 0.167
+      },
+      {
+        "emotion": "sadness",
+        "intensity": 0,
+        "confidence": 0
+      },
+      {
+        "emotion": "disgust",
+        "intensity": 0,
+        "confidence": 0
+      },
+      {
+        "emotion": "anger",
+        "intensity": 0,
+        "confidence": 0
+      },
+      {
+        "emotion": "anticipation",
+        "intensity": 0,
+        "confidence": 0
+      }
+    ],
+    "excerpt": "The happy warrior marched forward with joy in his heart.\nHe trusted his companions and felt confiden...",
+    "warnings": [
+      "LOW_TEXT"
+    ]
+  },
+  "metadata": {
+    "timestamp": "2026-01-27T07:04:31.882Z",
+    "seed": 42,
+    "version": "3.17.0",
+    "lang": "en",
+    "langName": "English"
+  },
+  "errors": []
+}
+
+[90mstderr[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-04: Duration Always Set[2m > [22m[2mduration is set even for failed commands
+[22m[39mError: Missing required argument: file (or use --stdin to read from pipe)
+
+[90mstdout[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-04: Duration Always Set[2m > [22m[2mduration is set for all commands
+[22m[39momega v3.16.0
+
+[90mstdout[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-04: Duration Always Set[2m > [22m[2mduration is set for all commands
+[22m[39m╔═══════════════════════════════════════════════════════════════╗
+║                    OMEGA CLI Information                       ║
+╚═══════════════════════════════════════════════════════════════╝
+
+📦 CLI
+   Name:        omega
+   Version:     v3.16.0
+   Description: OMEGA CLI — Emotional Analysis Engine for Novels
+
+🔒 OMEGA Core
+   Core Version:  3.15.0-NEXUS_CORE-STABLE
+   Sanctuarized:  YES
+   Invariants:    8
+   Tests:         226
+
+💻 Runtime
+   Platform:  win32
+   Arch:      x64
+   Node:      v24.12.0
+
+📋 Commands
+   • analyze  - Analyse émotionnelle
+   • compare  - Comparaison de textes
+   • export   - Export de projets
+   • batch    - Traitement batch
+   • health   - Diagnostic système
+   • version  - Affiche la version
+   • info     - Informations système
+   • schema   - Export JSON Schema NDJSON
+
+🔀 Routing Policy
+   NEXUS (audit):  analyze, compare, batch
+   DIRECT (local): export, health, version, info, schema
+
+⏰ 2026-01-27T07:04:31.883Z
+
+
+ [32m✓[39m packages/omega-segment-engine/tests/edge-cases.test.ts [2m([22m[2m35 tests[22m[2m)[22m[32m 59[2mms[22m[39m
+[90mstdout[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-04: Duration Always Set[2m > [22m[2mduration is set for all commands
+[22m[39m╔═══════════════════════════════════════════════════════════════╗
+║                  OMEGA Health Report                          ║
+╚═══════════════════════════════════════════════════════════════╝
+
+Status: OK
+Version: 3.16.0
+Timestamp: 2026-01-27T07:04:31.911Z
+
+Components:
+  ✅ OMEGA Core: Core engine operational (12.74ms)
+  ✅ Emotion Engine: Plutchik model loaded (15.51ms)
+
+
+[90mstdout[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-04: Duration Always Set[2m > [22m[2mduration is set for all commands
+[22m[39m{
+  "input": null,
+  "analysis": {
+    "summary": {
+      "wordCount": 65,
+      "sentenceCount": 7,
+      "dominantEmotion": "joy",
+      "overallIntensity": 0.785,
+      "keywordsFound": 6,
+      "keywordDensity": 0.092,
+      "intensityMethod": "v2",
+      "qualityScore": 0.65
+    },
+    "emotions": [
+      {
+        "emotion": "joy",
+        "intensity": 1,
+        "confidence": 0.333
+      },
+      {
+        "emotion": "trust",
+        "intensity": 1,
+        "confidence": 0.333
+      },
+      {
+        "emotion": "fear",
+        "intensity": 1,
+        "confidence": 0.167
+      },
+      {
+        "emotion": "surprise",
+        "intensity": 1,
+        "confidence": 0.167
+      },
+      {
+        "emotion": "sadness",
+        "intensity": 0,
+        "confidence": 0
+      },
+      {
+        "emotion": "disgust",
+        "intensity": 0,
+        "confidence": 0
+      },
+      {
+        "emotion": "anger",
+        "intensity": 0,
+        "confidence": 0
+      },
+      {
+        "emotion": "anticipation",
+        "intensity": 0,
+        "confidence": 0
+      }
+    ],
+    "excerpt": "The happy warrior marched forward with joy in his heart.\nHe trusted his companions and felt confiden...",
+    "warnings": [
+      "LOW_TEXT"
+    ]
+  },
+  "metadata": {
+    "timestamp": "2026-01-27T07:04:31.913Z",
+    "seed": 42,
+    "version": "3.17.0",
+    "lang": "en",
+    "langName": "English"
+  },
+  "errors": []
+}
+
+[90mstdout[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-04: Duration Always Set[2m > [22m[2mduration is set for all commands
+[22m[39m{
+  "file1": {
+    "text": "The happy warrior marched forward with joy in his heart. \nHe trusted his companions and felt confide...",
+    "wordCount": 30,
+    "sentenceCount": 3,
+    "emotions": [
+      {
+        "emotion": "joy",
+        "intensity": 1,
+        "confidence": 0.4
+      },
+      {
+        "emotion": "trust",
+        "intensity": 1,
+        "confidence": 0.4
+      },
+      {
+        "emotion": "fear",
+        "intensity": 1,
+        "confidence": 0.2
+      },
+      {
+        "emotion": "surprise",
+        "intensity": 0,
+        "confidence": 0
+      },
+      {
+        "emotion": "sadness",
+        "intensity": 0,
+        "confidence": 0
+      },
+      {
+        "emotion": "disgust",
+        "intensity": 0,
+        "confidence": 0
+      },
+      {
+        "emotion": "anger",
+        "intensity": 0,
+        "confidence": 0
+      },
+      {
+        "emotion": "anticipation",
+        "intensity": 0,
+        "confidence": 0
+      }
+    ],
+    "dominantEmotion": "joy",
+    "overallIntensity": 0.938,
+    "timestamp": "2026-01-27T07:04:31.914Z",
+    "seed": 42,
+    "lang": "en",
+    "keywordsFound": 5,
+    "intensityMethod": "v2"
+  },
+  "file2": {
+    "text": "Sadness filled the air as the heroes mourned their loss.\nAnger surged through their veins, demanding...",
+    "wordCount": 25,
+    "sentenceCount": 3,
+    "emotions": [
+      {
+        "emotion": "joy",
+        "intensity": 0,
+        "confidence": 0
+      },
+      {
+        "emotion": "trust",
+        "intensity": 0,
+        "confidence": 0
+      },
+      {
+        "emotion": "fear",
+        "intensity": 0,
+        "confidence": 0
+      },
+      {
+        "emotion": "surprise",
+        "intensity": 0,
+        "confidence": 0
+      },
+      {
+        "emotion": "sadness",
+        "intensity": 1,
+        "confidence": 0.667
+      },
+      {
+        "emotion": "disgust",
+        "intensity": 0,
+        "confidence": 0
+      },
+      {
+        "emotion": "anger",
+        "intensity": 0,
+        "confidence": 0
+      },
+      {
+        "emotion": "anticipation",
+        "intensity": 1,
+        "confidence": 0.333
+      }
+    ],
+    "dominantEmotion": "sadness",
+    "overallIntensity": 0.865,
+    "timestamp": "2026-01-27T07:04:31.914Z",
+    "seed": 42,
+    "lang": "en",
+    "keywordsFound": 3,
+    "intensityMethod": "v2"
+  },
+  "emotionalDelta": 0.073,
+  "dominantShift": "joy → sadness",
+  "similarity": 0
+}
+
+[90mstdout[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-04: Duration Always Set[2m > [22m[2mduration is set for all commands
+[22m[39m{
+  "version": "1.0.0",
+  "name": "Sample OMEGA Project",
+  "createdAt": "2025-01-01T00:00:00Z",
+  "updatedAt": "2026-01-05T00:00:00Z",
+  "chapters": [
+    {
+      "id": "ch-001",
+      "title": "Chapitre 1: Le Commencement",
+      "content": "Il était une fois, dans un royaume lointain, un héros qui ne savait pas encore qu'il en était un. La joie de l'enfance laissait place à l'anticipation de l'aventure.",
+      "analysis": {
+        "text": "Il était une fois...",
+        "wordCount": 28,
+        "sentenceCount": 2,
+        "emotions": [],
+        "dominantEmotion": "anticipation",
+        "overallIntensity": 0.6,
+        "timestamp": "2026-01-05T00:00:00Z",
+        "seed": 42
+      }
+    },
+    {
+      "id": "ch-002",
+      "title": "Chapitre 2: L'Épreuve",
+      "content": "La peur s'empara de notre héros quand il vit l'ombre s'approcher. Mais la colère de l'injustice lui donna le courage de faire face.",
+      "analysis": {
+        "text": "La peur s'empara...",
+        "wordCount": 25,
+        "sentenceCount": 2,
+        "emotions": [],
+        "dominantEmotion": "fear",
+        "overallIntensity": 0.7,
+        "timestamp": "2026-01-05T00:00:00Z",
+        "seed": 42
+      }
+    }
+  ],
+  "metadata": {
+    "author": "Test Author",
+    "genre": "Fantasy"
+  }
+}
+
+[90mstdout[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-04: Duration Always Set[2m > [22m[2mduration is set for all commands
+[22m[39m# Rapport de Traitement Batch OMEGA
+
+## Résumé
+- **Total**: 2 fichiers
+- **Succès**: 2 ✅
+- **Échecs**: 0 ❌
+- **Durée**: 0.48ms
+
+## Détail des fichiers
+
+| Fichier | Status | Émotion dominante | Intensité |
+|---------|--------|-------------------|-----------|
+| fixtures//sample_text.txt | ✅ | joy | 99.3% |
+| fixtures//sample_text_2.txt | ✅ | joy | 0.0% |
+
+*Traité le 2026-01-27T07:04:31.916Z*
+
+[90mstdout[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-06: Help Available[2m > [22m[2m--help shows general help with no command
+[22m[39mOMEGA CLI — Emotional Analysis Engine for Novels
+
+Usage: omega <command> [options] [arguments]
+
+Commands:
+  analyze      Analyse émotionnelle d'un fichier texte ou stdin
+  compare      Compare deux fichiers texte
+  export       Exporte un projet OMEGA
+  batch        Traitement batch de plusieurs fichiers
+  health       Diagnostic système
+  version      Affiche la version
+  info         Informations système
+  schema       Exporte le JSON Schema du format NDJSON
+
+Run "omega <command> --help" for more information on a command.
+
+
+[90mstdout[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-06: Help Available[2m > [22m[2manalyze --help shows command usage
+[22m[39mUsage: omega analyze [<file>] [--stdin] [--lang en|fr|es|de] [--intensity v1|v2] [--output json|md|both] [--save <path>] [--stream] [--events <types>] [--artifacts <dir>] [--verbose]
+
+Analyse émotionnelle d'un fichier texte ou stdin
+
+Arguments:
+  file  Fichier texte à analyser (.txt, .md) — optionnel si --stdin (optional)
+
+Options:
+  -o, --output  Format de sortie (json, md, both) [default: json]
+  -l, --lang  Langue du texte (en, fr, es, de) [default: en]
+  -i, --intensity  Méthode de calcul intensité (v1, v2) [default: v2]
+  -s, --save  Chemin pour sauvegarder les résultats
+  -S, --stream  Sortie NDJSON (streaming line-by-line)
+  -E, --events  Filter NDJSON events (comma-separated). Example: --events summary,stats. Use "all" for no filter.
+  -a, --artifacts  Répertoire pour écrire les artefacts (json + md) en mode stream
+  -v, --verbose  Mode verbeux
+  -I, --stdin  Lire le texte depuis stdin (pipe)
+
+
+[90mstdout[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-06: Help Available[2m > [22m[2mcompare --help shows command usage
+[22m[39mUsage: omega compare <file1> <file2> [--output json|md]
+
+Compare deux fichiers texte
+
+Arguments:
+  file1  Premier fichier texte (required)
+  file2  Second fichier texte (required)
+
+Options:
+  -o, --output  Format de sortie (json, md) [default: json]
+
+
+[90mstdout[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-06: Help Available[2m > [22m[2mexport --help shows command usage
+[22m[39mUsage: omega export <project.omega> --format md|docx|json
+
+Exporte un projet OMEGA
+
+Arguments:
+  project  Fichier projet OMEGA (.omega) (required)
+
+Options:
+  -f, --format  Format d'export (json, md, docx) [default: json]
+  -o, --output  Fichier de sortie (optionnel)
+
+
+[90mstdout[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-06: Help Available[2m > [22m[2mbatch --help shows command usage
+[22m[39mUsage: omega batch <directory> [--recursive] [--output dir]
+
+Traitement batch de plusieurs fichiers
+
+Arguments:
+  directory  Dossier contenant les fichiers à traiter (required)
+
+Options:
+  -r, --recursive  Traiter les sous-dossiers
+  -o, --output  Dossier de sortie pour les résultats
+
+
+[90mstdout[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-06: Help Available[2m > [22m[2mhealth --help shows command usage
+[22m[39mUsage: omega health [--full]
+
+Diagnostic système
+
+Options:
+  -f, --full  Diagnostic complet avec tous les composants
+
+
+[90mstdout[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-06: Help Available[2m > [22m[2m-h short flag also shows help
+[22m[39mUsage: omega analyze [<file>] [--stdin] [--lang en|fr|es|de] [--intensity v1|v2] [--output json|md|both] [--save <path>] [--stream] [--events <types>] [--artifacts <dir>] [--verbose]
+
+Analyse émotionnelle d'un fichier texte ou stdin
+
+Arguments:
+  file  Fichier texte à analyser (.txt, .md) — optionnel si --stdin (optional)
+
+Options:
+  -o, --output  Format de sortie (json, md, both) [default: json]
+  -l, --lang  Langue du texte (en, fr, es, de) [default: en]
+  -i, --intensity  Méthode de calcul intensité (v1, v2) [default: v2]
+  -s, --save  Chemin pour sauvegarder les résultats
+  -S, --stream  Sortie NDJSON (streaming line-by-line)
+  -E, --events  Filter NDJSON events (comma-separated). Example: --events summary,stats. Use "all" for no filter.
+  -a, --artifacts  Répertoire pour écrire les artefacts (json + md) en mode stream
+  -v, --verbose  Mode verbeux
+  -I, --stdin  Lire le texte depuis stdin (pipe)
+
+
+[90mstdout[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-06: Help Available[2m > [22m[2mall commands support --help
+[22m[39mUsage: omega analyze [<file>] [--stdin] [--lang en|fr|es|de] [--intensity v1|v2] [--output json|md|both] [--save <path>] [--stream] [--events <types>] [--artifacts <dir>] [--verbose]
+
+Analyse émotionnelle d'un fichier texte ou stdin
+
+Arguments:
+  file  Fichier texte à analyser (.txt, .md) — optionnel si --stdin (optional)
+
+Options:
+  -o, --output  Format de sortie (json, md, both) [default: json]
+  -l, --lang  Langue du texte (en, fr, es, de) [default: en]
+  -i, --intensity  Méthode de calcul intensité (v1, v2) [default: v2]
+  -s, --save  Chemin pour sauvegarder les résultats
+  -S, --stream  Sortie NDJSON (streaming line-by-line)
+  -E, --events  Filter NDJSON events (comma-separated). Example: --events summary,stats. Use "all" for no filter.
+  -a, --artifacts  Répertoire pour écrire les artefacts (json + md) en mode stream
+  -v, --verbose  Mode verbeux
+  -I, --stdin  Lire le texte depuis stdin (pipe)
+
+
+[90mstdout[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-06: Help Available[2m > [22m[2mall commands support --help
+[22m[39mUsage: omega compare <file1> <file2> [--output json|md]
+
+Compare deux fichiers texte
+
+Arguments:
+  file1  Premier fichier texte (required)
+  file2  Second fichier texte (required)
+
+Options:
+  -o, --output  Format de sortie (json, md) [default: json]
+
+
+[90mstdout[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-06: Help Available[2m > [22m[2mall commands support --help
+[22m[39mUsage: omega export <project.omega> --format md|docx|json
+
+Exporte un projet OMEGA
+
+Arguments:
+  project  Fichier projet OMEGA (.omega) (required)
+
+Options:
+  -f, --format  Format d'export (json, md, docx) [default: json]
+  -o, --output  Fichier de sortie (optionnel)
+
+
+[90mstdout[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-06: Help Available[2m > [22m[2mall commands support --help
+[22m[39mUsage: omega batch <directory> [--recursive] [--output dir]
+
+Traitement batch de plusieurs fichiers
+
+Arguments:
+  directory  Dossier contenant les fichiers à traiter (required)
+
+Options:
+  -r, --recursive  Traiter les sous-dossiers
+  -o, --output  Dossier de sortie pour les résultats
+
+
+[90mstdout[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-06: Help Available[2m > [22m[2mall commands support --help
+[22m[39mUsage: omega health [--full]
+
+Diagnostic système
+
+Options:
+  -f, --full  Diagnostic complet avec tous les composants
+
+
+[90mstdout[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-06: Help Available[2m > [22m[2mall commands support --help
+[22m[39mUsage: omega version
+
+Affiche la version
+
+
+[90mstdout[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-06: Help Available[2m > [22m[2mall commands support --help
+[22m[39mUsage: omega info
+
+Informations système
+
+
+[90mstdout[2m | gateway/cli-runner/tests/invariants.test.ts[2m > [22m[2mINVARIANTS CLI_RUNNER[2m > [22m[2mINV-CLI-06: Help Available[2m > [22m[2mall commands support --help
+[22m[39mUsage: omega schema [--format ndjson] [--out <file>]
+
+Exporte le JSON Schema du format NDJSON
+
+Options:
+  -f, --format  Format du schéma (ndjson) [default: ndjson]
+  -o, --out  Fichier de sortie (optionnel)
+
+
+ [32m✓[39m gateway/cli-runner/tests/invariants.test.ts [2m([22m[2m36 tests[22m[2m)[22m[32m 94[2mms[22m[39m
+ [32m✓[39m src/oracle/muse/tests/prng.test.ts [2m([22m[2m21 tests[22m[2m)[22m[32m 22[2mms[22m[39m
+(node:29824) [DEP0147] DeprecationWarning: In future versions of Node.js, fs.rmdir(path, { recursive: true }) will be removed. Use fs.rm(path, { recursive: true }) instead
+(Use `node --trace-deprecation ...` to show where the warning was created)
+ [32m✓[39m nexus/proof-utils/tests/snapshot.test.ts [2m([22m[2m18 tests[22m[2m)[22m[32m 21[2mms[22m[39m
+ [32m✓[39m packages/omega-segment-engine/tests/segmenter.test.ts [2m([22m[2m48 tests[22m[2m)[22m[32m 21[2mms[22m[39m
+ [32m✓[39m packages/mycelium-bio/tests/invariants.test.ts [2m([22m[2m45 tests[22m[2m)[22m[32m 48[2mms[22m[39m
+ [32m✓[39m packages/mycelium-bio/tests/mycelium_invariants.test.ts [2m([22m[2m45 tests[22m[2m)[22m[32m 60[2mms[22m[39m
+warning: could not open directory 'nexus/proof/nightwatch__./': No such file or directory
+[90mstdout[2m | test/atlas-regen.test.ts[2m > [22m[2mAuto-Regen Function[2m > [22m[2mshould run in dry-run mode
+[22m[39m[37m[2026-01-27T07:04:32.093Z] [ATLAS] Atlas Auto-Regen v3.93.0[0m
+[37m[2026-01-27T07:04:32.094Z] [ATLAS] ═══════════════════════════════════════════════════════════════[0m
+[37m[2026-01-27T07:04:32.094Z] [ATLAS] Regenerating atlas metadata...[0m
+[33m[2026-01-27T07:04:32.095Z] [ATLAS] [DRY-RUN] Would write atlas meta[0m
+[37m[2026-01-27T07:04:32.095Z] [ATLAS] Calculating hashes...[0m
+[32m[2026-01-27T07:04:32.096Z] [ATLAS] Merkle Root: c6ece3e1ff80b7b0b415ce50b9cb3473e34b643fb09cf259c096def8cb3316a3[0m
+[32m[2026-01-27T07:04:32.096Z] [ATLAS] Atlas Meta Hash: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855[0m
+[37m[2026-01-27T07:04:32.096Z] [ATLAS] Total files hashed: 3[0m
+[37m[2026-01-27T07:04:32.096Z] [ATLAS] ═══════════════════════════════════════════════════════════════[0m
+[32m[2026-01-27T07:04:32.096Z] [ATLAS] Atlas regeneration complete[0m
+
+[90mstdout[2m | test/atlas-regen.test.ts[2m > [22m[2mAuto-Regen Function[2m > [22m[2mshould return hashes
+[22m[39m[37m[2026-01-27T07:04:32.096Z] [ATLAS] Atlas Auto-Regen v3.93.0[0m
+[37m[2026-01-27T07:04:32.096Z] [ATLAS] ═══════════════════════════════════════════════════════════════[0m
+[37m[2026-01-27T07:04:32.096Z] [ATLAS] Regenerating atlas metadata...[0m
+[33m[2026-01-27T07:04:32.097Z] [ATLAS] [DRY-RUN] Would write atlas meta[0m
+[37m[2026-01-27T07:04:32.097Z] [ATLAS] Calculating hashes...[0m
+[32m[2026-01-27T07:04:32.098Z] [ATLAS] Merkle Root: c6ece3e1ff80b7b0b415ce50b9cb3473e34b643fb09cf259c096def8cb3316a3[0m
+[32m[2026-01-27T07:04:32.098Z] [ATLAS] Atlas Meta Hash: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855[0m
+[37m[2026-01-27T07:04:32.098Z] [ATLAS] Total files hashed: 3[0m
+[37m[2026-01-27T07:04:32.098Z] [ATLAS] ═══════════════════════════════════════════════════════════════[0m
+[32m[2026-01-27T07:04:32.098Z] [ATLAS] Atlas regeneration complete[0m
+
+[90mstdout[2m | test/atlas-regen.test.ts[2m > [22m[2mAuto-Regen Function[2m > [22m[2mshould include file hashes
+[22m[39m[37m[2026-01-27T07:04:32.098Z] [ATLAS] Atlas Auto-Regen v3.93.0[0m
+[37m[2026-01-27T07:04:32.098Z] [ATLAS] ═══════════════════════════════════════════════════════════════[0m
+[37m[2026-01-27T07:04:32.098Z] [ATLAS] Regenerating atlas metadata...[0m
+[33m[2026-01-27T07:04:32.099Z] [ATLAS] [DRY-RUN] Would write atlas meta[0m
+[37m[2026-01-27T07:04:32.099Z] [ATLAS] Calculating hashes...[0m
+[32m[2026-01-27T07:04:32.099Z] [ATLAS] Merkle Root: c6ece3e1ff80b7b0b415ce50b9cb3473e34b643fb09cf259c096def8cb3316a3[0m
+[32m[2026-01-27T07:04:32.099Z] [ATLAS] Atlas Meta Hash: e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855[0m
+[37m[2026-01-27T07:04:32.099Z] [ATLAS] Total files hashed: 3[0m
+[37m[2026-01-27T07:04:32.099Z] [ATLAS] ═══════════════════════════════════════════════════════════════[0m
+[32m[2026-01-27T07:04:32.099Z] [ATLAS] Atlas regeneration complete[0m
+
+ [32m✓[39m test/atlas-regen.test.ts [2m([22m[2m25 tests[22m[2m)[22m[32m 15[2mms[22m[39m
+ [32m✓[39m nexus/raw/tests/storage.test.ts [2m([22m[2m24 tests[22m[2m)[22m[32m 15[2mms[22m[39m
+ [32m✓[39m test/ultimate-gold.test.ts [2m([22m[2m37 tests[22m[2m)[22m[33m 958[2mms[22m[39m
+     [33m[2m✓[22m[39m should pass ULTIMATE GOLD certification criteria [33m 361[2mms[22m[39m
+ [32m✓[39m packages/omega-aggregate-dna/tests/aggregate.test.ts [2m([22m[2m27 tests[22m[2m)[22m[32m 19[2mms[22m[39m
+ [32m✓[39m tests/edge-cases/partial-restore.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 21[2mms[22m[39m
+ [32m✓[39m nexus/atlas/tests/store.test.ts [2m([22m[2m49 tests[22m[2m)[22m[32m 16[2mms[22m[39m
+ [32m✓[39m tests/scribe/L3_stress_test.ts [2m([22m[2m17 tests[22m[2m)[22m[32m 12[2mms[22m[39m
+ [32m✓[39m tests/security.test.ts [2m([22m[2m36 tests[22m[2m)[22m[32m 14[2mms[22m[39m
+ [32m✓[39m tests/e2e/concurrent.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 16[2mms[22m[39m
+ [32m✓[39m tests/e2e/backup-restore.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 15[2mms[22m[39m
+ [32m✓[39m tests/e2e/replay.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 15[2mms[22m[39m
+ [32m✓[39m tests/e2e/complete-workflow.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 17[2mms[22m[39m
+warning: could not open directory 'nexus/proof/nightwatch__./': No such file or directory
+ [32m✓[39m test/gates.test.ts [2m([22m[2m29 tests[22m[2m)[22m[33m 1113[2mms[22m[39m
+ [32m✓[39m gateway/tests/canon_engine.test.ts [2m([22m[2m30 tests[22m[2m)[22m[32m 12[2mms[22m[39m
+ [32m✓[39m gateway/cli-runner/tests/commands/compare.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 12[2mms[22m[39m
+ [32m✓[39m nexus/atlas/tests/query.test.ts [2m([22m[2m32 tests[22m[2m)[22m[32m 11[2mms[22m[39m
+ [32m✓[39m gateway/tests/truth_gate.test.ts [2m([22m[2m22 tests[22m[2m)[22m[32m 12[2mms[22m[39m
+ [32m✓[39m src/oracle/muse/tests/strategies.test.ts [2m([22m[2m26 tests[22m[2m)[22m[32m 28[2mms[22m[39m
+ [32m✓[39m tests/edge-cases/special-chars.test.ts [2m([22m[2m20 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+ [32m✓[39m src/oracle/muse/tests/invariants.test.ts [2m([22m[2m17 tests[22m[2m)[22m[32m 49[2mms[22m[39m
+ [32m✓[39m test/save-protocol.test.ts [2m([22m[2m45 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32m✓[39m src/oracle/muse/tests/scoring.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 9[2mms[22m[39m
+ [32m✓[39m tests/scribe/L1_unit_test.ts [2m([22m[2m52 tests[22m[2m)[22m[32m 14[2mms[22m[39m
+ [32m✓[39m packages/omega-bridge-ta-mycelium/tests/bridge.test.ts [2m([22m[2m22 tests[22m[2m)[22m[32m 9[2mms[22m[39m
+ [32m✓[39m gateway/cli-runner/tests/runner.test.ts [2m([22m[2m13 tests[22m[2m)[22m[32m 26[2mms[22m[39m
+ [32m✓[39m gateway/cli-runner/tests/commands/batch.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 10[2mms[22m[39m
+ [32m✓[39m gateway/tests/hardening/decision_trace.test.ts [2m([22m[2m31 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32m✓[39m nexus/raw/tests/compression.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+ [32m✓[39m test/omega-error.test.ts [2m([22m[2m21 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+ [32m✓[39m nexus/proof-utils/tests/serialize.test.ts [2m([22m[2m15 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32m✓[39m tests/e2e/errors.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32m✓[39m src/oracle/muse/tests/project.test.ts [2m([22m[2m16 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+ [32m✓[39m nexus/atlas/tests/subscriptions.test.ts [2m([22m[2m21 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+ [32m✓[39m gateway/tests/hardening/governance.test.ts [2m([22m[2m65 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+ [32m✓[39m nexus/atlas/tests/indexManager.test.ts [2m([22m[2m23 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32m✓[39m packages/omega-bridge-ta-mycelium/tests/analysis_to_dna.test.ts [2m([22m[2m15 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32m✓[39m packages/omega-segment-engine/tests/canonical.test.ts [2m([22m[2m52 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+[90mstdout[2m | test/registry.test.ts[2m > [22m[2mRegistry Functions[2m > [22m[2mshould run rotation in dry-run
+[22m[39m[37m[2026-01-27T07:04:32.877Z] [REGISTRY] Registry Rotation v3.94.0[0m
+[37m[2026-01-27T07:04:32.878Z] [REGISTRY] ═══════════════════════════════════════════════════════════════[0m
+[37m[2026-01-27T07:04:32.878Z] [REGISTRY] Found 2 registries[0m
+[37m[2026-01-27T07:04:32.878Z] [REGISTRY] Keeping: REG-20260115.yaml[0m
+[37m[2026-01-27T07:04:32.878Z] [REGISTRY] Keeping: REG-20260112.yaml[0m
+[37m[2026-01-27T07:04:32.878Z] [REGISTRY] ═══════════════════════════════════════════════════════════════[0m
+[32m[2026-01-27T07:04:32.878Z] [REGISTRY] Rotation complete: 2 kept, 0 archived[0m
+
+ [32m✓[39m test/error-codes.test.ts [2m([22m[2m37 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32m✓[39m src/oracle/muse/tests/physics.test.ts [2m([22m[2m31 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32m✓[39m tests/metrics/metrics.test.ts [2m([22m[2m33 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32m✓[39m test/registry.test.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32m✓[39m nexus/proof-utils/tests/verify.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32m✓[39m nexus/atlas/tests/types.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32m✓[39m gateway/tests/emotion_gate.test.ts [2m([22m[2m23 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32m✓[39m gateway/tests/ripple_engine.test.ts [2m([22m[2m22 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32m✓[39m gateway/tests/hardening/hardening_checks.test.ts [2m([22m[2m36 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+ [32m✓[39m test/eol.test.ts [2m([22m[2m27 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32m✓[39m nexus/raw/tests/encryption.test.ts [2m([22m[2m20 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32m✓[39m tests/tracing/tracing.test.ts [2m([22m[2m30 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32m✓[39m nexus/raw/tests/memoryBackend.test.ts [2m([22m[2m16 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32m✓[39m tests/performance/abstractions.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m src/oracle/muse/tests/diversity.test.ts [2m([22m[2m19 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32m✓[39m gateway/cli-runner/tests/contract.test.ts [2m([22m[2m20 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32m✓[39m tests/logging/logger.test.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m nexus/proof-utils/tests/diff.test.ts [2m([22m[2m15 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m nexus/proof-utils/tests/manifest.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m src/oracle/muse/tests/assess.test.ts [2m([22m[2m15 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32m✓[39m nexus/proof-utils/tests/index.test.ts [2m([22m[2m13 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m nexus/raw/tests/paths.test.ts [2m([22m[2m23 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m tests/bench/utils.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m gateway/cli-runner/tests/commands/export.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32m✓[39m nexus/raw/tests/index.test.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m src/genesis/tests/invariants/constitution.test.ts [2m([22m[2m27 tests[22m[2m)[22m[32m 12[2mms[22m[39m
+ [32m✓[39m gateway/cli-runner/tests/parser.test.ts [2m([22m[2m14 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m src/genesis/tests/judges/sterility.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m gateway/cli-runner/tests/commands/analyze.test.ts [2m([22m[2m24 tests[22m[2m)[22m[33m 1929[2mms[22m[39m
+ [32m✓[39m nexus/proof-utils/tests/errors.test.ts [2m([22m[2m16 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m gateway/tests/profiles.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32m✓[39m nexus/atlas/tests/index.test.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32m✓[39m tests/progress_invariants.test.ts [2m([22m[2m10 tests[22m[2m)[22m[33m 8166[2mms[22m[39m
+     [33m[2m✓[22m[39m should produce identical rootHash with progress ON (20 runs) [33m 909[2mms[22m[39m
+     [33m[2m✓[22m[39m should produce identical rootHash regardless of format (10 runs) [33m 1364[2mms[22m[39m
+     [33m[2m✓[22m[39m should produce identical rootHash with different throttle values (10 runs) [33m 3223[2mms[22m[39m
+     [33m[2m✓[22m[39m should produce identical rootHash: non-stream vs stream+progress (10 runs) [33m 465[2mms[22m[39m
+     [33m[2m✓[22m[39m should produce identical hash across 50 runs with varying progress configs [33m 1782[2mms[22m[39m
+[90mstderr[2m | tests/scale_invariants.test.ts[2m > [22m[2mOMEGA SCALE — Invariants L4[2m > [22m[2mError Handling[2m > [22m[2mfails gracefully on non-existent input
+[22m[39mCommand failed: npx tsx run_pipeline_scale.ts --in "nonexistent.txt" --out "C:\Users\elric\omega-project\.test_scale_tmp\out1" -q
+STDERR: 
+❌ FATAL ERROR: Input not found: C:\Users\elric\omega-project\nonexistent.txt
+
+
+[90mstderr[2m | tests/scale_invariants.test.ts[2m > [22m[2mOMEGA SCALE — Invariants L4[2m > [22m[2mError Handling[2m > [22m[2mfails gracefully on empty directory
+[22m[39mCommand failed: npx tsx run_pipeline_scale.ts --in "C:\Users\elric\omega-project\.test_scale_tmp\empty_dir" --out "C:\Users\elric\omega-project\.test_scale_tmp\out1" -q
+STDERR: 
+❌ FATAL ERROR: No .txt files found in directory: C:\Users\elric\omega-project\.test_scale_tmp\empty_dir
+
+
+ [32m✓[39m tests/scale_invariants.test.ts [2m([22m[2m14 tests[22m[2m)[22m[33m 26266[2mms[22m[39m
+       [33m[2m✓[22m[39m concurrency=1 produces same rootHash as concurrency=4 [33m 2263[2mms[22m[39m
+       [33m[2m✓[22m[39m concurrency=1 produces same segment_dnas order as concurrency=8 [33m 1731[2mms[22m[39m
+       [33m[2m✓[22m[39m two identical runs produce identical output [33m 1720[2mms[22m[39m
+       [33m[2m✓[22m[39m different seeds produce different hashes [33m 1699[2mms[22m[39m
+       [33m[2m✓[22m[39m sentence mode produces different hash than paragraph mode [33m 1715[2mms[22m[39m
+       [33m[2m✓[22m[39m scene mode produces different segment count than sentence mode [33m 851[2mms[22m[39m
+       [33m[2m✓[22m[39m --no-text and --include-text produce same rootHash [33m 1689[2mms[22m[39m
+       [33m[2m✓[22m[39m segments have text field only when --include-text [33m 1698[2mms[22m[39m
+       [33m[2m✓[22m[39m segment_dnas are ordered by segment_index [33m 903[2mms[22m[39m
+       [33m[2m✓[22m[39m segment_root_hashes in global_dna match segment_dnas order [33m 842[2mms[22m[39m
+       [33m[2m✓[22m[39m handles large file without OOM [33m 8748[2mms[22m[39m
+       [33m[2m✓[22m[39m batch summary is created correctly [33m 856[2mms[22m[39m
+       [33m[2m✓[22m[39m fails gracefully on non-existent input [33m 784[2mms[22m[39m
+       [33m[2m✓[22m[39m fails gracefully on empty directory [33m 756[2mms[22m[39m
+ [32m✓[39m tests/streaming_invariants.test.ts [2m([22m[2m15 tests[22m[2m)[22m[33m 46926[2mms[22m[39m
+       [33m[2m✓[22m[39m paragraph mode: streaming produces same rootHash as non-streaming [33m 2218[2mms[22m[39m
+       [33m[2m✓[22m[39m scene mode: streaming produces same rootHash as non-streaming [33m 1717[2mms[22m[39m
+       [33m[2m✓[22m[39m sentence mode: streaming produces same rootHash as non-streaming [33m 1672[2mms[22m[39m
+       [33m[2m✓[22m[39m different chunk sizes produce identical rootHash [33m 4340[2mms[22m[39m
+       [33m[2m✓[22m[39m chunk size does not affect segment count [33m 2314[2mms[22m[39m
+       [33m[2m✓[22m[39m segment offsets are contiguous and cover input [33m 861[2mms[22m[39m
+       [33m[2m✓[22m[39m streaming offsets match non-streaming offsets [33m 1648[2mms[22m[39m
+       [33m[2m✓[22m[39m auto-stream produces same result as explicit --stream [33m 5713[2mms[22m[39m
+       [33m[2m✓[22m[39m 10 consecutive runs produce identical rootHash [33m 12732[2mms[22m[39m
+       [33m[2m✓[22m[39m streaming + concurrency produces same hash as sequential [33m 2964[2mms[22m[39m
+       [33m[2m✓[22m[39m handles large file (50k lines) without OOM [33m 5505[2mms[22m[39m
+       [33m[2m✓[22m[39m streaming mode flag is correctly set in output [33m 1707[2mms[22m[39m
+       [33m[2m✓[22m[39m handles empty paragraphs correctly [33m 845[2mms[22m[39m
+       [33m[2m✓[22m[39m handles UTF-8 special characters [33m 1707[2mms[22m[39m
+       [33m[2m✓[22m[39m handles Windows line endings (CRLF) [33m 970[2mms[22m[39m
+
+[31m⎯⎯⎯⎯⎯⎯[39m[1m[41m Failed Suites 1 [49m[22m[31m⎯⎯⎯⎯⎯⎯⎯[39m
+
+[41m[1m FAIL [22m[49m gateway/tests/gateway.test.ts[2m [ gateway/tests/gateway.test.ts ][22m
+[31m[1mError[22m: Cannot find package 'fast-check' imported from 'C:/Users/elric/omega-project/gateway/tests/gateway.test.ts'[39m
+[36m [2m❯[22m gateway/tests/gateway.test.ts:[2m8:1[22m[39m
+    [90m  6| [39m
+    [90m  7| [39m[35mimport[39m { describe[33m,[39m it[33m,[39m expect[33m,[39m beforeEach } [35mfrom[39m [32m'vitest'[39m[33m;[39m
+    [90m  8| [39m[35mimport[39m [33m*[39m [35mas[39m fc [35mfrom[39m [32m'fast-check'[39m[33m;[39m
+    [90m   | [39m[31m^[39m
+    [90m  9| [39m[35mimport[39m { randomUUID } [35mfrom[39m [32m'crypto'[39m[33m;[39m
+    [90m 10| [39m
+
+[31m[2m⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯[22m[39m
+
+
+[2m Test Files [22m [1m[31m1 failed[39m[22m[2m | [22m[1m[32m96 passed[39m[22m[90m (97)[39m
+[2m      Tests [22m [1m[32m2147 passed[39m[22m[90m (2147)[39m
+[2m   Start at [22m 08:04:30
+[2m   Duration [22m 47.24s[2m (transform 8.34s, setup 0ms, import 12.53s, tests 89.64s, environment 9ms)[22m
+

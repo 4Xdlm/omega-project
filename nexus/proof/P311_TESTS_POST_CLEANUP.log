@@ -1,0 +1,2005 @@
+
+> @omega/sovereign-engine@1.0.0 test
+> vitest run
+
+
+[1m[46m RUN [49m[22m [36mv4.0.18 [39m[90mC:/Users/elric/omega-project/packages/sovereign-engine[39m
+
+ [32mÔ£ô[39m tests/ssot/gate-no-shadow.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 54[2mms[22m[39m
+[90mstdout[2m | tests/proofpack/generate-proofpack.test.ts[2m > [22m[2mProofPack Generator (HARDEN-PP-01)[2m > [22m[2mPP-01: generateProofPack creates MANIFEST.json + HASHES.sha256 + EVIDENCE.md
+[22m[39m[proofpack] Generating proof pack in: C:\Users\elric\omega-project\packages\sovereign-engine\tests\proofpack\temp-proofpack-test
+[proofpack] Ô£à MANIFEST.json created
+[proofpack] Ô£à HASHES.sha256 created
+[proofpack] Ô£à EVIDENCE.md created
+[proofpack] Ô£à Proof pack complete: C:\Users\elric\omega-project\packages\sovereign-engine\tests\proofpack\temp-proofpack-test
+
+[90mstdout[2m | tests/generation/chunked-generator-dedale.test.ts[2m > [22m[2mgenerateChunkedDraft ÔÇö D├®dale reset propagation (├ëtape 8 NCR_DEDALE_RESET_HEALTH)[2m > [22m[2mpreserves legacy fallback for non-D├®dale errors (fallback triggered, no throw)
+[22m[39m[V2-B] FALLBACK: adaptive plan computation failed (adaptive plan computation failed ÔÇö simulated) ÔÇö using legacy 4├ù750w
+
+[90mstdout[2m | tests/generation/chunked-generator-dedale.test.ts[2m > [22m[2mgenerateChunkedDraft ÔÇö D├®dale reset propagation (├ëtape 8 NCR_DEDALE_RESET_HEALTH)[2m > [22m[2muses instanceof check, not name string comparison
+[22m[39m[V2-B] FALLBACK: adaptive plan computation failed (faux reset_failed) ÔÇö using legacy 4├ù750w
+
+ [32mÔ£ô[39m tests/generation/chunked-generator-dedale.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 73[2mms[22m[39m
+[90mstdout[2m | tests/generation/chunked-generator.test.ts[2m > [22m[2mFail-closed behavior[2m > [22m[2mthrows on empty prose response
+[22m[39m[V4-CHUNKED] DEBUG Chunk 1 raw (first 500 chars): 
+[V4-CHUNKED] DEBUG Chunk 1 raw length: 0
+
+ [32mÔ£ô[39m tests/generation/chunked-generator.test.ts [2m([22m[2m31 tests[22m[2m)[22m[32m 72[2mms[22m[39m
+[90mstdout[2m | tests/proofpack/generate-proofpack.test.ts[2m > [22m[2mProofPack Generator (HARDEN-PP-01)[2m > [22m[2mPP-02: HASHES.sha256 is sorted lexicographically (paths)
+[22m[39m[proofpack] Generating proof pack in: C:\Users\elric\omega-project\packages\sovereign-engine\tests\proofpack\temp-proofpack-test
+[proofpack] Ô£à MANIFEST.json created
+[proofpack] Ô£à HASHES.sha256 created
+[proofpack] Ô£à EVIDENCE.md created
+[proofpack] Ô£à Proof pack complete: C:\Users\elric\omega-project\packages\sovereign-engine\tests\proofpack\temp-proofpack-test
+
+ [32mÔ£ô[39m tests/art/endurance-scoring.test.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 153[2mms[22m[39m
+[90mstdout[2m | tests/proofpack/generate-proofpack.test.ts[2m > [22m[2mProofPack Generator (HARDEN-PP-01)[2m > [22m[2mPP-03: generation does not modify any file outside outDir
+[22m[39m[proofpack] Generating proof pack in: C:\Users\elric\omega-project\packages\sovereign-engine\tests\proofpack\temp-proofpack-test
+[proofpack] Ô£à MANIFEST.json created
+[proofpack] Ô£à HASHES.sha256 created
+[proofpack] Ô£à EVIDENCE.md created
+[proofpack] Ô£à Proof pack complete: C:\Users\elric\omega-project\packages\sovereign-engine\tests\proofpack\temp-proofpack-test
+
+ [32mÔ£ô[39m tests/proofpack/generate-proofpack.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 278[2mms[22m[39m
+ [32mÔ£ô[39m tests/oracle/llm-judge.test.ts [2m([22m[2m14 tests[22m[2m)[22m[32m 134[2mms[22m[39m
+stderr | tests/gate/r6-rejection-gate.test.ts > R6 gate config > throws if temperatureSchedule too short for maxRetries
+Promise returned by `expect(actual).rejects.toThrow(expected)` was not awaited. Vitest currently auto-awaits hanging assertions at the end of the test, but this will cause the test to fail in Vitest 3. Please remember to await the assertion.
+    at C:/Users/elric/omega-project/packages/sovereign-engine/tests/gate/r6-rejection-gate.test.ts:539:5
+
+ [32mÔ£ô[39m tests/gate/r6-rejection-gate.test.ts [2m([22m[2m35 tests[22m[2m)[22m[32m 46[2mms[22m[39m
+ [32mÔ£ô[39m tests/ssot/ssot-invariants.test.ts [2m([22m[2m7 tests[22m[2m)[22m[33m 493[2mms[22m[39m
+     [33m[2mÔ£ô[22m[39m SSOT-EMO-02: computeForgeEmotionBrief is deterministic [33m 441[2mms[22m[39m
+ [32mÔ£ô[39m tests/oracle/s-oracle-v2.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 38[2mms[22m[39m
+ [32mÔ£ô[39m tests/art/unified-bench-integration.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 37[2mms[22m[39m
+ [32mÔ£ô[39m tests/orchestrator/scribe-orchestrator.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 51[2mms[22m[39m
+ [32mÔ£ô[39m tests/delta/delta-report.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 32[2mms[22m[39m
+[90mstdout[2m | tests/dedale/factory.test.ts[2m > [22m[2mdefaultLogger[2m > [22m[2maccepts calls with and without context (no-throw contract)
+[22m[39mhello
+hello { foo: [32m'bar'[39m }
+
+stderr | tests/dedale/factory.test.ts > defaultLogger > accepts calls with and without context (no-throw contract)
+warn
+err { code: 42 }
+
+ [32mÔ£ô[39m tests/dedale/factory.test.ts [2m([22m[2m22 tests[22m[2m)[22m[32m 17[2mms[22m[39m
+ [32mÔ£ô[39m tests/art/r8-diagnostic.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 22[2mms[22m[39m
+[90mstdout[2m | tests/calibration/semantic-cortex-calibration.test.ts[2m > [22m[2mSemantic Cortex Calibration (ART-SEM-03)[2m > [22m[2mCAL-SC-01: Run CAL-CASE-01 with keywords and semantic
+[22m[39m[INTERIORITY-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/calibration/semantic-cortex-calibration.test.ts[2m > [22m[2mSemantic Cortex Calibration (ART-SEM-03)[2m > [22m[2mCAL-SC-01: Run CAL-CASE-01 with keywords and semantic
+[22m[39m[NECESSITY-MULTISHOT] shots=[75, 75, 75, 75, 75] median=75 mean=75.0 stdev=0.0 spread=0
+
+[90mstdout[2m | tests/calibration/semantic-cortex-calibration.test.ts[2m > [22m[2mSemantic Cortex Calibration (ART-SEM-03)[2m > [22m[2mCAL-SC-01: Run CAL-CASE-01 with keywords and semantic
+[22m[39m[IMPACT-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/calibration/semantic-cortex-calibration.test.ts[2m > [22m[2mSemantic Cortex Calibration (ART-SEM-03)[2m > [22m[2mCAL-SC-01: Run CAL-CASE-01 with keywords and semantic
+[22m[39m[INTERIORITY-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/calibration/semantic-cortex-calibration.test.ts[2m > [22m[2mSemantic Cortex Calibration (ART-SEM-03)[2m > [22m[2mCAL-SC-01: Run CAL-CASE-01 with keywords and semantic
+[22m[39m[NECESSITY-MULTISHOT] shots=[75, 75, 75, 75, 75] median=75 mean=75.0 stdev=0.0 spread=0
+
+[90mstdout[2m | tests/calibration/semantic-cortex-calibration.test.ts[2m > [22m[2mSemantic Cortex Calibration (ART-SEM-03)[2m > [22m[2mCAL-SC-01: Run CAL-CASE-01 with keywords and semantic
+[22m[39m[IMPACT-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+ [32mÔ£ô[39m tests/scoring/dispatcher-lang.test.ts [2m([22m[2m26 tests[22m[2m)[22m[32m 29[2mms[22m[39m
+[90mstdout[2m | tests/calibration/semantic-cortex-calibration.test.ts[2m > [22m[2mSemantic Cortex Calibration (ART-SEM-03)[2m > [22m[2mCAL-SC-02: Run CAL-CASE-02 with keywords and semantic
+[22m[39m[INTERIORITY-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/calibration/semantic-cortex-calibration.test.ts[2m > [22m[2mSemantic Cortex Calibration (ART-SEM-03)[2m > [22m[2mCAL-SC-02: Run CAL-CASE-02 with keywords and semantic
+[22m[39m[NECESSITY-MULTISHOT] shots=[75, 75, 75, 75, 75] median=75 mean=75.0 stdev=0.0 spread=0
+
+[90mstdout[2m | tests/calibration/semantic-cortex-calibration.test.ts[2m > [22m[2mSemantic Cortex Calibration (ART-SEM-03)[2m > [22m[2mCAL-SC-02: Run CAL-CASE-02 with keywords and semantic
+[22m[39m[IMPACT-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/calibration/semantic-cortex-calibration.test.ts[2m > [22m[2mSemantic Cortex Calibration (ART-SEM-03)[2m > [22m[2mCAL-SC-02: Run CAL-CASE-02 with keywords and semantic
+[22m[39m[INTERIORITY-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/calibration/semantic-cortex-calibration.test.ts[2m > [22m[2mSemantic Cortex Calibration (ART-SEM-03)[2m > [22m[2mCAL-SC-02: Run CAL-CASE-02 with keywords and semantic
+[22m[39m[NECESSITY-MULTISHOT] shots=[75, 75, 75, 75, 75] median=75 mean=75.0 stdev=0.0 spread=0
+
+[90mstdout[2m | tests/calibration/semantic-cortex-calibration.test.ts[2m > [22m[2mSemantic Cortex Calibration (ART-SEM-03)[2m > [22m[2mCAL-SC-02: Run CAL-CASE-02 with keywords and semantic
+[22m[39m[IMPACT-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-02: sweepCliches() on prose with known clich├® ÔåÆ prose DIFFERENT (ART-POL-05)
+[22m[39m[INTERIORITY-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-02: sweepCliches() on prose with known clich├® ÔåÆ prose DIFFERENT (ART-POL-05)
+[22m[39m[IMPACT-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/calibration/semantic-cortex-calibration.test.ts[2m > [22m[2mSemantic Cortex Calibration (ART-SEM-03)[2m > [22m[2mCAL-SC-03: Run CAL-CASE-03 with keywords and semantic
+[22m[39m[INTERIORITY-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/calibration/semantic-cortex-calibration.test.ts[2m > [22m[2mSemantic Cortex Calibration (ART-SEM-03)[2m > [22m[2mCAL-SC-03: Run CAL-CASE-03 with keywords and semantic
+[22m[39m[NECESSITY-MULTISHOT] shots=[75, 75, 75, 75, 75] median=75 mean=75.0 stdev=0.0 spread=0
+
+[90mstdout[2m | tests/calibration/semantic-cortex-calibration.test.ts[2m > [22m[2mSemantic Cortex Calibration (ART-SEM-03)[2m > [22m[2mCAL-SC-03: Run CAL-CASE-03 with keywords and semantic
+[22m[39m[IMPACT-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/calibration/semantic-cortex-calibration.test.ts[2m > [22m[2mSemantic Cortex Calibration (ART-SEM-03)[2m > [22m[2mCAL-SC-03: Run CAL-CASE-03 with keywords and semantic
+[22m[39m[INTERIORITY-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/calibration/semantic-cortex-calibration.test.ts[2m > [22m[2mSemantic Cortex Calibration (ART-SEM-03)[2m > [22m[2mCAL-SC-03: Run CAL-CASE-03 with keywords and semantic
+[22m[39m[NECESSITY-MULTISHOT] shots=[75, 75, 75, 75, 75] median=75 mean=75.0 stdev=0.0 spread=0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-02: sweepCliches() on prose with known clich├® ÔåÆ prose DIFFERENT (ART-POL-05)
+[22m[39m[NECESSITY-MULTISHOT] shots=[75, 75, 75, 75, 75] median=75 mean=75.0 stdev=0.0 spread=0
+
+[90mstdout[2m | tests/calibration/semantic-cortex-calibration.test.ts[2m > [22m[2mSemantic Cortex Calibration (ART-SEM-03)[2m > [22m[2mCAL-SC-03: Run CAL-CASE-03 with keywords and semantic
+[22m[39m[IMPACT-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/calibration/semantic-cortex-calibration.test.ts[2m > [22m[2mSemantic Cortex Calibration (ART-SEM-03)[2m > [22m[2mCAL-SC-04: Run CAL-CASE-04 with keywords and semantic
+[22m[39m[INTERIORITY-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/calibration/semantic-cortex-calibration.test.ts[2m > [22m[2mSemantic Cortex Calibration (ART-SEM-03)[2m > [22m[2mCAL-SC-04: Run CAL-CASE-04 with keywords and semantic
+[22m[39m[NECESSITY-MULTISHOT] shots=[75, 75, 75, 75, 75] median=75 mean=75.0 stdev=0.0 spread=0
+
+[90mstdout[2m | tests/calibration/semantic-cortex-calibration.test.ts[2m > [22m[2mSemantic Cortex Calibration (ART-SEM-03)[2m > [22m[2mCAL-SC-04: Run CAL-CASE-04 with keywords and semantic
+[22m[39m[IMPACT-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+ [32mÔ£ô[39m tests/scoring/sensors/sensor-extractor-v2.test.ts [2m([22m[2m28 tests[22m[2m)[22m[32m 28[2mms[22m[39m
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-02: sweepCliches() on prose with known clich├® ÔåÆ prose DIFFERENT (ART-POL-05)
+[22m[39m[INTERIORITY-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-02: sweepCliches() on prose with known clich├® ÔåÆ prose DIFFERENT (ART-POL-05)
+[22m[39m[IMPACT-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-02: sweepCliches() on prose with known clich├® ÔåÆ prose DIFFERENT (ART-POL-05)
+[22m[39m[NECESSITY-MULTISHOT] shots=[75, 75, 75, 75, 75] median=75 mean=75.0 stdev=0.0 spread=0
+
+[90mstdout[2m | tests/calibration/semantic-cortex-calibration.test.ts[2m > [22m[2mSemantic Cortex Calibration (ART-SEM-03)[2m > [22m[2mCAL-SC-04: Run CAL-CASE-04 with keywords and semantic
+[22m[39m[INTERIORITY-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-02: sweepCliches() on prose with known clich├® ÔåÆ prose DIFFERENT (ART-POL-05)
+[22m[39m[INTERIORITY-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/calibration/semantic-cortex-calibration.test.ts[2m > [22m[2mSemantic Cortex Calibration (ART-SEM-03)[2m > [22m[2mCAL-SC-04: Run CAL-CASE-04 with keywords and semantic
+[22m[39m[NECESSITY-MULTISHOT] shots=[75, 75, 75, 75, 75] median=75 mean=75.0 stdev=0.0 spread=0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-02: sweepCliches() on prose with known clich├® ÔåÆ prose DIFFERENT (ART-POL-05)
+[22m[39m[IMPACT-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/calibration/semantic-cortex-calibration.test.ts[2m > [22m[2mSemantic Cortex Calibration (ART-SEM-03)[2m > [22m[2mCAL-SC-04: Run CAL-CASE-04 with keywords and semantic
+[22m[39m[IMPACT-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-02: sweepCliches() on prose with known clich├® ÔåÆ prose DIFFERENT (ART-POL-05)
+[22m[39m[NECESSITY-MULTISHOT] shots=[75, 75, 75, 75, 75] median=75 mean=75.0 stdev=0.0 spread=0
+
+[90mstdout[2m | tests/calibration/semantic-cortex-calibration.test.ts[2m > [22m[2mSemantic Cortex Calibration (ART-SEM-03)[2m > [22m[2mCAL-SC-05: Run CAL-CASE-05 with keywords and semantic
+[22m[39m[INTERIORITY-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-03: enforceSignature() on prose without signature words ÔåÆ prose DIFFERENT (ART-POL-06)
+[22m[39m[INTERIORITY-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/calibration/semantic-cortex-calibration.test.ts[2m > [22m[2mSemantic Cortex Calibration (ART-SEM-03)[2m > [22m[2mCAL-SC-05: Run CAL-CASE-05 with keywords and semantic
+[22m[39m[NECESSITY-MULTISHOT] shots=[75, 75, 75, 75, 75] median=75 mean=75.0 stdev=0.0 spread=0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-03: enforceSignature() on prose without signature words ÔåÆ prose DIFFERENT (ART-POL-06)
+[22m[39m[IMPACT-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/calibration/semantic-cortex-calibration.test.ts[2m > [22m[2mSemantic Cortex Calibration (ART-SEM-03)[2m > [22m[2mCAL-SC-05: Run CAL-CASE-05 with keywords and semantic
+[22m[39m[IMPACT-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/calibration/semantic-cortex-calibration.test.ts[2m > [22m[2mSemantic Cortex Calibration (ART-SEM-03)[2m > [22m[2mCAL-SC-05: Run CAL-CASE-05 with keywords and semantic
+[22m[39m[INTERIORITY-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/calibration/semantic-cortex-calibration.test.ts[2m > [22m[2mSemantic Cortex Calibration (ART-SEM-03)[2m > [22m[2mCAL-SC-05: Run CAL-CASE-05 with keywords and semantic
+[22m[39m[NECESSITY-MULTISHOT] shots=[75, 75, 75, 75, 75] median=75 mean=75.0 stdev=0.0 spread=0
+
+[90mstdout[2m | tests/calibration/semantic-cortex-calibration.test.ts[2m > [22m[2mSemantic Cortex Calibration (ART-SEM-03)[2m > [22m[2mCAL-SC-05: Run CAL-CASE-05 with keywords and semantic
+[22m[39m[IMPACT-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-03: enforceSignature() on prose without signature words ÔåÆ prose DIFFERENT (ART-POL-06)
+[22m[39m[NECESSITY-MULTISHOT] shots=[75, 75, 75, 75, 75] median=75 mean=75.0 stdev=0.0 spread=0
+
+[90mstdout[2m | tests/calibration/semantic-cortex-calibration.test.ts[2m > [22m[2mSemantic Cortex Calibration (ART-SEM-03)[2m > [22m[2mCAL-SC-06: Generate calibration report
+[22m[39m[CALIBRATION] Report generated: C:\Users\elric\omega-project\packages\sovereign-engine\CALIBRATION_SEMANTIC_CORTEX.md
+[CALIBRATION] Average delta composite: 2.46
+
+ [32mÔ£ô[39m tests/calibration/semantic-cortex-calibration.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 40[2mms[22m[39m
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-03: enforceSignature() on prose without signature words ÔåÆ prose DIFFERENT (ART-POL-06)
+[22m[39m[INTERIORITY-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-03: enforceSignature() on prose without signature words ÔåÆ prose DIFFERENT (ART-POL-06)
+[22m[39m[IMPACT-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-03: enforceSignature() on prose without signature words ÔåÆ prose DIFFERENT (ART-POL-06)
+[22m[39m[NECESSITY-MULTISHOT] shots=[75, 75, 75, 75, 75] median=75 mean=75.0 stdev=0.0 spread=0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-03: enforceSignature() on prose without signature words ÔåÆ prose DIFFERENT (ART-POL-06)
+[22m[39m[INTERIORITY-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-03: enforceSignature() on prose without signature words ÔåÆ prose DIFFERENT (ART-POL-06)
+[22m[39m[IMPACT-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-03: enforceSignature() on prose without signature words ÔåÆ prose DIFFERENT (ART-POL-06)
+[22m[39m[NECESSITY-MULTISHOT] shots=[75, 75, 75, 75, 75] median=75 mean=75.0 stdev=0.0 spread=0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-03: enforceSignature() on prose without signature words ÔåÆ prose DIFFERENT (ART-POL-06)
+[22m[39m[INTERIORITY-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-03: enforceSignature() on prose without signature words ÔåÆ prose DIFFERENT (ART-POL-06)
+[22m[39m[IMPACT-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-03: enforceSignature() on prose without signature words ÔåÆ prose DIFFERENT (ART-POL-06)
+[22m[39m[NECESSITY-MULTISHOT] shots=[75, 75, 75, 75, 75] median=75 mean=75.0 stdev=0.0 spread=0
+
+ [32mÔ£ô[39m tests/oracle/genesis-v2/genesis-runner.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 18[2mms[22m[39m
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-03: enforceSignature() on prose without signature words ÔåÆ prose DIFFERENT (ART-POL-06)
+[22m[39m[INTERIORITY-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-03: enforceSignature() on prose without signature words ÔåÆ prose DIFFERENT (ART-POL-06)
+[22m[39m[IMPACT-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-03: enforceSignature() on prose without signature words ÔåÆ prose DIFFERENT (ART-POL-06)
+[22m[39m[NECESSITY-MULTISHOT] shots=[75, 75, 75, 75, 75] median=75 mean=75.0 stdev=0.0 spread=0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-04: all 3 functions respect reScoreGuard (correction rejected = prose original returned)
+[22m[39m[INTERIORITY-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-04: all 3 functions respect reScoreGuard (correction rejected = prose original returned)
+[22m[39m[NECESSITY-MULTISHOT] shots=[75, 75, 75, 75, 75] median=75 mean=75.0 stdev=0.0 spread=0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-04: all 3 functions respect reScoreGuard (correction rejected = prose original returned)
+[22m[39m[INTERIORITY-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-04: all 3 functions respect reScoreGuard (correction rejected = prose original returned)
+[22m[39m[NECESSITY-MULTISHOT] shots=[75, 75, 75, 75, 75] median=75 mean=75.0 stdev=0.0 spread=0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-04: all 3 functions respect reScoreGuard (correction rejected = prose original returned)
+[22m[39m[INTERIORITY-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-04: all 3 functions respect reScoreGuard (correction rejected = prose original returned)
+[22m[39m[NECESSITY-MULTISHOT] shots=[75, 75, 75, 75, 75] median=75 mean=75.0 stdev=0.0 spread=0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-04: all 3 functions respect reScoreGuard (correction rejected = prose original returned)
+[22m[39m[INTERIORITY-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-04: all 3 functions respect reScoreGuard (correction rejected = prose original returned)
+[22m[39m[NECESSITY-MULTISHOT] shots=[75, 75, 75, 75, 75] median=75 mean=75.0 stdev=0.0 spread=0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-05: non-regression ÔÇö functions handle normal prose without errors
+[22m[39m[INTERIORITY-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-05: non-regression ÔÇö functions handle normal prose without errors
+[22m[39m[IMPACT-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-05: non-regression ÔÇö functions handle normal prose without errors
+[22m[39m[NECESSITY-MULTISHOT] shots=[75, 75, 75, 75, 75] median=75 mean=75.0 stdev=0.0 spread=0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-05: non-regression ÔÇö functions handle normal prose without errors
+[22m[39m[INTERIORITY-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-05: non-regression ÔÇö functions handle normal prose without errors
+[22m[39m[IMPACT-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-05: non-regression ÔÇö functions handle normal prose without errors
+[22m[39m[NECESSITY-MULTISHOT] shots=[75, 75, 75, 75, 75] median=75 mean=75.0 stdev=0.0 spread=0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-05: non-regression ÔÇö functions handle normal prose without errors
+[22m[39m[INTERIORITY-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-05: non-regression ÔÇö functions handle normal prose without errors
+[22m[39m[IMPACT-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-05: non-regression ÔÇö functions handle normal prose without errors
+[22m[39m[NECESSITY-MULTISHOT] shots=[75, 75, 75, 75, 75] median=75 mean=75.0 stdev=0.0 spread=0
+
+ [32mÔ£ô[39m tests/duel/duel-engine.test.ts [2m([22m[2m18 tests[22m[2m)[22m[32m 34[2mms[22m[39m
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-05: non-regression ÔÇö functions handle normal prose without errors
+[22m[39m[INTERIORITY-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-05: non-regression ÔÇö functions handle normal prose without errors
+[22m[39m[IMPACT-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-05: non-regression ÔÇö functions handle normal prose without errors
+[22m[39m[NECESSITY-MULTISHOT] shots=[75, 75, 75, 75, 75] median=75 mean=75.0 stdev=0.0 spread=0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-05: non-regression ÔÇö functions handle normal prose without errors
+[22m[39m[INTERIORITY-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-05: non-regression ÔÇö functions handle normal prose without errors
+[22m[39m[IMPACT-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-05: non-regression ÔÇö functions handle normal prose without errors
+[22m[39m[NECESSITY-MULTISHOT] shots=[75, 75, 75, 75, 75] median=75 mean=75.0 stdev=0.0 spread=0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-05: non-regression ÔÇö functions handle normal prose without errors
+[22m[39m[INTERIORITY-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-05: non-regression ÔÇö functions handle normal prose without errors
+[22m[39m[IMPACT-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-05: non-regression ÔÇö functions handle normal prose without errors
+[22m[39m[NECESSITY-MULTISHOT] shots=[75, 75, 75, 75, 75] median=75 mean=75.0 stdev=0.0 spread=0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-05: non-regression ÔÇö functions handle normal prose without errors
+[22m[39m[INTERIORITY-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-05: non-regression ÔÇö functions handle normal prose without errors
+[22m[39m[IMPACT-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-05: non-regression ÔÇö functions handle normal prose without errors
+[22m[39m[NECESSITY-MULTISHOT] shots=[75, 75, 75, 75, 75] median=75 mean=75.0 stdev=0.0 spread=0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-05: non-regression ÔÇö functions handle normal prose without errors
+[22m[39m[INTERIORITY-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-05: non-regression ÔÇö functions handle normal prose without errors
+[22m[39m[IMPACT-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-05: non-regression ÔÇö functions handle normal prose without errors
+[22m[39m[NECESSITY-MULTISHOT] shots=[75, 75, 75, 75, 75] median=75 mean=75.0 stdev=0.0 spread=0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-05: non-regression ÔÇö functions handle normal prose without errors
+[22m[39m[INTERIORITY-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-05: non-regression ÔÇö functions handle normal prose without errors
+[22m[39m[IMPACT-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-05: non-regression ÔÇö functions handle normal prose without errors
+[22m[39m[NECESSITY-MULTISHOT] shots=[75, 75, 75, 75, 75] median=75 mean=75.0 stdev=0.0 spread=0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-05: non-regression ÔÇö functions handle normal prose without errors
+[22m[39m[INTERIORITY-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-05: non-regression ÔÇö functions handle normal prose without errors
+[22m[39m[IMPACT-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/polish-active.test.ts[2m > [22m[2mPolish Active Functions (ART-POL-04, 05, 06)[2m > [22m[2mNOOP-05: non-regression ÔÇö functions handle normal prose without errors
+[22m[39m[NECESSITY-MULTISHOT] shots=[75, 75, 75, 75, 75] median=75 mean=75.0 stdev=0.0 spread=0
+
+ [32mÔ£ô[39m tests/polish/polish-active.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 59[2mms[22m[39m
+ [32mÔ£ô[39m tests/pitch/sovereign-loop.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 56[2mms[22m[39m
+ [32mÔ£ô[39m tests/validation/real-llm-provider.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 29[2mms[22m[39m
+ [32mÔ£ô[39m tests/e2e/sovereign-pipeline.test.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 166[2mms[22m[39m
+ [32mÔ£ô[39m tests/gates/gate-phase-s-invariants.test.ts [2m([22m[2m14 tests[22m[2m)[22m[32m 180[2mms[22m[39m
+ [32mÔ£ô[39m tests/validation/rollback-monotone.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 144[2mms[22m[39m
+[90mstdout[2m | tests/gate/r6-integration.test.ts[2m > [22m[2mrunR6GateInPipeline[2m > [22m[2mruns in shadow mode by default
+[22m[39m[R6-SHADOW] BELOW_THRESHOLD | score=1.190 | threshold=4.2 | attempts=3 | lang=fr | duration=4ms
+
+stderr | tests/gate/r6-integration.test.ts > runR6GateInPipeline > runs in shadow mode by default
+[R6-SHADOW] ÔÜá ALL ATTEMPTS BELOW THRESHOLD | best_score=1.190 | scores=[1.190, 1.190, 1.190]
+
+[90mstdout[2m | tests/gate/r6-integration.test.ts[2m > [22m[2mrunR6GateInPipeline[2m > [22m[2mruns in disabled mode when configured
+[22m[39m[R6-GATE] PASS | score=1.190 | threshold=4.2 | attempts=1 | lang=fr | duration=2ms
+
+[90mstdout[2m | tests/gate/r6-integration.test.ts[2m > [22m[2mrunR6GateInPipeline[2m > [22m[2mruns in active mode with low threshold ÔåÆ 1 attempt
+[22m[39m[R6-GATE] PASS | score=1.190 | threshold=0 | attempts=1 | lang=fr | duration=1ms
+
+[90mstdout[2m | tests/gate/r6-integration.test.ts[2m > [22m[2mrunR6GateInPipeline[2m > [22m[2mreturns prose even when all attempts below threshold
+[22m[39m[R6-GATE] BELOW_THRESHOLD | score=1.190 | threshold=99 | attempts=3 | lang=fr | duration=4ms
+
+stderr | tests/gate/r6-integration.test.ts > runR6GateInPipeline > returns prose even when all attempts below threshold
+[R6-GATE] ÔÜá ALL ATTEMPTS BELOW THRESHOLD | best_score=1.190 | scores=[1.190, 1.190, 1.190]
+
+[90mstdout[2m | tests/gate/r6-integration.test.ts[2m > [22m[2mrunR6GateInPipeline[2m > [22m[2mCALC score is a finite number for valid prose
+[22m[39m[R6-SHADOW] BELOW_THRESHOLD | score=1.190 | threshold=4.2 | attempts=3 | lang=fr | duration=2ms
+
+stderr | tests/gate/r6-integration.test.ts > runR6GateInPipeline > CALC score is a finite number for valid prose
+[R6-SHADOW] ÔÜá ALL ATTEMPTS BELOW THRESHOLD | best_score=1.190 | scores=[1.190, 1.190, 1.190]
+
+[90mstdout[2m | tests/gate/r6-integration.test.ts[2m > [22m[2mrunR6GateInPipeline[2m > [22m[2mworks with EN language
+[22m[39m[R6-SHADOW] BELOW_THRESHOLD | score=1.686 | threshold=4.2 | attempts=3 | lang=en | duration=2ms
+
+stderr | tests/gate/r6-integration.test.ts > runR6GateInPipeline > works with EN language
+[R6-SHADOW] ÔÜá ALL ATTEMPTS BELOW THRESHOLD | best_score=1.686 | scores=[1.686, 1.686, 1.686]
+
+[90mstdout[2m | tests/gate/r6-integration.test.ts[2m > [22m[2mR6 pipeline integration invariants[2m > [22m[2mgate never modifies the prose content
+[22m[39m[R6-GATE] PASS | score=1.190 | threshold=0 | attempts=1 | lang=fr | duration=1ms
+
+[90mstdout[2m | tests/gate/r6-integration.test.ts[2m > [22m[2mR6 pipeline integration invariants[2m > [22m[2mgate result contains calibration metadata
+[22m[39m[R6-SHADOW] BELOW_THRESHOLD | score=1.190 | threshold=4.2 | attempts=3 | lang=fr | duration=2ms
+
+stderr | tests/gate/r6-integration.test.ts > R6 pipeline integration invariants > gate result contains calibration metadata
+[R6-SHADOW] ÔÜá ALL ATTEMPTS BELOW THRESHOLD | best_score=1.190 | scores=[1.190, 1.190, 1.190]
+
+[90mstdout[2m | tests/gate/r6-integration.test.ts[2m > [22m[2mR6 pipeline integration invariants[2m > [22m[2mdisabled gate produces same result as direct generation
+[22m[39m[R6-GATE] PASS | score=NaN | threshold=4.2 | attempts=1 | lang=fr | duration=0ms
+
+ [32mÔ£ô[39m tests/gate/r6-integration.test.ts [2m([22m[2m24 tests[22m[2m)[22m[32m 27[2mms[22m[39m
+ [32mÔ£ô[39m tests/runtime/sha256sums.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 24[2mms[22m[39m
+ [32mÔ£ô[39m tests/art/dual-scoring.test.ts [2m([22m[2m23 tests[22m[2m)[22m[32m 25[2mms[22m[39m
+ [32mÔ£ô[39m tests/delta/delta-computer.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 27[2mms[22m[39m
+ [32mÔ£ô[39m tests/input/forge-packet-assembler.test.ts [2m([22m[2m23 tests[22m[2m)[22m[32m 27[2mms[22m[39m
+ [32mÔ£ô[39m tests/oracle/macro-axes.test.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 21[2mms[22m[39m
+ [32mÔ£ô[39m tests/compiler/prompt-compiler.test.ts [2m([22m[2m55 tests[22m[2m)[22m[32m 41[2mms[22m[39m
+ [32mÔ£ô[39m tests/orchestrator/dry-run-orchestrator.test.ts [2m([22m[2m15 tests[22m[2m)[22m[32m 49[2mms[22m[39m
+[90mstdout[2m | tests/polish/re-score-guard.test.ts[2m > [22m[2mRe-Score Guard (ART-POL-01)[2m > [22m[2mGUARD-01: correction improves composite AND all axes above floor ÔåÆ accepted
+[22m[39m[INTERIORITY-MULTISHOT] shots=[70, 70, 70] median=70 mean=70.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/re-score-guard.test.ts[2m > [22m[2mRe-Score Guard (ART-POL-01)[2m > [22m[2mGUARD-01: correction improves composite AND all axes above floor ÔåÆ accepted
+[22m[39m[NECESSITY-MULTISHOT] shots=[70, 70, 70, 70, 70] median=70 mean=70.0 stdev=0.0 spread=0
+
+[90mstdout[2m | tests/polish/re-score-guard.test.ts[2m > [22m[2mRe-Score Guard (ART-POL-01)[2m > [22m[2mGUARD-01: correction improves composite AND all axes above floor ÔåÆ accepted
+[22m[39m[INTERIORITY-MULTISHOT] shots=[80, 80, 80] median=80 mean=80.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/re-score-guard.test.ts[2m > [22m[2mRe-Score Guard (ART-POL-01)[2m > [22m[2mGUARD-01: correction improves composite AND all axes above floor ÔåÆ accepted
+[22m[39m[NECESSITY-MULTISHOT] shots=[80, 80, 80, 80, 80] median=80 mean=80.0 stdev=0.0 spread=0
+
+[90mstdout[2m | tests/polish/re-score-guard.test.ts[2m > [22m[2mRe-Score Guard (ART-POL-01)[2m > [22m[2mGUARD-01: correction improves composite AND all axes above floor ÔåÆ accepted
+[22m[39m[IMPACT-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/re-score-guard.test.ts[2m > [22m[2mRe-Score Guard (ART-POL-01)[2m > [22m[2mGUARD-02: correction degrades composite ÔåÆ rejected (ART-POL-01)
+[22m[39m[INTERIORITY-MULTISHOT] shots=[80, 80, 80] median=80 mean=80.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/re-score-guard.test.ts[2m > [22m[2mRe-Score Guard (ART-POL-01)[2m > [22m[2mGUARD-02: correction degrades composite ÔåÆ rejected (ART-POL-01)
+[22m[39m[NECESSITY-MULTISHOT] shots=[80, 80, 80, 80, 80] median=80 mean=80.0 stdev=0.0 spread=0
+
+[90mstdout[2m | tests/polish/re-score-guard.test.ts[2m > [22m[2mRe-Score Guard (ART-POL-01)[2m > [22m[2mGUARD-02: correction degrades composite ÔåÆ rejected (ART-POL-01)
+[22m[39m[IMPACT-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/re-score-guard.test.ts[2m > [22m[2mRe-Score Guard (ART-POL-01)[2m > [22m[2mGUARD-02: correction degrades composite ÔåÆ rejected (ART-POL-01)
+[22m[39m[INTERIORITY-MULTISHOT] shots=[40, 40, 40] median=40 mean=40.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/re-score-guard.test.ts[2m > [22m[2mRe-Score Guard (ART-POL-01)[2m > [22m[2mGUARD-02: correction degrades composite ÔåÆ rejected (ART-POL-01)
+[22m[39m[NECESSITY-MULTISHOT] shots=[40, 40, 40, 40, 40] median=40 mean=40.0 stdev=0.0 spread=0
+
+[90mstdout[2m | tests/polish/re-score-guard.test.ts[2m > [22m[2mRe-Score Guard (ART-POL-01)[2m > [22m[2mGUARD-03: correction neutral (delta < min_improvement) ÔåÆ rejected
+[22m[39m[INTERIORITY-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/re-score-guard.test.ts[2m > [22m[2mRe-Score Guard (ART-POL-01)[2m > [22m[2mGUARD-03: correction neutral (delta < min_improvement) ÔåÆ rejected
+[22m[39m[NECESSITY-MULTISHOT] shots=[75, 75, 75, 75, 75] median=75 mean=75.0 stdev=0.0 spread=0
+
+[90mstdout[2m | tests/polish/re-score-guard.test.ts[2m > [22m[2mRe-Score Guard (ART-POL-01)[2m > [22m[2mGUARD-03: correction neutral (delta < min_improvement) ÔåÆ rejected
+[22m[39m[INTERIORITY-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/re-score-guard.test.ts[2m > [22m[2mRe-Score Guard (ART-POL-01)[2m > [22m[2mGUARD-03: correction neutral (delta < min_improvement) ÔåÆ rejected
+[22m[39m[NECESSITY-MULTISHOT] shots=[75, 75, 75, 75, 75] median=75 mean=75.0 stdev=0.0 spread=0
+
+[90mstdout[2m | tests/polish/re-score-guard.test.ts[2m > [22m[2mRe-Score Guard (ART-POL-01)[2m > [22m[2mGUARD-04: improves composite BUT breaks axis floor ÔåÆ rejected (ART-POL-01)
+[22m[39m[INTERIORITY-MULTISHOT] shots=[60, 60, 60] median=60 mean=60.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/re-score-guard.test.ts[2m > [22m[2mRe-Score Guard (ART-POL-01)[2m > [22m[2mGUARD-04: improves composite BUT breaks axis floor ÔåÆ rejected (ART-POL-01)
+[22m[39m[NECESSITY-MULTISHOT] shots=[60, 60, 60, 60, 60] median=60 mean=60.0 stdev=0.0 spread=0
+
+[90mstdout[2m | tests/polish/re-score-guard.test.ts[2m > [22m[2mRe-Score Guard (ART-POL-01)[2m > [22m[2mGUARD-04: improves composite BUT breaks axis floor ÔåÆ rejected (ART-POL-01)
+[22m[39m[IMPACT-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/re-score-guard.test.ts[2m > [22m[2mRe-Score Guard (ART-POL-01)[2m > [22m[2mGUARD-04: improves composite BUT breaks axis floor ÔåÆ rejected (ART-POL-01)
+[22m[39m[INTERIORITY-MULTISHOT] shots=[30, 30, 30] median=30 mean=30.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/re-score-guard.test.ts[2m > [22m[2mRe-Score Guard (ART-POL-01)[2m > [22m[2mGUARD-04: improves composite BUT breaks axis floor ÔåÆ rejected (ART-POL-01)
+[22m[39m[NECESSITY-MULTISHOT] shots=[75, 75, 75, 75, 75] median=75 mean=75.0 stdev=0.0 spread=0
+
+[90mstdout[2m | tests/polish/re-score-guard.test.ts[2m > [22m[2mRe-Score Guard (ART-POL-01)[2m > [22m[2mGUARD-04: improves composite BUT breaks axis floor ÔåÆ rejected (ART-POL-01)
+[22m[39m[IMPACT-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+ [32mÔ£ô[39m tests/polish/re-score-guard.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 22[2mms[22m[39m
+ [32mÔ£ô[39m tests/compiler/v3-integration.test.ts [2m([22m[2m19 tests[22m[2m)[22m[32m 29[2mms[22m[39m
+ [32mÔ£ô[39m tests/scoring/sensors/sensor-extractor.test.ts [2m([22m[2m31 tests[22m[2m)[22m[32m 20[2mms[22m[39m
+stderr | tests/generation/adaptive-chunker.test.ts > getDirectiveMode() > valeur inconnue ÔåÆ fallback 'adaptive' (r├®trocompatible)
+[adaptive-chunker] OMEGA_DIRECTIVE_MODE='garbage' non reconnu, fallback='adaptive'. Valeurs valides: 'adaptive'|'baseline'.
+
+ [32mÔ£ô[39m tests/generation/adaptive-chunker.test.ts [2m([22m[2m119 tests[22m[2m)[22m[32m 19[2mms[22m[39m
+ [32mÔ£ô[39m tests/validation/run-dual-benchmark.test.ts [2m([22m[2m38 tests[22m[2m)[22m[32m 57[2mms[22m[39m
+ [32mÔ£ô[39m tests/input/prompt-assembler-v2.test.ts [2m([22m[2m18 tests[22m[2m)[22m[32m 15[2mms[22m[39m
+ [32mÔ£ô[39m tests/semantic/semantic-cache.test.ts [2m([22m[2m5 tests[22m[2m)[22m[33m 1111[2mms[22m[39m
+     [33m[2mÔ£ô[22m[39m CACHE-04: expired entries return null (TTL enforcement) [33m 1108[2mms[22m[39m
+ [32mÔ£ô[39m tests/ssot/sprint3-invariants.test.ts [2m([22m[2m26 tests[22m[2m)[22m[32m 25[2mms[22m[39m
+ [31mÔØ»[39m tests/validation/validation-runner.test.ts [2m([22m[2m15 tests[22m[2m | [22m[31m1 failed[39m[2m)[22m[33m 435[2mms[22m[39m
+     [32mÔ£ô[39m T01: runExperiment returns valid ExperimentSummary[32m 44[2mms[22m[39m
+     [32mÔ£ô[39m T02: sealed + rejected + failed === total_runs [INV-VAL-02][32m 36[2mms[22m[39m
+     [32mÔ£ô[39m T03: reject_rate = rejected_count / total_runs[32m 26[2mms[22m[39m
+     [32mÔ£ô[39m T04: determinism ÔÇö same config ÔåÆ same summary_hash [INV-VAL-06][32m 37[2mms[22m[39m
+     [32mÔ£ô[39m T05: metamorphic ÔÇö 2x ÔåÆ identical summary_hash + scores [INV-VAL-06][32m 57[2mms[22m[39m
+     [32mÔ£ô[39m T06: model_id="offline-mock" in summary [INV-VAL-04][32m 15[2mms[22m[39m
+     [32mÔ£ô[39m T07: baseline.value=null ÔåÆ mean_improvement=null [INV-VAL-07][32m 29[2mms[22m[39m
+[31m     [31m├ù[31m T08: sealed pipeline source unchanged [INV-VAL-05][39m[32m 9[2mms[22m[39m
+     [32mÔ£ô[39m T09: experiment criteria override ÔÇö E2 anti_cliche [CalibV2][32m 22[2mms[22m[39m
+     [32mÔ£ô[39m T10: experiment criteria override ÔÇö E1 tension_14d [CalibV2][32m 24[2mms[22m[39m
+     [32mÔ£ô[39m T11: composite_axes_excluded ÔÇö E2 sans tension_14d [CalibV3][32m 23[2mms[22m[39m
+     [32mÔ£ô[39m T12: axes_info_only contains excluded axis value [CalibV3][32m 28[2mms[22m[39m
+     [32mÔ£ô[39m T13: no composite_axes_excluded ÔÇö all axes in composite [CalibV3][32m 30[2mms[22m[39m
+     [32mÔ£ô[39m T14: composite_p75 = 75th percentile of non-failed composites [CalibV4][32m 30[2mms[22m[39m
+     [32mÔ£ô[39m T15: prompt_hash present in all RunResults [CalibV4][32m 22[2mms[22m[39m
+ [32mÔ£ô[39m tests/gate/r6-calc-scorer.test.ts [2m([22m[2m23 tests[22m[2m)[22m[32m 16[2mms[22m[39m
+[90mstdout[2m | tests/art/cross-validate-bovary.test.ts[2m > [22m[2mCross-validation TS vs Python on Bovary[2m > [22m[2mcomputes features on Bovary 600w passage
+[22m[39m  f24e_contrast_score: py=0.9170 ts=0.9329 diff=1.7%
+  f25g_description_score: py=0.2121 ts=0.4709 diff=122.0%
+  f29d_ttr_score: py=0.7441 ts=0.7180 diff=3.5%
+  f30d_ps_imp_ratio: py=2.3026 ts=1.0400 diff=54.8%
+  f33c_dot_comma_ratio: py=1.0235 ts=0.4605 diff=55.0%
+  f34b_para_per_1000w: py=1.6700 ts=1.6700 diff=0.0%
+  f38c_speed_score: py=0.4000 ts=0.3700 diff=7.5%
+
+ [32mÔ£ô[39m tests/art/cross-validate-bovary.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 21[2mms[22m[39m
+ [32mÔ£ô[39m tests/art/text-features-r5.test.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 21[2mms[22m[39m
+[90mstdout[2m | tests/polish/paragraph-patch.test.ts[2m > [22m[2mParagraph-Level Patch (ART-POL-01)[2m > [22m[2mPARA-01: patch paragraph index 2 (3rd) ÔåÆ only that paragraph is modified
+[22m[39m[INTERIORITY-MULTISHOT] shots=[60, 60, 60] median=60 mean=60.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/paragraph-patch.test.ts[2m > [22m[2mParagraph-Level Patch (ART-POL-01)[2m > [22m[2mPARA-01: patch paragraph index 2 (3rd) ÔåÆ only that paragraph is modified
+[22m[39m[NECESSITY-MULTISHOT] shots=[60, 60, 60, 60, 60] median=60 mean=60.0 stdev=0.0 spread=0
+
+[90mstdout[2m | tests/polish/paragraph-patch.test.ts[2m > [22m[2mParagraph-Level Patch (ART-POL-01)[2m > [22m[2mPARA-01: patch paragraph index 2 (3rd) ÔåÆ only that paragraph is modified
+[22m[39m[IMPACT-MULTISHOT] shots=[90, 90, 90] median=90 mean=90.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/paragraph-patch.test.ts[2m > [22m[2mParagraph-Level Patch (ART-POL-01)[2m > [22m[2mPARA-01: patch paragraph index 2 (3rd) ÔåÆ only that paragraph is modified
+[22m[39m[INTERIORITY-MULTISHOT] shots=[90, 90, 90] median=90 mean=90.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/paragraph-patch.test.ts[2m > [22m[2mParagraph-Level Patch (ART-POL-01)[2m > [22m[2mPARA-01: patch paragraph index 2 (3rd) ÔåÆ only that paragraph is modified
+[22m[39m[NECESSITY-MULTISHOT] shots=[90, 90, 90, 90, 90] median=90 mean=90.0 stdev=0.0 spread=0
+
+[90mstdout[2m | tests/polish/paragraph-patch.test.ts[2m > [22m[2mParagraph-Level Patch (ART-POL-01)[2m > [22m[2mPARA-01: patch paragraph index 2 (3rd) ÔåÆ only that paragraph is modified
+[22m[39m[IMPACT-MULTISHOT] shots=[60, 60, 60] median=60 mean=60.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/paragraph-patch.test.ts[2m > [22m[2mParagraph-Level Patch (ART-POL-01)[2m > [22m[2mPARA-02: paragraphs 0, 1, 3 (all except index 2) are unchanged after patch
+[22m[39m[INTERIORITY-MULTISHOT] shots=[60, 60, 60] median=60 mean=60.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/paragraph-patch.test.ts[2m > [22m[2mParagraph-Level Patch (ART-POL-01)[2m > [22m[2mPARA-02: paragraphs 0, 1, 3 (all except index 2) are unchanged after patch
+[22m[39m[NECESSITY-MULTISHOT] shots=[60, 60, 60, 60, 60] median=60 mean=60.0 stdev=0.0 spread=0
+
+[90mstdout[2m | tests/polish/paragraph-patch.test.ts[2m > [22m[2mParagraph-Level Patch (ART-POL-01)[2m > [22m[2mPARA-02: paragraphs 0, 1, 3 (all except index 2) are unchanged after patch
+[22m[39m[IMPACT-MULTISHOT] shots=[90, 90, 90] median=90 mean=90.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/paragraph-patch.test.ts[2m > [22m[2mParagraph-Level Patch (ART-POL-01)[2m > [22m[2mPARA-02: paragraphs 0, 1, 3 (all except index 2) are unchanged after patch
+[22m[39m[INTERIORITY-MULTISHOT] shots=[90, 90, 90] median=90 mean=90.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/paragraph-patch.test.ts[2m > [22m[2mParagraph-Level Patch (ART-POL-01)[2m > [22m[2mPARA-02: paragraphs 0, 1, 3 (all except index 2) are unchanged after patch
+[22m[39m[NECESSITY-MULTISHOT] shots=[90, 90, 90, 90, 90] median=90 mean=90.0 stdev=0.0 spread=0
+
+[90mstdout[2m | tests/polish/paragraph-patch.test.ts[2m > [22m[2mParagraph-Level Patch (ART-POL-01)[2m > [22m[2mPARA-02: paragraphs 0, 1, 3 (all except index 2) are unchanged after patch
+[22m[39m[IMPACT-MULTISHOT] shots=[60, 60, 60] median=60 mean=60.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/paragraph-patch.test.ts[2m > [22m[2mParagraph-Level Patch (ART-POL-01)[2m > [22m[2mPARA-03: patch that degrades score ÔåÆ revert, return original prose, accepted: false
+[22m[39m[INTERIORITY-MULTISHOT] shots=[80, 80, 80] median=80 mean=80.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/paragraph-patch.test.ts[2m > [22m[2mParagraph-Level Patch (ART-POL-01)[2m > [22m[2mPARA-03: patch that degrades score ÔåÆ revert, return original prose, accepted: false
+[22m[39m[NECESSITY-MULTISHOT] shots=[80, 80, 80, 80, 80] median=80 mean=80.0 stdev=0.0 spread=0
+
+[90mstdout[2m | tests/polish/paragraph-patch.test.ts[2m > [22m[2mParagraph-Level Patch (ART-POL-01)[2m > [22m[2mPARA-03: patch that degrades score ÔåÆ revert, return original prose, accepted: false
+[22m[39m[IMPACT-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/paragraph-patch.test.ts[2m > [22m[2mParagraph-Level Patch (ART-POL-01)[2m > [22m[2mPARA-03: patch that degrades score ÔåÆ revert, return original prose, accepted: false
+[22m[39m[INTERIORITY-MULTISHOT] shots=[40, 40, 40] median=40 mean=40.0 stdev=0.0
+
+[90mstdout[2m | tests/polish/paragraph-patch.test.ts[2m > [22m[2mParagraph-Level Patch (ART-POL-01)[2m > [22m[2mPARA-03: patch that degrades score ÔåÆ revert, return original prose, accepted: false
+[22m[39m[NECESSITY-MULTISHOT] shots=[40, 40, 40, 40, 40] median=40 mean=40.0 stdev=0.0 spread=0
+
+[90mstdout[2m | tests/polish/paragraph-patch.test.ts[2m > [22m[2mParagraph-Level Patch (ART-POL-01)[2m > [22m[2mPARA-03: patch that degrades score ÔåÆ revert, return original prose, accepted: false
+[22m[39m[IMPACT-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+ [32mÔ£ô[39m tests/polish/paragraph-patch.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 18[2mms[22m[39m
+[90mstdout[2m | tests/calibration/calibration-ci.test.ts[2m > [22m[2mCalibration CI Suite (HARDEN-CAL-CI-01)[2m > [22m[2mCAL-CI-01: Case 01 corpus valid structure
+[22m[39m[INTERIORITY-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/calibration/calibration-ci.test.ts[2m > [22m[2mCalibration CI Suite (HARDEN-CAL-CI-01)[2m > [22m[2mCAL-CI-01: Case 01 corpus valid structure
+[22m[39m[NECESSITY-MULTISHOT] shots=[75, 75, 75, 75, 75] median=75 mean=75.0 stdev=0.0 spread=0
+
+[90mstdout[2m | tests/calibration/calibration-ci.test.ts[2m > [22m[2mCalibration CI Suite (HARDEN-CAL-CI-01)[2m > [22m[2mCAL-CI-01: Case 01 corpus valid structure
+[22m[39m[IMPACT-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/oracle/macro-axes-ecc-sanity.test.ts[2m > [22m[2mECC Weights Sanity (ChatGPT Audit)[2m > [22m[2mECC-SAN-01: ECC score is 0-100 range without physics
+[22m[39m[INTERIORITY-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/oracle/macro-axes-ecc-sanity.test.ts[2m > [22m[2mECC Weights Sanity (ChatGPT Audit)[2m > [22m[2mECC-SAN-01: ECC score is 0-100 range without physics
+[22m[39m[IMPACT-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/calibration/calibration-ci.test.ts[2m > [22m[2mCalibration CI Suite (HARDEN-CAL-CI-01)[2m > [22m[2mCAL-CI-02: Case 02 corpus valid structure
+[22m[39m[INTERIORITY-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/calibration/calibration-ci.test.ts[2m > [22m[2mCalibration CI Suite (HARDEN-CAL-CI-01)[2m > [22m[2mCAL-CI-02: Case 02 corpus valid structure
+[22m[39m[NECESSITY-MULTISHOT] shots=[75, 75, 75, 75, 75] median=75 mean=75.0 stdev=0.0 spread=0
+
+[90mstdout[2m | tests/calibration/calibration-ci.test.ts[2m > [22m[2mCalibration CI Suite (HARDEN-CAL-CI-01)[2m > [22m[2mCAL-CI-02: Case 02 corpus valid structure
+[22m[39m[IMPACT-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+ [32mÔ£ô[39m tests/pitch/triple-pitch-prescriptions.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 17[2mms[22m[39m
+[90mstdout[2m | tests/oracle/macro-axes-ecc-sanity.test.ts[2m > [22m[2mECC Weights Sanity (ChatGPT Audit)[2m > [22m[2mECC-SAN-02: ECC score is 0-100 range WITH physics audit
+[22m[39m[INTERIORITY-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/calibration/calibration-ci.test.ts[2m > [22m[2mCalibration CI Suite (HARDEN-CAL-CI-01)[2m > [22m[2mCAL-CI-03: Case 03 corpus valid structure
+[22m[39m[INTERIORITY-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/oracle/macro-axes-ecc-sanity.test.ts[2m > [22m[2mECC Weights Sanity (ChatGPT Audit)[2m > [22m[2mECC-SAN-02: ECC score is 0-100 range WITH physics audit
+[22m[39m[IMPACT-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/calibration/calibration-ci.test.ts[2m > [22m[2mCalibration CI Suite (HARDEN-CAL-CI-01)[2m > [22m[2mCAL-CI-03: Case 03 corpus valid structure
+[22m[39m[NECESSITY-MULTISHOT] shots=[75, 75, 75, 75, 75] median=75 mean=75.0 stdev=0.0 spread=0
+
+ [32mÔ£ô[39m tests/gates/gate-seal-disk.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 19[2mms[22m[39m
+[90mstdout[2m | tests/oracle/macro-axes-ecc-sanity.test.ts[2m > [22m[2mECC Weights Sanity (ChatGPT Audit)[2m > [22m[2mECC-SAN-03: ECC with physics_compliance weight=0 ignores physics score
+[22m[39m[INTERIORITY-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/calibration/calibration-ci.test.ts[2m > [22m[2mCalibration CI Suite (HARDEN-CAL-CI-01)[2m > [22m[2mCAL-CI-03: Case 03 corpus valid structure
+[22m[39m[IMPACT-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/oracle/macro-axes-ecc-sanity.test.ts[2m > [22m[2mECC Weights Sanity (ChatGPT Audit)[2m > [22m[2mECC-SAN-03: ECC with physics_compliance weight=0 ignores physics score
+[22m[39m[IMPACT-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/calibration/calibration-ci.test.ts[2m > [22m[2mCalibration CI Suite (HARDEN-CAL-CI-01)[2m > [22m[2mCAL-CI-04: Case 04 corpus valid structure
+[22m[39m[INTERIORITY-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/oracle/macro-axes-ecc-sanity.test.ts[2m > [22m[2mECC Weights Sanity (ChatGPT Audit)[2m > [22m[2mECC-SAN-03: ECC with physics_compliance weight=0 ignores physics score
+[22m[39m[INTERIORITY-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/calibration/calibration-ci.test.ts[2m > [22m[2mCalibration CI Suite (HARDEN-CAL-CI-01)[2m > [22m[2mCAL-CI-04: Case 04 corpus valid structure
+[22m[39m[NECESSITY-MULTISHOT] shots=[75, 75, 75, 75, 75] median=75 mean=75.0 stdev=0.0 spread=0
+
+[90mstdout[2m | tests/oracle/macro-axes-ecc-sanity.test.ts[2m > [22m[2mECC Weights Sanity (ChatGPT Audit)[2m > [22m[2mECC-SAN-03: ECC with physics_compliance weight=0 ignores physics score
+[22m[39m[IMPACT-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/calibration/calibration-ci.test.ts[2m > [22m[2mCalibration CI Suite (HARDEN-CAL-CI-01)[2m > [22m[2mCAL-CI-04: Case 04 corpus valid structure
+[22m[39m[IMPACT-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/oracle/macro-axes-ecc-sanity.test.ts[2m > [22m[2mECC Weights Sanity (ChatGPT Audit)[2m > [22m[2mECC-SAN-03: ECC with physics_compliance weight=0 ignores physics score
+[22m[39m[INTERIORITY-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/calibration/calibration-ci.test.ts[2m > [22m[2mCalibration CI Suite (HARDEN-CAL-CI-01)[2m > [22m[2mCAL-CI-05: Case 05 corpus valid structure
+[22m[39m[INTERIORITY-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/oracle/macro-axes-ecc-sanity.test.ts[2m > [22m[2mECC Weights Sanity (ChatGPT Audit)[2m > [22m[2mECC-SAN-03: ECC with physics_compliance weight=0 ignores physics score
+[22m[39m[IMPACT-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/calibration/calibration-ci.test.ts[2m > [22m[2mCalibration CI Suite (HARDEN-CAL-CI-01)[2m > [22m[2mCAL-CI-05: Case 05 corpus valid structure
+[22m[39m[NECESSITY-MULTISHOT] shots=[75, 75, 75, 75, 75] median=75 mean=75.0 stdev=0.0 spread=0
+
+[90mstdout[2m | tests/oracle/macro-axes-ecc-sanity.test.ts[2m > [22m[2mECC Weights Sanity (ChatGPT Audit)[2m > [22m[2mECC-SAN-04: ECC sub_scores includes physics_compliance
+[22m[39m[INTERIORITY-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/calibration/calibration-ci.test.ts[2m > [22m[2mCalibration CI Suite (HARDEN-CAL-CI-01)[2m > [22m[2mCAL-CI-05: Case 05 corpus valid structure
+[22m[39m[IMPACT-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+[90mstdout[2m | tests/oracle/macro-axes-ecc-sanity.test.ts[2m > [22m[2mECC Weights Sanity (ChatGPT Audit)[2m > [22m[2mECC-SAN-04: ECC sub_scores includes physics_compliance
+[22m[39m[IMPACT-MULTISHOT] shots=[75, 75, 75] median=75 mean=75.0 stdev=0.0
+
+ [32mÔ£ô[39m tests/calibration/calibration-ci.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 18[2mms[22m[39m
+ [32mÔ£ô[39m tests/oracle/macro-axes-ecc-sanity.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 13[2mms[22m[39m
+ [32mÔ£ô[39m tests/calibration/pipeline-e2e.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 16[2mms[22m[39m
+ [32mÔ£ô[39m tests/compiler/partition-profiles.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 13[2mms[22m[39m
+ [32mÔ£ô[39m tests/oracle/physics-audit.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 13[2mms[22m[39m
+ [32mÔ£ô[39m tests/oracle/axes/rhythm-confidence.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 10[2mms[22m[39m
+ [32mÔ£ô[39m tests/art/phantom-runner-invariants.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 10[2mms[22m[39m
+[90mstdout[2m | tests/voice/voice-drift-stress.test.ts[2m > [22m[2mOFFLINE STRESS: Voice Drift Exclusion Impact (0 API credits)[2m > [22m[2mSTRESS-01: prose sample 1 ÔÇö drift 7/10 < drift 10/10
+[22m[39m  Sample 1: score10=69.5, score7=65.4, delta=+-4.2
+
+[90mstdout[2m | tests/voice/voice-drift-stress.test.ts[2m > [22m[2mOFFLINE STRESS: Voice Drift Exclusion Impact (0 API credits)[2m > [22m[2mSTRESS-02: prose sample 2 ÔÇö drift 7/10 < drift 10/10
+[22m[39m  Sample 2: score10=70.8, score7=65.8, delta=+-5.1
+
+[90mstdout[2m | tests/voice/voice-drift-stress.test.ts[2m > [22m[2mOFFLINE STRESS: Voice Drift Exclusion Impact (0 API credits)[2m > [22m[2mSTRESS-03: prose sample 3 ÔÇö drift 7/10 < drift 10/10
+[22m[39m  Sample 3: score10=70.2, score7=93.6, delta=+23.4
+
+[90mstdout[2m | tests/voice/voice-drift-stress.test.ts[2m > [22m[2mOFFLINE STRESS: Voice Drift Exclusion Impact (0 API credits)[2m > [22m[2mSTRESS-04: prose sample 4 ÔÇö drift 7/10 < drift 10/10
+[22m[39m  Sample 4: score10=65.7, score7=65.6, delta=+-0.1
+
+[90mstdout[2m | tests/voice/voice-drift-stress.test.ts[2m > [22m[2mOFFLINE STRESS: Voice Drift Exclusion Impact (0 API credits)[2m > [22m[2mSTRESS-05: prose sample 5 ÔÇö drift 7/10 < drift 10/10
+[22m[39m  Sample 5: score10=77.0, score7=91.9, delta=+14.9
+
+[90mstdout[2m | tests/voice/voice-drift-stress.test.ts[2m > [22m[2mOFFLINE STRESS: Voice Drift Exclusion Impact (0 API credits)[2m > [22m[2mSTRESS-AGG-01: mean voice_conformity score (7/10) >= 70 across all samples
+[22m[39m  Aggregate: mean=76.4, min=65.4, max=93.6
+
+[90mstdout[2m | tests/voice/voice-drift-stress.test.ts[2m > [22m[2mOFFLINE STRESS: Voice Drift Exclusion Impact (0 API credits)[2m > [22m[2mSTRESS-INT-01: scoreVoiceConformity uses filtered drift (N_applicable=7)
+[22m[39m  Integration scores: [65.4, 65.8, 93.6, 65.6, 91.9], mean=76.4
+
+[90mstdout[2m | tests/voice/voice-drift-stress.test.ts[2m > [22m[2mOFFLINE STRESS: Voice Drift Exclusion Impact (0 API credits)[2m > [22m[2mSTRESS-EDGE-01: default genome target also benefits from exclusion
+[22m[39m  Default genome: score10=62.7, score7=48.2
+
+ [32mÔ£ô[39m tests/voice/voice-drift-stress.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 12[2mms[22m[39m
+ [32mÔ£ô[39m tests/cde/distiller.test.ts [2m([22m[2m13 tests[22m[2m)[22m[32m 12[2mms[22m[39m
+ [32mÔ£ô[39m tests/validation/validate_corpus_golden.test.ts [2m([22m[2m37 tests[22m[2m)[22m[32m 11[2mms[22m[39m
+ [32mÔ£ô[39m tests/ssot/sprint4-invariants.test.ts [2m([22m[2m36 tests[22m[2m)[22m[32m 16[2mms[22m[39m
+ [32mÔ£ô[39m tests/cde/delta-compressor.test.ts [2m([22m[2m19 tests[22m[2m)[22m[32m 12[2mms[22m[39m
+ [32mÔ£ô[39m tests/validation/inv-prompt-01.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 14[2mms[22m[39m
+ [32mÔ£ô[39m tests/validation/greatness-judge.test.ts [2m([22m[2m38 tests[22m[2m)[22m[32m 10[2mms[22m[39m
+ [32mÔ£ô[39m tests/art/multi-stage-scorer.test.ts [2m([22m[2m33 tests[22m[2m)[22m[32m 10[2mms[22m[39m
+ [32mÔ£ô[39m tests/gates/gate-proofpack.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 9[2mms[22m[39m
+ [32mÔ£ô[39m tests/runtime/golden-loader.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 10[2mms[22m[39m
+stderr | tests/validation/top-k-selection.test.ts > U-W4 INV-TK-06 ÔÇö fail-closed > TK-FC-02: erreur GreatnessJudge = TopKError JUDGE_FAILED (bloquant)
+[TopK] JUDGE_WARN variant 0: Judge timeout
+
+stderr | tests/validation/top-k-selection.test.ts > U-W4 INV-TK-06 ÔÇö fail-closed > TK-FC-02: erreur GreatnessJudge = TopKError JUDGE_FAILED (bloquant)
+[TopK] JUDGE_WARN variant 1: Judge timeout
+
+stderr | tests/validation/top-k-selection.test.ts > U-W4 INV-TK-06 ÔÇö fail-closed > TK-FC-02: erreur GreatnessJudge = TopKError JUDGE_FAILED (bloquant)
+[TopK] JUDGE_WARN variant 0: Judge timeout
+
+stderr | tests/validation/top-k-selection.test.ts > U-W4 INV-TK-06 ÔÇö fail-closed > TK-FC-02: erreur GreatnessJudge = TopKError JUDGE_FAILED (bloquant)
+[TopK] JUDGE_WARN variant 1: Judge timeout
+
+stderr | tests/validation/top-k-selection.test.ts > U-W4 INV-TK-06 ÔÇö fail-closed > TK-FC-03: judge echoue sur 1/3 variantes ÔÇö run reussit avec les 2 candidats restants
+[TopK] JUDGE_WARN variant 1: fetch failed: memorabilite timeout
+
+ [32mÔ£ô[39m tests/validation/top-k-selection.test.ts [2m([22m[2m34 tests[22m[2m)[22m[32m 13[2mms[22m[39m
+stderr | tests/validation/top-k-selection.test.ts > U-W4 INV-TK-06 ÔÇö fail-closed > TK-FC-04: judge echoue sur TOUTES les variantes ÔÇö throw JUDGE_FAILED bloquant
+[TopK] JUDGE_WARN variant 0: network unreachable
+
+stderr | tests/validation/top-k-selection.test.ts > U-W4 INV-TK-06 ÔÇö fail-closed > TK-FC-04: judge echoue sur TOUTES les variantes ÔÇö throw JUDGE_FAILED bloquant
+[TopK] JUDGE_WARN variant 1: network unreachable
+
+stderr | tests/validation/top-k-selection.test.ts > U-W4 INV-TK-06 ÔÇö fail-closed > TK-FC-04: judge echoue sur TOUTES les variantes ÔÇö throw JUDGE_FAILED bloquant
+[TopK] JUDGE_WARN variant 2: network unreachable
+
+stderr | tests/validation/top-k-selection.test.ts > U-W4 INV-TK-06 ÔÇö fail-closed > TK-FC-04: judge echoue sur TOUTES les variantes ÔÇö throw JUDGE_FAILED bloquant
+[TopK] JUDGE_WARN variant 0: network unreachable
+
+stderr | tests/validation/top-k-selection.test.ts > U-W4 INV-TK-06 ÔÇö fail-closed > TK-FC-04: judge echoue sur TOUTES les variantes ÔÇö throw JUDGE_FAILED bloquant
+[TopK] JUDGE_WARN variant 1: network unreachable
+
+stderr | tests/validation/top-k-selection.test.ts > U-W4 INV-TK-06 ÔÇö fail-closed > TK-FC-04: judge echoue sur TOUTES les variantes ÔÇö throw JUDGE_FAILED bloquant
+[TopK] JUDGE_WARN variant 2: network unreachable
+
+ [32mÔ£ô[39m tests/validation/phase-u-exit-validator.test.ts [2m([22m[2m55 tests[22m[2m)[22m[32m 12[2mms[22m[39m
+ [32mÔ£ô[39m tests/oracle/axes/rci-fix-wiring.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 12[2mms[22m[39m
+ [32mÔ£ô[39m tests/oracle/axes/rhythm-v2.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 9[2mms[22m[39m
+ [32mÔ£ô[39m tests/ssot/sprint2-invariants.test.ts [2m([22m[2m14 tests[22m[2m)[22m[32m 9[2mms[22m[39m
+ [32mÔ£ô[39m tests/oracle/axes/rci-hooks.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+ [32mÔ£ô[39m tests/bench/pathological-scenes.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 11[2mms[22m[39m
+ [32mÔ£ô[39m tests/dedale/reset-session.test.ts [2m([22m[2m16 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+ [32mÔ£ô[39m tests/validation/prose-fingerprint.test.ts [2m([22m[2m21 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32mÔ£ô[39m tests/cde/cde-pipeline.test.ts [2m([22m[2m21 tests[22m[2m)[22m[32m 10[2mms[22m[39m
+[POLISH-ENGINE] FAIL-CLOSED pass 1 [sii]: LLM timeout
+stderr | tests/guards/paragraph-guard.test.ts > ensureParagraphCompliance ÔÇö retry > retries and succeeds when LLM reformats to 4 paragraphs
+[PARAGRAPH-GUARD] Prose has 2 paragraphs (need 4). Attempting reformat...
+
+[90mstdout[2m | tests/guards/paragraph-guard.test.ts[2m > [22m[2mensureParagraphCompliance ÔÇö retry[2m > [22m[2mretries and succeeds when LLM reformats to 4 paragraphs
+[22m[39m[PARAGRAPH-GUARD] Reformat SUCCESS: 2 ÔåÆ 4 paragraphs
+
+stderr | tests/guards/paragraph-guard.test.ts > ensureParagraphCompliance ÔÇö retry > retries with correct language (fr)
+[PARAGRAPH-GUARD] Prose has 1 paragraphs (need 4). Attempting reformat...
+
+[90mstdout[2m | tests/guards/paragraph-guard.test.ts[2m > [22m[2mensureParagraphCompliance ÔÇö retry[2m > [22m[2mretries with correct language (fr)
+[22m[39m[PARAGRAPH-GUARD] Reformat SUCCESS: 1 ÔåÆ 4 paragraphs
+
+stderr | tests/guards/paragraph-guard.test.ts > ensureParagraphCompliance ÔÇö retry > retries with correct language (en)
+[PARAGRAPH-GUARD] Prose has 1 paragraphs (need 4). Attempting reformat...
+
+[90mstdout[2m | tests/guards/paragraph-guard.test.ts[2m > [22m[2mensureParagraphCompliance ÔÇö retry[2m > [22m[2mretries with correct language (en)
+[22m[39m[PARAGRAPH-GUARD] Reformat SUCCESS: 1 ÔåÆ 4 paragraphs
+
+stderr | tests/guards/paragraph-guard.test.ts > ensureParagraphCompliance ÔÇö max retries > calls provider exactly once on retry (MAX_RETRIES=1)
+[PARAGRAPH-GUARD] Prose has 1 paragraphs (need 4). Attempting reformat...
+
+stderr | tests/guards/paragraph-guard.test.ts > ensureParagraphCompliance ÔÇö max retries > calls provider exactly once on retry (MAX_RETRIES=1)
+[PARAGRAPH-GUARD] Reformat attempt 1 still has 1 paragraphs
+[PARAGRAPH-GUARD] All retries exhausted. Continuing with 1 paragraphs.
+
+stderr | tests/guards/paragraph-guard.test.ts > ensureParagraphCompliance ÔÇö failure > returns original prose when retry still has < 4 paragraphs
+[PARAGRAPH-GUARD] Prose has 2 paragraphs (need 4). Attempting reformat...
+
+stderr | tests/guards/paragraph-guard.test.ts > ensureParagraphCompliance ÔÇö failure > returns original prose when retry still has < 4 paragraphs
+[PARAGRAPH-GUARD] Reformat attempt 1 still has 2 paragraphs
+[PARAGRAPH-GUARD] All retries exhausted. Continuing with 2 paragraphs.
+
+stderr | tests/guards/paragraph-guard.test.ts > ensureParagraphCompliance ÔÇö failure > returns original prose when provider throws
+[PARAGRAPH-GUARD] Prose has 2 paragraphs (need 4). Attempting reformat...
+
+ [32mÔ£ô[39m tests/validation/polish-engine.test.ts [2m([22m[2m48 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+stderr | tests/guards/paragraph-guard.test.ts > ensureParagraphCompliance ÔÇö failure > returns original prose when provider throws
+[PARAGRAPH-GUARD] Reformat attempt 1 FAILED: Error: API error
+    at C:/Users/elric/omega-project/packages/sovereign-engine/tests/guards/paragraph-guard.test.ts:174:48
+    at file:///C:/Users/elric/omega-project/node_modules/@vitest/runner/dist/index.js:145:11
+    at file:///C:/Users/elric/omega-project/node_modules/@vitest/runner/dist/index.js:915:26
+    at file:///C:/Users/elric/omega-project/node_modules/@vitest/runner/dist/index.js:1243:20
+    at new Promise (<anonymous>)
+    at runWithTimeout (file:///C:/Users/elric/omega-project/node_modules/@vitest/runner/dist/index.js:1209:10)
+    at file:///C:/Users/elric/omega-project/node_modules/@vitest/runner/dist/index.js:1653:37
+    at Traces.$ (file:///C:/Users/elric/omega-project/node_modules/vitest/dist/chunks/traces.CCmnQaNT.js:142:27)
+    at trace (file:///C:/Users/elric/omega-project/node_modules/vitest/dist/chunks/test.B8ej_ZHS.js:239:21)
+    at runTest (file:///C:/Users/elric/omega-project/node_modules/@vitest/runner/dist/index.js:1653:12)
+[PARAGRAPH-GUARD] All retries exhausted. Continuing with 2 paragraphs.
+
+ [32mÔ£ô[39m tests/guards/paragraph-guard.test.ts [2m([22m[2m14 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+[90mstdout[2m | tests/semantic/semantic-analyzer.test.ts[2m > [22m[2mSemantic Emotion Analyzer (ART-SEM-01)[2m > [22m[2mSEM-07: N-samples > 1 computes median per dimension
+[22m[39m[SEMANTIC] Variance tolerance exceeded (>5%):
+joy: ├ÅãÆ=16.33% (median=50.0%)
+trust: ├ÅãÆ=16.33% (median=40.0%)
+fear: ├ÅãÆ=16.33% (median=30.0%)
+surprise: ├ÅãÆ=9.43% (median=40.0%)
+sadness: ├ÅãÆ=16.33% (median=30.0%)
+
+ [32mÔ£ô[39m tests/assembly/best-of-n.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32mÔ£ô[39m tests/constraints/constraint-compiler.test.ts [2m([22m[2m13 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32mÔ£ô[39m tests/semantic/semantic-analyzer.test.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 9[2mms[22m[39m
+ [32mÔ£ô[39m tests/dedale/orchestrator.test.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32mÔ£ô[39m tests/oracle/macro-axes-aai.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+stderr | tests/input/pre-write-validator.test.ts > Pre-Write Validator ÔÇö INV-S-PACKET-01/02/03 > T01: minimal valid packet ÔåÆ valid=true, 0 FATAL errors [INV-S-PACKET-01]
+[PRE-WRITE-VALIDATOR] BB-02: avg_sentence_length_target=18 < 35w plancher Claude. Cible sera ignor├®e par le mod├¿le.
+
+stderr | tests/input/pre-write-validator.test.ts > Pre-Write Validator ÔÇö INV-S-PACKET-01/02/03 > T02: missing packet_hash ÔåÆ FATAL [INV-S-PACKET-01]
+[PRE-WRITE-VALIDATOR] BB-02: avg_sentence_length_target=18 < 35w plancher Claude. Cible sera ignor├®e par le mod├¿le.
+
+stderr | tests/input/pre-write-validator.test.ts > Pre-Write Validator ÔÇö INV-S-PACKET-01/02/03 > T03: packet_hash < 64 chars ÔåÆ FATAL [INV-S-PACKET-01]
+[PRE-WRITE-VALIDATOR] BB-02: avg_sentence_length_target=18 < 35w plancher Claude. Cible sera ignor├®e par le mod├¿le.
+
+stderr | tests/input/pre-write-validator.test.ts > Pre-Write Validator ÔÇö INV-S-PACKET-01/02/03 > T04: missing packet_id ÔåÆ FATAL [INV-S-PACKET-01]
+[PRE-WRITE-VALIDATOR] BB-02: avg_sentence_length_target=18 < 35w plancher Claude. Cible sera ignor├®e par le mod├¿le.
+
+stderr | tests/input/pre-write-validator.test.ts > Pre-Write Validator ÔÇö INV-S-PACKET-01/02/03 > T05: missing scene_id ÔåÆ FATAL [INV-S-PACKET-01]
+[PRE-WRITE-VALIDATOR] BB-02: avg_sentence_length_target=18 < 35w plancher Claude. Cible sera ignor├®e par le mod├¿le.
+
+stderr | tests/input/pre-write-validator.test.ts > Pre-Write Validator ÔÇö INV-S-PACKET-01/02/03 > T06: emotion_contract with 4 quartiles ÔåÆ PASS [INV-S-PACKET-02]
+[PRE-WRITE-VALIDATOR] BB-02: avg_sentence_length_target=18 < 35w plancher Claude. Cible sera ignor├®e par le mod├¿le.
+
+stderr | tests/input/pre-write-validator.test.ts > Pre-Write Validator ÔÇö INV-S-PACKET-01/02/03 > T07: invalid 14D distribution in Q1 ÔåÆ validation error [INV-S-PACKET-02]
+[PRE-WRITE-VALIDATOR] BB-02: avg_sentence_length_target=18 < 35w plancher Claude. Cible sera ignor├®e par le mod├¿le.
+
+stderr | tests/input/pre-write-validator.test.ts > Pre-Write Validator ÔÇö INV-S-PACKET-01/02/03 > T08: empty beats ÔåÆ FATAL ÔÇö validator blocks LLM [INV-S-PACKET-03]
+[PRE-WRITE-VALIDATOR] BB-02: avg_sentence_length_target=18 < 35w plancher Claude. Cible sera ignor├®e par le mod├¿le.
+
+stderr | tests/input/pre-write-validator.test.ts > Pre-Write Validator ÔÇö INV-S-PACKET-01/02/03 > T09: beat with wrong beat_order ÔåÆ ERROR
+[PRE-WRITE-VALIDATOR] BB-02: avg_sentence_length_target=18 < 35w plancher Claude. Cible sera ignor├®e par le mod├¿le.
+
+stderr | tests/input/pre-write-validator.test.ts > Pre-Write Validator ÔÇö INV-S-PACKET-01/02/03 > T10: beat with empty action ÔåÆ ERROR
+[PRE-WRITE-VALIDATOR] BB-02: avg_sentence_length_target=18 < 35w plancher Claude. Cible sera ignor├®e par le mod├¿le.
+
+stderr | tests/input/pre-write-validator.test.ts > Pre-Write Validator ÔÇö INV-S-PACKET-01/02/03 > T11: quartile valence > 1 ÔåÆ ERROR
+[PRE-WRITE-VALIDATOR] BB-02: avg_sentence_length_target=18 < 35w plancher Claude. Cible sera ignor├®e par le mod├¿le.
+
+stderr | tests/input/pre-write-validator.test.ts > Pre-Write Validator ÔÇö INV-S-PACKET-01/02/03 > T12: quartile arousal < 0 ÔåÆ ERROR
+[PRE-WRITE-VALIDATOR] BB-02: avg_sentence_length_target=18 < 35w plancher Claude. Cible sera ignor├®e par le mod├¿le.
+
+stderr | tests/input/pre-write-validator.test.ts > Pre-Write Validator ÔÇö INV-S-PACKET-01/02/03 > T13: empty signature_words ÔåÆ ERROR
+[PRE-WRITE-VALIDATOR] BB-02: avg_sentence_length_target=18 < 35w plancher Claude. Cible sera ignor├®e par le mod├¿le.
+
+stderr | tests/input/pre-write-validator.test.ts > Pre-Write Validator ÔÇö INV-S-PACKET-01/02/03 > T14: intensity_range min > max ÔåÆ ERROR
+[PRE-WRITE-VALIDATOR] BB-02: avg_sentence_length_target=18 < 35w plancher Claude. Cible sera ignor├®e par le mod├¿le.
+
+stderr | tests/input/pre-write-validator.test.ts > Pre-Write Validator ÔÇö INV-S-PACKET-01/02/03 > T15: empty kill_lists ÔåÆ warnings (not FATAL, still valid)
+[PRE-WRITE-VALIDATOR] BB-02: avg_sentence_length_target=18 < 35w plancher Claude. Cible sera ignor├®e par le mod├¿le.
+
+stderr | tests/input/pre-write-validator.test.ts > Pre-Write Validator ÔÇö INV-S-PACKET-01/02/03 > T16: determinism ÔÇö same packet ÔåÆ identical results [INV-S-ORACLE-01]
+[PRE-WRITE-VALIDATOR] BB-02: avg_sentence_length_target=18 < 35w plancher Claude. Cible sera ignor├®e par le mod├¿le.
+[PRE-WRITE-VALIDATOR] BB-02: avg_sentence_length_target=18 < 35w plancher Claude. Cible sera ignor├®e par le mod├¿le.
+
+stderr | tests/input/pre-write-validator.test.ts > Pre-Write Validator ÔÇö INV-S-PACKET-01/02/03 > T17: result conforms to ValidationResult schema
+[PRE-WRITE-VALIDATOR] BB-02: avg_sentence_length_target=18 < 35w plancher Claude. Cible sera ignor├®e par le mod├¿le.
+
+stderr | tests/input/pre-write-validator.test.ts > Pre-Write Validator ÔÇö INV-S-PACKET-01/02/03 > T18: invalid slope_target ÔåÆ ERROR
+[PRE-WRITE-VALIDATOR] BB-02: avg_sentence_length_target=18 < 35w plancher Claude. Cible sera ignor├®e par le mod├¿le.
+
+stderr | tests/input/pre-write-validator.test.ts > Pre-Write Validator ÔÇö INV-S-PACKET-01/02/03 > T19: rupture exists + position_pct > 1 ÔåÆ ERROR
+[PRE-WRITE-VALIDATOR] BB-02: avg_sentence_length_target=18 < 35w plancher Claude. Cible sera ignor├®e par le mod├¿le.
+
+ [32mÔ£ô[39m tests/input/pre-write-validator.test.ts [2m([22m[2m19 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32mÔ£ô[39m tests/dedale/telemetry.test.ts [2m([22m[2m18 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32mÔ£ô[39m tests/oracle/axes/rhythm.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32mÔ£ô[39m tests/dedale/integration.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32mÔ£ô[39m tests/microsurgery/micro-surgeon.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32mÔ£ô[39m tests/art/passage-classifier-gold.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+stderr | tests/input/prompt-assembler-v4.test.ts > prompt-assembler-v4 > prompt V4 contient VOCABULAIRE OMEGA quand flag actif
+[V4] WARNING: prompt 1775t exceeds 1700t target
+
+ [32mÔ£ô[39m tests/input/prompt-assembler-v4.test.ts [2m([22m[2m15 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32mÔ£ô[39m tests/filter/soul-layer.test.ts [2m([22m[2m22 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32mÔ£ô[39m tests/oracle/axes/ifi-distribution.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32mÔ£ô[39m tests/proofpack/proofpack-v3.test.ts [2m([22m[2m16 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32mÔ£ô[39m tests/art/authenticity-scorer.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32mÔ£ô[39m tests/input/prompt-assembler-v5.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32mÔ£ô[39m tests/silence/show-dont-tell.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32mÔ£ô[39m tests/cde/delta-extractor.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32mÔ£ô[39m tests/proofpack/certification.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32mÔ£ô[39m tests/oracle/axes/signature.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32mÔ£ô[39m tests/validation/judge-cache.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+stderr | tests/exemplar/exemplar-library.test.ts > INV-EXEMP-01/02/03/04 ÔÇö ExemplarLibrary > T07: INV-EXEMP-04 ÔÇö cache invalid├® apr├¿s addExemplar (pas de stale cache)
+[INV-EXEMP-02] max similarity=0.3451 < 0.60 ÔÇö enrichir la biblioth├¿que SEAL
+[INV-EXEMP-02] max similarity=0.3451 < 0.60 ÔÇö enrichir la biblioth├¿que SEAL
+
+ [32mÔ£ô[39m tests/validation/prose-directive-builder.test.ts [2m([22m[2m14 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32mÔ£ô[39m tests/semantic/semantic-migration.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32mÔ£ô[39m tests/exemplar/exemplar-library.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32mÔ£ô[39m tests/prescriptions/sdt-auth-prescriptions.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32mÔ£ô[39m tests/oracle/genesis-v2/paradox-gate.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32mÔ£ô[39m tests/runtime/golden-loader-voice.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32mÔ£ô[39m tests/filter/banality-budget.test.ts [2m([22m[2m20 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32mÔ£ô[39m tests/microsurgery/damage-gate-bench.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32mÔ£ô[39m tests/input/emotion-brief-bridge.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32mÔ£ô[39m tests/doctrine/moteur-v4-invariants.test.ts [2m([22m[2m31 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32mÔ£ô[39m tests/runtime/run-id.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32mÔ£ô[39m tests/benchmark/protocol.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32mÔ£ô[39m tests/input/prompt-physics-section.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32mÔ£ô[39m tests/oracle/axes/tension-14d.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 10[2mms[22m[39m
+ [32mÔ£ô[39m tests/oracle/genesis-v2/genesis-wiring.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32mÔ£ô[39m tests/art/show-dont-tell.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32mÔ£ô[39m tests/quality/quality-bridge.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32mÔ£ô[39m tests/dedale/oracle.test.ts [2m([22m[2m23 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32mÔ£ô[39m tests/oracle/axes/emotion-coherence.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32mÔ£ô[39m tests/compat/version-guard.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32mÔ£ô[39m tests/oracle/axes/show-dont-tell.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/art/phantom-axes-art14.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32mÔ£ô[39m tests/assembly/linker.test.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32mÔ£ô[39m tests/input/pre-write-simulator.test.ts [2m([22m[2m13 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32mÔ£ô[39m tests/benchmark/correlation.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32mÔ£ô[39m tests/calibration/calibration-utils.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+[90mstdout[2m | tests/polish/targeted-patch.test.ts[2m > [22m[2mP5 ÔÇö runTargetedPatch[2m > [22m[2mINV-TP-04: same text returned ÔåÆ accepted = false (no improvement)
+[22m[39m[TARGETED-PATCH] Target: RCI (score=80.0)
+
+[90mstdout[2m | tests/polish/targeted-patch.test.ts[2m > [22m[2mP5 ÔÇö runTargetedPatch[2m > [22m[2mINV-TP-04: same text returned ÔåÆ accepted = false (no improvement)
+[22m[39m[TARGETED-PATCH] Word change: 0.0%
+
+stderr | tests/polish/targeted-patch.test.ts > P5 ÔÇö runTargetedPatch > INV-TP-04: same text returned ÔåÆ accepted = false (no improvement)
+[TARGETED-PATCH] ROLLBACK: text unchanged (0% change)
+
+ [32mÔ£ô[39m tests/polish/targeted-patch.test.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32mÔ£ô[39m tests/core/narrative-shapes-ssot.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32mÔ£ô[39m tests/microsurgery/damage-gate.test.ts [2m([22m[2m14 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32mÔ£ô[39m tests/art/voice-genome-invariants.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32mÔ£ô[39m tests/scoring/ci-l37.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32mÔ£ô[39m tests/oracle/axes/phantom-axes.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/oracle/genesis-v2/diffusion-runner.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32mÔ£ô[39m tests/art/anti-doublon-lint-art12.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/semantic/emotion-to-action.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32mÔ£ô[39m tests/oracle/axes/euphony-basic.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32mÔ£ô[39m tests/semantic/anti-doublon-lint-art09.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32mÔ£ô[39m tests/input/prompt-voice-injection.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32mÔ£ô[39m tests/typological-normalizer.test.ts [2m([22m[2m18 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+[90mstdout[2m | tests/guards/semantic-slicer.test.ts[2m > [22m[2mapplySemanticSlicing ÔÇö slicing[2m > [22m[2mslices 1 long paragraph into 4
+[22m[39m[SLICER] 1 ÔåÆ 4 paragraphs (cuts at words: 7, 19, 29)
+
+stderr | tests/guards/semantic-slicer.test.ts > applySemanticSlicing ÔÇö edge cases > returns original when < 4 sentences
+[SLICER] Only 3 sentences ÔÇö cannot slice into 4 quartiles
+
+stderr | tests/guards/semantic-slicer.test.ts > applySemanticSlicing ÔÇö edge cases > handles empty string
+[SLICER] Only 0 sentences ÔÇö cannot slice into 4 quartiles
+
+[90mstdout[2m | tests/guards/semantic-slicer.test.ts[2m > [22m[2mapplySemanticSlicing ÔÇö slicing[2m > [22m[2mslices 2 paragraphs into 4
+[22m[39m[SLICER] 2 ÔåÆ 4 paragraphs (cuts at words: 6, 14, 22)
+
+[90mstdout[2m | tests/guards/semantic-slicer.test.ts[2m > [22m[2mapplySemanticSlicing ÔÇö slicing[2m > [22m[2mpreserves total word count after slicing
+[22m[39m[SLICER] 1 ÔåÆ 4 paragraphs (cuts at words: 7, 19, 29)
+
+[90mstdout[2m | tests/guards/semantic-slicer.test.ts[2m > [22m[2mapplySemanticSlicing ÔÇö sentence boundaries[2m > [22m[2mnever cuts mid-sentence
+[22m[39m[SLICER] 1 ÔåÆ 4 paragraphs (cuts at words: 4, 11, 14)
+
+ [32mÔ£ô[39m tests/guards/semantic-slicer.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32mÔ£ô[39m tests/scoring/language-profiles.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32mÔ£ô[39m tests/semantic/semantic-validation.test.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 7[2mms[22m[39m
+ [32mÔ£ô[39m tests/constraints/compiler-golden.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32mÔ£ô[39m tests/runtime/path-safety.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32mÔ£ô[39m tests/art/voice-conformity-art13.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32mÔ£ô[39m tests/gates/gate-roadmap.test.ts [2m([22m[2m8 tests[22m[2m)[22m[33m 2814[2mms[22m[39m
+     [33m[2mÔ£ô[22m[39m GATE-RD-01: gate passes when hash matches [33m 1180[2mms[22m[39m
+     [33m[2mÔ£ô[22m[39m GATE-RD-03: gate update command creates/updates hash [33m 1631[2mms[22m[39m
+ [32mÔ£ô[39m tests/delta/delta-cliche.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32mÔ£ô[39m tests/voice/voice-genome.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/art/gb-scorer-parity.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32mÔ£ô[39m tests/pitch/triple-pitch-engine.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32mÔ£ô[39m tests/voice/rosette-metrics.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/temporal/temporal-scoring.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/gates/gate-delta-threshold.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/validation/mock-llm-provider.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32mÔ£ô[39m tests/prescriptions/generate-prescriptions.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32mÔ£ô[39m tests/oracle/axes/voice-conformity.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/polish/sentence-surgeon.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/oracle/tension-judge-harness.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32mÔ£ô[39m tests/calibration/genre-thresholds.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32mÔ£ô[39m tests/art/metaphor-invariants.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+[90mstdout[2m | tests/voice/voice-drift-diagnostic.test.ts[2m > [22m[2mDIAGNOSTIC: per-param drift breakdown[2m > [22m[2mdump all params ÔÇö target vs measured vs diff
+[22m[39m
+=== SAMPLE 1 (drift=0.3045, score=69.5) ===
+PARAM                  | TARGET | MEASURED | DIFF   | DIFF┬▓
+----------------------------------------------------------------------
+paragraph_rhythm       | 0.60   | 0.0382   | 0.5618 | 0.3156 ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê
+punctuation_style      | 0.50   | 0.0000   | 0.5000 | 0.2500 ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê
+metaphor_density       | 0.40   | 0.0909   | 0.3091 | 0.0955 ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê
+dialogue_ratio         | 0.10   | 0.4000   | 0.3000 | 0.0900 ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê
+language_register      | 0.70   | 0.4112   | 0.2888 | 0.0834 ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê
+opening_variety        | 0.70   | 0.9091   | 0.2091 | 0.0437 ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê
+irony_level            | 0.20   | 0.0000   | 0.2000 | 0.0400 ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê
+phrase_length_mean     | 0.29   | 0.2222   | 0.0678 | 0.0046 ÔûêÔûêÔûê
+abstraction_ratio      | 0.40   | 0.3393   | 0.0607 | 0.0037 ÔûêÔûêÔûê
+ellipsis_rate          | 0.30   | 0.2727   | 0.0273 | 0.0007 Ôûê
+
+=== SAMPLE 2 (drift=0.2985, score=70.2) ===
+PARAM                  | TARGET | MEASURED | DIFF   | DIFF┬▓
+----------------------------------------------------------------------
+language_register      | 0.70   | 0.1094   | 0.5906 | 0.3488 ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê
+punctuation_style      | 0.50   | 0.0000   | 0.5000 | 0.2500 ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê
+metaphor_density       | 0.40   | 0.0000   | 0.4000 | 0.1600 ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê
+irony_level            | 0.20   | 0.0000   | 0.2000 | 0.0400 ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê
+phrase_length_mean     | 0.29   | 0.0970   | 0.1930 | 0.0373 ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê
+dialogue_ratio         | 0.10   | 0.2857   | 0.1857 | 0.0345 ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê
+abstraction_ratio      | 0.40   | 0.3108   | 0.0892 | 0.0080 ÔûêÔûêÔûêÔûê
+paragraph_rhythm       | 0.60   | 0.5182   | 0.0818 | 0.0067 ÔûêÔûêÔûêÔûê
+opening_variety        | 0.70   | 0.6250   | 0.0750 | 0.0056 ÔûêÔûêÔûêÔûê
+ellipsis_rate          | 0.30   | 0.3125   | 0.0125 | 0.0002 Ôûê
+
+=== SAMPLE 3 (drift=0.2299, score=77.0) ===
+PARAM                  | TARGET | MEASURED | DIFF   | DIFF┬▓
+----------------------------------------------------------------------
+punctuation_style      | 0.50   | 0.0000   | 0.5000 | 0.2500 ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê
+metaphor_density       | 0.40   | 0.0588   | 0.3412 | 0.1164 ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê
+language_register      | 0.70   | 0.4943   | 0.2057 | 0.0423 ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê
+irony_level            | 0.20   | 0.0000   | 0.2000 | 0.0400 ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê
+dialogue_ratio         | 0.10   | 0.2857   | 0.1857 | 0.0345 ÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûêÔûê
+phrase_length_mean     | 0.29   | 0.1449   | 0.1451 | 0.0211 ÔûêÔûêÔûêÔûêÔûêÔûêÔûê
+opening_variety        | 0.70   | 0.8235   | 0.1235 | 0.0153 ÔûêÔûêÔûêÔûêÔûêÔûê
+abstraction_ratio      | 0.40   | 0.3289   | 0.0711 | 0.0051 ÔûêÔûêÔûêÔûê
+paragraph_rhythm       | 0.60   | 0.5354   | 0.0646 | 0.0042 ÔûêÔûêÔûê
+ellipsis_rate          | 0.30   | 0.2941   | 0.0059 | 0.0000 
+
+=== AGGREGATE MEAN DIFF ===
+PARAM                  | MEAN_DIFF | VERDICT
+-------------------------------------------------------
+punctuation_style      | 0.5000    | ­ƒö┤ CRITICAL
+language_register      | 0.3617    | ­ƒö┤ CRITICAL
+metaphor_density       | 0.3501    | ­ƒö┤ CRITICAL
+paragraph_rhythm       | 0.2361    | ­ƒƒí HIGH
+dialogue_ratio         | 0.2238    | ­ƒƒí HIGH
+irony_level            | 0.2000    | ­ƒƒí HIGH
+opening_variety        | 0.1359    | ­ƒƒó OK
+phrase_length_mean     | 0.1353    | ­ƒƒó OK
+abstraction_ratio      | 0.0736    | ­ƒƒó OK
+ellipsis_rate          | 0.0152    | ­ƒƒó OK
+
+ [32mÔ£ô[39m tests/voice/voice-drift-diagnostic.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32mÔ£ô[39m tests/oracle/calc-judges/soma-gate.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32mÔ£ô[39m tests/pitch/correction-catalog.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/polish/anti-doublon-lint-art10.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32mÔ£ô[39m tests/voice/voice-drift-exclusion.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/authenticity/ia-smell-patterns.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/phantom/phantom-runner.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/art/anti-doublon-lint-art11.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32mÔ£ô[39m tests/delta/delta-physics.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/pitch/forensic-rollback.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/symbol/symbol-map-oracle.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/oracle/macro-s-score.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/config.test.ts [2m([22m[2m18 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/runtime/sovereign-live.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/constraints/constraint-compiler-emotion.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/core/forensic-types.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/oracle/calc-judges/arc-progression-evaluator.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/pitch/patch-engine.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/art/anti-doublon-lint-art13.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/temporal/foreshadowing.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32mÔ£ô[39m tests/semantic/emotion-contradiction.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/symbol/emotion-to-imagery.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32mÔ£ô[39m tests/oracle/calc-judges/budget-gate.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+[90mstdout[2m | tests/voice/voice-calibration-raw.test.ts[2m > [22m[2mCALIBRATION: RAW values before normalize ÔÇö V2 range sourcing[2m > [22m[2mdump raw measurements per param per corpus category
+[22m[39m
+ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ NARRATIVE ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+  [1] words=60, sentences=9, paragraphs=3
+      syllableRatio=0.0833 abstractRatio=0.0333 punctRatio=0.0000
+      paraCV=0.1633 avgWords=6.67 avgWordsFiltered=8.14
+  [2] words=60, sentences=6, paragraphs=3
+      syllableRatio=0.1333 abstractRatio=0.0833 punctRatio=0.0000
+      paraCV=0.0000 avgWords=10.00 avgWordsFiltered=10.00
+  [3] words=59, sentences=11, paragraphs=4
+      syllableRatio=0.0169 abstractRatio=0.0339 punctRatio=0.0000
+      paraCV=0.2110 avgWords=5.36 avgWordsFiltered=5.70
+  [4] words=75, sentences=8, paragraphs=3
+      syllableRatio=0.0667 abstractRatio=0.0133 punctRatio=0.0000
+      paraCV=0.1178 avgWords=9.38 avgWordsFiltered=9.38
+  [5] words=75, sentences=13, paragraphs=4
+      syllableRatio=0.0667 abstractRatio=0.0400 punctRatio=0.0000
+      paraCV=0.0874 avgWords=5.77 avgWordsFiltered=6.08
+  [6] words=81, sentences=9, paragraphs=3
+      syllableRatio=0.0617 abstractRatio=0.0370 punctRatio=0.0000
+      paraCV=0.0800 avgWords=9.00 avgWordsFiltered=9.00
+  [7] words=76, sentences=8, paragraphs=3
+      syllableRatio=0.0658 abstractRatio=0.0395 punctRatio=0.0000
+      paraCV=0.1523 avgWords=9.50 avgWordsFiltered=9.50
+
+ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ EXPRESSIVE ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+  [1] words=70, sentences=15, paragraphs=3
+      syllableRatio=0.0857 abstractRatio=0.0571 punctRatio=0.5909
+      paraCV=0.3839 avgWords=4.67 avgWordsFiltered=5.89
+  [2] words=62, sentences=8, paragraphs=3
+      syllableRatio=0.0323 abstractRatio=0.0161 punctRatio=0.5333
+      paraCV=0.3360 avgWords=7.75 avgWordsFiltered=8.29
+
+ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ DRY ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+  [1] words=30, sentences=3, paragraphs=1
+      syllableRatio=0.1667 abstractRatio=0.0667 punctRatio=0.0000
+      paraCV=0.0000 avgWords=10.00 avgWordsFiltered=10.00
+  [2] words=28, sentences=3, paragraphs=1
+      syllableRatio=0.2143 abstractRatio=0.0714 punctRatio=0.0000
+      paraCV=0.0000 avgWords=9.33 avgWordsFiltered=9.33
+
+ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ PERCENTILE SUMMARY (narrative+expressive corpus) ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+  syllableRatio             min=0.0169 P5=0.0169 P25=0.0617 P50=0.0667 P75=0.0833 P95=0.1333 max=0.1333
+  abstractRatio             min=0.0133 P5=0.0133 P25=0.0333 P50=0.0370 P75=0.0400 P95=0.0833 max=0.0833
+  expressivePunctRatio      min=0.0000 P5=0.0000 P25=0.0000 P50=0.0000 P75=0.0000 P95=0.5909 max=0.5909
+  paragraphCV               min=0.0000 P5=0.0000 P25=0.0874 P50=0.1523 P75=0.2110 P95=0.3839 max=0.3839
+  avgWordsPerSentence       min=4.6667 P5=4.6667 P25=5.7692 P50=7.7500 P75=9.3750 P95=10.0000 max=10.0000
+  avgWordsFiltered          min=5.7000 P5=5.7000 P25=6.0833 P50=8.2857 P75=9.3750 P95=10.0000 max=10.0000
+
+ [32mÔ£ô[39m tests/metaphor/dead-metaphor-blacklist.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/voice/voice-calibration-raw.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/microsurgery/style-presets.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/oracle/axes/authenticity.test.ts [2m([22m[2m1 test[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/oracle/s-score.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/validation/damage-gate.test.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32mÔ£ô[39m tests/coupling/rosetta-bridge.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/oracle/scoring-v31.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/benchmark/corpus.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/phantom/phantom-state.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32mÔ£ô[39m tests/oracle/calc-judges/show-tell-detector.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/polish/surgeon-invariants.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32mÔ£ô[39m tests/prose-directive/instruction-toggle-table.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/prose-directive/lot3-instructions.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/phonetic/cacophony-detector.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/oracle/axes/physics-compliance.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32mÔ£ô[39m tests/art/scoring-v31-seal.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32mÔ£ô[39m tests/phonetic/rhythm-variation.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/oracle/axes/anti-cliche.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/oracle/genesis-v2/patch-dsl.test.ts [2m([22m[2m5 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32mÔ£ô[39m tests/pitch/pitch-oracle.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/input/golden-exemplars.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/microsurgery/dry-run-validation.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/input/omega-glossary.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 4[2mms[22m[39m
+ [32mÔ£ô[39m tests/art/anti-doublon-lint-art14.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/authenticity/adversarial-judge-cache.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32mÔ£ô[39m tests/voice/voice-compiler.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32mÔ£ô[39m tests/temporal/temporal-contract.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32mÔ£ô[39m tests/prose-directive/lot2-instructions.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32mÔ£ô[39m tests/calibration/weight-calibrator.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/calibration/calibration-runner.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32mÔ£ô[39m tests/calibration/physics-activation.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/polish/sentence-surgeon-types.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/art/anti-doublon-lint-g04.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32mÔ£ô[39m tests/scoring/dual-scale.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32mÔ£ô[39m tests/constraints/consumer-gate-enforce.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/metaphor/novelty-scorer.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/oracle/axes/temporal-pacing.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+ [32mÔ£ô[39m tests/polish/musical-engine.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/polish/anti-cliche-sweep.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 3[2mms[22m[39m
+ [32mÔ£ô[39m tests/polish/signature-enforcer.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 2[2mms[22m[39m
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39mÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+  OMEGA P1 ROBUSTNESS BENCH v3 ÔÇö Q_REPRO + Q_POWER
+  (6 sc├¿nes ├ù 4 modes ├ù 6 seeds = 144 runs)
+ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+  Model  : qwen3:32b
+  URL    : http://localhost:11434
+  Output : C:\Users\elric\omega-project\packages\sovereign-engine\bench-p1-robustness-v3-results.json
+
+  Modes :
+    M1_baseline ÔÇö baseline directive fixe (contr├┤le, replay R-D.1/v2)
+    M2_adaptive ÔÇö adaptive 3-arg sans gating (replay R-D.1 M2 toxique)
+    M3_gated_A_inline ÔÇö gating inline R-D.1 ÔÇö INTERIOR├ù{silence,intro}ÔåÆbaseline (test Q_REPRO)
+    M_prod_p1 ÔÇö production P1 ÔÇö pickPacingDirective(reg,state,undefined,archetype) 4-arg
+
+  Sc├¿nes :
+    REPRO  fr_interior_maison_enfance  (decl=INTERIOR, detected=INTERIOR)
+    DEEP  fr_interior_veillee_funebre  (decl=INTERIOR, detected=INTERIOR)
+    DEEP  fr_interior_dialogue_interieur  (decl=INTERIOR, detected=INTERIOR)
+    DEEP  fr_interior_meditation_aube  (decl=INTERIOR, detected=INTERIOR)
+    CTRL  fr_cathedral_silence_nef  (decl=CATHEDRAL, detected=CATHEDRAL)
+    CTRL  fr_action_poursuite  (decl=ACTION, detected=SENSORY)
+
+  ÔåÆ [1/144] mode=M1_baseline scene=fr_interior_maison_enfance seed=0
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=0.58 chunks=4 words=2337 dur=70.8s archDet=INTERIOR
+  ÔåÆ [2/144] mode=M1_baseline scene=fr_interior_maison_enfance seed=1
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=8.18 chunks=4 words=2366 dur=72.6s archDet=INTERIOR
+  ÔåÆ [3/144] mode=M1_baseline scene=fr_interior_maison_enfance seed=2
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=1.98 chunks=4 words=2265 dur=69.2s archDet=INTERIOR
+  ÔåÆ [4/144] mode=M1_baseline scene=fr_interior_maison_enfance seed=3
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=4.11 chunks=4 words=2222 dur=67.1s archDet=INTERIOR
+  ÔåÆ [5/144] mode=M1_baseline scene=fr_interior_maison_enfance seed=4
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=4.97 chunks=4 words=2031 dur=61.0s archDet=INTERIOR
+  ÔåÆ [6/144] mode=M1_baseline scene=fr_interior_maison_enfance seed=5
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=4.05 chunks=4 words=2546 dur=80.4s archDet=INTERIOR
+  ÔåÆ [7/144] mode=M1_baseline scene=fr_interior_veillee_funebre seed=0
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=3.89 chunks=4 words=2136 dur=62.5s archDet=INTERIOR
+  ÔåÆ [8/144] mode=M1_baseline scene=fr_interior_veillee_funebre seed=1
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=2.75 chunks=4 words=2212 dur=62.7s archDet=INTERIOR
+  ÔåÆ [9/144] mode=M1_baseline scene=fr_interior_veillee_funebre seed=2
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=3.00 chunks=4 words=2036 dur=59.5s archDet=INTERIOR
+  ÔåÆ [10/144] mode=M1_baseline scene=fr_interior_veillee_funebre seed=3
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=2.14 chunks=4 words=2074 dur=63.1s archDet=INTERIOR
+  ÔåÆ [11/144] mode=M1_baseline scene=fr_interior_veillee_funebre seed=4
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=3.10 chunks=4 words=1850 dur=54.3s archDet=INTERIOR
+  ÔåÆ [12/144] mode=M1_baseline scene=fr_interior_veillee_funebre seed=5
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=3.28 chunks=4 words=2194 dur=60.7s archDet=INTERIOR
+  ÔåÆ [13/144] mode=M1_baseline scene=fr_interior_dialogue_interieur seed=0
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=-1.92 chunks=4 words=2436 dur=67.1s archDet=INTERIOR
+  ÔåÆ [14/144] mode=M1_baseline scene=fr_interior_dialogue_interieur seed=1
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=2.10 chunks=4 words=1884 dur=54.3s archDet=INTERIOR
+  ÔåÆ [15/144] mode=M1_baseline scene=fr_interior_dialogue_interieur seed=2
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=2.51 chunks=4 words=1970 dur=55.4s archDet=INTERIOR
+  ÔåÆ [16/144] mode=M1_baseline scene=fr_interior_dialogue_interieur seed=3
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=2.24 chunks=4 words=1878 dur=52.0s archDet=INTERIOR
+  ÔåÆ [17/144] mode=M1_baseline scene=fr_interior_dialogue_interieur seed=4
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=2.90 chunks=4 words=1889 dur=53.5s archDet=INTERIOR
+  ÔåÆ [18/144] mode=M1_baseline scene=fr_interior_dialogue_interieur seed=5
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=4.08 chunks=4 words=1836 dur=52.3s archDet=INTERIOR
+  ÔåÆ [19/144] mode=M1_baseline scene=fr_interior_meditation_aube seed=0
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=4.97 chunks=4 words=1846 dur=53.3s archDet=INTERIOR
+  ÔåÆ [20/144] mode=M1_baseline scene=fr_interior_meditation_aube seed=1
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=5.21 chunks=4 words=1912 dur=55.1s archDet=INTERIOR
+  ÔåÆ [21/144] mode=M1_baseline scene=fr_interior_meditation_aube seed=2
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=1.31 chunks=4 words=2013 dur=58.5s archDet=INTERIOR
+  ÔåÆ [22/144] mode=M1_baseline scene=fr_interior_meditation_aube seed=3
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=1.64 chunks=4 words=2873 dur=75.8s archDet=INTERIOR
+  ÔåÆ [23/144] mode=M1_baseline scene=fr_interior_meditation_aube seed=4
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=2.51 chunks=4 words=1942 dur=55.3s archDet=INTERIOR
+  ÔåÆ [24/144] mode=M1_baseline scene=fr_interior_meditation_aube seed=5
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=5.19 chunks=4 words=2054 dur=56.5s archDet=INTERIOR
+  ÔåÆ [25/144] mode=M1_baseline scene=fr_cathedral_silence_nef seed=0
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=5.45 chunks=4 words=1938 dur=56.9s archDet=CATHEDRAL
+  ÔåÆ [26/144] mode=M1_baseline scene=fr_cathedral_silence_nef seed=1
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=5.28 chunks=4 words=2328 dur=68.8s archDet=CATHEDRAL
+  ÔåÆ [27/144] mode=M1_baseline scene=fr_cathedral_silence_nef seed=2
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=1.93 chunks=4 words=2428 dur=67.2s archDet=CATHEDRAL
+  ÔåÆ [28/144] mode=M1_baseline scene=fr_cathedral_silence_nef seed=3
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=-0.17 chunks=4 words=2842 dur=82.8s archDet=CATHEDRAL
+  ÔåÆ [29/144] mode=M1_baseline scene=fr_cathedral_silence_nef seed=4
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=4.03 chunks=4 words=1971 dur=57.4s archDet=CATHEDRAL
+  ÔåÆ [30/144] mode=M1_baseline scene=fr_cathedral_silence_nef seed=5
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=3.04 chunks=4 words=2227 dur=66.3s archDet=CATHEDRAL
+  ÔåÆ [31/144] mode=M1_baseline scene=fr_action_poursuite seed=0
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=2.88 chunks=4 words=2145 dur=63.7s archDet=SENSORY
+  ÔåÆ [32/144] mode=M1_baseline scene=fr_action_poursuite seed=1
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=1.88 chunks=4 words=2284 dur=66.2s archDet=SENSORY
+  ÔåÆ [33/144] mode=M1_baseline scene=fr_action_poursuite seed=2
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=3.30 chunks=4 words=2198 dur=65.7s archDet=SENSORY
+  ÔåÆ [34/144] mode=M1_baseline scene=fr_action_poursuite seed=3
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=-0.32 chunks=4 words=2351 dur=69.4s archDet=SENSORY
+  ÔåÆ [35/144] mode=M1_baseline scene=fr_action_poursuite seed=4
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=1.63 chunks=4 words=2167 dur=63.7s archDet=SENSORY
+  ÔåÆ [36/144] mode=M1_baseline scene=fr_action_poursuite seed=5
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=-1.03 chunks=4 words=2260 dur=67.7s archDet=SENSORY
+  ÔåÆ [37/144] mode=M2_adaptive scene=fr_interior_maison_enfance seed=0
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=0.24 chunks=4 words=2611 dur=74.0s archDet=INTERIOR
+  ÔåÆ [38/144] mode=M2_adaptive scene=fr_interior_maison_enfance seed=1
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=4.82 chunks=4 words=2190 dur=64.6s archDet=INTERIOR
+  ÔåÆ [39/144] mode=M2_adaptive scene=fr_interior_maison_enfance seed=2
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=2.87 chunks=4 words=2189 dur=65.1s archDet=INTERIOR
+  ÔåÆ [40/144] mode=M2_adaptive scene=fr_interior_maison_enfance seed=3
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=5.00 chunks=4 words=2236 dur=65.5s archDet=INTERIOR
+  ÔåÆ [41/144] mode=M2_adaptive scene=fr_interior_maison_enfance seed=4
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=3.65 chunks=4 words=2219 dur=66.6s archDet=INTERIOR
+  ÔåÆ [42/144] mode=M2_adaptive scene=fr_interior_maison_enfance seed=5
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=-2.59 chunks=4 words=2718 dur=77.9s archDet=INTERIOR
+  ÔåÆ [43/144] mode=M2_adaptive scene=fr_interior_veillee_funebre seed=0
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=5.32 chunks=4 words=2217 dur=64.3s archDet=INTERIOR
+  ÔåÆ [44/144] mode=M2_adaptive scene=fr_interior_veillee_funebre seed=1
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=3.51 chunks=4 words=2204 dur=64.5s archDet=INTERIOR
+  ÔåÆ [45/144] mode=M2_adaptive scene=fr_interior_veillee_funebre seed=2
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=6.36 chunks=4 words=2198 dur=63.2s archDet=INTERIOR
+  ÔåÆ [46/144] mode=M2_adaptive scene=fr_interior_veillee_funebre seed=3
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=9.39 chunks=4 words=2060 dur=60.4s archDet=INTERIOR
+  ÔåÆ [47/144] mode=M2_adaptive scene=fr_interior_veillee_funebre seed=4
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=7.40 chunks=4 words=2761 dur=82.0s archDet=INTERIOR
+  ÔåÆ [48/144] mode=M2_adaptive scene=fr_interior_veillee_funebre seed=5
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=5.38 chunks=4 words=1985 dur=58.1s archDet=INTERIOR
+  ÔåÆ [49/144] mode=M2_adaptive scene=fr_interior_dialogue_interieur seed=0
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=0.89 chunks=4 words=1962 dur=56.3s archDet=INTERIOR
+  ÔåÆ [50/144] mode=M2_adaptive scene=fr_interior_dialogue_interieur seed=1
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=5.23 chunks=4 words=2115 dur=58.6s archDet=INTERIOR
+  ÔåÆ [51/144] mode=M2_adaptive scene=fr_interior_dialogue_interieur seed=2
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=4.07 chunks=4 words=2090 dur=58.1s archDet=INTERIOR
+  ÔåÆ [52/144] mode=M2_adaptive scene=fr_interior_dialogue_interieur seed=3
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=5.20 chunks=4 words=2001 dur=56.1s archDet=INTERIOR
+  ÔåÆ [53/144] mode=M2_adaptive scene=fr_interior_dialogue_interieur seed=4
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=2.72 chunks=4 words=1972 dur=55.6s archDet=INTERIOR
+  ÔåÆ [54/144] mode=M2_adaptive scene=fr_interior_dialogue_interieur seed=5
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=4.68 chunks=4 words=2056 dur=57.3s archDet=INTERIOR
+  ÔåÆ [55/144] mode=M2_adaptive scene=fr_interior_meditation_aube seed=0
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=2.70 chunks=4 words=3898 dur=91.8s archDet=INTERIOR
+  ÔåÆ [56/144] mode=M2_adaptive scene=fr_interior_meditation_aube seed=1
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=3.63 chunks=4 words=1901 dur=53.5s archDet=INTERIOR
+  ÔåÆ [57/144] mode=M2_adaptive scene=fr_interior_meditation_aube seed=2
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=2.38 chunks=4 words=2774 dur=81.0s archDet=INTERIOR
+  ÔåÆ [58/144] mode=M2_adaptive scene=fr_interior_meditation_aube seed=3
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=3.04 chunks=4 words=2025 dur=58.9s archDet=INTERIOR
+  ÔåÆ [59/144] mode=M2_adaptive scene=fr_interior_meditation_aube seed=4
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=1.99 chunks=4 words=1976 dur=57.8s archDet=INTERIOR
+  ÔåÆ [60/144] mode=M2_adaptive scene=fr_interior_meditation_aube seed=5
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=2.66 chunks=4 words=1939 dur=54.4s archDet=INTERIOR
+  ÔåÆ [61/144] mode=M2_adaptive scene=fr_cathedral_silence_nef seed=0
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=2.75 chunks=4 words=1938 dur=58.9s archDet=CATHEDRAL
+  ÔåÆ [62/144] mode=M2_adaptive scene=fr_cathedral_silence_nef seed=1
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=2.27 chunks=4 words=2210 dur=63.6s archDet=CATHEDRAL
+  ÔåÆ [63/144] mode=M2_adaptive scene=fr_cathedral_silence_nef seed=2
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=3.21 chunks=4 words=2032 dur=59.6s archDet=CATHEDRAL
+  ÔåÆ [64/144] mode=M2_adaptive scene=fr_cathedral_silence_nef seed=3
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=8.10 chunks=4 words=2970 dur=81.2s archDet=CATHEDRAL
+  ÔåÆ [65/144] mode=M2_adaptive scene=fr_cathedral_silence_nef seed=4
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=2.46 chunks=4 words=2189 dur=63.6s archDet=CATHEDRAL
+  ÔåÆ [66/144] mode=M2_adaptive scene=fr_cathedral_silence_nef seed=5
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=1.24 chunks=4 words=2385 dur=68.5s archDet=CATHEDRAL
+  ÔåÆ [67/144] mode=M2_adaptive scene=fr_action_poursuite seed=0
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=1.41 chunks=4 words=2881 dur=84.1s archDet=SENSORY
+  ÔåÆ [68/144] mode=M2_adaptive scene=fr_action_poursuite seed=1
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=0.29 chunks=4 words=2236 dur=64.7s archDet=SENSORY
+  ÔåÆ [69/144] mode=M2_adaptive scene=fr_action_poursuite seed=2
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=-1.66 chunks=4 words=2199 dur=65.9s archDet=SENSORY
+  ÔåÆ [70/144] mode=M2_adaptive scene=fr_action_poursuite seed=3
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=0.83 chunks=4 words=1920 dur=57.9s archDet=SENSORY
+  ÔåÆ [71/144] mode=M2_adaptive scene=fr_action_poursuite seed=4
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=0.41 chunks=4 words=1951 dur=57.4s archDet=SENSORY
+  ÔåÆ [72/144] mode=M2_adaptive scene=fr_action_poursuite seed=5
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=2.09 chunks=4 words=2309 dur=67.1s archDet=SENSORY
+  ÔåÆ [73/144] mode=M3_gated_A_inline scene=fr_interior_maison_enfance seed=0
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=2.15 chunks=4 words=2035 dur=60.6s archDet=INTERIOR
+  ÔåÆ [74/144] mode=M3_gated_A_inline scene=fr_interior_maison_enfance seed=1
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=2.31 chunks=4 words=2325 dur=68.1s archDet=INTERIOR
+  ÔåÆ [75/144] mode=M3_gated_A_inline scene=fr_interior_maison_enfance seed=2
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=5.37 chunks=4 words=2197 dur=66.1s archDet=INTERIOR
+  ÔåÆ [76/144] mode=M3_gated_A_inline scene=fr_interior_maison_enfance seed=3
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=5.58 chunks=4 words=2204 dur=63.9s archDet=INTERIOR
+  ÔåÆ [77/144] mode=M3_gated_A_inline scene=fr_interior_maison_enfance seed=4
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=4.82 chunks=4 words=2543 dur=72.2s archDet=INTERIOR
+  ÔåÆ [78/144] mode=M3_gated_A_inline scene=fr_interior_maison_enfance seed=5
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=4.07 chunks=4 words=2122 dur=64.7s archDet=INTERIOR
+  ÔåÆ [79/144] mode=M3_gated_A_inline scene=fr_interior_veillee_funebre seed=0
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=1.13 chunks=4 words=2229 dur=62.0s archDet=INTERIOR
+  ÔåÆ [80/144] mode=M3_gated_A_inline scene=fr_interior_veillee_funebre seed=1
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=4.83 chunks=4 words=2083 dur=60.1s archDet=INTERIOR
+  ÔåÆ [81/144] mode=M3_gated_A_inline scene=fr_interior_veillee_funebre seed=2
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=2.67 chunks=4 words=2054 dur=59.0s archDet=INTERIOR
+  ÔåÆ [82/144] mode=M3_gated_A_inline scene=fr_interior_veillee_funebre seed=3
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=5.37 chunks=4 words=2143 dur=61.4s archDet=INTERIOR
+  ÔåÆ [83/144] mode=M3_gated_A_inline scene=fr_interior_veillee_funebre seed=4
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=2.73 chunks=4 words=2092 dur=62.5s archDet=INTERIOR
+  ÔåÆ [84/144] mode=M3_gated_A_inline scene=fr_interior_veillee_funebre seed=5
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=3.84 chunks=4 words=2194 dur=63.3s archDet=INTERIOR
+  ÔåÆ [85/144] mode=M3_gated_A_inline scene=fr_interior_dialogue_interieur seed=0
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=1.13 chunks=4 words=2232 dur=63.6s archDet=INTERIOR
+  ÔåÆ [86/144] mode=M3_gated_A_inline scene=fr_interior_dialogue_interieur seed=1
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=0.56 chunks=4 words=2123 dur=58.1s archDet=INTERIOR
+  ÔåÆ [87/144] mode=M3_gated_A_inline scene=fr_interior_dialogue_interieur seed=2
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=1.66 chunks=4 words=2060 dur=57.9s archDet=INTERIOR
+  ÔåÆ [88/144] mode=M3_gated_A_inline scene=fr_interior_dialogue_interieur seed=3
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=2.61 chunks=4 words=1970 dur=56.8s archDet=INTERIOR
+  ÔåÆ [89/144] mode=M3_gated_A_inline scene=fr_interior_dialogue_interieur seed=4
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=1.91 chunks=4 words=2098 dur=60.6s archDet=INTERIOR
+  ÔåÆ [90/144] mode=M3_gated_A_inline scene=fr_interior_dialogue_interieur seed=5
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=-0.02 chunks=4 words=2109 dur=59.9s archDet=INTERIOR
+  ÔåÆ [91/144] mode=M3_gated_A_inline scene=fr_interior_meditation_aube seed=0
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=5.47 chunks=4 words=1912 dur=55.9s archDet=INTERIOR
+  ÔåÆ [92/144] mode=M3_gated_A_inline scene=fr_interior_meditation_aube seed=1
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=3.30 chunks=4 words=1971 dur=59.0s archDet=INTERIOR
+  ÔåÆ [93/144] mode=M3_gated_A_inline scene=fr_interior_meditation_aube seed=2
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=6.71 chunks=4 words=1977 dur=57.7s archDet=INTERIOR
+  ÔåÆ [94/144] mode=M3_gated_A_inline scene=fr_interior_meditation_aube seed=3
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=6.31 chunks=4 words=1924 dur=55.0s archDet=INTERIOR
+  ÔåÆ [95/144] mode=M3_gated_A_inline scene=fr_interior_meditation_aube seed=4
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=3.48 chunks=4 words=1911 dur=55.7s archDet=INTERIOR
+  ÔåÆ [96/144] mode=M3_gated_A_inline scene=fr_interior_meditation_aube seed=5
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=7.26 chunks=4 words=1954 dur=57.2s archDet=INTERIOR
+  ÔåÆ [97/144] mode=M3_gated_A_inline scene=fr_cathedral_silence_nef seed=0
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=1.99 chunks=4 words=2926 dur=85.8s archDet=CATHEDRAL
+  ÔåÆ [98/144] mode=M3_gated_A_inline scene=fr_cathedral_silence_nef seed=1
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=1.06 chunks=4 words=2231 dur=63.7s archDet=CATHEDRAL
+  ÔåÆ [99/144] mode=M3_gated_A_inline scene=fr_cathedral_silence_nef seed=2
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=3.77 chunks=4 words=2273 dur=63.8s archDet=CATHEDRAL
+  ÔåÆ [100/144] mode=M3_gated_A_inline scene=fr_cathedral_silence_nef seed=3
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=1.01 chunks=4 words=2846 dur=76.6s archDet=CATHEDRAL
+  ÔåÆ [101/144] mode=M3_gated_A_inline scene=fr_cathedral_silence_nef seed=4
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=2.23 chunks=4 words=2240 dur=64.6s archDet=CATHEDRAL
+  ÔåÆ [102/144] mode=M3_gated_A_inline scene=fr_cathedral_silence_nef seed=5
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=0.95 chunks=4 words=2333 dur=65.3s archDet=CATHEDRAL
+  ÔåÆ [103/144] mode=M3_gated_A_inline scene=fr_action_poursuite seed=0
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=2.13 chunks=4 words=2334 dur=67.5s archDet=SENSORY
+  ÔåÆ [104/144] mode=M3_gated_A_inline scene=fr_action_poursuite seed=1
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=-1.16 chunks=4 words=2062 dur=62.5s archDet=SENSORY
+  ÔåÆ [105/144] mode=M3_gated_A_inline scene=fr_action_poursuite seed=2
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=1.46 chunks=4 words=1971 dur=60.2s archDet=SENSORY
+  ÔåÆ [106/144] mode=M3_gated_A_inline scene=fr_action_poursuite seed=3
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=-0.50 chunks=4 words=2082 dur=65.2s archDet=SENSORY
+  ÔåÆ [107/144] mode=M3_gated_A_inline scene=fr_action_poursuite seed=4
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=1.18 chunks=4 words=2110 dur=64.8s archDet=SENSORY
+  ÔåÆ [108/144] mode=M3_gated_A_inline scene=fr_action_poursuite seed=5
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=2.37 chunks=4 words=2037 dur=60.8s archDet=SENSORY
+  ÔåÆ [109/144] mode=M_prod_p1 scene=fr_interior_maison_enfance seed=0
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=5.38 chunks=4 words=2167 dur=64.8s archDet=INTERIOR
+  ÔåÆ [110/144] mode=M_prod_p1 scene=fr_interior_maison_enfance seed=1
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=2.29 chunks=4 words=2143 dur=62.6s archDet=INTERIOR
+  ÔåÆ [111/144] mode=M_prod_p1 scene=fr_interior_maison_enfance seed=2
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=4.10 chunks=4 words=2187 dur=64.5s archDet=INTERIOR
+  ÔåÆ [112/144] mode=M_prod_p1 scene=fr_interior_maison_enfance seed=3
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=3.75 chunks=4 words=2130 dur=61.9s archDet=INTERIOR
+  ÔåÆ [113/144] mode=M_prod_p1 scene=fr_interior_maison_enfance seed=4
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=0.21 chunks=4 words=2186 dur=64.1s archDet=INTERIOR
+  ÔåÆ [114/144] mode=M_prod_p1 scene=fr_interior_maison_enfance seed=5
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=4.33 chunks=4 words=2259 dur=65.2s archDet=INTERIOR
+  ÔåÆ [115/144] mode=M_prod_p1 scene=fr_interior_veillee_funebre seed=0
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=3.34 chunks=4 words=2331 dur=65.2s archDet=INTERIOR
+  ÔåÆ [116/144] mode=M_prod_p1 scene=fr_interior_veillee_funebre seed=1
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=2.64 chunks=4 words=2123 dur=61.8s archDet=INTERIOR
+  ÔåÆ [117/144] mode=M_prod_p1 scene=fr_interior_veillee_funebre seed=2
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=4.18 chunks=4 words=1996 dur=58.3s archDet=INTERIOR
+  ÔåÆ [118/144] mode=M_prod_p1 scene=fr_interior_veillee_funebre seed=3
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=1.72 chunks=4 words=2204 dur=62.2s archDet=INTERIOR
+  ÔåÆ [119/144] mode=M_prod_p1 scene=fr_interior_veillee_funebre seed=4
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=2.18 chunks=4 words=2213 dur=64.2s archDet=INTERIOR
+  ÔåÆ [120/144] mode=M_prod_p1 scene=fr_interior_veillee_funebre seed=5
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=1.94 chunks=4 words=2158 dur=62.2s archDet=INTERIOR
+  ÔåÆ [121/144] mode=M_prod_p1 scene=fr_interior_dialogue_interieur seed=0
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=1.57 chunks=4 words=1874 dur=53.0s archDet=INTERIOR
+  ÔåÆ [122/144] mode=M_prod_p1 scene=fr_interior_dialogue_interieur seed=1
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=0.69 chunks=4 words=2658 dur=73.2s archDet=INTERIOR
+  ÔåÆ [123/144] mode=M_prod_p1 scene=fr_interior_dialogue_interieur seed=2
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=0.57 chunks=4 words=2307 dur=62.5s archDet=INTERIOR
+  ÔåÆ [124/144] mode=M_prod_p1 scene=fr_interior_dialogue_interieur seed=3
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=2.14 chunks=4 words=2552 dur=79.1s archDet=INTERIOR
+  ÔåÆ [125/144] mode=M_prod_p1 scene=fr_interior_dialogue_interieur seed=4
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=0.41 chunks=4 words=1983 dur=56.1s archDet=INTERIOR
+  ÔåÆ [126/144] mode=M_prod_p1 scene=fr_interior_dialogue_interieur seed=5
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=2.75 chunks=4 words=2077 dur=58.1s archDet=INTERIOR
+  ÔåÆ [127/144] mode=M_prod_p1 scene=fr_interior_meditation_aube seed=0
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=5.24 chunks=4 words=1970 dur=56.2s archDet=INTERIOR
+  ÔåÆ [128/144] mode=M_prod_p1 scene=fr_interior_meditation_aube seed=1
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=3.75 chunks=4 words=2718 dur=73.7s archDet=INTERIOR
+  ÔåÆ [129/144] mode=M_prod_p1 scene=fr_interior_meditation_aube seed=2
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=4.13 chunks=4 words=1968 dur=56.1s archDet=INTERIOR
+  ÔåÆ [130/144] mode=M_prod_p1 scene=fr_interior_meditation_aube seed=3
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=5.99 chunks=4 words=1927 dur=55.7s archDet=INTERIOR
+  ÔåÆ [131/144] mode=M_prod_p1 scene=fr_interior_meditation_aube seed=4
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=5.60 chunks=4 words=1928 dur=55.5s archDet=INTERIOR
+  ÔåÆ [132/144] mode=M_prod_p1 scene=fr_interior_meditation_aube seed=5
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=6.15 chunks=4 words=1933 dur=57.1s archDet=INTERIOR
+  ÔåÆ [133/144] mode=M_prod_p1 scene=fr_cathedral_silence_nef seed=0
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=0.78 chunks=4 words=2854 dur=80.5s archDet=CATHEDRAL
+  ÔåÆ [134/144] mode=M_prod_p1 scene=fr_cathedral_silence_nef seed=1
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=1.01 chunks=4 words=2104 dur=59.9s archDet=CATHEDRAL
+  ÔåÆ [135/144] mode=M_prod_p1 scene=fr_cathedral_silence_nef seed=2
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=0.75 chunks=4 words=1979 dur=58.9s archDet=CATHEDRAL
+  ÔåÆ [136/144] mode=M_prod_p1 scene=fr_cathedral_silence_nef seed=3
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=3.64 chunks=4 words=2468 dur=71.8s archDet=CATHEDRAL
+  ÔåÆ [137/144] mode=M_prod_p1 scene=fr_cathedral_silence_nef seed=4
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=2.19 chunks=4 words=2228 dur=67.8s archDet=CATHEDRAL
+  ÔåÆ [138/144] mode=M_prod_p1 scene=fr_cathedral_silence_nef seed=5
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=1.86 chunks=4 words=2138 dur=64.0s archDet=CATHEDRAL
+  ÔåÆ [139/144] mode=M_prod_p1 scene=fr_action_poursuite seed=0
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=3.24 chunks=4 words=2205 dur=65.6s archDet=SENSORY
+  ÔåÆ [140/144] mode=M_prod_p1 scene=fr_action_poursuite seed=1
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=0.49 chunks=4 words=2126 dur=66.2s archDet=SENSORY
+  ÔåÆ [141/144] mode=M_prod_p1 scene=fr_action_poursuite seed=2
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=0.69 chunks=4 words=2714 dur=80.3s archDet=SENSORY
+  ÔåÆ [142/144] mode=M_prod_p1 scene=fr_action_poursuite seed=3
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=-2.00 chunks=4 words=2109 dur=63.3s archDet=SENSORY
+  ÔåÆ [143/144] mode=M_prod_p1 scene=fr_action_poursuite seed=4
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=0.37 chunks=4 words=2210 dur=64.9s archDet=SENSORY
+  ÔåÆ [144/144] mode=M_prod_p1 scene=fr_action_poursuite seed=5
+
+[90mstdout[2m | tests/bench/ncr-m2-v4-fusion.test.ts
+[22m[39m      status=ok score=0.85 chunks=4 words=2215 dur=65.8s archDet=SENSORY
+
+ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+  FINAL VERDICT : FAIL
+ÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉÔòÉ
+  Ô£ù FAIL  G1_REPRO_R_D_1                   1.719 >= 3.000
+  Ô£ù FAIL  G2_POWER_DEEP                    -1.198 >= 1.000
+  Ô£ô PASS  G3_SANITY_GATING                 1.000 >= 0.950
+  Ô£ô PASS  G4_EQUIV_INLINE_PROD             1.000 == 1.000
+  Ô£ô PASS  G5_CONTROL_NO_GATING             0.000 == 0.000
+  Ô£ô PASS  G6_REPRODUCIBILITY_BASELINE      2.757 <= 3.000
+
+  Report : C:\Users\elric\omega-project\packages\sovereign-engine\bench-p1-robustness-v3-results-report.md
+  JSON   : C:\Users\elric\omega-project\packages\sovereign-engine\bench-p1-robustness-v3-results.json
+
+
+ [31mÔØ»[39m tests/bench/ncr-m2-v4-fusion.test.ts [2m([22m[2m49 tests[22m[2m | [22m[31m15 failed[39m[2m)[22m[32m 15[2mms[22m[39m
+[31m     [31m├ù[31m retourne exactement 4 cl├®s {num_predict, seed, temperature, top_p}[39m[32m 5[2mms[22m[39m
+[31m     [31m├ù[31m valeurs scell├®es v3 (num_predict=2048, temperature=0.8, top_p=0.92)[39m[32m 0[2mms[22m[39m
+[31m     [31m├ù[31m AUCUNE cl├® penalty en mode OFF[39m[32m 0[2mms[22m[39m
+[31m     [31m├ù[31m retourne exactement 7 cl├®s (4 base + 3 penalty)[39m[32m 0[2mms[22m[39m
+[31m     [31m├ù[31m valeurs penalty verbatim P8-FIX (repeat_penalty=1.4, frequency_penalty=0.6, repeat_last_n=256)[39m[32m 0[2mms[22m[39m
+[31m     [31m├ù[31m pr├®serve base (num_predict=2048, temperature=0.8, top_p=0.92, seed passthrough)[39m[32m 0[2mms[22m[39m
+[31m     [31m├ù[31m hash(OFF) !== hash(ON) pour m├¬me seed (preuve instrumentation)[39m[32m 0[2mms[22m[39m
+[31m     [31m├ù[31m hash stable inter-call OFF (d├®terminisme)[39m[32m 1[2mms[22m[39m
+[31m     [31m├ù[31m hash stable inter-call ON (d├®terminisme)[39m[32m 0[2mms[22m[39m
+     [32mÔ£ô[39m length === 42 (┬º3.3 scell├®e)[32m 0[2mms[22m[39m
+     [32mÔ£ô[39m indices 1..42 dans l'ordre sans trou[32m 0[2mms[22m[39m
+     [32mÔ£ô[39m indices uniques (Set size === 42)[32m 0[2mms[22m[39m
+     [32mÔ£ô[39m total OFF = 12 (pair-matched REPRO M2 ├ù 2 sc├¿nes ├ù 6 seeds)[32m 0[2mms[22m[39m
+     [32mÔ£ô[39m total ON = 30 (12 pair M2 + 12 M_prod REPRO + 6 CTRL)[32m 0[2mms[22m[39m
+     [32mÔ£ô[39m OFF + ON = 42 (couverture totale)[32m 0[2mms[22m[39m
+     [32mÔ£ô[39m REPRO = 36 (2 sc├¿nes ├ù (12 M2 pair + 6 M_prod ON))[32m 0[2mms[22m[39m
+     [32mÔ£ô[39m CTRL = 6 (3 seeds ├ù 2 modes ON)[32m 0[2mms[22m[39m
+     [32mÔ£ô[39m REPRO seeds set = {42, 123, 456, 789, 1024, 2048}[32m 0[2mms[22m[39m
+     [32mÔ£ô[39m CTRL seeds set = {42, 123, 456}[32m 0[2mms[22m[39m
+     [32mÔ£ô[39m positions 1..12 ÔÇö sc├¿ne = fr_interior_maison_enfance[32m 0[2mms[22m[39m
+     [32mÔ£ô[39m alternance OFF/ON pair-matched (positions impaires=OFF, paires=ON)[32m 0[2mms[22m[39m
+     [32mÔ£ô[39m seeds dans l'ordre [42,42, 123,123, 456,456, 789,789, 1024,1024, 2048,2048][32m 0[2mms[22m[39m
+     [32mÔ£ô[39m positions 13..18 ÔÇö sc├¿ne=maison_enfance, mode=M_prod_p1, condition=ON[32m 0[2mms[22m[39m
+     [32mÔ£ô[39m seeds dans l'ordre [42, 123, 456, 789, 1024, 2048][32m 0[2mms[22m[39m
+     [32mÔ£ô[39m positions 19..30 ÔÇö sc├¿ne=veillee_funebre, mode=M2_adaptive[32m 0[2mms[22m[39m
+     [32mÔ£ô[39m alternance OFF/ON pair-matched[32m 0[2mms[22m[39m
+     [32mÔ£ô[39m seeds dans l'ordre [42,42, 123,123, 456,456, 789,789, 1024,1024, 2048,2048][32m 0[2mms[22m[39m
+     [32mÔ£ô[39m positions 31..36 ÔÇö sc├¿ne=veillee_funebre, mode=M_prod_p1, condition=ON[32m 0[2mms[22m[39m
+     [32mÔ£ô[39m seeds dans l'ordre [42, 123, 456, 789, 1024, 2048][32m 0[2mms[22m[39m
+     [32mÔ£ô[39m positions 37..39 ÔÇö sc├¿ne=meditation_aube, mode=M2_adaptive, condition=ON, role=CTRL[32m 0[2mms[22m[39m
+     [32mÔ£ô[39m seeds [42, 123, 456][32m 0[2mms[22m[39m
+     [32mÔ£ô[39m positions 40..42 ÔÇö sc├¿ne=meditation_aube, mode=M_prod_p1, condition=ON, role=CTRL[32m 0[2mms[22m[39m
+     [32mÔ£ô[39m seeds [42, 123, 456][32m 0[2mms[22m[39m
+     [32mÔ£ô[39m exactement 2 modes[32m 0[2mms[22m[39m
+     [32mÔ£ô[39m ids = {M2_adaptive, M_prod_p1}[32m 0[2mms[22m[39m
+     [32mÔ£ô[39m exactement 3 sc├¿nes[32m 0[2mms[22m[39m
+     [32mÔ£ô[39m 2 REPRO + 1 CTRL[32m 0[2mms[22m[39m
+     [32mÔ£ô[39m toutes sc├¿nes lang=fr et archetype=INTERIOR[32m 0[2mms[22m[39m
+     [32mÔ£ô[39m scene ids = {maison_enfance, veillee_funebre, meditation_aube}[32m 0[2mms[22m[39m
+     [32mÔ£ô[39m tous scenes r├®f├®renc├®s dans V4_SEQUENCE existent dans SCENES_V4[32m 0[2mms[22m[39m
+     [32mÔ£ô[39m tous modes r├®f├®renc├®s dans V4_SEQUENCE existent dans MODES_V4[32m 0[2mms[22m[39m
+     [32mÔ£ô[39m conditions restreintes ├á {OFF, ON}[32m 1[2mms[22m[39m
+     [32mÔ£ô[39m roles restreints ├á {REPRO, CTRL}[32m 1[2mms[22m[39m
+[31m     [31m├ù[31m pour chaque seed REPRO, hash(seed,OFF) !== hash(seed,ON)[39m[32m 0[2mms[22m[39m
+[31m     [31m├ù[31m 12 hashes OFF distincts (1 par seed ├ù 2 sc├¿nes ÔÇö mais seed-agnostic ÔåÆ 6 uniques)[39m[32m 0[2mms[22m[39m
+[31m     [31m├ù[31m hash ON identique M2 vs M_prod pour m├¬me seed (options ne d├®pendent pas du mode)[39m[32m 0[2mms[22m[39m
+[31m     [31m├ù[31m texte unique ÔåÆ score faible (<0.15)[39m[32m 0[2mms[22m[39m
+[31m     [31m├ù[31m texte r├®p├®titif ÔåÆ score ├®lev├® (>0.3)[39m[32m 0[2mms[22m[39m
+[31m     [31m├ù[31m retour toujours dans [0, 1][39m[32m 0[2mms[22m[39m
+
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ» Failed Tests 16 ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»
+
+ FAIL  tests/bench/ncr-m2-v4-fusion.test.ts > V4 FUSION ÔÇö A.1 : buildOllamaOptions OFF (T1 bytes-equivalence v3) > retourne exactement 4 cl├®s {num_predict, seed, temperature, top_p}
+TypeError: (0 , __vite_ssr_import_2__.buildOllamaOptions) is not a function
+ ÔØ» tests/bench/ncr-m2-v4-fusion.test.ts:87:18
+     85| describe('V4 FUSION ÔÇö A.1 : buildOllamaOptions OFF (T1 bytes-equivalenÔÇª
+     86|   it('retourne exactement 4 cl├®s {num_predict, seed, temperature, top_ÔÇª
+     87|     const opts = buildOllamaOptions(42, false);
+       |                  ^
+     88|     expect(Object.keys(opts).sort()).toEqual([
+     89|       'num_predict',
+
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»[1/16]ÔÄ»
+
+ FAIL  tests/bench/ncr-m2-v4-fusion.test.ts > V4 FUSION ÔÇö A.1 : buildOllamaOptions OFF (T1 bytes-equivalence v3) > valeurs scell├®es v3 (num_predict=2048, temperature=0.8, top_p=0.92)
+TypeError: (0 , __vite_ssr_import_2__.buildOllamaOptions) is not a function
+ ÔØ» tests/bench/ncr-m2-v4-fusion.test.ts:97:18
+     95| 
+     96|   it('valeurs scell├®es v3 (num_predict=2048, temperature=0.8, top_p=0.ÔÇª
+     97|     const opts = buildOllamaOptions(42, false);
+       |                  ^
+     98|     expect(opts).toEqual({
+     99|       num_predict: 2048,
+
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»[2/16]ÔÄ»
+
+ FAIL  tests/bench/ncr-m2-v4-fusion.test.ts > V4 FUSION ÔÇö A.1 : buildOllamaOptions OFF (T1 bytes-equivalence v3) > AUCUNE cl├® penalty en mode OFF
+TypeError: (0 , __vite_ssr_import_2__.buildOllamaOptions) is not a function
+ ÔØ» tests/bench/ncr-m2-v4-fusion.test.ts:107:18
+    105| 
+    106|   it('AUCUNE cl├® penalty en mode OFF', () => {
+    107|     const opts = buildOllamaOptions(42, false);
+       |                  ^
+    108|     expect(opts).not.toHaveProperty('frequency_penalty');
+    109|     expect(opts).not.toHaveProperty('repeat_penalty');
+
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»[3/16]ÔÄ»
+
+ FAIL  tests/bench/ncr-m2-v4-fusion.test.ts > V4 FUSION ÔÇö A.2 : buildOllamaOptions ON (T2 bytes-equivalence v3) > retourne exactement 7 cl├®s (4 base + 3 penalty)
+TypeError: (0 , __vite_ssr_import_2__.buildOllamaOptions) is not a function
+ ÔØ» tests/bench/ncr-m2-v4-fusion.test.ts:116:18
+    114| describe('V4 FUSION ÔÇö A.2 : buildOllamaOptions ON (T2 bytes-equivalencÔÇª
+    115|   it('retourne exactement 7 cl├®s (4 base + 3 penalty)', () => {
+    116|     const opts = buildOllamaOptions(42, true);
+       |                  ^
+    117|     expect(Object.keys(opts).sort()).toEqual([
+    118|       'frequency_penalty',
+
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»[4/16]ÔÄ»
+
+ FAIL  tests/bench/ncr-m2-v4-fusion.test.ts > V4 FUSION ÔÇö A.2 : buildOllamaOptions ON (T2 bytes-equivalence v3) > valeurs penalty verbatim P8-FIX (repeat_penalty=1.4, frequency_penalty=0.6, repeat_last_n=256)
+TypeError: (0 , __vite_ssr_import_2__.buildOllamaOptions) is not a function
+ ÔØ» tests/bench/ncr-m2-v4-fusion.test.ts:129:18
+    127| 
+    128|   it('valeurs penalty verbatim P8-FIX (repeat_penalty=1.4, frequency_pÔÇª
+    129|     const opts = buildOllamaOptions(42, true);
+       |                  ^
+    130|     expect(opts.repeat_penalty).toBe(1.4);
+    131|     expect(opts.frequency_penalty).toBe(0.6);
+
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»[5/16]ÔÄ»
+
+ FAIL  tests/bench/ncr-m2-v4-fusion.test.ts > V4 FUSION ÔÇö A.2 : buildOllamaOptions ON (T2 bytes-equivalence v3) > pr├®serve base (num_predict=2048, temperature=0.8, top_p=0.92, seed passthrough)
+TypeError: (0 , __vite_ssr_import_2__.buildOllamaOptions) is not a function
+ ÔØ» tests/bench/ncr-m2-v4-fusion.test.ts:136:18
+    134| 
+    135|   it('pr├®serve base (num_predict=2048, temperature=0.8, top_p=0.92, seÔÇª
+    136|     const opts = buildOllamaOptions(17, true);
+       |                  ^
+    137|     expect(opts.num_predict).toBe(2048);
+    138|     expect(opts.seed).toBe(17);
+
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»[6/16]ÔÄ»
+
+ FAIL  tests/bench/ncr-m2-v4-fusion.test.ts > V4 FUSION ÔÇö A.3/A.4/A.5 : hashOptions divergence + stabilit├® > hash(OFF) !== hash(ON) pour m├¬me seed (preuve instrumentation)
+TypeError: (0 , __vite_ssr_import_2__.buildOllamaOptions) is not a function
+ ÔØ» tests/bench/ncr-m2-v4-fusion.test.ts:146:29
+    144| describe('V4 FUSION ÔÇö A.3/A.4/A.5 : hashOptions divergence + stabilit├®ÔÇª
+    145|   it('hash(OFF) !== hash(ON) pour m├¬me seed (preuve instrumentation)',ÔÇª
+    146|     const off = hashOptions(buildOllamaOptions(42, false));
+       |                             ^
+    147|     const on = hashOptions(buildOllamaOptions(42, true));
+    148|     expect(off).not.toBe(on);
+
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»[7/16]ÔÄ»
+
+ FAIL  tests/bench/ncr-m2-v4-fusion.test.ts > V4 FUSION ÔÇö A.3/A.4/A.5 : hashOptions divergence + stabilit├® > hash stable inter-call OFF (d├®terminisme)
+TypeError: (0 , __vite_ssr_import_2__.buildOllamaOptions) is not a function
+ ÔØ» tests/bench/ncr-m2-v4-fusion.test.ts:154:27
+    152| 
+    153|   it('hash stable inter-call OFF (d├®terminisme)', () => {
+    154|     const a = hashOptions(buildOllamaOptions(42, false));
+       |                           ^
+    155|     const b = hashOptions(buildOllamaOptions(42, false));
+    156|     expect(a).toBe(b);
+
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»[8/16]ÔÄ»
+
+ FAIL  tests/bench/ncr-m2-v4-fusion.test.ts > V4 FUSION ÔÇö A.3/A.4/A.5 : hashOptions divergence + stabilit├® > hash stable inter-call ON (d├®terminisme)
+TypeError: (0 , __vite_ssr_import_2__.buildOllamaOptions) is not a function
+ ÔØ» tests/bench/ncr-m2-v4-fusion.test.ts:160:27
+    158| 
+    159|   it('hash stable inter-call ON (d├®terminisme)', () => {
+    160|     const a = hashOptions(buildOllamaOptions(42, true));
+       |                           ^
+    161|     const b = hashOptions(buildOllamaOptions(42, true));
+    162|     expect(a).toBe(b);
+
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»[9/16]ÔÄ»
+
+ FAIL  tests/bench/ncr-m2-v4-fusion.test.ts > V4 FUSION ÔÇö E.1 : hash OFF distinct de hash ON par seed (T1 anchor) > pour chaque seed REPRO, hash(seed,OFF) !== hash(seed,ON)
+TypeError: (0 , __vite_ssr_import_2__.buildOllamaOptions) is not a function
+ ÔØ» tests/bench/ncr-m2-v4-fusion.test.ts:454:32
+    452|   it('pour chaque seed REPRO, hash(seed,OFF) !== hash(seed,ON)', () =>ÔÇª
+    453|     for (const seed of SEEDS_REPRO_EXPECTED) {
+    454|       const hOff = hashOptions(buildOllamaOptions(seed, false));
+       |                                ^
+    455|       const hOn = hashOptions(buildOllamaOptions(seed, true));
+    456|       expect(hOff).not.toBe(hOn);
+
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»[10/16]ÔÄ»
+
+ FAIL  tests/bench/ncr-m2-v4-fusion.test.ts > V4 FUSION ÔÇö E.1 : hash OFF distinct de hash ON par seed (T1 anchor) > 12 hashes OFF distincts (1 par seed ├ù 2 sc├¿nes ÔÇö mais seed-agnostic ÔåÆ 6 uniques)
+TypeError: (0 , __vite_ssr_import_2__.buildOllamaOptions) is not a function
+ ÔØ» tests/bench/ncr-m2-v4-fusion.test.ts:464:51
+    462|     // ÔåÆ 6 seeds distincts ├ù OFF ÔåÆ 6 hashes uniques
+    463|     const hashes = new Set(
+    464|       SEEDS_REPRO_EXPECTED.map((s) => hashOptions(buildOllamaOptions(sÔÇª
+       |                                                   ^
+    465|     );
+    466|     expect(hashes.size).toBe(6);
+ ÔØ» tests/bench/ncr-m2-v4-fusion.test.ts:464:28
+
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»[11/16]ÔÄ»
+
+ FAIL  tests/bench/ncr-m2-v4-fusion.test.ts > V4 FUSION ÔÇö E.2 : hash ON stable cross-mode (drift=0 anchor T2) > hash ON identique M2 vs M_prod pour m├¬me seed (options ne d├®pendent pas du mode)
+TypeError: (0 , __vite_ssr_import_2__.buildOllamaOptions) is not a function
+ ÔØ» tests/bench/ncr-m2-v4-fusion.test.ts:475:31
+    473|     // Donc hash ON est identique quel que soit le mode du run.
+    474|     for (const seed of SEEDS_REPRO_EXPECTED) {
+    475|       const hM2 = hashOptions(buildOllamaOptions(seed, true));
+       |                               ^
+    476|       const hMprod = hashOptions(buildOllamaOptions(seed, true));
+    477|       expect(hM2).toBe(hMprod);
+
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»[12/16]ÔÄ»
+
+ FAIL  tests/bench/ncr-m2-v4-fusion.test.ts > V4 FUSION ÔÇö E.3 : repeatPatternScore monotonie (h├®ritage v3 T5) > texte unique ÔåÆ score faible (<0.15)
+TypeError: (0 , __vite_ssr_import_2__.repeatPatternScore) is not a function
+ ÔØ» tests/bench/ncr-m2-v4-fusion.test.ts:487:15
+    485|       'La femme posa la tasse sur le bord de la table, le th├® tremblaiÔÇª
+    486|       'puis elle tourna la t├¬te vers la fen├¬tre entrouverte, ├®coutant ÔÇª
+    487|     const s = repeatPatternScore(prose);
+       |               ^
+    488|     expect(s).toBeGreaterThanOrEqual(0);
+    489|     expect(s).toBeLessThan(0.15);
+
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»[13/16]ÔÄ»
+
+ FAIL  tests/bench/ncr-m2-v4-fusion.test.ts > V4 FUSION ÔÇö E.3 : repeatPatternScore monotonie (h├®ritage v3 T5) > texte r├®p├®titif ÔåÆ score ├®lev├® (>0.3)
+TypeError: (0 , __vite_ssr_import_2__.repeatPatternScore) is not a function
+ ÔØ» tests/bench/ncr-m2-v4-fusion.test.ts:494:15
+    492|   it('texte r├®p├®titif ÔåÆ score ├®lev├® (>0.3)', () => {
+    493|     const prose = Array.from({ length: 20 }, () => 'le chat dort').joiÔÇª
+    494|     const s = repeatPatternScore(prose);
+       |               ^
+    495|     expect(s).toBeGreaterThan(0.3);
+    496|   });
+
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»[14/16]ÔÄ»
+
+ FAIL  tests/bench/ncr-m2-v4-fusion.test.ts > V4 FUSION ÔÇö E.3 : repeatPatternScore monotonie (h├®ritage v3 T5) > retour toujours dans [0, 1]
+TypeError: (0 , __vite_ssr_import_2__.repeatPatternScore) is not a function
+ ÔØ» tests/bench/ncr-m2-v4-fusion.test.ts:505:21
+    503|     ];
+    504|     for (const s of samples) {
+    505|       const score = repeatPatternScore(s);
+       |                     ^
+    506|       expect(score).toBeGreaterThanOrEqual(0);
+    507|       expect(score).toBeLessThanOrEqual(1);
+
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»[15/16]ÔÄ»
+
+ FAIL  tests/validation/validation-runner.test.ts > ValidationRunner ÔÇö Phase VALIDATION > T08: sealed pipeline source unchanged [INV-VAL-05]
+AssertionError: Hash mismatch for src/polish/musical-engine.ts: expected 'f618c52746e5bb4d1db365674383339990258ÔÇª' to be '99f4f03e909ee16c9d0a3a675b123504f4788ÔÇª' // Object.is equality
+
+Expected: "99f4f03e909ee16c9d0a3a675b123504f47889fc53fc8c045c34d0aee03dc291"
+Received: "f618c52746e5bb4d1db36567438333999025839666b84dd1ef580fd32c4b0c1f"
+
+ ÔØ» tests/validation/validation-runner.test.ts:146:58
+    144|       const content = readFileSync(filePath);
+    145|       const actualHash = createHash('sha256').update(content).digest('ÔÇª
+    146|       expect(actualHash, `Hash mismatch for ${relPath}`).toBe(expectedÔÇª
+       |                                                          ^
+    147|     }
+    148|   });
+
+ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»ÔÄ»[16/16]ÔÄ»
+
+
+[2m Test Files [22m [1m[31m2 failed[39m[22m[2m | [22m[1m[32m222 passed[39m[22m[90m (224)[39m
+[2m      Tests [22m [1m[31m16 failed[39m[22m[2m | [22m[1m[32m2357 passed[39m[22m[90m (2373)[39m
+[2m   Start at [22m 02:56:28
+[2m   Duration [22m 9170.91s[2m (transform 13.24s, setup 0ms, import 6446.82s, tests 8.11s, environment 31ms)[22m
+

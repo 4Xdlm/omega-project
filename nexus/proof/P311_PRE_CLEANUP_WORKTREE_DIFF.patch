@@ -1,0 +1,65 @@
+diff --git a/package-lock.json b/package-lock.json
+index 24c48076..df57e2b8 100644
+Binary files a/package-lock.json and b/package-lock.json differ
+diff --git a/packages/sovereign-engine/CALIBRATION_SEMANTIC_CORTEX.md b/packages/sovereign-engine/CALIBRATION_SEMANTIC_CORTEX.md
+index 437dd0f9..cad50587 100644
+--- a/packages/sovereign-engine/CALIBRATION_SEMANTIC_CORTEX.md
++++ b/packages/sovereign-engine/CALIBRATION_SEMANTIC_CORTEX.md
+@@ -21,17 +21,17 @@ Calibration of semantic cortex (LLM-based emotion analysis) vs keywords on 5 CAL
+ 
+ | Case | Composite (KW) | Composite (Sem) | Δ Composite | Tension (KW) | Tension (Sem) | Δ Tension | Coherence (KW) | Coherence (Sem) | Δ Coherence |
+ |------|----------------|-----------------|-------------|--------------|---------------|-----------|----------------|-----------------|-------------|
+-| CAL-CASE-01 | 76.50 | 73.92 | -2.58 | 54.09 | 41.17 | -12.92 | 100.00 | 100.00 | +0.00 |
+-| CAL-CASE-02 | 62.17 | 69.67 | +7.50 | 3.65 | 41.17 | +37.52 | 100.00 | 100.00 | +0.00 |
+-| CAL-CASE-03 | 65.00 | 70.04 | +5.04 | 15.97 | 41.17 | +25.20 | 100.00 | 100.00 | +0.00 |
+-| CAL-CASE-04 | 76.29 | 72.33 | -3.96 | 60.96 | 41.17 | -19.79 | 100.00 | 100.00 | +0.00 |
++| CAL-CASE-01 | 77.50 | 74.92 | -2.58 | 54.09 | 41.17 | -12.92 | 100.00 | 100.00 | +0.00 |
++| CAL-CASE-02 | 63.15 | 70.66 | +7.50 | 3.65 | 41.17 | +37.52 | 100.00 | 100.00 | +0.00 |
++| CAL-CASE-03 | 65.50 | 70.54 | +5.04 | 15.97 | 41.17 | +25.20 | 100.00 | 100.00 | +0.00 |
++| CAL-CASE-04 | 76.70 | 72.74 | -3.96 | 60.96 | 41.17 | -19.79 | 100.00 | 100.00 | +0.00 |
+ | CAL-CASE-05 | 64.74 | 71.03 | +6.29 | 9.73 | 41.17 | +31.44 | 100.00 | 100.00 | +0.00 |
+ 
+ ### Averages
+ 
+ | Metric | Keywords | Semantic | Δ (Semantic - Keywords) |
+ |--------|----------|----------|-------------------------|
+-| **Composite** | 68.94 | 71.40 | +2.46 |
++| **Composite** | 69.52 | 71.98 | +2.46 |
+ | **Tension 14D** | 28.88 | 41.17 | +12.29 |
+ | **Emotion Coherence** | 100.00 | 100.00 | +0.00 |
+ 
+diff --git a/packages/sovereign-engine/src/runtime/anthropic-provider.ts b/packages/sovereign-engine/src/runtime/anthropic-provider.ts
+index cca60e39..97cb91af 100644
+--- a/packages/sovereign-engine/src/runtime/anthropic-provider.ts
++++ b/packages/sovereign-engine/src/runtime/anthropic-provider.ts
+@@ -390,7 +390,12 @@ IMPACT: [average]`;
+       constraints: { readonly canon: readonly string[]; readonly beats: readonly string[] },
+     ): Promise<string> {
+       const systemPrompt = `You are an expert literary editor. Tu corriges de la prose française littéraire premium. Apply the requested correction to the prose while respecting all constraints. La sortie DOIT rester en français. Return ONLY the revised prose, no commentary.`;
+-      const userPrompt = `Canon:\n${constraints.canon.join('\n')}\n\nBeats:\n${constraints.beats.join('\n')}\n\nCorrection: ${pitch.correction_text}\nTarget: ${pitch.target_axis}\n\nProse:\n${prose}\n\nProvide revised prose:`;
++      // P3.1.1 FIX: CorrectionPitch shape is items[], not flat (correction_text/target_axis = undefined at runtime).
++      // Iterate items[] and build structured corrections block preserving zone + axe + instruction per item.
++      const correctionsBlock = pitch.items
++        .map((item, i) => `${i + 1}. [${item.zone}] [axe=${item.expected_gain.axe}] ${item.instruction}`)
++        .join('\n');
++      const userPrompt = `Canon:\n${constraints.canon.join('\n')}\n\nBeats:\n${constraints.beats.join('\n')}\n\nStrategy: ${pitch.strategy}\nCorrections to apply:\n${correctionsBlock}\n\nProse:\n${prose}\n\nProvide revised prose:`;
+ 
+       // P0-FIX: patchMaxTokens séparé du budget judge — fallback draftMaxTokens → 8192
+       const patchBudget = config.patchMaxTokens ?? config.draftMaxTokens ?? 8192;
+diff --git a/packages/sovereign-engine/src/runtime/ollama-provider.ts b/packages/sovereign-engine/src/runtime/ollama-provider.ts
+index 3311b36a..d8959361 100644
+--- a/packages/sovereign-engine/src/runtime/ollama-provider.ts
++++ b/packages/sovereign-engine/src/runtime/ollama-provider.ts
+@@ -241,7 +241,11 @@ Réponds UNIQUEMENT par un nombre entre 0 et 100. Format: IMPACT: XX`;
+     ): Promise<string> {
+       const systemPrompt = `Tu es un éditeur littéraire expert. Corrige la prose française selon les instructions.
+ Retourne UNIQUEMENT la prose corrigée, sans commentaire.`;
+-      const userPrompt = `Correction: ${pitch.correction_text}\nCible: ${pitch.target_axis}\n\nProse:\n${prose}`;
++      // P3.1.1 FIX: CorrectionPitch shape is items[], not flat (correction_text/target_axis = undefined at runtime).
++      const correctionsBlock = pitch.items
++        .map((item, i) => `${i + 1}. [${item.zone}] [axe=${item.expected_gain.axe}] ${item.instruction}`)
++        .join('\n');
++      const userPrompt = `Stratégie: ${pitch.strategy}\nCorrections à appliquer:\n${correctionsBlock}\n\nProse:\n${prose}`;
+       const draftBudget = config.draftMaxTokens ?? 4096;
+       return stripFences(callOllamaSync(systemPrompt, userPrompt, config, config.draftTemperature, draftBudget));
+     },

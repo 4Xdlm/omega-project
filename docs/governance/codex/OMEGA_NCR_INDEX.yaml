@@ -122,6 +122,28 @@
   related_amendments:
     - "EMP-10 TEST_BEFORE_COMMIT_STRICT"
 
+- id: NCR_EMP10_WRAPPER_STDERR_BLOCKS_SE_COMMIT
+  domain: tooling
+  status: OPEN_P2
+  created: "2026-05-29"
+  severity: P2
+  source_files:
+    - "packages/sovereign-engine/scripts/commit-with-tests.ps1 (branche A_CODE -> npm test)"
+    - "packages/sovereign-engine/tests/integration-v2/v2-chain.test.ts (test conditionnel ecrit stderr)"
+  summary: "Le wrapper EMP-10 (A_CODE -> npm test sovereign-engine) avorte sur NativeCommandError PowerShell quand Vitest ecrit sur stderr (test conditionnel Ollama crossChunkContinuity), MALGRE TSC PASS + suite verte (2477 pass / 0 echec / 4.4s)."
+  evidence: "Confirme 2026-05-29 P0 V2.3-A : wrapper logue 'TSC PASS' puis NativeCommandError sur stderr du test conditionnel, HEAD inchange. Reproduit Phase 2/3. Distinct de NCR_V2_2_VITEST_BENCH (premisse 6h, refutee)."
+  cause_root:
+    - "PowerShell traite tout output natif sur stderr comme erreur terminante (NativeCommandError) sous certaines invocations"
+    - "Vitest / un test conditionnel ecrit sur stderr (console.warn skip Ollama) meme en cas de succes"
+  blocking:
+    - "Commit code sovereign-engine via commit-with-tests.ps1 (wrapper)"
+  workaround: "Validation ciblee equivalente (npx tsc --noEmit + npx vitest run full) PUIS commit direct documente (TSC+suite PASS references dans le message). Applique commits 528e183e (P0) et 93a9fa2d (V2.2-C)."
+  next_action: "Sprint tooling : wrapper doit se baser sur EXIT CODE (LASTEXITCODE) pas sur presence stderr ; OU rediriger 2>$null cible ; OU guard les tests conditionnels pour ne pas ecrire stderr."
+  related_amendments:
+    - "EMP-10 TEST_BEFORE_COMMIT_STRICT"
+  related_ncrs:
+    - "NCR_V2_2_VITEST_BENCH_BLOCKS_EMP10 [CLOSED premisse refutee]"
+
 # =============================================================================
 # CLOSED / RESOLVED
 # =============================================================================
@@ -286,7 +308,7 @@ metadata:
   status: "ACTIVE_AFTER_SEAL"
   doctrine: "EMP-12 CODEX_OMEGA_PREFLIGHT_MANDATORY"
   parent_doc: "CODEX_OMEGA_LOIS_CONTRAINTES_LLM_v1-2.md"
-  total_ncrs: 17
+  total_ncrs: 18
   open_critical: 1
   open_p1: 3
   deferred: 2

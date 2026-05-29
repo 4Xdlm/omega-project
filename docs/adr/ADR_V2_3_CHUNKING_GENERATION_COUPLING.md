@@ -82,3 +82,11 @@ Aucun code modifié. Aucune loi modifiée. `chunkAdaptive` et `EmotionContract` 
 ## 9. Verdict
 
 **DÉCISION : DIFFÉRÉ — gates définis.** Implémentation suspendue jusqu'à décision Architecte d'ouvrir V2.3. Statut de ce document : PROPOSED ; passera à ACCEPTED (option retenue) ou RÉSOLU (après bench V2.3) lors de l'instruction.
+
+## 10. Décision de cycle (2026-05-29) — Tribunal 2/2 IA
+
+**Option A/D actée pour ce cycle.** Le Scalpel (`chunkAdaptive` + optimiseur V2.2-C) reste `SHADOW_BOUNDARY_ANALYZER` : outil de diagnostic / analyse de corpus (comprendre où le texte se fracture), **non câblé** à la génération. **V2.3 (couplage génératif) N'EST PAS OUVERT** — l'effort (nouveau pont source→brief, heures qwen3:32b) ne justifie pas le risque de déstabiliser le moteur de génération qui tourne sur son propre `EmotionContract`.
+- Gemini : valide forme+fond, acte A/D, ne pas ouvrir V2.3.
+- ChatGPT : PASS ADR ; si poursuite un jour → **prochaine étape = dossier d'instruction V2.3-M0 (doc-only, read-only)** définissant cas d'usage / protocole A/B Oracle / n≥6 / seuil composite / kill-switch / flag / rollback / coût qwen — AUCUN code. Sinon STOP, état propre.
+
+LAW-CHUNK-048 intact. FORBID-PIPELINE-002/003 en vigueur. Cet ADR reste scellé sur origin et balise le terrain ; prochain incrément autorisé = V2.3-M0 (doc) sur décision Architecte, jamais du code V2.3 en autonomie.

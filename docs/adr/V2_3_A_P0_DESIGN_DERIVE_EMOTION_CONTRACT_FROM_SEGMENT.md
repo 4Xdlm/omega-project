@@ -52,7 +52,7 @@ OMEGA possède déjà la machinerie CALC requise (`chunking/detector/features.ts
 | `rupture {exists,position_pct,…}` | change-point principal `EmotionalArcDetector.detect()` (distance > seuil) | mécanique existante |
 | `valence_arc {start,end,direction}` | `extractSentiment` Q1 vs Q4 → direction | — |
 | `terminal_state {valence,arousal,dominant}` | features de la dernière fenêtre du segment | — |
-| `curve_quartiles[Q].target_14d` | **ABANDONNÉ** — Emotion14 au garage (Architecte 2026-05-29). NON dérivé par P0, **non consommé par `generation/`** (grep generation/ = 0 occurrence). Émis en default neutre `{}` (structurel uniquement) | champ legacy, hors scope |
+| `curve_quartiles[Q].target_14d` | **GARAGE/DORMANT** — Emotion14 runtime = dormant 0 match (`NCR_EMOTION14_CANON_DRIFT` 2026-05-05 commit `c635f3e1`, Codex v1.3.1 §294 ; keyword mode MORT kill-switch R-PHYSICS 2026-04-08). NON dérivé par P0, **non consommé par `generation/`** (grep=0). Default neutre `{}` (structurel ; ≠ refactor canon → **FORBID-CANON-GARAGE-001** respecté) | dormant, hors scope |
 | `curve_quartiles[Q].narrative_instruction` | **DEFAULT** : gabarit déterministe (slope+dominant) ; texte libre non CALC | ⚠ seul champ soft restant |
 | `terminal_state.reader_state` | **DEFAULT** templaté depuis terminal dominant | ⚠ champ soft |
 | `archetype` (via detectArchetype) | **réutilise `detectArchetype(contract dérivé)`** (arousal moyen + silence_total) | fonction existante |
@@ -61,7 +61,7 @@ Ancrage lois : ponctuation/rythme via `extractPunctuationDensity` (L31 semicolon
 
 ## 3. Champs DÉRIVÉS vs DEFAULT (honnêteté causale)
 - **DERIVED (robuste, majorité)** : intensity_range, arousal/valence/dominant par quartile, tension (slope/pic/faille/silence), rupture, valence_arc, terminal valence/arousal/dominant, archetype.
-- **ABANDONNÉ (hors scope)** : `target_14d` — Emotion14 au garage, non consommé par génération → default neutre `{}`, pas de fidélité à prouver.
+- **GARAGE/DORMANT (hors scope)** : `target_14d` — Emotion14 runtime dormant 0 match (`NCR_EMOTION14_CANON_DRIFT`, Codex v1.3.1 §294), non consommé par génération → default neutre `{}`, pas de fidélité à prouver. NB distinction cardinale (Codex §281) : « émotion keyword morte » ≠ « émotion débranchée » → la dérivation arousal/valence/dominant reste **légitime**, seul le vecteur 14d est dormant.
 - **DEFAULT (soft, résiduel)** : `narrative_instruction`, `reader_state` (texte libre, gabarit déterministe). Émis `field_provenance='DEFAULT'` + warning. **Risque résiduel** : ces champs nourrissent la richesse du prompt → fidélité faible possible (P4 le mesurera). Le retrait du 14d réduit nettement la surface soft initiale.
 
 ## 4. Invariants (durs)
@@ -111,7 +111,7 @@ Note : la fidélité « absolue » (le contrat capte-t-il l'intention émotionne
 - [x] Rollback évident : composant isolé, aucun consommateur tant que flag=0.
 
 ## 10. Risques résiduels
-1. **Champ soft résiduel (narrative_instruction)** : texte libre non CALC, gabarit déterministe → fidélité limitée, possible goulot du gain prose. Si revue P0 montre confidence < 0.5 récurrent → **STOP avant P4**, décider si une brique d'inférence (phase séparée) est nécessaire (≠ P0 isolé). NB : `target_14d` (Emotion14) est ABANDONNÉ et non consommé par génération → retiré du scope P0, ce qui supprime le principal champ soft initial.
+1. **Champ soft résiduel (narrative_instruction)** : texte libre non CALC, gabarit déterministe → fidélité limitée, possible goulot du gain prose. Si revue P0 montre confidence < 0.5 récurrent → **STOP avant P4**, décider si une brique d'inférence (phase séparée) est nécessaire (≠ P0 isolé). NB : `target_14d` (Emotion14) = **GARAGE/DORMANT** (`NCR_EMOTION14_CANON_DRIFT` 2026-05-05, Codex v1.3.1 §294) + non consommé par génération → retiré du scope P0 (default neutre, **pas de refactor du canon dormant** — FORBID-CANON-GARAGE-001). Supprime le principal champ soft initial.
 2. **Cohérence ≠ intention** : P0 valide la cohérence interne ; seul le bench A/B prouve l'utilité générative.
 3. **Drift features** : `featureIntensity`/`extractSentiment` calibrés corpus — re-vérifier amplitude sur prose source réelle (cf LAW-CHUNK-041 amplitudes faibles).
 

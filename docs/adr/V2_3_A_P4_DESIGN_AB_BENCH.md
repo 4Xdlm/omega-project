@@ -10,9 +10,11 @@ But: prouver (ou réfuter) que le découpage SCALPEL produit une MEILLEURE prose
 ## 1. Hypothèse testée
 H1 : à texte source + K segments identiques, réécrire les segments découpés par le **Scalpel** (frontières sémantiques) donne une prose de **meilleure qualité Oracle** que réécrire les segments découpés **naïvement**. Frontière = seule variable.
 
-## 2. Métrique (ancrée code)
-`judgeAestheticV3(packet, prose, provider, null) → MacroSScore { composite, min_axis, macro_axes{ECC,RCI,SII,IFI,AAI} }` (oracle/aesthetic-oracle.ts). C'est l'Oracle V2 qui a scoré le livre V1 (composite 87.8). **PAS Δρ V3.4** (découplé, LAW-CHUNK-048).
-⚠️ **Coût réel** : chaque scoring V3 = ~10-15 appels qwen (axes ECC/RCI/SII/IFI/AAI LLM-jugés : interiority/impact/necessity 3-5shot, emotion_coherence...). Le bench est **dominé par le SCORING**, pas la génération.
+## 2. Métrique (ancrée code) — RÉVISÉE 2026-05-29 (Option D)
+**Initialement** `judgeAestheticV3(...) → composite` (Oracle V2 standard). **BLOQUANT découvert au run** : `computeECC.sub_scores[0] = tension_14d` lit `curve_quartiles[].target_14d`, vide `{}` en V2.3 réécriture (14d GARAGE/DORMANT, NCR_EMOTION14_CANON_DRIFT) → **NaN → `canonicalize` FATAL**. Diagnostic isolé via `diag-v2_3-score.ts` (ECC.sub_scores[0]).
+**Décision Architecte = Option D** (vs A=`target_14d` uniforme bidon, B'=amputation totale ECC) : métrique **REWRITE_ORACLE** scopée V2.3, `oracle/rewrite-oracle.ts` :
+`scoreRewriteOracle(packet, prose, provider) → { composite, min_axis, axes }` = moyenne égale de **7 axes** : `RCI, SII, IFI, AAI` (macro) + `emotion_coherence, interiority, impact` (sous-axes ECC valides). **EXCLUT le seul axe incompatible : `tension_14d`.** `target_14d` reste `{}` (FORBID-CANON-GARAGE-001, zéro résurrection). `judgeAestheticV3` **NON modifié** (composite standard intact pour l'ex-nihilo). Réf : NCR_V2_3_ORACLE_ECC_14D_INCOMPATIBLE.
+⚠️ **Coût réel** : chaque scoring = 7 axes, dont emotion_coherence/interiority/impact LLM-jugés 3-shot → ~15-20 appels qwen/prose. Le bench est **dominé par le SCORING**, pas la génération.
 
 ## 3. Protocole A/B
 - **Sources** : M textes (corpus SPLIT_V2.1.1), ex M=2-3 chapitres. Pour chacun : K = scalpelSegments(text).length.
@@ -27,7 +29,7 @@ H1 : à texte source + K segments identiques, réécrire les segments découpés
 - **Kill-switch (pré-défini)** :
   | Verdict | Condition |
   |---|---|
-  | **GO_B** | Δcomposite **≥ +2.0** ET min_axis non dégradé (Δmin_axis ≥ −0.5) ET CI95 borne basse > 0 |
+  | **GO_B_CANDIDATE** | Δcomposite **≥ +2.0** ET min_axis non dégradé (Δmin_axis ≥ −0.5) ET CI95 borne basse > 0 — *recommandation, décision Architecte (jamais auto-promotion)* |
   | **SHADOW** | Δcomposite ∈ [−1.0, +2.0[ (sous le bruit σ≈2 qwen) → opt-in shadow permanent |
   | **REJECT** | Δcomposite < −1.0 OU régression d'un macro-axe (Δaxe < −2.0) |
 - Seuil +2.0 justifié : composites V1 observés 85-91, σ qwen intrinsèque ≈2 → l'effet doit dépasser le bruit (cf MEASURE-OMEGA-V1-SEAL).

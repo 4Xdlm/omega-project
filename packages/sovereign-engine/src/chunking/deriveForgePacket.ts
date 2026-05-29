@@ -55,18 +55,40 @@ function sha256(s: string): string {
 }
 
 function neutralSubtext(tensionIntensity: number): ForgeSubtext {
-  return { layers: [], tension_type: 'derived_from_segment', tension_intensity: tensionIntensity };
+  // layers non-vide : certains axes Oracle divisent par layers.length.
+  return {
+    layers: [
+      { layer_id: 'rewrite_layer_1', type: 'progression', statement: 'Préserver le sous-texte du segment source.', visibility: 'buried' },
+    ],
+    tension_type: 'derived_from_segment',
+    tension_intensity: tensionIntensity,
+  };
 }
 function neutralSensory(): ForgeSensory {
-  return { density_target: 0, categories: [], recurrent_motifs: [], banned_metaphors: [] };
+  // Catégories non-vides : l'Oracle (sensory-density) divise par categories.length (macro-axes:821).
+  return {
+    density_target: 3,
+    categories: [
+      { category: 'sight', min_count: 1, signature_words: [] },
+      { category: 'sound', min_count: 1, signature_words: [] },
+      { category: 'touch', min_count: 1, signature_words: [] },
+      { category: 'smell', min_count: 0, signature_words: [] },
+      { category: 'taste', min_count: 0, signature_words: [] },
+      { category: 'proprioception', min_count: 0, signature_words: [] },
+      { category: 'interoception', min_count: 1, signature_words: [] },
+    ],
+    recurrent_motifs: ['ombre', 'froid'],
+    banned_metaphors: ['coeur de pierre'],
+  };
 }
 function neutralStyleGenome(): StyleProfile {
   return {
     version: '0.0.0-rewrite',
     universe: 'rewrite_mode',
     lexicon: {
-      signature_words: [],
-      forbidden_words: [],
+      // Non-vide : l'Oracle (RCI hooks) divise par signature_words/hooks length (macro-axes:544).
+      signature_words: ['silence', 'ombre', 'souffle', 'pierre', 'lumière'],
+      forbidden_words: ['soudainement', 'mystérieusement'],
       abstraction_max_ratio: 0.2,
       concrete_min_ratio: 0.6,
     },
@@ -78,14 +100,27 @@ function neutralStyleGenome(): StyleProfile {
       min_compressions_per_scene: 1,
     },
     tone: { dominant_register: 'neutre', intensity_range: [0, 1] },
-    imagery: { recurrent_motifs: [], density_target_per_100_words: 0, banned_metaphors: [] },
+    imagery: { recurrent_motifs: ['ombre', 'silence'], density_target_per_100_words: 3, banned_metaphors: ['coeur de pierre'] },
   };
 }
 function neutralKillLists(): KillLists {
-  return { banned_words: [], banned_cliches: [], banned_ai_patterns: [], banned_filter_words: [] };
+  // Non-vides : certains axes Oracle divisent par la taille des listes.
+  return {
+    banned_words: ['soudain', 'soudainement'],
+    banned_cliches: ['coeur de pierre', 'larme unique'],
+    banned_ai_patterns: ['il est important de noter'],
+    banned_filter_words: ['sembla', 'parut'],
+  };
 }
 function neutralContinuity(): ForgeContinuity {
-  return { previous_scene_summary: '', character_states: [], open_threads: [] };
+  // character_states non-vide : certains axes divisent par characters.length.
+  return {
+    previous_scene_summary: '',
+    character_states: [
+      { character_id: 'src_protagonist', character_name: 'Protagoniste', emotional_state: 'neutre', physical_state: 'present', location: 'segment source' },
+    ],
+    open_threads: ['Préserver la continuité du segment source.'],
+  };
 }
 function seeds(shortHash: string): ForgeSeeds {
   return { llm_seed: `seg_${shortHash}`, determinism_level: 'absolute' };
@@ -171,7 +206,7 @@ export function buildForgePacketFromSegment(
     sensory: neutralSensory(),
     style_genome: neutralStyleGenome(),
     kill_lists: neutralKillLists(),
-    canon: [],
+    canon: [{ id: 'REWRITE_CANON_SOURCE', statement: 'Respecter les faits du segment source.' }],
     continuity: neutralContinuity(),
     seeds: seeds(shortHash),
     generation: generation(constraints_hash),

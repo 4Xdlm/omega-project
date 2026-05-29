@@ -15,7 +15,7 @@ import { join } from 'node:path';
 import { runABBench, type BenchRow, type ScoreResult, type RewriteGenerateFn, type ScoreFn } from '../src/chunking/abBench.js';
 import { REWRITE_GENERATION_MODE } from '../src/chunking/rewritePrompt.js';
 import { createOllamaProvider } from '../src/runtime/ollama-provider.js';
-import { judgeAestheticV3 } from '../src/oracle/aesthetic-oracle.js';
+import { scoreRewriteOracle, REWRITE_ORACLE_AXES } from '../src/oracle/rewrite-oracle.js';
 
 const FLAG = process.env.OMEGA_V2_3_CHUNK_COUPLING;
 const OUT_DIR = 'C:/Users/elric/Claude-Workspace/OMEGA/outputs';
@@ -72,9 +72,11 @@ async function main(): Promise<void> {
   });
 
   const generate: RewriteGenerateFn = (prompt, seed) => provider.generateDraft(prompt, REWRITE_GENERATION_MODE, seed);
+  // REWRITE_ORACLE (Option D) : 7 axes valides, EXCLUT tension_14d (14d dormant). PAS le composite standard.
+  console.log(`Métrique : REWRITE_ORACLE (scoped V2.3) axes=[${REWRITE_ORACLE_AXES.join(',')}] — ECC.tension_14d exclu (NCR_V2_3_ORACLE_ECC_14D_INCOMPATIBLE).`);
   const score: ScoreFn = async (packet, prose): Promise<ScoreResult> => {
-    const m = await judgeAestheticV3(packet, prose, provider, null);
-    return { composite: m.composite, min_axis: m.min_axis, macro_axes: { ecc_score: m.ecc_score, emotion_weight_pct: m.emotion_weight_pct } };
+    const r = await scoreRewriteOracle(packet, prose, provider);
+    return { composite: r.composite, min_axis: r.min_axis, macro_axes: r.axes };
   };
 
   // Persistance JSONL reprenable

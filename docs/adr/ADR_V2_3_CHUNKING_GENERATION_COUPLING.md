@@ -1,6 +1,6 @@
 # ADR: V2.3 — Couplage chunking adaptatif → génération
 Date: 2026-05-29
-Statut: PROPOSED (décision d'implémentation DIFFÉRÉE — ce document cadre options + gates)
+Statut: ACCEPTED — Option B (décision Architecte 2026-05-29 suite dossier M0 ; Q1=OUI, mode réécriture semi-automatique confirmé). Implémentation = sprint V2.3-A, sous gates §5 + M0.
 Signalé par: Tribunal 2/2 IA (Gemini + ChatGPT) 2026-05-29, arbitrage Architect Francky
 Réfs: LAW-CHUNK-048 [SEALED], FORBID-PIPELINE-002/003, MEASURE-CHUNK-V22B-B2, MEASURE-CHUNK-V22C-SHADOW
 
@@ -90,3 +90,11 @@ Aucun code modifié. Aucune loi modifiée. `chunkAdaptive` et `EmotionContract` 
 - ChatGPT : PASS ADR ; si poursuite un jour → **prochaine étape = dossier d'instruction V2.3-M0 (doc-only, read-only)** définissant cas d'usage / protocole A/B Oracle / n≥6 / seuil composite / kill-switch / flag / rollback / coût qwen — AUCUN code. Sinon STOP, état propre.
 
 LAW-CHUNK-048 intact. FORBID-PIPELINE-002/003 en vigueur. Cet ADR reste scellé sur origin et balise le terrain ; prochain incrément autorisé = V2.3-M0 (doc) sur décision Architecte, jamais du code V2.3 en autonomie.
+
+## 11. Décision Architecte (2026-05-29, suite dossier M0) — GO_B / ACCEPTED
+
+**Q1 = OUI.** OMEGA sera *également* un **moteur de réécriture en mode semi-automatique** (human-in-the-loop) — pas seulement un générateur ex nihilo. Le cas d'usage du couplage est donc confirmé → **Option B ACCEPTED**.
+
+Implication « semi-automatique » : le mode réécriture **propose** par segment (découpe Scalpel → régénération/expansion), l'auteur **valide/édite** segment par segment. Le bench A/B (M0 §3-4) mesure toujours la qualité prose Oracle ; le produit final est human-in-the-loop (pas d'auto-commit de prose).
+
+Cap : l'implémentation suit le sprint **V2.3-A** sous les gates §5 + dossier M0 (deriveEmotionContract isolé+testé d'abord → harness A/B → smoke 1 scène → bench n≥6 → kill-switch Δcomposite≥+2.0). FORBID-PIPELINE-002/003 restent actifs jusqu'au bench PASS. Aucun code génératif en autonomie aveugle : chemin additif, feature flag, le pipeline ex-nihilo existant reste intact.

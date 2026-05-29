@@ -122,7 +122,8 @@ Raisons :
 
 ## 8. Décision attendue (Architecte)
 
-Cocher : **[ ] GO_B (Q1=oui, shadow d'abord)** · **[ ] HOLD (défaut recommandé)** · **[ ] REJECT (pas de mode réécriture)**
+**TRANCHÉ 2026-05-29 : [X] GO_B** (Q1 = OUI — mode réécriture **semi-automatique** confirmé, human-in-the-loop) · [ ] HOLD · [ ] REJECT
+→ ADR_V2_3 = ACCEPTED Option B (§11). Implémentation = sprint V2.3-A sous gates, deriveEmotionContract isolé d'abord.
 
 Prochaine action selon choix :
 - GO_B → sprint V2.3-A : `deriveEmotionContract` (P0) + harness A/B + smoke, ADR avant code (déjà fait), feature flag.

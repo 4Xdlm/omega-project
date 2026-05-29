@@ -1,6 +1,6 @@
 # ADR: V2.3 — Couplage chunking adaptatif → génération
 Date: 2026-05-29
-Statut: ACCEPTED — Option B (décision Architecte 2026-05-29 suite dossier M0 ; Q1=OUI, mode réécriture semi-automatique confirmé). Implémentation = sprint V2.3-A, sous gates §5 + M0.
+Statut: **RÉSOLU — COUPLAGE SHADOW / NOT_PROMOTED** (clôture P5, 2026-05-29, Tribunal 2/2 unanime Option A). Bench A/B exécuté : Scalpel NON promu dans la génération (effet composite sous le bruit). Couplage reste opt-in/expérimental. Historique : ACCEPTED Option B (Q1=OUI) → implémenté V2.3-A P0-P4 → bench SHADOW → clôture.
 Signalé par: Tribunal 2/2 IA (Gemini + ChatGPT) 2026-05-29, arbitrage Architect Francky
 Réfs: LAW-CHUNK-048 [SEALED], FORBID-PIPELINE-002/003, MEASURE-CHUNK-V22B-B2, MEASURE-CHUNK-V22C-SHADOW
 
@@ -98,3 +98,24 @@ LAW-CHUNK-048 intact. FORBID-PIPELINE-002/003 en vigueur. Cet ADR reste scellé 
 Implication « semi-automatique » : le mode réécriture **propose** par segment (découpe Scalpel → régénération/expansion), l'auteur **valide/édite** segment par segment. Le bench A/B (M0 §3-4) mesure toujours la qualité prose Oracle ; le produit final est human-in-the-loop (pas d'auto-commit de prose).
 
 Cap : l'implémentation suit le sprint **V2.3-A** sous les gates §5 + dossier M0 (deriveEmotionContract isolé+testé d'abord → harness A/B → smoke 1 scène → bench n≥6 → kill-switch Δcomposite≥+2.0). FORBID-PIPELINE-002/003 restent actifs jusqu'au bench PASS. Aucun code génératif en autonomie aveugle : chemin additif, feature flag, le pipeline ex-nihilo existant reste intact.
+
+## 12. Clôture P5 (2026-05-29) — RÉSOLU / COUPLAGE SHADOW — Tribunal 2/2 unanime (Option A)
+
+Le sprint V2.3-A a livré et testé le couplage de bout en bout : P0 `deriveEmotionContractFromSegment` (528e183e) → P1 `buildForgePacketFromSegment` (e37c8d04) → P2 `abRouting` (6e00e909) → P3 `buildRewritePrompt` (0550ffc1) → P4 bench A/B réel + métrique `REWRITE_ORACLE` Option D (25c5b8f0, cf NCR_V2_3_ORACLE_ECC_14D_INCOMPATIBLE).
+
+**Bench A/B réécriture (juge final d'Option B), résultats empiriques figés :**
+- n_pairs = 9 · 2 seeds (v23seedA/B) · sources : Achebe / Hugo / Sartre · runtime 27,2 min · 36 proses.
+- Métrique : REWRITE_ORACLE (7 axes {RCI,SII,IFI,AAI,emotion_coherence,interiority,impact}, `tension_14d` exclu — 14d dormant). **Δ intra-bench uniquement, non comparable au composite V1 absolu.**
+- **Δcomposite = +0,93** · **CI95 = [−1,04 ; +2,91]** (traverse zéro → non significatif) · mean_control 76,06 vs mean_treatment 76,99.
+- Seuil pré-enregistré GO_B_CANDIDATE = +2,0 (hors bruit σ≈2) **NON atteint**.
+
+**VERDICT pré-enregistré appliqué = SHADOW.** Pas de promotion GO_B, pas de REJECT (signal positif faible). Le découpage Scalpel **n'est PAS promu dans la génération par défaut** ; il reste opt-in/expérimental (`OMEGA_V2_3_CHUNK_COUPLING`, défaut off). Le pipeline génératif ex-nihilo (`generateChunkedDraft`, `EmotionContract`) reste **inchangé**. LAW-CHUNK-048 intact.
+
+**Signal exploratoire `min_axis` (documenté, NON décisionnel) :** mean_min_axis 38,85 (contrôle) → 44,09 (traitement) = **+5,24**. Interprétation mécaniste candidate : le Scalpel, en coupant sur les fractures sémantiques réelles, ne hausse pas le *plafond* esthétique de la prose mais en **relève le plancher** — il empêche l'effondrement cognitif du LLM sur des segments mal découpés (réduction de l'échec catastrophique sur l'axe le plus faible). **Hors kill-switch pré-enregistré → signal exploratoire, jamais critère de victoire post-hoc.** Consigné dans `nexus/proof/MEASURE_V2_3_MIN_AXIS_SIGNAL_EXPLORATORY.md` + loi candidate `[CANDIDATE]`.
+
+**Suite (non automatique) :** un re-bench `min_axis` n'est légitime que dans un futur sprint **V2.3-B dédié**, avec `min_axis` **pré-enregistré comme co-critère**, **n ≥ 20**, seuil figé avant run, métrique inchangée en cours de route. Pas de re-bench immédiat.
+
+- Gemini : Option A validée — clôture SHADOW, intégrité du protocole (pas de critère de victoire post-hoc), `min_axis` = mécanisme de sécurité, pas de génie littéraire.
+- ChatGPT : Option A — bench a répondu à la question pré-enregistrée ; `min_axis` = signal exploratoire « dans le dossier, pas au volant » ; B = sprint futur conditionnel.
+
+**État final : V2.3-A STOPPÉ, propre.** ADR RÉSOLU. Aucun claim production-ready, aucun claim « Scalpel améliore la prose » hors scope exploratoire.

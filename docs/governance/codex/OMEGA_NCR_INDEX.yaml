@@ -124,7 +124,11 @@
 
 - id: NCR_EMP10_WRAPPER_STDERR_BLOCKS_SE_COMMIT
   domain: tooling
-  status: OPEN_P2
+  status: RESOLVED
+  resolved: "2026-05-29"
+  resolution_commit: "6e1564b8"
+  resolution: "Wrapper patche : Vitest invoque via `cmd /c \"npm test 2>&1\"` + ErrorActionPreference=Continue local -> verdict sur $LASTEXITCODE, plus de NativeCommandError sur stderr. Valide empirique (exit 0 capture sur suite 2477 pass sans abort) + self-applied A_TOOLING_SCRIPT dogfooding."
+  original_status: OPEN_P2
   created: "2026-05-29"
   severity: P2
   source_files:

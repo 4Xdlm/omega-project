@@ -362,6 +362,35 @@
     - "B2 corpus diversifie INVALIDE le scope 47.9%"
     - "boundaryZone.ts / similarity.ts modifies"
 
+- id: LAW-CHUNK-048
+  title: "chunkAdaptive / V2.2-C boundary optimizer DECOUPLE de la generation ET du scoring V3.4"
+  domain: chunking
+  status: SEALED   # fait architectural verifie par grep, reproductible
+  date_sealed: "2026-05-29"
+  source_files:
+    - "memory/project_v2_2_chunkadaptive_decoupling_2026-05-29.md"
+    - "packages/sovereign-engine/src/generation/adaptive-chunker.ts"
+    - "packages/sovereign-engine/src/scoring/dispatcher/coefficients-v3-4.ts"
+  approval: "Tribunal 2/2 IA (Gemini OPTION 2 + ChatGPT OPTION 2) 2026-05-29"
+  scope: "sovereign-engine pipeline actuel"
+  measurement:
+    method: "grep -rln chunkAdaptive (sovereign-engine/src)"
+    result: "importe UNIQUEMENT dans chunking/ + tests/ ; absent de generation/, scoring/, engine.ts"
+  cause_root:
+    - "Generation: ChunkPlan derive de EmotionContract (curve_quartiles/tension/silence/archetype), PAS de chunkAdaptive"
+    - "Scoring V3.4: 5 features sur texte entier -> invariant au re-chunking (Delta-rho ~ 0)"
+  operational_impact:
+    forbids:
+      - "FORBID-PIPELINE-002: Bench generation OU kill-switch Delta-rho V3.4 pretendant mesurer V2.2-C tant que le couplage chunking->generation n'existe pas (mesurerait zero par construction)"
+      - "FORBID-PIPELINE-003: Claim 'V2.2 ameliore la prose generee' sans couplage cable + bench A/B"
+    authorizes:
+      - "Claim 'V2.2-C analyse/ameliore des frontieres sur texte EXISTANT' (SHADOW_BOUNDARY_ANALYZER)"
+      - "Sprint futur V2.3 cablant chunking adaptatif -> generation (ADR_V2_3 obligatoire avant code)"
+  module_status: "boundaryOptimizerShadow.ts = SHADOW_BOUNDARY_ANALYZER (pas GENERATION_OPTIMIZER)"
+  revalidate_if:
+    - "Un import de chunkAdaptive apparait dans generation/ ou scoring/"
+    - "ADR_V2_3 cable le couplage"
+
 # =============================================================================
 # PILIER 2 — PSYCHOLOGIE LLM (échantillon, voir CODEX v1.2 §2 pour exhaustif)
 # =============================================================================

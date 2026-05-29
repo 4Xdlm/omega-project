@@ -237,6 +237,18 @@
   source_files:
     - "memory/feedback_powershell_*.md"
 
+- id: ADR_V2_3_CHUNKING_GENERATION_COUPLING
+  domain: chunking
+  status: DEFERRED
+  created: "2026-05-29"
+  mandate: "Sprint V2.3 futur : decider SI et COMMENT le chunking semantique (chunkAdaptive/V2.2-C) doit piloter la generation. ADR avant code, feature flag, bench A/B prose, rollback, tests, preuve non-regression EmotionContract."
+  prerequisites:
+    - "LAW-CHUNK-048 [SEALED] lu"
+    - "FORBID-PIPELINE-002 respecte"
+  rationale: "V2.2-C valide SHADOW_BOUNDARY_ANALYZER, pas GENERATION_OPTIMIZER (Tribunal 2/2 IA 2026-05-29)"
+  related_laws:
+    - "LAW-CHUNK-048 [SEALED]"
+
 # =============================================================================
 # INDEX RAPIDE PAR DOMAINE
 # =============================================================================
@@ -271,7 +283,7 @@ metadata:
   status: "ACTIVE_AFTER_SEAL"
   doctrine: "EMP-12 CODEX_OMEGA_PREFLIGHT_MANDATORY"
   parent_doc: "CODEX_OMEGA_LOIS_CONTRAINTES_LLM_v1-2.md"
-  total_ncrs: 16
+  total_ncrs: 17
   open_critical: 1
   open_p1: 3
   deferred: 2

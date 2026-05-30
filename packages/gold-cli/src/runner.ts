@@ -14,7 +14,7 @@ import {
   formatReport,
   OMEGA_PACKAGES,
 } from '@omega/gold-internal';
-import type { PackageCertification, PackageValidation, CrossPackageValidation, ReportFormat } from '@omega/gold-internal';
+import type { PackageCertification, CrossPackageValidation, ReportFormat } from '@omega/gold-internal';
 import { ProofPackBuilder } from '@omega/proof-pack';
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -102,11 +102,10 @@ export async function runIntegrations(
   }
 
   const results = await runIntegrationTests([...ALL_INTEGRATIONS]);
-  const packages: PackageCertification[] = [];
 
   // Convert to cross-package validation
   return {
-    packages: packages as unknown as readonly PackageValidation[],
+    packages: [], // runIntegrations ne valide pas par package (cf createPackageCertifications)
     integrations: results.map((r) => ({
       name: r.name,
       packages: [...r.packages],

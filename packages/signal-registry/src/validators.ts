@@ -19,7 +19,7 @@ export function validateProducerOutputs(
   const warnings: string[] = [];
 
   // Producer must be known
-  if (!VALID_PRODUCERS.includes(producer as any)) {
+  if (!(VALID_PRODUCERS as readonly string[]).includes(producer)) {
     errors.push(`Unknown producer: '${producer}'. Valid: ${VALID_PRODUCERS.join(', ')}`);
   }
 

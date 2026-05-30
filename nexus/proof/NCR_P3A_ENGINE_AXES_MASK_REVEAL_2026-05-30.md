@@ -28,3 +28,21 @@ Préalable : déterminer si le SScore à `axes` vide atteint réellement soverei
 - Statut : OPEN_DIAGNOSED — finding tracé, fix différé, baseline intacte.
 - Faiblesses : (1) `{} as any` reste (dette assumée, documentée) ; (2) comportement runtime du chemin axes-vide non encore confirmé.
 - Action requise : session dédiée pour le fix (option 1 ou 2) après confirmation du chemin runtime. Pas d'urgence (TSC 0, tests verts).
+
+---
+
+## RESOLUTION (P3-A2 Option C+, 2026-05-30, commit 89741949)
+
+**Status: RESOLVED** (risque theorique confirme, dette cosmetique purgee).
+
+Audit de contrat (P3-A2, cf workspace outputs/P3_A2_ENGINE_AXES_CONTRACT_AUDIT_v1.md) :
+- Les 3 consommateurs des 9 micro-axes (sovereign-loop, re-score-guard + appelants polish) s'alimentent via le juge V2 (judgeAesthetic), PAS via le placeholder de engine.ts.
+- Le SScore backward-compat de engine.ts ne sort que par executePipeline().s_score ; AUCUN consommateur (intra-paquet ou cross-package, grep vide) ne lit son champ axes.
+- Conclusion : les 8 erreurs mask-reveal etaient de niveau TYPE (axes optionnel casse tous les sites lisant .axes), PAS une preuve que l'instance vide les atteint. Risque purement theorique = CONFIRME.
+
+Fix applique (Option C+, decision Architecte) :
+- Les 2 `{} as any` (engine.ts:622,650) remplaces par const EMPTY_AXES_BACKCOMPAT typee AxesScores (9 axes neutres score 0), zero `any`.
+- Commentaire trompeur "Non utilise en v3" corrige -> placeholder backward-compat non consomme runtime (renvoi a ce NCR).
+- Option 2 (axes optionnel) REJETEE (polluerait les consommateurs legitimes a axes peuples). Option 1 (mapping V3->9) jugee sur-ingenierie (benefice runtime nul, 5->9 non trivial) -> reservee a un polissage de contrat futur si besoin.
+
+Gate : casts sovereign src 43->41, TSC exit 0, vitest 2522 pass / 0 fail (wrapper EMP-10). Push origin 89741949.

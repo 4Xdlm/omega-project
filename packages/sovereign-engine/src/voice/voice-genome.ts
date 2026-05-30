@@ -317,7 +317,7 @@ export function computeVoiceDrift(
     'opening_variety',
   ];
 
-  const per_param: Record<keyof VoiceGenome, number> = {} as any;
+  const per_param: Record<keyof VoiceGenome, number> = {} as Record<keyof VoiceGenome, number>;
   let sumSquares = 0;
   let nApplicable = 0;
   const excluded: (keyof VoiceGenome)[] = [];

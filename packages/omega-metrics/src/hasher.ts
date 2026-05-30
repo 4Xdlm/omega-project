@@ -7,7 +7,6 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 // Import from canon-kernel - exported via index
-// @ts-ignore - type resolution issue with file: protocol
 import { sha256, canonicalize } from '@omega/canon-kernel';
 
 /**

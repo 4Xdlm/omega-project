@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>OMEGA — Contrôle Total (2026-05-29)</title>
+<style>
+  :root{--bg:#0c0e14;--panel:#151823;--panel2:#1c2030;--ink:#e6e9f0;--mut:#8b93a7;--line:#262b3d;
+    --ok:#3ecf8e;--warn:#f5b14c;--bad:#f0616d;--accent:#6aa8ff;}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.5 ui-sans-serif,system-ui,Segoe UI,Roboto,sans-serif}
+  .wrap{max-width:1100px;margin:0 auto;padding:28px 20px 60px}
+  h1{font-size:22px;margin:0 0 4px} .sub{color:var(--mut);font-size:13px;margin-bottom:22px}
+  .grid{display:grid;gap:14px}
+  .kpis{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .kpi .v{font-size:26px;font-weight:700} .kpi .l{color:var(--mut);font-size:12px;margin-top:2px}
+  .kpi .v.ok{color:var(--ok)} .kpi .v.warn{color:var(--warn)} .kpi .v.bad{color:var(--bad)} .kpi .v.ac{color:var(--accent)}
+  h2{font-size:15px;margin:26px 0 10px;letter-spacing:.3px}
+  .axes{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+  .axe{border-left:3px solid var(--line)} .axe.p{border-left-color:var(--ok)} .axe.pp{border-left-color:var(--warn)}
+  .badge{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px}
+  .badge.p{background:rgba(62,207,142,.15);color:var(--ok)} .badge.pp{background:rgba(245,177,76,.15);color:var(--warn)}
+  .axe ul{margin:8px 0 0;padding-left:18px;color:var(--mut)} .axe li{margin:3px 0}
+  table{width:100%;border-collapse:collapse;font-size:13px} th,td{padding:7px 10px;border-bottom:1px solid var(--line);text-align:right}
+  th:first-child,td:first-child{text-align:left} th{color:var(--mut);font-weight:600;cursor:pointer;user-select:none;position:sticky;top:0;background:var(--panel)}
+  th:hover{color:var(--ink)} tr:hover td{background:var(--panel2)}
+  .bar{height:8px;border-radius:4px;background:linear-gradient(90deg,var(--accent),#3a6fd8);display:inline-block;vertical-align:middle}
+  .tag{font-size:11px;padding:1px 6px;border-radius:5px;background:var(--panel2);color:var(--mut)}
+  .tag.fz{background:rgba(240,97,109,.15);color:var(--bad)} .tag.hub{background:rgba(106,168,255,.15);color:var(--accent)}
+  .tag.orph{background:rgba(245,177,76,.13);color:var(--warn)}
+  .find{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px solid var(--line)}
+  .dot{width:9px;height:9px;border-radius:50%;margin-top:6px;flex:0 0 auto}
+  .dot.bad{background:var(--bad)} .dot.warn{background:var(--warn)} .dot.ok{background:var(--ok)}
+  .find b{color:var(--ink)} .find span{color:var(--mut)}
+  .foot{color:var(--mut);font-size:12px;margin-top:24px;border-top:1px solid var(--line);padding-top:14px}
+  .scroll{max-height:520px;overflow:auto;border:1px solid var(--line);border-radius:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>OMEGA — Contrôle Total du Repo</h1>
+  <div class="sub">Audit empirique · 2026-05-29 · HEAD <code>4c34d2c0</code> · branche phase-r-dispatcher-v33 (synchro origin) · NASA-Grade L4</div>
+
+  <div class="grid kpis">
+    <div class="card kpi"><div class="v ac">41</div><div class="l">packages npm (45 dossiers)</div></div>
+    <div class="card kpi"><div class="v">1 774</div><div class="l">fichiers .ts</div></div>
+    <div class="card kpi"><div class="v">327 822</div><div class="l">LOC TypeScript</div></div>
+    <div class="card kpi"><div class="v ok">41/41</div><div class="l">TSC PASS (0 erreur)</div></div>
+    <div class="card kpi"><div class="v ok">2522</div><div class="l">tests sovereign (0 fail)</div></div>
+    <div class="card kpi"><div class="v ok">0</div><div class="l">cycle de dépendances</div></div>
+    <div class="card kpi"><div class="v warn">86</div><div class="l">as any (prod)</div></div>
+    <div class="card kpi"><div class="v warn">126</div><div class="l">as unknown as</div></div>
+  </div>
+
+  <h2>VERDICTS PAR AXE</h2>
+  <div class="grid axes">
+    <div class="card axe p"><span class="badge p">PASS</span> &nbsp;<b>Interconnexion</b>
+      <ul><li>DAG acyclique — 0 cycle</li><li>Hubs : canon-kernel (14), orchestrator-core (10)</li><li>12 orphelins · 4 dossiers non câblés</li></ul></div>
+    <div class="card axe pp"><span class="badge pp">PASS_PARTIAL</span> &nbsp;<b>Vérité</b>
+      <ul><li>TSC + tests verts ✔</li><li>« zéro any » non tenu (86 prod)</li><li>43 TODO à relier aux issues</li></ul></div>
+    <div class="card axe pp"><span class="badge pp">PASS_PARTIAL</span> &nbsp;<b>Efficacité</b>
+      <ul><li>sovereign-engine = 46 % du code</li><li>@omega/oracle = package mort (0 import)</li><li>212 fichiers touchent 14d</li></ul></div>
+    <div class="card axe pp"><span class="badge pp">PASS_PARTIAL</span> &nbsp;<b>Faiblesse</b>
+      <ul><li>126 as unknown as (double-cast)</li><li>SPOF canon-kernel (14 dép.)</li><li>21 logs non trackés (housekeeping)</li></ul></div>
+  </div>
+
+  <h2>TOP FINDINGS</h2>
+  <div class="card">
+    <div class="find"><div class="dot ok"></div><div><b>Architecture en couches saine</b> <span>— 0 cycle de dépendances sur 41 packages (DFS). Point fort structurel majeur.</span></div></div>
+    <div class="find"><div class="dot warn"></div><div><b>Dette de typage</b> <span>— 86 <code>as any</code> en prod + 126 <code>as unknown as</code> contredisent le standard « zéro any ». Concentré : sovereign-engine (57), scribe-engine (19).</span></div></div>
+    <div class="find"><div class="dot warn"></div><div><b>Concentration monolithique</b> <span>— sovereign-engine = 151 688 LOC = 46 % du repo. Surface de risque + SPOF combinés.</span></div></div>
+    <div class="find"><div class="dot warn"></div><div><b>Package mort @omega/oracle</b> <span>— 0 import externe ; le scoring réel vit dans sovereign-engine/src/oracle/. À supprimer ou consolider.</span></div></div>
+    <div class="find"><div class="dot ok"></div><div><b>Hygiène directives masquantes</b> <span>— @ts-nocheck=1, @ts-ignore=1 sur 1774 fichiers. Excellent.</span></div></div>
+    <div class="find"><div class="dot warn"></div><div><b>Bruit structurel</b> <span>— 4 dossiers sans package.json (hostile, sbom, schemas, trust-version) + 21 logs non trackés.</span></div></div>
+  </div>
+
+  <h2>PACKAGES (41) — clic sur en-tête pour trier</h2>
+  <div class="scroll"><table id="t">
+    <thead><tr><th data-k="n">Package</th><th data-k="loc">LOC</th><th data-k="f">Fichiers</th><th data-k="d">Dépend de</th><th data-k="dep">Dépendants</th><th data-k="tag">Statut</th></tr></thead>
+    <tbody></tbody>
+  </table></div>
+
+  <div class="foot">Balisage SSOT : [MESURE] commandes du jour · [RECONSTRUCTION] grep (inclut tests/commentaires) · [HYPOTHÈSE] interprétation.
+  Rapport détaillé : OMEGA_AUDIT_TOTAL_2026-05-29.md · données : dep_graph.json / tsc_sweep.json.</div>
+</div>
+
+<script>
+const D=[{"n":"sovereign-engine","loc":151688,"f":685,"d":6,"dep":0,"fz":0},{"n":"integration-nexus-dep","loc":13290,"f":45,"d":0,"dep":0,"fz":0},{"n":"scribe-engine","loc":11358,"f":80,"d":2,"dep":4,"fz":0},{"n":"search","loc":10417,"f":24,"d":0,"dep":0,"fz":0},{"n":"decision-engine","loc":9586,"f":55,"d":1,"dep":0,"fz":0},{"n":"phonetic-stack","loc":8936,"f":26,"d":0,"dep":1,"fz":0},{"n":"governance","loc":8646,"f":106,"d":1,"dep":0,"fz":0},{"n":"omega-forge","loc":8303,"f":65,"d":6,"dep":2,"fz":0},{"n":"emotion-gate","loc":7339,"f":37,"d":1,"dep":0,"fz":0},{"n":"truth-gate","loc":6210,"f":36,"d":1,"dep":0,"fz":0},{"n":"creation-pipeline","loc":6140,"f":63,"d":4,"dep":2,"fz":0},{"n":"oracle","loc":5305,"f":15,"d":0,"dep":0,"fz":0},{"n":"mycelium-bio","loc":5138,"f":13,"d":0,"dep":0,"fz":0},{"n":"genesis-planner","loc":5125,"f":52,"d":1,"dep":6,"fz":0},{"n":"style-emergence-engine","loc":4408,"f":45,"d":3,"dep":3,"fz":0},{"n":"release","loc":4372,"f":69,"d":1,"dep":0,"fz":0},{"n":"sentinel-judge","loc":4366,"f":17,"d":0,"dep":0,"fz":0},{"n":"orchestrator-core","loc":4234,"f":25,"d":0,"dep":10,"fz":0},{"n":"runner","loc":4049,"f":45,"d":6,"dep":0,"fz":0},{"n":"headless-runner","loc":3957,"f":16,"d":1,"dep":1,"fz":0},{"n":"hardening","loc":3749,"f":14,"d":1,"dep":2,"fz":0},{"n":"genome","loc":3665,"f":19,"d":1,"dep":1,"fz":1},{"n":"segment-engine","loc":3499,"f":15,"d":0,"dep":0,"fz":0},{"n":"phase-q","loc":3380,"f":24,"d":1,"dep":0,"fz":0},{"n":"omega-metrics","loc":3295,"f":24,"d":1,"dep":0,"fz":0},{"n":"performance","loc":3220,"f":14,"d":1,"dep":2,"fz":0},{"n":"plugin-gateway","loc":3069,"f":13,"d":0,"dep":0,"fz":0},{"n":"contracts-canon","loc":2560,"f":10,"d":1,"dep":2,"fz":0},{"n":"mycelium","loc":2300,"f":15,"d":0,"dep":1,"fz":1},{"n":"gold-internal","loc":2173,"f":10,"d":6,"dep":3,"fz":0},{"n":"proof-pack","loc":2032,"f":9,"d":2,"dep":3,"fz":0},{"n":"canon-kernel","loc":2012,"f":24,"d":0,"dep":14,"fz":0},{"n":"aggregate-dna","loc":1922,"f":8,"d":0,"dep":0,"fz":0},{"n":"observability","loc":1816,"f":6,"d":0,"dep":0,"fz":0},{"n":"gold-cli","loc":1493,"f":10,"d":3,"dep":0,"fz":0},{"n":"bridge-ta-mycelium","loc":1016,"f":7,"d":0,"dep":0,"fz":0},{"n":"gold-master","loc":954,"f":7,"d":6,"dep":0,"fz":0},{"n":"gold-suite","loc":924,"f":7,"d":2,"dep":1,"fz":0},{"n":"plugin-sdk","loc":846,"f":9,"d":0,"dep":0,"fz":0},{"n":"signal-registry","loc":799,"f":8,"d":1,"dep":2,"fz":0},{"n":"mod-narrative","loc":231,"f":2,"d":0,"dep":0,"fz":0}];
+const MAX=Math.max(...D.map(x=>x.loc));
+function tagFor(x){ if(x.fz) return '<span class="tag fz">FROZEN</span>'; if(x.dep>=6) return '<span class="tag hub">HUB</span>'; if(x.d===0&&x.dep===0) return '<span class="tag orph">orphelin</span>'; return '<span class="tag">actif</span>'; }
+let sortK='loc', asc=false;
+function render(){
+  const rows=[...D].sort((a,b)=>{ let r = sortK==='n' ? a.n.localeCompare(b.n) : (a[sortK]-b[sortK]); return asc?r:-r; });
+  document.querySelector('#t tbody').innerHTML = rows.map(x=>{
+    const w=Math.max(2,Math.round(x.loc/MAX*120));
+    return `<tr><td>${x.n}</td><td><span class="bar" style="width:${w}px"></span> ${x.loc.toLocaleString('fr')}</td><td>${x.f}</td><td>${x.d}</td><td>${x.dep}</td><td>${tagFor(x)}</td></tr>`;
+  }).join('');
+}
+document.querySelectorAll('#t th').forEach(th=>th.onclick=()=>{ const k=th.dataset.k; if(k==='tag')return; if(sortK===k)asc=!asc; else{sortK=k;asc=(k==='n');} render(); });
+render();
+</script>
+</body>
+</html>

@@ -22,6 +22,13 @@ import type { DeltaReport, CorrectionPitch, PitchItem, CorrectionOp } from '../t
 import type { Prescription } from '../prescriptions/types.js';
 import { SOVEREIGN_CONFIG } from '../config.js';
 
+/**
+ * Vue mutable locale de CorrectionPitch. injectPrescriptionsIntoPitches mute
+ * volontairement des champs `readonly` (cf commentaire de la fonction). Ce cast
+ * typé remplace un forçage non typé : la valeur assignée reste vérifiée par TypeScript.
+ */
+type MutableCorrectionPitch = { -readonly [K in keyof CorrectionPitch]: CorrectionPitch[K] };
+
 export function generateTriplePitch(
   delta: DeltaReport,
   prescriptions?: readonly Prescription[],
@@ -252,8 +259,8 @@ function injectPrescriptionsIntoPitches(
   }
 
   // Recalculate total_expected_gain
-  (pitchA as any).total_expected_gain = pitchA.items.reduce((s, i) => s + i.expected_gain.delta, 0);
-  (pitchB as any).total_expected_gain = pitchB.items.reduce((s, i) => s + i.expected_gain.delta, 0);
+  (pitchA as MutableCorrectionPitch).total_expected_gain = pitchA.items.reduce((s, i) => s + i.expected_gain.delta, 0);
+  (pitchB as MutableCorrectionPitch).total_expected_gain = pitchB.items.reduce((s, i) => s + i.expected_gain.delta, 0);
 }
 
 function mapPrescriptionToOp(kind: string): CorrectionOp {

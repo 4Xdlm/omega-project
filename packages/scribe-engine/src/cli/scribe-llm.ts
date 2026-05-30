@@ -12,6 +12,7 @@ import { sha256 } from '@omega/canon-kernel';
 import { segmentPlan } from '../segmenter.js';
 import { buildSkeleton } from '../skeleton.js';
 import { weaveLLM } from '../weaver-llm.js';
+import { loadIntentArtifact } from '../intent-artifact.js';
 import { createScribeProvider } from '../providers/factory.js';
 import { normalizeToProsePack } from '../prosepack/normalize.js';
 import { repairProsePack, type RepairOptions } from '../prosepack/repair.js';
@@ -64,16 +65,15 @@ function main(): void {
   }
 
   const plan = JSON.parse(readFileSync(planPath, 'utf8')) as GenesisPlan;
-  const intent = JSON.parse(readFileSync(intentPath, 'utf8')) as Record<string, unknown>;
+  const intent = loadIntentArtifact(JSON.parse(readFileSync(intentPath, 'utf8')));
 
-  const intentBlock = (intent as any).intent ?? {};
-  console.log(`[scribe-llm] Story: "${intentBlock.title ?? 'Untitled'}"`);
+  console.log(`[scribe-llm] Story: "${intent.intent?.title ?? 'Untitled'}"`);
   console.log(`[scribe-llm] Plan: ${plan.plan_id} (${plan.scene_count} scenes, ${plan.beat_count} beats)`);
 
   // Extract fields
-  const constraints = (intent as any).constraints;
-  const genome = (intent as any).genome;
-  const emotion = (intent as any).emotion;
+  const constraints = intent.constraints;
+  const genome = intent.genome;
+  const emotion = intent.emotion;
 
   // Provider config
   const providerConfig: ScribeProviderConfig = {
@@ -114,7 +114,7 @@ function main(): void {
   // Summary
   const summary = {
     mode, model,
-    story_title: intentBlock.title,
+    story_title: intent.intent?.title,
     plan_id: plan.plan_id,
     plan_hash: plan.plan_hash,
     skeleton_hash: skeleton.skeleton_hash,

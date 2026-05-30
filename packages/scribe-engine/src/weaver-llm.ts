@@ -10,6 +10,7 @@ import type { GenesisPlan, Constraints, StyleGenomeInput, EmotionTarget, Scene, 
 import type { SkeletonDoc, ProseDoc, ProseParagraph } from './types.js';
 import type { ScribeProvider } from './providers/types.js';
 import { buildMasterScenePrompt } from './providers/master-prompt.js';
+import type { IntentArtifact } from './intent-artifact.js';
 
 /**
  * Find a scene in the plan by ID
@@ -28,22 +29,22 @@ function findScene(plan: GenesisPlan, sceneId: string): { scene: Scene; arcTheme
 /**
  * Extract intent metadata from plan (stored in plan fields)
  */
-function extractIntentMetadata(intent: Record<string, unknown>): {
+function extractIntentMetadata(intent: IntentArtifact): {
   title: string;
   premise: string;
   message: string;
   coreEmotion: string;
   canonEntries: Array<{ id: string; statement: string }>;
 } {
-  const intentBlock = (intent as any).intent ?? {};
-  const canonBlock = (intent as any).canon ?? {};
+  const intentBlock = intent.intent;
+  const canonEntries = intent.canon?.entries ?? [];
 
   return {
-    title: intentBlock.title ?? 'Untitled',
-    premise: intentBlock.premise ?? '',
-    message: intentBlock.message ?? '',
-    coreEmotion: intentBlock.core_emotion ?? 'neutral',
-    canonEntries: (canonBlock.entries ?? []).map((e: any) => ({
+    title: intentBlock?.title ?? 'Untitled',
+    premise: intentBlock?.premise ?? '',
+    message: intentBlock?.message ?? '',
+    coreEmotion: intentBlock?.core_emotion ?? 'neutral',
+    canonEntries: canonEntries.map((e) => ({
       id: e.id ?? '',
       statement: e.statement ?? '',
     })),
@@ -77,7 +78,7 @@ export function weaveLLM(
   _emotion: EmotionTarget,
   provider: ScribeProvider,
   seed: string,
-  intent?: Record<string, unknown>,
+  intent?: IntentArtifact,
 ): ProseDoc {
   const sceneIds = skeleton.scene_order;
   const allParagraphs: ProseParagraph[] = [];

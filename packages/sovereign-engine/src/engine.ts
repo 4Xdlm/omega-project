@@ -28,7 +28,28 @@ import type {
   SovereignProvider,
   SovereignLoopResult,
   SScore,
+  AxesScores,
 } from './types.js';
+
+/**
+ * P3-A2 (2026-05-30) -- Placeholder backward-compat pour SScore.axes.
+ * Le pipeline v3 expose 5 macro-axes (MacroSScore.macro_axes), PAS les 9 micro-axes legacy.
+ * Ce SScore de compat est RETOURNE mais son champ `axes` n'est consomme NULLE PART au runtime
+ * (trace intra + cross-package, cf nexus/proof/NCR_P3A_ENGINE_AXES_MASK_REVEAL_2026-05-30.md).
+ * Remplace l'ancien placeholder vide non type (ex-commentaire trompeur) par un placeholder
+ * type honnete, sans `any`, sans reanimer le 14D (tension_14d = champ structurel neutre, score 0).
+ */
+const EMPTY_AXES_BACKCOMPAT: AxesScores = {
+  interiority:       { name: 'interiority',       score: 0, weight: 0, method: 'CALC', details: 'backward-compat placeholder (non consomme runtime)' },
+  tension_14d:       { name: 'tension_14d',       score: 0, weight: 0, method: 'CALC', details: 'backward-compat placeholder (non consomme runtime)' },
+  sensory_density:   { name: 'sensory_density',   score: 0, weight: 0, method: 'CALC', details: 'backward-compat placeholder (non consomme runtime)' },
+  necessity:         { name: 'necessity',         score: 0, weight: 0, method: 'CALC', details: 'backward-compat placeholder (non consomme runtime)' },
+  anti_cliche:       { name: 'anti_cliche',       score: 0, weight: 0, method: 'CALC', details: 'backward-compat placeholder (non consomme runtime)' },
+  rhythm:            { name: 'rhythm',            score: 0, weight: 0, method: 'CALC', details: 'backward-compat placeholder (non consomme runtime)' },
+  signature:         { name: 'signature',         score: 0, weight: 0, method: 'CALC', details: 'backward-compat placeholder (non consomme runtime)' },
+  impact:            { name: 'impact',            score: 0, weight: 0, method: 'CALC', details: 'backward-compat placeholder (non consomme runtime)' },
+  emotion_coherence: { name: 'emotion_coherence', score: 0, weight: 0, method: 'CALC', details: 'backward-compat placeholder (non consomme runtime)' },
+};
 
 // CI_L37 et PROFILES retirés du pipeline — REJETÉS D1 (saturation BB-C01 / corrélations négatives)
 // import { computeCIL37 } from './scoring/ci-l37.js';
@@ -619,7 +640,7 @@ async function executePipeline(
     score_hash: final_score_v3.score_hash,
     scene_id: final_score_v3.scene_id,
     seed: final_score_v3.seed,
-    axes: {} as any, // Non utilisé en v3
+    axes: EMPTY_AXES_BACKCOMPAT,
     composite: final_score_v3.composite,
     verdict: final_score_v3.verdict === 'PITCH' ? 'REJECT' : final_score_v3.verdict,
     emotion_weight_pct: final_score_v3.emotion_weight_pct,
@@ -647,7 +668,7 @@ async function executePipeline(
         score_hash: patchedScore.score_hash,
         scene_id: patchedScore.scene_id,
         seed: patchedScore.seed,
-        axes: {} as any,
+        axes: EMPTY_AXES_BACKCOMPAT,
         composite: patchedScore.composite,
         verdict: patchedScore.verdict === 'PITCH' ? 'REJECT' : patchedScore.verdict,
         emotion_weight_pct: patchedScore.emotion_weight_pct,

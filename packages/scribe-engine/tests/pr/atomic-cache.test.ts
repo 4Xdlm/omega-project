@@ -4,7 +4,7 @@
  */
 
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { unlinkSync, existsSync, mkdirSync, writeFileSync, rmSync } from 'node:fs';
+import { unlinkSync, existsSync, mkdirSync, writeFileSync, rmSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import {
   acquireLock,
@@ -15,7 +15,7 @@ import {
   loadCalibrationLockConfig,
   clearCalibrationCache,
 } from '../../src/providers/atomic-cache.js';
-import { execSync } from 'node:child_process';
+import { createHash } from 'node:crypto';
 
 const TEST_DIR = join(process.cwd(), '.test-cache-pr1');
 const TEST_FILE = join(TEST_DIR, 'test.json');
@@ -196,10 +196,10 @@ describe('Atomic Cache — Drop-in Replacements', () => {
     const data = { a: 1, b: 2, c: 3 };
 
     writeCacheAtomic(TEST_FILE, data);
-    const hash1 = execSync(`sha256sum "${TEST_FILE}"`, { encoding: 'utf8' }).split(' ')[0];
+    const hash1 = createHash('sha256').update(readFileSync(TEST_FILE)).digest('hex');
 
     writeCacheAtomic(TEST_FILE, data);
-    const hash2 = execSync(`sha256sum "${TEST_FILE}"`, { encoding: 'utf8' }).split(' ')[0];
+    const hash2 = createHash('sha256').update(readFileSync(TEST_FILE)).digest('hex');
 
     expect(hash1).toBe(hash2);
   });

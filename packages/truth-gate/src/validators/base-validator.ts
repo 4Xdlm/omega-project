@@ -64,18 +64,13 @@ export abstract class BaseValidator implements Validator {
     details: string,
     options?: Partial<VerdictEvidence>
   ): void {
-    const ev: VerdictEvidence = { type, details };
-    if (options) {
-      if (options.location !== undefined) {
-        (ev as any).location = options.location;
-      }
-      if (options.expected !== undefined) {
-        (ev as any).expected = options.expected;
-      }
-      if (options.actual !== undefined) {
-        (ev as any).actual = options.actual;
-      }
-    }
+    const ev: VerdictEvidence = {
+      type,
+      details,
+      ...(options?.location !== undefined ? { location: options.location } : {}),
+      ...(options?.expected !== undefined ? { expected: options.expected } : {}),
+      ...(options?.actual !== undefined ? { actual: options.actual } : {}),
+    };
     evidence.push(ev);
   }
 

@@ -207,17 +207,12 @@ export function createDriftEvidence(
   expected?: string,
   actual?: string
 ): VerdictEvidence {
-  const evidence: VerdictEvidence = {
+  const result: VerdictEvidence = {
     type: 'drift_detected',
     details,
+    ...(expected !== undefined ? { expected } : {}),
+    ...(actual !== undefined ? { actual } : {}),
   };
-  const result = { ...evidence };
-  if (expected !== undefined) {
-    (result as any).expected = expected;
-  }
-  if (actual !== undefined) {
-    (result as any).actual = actual;
-  }
   return result;
 }
 

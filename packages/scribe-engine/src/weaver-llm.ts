@@ -111,17 +111,17 @@ export function weaveLLM(
       type: beat.pivot ? 'pivot' : 'action',
       isPivot: beat.pivot,
       tensionDelta: beat.tension_delta,
-      subtextSlot: (scene.subtext as any)?.character_thinks ?? '__none__',
+      subtextSlot: scene.subtext?.character_thinks ?? '__none__',
       informationRevealed: [...(beat.information_revealed ?? [])],
       informationWithheld: [...(beat.information_withheld ?? [])],
     }));
 
     // Build subtext layer
     const subtext = {
-      characterThinks: (scene.subtext as any)?.character_thinks ?? '',
-      impliedEmotion: (scene.subtext as any)?.implied_emotion ?? '',
-      readerKnows: (scene.subtext as any)?.reader_knows ?? '',
-      tensionType: (scene.subtext as any)?.tension_type ?? '',
+      characterThinks: scene.subtext?.character_thinks ?? '',
+      impliedEmotion: scene.subtext?.implied_emotion ?? '',
+      readerKnows: scene.subtext?.reader_knows ?? '',
+      tensionType: scene.subtext?.tension_type ?? '',
     };
 
     // Next scene hint (for forward planting)

@@ -155,7 +155,7 @@ export function weaveLLM(
       dialogueRatio: genome.target_dialogue_ratio ?? 0.1,
       signatureTraits: [...(genome.signature_traits ?? [])],
       bannedWords: [...(constraints.banned_words ?? [])],
-      forbiddenCliches: (constraints as any).forbidden_cliches ?? [],
+      forbiddenCliches: [...(constraints.forbidden_cliches ?? [])],
       canonEntries: meta.canonEntries,
       previousSceneSummary: previousSummary,
       nextSceneHint,

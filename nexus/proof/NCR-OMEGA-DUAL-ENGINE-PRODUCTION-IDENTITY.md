@@ -36,3 +36,7 @@ Avant toute Option : **Option 3 documentaire** (acter la dualité + lever la col
 
 ## Leçon
 Les 3 IA + ma propre DEC-007/008 ont déduit « production = scribe-engine » du **graphe de câblage** sans consulter le **SSOT `ENGINE_STATUS.md`**. Classique : prémisse plausible non recoupée avec la source d'autorité. Le scan blueprint demandé par l'Architecte a révélé l'inversion. → Toujours consulter ENGINE_STATUS.md (SSOT runtime) avant toute affirmation sur « le moteur de production ».
+
+## Forensique de genese (2026-05-31) -- AJOUT
+Analyse git+session-saves : voir docs/architecture/OMEGA_ENGINE_GENESIS_FORENSIC_AND_REGISTER_2026-05-31.md.
+VERDICT genese : ni erreur pure, ni duplication accidentelle, ni separation volontaire propre -> HYBRIDE = derive par accretion + migration inachevee. scribe-engine+creation-pipeline scelles 08/02 (pipeline prod original) ; sovereign cree 15/02 (scorer) puis acquiert sa propre generation K2 le 25/03 (= jour ou ENGINE_STATUS le couronne production-v1) ; mais creation-pipeline n'a JAMAIS ete re-route vers sovereign (git log -S = vide). Bascule prevue jamais executee. Registre d'identite (collision de noms 'Scribe' levee) dans le meme doc.

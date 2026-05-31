@@ -9,7 +9,7 @@
 ## 0. ⚠️ CORRECTION EMPIRIQUE PRÉALABLE (REPO = TRUTH)
 Les 3 visions IA partageaient une prémisse implicite : *« scribe propose des candidats → sovereign juge/rejette dans une boucle commune »*. **Le code la contredit** (vérifié 2026-05-31, HEAD `085571db`) :
 
-1. **`@omega/sovereign-engine` n'est importé par AUCUN autre package** (grep repo-wide : 0 consommateur hors lui-même).
+1. **`@omega/sovereign-engine` n'est importé par AUCUN autre package** (grep repo-wide : 0 consommateur LIBRAIRIE). PRECISION : sovereign n'est PAS mort -- il est exerce via ses propres scripts bench (`benchmark:phase-u/w/dual`) + scripts repo (`scripts/bench-v-atomic-*`). Mais 0 import librairie, hors du flux production `creation-pipeline`.
 2. **scribe-engine ↔ sovereign-engine = totalement découplés** (aucun import croisé).
 3. **Le chemin de production** = `creation-pipeline → stage-scribe → runScribe` (`@omega/scribe-engine`). **Aucun import `@omega/sovereign-engine`** dans creation-pipeline ni ailleurs.
 4. **Les DEUX sont des moteurs de génération complets** : scribe (weave/weaveLLM + 7 gates + 6 oracles + rewriteLoop) ; sovereign (K2 Chunked, Duel, Sovereign Loop, Dédale, S-Oracle V2, R6).
@@ -104,5 +104,6 @@ Frontière explicite ; verdict esthétique = sovereign ; boucle interdite docume
 `scribe-engine` = substrat d'écriture + correction **structurelle déterministe** (autorité structurelle, diagnostics CALC). `sovereign-engine` = autorité **esthétique** (S-Oracle V2 + R6 + sélection finale). **Aujourd'hui les deux moteurs sont DÉCOUPLÉS** ; la mise en relation (Option A/B/C) est une décision Architecte distincte, à instruire par ADR de câblage + vérif cycle, AVANT tout code. La boucle « un moteur génère→juge→accepte seul » est INTERDITE (anti double-souveraineté + feedback-toxique-interdit). R6 et S-Oracle V2 restent l'autorité esthétique de sovereign.
 
 ## Corrections Applied
+- **Tension documentaire decouverte** : le CLAUDE.md workspace (V1 SCELLE 2026-04-13) est sovereign-centrique (sovereign = LE moteur, scribe = 'herite P.2-A'), alors que le graphe de code actuel a creation-pipeline -> scribe et sovereign bench-only. Doc et code divergent sur 'quel est le moteur de production'. Le decouplage n'etait documente NULLE PART avant ce DEC-007.
 - **Correction majeure** vs consensus 3-IA : « LLM generation sovereign-owned » → faux (scribe possède weaveLLM ; sovereign possède K2). Et « scribe alimente sovereign » → inexistant en code (moteurs découplés, sovereign sans consommateur). Source : grep repo-wide 2026-05-31, REPO=TRUTH.
 - Reformulation de la frontière en termes de **verdict/autorité** (pas de *qui génère*), et de **relation cible entre 2 îles** (pas de division d'une boucle existante).

@@ -177,3 +177,7 @@ export {
   InMemoryArtifactRegistry,
   createArtifactRegistry,
 } from './artifacts/ArtifactRegistry.js';
+
+// Canonical Logger (DEC-20260531-006)
+export { createLogger, consoleSink, formatEntry } from './util/logger.js';
+export type { Logger, LogEntry, LogLevel, CreateLoggerOptions } from './util/logger.js';

@@ -1919,3 +1919,56 @@ Ce Codex consolide la mémoire technique OMEGA accumulée depuis février 2026, 
 _CODEX OMEGA v1.3-RC1 produit par Claude (Cowork) — 2026-05-28 — Audit exhaustif Architect mandate "ne rate pas un docs ou une ligne sois minutieu prend ton temps meme si tu met 15h" — Phases B+F = ~30 000+ lignes lues + 38 mémoires + 4 verdicts agents synthèse — Tribunal 2 IA Gemini (GO_SEAL) + ChatGPT (PASS_CONDITIONNEL 6 corrections) — Standard NASA-Grade L4 / DO-178C Level A — Lectorat IA (humain plus tard)_
 
 **STATUT FINAL** : `DRAFT_PENDING_FINAL_TRIBUNAL_VALIDATION`
+
+---
+
+# PARTIE VII — ADDENDUM SESSION 2026-05-30/31 (additif, ne modifie aucun scellé)
+
+> **Statut** : SESSION LOG additif. N'altère aucune loi SEALED des PARTIES I-VI. Consigne décisions, clôtures, contrats neufs, corrections de métriques et leçons opérationnelles de la session P3/logger. Branche `phase-r-dispatcher-v33`, HEAD au moment de l'écriture `5470ece9`.
+
+## 7.1 Campagne P3 — réduction de dette `as any`/`as unknown as` (gate EMP-10 systématique)
+
+Dette casts `src` repo : **~85 → ~58**. Tous les commits passés par `commit-with-tests.ps1` (TSC+vitest verts), zéro gate forcé.
+
+| Domaine | Avant → Après | Mécanisme | Commit |
+|---|---|---|---|
+| sovereign-engine engine.ts axes | 2 `{} as any` → `EMPTY_AXES_BACKCOMPAT` typé | placeholder backward-compat non consommé runtime | `89741949` |
+| sovereign-engine voice-genome | `{} as any` → assertion typée | per_param déjà annoté | `ad8a3d69` |
+| signal-registry | `(producer as any)` → cast tableau `readonly string[]` | includes typé | `477a29ff` |
+| scribe scene.subtext (×5) | `(scene.subtext as any)?.` → `scene.subtext?.` | genesis SubtextLayer honore déjà les 4 champs (cruft, pas fantôme) | `3b558593` |
+| scribe forbidden_cliches | `(constraints as any)` → direct + spread | constraints déjà `Constraints` | `4a944bcb` |
+| scribe prosepack pov/tense (×6) | retrait `as any` | union source ⊆ cible (assignable) | `13d8750a` |
+| gold-cli | `as unknown as PackageValidation[]` + var morte + import inutile | `packages` toujours `[]` (pas un bug runtime) | `0ac2f36e` |
+| omega-metrics @ts-ignore | retrait suppression stale | import canon-kernel résout proprement | `3fee7f8e` |
+
+**Reste (légitime / design-gated, NON dette cosmétique)** : sovereign 14D (8, SANCTUAIRE FORBID-CANON-GARAGE), omega-metrics interface→Record (bridge TS), omega-runner hashing-frontier, singles (EntityId brandé, accès dynamique). `bumpedAnalysis`/frontières JSON = KEEP documenté.
+
+## 7.2 NCR engine-axes — RESOLVED (risque théorique confirmé)
+
+`NCR_P3A_ENGINE_AXES_MASK_REVEAL` (engine.ts:622/650 `axes:{} as any`). **Trace runtime prouvée** : le SScore backward-compat retourné par `executePipeline` n'a son champ `axes` consommé NULLE PART (intra-paquet : sovereign-loop/re-score-guard s'alimentent via le juge V2 ; cross-package : grep `.s_score.axes` vide). Les 8 erreurs du mask-reveal étaient de NIVEAU TYPE, pas une preuve runtime. Fix Option C+ (placeholder typé honnête). Commentaire mensonger « Non utilisé en v3 » corrigé.
+
+## 7.3 NOUVEAU CONTRAT — `IntentArtifact` + validation fail-closed (scribe)
+
+**LAW-SCRIBE-INTENT-001 [PROPOSED]** : l'artefact `intent.json` (composite `{intent, canon, constraints, genome, emotion, metadata}` produit par omega-runner stage 00-intent, = `IntentPack` sérialisé de creation-pipeline) est désormais typé via `scribe-engine/src/intent-artifact.ts` (`interface IntentArtifact` + `loadIntentArtifact(raw): IntentArtifact`, **fail-closed** : throw si constraints/genome/emotion absents/invalides). Remplace 6 `(intent as any)` épars par 1 frontière validée. Comble un **gap de crash latent** (le chemin LLM CLI passait `undefined` à `weaveLLM` qui requiert ces champs). Commit `ace926f6` + 7 tests. **Cycle interdit confirmé** : creation-pipeline dépend de scribe-engine → import `IntentPack` interdit → interface locale obligatoire.
+
+## 7.4 DÉCISION — DEC-20260531-006 logger unification [ACCEPTED 2026-05-31]
+
+Logger canonique créé dans `orchestrator-core/util/logger.ts` (commit `5470ece9`, +9 tests). Unifie les 2 loggers préexistants : omega-runner (déterministe, SANS timestamp → sortie hashable) + headless-runner (affichage, AVEC timestamp/context). Mode **déterministe par défaut** (pas de timestamp sauf Clock injecté), sink optionnel (`consoleSink`), context via `stableStringify`. **Migration P1→Pn = backlog gouverné par l'ADR, moteur sovereign-engine EN DERNIER avec vérif déterminisme obligatoire (golden runs/hash avant-après).** AUCUN sweep autonome autorisé sur le chemin hashé.
+
+## 7.5 CORRECTIONS DE MÉTRIQUES (METRIC_HONESTY)
+
+- **console.\*** : non pas « 136 » mais **361 réels** (hors commentaires JSDoc) / 376 brut. `search` = **0 réel** (4 étaient des `@example` en doc). Répartition réelle : sovereign 149, mycelium-bio 58, scribe 51, governance 47, metrics 26, segment 14, autres < 10.
+- **« 8 FAIL proofpack/validation »** (doc avril) = **STALE**, non reproductible (sovereign 2522/0 aujourd'hui ; proofpack/validation = sous-dossiers, pas des packages).
+- **0 TODO/FIXME/HACK** dans tout `src` ; **0 `@ts-ignore`** dans `src` après `3fee7f8e`.
+- **56 skipped sovereign** = 2 suites délibérées (bench ncr-m2-v4-fusion fermé + tension-judge-harness), pas des échecs.
+- Faux signaux grep démasqués : `truth-gate:119` « transaction h**as any** verdict » (commentaire) ; flag « binary file matches » = artefact locale grep sur accents (zéro NUL).
+
+## 7.6 LEÇONS OPÉRATIONNELLES (anti-erreurs)
+
+- **FORBID-OPS-DOTNET-RELPATH-001** : `[System.IO.File]::WriteAllText/WriteAllLines` en chemin RELATIF écrit dans le cwd .NET (≠ `cd` PowerShell) → écritures silencieusement perdues. TOUJOURS chemin ABSOLU pour les writes .NET.
+- **FORBID-OPS-PARALLEL-COMMIT-001** : en session Cowork, l'Architecte committe en parallèle Windows-side → `git fetch`/`log` AVANT toute action repo ; un commit non synchronisé a écrasé un livrable Architecte (réparé par reset). Cf mémoire `feedback-cowork-parallel-architect-commits`.
+- **test-infra scribe réparé** (`f331046d`) : `atomic-cache.test.ts` `execSync('sha256sum')`→`crypto.createHash` (portable Windows) ; `ollama-integration.test.ts` (script manuel `npx tsx`, 0 suite vitest) exclu du gate. Le gate scribe-engine était cassé pour TOUT commit avant ce fix.
+
+## 7.7 ÉTAT scribe-engine au terme de la session
+casts `as any`/`as unknown as` dans `scribe-engine/src` = **0** (sauf la frontière validée `loadIntentArtifact`). Gate scribe vert (33 fichiers de test, 339 tests). Détail audit complet : `nexus/proof/SCRIBE_ENGINE_FULL_AUDIT_*`.
+

@@ -1976,3 +1976,7 @@ casts `as any`/`as unknown as` dans `scribe-engine/src` = **0** (sauf la fronti�
 - C1 : LAW-SCRIBE-INTENT-001 RATIFIEE (ci-dessus).
 - C3 : chaos-provider DEJA CONFORME determinisme -- PRNG XorShift128 seede (pas de Math.random), opt-in explicite (wrappe un provider). Aucun code requis ; ne jamais wrapper un run hashe de production. INV-FAILCLOSED-01.
 - C4 : smoke test prosepack/repair.ts ajoute (commit cd597d3f) -- chemin no-op, determinisme, provider non appele.
+
+## 7.9 EMP-15 DOCUMENTATION_TOPOLOGY_MUSEUM [SCELLÉ 2026-05-31]
+
+SSOT = `docs/` + `nexus/proof/` + `sessions/` (+ code `packages/ src/ gateway/`). Tout doc sous `docs/archive/museum/` = **NON_SOURCE_OF_TRUTH_RUNTIME** : interdit d'y fonder SEUL une décision archi / NCR / modif moteur / identité moteur prod / état build-test. Avant usage : vérifier HEAD + `git status` + source courante via `docs/INDEX/` + recoupage runtime. Un doc muséé explique **POURQUOI** OMEGA est devenu ainsi, pas ce qu'il **EST**. `docs/archive/museum/MUSEUM_CATALOG.md` **fait foi du contenu du musée** (savoir sans rescaner) ; un item muséé absent du catalogue = violation EMP-15. Réorg = **musée pas purge** : `git mv` only, zéro suppression, zéro code, staging ciblé par chemin (EMP-13). Vague 1 = documents ; snapshots de code + `omega-autopsie/` = `REGISTERED_NOT_MOVED` (vague 2 gatée build). Cf `docs/archive/museum/README_MUSEUM.md` + CLAUDE.md §H amendement 14 (EMP-15).

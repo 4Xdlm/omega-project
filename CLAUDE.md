@@ -200,14 +200,15 @@ Francky (Architect) — FINAL AUTHORITY
 
 ---
 
-## H) DOCTRINAL AMENDMENTS (Sprint S8 sealed 2026-05-02 + Sprint S11 sealed 2026-05-26 + Sprint S12 sealed 2026-05-26 + CODEX v1.2 sealed 2026-05-28 + EMP-13 PROPOSED 2026-05-28 + EMP-14 RATIFIÉ 2026-05-30)
+## H) DOCTRINAL AMENDMENTS (Sprint S8 sealed 2026-05-02 + Sprint S11 sealed 2026-05-26 + Sprint S12 sealed 2026-05-26 + CODEX v1.2 sealed 2026-05-28 + EMP-13 PROPOSED 2026-05-28 + EMP-14 RATIFIÉ 2026-05-30 + EMP-15 SCELLÉ 2026-05-31)
 
-Treize amendements (douze scellés/ratifiés + EMP-13 PROPOSED) post Sprints S6+S7+S8+S11+S12 + CODEX v1.2 + Trame Contrôle Total 2000. Références complètes :
+Quatorze amendements (treize scellés/ratifiés + EMP-13 PROPOSED) post Sprints S6+S7+S8+S11+S12 + CODEX v1.2 + Trame Contrôle Total 2000 + Museum Topology. Références complètes :
 - Amendements 1-6 : [docs/governance/SPRINT_S8_DOCTRINAL_AMENDMENTS.md](docs/governance/SPRINT_S8_DOCTRINAL_AMENDMENTS.md)
 - Amendements 7-8 (EMP-09 + EMP-10) : [docs/governance/SPRINT_S11_DOCTRINAL_AMENDMENTS.md](docs/governance/SPRINT_S11_DOCTRINAL_AMENDMENTS.md)
 - Amendement 9 (EMP-11) : [docs/governance/SPRINT_S12_DOCTRINAL_AMENDMENTS.md](docs/governance/SPRINT_S12_DOCTRINAL_AMENDMENTS.md)
 - Amendements 10-11 (EMP-12 + EMP-12.1) : [docs/CODEX_OMEGA_LOIS_CONTRAINTES_LLM_v1-2.md](docs/CODEX_OMEGA_LOIS_CONTRAINTES_LLM_v1-2.md) Partie IV + [docs/governance/codex/](docs/governance/codex/)
 - Amendement 14 (EMP-14, Trame Contrôle Total 2000) : [docs/governance/OMEGA_TOTAL_CONTROL_FRAMEWORK_2000.md](docs/governance/OMEGA_TOTAL_CONTROL_FRAMEWORK_2000.md)
+- Amendement 15 (EMP-15, Documentation Topology Museum) : [docs/archive/museum/README_MUSEUM.md](docs/archive/museum/README_MUSEUM.md)
 
 | # | Amendement | Règle synthétique |
 |---|---|---|
@@ -224,6 +225,7 @@ Treize amendements (douze scellés/ratifiés + EMP-13 PROPOSED) post Sprints S6+
 | 11 | CONTROL_BEFORE_WRITE (EMP-12.1) | Sous-règle EMP-12. Avant toute action OMEGA significative (code, calibration, mesure, conclusion), produire un bloc `CONTROL_BEFORE_WRITE` (format strict : domaine + documents lus + lois applicables + mesures historiques + NCRs liées + interdictions + hallucinations + conflits + verdict GO_WRITE / GO_READ_MORE / STOP_ARCHITECT_ARBITRATION). Cf [docs/governance/codex/OMEGA_CODEX_CONTROL_BEFORE_WRITE.md](docs/governance/codex/OMEGA_CODEX_CONTROL_BEFORE_WRITE.md). Wrapper `commit-with-tests.ps1 --codex-preflight` extension Phase 2 (Sprint S13+) |
 | 12 | LFS_STAGING_DISCIPLINE (EMP-13) | **[PROPOSED 2026-05-28, ratification Tribunal pending]** Tout commit OMEGA depuis sandbox Linux (Bash MCP) DOIT utiliser staging explicite par chemin (`git add <path1> <path2>`), JAMAIS `git add -A` ni `git add .`. Binaires .exe/.msi/archives = git-lfs tracked (migration `598c80f6`). Sandbox Linux sans git-lfs voit blobs resolus (omega-bridge-win.exe 42 MB) vs pointeurs LFS (~132 o dans HEAD) -> `git add -A` reintroduirait les blobs et annulerait la migration LFS. Commits Windows-side OU liste de fichiers ciblee. Cf [docs/CODEX_OMEGA_LOIS_CONTRAINTES_LLM_v1-3-1.md](docs/CODEX_OMEGA_LOIS_CONTRAINTES_LLM_v1-3-1.md) PARTIE XVI. |
 | 13 | CONTROL_TOTAL_FRAMEWORK_2000 (EMP-14) | **[RATIFIÉ 2026-05-30, Architecte]** Trame de contrôle total : 17 gates obligatoires (CONTROL_BEFORE_WRITE, ANCHOR_PRE_FLIGHT, matrice de portée, TEST_CAUSAL, NO_MEASURE_REDUNDANCY, PROMOTION_GATE, METRIC_HONESTY, MASK_REVEAL, TEST_BEFORE_COMMIT, ORACLE_COMPATIBILITY, BENCH_PROTOCOL, POST_RUN_AUDIT, CODEX_UPDATE, ADR/NCR, FINAL_REPORT) + 10 Règles d'Or. Ligne d'invocation obligatoire avant action significative : `J'applique OMEGA_TOTAL_CONTROL_FRAMEWORK_2000 avant action.` Consolide/opérationnalise EMP-09/10/11/12/12.1. Cf [docs/governance/OMEGA_TOTAL_CONTROL_FRAMEWORK_2000.md](docs/governance/OMEGA_TOTAL_CONTROL_FRAMEWORK_2000.md). |
+| 14 | DOCUMENTATION_TOPOLOGY_MUSEUM (EMP-15) | **[SCELLÉ 2026-05-31]** SSOT = `docs/` + `nexus/proof/` + `sessions/`. Tout doc sous `docs/archive/museum/` = **NON_SOURCE_OF_TRUTH_RUNTIME** : interdit d'y fonder SEUL une décision archi/NCR/modif moteur/identité moteur prod/état build-test. Avant usage : vérifier HEAD + `git status` + source courante via `docs/INDEX` + recoupage runtime. Un doc muséé explique POURQUOI OMEGA est devenu ainsi, pas ce qu'il EST maintenant. `MUSEUM_CATALOG.md` fait foi du contenu du musée. Cf [docs/archive/museum/README_MUSEUM.md](docs/archive/museum/README_MUSEUM.md). |
 
 **Note** : Le concept "Plan Max v3.X" précédemment référencé dans
 NCRs Sprint S8 est NON-CANONIQUE. Le seul document canonique de

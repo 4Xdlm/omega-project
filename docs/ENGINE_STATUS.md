@@ -2,6 +2,10 @@
 # Dernière mise à jour : 2026-03-25
 # Ce fichier fait autorité sur l'état courant du moteur.
 # Tout autre document en contradiction = HISTORICAL SNAPSHOT.
+#
+# EMP-15 (2026-05-31) : tout doc sous docs/archive/museum/ = NON_SOURCE_OF_TRUTH_RUNTIME
+# (explique POURQUOI, pas ce qui EST). Ne JAMAIS y fonder seul l'identité moteur prod /
+# l'état build-test. MUSEUM_CATALOG.md fait foi du contenu du musée. Cf docs/archive/museum/README_MUSEUM.md.
 
 ## Moteur actif
 

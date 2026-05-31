@@ -1,6 +1,6 @@
 # CODEX OMEGA — Lois, Contraintes LLM et Physique Littéraire
-**Version** : V1.3.1 (incrément Phase 2 — découvertes V2.2-B embeddings, 2026-05-28). Dérivé de v1-3.md (SEALED tag phase-codex-v1.3-sealed-2026-05-28, INTACT).
-**Date** : 2026-05-28
+**Version** : V1.3.2 (V1.3.1 + back-port EMP-14, incrément museum EMP-15 §7.6/§7.9 — 2026-05-31). Dérivé de v1-3.md (SEALED tag phase-codex-v1.3-sealed-2026-05-28, INTACT).
+**Date** : 2026-05-31 (base v1.3.1 2026-05-28 + additions museum/EMP 2026-05-31)
 **Status** : `ACTIVE_INCREMENT_PROPOSED` (ajouts V2.2-B tous PROPOSED ; seal corpus-level interdit avant B2 PASS). NOTE: v1-3.md scellé portait encore le string DRAFT_PENDING_FINAL_TRIBUNAL_VALIDATION (stale, corrigé ici).
 **Auteur v1.3-RC1 CLEAN** : Claude (Cowork) — amendement incrémental v1.2 (Claude Cowork 2026-05-28)
 **Mandate Architect** : *"finir les pourcentage manquant pour etre a 1000% de verité et de données donc controle tous je veu l exactitude et controle les version et date pour ne pas resortir des theorie qui ne match plus. je veu un travail d'orfevre, je veu que tu lise tous meme quand le titre du documents ou le contenue ne te parait pas important, pas de jugement execute"* + *"je veu une verité indiscutable et chaque lettre dois etre controlé"*
@@ -1049,6 +1049,18 @@ Triple catalyseur (prize + film + BdO) : All the Light scenario = 99 semaines
 
 Toute modification = décision Architecte.
 
+> ⚠️ FRESHNESS 2026-05-31 : le floor RCI 85 est sous **NCR_RCI_SENSOR_DEFECT** (OPEN) — recompute
+> littérature `MINAXIS_E` (commit a4917bba) : 0/57 maîtres ≥85, moteur K2 82.6 > maîtres (médiane
+> 68.4) → floor RCI 85 empiriquement inatteignable, suspecté calibré sur sortie K2. Recalibration
+> corpus-proof gatée (workstream Phase R). Le seuil reste INCHANGÉ tant que la recalibration n'est pas
+> décidée par l'Architecte. Cf nexus/proof/NCR_RCI_SENSOR_DEFECT.md.
+
+> NOTE RÉCONCILIATION : `core/thresholds.ts:SEAL_FLOOR_MIN=85` (gate SEAL, tous axes) est la
+> référence canonique du seuil de seal. L'audit MIN_AXIS mentionne un abaissement SII/MACRO 85→80 —
+> à vérifier : couche de floor distincte (floor interne macro-axe ou genre-thresholds AXIS_FLOOR base
+> 50 + ajustements) vs gate SEAL 85. À réconcilier Windows-side (floor effectif par axe) avant la
+> recalibration RCI/ECC. [À VÉRIFIER]
+
 ## 6.10 5 Archétypes coefficients précis v1.3 *(absent v1.2)*
 
 Dérivés du packet, jamais hardcodés. Source : `src/microsurgery/damage-gate.ts` ligne 45 — SSOT.
@@ -1850,6 +1862,15 @@ Bloc CBW 11 champs obligatoires avant action. 3 verdicts (GO_WRITE / GO_READ_MOR
 Tout commit OMEGA depuis sandbox Linux (Bash MCP) DOIT utiliser staging explicite par chemin (`git add <path1> <path2>`), JAMAIS `git add -A` ni `git add .`. Les binaires .exe/.msi/archives sont git-lfs tracked (migration commit `598c80f6`). Le sandbox Linux sans git-lfs voit les binaires résolus (ex: omega-bridge-win.exe 42 MB) vs les pointeurs LFS (~132 o stockés dans HEAD) -> un `git add -A` sandbox-side ré-introduirait les blobs, annulerait la migration LFS et corromprait l'historique. Commits déclenchés Windows-side OU avec liste de fichiers ciblée.
 - Source : découverte session V2.2-B 2026-05-28 (HEAD 050ae4be, git-lfs 3.7.1 Windows-side confirmé)
 - État : PROPOSED -> ratification doctrine CLAUDE.md v3.160.0
+
+## EMP-14 CONTROL_TOTAL_FRAMEWORK_2000 (Trame Contrôle Total) [RATIFIÉ 2026-05-30]
+
+Trame de contrôle total : 17 gates obligatoires (CONTROL_BEFORE_WRITE, ANCHOR_PRE_FLIGHT, matrice
+de portée, TEST_CAUSAL, NO_MEASURE_REDUNDANCY, PROMOTION_GATE, METRIC_HONESTY, MASK_REVEAL,
+TEST_BEFORE_COMMIT, ORACLE_COMPATIBILITY, BENCH_PROTOCOL, POST_RUN_AUDIT, CODEX_UPDATE, ADR/NCR,
+FINAL_REPORT) + 10 Règles d'Or. Ligne d'invocation obligatoire avant action significative :
+« J'applique OMEGA_TOTAL_CONTROL_FRAMEWORK_2000 avant action. » Consolide/opérationnalise
+EMP-09/10/11/12/12.1. Réf : docs/governance/OMEGA_TOTAL_CONTROL_FRAMEWORK_2000.md + CLAUDE.md §H row 13.
 
 ---
 

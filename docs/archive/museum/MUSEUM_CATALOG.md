@@ -11,7 +11,7 @@ Légende colonnes : **item** | **type** | **date origine** | **date musée** | *
 
 | item | type | date origine | date musée | raison | source courante équivalente | statut |
 |------|------|--------------|------------|--------|------------------------------|--------|
-| _(C2 deposit — à renseigner)_ | | | | | | |
+| `STALE_EXPORTS/deposit_2026-02-23/` (178 docs : public 147 + confidential 31) | export bundle (doc) | 2026-02-23 | 2026-05-31 | doublon stale ; 75/75 sessions hash-identiques à `sessions/` racine (0 unique) | `sessions/`, `docs/` courants | **MUSEUM** |
 | _(C3 session-saves racine)_ | | | | | | |
 | _(C4 forensic)_ | | | | | | |
 | _(C5 root strays / dédup)_ | | | | | | |
@@ -20,7 +20,8 @@ Légende colonnes : **item** | **type** | **date origine** | **date musée** | *
 
 | item | type | date origine | taille | raison | décision vague 2 | statut |
 |------|------|--------------|--------|--------|-------------------|--------|
-| _(C6 — à renseigner)_ | | | | | | |
+| `deposit/confidential/src_code/` | snapshot CODE (174 .ts) | 2026-02-23 | 174 fichiers | code non déplacé en vague 1 (exclu du `git mv` deposit) ; incarnation `src/` ancêtre | LFS/zip ou archive — sprint vague 2 gaté build | **REGISTERED_NOT_MOVED** |
+| _(C6 snapshots — à renseigner)_ | | | | | | |
 
 ---
 *Procédure d'usage : voir `README_MUSEUM.md`. Hors SSOT (NON_SOURCE_OF_TRUTH_RUNTIME).*

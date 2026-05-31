@@ -12,7 +12,7 @@ Légende colonnes : **item** | **type** | **date origine** | **date musée** | *
 | item | type | date origine | date musée | raison | source courante équivalente | statut |
 |------|------|--------------|------------|--------|------------------------------|--------|
 | `STALE_EXPORTS/deposit_2026-02-23/` (178 docs : public 147 + confidential 31) | export bundle (doc) | 2026-02-23 | 2026-05-31 | doublon stale ; 75/75 sessions hash-identiques à `sessions/` racine (0 unique) | `sessions/`, `docs/` courants | **MUSEUM** |
-| _(C3 session-saves racine)_ | | | | | | |
+| `SESSION_SAVES_legacy/root_session_saves/` (3 fichiers) | session-save (doc) | 2026-02-05 → 03-06 | 2026-05-31 | consolidation : session-saves traînant à la racine du dépôt | `sessions/` + `sessions/SESSION_SAVE_INDEX.md` | **MUSEUM** |
 | _(C4 forensic)_ | | | | | | |
 | _(C5 root strays / dédup)_ | | | | | | |
 

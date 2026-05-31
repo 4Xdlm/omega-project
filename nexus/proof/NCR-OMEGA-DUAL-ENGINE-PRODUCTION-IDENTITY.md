@@ -40,3 +40,6 @@ Les 3 IA + ma propre DEC-007/008 ont déduit « production = scribe-engine » du
 ## Forensique de genese (2026-05-31) -- AJOUT
 Analyse git+session-saves : voir docs/architecture/OMEGA_ENGINE_GENESIS_FORENSIC_AND_REGISTER_2026-05-31.md.
 VERDICT genese : ni erreur pure, ni duplication accidentelle, ni separation volontaire propre -> HYBRIDE = derive par accretion + migration inachevee. scribe-engine+creation-pipeline scelles 08/02 (pipeline prod original) ; sovereign cree 15/02 (scorer) puis acquiert sa propre generation K2 le 25/03 (= jour ou ENGINE_STATUS le couronne production-v1) ; mais creation-pipeline n'a JAMAIS ete re-route vers sovereign (git log -S = vide). Bascule prevue jamais executee. Registre d'identite (collision de noms 'Scribe' levee) dans le meme doc.
+
+## Chemin de resolution (2026-05-31) -- AJOUT
+Decision Architecte : FUSION (un seul moteur canonique, qualite > temps). Resolution = DEC-20260531-009-CANONICAL-NARRATIVE-ENGINE-FUSION (PROPOSED) + roadmap docs/architecture/OMEGA_NARRATIVE_ENGINE_FUSION_ROADMAP.md. DEC-007/008 SUPERSEDED. NCR reste OPEN jusqu'a ratification DEC-009. Cible: BookOrchestrator(creation-pipeline) -> Adapter Scene->ForgePacket -> SovereignForge(K2) -> S-Oracle V2/R6 -> evidence. Fusion MODULAIRE (pas monolithe), capacite-par-capacite, bench-avant-destitution.

@@ -3,7 +3,7 @@
 > ⚠️ **CORRECTION CRITIQUE 2026-05-31 (post scan blueprints, demande Architecte)** : la prémisse de cet ADR (« scribe-engine = production câblé / sovereign = île à brancher en aval, Option B ») est **INVERSÉE**. docs/ENGINE_STATUS.md (SSOT auto-déclaré) désigne la machinerie **sovereign-engine (K2 + Juges GB/V2/MacroSScore) comme le moteur-production-v1 SCELLÉ** ; le câblage creation-pipeline → scribe-engine (package hérité P.2-A) serait, selon la règle d'ENGINE_STATUS, un HISTORICAL SNAPSHOT. De plus « Scribe » est une COLLISION DE NOMS (rôle générateur DANS sovereign ≠ package scribe-engine). **DEC-007 et DEC-008 sont GELÉS** jusqu'à résolution de 
 exus/proof/NCR-OMEGA-DUAL-ENGINE-PRODUCTION-IDENTITY.md (arbitrage Architecte sur l'identité du moteur de production). Les options A/B/C sont invalides en l'état.
 
-**Status** : ON_HOLD (prémisse inversée, cf NCR ci-dessous) · **Date** : 2026-05-31 · **Decision Owner** : Architecte (Francky) · **Severity** : HIGH
+**Status** : SUPERSEDED_BY_DEC-20260531-009 (fusion) · **Date** : 2026-05-31 · **Decision Owner** : Architecte (Francky) · **Severity** : HIGH
 **Participants** : Claude Code (synthèse + vérification repo), Gemini (rôles douanier/juge), ChatGPT (matrice d'autorité + boucle interdite).
 **Doctrine** : NO CODE BEFORE ADR · CONTROL_BEFORE_WRITE · REPO = TRUTH · PROVE IT · MINIMIZE IT · feedback-toxique-interdit (Codex 3.x) · DÉTERMINISME.
 

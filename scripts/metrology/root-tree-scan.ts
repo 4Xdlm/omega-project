@@ -34,7 +34,7 @@ interface RootRec {
   firstCommit: string; lastCommit: string; commits: number;
   isWorkspaceTop: boolean; hasTsconfig: boolean; hasPackageJson: boolean;
   filesWithMarkers: number; markerHits: string;
-  provisionalClass: string; adjudicated?: string;
+  finalClass: string; isEngineZone: string; verdictRule: string; adjudicated: string;
 }
 
 function walkDir(abs: string): { files: number; ts: number; test: number; json: number; md: number; bytes: number; maxDepth: number; markerFiles: number; markers: Set<string> } {
@@ -71,29 +71,47 @@ function walkDir(abs: string): { files: number; ts: number; test: number; json: 
   return { files, ts, test, json, md, bytes, maxDepth, markerFiles, markers };
 }
 
-// Human-adjudicated verdicts (Phase 1, evidence in 01_ENGINE_INVENTORY.md).
-// Dirs not listed here keep the measured heuristic class (= PROVISIONAL, pending adjudication).
-const ADJUDICATED: Record<string, string> = {
-  src: 'LEGACY_ANCESTOR',
-  gateway: 'ACTIVE_RUNTIME',
-  packages: 'ACTIVE_RUNTIME',
-  OMEGA_SENTINEL_SUPREME: 'DORMANT',
-  'omega-phase23': 'SNAPSHOT',
-  'genius-integration': 'PATCH_STAGED',
+// ---------------------------------------------------------------------------
+// DETERMINISTIC VERDICT LADDER (Phase 1 closure, "0 dossier racine non classé")
+// First-match-wins. Every root dir resolves to a final class + isEngineZone +
+// the rule id that fired. Taxonomy documented in 01_PHASE1_PASS.md.
+//   R0  manual adjudicated (evidence in 01_ENGINE_INVENTORY.md, agent-verified)
+//   R1  BUILD_ARTIFACT  : dist / *cache*
+//   R2  TOOLING         : scripts/tools/bin/config/.github/.ci/GOVERNANCE/plugins
+//   R3  UI_SURFACE      : apps/omega-ui*/src-tauri
+//   R4  DOC             : docs/ROADMAP
+//   R5  TEST_FIXTURE    : root-level test/tests
+//   R6  SUPPORT_INFRA   : nexus (active proof/blueprint pipeline, non-engine)
+//   R7  SNAPSHOT        : dated archive / version / phase-milestone copy (name pattern)
+//   R8  DORMANT         : self-contained engine variant (ts+markers+tsconfig) unintegrated
+//   R9  DATA_ARTIFACT   : no TS source (pure data/proof/evidence)
+//   R10 DATA_ARTIFACT   : residual (TS present but no engine signals)
+// ---------------------------------------------------------------------------
+const MANUAL: Record<string, string> = {
+  packages: 'ACTIVE_RUNTIME', gateway: 'ACTIVE_RUNTIME', src: 'LEGACY_ANCESTOR',
+  OMEGA_SENTINEL_SUPREME: 'DORMANT', 'omega-phase23': 'SNAPSHOT', 'genius-integration': 'PATCH_STAGED',
 };
+const ENGINE_MANUAL = new Set(['packages', 'gateway', 'src', 'OMEGA_SENTINEL_SUPREME', 'omega-phase23', 'genius-integration']);
+const TOOLING_NAMES = new Set(['scripts', 'tools', 'bin', 'config', '.github', '.ci', 'GOVERNANCE', 'plugins']);
+const UI_NAMES = new Set(['apps', 'omega-ui', 'omega-ui-bootstrap', 'src-tauri']);
+const DOC_NAMES = new Set(['docs', 'ROADMAP']);
+const TEST_NAMES = new Set(['test', 'tests']);
+const SNAPSHOT_RE = /^OMEGA_MASTER_DOSSIER|^OMEGA_PHASE\d|^OMEGA_SNAPSHOTS$|^OMEGA_SPRINT|^sprint\d|^omega-v44|titanium|^EXPORT_FULL_PACK$|^archives$|^releases$|^history$|^deposit$/;
 
-function classify(r: Omit<RootRec, 'provisionalClass'>): string {
+type RootSignals = Omit<RootRec, 'finalClass' | 'isEngineZone' | 'verdictRule' | 'adjudicated'>;
+function verdict(r: RootSignals): { cls: string; engine: boolean; rule: string } {
   const d = r.dir;
-  if (/^(packages|src|gateway|apps|tools|nexus|scripts|config|schemas|bin)$/.test(d) === false) {
-    // archive-looking top dirs
-    if (/OMEGA_SNAPSHOTS|OMEGA_MASTER_DOSSIER|OMEGA_PHASE|omega-v44|titanium|_titanium|SPRINT|sprint28|archives|releases|history|deposit|EXPORT_FULL_PACK/.test(d)) return 'SNAPSHOT?';
-  }
-  if (d === 'packages' || d === 'gateway') return 'ACTIVE_RUNTIME?';
-  if (d === 'src') return 'LEGACY_OR_ANCESTOR?';
-  if (r.tsFiles + r.testFiles === 0 && r.files > 0) return 'DATA_OR_DOC?';
-  if (r.filesWithMarkers > 0 && r.commits > 0) return 'ENGINE_BEARING?';
-  if (r.commits === 0) return 'UNTRACKED?';
-  return 'UNKNOWN';
+  if (MANUAL[d]) return { cls: MANUAL[d]!, engine: ENGINE_MANUAL.has(d), rule: 'R0-manual-adjudicated' };
+  if (d === 'dist' || /cache/i.test(d)) return { cls: 'BUILD_ARTIFACT', engine: false, rule: 'R1-build-cache' };
+  if (TOOLING_NAMES.has(d)) return { cls: 'TOOLING', engine: false, rule: 'R2-tooling-name' };
+  if (UI_NAMES.has(d)) return { cls: 'UI_SURFACE', engine: false, rule: 'R3-ui-name' };
+  if (DOC_NAMES.has(d)) return { cls: 'DOC', engine: false, rule: 'R4-doc-name' };
+  if (TEST_NAMES.has(d)) return { cls: 'TEST_FIXTURE', engine: false, rule: 'R5-test-name' };
+  if (d === 'nexus') return { cls: 'SUPPORT_INFRA', engine: false, rule: 'R6-nexus-active-proof' };
+  if (SNAPSHOT_RE.test(d)) return { cls: 'SNAPSHOT', engine: r.tsFiles > 0 && r.filesWithMarkers > 0, rule: 'R7-snapshot-name' };
+  if (r.tsFiles > 0 && r.filesWithMarkers > 0 && r.hasTsconfig) return { cls: 'DORMANT', engine: true, rule: 'R8-engine-variant-unintegrated' };
+  if (r.tsFiles === 0) return { cls: 'DATA_ARTIFACT', engine: false, rule: 'R9-no-source-data' };
+  return { cls: 'DATA_ARTIFACT', engine: false, rule: 'R10-residual' };
 }
 
 const tops = fs.readdirSync(REPO, { withFileTypes: true })
@@ -107,7 +125,7 @@ for (const dir of tops) {
   const first = git(['log', '--reverse', '--format=%aI', '--', dir + '/']).split('\n')[0] || '';
   const last = git(['log', '-1', '--format=%aI', '--', dir + '/']) || '';
   const commits = parseInt(git(['rev-list', '--count', 'HEAD', '--', dir + '/']) || '0', 10);
-  const rec: Omit<RootRec, 'provisionalClass'> = {
+  const rec: RootSignals = {
     dir, files: w.files, tsFiles: w.ts, testFiles: w.test, jsonFiles: w.json, mdFiles: w.md,
     bytes: w.bytes, maxDepth: w.maxDepth,
     firstCommit: first.slice(0, 10), lastCommit: last.slice(0, 10), commits,
@@ -117,15 +135,15 @@ for (const dir of tops) {
     filesWithMarkers: w.markerFiles,
     markerHits: [...w.markers].sort().join('|'),
   };
-  const adjClass = ADJUDICATED[dir];
-  recs.push({ ...rec, provisionalClass: adjClass ?? classify(rec), adjudicated: adjClass ? 'YES' : 'no' } as RootRec);
+  const v = verdict(rec);
+  recs.push({ ...rec, finalClass: v.cls, isEngineZone: v.engine ? 'YES' : 'no', verdictRule: v.rule, adjudicated: 'YES' });
   process.stderr.write(`  ${dir}: ${w.files}f ts=${w.ts} markers=${w.markerFiles} ${rec.firstCommit}->${rec.lastCommit}\n`);
 }
 
 fs.mkdirSync(OUT_DIR, { recursive: true });
 const cols = ['dir', 'files', 'tsFiles', 'testFiles', 'jsonFiles', 'mdFiles', 'bytes', 'maxDepth',
   'firstCommit', 'lastCommit', 'commits', 'isWorkspaceTop', 'hasTsconfig', 'hasPackageJson',
-  'filesWithMarkers', 'markerHits', 'provisionalClass', 'adjudicated'];
+  'filesWithMarkers', 'markerHits', 'finalClass', 'isEngineZone', 'verdictRule', 'adjudicated'];
 const rows = recs.map((r) => cols.map((c) => {
   const v = (r as any)[c];
   const s = String(v ?? '');

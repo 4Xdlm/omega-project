@@ -96,13 +96,11 @@ Full per-package metrics: `docs/audit/metrology/OMEGA_METROLOGY_BY_PACKAGE.csv`.
 - **`omega-phase23`** (`@omega/resilience` v3.23.0) vs active **`gateway/resilience`** (`@omega/resilience` v3.23.0): **identical package name + version** = SNAPSHOT/DUPLICATE pair. → Phase 3 candidate.
 - **`genius-integration`**: PATCH_STAGED — referenced by `packages/sovereign-engine/docs/ADR-GENIUS-DUAL-MODE.md` and `scripts/genius-backtest-corpus.ts` / `run-dual-benchmark.ts`, but the patch files are **not applied** into sovereign-engine. Transitional dual-mode (omega-p0 ↔ SE). Watch for an inverted/hidden dependency at apply-time.
 
-## 6. PASS / remaining Phase 1 work (honest status)
+## 6. PASS status (CLOSED)
 
-**Directive-scope PASS**: `src/`, `gateway/`, and the 3 flagged dirs are **classified with evidence** (`adjudicated=YES` in the CSV). No engine in these zones left uninspected.
+**Phase 1 = PASS** (closure directive 2026-05-31). All **73/73** root dirs now carry `adjudicated=YES` in `01_ROOT_TREE_CLASSIFICATION.csv`, via the deterministic verdict ladder R0–R10 (`scripts/metrology/root-tree-scan.ts`). The 6 dirs in §1 are agent-verified (R0); the other 67 are rule-classified over measured signals. **22 engine-bearing zones** isolated (`isEngineZone=YES`) as the Phase 2/3 attention set. Full certificate + taxonomy + rule table: **`01_PHASE1_PASS.md`**.
 
-**NOT yet PASS for full Phase 1** (roadmap criterion "0 dossier racine non classé, adjudicated"): of 73 root dirs, **6 are adjudicated**; the rest carry **measured-provisional** classes (`adjudicated=no`) in `01_ROOT_TREE_CLASSIFICATION.csv`. Remaining zones to adjudicate before declaring full Phase 1 PASS: `omega-v44*`, `omega_titanium_ultimate`, `OMEGA_SNAPSHOTS`, `OMEGA_MASTER_DOSSIER*`, `OMEGA_PHASE*`, `omega-narrative-genome`, `apps/`, `nexus/`, `tools/`, `omega-nexus*`, `omega-ui*`, `sprint*`, `archives/`, etc. (signals already captured; verdicts pending). This is flagged so no downstream phase assumes completeness it doesn't have.
-
-**Out of scope / deferred** (directive item 3-4): D3/D9/D10 metrology; Phase 2 ADN; Phase 3 tribunal; any fusion/archive/DEC-009 action.
+**Out of scope / deferred** (directive items 3-4): Phase 2 ADN; Phase 3 tribunal; any fusion/archive/DEC-009 action. D3/D9/D10 dynamic metrology + bench M0.b are **unlocked by this PASS** (next runs, separate GO).
 
 ---
 *Companion deliverables: `01_LINEAGE_MAP.md`, `01_ROOT_TREE_CLASSIFICATION.csv`, `01_ROOT_TREE_SIGNALS.json`. Metrology cross-ref: `../metrology/`.*

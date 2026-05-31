@@ -1949,7 +1949,7 @@ Dette casts `src` repo : **~85 → ~58**. Tous les commits passés par `commit-w
 
 ## 7.3 NOUVEAU CONTRAT — `IntentArtifact` + validation fail-closed (scribe)
 
-**LAW-SCRIBE-INTENT-001 [PROPOSED]** : l'artefact `intent.json` (composite `{intent, canon, constraints, genome, emotion, metadata}` produit par omega-runner stage 00-intent, = `IntentPack` sérialisé de creation-pipeline) est désormais typé via `scribe-engine/src/intent-artifact.ts` (`interface IntentArtifact` + `loadIntentArtifact(raw): IntentArtifact`, **fail-closed** : throw si constraints/genome/emotion absents/invalides). Remplace 6 `(intent as any)` épars par 1 frontière validée. Comble un **gap de crash latent** (le chemin LLM CLI passait `undefined` à `weaveLLM` qui requiert ces champs). Commit `ace926f6` + 7 tests. **Cycle interdit confirmé** : creation-pipeline dépend de scribe-engine → import `IntentPack` interdit → interface locale obligatoire.
+**LAW-SCRIBE-INTENT-001 [RATIFIED 2026-05-31, Architecte via GO Phase A]** : l'artefact `intent.json` (composite `{intent, canon, constraints, genome, emotion, metadata}` produit par omega-runner stage 00-intent, = `IntentPack` sérialisé de creation-pipeline) est désormais typé via `scribe-engine/src/intent-artifact.ts` (`interface IntentArtifact` + `loadIntentArtifact(raw): IntentArtifact`, **fail-closed** : throw si constraints/genome/emotion absents/invalides). Remplace 6 `(intent as any)` épars par 1 frontière validée. Comble un **gap de crash latent** (le chemin LLM CLI passait `undefined` à `weaveLLM` qui requiert ces champs). Commit `ace926f6` + 7 tests. **Cycle interdit confirmé** : creation-pipeline dépend de scribe-engine → import `IntentPack` interdit → interface locale obligatoire.
 
 ## 7.4 DÉCISION — DEC-20260531-006 logger unification [ACCEPTED 2026-05-31]
 
@@ -1972,3 +1972,7 @@ Logger canonique créé dans `orchestrator-core/util/logger.ts` (commit `5470ece
 ## 7.7 ÉTAT scribe-engine au terme de la session
 casts `as any`/`as unknown as` dans `scribe-engine/src` = **0** (sauf la frontière validée `loadIntentArtifact`). Gate scribe vert (33 fichiers de test, 339 tests). Détail audit complet : `nexus/proof/SCRIBE_ENGINE_FULL_AUDIT_*`.
 
+## 7.8 Phase A conformite (GO Architecte 2026-05-31)
+- C1 : LAW-SCRIBE-INTENT-001 RATIFIEE (ci-dessus).
+- C3 : chaos-provider DEJA CONFORME determinisme -- PRNG XorShift128 seede (pas de Math.random), opt-in explicite (wrappe un provider). Aucun code requis ; ne jamais wrapper un run hashe de production. INV-FAILCLOSED-01.
+- C4 : smoke test prosepack/repair.ts ajoute (commit cd597d3f) -- chemin no-op, determinisme, provider non appele.

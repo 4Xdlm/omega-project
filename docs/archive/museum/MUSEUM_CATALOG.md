@@ -13,7 +13,8 @@ Légende colonnes : **item** | **type** | **date origine** | **date musée** | *
 |------|------|--------------|------------|--------|------------------------------|--------|
 | `STALE_EXPORTS/deposit_2026-02-23/` (178 docs : public 147 + confidential 31) | export bundle (doc) | 2026-02-23 | 2026-05-31 | doublon stale ; 75/75 sessions hash-identiques à `sessions/` racine (0 unique) | `sessions/`, `docs/` courants | **MUSEUM** |
 | `SESSION_SAVES_legacy/root_session_saves/` (3 fichiers) | session-save (doc) | 2026-02-05 → 03-06 | 2026-05-31 | consolidation : session-saves traînant à la racine du dépôt | `sessions/` + `sessions/SESSION_SAVE_INDEX.md` | **MUSEUM** |
-| _(C4 forensic — relocalisé SSOT `docs/audit/forensic/`, hors musée ; voir `sessions/SESSION_SAVE_INDEX.md`)_ | | | | | | |
+| `docs/audit/forensic/SESSION_SAVE_2026-02-03_FORENSIC_SCAN_x1000.md` | scan forensic (preuve audit) | 2026-02-03 | 2026-05-31 | relocalisé SSOT depuis `sessions/` (forensic = preuve, pas note) | en place SSOT `docs/audit/forensic/` | RELOCATED_NOT_MUSEUM |
+| `docs/audit/forensic/SESSION_SAVE_2026-02-04_FORENSIC_CORRECTIONS_BATCH_1_2.md` | scan forensic (preuve audit) | 2026-02-04 | 2026-05-31 | relocalisé SSOT depuis `sessions/` | en place SSOT `docs/audit/forensic/` | RELOCATED_NOT_MUSEUM |
 | `ROOT_STRAYS_2026-05-31/ROSETTA_legacy/` (3) | doc version | 2026 | 2026-05-31 | Rosette v1.0/1.1/2.0 superseded | `OMEGA_PIERRE_DE_ROSETTE_v2.1.md` (racine) | **MUSEUM** |
 | `ROOT_STRAYS_2026-05-31/MASTER_PLANS_legacy/` (4) | doc plan | 2026 | 2026-05-31 | « Plan Max » NON-CANONIQUE | CLAUDE.md + CODEX v1-3-1 | **MUSEUM** |
 | `ROOT_STRAYS_2026-05-31/CERTS_PHASE_legacy/` (4) | certif/rapport | 2026 | 2026-05-31 | phases closes (18/28/32) | `certificates/`, `nexus/proof/` | **MUSEUM** |

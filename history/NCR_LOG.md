@@ -120,3 +120,31 @@
 | **Reason** | Unknown command pattern |
 
 ---
+
+## NCR-RCI-SENSOR-DEFECT
+
+| Field | Value |
+|-------|-------|
+| Date | 2026-05-31 |
+| Phase | MIN_AXIS audit (commit `9f37b3aa`) |
+| Severity | HIGH |
+| Description | Le floor RCI 85 (poids 17 %) est le `min_axis` bloquant le seal dans une majorite de cas ; les preuves convergent vers un defaut de capteur (B/C/D) et non de prose (A) : distribution moteur centree a 82.4 (floor 85 ~= p72), 5/5 sous-axes RCI re-ponderes defensivement, SII/MACRO deja abaisses 85->80 avec corpus-proof mais jamais RCI. Recompute litteraire (MINAXIS_E, HEAD `a4917bba`) : 0/57 passages de maitres >= floor 85 (max 76.6 Melville, mediane 68.4). |
+| Decision | PENDING Architecte. INTERDIT de baisser le floor sans corpus-proof + GO Architecte. Aucun patch tant que OPEN. |
+| Status | OPEN |
+| Reference | nexus/proof/NCR_RCI_SENSOR_DEFECT.md ; docs/audit/minaxis/MINAXIS_E_LITERARY_RECOMPUTE.md |
+
+---
+
+## NCR-ECC-CONTRACT-SENSOR
+
+| Field | Value |
+|-------|-------|
+| Date | 2026-05-31 |
+| Phase | MIN_AXIS audit (`9f37b3aa`) + bench M0.b (`d007c1db`) |
+| Severity | HIGH |
+| Description | L'ECC (axe le plus lourd 33 %) bascule en `min_axis` selon le CHEMIN de construction du contrat emotionnel, pas selon la qualite de la prose : contrats hand-built -> ECC ~93 ; contrat issu de `assembleForgePacket` (Golden « Le Gardien ») -> ECC 57-71 sur LES DEUX moteurs. ECC raw = 100 % sous-axes LLM non decomposes -> verdict actuel E (donnees insuffisantes). Bloquant pour la fusion DEC-009 (cible = chemin assembleForgePacket). |
+| Decision | PENDING Architecte. Action requise : bench ECC dedie (decomposer tension_14d + emotion_coherence par run) avant tout verdict A/B. Ne PAS toucher floor ECC ni contrat tant que OPEN. |
+| Status | OPEN |
+| Reference | nexus/proof/NCR_ECC_CONTRACT_SENSOR.md |
+
+---

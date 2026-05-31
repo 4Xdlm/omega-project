@@ -1,0 +1,46 @@
+{
+  "note": "CF8 length-sensitivity: same sovereign content judged at decreasing length (paragraph-boundary truncation). Truncation => incomplete scene (residual confound).",
+  "model": "qwen3:32b",
+  "sovereign_full_words": 1808,
+  "scribe_words": 746,
+  "results": [
+    {
+      "target_words": 1808,
+      "actual_words": 1808,
+      "words": 1808,
+      "composite": 82.52545709026043,
+      "min_axis": 68.82935559273271,
+      "ECC": 68.82935559273271,
+      "RCI": 81.74850240220852,
+      "SII": 90.13333333333333,
+      "IFI": 93.94524336283186,
+      "AAI": 92
+    },
+    {
+      "target_words": 904,
+      "actual_words": 489,
+      "words": 489,
+      "composite": 82.32263390855303,
+      "min_axis": 69.78407418871409,
+      "ECC": 69.78407418871409,
+      "RCI": 81.87401575183019,
+      "SII": 88,
+      "IFI": 91.75306748466258,
+      "AAI": 92
+    },
+    {
+      "target_words": 746,
+      "actual_words": 489,
+      "words": 489,
+      "composite": 82.32263390855303,
+      "min_axis": 69.78407418871409,
+      "ECC": 69.78407418871409,
+      "RCI": 81.87401575183019,
+      "SII": 88,
+      "IFI": 91.75306748466258,
+      "AAI": 92
+    }
+  ],
+  "composite_drop_full_to_scribeLen": 0.20282318170740155,
+  "interpretation": "If composite falls sharply when sovereign prose is cut to scribe length, S-Oracle V2 rewards length → raw Δ is partly a length artifact."
+}

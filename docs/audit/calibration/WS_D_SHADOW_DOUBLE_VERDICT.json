@@ -1,0 +1,43 @@
+{
+  "THR_OLD": {
+    "composite": 93,
+    "min_axis": 80,
+    "ecc": 88,
+    "aai": 85
+  },
+  "THR_NEW": {
+    "composite": 79.7,
+    "min_axis": 64,
+    "ecc": 64,
+    "aai": 85
+  },
+  "GATING_OLD": [
+    "ecc",
+    "rci",
+    "sii",
+    "ifi",
+    "aai"
+  ],
+  "GATING_NEW": [
+    "ecc",
+    "rci",
+    "sii",
+    "aai"
+  ],
+  "ADVISORY_NEW": [
+    "ifi"
+  ],
+  "families": [
+    {
+      "family": "master",
+      "n": 95,
+      "old_SEAL": 0,
+      "old_PITCH": 2,
+      "old_REJECT": 93,
+      "new_SEAL": 40,
+      "new_PITCH": 0,
+      "new_REJECT": 55
+    }
+  ],
+  "note": "Squelette : reclassement MACRO (IFI hors min_axis). Seuils NEW=candidats shadow (percentiles maîtres WS-C), paramétrables via env. Brancher goldens/rejects/bad/best-sellers via MEASURES=. Aucun changement prod."
+}

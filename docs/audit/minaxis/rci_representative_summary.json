@@ -1,0 +1,98 @@
+{
+  "tool": "wsb2-representative-packet-scoring.ts",
+  "n": 57,
+  "floor": 85,
+  "method": "signature_words = top-12 content words of WHOLE book (stopwords FR/EN removed, len>=4); motifs = top-5; each passage scored against work-level lexicon (not per-passage => realistic variation). signature/hook NOT forced.",
+  "pass85_probe": 0,
+  "pass85_repr_freq": 28,
+  "pass85_repr_mid": 28,
+  "pass85_ceiling": 28,
+  "RCI_probe_dist": {
+    "n": 57,
+    "mean": 68.12,
+    "p10": 63.09,
+    "p25": 65.44,
+    "p50": 68.37,
+    "p75": 71.13,
+    "p90": 72.55,
+    "min": 59.77,
+    "max": 76.65
+  },
+  "RCI_repr_FREQ_dist": {
+    "n": 57,
+    "mean": 84.4,
+    "p10": 79.41,
+    "p25": 81.67,
+    "p50": 84.54,
+    "p75": 87.35,
+    "p90": 88.8,
+    "min": 76.01,
+    "max": 92.94
+  },
+  "RCI_repr_MID_dist": {
+    "n": 57,
+    "mean": 84.4,
+    "p10": 79.41,
+    "p25": 81.67,
+    "p50": 84.54,
+    "p75": 87.35,
+    "p90": 88.8,
+    "min": 76.01,
+    "max": 92.94
+  },
+  "RCI_ceiling_dist": {
+    "n": 57,
+    "mean": 84.4,
+    "p10": 79.41,
+    "p25": 81.67,
+    "p50": 84.54,
+    "p75": 87.35,
+    "p90": 88.8,
+    "min": 76.01,
+    "max": 92.94
+  },
+  "sig_freq_dist": {
+    "n": 57,
+    "mean": 100,
+    "p10": 100,
+    "p25": 100,
+    "p50": 100,
+    "p75": 100,
+    "p90": 100,
+    "min": 100,
+    "max": 100
+  },
+  "sig_mid_dist": {
+    "n": 57,
+    "mean": 100,
+    "p10": 100,
+    "p25": 100,
+    "p50": 100,
+    "p75": 100,
+    "p90": 100,
+    "min": 100,
+    "max": 100
+  },
+  "hook_mid_dist": {
+    "n": 57,
+    "mean": 100,
+    "p10": 100,
+    "p25": 100,
+    "p50": 100,
+    "p75": 100,
+    "p90": 100,
+    "min": 100,
+    "max": 100
+  },
+  "K2_ref_realpacket": 82.6,
+  "NOTE": "FREQ (top-12 frequent words) sature signature/hook a 100 (mots ubiquitaires) => RCI_repr=ceiling. MID (ranks 30-42, distinctifs non-ubiquitaires) = estimation non-saturee, plus proche d une politique signature thematique production. Vrai RCI maitres ~ entre MID et FREQ/ceiling.",
+  "floor_candidates_MID": {
+    "p25": 81.67,
+    "p50": 84.54,
+    "p10": 79.41
+  },
+  "floor_candidates_FREQ_ceiling": {
+    "p25": 81.67,
+    "p50": 84.54
+  }
+}

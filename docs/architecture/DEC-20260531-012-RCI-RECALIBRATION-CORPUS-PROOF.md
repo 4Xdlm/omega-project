@@ -147,3 +147,23 @@ WS-B1 (`scripts/metrology/wsb1-rci-floor-candidates.ts` → `docs/audit/minaxis/
 **Révision** : le §2 (corpus-proof) est **rétrogradé** — il ne prouve PAS « floor impossible » tel quel (confound packet). Avant toute décision floor (D1), il faut **WS-B2** : scorer les maîtres avec des `signature_words`/motifs **représentatifs par texte** (vraie distribution packet-fair entre probe et ceiling). Candidats floor provisoires bornés ∈ [~76, ~82] (p25-ceiling 81.7), AUCUN appliqué.
 
 **Statut WS-B** : la prémisse « capteur RCI mal calibré » est **affaiblie** — le gros de l'écart est packet, pas formule/floor. NCR_RCI reste OPEN_DIAGNOSED mais la cause se reformule : *packet de scoring dégénéré* > *floor/circularité*. M4 reste GELÉ. Décision Architecte : financer WS-B2 (representative-packet) avant tout floor, OU floor provisoire shadow [76,82].
+
+
+---
+## 13. ADDENDUM WS-B2 (2026-05-31) — representative packet : RCI maîtres ≈ ceiling 84.5, signature/hook non-discriminants
+
+`scripts/metrology/wsb2-representative-packet-scoring.ts` → `docs/audit/minaxis/RCI_REPRESENTATIVE_PACKET_SCORING.md`. 57 passages scorés avec packet **représentatif au niveau de l'œuvre** (signature_words = mots du livre, deux lexiques : top-12 FREQ et rangs 30-42 MID).
+
+**Résultat robuste** : pour les DEUX lexiques, `signature` et `hook` **saturent à 100** → RCI représentatif = **RCI ceiling** (médiane **84.54**, **28/57** pass 85, maîtres ≥ K2 82.6). Seul le packet vide (probe) donne 60/85.
+
+**Tranche les questions ouvertes** :
+- Le caveat WS-B1 « ceiling = borne haute optimiste » est **LEVÉ** : le ceiling EST la valeur packet-fair (les packets réels saturent signature/hook). Vrai RCI maîtres ≈ **84.5**, pas un intermédiaire.
+- **signature & hook = capteurs quasi-binaires non-discriminants** (100 si packet peuplé, 60/85 si vide) → offset constant, pas un signal de qualité. Seuls **rhythm + euphony** discriminent.
+- floor 85 ≈ médiane maîtres → rejette ~51 % des chefs-d'œuvre. Candidat data-driven **p25 = 81.67** (rejette le quart le plus faible).
+
+**Recentrage recalibration (D1/D2)** :
+- D1 floor : candidat data-driven **p25-maîtres = 81.67** (vs 85 actuel qui rejette la moitié des maîtres). Décision Architecte.
+- D2 leviers : le levier « signature/hook » est **caduc** (saturés non-gradués) → la recalibration porte sur **rhythm (pic CV littérature)** + **euphony** + **dé-pondération des non-discriminants signature/hook** + **garantir un packet de prod peuplé** (le vrai bug de classe, comme ECC).
+- M4/DEC-009 GELÉ inchangé.
+
+**Statut WS-B** : investigation packet-fair **CLOSE**. Vrai RCI maîtres mesuré (≈84.5). NCR_RCI reste OPEN_DIAGNOSED ; remède désormais précis (floor p25 + recentrage rhythm/euphony + packet prod), à exécuter via dispatcher Phase R sur décision Architecte D1/D2.

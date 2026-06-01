@@ -97,3 +97,21 @@ Fix derrière flag `OMEGA_EMOTION_DERIV_V2=false` par défaut. Double-run (ancie
 
 ---
 **VERDICT** : **RATIFIED** (Architecte, 2026-05-31). Vérification 100% faite (assertions confirmées file:line ; mécanisme causal du `{trust:1.0}` identifié = fallback flat-2-waypoint + label→14D ; §8 enrichi anti-divergence + non-régression composite ; §10 open questions raffinées ; §11 décisions tranchées ; §12 timeline intégrée). Ouvre **WS-A** (T0→T1) en priorité #1. NCR_ECC_CONTRACT_SENSOR reste OPEN jusqu'au fix + re-bench (T2). Lié à NCR_RCI_SENSOR_DEFECT (WS-B, T3). Prochaine action exécutable : **T0 (isoler la cause scene_target vs table)**, read-only.
+
+
+---
+## 13. ADDENDUM T0 (2026-05-31) — CAUSE RAFFINÉE (SUPERSEDE l'hypothèse §3)
+Diagnostic read-only exécuté (`scripts/metrology/t0-isolate-cause.ts`, reproduit assembleForgePacket sur Le Gardien scène-0). **Résultat factuel** :
+- `scene0.emotion_target = "trust"` (intensité 0.3) — scène-0 est une scène de **trust par DESIGN de l'arc** (ouverture), pas un mislabel.
+- `plan.emotion_trajectory` = trust(0) → anticipation(0.167/0.333) → **fear(0.5/0.667/0.833)** → sadness(1.0). Le fear arrive PLUS TARD dans l'arc, pas en scène-0.
+- **Le fallback flat-2-waypoint N'EST PAS déclenché** (1 waypoint dans la plage [0, 0.143], pas 0).
+- MAIS scène-0 ne capte qu'**UN seul waypoint d'arc** (trust@pos0) → trajectoire intra-scène **PLATE `trust:1.0` sur Q1-Q4** (dominant=trust aux 4 quartiles).
+
+**Cause réelle (corrige §3)** : ce n'est NI un mislabel trust↔fear NI le fallback empty. C'est que **toute scène captant ≤1 waypoint d'arc produit un contrat intra-scène CONSTANT (zéro variation quartile)** — viole DEC-010 §7. Le `{trust:1.0}` de scène-0 a le BON dominant (trust = arc-opening) mais une **flatness illégitime**. L'ECC 68 du bench venait de comparer une prose tonalité-fear (« horror » générique) contre ce contrat trust-plat → mismatch prose↔contrat.
+
+**Implication pour le fix T1 (corrige §7 cible)** :
+- NE PAS « forcer fear sur les scènes horreur » (corromprait scène-0 qui est correctement trust).
+- LE FIX = quand une scène capte ≤1 waypoint d'arc, **dériver une micro-trajectoire intra-scène variée** (interpolation depuis le waypoint + intensité + voisinage d'arc), au lieu de tenir l'émotion unique constante sur les 4 quartiles. La scène garde son dominant d'arc ; on ajoute la variation Q1→Q4 (seuil D11.4 ≥ 0.15).
+- Sous-question résiduelle : la granularité d'arc (7 waypoints / 7 scènes = ~1 par scène) est trop grossière → soit sur-échantillonner l'arc par scène, soit interpoler localement. Décision de design T1.
+
+**Statut** : T0 CONCLUANT. Le §3 (hypothèse fallback/mislabel) est partiellement réfuté ; ce §13 fait foi. T1 (WS-A) procède sur cette cause corrigée. Évidence : `t0-isolate-cause.ts` (output reproductible).

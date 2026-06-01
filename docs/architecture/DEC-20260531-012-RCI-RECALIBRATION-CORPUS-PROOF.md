@@ -102,3 +102,24 @@ Un capteur dont 5/5 composantes ont été bridées « pour éviter de tirer le s
 - Faiblesses : (1) le judge-drift −17 n'est pas une isolation pure-formule (signature/hook confondus) → re-run packet-original requis avant toute attribution ; (2) la valeur du floor reste non tranchée (Architecte) ; (3) le re-tuning pic CV sur littérature demande un corpus d'entraînement rythme distinct — à spécifier.
 - Risques restants : si D1 = abaissement floor sans re-tuning des leviers, on traite le symptôme (floor) sans la cause (circularité K2). Recommandation : leviers AVANT floor.
 - Action requise : décisions D1–D4 ; puis exécution gatée via dispatcher Phase R (hors scope doc-only).
+
+
+---
+## 11. ADDENDUM WS-B0b (2026-05-31) — D3 exécuté : dérive de FORMULE RÉFUTÉE
+
+Décision Architecte/2-IA D3 = GO immédiat. Exécuté (CALC, read-only) : `scripts/metrology/wsb0b-judge-drift-packet-original.ts` → `docs/audit/minaxis/JUDGE_DRIFT_PACKET_ORIGINAL.md`.
+
+Décomposition par sensibilité packet (les packets ALTERNANCE originaux ne sont pas sauvegardés → bracketing, pas reconstruction) :
+
+| Mesure (moyenne 7 passages) | Valeur |
+|---|---|
+| ΔRCI_total apparent (WS-B0) | −17.14 |
+| Δ_packet (récupérable si signature/hook=100) | **+17.82** |
+| **residual_drift (formule pure rhythm/euphony/voice)** | **−0.68 ≈ 0** |
+| packet_max pass@85 | **3/7 = exactement l'historique** |
+
+**Le −17 du §3 est à 100 % un artefact du probe packet** (`signature_words=[]`→60, `hook`=85 neutre). **La formule `computeRCI` n'a PAS dérivé.** Les composantes prose-pures (rhythm/euphony) sont stables.
+
+**Révision du dossier** : le §3 (judge-drift) est **retiré comme preuve de dérive de formule** (réfuté). La recalibration RCI repose **désormais uniquement** sur la corpus-proof MINAXIS_E (§2 : 0/57 maîtres ≥85, K2 82.6 > maîtres) — problème de **floor / circularité K2**, PAS de dérive temporelle. Pilier unique, solide, reproductible.
+
+**Impact D1–D4** : D3 = FAIT (réfute la formule). D1 (floor data-driven) et D2 (leviers, pic CV littérature en priorité) inchangés — la cible reste le floor/circularité, pas une formule à « dé-dériver ». D4 → NCR_RCI = **OPEN_DIAGNOSED** (cause = floor/captor K2-circular & corpus-invalid ; dérive de formule réfutée), transition RESOLVED-PENDING-RECALIBRATION après choix levier + protocole Phase R.

@@ -1,6 +1,7 @@
 # NCR-RCI-SENSOR-DEFECT: Le floor RCI 85 n'est pas justifié — capteur probablement mal calibré
 
-**Status**: OPEN · **Severity**: HIGH · **Date**: 2026-05-31 · **Origine**: MIN_AXIS FLOOR AUDIT (commit `9f37b3aa`, `docs/audit/minaxis/`).
+**Status**: OPEN_DIAGNOSED · **Severity**: HIGH · **Date**: 2026-05-31 · **Origine**: MIN_AXIS FLOOR AUDIT (commit `9f37b3aa`, `docs/audit/minaxis/`).
+**MAJ 2026-05-31 (D4)** : OPEN → OPEN_DIAGNOSED. Cause = floor/captor K2-circular & corpus-invalid (MINAXIS_E 0/57). La « dérive du juge » (judge-drift −17.14) est **RÉFUTÉE comme dérive de formule** (WS-B0b `JUDGE_DRIFT_PACKET_ORIGINAL.md` : residual −0.68 ≈ 0, −17 = artefact probe packet signature/hook). Transition → RESOLVED-PENDING-RECALIBRATION après choix levier (pic CV littérature) + protocole Phase R. Design remédiation = DEC-20260531-012.
 **Doctrine**: PROVE IT · NO RECALIBRATION WITHOUT CORPUS PROOF · NO THRESHOLD CHANGE WITHOUT BENCH.
 
 ## Issue

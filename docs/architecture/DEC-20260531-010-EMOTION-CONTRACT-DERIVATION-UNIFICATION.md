@@ -219,3 +219,17 @@ Suite au §16 (STOP_ARCHITECT), arbitrage 2-IA (Gemini + ChatGPT) recoupé par l
 - **Q3** (arbitré) : WS-A.2 **NON fermé** → reclassé **OPEN_DIAGNOSED — upstream genesis-planner contract granularity defect** (vs « bug assembleForgePacket », réfuté §16 ; vs « génération seulement », trop réducteur).
 
 `assembleForgePacket` innocenté. T1 conservé (mitigation bornée). Interdiction de circularité scellée (DEC-011 §4). Suite = ratification Architecte de DEC-011 (Q1 + conception Q2/Q3/Q4) avant tout code genesis-planner.
+
+
+---
+## 18. RE-RUN SÉMANTIQUE (2026-05-31) — confirmation de l'ordre + limite DC honnête
+
+Demande Architecte : re-run du diagnostic 14D sous le cortex **sémantique** (Ollama) pour lever le caveat §16 (mesure keyword). Script : `scripts/metrology/wsa2-prose-emotion-diag-semantic.ts` (analyzeEmotionSemantic + qwen3:32b, k=1).
+
+**Résultat — limite technique honnête** : exécuté en shell Desktop Commander, l'`ollama-provider` (`runtime/ollama-provider.ts:139,155`) appelle Ollama via `execSync('node -e "…"')`. Le sous-process `node -e` **ne résout pas `node`** (PATH non hérité en sous-process DC — `Get-Command node` vide malgré PATH parent). `analyzeEmotionSemantic` **retombe silencieusement sur le keyword** après 3 retries → les chiffres « sémantiques » obtenus sont **identiques au keyword** (FORGE 0.083 / HAND 0.564), donc **NON indépendants**. Ce n'est pas une mesure sémantique authentique.
+
+**Confirmation sémantique réelle = déjà acquise via T2** (§15, exécuté terminal Architecte, où `node` résout) : `tension_14d` réel-sémantique **HAND=86.49** vs **FORGE 9.22 (flag-OFF) / 17.57 (flag-ON)**. Même ordre **FORGE ≪ HAND**.
+
+**Verdict** : l'ordre FORGE≪HAND (cause-racine WS-A.2) est robuste sous keyword (§16) ET sous sémantique-réel (T2). Seuls les *dominants par quartile* (sadness/fear/joy) restent keyword-sourcés — non contredits par les scores sémantiques agrégés. **Le verdict WS-A.2 / DEC-011 ne change pas.**
+
+**Limite opérationnelle enregistrée** : tout « re-run sémantique » nécessitant Ollama doit tourner dans le **terminal interactif de l'Architecte** (le shell DC ne peut pas, blocage nested-`node -e` de l'ollama-provider). Le script `wsa2-prose-emotion-diag-semantic.ts` est prêt pour ce terminal (donnera les dominants sémantiques réels par quartile si relancé là-bas).

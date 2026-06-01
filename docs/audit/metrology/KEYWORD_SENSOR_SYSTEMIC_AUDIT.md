@@ -59,3 +59,15 @@ Discipline : aucun changement avant shadow bench + décision Architecte (DEC-016
 - Faiblesses : (1) le remplacement sémantique (R2) reste à concevoir/bencher ; (2) la matrice d'interconnexion (R4) pas encore calculée (prochain run) ; (3) anti_cliche/signature à re-mesurer hors packet vide pour confirmer inertie/dépendance.
 - Risques restants : « réparer » en ajoutant des mots-clés EN = rester malade. Préférer sémantique/LLM ou retrait.
 - Action requise : décision Architecte sur R1 (assainissement min_axis en shadow) ; je peux calculer la matrice d'interconnexion inter-axes (R4) en autonomie depuis WS_C_MEASURES.jsonl immédiatement.
+
+
+---
+## AMENDEMENT (2026-06-01) — PHILOSOPHIE : RECLASSER, JAMAIS SUPPRIMER
+
+Décision Architecte scellée : **aucune mesure qui fonctionne ne disparaît.** Le §4-R1 disait « sortir/retirer » — à corriger en **RECLASSER l'usage** :
+- sensory_richness / corporeal_anchoring **comptent réellement** des mots sensoriels/corporels → mesure VALIDE, seulement mal *placée* (gate bloquant). → **ADVISORY + COMPOSITE soft**, restent calculées et loggées.
+- signature/hook mesurent la conformité lexique-contrat → **COMPOSITE** (packet-completeness), conservées.
+- anti_cliche inerte tel quel, mais la mesure de clichés est utile une fois réparée (R2) → **ADVISORY**, conservée.
+- Aucun `compute*` supprimé. On ajoute une **couche de RÔLES** (GATING/COMPOSITE/ADVISORY/DIAGNOSTIC) ; toutes les valeurs restent en provenance DEC-014 (réversible, ré-exploitable).
+
+Le `KEYWORD_SENSOR_REGISTRY.csv` (colonne recommendation « remove from min_axis ») est **superseded** par `R1_SENSOR_ROLE_MAP.csv` (reclassement par rôle) + `WS_D_R1_SHADOW_BENCH_DESIGN.md`. R1 = reclassement testé en shadow (double-verdict), zéro suppression, zéro changement prod avant DEC-016.

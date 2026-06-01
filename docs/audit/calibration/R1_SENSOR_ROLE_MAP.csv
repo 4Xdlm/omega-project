@@ -1,0 +1,20 @@
+sub_sensor,macro_axis,method,role_OLD,role_PROPOSED,measure_kept,rationale
+sensory_richness,IFI,CALC_keyword_FR,GATING,ADVISORY+COMPOSITE_soft,yes,mesure réelle densité sensorielle lexicale ; biais langue => hors gate, signal informatif conservé
+corporeal_anchoring,IFI,CALC_keyword,GATING,ADVISORY+COMPOSITE_soft,yes,mesure réelle ancrage corporel ; FR-biaisé => hors gate, conservé en profil
+focalisation,IFI,LLM,GATING,GATING,yes,sain, reste gating
+attention_sustain,IFI,CALC_struct,GATING,GATING,yes,sain
+fatigue_management,IFI,CALC_struct,GATING,GATING,yes,sain
+signature,RCI,CALC_keyword,GATING,COMPOSITE,yes,mesure conformité lexique-contrat (packet-completeness DEC-013) => signal conformité, pas floor qualité
+hook_presence,RCI,CALC_keyword,GATING,COMPOSITE/ADVISORY,yes,idem signature
+rhythm,RCI,CALC_struct,GATING,GATING,yes,VALID langue-neutre
+euphony,RCI,CALC_struct,GATING,GATING,yes,VALID (review poids x0.5)
+voice_conformity,RCI,LLM,NEUTRALIZED,DIAGNOSTIC,yes,poids 0 ; gardé calculé pour audit
+anti_cliche,SII,CALC_keyword,GATING,ADVISORY,yes,inerte tel quel (sature 100) ; mesure clichés utile une fois réparée (R2) ; conservée comme alerte
+necessity,SII,LLM,GATING,GATING,yes,sain
+metaphor_novelty,SII,LLM,GATING,GATING,yes,sain
+tension_14d,ECC,HYBRID,GATING,GATING,yes,reste gating ; réparer la SOURCE (contrat DEC-011), pas le rôle
+emotion_coherence,ECC,LLM,GATING,GATING,yes,sain
+interiority,ECC,LLM,GATING,GATING,yes,sain
+impact,ECC,LLM,GATING,GATING,yes,sain
+show_dont_tell,AAI,LLM,GATING,GATING,yes,sain
+authenticity,AAI,LLM,GATING,GATING,yes,sain

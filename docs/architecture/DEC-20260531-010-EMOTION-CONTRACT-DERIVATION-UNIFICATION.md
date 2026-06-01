@@ -115,3 +115,19 @@ Diagnostic read-only exécuté (`scripts/metrology/t0-isolate-cause.ts`, reprodu
 - Sous-question résiduelle : la granularité d'arc (7 waypoints / 7 scènes = ~1 par scène) est trop grossière → soit sur-échantillonner l'arc par scène, soit interpoler localement. Décision de design T1.
 
 **Statut** : T0 CONCLUANT. Le §3 (hypothèse fallback/mislabel) est partiellement réfuté ; ce §13 fait foi. T1 (WS-A) procède sur cette cause corrigée. Évidence : `t0-isolate-cause.ts` (output reproductible).
+
+
+---
+## 14. ADDENDUM T1b (2026-05-31) — STOP_ARCHITECT_ARBITRATION : conflit §7 ↔ FORBID-CANON-GARAGE-001
+**CONTROL_BEFORE_WRITE avant de coder T1b (unification chemin V2.3-A).** Lecture `deriveEmotionContractFromSegment` (`chunking/deriveEmotionContract.ts:136-208`) :
+- Ce chemin dérive DÉJÀ `dominant` / `valence` / `arousal` PAR QUARTILE depuis le texte du segment (`extractFeatures`/`featureIntensity`/`determineDominantEmotion`, provenance `DERIVED`, variés). Le chemin V2.3-A n'est donc PAS plat sur ces signaux.
+- **SEUL `target_14d` est `{}`**, et c'est **explicitement** `// GARAGE/DORMANT — non peuplé (FORBID-CANON-GARAGE-001)` + warning `EMOTION14_RUNTIME_DORMANT`. C'est une **décision de gouvernance scellée** (NCR_EMOTION14_CANON_DRIFT, P2 : le 14D keyword fut délibérément débranché — « morte ≠ débranché »).
+
+**CONFLIT** : DEC-010 §7 exige « zéro `target_14d` vide » → impliquerait de PEUPLER target_14d sur V2.3-A → **ressusciterait le 14D garagé = viole FORBID-CANON-GARAGE-001.** La ratification §7 n'avait pas explicité ce conflit (subtil, découvert au CONTROL_BEFORE_WRITE T1b).
+
+**Je NE code PAS T1b** (ne pas ressusciter unilatéralement un canon garagé). Options pour l'Architecte :
+- **Option A** — populer target_14d V2.3-A via dérivation segment (analyzeEmotionFromText). → VIOLE FORBID-CANON-GARAGE-001 (résurrection 14D). Déconseillé sans lever explicitement le FORBID.
+- **Option B (RECOMMANDÉE)** — garder target_14d garagé `{}` sur V2.3-A (honore le FORBID), et rendre le CONSOMMATEUR `tension_14d` **null-safe** : fallback sur `dominant`/`valence`/`arousal` (déjà DERIVED) quand target_14d est vide → supprime le score dégénéré/NaN (objectif §2) SANS résurrection. Modifie le consommateur (oracle/macro-axes), pas la dérivation.
+- **Option C** — lever FORBID-CANON-GARAGE-001 par décision explicite (rouvre NCR_EMOTION14_CANON_DRIFT) — lourd, hors scope DEC-010.
+
+**Verdict** : DEC-010 §7 doit être **amendé** : « zéro contrat émotionnel dégénéré » (au sens : pas de NaN/score dégénéré chez les consommateurs) plutôt que « zéro target_14d vide » littéral — réconcilie avec FORBID-CANON-GARAGE-001. **Décision Architecte requise (A/B/C).** Reco : **B**. T1b GELÉ jusqu'à arbitrage. (T1 assembleForgePacket — chemin à 14D LIVE omega-forge, PAS garagé — reste valide et fait.)

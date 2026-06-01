@@ -155,3 +155,56 @@ Bench ECC dédié re-run avec **flag OMEGA_EMOTION_DERIV_V2 réellement ON** (`$
 **NOUVELLE découverte (continuation WS-A)** : le gain partiel révèle un défaut PLUS PROFOND que la flatness — le contrat de scène-0 (*trust*, par l'arc) ne matche pas l'émotion réelle de la prose (*fear*). Le HAND prouve qu'un 14D **aligné sur le contenu** donne 92. → WS-A doit non seulement varier (T1) mais **aligner le 14D sur l'émotion réelle de la scène/prose** (granularité arc 7-waypoints/7-scènes trop grossière, OU désaccord planner↔contenu). Sous-tâche WS-A.2 : dérivation 14D scène-appropriée (au-delà de la variation).
 
 **Statut** : T2 CONCLUANT. 14D contrat = GARDÉ (levier prouvé). Canon genome = à muséer. T1 = partiel validé. WS-A.2 ouvert (alignement émotion). Évidence : `docs/audit/minaxis/ecc_dedicated_bench.json` (run flag-ON).
+
+
+---
+## 16. ADDENDUM WS-A.2 (2026-05-31) — DIAGNOSTIC CAUSE-RACINE : ce n'est PAS un bug de dérivation assembleForgePacket → STOP_ARCHITECT
+
+**Méthode** : diagnostic CALC déterministe (zéro LLM, zéro Ollama, zéro API), `scripts/metrology/wsa2-prose-emotion-diag.ts`. Mesure le 14D réel par quartile de la prose M0.b (`docs/audit/metrology/m0b-runs/sample_sovereign.txt`) via `analyzeEmotionFromText` (analyseur keyword, le fallback exact de `tension_14d`), cosinus vs contrat FORGE et vs HAND.
+
+**Chaîne causale entièrement tracée (fichier+ligne)** :
+1. `golden/intents/intent_pack_gardien.json` → `intent.emotion` = arc **book-level** : `trust@0.0(0.3) → anticipation@0.3 → fear@0.5 → fear@0.8 → sadness@1.0`, `arc_emotion='fear'`.
+2. Le planner expanse à **7 waypoints / 7 scènes**. `genesis-planner/src/generators/scene-generator.ts:104` : `emotion_target: emo.emotion`. scene-0 couvre `[0, 0.143]` → capte **1 seul waypoint = trust@0** → `scene0.emotion_target='trust'` intensité 0.3.
+3. `assembleForgePacket` reflète **fidèlement** ce label → `target_14d = {trust:1.0}` plat sur les 4 quartiles.
+4. La prose golden de scene-0, **mesurée**, est sadness/fear-dominante.
+
+**Mesure (CALC keyword, reproductible, EXIT 0)** :
+
+| Quartile | 14D réel mesuré (top) | cos vs FORGE(trust:1.0) | cos vs HAND(fear arc) |
+|---|---|---|---|
+| Q1 | sadness 1.0 / fear 0.6 / trust 0.2 | 0.164 | 0.558 |
+| Q2 | sadness 1.0 / fear 0.5 / submission 0.5 | 0.000 | 0.389 |
+| Q3 | fear 1.0 / sadness 0.6 / trust 0.2 | 0.169 | 0.972 |
+| Q4 | joy 1.0 / sadness 0.31 / fear 0.23 | 0.000 | 0.338 |
+| **AVG** | — | **0.083** | **0.564** |
+
+(cos FORGE 0.083 ≈ reproduit `tension_14d`≈9 ; cos HAND 0.564 ≈ reproduit ≈86. Cohérent keyword ↔ bench Ollama → verdict robuste, indépendant de l'analyseur.)
+
+**CONCLUSION — le cadrage « bug de dérivation assembleForgePacket » est en grande partie une MÉ-DIAGNOSE** :
+- `assembleForgePacket` **n'invente pas** `trust:1.0` : il propage correctement `scene.emotion_target='trust'`, lui-même issu du waypoint d'arc position-0.0 de l'intent. La platitude one-hot est l'**image correcte** d'un waypoint unique grossier (`tension_14d` donnerait même +5 bonus monotone-vs-monotone si la prose était trust plate).
+- Le levier réel est **EN AMONT** d'assembleForgePacket : (a) granularité d'arc (7 waypoints book-level → scene-0 ne voit que « trust »), et/ou (b) divergence label↔contenu (l'intent prescrit une ouverture *trust@0.3* calme ; la prose rend une ouverture *sadness/fear* mélancolique-vertige).
+- T1 (bracketing flag-gated) reste une **mitigation bornée valide** (68→70.65) mais **ne peut pas** combler une divergence label↔contenu : il interpole vers le voisin *anticipation@0.3*, alors que la prose mesure *sadness/fear*.
+
+**FORK qui appartient à l'Architecte (E-14, NCR-over-heroics, GATE INCERTITUDE)** — les options mènent à des fixes OPPOSÉS, avec des PROPRIÉTAIRES différents :
+- **Cause-1 (granularité planner)** : l'arc book-level est trop grossier ; scene-0 devrait porter une sous-trajectoire scène-appropriée. → Fix dans **genesis-planner** (sur-échantillonnage / interpolation per-scene), PAS dans assembleForgePacket.
+- **Cause-2 (prose dérivée / intent juste)** : l'intent prescrit *trust@0.3* en ouverture ; le générateur a produit sadness/fear. Alors **ECC 68 est CORRECT** (le capteur pénalise à juste titre une prose hors-prescription) → **aucun fix contrat** ; le levier est la qualité de génération.
+- **Cause-3 (analyseur)** : l'analyseur sur-lit la mélancolie/vertige comme sadness/fear. Faible (lecture défendable) ; fix = analyseur, hors WS-A.
+
+**PIÈGE DE CIRCULARITÉ (interdiction dure)** : toute « dérivation » qui lirait la PROSE pour fixer le contrat rendrait l'ECC auto-réalisateur (`tension_14d = cosinus(contrat, prose) → 100` tautologique). Le contrat est la CIBLE, pas une description de la prose. **WS-A.2 ne doit JAMAIS dériver le contrat depuis la prose à scorer.**
+
+**Je NE code PAS WS-A.2.** Le choix Cause-1 / Cause-2 / Cause-3 est une décision **autoriale + architecturale** (que DOIT être l'ouverture de « Le Gardien » : calme-trust prescrit, ou mélancolie-dread ?) — hors compétence IA, à trancher par l'Architecte.
+
+**Décision Architecte requise** :
+- (Q1) L'ouverture de Le Gardien est-elle censée être *trust* (intent actuel) ou *mélancolie/awe* (contenu prose) ?
+- (Q2) Si granularité (Cause-1) : le fix per-scene sub-trajectory va dans **genesis-planner** — ouvrir un ADR dédié (NO CODE BEFORE ADR, module amont) ?
+- (Q3) Si Cause-2 : on **ferme WS-A.2** (pas de bug contrat), l'ECC bas devient un signal de génération → réoriente vers le pipeline de génération, pas le capteur.
+
+**Statut** : WS-A.2 DIAGNOSTIC CONCLUANT → **STOP_ARCHITECT_ARBITRATION**. T1 conservé (mitigation bornée). Aucun code moteur écrit. Évidence : `scripts/metrology/wsa2-prose-emotion-diag.ts` (CALC reproductible, EXIT 0).
+
+VERDICT :
+- Statut : PASS (diagnostic concluant, cause-racine tracée fichier+ligne, fork explicité).
+- Confiance : Haute (CALC déterministe reproductible ; cohérent avec le bench Ollama ; chaîne intent→planner→assembler→capteur entièrement vérifiée).
+- Forces : réfute empiriquement la mé-diagnose « bug assembleForgePacket » ; identifie le levier amont (granularité 7/7) ; expose le piège de circularité ; sépare 3 causes à fixes opposés ; aucun code spéculatif.
+- Faiblesses : (1) la mesure 14D utilise l'analyseur keyword (le bench prod utilise le semantic cortex Ollama) — l'ordre FORGE≪HAND est identique mais les valeurs absolues du semantic peuvent différer [À VÉRIFIER si l'Architecte veut le re-run semantic] ; (2) le diagnostic ne trance pas Cause-2 vs Cause-1 (question autoriale, non mesurable par CALC).
+- Risques restants : si l'Architecte choisit Cause-1, le fix touche genesis-planner (module amont, ADR requis) — élargit le scope hors sovereign-engine.
+- Action requise : décision Architecte Q1/Q2/Q3 avant tout code WS-A.2.

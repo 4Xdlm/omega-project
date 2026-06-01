@@ -208,3 +208,14 @@ VERDICT :
 - Faiblesses : (1) la mesure 14D utilise l'analyseur keyword (le bench prod utilise le semantic cortex Ollama) — l'ordre FORGE≪HAND est identique mais les valeurs absolues du semantic peuvent différer [À VÉRIFIER si l'Architecte veut le re-run semantic] ; (2) le diagnostic ne trance pas Cause-2 vs Cause-1 (question autoriale, non mesurable par CALC).
 - Risques restants : si l'Architecte choisit Cause-1, le fix touche genesis-planner (module amont, ADR requis) — élargit le scope hors sovereign-engine.
 - Action requise : décision Architecte Q1/Q2/Q3 avant tout code WS-A.2.
+
+
+---
+## 17. RECLASSEMENT WS-A.2 (2026-05-31) — convergence 2-IA + arbitre runtime → DEC-011
+
+Suite au §16 (STOP_ARCHITECT), arbitrage 2-IA (Gemini + ChatGPT) recoupé par l'arbitre runtime (Claude, diagnostic CALC `32dfdec8`) :
+- **Q1** (convergence) : ouverture Le Gardien = **trust de surface + sous-couche mélancolie/awe/fear latent** (ni trust plat, ni fear pur). Décision autoriale → consignée dans DEC-011 §6, **à ratifier**.
+- **Q2** (unanime) : **OUI** — fix en amont dans `genesis-planner` (micro-trajectoire intra-scène). NO CODE BEFORE ADR → ADR créé : [DEC-20260531-011](DEC-20260531-011-GENESIS-PLANNER-SCENE-EMOTION-MICRO-TRAJECTORY.md).
+- **Q3** (arbitré) : WS-A.2 **NON fermé** → reclassé **OPEN_DIAGNOSED — upstream genesis-planner contract granularity defect** (vs « bug assembleForgePacket », réfuté §16 ; vs « génération seulement », trop réducteur).
+
+`assembleForgePacket` innocenté. T1 conservé (mitigation bornée). Interdiction de circularité scellée (DEC-011 §4). Suite = ratification Architecte de DEC-011 (Q1 + conception Q2/Q3/Q4) avant tout code genesis-planner.

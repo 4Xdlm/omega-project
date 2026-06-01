@@ -56,3 +56,18 @@ Livrables : `WS_D_R1_SHADOW_BENCH.md` + `.csv` + `R1_SENSOR_ROLE_MAP.csv` (rôle
 - Forces : préserve 100% des mesures (rien ne disparaît) ; introduit une taxonomie de rôles propre (GATING/COMPOSITE/ADVISORY/DIAGNOSTIC) ; double-verdict shadow non destructif ; min_axis reclassé attaque directement le 0/95 (min_axis≈IFI).
 - Faiblesses : (1) implémentation = config de rôles dans le scorer (code moteur, terminal Architecte) ; (2) le « profil immersion » advisory est un nouveau livrable d'affichage à définir ; (3) anti_cliche réparé dépend de R2 (sémantique).
 - Action requise : exécution code gatée (terminal Architecte) — ajouter une couche de RÔLES de capteurs (sans toucher aux compute*) + le double-verdict shadow. Je peux préparer en autonomie le `R1_SENSOR_ROLE_MAP.csv` complet + le squelette du bench shadow (CALC) prêt à brancher.
+
+
+---
+## 6. PRÉ-CHECK R1 sur données réelles (autonome, `wsd-r1-shadow-precheck.ts`, 95 maîtres)
+
+Test du reclassement IFI (gating → ADVISORY hors gate, IFI toujours calculé/loggé) sur `WS_C_MEASURES.jsonl` :
+
+| Gate | min_axis médiane | min_axis≥80 | ≥76 | ≥72 |
+|---|---|---|---|---|
+| **OLD** (5 axes, IFI gating) | 49.2 | 2/95 (2%) | 4% | 11% |
+| **NEW** (4 axes, IFI advisory) | **72.4** | **20/95 (21%)** | 35% | 54% |
+
+**Confirmé** : le 0/95 venait du **gate IFI keyword**. Reclasser IFI en advisory (sans rien supprimer) récupère massivement les maîtres. **Nouveau goulot = ECC** (axe minimum dans 79/95) — l'axe contrat-dépendant → cascade IFI→ECC : R1 (IFI) doit s'accompagner de la réparation du contrat ECC (DEC-011). Candidats floor min_axis NEW (percentile maîtres) : p25=64.2, p50=72.4.
+
+**Caveats** : (1) ne teste que la RÉCUPÉRATION des maîtres ; les **faux-accepts mauvaise prose** exigent le corpus WS-D (terminal). (2) ECC reste Option-A-optimiste. (3) reclassement = config de rôles (code moteur, terminal Architecte), shadow avant DEC-016. **Aucune mesure supprimée, aucun seuil changé.**

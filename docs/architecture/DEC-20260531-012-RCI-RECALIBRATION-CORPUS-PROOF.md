@@ -167,3 +167,11 @@ WS-B1 (`scripts/metrology/wsb1-rci-floor-candidates.ts` → `docs/audit/minaxis/
 - M4/DEC-009 GELÉ inchangé.
 
 **Statut WS-B** : investigation packet-fair **CLOSE**. Vrai RCI maîtres mesuré (≈84.5). NCR_RCI reste OPEN_DIAGNOSED ; remède désormais précis (floor p25 + recentrage rhythm/euphony + packet prod), à exécuter via dispatcher Phase R sur décision Architecte D1/D2.
+
+
+---
+## 14. STATUT — preuve « 0/57 » SUPERSEDED ; décisions scellées dans DEC-013
+
+La preuve §2 (« 0/57 maîtres ≥85 → floor impossible ») est **SUPERSEDED_BY_WS_B2** : elle était packet-confondue (probe signature=60/hook=85). À packet-fair (WS-B2), RCI maîtres ≈ 84.54, 28/57 passent, maîtres ≥ K2. Ne plus citer « 0/57 » sans le caveat packet.
+
+Les décisions de remédiation (D1 floor shadow 81.7, D2 leviers rhythm/euphony + dé-pondération signature/hook + packet completeness, Q1, règle INVALID_PACKET) sont **scellées et ratifiées** dans **[DEC-20260531-013](DEC-20260531-013-RCI-PACKET-COMPLETENESS-SHADOW-FLOOR.md)**. DEC-012 reste l'historique du raisonnement (§1-13) ; DEC-013 porte les décisions actives.

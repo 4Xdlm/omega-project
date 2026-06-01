@@ -66,3 +66,21 @@ Aucun code, aucun changement de floor production, aucune recalibration, aucun pa
 - Faiblesses : (1) le floor 81.7 reste un candidat non bench-shadow-validé ; (2) la politique production de signature_words (nombre/sélection) reste à spécifier ; (3) le re-tuning pic CV demande un corpus rythme dédié.
 - Risques restants : appliquer le floor ou dé-pondérer signature/hook sans shadow bench = changement de seal non validé → INTERDIT ici.
 - Action requise : Architecte — lancer le shadow bench (Front B) et/ou P-A (Front A) en terminal gaté. Aucune action production engagée par ce DEC.
+
+
+---
+## 6. ADDENDUM (2026-05-31) — vérification then/now du JUGE : CALC fait, LLM préparé, ρ en gap
+
+Question Architecte : a-t-on comparé le juge « valeurs d'alors vs aujourd'hui » sur ce qui a servi au calibrage ? Réponse : **partiellement**.
+
+| Juge | Then/now testé ? | Résultat |
+|---|---|---|
+| **RCI (CALC)** | OUI (WS-B0b, `17407947`) | **stable** — formule non dérivée (−17 = artefact packet, residual −0.68) |
+| **ECC (LLM)** | NON → **WS-B0c préparé** | script `scripts/metrology/wsb0c-ecc-then-now.ts` prêt, **à lancer terminal Architecte** (Ollama bloqué en DC) |
+| **M0b_slim ρ=0.6138 (corrélation)** | NON → **HELD** | `HOLDOUT_V2.csv` + `FEATURE_MATRIX_V3.csv` **INTROUVABLES** (repo+workspace) → evidence-gap |
+
+**WS-B0c** (ECC then/now) : re-score les 7 passages ALTERNANCE (ECC historique : A=95.17, B=93.47, C=91.70…) avec `computeECC` d'aujourd'hui, k=3 (variance LLM), contrat scène-type DOCUMENTÉ (menace=arc fear, revelation=surprise/awe→sadness), NON dérivé de la prose (anti-circularité), NON vide (anti-boîte-vide). **Caveat scellé** : le contrat ALTERNANCE original n'étant pas sauvegardé, Δ(hist,now) conflera dérive-juge-LLM + écart-contrat + variance-LLM ; k=3 isole la variance, mais dérive-juge et écart-contrat ne sont PAS séparables sans le contrat d'époque. Verdict par passage : stable / biased_shift / unstable_variance. Harnais validé structurellement (atteint computeECC, bute seulement sur Ollama-DC).
+
+**ρ=0.6138 (HELD)** : ne PAS reconstruire le holdout à la main (« recréer la preuve » = anti-pattern). Tracer comme evidence-gap : `HOLDOUT_V2.csv` / `FEATURE_MATRIX_V3.csv` absents du mount → vérification corrélation différée jusqu'à localisation des fichiers scellés (cf SHA256 holdout 56636e28… + coefficients e75e3bb0… dans CLAUDE.md workspace).
+
+**Principe Architecte réaffirmé** : *on ne touche au seuil (floor) qu'avec une vérité mathématique reproductible et prouvable à 100 %.* → 81.7 reste SHADOW ; M4/DEC-009 restent GELÉS tant que le juge LLM (ECC) n'est pas vérifié then/now (WS-B0c).

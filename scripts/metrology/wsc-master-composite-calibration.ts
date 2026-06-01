@@ -114,12 +114,13 @@ async function main(){
       if(done.has(key)){continue;}
       try {
         const eccR:number[]=[],rciR:number[]=[],siiR:number[]=[],ifiR:number[]=[],aaiR:number[]=[];
+        log(`  -> ${author.padEnd(10)} [${cat}] p${i} (${words(prose)}w) scoring 5 axes x k=${K}...`);
         for(let k=0;k<K;k++){
-          eccR.push((await computeECC(packet,prose,provider)).score);
-          rciR.push((await computeRCI(packet,prose)).score);
-          siiR.push((await computeSII(packet,prose,provider)).score);
-          ifiR.push((await computeIFI(packet,prose,provider)).score);
-          aaiR.push((await computeAAI(packet,prose,provider)).score);
+          const e=(await computeECC(packet,prose,provider)).score; if(k===0)log(`       ecc=${e.toFixed(0)}`); eccR.push(e);
+          const rc=(await computeRCI(packet,prose)).score; rciR.push(rc);
+          const s=(await computeSII(packet,prose,provider)).score; if(k===0)log(`       sii=${s.toFixed(0)}`); siiR.push(s);
+          const f=(await computeIFI(packet,prose,provider)).score; if(k===0)log(`       ifi=${f.toFixed(0)}`); ifiR.push(f);
+          const a=(await computeAAI(packet,prose,provider)).score; if(k===0)log(`       aai=${a.toFixed(0)}`); aaiR.push(a);
         }
         const ecc=avg(eccR),rci=avg(rciR),sii=avg(siiR),ifi=avg(ifiR),aai=avg(aaiR);
         const composite=ecc*0.33+rci*0.17+sii*0.15+ifi*0.10+aai*0.25;

@@ -47,3 +47,16 @@ Les remplacements sémantiques doivent être : (a) **langue-aware** (pas FR-only
 - Forces : réutilise l'acquis (zéro capteur neuf) ; sépare rôle par contexte (répond à la divergence triple-preuve) ; verrou anti-circularité + anti-stuffing ; chaque pas gaté triple-preuve.
 - Faiblesses : (1) exécution = re-score sémantique 3 corpus (Ollama, terminal) + config de rôles (code moteur) → gaté ; (2) le test adversarial keyword-stuffing reste à construire ; (3) goldens à re-scorer macro (3ᵉ corpus).
 - Action requise : décision Architecte — lancer R2.1 (preuve focalisation sémantique vs keyword sur 3 corpus, terminal). Aucun code avant triple-preuve 3/3. En autonomie je peux préparer le harnais de re-score sémantique 3-corpus + le test adversarial keyword-stuffing (CALC/structure prêts à brancher Ollama).
+
+
+---
+## 7. PREUVE adversariale (autonome) — capteurs keyword GAMEABLE (`wsd-r2-adversarial-stuffing.ts`)
+Injection d'**une seule phrase sémantiquement creuse** bourrée de mots-clés sensoriels/corporels FR :
+
+| Passage | sensory base→stuffé | corporeal base→stuffé |
+|---|---|---|
+| Flaubert | 40 → **100** (+60) | 17 → **83** (+67) |
+| Melville | 0 → **100** (+100) | 17 → **83** (+67) |
+| Austen | 0 → **100** (+100) | 17 → **83** (+67) |
+
+**Une phrase de keyword fait monter sensory à 100.** → Les capteurs keyword sont **trivialement gameable** → inaptes en gating qualité. **Explique la K2-circularité** : la prose OMEGA (qui place des mots sensoriels) sature ces capteurs ; les maîtres (immersion indirecte, anglais) les ratent. Le juge sémantique (`scoreSensoryDensity` LLM : note la *qualité/spécificité*, pas la présence) ne bondirait pas sur du stuffing — contre-test = terminal Ollama (EMP-16). **R2 sémantique = mathématiquement justifié.** Aucune mesure supprimée, aucun code touché.

@@ -1,6 +1,6 @@
 # DEC-20260601-014 — SCORE PROVENANCE PERSISTENCE
 
-**Statut** : PROPOSED (doc-only, NO CODE) — décision/implémentation Architecte (terminal gaté).
+**Statut** : ACCEPTED (2026-06-01, ratifié Architecte + 2-IA) — implémentation gatée terminal Architecte (pré-requis de WS-C).
 **Date** : 2026-06-01 · **Standard** : NASA-Grade L4 / DO-178C Level A.
 **Origine** : 3 evidence-gaps convergents — packet RCI non sauvegardé (WS-B1), holdout ρ introuvable, contrat ECC ALTERNANCE non sauvegardé (WS-B0c). Tous bloquent les audits then/now à 100 %.
 **Gate** : DOC_ONLY.

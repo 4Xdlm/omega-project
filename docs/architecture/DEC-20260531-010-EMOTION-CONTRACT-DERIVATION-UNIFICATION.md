@@ -131,3 +131,27 @@ Diagnostic read-only exécuté (`scripts/metrology/t0-isolate-cause.ts`, reprodu
 - **Option C** — lever FORBID-CANON-GARAGE-001 par décision explicite (rouvre NCR_EMOTION14_CANON_DRIFT) — lourd, hors scope DEC-010.
 
 **Verdict** : DEC-010 §7 doit être **amendé** : « zéro contrat émotionnel dégénéré » (au sens : pas de NaN/score dégénéré chez les consommateurs) plutôt que « zéro target_14d vide » littéral — réconcilie avec FORBID-CANON-GARAGE-001. **Décision Architecte requise (A/B/C).** Reco : **B**. T1b GELÉ jusqu'à arbitrage. (T1 assembleForgePacket — chemin à 14D LIVE omega-forge, PAS garagé — reste valide et fait.)
+
+
+---
+## 15. ADDENDUM T2 (2026-05-31) — VERDICT EMPIRIQUE : le 14D contrat EST le levier ECC (ne pas couper)
+Bench ECC dédié re-run avec **flag OMEGA_EMOTION_DERIV_V2 réellement ON** (`$env:` ; le run précédent avait `set` PowerShell inopérant → tournait flag-OFF). qwen3:32b, juge temp 0, prose sovereign fixe.
+
+| Contrat | flag-OFF | **flag-ON (T1)** | HAND (réf scène-appropriée) |
+|---|---|---|---|
+| FORGE sovereign | ECC 68.02 / t14d 9.22 | **ECC 70.65 / t14d 17.57** | ECC 92.42 / t14d 86.49 |
+(emoCoh=100, inter=92, impact=78 partout → seul tension_14d bouge.)
+
+**Verdict** :
+1. **Le fix T1 fonctionne directionnellement** : la variation du contrat ↑ `tension_14d` 9.22→17.57 (×1.9). Mécanisme validé.
+2. **Gain ECC faible (+2.6)** car scène-0 = *trust* (arc-opening) alors que la prose échantillon est *fear/tension* → le contrat ne matche pas le contenu réel. Le HAND (arc fear→sadness aligné sur la prose) atteint **92.42 via t14d=86.49**.
+3. **Le 14D contrat (omega-forge) EST le levier de l'ECC** (preuve HAND) — **PAS inutile, NE PAS couper.** Ce qui est mort = le **canon Emotion14 du genome** (keyword, FROZEN, 0 import).
+
+**DÉCISION (Architecte 2026-05-31, data-driven)** :
+- **Muséer le canon Emotion14 genome** (keyword mort) — formalisation doc, genome FROZEN non touché.
+- **GARDER le 14D contrat omega-forge** (levier ECC prouvé). Le fix T1 (flag) est conservé.
+- **§14 RÉSOLU** : `FORBID-CANON-GARAGE-001` vise le **canon genome** uniquement ; le 14D omega-forge (prescribed trajectory) est distinct et vivant → V2.3-A peut le peupler **via omega-forge** (≠ résurrection canon) sans violer le FORBID. Option A clarifiée = légitime.
+
+**NOUVELLE découverte (continuation WS-A)** : le gain partiel révèle un défaut PLUS PROFOND que la flatness — le contrat de scène-0 (*trust*, par l'arc) ne matche pas l'émotion réelle de la prose (*fear*). Le HAND prouve qu'un 14D **aligné sur le contenu** donne 92. → WS-A doit non seulement varier (T1) mais **aligner le 14D sur l'émotion réelle de la scène/prose** (granularité arc 7-waypoints/7-scènes trop grossière, OU désaccord planner↔contenu). Sous-tâche WS-A.2 : dérivation 14D scène-appropriée (au-delà de la variation).
+
+**Statut** : T2 CONCLUANT. 14D contrat = GARDÉ (levier prouvé). Canon genome = à muséer. T1 = partiel validé. WS-A.2 ouvert (alignement émotion). Évidence : `docs/audit/minaxis/ecc_dedicated_bench.json` (run flag-ON).

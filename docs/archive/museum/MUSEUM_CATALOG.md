@@ -38,3 +38,12 @@ Légende colonnes : **item** | **type** | **date origine** | **date musée** | *
 
 ---
 *Procédure d'usage : voir `README_MUSEUM.md`. Hors SSOT (NON_SOURCE_OF_TRUTH_RUNTIME).*
+
+
+---
+## CONCEPTS MUSÉÉS (code FROZEN, non déplacé — registered only)
+| concept | type | statut | raison | source courante / décision |
+|---|---|---|---|---|
+| **Emotion14 (canon genome)** | concept émotionnel keyword-based | MUSEUM_CONCEPT / NON_SOURCE_OF_TRUTH_RUNTIME | keyword-emotion **mort** (NCR_EMOTION14_CANON_DRIFT, FORBID-CANON-GARAGE-001) : 0 import cross-package, kill-switch Δ+0.021<+0.030, genome FROZEN/SEALED v1.2.0. Décision Architecte 2026-05-31 : pièce de musée, échanges runtime annulés. | Le 14D **omega-forge** (prescribed trajectory, contrat ForgePacket) est DISTINCT et VIVANT (levier ECC prouvé, DEC-010 §15 : HAND 92.42 via t14d 86.49). Ne PAS confondre. Code genome non touché (V-01). |
+
+> **Distinction cardinale** (DEC-010 §14-15) : « Emotion14 genome canon » (keyword, MUSÉÉ) ≠ « target_14d omega-forge » (prescribed trajectory, ACTIF, levier ECC). Le FORBID-CANON-GARAGE-001 vise UNIQUEMENT le canon genome.

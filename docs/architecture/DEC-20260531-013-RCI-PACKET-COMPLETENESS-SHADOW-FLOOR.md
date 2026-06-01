@@ -84,3 +84,19 @@ Question Architecte : a-t-on comparé le juge « valeurs d'alors vs aujourd'hui 
 **ρ=0.6138 (HELD)** : ne PAS reconstruire le holdout à la main (« recréer la preuve » = anti-pattern). Tracer comme evidence-gap : `HOLDOUT_V2.csv` / `FEATURE_MATRIX_V3.csv` absents du mount → vérification corrélation différée jusqu'à localisation des fichiers scellés (cf SHA256 holdout 56636e28… + coefficients e75e3bb0… dans CLAUDE.md workspace).
 
 **Principe Architecte réaffirmé** : *on ne touche au seuil (floor) qu'avec une vérité mathématique reproductible et prouvable à 100 %.* → 81.7 reste SHADOW ; M4/DEC-009 restent GELÉS tant que le juge LLM (ECC) n'est pas vérifié then/now (WS-B0c).
+
+
+---
+## 7. ADDENDUM WS-B0c EXÉCUTÉ (2026-06-01) — juge ECC REPRODUCTIBLE, dérive inconclusive
+
+Run Architecte (Ollama qwen3:32b, temp 0, k=3) → `docs/audit/minaxis/JUDGE_DRIFT_ECC_THEN_NOW.md`.
+
+| Conclusion | Verdict |
+|---|---|
+| **Reproductibilité juge LLM** | ✅ **PROUVÉE** — now_ECC_std=0 sur 7/7 (0 variance LLM à temp 0) |
+| Tendance centrale then/now | stable (mean Δ +1.49, median +1.07) |
+| Dérive then/now isolée | ⚠️ **INCONCLUSIVE** — 4/7 biased_shift (D +10.59…) = confound contrat (contrat ALTERNANCE original non sauvegardé), PAS du bruit (std 0) |
+
+**Le juge ECC est déterministe/reproductible** (le fait dur, prouvé à 100 %). La **dérire** then/now n'est PAS séparable du match-contrat sans le contrat d'époque — **3ᵉ occurrence du même evidence-gap** (RCI packet WS-B1, holdout ρ, contrat ALTERNANCE). Ne pas conclure « juge dérivé » (faux, confond contrat) ni « juge identique » (non prouvé). Conforme INVALID_PACKET : un score n'est comparable qu'à contrat d'entrée identique.
+
+**Impact** : juge ECC **utilisable car reproductible** ; M4/DEC-009 restent GELÉS tant que le contrat d'entrée n'est pas garanti complet. Aucun seuil touché (principe Architecte : pas de changement floor sans vérité reproductible à 100 % — ici la reproductibilité est prouvée, mais la complétude du contrat d'entrée ne l'est pas).

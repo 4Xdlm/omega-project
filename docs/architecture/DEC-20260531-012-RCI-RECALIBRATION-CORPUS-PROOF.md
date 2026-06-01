@@ -123,3 +123,27 @@ Décomposition par sensibilité packet (les packets ALTERNANCE originaux ne sont
 **Révision du dossier** : le §3 (judge-drift) est **retiré comme preuve de dérive de formule** (réfuté). La recalibration RCI repose **désormais uniquement** sur la corpus-proof MINAXIS_E (§2 : 0/57 maîtres ≥85, K2 82.6 > maîtres) — problème de **floor / circularité K2**, PAS de dérive temporelle. Pilier unique, solide, reproductible.
 
 **Impact D1–D4** : D3 = FAIT (réfute la formule). D1 (floor data-driven) et D2 (leviers, pic CV littérature en priorité) inchangés — la cible reste le floor/circularité, pas une formule à « dé-dériver ». D4 → NCR_RCI = **OPEN_DIAGNOSED** (cause = floor/captor K2-circular & corpus-invalid ; dérive de formule réfutée), transition RESOLVED-PENDING-RECALIBRATION après choix levier + protocole Phase R.
+
+
+---
+## 12. ADDENDUM WS-B1 (2026-05-31) — la corpus-proof §2 est elle-même PACKET-CONFONDUE
+
+WS-B1 (`scripts/metrology/wsb1-rci-floor-candidates.ts` → `docs/audit/minaxis/RCI_FLOOR_CANDIDATES.md`, CALC read-only) applique la leçon WS-B0b à la corpus-proof §2.
+
+**MINAXIS_E utilise le même probe packet** (CSV : `signature`=60, `hook`=85 constants). Donc « 0/57 maîtres ≥85 » est packet-confondu, comme le −17.
+
+| | probe (§2) | packet-fair (RCI_ceiling) |
+|---|---|---|
+| médiane maîtres | 68.4 | **84.54** |
+| pass@85 | 0/57 | **28/57 (49 %)** |
+| K2 (real packet 82.6) vs maîtres | 82.6 > 68 | maîtres **84.54 ≥ 82.6** |
+
+**Conséquences (le dossier RCI bascule)** :
+1. « Floor 85 inatteignable » : **NON établi** à packet-fair (médiane maîtres ≈ floor ; 49 % passent).
+2. « Circularité K2 > maîtres » : **réfutée** à packet égal (maîtres ceiling ≥ K2).
+3. Caveat : `RCI_ceiling` = borne HAUTE (signature/hook=100 irréaliste). Vrai RCI maîtres ∈ [68, 84.5]. Valeur packet-fair réelle **non encore mesurée**.
+4. **Cause unifiante** : les harnais de scoring RCI utilisent des **packets dégénérés** (signature_words/hooks vides) → −16 pts systématiques. **Même classe que WS-A.2 ECC** (contrat/packet sous-peuplé). Le défaut est le **packet de mesure**, pas (ou bien moins que supposé) la formule ni le floor.
+
+**Révision** : le §2 (corpus-proof) est **rétrogradé** — il ne prouve PAS « floor impossible » tel quel (confound packet). Avant toute décision floor (D1), il faut **WS-B2** : scorer les maîtres avec des `signature_words`/motifs **représentatifs par texte** (vraie distribution packet-fair entre probe et ceiling). Candidats floor provisoires bornés ∈ [~76, ~82] (p25-ceiling 81.7), AUCUN appliqué.
+
+**Statut WS-B** : la prémisse « capteur RCI mal calibré » est **affaiblie** — le gros de l'écart est packet, pas formule/floor. NCR_RCI reste OPEN_DIAGNOSED mais la cause se reformule : *packet de scoring dégénéré* > *floor/circularité*. M4 reste GELÉ. Décision Architecte : financer WS-B2 (representative-packet) avant tout floor, OU floor provisoire shadow [76,82].

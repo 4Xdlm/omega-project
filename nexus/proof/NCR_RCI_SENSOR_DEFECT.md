@@ -2,6 +2,7 @@
 
 **Status**: OPEN_DIAGNOSED · **Severity**: HIGH · **Date**: 2026-05-31 · **Origine**: MIN_AXIS FLOOR AUDIT (commit `9f37b3aa`, `docs/audit/minaxis/`).
 **MAJ 2026-05-31 (D4)** : OPEN → OPEN_DIAGNOSED. Cause = floor/captor K2-circular & corpus-invalid (MINAXIS_E 0/57). La « dérive du juge » (judge-drift −17.14) est **RÉFUTÉE comme dérive de formule** (WS-B0b `JUDGE_DRIFT_PACKET_ORIGINAL.md` : residual −0.68 ≈ 0, −17 = artefact probe packet signature/hook). Transition → RESOLVED-PENDING-RECALIBRATION après choix levier (pic CV littérature) + protocole Phase R. Design remédiation = DEC-20260531-012.
+**MAJ 2026-05-31 (WS-B1)** : la corpus-proof « 0/57 » est elle-même **packet-confondue** (MINAXIS_E utilise signature=60/hook=85 constants). À packet-fair (RCI_ceiling) : 28/57 maîtres passent 85, médiane 84.54, et maîtres ≥ K2 (82.6) → « floor impossible » et « circularité K2 » NON établis. Cause reformulée : **packet de scoring dégénéré** (même classe que WS-A.2 ECC) > floor/circularité. Pré-requis avant décision floor : WS-B2 scoring representative-packet des maîtres. Cf `docs/audit/minaxis/RCI_FLOOR_CANDIDATES.md` + DEC-012 §12.
 **Doctrine**: PROVE IT · NO RECALIBRATION WITHOUT CORPUS PROOF · NO THRESHOLD CHANGE WITHOUT BENCH.
 
 ## Issue

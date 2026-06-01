@@ -239,8 +239,8 @@ function buildScenePrescribedTrajectoryLocal(
     (wp) => wp.position >= sceneStartPct && wp.position <= sceneEndPct,
   );
 
-  // If no waypoints in scene, use scene's emotion_target
-  const waypoints: EmotionWaypoint[] =
+  // If no waypoints in scene, use scene's emotion_target (default path / flag OFF)
+  const defaultWaypoints: EmotionWaypoint[] =
     sceneWaypoints.length > 0
       ? sceneWaypoints
       : [
@@ -255,6 +255,34 @@ function buildScenePrescribedTrajectoryLocal(
             intensity: scene.emotion_intensity,
           },
         ];
+  // DEC-010 WS-A (flag OMEGA_EMOTION_DERIV_V2, default OFF): when a scene captures
+  // <2 in-range waypoints, include bracketing arc neighbors so the prescribed
+  // trajectory varies intra-scene (fixes flat one-hot target_14d, e.g. trust:1.0 on
+  // Le Gardien scene-0). Preserves the scene's arc dominant; only adds Q1->Q4 variation.
+  let waypoints: EmotionWaypoint[] = defaultWaypoints;
+  if (process.env.OMEGA_EMOTION_DERIV_V2 === '1' && sceneWaypoints.length < 2) {
+    const before = [...plan.emotion_trajectory]
+      .filter((wp) => wp.position < sceneStartPct)
+      .sort((a, b) => a.position - b.position)
+      .pop();
+    const after = plan.emotion_trajectory.find((wp) => wp.position > sceneEndPct);
+    const seen = new Set<number>();
+    const bracketed = [before, ...sceneWaypoints, after]
+      .filter((w): w is EmotionWaypoint => w != null)
+      .filter((w) => {
+        if (seen.has(w.position)) return false;
+        seen.add(w.position);
+        return true;
+      })
+      .sort((a, b) => a.position - b.position);
+    waypoints =
+      bracketed.length >= 2
+        ? bracketed
+        : [
+            { position: sceneStartPct, emotion: scene.emotion_target, intensity: scene.emotion_intensity },
+            { position: sceneEndPct, emotion: scene.emotion_target, intensity: Math.min(1, scene.emotion_intensity + 0.1) },
+          ];
+  }
 
   // Use omega-forge SSOT to build trajectory with 14D + XYZ
   const prescribed = buildScenePrescribedTrajectory(

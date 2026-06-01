@@ -1,0 +1,20 @@
+macro_axis,sub_sensor,method,internal_weight,lexicon_dependency,FR_mean,EN_mean,delta_en_fr,median,classification,in_min_axis,recommendation
+ECC,tension_14d,HYBRID,x3.0,contract target_14d + keyword fallback,,,,,CONTRACT_DEPENDENT,yes,fix contract derivation (DEC-011) + disable keyword fallback
+ECC,emotion_coherence,LLM,x2.5,contract,,,,,VALID_LLM,yes,keep
+ECC,interiority,LLM,x2.0,none,,,,,VALID_LLM,yes,keep
+ECC,impact,LLM,x2.0,none,,,,,VALID_LLM,yes,keep
+AAI,show_dont_tell,LLM,0.60,none,,,,,VALID_LLM,yes,keep
+AAI,authenticity,LLM,0.40,none,,,,,VALID_LLM,yes,keep
+RCI,rhythm,CALC_struct,w*conf,sentence length/CV,69.9,69.0,-0.9,71.1,VALID_SENSOR,yes,keep (re-tune pic CV on literature)
+RCI,signature,CALC_keyword,~,packet.signature_words,,,,,PACKET_DEPENDENT,yes,packet-completeness signal not quality; de-weight or guard INVALID_PACKET
+RCI,hook_presence,CALC_keyword,0.20,packet signature+motifs,,,,,PACKET_DEPENDENT,yes,same as signature
+RCI,euphony,CALC_struct,0.5,phonemes,73.4,80.7,7.3,78.7,VALID_SENSOR,yes,keep; review x0.5 defensive weight
+RCI,voice_conformity,LLM,0,none,,,,,NEUTRALIZED,yes,weight 0 (dead)
+SII,anti_cliche,CALC_keyword,1.0,cliche list,100,100,0.0,100,INERT_NON_DISCRIMINATING,yes,saturates 100 -> measures nothing on masters; reconsider
+SII,necessity,LLM,1.0,contract,,,,,VALID_LLM,yes,keep
+SII,metaphor_novelty,LLM,1.0,none,,,,,VALID_LLM_CONSERVATIVE,yes,keep (baseline 71-79)
+IFI,sensory_richness,CALC_keyword_FR_only,0.25,FR sensory words,37.7,28.8,-8.9,40,LANGUAGE_BIASED_LITERAL_INVALID_FOR_FLOOR,yes,remove from min_axis OR replace by semantic/LLM (no FR keyword)
+IFI,corporeal_anchoring,CALC_keyword,0.25,CORPOREAL_MARKERS,33.1,20.0,-13.1,16.7,LANGUAGE_BIASED_INVALID_FOR_FLOOR,yes,remove from min_axis OR semantic
+IFI,focalisation,LLM,0.25,none,,,,,VALID_LLM,yes,keep
+IFI,attention_sustain,CALC_struct,0.125,none,,,,,VALID_SENSOR,yes,keep (98)
+IFI,fatigue_management,CALC_struct,0.125,none,,,,,VALID_SENSOR,yes,keep (100)

@@ -2,10 +2,10 @@
  * DEC-017 — Tests unitaires IntrinsicQuality (logique PURE + orchestration via mock provider).
  * Déterministes, hors Ollama. Couvre bornes, cas dégénérés, amendements A1/A2/A3.
  */
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, afterEach } from 'vitest';
 import {
   granularityOk, countWords, aggregateQuality, parseScore, parseWinner,
-  tallyWins, indexOfMax, scoreIntrinsicQuality, pickBestPairwise,
+  tallyWins, indexOfMax, scoreIntrinsicQuality, pickBestPairwise, shadowLogIntrinsicQuality,
   QUALITY_MIN_WORDS, QUALITY_MAX_WORDS, type QualityProvider,
 } from '../../src/oracle/intrinsic-quality/intrinsic-quality.js';
 
@@ -75,5 +75,32 @@ describe('pickBestPairwise (A1 — 2 ordres, sélection)', () => {
     expect(r.n_comparisons).toBe(3 * 2);
     expect(r.wins[1]).toBeGreaterThan(r.wins[0]!);
     expect(r.wins[1]).toBeGreaterThan(r.wins[2]!);
+  });
+});
+
+describe('shadowLogIntrinsicQuality (câblage shadow, non-régression)', () => {
+  const prev = process.env.OMEGA_INTRINSIC_QUALITY;
+  afterEach(() => {
+    if (prev === undefined) delete process.env.OMEGA_INTRINSIC_QUALITY;
+    else process.env.OMEGA_INTRINSIC_QUALITY = prev;
+  });
+  it("flag '0' (défaut) : ZÉRO appel LLM (comportement identique)", async () => {
+    delete process.env.OMEGA_INTRINSIC_QUALITY;
+    let calls = 0;
+    const p: QualityProvider = { async generateStructuredJSON() { calls++; return { score: 70 }; } };
+    await expect(shadowLogIntrinsicQuality('x x x', 'fr', 's1', p)).resolves.toBeUndefined();
+    expect(calls).toBe(0);
+  });
+  it("flag 'shadow' : 3 appels (profondeur/style/voix), ne lève pas", async () => {
+    process.env.OMEGA_INTRINSIC_QUALITY = 'shadow';
+    let calls = 0;
+    const p: QualityProvider = { async generateStructuredJSON() { calls++; return { score: 70 }; } };
+    await expect(shadowLogIntrinsicQuality('mot', 'fr', 's2', p)).resolves.toBeUndefined();
+    expect(calls).toBe(3);
+  });
+  it("flag 'shadow' + provider qui lève : ne propage JAMAIS", async () => {
+    process.env.OMEGA_INTRINSIC_QUALITY = 'shadow';
+    const p: QualityProvider = { async generateStructuredJSON() { throw new Error('boom'); } };
+    await expect(shadowLogIntrinsicQuality('mot', 'fr', 's3', p)).resolves.toBeUndefined();
   });
 });

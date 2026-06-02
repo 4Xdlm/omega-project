@@ -35,6 +35,7 @@ import { scoreImpact } from './axes/impact.js';
 import { computeSScore } from './s-score.js';
 import type { MacroSScore } from './macro-score-types.js';
 import { computeECC, computeRCI, computeSII, computeIFI, computeAAI, computeMacroSScore, type MacroAxesScores } from './macro-axes.js';
+import { shadowLogIntrinsicQuality } from './intrinsic-quality/intrinsic-quality.js';
 import { isDispatcherLangActive, runDispatcherLang } from '../scoring/dispatcher/dispatcher-lang.js';
 
 export async function judgeAesthetic(
@@ -95,6 +96,10 @@ export async function judgeAestheticV3(
   const macroAxes: MacroAxesScores = { ecc, rci, sii, ifi, aai };
 
   const baseScore = computeMacroSScore(macroAxes, packet.scene_id, packet.seeds.llm_seed);
+
+  // DEC-017 — télémétrie advisory IntrinsicQuality (SHADOW only, flag OMEGA_INTRINSIC_QUALITY).
+  // No-op si flag != 'shadow' ; ne modifie JAMAIS baseScore (return inchangé). Ne lève jamais.
+  await shadowLogIntrinsicQuality(prose, packet.language, packet.scene_id, provider);
 
   return maybeAttachDispatcher(baseScore, prose, packet);
 }

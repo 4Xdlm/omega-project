@@ -168,3 +168,29 @@ export async function pickBestPairwise(
 export function intrinsicQualityMode(): '0' | 'shadow' {
   return process.env.OMEGA_INTRINSIC_QUALITY === 'shadow' ? 'shadow' : '0';
 }
+
+/**
+ * Hook SHADOW (DEC-017) : télémétrie advisory, NE retourne rien, NE modifie aucun verdict.
+ * - flag != 'shadow' (défaut '0') : no-op immédiat, AUCUN appel LLM, comportement identique.
+ * - flag == 'shadow' : score profondeur/style/voix (try/catch — ne lève JAMAIS) + log télémétrie.
+ * À appeler après le calcul du verdict ; le score advisory n'entre nulle part dans le verdict.
+ */
+export async function shadowLogIntrinsicQuality(
+  prose: string,
+  lang: QLang,
+  sceneId: string,
+  provider: QualityProvider,
+): Promise<void> {
+  if (intrinsicQualityMode() !== 'shadow') return;
+  try {
+    const r = await scoreIntrinsicQuality(prose, lang, provider);
+    // eslint-disable-next-line no-console
+    console.error(
+      `[INTRINSIC_QUALITY shadow] scene=${sceneId} lang=${lang} words=${r.words} gran=${r.granularity_ok} ` +
+      `prof=${r.profondeur} style=${r.style} voix=${r.voix} mean=${r.mean}`,
+    );
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.error(`[INTRINSIC_QUALITY shadow] error: ${String(e)}`);
+  }
+}

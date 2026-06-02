@@ -1,0 +1,80 @@
+{
+  "summary": {
+    "tool": "wsd-r3-shadow-decouple-bench.ts",
+    "model": "qwen3:32b",
+    "n": 18,
+    "weights": {
+      "ecc": 0.33,
+      "rci": 0.17,
+      "sii": 0.15,
+      "ifi": 0.1,
+      "aai": 0.25
+    },
+    "zones": {
+      "GREEN": {
+        "min_composite": 93,
+        "min_axis": 80,
+        "min_ecc": 88
+      },
+      "YELLOW": {
+        "min_composite": 85,
+        "min_axis": 75
+      },
+      "RED": {
+        "max_composite": 84
+      }
+    },
+    "by_family": {
+      "maitres": {
+        "n": 6,
+        "ifi_was_binding_pct": 100,
+        "ifi_legacy": 44.13,
+        "ifi_o2_pacing": 100,
+        "min_axis_legacy": 44.13,
+        "min_axis_o2": 56.4,
+        "min_axis_delta": 12.3,
+        "composite_legacy": 70.8,
+        "composite_o2": 76.38,
+        "seal_legacy": 0,
+        "seal_o2": 0,
+        "pitch_o2": 0,
+        "reject_o2": 6
+      },
+      "badprose": {
+        "n": 6,
+        "ifi_was_binding_pct": 100,
+        "ifi_legacy": 47.47,
+        "ifi_o2_pacing": 100,
+        "min_axis_legacy": 47.47,
+        "min_axis_o2": 59.47,
+        "min_axis_delta": 12.02,
+        "composite_legacy": 72.07,
+        "composite_o2": 77.33,
+        "seal_legacy": 0,
+        "seal_o2": 0,
+        "pitch_o2": 0,
+        "reject_o2": 6
+      },
+      "bestsellers": {
+        "n": 6,
+        "ifi_was_binding_pct": 67,
+        "ifi_legacy": 44.82,
+        "ifi_o2_pacing": 100,
+        "min_axis_legacy": 42.45,
+        "min_axis_o2": 50.7,
+        "min_axis_delta": 8.23,
+        "composite_legacy": 68.93,
+        "composite_o2": 74.47,
+        "seal_legacy": 0,
+        "seal_o2": 0,
+        "pitch_o2": 0,
+        "reject_o2": 6
+      }
+    },
+    "health_check": {
+      "note": "O2 sain si : (1) IFI etait souvent binding chez maitres (IFI=axe-tueur) ; (2) min_axis maitres remonte (delta>0) ; (3) badprose ne gagne PAS de SEAL (seal_o2 badprose ~ seal_legacy, idealement 0). Le packet gardien rend le SEAL absolu peu realiste -> lire les DELTAS et le binding, pas le SEAL brut.",
+      "maitres_min_axis_rises": true,
+      "badprose_no_new_seal": true
+    }
+  }
+}

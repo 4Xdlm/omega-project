@@ -1,0 +1,85 @@
+{
+  "summary": {
+    "tool": "wsd-r5-fr-quality-probe.ts",
+    "model": "qwen3:32b",
+    "size": 1500,
+    "n": 432,
+    "pairwise": {
+      "fr": {
+        "n": 162,
+        "master_win_rate": 0.932,
+        "ci95": [
+          0.895,
+          0.969
+        ],
+        "win_when_master_A": 0.963,
+        "win_when_master_B": 0.901,
+        "position_bias": 0.062
+      },
+      "en": {
+        "n": 162,
+        "master_win_rate": 0.92,
+        "ci95": [
+          0.877,
+          0.963
+        ],
+        "win_when_master_A": 1,
+        "win_when_master_B": 0.84,
+        "position_bias": 0.16
+      }
+    },
+    "absolute": {
+      "fr": {
+        "profondeur": {
+          "auc": 0.895,
+          "median_maitres": 71.667,
+          "median_pulp": 43.889,
+          "nM": 9,
+          "nP": 9
+        },
+        "style": {
+          "auc": 0.914,
+          "median_maitres": 75.444,
+          "median_pulp": 48,
+          "nM": 9,
+          "nP": 9
+        },
+        "voix": {
+          "auc": 0.864,
+          "median_maitres": 71.333,
+          "median_pulp": 43.556,
+          "nM": 9,
+          "nP": 9
+        }
+      },
+      "en": {
+        "profondeur": {
+          "auc": 1,
+          "median_maitres": 85.778,
+          "median_pulp": 45.444,
+          "nM": 9,
+          "nP": 9
+        },
+        "style": {
+          "auc": 0.938,
+          "median_maitres": 88.667,
+          "median_pulp": 58.556,
+          "nM": 9,
+          "nP": 9
+        },
+        "voix": {
+          "auc": 0.932,
+          "median_maitres": 89.889,
+          "median_pulp": 63.444,
+          "nM": 9,
+          "nP": 9
+        }
+      }
+    },
+    "verdict": {
+      "note": "pairwise master_win_rate >=0.75 symetrique (position_bias<0.10) => le LLM DISCRIMINE la qualite (scoring absolu etait le pb). Comparer FR vs EN. absolu auc>=0.70 = dimension utile. Si pairwise FR ~0.5 => qwen3:32b ne percoit pas la qualite litteraire FR (acter).",
+      "fr_pairwise": 0.932,
+      "en_pairwise": 0.92
+    }
+  }
+}

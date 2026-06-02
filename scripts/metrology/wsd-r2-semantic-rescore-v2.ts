@@ -130,6 +130,12 @@ async function main(){
   }
   const provider=createOllamaProvider({baseUrl:OLLAMA,model:MODEL,draftTemperature:0,judgeTemperature:0,draftMaxTokens:2000,judgeMaxTokens:2000});
   const pkt={fr:basePacket('fr'),en:basePacket('en')};
+  const hasLLM=(ax:any)=>/LLM:\s*\d+/.test(String(ax.details||''));
+  // PRE-FLIGHT anti fallback keyword silencieux : prouver qu'Ollama répond ET que le LLM a réellement tourné.
+  const probe=await scoreSensoryDensity(pkt.fr,'Le vent froid glaçait la peau ; au loin une lueur tremblait dans la pénombre, et une odeur âcre montait du sol humide sous ses doigts.',provider);
+  log(`[PREFLIGHT] semantic LLM tag = ${hasLLM(probe)} | details="${String(probe.details||'').slice(0,90)}"`);
+  if(!hasLLM(probe)){log('FATAL: SEMANTIC_NOT_RUNNING — aucun tag LLM => fallback keyword silencieux (Ollama absent/PATH). RUN INVALIDE. Relancer dans le terminal Architecte avec Ollama actif (qwen3:32b).');process.exit(2);}
+  let nLLM=0;
   const rows=loadCorpora();
   log(`corpus chargés : ${rows.length} passages (${['maitres','bestsellers','badprose'].map(c=>c+'='+rows.filter(r=>r.family===c).length).join(' ')})`);
   const out:any[]=[];

@@ -1,0 +1,627 @@
+{
+  "summary": {
+    "tool": "wsd-r4-large-quality-bench.ts",
+    "model": "qwen3:32b",
+    "sizes": [
+      600,
+      1500,
+      3000
+    ],
+    "whole": true,
+    "whole_max": 6000,
+    "books_per_cell": 9,
+    "boot_iters": 2000,
+    "n": 212,
+    "by_axis": {
+      "necessity": {
+        "600": {
+          "auc_m_vs_pulp": 0.474,
+          "ci95": [
+            0.282,
+            0.657
+          ],
+          "perm_p": 0.7911,
+          "auc_m_vs_best": 0.423,
+          "auc_best_vs_pulp": 0.552,
+          "auc_fr": 0.481,
+          "auc_en": 0.414,
+          "nM": 18,
+          "nB": 18
+        },
+        "1500": {
+          "auc_m_vs_pulp": 0.474,
+          "ci95": [
+            0.289,
+            0.66
+          ],
+          "perm_p": 0.8016,
+          "auc_m_vs_best": 0.423,
+          "auc_best_vs_pulp": 0.552,
+          "auc_fr": 0.481,
+          "auc_en": 0.414,
+          "nM": 18,
+          "nB": 18
+        },
+        "3000": {
+          "auc_m_vs_pulp": 0.474,
+          "ci95": [
+            0.284,
+            0.662
+          ],
+          "perm_p": 0.8056,
+          "auc_m_vs_best": 0.423,
+          "auc_best_vs_pulp": 0.552,
+          "auc_fr": 0.481,
+          "auc_en": 0.414,
+          "nM": 18,
+          "nB": 18
+        },
+        "whole": {
+          "auc_m_vs_pulp": 0.414,
+          "ci95": [
+            0.247,
+            0.593
+          ],
+          "perm_p": 0.3488,
+          "auc_m_vs_best": 0.346,
+          "auc_best_vs_pulp": 0.536,
+          "auc_fr": 0.37,
+          "auc_en": 0.469,
+          "nM": 18,
+          "nB": 18
+        }
+      },
+      "metaphor_novelty": {
+        "600": {
+          "auc_m_vs_pulp": 0.623,
+          "ci95": [
+            0.42,
+            0.807
+          ],
+          "perm_p": 0.2134,
+          "auc_m_vs_best": 0.507,
+          "auc_best_vs_pulp": 0.616,
+          "auc_fr": 0.63,
+          "auc_en": 0.617,
+          "nM": 18,
+          "nB": 18
+        },
+        "1500": {
+          "auc_m_vs_pulp": 0.503,
+          "ci95": [
+            0.318,
+            0.698
+          ],
+          "perm_p": 0.98,
+          "auc_m_vs_best": 0.467,
+          "auc_best_vs_pulp": 0.556,
+          "auc_fr": 0.494,
+          "auc_en": 0.537,
+          "nM": 18,
+          "nB": 18
+        },
+        "3000": {
+          "auc_m_vs_pulp": 0.65,
+          "ci95": [
+            0.463,
+            0.833
+          ],
+          "perm_p": 0.1439,
+          "auc_m_vs_best": 0.574,
+          "auc_best_vs_pulp": 0.606,
+          "auc_fr": 0.66,
+          "auc_en": 0.648,
+          "nM": 18,
+          "nB": 18
+        },
+        "whole": {
+          "auc_m_vs_pulp": 0.662,
+          "ci95": [
+            0.471,
+            0.838
+          ],
+          "perm_p": 0.0995,
+          "auc_m_vs_best": 0.583,
+          "auc_best_vs_pulp": 0.539,
+          "auc_fr": 0.617,
+          "auc_en": 0.698,
+          "nM": 18,
+          "nB": 18
+        }
+      },
+      "anti_cliche": {
+        "600": {
+          "auc_m_vs_pulp": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ],
+          "perm_p": 1,
+          "auc_m_vs_best": 0.5,
+          "auc_best_vs_pulp": 0.5,
+          "auc_fr": 0.5,
+          "auc_en": 0.5,
+          "nM": 18,
+          "nB": 18
+        },
+        "1500": {
+          "auc_m_vs_pulp": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ],
+          "perm_p": 1,
+          "auc_m_vs_best": 0.5,
+          "auc_best_vs_pulp": 0.5,
+          "auc_fr": 0.5,
+          "auc_en": 0.5,
+          "nM": 18,
+          "nB": 18
+        },
+        "3000": {
+          "auc_m_vs_pulp": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ],
+          "perm_p": 1,
+          "auc_m_vs_best": 0.5,
+          "auc_best_vs_pulp": 0.5,
+          "auc_fr": 0.5,
+          "auc_en": 0.5,
+          "nM": 18,
+          "nB": 18
+        },
+        "whole": {
+          "auc_m_vs_pulp": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ],
+          "perm_p": 1,
+          "auc_m_vs_best": 0.5,
+          "auc_best_vs_pulp": 0.5,
+          "auc_fr": 0.5,
+          "auc_en": 0.5,
+          "nM": 18,
+          "nB": 18
+        }
+      },
+      "show_dont_tell": {
+        "600": {
+          "auc_m_vs_pulp": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ],
+          "perm_p": 1,
+          "auc_m_vs_best": 0.5,
+          "auc_best_vs_pulp": 0.5,
+          "auc_fr": 0.5,
+          "auc_en": 0.5,
+          "nM": 18,
+          "nB": 18
+        },
+        "1500": {
+          "auc_m_vs_pulp": 0.5,
+          "ci95": [
+            0.5,
+            0.5
+          ],
+          "perm_p": 1,
+          "auc_m_vs_best": 0.5,
+          "auc_best_vs_pulp": 0.5,
+          "auc_fr": 0.5,
+          "auc_en": 0.5,
+          "nM": 18,
+          "nB": 18
+        },
+        "3000": {
+          "auc_m_vs_pulp": 0.528,
+          "ci95": [
+            0.5,
+            0.583
+          ],
+          "perm_p": 1,
+          "auc_m_vs_best": 0.529,
+          "auc_best_vs_pulp": 0.498,
+          "auc_fr": 0.556,
+          "auc_en": 0.5,
+          "nM": 18,
+          "nB": 18
+        },
+        "whole": {
+          "auc_m_vs_pulp": 0.526,
+          "ci95": [
+            0.444,
+            0.611
+          ],
+          "perm_p": 1,
+          "auc_m_vs_best": 0.529,
+          "auc_best_vs_pulp": 0.497,
+          "auc_fr": 0.549,
+          "auc_en": 0.5,
+          "nM": 18,
+          "nB": 18
+        }
+      },
+      "authenticity": {
+        "600": {
+          "auc_m_vs_pulp": 0.654,
+          "ci95": [
+            0.46,
+            0.826
+          ],
+          "perm_p": 0.1099,
+          "auc_m_vs_best": 0.57,
+          "auc_best_vs_pulp": 0.655,
+          "auc_fr": 0.519,
+          "auc_en": 0.765,
+          "nM": 18,
+          "nB": 18
+        },
+        "1500": {
+          "auc_m_vs_pulp": 0.745,
+          "ci95": [
+            0.565,
+            0.894
+          ],
+          "perm_p": 0.009,
+          "auc_m_vs_best": 0.565,
+          "auc_best_vs_pulp": 0.734,
+          "auc_fr": 0.667,
+          "auc_en": 0.827,
+          "nM": 18,
+          "nB": 18
+        },
+        "3000": {
+          "auc_m_vs_pulp": 0.718,
+          "ci95": [
+            0.529,
+            0.884
+          ],
+          "perm_p": 0.0235,
+          "auc_m_vs_best": 0.538,
+          "auc_best_vs_pulp": 0.743,
+          "auc_fr": 0.58,
+          "auc_en": 0.858,
+          "nM": 18,
+          "nB": 18
+        },
+        "whole": {
+          "auc_m_vs_pulp": 0.622,
+          "ci95": [
+            0.423,
+            0.804
+          ],
+          "perm_p": 0.2204,
+          "auc_m_vs_best": 0.402,
+          "auc_best_vs_pulp": 0.742,
+          "auc_fr": 0.488,
+          "auc_en": 0.747,
+          "nM": 18,
+          "nB": 18
+        }
+      },
+      "rhythm": {
+        "600": {
+          "auc_m_vs_pulp": 0.515,
+          "ci95": [
+            0.327,
+            0.713
+          ],
+          "perm_p": 0.8951,
+          "auc_m_vs_best": 0.529,
+          "auc_best_vs_pulp": 0.474,
+          "auc_fr": 0.494,
+          "auc_en": 0.481,
+          "nM": 18,
+          "nB": 18
+        },
+        "1500": {
+          "auc_m_vs_pulp": 0.593,
+          "ci95": [
+            0.398,
+            0.778
+          ],
+          "perm_p": 0.3468,
+          "auc_m_vs_best": 0.65,
+          "auc_best_vs_pulp": 0.425,
+          "auc_fr": 0.691,
+          "auc_en": 0.481,
+          "nM": 18,
+          "nB": 18
+        },
+        "3000": {
+          "auc_m_vs_pulp": 0.568,
+          "ci95": [
+            0.37,
+            0.775
+          ],
+          "perm_p": 0.4873,
+          "auc_m_vs_best": 0.569,
+          "auc_best_vs_pulp": 0.454,
+          "auc_fr": 0.556,
+          "auc_en": 0.556,
+          "nM": 18,
+          "nB": 18
+        },
+        "whole": {
+          "auc_m_vs_pulp": 0.272,
+          "ci95": [
+            0.111,
+            0.46
+          ],
+          "perm_p": 0.018,
+          "auc_m_vs_best": 0.275,
+          "auc_best_vs_pulp": 0.487,
+          "auc_fr": 0.284,
+          "auc_en": 0.247,
+          "nM": 18,
+          "nB": 18
+        }
+      },
+      "euphony": {
+        "600": {
+          "auc_m_vs_pulp": 0.508,
+          "ci95": [
+            0.309,
+            0.704
+          ],
+          "perm_p": 0.93,
+          "auc_m_vs_best": 0.503,
+          "auc_best_vs_pulp": 0.497,
+          "auc_fr": 0.481,
+          "auc_en": 0.512,
+          "nM": 18,
+          "nB": 18
+        },
+        "1500": {
+          "auc_m_vs_pulp": 0.719,
+          "ci95": [
+            0.531,
+            0.892
+          ],
+          "perm_p": 0.0185,
+          "auc_m_vs_best": 0.81,
+          "auc_best_vs_pulp": 0.373,
+          "auc_fr": 0.654,
+          "auc_en": 0.79,
+          "nM": 18,
+          "nB": 18
+        },
+        "3000": {
+          "auc_m_vs_pulp": 0.812,
+          "ci95": [
+            0.654,
+            0.938
+          ],
+          "perm_p": 0.0015,
+          "auc_m_vs_best": 0.856,
+          "auc_best_vs_pulp": 0.402,
+          "auc_fr": 0.593,
+          "auc_en": 0.938,
+          "nM": 18,
+          "nB": 18
+        },
+        "whole": {
+          "auc_m_vs_pulp": 0.781,
+          "ci95": [
+            0.599,
+            0.932
+          ],
+          "perm_p": 0.006,
+          "auc_m_vs_best": 0.781,
+          "auc_best_vs_pulp": 0.497,
+          "auc_fr": 0.741,
+          "auc_en": 0.815,
+          "nM": 18,
+          "nB": 18
+        }
+      },
+      "sii": {
+        "600": {
+          "auc_m_vs_pulp": 0.525,
+          "ci95": [
+            0.336,
+            0.713
+          ],
+          "perm_p": 0.8046,
+          "auc_m_vs_best": 0.404,
+          "auc_best_vs_pulp": 0.619,
+          "auc_fr": 0.586,
+          "auc_en": 0.457,
+          "nM": 18,
+          "nB": 18
+        },
+        "1500": {
+          "auc_m_vs_pulp": 0.431,
+          "ci95": [
+            0.242,
+            0.625
+          ],
+          "perm_p": 0.4958,
+          "auc_m_vs_best": 0.376,
+          "auc_best_vs_pulp": 0.544,
+          "auc_fr": 0.383,
+          "auc_en": 0.383,
+          "nM": 18,
+          "nB": 18
+        },
+        "3000": {
+          "auc_m_vs_pulp": 0.525,
+          "ci95": [
+            0.333,
+            0.715
+          ],
+          "perm_p": 0.7976,
+          "auc_m_vs_best": 0.407,
+          "auc_best_vs_pulp": 0.595,
+          "auc_fr": 0.574,
+          "auc_en": 0.481,
+          "nM": 18,
+          "nB": 18
+        },
+        "whole": {
+          "auc_m_vs_pulp": 0.475,
+          "ci95": [
+            0.29,
+            0.665
+          ],
+          "perm_p": 0.8121,
+          "auc_m_vs_best": 0.374,
+          "auc_best_vs_pulp": 0.58,
+          "auc_fr": 0.414,
+          "auc_en": 0.481,
+          "nM": 18,
+          "nB": 18
+        }
+      },
+      "aai": {
+        "600": {
+          "auc_m_vs_pulp": 0.654,
+          "ci95": [
+            0.461,
+            0.83
+          ],
+          "perm_p": 0.1164,
+          "auc_m_vs_best": 0.57,
+          "auc_best_vs_pulp": 0.655,
+          "auc_fr": 0.519,
+          "auc_en": 0.765,
+          "nM": 18,
+          "nB": 18
+        },
+        "1500": {
+          "auc_m_vs_pulp": 0.745,
+          "ci95": [
+            0.559,
+            0.9
+          ],
+          "perm_p": 0.0075,
+          "auc_m_vs_best": 0.565,
+          "auc_best_vs_pulp": 0.734,
+          "auc_fr": 0.667,
+          "auc_en": 0.827,
+          "nM": 18,
+          "nB": 18
+        },
+        "3000": {
+          "auc_m_vs_pulp": 0.727,
+          "ci95": [
+            0.545,
+            0.89
+          ],
+          "perm_p": 0.0195,
+          "auc_m_vs_best": 0.551,
+          "auc_best_vs_pulp": 0.73,
+          "auc_fr": 0.605,
+          "auc_en": 0.858,
+          "nM": 18,
+          "nB": 18
+        },
+        "whole": {
+          "auc_m_vs_pulp": 0.63,
+          "ci95": [
+            0.441,
+            0.807
+          ],
+          "perm_p": 0.1779,
+          "auc_m_vs_best": 0.477,
+          "auc_best_vs_pulp": 0.676,
+          "auc_fr": 0.494,
+          "auc_en": 0.747,
+          "nM": 18,
+          "nB": 18
+        }
+      },
+      "rci": {
+        "600": {
+          "auc_m_vs_pulp": 0.517,
+          "ci95": [
+            0.326,
+            0.715
+          ],
+          "perm_p": 0.8641,
+          "auc_m_vs_best": 0.549,
+          "auc_best_vs_pulp": 0.461,
+          "auc_fr": 0.481,
+          "auc_en": 0.531,
+          "nM": 18,
+          "nB": 18
+        },
+        "1500": {
+          "auc_m_vs_pulp": 0.727,
+          "ci95": [
+            0.548,
+            0.897
+          ],
+          "perm_p": 0.018,
+          "auc_m_vs_best": 0.81,
+          "auc_best_vs_pulp": 0.394,
+          "auc_fr": 0.765,
+          "auc_en": 0.673,
+          "nM": 18,
+          "nB": 18
+        },
+        "3000": {
+          "auc_m_vs_pulp": 0.677,
+          "ci95": [
+            0.475,
+            0.852
+          ],
+          "perm_p": 0.0625,
+          "auc_m_vs_best": 0.732,
+          "auc_best_vs_pulp": 0.459,
+          "auc_fr": 0.599,
+          "auc_en": 0.765,
+          "nM": 18,
+          "nB": 18
+        },
+        "whole": {
+          "auc_m_vs_pulp": 0.546,
+          "ci95": [
+            0.35,
+            0.75
+          ],
+          "perm_p": 0.6327,
+          "auc_m_vs_best": 0.528,
+          "auc_best_vs_pulp": 0.497,
+          "auc_fr": 0.58,
+          "auc_en": 0.586,
+          "nM": 18,
+          "nB": 18
+        }
+      }
+    },
+    "axis_verdicts": {
+      "necessity": "INERT",
+      "metaphor_novelty": "WEAK_NOISE",
+      "anti_cliche": "INERT",
+      "show_dont_tell": "INERT",
+      "authenticity": "WEAK_NOISE",
+      "rhythm": "INERT",
+      "euphony": "SCALE_DEPENDENT",
+      "sii": "INERT",
+      "aai": "WEAK_NOISE",
+      "rci": "INERT"
+    },
+    "recommendation": {
+      "intrinsic_quality_gate": [
+        "euphony"
+      ],
+      "exclude_from_gate": [
+        "necessity",
+        "metaphor_novelty",
+        "anti_cliche",
+        "show_dont_tell",
+        "authenticity",
+        "rhythm",
+        "sii",
+        "aai",
+        "rci"
+      ],
+      "note": "STRONG/VALID sur >=3 echelles avec CI95 bas>0.60-0.70 = axe qualite. INVERTED/INERT/WEAK = hors porte qualite. EMP-16 : composer IntrinsicQualityScore uniquement sur les axes confirmes. Verifier rhythm@whole + necessity inversion."
+    }
+  }
+}

@@ -2,6 +2,10 @@
 
 **Date** : 2026-06-02 · **Cible** : `packages/sovereign-engine/src/oracle/macro-axes.ts` · `computeIFI` (l.628-707)
 **Flag** : `OMEGA_SENSORY_DECOUPLE` ∈ { `'0'` legacy (défaut) | `'shadow'` (logue, verdict inchangé) | `'1'` actif (IFI=pacing) }
+**VERROU TRIBUNAL 2/2 (2026-06-02)** : `OMEGA_SENSORY_DECOUPLE='1'` (flip actif prod) **INTERDIT** tant que R4
+(discrimination qualité) + re-dérivation des paliers ne sont pas faits. Seuls `'0'` (défaut) et `'shadow'` (logs) autorisés.
+O2 = « retrait d'un faux floor », PAS « nouvelle métrique de qualité ». R4 est prioritaire sur le flip.
+
 **Garde-fous** : flag défaut `'0'` → zéro changement de comportement par défaut. Forme de retour `MacroAxisScore` INCHANGÉE
 (pas de crash orchestrateur). Reclassement, pas suppression. Appliquer via `commit-with-tests.ps1` (TSC + Vitest).
 

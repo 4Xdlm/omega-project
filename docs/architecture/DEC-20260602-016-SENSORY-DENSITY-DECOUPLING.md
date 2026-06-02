@@ -104,3 +104,19 @@ Flag `OMEGA_SENSORY_DECOUPLE` ∈ {`'0'` legacy (défaut), `'shadow'`, `'1'` act
 1. Valides-tu la **décision §1** (densité hors porte de qualité ; sémantique advisory > keyword) ?
 2. Choix de redesign IFI : **O2 (recommandé)**, O1 (purge totale), ou autre ?
 3. GO pour le **shadow O3** (1er pas : observer le delta IFI_pacing vs legacy, zéro impact verdict) avant tout flip `'1'` ?
+
+## 9. Ratification & avancement (2026-06-02)
+
+- **Tribunal 2/2** (Gemini + ChatGPT) : interprétation R2.3 validée, **aucune objection méthodologique** au retrait de
+  sensory/corporeal du min_axis qualité. Phrase scellée : « Un texte peut sentir fort et penser pauvrement. La densité
+  sensorielle n'est pas la qualité. »
+- **Architecte** : décision §1 **validée avec réserve** ; réserve couverte par §2 (caveat causal), §7 (gates : aucun seuil
+  prod sans bench, reclassement pas suppression) et §1.3 (keyword conservé en diagnostic). Redesign retenu : **O2**.
+  Premier pas : **shadow + bench, PUIS décision de flip par l'Architecte**.
+- **Bench shadow O2 livré (tooling, ZÉRO code moteur)** : scripts/metrology/wsd-r3-shadow-decouple-bench.ts.
+  Score les 5 axes (Ollama) puis recalcule min_axis/composite/verdict legacy vs O2 (IFI=pacing reconstruit depuis
+  attention+fatigue des sub_scores — sans patcher le moteur). Health-check : (1) IFI était-il l'axe contraignant chez les
+  maîtres, (2) min_axis maîtres remonte-t-il, (3) la mauvaise prose gagne-t-elle un SEAL (ne doit PAS). Dry-run validé
+  (18 livres, imports moteur résolus). Run = terminal Architecte. Sortie scores+sha+mots only.
+- **EMP-16/EMP-10** : aucun code moteur tant que le bench n'a pas confirmé + ratification flip Architecte. Le patch O2
+  flag-gaté sera fourni en .patch doc pour application terminal (wrapper test).

@@ -1,0 +1,282 @@
+{
+  "summary": {
+    "tool": "wsd-r5-large-fr-quality.ts",
+    "model": "qwen3:32b",
+    "bpc": 15,
+    "boot": 2000,
+    "n": 2340,
+    "pairwise": {
+      "fr": {
+        "1500": {
+          "n": 450,
+          "n_master_books": 15,
+          "n_pulp_books": 15,
+          "master_win_rate": 0.807,
+          "ci95_by_book": [
+            0.622,
+            0.951
+          ],
+          "position_bias": 0.147
+        },
+        "3000": {
+          "n": 450,
+          "n_master_books": 15,
+          "n_pulp_books": 15,
+          "master_win_rate": 0.78,
+          "ci95_by_book": [
+            0.611,
+            0.927
+          ],
+          "position_bias": 0.2
+        }
+      },
+      "en": {
+        "1500": {
+          "n": 450,
+          "n_master_books": 15,
+          "n_pulp_books": 15,
+          "master_win_rate": 0.951,
+          "ci95_by_book": [
+            0.887,
+            0.991
+          ],
+          "position_bias": 0.098
+        },
+        "3000": {
+          "n": 450,
+          "n_master_books": 15,
+          "n_pulp_books": 15,
+          "master_win_rate": 0.931,
+          "ci95_by_book": [
+            0.86,
+            0.984
+          ],
+          "position_bias": 0.138
+        }
+      }
+    },
+    "absolute": {
+      "fr": {
+        "600": {
+          "profondeur": {
+            "auc": 0.809,
+            "ci95_by_book": [
+              0.633,
+              0.962
+            ],
+            "median_m": 63.733,
+            "median_p": 45.467,
+            "nM": 15,
+            "nP": 15
+          },
+          "style": {
+            "auc": 0.773,
+            "ci95_by_book": [
+              0.582,
+              0.933
+            ],
+            "median_m": 67,
+            "median_p": 54.8,
+            "nM": 15,
+            "nP": 15
+          },
+          "voix": {
+            "auc": 0.74,
+            "ci95_by_book": [
+              0.558,
+              0.893
+            ],
+            "median_m": 63.733,
+            "median_p": 51.667,
+            "nM": 15,
+            "nP": 15
+          }
+        },
+        "1500": {
+          "profondeur": {
+            "auc": 0.844,
+            "ci95_by_book": [
+              0.671,
+              0.982
+            ],
+            "median_m": 67,
+            "median_p": 47,
+            "nM": 15,
+            "nP": 15
+          },
+          "style": {
+            "auc": 0.864,
+            "ci95_by_book": [
+              0.718,
+              0.982
+            ],
+            "median_m": 70.867,
+            "median_p": 51.467,
+            "nM": 15,
+            "nP": 15
+          },
+          "voix": {
+            "auc": 0.851,
+            "ci95_by_book": [
+              0.678,
+              0.984
+            ],
+            "median_m": 69.6,
+            "median_p": 46.333,
+            "nM": 15,
+            "nP": 15
+          }
+        },
+        "3000": {
+          "profondeur": {
+            "auc": 0.778,
+            "ci95_by_book": [
+              0.593,
+              0.936
+            ],
+            "median_m": 64.533,
+            "median_p": 52.667,
+            "nM": 15,
+            "nP": 15
+          },
+          "style": {
+            "auc": 0.789,
+            "ci95_by_book": [
+              0.596,
+              0.94
+            ],
+            "median_m": 70.4,
+            "median_p": 57.467,
+            "nM": 15,
+            "nP": 15
+          },
+          "voix": {
+            "auc": 0.796,
+            "ci95_by_book": [
+              0.609,
+              0.938
+            ],
+            "median_m": 69.333,
+            "median_p": 55.333,
+            "nM": 15,
+            "nP": 15
+          }
+        }
+      },
+      "en": {
+        "600": {
+          "profondeur": {
+            "auc": 0.973,
+            "ci95_by_book": [
+              0.922,
+              1
+            ],
+            "median_m": 76.533,
+            "median_p": 45,
+            "nM": 15,
+            "nP": 15
+          },
+          "style": {
+            "auc": 0.833,
+            "ci95_by_book": [
+              0.667,
+              0.956
+            ],
+            "median_m": 80.6,
+            "median_p": 59.333,
+            "nM": 15,
+            "nP": 15
+          },
+          "voix": {
+            "auc": 0.869,
+            "ci95_by_book": [
+              0.738,
+              0.969
+            ],
+            "median_m": 83.6,
+            "median_p": 62.667,
+            "nM": 15,
+            "nP": 15
+          }
+        },
+        "1500": {
+          "profondeur": {
+            "auc": 0.978,
+            "ci95_by_book": [
+              0.931,
+              1
+            ],
+            "median_m": 81.667,
+            "median_p": 48.133,
+            "nM": 15,
+            "nP": 15
+          },
+          "style": {
+            "auc": 0.913,
+            "ci95_by_book": [
+              0.802,
+              0.991
+            ],
+            "median_m": 85.933,
+            "median_p": 60.933,
+            "nM": 15,
+            "nP": 15
+          },
+          "voix": {
+            "auc": 0.891,
+            "ci95_by_book": [
+              0.751,
+              0.98
+            ],
+            "median_m": 88.533,
+            "median_p": 66.267,
+            "nM": 15,
+            "nP": 15
+          }
+        },
+        "3000": {
+          "profondeur": {
+            "auc": 0.969,
+            "ci95_by_book": [
+              0.902,
+              1
+            ],
+            "median_m": 84,
+            "median_p": 52.333,
+            "nM": 15,
+            "nP": 15
+          },
+          "style": {
+            "auc": 0.889,
+            "ci95_by_book": [
+              0.749,
+              0.989
+            ],
+            "median_m": 86.6,
+            "median_p": 61.8,
+            "nM": 15,
+            "nP": 15
+          },
+          "voix": {
+            "auc": 0.942,
+            "ci95_by_book": [
+              0.84,
+              1
+            ],
+            "median_m": 91.867,
+            "median_p": 64.067,
+            "nM": 15,
+            "nP": 15
+          }
+        }
+      }
+    },
+    "verdict": {
+      "fr_pairwise_sizes_ok": 0,
+      "fr_pairwise_total": 2,
+      "fr_abs_dims_valid": [],
+      "SEALABLE": false,
+      "note": "SEALABLE si FR pairwise >=0.75 (IC_bas par livre >0.65) sur >=2 tailles ET >=2 dimensions absolues AUC>=0.75 (IC_bas>0.65) sur >=2 tailles. Sinon affiner."
+    }
+  }
+}

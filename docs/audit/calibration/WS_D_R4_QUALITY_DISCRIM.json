@@ -1,0 +1,404 @@
+{
+  "summary": {
+    "tool": "wsd-r4-quality-discrimination-bench.ts",
+    "model": "qwen3:32b",
+    "sizes": [
+      600,
+      1500,
+      3000
+    ],
+    "n": 72,
+    "discrimination_AUC": {
+      "600": {
+        "necessity": {
+          "maitres_vs_badprose": 0.403,
+          "maitres_vs_bestsellers": 0.528
+        },
+        "metaphor_novelty": {
+          "maitres_vs_badprose": 0.597,
+          "maitres_vs_bestsellers": 0.653
+        },
+        "anti_cliche": {
+          "maitres_vs_badprose": 0.5,
+          "maitres_vs_bestsellers": 0.5
+        },
+        "show_dont_tell": {
+          "maitres_vs_badprose": 0.5,
+          "maitres_vs_bestsellers": 0.5
+        },
+        "authenticity": {
+          "maitres_vs_badprose": 0.944,
+          "maitres_vs_bestsellers": 0.917
+        },
+        "rhythm": {
+          "maitres_vs_badprose": 0.806,
+          "maitres_vs_bestsellers": 0.639
+        },
+        "euphony": {
+          "maitres_vs_badprose": 0.611,
+          "maitres_vs_bestsellers": 0.583
+        },
+        "sii": {
+          "maitres_vs_badprose": 0.5,
+          "maitres_vs_bestsellers": 0.417
+        },
+        "aai": {
+          "maitres_vs_badprose": 0.944,
+          "maitres_vs_bestsellers": 0.917
+        },
+        "rci": {
+          "maitres_vs_badprose": 0.736,
+          "maitres_vs_bestsellers": 0.667
+        }
+      },
+      "1500": {
+        "necessity": {
+          "maitres_vs_badprose": 0.403,
+          "maitres_vs_bestsellers": 0.528
+        },
+        "metaphor_novelty": {
+          "maitres_vs_badprose": 0.528,
+          "maitres_vs_bestsellers": 0.611
+        },
+        "anti_cliche": {
+          "maitres_vs_badprose": 0.5,
+          "maitres_vs_bestsellers": 0.5
+        },
+        "show_dont_tell": {
+          "maitres_vs_badprose": 0.5,
+          "maitres_vs_bestsellers": 0.5
+        },
+        "authenticity": {
+          "maitres_vs_badprose": 0.931,
+          "maitres_vs_bestsellers": 0.75
+        },
+        "rhythm": {
+          "maitres_vs_badprose": 0.722,
+          "maitres_vs_bestsellers": 0.722
+        },
+        "euphony": {
+          "maitres_vs_badprose": 0.972,
+          "maitres_vs_bestsellers": 1
+        },
+        "sii": {
+          "maitres_vs_badprose": 0.222,
+          "maitres_vs_bestsellers": 0.444
+        },
+        "aai": {
+          "maitres_vs_badprose": 0.931,
+          "maitres_vs_bestsellers": 0.75
+        },
+        "rci": {
+          "maitres_vs_badprose": 1,
+          "maitres_vs_bestsellers": 1
+        }
+      },
+      "3000": {
+        "necessity": {
+          "maitres_vs_badprose": 0.403,
+          "maitres_vs_bestsellers": 0.528
+        },
+        "metaphor_novelty": {
+          "maitres_vs_badprose": 0.361,
+          "maitres_vs_bestsellers": 0.458
+        },
+        "anti_cliche": {
+          "maitres_vs_badprose": 0.5,
+          "maitres_vs_bestsellers": 0.5
+        },
+        "show_dont_tell": {
+          "maitres_vs_badprose": 0.5,
+          "maitres_vs_bestsellers": 0.5
+        },
+        "authenticity": {
+          "maitres_vs_badprose": 0.806,
+          "maitres_vs_bestsellers": 0.611
+        },
+        "rhythm": {
+          "maitres_vs_badprose": 0.694,
+          "maitres_vs_bestsellers": 0.694
+        },
+        "euphony": {
+          "maitres_vs_badprose": 0.972,
+          "maitres_vs_bestsellers": 1
+        },
+        "sii": {
+          "maitres_vs_badprose": 0.25,
+          "maitres_vs_bestsellers": 0.514
+        },
+        "aai": {
+          "maitres_vs_badprose": 0.806,
+          "maitres_vs_bestsellers": 0.611
+        },
+        "rci": {
+          "maitres_vs_badprose": 0.75,
+          "maitres_vs_bestsellers": 0.833
+        }
+      },
+      "whole": {
+        "necessity": {
+          "maitres_vs_badprose": 0.389,
+          "maitres_vs_bestsellers": 0.333
+        },
+        "metaphor_novelty": {
+          "maitres_vs_badprose": 0.444,
+          "maitres_vs_bestsellers": 0.681
+        },
+        "anti_cliche": {
+          "maitres_vs_badprose": 0.5,
+          "maitres_vs_bestsellers": 0.5
+        },
+        "show_dont_tell": {
+          "maitres_vs_badprose": 0.417,
+          "maitres_vs_bestsellers": 0.417
+        },
+        "authenticity": {
+          "maitres_vs_badprose": 0.694,
+          "maitres_vs_bestsellers": 0.25
+        },
+        "rhythm": {
+          "maitres_vs_badprose": 0.25,
+          "maitres_vs_bestsellers": 0.139
+        },
+        "euphony": {
+          "maitres_vs_badprose": 0.806,
+          "maitres_vs_bestsellers": 0.889
+        },
+        "sii": {
+          "maitres_vs_badprose": 0.444,
+          "maitres_vs_bestsellers": 0.486
+        },
+        "aai": {
+          "maitres_vs_badprose": 0.681,
+          "maitres_vs_bestsellers": 0.25
+        },
+        "rci": {
+          "maitres_vs_badprose": 0.667,
+          "maitres_vs_bestsellers": 0.583
+        }
+      }
+    },
+    "medians": {
+      "600": {
+        "necessity": {
+          "maitres": 87,
+          "bestsellers": 82,
+          "badprose": 92
+        },
+        "metaphor_novelty": {
+          "maitres": 71.2,
+          "bestsellers": 69.5,
+          "badprose": 70.5
+        },
+        "anti_cliche": {
+          "maitres": 100,
+          "bestsellers": 100,
+          "badprose": 100
+        },
+        "show_dont_tell": {
+          "maitres": 100,
+          "bestsellers": 100,
+          "badprose": 100
+        },
+        "authenticity": {
+          "maitres": 85,
+          "bestsellers": 78,
+          "badprose": 76
+        },
+        "rhythm": {
+          "maitres": 78.74,
+          "bestsellers": 76.31,
+          "badprose": 75.43
+        },
+        "euphony": {
+          "maitres": 86.65,
+          "bestsellers": 82.57,
+          "badprose": 80.56
+        },
+        "sii": {
+          "maitres": 85.65,
+          "bestsellers": 84.15,
+          "badprose": 86.8
+        },
+        "aai": {
+          "maitres": 94,
+          "bestsellers": 91.2,
+          "badprose": 90.4
+        },
+        "rci": {
+          "maitres": 73,
+          "bestsellers": 71.1,
+          "badprose": 71.35
+        }
+      },
+      "1500": {
+        "necessity": {
+          "maitres": 87,
+          "bestsellers": 82,
+          "badprose": 92
+        },
+        "metaphor_novelty": {
+          "maitres": 74.2,
+          "bestsellers": 71.5,
+          "badprose": 71
+        },
+        "anti_cliche": {
+          "maitres": 100,
+          "bestsellers": 100,
+          "badprose": 100
+        },
+        "show_dont_tell": {
+          "maitres": 100,
+          "bestsellers": 100,
+          "badprose": 100
+        },
+        "authenticity": {
+          "maitres": 84.5,
+          "bestsellers": 81.5,
+          "badprose": 77
+        },
+        "rhythm": {
+          "maitres": 72.06,
+          "bestsellers": 64.49,
+          "badprose": 69.8
+        },
+        "euphony": {
+          "maitres": 84.06,
+          "bestsellers": 53.96,
+          "badprose": 60.16
+        },
+        "sii": {
+          "maitres": 84.85,
+          "bestsellers": 85.2,
+          "badprose": 87.65
+        },
+        "aai": {
+          "maitres": 93.8,
+          "bestsellers": 92.6,
+          "badprose": 90.8
+        },
+        "rci": {
+          "maitres": 71,
+          "bestsellers": 62.8,
+          "badprose": 66.15
+        }
+      },
+      "3000": {
+        "necessity": {
+          "maitres": 87,
+          "bestsellers": 82,
+          "badprose": 92
+        },
+        "metaphor_novelty": {
+          "maitres": 74.3,
+          "bestsellers": 75.4,
+          "badprose": 76.5
+        },
+        "anti_cliche": {
+          "maitres": 100,
+          "bestsellers": 100,
+          "badprose": 100
+        },
+        "show_dont_tell": {
+          "maitres": 100,
+          "bestsellers": 100,
+          "badprose": 100
+        },
+        "authenticity": {
+          "maitres": 81.5,
+          "bestsellers": 81,
+          "badprose": 75.5
+        },
+        "rhythm": {
+          "maitres": 74.18,
+          "bestsellers": 65.64,
+          "badprose": 66.38
+        },
+        "euphony": {
+          "maitres": 74.56,
+          "bestsellers": 53.48,
+          "badprose": 54.05
+        },
+        "sii": {
+          "maitres": 86.65,
+          "bestsellers": 86.55,
+          "badprose": 88.85
+        },
+        "aai": {
+          "maitres": 92.6,
+          "bestsellers": 92.4,
+          "badprose": 90.2
+        },
+        "rci": {
+          "maitres": 70.45,
+          "bestsellers": 62.75,
+          "badprose": 63.15
+        }
+      },
+      "whole": {
+        "necessity": {
+          "maitres": 85,
+          "bestsellers": 92,
+          "badprose": 87
+        },
+        "metaphor_novelty": {
+          "maitres": 73,
+          "bestsellers": 71.7,
+          "badprose": 75.3
+        },
+        "anti_cliche": {
+          "maitres": 100,
+          "bestsellers": 100,
+          "badprose": 100
+        },
+        "show_dont_tell": {
+          "maitres": 100,
+          "bestsellers": 100,
+          "badprose": 100
+        },
+        "authenticity": {
+          "maitres": 79.5,
+          "bestsellers": 82.5,
+          "badprose": 66
+        },
+        "rhythm": {
+          "maitres": 60.34,
+          "bestsellers": 66.81,
+          "badprose": 64.59
+        },
+        "euphony": {
+          "maitres": 66.83,
+          "bestsellers": 52.56,
+          "badprose": 54.96
+        },
+        "sii": {
+          "maitres": 87,
+          "bestsellers": 86.8,
+          "badprose": 86.8
+        },
+        "aai": {
+          "maitres": 91.8,
+          "bestsellers": 93,
+          "badprose": 86.4
+        },
+        "rci": {
+          "maitres": 64.3,
+          "bestsellers": 62.9,
+          "badprose": 63.3
+        }
+      }
+    },
+    "verdict": {
+      "discriminating_axes": [
+        "authenticity(AUC=0.944)",
+        "rhythm(AUC=0.806)",
+        "euphony(AUC=0.972)",
+        "sii(AUC=0.222)",
+        "aai(AUC=0.944)",
+        "rci(AUC=1)"
+      ],
+      "any_discriminates": true,
+      "note": "AUC=P(maitre>pulp). 0.5=aucune separation. >=0.70 ou <=0.30 a une echelle = discrimine. Si liste vide a toutes echelles => le scorer ne distingue PAS la qualite (H2), ou pas a ces echelles (H1) -> tester plus grand. METRIC_HONESTY : acter le resultat tel quel."
+    }
+  }
+}

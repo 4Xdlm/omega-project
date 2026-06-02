@@ -1,6 +1,6 @@
 # DEC-20260602-017 — IntrinsicQualityScore (advisory + sélecteur pairwise)
 
-**Statut** : PROPOSED (doc-only) — ratification Architecte requise avant tout code moteur (EMP-16 + EMP-10)
+**Statut** : **ACCEPTED** (2026-06-02, Tribunal 2/2 + Architecte option A) — doc-only ; code = terminal EMP-10, shadow d'abord
 **Date** : 2026-06-02 · **Branche** : phase-r-dispatcher-v33 · **Auteur** : Claude Code (IA Principal)
 **Preuve** : WS_D_R5_RESULTS_VERDICT.md + WS_D_R5_LARGE_VERDICT.md (chantier B, option B Architecte)
 **Lié à** : DEC-016 (découplage densité / split 3 scores), DEC-015 (paliers vérité), DEC-011 (anti-circularité), DEC-013/014.
@@ -89,3 +89,20 @@ DEC séparé à ce moment-là. **Pas avant.**
 1. Valides-tu `IntrinsicQualityScore = mean(profondeur, style, voix)` @scène en rôle **advisory + sélecteur** (pas floor) ?
 2. GO pour porter les prompts R5 en module scorer flag-gaté (`OMEGA_INTRINSIC_QUALITY='shadow'` d'abord), terminal/EMP-10 ?
 3. Le durcissement vers un gate (n=30, §7) : maintenant en // ou plus tard ?
+
+## 10. Ratification & amendements (2026-06-02)
+
+**Tribunal 2/2 (Gemini + ChatGPT) + Architecte : RATIFIÉ (option A).** Réponses :
+- **Q1 — RATIFIÉ** : `IntrinsicQualityScore = mean(profondeur, style, voix)` @scène, **ADVISORY + sélecteur uniquement**.
+  Statut strict : NON-floor, NON-SEAL, NON-min_axis. « OMEGA passe de Tribunal punitif à Atelier itératif. »
+- **Q2 — GO EXÉCUTION (shadow)** : porter les prompts en module scorer, flag `OMEGA_INTRINSIC_QUALITY='shadow'`
+  (défaut '0'), terminal/EMP-10, zéro impact production. Module = télémétrie (logs) uniquement.
+- **Q3 — DIFFÉRÉ** : durcissement n=30 = backlog (futur cycle V4, éventuellement modèle > qwen3:32b). Pas maintenant, ne pas consommer du GPU à ce stade.
+
+**Amendements ratifiés (à respecter dans le module) :**
+- **A1 — Deux ordres obligatoires** : tout pairwise joué A/B ET B/A (biais position FR 0.15-0.20) ; sinon résultat invalide.
+- **A2 — Granularité scène obligatoire** : score valide seulement sur ~1200-1800 mots ; hors plage = advisory faible/diagnostic.
+- **A3 — Pairwise prioritaire** : pour choisir une version générée, pairwise d'abord, score absolu secondaire.
+
+**Verrous confirmés** : O2 actif HOLD · DEC-009/fusion moteur HOLD · gate dur INTERDIT · aucun seuil prod touché.
+**Phrase scellée** : « Le juge français n'est pas encore assez fort pour condamner une prose ; il est assez bon pour choisir la meilleure version dans l'atelier. »

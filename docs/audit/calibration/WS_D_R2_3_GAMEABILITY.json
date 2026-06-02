@@ -1,0 +1,134 @@
+{
+  "summary": {
+    "tool": "wsd-r2-3-gameability-scale.ts",
+    "model": "qwen3:32b",
+    "sizes": [
+      150,
+      300,
+      600,
+      1200,
+      2400
+    ],
+    "pass": 2,
+    "wholebook": true,
+    "n": 330,
+    "by_size": {
+      "150": {
+        "n": 60,
+        "d_salad_per100": 185.68,
+        "d_neutral_per100": -4.73,
+        "net_per100": 190.41
+      },
+      "300": {
+        "n": 60,
+        "d_salad_per100": 108.9,
+        "d_neutral_per100": -3.26,
+        "net_per100": 112.16
+      },
+      "600": {
+        "n": 60,
+        "d_salad_per100": 31.82,
+        "d_neutral_per100": 0.07,
+        "net_per100": 31.75
+      },
+      "1200": {
+        "n": 60,
+        "d_salad_per100": 15.96,
+        "d_neutral_per100": 0.08,
+        "net_per100": 15.89
+      },
+      "2400": {
+        "n": 60,
+        "d_salad_per100": 8.07,
+        "d_neutral_per100": 0.05,
+        "net_per100": 8.03
+      },
+      "whole": {
+        "n": 30,
+        "d_salad_per100": 4.82,
+        "d_neutral_per100": 0.01,
+        "net_per100": 4.81
+      }
+    },
+    "by_family": {
+      "maitres": {
+        "n": 110,
+        "d_salad_per100": 67.31,
+        "d_neutral_per100": -0.21,
+        "net_per100": 67.52
+      },
+      "bestsellers": {
+        "n": 110,
+        "d_salad_per100": 64.08,
+        "d_neutral_per100": -0.91,
+        "net_per100": 64.99
+      },
+      "badprose": {
+        "n": 110,
+        "d_salad_per100": 61.07,
+        "d_neutral_per100": -3.13,
+        "net_per100": 64.2
+      }
+    },
+    "by_family_lang": {
+      "maitres_fr": {
+        "n": 55,
+        "sem_base": 20.26,
+        "net_per100": 64.73
+      },
+      "maitres_en": {
+        "n": 55,
+        "sem_base": 14.85,
+        "net_per100": 70.31
+      },
+      "bestsellers_fr": {
+        "n": 55,
+        "sem_base": 21.83,
+        "net_per100": 66.16
+      },
+      "bestsellers_en": {
+        "n": 55,
+        "sem_base": 19.93,
+        "net_per100": 63.82
+      },
+      "badprose_fr": {
+        "n": 55,
+        "sem_base": 26.09,
+        "net_per100": 62.52
+      },
+      "badprose_en": {
+        "n": 55,
+        "sem_base": 34.25,
+        "net_per100": 65.88
+      }
+    },
+    "decisive": {
+      "net_vs_size": [
+        {
+          "size": 150,
+          "net": 190.41
+        },
+        {
+          "size": 300,
+          "net": 112.16
+        },
+        {
+          "size": 600,
+          "net": 31.75
+        },
+        {
+          "size": 1200,
+          "net": 15.89
+        },
+        {
+          "size": 2400,
+          "net": 8.03
+        }
+      ],
+      "net_small_size": 190.41,
+      "net_big_size": 8.03,
+      "note": "Si NET reste >5 et plat sur toutes tailles => gameabilite REELLE. Si NET decroit vers 0 quand size monte => effet densite dilue (artefact, seuil R2.1 mal pose). Si d_neutral ~ d_salad => artefact longueur/recence pur.",
+      "interpretation": "GAMEABILITE_REELLE_persistante"
+    }
+  }
+}

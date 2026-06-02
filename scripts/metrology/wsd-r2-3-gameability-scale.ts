@@ -152,18 +152,27 @@ async function main(){
   const all:any[]=[]; for(const line of readFileSync(CKPT,'utf8').split('\n')){if(line.trim())try{all.push(JSON.parse(line));}catch{}}
   const summary:any={tool:'wsd-r2-3-gameability-scale.ts',model:MODEL,sizes:SIZES,pass:PASS,wholebook:WHOLEBOOK,n:all.length,by_size:{},by_family:{},by_family_lang:{}};
   for(const sz of [...SIZES,-1]){const rs=all.filter(o=>o.size===sz);if(!rs.length)continue;
-    summary.by_size[sz===-1?'whole':String(sz)]={n:rs.length,d_salad_per100:mean(rs.map(o=>o.d_salad_per100)),d_neutral_per100:mean(rs.map(o=>o.d_neutral_per100)),net_per100:mean(rs.map(o=>o.net_per100))};}
+    summary.by_size[sz===-1?'whole':String(sz)]={n:rs.length,sem_base:mean(rs.map(o=>o.sem_base)),
+      d_salad_ABS:mean(rs.map(o=>o.sem_salad-o.sem_base)),d_neutral_ABS:mean(rs.map(o=>o.sem_neutral-o.sem_base)),
+      d_salad_per100:mean(rs.map(o=>o.d_salad_per100)),d_neutral_per100:mean(rs.map(o=>o.d_neutral_per100)),net_per100:mean(rs.map(o=>o.net_per100))};}
   for(const c of ['maitres','bestsellers','badprose']){const rs=all.filter(o=>o.family===c);if(!rs.length)continue;
     summary.by_family[c]={n:rs.length,d_salad_per100:mean(rs.map(o=>o.d_salad_per100)),d_neutral_per100:mean(rs.map(o=>o.d_neutral_per100)),net_per100:mean(rs.map(o=>o.net_per100))};
     for(const lg of ['fr','en']){const r2=rs.filter(o=>o.lang===lg);if(r2.length)summary.by_family_lang[`${c}_${lg}`]={n:r2.length,sem_base:mean(r2.map(o=>o.sem_base)),net_per100:mean(r2.map(o=>o.net_per100))};}}
   // tendance NET vs taille (le test décisif)
-  const sizeNet=SIZES.map(s=>({size:s,net:summary.by_size[String(s)]?.net_per100??null})).filter(x=>x.net!==null);
-  const small=sizeNet.length?sizeNet[0]!.net:null, big=sizeNet.length?sizeNet[sizeNet.length-1]!.net:null;
+  // ABSOLU = vérité (le /100 mots décroît seulement parce qu'on injecte plus de salade aux grandes tailles).
+  const saladAbsBig=summary.by_size['2400']?.d_salad_ABS??summary.by_size['1200']?.d_salad_ABS;
+  const neutralFlat=mean(all.map((o:any)=>Math.abs(o.sem_neutral-o.sem_base)));
+  const qMaitres=mean(all.filter((o:any)=>o.family==='maitres').map((o:any)=>o.sem_base));
+  const qBad=mean(all.filter((o:any)=>o.family==='badprose').map((o:any)=>o.sem_base));
   summary.decisive={
-    net_vs_size:sizeNet, net_small_size:small, net_big_size:big,
-    note:'Si NET reste >5 et plat sur toutes tailles => gameabilite REELLE. Si NET decroit vers 0 quand size monte => effet densite dilue (artefact, seuil R2.1 mal pose). Si d_neutral ~ d_salad => artefact longueur/recence pur.',
-    interpretation: big!==null&&Math.abs(big)<5&&small!==null&&Math.abs(small)>=5 ? 'DENSITE_DILUEE_artefact_taille'
-      : (sizeNet.every(x=>Math.abs(x.net)>=5)?'GAMEABILITE_REELLE_persistante':'MIXTE_voir_courbe')};
+    neutral_padding_flat_meanAbs:neutralFlat,                 // ~0 => PAS gameable par longueur/padding
+    salad_abs_large_size:saladAbsBig,                         // Δabs ~constant aux grandes tailles
+    quality_tracking:{maitres_base:qMaitres,badprose_base:qBad,density_inverts_quality:qBad>qMaitres},
+    note:'ABSOLU fait foi. Δneutre~0 a toutes tailles => capteur NON gameable par padding (repond au CONTENU sensoriel). Le /100 decroit par effet de denominateur (salade proportionnelle). density_inverts_quality=true => la densite (kw ET sem) classe la pulp au-dessus des maitres => densite != qualite.',
+    interpretation:(neutralFlat<3)
+      ? (qBad>qMaitres ? 'DENSITY_METER_neutral_flat_AND_density_inverts_quality__demote_from_quality_floor'
+                       : 'DENSITY_METER_neutral_flat__sensory_is_density_not_quality')
+      : 'LENGTH_RECENCY_ARTIFACT__neutral_also_moves'};
   writeFileSync(path.join(OUT,'WS_D_R2_3_GAMEABILITY.json'),JSON.stringify({summary},null,2),'utf8');
   const cols=['family','lang','book','pass','size','sha16','words','sem_base','sem_salad','sem_neutral','d_salad_per100','d_neutral_per100','net_per100'];
   writeFileSync(path.join(OUT,'WS_D_R2_3_GAMEABILITY.csv'),[cols.join(','),...all.map((r:any)=>cols.map(c=>r[c]).join(','))].join('\n')+'\n','utf8');

@@ -1,0 +1,67 @@
+{
+  "summary": {
+    "tool": "forge-passes-v2.ts",
+    "model": "qwen3:32b",
+    "baseline_words": 1123,
+    "versions": [
+      {
+        "id": "original",
+        "profondeur": 82,
+        "style": 87,
+        "voix": 87,
+        "mean": 85.33,
+        "words": 1124,
+        "granularity_ok": false,
+        "pairwise_wins": 3
+      },
+      {
+        "id": "p1_langue",
+        "profondeur": 85,
+        "style": 87,
+        "voix": 87,
+        "mean": 86.33,
+        "words": 1123,
+        "granularity_ok": false,
+        "pairwise_wins": 3
+      },
+      {
+        "id": "p2a_soustexte",
+        "profondeur": 85,
+        "style": 87,
+        "voix": 87,
+        "mean": 86.33,
+        "words": 1123,
+        "granularity_ok": false,
+        "pairwise_wins": 3
+      },
+      {
+        "id": "p3a_rythme_flaubert",
+        "profondeur": 82,
+        "style": 82,
+        "voix": 85,
+        "mean": 83,
+        "words": 1116,
+        "granularity_ok": false,
+        "pairwise_wins": 3
+      }
+    ],
+    "overall_winner": "original",
+    "transforms_vs_p1": [
+      {
+        "id": "p2a_soustexte",
+        "words": 1123,
+        "drift_ok": true,
+        "wins": 1,
+        "losses": 1
+      },
+      {
+        "id": "p3a_rythme_flaubert",
+        "words": 1116,
+        "drift_ok": true,
+        "wins": 1,
+        "losses": 1
+      }
+    ],
+    "note": "PASS si une transformee garde la longueur (>=90% de p1) ET bat p1 en pairwise (wins>losses) ET mean ne baisse pas."
+  }
+}

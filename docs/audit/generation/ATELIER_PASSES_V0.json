@@ -1,0 +1,70 @@
+{
+  "summary": {
+    "tool": "forge-passes.ts",
+    "model": "qwen3:32b",
+    "versions": [
+      {
+        "id": "original",
+        "profondeur": 82,
+        "style": 87,
+        "voix": 87,
+        "mean": 85.33,
+        "words": 1124,
+        "granularity_ok": false
+      },
+      {
+        "id": "p1_langue",
+        "profondeur": 85,
+        "style": 87,
+        "voix": 87,
+        "mean": 86.33,
+        "words": 1123,
+        "granularity_ok": false
+      },
+      {
+        "id": "p2_soustexte",
+        "profondeur": 78,
+        "style": 78,
+        "voix": 72,
+        "mean": 76,
+        "words": 546,
+        "granularity_ok": false
+      },
+      {
+        "id": "p3_rythme_flaubert",
+        "profondeur": 78,
+        "style": 78,
+        "voix": 78,
+        "mean": 78,
+        "words": 529,
+        "granularity_ok": false
+      }
+    ],
+    "pairwise_wins": [
+      {
+        "id": "original",
+        "wins": 5
+      },
+      {
+        "id": "p1_langue",
+        "wins": 5
+      },
+      {
+        "id": "p2_soustexte",
+        "wins": 1
+      },
+      {
+        "id": "p3_rythme_flaubert",
+        "wins": 1
+      }
+    ],
+    "overall_winner": "original",
+    "final_vs_original": {
+      "final_id": "p3_rythme_flaubert",
+      "final_wins": 0,
+      "original_wins": 2,
+      "orders": 2
+    },
+    "note": "PASS si overall_winner != original ET final bat original (final_wins>original_wins) ET mean ne baisse pas. OEil humain requis (anti religion du score)."
+  }
+}

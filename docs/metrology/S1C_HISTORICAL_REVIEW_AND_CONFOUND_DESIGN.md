@@ -33,6 +33,13 @@ Les ventes brutes sont **confondues** par le temps et le marché. Un best-seller
 - **Cible dérivée** : `COMMERCIAL_POTENTIAL_norm` = percentile des ventes **dans la cohorte d'époque/genre**, et un flag `exogenous_driven` quand le succès est attribuable à un choc externe plutôt qu'au texte. → on isole le **potentiel commercial PORTÉ PAR LE TEXTE** du **bruit de marché**.
 - **Usage** : carburant du futur Textual Commercial Potential (S4) — JAMAIS mélangé à l'axe prestige.
 
+### 3bis. BASELINE DE MARCHÉ PAR DÉCENNIE (ajout Architecte — indispensable)
+Les ventes ne sont PAS comparables d'une décennie à l'autre : le marché du livre lui-même change (alphabétisation, taille de la population lectrice, concurrence d'autres médias). Normaliser contre le **marché de l'époque** :
+- **Variables de baseline par décennie/pays** : taux d'**alphabétisation/illettrisme**, **population lectrice** (taille du lectorat potentiel), **taille du marché du livre** (titres publiés/an, exemplaires/habitant), **concurrence média** (avènement TV ~1950s, **Internet ~1995**, smartphone ~2010, streaming ~2015, BookTok ~2020, IA générative ~2023).
+- **Principe** : `sales_normalized = sales / market_baseline(decade, country, genre)`. Vendre 100k ex. en 1960 (petit marché, forte lecture, peu de concurrence) ≠ vendre 100k en 2024 (marché saturé, concurrence écrans). Un best-seller se mesure en **part du marché atteignable de son temps**, pas en chiffre brut.
+- **Sources baseline** : UNESCO (alphabétisation historique), syndicats d'éditeurs (SNE France, AAP US — titres/ventes par an), données historiques de tirage. Collecte séparée (table `era_market_baseline.csv`), réutilisable pour toutes les œuvres.
+- **Conséquence** : l'axe commercial sort 3 niveaux — `sales_raw` (brut), `sales_norm_era` (corrigé marché d'époque), `text_borne_potential` (corrigé marché ET chocs exogènes). Seul le 3ᵉ approche « ce que le TEXTE porte ».
+
 ## 4. SOURCE-HARDENING (corrections ChatGPT, adoptées)
 - Toute fiche `CERTAIN` doit porter **≥1 source attachée** (ref + type + claim + date_checked). Sans source → statut `EXPERT_PRESELECTION` (pas CERTAIN).
 - « absence d'empreinte » → `NO_EXTERNAL_PRESTIGE_SIGNAL_FOUND` (PROBABLE_LOW), **jamais** « prestige nul prouvé ».

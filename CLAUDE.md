@@ -1,5 +1,5 @@
 # OMEGA — IA OPERATIONS MANUAL
-**Version**: v3.161.0 | **Standard**: NASA-Grade L4 / DO-178C Level A
+**Version**: v3.162.0 | **Standard**: NASA-Grade L4 / DO-178C Level A
 
 ---
 
@@ -200,7 +200,7 @@ Francky (Architect) — FINAL AUTHORITY
 
 ---
 
-## H) DOCTRINAL AMENDMENTS (Sprint S8 sealed 2026-05-02 + Sprint S11 sealed 2026-05-26 + Sprint S12 sealed 2026-05-26 + CODEX v1.2 sealed 2026-05-28 + EMP-13 PROPOSED 2026-05-28 + EMP-14 RATIFIÉ 2026-05-30 + EMP-15 SCELLÉ 2026-05-31 + EMP-16 + EMP-17 LOIS PERMANENTES 2026-06-01)
+## H) DOCTRINAL AMENDMENTS (Sprint S8 sealed 2026-05-02 + Sprint S11 sealed 2026-05-26 + Sprint S12 sealed 2026-05-26 + CODEX v1.2 sealed 2026-05-28 + EMP-13 PROPOSED 2026-05-28 + EMP-14 RATIFIÉ 2026-05-30 + EMP-15 SCELLÉ 2026-05-31 + EMP-16 + EMP-17 LOIS PERMANENTES 2026-06-01 + EMP-18 LOI PERMANENTE 2026-06-03)
 
 Quatorze amendements (treize scellés/ratifiés + EMP-13 PROPOSED) post Sprints S6+S7+S8+S11+S12 + CODEX v1.2 + Trame Contrôle Total 2000 + Museum Topology. Références complètes :
 - Amendements 1-6 : [docs/governance/SPRINT_S8_DOCTRINAL_AMENDMENTS.md](docs/governance/SPRINT_S8_DOCTRINAL_AMENDMENTS.md)
@@ -228,10 +228,11 @@ Quatorze amendements (treize scellés/ratifiés + EMP-13 PROPOSED) post Sprints 
 | 14 | DOCUMENTATION_TOPOLOGY_MUSEUM (EMP-15) | **[SCELLÉ 2026-05-31]** SSOT = `docs/` + `nexus/proof/` + `sessions/`. Tout doc sous `docs/archive/museum/` = **NON_SOURCE_OF_TRUTH_RUNTIME** : interdit d'y fonder SEUL une décision archi/NCR/modif moteur/identité moteur prod/état build-test. Avant usage : vérifier HEAD + `git status` + source courante via `docs/INDEX` + recoupage runtime. Un doc muséé explique POURQUOI OMEGA est devenu ainsi, pas ce qu'il EST maintenant. `MUSEUM_CATALOG.md` fait foi du contenu du musée. Cf [docs/archive/museum/README_MUSEUM.md](docs/archive/museum/README_MUSEUM.md). |
 | 15 | TRIPLE_PROOF_MANDATORY (EMP-16) | **[LOI PERMANENTE INVIOLABLE — Architecte 2026-06-01]** AUCUNE modification de code MOTEUR (scorer, capteur, sous-capteur, seuil, floor, composite, min_axis, gate, pondération) sans **3 preuves mathématiques INDÉPENDANTES et CONVERGENTES** sur **corpus distincts** (données réelles mesurées, JAMAIS projections théoriques). **3/3 requis** ; si une seule diverge → **STOP, aucune application**. Origine : triple-preuve R1 (commit `9db8307a`) — maîtres CONVERGE / ALTERNANCE DIVERGE → STOP a empêché une modif moteur erronée fondée sur un seul corpus. État `PROOF_DIVERGENCE` = STOP + NCR. Cf [docs/audit/calibration/WS_D_R1_TRIPLE_PROOF_VERDICT.md](docs/audit/calibration/WS_D_R1_TRIPLE_PROOF_VERDICT.md). |
 | 16 | HISTORICAL_WORK_RESPECT (EMP-17) | **[LOI PERMANENTE — Architecte 2026-06-01]** Toujours consulter les MESURES HISTORIQUES (benches passés, sessions, données accumulées, sorties scorées) AVANT toute conclusion : elles peuvent appuyer OU mettre en doute. Ne JAMAIS déprécier un travail fait sérieusement. Les mesures passées = **preuves**, pas du bruit. Une conclusion qui contredit un historique sérieux exige une re-vérification (recoupage, provenance), pas le rejet de l'historique. Lié à STRUCTURED_MEMORY_PRIORITY (#4) et au pattern ALTERNANCE/WS-C (les mesures de mars ont servi de 2ᵉ corpus de preuve). |
+| 17 | CENTROID_AUC_LOAO_MANDATORY (EMP-18) | **[LOI PERMANENTE — Architecte 2026-06-03]** Toute métrique fondée sur des CENTROÏDES de classe (AUC, accuracy, F1, distance-au-centroïde) DOIT être évaluée en **LOAO** (leave-one-author-out) ou **LOFO** (leave-one-family-out). Un centroïde calculé sur l'ensemble complet — incluant l'item OU l'auteur testé — = **fuite de données = score NUL ET NON AVENU**. Couplage obligatoire : bootstrap clusterisé par auteur (IC95) + permutation au niveau auteur (jamais au niveau livre). Origine : V4-G3→V4-G4 (commit `775771f8`) — AUC genre 0.839 full-data → **0.582 en LOAO** : la fuite a failli faire construire un classifieur sur une hallucination statistique. État `CENTROID_FULLDATA_LEAK` = mesure invalide. Cf [docs/metrology/CENTROID_AUC_VALIDITY_RULE.md](docs/metrology/CENTROID_AUC_VALIDITY_RULE.md). Famille METRIC_HONESTY/TEST_CAUSAL (EMP-14). |
 
 **Note** : Le concept "Plan Max v3.X" précédemment référencé dans
 NCRs Sprint S8 est NON-CANONIQUE. Le seul document canonique de
-doctrine OMEGA est ce CLAUDE.md (version v3.161.0) + [CODEX OMEGA v1.2](docs/CODEX_OMEGA_LOIS_CONTRAINTES_LLM_v1-2.md) + [Trame Contrôle Total 2000 (EMP-14)](docs/governance/OMEGA_TOTAL_CONTROL_FRAMEWORK_2000.md).
+doctrine OMEGA est ce CLAUDE.md (version v3.162.0) + [CODEX OMEGA v1.2](docs/CODEX_OMEGA_LOIS_CONTRAINTES_LLM_v1-2.md) + [Trame Contrôle Total 2000 (EMP-14)](docs/governance/OMEGA_TOTAL_CONTROL_FRAMEWORK_2000.md).
 
 ---
 

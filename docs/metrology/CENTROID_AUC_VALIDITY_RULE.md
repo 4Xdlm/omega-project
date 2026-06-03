@@ -1,6 +1,6 @@
 # Règle de validité — AUC sur centroïdes = LOAO/LOFO obligatoire
 
-**Statut** : RÈGLE MÉTROLOGIE scellée + **amendement doctrinal PROPOSÉ** (ratification Architecte → CLAUDE.md §H / CODEX)
+**Statut** : RÈGLE MÉTROLOGIE scellée + **amendement doctrinal RATIFIÉ EMP-18 (Architecte 2026-06-03, CLAUDE.md §H, v3.162.0)**
 **Date** : 2026-06-03 · **Origine** : V4-G3→V4-G4 (AUC 0.839 full-data → 0.582 LOAO, fuite démasquée)
 
 ## Énoncé de la règle
@@ -24,7 +24,7 @@ Si l'item testé (ou un autre livre de son auteur) contribue au centroïde de sa
 - S'applique à TOUTE mesure centroïde future (genre, qualité, style, ADN, radar).
 
 ## Statut doctrinal
-Proposé comme amendement (famille METRIC_HONESTY / TEST_CAUSAL du Total Control Framework EMP-14). **Ratification = Architecte** (Claude ne modifie pas CLAUDE.md §H seul). En attendant, la règle est **active de facto** pour tous les travaux métrologie OMEGA.
+**RATIFIÉ par l'Architecte le 2026-06-03 → EMP-18 (LOI PERMANENTE), CLAUDE.md §H ligne 17, version v3.162.0.** Famille METRIC_HONESTY / TEST_CAUSAL (EMP-14). Règle active et opposable à tous les travaux métrologie OMEGA.
 
 ## VERDICT
 - Statut : RÈGLE active / amendement PROPOSÉ · Confiance : Haute

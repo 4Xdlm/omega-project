@@ -1,12 +1,12 @@
 # S1C — GOLD-SET FINAL CHECK
 
-Seal SHA256 manifest: `524e934e05927fcb8f9c7336b62b3eed00a03b48faf6e1fdcec11158d7bda9fe`
+Seal SHA256 manifest: `4388b4b6e5b91d4d2494c22b1036ac0c53c0ae1d6aa5f90655e5f929590c45b4`
 
 | Famille | n | auteurs |
 |---|---|---|
 | C_FORMULAIC_EN | 30 | 30 |
-| C_FORMULAIC_FR | 30 | 27 |
-| D_SOURCE_REAL_FR | 30 | 16 |
+| C_FORMULAIC_FR | 30 | 26 |
+| D_SOURCE_REAL_FR | 30 | 15 |
 | MASTER_NATIVE_EN | 30 | 17 |
 | MASTER_NATIVE_FR | 30 | 18 |
 

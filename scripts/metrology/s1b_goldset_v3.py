@@ -63,9 +63,22 @@ def main():
         except: return False
         return WC_MIN <= w <= WC_MAX
 
+    # S1C+ exclusions sourcees (non-fiction echappee au filtre + litteraires mal-ranges en C + erreur langue)
+    EXCLUDE_SUBSTR = [
+        "alain_soral","comprendre_lempire","sociologie_du_dragueur",      # essais polemiques (non-fiction)
+        "almaas","being_and_the_meaning",                                   # philo (non-fiction)
+        "gotz_aly","les_anormaux",                                          # histoire (non-fiction, traduit)
+        "prisonniere_a_teheran","adelkhah",                                 # temoignage (non-fiction)
+        "bazterrica","cadavre_exquis",                                      # litteraire prime (Clarin 2017) -> hors C
+        "adiaffi","la_carte_didentite",                                     # prime litteraire -> hors C
+        "ayn_rand","fountainhead",                                          # canonique-debattu -> hors C formulaique
+        "maltese_falcon","dashiell_hammett",                                # classique du genre -> hors C formulaique
+        "non_dirlo_a_nessuno",                                              # Coben en ITALIEN (erreur langue) en D_FR
+    ]
     pools = collections.defaultdict(list); audit = collections.Counter()
     for r in rows:
         sp=r["source_path"].lower(); key=r["author_title_key"]; lang=lang_of(r); tier=r["tier_folder"]
+        if any(x in key for x in EXCLUDE_SUBSTR): audit["excluded_s1cplus_sourced"]+=1; continue
         if not wc_ok(r): audit["excluded_wordcount_range"]+=1; continue
         if is_nonfiction(key): audit["excluded_nonfiction"]+=1; continue
         if "corpus d a trier" in sp:

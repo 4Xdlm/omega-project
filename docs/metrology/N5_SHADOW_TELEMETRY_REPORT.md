@@ -53,8 +53,21 @@ Appariement par chapitre du radar score avec le composite OMEGA (chapter_NN_resu
   2. Le radar **n'est pas redondant** non plus → il apporte un axe géométrique indépendant (proximité-aux-maîtres), potentiellement complémentaire en advisory.
 - **Caveat fort** : plage composite restreinte (79–91, post-sélection). Un vrai test d'accord exige une plage qualité LARGE (inclure les candidats rejetés / bas). L'orthogonalité est réelle sur ce set mais le test est range-restricted → conclusion prudente. Test large = travail futur (nécessite scores juge par-livre sur tout le spectre).
 
+## N5-AGREE2 — Accord radar vs gemma en PLAGE LARGE (`N5_RADAR_VS_GEMMA_PAIRWISE.json`)
+Réutilise les décisions pairwise gemma cachées (S1E-A, maître-vs-pulp moderne, era-neutralisé) ; compare au gagnant radar (score LOAO plus élevé).
+- 40 paires jugées · gemma_master_win_rate **1.0** (gemma choisit toujours le maître) · **accord radar↔gemma = 0.775** (31/40).
+- **Verdict : le radar concorde avec le juge au niveau GROSSIER.** Résout le caveat de N5-AGREE.
+
+### Portrait complet du radar bge-m3 (advisory)
+| Niveau | Signal radar | Preuve |
+|---|---|---|
+| **Triage grossier** (maître vs pulp) | **Fort** | AUC 0.943 (S1D-bge) + 77.5% accord gemma (N5-AGREE2) |
+| **Sélection fine** (entre bonnes proses OMEGA) | **Nul** (orthogonal) | Spearman −0.06 vs composite (N5-AGREE) |
+
+→ **Rôle confirmé** : le radar bge-m3 est un **triage advisory grossier** (détecte pulp-vs-maître), PAS un sélecteur fin. gemma + composite restent le sélecteur fin. Les deux sont **complémentaires** (coarse géométrique + fine multi-axes), non redondants.
+
 ## VERDICT
-- Statut : PASS · Confiance : Haute (calibration LOAO vérité-terrain) / Moyenne (accord radar-juge range-restricted).
+- Statut : PASS · Confiance : Haute (arc complet : activation shadow + calibration LOAO + accord coarse 77.5% + orthogonalité fine).
 - Forces : vrai chemin shadow exercé ; placement OMEGA quantifié contre vérité-terrain ; EMP-18 respecté.
 - Faiblesses : n=34 prose distinctes (BOOK_FULL répliqué) ; score brut étroit ; un seul moteur de prose (BOOK_FULL, pas atelier/golden récents).
 - Action requise : aucune (advisory). Recalibration des bandes appliquée séparément.

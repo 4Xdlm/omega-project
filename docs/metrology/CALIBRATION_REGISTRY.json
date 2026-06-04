@@ -26,8 +26,9 @@
       "status_scope_note": "Calibration VALIDE uniquement pour le prompt 87ccfb9f (S1E-B). Le prompt RUNTIME du module IntrinsicQuality (pairPrompt) a un hash DIFFÉRENT 139d970de85a45d356aecfbb254c242dff57018e8f6239b288e6725629570303 => instrument SÉPARÉ NON CALIBRÉ (EMP-19). Action requise : soit aligner le module sur le prompt calibré, soit recalibrer le biais sur 139d970d.",
       "runtime_prompts": {
         "intrinsic_quality_pairPrompt_sha256": "139d970de85a45d356aecfbb254c242dff57018e8f6239b288e6725629570303",
-        "status": "CALIBRATION_REQUIRED",
-        "reason": "biais position non mesuré sur ce prompt ; calibration S1E-B non transférable sans re-test (EMP-19)."
+        "status": "BIASED_SINGLE_ORDER_mitigated_by_double_order",
+        "measured_position_bias": { "master_master": 0.844, "pulp_pulp": 0.656, "max_dev": 0.344, "source": "CAL-A 2026-06-04" },
+        "reason": "PREUVE EMP-19 : gemma NON biaisé (0.50) sur prompt S1E-B mais FORTEMENT biaisé position A (0.84/0.66) sur CE prompt module. Le prompt EST l'instrument. MITIGATION : pickBestPairwise (DEC-017 amendement A1) joue les 2 ordres => biais annulé au tournoi. Reco : adopter un prompt neutre A|B|TIE pour ne pas dépendre uniquement de l'annulation par double-ordre."
       },
       "validity_scope": ["pairwise_advisory", "modern_vs_modern", "source_blind", "master_vs_pulp"],
       "forbidden_uses": ["production_gate", "seal", "genre_pure_judgement"],

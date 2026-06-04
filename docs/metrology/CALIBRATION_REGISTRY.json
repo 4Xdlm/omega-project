@@ -75,6 +75,7 @@
   },
 
   "scorer_models": {
+    "M0b_R2_regen_v1": { "status": "REPRODUCIBLE_FRESH", "calibration_id": "M0b_R2_regen_v1_2026-06-04", "self_sha256": "e068a00ffef103da26d38769c7a96322445aebd076c6574f74de2021bf2bb6b2", "source": "R2_FEATURE_MATRIX (568)", "features": ["tf_f24c_contrast_delta","tf_f33b_commas_count","tf_f1a_rhythm_variance","tf_f33c_dot_comma_ratio","tf_f12_tense_switches"], "rho_holdout_FR": 0.7729, "cv5_FR": 0.5239, "rho_holdout_EN": 0.3288, "rho_holdout_ALL": 0.466, "note": "CAL-C : régénération Ridge FRAÎCHE + reproductible (seed 42), nouveau SHA. NE reproduit PAS V3.4 0.6138 (568≠1334). author-split S-1 indisponible (champ author R2 dégénéré) => holdout random. Candidat de remplacement V3.4, décision adoption = Architecte." },
     "M0b_slim_V3.4": { "status": "LEGACY_CALIBRATION_UNVERIFIED", "documented_sha256": "e75e3bb07d8655c6e0ee1ca99b32a2a043a44cb9c1681ee3d7a3dd305fe8424c", "ondisk_sha256": "9b013db3dd7141cec3652776786958c1dbf36afcfba3ae28b7a2c5295038e733", "rho_dispatch": 0.6138, "note": "NCR SHA-drift (N4) : SHA disque != documenté, ρ=0.6138 NON reproductible (FEATURE_MATRIX_V3/HOLDOUT_V2 absents). Tribunal 2/2 : INTERDIT de re-sceller le SHA disque à l'aveugle. Si re-générer => retrain Ridge sur Gold-Set, nouveau calibration_id + nouveau SHA + nouveau rapport. Décision Architecte." }
   }
 }

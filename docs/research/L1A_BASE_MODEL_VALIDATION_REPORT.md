@@ -21,6 +21,8 @@ Le téléchargement **anonyme** des 62.6 Go **se bloque après un micro-burst (~
 - **Waiter auto-trigger** (`_waiter.ps1`, détaché, max 10 h) : dès que le download atteint la complétion, stoppe Ollama (libère VRAM) et lance automatiquement le **load test v2** (`l1a_loadtest_v2.py`, multimodal-aware : chargement 4-bit + LoRA q/k/v/o + 1 step + save adapter + VRAM peak).
 - Résultat écrit dans `_l1a_result.json` → sera reporté au prochain point.
 
+**RÉSULTAT empirique du resume-loop (2026-06-04 20h)** : ÉCHEC. Le total oscille (5.65 → 4.96 → 0.03 Go) sans accumuler — chaque kill du watchdog **jette** le `.incomplete` et le serveur anonyme ne semble PAS honorer la reprise par Range → progrès net ≈ 0, re-téléchargement en boucle des mêmes ~5 Go. Boucles stoppées (gaspillage de bande passante). **Conclusion ferme : sans HF token, l'acquisition est bloquée.**
+
 ## Accélérateur propre (action Architecte — la seule chose non-autonome)
 Fournir un **token HF** lève le throttle instantanément :
 1. Compte huggingface.co → Settings → Access Tokens → créer un token (read).

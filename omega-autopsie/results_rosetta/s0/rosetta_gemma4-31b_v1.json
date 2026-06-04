@@ -1,0 +1,104 @@
+{
+  "matrix_id": "rosetta_gemma4-31b_v1",
+  "model": "gemma4:31b",
+  "calibration_date": "2026-06-04",
+  "calibration_tests": 370,
+  "principles": [
+    "P1_classiques_ancre",
+    "P2_contraintes_mecaniques",
+    "P3_premier_tir",
+    "P4_micro_chirurgie",
+    "P5_omega_garde_sa_langue",
+    "P6_llm_ne_se_connait_pas"
+  ],
+  "features": {
+    "f29d_ttr_score": {
+      "pilotability": 0.8,
+      "category": "SOLIDE",
+      "declared_instruction": "Varie le vocabulaire. Remplace les mots répétés par des synonymes ou des périphrases.",
+      "validated_instruction": null,
+      "optimized_instruction": "Aucun nom ou adjectif ne doit apparaître deux fois. Synonymes obligatoires à chaque occurrence.",
+      "taux_respect_declared": 0.8,
+      "taux_respect_optimized": 0.8,
+      "r6_moyen": 60.12
+    },
+    "f24e_contrast_score": {
+      "pilotability": 1,
+      "category": "SOLIDE",
+      "declared_instruction": "Alterne plus brutalement entre phrases courtes et phrases longues.",
+      "validated_instruction": null,
+      "optimized_instruction": "Contraste syntaxique fort. MÉTRIQUE : la plus longue phrase doit faire 3× la plus courte au minimum.",
+      "taux_respect_declared": 1,
+      "taux_respect_optimized": 1,
+      "r6_moyen": 57.59
+    },
+    "f15b_redundancy_compression": {
+      "pilotability": 1,
+      "category": "SOLIDE",
+      "declared_instruction": "Réduis les répétitions de bigrammes. Varie les formulations.",
+      "validated_instruction": null,
+      "optimized_instruction": "Zéro redondance. MÉTRIQUE : aucun bigramme ne doit apparaître plus de 2 fois dans le texte entier.",
+      "taux_respect_declared": 1,
+      "taux_respect_optimized": 1,
+      "r6_moyen": 62.95
+    },
+    "f16a_bigram_rarity": {
+      "pilotability": 1,
+      "category": "SOLIDE",
+      "declared_instruction": "Utilise des combinaisons de mots plus originales et rares.",
+      "validated_instruction": null,
+      "optimized_instruction": "Associations originales. MÉTRIQUE : plus de 90% des bigrammes du texte doivent être uniques.",
+      "taux_respect_declared": 1,
+      "taux_respect_optimized": 1,
+      "r6_moyen": 59.33
+    },
+    "f25g_description_score": {
+      "pilotability": 0,
+      "category": "PROMETTEUSE",
+      "declared_instruction": "Enrichis les descriptions sensorielles : couleurs précises, textures, sons, odeurs spécifiques.",
+      "validated_instruction": null,
+      "optimized_instruction": "Description sensorielle dense. MÉTRIQUE : au moins 8 mots sensoriels pour 100 mots.",
+      "taux_respect_declared": 0.6,
+      "taux_respect_optimized": 0.7,
+      "r6_moyen": 54.97
+    },
+    "f17_knife_count": {
+      "pilotability": 0,
+      "category": "ILLUSION_DÉCLARATIVE",
+      "declared_instruction": "Ajoute des mots percutants, des images vives, des contrastes forts.",
+      "validated_instruction": "Ajoute des mots percutants, des images vives, des contrastes forts.",
+      "optimized_instruction": null,
+      "taux_respect_declared": 0.4,
+      "taux_respect_optimized": null,
+      "r6_moyen": 54.12
+    },
+    "f35c_hook_score": {
+      "pilotability": 0,
+      "category": "SOLIDE",
+      "declared_instruction": "Commence par une phrase d'accroche qui crée de la tension.",
+      "validated_instruction": null,
+      "optimized_instruction": "Accroche forte. MÉTRIQUE : la première phrase doit contenir une tension en moins de 15 mots.",
+      "taux_respect_declared": 1,
+      "taux_respect_optimized": 1,
+      "r6_moyen": 54.68
+    },
+    "f36c_cliff_score": {
+      "pilotability": 0,
+      "category": "SOLIDE",
+      "declared_instruction": "Termine sur une note de suspense ou d'incomplétude.",
+      "validated_instruction": "Termine sur une note de suspense ou d'incomplétude.",
+      "optimized_instruction": null,
+      "taux_respect_declared": 1,
+      "taux_respect_optimized": null,
+      "r6_moyen": 53.9
+    }
+  },
+  "micro_surgery": {
+    "validated": false,
+    "method": "phrase_par_phrase",
+    "max_phrases_par_passe": 3,
+    "consigne_type": "bornee",
+    "delta_r6_moyen": "+0",
+    "taux_succes": 0
+  }
+}

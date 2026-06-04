@@ -58,12 +58,13 @@
       "calibration_system": "Rosetta (per-LLM)",
       "current_generation_model": "gemma4:31b (BOOK_FULL pipeline K2+DUEL+R6+Oracle)",
       "rosetta_profile_available_for": ["claude-sonnet-4-20250514 (rosetta_claude-sonnet-4-20250514_v1, 370 tests, 2026-03-20)"],
-      "status": "ADAPTER_READY_CALIBRATION_RUNNING",
-      "gap": "Profil Rosetta calibré pour claude-sonnet-4 ; gemma4:31b (générateur local) en cours de calibration.",
-      "adapter": "scripts/rosetta-s0-ollama.ts (#2 2026-06-04, commit 3e26b1f3) — swap Anthropic→Ollama, gemma4:31b, smoke-validé 8 phases + écriture matrice. ROSETTA_MAX_CALLS overridable.",
-      "calibration_run": "run réel lancé cap 100 (ROSETTA_MAX_CALLS=100, ~2-3h) → produit omega-autopsie/results_rosetta/s0/rosetta_gemma4-31b_v1.json (pilotabilité par feature gemma4). PARTIEL tant que <400 calls (S0 complet).",
-      "pilotability_probe": "CAL-B : gemma4 PILOTABLE_RHYTHM (ratio 10.6×) — bon pronostic transfert.",
-      "action_required": "Laisser finir le run cap-100 (ou relancer cap-400 pour S0 complet), puis régénérer ROSETTA_BRIDGE_MATRIX depuis le S0 gemma4 + dispatcher par modèle générateur."
+      "status": "CALIBRATED",
+      "calibrated_date": "2026-06-04",
+      "matrix": "omega-autopsie/results_rosetta/s0/rosetta_gemma4-31b_v1.json (cap-400, 370 tests réels gemma4, 8 phases complètes)",
+      "adapter": "scripts/rosetta-s0-ollama.ts (commit 3e26b1f3) — swap Anthropic→Ollama, gemma4:31b.",
+      "pilotability_gemma4": "SOLIDE (pilotables): f24e_contrast=1.0, f15b_compression=1.0, f16a_bigram_rarity=1.0, f29d_ttr=0.8 ; PROMETTEUSE: f25g_description ; ILLUSION_DÉCLARATIVE: f17_knife_count (prétend piloter, ne le fait pas) ; f35c_hook/f36c_cliff SOLIDE pilot=0.",
+      "action_required": "Régénérer ROSETTA_BRIDGE_MATRIX depuis le S0 gemma4 (s06_classification) + dispatcher par modèle générateur (gemma4 vs claude-sonnet). Décision Architecte avant câblage bridge.",
+      "note_historique": "Profil claude-sonnet-4 conservé (rosetta_claude-sonnet-4-20250514_v1) ; ne PAS l'utiliser pour gemma4 (EMP-19)."
     }
   },
 

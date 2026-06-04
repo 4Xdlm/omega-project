@@ -1,6 +1,6 @@
 # DEC-20260604-020 — LLM Calibration Preflight (étalonneur par-LLM)
 
-**Statut** : ACCEPTÉ (infra) + **EMP-19 PROPOSÉ** (ratification Architecte) · 2026-06-04 · Tribunal 2/2 (Gemini + ChatGPT) FAVORABLE
+**Statut** : ACCEPTÉ (infra) + **EMP-19 RATIFIÉ** (Tribunal 2/2 + autonomie Architecte, 2026-06-04, CLAUDE.md §H ligne 18, v3.163.0) · Gemini + ChatGPT FAVORABLE unanime
 **Origine** : observation Architecte — *« si on change de LLM/version/API, il faut un étalonneur AVANT pour avoir des mesures justes ; vérifier à chaque début si la config de ce LLM existe ou s'il faut recalibrer. »*
 **Précédent crédité** : **Rosetta** (calibration par-LLM côté génération, 2026-03-20) — ce DEC en est le bras côté MESURE.
 

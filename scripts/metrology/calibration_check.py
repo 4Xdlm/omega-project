@@ -61,8 +61,18 @@ def main():
         results[f"scorer:{name}"] = {"status": spec.get("status")}
 
     verdict = "GO_MEASURE" if gate_ok else "RECALIBRATION_REQUIRED"
-    print(json.dumps({"verdict": verdict, "required_measurement_roles": REQUIRED,
-                      "roles": results}, ensure_ascii=False, indent=2))
+    out = {"verdict": verdict, "required_measurement_roles": REQUIRED, "roles": results}
+    print(json.dumps(out, ensure_ascii=False, indent=2))
+    # Étage 2 (drift-log append-only JSONL ; SQLite différé) — trace temporelle des digests/verdicts.
+    try:
+        import datetime
+        log = os.path.join(os.path.dirname(REG), "CALIBRATION_DRIFT_LOG.jsonl")
+        line = {"ts": datetime.datetime.now().isoformat(timespec="seconds"), "verdict": verdict,
+                "digests": inst, "roles": {k: v.get("status") for k, v in results.items()}}
+        with open(log, "a", encoding="utf-8") as f:
+            f.write(json.dumps(line, ensure_ascii=False) + "\n")
+    except Exception:
+        pass
     if not gate_ok:
         print("\n[CALIB] GATE = RECALIBRATION_REQUIRED — rôle de mesure requis non approuvé. STOP (EMP-19).")
         sys.exit(1)

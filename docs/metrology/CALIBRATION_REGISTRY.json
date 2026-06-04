@@ -19,13 +19,20 @@
     "judge_pairwise": {
       "model": "gemma4:31b", "provider": "ollama", "ollama_id": "6316f0629137",
       "temperature": 0, "output_format": "A|B|TIE",
-      "prompt_sha256": "87ccfb9f10f95124bc862f36b1dd53dbc96745c1a0fe2dfaf90e47e57cf2cad1",
+      "calibrated_prompt_sha256": "87ccfb9f10f95124bc862f36b1dd53dbc96745c1a0fe2dfaf90e47e57cf2cad1",
+      "calibrated_prompt_ref": "S1E-B metrology pairwise prompt",
       "calibration": { "position_bias": 0.50, "tie_rate_masters": 0.125, "tie_rate_pulp": 0.292, "modern_vs_modern_win_rate": 1.0, "source_blind_pass": true, "negative_controls_pass": true },
       "status": "ADVISORY_APPROVED",
+      "status_scope_note": "Calibration VALIDE uniquement pour le prompt 87ccfb9f (S1E-B). Le prompt RUNTIME du module IntrinsicQuality (pairPrompt) a un hash DIFFÉRENT 139d970de85a45d356aecfbb254c242dff57018e8f6239b288e6725629570303 => instrument SÉPARÉ NON CALIBRÉ (EMP-19). Action requise : soit aligner le module sur le prompt calibré, soit recalibrer le biais sur 139d970d.",
+      "runtime_prompts": {
+        "intrinsic_quality_pairPrompt_sha256": "139d970de85a45d356aecfbb254c242dff57018e8f6239b288e6725629570303",
+        "status": "CALIBRATION_REQUIRED",
+        "reason": "biais position non mesuré sur ce prompt ; calibration S1E-B non transférable sans re-test (EMP-19)."
+      },
       "validity_scope": ["pairwise_advisory", "modern_vs_modern", "source_blind", "master_vs_pulp"],
       "forbidden_uses": ["production_gate", "seal", "genre_pure_judgement"],
       "provenance": "DEC-20260602-018 (S1E-B). calibrated 2026-06-02.",
-      "recalibrate_if": "un des expiry_triggers change."
+      "recalibrate_if": "un des expiry_triggers change (dont prompt_sha)."
     },
     "embedding_radar": {
       "model": "bge-m3:latest", "provider": "ollama", "ollama_id": "790764642607",
@@ -68,6 +75,6 @@
   },
 
   "scorer_models": {
-    "M0b_slim_V3.4": { "status": "DRIFT_DIAGNOSED", "documented_sha256": "e75e3bb07d8655c6e0ee1ca99b32a2a043a44cb9c1681ee3d7a3dd305fe8424c", "ondisk_sha256": "9b013db3dd7141cec3652776786958c1dbf36afcfba3ae28b7a2c5295038e733", "rho_dispatch": 0.6138, "note": "NCR SHA-drift OPEN_DIAGNOSED (N4) : SHA disque != documenté, ρ non reproductible. Décision Architecte : re-sceller ou re-générer." }
+    "M0b_slim_V3.4": { "status": "LEGACY_CALIBRATION_UNVERIFIED", "documented_sha256": "e75e3bb07d8655c6e0ee1ca99b32a2a043a44cb9c1681ee3d7a3dd305fe8424c", "ondisk_sha256": "9b013db3dd7141cec3652776786958c1dbf36afcfba3ae28b7a2c5295038e733", "rho_dispatch": 0.6138, "note": "NCR SHA-drift (N4) : SHA disque != documenté, ρ=0.6138 NON reproductible (FEATURE_MATRIX_V3/HOLDOUT_V2 absents). Tribunal 2/2 : INTERDIT de re-sceller le SHA disque à l'aveugle. Si re-générer => retrain Ridge sur Gold-Set, nouveau calibration_id + nouveau SHA + nouveau rapport. Décision Architecte." }
   }
 }

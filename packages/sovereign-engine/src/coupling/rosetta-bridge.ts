@@ -49,6 +49,27 @@ export class RosettaBridge {
   }
 
   /**
+   * Factory model-aware (EMP-19, DEC-20260604-021) : charge le profil de bridge CALIBRÉ pour
+   * CE modèle générateur. On ne pilote jamais un LLM avec le profil d'un autre.
+   * Modèle inconnu => throw ROSETTA_CALIBRATION_REQUIRED (lancer scripts/rosetta-s0-ollama.ts).
+   */
+  static forModel(model: string): RosettaBridge {
+    const dir = resolve(__dirname, '../scoring/data');
+    const reg = JSON.parse(readFileSync(resolve(dir, 'ROSETTA_BRIDGE_MATRIX_BY_MODEL.json'), 'utf-8')) as {
+      models: Record<string, { matrix: string; status: string }>;
+      default: string;
+    };
+    const entry = reg.models[model];
+    if (!entry) {
+      throw new Error(
+        `ROSETTA_CALIBRATION_REQUIRED: aucun profil de bridge pour le modele '${model}' (EMP-19). ` +
+        `Lancer scripts/rosetta-s0-ollama.ts pour le calibrer.`,
+      );
+    }
+    return new RosettaBridge(resolve(dir, entry.matrix));
+  }
+
+  /**
    * Translate target features into LLM directives.
    *
    * For each target feature:

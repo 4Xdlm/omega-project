@@ -5,6 +5,26 @@
 import { describe, it, expect } from 'vitest';
 import { RosettaBridge } from '../../src/coupling/rosetta-bridge.js';
 
+describe('RosettaBridge.forModel (EMP-19 model-aware, DEC-021)', () => {
+  it('gemma4:31b charge son profil calibré', () => {
+    const m = RosettaBridge.forModel('gemma4:31b').getMatrix();
+    expect(m['f24e_contrast_score']).toBeDefined();
+    expect(m['f17_knife_count']).toBeDefined();
+  });
+  it('levier actif gemma4 = PROMPT_DIRECT ; f17 ILLUSION = SHADOW (non-actif)', () => {
+    const m = RosettaBridge.forModel('gemma4:31b').getMatrix();
+    expect(m['f24e_contrast_score']!.route).toBe('PROMPT_DIRECT');
+    expect(m['f17_knife_count']!.route).toBe('SHADOW');
+  });
+  it('claude-sonnet-4 charge son profil archive', () => {
+    const m = RosettaBridge.forModel('claude-sonnet-4-20250514').getMatrix();
+    expect(Object.keys(m).length).toBeGreaterThanOrEqual(10);
+  });
+  it('modèle inconnu => ROSETTA_CALIBRATION_REQUIRED', () => {
+    expect(() => RosettaBridge.forModel('gpt-9-turbo')).toThrow(/ROSETTA_CALIBRATION_REQUIRED/);
+  });
+});
+
 describe('RosettaBridge', () => {
   const bridge = new RosettaBridge();
 

@@ -1,0 +1,111 @@
+{
+  "common": [
+    "f15b_redundancy_compression",
+    "f16a_bigram_rarity",
+    "f17_knife_count",
+    "f24e_contrast_score",
+    "f25g_description_score",
+    "f29d_ttr_score",
+    "f35c_hook_score",
+    "f36c_cliff_score"
+  ],
+  "only_gemma": [],
+  "only_claude": [
+    "f1_mean",
+    "f1b_rhythm_ratio",
+    "f21c_diacope_rate",
+    "f26b_long_sent_rate",
+    "f27d_modal_score",
+    "f28d_sil_score",
+    "f38c_speed_score",
+    "f5a_verb_density",
+    "f5c_action_verb_ratio",
+    "f9a_contradiction_rate",
+    "semicolon_count"
+  ],
+  "divergent": [
+    {
+      "feature": "f17_knife_count",
+      "gemma_cat": "ILLUSION_DÉCLARATIVE",
+      "gemma_pilot": 0.0,
+      "claude_cat": "ILLUSION_DÃƒâ€°CLARATIVE",
+      "claude_compliance": 0,
+      "divergent": true
+    },
+    {
+      "feature": "f25g_description_score",
+      "gemma_cat": "PROMETTEUSE",
+      "gemma_pilot": 0.0,
+      "claude_cat": "SOLIDE",
+      "claude_compliance": 0,
+      "divergent": true
+    }
+  ],
+  "rows": [
+    {
+      "feature": "f15b_redundancy_compression",
+      "gemma_cat": "SOLIDE",
+      "gemma_pilot": 1.0,
+      "claude_cat": "SOLIDE",
+      "claude_compliance": 1,
+      "divergent": false
+    },
+    {
+      "feature": "f16a_bigram_rarity",
+      "gemma_cat": "SOLIDE",
+      "gemma_pilot": 1.0,
+      "claude_cat": "SOLIDE",
+      "claude_compliance": 1,
+      "divergent": false
+    },
+    {
+      "feature": "f17_knife_count",
+      "gemma_cat": "ILLUSION_DÉCLARATIVE",
+      "gemma_pilot": 0.0,
+      "claude_cat": "ILLUSION_DÃƒâ€°CLARATIVE",
+      "claude_compliance": 0,
+      "divergent": true
+    },
+    {
+      "feature": "f24e_contrast_score",
+      "gemma_cat": "SOLIDE",
+      "gemma_pilot": 1.0,
+      "claude_cat": "SOLIDE",
+      "claude_compliance": 1,
+      "divergent": false
+    },
+    {
+      "feature": "f25g_description_score",
+      "gemma_cat": "PROMETTEUSE",
+      "gemma_pilot": 0.0,
+      "claude_cat": "SOLIDE",
+      "claude_compliance": 0,
+      "divergent": true
+    },
+    {
+      "feature": "f29d_ttr_score",
+      "gemma_cat": "SOLIDE",
+      "gemma_pilot": 0.8,
+      "claude_cat": "SOLIDE",
+      "claude_compliance": 0.8,
+      "divergent": false
+    },
+    {
+      "feature": "f35c_hook_score",
+      "gemma_cat": "SOLIDE",
+      "gemma_pilot": 0.0,
+      "claude_cat": "SOLIDE",
+      "claude_compliance": 0,
+      "divergent": false
+    },
+    {
+      "feature": "f36c_cliff_score",
+      "gemma_cat": "SOLIDE",
+      "gemma_pilot": 0.0,
+      "claude_cat": "SOLIDE",
+      "claude_compliance": 0,
+      "divergent": false
+    }
+  ],
+  "danger": "f17_knife_count = ILLUSION sur gemma4 (interdit comme levier)"
+}

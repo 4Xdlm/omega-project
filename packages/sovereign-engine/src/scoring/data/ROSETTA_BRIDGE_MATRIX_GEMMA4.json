@@ -1,0 +1,122 @@
+{
+  "matrix_id": "rosetta_bridge_gemma4-31b_v1",
+  "model": "gemma4:31b",
+  "provider": "ollama",
+  "source": "omega-autopsie/results_rosetta/s0/s06_classification_regles.json (cap-400, 370 tests)",
+  "date": "2026-06-04",
+  "active_levers": [
+    "f29d_ttr_score",
+    "f24e_contrast_score",
+    "f15b_redundancy_compression",
+    "f16a_bigram_rarity"
+  ],
+  "forbidden_levers": [
+    "f17_knife_count"
+  ],
+  "advisory_levers": [
+    "f25g_description_score"
+  ],
+  "inactive_levers": [
+    "f35c_hook_score",
+    "f36c_cliff_score"
+  ],
+  "note": "EMP-19 : pilotage gemma4 uniquement via active_levers (SOLIDE & pilot>0). f17_knife=ILLUSION interdit.",
+  "features": {
+    "f29d_ttr_score": {
+      "name": "Richesse lexicale (TTR)",
+      "category": "SOLIDE",
+      "pilotability": 0.8,
+      "compliance_rate": 0.8,
+      "instruction": "Aucun nom ou adjectif ne doit apparaître deux fois. Synonymes obligatoires à chaque occurrence.",
+      "instruction_variant": "variante_B",
+      "route": "PROMPT_DIRECT",
+      "active": true,
+      "lever_level": "A",
+      "forbidden": false
+    },
+    "f24e_contrast_score": {
+      "name": "Contraste syntaxique",
+      "category": "SOLIDE",
+      "pilotability": 1.0,
+      "compliance_rate": 1.0,
+      "instruction": "Contraste syntaxique fort. MÉTRIQUE : la plus longue phrase doit faire 3× la plus courte au minimum.",
+      "instruction_variant": "variante_C",
+      "route": "PROMPT_DIRECT",
+      "active": true,
+      "lever_level": "A",
+      "forbidden": false
+    },
+    "f15b_redundancy_compression": {
+      "name": "Anti-répétition (compression)",
+      "category": "SOLIDE",
+      "pilotability": 1.0,
+      "compliance_rate": 1.0,
+      "instruction": "Zéro redondance. MÉTRIQUE : aucun bigramme ne doit apparaître plus de 2 fois dans le texte entier.",
+      "instruction_variant": "variante_C",
+      "route": "PROMPT_DIRECT",
+      "active": true,
+      "lever_level": "A",
+      "forbidden": false
+    },
+    "f16a_bigram_rarity": {
+      "name": "Originalité (rareté bigrammes)",
+      "category": "SOLIDE",
+      "pilotability": 1.0,
+      "compliance_rate": 1.0,
+      "instruction": "Associations originales. MÉTRIQUE : plus de 90% des bigrammes du texte doivent être uniques.",
+      "instruction_variant": "variante_C",
+      "route": "PROMPT_DIRECT",
+      "active": true,
+      "lever_level": "A",
+      "forbidden": false
+    },
+    "f25g_description_score": {
+      "name": "Description sensorielle",
+      "category": "PROMETTEUSE",
+      "pilotability": 0.0,
+      "compliance_rate": 0.0,
+      "instruction": "",
+      "instruction_variant": "variante_C",
+      "route": "INACTIVE",
+      "active": false,
+      "lever_level": "B",
+      "forbidden": false
+    },
+    "f17_knife_count": {
+      "name": "Mots percutants",
+      "category": "ILLUSION_DÉCLARATIVE",
+      "pilotability": 0.0,
+      "compliance_rate": 0.0,
+      "instruction": "",
+      "instruction_variant": "variante_A",
+      "route": "SHADOW",
+      "active": false,
+      "lever_level": "C_FORBIDDEN",
+      "forbidden": true
+    },
+    "f35c_hook_score": {
+      "name": "Accroche début",
+      "category": "SOLIDE",
+      "pilotability": 0.0,
+      "compliance_rate": 0.0,
+      "instruction": "",
+      "instruction_variant": "variante_C",
+      "route": "INACTIVE",
+      "active": false,
+      "lever_level": "C_NOT_PILOTABLE",
+      "forbidden": false
+    },
+    "f36c_cliff_score": {
+      "name": "Suspense fin",
+      "category": "SOLIDE",
+      "pilotability": 0.0,
+      "compliance_rate": 0.0,
+      "instruction": "",
+      "instruction_variant": "variante_A",
+      "route": "INACTIVE",
+      "active": false,
+      "lever_level": "C_NOT_PILOTABLE",
+      "forbidden": false
+    }
+  }
+}

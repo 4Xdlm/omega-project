@@ -1,0 +1,15 @@
+{
+  "schema": "rosetta-bridge-by-model/v1",
+  "note": "Dispatch par modèle générateur (EMP-19). unknown => CALIBRATION_REQUIRED (lancer rosetta-s0-ollama.ts).",
+  "models": {
+    "gemma4:31b": {
+      "matrix": "ROSETTA_BRIDGE_MATRIX_GEMMA4.json",
+      "status": "CALIBRATED"
+    },
+    "claude-sonnet-4-20250514": {
+      "matrix": "ROSETTA_BRIDGE_MATRIX.json",
+      "status": "ARCHIVE_EXTERNAL"
+    }
+  },
+  "default": "CALIBRATION_REQUIRED"
+}

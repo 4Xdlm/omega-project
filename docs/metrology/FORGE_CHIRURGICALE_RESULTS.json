@@ -1,0 +1,196 @@
+{
+  "run": "FORGE-CHIRURGICALE 1 levier/passe (gemma4 leviers actifs, juge calibré ecfb32d6)",
+  "levers": [
+    "f29d_ttr_score",
+    "f24e_contrast_score",
+    "f15b_redundancy_compression",
+    "f16a_bigram_rarity"
+  ],
+  "n_cells": 12,
+  "lever_summary": {
+    "f29d_ttr_score": {
+      "mean_radar_delta": 0.00066,
+      "rewrites_won": 0,
+      "passes": 0,
+      "n": 3
+    },
+    "f24e_contrast_score": {
+      "mean_radar_delta": -0.00039,
+      "rewrites_won": 0,
+      "passes": 0,
+      "n": 3
+    },
+    "f15b_redundancy_compression": {
+      "mean_radar_delta": 0.00267,
+      "rewrites_won": 0,
+      "passes": 0,
+      "n": 3
+    },
+    "f16a_bigram_rarity": {
+      "mean_radar_delta": 6e-05,
+      "rewrites_won": 0,
+      "passes": 0,
+      "n": 3
+    }
+  },
+  "best_lever_by_radar": "f15b_redundancy_compression",
+  "rows": [
+    {
+      "label": "low-like",
+      "scene": "BOOK_FULL_1776188316530/chapter_05.txt",
+      "lever": "f29d_ttr_score",
+      "radar_before": -0.02241,
+      "radar_after": -0.01614,
+      "radar_delta": 0.00627,
+      "words": 2263,
+      "target": 1500,
+      "length_ok": true,
+      "pairwise": "TIE",
+      "PASS": false
+    },
+    {
+      "label": "low-like",
+      "scene": "BOOK_FULL_1776188316530/chapter_05.txt",
+      "lever": "f24e_contrast_score",
+      "radar_before": -0.02241,
+      "radar_after": -0.02143,
+      "radar_delta": 0.00098,
+      "words": 2122,
+      "target": 1500,
+      "length_ok": true,
+      "pairwise": "TIE",
+      "PASS": false
+    },
+    {
+      "label": "low-like",
+      "scene": "BOOK_FULL_1776188316530/chapter_05.txt",
+      "lever": "f15b_redundancy_compression",
+      "radar_before": -0.02241,
+      "radar_after": -0.01724,
+      "radar_delta": 0.00517,
+      "words": 1861,
+      "target": 1500,
+      "length_ok": true,
+      "pairwise": "TIE",
+      "PASS": false
+    },
+    {
+      "label": "low-like",
+      "scene": "BOOK_FULL_1776188316530/chapter_05.txt",
+      "lever": "f16a_bigram_rarity",
+      "radar_before": -0.02241,
+      "radar_after": -0.02077,
+      "radar_delta": 0.00164,
+      "words": 2296,
+      "target": 1500,
+      "length_ok": true,
+      "pairwise": "TIE",
+      "PASS": false
+    },
+    {
+      "label": "mixed",
+      "scene": "BOOK_FULL_1776219750367/chapter_02.txt",
+      "lever": "f29d_ttr_score",
+      "radar_before": 0.00108,
+      "radar_after": 0.00017,
+      "radar_delta": -0.00091,
+      "words": 2070,
+      "target": 1500,
+      "length_ok": true,
+      "pairwise": "TIE",
+      "PASS": false
+    },
+    {
+      "label": "mixed",
+      "scene": "BOOK_FULL_1776219750367/chapter_02.txt",
+      "lever": "f24e_contrast_score",
+      "radar_before": 0.00108,
+      "radar_after": 0.00273,
+      "radar_delta": 0.00165,
+      "words": 1961,
+      "target": 1500,
+      "length_ok": true,
+      "pairwise": "ORIGINAL",
+      "PASS": false
+    },
+    {
+      "label": "mixed",
+      "scene": "BOOK_FULL_1776219750367/chapter_02.txt",
+      "lever": "f15b_redundancy_compression",
+      "radar_before": 0.00108,
+      "radar_after": -0.00254,
+      "radar_delta": -0.00362,
+      "words": 2167,
+      "target": 1500,
+      "length_ok": true,
+      "pairwise": "TIE",
+      "PASS": false
+    },
+    {
+      "label": "mixed",
+      "scene": "BOOK_FULL_1776219750367/chapter_02.txt",
+      "lever": "f16a_bigram_rarity",
+      "radar_before": 0.00108,
+      "radar_after": -0.0043,
+      "radar_delta": -0.00538,
+      "words": 2264,
+      "target": 1500,
+      "length_ok": true,
+      "pairwise": "TIE",
+      "PASS": false
+    },
+    {
+      "label": "master-like",
+      "scene": "BOOK_FULL_1776125356560/chapter_06.txt",
+      "lever": "f29d_ttr_score",
+      "radar_before": 0.01186,
+      "radar_after": 0.00847,
+      "radar_delta": -0.00339,
+      "words": 2192,
+      "target": 1500,
+      "length_ok": true,
+      "pairwise": "TIE",
+      "PASS": false
+    },
+    {
+      "label": "master-like",
+      "scene": "BOOK_FULL_1776125356560/chapter_06.txt",
+      "lever": "f24e_contrast_score",
+      "radar_before": 0.01186,
+      "radar_after": 0.00805,
+      "radar_delta": -0.00381,
+      "words": 1951,
+      "target": 1500,
+      "length_ok": true,
+      "pairwise": "TIE",
+      "PASS": false
+    },
+    {
+      "label": "master-like",
+      "scene": "BOOK_FULL_1776125356560/chapter_06.txt",
+      "lever": "f15b_redundancy_compression",
+      "radar_before": 0.01186,
+      "radar_after": 0.01832,
+      "radar_delta": 0.00646,
+      "words": 2028,
+      "target": 1500,
+      "length_ok": true,
+      "pairwise": "TIE",
+      "PASS": false
+    },
+    {
+      "label": "master-like",
+      "scene": "BOOK_FULL_1776125356560/chapter_06.txt",
+      "lever": "f16a_bigram_rarity",
+      "radar_before": 0.01186,
+      "radar_after": 0.01577,
+      "radar_delta": 0.00391,
+      "words": 2161,
+      "target": 1500,
+      "length_ok": true,
+      "pairwise": "TIE",
+      "PASS": false
+    }
+  ],
+  "note": "Causal : quel levier isolé déplace le radar vers maître. Pas de combiné (décision Architecte)."
+}

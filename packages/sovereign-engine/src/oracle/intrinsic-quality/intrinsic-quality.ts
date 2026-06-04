@@ -65,11 +65,15 @@ export function parseScore(j: unknown): number {
   return Number.NaN;
 }
 
-/** Parse robuste d'un {winner:'A'|'B'} ; null si invalide. */
-export function parseWinner(j: unknown): 'A' | 'B' | null {
-  if (j && typeof j === 'object' && 'winner' in j) {
-    const w = String((j as { winner: unknown }).winner).toUpperCase().trim();
-    if (w === 'A' || w === 'B') return w;
+/** Parse robuste d'un {verdict:'A'|'B'|'TIE'} (ou ancien {winner:'A'|'B'}) ; null si invalide. */
+export function parseWinner(j: unknown): 'A' | 'B' | 'TIE' | null {
+  if (j && typeof j === 'object') {
+    const o = j as Record<string, unknown>;
+    const raw = 'verdict' in o ? o.verdict : 'winner' in o ? o.winner : undefined;
+    if (raw !== undefined) {
+      const w = String(raw).toUpperCase().trim();
+      if (w === 'A' || w === 'B' || w === 'TIE') return w;
+    }
   }
   return null;
 }
@@ -81,10 +85,13 @@ function absPrompt(lang: QLang, dim: QualityDim, prose: string): string {
     : `You are a demanding literary critic. Rate ${d}. IMPORTANT: use the FULL range, dare low scores for mediocre prose (pulp 20-40; only masters earn 90+). Text:\n${prose}\n\nReply ONLY as JSON: {"score":0-100}`;
 }
 
+// FR prompt CALIBRÉ EMP-19 (FIX-JUGE 2026-06-04, prompt_sha256 ecfb32d6, gemma4 position_bias 0.55 dev 0.06).
+// Framing neutre [A]/[B] + échappatoire TIE => corrige le biais position A=0.84 de l'ancien prompt (CAL-A).
+// EN = traduction analogue (NON calibrée séparément — re-tester si usage EN, EMP-19).
 function pairPrompt(lang: QLang, a: string, b: string): string {
   return lang === 'fr'
-    ? `Tu es un critique litteraire exigeant. Voici deux extraits de prose francaise de longueur comparable. Lequel est la prose la plus accomplie litterairement (profondeur, style, voix, justesse — PAS la quantite de peripeties) ?\n\n=== EXTRAIT A ===\n${a}\n\n=== EXTRAIT B ===\n${b}\n\nReponds UNIQUEMENT en JSON : {"winner":"A"|"B"}`
-    : `You are a demanding literary critic. Two prose excerpts of comparable length. Which is the more accomplished literary prose (depth, style, voice, precision — NOT amount of plot)?\n\n=== EXCERPT A ===\n${a}\n\n=== EXCERPT B ===\n${b}\n\nReply ONLY as JSON: {"winner":"A"|"B"}`;
+    ? `Deux extraits litteraires anonymes, A et B.\n\n[A]\n${a}\n\n[B]\n${b}\n\nLequel est de plus haute qualite litteraire (profondeur, style, voix, justesse) ? Si trop proche pour departager honnetement, reponds TIE. Reponds UNIQUEMENT en JSON : {"verdict":"A"} ou {"verdict":"B"} ou {"verdict":"TIE"}.`
+    : `Two anonymous literary excerpts, A and B.\n\n[A]\n${a}\n\n[B]\n${b}\n\nWhich is of higher literary quality (depth, style, voice, precision)? If too close to call honestly, reply TIE. Reply ONLY as JSON: {"verdict":"A"} or {"verdict":"B"} or {"verdict":"TIE"}.`;
 }
 
 export interface IntrinsicQualityResult {

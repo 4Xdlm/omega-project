@@ -30,9 +30,10 @@ describe('parseScore', () => {
   it('invalide -> NaN', () => { expect(Number.isNaN(parseScore({}))).toBe(true); expect(Number.isNaN(parseScore(null))).toBe(true); expect(Number.isNaN(parseScore({ score: 'x' }))).toBe(true); });
 });
 
-describe('parseWinner', () => {
-  it('A/B', () => { expect(parseWinner({ winner: 'A' })).toBe('A'); expect(parseWinner({ winner: 'b' })).toBe('B'); });
-  it('invalide -> null', () => { expect(parseWinner({ winner: 'C' })).toBeNull(); expect(parseWinner({})).toBeNull(); expect(parseWinner(null)).toBeNull(); });
+describe('parseWinner (verdict calibré A|B|TIE + rétrocompat winner)', () => {
+  it('verdict A/B/TIE', () => { expect(parseWinner({ verdict: 'A' })).toBe('A'); expect(parseWinner({ verdict: 'b' })).toBe('B'); expect(parseWinner({ verdict: 'TIE' })).toBe('TIE'); expect(parseWinner({ verdict: 'tie' })).toBe('TIE'); });
+  it('rétrocompat winner A/B', () => { expect(parseWinner({ winner: 'A' })).toBe('A'); expect(parseWinner({ winner: 'b' })).toBe('B'); });
+  it('invalide -> null', () => { expect(parseWinner({ verdict: 'C' })).toBeNull(); expect(parseWinner({})).toBeNull(); expect(parseWinner(null)).toBeNull(); });
 });
 
 describe('tallyWins / indexOfMax', () => {
@@ -41,14 +42,15 @@ describe('tallyWins / indexOfMax', () => {
   it('indexOfMax premier max', () => { expect(indexOfMax([1, 3, 3])).toBe(1); expect(indexOfMax([0, 0, 0])).toBe(0); });
 });
 
-// Mock provider déterministe : {score:70} pour l'absolu ; pour le pairwise, gagne l'extrait contenant 'GOOD'.
+// Mock provider déterministe : {score:70} pour l'absolu ; pour le pairwise (prompt calibré 'verdict'),
+// gagne l'extrait contenant 'GOOD'. Framing neutre [A]/[B] (FIX-JUGE EMP-19).
 const mockProvider: QualityProvider = {
   async generateStructuredJSON(prompt: string): Promise<unknown> {
-    if (prompt.includes('winner')) {
-      const sa = prompt.search(/=== (EXTRAIT|EXCERPT) A ===/);
-      const sb = prompt.search(/=== (EXTRAIT|EXCERPT) B ===/);
+    if (prompt.includes('verdict')) {
+      const sa = prompt.search(/\[A\]/);
+      const sb = prompt.search(/\[B\]/);
       const blockA = prompt.slice(sa, sb);
-      return { winner: blockA.includes('GOOD') ? 'A' : 'B' };
+      return { verdict: blockA.includes('GOOD') ? 'A' : 'B' };
     }
     return { score: 70 };
   },

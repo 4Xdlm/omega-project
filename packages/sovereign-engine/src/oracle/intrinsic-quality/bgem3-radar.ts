@@ -55,11 +55,21 @@ export function radarAdvisoryScore(emb: ReadonlyArray<number>, c: RadarCentroids
 
 export type RadarBand = 'master-like' | 'mixed' | 'low-like' | 'invalid';
 
-/** Interprétation advisory (bandes indicatives, NON un gate). */
+/**
+ * Seuils CALIBRÉS sur vérité-terrain (N5-REF, LOAO EMP-18, Gold-Set scellé) :
+ *   - maîtres : p25 = +0.0044  (frontière basse du cluster maître)
+ *   - pulp/formulaic : p75 = −0.0075 (frontière haute du cluster bas)
+ * master-like = au-dessus du quartile bas des maîtres ; low-like = sous le quartile haut du pulp.
+ * Source : docs/metrology/N5_SHADOW_TELEMETRY_REPORT.md.
+ */
+export const RADAR_MASTER_THRESHOLD = 0.0044;
+export const RADAR_LOW_THRESHOLD = -0.0075;
+
+/** Interprétation advisory (bandes calibrées vérité-terrain, NON un gate). */
 export function interpretRadar(score: number): RadarBand {
   if (!Number.isFinite(score)) return 'invalid';
-  if (score > 0.01) return 'master-like';
-  if (score < -0.01) return 'low-like';
+  if (score > RADAR_MASTER_THRESHOLD) return 'master-like';
+  if (score < RADAR_LOW_THRESHOLD) return 'low-like';
   return 'mixed';
 }
 

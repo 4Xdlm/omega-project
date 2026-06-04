@@ -5,7 +5,8 @@
 import { describe, it, expect, afterEach, vi } from 'vitest';
 import {
   cosineSim, radarAdvisoryScore, interpretRadar, bgem3RadarMode,
-  radarScore, shadowLogBgem3Radar, type RadarProvider, type RadarCentroids,
+  radarScore, shadowLogBgem3Radar, RADAR_MASTER_THRESHOLD, RADAR_LOW_THRESHOLD,
+  type RadarProvider, type RadarCentroids,
 } from '../../src/oracle/intrinsic-quality/bgem3-radar.js';
 
 const C: RadarCentroids = { master_centroid: [1, 0, 0], low_centroid: [0, 1, 0] };
@@ -25,12 +26,19 @@ describe('radarAdvisoryScore', () => {
   it('dims incompatibles -> NaN', () => { expect(Number.isNaN(radarAdvisoryScore([1, 0], C))).toBe(true); });
 });
 
-describe('interpretRadar', () => {
-  it('bandes', () => {
+describe('interpretRadar (seuils calibrés vérité-terrain)', () => {
+  it('bandes extrêmes', () => {
     expect(interpretRadar(0.5)).toBe('master-like');
     expect(interpretRadar(-0.5)).toBe('low-like');
     expect(interpretRadar(0)).toBe('mixed');
     expect(interpretRadar(Number.NaN)).toBe('invalid');
+  });
+  it('seuils calibrés (maître p25 / pulp p75)', () => {
+    expect(RADAR_MASTER_THRESHOLD).toBeCloseTo(0.0044, 4);
+    expect(RADAR_LOW_THRESHOLD).toBeCloseTo(-0.0075, 4);
+    expect(interpretRadar(RADAR_MASTER_THRESHOLD + 0.0001)).toBe('master-like');
+    expect(interpretRadar(RADAR_LOW_THRESHOLD - 0.0001)).toBe('low-like');
+    expect(interpretRadar(0.001)).toBe('mixed'); // zone OMEGA V1 (mi-chemin)
   });
 });
 

@@ -38,8 +38,23 @@ Score LOAO (centroïdes excluant l'auteur testé) sur le Gold-Set scellé :
 - Échelle de score étroite (±0.05 max) : normal pour des centroïdes 1024-dim ; l'AUC (0.94) reste la mesure de séparation, le score brut est un **positionnement advisory**.
 - 8 sessions BOOK_FULL sont des répliques (hygiène : à dédupliquer si bench futur).
 
+## N5-AGREE — Radar (cheap) vs juge OMEGA (cher) : accord ? (`N5_RADAR_VS_JUDGE.json`)
+Appariement par chapitre du radar score avec le composite OMEGA (chapter_NN_result.json), 34 prose uniques.
+
+| Corrélation (Spearman) | Valeur |
+|---|---|
+| radar vs **composite** | **−0.059** |
+| radar vs min_axis | +0.037 |
+| radar vs ecc | +0.015 |
+
+- plage composite : [79.3, 91.3] (étroite — tous chapitres déjà sélectionnés/passing) ; plage radar [−0.022, +0.012].
+- **Verdict : ORTHOGONALITÉ.** Le radar géométrique bge-m3 et le composite multi-axes OMEGA mesurent des choses **indépendantes** sur la prose d'OMEGA. Conséquences :
+  1. Le radar **n'est PAS un proxy** du composite (corrélation nulle) → ne peut pas remplacer le juge pour la sélection.
+  2. Le radar **n'est pas redondant** non plus → il apporte un axe géométrique indépendant (proximité-aux-maîtres), potentiellement complémentaire en advisory.
+- **Caveat fort** : plage composite restreinte (79–91, post-sélection). Un vrai test d'accord exige une plage qualité LARGE (inclure les candidats rejetés / bas). L'orthogonalité est réelle sur ce set mais le test est range-restricted → conclusion prudente. Test large = travail futur (nécessite scores juge par-livre sur tout le spectre).
+
 ## VERDICT
-- Statut : PASS · Confiance : Haute (calibration LOAO vérité-terrain).
+- Statut : PASS · Confiance : Haute (calibration LOAO vérité-terrain) / Moyenne (accord radar-juge range-restricted).
 - Forces : vrai chemin shadow exercé ; placement OMEGA quantifié contre vérité-terrain ; EMP-18 respecté.
 - Faiblesses : n=34 prose distinctes (BOOK_FULL répliqué) ; score brut étroit ; un seul moteur de prose (BOOK_FULL, pas atelier/golden récents).
 - Action requise : aucune (advisory). Recalibration des bandes appliquée séparément.

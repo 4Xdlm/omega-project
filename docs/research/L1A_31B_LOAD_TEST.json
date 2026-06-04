@@ -1,0 +1,38 @@
+{
+  "phase": "L1-A",
+  "date": "2026-06-04",
+  "status": "BLOCKED_MODEL_ACQUISITION",
+  "model_target": "google/gemma-4-31b-it",
+  "model_identity": {
+    "is_base_of_ollama_gemma4_31b": true,
+    "architectures": ["Gemma4ForConditionalGeneration"],
+    "model_type": "gemma4",
+    "modality": "multimodal (text + image tokens + audio tokens)",
+    "dtype": "bfloat16",
+    "license": "Apache-2.0",
+    "hf_gated": false,
+    "total_size_gb": 62.6,
+    "shards": 2,
+    "prequant_4bit_mirror_exists": false,
+    "transformers_supports": "yes (transformers 5.10.1 resolves model_type gemma4)"
+  },
+  "hardware_toolchain": {
+    "gpu": "RTX 5090 32GB Blackwell sm_120",
+    "toolchain": "PASS (L0.5: torch cu128 + bnb 0.49.2 4-bit + peft + 1-step QLoRA on small model OK)",
+    "hf_connectivity": "OK (config.json downloads instantly)"
+  },
+  "blocker": {
+    "what": "Anonymous HF download of the 62.6GB fp16 weights stalls after a small burst (~0.25 GB) then freezes at ~0 MB/s",
+    "root_cause": "No HF token on disk -> anonymous rate-limit; HF warning explicit: 'set a HF_TOKEN to enable higher rate limits and faster downloads'",
+    "hf_token_present": false,
+    "downloaded_gb_before_stall": 0.246,
+    "resume_supported": true
+  },
+  "load_test": {
+    "ran": false,
+    "reason": "model weights not acquired (download blocked); cannot measure 31B 4-bit VRAM peak / step time yet",
+    "vram_estimate_gb": "22-28 (within 30.5 free, gradient checkpointing on)",
+    "note": "load test deferred to after model acquisition"
+  },
+  "verdict": "FAIL_DOWNLOAD_BLOCKED (hardware+toolchain PASS; gate = HF token for 62GB acquisition). NOT a local-training failure."
+}

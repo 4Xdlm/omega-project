@@ -1,0 +1,73 @@
+{
+  "schema": "omega-calibration-registry/v2",
+  "principle": "Un LLM juge/embedder/générateur n'est pas portable sans étalonnage. On calibre le COUPLE {modèle + provider + prompt + température + corpus}. Tout changement de l'un de ces éléments => profil EXPIRÉ => recalibration obligatoire AVANT mesure (EMP-19). Généralise Rosetta (génération) + leçon ρ SHA-drift (N4).",
+  "updated": "2026-06-04",
+  "founding_precedent": {
+    "name": "Opération Rosetta",
+    "role": "Calibration PAR-LLM côté GÉNÉRATION (table LLM↔classiques, pilotabilité par feature).",
+    "artifacts": "omega-autopsie/results_rosetta/s0/rosetta_<model>_v1.json + packages/sovereign-engine/src/coupling/rosetta-bridge.ts + src/scoring/data/ROSETTA_BRIDGE_MATRIX.json",
+    "note": "Rosetta a établi le principe per-LLM dès 2026-03-20. Ce registre est son BRAS CÔTÉ MESURE (juge + embedder). Même doctrine, deux faces."
+  },
+  "status_modes": ["CALIBRATED", "ADVISORY_APPROVED", "PAIRWISE_APPROVED", "CALIBRATION_REQUIRED", "EXPIRED_PROFILE", "DISQUALIFIED", "DRIFT_DIAGNOSED"],
+  "goldset_reference": {
+    "manifest": "S1C_GOLDSET_FINAL_MANIFEST.jsonl",
+    "sha256": "4388b4b6e5b91d4d2494c22b1036ac0c53c0ae1d6aa5f90655e5f929590c45b4"
+  },
+  "expiry_triggers": ["model_name change", "ollama_id/digest change", "provider change (ollama->api)", "prompt_sha256 change", "temperature change", "goldset_sha change", "output_format change"],
+
+  "measurement_roles": {
+    "judge_pairwise": {
+      "model": "gemma4:31b", "provider": "ollama", "ollama_id": "6316f0629137",
+      "temperature": 0, "output_format": "A|B|TIE",
+      "prompt_sha256": "87ccfb9f10f95124bc862f36b1dd53dbc96745c1a0fe2dfaf90e47e57cf2cad1",
+      "calibration": { "position_bias": 0.50, "tie_rate_masters": 0.125, "tie_rate_pulp": 0.292, "modern_vs_modern_win_rate": 1.0, "source_blind_pass": true, "negative_controls_pass": true },
+      "status": "ADVISORY_APPROVED",
+      "validity_scope": ["pairwise_advisory", "modern_vs_modern", "source_blind", "master_vs_pulp"],
+      "forbidden_uses": ["production_gate", "seal", "genre_pure_judgement"],
+      "provenance": "DEC-20260602-018 (S1E-B). calibrated 2026-06-02.",
+      "recalibrate_if": "un des expiry_triggers change."
+    },
+    "embedding_radar": {
+      "model": "bge-m3:latest", "provider": "ollama", "ollama_id": "790764642607",
+      "temperature": null, "output_format": "embedding[1024]", "prompt_sha256": null,
+      "artifacts": { "centroids_file": "packages/sovereign-engine/src/oracle/intrinsic-quality/data/bgem3-radar-centroids.json", "centroids_sha256": "0e629d5df8c94df2d1bbbfff8e2cb1f88b2184d5f3d4de1be7048ddd56fd633b", "dim": 1024 },
+      "calibration": { "auc_master_vs_formulaic_fr": 0.943, "auc_master_vs_formulaic_en": 0.889, "auc_master_vs_pulp_real_fr": 0.796, "radar_master_threshold": 0.0044, "radar_low_threshold": -0.0075, "gemma_agreement_coarse": 0.775 },
+      "status": "ADVISORY_APPROVED",
+      "validity_scope": ["coarse_triage_master_vs_pulp", "global_style_radar"],
+      "forbidden_uses": ["fine_selection", "production_gate", "seal", "judge_replacement"],
+      "provenance": "DEC-20260603-019 + N5-REF/N5-AGREE2. LOAO (EMP-18).",
+      "recalibrate_if": "ollama_id|centroids_sha|goldset_sha change."
+    },
+    "embedding_legacy": {
+      "model": "nomic-embed-text:latest", "provider": "ollama", "ollama_id": "0a109f422b47",
+      "calibration": { "auc_master_vs_formulaic_fr": 0.821, "auc_modern_vs_modern_era": 0.79 },
+      "status": "CALIBRATED", "validity_scope": ["comparator", "era_radar"], "forbidden_uses": ["primary_radar_fr_formulaic"],
+      "provenance": "S1D/S1E-A. Comparateur historique."
+    }
+  },
+
+  "generation_roles": {
+    "prose_generator": {
+      "calibration_system": "Rosetta (per-LLM)",
+      "current_generation_model": "gemma4:31b (BOOK_FULL pipeline K2+DUEL+R6+Oracle)",
+      "rosetta_profile_available_for": ["claude-sonnet-4-20250514 (rosetta_claude-sonnet-4-20250514_v1, 370 tests, 2026-03-20)"],
+      "status": "GENERATION_CALIBRATION_GAP",
+      "gap": "Le profil Rosetta existe pour claude-sonnet-4, PAS pour le modèle de génération local actuel (gemma4:31b). Les directives bridge (pilotabilité par feature) sont calibrées sur claude-sonnet, donc potentiellement stale pour gemma4.",
+      "recalibrate_if": "modèle de génération != claude-sonnet-4-20250514 => lancer rosetta-s0-calibration.ts pour le nouveau modèle.",
+      "action_required": "Décision Architecte : calibrer Rosetta S0 pour gemma4:31b (ou le générateur de prod) avant de se fier aux directives bridge."
+    }
+  },
+
+  "disqualified_judges": {
+    "note": "TESTÉS et DISQUALIFIÉS comme juge pairwise. Ne pas réessayer sans nouvelle version (digest différent).",
+    "qwen3:32b":            { "ollama_id": "030ee887880f", "position_bias": "0.64-0.75", "status": "DISQUALIFIED", "source": "S1D" },
+    "mistral-small:latest": { "ollama_id": "8039dd90c113", "position_bias": "0.93-0.978", "status": "DISQUALIFIED", "source": "S1E-B" },
+    "phi4:latest":          { "ollama_id": "ac896e5b8b34", "position_bias": "0.66-0.75", "status": "DISQUALIFIED", "source": "N2" },
+    "command-r7b:latest":   { "ollama_id": "ff4e9696ef9f", "position_bias": "0.04-0.06(vers B)", "status": "DISQUALIFIED", "source": "N2" },
+    "llama3.1:8b":          { "ollama_id": "46e0c10c039e", "issue": "machine à TIE (abstention 0.84-1.0)", "status": "DISQUALIFIED", "source": "N2" }
+  },
+
+  "scorer_models": {
+    "M0b_slim_V3.4": { "status": "DRIFT_DIAGNOSED", "documented_sha256": "e75e3bb07d8655c6e0ee1ca99b32a2a043a44cb9c1681ee3d7a3dd305fe8424c", "ondisk_sha256": "9b013db3dd7141cec3652776786958c1dbf36afcfba3ae28b7a2c5295038e733", "rho_dispatch": 0.6138, "note": "NCR SHA-drift OPEN_DIAGNOSED (N4) : SHA disque != documenté, ρ non reproductible. Décision Architecte : re-sceller ou re-générer." }
+  }
+}

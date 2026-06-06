@@ -23,12 +23,8 @@ const TEMPERATURE = 0;
 const PAIRS_PATH = process.env['CALIB_PAIRS'] ?? 'runs/c7_calib_pairs.json';
 const OUT = process.env['CALIB_OUT'] ?? 'runs/c7_calibration';
 
-/** LE PROMPT EST L'INSTRUMENT (EMP-19) : figé ici, hashé dans le profil. */
-const PERSONA_PROMPT =
-  "Tu es un lecteur-éditeur professionnel, exigeant et impartial. " +
-  "On te présente deux extraits de prose française, A et B, sans aucune indication d'origine. " +
-  "Choisis celui dont l'écriture est la plus maîtrisée (précision, rythme, densité, justesse). " +
-  "Réponds UNIQUEMENT par la lettre A ou la lettre B. Aucun autre mot.";
+/** LE PROMPT EST L'INSTRUMENT (EMP-19) : source UNIQUE figée (partagée avec le juge runtime). */
+import { PERSONA_PROMPT } from './persona-prompt.js';
 
 async function judge(a: string, b: string): Promise<string> {
   const res = await fetch('http://localhost:11434/api/chat', {

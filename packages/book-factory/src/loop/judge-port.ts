@@ -15,7 +15,7 @@
 import { canonicalize, sha256 } from '@omega/canon-kernel';
 
 import type { Result, Sha256Hex } from '../identity/identity-types.js';
-import { err, ok } from '../identity/identity-types.js';
+import { compareStrings, err, ok } from '../identity/identity-types.js';
 import type { CoreProfileId } from './r6-core.js';
 
 export interface JudgeProfile {
@@ -81,3 +81,35 @@ export async function runTournament(
 
 /** Bonus étage B (EXPERIMENTAL_DEFAULT) : borné, jamais l'autorité seule. */
 export const JUDGE_POINT_BONUS = 40; // ~poids d'un bloomHit — non scellé (EMP-16)
+
+/* ───────────── Sélection juge-pondérée (wrapper PUR — r6-core inchangé) ──────────── */
+import type { AdmissionRecord } from './r6-core.js';
+
+export interface JudgedSelection {
+  readonly winner: AdmissionRecord['winner'];
+  readonly adjusted: readonly { readonly profile: CoreProfileId; readonly base: number; readonly judgePoints: number; readonly total: number }[];
+  readonly tournamentHash: Sha256Hex;
+  readonly changedWinner: boolean;
+}
+
+/**
+ * Applique les points du tournoi (juge APPROVED) aux SEULS éligibles de l'admission.
+ * L'étage A est INTACT : un inéligible ne peut jamais gagner via le juge.
+ */
+export function judgedSelect(record: AdmissionRecord, tournament: TournamentResult): JudgedSelection {
+  const adjusted = record.candidates
+    .filter((c) => c.eligible)
+    .map((c) => {
+      const judgePoints = tournament.points.get(c.profile) ?? 0;
+      return { profile: c.profile, base: c.expScore, judgePoints, total: c.expScore + judgePoints * JUDGE_POINT_BONUS };
+    })
+    .sort((a, b) => b.total - a.total || compareStrings(a.profile, b.profile));
+  const top = adjusted[0];
+  const winner: AdmissionRecord['winner'] =
+    top !== undefined
+      ? { kind: 'WINNER', profile: top.profile }
+      : record.winner; // aucun éligible : on conserve le fallback flaggé d'origine
+  const changedWinner =
+    record.winner.kind === 'WINNER' && winner.kind === 'WINNER' && record.winner.profile !== winner.profile;
+  return { winner, adjusted, tournamentHash: tournament.verdictHash, changedWinner };
+}

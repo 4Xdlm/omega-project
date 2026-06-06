@@ -1,7 +1,7 @@
 {
   "schema": "omega-calibration-registry/v2",
   "principle": "Un LLM juge/embedder/générateur n'est pas portable sans étalonnage. On calibre le COUPLE {modèle + provider + prompt + température + corpus}. Tout changement de l'un de ces éléments => profil EXPIRÉ => recalibration obligatoire AVANT mesure (EMP-19). Généralise Rosetta (génération) + leçon ρ SHA-drift (N4).",
-  "updated": "2026-06-04",
+  "updated": "2026-06-06",
   "founding_precedent": {
     "name": "Opération Rosetta",
     "role": "Calibration PAR-LLM côté GÉNÉRATION (table LLM↔classiques, pilotabilité par feature).",
@@ -33,6 +33,33 @@
       "forbidden_uses": ["production_gate", "seal", "genre_pure_judgement"],
       "provenance": "DEC-20260602-018 (S1E-B). calibrated 2026-06-02.",
       "recalibrate_if": "un des expiry_triggers change (dont prompt_sha)."
+    },
+    "persona_judge_gemma4": {
+      "model": "gemma4:31b", "provider": "ollama", "ollama_id": "6316f0629137",
+      "temperature": 0, "output_format": "A|B (lettre seule)",
+      "calibrated_prompt_sha256": "e59d069599ec34cadf025c52c06dd9e0d3881c295138dabfb461cda64790b277",
+      "calibrated_prompt_ref": "persona-lecteur-editeur (book-factory src/c7/persona-prompt.ts, FIGE)",
+      "calibration": { "calls": 28, "accuracy_vs_ground_truth": 0.929, "position_bias": 0.0, "invalid_rate": 0.0, "protocol": "14 paires maitres(Balzac/Maupassant/Gautier/Daudet)-vs-populaire-traduit FR, 400w, source-blind, DOUBLE-ORDRE", "caveat": "populaire = traductions (zero FR natif au corpus) - confound documente", "source": "runs/c7_calibfull_gemma_*.json 2026-06-06" },
+      "status": "PAIRWISE_APPROVED",
+      "approved_by": "Francky (Architecte), signature dispatch 2026-06-06",
+      "note_digest": "ollama_id 6316f0629137 IDENTIQUE au profil judge_pairwise historique : le pull a restaure le meme modele bit-a-bit - les profils gemma anterieurs redeviennent valides.",
+      "validity_scope": ["pairwise_advisory_stage_B", "tournament_double_order", "master_vs_pulp", "source_blind"],
+      "forbidden_uses": ["production_gate", "seal", "override_hard_gates"],
+      "provenance": "C7/C8 book-factory. NCR_GEMMA4_ABSENT option C executee.",
+      "recalibrate_if": "expiry_triggers (dont prompt_sha e59d0695... change)."
+    },
+    "persona_judge_qwen35": {
+      "model": "qwen3.5:35b-a3b", "provider": "ollama", "ollama_id": "3460ffeede54",
+      "temperature": 0, "output_format": "A|B (lettre seule)",
+      "calibrated_prompt_sha256": "e59d069599ec34cadf025c52c06dd9e0d3881c295138dabfb461cda64790b277",
+      "calibrated_prompt_ref": "persona-lecteur-editeur (book-factory src/c7/persona-prompt.ts, FIGE - MEME prompt que gemma)",
+      "calibration": { "calls": 28, "accuracy_vs_ground_truth": 0.857, "position_bias": -0.071, "invalid_rate": 0.0, "protocol": "identique persona_judge_gemma4 (memes 14 paires)", "source": "runs/c7_calibfull_qwen35_*.json 2026-06-06" },
+      "status": "PAIRWISE_APPROVED",
+      "approved_by": "Francky (Architecte), signature dispatch 2026-06-06",
+      "validity_scope": ["pairwise_advisory_stage_B", "tournament_double_order", "master_vs_pulp", "source_blind", "second_judge_cross_check"],
+      "forbidden_uses": ["production_gate", "seal", "override_hard_gates"],
+      "provenance": "C7/C8 book-factory.",
+      "recalibrate_if": "expiry_triggers."
     },
     "embedding_radar": {
       "model": "bge-m3:latest", "provider": "ollama", "ollama_id": "790764642607",

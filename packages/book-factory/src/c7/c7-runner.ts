@@ -25,9 +25,11 @@ import { asAliasSurface, asChapterRef, asConfidence01 } from '../identity/identi
 import { buildRecallPack, estimateTokens } from '../recall/recall-pack.js';
 import type { DriftRule, Librarians, RecallPack } from '../recall/recall-types.js';
 import type { PassContext } from '../extraction/extraction-types.js';
+import { enforceRecallOrInvalid } from '../recall/recall-invariant.js';
 import { runLiteChapter } from '../loop/r6-lite.js';
 import type { LiteDeps } from '../loop/r6-lite.js';
 import { runCoreChapterFull } from '../loop/r6-core.js';
+import { extendChapter } from '../loop/chapter-extender.js';
 import type { CoreDeps } from '../loop/r6-core.js';
 import { persistLiteResult, MemFs } from '../loop/persistence.js';
 import { NodeFs, appendLine } from './node-fs.js';
@@ -157,14 +159,20 @@ async function main(): Promise<void> {
   appendLine(progress, `[${new Date().toISOString()}] start mode=${mode} model=${model} maxCh=${maxCh}`);
 
   const world = buildWorld();
-  const plan = planBook(BOOK);
+  // C8.6 — overrides de plan (cap 60k) : chapitres/mots par env, intent sinon.
+  const book: BookIntent = {
+    ...BOOK,
+    target_chapters: Number(process.env['C7_CHAPTERS'] ?? BOOK.target_chapters ?? 30),
+    target_word_count: Number(process.env['C7_WORDS'] ?? BOOK.target_word_count),
+  };
+  const plan = planBook(book);
   const log = new StoryStateLog();
   const generator = new OllamaChapterGenerator({ model, maxTokens: 900, timeoutMs: 180_000 });
 
   for (const spec of plan.chapters.slice(0, maxCh)) {
     const { packs, pctx, locks } = chapterDeps(world, log, spec);
-    const digest = buildContextDigest(log.project(), spec, plan, BOOK);
-    const base: GenRequest = { intent: chapterSpecToIntent(spec, BOOK), digest, spec };
+    const digest = buildContextDigest(log.project(), spec, plan, book);
+    const base: GenRequest = { intent: chapterSpecToIntent(spec, book), digest, spec };
     const resolution = { chapter: asChapterRef(spec.index) };
     const common = {
       registry: world.registry,
@@ -202,7 +210,15 @@ async function main(): Promise<void> {
       fs.writeFile(`${dir}/admission.json`, JSON.stringify(record, null, 2));
       for (const c of full) fs.writeFile(`${dir}/candidate_${c.profile}.txt`, c.prose); // FORBID-007
       const win = record.winner.kind === 'WINNER' ? record.winner.profile : record.winner.bestUnderGates;
-      const winnerProse = full.find((c) => c.profile === win)?.prose ?? '';
+      let winnerProse = full.find((c) => c.profile === win)?.prose ?? '';
+      // C8.6 — extension vers la cible (BB-02-aware) : continuations bornées, filet BF-02 au segment.
+      if (process.env['C7_EXTEND'] === '1' && winnerProse.length > 0) {
+        const ext = await extendChapter(winnerProse, base, generator, Number(process.env['C7_SEG_TARGET'] ?? 1400), (seg) =>
+          enforceRecallOrInvalid(seg, packs, world.registry, world.surfaces, resolution, 3).verdict === 'PASS',
+        );
+        winnerProse = ext.segments.join('\n\n');
+        appendLine(progress, `[extend ch.${spec.index}] segments=${ext.segments.length} words=${ext.totalWords}`);
+      }
       appendLine(`${outRoot}/MANUSCRIT.md`, `\n\n## Chapitre ${spec.index} — ${spec.objective} [${win}${record.winner.kind === 'WINNER' ? '' : ' ; FLAGGED'}]\n\n${winnerProse}`);
       appendLine(progress, `[book ch.${spec.index}] winner=${win}${record.winner.kind === 'WINNER' ? '' : ' (FLAGGED)'} eligible=${record.candidates.filter((c) => c.eligible).length}/7 hash=${String(record.admissionHash).slice(0, 12)}`);
     }

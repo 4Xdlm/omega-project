@@ -1,0 +1,24 @@
+{
+  "status": "PROPOSED",
+  "role": "persona-lecteur-editeur (juge pairwise qualité prose FR)",
+  "couple": {
+    "model": "qwen3.5:35b-a3b",
+    "provider": "ollama-local",
+    "prompt_sha256": "e59d069599ec34cadf025c52c06dd9e0d3881c295138dabfb461cda64790b277",
+    "temperature": 0,
+    "output_format": "single-letter A|B",
+    "corpus": "pairs maître(Balzac/Maupassant)-vs-populaire(N.Roberts) FR, 14 paires × 2 ordres, fenêtres 400w"
+  },
+  "measures": {
+    "calls": 28,
+    "accuracy_vs_ground_truth": 0.857,
+    "position_bias": -0.071,
+    "invalid_rate": 0
+  },
+  "verdict_proposed": "CANDIDATE_OK_PENDING_FULL_PROTOCOL",
+  "caveats": [
+    "mini-protocole N=14 paires — le protocole COMPLET (Gold-Set, biais croisés) reste requis avant APPROVED",
+    "gemma4:31b absent du parc au moment du run (NCR_GEMMA4_ABSENT)"
+  ],
+  "date": "2026-06-06T10:29:58.830Z"
+}

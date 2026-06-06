@@ -19,7 +19,10 @@ import { measureKnobFeatures, KNOB_IDS } from './knob-bindings.js';
 import type { KnobFeatures, KnobId, KnobSettings } from './knob-bindings.js';
 import { compareStrings } from '../identity/identity-types.js';
 
-export const KNOB_WEIGHT_DEFAULT = 25; // EXPERIMENTAL — ordre de grandeur des écarts de score base
+/** CALIBRATED_SINGLE_BOOK (sweep 8 valeurs × 450 sélections persistées 88k,
+ *  GO_CHAIN_REPORT) : 15 = plus petit poids avec réponse moyenne ≥50% à +1.
+ *  NON SCELLÉ : EMP-16 exige 3 corpus — re-sweep obligatoire au prochain livre. */
+export const KNOB_WEIGHT_DEFAULT = 15;
 
 export interface MixerCandidate {
   readonly id: string; // profil (ex. 'tension-interne')

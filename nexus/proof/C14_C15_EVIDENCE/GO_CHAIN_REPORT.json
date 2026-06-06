@@ -1,0 +1,160 @@
+{
+  "calibration": {
+    "sweep": [
+      {
+        "weight": 5,
+        "meanChangedRateAtPlus1": 0.273,
+        "perKnob": {
+          "TENSION": 0.26,
+          "MYSTERE": 0.32,
+          "ESPOIR": 0.24
+        }
+      },
+      {
+        "weight": 10,
+        "meanChangedRateAtPlus1": 0.427,
+        "perKnob": {
+          "TENSION": 0.4,
+          "MYSTERE": 0.36,
+          "ESPOIR": 0.52
+        }
+      },
+      {
+        "weight": 15,
+        "meanChangedRateAtPlus1": 0.567,
+        "perKnob": {
+          "TENSION": 0.58,
+          "MYSTERE": 0.48,
+          "ESPOIR": 0.64
+        }
+      },
+      {
+        "weight": 20,
+        "meanChangedRateAtPlus1": 0.633,
+        "perKnob": {
+          "TENSION": 0.66,
+          "MYSTERE": 0.56,
+          "ESPOIR": 0.68
+        }
+      },
+      {
+        "weight": 25,
+        "meanChangedRateAtPlus1": 0.687,
+        "perKnob": {
+          "TENSION": 0.7,
+          "MYSTERE": 0.64,
+          "ESPOIR": 0.72
+        }
+      },
+      {
+        "weight": 30,
+        "meanChangedRateAtPlus1": 0.693,
+        "perKnob": {
+          "TENSION": 0.72,
+          "MYSTERE": 0.64,
+          "ESPOIR": 0.72
+        }
+      },
+      {
+        "weight": 40,
+        "meanChangedRateAtPlus1": 0.7,
+        "perKnob": {
+          "TENSION": 0.72,
+          "MYSTERE": 0.64,
+          "ESPOIR": 0.74
+        }
+      },
+      {
+        "weight": 50,
+        "meanChangedRateAtPlus1": 0.72,
+        "perKnob": {
+          "TENSION": 0.72,
+          "MYSTERE": 0.68,
+          "ESPOIR": 0.76
+        }
+      }
+    ],
+    "calibratedWeight": 15,
+    "criterion": "plus petit poids avec réponse moyenne ≥ 0.5 à +1",
+    "status": "CALIBRATED_SINGLE_BOOK (EMP-16 : non scellé, multi-livres requis)"
+  },
+  "gpsDemo": {
+    "typedWords": 400,
+    "inScene": [
+      "Henri",
+      "Léna",
+      "Yvon"
+    ],
+    "weather": {
+      "TENSION": 0,
+      "ROMANCE": 0,
+      "MYSTERE": 12.5,
+      "VIOLENCE": 0,
+      "ESPOIR": 0
+    },
+    "dangers": [],
+    "trajectories": [
+      {
+        "type": "EMOTION",
+        "premise": "Yvon baisse la garde devant Léna : un souvenir personnel remonte, la scène ralentit.",
+        "risks": [
+          "casse le rythme si la scène précédente était lente",
+          "demande un ancrage mémoire cohérent"
+        ]
+      },
+      {
+        "type": "ENQUETE",
+        "premise": "Yvon découvre un élément matériel lié à « naufrage » et choisit de le dissimuler pour l'instant.",
+        "risks": [
+          "retarde le payoff",
+          "ajoute une dissimulation à résoudre"
+        ]
+      },
+      {
+        "type": "NOIR",
+        "premise": "Yvon détruit ou compromet volontairement un élément lié à « naufrage » pour protéger quelqu'un.",
+        "risks": [
+          "acte irréversible",
+          "déplace la sympathie du lecteur"
+        ]
+      },
+      {
+        "type": "TENSION",
+        "premise": "Léna surprend Yvon en pleine action — confrontation immédiate, à voix contenue.",
+        "risks": [
+          "consomme une confrontation (rare)",
+          "expose une information avant son heure"
+        ]
+      },
+      {
+        "type": "THRILLER",
+        "premise": "Quelqu'un d'autre connaît « naufrage » : Yvon trouve la preuve qu'un tiers est passé avant.",
+        "risks": [
+          "introduit un antagoniste actif à assumer ensuite",
+          "accélère la chronologie"
+        ]
+      }
+    ]
+  },
+  "style": {
+    "fingerprint": {
+      "phrase_length_mean": 0.12499147630412547,
+      "dialogue_ratio": 0.27635716179868924,
+      "metaphor_density": 0.22351786816991903,
+      "language_register": 0.06930853421528181,
+      "irony_level": 0.015153753774231801,
+      "ellipsis_rate": 0.11819927943900803,
+      "abstraction_ratio": 0.264243581438167,
+      "punctuation_style": 0.4668303272074284,
+      "paragraph_rhythm": 0.6186748002121949,
+      "opening_variety": 0
+    },
+    "reproducible": true,
+    "generationBlockedForAnalysisOnly": true
+  },
+  "fusion": {
+    "narrativeHash": "c59a535fdc8cb907943737b9c23dfcde1999530191bcb9f51eca1b65c7870a38",
+    "pendingStatus": "PENDING_EMOTIONAL",
+    "completeDemo": "ac300565cd655571bbd3fa9bd541329d6bcf2b388fdaaf4cb2967f58f50917ad"
+  }
+}

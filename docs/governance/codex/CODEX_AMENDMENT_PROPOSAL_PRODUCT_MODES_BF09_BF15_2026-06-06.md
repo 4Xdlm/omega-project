@@ -1,5 +1,6 @@
 # PROPOSITION D'AMENDEMENT CODEX — PRODUCT MODES (BF-09 → BF-15)
-**Statut : PROPOSED — ratification Architecte requise. Rien n'est scellé par ce document.**
+**Statut : RATIFIÉ 2026-06-06 — tribunal 2/2 (ChatGPT ratification explicite loi par loi + Gemini « Le Tribunal valide la ratification BF-09..15 ») au nom de l'Architecte (dispatch, Architecte absent-suiveur).**
+**RÉSERVE GRAVÉE (BF-10 + BF-15)** : C13 Potards agit D'ABORD sur la sélection (pondération Best-of-N, profils candidats, plan) — JAMAIS en coaching esthétique direct du Scribe (« rends le texte plus peur » = INTERDIT). potard → cibles mesurables → candidats → scoring/sélection → audit.
 **Origine** : rappel vision Architecte 2026-06-06 (5 utilités + potards) + directive ChatGPT (tribunal) + carte prior art `nexus/proof/C10_EVIDENCE/PRODUCT_MODES_PRIOR_ART_MAP.md`.
 **Principe de continuité** : chaque loi proposée CITE son ancêtre dans les décisions existantes — c'est une consolidation, pas une invention.
 

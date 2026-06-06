@@ -22,7 +22,9 @@
 | N2-RATIF | 2026-06-06 | N2 correction factuelle nommée RATIFIÉE (gabarit figé, rail-truth-only) | Francky | docs/architecture/N2_RATIFICATION_DOSSIER_3IA.md | RATIFIÉ |
 | JUDGES-APPROVED | 2026-06-06 | gemma4:31b (0.929/0.000) + qwen3.5 (0.857/−0.071) PAIRWISE_APPROVED ; étage B ouvert | Francky (signature dispatch) | docs/metrology/CALIBRATION_REGISTRY.json | SIGNÉ |
 | V1-REPAIR | 2026-06-06 | GO V1 Repair Pack (Henri Morel, Ker-Morvan, coutures, bottes) ; nouveau run complet HOLD ; tics=dette V2 ; V0 intacte | Tribunaux convergents (dispatch) | nexus/proof/C10_EVIDENCE/V1_REPAIR_REPORT.md | EXÉCUTÉ |
-| BF-09→15 | 2026-06-06 | Lois modes produit (router, traçabilité potards, souveraineté auteur, intention, ADN déterministe, rights, anti-Goodhart) | — | docs/governance/codex/CODEX_AMENDMENT_PROPOSAL_PRODUCT_MODES… | **PROPOSED — ratification pendante** |
+| BF-09→15 | 2026-06-06 | Lois modes produit (router, traçabilité potards, souveraineté auteur, intention, ADN déterminisme, rights, anti-Goodhart) + RÉSERVE : potards=sélection-first, jamais coaching | Tribunal 2/2 au nom Architecte (dispatch) | docs/governance/codex/CODEX_AMENDMENT_PROPOSAL_PRODUCT_MODES… | **RATIFIÉ** |
+| NCR-C11-001 | 2026-06-06 | Métriques Doctor avant/après clarifiées (coutures au résumé + targetedProof) | Tribunal (ChatGPT) | nexus/proof/C12_EVIDENCE/README.md | FERMÉE |
+| C11-PROD | 2026-06-06 | Doctor = PASS production périmètre MÉCANIQUE ; chirurgical LLM = HOLD | Tribunal 2/2 | dito | ACTÉ |
 | MASTER-RECONCEPT | 2026-06-06 | Ce dossier = source unique ; protocole de reprise obligatoire ; STOP archéologie opportuniste | Francky (mandat) | ce dossier | EXÉCUTÉ |
 
 **Décisions structurantes implicites devenues lois de fait** (adresses) : Scribe aveugle (ADR R2 BF-07) ; canon-kernel épine unique (D3/forensic) ; mint par NONCE (BF-01) ; RECALL_OR_INVALID (BF-02) ; compareStrings partout (leçon C1 ×3) ; hash prompt BRUT pour instruments (leçon C8) ; casting TOTAL au plan (leçon 88k, à formaliser au prochain run).

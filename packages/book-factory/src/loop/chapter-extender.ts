@@ -30,6 +30,38 @@ function countWords(s: string): number {
   return t.length === 0 ? 0 : t.split(/\s+/u).length;
 }
 
+/* ── COUTURE (C9 fix — défaut D-AUD-3 prouvé sur le run 60k) ─────────────
+ * Le run 60k contient 2 coutures cassées du type : segment N finit tronqué
+ * (« Elle l ») et segment N+1 reprend en répétant (« Le métal est froid,
+ * luisant. Elle l'ouvre… »). Deux opérations déterministes à la couture : */
+
+/** Tronque à la dernière phrase TERMINÉE — élimine une fin de génération coupée. */
+export function trimToCompleteSentence(prose: string): string {
+  const t = prose.trim();
+  const m = t.match(/^[\s\S]*[.!?…»]/u);
+  return (m?.[0] ?? t).trim();
+}
+
+/**
+ * Si `next` REPREND la fin de `prev` (le modèle répète avant de continuer),
+ * retire le chevauchement de `next`. Comparaison en mots normalisés (casse +
+ * ponctuation), chevauchement minimal significatif : 4 mots.
+ */
+export function dedupOverlap(prev: string, next: string, maxOverlapWords = 60): string {
+  const norm = (w: string): string => w.toLowerCase().replace(/[«»"'.,;:!?…()—-]+/gu, '');
+  const pw = prev.trim().split(/\s+/u);
+  const nw = next.trim().split(/\s+/u);
+  const max = Math.min(maxOverlapWords, pw.length, nw.length);
+  for (let k = max; k >= 4; k--) {
+    let match = true;
+    for (let i = 0; i < k; i++) {
+      if (norm(pw[pw.length - k + i] ?? '') !== norm(nw[i] ?? '')) { match = false; break; }
+    }
+    if (match) return nw.slice(k).join(' ').trim();
+  }
+  return next.trim();
+}
+
 /**
  * Étend une prose gagnante vers `targetWords` par continuations bornées.
  * `recallNet` = filet BF-02 injecté (retourne true si le segment passe).
@@ -42,11 +74,14 @@ export async function extendChapter(
   recallNet: (segment: string) => boolean,
 ): Promise<ExtensionResult> {
   const audit = auditNoCoaching(CONTINUATION_DIRECTIVE);
-  const segments: string[] = [winnerProse];
-  let total = countWords(winnerProse);
+  // Couture C9 : chaque segment est tronqué à sa dernière phrase complète DÈS
+  // réception — le tail envoyé au modèle est propre, la reprise est dédupliquée.
+  const segments: string[] = [trimToCompleteSentence(winnerProse)];
+  let total = countWords(segments[0] ?? '');
 
   while (total < targetWords && segments.length < MAX_SEGMENTS) {
-    const tail = (segments[segments.length - 1] ?? '').split(/\s+/u).slice(-150).join(' ');
+    const prev = segments[segments.length - 1] ?? '';
+    const tail = prev.split(/\s+/u).slice(-150).join(' ');
     const req: GenRequest = {
       ...baseRequest,
       digest: `${CONTINUATION_DIRECTIVE}\n${baseRequest.digest}`,
@@ -54,8 +89,10 @@ export async function extendChapter(
     };
     const gen = await generator.generate(req);
     if (!recallNet(gen.prose)) break; // BF-02 : segment non couvert ⇒ on s'arrête PROPREMENT
-    segments.push(gen.prose);
-    total += gen.words;
+    const stitched = dedupOverlap(prev, trimToCompleteSentence(gen.prose));
+    if (countWords(stitched) === 0) break; // continuation 100% répétée ⇒ stop propre
+    segments.push(stitched);
+    total += countWords(stitched);
   }
 
   return { segments, totalWords: total, coachingAudit: audit };

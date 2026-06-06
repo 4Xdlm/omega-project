@@ -1,0 +1,1315 @@
+{
+  "run": "runs/c8_book60k",
+  "chapters": 50,
+  "sentencePhysics": {
+    "total": 6,
+    "byKind": {
+      "FOOTWEAR_CONTRADICTION": 1,
+      "OBJECT_REDRAWN": 0,
+      "DOOR_REOPENED": 5
+    },
+    "signals": [
+      {
+        "kind": "FOOTWEAR_CONTRADICTION",
+        "severity": "INFO",
+        "locus": {
+          "chapter": 1,
+          "sentenceIndex": 138,
+          "excerpt": "Elle avance pieds nus, la semelle de ses bottes restée accrochée à la porte."
+        },
+        "established": "Elle avance pieds nus, la semelle de ses bottes restée accrochée à la porte.",
+        "contradiction": "Elle avance pieds nus, la semelle de ses bottes restée accrochée à la porte."
+      },
+      {
+        "kind": "DOOR_REOPENED",
+        "severity": "INFO",
+        "locus": {
+          "chapter": 2,
+          "sentenceIndex": 109,
+          "excerpt": "Elle poussa la porte, l'air intérieur sentait la poussière, le vieux bois et une odeur métallique, comme du sang séché."
+        },
+        "established": "Il poussa la porte.",
+        "contradiction": "Elle poussa la porte, l'air intérieur sentait la poussière, le vieux bois et une odeur métallique, comme du sang séché."
+      },
+      {
+        "kind": "DOOR_REOPENED",
+        "severity": "INFO",
+        "locus": {
+          "chapter": 2,
+          "sentenceIndex": 125,
+          "excerpt": "Elle poussa le loquet qui bloquait la porte de la chambre de veille, la serrure rouillée grinçant comme une plainte hum…"
+        },
+        "established": "Elle poussa la porte, l'air intérieur sentait la poussière, le vieux bois et une odeur métallique, comme du sang séché.",
+        "contradiction": "Elle poussa le loquet qui bloquait la porte de la chambre de veille, la serrure rouillée grinçant comme une plainte hum…"
+      },
+      {
+        "kind": "DOOR_REOPENED",
+        "severity": "INFO",
+        "locus": {
+          "chapter": 21,
+          "sentenceIndex": 108,
+          "excerpt": "La porte s'ouvre lentement, ne révélant que le visage de la femme."
+        },
+        "established": "Il pousse la porte et se trouve face à la fraîcheur humide de l'extérieur.",
+        "contradiction": "La porte s'ouvre lentement, ne révélant que le visage de la femme."
+      },
+      {
+        "kind": "DOOR_REOPENED",
+        "severity": "INFO",
+        "locus": {
+          "chapter": 28,
+          "sentenceIndex": 29,
+          "excerpt": "Elle passa devant Garcia, qui ne bougea pas, et ouvrit la porte du salon."
+        },
+        "established": "La porte s'ouvrit avec un grincement sec.",
+        "contradiction": "Elle passa devant Garcia, qui ne bougea pas, et ouvrit la porte du salon."
+      },
+      {
+        "kind": "DOOR_REOPENED",
+        "severity": "INFO",
+        "locus": {
+          "chapter": 36,
+          "sentenceIndex": 101,
+          "excerpt": "Il fit signe à Gaspard de rester en arrière, puis poussa la porte d'un coup de pied sec."
+        },
+        "established": "Il poussa la porte.",
+        "contradiction": "Il fit signe à Gaspard de rester en arrière, puis poussa la porte d'un coup de pied sec."
+      }
+    ]
+  },
+  "chapterCoherence": {
+    "total": 38,
+    "byKind": {
+      "LOCATION_JUMP": 8,
+      "TIME_REGRESSION": 22,
+      "GHOST_SPEAKER": 8
+    },
+    "signals": [
+      {
+        "kind": "LOCATION_JUMP",
+        "severity": "INFO",
+        "locus": {
+          "chapter": 1,
+          "sentenceIndex": 18,
+          "excerpt": "Le phare de Saint-Marc est une silhouette noire contre le ciel gris."
+        },
+        "detail": "« falaise » → « phare » sans verbe de déplacement à ±2 phrases"
+      },
+      {
+        "kind": "TIME_REGRESSION",
+        "severity": "INFO",
+        "locus": {
+          "chapter": 1,
+          "sentenceIndex": 6,
+          "excerpt": "L'aube n'est qu'une lueur grise, indécise, filtrant à travers les nuages bas qui accostent sur l'île."
+        },
+        "detail": "« matin » → « aube » sans marqueur de nouvelle journée"
+      },
+      {
+        "kind": "LOCATION_JUMP",
+        "severity": "INFO",
+        "locus": {
+          "chapter": 3,
+          "sentenceIndex": 130,
+          "excerpt": "Pas au phare."
+        },
+        "detail": "« mairie » → « phare » sans verbe de déplacement à ±2 phrases"
+      },
+      {
+        "kind": "LOCATION_JUMP",
+        "severity": "INFO",
+        "locus": {
+          "chapter": 3,
+          "sentenceIndex": 158,
+          "excerpt": "Il avait attendu devant la mairie comme un chien, observant, analysant."
+        },
+        "detail": "« cale » → « mairie » sans verbe de déplacement à ±2 phrases"
+      },
+      {
+        "kind": "TIME_REGRESSION",
+        "severity": "INFO",
+        "locus": {
+          "chapter": 3,
+          "sentenceIndex": 46,
+          "excerpt": "« Garcia est arrivé ce matin."
+        },
+        "detail": "« crépuscule » → « matin » sans marqueur de nouvelle journée"
+      },
+      {
+        "kind": "TIME_REGRESSION",
+        "severity": "INFO",
+        "locus": {
+          "chapter": 3,
+          "sentenceIndex": 148,
+          "excerpt": "« Un pêcheur, hier soir."
+        },
+        "detail": "« nuit » → « soir » sans marqueur de nouvelle journée"
+      },
+      {
+        "kind": "GHOST_SPEAKER",
+        "severity": "WARN",
+        "locus": {
+          "chapter": 5,
+          "sentenceIndex": 33,
+          "excerpt": "Et je n'ai pas l'intention de fuir », répondit Léna, sa voix plus ferme qu'elle ne le pensait."
+        },
+        "detail": "Léna parle (phrase 33) alors que sorti de scène (phrase 23) sans marqueur de retour"
+      },
+      {
+        "kind": "TIME_REGRESSION",
+        "severity": "INFO",
+        "locus": {
+          "chapter": 6,
+          "sentenceIndex": 132,
+          "excerpt": "Quand je suis monté, ce soir-là, la porte du phare était fermée à double tour."
+        },
+        "detail": "« nuit » → « soir » sans marqueur de nouvelle journée"
+      },
+      {
+        "kind": "TIME_REGRESSION",
+        "severity": "INFO",
+        "locus": {
+          "chapter": 6,
+          "sentenceIndex": 155,
+          "excerpt": "Le gardien m'a dit de ne jamais ouvrir le courrier qui venait de l'extérieur avant le matin."
+        },
+        "detail": "« soir » → « matin » sans marqueur de nouvelle journée"
+      },
+      {
+        "kind": "LOCATION_JUMP",
+        "severity": "INFO",
+        "locus": {
+          "chapter": 7,
+          "sentenceIndex": 80,
+          "excerpt": "Quand nous avons croisé les gens devant le port."
+        },
+        "detail": "« mairie » → « port » sans verbe de déplacement à ±2 phrases"
+      },
+      {
+        "kind": "LOCATION_JUMP",
+        "severity": "INFO",
+        "locus": {
+          "chapter": 7,
+          "sentenceIndex": 85,
+          "excerpt": "— Si Yvon est au phare, il a vu quelque chose."
+        },
+        "detail": "« port » → « phare » sans verbe de déplacement à ±2 phrases"
+      },
+      {
+        "kind": "TIME_REGRESSION",
+        "severity": "INFO",
+        "locus": {
+          "chapter": 8,
+          "sentenceIndex": 50,
+          "excerpt": "« Ils savent ce que j'ai vu ce soir-là."
+        },
+        "detail": "« nuit » → « soir » sans marqueur de nouvelle journée"
+      },
+      {
+        "kind": "TIME_REGRESSION",
+        "severity": "INFO",
+        "locus": {
+          "chapter": 8,
+          "sentenceIndex": 74,
+          "excerpt": "« Le gardien n'était pas seul ce soir-là », dit-il enfin, sans se retourner."
+        },
+        "detail": "« nuit » → « soir » sans marqueur de nouvelle journée"
+      },
+      {
+        "kind": "LOCATION_JUMP",
+        "severity": "INFO",
+        "locus": {
+          "chapter": 9,
+          "sentenceIndex": 15,
+          "excerpt": "Pas sur la jetée, comme on l'avait cru."
+        },
+        "detail": "« bureau » → « jetée » sans verbe de déplacement à ±2 phrases"
+      },
+      {
+        "kind": "GHOST_SPEAKER",
+        "severity": "WARN",
+        "locus": {
+          "chapter": 11,
+          "sentenceIndex": 50,
+          "excerpt": "»\n\n« Je ne l'interroge pas, » répliqua Garcia."
+        },
+        "detail": "Garcia parle (phrase 50) alors que sorti de scène (phrase 41) sans marqueur de retour"
+      },
+      {
+        "kind": "TIME_REGRESSION",
+        "severity": "INFO",
+        "locus": {
+          "chapter": 12,
+          "sentenceIndex": 75,
+          "excerpt": "À l'aube."
+        },
+        "detail": "« soir » → « aube » sans marqueur de nouvelle journée"
+      },
+      {
+        "kind": "GHOST_SPEAKER",
+        "severity": "WARN",
+        "locus": {
+          "chapter": 13,
+          "sentenceIndex": 28,
+          "excerpt": "demanda Garcia."
+        },
+        "detail": "Garcia parle (phrase 28) alors que sorti de scène (phrase 20) sans marqueur de retour"
+      },
+      {
+        "kind": "TIME_REGRESSION",
+        "severity": "INFO",
+        "locus": {
+          "chapter": 16,
+          "sentenceIndex": 29,
+          "excerpt": "Mais ce soir-là, il y a eu du bruit."
+        },
+        "detail": "« nuit » → « soir » sans marqueur de nouvelle journée"
+      },
+      {
+        "kind": "TIME_REGRESSION",
+        "severity": "INFO",
+        "locus": {
+          "chapter": 16,
+          "sentenceIndex": 109,
+          "excerpt": "— Elle n'était pas là ce matin, affirma Yvon."
+        },
+        "detail": "« nuit » → « matin » sans marqueur de nouvelle journée"
+      },
+      {
+        "kind": "TIME_REGRESSION",
+        "severity": "INFO",
+        "locus": {
+          "chapter": 16,
+          "sentenceIndex": 151,
+          "excerpt": "Si c'était ici hier soir, ou ce matin, je l'aurais vue."
+        },
+        "detail": "« nuit » → « matin » sans marqueur de nouvelle journée"
+      },
+      {
+        "kind": "GHOST_SPEAKER",
+        "severity": "WARN",
+        "locus": {
+          "chapter": 17,
+          "sentenceIndex": 28,
+          "excerpt": "— Yvon Squarcioni a un alibi pour la nuit du meurtre, dit Garcia."
+        },
+        "detail": "Garcia parle (phrase 28) alors que sorti de scène (phrase 23) sans marqueur de retour"
+      },
+      {
+        "kind": "GHOST_SPEAKER",
+        "severity": "WARN",
+        "locus": {
+          "chapter": 18,
+          "sentenceIndex": 100,
+          "excerpt": "— Il y a eu une explosion, dit Garcia."
+        },
+        "detail": "Garcia parle (phrase 100) alors que sorti de scène (phrase 16) sans marqueur de retour"
+      },
+      {
+        "kind": "LOCATION_JUMP",
+        "severity": "INFO",
+        "locus": {
+          "chapter": 19,
+          "sentenceIndex": 165,
+          "excerpt": "Mais pas vers le phare."
+        },
+        "detail": "« cuisine » → « phare » sans verbe de déplacement à ±2 phrases"
+      },
+      {
+        "kind": "TIME_REGRESSION",
+        "severity": "INFO",
+        "locus": {
+          "chapter": 19,
+          "sentenceIndex": 14,
+          "excerpt": "Il n'a pas quitté le quartier depuis midi."
+        },
+        "detail": "« crépuscule » → « midi » sans marqueur de nouvelle journée"
+      },
+      {
+        "kind": "TIME_REGRESSION",
+        "severity": "INFO",
+        "locus": {
+          "chapter": 25,
+          "sentenceIndex": 17,
+          "excerpt": "Nous l'avons trouvé à sept heures du matin, dans les rochers, au bas de la falaise."
+        },
+        "detail": "« nuit » → « matin » sans marqueur de nouvelle journée"
+      },
+      {
+        "kind": "TIME_REGRESSION",
+        "severity": "INFO",
+        "locus": {
+          "chapter": 26,
+          "sentenceIndex": 58,
+          "excerpt": "Je l'ai vu ce matin."
+        },
+        "detail": "« midi » → « matin » sans marqueur de nouvelle journée"
+      },
+      {
+        "kind": "TIME_REGRESSION",
+        "severity": "INFO",
+        "locus": {
+          "chapter": 27,
+          "sentenceIndex": 108,
+          "excerpt": "J'étais là à midi."
+        },
+        "detail": "« nuit » → « midi » sans marqueur de nouvelle journée"
+      },
+      {
+        "kind": "TIME_REGRESSION",
+        "severity": "INFO",
+        "locus": {
+          "chapter": 28,
+          "sentenceIndex": 55,
+          "excerpt": "C'est ce que le gardien a noté dans son cahier, le soir même."
+        },
+        "detail": "« nuit » → « soir » sans marqueur de nouvelle journée"
+      },
+      {
+        "kind": "GHOST_SPEAKER",
+        "severity": "WARN",
+        "locus": {
+          "chapter": 29,
+          "sentenceIndex": 57,
+          "excerpt": "— Le calme, Léna, dit Garcia, sa voix coupante traversant la distance entre eux, c'est ce qu'on a perdu."
+        },
+        "detail": "Garcia parle (phrase 57) alors que sorti de scène (phrase 32) sans marqueur de retour"
+      },
+      {
+        "kind": "TIME_REGRESSION",
+        "severity": "INFO",
+        "locus": {
+          "chapter": 31,
+          "sentenceIndex": 51,
+          "excerpt": "Mais hier soir."
+        },
+        "detail": "« nuit » → « soir » sans marqueur de nouvelle journée"
+      },
+      {
+        "kind": "TIME_REGRESSION",
+        "severity": "INFO",
+        "locus": {
+          "chapter": 32,
+          "sentenceIndex": 58,
+          "excerpt": "Yvon, qui ne parlait jamais de ses secrets, qui passait ses soirées à réparer ses filets dans le silence de son atelier."
+        },
+        "detail": "« nuit » → « soir » sans marqueur de nouvelle journée"
+      },
+      {
+        "kind": "GHOST_SPEAKER",
+        "severity": "WARN",
+        "locus": {
+          "chapter": 33,
+          "sentenceIndex": 66,
+          "excerpt": "»\n\n« Le silence, » répondit Gaspard, les yeux fixés sur la flamme de son briquet qui s'éteignait."
+        },
+        "detail": "Gaspard parle (phrase 66) alors que sorti de scène (phrase 56) sans marqueur de retour"
+      },
+      {
+        "kind": "TIME_REGRESSION",
+        "severity": "INFO",
+        "locus": {
+          "chapter": 35,
+          "sentenceIndex": 38,
+          "excerpt": "Il a vu la même marque sur la photo du gardien, prise le matin même, avant qu'on ne le retrouve pendu au mât."
+        },
+        "detail": "« nuit » → « matin » sans marqueur de nouvelle journée"
+      },
+      {
+        "kind": "GHOST_SPEAKER",
+        "severity": "WARN",
+        "locus": {
+          "chapter": 38,
+          "sentenceIndex": 64,
+          "excerpt": "— Léna, écoute-moi, dit Garcia d'une voix qu'il s'efforça de rendre ferme, ancre dans la réalité."
+        },
+        "detail": "Garcia parle (phrase 64) alors que sorti de scène (phrase 12) sans marqueur de retour"
+      },
+      {
+        "kind": "TIME_REGRESSION",
+        "severity": "INFO",
+        "locus": {
+          "chapter": 41,
+          "sentenceIndex": 159,
+          "excerpt": "Il s'approche de la fenêtre, laissant la lumière grise de l'après-midi traverser sa silhouette."
+        },
+        "detail": "« nuit » → « midi » sans marqueur de nouvelle journée"
+      },
+      {
+        "kind": "LOCATION_JUMP",
+        "severity": "INFO",
+        "locus": {
+          "chapter": 42,
+          "sentenceIndex": 133,
+          "excerpt": "Il a vu les hommes sur la plage."
+        },
+        "detail": "« cuisine » → « plage » sans verbe de déplacement à ±2 phrases"
+      },
+      {
+        "kind": "TIME_REGRESSION",
+        "severity": "INFO",
+        "locus": {
+          "chapter": 45,
+          "sentenceIndex": 113,
+          "excerpt": "Et je veux savoir pourquoi le village entier, depuis ce matin, a choisi de rester assis sur ses chaises de bois pourri …"
+        },
+        "detail": "« nuit » → « matin » sans marqueur de nouvelle journée"
+      },
+      {
+        "kind": "TIME_REGRESSION",
+        "severity": "INFO",
+        "locus": {
+          "chapter": 46,
+          "sentenceIndex": 72,
+          "excerpt": "Mais ce soir, Yvon semblait regarder la pièce avec une terreur diffuse, celle d'un homme qui reconnaît son propre nom d…"
+        },
+        "detail": "« nuit » → « soir » sans marqueur de nouvelle journée"
+      }
+    ]
+  },
+  "arc": {
+    "identityDrifts": [
+      {
+        "role": "gardien",
+        "names": [
+          {
+            "name": "Thomas",
+            "firstChapter": 2,
+            "occurrences": 4
+          },
+          {
+            "name": "Squarci",
+            "firstChapter": 12,
+            "occurrences": 2
+          },
+          {
+            "name": "Gaspar",
+            "firstChapter": 23,
+            "occurrences": 2
+          },
+          {
+            "name": "Jean",
+            "firstChapter": 28,
+            "occurrences": 2
+          },
+          {
+            "name": "Squ",
+            "firstChapter": 30,
+            "occurrences": 2
+          },
+          {
+            "name": "Dubois",
+            "firstChapter": 33,
+            "occurrences": 2
+          },
+          {
+            "name": "Ker",
+            "firstChapter": 46,
+            "occurrences": 2
+          }
+        ],
+        "severity": "WARN"
+      }
+    ],
+    "chapterFunctionHistogram": {
+      "TRANSITION": 36,
+      "ACTION": 9,
+      "CONFRONTATION": 5
+    },
+    "reditChapters": [],
+    "chapterFunctions": [
+      {
+        "chapter": 1,
+        "fn": "TRANSITION",
+        "dialogueRatio": 0,
+        "actionDensity": 1.71,
+        "revelationHits": 0,
+        "noveltyVsPrev": 1
+      },
+      {
+        "chapter": 2,
+        "fn": "ACTION",
+        "dialogueRatio": 0.137,
+        "actionDensity": 2.35,
+        "revelationHits": 0,
+        "noveltyVsPrev": 0.983
+      },
+      {
+        "chapter": 3,
+        "fn": "TRANSITION",
+        "dialogueRatio": 0.138,
+        "actionDensity": 0,
+        "revelationHits": 0,
+        "noveltyVsPrev": 0.961
+      },
+      {
+        "chapter": 4,
+        "fn": "TRANSITION",
+        "dialogueRatio": 0.168,
+        "actionDensity": 0,
+        "revelationHits": 0,
+        "noveltyVsPrev": 0.949
+      },
+      {
+        "chapter": 5,
+        "fn": "TRANSITION",
+        "dialogueRatio": 0.148,
+        "actionDensity": 0.58,
+        "revelationHits": 0,
+        "noveltyVsPrev": 0.927
+      },
+      {
+        "chapter": 6,
+        "fn": "TRANSITION",
+        "dialogueRatio": 0.18,
+        "actionDensity": 0,
+        "revelationHits": 0,
+        "noveltyVsPrev": 0.894
+      },
+      {
+        "chapter": 7,
+        "fn": "TRANSITION",
+        "dialogueRatio": 0.178,
+        "actionDensity": 1.16,
+        "revelationHits": 0,
+        "noveltyVsPrev": 0.906
+      },
+      {
+        "chapter": 8,
+        "fn": "CONFRONTATION",
+        "dialogueRatio": 0.205,
+        "actionDensity": 0,
+        "revelationHits": 0,
+        "noveltyVsPrev": 0.853
+      },
+      {
+        "chapter": 9,
+        "fn": "TRANSITION",
+        "dialogueRatio": 0.185,
+        "actionDensity": 1.18,
+        "revelationHits": 0,
+        "noveltyVsPrev": 0.862
+      },
+      {
+        "chapter": 10,
+        "fn": "TRANSITION",
+        "dialogueRatio": 0.176,
+        "actionDensity": 1.13,
+        "revelationHits": 0,
+        "noveltyVsPrev": 0.827
+      },
+      {
+        "chapter": 11,
+        "fn": "ACTION",
+        "dialogueRatio": 0.152,
+        "actionDensity": 2.29,
+        "revelationHits": 0,
+        "noveltyVsPrev": 0.844
+      },
+      {
+        "chapter": 12,
+        "fn": "ACTION",
+        "dialogueRatio": 0.151,
+        "actionDensity": 2.32,
+        "revelationHits": 1,
+        "noveltyVsPrev": 0.867
+      },
+      {
+        "chapter": 13,
+        "fn": "ACTION",
+        "dialogueRatio": 0.122,
+        "actionDensity": 2.9,
+        "revelationHits": 0,
+        "noveltyVsPrev": 0.851
+      },
+      {
+        "chapter": 14,
+        "fn": "ACTION",
+        "dialogueRatio": 0.13,
+        "actionDensity": 4.12,
+        "revelationHits": 0,
+        "noveltyVsPrev": 0.825
+      },
+      {
+        "chapter": 15,
+        "fn": "TRANSITION",
+        "dialogueRatio": 0.094,
+        "actionDensity": 1.14,
+        "revelationHits": 0,
+        "noveltyVsPrev": 0.806
+      },
+      {
+        "chapter": 16,
+        "fn": "TRANSITION",
+        "dialogueRatio": 0.201,
+        "actionDensity": 0,
+        "revelationHits": 1,
+        "noveltyVsPrev": 0.808
+      },
+      {
+        "chapter": 17,
+        "fn": "TRANSITION",
+        "dialogueRatio": 0.186,
+        "actionDensity": 0,
+        "revelationHits": 0,
+        "noveltyVsPrev": 0.785
+      },
+      {
+        "chapter": 18,
+        "fn": "ACTION",
+        "dialogueRatio": 0.164,
+        "actionDensity": 2.33,
+        "revelationHits": 0,
+        "noveltyVsPrev": 0.865
+      },
+      {
+        "chapter": 19,
+        "fn": "TRANSITION",
+        "dialogueRatio": 0.206,
+        "actionDensity": 1.71,
+        "revelationHits": 0,
+        "noveltyVsPrev": 0.809
+      },
+      {
+        "chapter": 20,
+        "fn": "TRANSITION",
+        "dialogueRatio": 0.174,
+        "actionDensity": 0.57,
+        "revelationHits": 0,
+        "noveltyVsPrev": 0.789
+      },
+      {
+        "chapter": 21,
+        "fn": "CONFRONTATION",
+        "dialogueRatio": 0.174,
+        "actionDensity": 0.56,
+        "revelationHits": 0,
+        "noveltyVsPrev": 0.757
+      },
+      {
+        "chapter": 22,
+        "fn": "TRANSITION",
+        "dialogueRatio": 0.102,
+        "actionDensity": 1.12,
+        "revelationHits": 0,
+        "noveltyVsPrev": 0.793
+      },
+      {
+        "chapter": 23,
+        "fn": "TRANSITION",
+        "dialogueRatio": 0.179,
+        "actionDensity": 0.57,
+        "revelationHits": 0,
+        "noveltyVsPrev": 0.796
+      },
+      {
+        "chapter": 24,
+        "fn": "TRANSITION",
+        "dialogueRatio": 0.142,
+        "actionDensity": 0,
+        "revelationHits": 0,
+        "noveltyVsPrev": 0.767
+      },
+      {
+        "chapter": 25,
+        "fn": "TRANSITION",
+        "dialogueRatio": 0.166,
+        "actionDensity": 1.71,
+        "revelationHits": 0,
+        "noveltyVsPrev": 0.76
+      },
+      {
+        "chapter": 26,
+        "fn": "CONFRONTATION",
+        "dialogueRatio": 0.173,
+        "actionDensity": 2.27,
+        "revelationHits": 0,
+        "noveltyVsPrev": 0.745
+      },
+      {
+        "chapter": 27,
+        "fn": "TRANSITION",
+        "dialogueRatio": 0.16,
+        "actionDensity": 0,
+        "revelationHits": 1,
+        "noveltyVsPrev": 0.737
+      },
+      {
+        "chapter": 28,
+        "fn": "TRANSITION",
+        "dialogueRatio": 0.221,
+        "actionDensity": 0.57,
+        "revelationHits": 0,
+        "noveltyVsPrev": 0.741
+      },
+      {
+        "chapter": 29,
+        "fn": "TRANSITION",
+        "dialogueRatio": 0.221,
+        "actionDensity": 1.18,
+        "revelationHits": 0,
+        "noveltyVsPrev": 0.77
+      },
+      {
+        "chapter": 30,
+        "fn": "TRANSITION",
+        "dialogueRatio": 0.181,
+        "actionDensity": 0.59,
+        "revelationHits": 0,
+        "noveltyVsPrev": 0.727
+      },
+      {
+        "chapter": 31,
+        "fn": "TRANSITION",
+        "dialogueRatio": 0.241,
+        "actionDensity": 0.58,
+        "revelationHits": 0,
+        "noveltyVsPrev": 0.72
+      },
+      {
+        "chapter": 32,
+        "fn": "CONFRONTATION",
+        "dialogueRatio": 0.208,
+        "actionDensity": 0.58,
+        "revelationHits": 0,
+        "noveltyVsPrev": 0.746
+      },
+      {
+        "chapter": 33,
+        "fn": "TRANSITION",
+        "dialogueRatio": 0.211,
+        "actionDensity": 1.15,
+        "revelationHits": 0,
+        "noveltyVsPrev": 0.706
+      },
+      {
+        "chapter": 34,
+        "fn": "CONFRONTATION",
+        "dialogueRatio": 0.186,
+        "actionDensity": 2.91,
+        "revelationHits": 0,
+        "noveltyVsPrev": 0.777
+      },
+      {
+        "chapter": 35,
+        "fn": "ACTION",
+        "dialogueRatio": 0.168,
+        "actionDensity": 2.31,
+        "revelationHits": 0,
+        "noveltyVsPrev": 0.747
+      },
+      {
+        "chapter": 36,
+        "fn": "TRANSITION",
+        "dialogueRatio": 0.146,
+        "actionDensity": 0,
+        "revelationHits": 0,
+        "noveltyVsPrev": 0.732
+      },
+      {
+        "chapter": 37,
+        "fn": "TRANSITION",
+        "dialogueRatio": 0.21,
+        "actionDensity": 1.74,
+        "revelationHits": 1,
+        "noveltyVsPrev": 0.686
+      },
+      {
+        "chapter": 38,
+        "fn": "ACTION",
+        "dialogueRatio": 0.141,
+        "actionDensity": 2.97,
+        "revelationHits": 0,
+        "noveltyVsPrev": 0.744
+      },
+      {
+        "chapter": 39,
+        "fn": "ACTION",
+        "dialogueRatio": 0.075,
+        "actionDensity": 2.34,
+        "revelationHits": 0,
+        "noveltyVsPrev": 0.76
+      },
+      {
+        "chapter": 40,
+        "fn": "TRANSITION",
+        "dialogueRatio": 0.208,
+        "actionDensity": 0.56,
+        "revelationHits": 0,
+        "noveltyVsPrev": 0.709
+      },
+      {
+        "chapter": 41,
+        "fn": "TRANSITION",
+        "dialogueRatio": 0.122,
+        "actionDensity": 1.1,
+        "revelationHits": 0,
+        "noveltyVsPrev": 0.685
+      },
+      {
+        "chapter": 42,
+        "fn": "TRANSITION",
+        "dialogueRatio": 0.161,
+        "actionDensity": 1.15,
+        "revelationHits": 0,
+        "noveltyVsPrev": 0.694
+      },
+      {
+        "chapter": 43,
+        "fn": "TRANSITION",
+        "dialogueRatio": 0.158,
+        "actionDensity": 0.58,
+        "revelationHits": 0,
+        "noveltyVsPrev": 0.688
+      },
+      {
+        "chapter": 44,
+        "fn": "TRANSITION",
+        "dialogueRatio": 0.189,
+        "actionDensity": 1.71,
+        "revelationHits": 0,
+        "noveltyVsPrev": 0.701
+      },
+      {
+        "chapter": 45,
+        "fn": "TRANSITION",
+        "dialogueRatio": 0.19,
+        "actionDensity": 0,
+        "revelationHits": 1,
+        "noveltyVsPrev": 0.657
+      },
+      {
+        "chapter": 46,
+        "fn": "TRANSITION",
+        "dialogueRatio": 0.185,
+        "actionDensity": 1.16,
+        "revelationHits": 1,
+        "noveltyVsPrev": 0.675
+      },
+      {
+        "chapter": 47,
+        "fn": "TRANSITION",
+        "dialogueRatio": 0.204,
+        "actionDensity": 0,
+        "revelationHits": 0,
+        "noveltyVsPrev": 0.669
+      },
+      {
+        "chapter": 48,
+        "fn": "TRANSITION",
+        "dialogueRatio": 0.19,
+        "actionDensity": 1.7,
+        "revelationHits": 0,
+        "noveltyVsPrev": 0.676
+      },
+      {
+        "chapter": 49,
+        "fn": "TRANSITION",
+        "dialogueRatio": 0.104,
+        "actionDensity": 2.24,
+        "revelationHits": 0,
+        "noveltyVsPrev": 0.674
+      },
+      {
+        "chapter": 50,
+        "fn": "TRANSITION",
+        "dialogueRatio": 0.165,
+        "actionDensity": 0,
+        "revelationHits": 0,
+        "noveltyVsPrev": 0.666
+      }
+    ],
+    "seedLedger": [
+      {
+        "seed": "carnet",
+        "plantedChapter": 11,
+        "recallChapters": [
+          13,
+          14,
+          15,
+          17,
+          19,
+          20,
+          21,
+          25,
+          32,
+          34,
+          35,
+          38,
+          43,
+          46
+        ],
+        "payoffChapter": 46
+      },
+      {
+        "seed": "dette",
+        "plantedChapter": 11,
+        "recallChapters": [
+          12,
+          15,
+          40,
+          41,
+          42,
+          43,
+          44,
+          45
+        ],
+        "payoffChapter": 45
+      },
+      {
+        "seed": "lettre",
+        "plantedChapter": 3,
+        "recallChapters": [
+          4,
+          5,
+          6,
+          8,
+          19,
+          39,
+          40,
+          41,
+          43
+        ],
+        "payoffChapter": "UNPAID"
+      },
+      {
+        "seed": "naufrage",
+        "plantedChapter": 8,
+        "recallChapters": [
+          20,
+          21,
+          24,
+          25,
+          42,
+          43,
+          44,
+          45,
+          46,
+          47,
+          50
+        ],
+        "payoffChapter": 46
+      },
+      {
+        "seed": "registre",
+        "plantedChapter": 7,
+        "recallChapters": [
+          14,
+          42
+        ],
+        "payoffChapter": "UNPAID"
+      }
+    ]
+  },
+  "tics": {
+    "rows": [
+      {
+        "gram": "le gardien",
+        "occurrences": 349,
+        "perChapter": 6.98,
+        "level": "FAIL_SHADOW"
+      },
+      {
+        "gram": "le silence",
+        "occurrences": 255,
+        "perChapter": 5.1,
+        "level": "FAIL_SHADOW"
+      },
+      {
+        "gram": "les yeux",
+        "occurrences": 192,
+        "perChapter": 3.84,
+        "level": "FAIL_SHADOW"
+      },
+      {
+        "gram": "la pièce",
+        "occurrences": 183,
+        "perChapter": 3.66,
+        "level": "FAIL_SHADOW"
+      },
+      {
+        "gram": "la table",
+        "occurrences": 172,
+        "perChapter": 3.44,
+        "level": "FAIL_SHADOW"
+      },
+      {
+        "gram": "la porte",
+        "occurrences": 171,
+        "perChapter": 3.42,
+        "level": "FAIL_SHADOW"
+      },
+      {
+        "gram": "sa voix",
+        "occurrences": 169,
+        "perChapter": 3.38,
+        "level": "FAIL_SHADOW"
+      },
+      {
+        "gram": "n'est pas",
+        "occurrences": 136,
+        "perChapter": 2.72,
+        "level": "FAIL_SHADOW"
+      },
+      {
+        "gram": "la voix",
+        "occurrences": 134,
+        "perChapter": 2.68,
+        "level": "FAIL_SHADOW"
+      },
+      {
+        "gram": "le village",
+        "occurrences": 132,
+        "perChapter": 2.64,
+        "level": "FAIL_SHADOW"
+      },
+      {
+        "gram": "la mer",
+        "occurrences": 129,
+        "perChapter": 2.58,
+        "level": "FAIL_SHADOW"
+      },
+      {
+        "gram": "n'était pas",
+        "occurrences": 126,
+        "perChapter": 2.52,
+        "level": "FAIL_SHADOW"
+      },
+      {
+        "gram": "comme si",
+        "occurrences": 122,
+        "perChapter": 2.44,
+        "level": "FAIL_SHADOW"
+      },
+      {
+        "gram": "la peur",
+        "occurrences": 120,
+        "perChapter": 2.4,
+        "level": "FAIL_SHADOW"
+      },
+      {
+        "gram": "le vent",
+        "occurrences": 120,
+        "perChapter": 2.4,
+        "level": "FAIL_SHADOW"
+      },
+      {
+        "gram": "yvon squarcioni",
+        "occurrences": 116,
+        "perChapter": 2.32,
+        "level": "FAIL_SHADOW"
+      },
+      {
+        "gram": "a vu",
+        "occurrences": 111,
+        "perChapter": 2.22,
+        "level": "FAIL_SHADOW"
+      },
+      {
+        "gram": "comme un",
+        "occurrences": 111,
+        "perChapter": 2.22,
+        "level": "FAIL_SHADOW"
+      },
+      {
+        "gram": "quelque chose",
+        "occurrences": 110,
+        "perChapter": 2.2,
+        "level": "FAIL_SHADOW"
+      },
+      {
+        "gram": "je ne",
+        "occurrences": 108,
+        "perChapter": 2.16,
+        "level": "FAIL_SHADOW"
+      },
+      {
+        "gram": "ses yeux",
+        "occurrences": 105,
+        "perChapter": 2.1,
+        "level": "FAIL_SHADOW"
+      },
+      {
+        "gram": "la tête",
+        "occurrences": 104,
+        "perChapter": 2.08,
+        "level": "FAIL_SHADOW"
+      },
+      {
+        "gram": "la fenêtre",
+        "occurrences": 101,
+        "perChapter": 2.02,
+        "level": "FAIL_SHADOW"
+      },
+      {
+        "gram": "avec une",
+        "occurrences": 99,
+        "perChapter": 1.98,
+        "level": "FAIL_SHADOW"
+      },
+      {
+        "gram": "le bruit",
+        "occurrences": 98,
+        "perChapter": 1.96,
+        "level": "FAIL_SHADOW"
+      }
+    ],
+    "thresholds": {
+      "warn": 0.3,
+      "failShadow": 0.5
+    }
+  },
+  "cooldownsProposed": [
+    {
+      "gram": "la mer",
+      "fromChapter": 2,
+      "toChapter": 6
+    },
+    {
+      "gram": "la porte",
+      "fromChapter": 2,
+      "toChapter": 6
+    },
+    {
+      "gram": "le silence",
+      "fromChapter": 2,
+      "toChapter": 6
+    },
+    {
+      "gram": "les yeux",
+      "fromChapter": 2,
+      "toChapter": 6
+    },
+    {
+      "gram": "la pièce",
+      "fromChapter": 3,
+      "toChapter": 7
+    },
+    {
+      "gram": "la voix",
+      "fromChapter": 3,
+      "toChapter": 7
+    },
+    {
+      "gram": "le village",
+      "fromChapter": 3,
+      "toChapter": 7
+    },
+    {
+      "gram": "n'était pas",
+      "fromChapter": 3,
+      "toChapter": 7
+    },
+    {
+      "gram": "la table",
+      "fromChapter": 4,
+      "toChapter": 8
+    },
+    {
+      "gram": "le gardien",
+      "fromChapter": 4,
+      "toChapter": 8
+    },
+    {
+      "gram": "n'est pas",
+      "fromChapter": 4,
+      "toChapter": 8
+    },
+    {
+      "gram": "sa voix",
+      "fromChapter": 4,
+      "toChapter": 8
+    },
+    {
+      "gram": "la mer",
+      "fromChapter": 8,
+      "toChapter": 12
+    },
+    {
+      "gram": "la porte",
+      "fromChapter": 8,
+      "toChapter": 12
+    },
+    {
+      "gram": "le silence",
+      "fromChapter": 8,
+      "toChapter": 12
+    },
+    {
+      "gram": "les yeux",
+      "fromChapter": 8,
+      "toChapter": 12
+    },
+    {
+      "gram": "la pièce",
+      "fromChapter": 9,
+      "toChapter": 13
+    },
+    {
+      "gram": "la voix",
+      "fromChapter": 9,
+      "toChapter": 13
+    },
+    {
+      "gram": "le village",
+      "fromChapter": 9,
+      "toChapter": 13
+    },
+    {
+      "gram": "n'était pas",
+      "fromChapter": 9,
+      "toChapter": 13
+    },
+    {
+      "gram": "la table",
+      "fromChapter": 10,
+      "toChapter": 14
+    },
+    {
+      "gram": "le gardien",
+      "fromChapter": 10,
+      "toChapter": 14
+    },
+    {
+      "gram": "n'est pas",
+      "fromChapter": 10,
+      "toChapter": 14
+    },
+    {
+      "gram": "sa voix",
+      "fromChapter": 10,
+      "toChapter": 14
+    },
+    {
+      "gram": "la mer",
+      "fromChapter": 14,
+      "toChapter": 18
+    },
+    {
+      "gram": "la porte",
+      "fromChapter": 14,
+      "toChapter": 18
+    },
+    {
+      "gram": "le silence",
+      "fromChapter": 14,
+      "toChapter": 18
+    },
+    {
+      "gram": "les yeux",
+      "fromChapter": 14,
+      "toChapter": 18
+    },
+    {
+      "gram": "la pièce",
+      "fromChapter": 15,
+      "toChapter": 19
+    },
+    {
+      "gram": "la voix",
+      "fromChapter": 15,
+      "toChapter": 19
+    }
+  ],
+  "date": "2026-06-06T13:51:43.081Z"
+}

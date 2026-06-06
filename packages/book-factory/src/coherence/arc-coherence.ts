@@ -33,8 +33,17 @@ export interface ArcChapter { readonly chapter: number; readonly prose: string; 
 /** Rôles-clés par défaut (décor Phare) — injectables. */
 export const DEFAULT_ROLE_LEXICON: readonly string[] = ['gardien', 'maire', 'curé', 'pharmacien', 'patron', 'capitaine'];
 
-/** Marqueurs de révélation (fonction REVELATION + payoff du ledger). */
-const REVELATION_RE = /\b(avou[ae]|avoua|révèle|révéla|comprend\s+que|comprit\s+que|la\s+vérité|découvre\s+que|découvrit\s+que|apprend\s+que|apprit\s+que|reconnaît|reconnut|c[''](?:était|est)\s+(?:lui|elle)\s+qui|enfin\s+su)\b/iu;
+/**
+ * Marqueurs de révélation (fonction REVELATION + payoff du ledger).
+ * V2 GOLD-SET (2026-06-06) : recalibré sur PROXY_GOLDSET 64 extraits labellisés —
+ * ajouts mesurés (chaque ajout = un faux négatif du bench V1) : confirma/attesta
+ * (la classe ratée sur le 88k), admit/confessa/céda, trouva/découvrit+objet,
+ * mit au jour, s'éclaira/éclata dans, sut enfin, réalisa, s'appelait (identification),
+ * une seule et même personne, masque tomba. GARDE-FOUS anti-faux-positifs :
+ * négations exclues par lookbehind (ne/n'/refusa de/faillit), futur/promesse
+ * exclus (dirai/sauras). EXPORTÉE pour le bench (benchRevelationProxy).
+ */
+export const REVELATION_RE = /\b(?:(?<!ne\s)(?<!n['’])(?:avou[ae]|avoua|admit|admet|confess[ae]|confessa|attesta|céda)\b|(?<!refusa\sde\s)(?<!ne\s)confirm(?:a|èrent|e)\b|révèle|révéla|révélait\b|comprit(?:\s+(?:que|alors|enfin|pourquoi))|comprend\s+que|(?:la\s+vérité\s+éclata|tout\s+s[''-]?éclaira|s[''-]?éclaira\s+d[''-]?un\s+coup)|découvr(?:e|it)\s+(?:que|la|le|les|enfin)|trouva\s+(?:la|le|les)\s+\p{L}+|mi(?:rent|t)\s+au\s+jour|apprit\s+que|apprend\s+que|(?<!ne\s)reconn(?:aît|ut)\b|c[''](?:était|est)\s+(?:lui|elle|moi)\s+qui|sut\s+enfin|réalisa\s+(?:soudain|alors|que)|il\s+s[''](?:appelait)|une\s+seule\s+et\s+même\s+personne|le\s+masque\s+tomba|tout\s+(?:désignait|vient\s+de\s+là)|parlaient\s+d[''](?:eux-mêmes)|dédicace\s+révélait)\b/iu;
 
 /** Verbes d'action forte (fonction ACTION). */
 const ACTION_RE = /\b(court|courut|frappe|frappa|brise|brisa|saisit|fuit|fuyait|s[''](?:effondre|effondra)|arrache|arracha|bouscule|bousculé|empoigne|claqua|jaillit|bondit|se\s+jette|se\s+jeta|hurle|hurla|se\s+débat|lutte|luttait)\b/u;

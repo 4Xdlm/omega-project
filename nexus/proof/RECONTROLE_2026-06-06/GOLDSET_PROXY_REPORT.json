@@ -1,0 +1,107 @@
+{
+  "goldset": {
+    "size": 64,
+    "positives": 32,
+    "labelling": "IA_LABELLED_V1 (validation humaine = upgrade)"
+  },
+  "revelationV1": {
+    "truePositives": 2,
+    "falsePositives": 1,
+    "trueNegatives": 31,
+    "falseNegatives": 30,
+    "precision": 0.667,
+    "recall": 0.063,
+    "f1": 0.114,
+    "missedIds": [
+      "P02",
+      "P03",
+      "P04",
+      "P05",
+      "P06",
+      "P07",
+      "P08",
+      "P09",
+      "P10",
+      "P11",
+      "P12",
+      "P13",
+      "P14",
+      "P15",
+      "P16",
+      "P17",
+      "P18",
+      "P19",
+      "P20",
+      "P21",
+      "P22",
+      "P23",
+      "P25",
+      "P26",
+      "P27",
+      "P28",
+      "P29",
+      "P30",
+      "P31",
+      "P32"
+    ],
+    "spuriousIds": [
+      "N23"
+    ]
+  },
+  "revelationV2": {
+    "truePositives": 24,
+    "falsePositives": 0,
+    "trueNegatives": 32,
+    "falseNegatives": 8,
+    "precision": 1,
+    "recall": 0.75,
+    "f1": 0.857,
+    "missedIds": [
+      "P03",
+      "P13",
+      "P16",
+      "P17",
+      "P22",
+      "P26",
+      "P29",
+      "P30"
+    ],
+    "spuriousIds": []
+  },
+  "gains": {
+    "recall": 0.687,
+    "precision": 0.333,
+    "f1": 0.743
+  },
+  "ledger88k_withV2": [
+    "carnet:46",
+    "dette:45",
+    "lettre:40",
+    "naufrage:50",
+    "registre:14"
+  ],
+  "tics18k_failShadow": [
+    "«le gardien»×98 (3.267/chap)",
+    "«le silence»×60 (2/chap)",
+    "«la porte»×45 (1.5/chap)",
+    "«a vu»×43 (1.433/chap)",
+    "«le village»×41 (1.367/chap)",
+    "«les yeux»×40 (1.333/chap)",
+    "«n'est pas»×40 (1.333/chap)",
+    "«la table»×37 (1.233/chap)"
+  ],
+  "uncertainSensitivity": [
+    {
+      "divisor": 5,
+      "lateThresholdChapter": 40
+    },
+    {
+      "divisor": 4,
+      "lateThresholdChapter": 37
+    },
+    {
+      "divisor": 10,
+      "lateThresholdChapter": 45
+    }
+  ]
+}

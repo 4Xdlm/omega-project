@@ -182,7 +182,10 @@ export function buildRepairPlan(
     actions.push({ kind: 'SIGNAL', cls: 'SIGNAL_ONLY', topic: 'REDITE', detail: `chapitres ${redites.map((r) => r.chapter).join(', ')} — fusion/coupe = décision humaine`, count: redites.length });
   }
   for (const seed of audit.arc.seedLedger.filter((s) => s.payoffChapter === 'UNPAID' && s.plantedChapter !== 'ABSENT')) {
-    actions.push({ kind: 'SIGNAL', cls: 'SIGNAL_ONLY', topic: 'SEED_UNPAID', detail: `« ${seed.seed} » planté ch.${String(seed.plantedChapter)} — VÉRIFIER SUR PIÈCE avant d'éditer (précédent : faux-UNPAID lettre/registre)`, count: 1 });
+    actions.push({ kind: 'SIGNAL', cls: 'SIGNAL_ONLY', topic: 'SEED_UNPAID', detail: `« ${seed.seed} » planté ch.${String(seed.plantedChapter)} — fil ABANDONNÉ (aucun recall tardif) : payer ou couper`, count: 1 });
+  }
+  for (const seed of audit.arc.seedLedger.filter((s) => s.payoffChapter === 'UNCERTAIN_LATE_RECALL' && s.plantedChapter !== 'ABSENT')) {
+    actions.push({ kind: 'SIGNAL', cls: 'SIGNAL_ONLY', topic: 'SEED_UNPAID', detail: `« ${seed.seed} » rappelé en fin de livre SANS marqueur lisible — probablement soldé par le dénouement, VÉRIFIER SUR PIÈCE (NCR-MYC-001)`, count: 1 });
   }
   const failTics = audit.tics.rows.filter((r) => r.level === 'FAIL_SHADOW');
   if (failTics.length > 0) {

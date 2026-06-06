@@ -28,7 +28,12 @@ import type { CastEntry } from '../doctor/doctor-types.js';
 import { err, ok, compareStrings } from '../identity/identity-types.js';
 import type { Result } from '../identity/identity-types.js';
 
-export const NARRATIVE_GENOME_SCHEMA = 'NARRATIVE_GENOME_V1' as const;
+/** V2 (NCR-MYC-001) : l'ADN ne grave QUE du validé — cast avec PROVENANCE
+ *  (VALIDATED = autorité registry/plan ; EXTRACTED_UNVALIDATED = proposition
+ *  d'extracteur, marquée comme telle), candidats inconnus SÉPARÉS du cast,
+ *  alias gravés (« le gardien » → Henri). Le schéma fait partie du hash :
+ *  V1 et V2 ne collisionnent jamais silencieusement. */
+export const NARRATIVE_GENOME_SCHEMA = 'NARRATIVE_GENOME_V2' as const;
 
 export interface GenomeChapterRow {
   readonly chapter: number;
@@ -38,10 +43,18 @@ export interface GenomeChapterRow {
   readonly fn: string; // fonction dramatique (proxy CALC, EXPERIMENTAL)
 }
 
+export type CastSource = 'VALIDATED' | 'EXTRACTED_UNVALIDATED';
+
 export interface NarrativeGenome {
   readonly schema: typeof NARRATIVE_GENOME_SCHEMA;
   readonly book: { readonly title: string; readonly chapters: number; readonly words: number };
+  /** Provenance du cast — l'ADN dit toujours d'où vient sa vérité (NCR-MYC-001). */
+  readonly castSource: CastSource;
   readonly cast: readonly { readonly name: string; readonly occurrences: number; readonly firstChapter: number }[];
+  /** Alias gravés (surface → canonique) — « le gardien » → Henri. */
+  readonly aliases: readonly { readonly surface: string; readonly canonical: string }[];
+  /** Candidats d'extraction NON validés — séparés du cast, jamais des fantômes gravés. */
+  readonly unknownCandidates: readonly { readonly name: string; readonly occurrences: number }[];
   readonly seedLedger: readonly { readonly seed: string; readonly planted: string; readonly payoff: string; readonly recalls: number }[];
   readonly chapterMap: readonly GenomeChapterRow[];
   readonly ticsSignature: readonly { readonly gram: string; readonly occurrences: number }[];
@@ -55,7 +68,14 @@ export interface NarrativeGenome {
 export interface GenomeInput {
   readonly title: string;
   readonly chapters: readonly { readonly chapter: number; readonly prose: string }[];
+  /** Cast extrait (proposition) — utilisé SEULEMENT si validatedCast absent. */
   readonly cast: readonly CastEntry[];
+  /** Cast VALIDÉ (autorité registry/plan/humain) — s'il est fourni, les
+   *  occurrences sont RE-COMPTÉES sur les chapitres (surface + alias) et les
+   *  entrées extraites hors cast deviennent unknownCandidates. */
+  readonly validatedCast?: readonly string[];
+  /** Alias canoniques (surface → canonical) — comptés avec leur canonique. */
+  readonly aliases?: readonly { readonly surface: string; readonly canonical: string }[];
   readonly seedLedger: readonly SeedLedgerRow[];
   readonly chapterFunctions: readonly ChapterFunctionRow[];
   readonly tics: readonly TicRow[];
@@ -88,6 +108,38 @@ export function buildNarrativeGenome(input: GenomeInput): GenomeResult<Narrative
       fn: fnByChapter.get(c.chapter) ?? 'UNKNOWN',
     }));
 
+  /* ── Cast (NCR-MYC-001) : validé = autorité ; extrait = marqué + séparé ── */
+  const aliases = [...(input.aliases ?? [])].sort((a, b) => compareStrings(a.surface, b.surface));
+  const escapeRe = (s: string): string => s.replace(/[.*+?^${}()|[\]\\]/gu, '\\$&');
+  const countIn = (name: string): { occurrences: number; firstChapter: number } => {
+    // occurrences = surface canonique + tous ses alias, re-comptés sur la prose.
+    const surfaces = [name, ...aliases.filter((a) => a.canonical === name).map((a) => a.surface)];
+    let total = 0;
+    let first = Number.MAX_SAFE_INTEGER;
+    for (const c of [...input.chapters].sort((a, b) => a.chapter - b.chapter)) {
+      const prose = c.prose.normalize('NFC');
+      for (const s of surfaces) {
+        const re = new RegExp(`(?<!\\p{L})${escapeRe(s)}(?!['’\\p{L}])`, 'gu');
+        const n = (prose.match(re) ?? []).length;
+        if (n > 0) { total += n; first = Math.min(first, c.chapter); }
+      }
+    }
+    return { occurrences: total, firstChapter: first === Number.MAX_SAFE_INTEGER ? 0 : first };
+  };
+
+  const castSource: CastSource = input.validatedCast !== undefined ? 'VALIDATED' : 'EXTRACTED_UNVALIDATED';
+  const cast = input.validatedCast !== undefined
+    ? [...input.validatedCast].sort(compareStrings).map((name) => ({ name, ...countIn(name) }))
+    : [...input.cast].map((c) => ({ name: c.name, occurrences: c.occurrences, firstChapter: c.firstChapter })).sort((a, b) => compareStrings(a.name, b.name));
+  const castNames = new Set(cast.map((c) => c.name));
+  const aliasSurfaces = new Set(aliases.map((a) => a.surface));
+  const unknownCandidates = input.validatedCast !== undefined
+    ? [...input.cast]
+        .filter((c) => !castNames.has(c.name) && !aliasSurfaces.has(c.name))
+        .map((c) => ({ name: c.name, occurrences: c.occurrences }))
+        .sort((a, b) => b.occurrences - a.occurrences || compareStrings(a.name, b.name))
+    : [];
+
   const payload = {
     schema: NARRATIVE_GENOME_SCHEMA,
     book: {
@@ -95,9 +147,10 @@ export function buildNarrativeGenome(input: GenomeInput): GenomeResult<Narrative
       chapters: chapterMap.length,
       words: chapterMap.reduce((s, c) => s + c.words, 0),
     },
-    cast: [...input.cast]
-      .map((c) => ({ name: c.name, occurrences: c.occurrences, firstChapter: c.firstChapter }))
-      .sort((a, b) => compareStrings(a.name, b.name)),
+    castSource,
+    cast,
+    aliases,
+    unknownCandidates,
     seedLedger: [...input.seedLedger]
       .map((s) => ({ seed: s.seed, planted: String(s.plantedChapter), payoff: String(s.payoffChapter), recalls: s.recallChapters.length }))
       .sort((a, b) => compareStrings(a.seed, b.seed)),

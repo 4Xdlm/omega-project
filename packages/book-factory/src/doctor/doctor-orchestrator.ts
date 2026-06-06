@@ -67,6 +67,7 @@ function summarize(audit: DoctorAudit, chapters: readonly ChapterSlice[]): Docto
     chapterSignals: audit.chapterSignals.length,
     ticsFailShadow: audit.tics.rows.filter((r) => r.level === 'FAIL_SHADOW').length,
     seedsUnpaid: audit.arc.seedLedger.filter((s) => s.payoffChapter === 'UNPAID' && s.plantedChapter !== 'ABSENT').length,
+    seedsUncertain: audit.arc.seedLedger.filter((s) => s.payoffChapter === 'UNCERTAIN_LATE_RECALL' && s.plantedChapter !== 'ABSENT').length, // NCR-MYC-001
     brokenStitches: detectBrokenStitches(chapters).length, // NCR-C11-001
   };
 }

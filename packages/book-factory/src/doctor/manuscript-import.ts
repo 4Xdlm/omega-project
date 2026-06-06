@@ -106,6 +106,13 @@ function levenshteinLe2(a: string, b: string): boolean {
   return (dp[b.length] ?? 99) <= 2;
 }
 
+/** NCR-MYC-001 : tokens de STRUCTURE et onomatopées capitalisées — JAMAIS des
+ *  personnages (« Acte » ×46 avalé comme membre du cast sur le 88k, vu sur pièce). */
+const STRUCTURAL_STOPLIST: ReadonlySet<string> = new Set([
+  'Acte', 'Chapitre', 'Partie', 'Prologue', 'Épilogue', 'Epilogue', 'Scène', 'Livre', 'Tome', 'Interlude',
+  'Clac', 'Boum', 'Crac', 'Vlan', 'Toc', 'Bam', 'Paf',
+]);
+
 export function detectCast(chapters: readonly ChapterSlice[], minOccurrences = 3): readonly CastEntry[] {
   const NAME_RE = /(?<!\p{L})([A-ZÀÂÉÈÊËÎÏÔÛÙÜ][a-zàâçéèêëîïôûùüÿ]{2,}(?:-[A-ZÀÂÉÈÊËÎÏÔÛÙÜ][a-zàâçéèêëîïôûùüÿ]{2,})?)(?!['’\p{L}])/gu;
   const lowercaseVocab = new Set<string>();
@@ -121,7 +128,7 @@ export function detectCast(chapters: readonly ChapterSlice[], minOccurrences = 3
     NAME_RE.lastIndex = 0;
     while ((m = NAME_RE.exec(prose)) !== null) {
       const name = m[1];
-      if (name === undefined || lowercaseVocab.has(name.toLowerCase())) continue;
+      if (name === undefined || lowercaseVocab.has(name.toLowerCase()) || STRUCTURAL_STOPLIST.has(name)) continue;
       const cur = counts.get(name);
       if (cur === undefined) counts.set(name, { occurrences: 1, firstChapter: c.chapter });
       else cur.occurrences += 1;

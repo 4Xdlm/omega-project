@@ -152,6 +152,8 @@ export interface DoctorAuditSummary {
   readonly chapterSignals: number;
   readonly ticsFailShadow: number;
   readonly seedsUnpaid: number;
+  /** NCR-MYC-001 : recall tardif sans marqueur = incertain, JAMAIS un faux UNPAID dur. */
+  readonly seedsUncertain: number;
   /** NCR-C11-001 : les coutures cassées SONT une métrique du résumé —
    *  c'était le trou qui rendait les compteurs avant/après illisibles. */
   readonly brokenStitches: number;

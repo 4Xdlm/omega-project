@@ -192,7 +192,12 @@ export function analyzeArcCoherence(
     };
   });
 
-  /* ── 3. MYSTERY LEDGER — seed → planted / recalls / payoff ───────────── */
+  /* ── 3. MYSTERY LEDGER — seed → planted / recalls / payoff 3 ÉTATS ───── */
+  // NCR-MYC-001 : un recall dans le DERNIER QUINTILE sans marqueur de révélation
+  // = UNCERTAIN_LATE_RECALL (le dénouement solde probablement le fil — le proxy
+  // lexical ne sait pas le lire). UNPAID dur = fil réellement abandonné.
+  const maxChapter = Math.max(...chapters.map((c) => c.chapter));
+  const lateThreshold = maxChapter - Math.ceil(maxChapter / 5); // dernier quintile
   const seedLedger: SeedLedgerRow[] = [];
   for (const seed of [...seeds].sort(compareStrings)) {
     const seedRe = new RegExp(`\\b${seed.toLowerCase()}\\b`, 'u');
@@ -207,12 +212,12 @@ export function analyzeArcCoherence(
     }
     const planted = present.length > 0 ? (present[0] as number) : ('ABSENT' as const);
     const lastReveal = revealAt.length > 0 ? (revealAt[revealAt.length - 1] as number) : undefined;
-    seedLedger.push({
-      seed,
-      plantedChapter: planted,
-      recallChapters: present.slice(1),
-      payoffChapter: lastReveal !== undefined && planted !== 'ABSENT' && lastReveal > planted ? lastReveal : 'UNPAID',
-    });
+    const lastRecall = present.length > 0 ? (present[present.length - 1] as number) : undefined;
+    let payoff: number | 'UNPAID' | 'UNCERTAIN_LATE_RECALL';
+    if (lastReveal !== undefined && planted !== 'ABSENT' && lastReveal > planted) payoff = lastReveal;
+    else if (lastRecall !== undefined && planted !== 'ABSENT' && lastRecall > planted && lastRecall > lateThreshold) payoff = 'UNCERTAIN_LATE_RECALL';
+    else payoff = 'UNPAID';
+    seedLedger.push({ seed, plantedChapter: planted, recallChapters: present.slice(1), payoffChapter: payoff });
   }
 
   return ok({ identityDrifts, chapterFunctions, seedLedger });

@@ -4,6 +4,8 @@ import { describe, it, expect } from 'vitest';
 
 import { buildNarrativeGenome, sameWork, NARRATIVE_GENOME_SCHEMA } from '../src/mycelium-export/narrative-genome.js';
 import type { GenomeInput } from '../src/mycelium-export/narrative-genome.js';
+import { analyzeArcCoherence } from '../src/coherence/arc-coherence.js';
+import { detectCast } from '../src/doctor/manuscript-import.js';
 
 function mkInput(): GenomeInput {
   return {
@@ -78,5 +80,58 @@ describe('C12 narrative-genome (BF-13)', () => {
 
   it('ADV — livre vide = erreur typée', () => {
     expect(buildNarrativeGenome({ ...mkInput(), chapters: [] }).ok).toBe(false);
+  });
+});
+
+describe('NCR-MYC-001 — l\'ADN ne grave que du validé', () => {
+  it('INV-MYC-001 — validatedCast : provenance VALIDATED, alias comptés, inconnus SÉPARÉS, stoplist active', () => {
+    const input: GenomeInput = {
+      title: 'T', chapters: [
+        { chapter: 1, prose: 'Acte premier. Le gardien montait la lampe. Henri lisait son carnet. Clac ! La porte claqua sur Fresnel.' },
+        { chapter: 2, prose: 'Le gardien revint vers Henri. Léna observait la mer grise du quai. Acte deux commence.' },
+      ],
+      cast: [
+        { name: 'Acte', occurrences: 46, firstChapter: 1, nearVariants: [] }, // fantôme structurel
+        { name: 'Fresnel', occurrences: 3, firstChapter: 1, nearVariants: [] }, // objet technique
+        { name: 'Henri', occurrences: 2, firstChapter: 1, nearVariants: [] },
+        { name: 'Léna', occurrences: 1, firstChapter: 2, nearVariants: [] },
+      ],
+      validatedCast: ['Henri', 'Léna'],
+      aliases: [{ surface: 'gardien', canonical: 'Henri' }],
+      seedLedger: [], chapterFunctions: [], tics: [],
+    };
+    const g = buildNarrativeGenome(input);
+    expect(g.ok).toBe(true);
+    if (!g.ok) return;
+    expect(g.value.castSource).toBe('VALIDATED');
+    expect(g.value.cast.map((c) => c.name)).toEqual(['Henri', 'Léna']); // AUCUN fantôme
+    const henri = g.value.cast.find((c) => c.name === 'Henri');
+    expect(henri?.occurrences).toBe(4); // Henri×2 + gardien×2 (alias compté)
+    expect(g.value.unknownCandidates.map((u) => u.name)).toContain('Fresnel'); // séparé, pas gravé au cast
+    expect(g.value.unknownCandidates.map((u) => u.name)).toContain('Acte');
+    expect(g.value.aliases[0]?.canonical).toBe('Henri');
+  });
+
+  it('INV-MYC-002 — ledger 3 états : recall tardif sans marqueur = UNCERTAIN, jamais faux UNPAID dur', () => {
+    const mk = (ch: number, prose: string) => ({ chapter: ch, prose });
+    const chapters = [
+      mk(1, 'Rien ici sur la digue grise du matin.'), mk(2, 'La lettre apparut sous la porte close. Le registre dormait à la mairie.'),
+      mk(3, 'Marin marchait.'), mk(4, 'Le registre fut mentionné une dernière fois ce soir-là.'), mk(5, 'Rien.'),
+      mk(6, 'Rien encore.'), mk(7, 'Toujours rien.'), mk(8, 'Rien.'),
+      mk(9, 'Elle rangea la lettre dans le coffre, sans un mot de plus.'), mk(10, 'Fin du livre sur le quai.'),
+    ];
+    const r = analyzeArcCoherence(chapters, { seeds: ['lettre', 'registre'] });
+    expect(r.ok).toBe(true);
+    if (!r.ok) return;
+    const lettre = r.value.seedLedger.find((s) => s.seed === 'lettre');
+    expect(lettre?.payoffChapter).toBe('UNCERTAIN_LATE_RECALL'); // recall ch.9 = dernier quintile (>8)
+    const registre = r.value.seedLedger.find((s) => s.seed === 'registre');
+    expect(registre?.payoffChapter).toBe('UNPAID'); // dernier recall ch.4 = abandon réel
+  });
+
+  it('INV-MYC-003 — stoplist structurelle : Acte/Clac jamais dans detectCast', () => {
+    const ch = [{ chapter: 1, title: 't', prose: 'Acte un. Clac ! Acte deux. Clac ! Acte trois. Clac ! Henri lisait. Henri dormait. Henri rêvait.', words: 18 }];
+    const cast = detectCast(ch, 3);
+    expect(cast.map((c) => c.name)).toEqual(['Henri']);
   });
 });

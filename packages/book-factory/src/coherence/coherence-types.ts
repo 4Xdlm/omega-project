@@ -93,12 +93,18 @@ export interface ChapterFunctionRow {
   readonly noveltyVsPrev: number;
 }
 
-/** Mystery ledger — un seed planté doit être payé (UNPAID = signal, jamais silencieux). */
+/** Mystery ledger — un seed planté doit être payé. TROIS états de payoff
+ *  (NCR-MYC-001) : numéro de chapitre = PAID (marqueur de révélation trouvé) ;
+ *  'UNCERTAIN_LATE_RECALL' = rappelé dans le DERNIER QUINTILE du livre sans
+ *  marqueur — ambiguïté STRUCTURELLE (un fil actif en fin de livre est
+ *  probablement soldé par le dénouement, le proxy lexical ne sait pas le lire) ;
+ *  'UNPAID' = fil réellement abandonné. Règle principielle, PAS fittée au 88k :
+ *  leçon des faux-UNPAID lettre/registre — l'ADN ne grave jamais un faux dur. */
 export interface SeedLedgerRow {
   readonly seed: string;
   readonly plantedChapter: number | 'ABSENT';
   readonly recallChapters: readonly number[];
-  readonly payoffChapter: number | 'UNPAID';
+  readonly payoffChapter: number | 'UNPAID' | 'UNCERTAIN_LATE_RECALL';
 }
 
 export interface ArcCoherenceReport {

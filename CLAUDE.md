@@ -1,5 +1,14 @@
 # OMEGA — IA OPERATIONS MANUAL
-**Version**: v3.163.0 | **Standard**: NASA-Grade L4 / DO-178C Level A
+**Version**: v3.164.0 | **Standard**: NASA-Grade L4 / DO-178C Level A
+
+---
+
+## ⚡ ENTRÉE OBLIGATOIRE — LIVRE MAÎTRE (2026-06-06, mandat Architecte)
+
+**AVANT toute action OMEGA, lire** : [`nexus/proof/OMEGA_MASTER_RECONCEPTUALIZATION/00_READ_ME_FIRST.md`](nexus/proof/OMEGA_MASTER_RECONCEPTUALIZATION/00_READ_ME_FIRST.md)
+puis suivre le rituel de [`10_REPRISE_PROTOCOL.md`](nexus/proof/OMEGA_MASTER_RECONCEPTUALIZATION/10_REPRISE_PROTOCOL.md) :
+résoudre la demande en **Concept-IDs** (`02_CONCEPT_LEDGER.md`) → mode produit (`03`) → modules (`04`+`07`) → décisions/lois (`05`+`06`) → répondre en déclarant **FOUND_EXISTING** ou **NEW_CONCEPT**.
+Toute proposition sans citation du Concept Ledger = **HORS PROTOCOLE**. Toute session se clôt par la mise à jour des ledgers (SESSION_SAVE_RITUAL). Un concept doté d'une adresse ne peut plus JAMAIS être « redécouvert ».
 
 ---
 

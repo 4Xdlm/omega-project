@@ -1,0 +1,25 @@
+{
+  "name": "@omega/book-factory",
+  "version": "0.0.1",
+  "description": "OMEGA Book-Factory — long-form orchestration. P0.6 epistemic integration probe. Additive ACL over canon-kernel + truth-gate. ZERO mutation of consumed packages.",
+  "type": "module",
+  "private": true,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@omega/canon-kernel": "file:../canon-kernel",
+    "@omega/truth-gate": "file:../truth-gate"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.0",
+    "vitest": "^4.0.17"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

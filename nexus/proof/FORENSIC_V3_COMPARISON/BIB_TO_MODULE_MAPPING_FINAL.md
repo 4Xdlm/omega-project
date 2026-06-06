@@ -1,0 +1,12 @@
+# BIB_* → MODULES RÉELS — MAPPING FINAL (closeout, 2 instruments croisés)
+
+**Doctrine source** : Codex v1.3.x C4 (`...v1-3-1.md:1384` / v1-3-3 idem) — 4 bibliothèques à statut explicite. **Constat ✓✓** : BIB_* = zéro code (seule occurrence = la ligne Codex). Les SUBSTRATS existent, ÉCLATÉS. Aucun « swarm » fédéré, aucun agent dormant autonome (CC 03_SUBAGENTS : « dormant-as-data = yes ; dormant-as-autonomous-agent = NO »).
+
+| Bibliothèque (doctrine) | Substrat CODÉ (état) | Spec/design associé | Gap pour la cible Architecte |
+|---|---|---|---|
+| **BIB_WORLD** | `gateway/memory_layer_nasa` store+query+snapshot (SEALED Ph.8-10D, **ORPHAN**, délestage non exporté) ; `nexus/ledger` project(entityId) ; `nexus/atlas` vues/requêtes ; `nexus/raw` persistance chiffrée ; `ripple_engine` propagation (DORMANT) ; ancêtres `OMEGA_PHASE18/20_*` (SNAPSHOT→MUSEUM) | MASTER_PLAN §8.3 (MEMORY_* implémentés ; CONTEXT_RESOLUTION/ACTIVE_INVENTORY/GARBAGE_COLLECTOR/COST_LEDGER = 0 .ts) ; DEC-20260325-001 4/4 « World Model » | ACL read-only (D1) + câblage Recall |
+| **BIB_CHARACTER** | `CanonFact FactType CHARACTER` (gateway, DORMANT) ; `book-canon-adapter` knows/isLie JTB (13 tests, **hors boucle prod** — CC V3) ; `story-state.characters` ; gematria/merkle mycelium-bio (empreintes, PAS identité stable) | `CHARACTER_KNOWLEDGE_GRAPH_SPEC.md` (doc-only) ; INTENT_LOCK spec (0 .ts) | **CharacterRegistry mint-once + alias (D3) + Recall Bus mention→RecallPack (CREATE)** |
+| **BIB_STYLE** | `voice/voice-genome.ts` (V1 frozen, V2) ; personas FP+Duras (chunked-generator, lore-coding L3) ; style-emergence-engine (417 TS) ; `src/oracle/muse/` **partiellement codé (correction autoaudit)** | OMEGA_BLUEPRINT_JUGE_SCRIBE §B3 ; CNC-101 STYLE_LIVING_SIGNATURE (design) ; MIMESIS+ (0 .ts) | câblage si R6 V2 ; rien pour V1 |
+| **BIB_PLOT** | `genesis-planner` (beats/arcs/subtext per-scène) ; `book-planner` (actes/pacing/seeds, 8 tests) ; `story-state.payoff_graph` (OVERDUE cross-chap) | SAGA_CONTRACT inter-livres (0 .ts) ; NARRATIVE_FLOW_CONTROLLER (organe, design) | extracteur prose→événements (CREATE, composant Double-Bible) |
+
+**Lignage 2 ères (constat ✓✓ des 2 instruments)** : ère janv.-2026 (organes→gateway Phases 7-10, codé certifié puis DORMANT) → pivot métrologie → ère juin-2026 (book-factory re-décide ADAPT-not-rebuild et ré-implémente partiellement). L'ADR R2 doit UNIFIER : book-factory comme façade vivante, gateway comme substrat ADAPT-via-ACL, doctrine BIB_ comme nomenclature des vues (pas 4 nouveaux modules).

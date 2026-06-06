@@ -10,10 +10,10 @@
  * probables ⇒ exclus de la dérive de rôle (bruit de co-occurrence).
  */
 
-import type { ChapterSlice, DoctorAudit, DoctorAuditSummary, DoctorReport, DoctorResult } from './doctor-types.js';
+import type { ChapterSlice, DoctorAudit, DoctorAuditSummary, DoctorReport, DoctorResult, TargetedProof } from './doctor-types.js';
 import { importManuscript } from './manuscript-import.js';
 import type { ImportOptions } from './manuscript-import.js';
-import { buildRepairPlan } from './repair-planner.js';
+import { buildRepairPlan, detectBrokenStitches } from './repair-planner.js';
 import type { PlannerOverrides } from './repair-planner.js';
 import { executeRepairs } from './repair-executor.js';
 import type { ExecutorOptions } from './repair-executor.js';
@@ -60,14 +60,22 @@ export function runDoctorAudit(
   return ok({ physics, chapterSignals, arc: arcR.value, tics: ticsR.value });
 }
 
-function summarize(audit: DoctorAudit): DoctorAuditSummary {
+function summarize(audit: DoctorAudit, chapters: readonly ChapterSlice[]): DoctorAuditSummary {
   return {
     identityDrifts: audit.arc.identityDrifts.length,
     physicsSignals: audit.physics.length,
     chapterSignals: audit.chapterSignals.length,
     ticsFailShadow: audit.tics.rows.filter((r) => r.level === 'FAIL_SHADOW').length,
     seedsUnpaid: audit.arc.seedLedger.filter((s) => s.payoffChapter === 'UNPAID' && s.plantedChapter !== 'ABSENT').length,
+    brokenStitches: detectBrokenStitches(chapters).length, // NCR-C11-001
   };
+}
+
+/** NCR-C11-001 : compte exact d'une cible textuelle (nom propre ou littéral). */
+function countTarget(text: string, target: string, asName: boolean): number {
+  const esc = target.replace(/[.*+?^${}()|[\]\\]/gu, '\\$&');
+  const re = asName ? new RegExp(`(?<!\\p{L})${esc}(?!['’\\p{L}])`, 'gu') : new RegExp(esc, 'gu');
+  return (text.match(re) ?? []).length;
 }
 
 /** Ré-assemble le manuscrit réparé en conservant le format d'origine au mieux. */
@@ -110,12 +118,45 @@ export async function runDoctor(manuscript: string, opts: DoctorOptions = {}): P
   const after = runDoctorAudit(reImp.value.chapters, protagonists, seeds);
   if (!after.ok) return after;
 
+  // NCR-C11-001 : preuve CIBLÉE par action mécanique appliquée.
+  const targetedProof: TargetedProof[] = [];
+  for (const a of applied) {
+    if (!a.applied) continue;
+    if (a.action.kind === 'UNIFY_IDENTITY' || a.action.kind === 'UNIFY_LOCATION') {
+      for (const from of a.action.replace) {
+        targetedProof.push({ label: `« ${from} » (→ ${a.action.keep})`, before: countTarget(manuscript, from, true), after: countTarget(repaired, from, true) });
+      }
+    } else if (a.action.kind === 'FIX_BROKEN_STITCH') {
+      const ch = a.action.chapter;
+      const frag = a.action.danglingFragment;
+      const afterSlices = reImp.value.chapters.filter((c) => c.chapter === ch);
+      targetedProof.push({
+        label: `couture ch.${ch} « ${frag} »`,
+        before: 1, // détectée à l'audit before par construction
+        after: detectBrokenStitches(afterSlices).filter((s) => s.danglingFragment === frag).length,
+      });
+    } else if (a.action.kind === 'SIGNAL' && a.action.detail.startsWith('littéral')) {
+      const m = /littéral « (.+?) » → « (.+?) »/u.exec(a.action.detail);
+      if (m?.[1] !== undefined) {
+        targetedProof.push({ label: `littéral « ${m[1]} »`, before: countTarget(manuscript, m[1], false), after: countTarget(repaired, m[1], false) });
+      }
+    }
+  }
+
+  // NCR-C11-001 : dérives RÉSIDUELLES nommées (pourquoi identityDrifts reste >0).
+  const residualDrifts = after.value.arc.identityDrifts.map((d) => ({
+    role: d.role,
+    names: d.names.map((n) => `${n.name}×${n.occurrences}`),
+  }));
+
   return ok({
     import: { strategy, chapters: chapters.length, words: totalWords },
-    auditBefore: summarize(before.value),
+    auditBefore: summarize(before.value, chapters),
     plan,
     applied,
-    auditAfter: summarize(after.value),
+    auditAfter: summarize(after.value, reImp.value.chapters),
+    targetedProof,
+    residualDrifts,
     repairedProse: reassemble(manuscript, chapters, repaired),
   });
 }

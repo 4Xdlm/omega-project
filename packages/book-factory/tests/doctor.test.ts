@@ -154,3 +154,20 @@ describe('C11.3 orchestrateur E2E (synthétique)', () => {
     expect(a).toBe(b);
   });
 });
+
+describe('C11.4 NCR-C11-001 — métriques avant/après lisibles', () => {
+  it('INV-DOC-010 — coutures dans le résumé + preuve ciblée avant/après', async () => {
+    const r = await runDoctor(mkManuscript(), { protagonistTopK: 1 });
+    expect(r.ok).toBe(true);
+    if (!r.ok) return;
+    expect(r.value.auditBefore.brokenStitches).toBeGreaterThanOrEqual(1);
+    expect(r.value.auditAfter.brokenStitches).toBe(0); // la couture réparée DISPARAÎT du résumé
+    const stitchProof = r.value.targetedProof.find((p) => p.label.includes('couture'));
+    expect(stitchProof?.before).toBe(1);
+    expect(stitchProof?.after).toBe(0);
+    const unifyProof = r.value.targetedProof.find((p) => p.label.includes('→'));
+    expect(unifyProof).toBeDefined();
+    expect(unifyProof?.after).toBe(0); // le nom remplacé n'existe plus
+    expect(unifyProof?.before).toBeGreaterThan(0);
+  });
+});

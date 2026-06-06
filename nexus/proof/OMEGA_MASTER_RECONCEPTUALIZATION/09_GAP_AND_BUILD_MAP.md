@@ -6,8 +6,8 @@ REUSE : toute la chaîne C0→C9, juges APPROVED, extension cousue. EXTEND : **c
 ## REWRITE_DOCTOR — ✅ ASSEMBLÉ C11 (2026-06-06, E2E PASS sur 88k)
 FAIT : orchestrateur `src/doctor/` (import 4 stratégies + casting auto + audit C9 + plan MECHANICAL_SAFE/SURGICAL_LLM-gated/SIGNAL_ONLY + executor diffé + re-audit) — 11 tests ; E2E : égale puis DÉPASSE le V1 manuel (3ᵉ couture ch.47 inédite). Garde-fous : dérive confuse ⇒ SIGNAL+décision humaine (GO_B incarné). RESTE (V2) : exécution SURGICAL réelle via port LLM gated ; branchement rewritePrompt V2.3 sur les packets ; import UI ; heuristique primitif-rare (lieu-double sous seuil).
 
-## MYCELIUM_DNA
-REUSE : genome SEALED (hash déterministe), structures 2026-06 (journal identité, Bible projetée, admissions, seedLedger, fonctions chapitres, tics). CREATE : exporteur narratif → schéma génome versionné (BF-13) ; test d'unicité/reproductibilité sur le 88k (même livre ⇒ même hash ; livre modifié ⇒ hash différent). ADAPT : réconcilier dna.ts (UI) avec genome (backend). Livrable : MYCELIUM_EXPORT_60K.json + viz phase 17 plus tard.
+## MYCELIUM_DNA — ✅ EXPORT NARRATIF LIVRÉ C12 (2026-06-06, BF-13 prouvé)
+FAIT : `src/mycelium-export/narrative-genome.ts` (NARRATIVE_GENOME_V1 : cast+ledger+fonctions+tics+contentHash/chap+admissions, hash canon-kernel) — 5 tests ; E2E 88k : reproductibilité ✓ (même hash ×2), unicité ✓ (V0≠DOCTOR_V1), chaîne 50 admissions. Artefacts : MYCELIUM_EXPORT_V0.json / _DOCTOR_V1.json / MYCELIUM_PROOF.json. RESTE (V2) : fusion avec l'ADN émotionnel (format binaire genome SEALED, Emotion14), réconciliation dna.ts (UI), visualisation UI MYCELIUM (phase 17).
 
 ## MIXER_CONTROL
 REUSE : lois Rosetta (registre PILOTABLE), 16 émotions M/λ/κ, leviers sélection (pondérations hostile-selection, seuils gates, profils/amorces, contrat plan). CREATE : potards-engine = table potard→{leviers, features mesurées, bornes, rapport} (BF-10), preset « tension/peur/mystère » premiers. INTERDIT : potard→prompt-coaching (BF-15/ADR-003). Critère : bench A/B potard ON/OFF avec δ mesuré sur les features cibles.

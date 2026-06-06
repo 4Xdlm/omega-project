@@ -123,12 +123,25 @@ export interface DoctorAudit {
   readonly tics: TicsReport;
 }
 
+/** Preuve CIBLÉE par réparation (NCR-C11-001) : compte exact avant/après de la
+ *  cible textuelle — la métrique qui prouve chaque action mécanique appliquée. */
+export interface TargetedProof {
+  readonly label: string; // ex. « Thomas (→ Henri) », « couture ch.47 « qu » »
+  readonly before: number;
+  readonly after: number;
+}
+
 export interface DoctorReport {
   readonly import: { readonly strategy: SplitStrategy; readonly chapters: number; readonly words: number };
   readonly auditBefore: DoctorAuditSummary;
   readonly plan: RepairPlan;
   readonly applied: readonly AppliedRepair[];
   readonly auditAfter: DoctorAuditSummary;
+  /** NCR-C11-001 : une ligne de preuve par réparation mécanique appliquée. */
+  readonly targetedProof: readonly TargetedProof[];
+  /** NCR-C11-001 : dérives résiduelles APRÈS réparation, avec leurs noms —
+   *  explique pourquoi identityDrifts peut rester >0 (bruit advisory assumé). */
+  readonly residualDrifts: readonly { readonly role: string; readonly names: readonly string[] }[];
   /** V1 réparée — la V0 n'est JAMAIS modifiée (doctrine versioning). */
   readonly repairedProse: string;
 }
@@ -139,6 +152,9 @@ export interface DoctorAuditSummary {
   readonly chapterSignals: number;
   readonly ticsFailShadow: number;
   readonly seedsUnpaid: number;
+  /** NCR-C11-001 : les coutures cassées SONT une métrique du résumé —
+   *  c'était le trou qui rendait les compteurs avant/après illisibles. */
+  readonly brokenStitches: number;
 }
 
 export type DoctorErrorCode = 'EMPTY_MANUSCRIPT' | 'IMPORT_FAILED' | 'AUDIT_FAILED';

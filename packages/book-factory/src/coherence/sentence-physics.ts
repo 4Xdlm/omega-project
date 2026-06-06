@@ -31,8 +31,12 @@ import { err, ok } from '../identity/identity-types.js';
 const SHOD_RE = /\b(enfile|met|remet|rechausse|lace|laça)\b[^.!?…]{0,40}\b(bottes?|chaussures?|souliers?|sandales?)\b|\b(ses|les)\s+(bottes?|chaussures?|souliers?)\s+(aux\s+pieds|lacées?)\b|\ben\s+bottes?\b/u;
 /** Mention de chaussures portées (établissement faible — porteur probable). */
 const SHOD_WEAK_RE = /\b(ses|sa|son)\s+(bottes?|chaussures?|souliers?|sandales?)\b/u;
-/** Retrait légal — autorise la transition vers BAREFOOT. */
-const UNSHOD_RE = /\b(retire|enlève|ôte|ota|déchausse|arrache)\b[^.!?…]{0,40}\b(bottes?|chaussures?|souliers?|sandales?)\b|\bse\s+déchausse\b/u;
+/** Retrait légal — autorise la transition vers BAREFOOT. Couvre présent, passé
+ *  simple ET formes composées (« a ôté », « avait retiré »). ATTENTION : \b de
+ *  JS ne fonctionne PAS devant une lettre accentuée (« ôté » n'a jamais de word
+ *  boundary) — lookarounds \p{L} obligatoires (trou attrapé sur la réparation
+ *  V1 du 60k : « Elle a ôté ses bottes » non reconnu par la version \b). */
+const UNSHOD_RE = /(?<!\p{L})(retire|enlève|ôte|ota|ôté|retiré|enlevé|déchausse|déchaussée?|arrache|arraché)(?!\p{L})[^.!?…]{0,40}(?<!\p{L})(bottes?|chaussures?|souliers?|sandales?)(?!\p{L})|se\s+déchausse|s[''](?:est\s+)?déchaussée?(?!\p{L})/u;
 /** État PIEDS NUS observé. */
 const BAREFOOT_RE = /\bpieds?\s+nus?\b/u;
 

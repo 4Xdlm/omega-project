@@ -37,6 +37,14 @@ describe('C9.1 sentence-physics (niveau PHRASE)', () => {
     expect(r.value.filter((s) => s.kind === 'FOOTWEAR_CONTRADICTION').length).toBe(0);
   });
 
+  it('INV-PHYS-001d — retrait au PASSE COMPOSE reconnu (phrase de reparation V1 du 60k)', () => {
+    const v1 = 'Ses bottes claquent sur le carrelage. Elle a ôté ses bottes sur le seuil. Elle avance pieds nus, les semelles abandonnées contre la porte.';
+    const r = scanSentencePhysics(v1, 1);
+    expect(r.ok).toBe(true);
+    if (!r.ok) return;
+    expect(r.value.filter((s) => s.kind === 'FOOTWEAR_CONTRADICTION').length).toBe(0);
+  });
+
   it('INV-PHYS-001c — la relique descriptive (« la semelle de ses bottes ») après pieds nus ne rétablit pas SHOD', () => {
     const text = 'Elle retire ses bottes. Elle avance pieds nus. La semelle de ses bottes pendait encore à la porte. Elle marche toujours pieds nus vers la cuisine.';
     const r = scanSentencePhysics(text, 1);

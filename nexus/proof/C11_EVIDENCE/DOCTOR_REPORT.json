@@ -1,0 +1,161 @@
+{
+  "import": {
+    "strategy": "OMEGA_HEADINGS",
+    "chapters": 50,
+    "words": 87837
+  },
+  "auditBefore": {
+    "identityDrifts": 2,
+    "physicsSignals": 6,
+    "chapterSignals": 38,
+    "ticsFailShadow": 40,
+    "seedsUnpaid": 2
+  },
+  "auditAfter": {
+    "identityDrifts": 2,
+    "physicsSignals": 6,
+    "chapterSignals": 38,
+    "ticsFailShadow": 40,
+    "seedsUnpaid": 2
+  },
+  "plan": {
+    "mechanical": 5,
+    "surgical": 1,
+    "signal": 12,
+    "actions": [
+      {
+        "kind": "UNIFY_IDENTITY",
+        "keep": "Henri",
+        "replace": [
+          "Thomas"
+        ],
+        "evidence": "rôle « gardien » — unification IMPOSÉE par l'éditeur (GO_B) : Thomas → Henri"
+      },
+      {
+        "kind": "SIGNAL",
+        "topic": "LOCATION_JUMP",
+        "count": 6,
+        "detail": "dérive « village » sans marqueur direct exploitable (Thomas/Squarcioni/Henri/Marchetti/Ker-Morvan/Dubois) — re"
+      },
+      {
+        "kind": "UNIFY_LOCATION",
+        "keep": "Ker-Morvan",
+        "replace": [
+          "Saint-Marc"
+        ],
+        "evidence": "override éditorial"
+      },
+      {
+        "kind": "FIX_BROKEN_STITCH",
+        "chapter": 1,
+        "fragment": "l",
+        "excerpt": ", sort son couteau suisse. Le métal est froid, luisant. Elle l ¶"
+      },
+      {
+        "kind": "FIX_BROKEN_STITCH",
+        "chapter": 16,
+        "fragment": "l",
+        "excerpt": "chée. Quelqu'un savait que cette capsule n'appartenait pas à l ¶"
+      },
+      {
+        "kind": "FIX_BROKEN_STITCH",
+        "chapter": 47,
+        "fragment": "qu",
+        "excerpt": "est mort dans le naufrage, n'était pas mort. Il a découvert qu ¶"
+      },
+      {
+        "kind": "SURGICAL_REWRITE",
+        "chapter": 1,
+        "reason": "FOOTWEAR_CONTRADICTION"
+      },
+      {
+        "kind": "SIGNAL",
+        "topic": "DOOR",
+        "count": 1,
+        "detail": "DOOR_REOPENED ch.2 : Elle poussa la porte, l'air intérieur sentait la poussière, le vieux b"
+      },
+      {
+        "kind": "SIGNAL",
+        "topic": "DOOR",
+        "count": 1,
+        "detail": "DOOR_REOPENED ch.2 : Elle poussa le loquet qui bloquait la porte de la chambre de veille, l"
+      },
+      {
+        "kind": "SIGNAL",
+        "topic": "DOOR",
+        "count": 1,
+        "detail": "DOOR_REOPENED ch.21 : La porte s'ouvre lentement, ne révélant que le visage de la femme."
+      },
+      {
+        "kind": "SIGNAL",
+        "topic": "DOOR",
+        "count": 1,
+        "detail": "DOOR_REOPENED ch.28 : Elle passa devant Garcia, qui ne bougea pas, et ouvrit la porte du sal"
+      },
+      {
+        "kind": "SIGNAL",
+        "topic": "DOOR",
+        "count": 1,
+        "detail": "DOOR_REOPENED ch.36 : Il fit signe à Gaspard de rester en arrière, puis poussa la porte d'un"
+      },
+      {
+        "kind": "SIGNAL",
+        "topic": "GHOST_SPEAKER",
+        "count": 8,
+        "detail": "8 signaux (part de flashbacks/légitimes possible — revue humaine)"
+      },
+      {
+        "kind": "SIGNAL",
+        "topic": "LOCATION_JUMP",
+        "count": 8,
+        "detail": "8 signaux (part de flashbacks/légitimes possible — revue humaine)"
+      },
+      {
+        "kind": "SIGNAL",
+        "topic": "TIME_REGRESSION",
+        "count": 22,
+        "detail": "22 signaux (part de flashbacks/légitimes possible — revue humaine)"
+      },
+      {
+        "kind": "SIGNAL",
+        "topic": "SEED_UNPAID",
+        "count": 1,
+        "detail": "« lettre » planté ch.2 — VÉRIFIER SUR PIÈCE avant d'éditer (précédent : faux-UNPAID lettre/registre)"
+      },
+      {
+        "kind": "SIGNAL",
+        "topic": "SEED_UNPAID",
+        "count": 1,
+        "detail": "« registre » planté ch.7 — VÉRIFIER SUR PIÈCE avant d'éditer (précédent : faux-UNPAID lettre/registre)"
+      },
+      {
+        "kind": "SIGNAL",
+        "topic": "TICS",
+        "count": 40,
+        "detail": "40 tics FAIL_SHADOW (top : « le gardien »×351 · « le silence »×255 · « les yeux »×192) — traitement = cooldown"
+      }
+    ]
+  },
+  "applied": [
+    {
+      "kind": "UNIFY_IDENTITY",
+      "replacements": 16
+    },
+    {
+      "kind": "UNIFY_LOCATION",
+      "replacements": 2
+    },
+    {
+      "kind": "FIX_BROKEN_STITCH",
+      "replacements": 2
+    },
+    {
+      "kind": "FIX_BROKEN_STITCH",
+      "replacements": 1
+    },
+    {
+      "kind": "SIGNAL",
+      "replacements": 1
+    }
+  ]
+}

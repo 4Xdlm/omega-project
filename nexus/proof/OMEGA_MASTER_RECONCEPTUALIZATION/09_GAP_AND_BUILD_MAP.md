@@ -3,8 +3,8 @@
 ## AUTONOMOUS_BOOK
 REUSE : toute la chaîne C0→C9, juges APPROVED, extension cousue. EXTEND : **casting TOTAL obligatoire au plan** (morts/absents/village/géographie/navires + DriftRules — loi issue du 88k), quotas de fonctions dramatiques par acte (anti-72%-TRANSITION), cooldown tics branché aux directives, météo TemporalClaim pilotée. CREATE : entrée « Bible remplie » (IntentPack). HOLD : nouveau run complet interdit avant plan-lock (décision tribunaux 2026-06-06).
 
-## REWRITE_DOCTOR (priorité n°1 produit — le plus proche)
-REUSE : C9 complet (audit), N2 (factuel), doctrine V1 Repair (minimal-intervention prouvée). ADAPT : scanner C2 pour casting AUTO d'un texte importé ; splitChapters arbitraire. EXTEND : rewritePrompt V2.3 branché sur les loci C9 (signal → segment → contrat → régénération ciblée → re-audit). CREATE : orchestrateur doctor (import → audit → plan de réparation → chirurgie → diff → rapport). Critère PASS : un roman externe traité de bout en bout avec diff exhaustif.
+## REWRITE_DOCTOR — ✅ ASSEMBLÉ C11 (2026-06-06, E2E PASS sur 88k)
+FAIT : orchestrateur `src/doctor/` (import 4 stratégies + casting auto + audit C9 + plan MECHANICAL_SAFE/SURGICAL_LLM-gated/SIGNAL_ONLY + executor diffé + re-audit) — 11 tests ; E2E : égale puis DÉPASSE le V1 manuel (3ᵉ couture ch.47 inédite). Garde-fous : dérive confuse ⇒ SIGNAL+décision humaine (GO_B incarné). RESTE (V2) : exécution SURGICAL réelle via port LLM gated ; branchement rewritePrompt V2.3 sur les packets ; import UI ; heuristique primitif-rare (lieu-double sous seuil).
 
 ## MYCELIUM_DNA
 REUSE : genome SEALED (hash déterministe), structures 2026-06 (journal identité, Bible projetée, admissions, seedLedger, fonctions chapitres, tics). CREATE : exporteur narratif → schéma génome versionné (BF-13) ; test d'unicité/reproductibilité sur le 88k (même livre ⇒ même hash ; livre modifié ⇒ hash différent). ADAPT : réconcilier dna.ts (UI) avec genome (backend). Livrable : MYCELIUM_EXPORT_60K.json + viz phase 17 plus tard.

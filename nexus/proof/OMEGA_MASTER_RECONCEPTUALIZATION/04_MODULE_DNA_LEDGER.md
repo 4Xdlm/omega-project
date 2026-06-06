@@ -12,7 +12,8 @@
 | · extraction/ | …/src/extraction | Passes CALC + diffBibles + MapProjection | ACTIVE_RUNTIME | ✓ | DOUBLE-BIBLE |
 | · loop/ | …/src/loop | r6-core N=7, préséance, n2-retry, judge-port, extender, repeat | ACTIVE_RUNTIME | ✓ | R6, JUDGE-CALIBRATION |
 | · coherence/ | …/src/coherence | C9 : phrase/chapitre/arc + tics (ADVISORY) | ACTIVE_RUNTIME | 22 | SKEPTIC incarné |
-| · c7/ | …/src/c7 | Runners : livre, calibration, audits, reselect | BENCH_ONLY (scripts) | — | — |
+| · doctor/ | …/src/doctor | **REWRITE_DOCTOR assemblé (C11)** : import multi-formats, casting auto, plan 3 classes, executor diffé, re-audit | ACTIVE_RUNTIME | 11 | REWRITE-DOCTOR |
+| · c7/ | …/src/c7 | Runners : livre, calibration, audits, reselect, doctor-run | BENCH_ONLY (scripts) | — | — |
 | scribe-engine | packages/scribe-engine | runScribe weave DÉTERMINISTE ; weaveLLM NON câblé (NCR-M0B OPEN) | CODED_NOT_WIRED (LLM path) | ✓ | SCRIBE |
 | sovereign-engine | packages/sovereign-engine | Moteur V1 scellé : oracle 5 axes, K2, duel, gates, voice | ACTIVE (hors chemin book-factory ; V1 SEALED) | 2245+ | ORACLE, VOICE-GENOME |
 | · voice/ | …/src/voice | VoiceGenome 10p + compiler | CODED_NOT_WIRED (pas dans R6 actuel) | ✓ | STYLE-CONTINUATION |

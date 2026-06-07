@@ -1,0 +1,182 @@
+/**
+ * OMEGA — P0-B : buildCanonical(v0, opts) — LE pipeline canonique en FONCTION
+ * testable E2E (GO tribunal 2/2). Plus jamais « 14 exports, 3 rapports
+ * contradictoires » : UNE fonction, UN rapport de propreté TYPÉ, des sceaux
+ * d'auteur BLOQUANTS.
+ *
+ * NIVEAUX DE PROPRETÉ (contrainte ChatGPT — séparer verrouillage et qualité) :
+ *   SYNTAX_CLEAN   — terminateurs/structure (couture résidu 0)
+ *   SEAM_CLEAN     — frontières (scaffold + couture + faux-départs)
+ *   SEMANTIC_CLEAN — guillemets/stems/fin de livre (gate sémantique résidu 0)
+ *   NARRATIVE_CLEAN— tics/redites de fonction/incipits — JAMAIS déclaré propre
+ *                    tant que les saturations persistent (HONNÊTETÉ d'abord)
+ *   AUTHOR_LOCKS_INTACT — toutes les ancres scellées présentes ; ancre cassée
+ *                    = UNRESOLVED_LOCK = BUILD FAIL (le sceau est une gate).
+ */
+
+import { sha256 } from '@omega/canon-kernel';
+
+import { err, ok } from '../identity/identity-types.js';
+import type { Result } from '../identity/identity-types.js';
+import { runDoctor } from '../doctor/doctor-orchestrator.js';
+import { dedupAdjacentDuplicateSentences, isTailTruncated } from '../doctor/repair-executor.js';
+import { importManuscript } from '../doctor/manuscript-import.js';
+import { stripScaffold } from '../doctor/scaffold-guard.js';
+import { seamSweep } from '../doctor/seam-sweep.js';
+import { semanticGate, buildBookVocabulary, isBookEndComplete } from '../doctor/semantic-gate.js';
+import { scanSemanticResidue } from '../doctor/semantic-residue.js';
+import { AuthorDecisionLedger } from '../identity/author-seal.js';
+
+/** Types dérivés du contrat RÉEL de runDoctor (zéro duplication de type). */
+type DoctorArgs = NonNullable<Parameters<typeof runDoctor>[1]>;
+type DoctorOverrides = DoctorArgs extends { overrides?: infer O } ? O : never;
+
+export interface CleanlinessReport {
+  readonly SYNTAX_CLEAN: boolean;
+  readonly SEAM_CLEAN: boolean;
+  readonly SEMANTIC_CLEAN: boolean;
+  readonly NARRATIVE_CLEAN: boolean;
+  readonly AUTHOR_LOCKS_INTACT: boolean;
+  readonly detail: {
+    readonly seamResidual: number;
+    readonly scaffoldResidual: number;
+    readonly semanticResidual: number;
+    readonly quoteDelta: number;
+    readonly bookEndComplete: boolean;
+    readonly brokenComparisons: number;
+    readonly functionalRedundancies: number;
+    readonly incipitClones: number;
+    readonly maxTicPer1000w: number;
+    readonly locksIntact: number;
+    readonly locksBroken: number;
+  };
+}
+
+export interface BuildCanonicalOptions {
+  readonly overrides?: DoctorOverrides;
+  readonly seeds?: readonly string[];
+  readonly knownNames?: readonly string[];
+  /** Registre des sceaux — verifyAnchors BLOQUANT (mandat 2/2). */
+  readonly authorLocks?: AuthorDecisionLedger;
+  /** Tics surveillés pour NARRATIVE_CLEAN (mesure honnête, cap par 1000 mots). */
+  readonly ticWatch?: readonly string[];
+  readonly maxTicPer1000w?: number;
+}
+
+export interface BuildCanonicalResult {
+  readonly text: string;
+  readonly finalHash: string;
+  readonly words: number;
+  readonly cleanliness: CleanlinessReport;
+  readonly csv: { readonly seam: string; readonly scaffold: string; readonly semantic: string };
+}
+
+export type BuildError =
+  | { readonly code: 'IMPORT_FAIL' | 'PIPELINE_FAIL'; readonly detail: string }
+  | { readonly code: 'UNRESOLVED_LOCK'; readonly detail: string; readonly broken: readonly string[] };
+
+const DEFAULT_TICS = ['le gardien', 'le silence', 'il y a', 'la pluie', 'le village'] as const;
+
+function toCsv(rows: readonly (readonly (string | number)[])[], header: string): string {
+  return [header, ...rows.map((r) => r.map((x) => typeof x === 'string' ? `"${x.replace(/"/gu, "''").replace(/\s+/gu, ' ')}"` : String(x)).join(';'))].join('\n');
+}
+
+/** LE pipeline canonique. Déterministe (zéro LLM ; runDoctor async par contrat
+ *  de port mais n'attend jamais le réseau en allowSurgical:false). Testable E2E. */
+export async function buildCanonical(v0: string, opts: BuildCanonicalOptions = {}): Promise<Result<BuildCanonicalResult, BuildError>> {
+  const knownNames = opts.knownNames ?? ['Léna', 'Garcia', 'Gaspard', 'Yvon', 'Henri', 'Squarcioni', 'Marchetti', 'Ker-Morvan', 'Thomas'];
+
+  const doctorArgs: DoctorArgs = { executor: { allowSurgical: false } };
+  if (opts.overrides !== undefined) (doctorArgs as { overrides?: DoctorOverrides }).overrides = opts.overrides;
+  if (opts.seeds !== undefined) (doctorArgs as { seeds?: readonly string[] }).seeds = opts.seeds;
+  const doc = await runDoctor(v0, doctorArgs);
+  if (!doc.ok) return err({ code: 'PIPELINE_FAIL', detail: `doctor: ${JSON.stringify(doc.error)}` });
+  let text = doc.value.repairedProse;
+
+  /* 2. Scaffold guard (AVANT couture — leçon cascade). */
+  const imp1 = importManuscript(text);
+  if (!imp1.ok) return err({ code: 'IMPORT_FAIL', detail: 'scaffold import' });
+  const scaffold = stripScaffold(imp1.value.chapters.map((c) => ({ chapter: c.chapter, prose: c.prose })));
+  if (!scaffold.ok) return err({ code: 'PIPELINE_FAIL', detail: 'scaffold' });
+  text = scaffold.value.cleaned.map((c) => `## Chapitre ${c.chapter}\n\n${c.prose}`).join('\n\n');
+
+  /* 3. Dédup + tail déterministe. */
+  text = dedupAdjacentDuplicateSentences(text).text;
+  const trimmed = text.trimEnd();
+  if (isTailTruncated(trimmed)) {
+    const lastStop = Math.max(trimmed.lastIndexOf('. '), trimmed.lastIndexOf('? '), trimmed.lastIndexOf('! '), trimmed.lastIndexOf('» '));
+    text = `${trimmed.slice(0, lastStop + 1)}\n`;
+  }
+
+  /* 4. Couture (vocab corpus) puis 5. gate sémantique. */
+  const imp2 = importManuscript(text);
+  if (!imp2.ok) return err({ code: 'IMPORT_FAIL', detail: 'seam import' });
+  const vocab = buildBookVocabulary(text);
+  const sweep = seamSweep(imp2.value.chapters.map((c) => ({ chapter: c.chapter, prose: c.prose })), 0.6, knownNames, vocab);
+  if (!sweep.ok) return err({ code: 'PIPELINE_FAIL', detail: 'seam' });
+  text = sweep.value.repairedText;
+
+  const imp3 = importManuscript(text);
+  if (!imp3.ok) return err({ code: 'IMPORT_FAIL', detail: 'semantic import' });
+  const sem = semanticGate(imp3.value.chapters.map((c) => ({ chapter: c.chapter, prose: c.prose })), text);
+  if (!sem.ok) return err({ code: 'PIPELINE_FAIL', detail: 'semantic' });
+  text = sem.value.repairedText;
+
+  /* 6. SCEAUX D'AUTEUR — gate BLOQUANTE (mandat 2/2). */
+  let locksIntact = 0;
+  let locksBrokenList: readonly string[] = [];
+  if (opts.authorLocks !== undefined) {
+    const v = opts.authorLocks.verifyAnchors(text);
+    locksIntact = v.intact.length;
+    locksBrokenList = v.broken.map((d) => `${d.decisionId}:${(d.anchorExcerpt ?? '').slice(0, 50)}`);
+    if (v.broken.length > 0) {
+      return err({ code: 'UNRESOLVED_LOCK', detail: `${v.broken.length} ancre(s) scellée(s) introuvable(s) — BUILD FAIL (le sceau est une gate).`, broken: locksBrokenList });
+    }
+  }
+
+  /* 7. Mesures NARRATIVE (honnêteté : on MESURE, on ne maquille pas). */
+  const residue = scanSemanticResidue(imp3.value.chapters);
+  const brokenComparisons = residue.ok ? residue.value.brokenComparisons : -1;
+  const functionalRedundancies = residue.ok ? residue.value.functionalRedundancies : -1;
+  const words = text.split(/\s+/u).filter((w) => w.length > 0).length;
+  const ticWatch = opts.ticWatch ?? DEFAULT_TICS;
+  const maxTicPer1000w = Math.max(...ticWatch.map((t) => ((text.toLowerCase().match(new RegExp(t.replace(/[.*+?^${}()|[\]\\]/gu, '\\$&'), 'gu')) ?? []).length * 1000) / Math.max(1, words)));
+  const incipitHeads = imp3.value.chapters.map((c) => c.prose.trim().split(/\s+/u).slice(0, 4).join(' ').toLowerCase());
+  const headCounts = new Map<string, number>();
+  for (const h of incipitHeads) headCounts.set(h, (headCounts.get(h) ?? 0) + 1);
+  const incipitClones = [...headCounts.values()].filter((n) => n >= 3).reduce((a, b) => a + b, 0);
+
+  const lastCh = sem.value.repairedChapters[sem.value.repairedChapters.length - 1];
+  const lastBlocks = (lastCh?.prose ?? '').split(/\r?\n\s*\r?\n/u).filter((b) => b.trim().length > 0);
+  const bookEnd = lastBlocks.length > 0 && isBookEndComplete(lastBlocks[lastBlocks.length - 1] ?? '');
+  const quoteDelta = (text.match(/«/gu) ?? []).length - (text.match(/»/gu) ?? []).length;
+
+  const seamResidual = sweep.value.residualFindings.length;
+  const semanticResidual = sem.value.residualFindings.length;
+  const cleanliness: CleanlinessReport = {
+    SYNTAX_CLEAN: seamResidual === 0,
+    SEAM_CLEAN: seamResidual === 0 && scaffold.value.residual === 0,
+    SEMANTIC_CLEAN: semanticResidual === 0 && quoteDelta === 0 && bookEnd,
+    // INTERDICTION (ChatGPT) de déclarer propre tant que la saturation persiste :
+    NARRATIVE_CLEAN: functionalRedundancies === 0 && brokenComparisons === 0 && incipitClones === 0 && maxTicPer1000w <= (opts.maxTicPer1000w ?? 1.5),
+    AUTHOR_LOCKS_INTACT: locksBrokenList.length === 0,
+    detail: {
+      seamResidual, scaffoldResidual: scaffold.value.residual, semanticResidual,
+      quoteDelta, bookEndComplete: bookEnd, brokenComparisons, functionalRedundancies,
+      incipitClones, maxTicPer1000w: Number(maxTicPer1000w.toFixed(2)),
+      locksIntact, locksBroken: locksBrokenList.length,
+    },
+  };
+
+  return ok({
+    text,
+    finalHash: String(sha256(text.normalize('NFC'))),
+    words,
+    cleanliness,
+    csv: {
+      seam: toCsv(sweep.value.repairs.map((x) => [x.finding.chapter, x.finding.kind, x.action, x.before, x.after]), 'chapter;kind;action;before;after'),
+      scaffold: toCsv(scaffold.value.removed.map((x) => [x.chapter, x.reason, x.text]), 'chapter;reason;text'),
+      semantic: toCsv(sem.value.repairs.map((x) => [x.finding.chapter, x.finding.kind, x.action, x.before, x.after]), 'chapter;kind;action;before;after'),
+    },
+  });
+}

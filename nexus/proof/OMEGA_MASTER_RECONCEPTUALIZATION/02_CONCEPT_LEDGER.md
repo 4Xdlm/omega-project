@@ -97,3 +97,15 @@ Le COUTURIER : sous-agent spécialisé du Rewrite Doctor dédié aux SEULS racco
 ### Organes actés sans concept dédié ci-dessus (adresses rapides)
 SENTINEL→DEC:23 (incarné gates+préséance+wrappers) · INTENT_LAYER→DEC:60 (partiel : BookIntent/genesis) · STYLE_DEVIATION_MANAGER→DEC:84 (non codé ; lié BF-12) · EXECUTION_MODE OFF/SEMI/BOOST→DEC:99 (non codé ; parenté llm-cost-guard) · TOKEN_METER→DEC:114 (non codé) · PLUGIN_CONTRACT/NEXUS_DEP→DEC:140 (packages/integration-nexus-dep existe) · SESSION_SAVE_RITUAL→DEC:151 (vivant : DEC-*, ce dossier).
 **Règle de croissance** : nouvelle idée ⇒ NEW_CONCEPT ici AVANT toute conception. Idée retrouvée ⇒ FOUND_EXISTING + adresse.
+
+## SESSION_SAVE 2026-06-08 — PAROXYSME (organes du systeme nerveux)
+
+| Concept-ID | Statut | Adresse | Note |
+|---|---|---|---|
+| CONCEPT-MOTIF-REPULSION-FIELD-001 | NEW_CONCEPT — LIVRE V1 (SHADOW, mode '1' pret) | book-factory/src/variation/motif-repulsion.ts | PID (cooldown=cas Ki=Kd=0) + loi dure 3e occurrence + quota meteo ; retro-preuve 3 livres C18_RETRO_PROOF.json |
+| CONCEPT-R6-DRAMATIC-FUNCTION-GATE-001 | NEW_CONCEPT — LIVRE V1 (SHADOW+SOFT, 'hard' inexistant par loi EMP-16) | book-factory/src/control/control-plane.ts | regles causales R1/R2, fallback A ; replay EMP-16 driftRate 0.74 ; PREFIX_STABLE 0.94+ |
+| CONCEPT-OMEGA-EXPERIMENT-LEDGER-001 | NEW_CONCEPT — LIVRE V1 | book-factory/src/ledger/experiment-ledger.ts + nexus/proof/EXPERIMENT_LEDGER.json | append-only, supersedes ; backfill 18k/88k/EMP-16 ; toute promotion citera ses lignes |
+| CONCEPT-NARRATIVE-LYAPUNOV-CONTROLLER-001 | NEW_CONCEPT — SPEC only | docs/governance/OMEGA_ULTRA_VISION_2026-06-08.md section 3 | V(n) lisible sur instruments existants ; gains calibres par C19 ; SHADOW au prochain run |
+| CONCEPT-PARETO-CANDIDATE-SELECTOR-001 | NEW_CONCEPT — SPEC only | OMEGA_ULTRA_VISION section 4 | admissibilite avant score ; ancetre = selection hostile R7 min_axis |
+| CONCEPT-EMERGENCE-TRACKER-001 | NEW_CONCEPT — SPEC only (extension EntityRegistry, pas un module neuf) | OMEGA_ULTRA_VISION section 6 | masse narrative -> AUTHOR_REVIEW ; cas fondateur Vallet (scelle) |
+| NCR-PX2-001 | FERMEE | semantic-gate.ts M1/M2 + build-canonical.ts M3 + px2-ncr.test.ts | faux positif flexionnel (disparais/disparaissent) ; 3 preuves convergentes ; hash EMP-16 inchange |

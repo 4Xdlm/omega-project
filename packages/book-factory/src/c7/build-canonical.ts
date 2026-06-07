@@ -47,8 +47,11 @@ export interface CleanlinessReport {
     readonly functionalRedundancies: number;
     readonly incipitClones: number;
     readonly maxTicPer1000w: number;
-    readonly locksIntact: number;
-    readonly locksBroken: number;
+    /** Le notaire ne compte pas pommes/couteaux/dettes dans le même panier : */
+    readonly activeLocksTotal: number;
+    readonly spanLocksIntact: number;
+    readonly decisionLocksPendingExecution: number;
+    readonly unresolvedLocks: number;
   };
 }
 
@@ -128,12 +131,18 @@ export async function buildCanonical(v0: string, opts: BuildCanonicalOptions = {
   if (!finalImp.ok) return err({ code: 'IMPORT_FAIL', detail: 'final import' });
   const finalChapters = finalImp.value.chapters.map((c) => ({ chapter: c.chapter, prose: c.prose }));
 
-  /* 6. SCEAUX D'AUTEUR — gate BLOQUANTE (mandat 2/2). */
-  let locksIntact = 0;
+  /* 6. SCEAUX D'AUTEUR — gate BLOQUANTE (mandat 2/2). Paniers SÉPARÉS :
+   *    span ancrés / décisions en attente d'exécution / cassés. */
+  let activeLocksTotal = 0;
+  let spanLocksIntact = 0;
+  let decisionLocksPendingExecution = 0;
   let locksBrokenList: readonly string[] = [];
   if (opts.authorLocks !== undefined) {
+    const active = opts.authorLocks.activeLocks();
+    activeLocksTotal = active.length;
+    decisionLocksPendingExecution = active.filter((d) => d.anchorExcerpt === null).length;
     const v = opts.authorLocks.verifyAnchors(text);
-    locksIntact = v.intact.length;
+    spanLocksIntact = v.intact.length;
     locksBrokenList = v.broken.map((d) => `${d.decisionId}:${(d.anchorExcerpt ?? '').slice(0, 50)}`);
     if (v.broken.length > 0) {
       return err({ code: 'UNRESOLVED_LOCK', detail: `${v.broken.length} ancre(s) scellée(s) introuvable(s) — BUILD FAIL (le sceau est une gate).`, broken: locksBrokenList });
@@ -171,7 +180,8 @@ export async function buildCanonical(v0: string, opts: BuildCanonicalOptions = {
       seamResidual, scaffoldResidual: scaffold.value.residual, semanticResidual,
       quoteDelta, bookEndComplete: bookEnd, brokenComparisons, functionalRedundancies,
       incipitClones, maxTicPer1000w: Number(maxTicPer1000w.toFixed(2)),
-      locksIntact, locksBroken: locksBrokenList.length,
+      activeLocksTotal, spanLocksIntact, decisionLocksPendingExecution,
+      unresolvedLocks: locksBrokenList.length,
     },
   };
 

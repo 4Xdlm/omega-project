@@ -23,4 +23,4 @@ writeFileSync(`${RUN}/BUILD_CANONICAL_88K_REPORT.json`, JSON.stringify({ finalHa
 console.log(`hash=${r.value.finalHash.slice(0,16)} (attendu c02d39f1...) words=${r.value.words}`);
 const c = r.value.cleanliness;
 console.log(`SYNTAX=${c.SYNTAX_CLEAN} SEAM=${c.SEAM_CLEAN} SEMANTIC=${c.SEMANTIC_CLEAN} NARRATIVE=${c.NARRATIVE_CLEAN} LOCKS=${c.AUTHOR_LOCKS_INTACT}`);
-console.log(`detail: redites=${c.detail.functionalRedundancies} compCassées=${c.detail.brokenComparisons} incipitClones=${c.detail.incipitClones} maxTic/1000w=${c.detail.maxTicPer1000w} locksIntact=${c.detail.locksIntact}`);
+console.log(`detail: redites=${c.detail.functionalRedundancies} compCassées=${c.detail.brokenComparisons} incipitClones=${c.detail.incipitClones} maxTic/1000w=${c.detail.maxTicPer1000w} locks: total=${c.detail.activeLocksTotal} spanIntact=${c.detail.spanLocksIntact} pendingExec=${c.detail.decisionLocksPendingExecution} broken=${c.detail.unresolvedLocks}`);

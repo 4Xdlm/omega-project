@@ -31,6 +31,7 @@ import { sha256 } from '@omega/canon-kernel';
 
 import { err, ok } from '../identity/identity-types.js';
 import type { Result } from '../identity/identity-types.js';
+import type { AuthorDecisionLedger } from '../identity/author-seal.js';
 import type { LlmRepairPort } from './repair-executor.js';
 import { inventedEntities } from './scribe-bridge.js';
 import { scanSentencePhysics } from '../coherence/sentence-physics.js';
@@ -244,6 +245,9 @@ const STYLED_NOMINAL_RE = /^(?:Et\s+puis\s+rien\.|Rien\.|Plus\s+rien\.|Silence\.
 export interface OperateOptions {
   /** Port LLM (scribe-bridge ou stub de test). Absent ⇒ jamais de complétion → ESCALATE. */
   readonly llm?: LlmRepairPort;
+  /** SCEAU D'AUTEUR (CONCEPT-AUTHOR-SEAL-001) : consulté AVANT toute action —
+   *  un passage scellé est INTOUCHABLE (la machine demande, jamais ne modifie). */
+  readonly authorLocks?: AuthorDecisionLedger;
 }
 
 /** Opère UNE couture. Pur hors port LLM ; chaque verdict est tracé et hashé. */
@@ -273,6 +277,13 @@ export async function operateSeam(c: SurgeonCase, opts: OperateOptions = {}): Pr
       patchHash: String(sha256(replacementText.normalize('NFC'))),
     };
   };
+
+  /* — SCEAU D'AUTEUR : consulté AVANT TOUT (INV-AUTHOR-SEAL-001/005). Un
+   *   passage scellé est la loi de l'auteur — le chirurgien range son bistouri. — */
+  const lock = opts.authorLocks?.findSpanLock(`${c.leftContext}\n${c.rightContext}`) ?? null;
+  if (lock !== null) {
+    return ok(mk('KEEP_STYLED', '', `AUTHOR_LOCKED:${lock.decisionId} — décision d'auteur scellée (${lock.verdict}), intouchable par la machine.`, [], 1.0));
+  }
 
   /* — TRIAGE déterministe — */
   const diag = diagnoseEdge(c.leftContext, c.rightContext, w.chapterId);

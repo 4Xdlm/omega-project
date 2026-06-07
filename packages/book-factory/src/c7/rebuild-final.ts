@@ -56,7 +56,14 @@ async function main(): Promise<void> {
     overrides: {
       identityUnify: new Map([['gardien', { keep: 'Henri', replace: ['Thomas'] }]]),
       locationUnify: new Map([['Ker-Morvan', ['Saint-Marc']]]),
-      literalReplacements: new Map([['la mer du Nord', "l'Atlantique"]]),
+      literalReplacements: new Map([
+        ['la mer du Nord', "l'Atlantique"],
+        // DÉCISION D'AUTEUR n°1 (CONCEPT-AUTHOR-SEAL-001, 2026-06-07) : Francky
+        // tranche REPAIR sur la divergence tribunale bottes ch.1. Explicitation
+        // à ZÉRO fait nouveau (bottes, seuil, porte déjà établis + verbe de retrait).
+        ['Elle avance pieds nus, la semelle de ses bottes restée accrochée à la porte.',
+          'Elle retire ses bottes sur le seuil, la semelle restée accrochée à la porte, et avance pieds nus.'],
+      ]),
     },
     seeds: ['naufrage', 'dette', 'lettre', 'carnet', 'registre'],
     executor: { llm: port, allowSurgical: ALLOW_SURGICAL }, // déterministe par défaut (anti-hang Ollama)

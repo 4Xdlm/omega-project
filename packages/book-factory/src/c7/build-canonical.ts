@@ -122,6 +122,12 @@ export async function buildCanonical(v0: string, opts: BuildCanonicalOptions = {
   if (!sem.ok) return err({ code: 'PIPELINE_FAIL', detail: 'semantic' });
   text = sem.value.repairedText;
 
+  /* NCR-P0B-001 : le hash et les métriques regardent le MÊME cadavre — toute
+   * mesure de propreté est calculée sur le RÉ-IMPORT du texte FINAL. */
+  const finalImp = importManuscript(text);
+  if (!finalImp.ok) return err({ code: 'IMPORT_FAIL', detail: 'final import' });
+  const finalChapters = finalImp.value.chapters.map((c) => ({ chapter: c.chapter, prose: c.prose }));
+
   /* 6. SCEAUX D'AUTEUR — gate BLOQUANTE (mandat 2/2). */
   let locksIntact = 0;
   let locksBrokenList: readonly string[] = [];
@@ -134,19 +140,20 @@ export async function buildCanonical(v0: string, opts: BuildCanonicalOptions = {
     }
   }
 
-  /* 7. Mesures NARRATIVE (honnêteté : on MESURE, on ne maquille pas). */
-  const residue = scanSemanticResidue(imp3.value.chapters);
+  /* 7. Mesures NARRATIVE (honnêteté : on MESURE, on ne maquille pas) — toutes
+   *    sur finalChapters (NCR-P0B-001). */
+  const residue = scanSemanticResidue(finalChapters);
   const brokenComparisons = residue.ok ? residue.value.brokenComparisons : -1;
   const functionalRedundancies = residue.ok ? residue.value.functionalRedundancies : -1;
   const words = text.split(/\s+/u).filter((w) => w.length > 0).length;
   const ticWatch = opts.ticWatch ?? DEFAULT_TICS;
   const maxTicPer1000w = Math.max(...ticWatch.map((t) => ((text.toLowerCase().match(new RegExp(t.replace(/[.*+?^${}()|[\]\\]/gu, '\\$&'), 'gu')) ?? []).length * 1000) / Math.max(1, words)));
-  const incipitHeads = imp3.value.chapters.map((c) => c.prose.trim().split(/\s+/u).slice(0, 4).join(' ').toLowerCase());
+  const incipitHeads = finalChapters.map((c) => c.prose.trim().split(/\s+/u).slice(0, 4).join(' ').toLowerCase());
   const headCounts = new Map<string, number>();
   for (const h of incipitHeads) headCounts.set(h, (headCounts.get(h) ?? 0) + 1);
   const incipitClones = [...headCounts.values()].filter((n) => n >= 3).reduce((a, b) => a + b, 0);
 
-  const lastCh = sem.value.repairedChapters[sem.value.repairedChapters.length - 1];
+  const lastCh = finalChapters[finalChapters.length - 1];
   const lastBlocks = (lastCh?.prose ?? '').split(/\r?\n\s*\r?\n/u).filter((b) => b.trim().length > 0);
   const bookEnd = lastBlocks.length > 0 && isBookEndComplete(lastBlocks[lastBlocks.length - 1] ?? '');
   const quoteDelta = (text.match(/«/gu) ?? []).length - (text.match(/»/gu) ?? []).length;

@@ -51,6 +51,21 @@ describe('P0-B — buildCanonical E2E (fixture à défauts connus)', () => {
     if (!koBuild.ok) expect(koBuild.error.code).toBe('UNRESOLVED_LOCK');
   });
 
+  it('E2E-004 (NCR-P0B-001) — les métriques regardent le texte FINAL : incipits comptés APRÈS la gate sémantique', async () => {
+    // ch1 ouvre sur un bloc dégénéré « «. » que la gate RETIRE — après retrait,
+    // les 3 chapitres partagent la même tête d'incipit. Si la mesure lisait le
+    // texte PRÉ-gate, ch1 aurait une tête différente et clones=0 ; sur le texte
+    // FINAL, clones=3. Le hash et les métriques regardent le même cadavre.
+    const head = 'La brume couvrait le port';
+    const v0 = `## Chapitre 1\n\n«.\n\n${head} depuis le matin froid. Tout dormait encore.\n\n## Chapitre 2\n\n${head} comme chaque nuit. Garcia attendait près du feu.\n\n## Chapitre 3\n\n${head} sans un bruit. La lettre attendait sur la table.`;
+    const r = await buildCanonical(v0);
+    expect(r.ok).toBe(true);
+    if (!r.ok) return;
+    expect(r.value.text).not.toMatch(/«\s*\./u);
+    expect(r.value.cleanliness.detail.incipitClones).toBe(3); // mesuré sur le FINAL
+    expect(r.value.cleanliness.NARRATIVE_CLEAN).toBe(false); // et donc honnête
+  });
+
   it('E2E-003 — déterminisme ×2 : même V0 ⇒ même hash', async () => {
     const a = await buildCanonical(MINI_V0);
     const b = await buildCanonical(MINI_V0);

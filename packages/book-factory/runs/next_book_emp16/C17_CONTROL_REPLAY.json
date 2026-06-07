@@ -1,0 +1,144 @@
+{
+  "date": "2026-06-08",
+  "book": "emp16",
+  "planHash": "df8d650f",
+  "shadow": {
+    "mode": "shadow",
+    "chapters": 50,
+    "matches": 13,
+    "drifts": 37,
+    "regensRequested": 0,
+    "acceptedFlagged": 0,
+    "driftRate": 0.74,
+    "acts": [
+      {
+        "act": 1,
+        "chapters": 12,
+        "transitionCount": 9,
+        "transitionRatio": 0.75,
+        "revelations": 0,
+        "confrontations": 1
+      },
+      {
+        "act": 2,
+        "chapters": 26,
+        "transitionCount": 12,
+        "transitionRatio": 0.4615,
+        "revelations": 2,
+        "confrontations": 8
+      },
+      {
+        "act": 3,
+        "chapters": 12,
+        "transitionCount": 8,
+        "transitionRatio": 0.6667,
+        "revelations": 0,
+        "confrontations": 1
+      }
+    ],
+    "actBreaches": [
+      {
+        "act": 1,
+        "code": "NO_REVELATION_REALIZED",
+        "detail": "acte 1 : 0 RÉVÉLATION réalisée(s) < 1"
+      },
+      {
+        "act": 1,
+        "code": "TRANSITION_RATIO_EXCEEDED",
+        "detail": "acte 1 : TRANSITION 75% > 45%"
+      },
+      {
+        "act": 2,
+        "code": "TRANSITION_RATIO_EXCEEDED",
+        "detail": "acte 2 : TRANSITION 46% > 45%"
+      },
+      {
+        "act": 3,
+        "code": "NO_REVELATION_REALIZED",
+        "detail": "acte 3 : 0 RÉVÉLATION réalisée(s) < 1"
+      },
+      {
+        "act": 3,
+        "code": "TRANSITION_RATIO_EXCEEDED",
+        "detail": "acte 3 : TRANSITION 67% > 45%"
+      }
+    ]
+  },
+  "softSimulation": {
+    "mode": "soft",
+    "chapters": 50,
+    "matches": 13,
+    "drifts": 59,
+    "regensRequested": 22,
+    "acceptedFlagged": 22,
+    "driftRate": 0.8194,
+    "acts": [
+      {
+        "act": 1,
+        "chapters": 12,
+        "transitionCount": 9,
+        "transitionRatio": 0.75,
+        "revelations": 0,
+        "confrontations": 1
+      },
+      {
+        "act": 2,
+        "chapters": 26,
+        "transitionCount": 12,
+        "transitionRatio": 0.4615,
+        "revelations": 2,
+        "confrontations": 8
+      },
+      {
+        "act": 3,
+        "chapters": 12,
+        "transitionCount": 8,
+        "transitionRatio": 0.6667,
+        "revelations": 0,
+        "confrontations": 1
+      }
+    ],
+    "actBreaches": [
+      {
+        "act": 1,
+        "code": "NO_REVELATION_REALIZED",
+        "detail": "acte 1 : 0 RÉVÉLATION réalisée(s) < 1"
+      },
+      {
+        "act": 1,
+        "code": "TRANSITION_RATIO_EXCEEDED",
+        "detail": "acte 1 : TRANSITION 75% > 45%"
+      },
+      {
+        "act": 2,
+        "code": "TRANSITION_RATIO_EXCEEDED",
+        "detail": "acte 2 : TRANSITION 46% > 45%"
+      },
+      {
+        "act": 3,
+        "code": "NO_REVELATION_REALIZED",
+        "detail": "acte 3 : 0 RÉVÉLATION réalisée(s) < 1"
+      },
+      {
+        "act": 3,
+        "code": "TRANSITION_RATIO_EXCEEDED",
+        "detail": "acte 3 : TRANSITION 67% > 45%"
+      }
+    ]
+  },
+  "selectorEntropy": {
+    "entropy": 1.8716,
+    "maxEntropy": 1.9459,
+    "ratio": 0.9618,
+    "distribution": {
+      "rythme-compresse": 13,
+      "synthese": 8,
+      "dialogue": 7,
+      "tension-interne": 7,
+      "sensoriel": 6,
+      "canon-strict": 6,
+      "voix-seche": 3
+    }
+  },
+  "note": "softSimulation = borne basse (le livre est figé : la regen re-soumet le même réalisé). En run réel, chaque regen est une vraie 2e chance."
+}

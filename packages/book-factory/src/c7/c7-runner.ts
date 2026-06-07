@@ -34,6 +34,9 @@ import { extendChapter } from '../loop/chapter-extender.js';
 import type { CoreDeps } from '../loop/r6-core.js';
 import { persistLiteResult, MemFs } from '../loop/persistence.js';
 import { NodeFs, appendLine } from './node-fs.js';
+import { V2Conductor } from '../v2/v2-conductor.js';
+import { importManuscript } from '../doctor/manuscript-import.js';
+import { runDoctorAudit } from '../doctor/doctor-orchestrator.js';
 
 /* ───────────────────────────── monde « Le Silence du Phare » ─────────────────────── */
 const BOOK: BookIntent = {
@@ -173,6 +176,21 @@ async function main(): Promise<void> {
   /* EMP-16 : PLAN_LOCK -> directives runtime (mandat tribunal). */
   const packsPath = process.env['C7_DIRECTIVE_PACKS'];
   const emp16Packs: { chapter: number; directive: string }[] = packsPath !== undefined ? (JSON.parse(rfsEmp16(packsPath, 'utf8')) as { packs: { chapter: number; directive: string }[] }).packs : [];
+
+  /* V2 (GO tribunal 2/2 2026-06-08) : C18 mode '1' + C17 'soft' + shadows.
+   * ROSETTA_GAP consigné : la matrice Rosetta traduit des cibles MÉTRIQUES
+   * (contrat rosetta-bridge) — aucune entrée fonction-dramatique n'y existe ;
+   * l'escalade C17 reste en français calibré (la même famille de directives
+   * qui a PROUVÉ son effet : météo 48→0, TRANSITION 0.72→0.58). Étendre la
+   * matrice = travail de calibration futur, pas inventable (EMP-19). */
+  const v2on = process.env['C7_V2'] === '1';
+  const v2PlanPath = process.env['C7_PLAN_LOCK'] ?? 'runs/next_book/PLAN_LOCK.json';
+  const v2Plan: ReadonlyArray<{ chapter: number; act: number; fn: string }> = v2on ? (JSON.parse(rfsEmp16(v2PlanPath, 'utf8')) as { plan: { chapter: number; act: number; fn: string }[] }).plan : [];
+  const v2 = v2on ? new V2Conductor(outRoot, [...world.surfaces], 'soft') : undefined;
+  const v2Admitted: { chapter: number; prose: string }[] = [];
+  const v2Winners: string[] = [];
+  const V2_SEEDS = ['naufrage', 'dette', 'lettre', 'carnet', 'registre'];
+  let v2PrevAct = 1;
   for (const spec of plan.chapters.slice(0, maxCh)) {
     const { packs, pctx, locks } = chapterDeps(world, log, spec);
     const digest = buildContextDigest(log.project(), spec, plan, book);
@@ -205,31 +223,83 @@ async function main(): Promise<void> {
       const winner = lite.candidates.find((c) => lite.winner.kind === 'WINNER' && c.profile === lite.winner.profile);
       appendLine(progress, `[bench ch.${spec.index}] direct_words=${direct.words} winner=${JSON.stringify(lite.winner)} eligible=${lite.candidates.filter((c) => c.eligible).length}/3 winner_words=${winner?.words ?? 0}`);
     } else {
-      const { record, full } = await runCoreChapterFull(spec, base, {
-        ...common,
-        generator,
-        realState: log.project(),
-        weekdayByChapter: new Map(),
-        mode: 'BOOST',
-      } as CoreDeps);
-      const dir = `${outRoot}/chap_${String(spec.index).padStart(3, '0')}`;
-      fs.mkdirp(dir);
-      fs.writeFile(`${dir}/admission.json`, JSON.stringify(record, null, 2));
-      for (const c of full) fs.writeFile(`${dir}/candidate_${c.profile}.txt`, c.prose); // FORBID-007
-      const win = record.winner.kind === 'WINNER' ? record.winner.profile : record.winner.bestUnderGates;
-      let winnerProse = full.find((c) => c.profile === win)?.prose ?? '';
-      // C8.6 — extension vers la cible (BB-02-aware) : continuations bornées, filet BF-02 au segment.
-      if (process.env['C7_EXTEND'] === '1' && winnerProse.length > 0) {
-        const ext = await extendChapter(winnerProse, base, generator, Number(process.env['C7_SEG_TARGET'] ?? 1400), (seg) =>
-          enforceRecallOrInvalid(seg, packs, world.registry, world.surfaces, resolution, 3).verdict === 'PASS',
-        );
-        winnerProse = ext.segments.join('\n\n');
-        appendLine(progress, `[extend ch.${spec.index}] segments=${ext.segments.length} words=${ext.totalWords}`);
+      /* FABRIQUE réutilisable (la regen C17 = un 2e appel — ADR-003 : le CALC
+       * contrôle la sélection ; la regen est UNE seconde chance bornée). */
+      const produce = async (req: GenRequest, tag: string): Promise<{ record: Awaited<ReturnType<typeof runCoreChapterFull>>['record']; full: Awaited<ReturnType<typeof runCoreChapterFull>>['full']; win: string; winnerProse: string }> => {
+        const { record, full } = await runCoreChapterFull(spec, req, {
+          ...common,
+          generator,
+          realState: log.project(),
+          weekdayByChapter: new Map(),
+          mode: 'BOOST',
+        } as CoreDeps);
+        const dir = `${outRoot}/chap_${String(spec.index).padStart(3, '0')}${tag}`;
+        fs.mkdirp(dir);
+        fs.writeFile(`${dir}/admission.json`, JSON.stringify(record, null, 2));
+        for (const c of full) fs.writeFile(`${dir}/candidate_${c.profile}.txt`, c.prose); // FORBID-007
+        let win = record.winner.kind === 'WINNER' ? record.winner.profile : record.winner.bestUnderGates;
+        /* C18 mode '1' : la gate d'incipit choisit la candidate FINALE AVANT extension. */
+        if (v2 !== undefined) {
+          const eligible = new Set(record.candidates.filter((c) => c.eligible).map((c) => c.profile));
+          const gated = v2.applyIncipitGate(full.map((c) => ({ profile: c.profile, prose: c.prose, eligible: eligible.has(c.profile) })), win, spec.index);
+          if (gated.c18 !== 'PASS') appendLine(progress, `[v2 ch.${spec.index}${tag}] C18=${gated.c18} ${win}->${gated.profile}`);
+          win = full.find((c) => c.profile === gated.profile)?.profile ?? win; // garde le type brandé à la source
+
+        }
+        let winnerProse = full.find((c) => c.profile === win)?.prose ?? '';
+        // C8.6 — extension vers la cible (BB-02-aware) : continuations bornées, filet BF-02 au segment.
+        if (process.env['C7_EXTEND'] === '1' && winnerProse.length > 0) {
+          const ext = await extendChapter(winnerProse, req, generator, Number(process.env['C7_SEG_TARGET'] ?? 1400), (seg) =>
+            enforceRecallOrInvalid(seg, packs, world.registry, world.surfaces, resolution, 3).verdict === 'PASS',
+          );
+          winnerProse = ext.segments.join('\n\n');
+          appendLine(progress, `[extend ch.${spec.index}${tag}] segments=${ext.segments.length} words=${ext.totalWords}`);
+        }
+        return { record, full, win, winnerProse };
+      };
+
+      let out = await produce(base, '');
+      let regenUsed = false;
+
+      if (v2 !== undefined) {
+        const planRow = v2Plan.find((p) => p.chapter === spec.index);
+        const act = planRow?.act ?? 1;
+        if (act !== v2PrevAct) { v2.closeAct(v2PrevAct); v2PrevAct = act; }
+        const plannedFn = (planRow?.fn ?? 'ACTION') as Parameters<V2Conductor['admitChapter']>[0]['plannedFn'];
+        /* Fonction RÉALISÉE — condition préfixe (PREFIX_STABLE 0.94+ prouvé). */
+        const classify = (prose: string): { fn: Parameters<V2Conductor['admitChapter']>[0]['plannedFn']; unpaid: number } => {
+          const text = [...v2Admitted, { chapter: spec.index, prose }].map((c) => `## Chapitre ${c.chapter}\n\n${c.prose}`).join('\n\n');
+          const impV2 = importManuscript(text);
+          if (!impV2.ok) return { fn: 'ACTION', unpaid: 0 };
+          const auditV2 = runDoctorAudit(impV2.value.chapters, impV2.value.castProposal.slice(0, 4).map((c) => c.name), V2_SEEDS);
+          if (!auditV2.ok) return { fn: 'ACTION', unpaid: 0 };
+          const last = auditV2.value.arc.chapterFunctions.find((f) => f.chapter === spec.index);
+          return { fn: (last?.fn ?? 'ACTION') as Parameters<V2Conductor['admitChapter']>[0]['plannedFn'], unpaid: auditV2.value.arc.seedLedger.filter((s) => s.payoffChapter === 'UNPAID').length };
+        };
+        let cls = classify(out.winnerProse);
+        let verdict = v2.admitChapter({ chapter: spec.index, act, plannedFn, realizedFn: cls.fn, prose: out.winnerProse, originalWinner: out.win, finalWinner: out.win, c18: 'PASS', regenUsed: false, unpaidSeeds: cls.unpaid });
+        if (verdict.status === 'DRIFT_REGEN_REQUESTED') {
+          appendLine(progress, `[v2 ch.${spec.index}] C17=${verdict.status} (${plannedFn}->${cls.fn}) — regen 1/1`);
+          const base2: GenRequest = { ...base, digest: `${base.digest}\n\n=== ESCALADE C17 (regen unique) ===\n${v2.escalationDirective(plannedFn, spec.index)}` };
+          out = await produce(base2, '_regen');
+          regenUsed = true;
+          cls = classify(out.winnerProse);
+          verdict = v2.admitChapter({ chapter: spec.index, act, plannedFn, realizedFn: cls.fn, prose: out.winnerProse, originalWinner: out.win, finalWinner: out.win, c18: 'PASS', regenUsed: true, unpaidSeeds: cls.unpaid, isRegenRound: true });
+        }
+        v2Admitted.push({ chapter: spec.index, prose: out.winnerProse });
+        v2Winners.push(out.win);
+        appendLine(progress, `[v2 ch.${spec.index}] C17=${verdict.status} realized=${cls.fn} planned=${plannedFn}${regenUsed ? ' regen=1' : ''}`);
       }
-      appendLine(`${outRoot}/MANUSCRIT.md`, `\n\n## Chapitre ${spec.index} — ${spec.objective} [${win}${record.winner.kind === 'WINNER' ? '' : ' ; FLAGGED'}]\n\n${winnerProse}`);
-      appendLine(progress, `[book ch.${spec.index}] winner=${win}${record.winner.kind === 'WINNER' ? '' : ' (FLAGGED)'} eligible=${record.candidates.filter((c) => c.eligible).length}/7 hash=${String(record.admissionHash).slice(0, 12)}`);
+
+      appendLine(`${outRoot}/MANUSCRIT.md`, `\n\n## Chapitre ${spec.index} — ${spec.objective} [${out.win}${out.record.winner.kind === 'WINNER' ? '' : ' ; FLAGGED'}${regenUsed ? ' ; C17_REGEN' : ''}]\n\n${out.winnerProse}`);
+      appendLine(progress, `[book ch.${spec.index}] winner=${out.win}${out.record.winner.kind === 'WINNER' ? '' : ' (FLAGGED)'} eligible=${out.record.candidates.filter((c) => c.eligible).length}/7 hash=${String(out.record.admissionHash).slice(0, 12)}`);
     }
     log.appendAll(plannedDelta(plan, spec.index, spec));
+  }
+  if (v2 !== undefined) {
+    v2.closeAct(v2PrevAct);
+    const { control } = v2.flush(v2Winners);
+    appendLine(progress, `[v2 final] drifts=${control.drifts}/${control.chapters} regens=${control.regensRequested} flagged=${control.acceptedFlagged} breaches=${control.actBreaches.length}`);
   }
   appendLine(progress, `[${new Date().toISOString()}] done.`);
 }

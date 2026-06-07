@@ -5,23 +5,24 @@
   "cleanliness": {
     "SYNTAX_CLEAN": true,
     "SEAM_CLEAN": true,
-    "SEMANTIC_CLEAN": false,
+    "SEMANTIC_CLEAN": true,
     "NARRATIVE_CLEAN": false,
     "AUTHOR_LOCKS_INTACT": true,
     "detail": {
       "seamResidual": 0,
       "scaffoldResidual": 0,
-      "semanticResidual": 1,
+      "semanticResidual": 0,
       "quoteDelta": 0,
       "bookEndComplete": true,
       "brokenComparisons": 0,
       "functionalRedundancies": 0,
       "incipitClones": 11,
       "maxTicPer1000w": 1.24,
-      "activeLocksTotal": 0,
-      "spanLocksIntact": 0,
-      "decisionLocksPendingExecution": 0,
-      "unresolvedLocks": 0
+      "activeLocksTotal": 3,
+      "spanLocksIntact": 1,
+      "decisionLocksPendingExecution": 2,
+      "unresolvedLocks": 0,
+      "lockSilencedResiduals": 0
     }
   },
   "emp16": {
@@ -298,21 +299,15 @@
   },
   "characters": {
     "totalMentions": 5184,
-    "resolvedRate": 0.935,
+    "resolvedRate": 0.936,
     "suspicionsDeadSpeaks": 0,
-    "castingDeficit": 260,
+    "castingDeficit": 259,
     "deficitTop": [
       {
         "code": "IDENTITY_UNDEFINED",
         "chapter": 42,
         "name": "Ils",
         "count": 7
-      },
-      {
-        "code": "IDENTITY_UNDEFINED",
-        "chapter": 29,
-        "name": "Vallet",
-        "count": 5
       },
       {
         "code": "IDENTITY_UNDEFINED",
@@ -330,6 +325,12 @@
         "code": "IDENTITY_UNDEFINED",
         "chapter": 42,
         "name": "Elle",
+        "count": 4
+      },
+      {
+        "code": "IDENTITY_UNDEFINED",
+        "chapter": 6,
+        "name": "Ils",
         "count": 4
       }
     ]

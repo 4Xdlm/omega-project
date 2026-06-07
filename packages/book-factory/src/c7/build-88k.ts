@@ -20,7 +20,9 @@ const r = await buildCanonical(v0, {
 });
 if (!r.ok) { console.log("BUILD FAIL: " + JSON.stringify(r.error).slice(0, 200)); process.exit(1); }
 writeFileSync(`${RUN}/BUILD_CANONICAL_88K_REPORT.json`, JSON.stringify({ finalHash: r.value.finalHash, words: r.value.words, cleanliness: r.value.cleanliness }, null, 2), "utf8");
-console.log(`hash=${r.value.finalHash.slice(0,16)} (attendu c02d39f1...) words=${r.value.words}`);
+/* Hash scellé COURANT = 3ce2d56d… (post-repair « couvercle » auth_c413325791df).
+ * Historique : c02d39f1 = preuve notariale NCR-P0B-001 AVANT ce repair (périmée). */
+console.log(`hash=${r.value.finalHash.slice(0, 16)} (scellé attendu 3ce2d56d...) words=${r.value.words}`);
 const c = r.value.cleanliness;
 console.log(`SYNTAX=${c.SYNTAX_CLEAN} SEAM=${c.SEAM_CLEAN} SEMANTIC=${c.SEMANTIC_CLEAN} NARRATIVE=${c.NARRATIVE_CLEAN} LOCKS=${c.AUTHOR_LOCKS_INTACT}`);
 console.log(`detail: redites=${c.detail.functionalRedundancies} compCassées=${c.detail.brokenComparisons} incipitClones=${c.detail.incipitClones} maxTic/1000w=${c.detail.maxTicPer1000w} locks: total=${c.detail.activeLocksTotal} spanIntact=${c.detail.spanLocksIntact} pendingExec=${c.detail.decisionLocksPendingExecution} broken=${c.detail.unresolvedLocks}`);

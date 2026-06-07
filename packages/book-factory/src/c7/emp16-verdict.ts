@@ -13,6 +13,7 @@ import { runDoctorAudit } from '../doctor/doctor-orchestrator.js';
 import { scanSemanticResidue } from '../doctor/semantic-residue.js';
 import { annotateMentions } from '../identity/mention-annotator.js';
 import { buildNarrativeGenome } from '../mycelium-export/narrative-genome.js';
+import { AuthorDecisionLedger } from '../identity/author-seal.js';
 import { EntityRegistry, verifyManuscriptIdentities } from '../identity/entity-registry.js';
 
 const SEEDS = ['naufrage', 'dette', 'lettre', 'carnet', 'registre'];
@@ -52,8 +53,11 @@ async function main(): Promise<void> {
   const newV0 = readFileSync(`${NEW}/MANUSCRIT.md`, 'utf8');
   const knownNames = ['Léna', 'Garcia', 'Gaspard', 'Yvon', 'Henri', 'Dubois', 'Jean', 'Maryvonne', 'Squarcioni', 'Marchetti', 'Ker-Morvan'];
 
-  /* 1. LE NOTAIRE (5 niveaux) — pas de sceaux : registre book-scoped, livre neuf. */
-  const built = await buildCanonical(newV0, { seeds: SEEDS, knownNames });
+  /* 1. LE NOTAIRE (5 niveaux) — sceaux BOOK-SCOPED (jamais mélanger les ancres
+   *    de deux livres : verifyAnchors contrôle TOUS les locks contre LE texte). */
+  let authorLocks: AuthorDecisionLedger | undefined;
+  try { authorLocks = AuthorDecisionLedger.fromJson(readFileSync('../../nexus/proof/AUTHOR_DECISIONS_EMP16.json', 'utf8')); } catch { authorLocks = undefined; }
+  const built = await buildCanonical(newV0, authorLocks !== undefined ? { seeds: SEEDS, knownNames, authorLocks } : { seeds: SEEDS, knownNames });
   if (!built.ok) { console.log('BUILD FAIL: ' + JSON.stringify(built.error).slice(0, 300)); process.exit(1); }
   writeFileSync(`${NEW}/MANUSCRIT_CANONICAL.md`, built.value.text, 'utf8');
   writeFileSync(`${NEW}/SEAM.csv`, built.value.csv.seam, 'utf8');
@@ -81,6 +85,8 @@ async function main(): Promise<void> {
     { kind: 'CHARACTER', canonical: 'Gaspard' }, { kind: 'CHARACTER', canonical: 'Yvon', aliases: ['Squarcioni'] },
     { kind: 'CHARACTER', canonical: 'Henri', aliases: ['Morel'], vital: 'DEAD' }, { kind: 'CHARACTER', canonical: 'Dubois' },
     { kind: 'CHARACTER', canonical: 'Jean' }, { kind: 'CHARACTER', canonical: 'Maryvonne' },
+    /* Sceau auth. 2026-06-07 (tribunal 2/2) : MINT_AS_ENTITY post-génération. */
+    { kind: 'CHARACTER', canonical: 'Vallet', aliases: ['Marc Vallet'] },
     { kind: 'PLACE', canonical: 'Ker-Morvan' }, { kind: 'PLACE', canonical: 'mairie' }, { kind: 'PLACE', canonical: 'port' },
     { kind: 'PLACE', canonical: 'église' }, { kind: 'PLACE', canonical: 'cale' }, { kind: 'PLACE', canonical: 'phare' },
     { kind: 'EVENT', canonical: 'naufrage' }, { kind: 'EVENT', canonical: 'dette', aliases: ['dettes'] },

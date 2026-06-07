@@ -26,6 +26,19 @@
  *
  * 4. FIN DE LIVRE : le dernier bloc doit être terminé + équilibré + ≥ 4 mots +
  *    non dégénéré — une « vraie scène », pas une citation ouverte.
+ *
+ * 5. POSITION LICENCIÉE PAR SUJET (NCR-PX2-001) : un mot final directement
+ *    précédé d'un clitique SUJET (je/tu/il/elle/on/nous/vous/ils/elles/j'/t')
+ *    occupe la position du VERBE d'une proposition minimale sujet+verbe — un
+ *    hapax-préfixe y est une CONJUGAISON, pas une troncature. Faux positif réel
+ *    attrapé ch.39 EMP-16 : « Je parlerai si je disparais. » (hapax « disparais »,
+ *    préfixe de « disparaissent » ×5) — la gate coupait/refermait en boucle (net
+ *    no-op) et laissait un résidu PERMANENT sur une phrase saine. Classe fermée
+ *    des clitiques = définition GRAMMATICALE, pas liste lexicale (loi maison).
+ *    Trade-off documenté : une vraie troncature juste après clitique sujet
+ *    (« j'aperç ») devient invisible ici — couverte par les détecteurs de
+ *    couture (segments non terminés) et la file AUTHOR_REVIEW ; jamais de
+ *    corruption (on n'AJOUTE rien).
  */
 
 import { err, ok } from '../identity/identity-types.js';
@@ -92,6 +105,15 @@ export function isCorpusTruncatedStem(word: string, vocab: ReadonlyMap<string, n
   return false;
 }
 
+/** NCR-PX2-001 — position grammaticalement licenciée : le mot final est
+ *  directement précédé d'un clitique SUJET (classe fermée = grammaire).
+ *  « si je disparais. » / « quand j'apparais. » ⇒ true ; « de culp. » ⇒ false. */
+export function endsInSubjectLicensedPosition(core: string): boolean {
+  const t = core.replace(/[\s.!?…»:]+$/u, '');
+  return /(?:^|[^\p{L}'’])(?:je|tu|il|elle|on|nous|vous|ils|elles)\s+[\p{L}-]+$/iu.test(t)
+    || /(?:^|[^\p{L}'’])[jt]['’][\p{L}-]+$/iu.test(t);
+}
+
 function lastWordOf(s: string): string {
   const m = s.match(/([\p{L}'’-]+)[^\p{L}]*$/u);
   return m?.[1] ?? '';
@@ -117,7 +139,7 @@ export function isCompleteEnoughForPeriod(core: string, vocab: ReadonlyMap<strin
   if (DEGENERATE_QUOTE_RE.test(t)) return false;
   if (wordCount(t) < 4) return false;
   if (quoteDelta(t) !== 0) return false;
-  if (isCorpusTruncatedStem(lastWordOf(t), vocab)) return false;
+  if (isCorpusTruncatedStem(lastWordOf(t), vocab) && !endsInSubjectLicensedPosition(t)) return false;
   return true;
 }
 
@@ -128,7 +150,16 @@ export function isBookEndComplete(lastBlock: string): boolean {
 }
 
 function sentencesOf(block: string): readonly string[] {
-  return block.split(/(?<=[.!?…»])\s+/u).map((s) => s.trim()).filter((s) => s.length > 0);
+  const parts = block.split(/(?<=[.!?…»])\s+/u).map((s) => s.trim()).filter((s) => s.length > 0);
+  // NCR-PX2-001 (M2) : un « » » nu n'est JAMAIS une phrase — c'est la fermeture
+  // de la précédente. Sans cette fusion, couper « la dernière phrase » coupait
+  // le guillemet fermant seul (cut+reclose = no-op masqué en réparation).
+  const out: string[] = [];
+  for (const p of parts) {
+    if (/^»$/u.test(p) && out.length > 0) out[out.length - 1] = `${out[out.length - 1]} ${p}`;
+    else out.push(p);
+  }
+  return out;
 }
 
 /** Balaye et répare les trous de SENS d'un livre chapitré. Pur, déterministe. */
@@ -147,7 +178,7 @@ export function semanticGate(chapters: readonly SeamChapter[], fullTextForVocab?
         };
         if (DEGENERATE_QUOTE_RE.test(t)) { push('DEGENERATE_QUOTE'); return; }
         if (quoteDelta(t) !== 0) push('UNBALANCED_QUOTE');
-        if (isCorpusTruncatedStem(lastWordOf(t.replace(TERMINATORS, '')), vocab)) push('TRUNCATED_STEM');
+        if (isCorpusTruncatedStem(lastWordOf(t.replace(TERMINATORS, '')), vocab) && !endsInSubjectLicensedPosition(t)) push('TRUNCATED_STEM');
       });
     }
     return findings;
@@ -170,9 +201,10 @@ export function semanticGate(chapters: readonly SeamChapter[], fullTextForVocab?
         return;
       }
 
-      /* — stem tronqué prouvé corpus (« culp. ») : couper la phrase amputée — */
+      /* — stem tronqué prouvé corpus (« culp. ») : couper la phrase amputée —
+       *   sauf position licenciée par clitique sujet (NCR-PX2-001). */
       const lw = lastWordOf(t.replace(TERMINATORS, ''));
-      if (isCorpusTruncatedStem(lw, vocab)) {
+      if (isCorpusTruncatedStem(lw, vocab) && !endsInSubjectLicensedPosition(t)) {
         const sentences = sentencesOf(current);
         const keep = sentences.slice(0, -1).join(' ').trimEnd();
         if (keep.length > 0 && TERMINATORS.test(keep)) {

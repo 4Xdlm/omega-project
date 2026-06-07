@@ -52,6 +52,9 @@ export interface CleanlinessReport {
     readonly spanLocksIntact: number;
     readonly decisionLocksPendingExecution: number;
     readonly unresolvedLocks: number;
+    /** NCR-PX2-001 (M3) : résidus sémantiques couverts par une ancre d'auteur
+     *  scellée (KEEP/MARK_AS_STYLE) — silencés, l'autorité ne se re-questionne pas. */
+    readonly lockSilencedResiduals: number;
   };
 }
 
@@ -168,7 +171,18 @@ export async function buildCanonical(v0: string, opts: BuildCanonicalOptions = {
   const quoteDelta = (text.match(/«/gu) ?? []).length - (text.match(/»/gu) ?? []).length;
 
   const seamResidual = sweep.value.residualFindings.length;
-  const semanticResidual = sem.value.residualFindings.length;
+  /* NCR-PX2-001 (M3) — AUTORITÉ D'AUTEUR : un résidu sémantique dont l'extrait
+   * recouvre une ancre SPAN/STYLE scellée KEEP/MARK_AS_STYLE est SILENCÉ. La
+   * machine a posé la question UNE fois ; le sceau est la réponse — définitive. */
+  const normSeal = (s: string): string => s.normalize('NFC').replace(/\s+/gu, ' ').trim();
+  const sealedSpans = (opts.authorLocks?.activeLocks() ?? [])
+    .filter((d) => d.anchorExcerpt !== null && (d.verdict === 'KEEP' || d.verdict === 'MARK_AS_STYLE'))
+    .map((d) => normSeal(d.anchorExcerpt ?? ''));
+  const lockSilencedResiduals = sem.value.residualFindings.filter((f) => {
+    const e = normSeal(f.excerpt);
+    return sealedSpans.some((a) => a.length > 0 && (e.includes(a) || a.includes(e)));
+  }).length;
+  const semanticResidual = sem.value.residualFindings.length - lockSilencedResiduals;
   const cleanliness: CleanlinessReport = {
     SYNTAX_CLEAN: seamResidual === 0,
     SEAM_CLEAN: seamResidual === 0 && scaffold.value.residual === 0,
@@ -182,6 +196,7 @@ export async function buildCanonical(v0: string, opts: BuildCanonicalOptions = {
       incipitClones, maxTicPer1000w: Number(maxTicPer1000w.toFixed(2)),
       activeLocksTotal, spanLocksIntact, decisionLocksPendingExecution,
       unresolvedLocks: locksBrokenList.length,
+      lockSilencedResiduals,
     },
   };
 

@@ -14,6 +14,7 @@
 import { planBook } from '../book-planner.js';
 import type { BookIntent, BookPlan, ChapterSpec } from '../book-planner.js';
 import { chapterSpecToIntent } from '../chapter-spec-to-intent.js';
+import { readFileSync as rfsEmp16, writeFileSync as wfsEmp16 } from 'node:fs';
 import { buildContextDigest } from '../context-manager.js';
 import { OllamaChapterGenerator } from '../chapter-generator.js';
 import type { GenRequest } from '../chapter-generator.js';
@@ -169,10 +170,16 @@ async function main(): Promise<void> {
   const log = new StoryStateLog();
   const generator = new OllamaChapterGenerator({ model, maxTokens: 900, timeoutMs: 180_000 });
 
+  /* EMP-16 : PLAN_LOCK -> directives runtime (mandat tribunal). */
+  const packsPath = process.env['C7_DIRECTIVE_PACKS'];
+  const emp16Packs: { chapter: number; directive: string }[] = packsPath !== undefined ? (JSON.parse(rfsEmp16(packsPath, 'utf8')) as { packs: { chapter: number; directive: string }[] }).packs : [];
   for (const spec of plan.chapters.slice(0, maxCh)) {
     const { packs, pctx, locks } = chapterDeps(world, log, spec);
     const digest = buildContextDigest(log.project(), spec, plan, book);
-    const base: GenRequest = { intent: chapterSpecToIntent(spec, book), digest, spec };
+    const emp16Pack = emp16Packs.find((p) => p.chapter === spec.index);
+    const digestFinal = emp16Pack !== undefined ? `${digest}\n\n=== PLAN-LOCK EMP-16 (df8d650f) — CONTRAINTES OBLIGATOIRES ===\n${emp16Pack.directive}` : digest;
+    if (spec.index === 1 && emp16Pack !== undefined) wfsEmp16(`${outRoot}/INJECTION_PROOF_CH1.txt`, digestFinal, 'utf8');
+    const base: GenRequest = { intent: chapterSpecToIntent(spec, book), digest: digestFinal, spec };
     const resolution = { chapter: asChapterRef(spec.index) };
     const common = {
       registry: world.registry,

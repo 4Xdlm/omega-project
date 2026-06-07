@@ -1,5 +1,6 @@
 # DEC-20260606-022 — RÉCONCILIATION DES JUGES : oracles-scribe ↔ gates-R6
-**Statut : PROPOSED — décision Architecte requise (option par option). Mandat : tribunal 2/2 (« deux tribunaux parallèles dans la même République » — ADR obligatoire avant toute ligne de code supplémentaire).**
+**Statut : ACCEPTED — OPTION B (2026-06-07). Ratification : Gemini « Le Tribunal exige l''Option B » + ChatGPT (séquence ADR-d''abord, R6=Maître) = convergence 2/2, transmise par l''Architecte (protocole directives convergentes). Option C re-confirmée TOXIQUE (précédent empirique Mode C). Option A rejetée (R6 deviendrait juge de goût — dérive N3).**
+**LOI ACTÉE : le Scribe GÉNÈRE À L''AVEUGLE (BF-07 inchangé) ; la boucle R6 (gates durs + préséance) détient l''AUTORITÉ ABSOLUE d''acceptation — seul VETO. Les oracles scribe = capteurs QUALITÉ advisory au service du REWRITE_DOCTOR via le pont V2 (ProseDoc), refus-local ⇒ no-op sûr. Hiérarchie scellée : VÉRITÉ (R6) > SÛRETÉ (no-op) > CONSEIL (oracles).**
 **Contexte mesuré (AUDIT_SCRIBE_COMPLET, 2026-06-06)** : scribe-engine porte 7 gates + 6 oracles (347 tests, importé par personne) ; la boucle R6 porte ses gates durs G1-G8 + préséance + étage B juges calibrés (prouvés sur 88k). Deux familles de contrôle jugent potentiellement le même texte avec deux lois.
 
 ## ANALYSE PRÉALABLE — ce que chaque famille JUGE réellement (pas le même objet)

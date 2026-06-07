@@ -18,7 +18,7 @@ Arrivée au pied de la tour, elle s'arrête. La porte est entrouverte. Juste une
 
 L'odeur arrive avant qu'elle ne franchisse le seuil. Une odeur lourde, sucrée, métallique. Celle du sang séché, mais aussi celle de la fumée de tabac froid et de la cire de chandelle.
 
-Léna franchit la porte. Elle s'engouffre dans l'escalier en colimaçon, étroit, sombre. Elle monte.
+Léna franchit la porte. Elle s'engouffre dans l'escalier en colimaçon, étroit, sombre.
 
 L'escalier en colimaçon semble ne pas vouloir la laisser passer. Les marches de pierre, usées par des siècles de pas, sont glissantes sous ses bottes, recouvertes d'une fine couche de poussière grasse qui s'accroche à la semelle. Léna s'arrête, le souffle court, ses poumons se remplissant de l'air vicié de l'étroit conduit. Elle ne regarde pas en bas. Regarder en bas, c'est voir le vide, c'est sentir le vertige, c'est accepter que la tour est une grotte verticale, une mâchoire de roche qui l'avale. Elle avance, une main sur le mur de pierre, l'autre tendue devant elle pour chasser l'obscurité qui se dégage du sol.
 
@@ -42,7 +42,7 @@ Au centre de la pièce, face à la fenêtre à barreaux qui donne sur la mer gri
 
 Il est assis dans son fauteuil de cuir noir, le tissu décousu laissant apparaître une mousse jaunie. Sa tête pend sur la poitrine, le menton écrasé contre le col de sa chemise blanche, tachée de noir. Il ne bouge pas. Il est figé dans une position qui n'est pas celle d'un homme endormi. Les mains sont posées sur les accoudoirs, les doigts recourbés comme des serres d'oiseau mort. Léna s'approche lentement. Chaque pas est un calcul. Elle doit savoir. Elle doit comprendre pourquoi ce silence. Pourquoi ce village se tait.
 
-Elle s'arrête à trois mètres du fauteuil. Elle peut voir.
+Elle s'arrête à trois mètres du fauteuil.
 
 ## Chapitre 2
 
@@ -204,8 +204,6 @@ Le silence s'étira, lourd, saturé de l'odeur de la pluie et de la poussière h
 
 « Le gardien, » murmura Gaspard, brisant le silence. « Il a été vu la nuit du meurtre. Pas au phare. À la plage. Près de la cale. »
 
-Léna ouvrit.
-
 Léna ouvrit les yeux. Le plafond de la salle des réunions était une carte de fissures, un réseau de cicatrices anciennes qui semblait bouger à la lueur vacillante des néons. L'odeur de la poussière humide s'était mêlée à celle du café froid, une senteur âcre qui collait au fond de la gorge. Gaspard avait raison. Le gardien n'avait pas été vu au phare. Il avait été vu là où il n'aurait jamais dû aller, à la plage, près de la cale.
 
 « À la cale ? » répéta Yvon Squarcioni, sa voix rauque se perdant dans le bourdonnement électrique. Il se gratta la nuque, laissant une traînée de suie sur sa peau pâle. « C'est une blague. Le gardien ne quitte jamais la tour. Il a les clés, il a les ordres. Il ne descend pas. »
@@ -362,7 +360,7 @@ Léna lut les quelques lignes griffonnées, l'écriture serrée, hachée par une
 
 Léna sentit un frisson glacé parcourir sa colonne vertébrale. Les mots résonnaient dans son esprit, se superposant aux autres bribes d'information qu'elle avait entendues. Le silence n'était pas une protection, c'était un aveu. Et maintenant, le silence avait un nom.
 
-« Qui ? » demanda-t-elle.
+« Qui ? »
 
 « Qui ? » demanda-t-elle, la voix rauque, arrachée par la poussière et la peur.
 
@@ -670,7 +668,7 @@ Léna ferma les yeux. Un frisson la parcourut, visible sous sa veste, une secous
 
 Le silence qui suivit fut plus lourd que le précédent. Il s'installa dans les poumons de chacun, une épaisseur d'air irrespirable. L'inquiétude sourde qui s'était emparée de la pièce se fit tangible, palpable, comme une pression atmosphérique avant l'orage. Garcia sentit le sol vibrer sous ses semelles, une vibration infime qui venait de l'extérieur, peut-être du vent, peut-être de la peur qui se propageait dans les murs mêmes de la maison.
 
-« Je ne le dirai pas », dit Léna d'une voix blanche. Elle ouvrit les yeux, et dans le reflet de ses pupilles dilatées, Garcia vit l'horreur absolue. « Je ne le dirai pas. Si je le dis.
+« Je ne le dirai pas », dit Léna d'une voix blanche. Elle ouvrit les yeux, et dans le reflet de ses pupilles dilatées, Garcia vit l'horreur absolue. « Je ne le dirai pas. Si je le dis. »
 
 ## Chapitre 9
 
@@ -826,7 +824,7 @@ Léna, assise dans le coin de la cuisine, près de la fenêtre, ne bougeait pas.
 
 « Le gardien, » reprit Gaspard, se levant lentement à son tour. Il s'approcha de la table, ses pas lourds résonnant sur le carrelage fissuré. « Il a vu quelque chose. Ou il a su quelque chose. Et maintenant il est mort. Et vous, vous êtes là, à me dire que si on parle, ça recommence. »
 
-« Ça recommence, » répéta Yvon, comme un mantra. Il releva enfin les yeux. Le regard qu'il lança à Garcia n'était pas de la haine. C'était une supplication. Une terreur pure, nue, qui lui arracha la gorge. «.
+« Ça recommence, » répéta Yvon, comme un mantra. Il releva enfin les yeux. Le regard qu'il lança à Garcia n'était pas de la haine. C'était une supplication. Une terreur pure, nue, qui lui arracha la gorge.
 
 Le silence qui suivit les mots d'Yvon n'était pas un vide. C'était une pression. Une masse invisible qui s'était abattue sur la table de chêne, sur les verres d'eau à moitié pleins, sur la poussière qui dansait faiblement dans le faisceau de lumière du plafonnier. Garcia sentit cette pression monter dans sa propre poitrine, une respiration qui se bloquait au milieu de l'inspiration, transformant chaque seconde en une éternité d'attente. Il regarda Yvon. L'homme tremblait, non pas de froid, mais d'une vibration interne si violente que ses mains posées sur la table semblaient flotter au-dessus du bois, incapables de se stabiliser.
 
@@ -847,8 +845,6 @@ Léna, assise dans l'angle de la pièce, remua. Elle avait gardé le châle serr
 Gaspard, qui s'était tenu debout près de la fenêtre, se retourna brusquement. Son visage était dur, fermé. Il détestait qu'on touche à ce sujet, mais il ne l'arrêta pas. Il savait que la vérité, quand elle venait, ne demandait pas permission.
 
 « Quel homme ? » insista Garcia. Il sentait l'air se raréfier dans la cuisine. Chaque mot était une goutte de glace qui tombait dans l'eau tiède de la pièce. « Léna, dites-moi. Qui a tué le gardien ? »
-
-«.
 
 ## Chapitre 11
 
@@ -958,8 +954,6 @@ Squarcioni serra les lèvres. Ses yeux, autrefois clairs, semblaient voilés par
 
 — Elle a vu une voiture, insista Garcia. Une vieille 4x4, noire, sans plaque. Elle l'a vue garée derrière la maison du gardien.
 
-Le visage.
-
 Le visage de Squarcioni se ferma, non pas en un rictus de colère, mais comme une porte blindée qu'on verrouille de l'intérieur. Il recula d'un demi-pas, ses épaules larges se tendant sous la chemise de lin froissée. La lumière du couloir, pâle et diffuse, ne suffisait plus à éclairer les recoins de son regard. L'odeur de la mer, celle du sel et de la vase, semblait avoir disparu, remplacée par une puanteur âcre, celle de la peur contenue qui s'échappait de la peau de l'homme.
 
 — Vous ne savez pas de quoi vous parlez, Garcia, murmura Squarcioni. Sa voix était basse, raillée par une fatigue qui semblait venir des os. Léna est une enfant. Les enfants voient des ombres là où il n'y a que du vent. Ils inventent des histoires pour combler le silence.
@@ -1012,8 +1006,7 @@ Il tendit le verre. Garcia ne le prit pas tout de suite. Il observa la main de S
 Squarcioni rit, un rire sec, sans joie.
 — Le village ne s'effondre pas, Garcia. Il pourrit. De l'intérieur. Regarde-moi. Regarde autour de toi. Nous sommes tous complices. Nous avons tous fermé les yeux sur le gardien. Nous avons tous entendu ses cris. Mais nous n'avons rien fait. Et c'est pour ça qu'on ne peut pas parler. Parce que si on parle, on reconnaît que nous sommes tous coupables.
 
-Garcia saisit enfin le verre, le portant à ses lèvres. L'eau était glacée, mordante. Il la fit circuler dans sa bouche avant de l'avaler.
-— Tu parles de culp.
+Garcia saisit enfin le verre, le portant à ses lèvres. L'eau était glacée.
 
 ## Chapitre 13
 
@@ -1105,7 +1098,7 @@ Garcia s'accroupit, les articulations craquant. Il sortit son téléphone, allum
 
 Il se releva, le cœur battant à un rythme qui ne correspondait plus au silence de la maison. Il monta l'escalier, chaque marche gémissant sous son poids. L'étage était plongé dans le noir. Il s'arrêta devant la chambre de Léna. La porte était entrouverte. Il poussa, le bois grinçant, et entra.
 
-La pièce était un chaos ordonné. Les draps du lit étaient renversés, les oreillers éparpillés sur le sol. Les tiroirs de la commode étaient vides. Mais ce qui frappa Garcia, ce ne fut pas le désordre. Ce fut la présence de l'odeur. Une odeur de fumée de bois mort, celle qu'il avait sentie en sortant de chez Squarcioni, mais ici, elle était plus intense, plus âcre. Elle.
+La pièce était un chaos ordonné. Les draps du lit étaient renversés, les oreillers éparpillés sur le sol. Les tiroirs de la commode étaient vides. Mais ce qui frappa Garcia, ce ne fut pas le désordre. Ce fut la présence de l'odeur. Une odeur de fumée de bois mort, celle qu'il avait sentie en sortant de chez Squarcioni, mais ici, elle était plus intense, plus âcre.
 
 ## Chapitre 14
 
@@ -1140,8 +1133,6 @@ Garcia se leva à son tour, rejetant sa chaise avec un frottement métallique su
 Gaspard sentit une goutte de sueur froide couler le long de sa tempe. Il regarda son interlocuteur, les yeux brillants d'une intensité qui le gênait. Garcia ne croyait pas à l'innocence de personne. Pour lui, chaque silence était un mensonge, chaque regard fuyant un aveu.
 
 « Je vais retourner à Ker-Morvan, » dit Gaspard. « Je vais voir cette femme. Si elle sait quelque chose, elle le dira. »
-
-« Elle ne le dira pas.
 
 La porte du bureau de Garcia claqua, une secousse sèche qui fit trembler les dossiers empilés sur l'établi. Gaspard repoussa le battant et sortit dans la nuit. L'air de la rade, habituellement saturé de sel et de varech, avait pris une consistance visqueuse, une brume froide qui collait à la peau comme une seconde peau humide. Il ne regarda pas les étoiles, absentes derrière le manteau nuageux. Il marchait. Ses bottes s'enfonçaient dans le gravier du quai, le bruit de la semelle sur les pierres brutes était le seul rythme, un métronome régulier qui ne servait qu'à compter les secondes avant l'irréparable.
 
@@ -1189,7 +1180,7 @@ La pluie ne tombait pas, elle collait. Une bruine fine, froide, qui transformait
 
 L'intérieur du bar était chaud, saturé de fumée de cigarette et du bourdonnement d'une télévision en sourdine. Yvon Squarcioni était assis à son comptoir habituel, près de la fenêtre. Il tournait son verre de pastis, l'alcool jaune pâle se délayant lentement dans l'eau. Il ne leva pas les yeux quand Garcia s'approcha.
 
-« On m'a dit que vous aviez des comptes à régler avec le gardien », dit Garcia. Sa voix était basse, sans emphase, pour ne pas attirer l'attention des autres clients qui regardaient leur propre verre ou la télé.
+« On m'a dit que vous aviez des comptes à régler avec le gardien », dit Garcia.
 
 Squarcioni posa son verre. Le bruit de la céramique contre la table résonna comme un coup de feu dans le silence relatif du lieu. Il tourna lentement la tête. Ses yeux étaient rouges, cernés par une fatigue qui semblait avoir durci sa peau.
 
@@ -1233,7 +1224,7 @@ La rue était déserte. La pluie avait cessé, laissant derrière elle une humid
 
 Il arriva à l'entrée du port. Les navires étaient amarrés, immobiles comme des carcasses de métal. L'odeur de l'eau stagnante et de la houille était plus forte ici. Il s'arrêta, regardant les eaux noires. Qui était le gardien ? Un vieil homme qui surveillait les bateaux, qui comptait les heures. Et pourquoi cette femme, cette Léna, avait-elle besoin de le tuer ?
 
-Il se redressa, ses yeux plissés dans la pénombre. Il repensa aux yeux de Squarcioni, ceux qui fuyaient, ceux qui cherchaient une issue. Le vieux homme n'était pas un complice, il était un témoin effrayé. Et Garcia.
+Il se redressa, ses yeux plissés dans la pénombre. Il repensa aux yeux de Squarcioni, ceux qui fuyaient, ceux qui cherchaient une issue. Le vieux homme n'était pas un complice, il était un témoin effrayé.
 
 Garcia ne finit pas sa phrase. Il n'avait pas besoin de la prononcer pour que la vérité se dessine dans l'air salin et lourd du port. La peur de Squarcioni n'était pas celle d'un homme qui a quelque chose à cacher, mais celle d'un témoin qui a vu l'insoutenable. Le gardien, ce vieil homme aux yeux clairs qui surveillait l'horizon depuis des décennies, n'avait pas été tué pour un vol. Il avait été éliminé parce qu'il avait vu le moment exact où la vie basculait, là où la loi du silence s'imposait plus fort que celle de l'État.
 
@@ -1252,8 +1243,6 @@ Gaspard fit un pas vers lui, s'arrêtant à quelques mètres. La distance était
 « Le gardien n'était pas un rêveur, » répliqua Garcia, sa voix plus dure maintenant. Il sentait le goût du sel et de la peur dans sa gorge. « C'était un témoin. Squarcioni le savait. C'est pourquoi il a fui. Il a vu qui a donné l'ordre. »
 
 Gaspard ne répondit pas tout de suite. Il regarda les eaux noires, comme si le corps du gardien y flottait encore, ou peut-être comme s'il cherchait une réponse dans la profondeur de l'eau. « Squarcioni ne fuyait pas, Garcia. Il protégeait. Il savait que si le gardien parlait, tout le village s'effondrerait. Il a essayé de le faire taire, mais il a échoué. »
-
-« Qui l'a fait taire.
 
 ## Chapitre 16
 
@@ -1287,7 +1276,7 @@ Garcia se leva. « Je dois y aller. »
 
 « Attendez, » dit Yvon. « Il y a autre chose. Quelqu'un a laissé une trace. Une trace qui ne devrait pas être là. »
 
-Il se leva à son tour et ouvrit un tiroir de la table. Il en sortit un petit objet en plastique, une capsule de médicament, vide. « Une boîte de valium. Ou quelque chose de similaire. Une boîte que je n'ai pas. Je ne prends pas de somnifères, Garcia.
+Il se leva à son tour et ouvrit un tiroir de la table. Il en sortit un petit objet en plastique, une capsule de médicament, vide. « Une boîte de valium. Ou quelque chose de similaire. Une boîte que je n'ai pas. Je ne prends pas de somnifères, Garcia. »
 
 Garcia fixa l'objet posé sur la table en bois brut. La capsule de plastique blanc, translucide, semblait insignifiante dans la main de Yvon, mais elle pesait lourd dans le silence de la pièce. L'air était saturé de l'odeur âcre du sel et de la vieille graisse, mais ce détail chimique, ce résidu de laboratoire, coupait l'atmosphère comme une lame froide.
 
@@ -1676,8 +1665,6 @@ Garcia sentit un frisson lui parcourir l'échine. Il avait ouvert un dossier, ma
 
 « Parce que le gardien, il n'était pas seul, la nuit où il est mort. Il y a eu une lumière sous l'eau. Une lumière bleue, artificielle. » Squarcioni s'approcha de Garcia, l'envahissant de son odeur de vieux cuir et de tabac froid. « Et puis, il y a eu du bruit. Pas le bruit de la mer. Un bruit de métal qui grince. Comme un hélice qui tourne en l'air. »
 
-Garcia recula.
-
 Garcia recula, le talon de sa botte heurtant le rebord de pierre froide de la fenêtre. La lumière bleue. Le bruit du métal. Les mots d'Yvon Squarcioni flottèrent dans l'air vicié de la salle, plus lourds que la brume qui collait aux vitres. Il n'avait pas besoin de voir le regard du vieil homme pour sentir la pression s'installer. Squarcioni ne racontait pas des histoires. Il ne vendait pas des souvenirs de marin pour distraire un enquêteur. Il tentait de lui ouvrir une porte qui n'aurait jamais dû être déverrouillée.
 
 « Un bruit de métal qui grince, répéta Garcia, la voix basse, tentant de garder le contrôle de sa propre respiration. Vous dites qu'il y a eu une hélice qui tourne en l'air ? »
@@ -1728,7 +1715,7 @@ Garcia sentit un frisson lui parcourir l'échine. La description correspondait e
 
 « Pourquoi le village a-t-il couvert ça ? » demanda Garcia, la voix tendue. « Pourquoi personne n'a jamais parlé de ces deux disparus ? »
 
-« Parce que la mer ne pardonne pas.
+« Parce que la mer ne pardonne pas. »
 
 ## Chapitre 21
 
@@ -1762,9 +1749,9 @@ Le nom de la femme fit tressaillir Garcia. Léna Marchetti. La sœur du gardien.
 
 « Léna ? » répéta Garcia.
 
-« Elle est là. En bas. » Yvon désigna la porte d'entrée de la maison. « Elle a refusé de partir.
+« Elle est là. En bas. » Yvon désigna la porte d'entrée de la maison. « Elle a refusé de partir. »
 
-Elle dit qu'elle a vu quelqu'un grimper la falace avant l'aube. Quelqu'un qui ne ressemblait à personne du village. » La voix de Yvon s'éteint dans un souffle rauque, comme si les mots lui brûlaient la gorge. Garcia ne bouge pas. La sueur qui coule le long de sa colonne vertébrale se mêle à la poussière de la pièce, une humidité collante qui s'insinue dans les plis de sa chemise. L'air est lourd, saturé de l'odeur de café froid et de renfermé qui émane des meubles usés. Dehors, le vent se lève, fouettant les vitres de la maisonnette avec une régularité mécanique, comme un métronome qui marque le temps qui s'écoule et qui ne reviendra plus.
+Elle dit qu'elle a vu quelqu'un grimper la falace avant l'aube. Quelqu'un qui ne ressemblait à personne du village. La voix de Yvon s'éteint dans un souffle rauque, comme si les mots lui brûlaient la gorge. Garcia ne bouge pas. La sueur qui coule le long de sa colonne vertébrale se mêle à la poussière de la pièce, une humidité collante qui s'insinue dans les plis de sa chemise. L'air est lourd, saturé de l'odeur de café froid et de renfermé qui émane des meubles usés. Dehors, le vent se lève, fouettant les vitres de la maisonnette avec une régularité mécanique, comme un métronome qui marque le temps qui s'écoule et qui ne reviendra plus.
 
 « Elle est là ? » demande Garcia, la voix plus basse qu'il ne l'aurait voulu.
 
@@ -1896,7 +1883,7 @@ Garcia se lève à son tour. Il fait les cent pas, le bruit de ses pas sur le ca
 
 — Et si Yvon a vu le gardien, continue Garcia, se forçant à suivre la logique du soupçon. Et si Yvon a vu le gardien parler à quelqu'un. Quelqu'un qui n'était pas un habitant. Quelqu'un qui a disparu avant même que le gardien ne tombe.
 
-Léna essuie ses mains sur son tablier, les posant à plat sur le bord de l'évier. Elle tourne la tête vers Garcia, et dans la lueur vacillante de la bougie, ses traits semblent s'être durcis.
+Léna essuie ses mains sur son tablier, les posant à plat sur le bord de l'évier.
 
 — C'est ça, dit-elle. Le gardien n'était pas seul. Il a parlé. Il a discuté. Et puis, il y a eu ce manteau sombre. Mais ce manteau... il n'avait pas l'allure d'un passant. Il n'avait pas l'allure d'un voleur. Il avait l'allure d'un professionnel. Quelqu'un qui sait comment faire taire un homme sans laisser de trace.
 
@@ -1908,7 +1895,7 @@ Garcia se fige. Le mot « professionnel » résonne dans la pièce, plus net que
 
 Garcia reprend son rythme de marche, plus rapide, plus nerveux. Il s'arrête devant la porte de la chambre de Yvon. Il pose sa main sur le bois, sentant la vibration des planches, le silence qui règne derrière la porte.
 
-— Pourquoi Yvon n'a-t-il rien dit ? demande-t-il à nouveau, mais cette fois, la question porte un autre poids. Pourquoi a-t-il laissé les rumeurs circuler ? Pourquoi.
+— Pourquoi Yvon n'a-t-il rien dit ? demande-t-il à nouveau, mais cette fois, la question porte un autre poids. Pourquoi a-t-il laissé les rumeurs circuler ?
 
 ## Chapitre 23
 
@@ -2253,7 +2240,7 @@ Garcia reporta son attention sur Léna. « Pourquoi il a fallu que tu lui demand
 
 La jeune femme baissa la tête, ses cheveux noirs lui cachant le visage. « Pour payer le loyer. La maison est à moi, mais le notaire dit que je dois régler les dettes avant de pouvoir vendre. Il dit que le gardien, ce vieil homme, avait fait des avances. »
 
-« Des avances ? » Garcia fit un pas vers elle. L'air entre eux devint plus épais, chargé d'une accusation non formulée. « Le gardien, c'est l'homme qui a été tué. L'homme qu'on a retrouvé dans le soubassement.
+« Des avances ? » Garcia fit un pas vers elle. L'air entre eux devint plus épais, chargé d'une accusation non formulée. « Le gardien, c'est l'homme qui a été tué. L'homme qu'on a retrouvé dans le soubassement. »
 
 L'air entre eux devint plus épais, chargé d'une accusation non formulée. Le gardien, c'est l'homme qui a été tué. L'homme qu'on a retrouvé dans le soubassement. Garcia n'attendit pas que la phrase s'achève pour voir la réaction de Léna. Elle ne sursauta pas. Elle ne leva pas les yeux. Elle resta figée, les mains crispées sur le bord de la table en bois brut, les jointures blanchies par la pression.
 
@@ -2303,7 +2290,7 @@ Garcia se leva brusquement, la chaise gratta le sol avec un cri strident. Il fit
 
 « Vous mentez, » dit-il simplement. Pas avec colère, mais avec une certitude absolue. « Vous avez vu quelque chose. Vous avez vu l'assassin. Et vous avez eu peur de ce que vous alliez voir si vous restiez. »
 
-« Non ! » s'écria Léna, se levant à son tour. Sa voix porta, brisant le mutisme de la pièce. « Je n'ai rien vu de plus ! J'ai entendu un bruit.
+« Non ! » s'écria Léna, se levant à son tour. Sa voix porta, brisant le mutisme de la pièce. « Je n'ai rien vu de plus ! J'ai entendu un bruit. »
 
 ## Chapitre 27
 
@@ -2875,8 +2862,6 @@ Garcia s'approcha à son tour. Il vit la serrure, une vieille serrure à cylindr
 
 Il tendit la main vers la serrure, mais Garcia la lui arracha des mains.
 
-— Non, dit-il ferm.
-
 ## Chapitre 32
 
 La pluie ne tombait pas, elle s'acharnait contre la vitre de la cuisine de Ker-Morvan. Un bruit sec, répétitif, comme si des centaines de petits marteaux frappaient le verre pour pénétrer à l'intérieur. Léna Marchetti ne bougeait pas. Elle tenait une tasse de café froid dans ses deux mains, les jointures blanches, observant l'horizon gris où la mer se fondait dans le ciel. L'odeur du café rance se mêlait à celle de la terre mouillée qui s'infiltrait par les joints de la porte-fenêtre.
@@ -2924,8 +2909,6 @@ Yvon Squarcioni. Le nom tomba comme une sentence. Le vieux pêcheur, le voisin d
 — Je ne dis pas qu'il est le tueur, dit Garcia. Je dis que son nom est sur le carnet. Et que Gaspard a disparu.
 
 — Disparu ?
-
-— Il est parti.
 
 Le vent s'est engouffré dans la pièce, faisant claquer la vitre fissurée du carter. L'air froid a chassé la chaleur moite des odeurs de mort, mais n'a pas effacé la nausée qui tordait les entrailles de Léna. Elle s'est saisie du dossier, le carton rugueux lui coupant les phalanges, et l'a posé sur la table en bois verni. Le nom « Pour Yvon » s'y découpait, écrit à l'encre noire, légèrement effacée par le sel.
 
@@ -3055,7 +3038,7 @@ Le nom resta suspendu dans l'air, lourd de sens. Garcia sentit un frisson parcou
 
 Squarcioni éclata de rire, un rire nerveux qui résonna contre les murs de pierre. « Ah, la belle histoire ! Vous, le vieil homme qui passe ses nuits à écouter le vent, vous accusez maintenant un gendarme que tout le monde aime ? Le village entier a voté pour Dubois. Il est le garant de l'ordre, Garcia. Si vous partez sur cette piste, vous vous ferez écharper. »
 
-« Je ne pars pas sur une piste, Squarcioni, » dit Garcia, la voix dure. « Je pars sur un fait. Un fait que vous ne semblez pas vouloir entendre. » Il se tourna vers Gaspard. « Où étiez-vous exactement.
+« Je ne pars pas sur une piste, Squarcioni, » dit Garcia, la voix dure. « Je pars sur un fait. Un fait que vous ne semblez pas vouloir entendre. » Il se tourna vers Gaspard. « Où étiez-vous exactement. »
 
 « Où étiez-vous exactement, la nuit du meurtre ? » La question de Garcia ne flottait pas, elle s'écrasait sur le sol de terre battue, lourd de silence. Le vent, tout à l'heure, semblait s'être retiré de la baie pour laisser place à une pression atmosphérique suffocante. L'air sentait la pierre mouillée et le sel rance qui imprégnait les murs de la maison du vieux gardien.
 
@@ -3077,7 +3060,7 @@ La tension dans la pièce devint palpable, une corde de piano tendue à l'extrê
 
 « Parce que le gardien n'a pas été tué par un inconnu qui se promenait dans la nuit, » dit Garcia, faisant un pas vers Squarcioni. Le gendarme ne bougea pas, mais son regard se durcit, devenant de glace. « Il a été tué par quelqu'un qui connaissait le plan du phare. Quelqu'un qui savait que le gardien sortirait vérifier la lumière à cette heure précise. Quelqu'un qui savait que le vent se lèverait à ce moment-là. »
 
-« C'est de la spéculation, » gronda Squarcioni. Il fit un pas vers Garcia, le visage rouge de colère contenue. « Vous êtes un étranger.
+« C'est de la spéculation, » gronda Squarcioni. Il fit un pas vers Garcia, le visage rouge de colère contenue. « Vous êtes un étranger. »
 
 ## Chapitre 34
 
@@ -3270,7 +3253,7 @@ Garcia ferme les yeux un instant. Il voit la scène se reconstituer, non pas dan
 
 — Et l'ombre ? demande-t-il, les yeux toujours fermés.
 
-— L'ombre n'était pas de l'ombre, dit Yvon. C'était... c'était comme si la lumière elle-même s'était figée. Une tache noire.
+— L'ombre n'était pas de l'ombre, dit Yvon. C'était... c'était comme si la lumière elle-même s'était figée.
 
 ## Chapitre 36
 
@@ -3334,7 +3317,7 @@ Ils arrivèrent devant la maison d'Yvon Squarcioni. Elle semblait plus petite, p
 
 Garcia s'arrêta, levant une main pour arrêter les deux autres. Il écouta. Rien. Pas de gémissements, pas de cris. Juste le vent qui sifflait à travers les fentes du bardage. Il fit signe à Gaspard de rester en arrière, puis poussa la porte d'un coup de pied sec.
 
-L'intérieur sentait l'humidité et le tabac froid. La lumière vacillante provenait d'une seule bougie posée sur la table basse. Yvon.
+L'intérieur sentait l'humidité et le tabac froid. La lumière vacillante provenait d'une seule bougie posée sur la table basse.
 
 Yvon Squarcioni n'était pas mort. C'était une certitude qui pesait dans l'air plus lourd que l'odeur de renfermé et de moisi. Il gisait sur le côté, enroulé sur lui-même comme un fœtus dans un berceau de paille et de poussière, le visage tourné vers le mur. Le seul mouvement de sa poitrine, un soulèvement à peine perceptible, trahissait qu'il vivait encore. La bougie sur la table basse projetait des ombres qui dansaient sur les murs décrépis, déformant les objets de la pièce en monstres silencieux.
 
@@ -3448,7 +3431,7 @@ La tension dans la pièce devint palpable, presque physique, une pression qui é
 
 « Qui a pu faire ça ? demanda Garcia, la voix plus basse, plus tendue. Un pirate ? Un touriste égaré ? »
 
-Squarcioni secoua la tête lentement, un mouvement de déni profond. « Non. Personne d'extérieur ne monte là-haut sans qu'on le sache. Les routes sont coupées par les marées, les sentiers sont glissants. Et puis, il y a la grille. Elle est verrouillée, le cadenas est neuf. Ou était neuf. » Il s'arrêta, cherchant ses mots dans le brouillard de sa mémoire. « Le jour où Jean-Paul est mort.
+Squarcioni secoua la tête lentement, un mouvement de déni profond. « Non. Personne d'extérieur ne monte là-haut sans qu'on le sache. Les routes sont coupées par les marées, les sentiers sont glissants. Et puis, il y a la grille. Elle est verrouillée, le cadenas est neuf. Ou était neuf. » Il s'arrêta, cherchant ses mots dans le brouillard de sa mémoire. « Le jour où Jean-Paul est mort. »
 
 ## Chapitre 38
 
@@ -3603,7 +3586,7 @@ Dans cette obscurité, la lanterne devient un gouffre. Garcia tend les bras, pal
 Il attend.
 Un éclair de lumière traverse la pièce. Les ombres dansent sur les murs, déformées, monstrueuses.
 Un silence.
-Garcia plonge la main dans le creux de l'ombre, là où la lentille s'arrête brièvement. Ses doigts effleurent quelque chose de dur, de métallique, caché dans la paroi de fonte. Un petit loquet, rouillé par le sel. Il appuie.
+Garcia plonge la main dans le creux de l'ombre, là où la lentille s'arrête brièvement. Ses doigts effleurent quelque chose de dur, de métallique, caché dans la paroi de fonte. Un petit loquet, rouillé par le sel.
 
 ## Chapitre 40
 
@@ -3637,7 +3620,7 @@ Le silence retombe, plus lourd que le vent dehors. Il est une chape de plomb.
 
 Gaspard recule d'un pas, se cognant à la table. Ses yeux s'agrandissent, la peur le saisissant soudain, pure et glaciale. « Tu veux dire que... ? »
 
-« Je veux dire que le gardien ne voulait plus se taire.
+« Je veux dire que le gardien ne voulait plus se taire. »
 
 Il a voulu rendre la lettre publique. Il l'a cachée dans le creux de la cheminée, là où la braise ne mord plus, où la cendre ne brûle plus. Garcia termine sa phrase, la voix rauque, coupée par la tension qui traverse la pièce comme une lame froide.
 
@@ -3987,7 +3970,7 @@ Léna Marchetti fait un pas en arrière, ses mains pressées contre sa poitrine.
 
 Gaspard secoue la tête. « Je ne comprends pas. »
 
-« Tu comprends », dit Garcia. Il s'agenouille près du corps. Il prend.
+« Tu comprends », dit Garcia. Il s'agenouille près du corps.
 
 Garcia tire le tissu de la chemise du mort. Sous la laine grise, la peau est cendreuse, marquée par le sel et l'humidité tenace de la crique. Mais ce n'est pas la blessure à la tempe qui arrête le souffle. C'est le poignet gauche, exposé au grand air, que Garcia saisit avec une dureté qui fait craquer les jointures. Il retourne la main.
 
@@ -4053,7 +4036,7 @@ Gaspard ferme les yeux. Les mots résonnent dans son crâne, s'accumulant, se su
 
 « Je ne me souviens de rien », murmure Gaspard, la voix brisée.
 
-« Tu ne veux pas te souvenir », corrige Yvon. « Parce que si tu te souviens, tu dois assumer. Et tu as choisi d'oublier. Tu as choisi de devenir le maire, de devenir le protecteur du village.
+« Tu ne veux pas te souvenir », corrige Yvon. « Parce que si tu te souviens, tu dois assumer. Et tu as choisi d'oublier. Tu as choisi de devenir le maire, de devenir le protecteur du village. »
 
 ## Chapitre 45
 
@@ -4183,7 +4166,7 @@ Gaspard sursauta, faisant tomber son mégot sur le gravier. Il l'écrasa du talo
 
 Garcia sentit son cœur battre contre ses côtes comme un oiseau en cage. C'était le moment. L'indice était là, sous leurs yeux, mais personne ne le voyait encore. Il fallait le faire éclater. Il sortit de sa poche un petit objet métallique, une pièce de monnaie usée, une pièce de cinq francs, trouvée dans la poche du gardien, coincée entre deux couches de boue et de sang. Il la posa sur la table. Elle tint bon, lourde et froide.
 
-« Il y a une marque », dit Garcia. « Sur la pièce. Une rayure. Pas une rayure de rouille. Une rayure de métal. » Il pointa du doigt le petit sillon fin qui coupait le profil de la pièce. « C'est une rayure de couteau. Spécifique. Celle d'un couteau de marin, avec un manche en os de baleine.
+« Il y a une marque », dit Garcia. « Sur la pièce. Une rayure. Pas une rayure de rouille. Une rayure de métal. » Il pointa du doigt le petit sillon fin qui coupait le profil de la pièce. « C'est une rayure de couteau. Spécifique. Celle d'un couteau de marin, avec un manche en os de baleine. »
 
 Le silence qui suivit les mots de Garcia n'était pas une absence de bruit, mais une pression physique, un mur d'air vicié qui s'abattit sur la table en chêne. La pièce de cinq francs gisait là, une tache sombre dans la lumière crue de la lampe à huile. Elle ne brillait pas ; elle absorbait la clarté, comme si le métal avait lui-même pris le deuil du gardien.
 
@@ -4243,8 +4226,6 @@ Gaspard hocha la tête, un mouvement lent et saccadé.
 
 Yvon Squarcioni ricana, un son sec et dur.
 
-— Vous croyez vraiment.
-
 ## Chapitre 47
 
 La pluie ne tombait plus, elle s'accrochait aux vitres du bureau de Léna comme une pluie de petits cailloux invisibles. Dehors, la nuit de Ker-Morvan était une masse compacte, noire, étouffante. À l'intérieur, l'air sentait le thé froid et la poussière de papier ancien. Léna Marchetti était assise derrière son bureau, les doigts crispés sur un dossier qu'elle n'osait plus ouvrir. Elle sentait le poids du silence qui s'étalait sur le village, un silence lourd comme une couverture de plomb. Ce n'était pas le silence de la quiétude, mais celui de la peur figée.
@@ -4293,7 +4274,7 @@ Léna lut la note. *Le naufrage est un leurre. La cargaison est intacte. Elle do
 
 Gaspard se redressa brusquement. « Le gardien a tué son fils ? »
 
-« Non, » répliqua Garcia immédiatement. « Le gardien a découvert que le fils de Squarcioni, celui qui est mort dans le naufrage, n'était pas mort.
+« Non, » répliqua Garcia immédiatement. « Le gardien a découvert que le fils de Squarcioni, celui qui est mort dans le naufrage, n'était pas mort. »
 
 Gaspard se redressa brusquement, son fauteuil grincant sur le plancher usé de la cuisine. « Le gardien a tué son fils ? »
 
@@ -4317,7 +4298,7 @@ Le nom de Squarcioni traîna dans l'air, lourd comme un linceul. Yvon Squarcioni
 
 Garcia s'arrêta net. La tension dans la pièce devint palpable, une corde tendue sur le point de casser. Gaspard poussa un soupir, un mélange de colère et de résignation. « Tu veux dire que le vieux Squarcioni a tué son propre fils pour qu'il puisse continuer à vivre sous une fausse identité ? Pour protéger le secret de la cargaison ? »
 
-« Non, » corrigea Garcia, secouant la tête avec une lenteur calculée. « Le vrai fils n'est pas mort. Il a tué le gardien. Il a tué celui qui savait qu'il était vivant, et qui menaçait de révé.
+« Non, » corrigea Garcia, secouant la tête avec une lenteur calculée. « Le vrai fils n'est pas mort. Il a tué le gardien. Il a tué celui qui savait qu'il était vivant. »
 
 ## Chapitre 48
 
@@ -4329,13 +4310,13 @@ Yvon Squarcioni se tenait derrière Gaspard. Le maire ne bougeait pas. Il tenait
 
 Garcia fit un pas en avant, le parquet grinçant sous ses chaussures. Le son résonna comme un coup de feu dans le silence. Les têtes tournèrent lentement. Ce n'était pas un mouvement collectif, mais une série de micro-mouvements, des yeux qui se détournèrent, des épaules qui se haussèrent. Le mécanisme de la peur était en marche. Personne ne regardait le gardien, personne ne parlait de sa mort, mais tout le monde savait que le corps était là, quelque part dans le village, et que le secret qui l'avait tué était plus grand que la mort elle-même.
 
-« Il faut qu'on parle, dit Garcia. La voix était rauque, cassée par la poussière de la route. Le gardien est mort. Personne ne l'a vu. Personne ne l'a entendu. Et maintenant, vous vous taisez tous.
+« Il faut qu'on parle, dit Garcia. La voix était rauque, cassée par la poussière de la route. Le gardien est mort. Personne ne l'a vu. Personne ne l'a entendu. Et maintenant, vous vous taisez tous. »
 
 — Nous nous taisons parce que le silence est le seul vêtement qui nous reste, » répondit une voix faible. C'était Léna Marchetti. Elle était entrée par la porte latérale sans que personne ne l'entendre. Elle portait une robe de laine grise, trop large pour elle, qui lui donnait l'air d'un enfant perdu. Elle s'approcha de la table, ses pas feutrés sur le sol. Elle posa une main sur l'épaule de Gaspard, un geste qui ne réconfortait pas, mais qui ancrait la réalité de la mort. « Le gardien ne voulait pas parler. Nous ne voulons pas écouter.
 
 — Et pourquoi ? » demanda Garcia, se penchant vers elle. L'odeur de la pluie sur son manteau se mêlait à celle de la laine mouillée de la femme. « Pourquoi le village entier s'est-il mué en une seule bouche fermée ?
 
-— Parce que la vérité est un couteau, » dit Léna.
+— Parce que la vérité est un couteau, dit Léna.
 
 « Et personne ne veut se couper les mains pour le tenir. »
 
@@ -4413,7 +4394,7 @@ Yvon lâche le verre. L'eau se répand sur le plan de travail, formant une flaqu
 
 — Pourquoi ? demande Gaspard. La question est lancée comme un projectile. Pourquoi le village se tait-il ? Qui a tué le gardien ?
 
-Le silence qui suit est plus lourd que le vent dehors. Garcia secoue la tête, un geste lent, presque imperceptible. Gaspard.
+Le silence qui suit est plus lourd que le vent dehors. Garcia secoue la tête, un geste lent, presque imperceptible.
 
 Gaspard ne reçoit pas le silence. Il le déchire. Sa voix, habituellement posée, se brise sur les dernières syllabes du nom du gardien, transformant la question en une accusation brute. L'air dans la cuisine de Ker-Morvan devient subitement impossible à respirer, chargé d'humidité et de la peur froide qui s'infiltre dans les poumons.
 
@@ -4496,7 +4477,7 @@ Le silence qui suivit fut plus lourd que le bruit du vent. Gaspard baissa la tê
 
 « Et vous ne l'avez pas signalé ? » demanda Garcia.
 
-« Je n'ai rien signalé, répondit Yvon avec un rire sec, dénué de joie. Parce que je savais que si je le faisais, ça ne servirait à rien. Le village se tait.
+« Je n'ai rien signalé, répondit Yvon avec un rire sec, dénué de joie. Parce que je savais que si je le faisais, ça ne servirait à rien. Le village se tait. »
 
 « …Ce n'est pas par peur de la police. C'est par peur de ce qui se passe dans les têtes des autres. »
 
@@ -4540,4 +4521,4 @@ Yvon se retourna lentement. Un rictus amer étira ses lèvres, sans atteindre se
 
 Garcia sentit le sang se retirer de son visage. Le phare. La légende. Les mots résonnaient dans sa tête comme des éclats de verre. Il se souvint des rapports de police, des enquêtes bâclées, de cette affaire classée sans suite. « De quoi tu parles exactement ? » demanda-t-il, la voix tendue par une anxiété qui se transformait en rage froide.
 
-« Du naufrage », dit Yvon simplement. « Le navire de marchandises.
+« Du naufrage », dit Yvon simplement. « Le navire de marchandises. »

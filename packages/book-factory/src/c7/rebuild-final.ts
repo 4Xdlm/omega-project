@@ -19,6 +19,7 @@ import { importManuscript } from '../doctor/manuscript-import.js';
 import { scanSentencePhysics } from '../coherence/sentence-physics.js';
 import { seamSweep } from '../doctor/seam-sweep.js';
 import { stripScaffold } from '../doctor/scaffold-guard.js';
+import { semanticGate, buildBookVocabulary, isBookEndComplete } from '../doctor/semantic-gate.js';
 
 const RUN = process.env['FINAL_RUN'] ?? 'runs/c8_book60k';
 const KNOWN = ['Léna', 'Garcia', 'Gaspard', 'Yvon', 'Henri', 'Ker-Morvan'];
@@ -89,10 +90,12 @@ async function main(): Promise<void> {
    *    chaque réparation dans un CSV avant/après, et exige un RE-SCAN à zéro. */
   const impForSeam = importManuscript(text);
   if (!impForSeam.ok) throw new Error(`seam import: ${JSON.stringify(impForSeam.error)}`);
+  const bookVocab = buildBookVocabulary(text); // le corpus est sa propre autorité (NCR-003)
   const sweep = seamSweep(
     impForSeam.value.chapters.map((c) => ({ chapter: c.chapter, prose: c.prose })),
     0.6,
     ['Léna', 'Garcia', 'Gaspard', 'Yvon', 'Henri', 'Squarcioni', 'Marchetti', 'Ker-Morvan', 'Thomas'],
+    bookVocab,
   );
   if (!sweep.ok) throw new Error(`seam sweep: ${JSON.stringify(sweep.error)}`);
   text = sweep.value.repairedText;
@@ -105,8 +108,44 @@ async function main(): Promise<void> {
   for (const f of sweep.value.findings) seamByKind[f.kind] = (seamByKind[f.kind] ?? 0) + 1;
   const seamManual = sweep.value.repairs.filter((x) => x.action === 'NONE_MANUAL_REVIEW');
 
+  /* 5. SEMANTIC GATE (NCR-SEMANTIC-TRUNCATION-003) — trous de SENS : guillemets
+   *    dégénérés/déséquilibrés, stems tronqués prouvés corpus. Après la couture
+   *    (qui a déjà refusé tout ADD_PERIOD non prouvé complet). */
+  const impForSem = importManuscript(text);
+  if (!impForSem.ok) throw new Error(`semantic import: ${JSON.stringify(impForSem.error)}`);
+  const sem = semanticGate(impForSem.value.chapters.map((c) => ({ chapter: c.chapter, prose: c.prose })), text);
+  if (!sem.ok) throw new Error(`semantic gate: ${JSON.stringify(sem.error)}`);
+  text = sem.value.repairedText;
+  const semCsv = ['chapter;paragraph;kind;action;before;after',
+    ...sem.value.repairs.map((x) => [x.finding.chapter, x.finding.paragraphIndex, x.finding.kind, x.action,
+      `"${x.before.replace(/"/gu, "''").replace(/\s+/gu, ' ')}"`, `"${x.after.replace(/"/gu, "''").replace(/\s+/gu, ' ')}"`].join(';')),
+  ].join('\n');
+  writeFileSync(`${RUN}/SEMANTIC_GATE.csv`, semCsv, 'utf8');
+
+  /* 6. FIN DE LIVRE : le dernier bloc doit être une scène FERMÉE (terminée +
+   *    guillemets équilibrés + ≥4 mots) — jamais une citation ouverte. */
+  const lastCh = sem.value.repairedChapters[sem.value.repairedChapters.length - 1];
+  const lastBlocks = (lastCh?.prose ?? '').split(/\r?\n\s*\r?\n/u).filter((b) => b.trim().length > 0);
+  const bookEndOk = lastBlocks.length > 0 && isBookEndComplete(lastBlocks[lastBlocks.length - 1] ?? '');
+
   writeFileSync(`${RUN}/MANUSCRIT_V1_FINAL.md`, text, 'utf8');
   const finalHash = String(sha256(text.normalize('NFC')));
+
+  /* 7. VÉRIFICATION EXPLICITE des 7 preuves du refus ChatGPT — chacune doit
+   *    avoir DISPARU de l'export (ou être proprement fermée). */
+  // Forme ARTEFACT = bloc isolé tronqué. « Léna ouvrit. Elle était pâle… »
+  // après « Garcia toqua à la porte » est une phrase LÉGITIME (contexte vérifié)
+  // — seul le bloc standalone est un défaut. « « ... » (ellipse de reprise) est
+  // un style VOULU — seul « «. » (point unique) est dégénéré.
+  const chatgptProofs: Record<string, number> = {
+    'Elle peut voir. (bloc isolé)': (text.match(/(?<=\n\s*\n)Elle peut voir\.\s*(?=\n|$)/gu) ?? []).length,
+    'Léna ouvrit. (bloc isolé)': (text.match(/(?<=\n\s*\n)Léna ouvrit\.\s*(?=\n|$)/gu) ?? []).length,
+    'Le visage. (bloc isolé)': (text.match(/(?<=\n\s*\n)Le visage\.\s*(?=\n|$)/gu) ?? []).length,
+    'guillemet dégénéré «. (point unique)': (text.match(/«\s*\.(?!\.)/gu) ?? []).length,
+    'Tu parles de culp (tronqué)': (text.match(/Tu parles de culp(?!abilité)/gu) ?? []).length,
+    "« Qui l'a fait taire. NON FERMÉ": (text.match(/« Qui l'a fait taire\.(?!\s*»)/gu) ?? []).length,
+  };
+  const quoteDeltaGlobal = (text.match(/«/gu) ?? []).length - (text.match(/»/gu) ?? []).length;
 
   /* 4. LES 3 PREUVES DU TRIBUNAL — INSTRUMENTALES (sur l'export, pas un rapport).
    * proof2 v2 : le critère n'est pas la présence d'un fragment (le SURGICAL peut
@@ -144,6 +183,16 @@ async function main(): Promise<void> {
     proof5_scaffoldDirectivesRemoved: scaffold.value.removed.length,
     proof5_scaffoldResidual: scaffold.value.residual,
     proof5_pass: scaffold.value.residual === 0,
+    proof6_semanticFindings: sem.value.findings.length,
+    proof6_semanticRepairs: sem.value.repairs.length,
+    proof6_semanticResidual: sem.value.residualFindings.length,
+    proof6_pass: sem.value.residualFindings.length === 0,
+    proof7_bookEndComplete: bookEndOk,
+    proof7_pass: bookEndOk,
+    proof8_chatgptProofStrings: chatgptProofs,
+    proof8_pass: Object.values(chatgptProofs).every((n) => n === 0),
+    proof9_quoteDeltaGlobal: quoteDeltaGlobal,
+    proof9_pass: quoteDeltaGlobal === 0,
     seamFindingsInitial: sweep.value.findings.length,
     seamByKind,
     seamRepairsApplied: sweep.value.repairs.filter((x) => x.action !== 'NONE_MANUAL_REVIEW').length,

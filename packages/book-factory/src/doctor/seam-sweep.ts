@@ -37,6 +37,7 @@
 
 import { err, ok } from '../identity/identity-types.js';
 import type { Result } from '../identity/identity-types.js';
+import { isCompleteEnoughForPeriod, isCorpusTruncatedStem } from './semantic-gate.js';
 
 export interface SeamFinding {
   readonly chapter: number;
@@ -177,20 +178,33 @@ function cutToLastTerminator(block: string): string | null {
 
 interface DanglingDecision { action: SeamAction; text: string; }
 
+/** Segment TERMINAL d'un bloc : ce qui suit la dernière ponctuation de fin de
+ *  phrase — c'est LUI que l'ADD_PERIOD fermerait, c'est donc LUI qui doit
+ *  prouver sa complétude (NCR-003 : « Elle s'arrête… du fauteuil. Elle peut
+ *  voir » → le segment à juger est « Elle peut voir », pas le bloc entier). */
+function trailingSegment(core: string): string {
+  let best = -1;
+  for (const m of core.matchAll(/[.!?…»](?=\s|$)/gu)) best = m.index ?? best;
+  return best >= 0 ? core.slice(best + 1).trim() : core.trim();
+}
+
 /** Arbre de décision grammatical pour un bloc pendu `current`, suivant `next`. */
-function repairDangling(current: string, next: string | undefined, knownNames: readonly string[]): DanglingDecision {
+function repairDangling(current: string, next: string | undefined, knownNames: readonly string[], vocab: ReadonlyMap<string, number>): DanglingDecision {
   const core0 = stripDecor(current.trimEnd());
 
   // (0) interruption stylisée reprise par « — … » : effet voulu.
   if (next !== undefined && STYLED_RESUME_RE.test(next)) return { action: 'STYLED_DIALOGUE_OK', text: current };
 
-  // (1) incise terminale « dit-il / coupe Garcia » : seule la ponctuation manque.
+  // (1) incise terminale « dit-il / coupe Garcia » : complète PAR CONSTRUCTION
+  //     (inversion de tag de dialogue) — seul cas d'ADD_PERIOD non gaté.
   if (TERMINAL_TAG_RE.test(core0)) return { action: 'ADD_TERMINAL_PERIOD', text: `${core0}.` };
 
-  // (2) virgule finale sur proposition complète : « …de mentir, » → « …de mentir. »
+  // (2) virgule finale : « …de mentir, » → « …de mentir. » — UNIQUEMENT si le
+  //     segment terminal PROUVE sa complétude (NCR-003 : jamais de maquillage).
   if (/,$/u.test(core0)) {
     const noComma = core0.replace(/,$/u, '').trimEnd();
-    if (!CONTINUATION_DEMAND.has(lastAlphaWord(noComma)) && !isTruncatedNameStem(lastRawToken(noComma), knownNames)) {
+    if (!CONTINUATION_DEMAND.has(lastAlphaWord(noComma)) && !isTruncatedNameStem(lastRawToken(noComma), knownNames)
+      && isCompleteEnoughForPeriod(trailingSegment(noComma), vocab)) {
       return { action: 'ADD_TERMINAL_PERIOD', text: `${noComma}.` };
     }
   }
@@ -198,6 +212,7 @@ function repairDangling(current: string, next: string | undefined, knownNames: r
   const lw = lastAlphaWord(core0);
   const raw = lastRawToken(core0);
   const isContinuation = CONTINUATION_DEMAND.has(lw) || isTruncatedNameStem(raw, knownNames) ||
+    isCorpusTruncatedStem(raw, vocab) ||
     (/^[a-zàâçéèêëîïôûùüÿ]{1,3}$/u.test(lw) && !LEGIT_SHORT_ENDINGS.has(lw) && !CLAUSE_FINAL_OK.has(lw));
 
   if (isContinuation) {
@@ -223,15 +238,25 @@ function repairDangling(current: string, next: string | undefined, knownNames: r
     return { action: 'NONE_MANUAL_REVIEW', text: current };
   }
 
-  // (4) dernier mot TERMINAL-CAPABLE (nom / verbe / particule finale) :
-  //     phrase complète à qui il ne manque que la ponctuation. Mais si une
-  //     phrase complète interne existe ET la queue est manifestement à jeter,
-  //     on coupe ; sinon on ajoute le point (on garde le contenu).
+  // (4) dernier mot TERMINAL-CAPABLE : un point n'est ajouté QUE si le SEGMENT
+  //     TERMINAL prouve sa complétude (≥4 mots, pas de stem corpus, guillemets
+  //     équilibrés — NCR-003). « Un point final ne répare pas une phrase
+  //     amputée. Il la maquille. » Sinon : coupe / retrait tracé / revue.
   const innerCut = cutToLastTerminator(current);
-  if (innerCut !== null && innerCut.length < core0.length * 0.5 && wordsOf(core0.slice(innerCut.length)).length <= 2) {
-    return { action: 'CUT_TO_LAST_SENTENCE', text: innerCut };
+  if (isCompleteEnoughForPeriod(trailingSegment(core0), vocab)) {
+    if (innerCut !== null && innerCut.length < core0.length * 0.5 && wordsOf(core0.slice(innerCut.length)).length <= 2) {
+      return { action: 'CUT_TO_LAST_SENTENCE', text: innerCut };
+    }
+    return { action: 'ADD_TERMINAL_PERIOD', text: `${core0}.` };
   }
-  return { action: 'ADD_TERMINAL_PERIOD', text: `${core0}.` };
+  // Segment terminal sémantiquement OUVERT — interdiction de maquiller :
+  if (innerCut !== null && wordsOf(innerCut).length >= 3) {
+    return { action: 'CUT_TO_LAST_SENTENCE', text: innerCut }; // on garde les phrases complètes
+  }
+  if (wordsOf(core0).length <= MAX_FRAGMENT_WORDS) {
+    return { action: 'REMOVE_TRUNCATED_FRAGMENT', text: '' }; // fragment ouvert court : retiré, tracé
+  }
+  return { action: 'NONE_MANUAL_REVIEW', text: current };
 }
 
 /** Balaye et répare TOUTES les coutures d'un livre chapitré. Pur, déterministe. */
@@ -239,6 +264,10 @@ export function seamSweep(
   chapters: readonly SeamChapter[],
   nearDupThreshold = 0.6,
   knownNames: readonly string[] = [],
+  /** Vocabulaire du livre (semantic-gate) : stems tronqués prouvés par corpus
+   *  + gate de complétude avant ADD_PERIOD. Vide ⇒ seuls les contrôles
+   *  structurels (≥4 mots, guillemets) s'appliquent. */
+  vocab: ReadonlyMap<string, number> = new Map<string, number>(),
 ): Result<SeamSweepResult, SeamError> {
   if (chapters.length === 0) return err({ code: 'EMPTY_TEXT', detail: 'aucun chapitre' });
 
@@ -279,7 +308,7 @@ export function seamSweep(
       // — phase A : fragment pendu —
       const kind = classifyKind(current, knownNames);
       if (kind !== null) {
-        const d = repairDangling(current, next, knownNames);
+        const d = repairDangling(current, next, knownNames, vocab);
         repairs.push({ finding: finding(kind), action: d.action, before: stripDecor(current).slice(-90), after: d.text === '' ? '(retiré — tracé)' : stripDecor(d.text).slice(-90) });
         current = d.text;
       }

@@ -41,6 +41,10 @@ const SENTENCE_HEAD_STOPLIST: ReadonlySet<string> = new Set([
   'Elle', 'Elles', 'Ils', 'Le', 'La', 'Les', 'Un', 'Une', 'Des', 'Mais', 'Et', 'Puis', 'Alors',
   'Dans', 'Sur', 'Sous', 'Avec', 'Sans', 'Pour', 'Par', 'Quand', 'Comme', 'Rien', 'Tout', 'Tous',
   'Personne', 'Cette', 'Ces', 'Son', 'Ses', 'Leur', 'Leurs', 'Nous', 'Vous', 'Aucun', 'Chaque',
+  // Interrogatifs/démonstratifs en tête de RÉPLIQUE (« Qui peut… ? ») — jamais
+  // des entités. Trou réel attrapé par la fixture du SEAM_SURGEON.
+  'Qui', 'Que', 'Quoi', 'Pourquoi', 'Comment', 'Quel', 'Quelle', 'Quels', 'Quelles',
+  'Est', 'Sont', 'Voilà', 'Voici', 'Cela', 'Ceci', 'Celui', 'Celle',
 ]);
 
 /** Nouveaux noms propres dans `next` absents de `prev` ET des entités connues. */

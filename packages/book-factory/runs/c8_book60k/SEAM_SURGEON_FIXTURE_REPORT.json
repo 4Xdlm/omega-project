@@ -1,0 +1,33 @@
+{
+  "module": "R6_SEAM_SURGEON (CONTINUITY_WEAVER)",
+  "concept": "CONCEPT-SEAM-SURGEON-001",
+  "date": "2026-06-07",
+  "fixtureSize": 120,
+  "categories": {
+    "SAINE": {
+      "KEEP_STYLED→KEEP_STYLED": 20
+    },
+    "MECANIQUE": {
+      "REPAIR→REPAIR": 20
+    },
+    "TRONCATURE": {
+      "REPAIR→REPAIR": 12,
+      "ESCALATE→ESCALATE": 8
+    },
+    "DIALOGUE": {
+      "REPAIR→REPAIR": 10,
+      "ESCALATE→ESCALATE": 10
+    },
+    "TRANSITION_LEGITIME": {
+      "KEEP_STYLED→KEEP_STYLED": 20
+    },
+    "FAUSSE_ALERTE": {
+      "KEEP_STYLED→KEEP_STYLED": 20
+    }
+  },
+  "accuracy": 1,
+  "failures": [],
+  "invariants": "INV-SS-001..008 PASS (tests dédiés) + REFUSE(MISSING_WORLD_STATE) + cas réel famille bottes",
+  "doctrine": "Le code détecte/borne/vérifie/refuse/hashe ; le LLM propose. Verdicts REPAIR / KEEP_STYLED / ESCALATE.",
+  "productionBranching": "EN ATTENTE ratification tribunal (gating mandaté) — aucun passage sur le 88k sans GO."
+}

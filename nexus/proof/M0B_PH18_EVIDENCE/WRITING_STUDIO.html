@@ -1,0 +1,681 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><title>OMEGA WRITING STUDIO (phase 18 V1)</title>
+<style>
+body{font-family:system-ui;background:#0d1117;color:#e6edf3;margin:0;display:grid;grid-template-columns:1fr 420px;grid-template-rows:auto 1fr 300px;height:100vh}
+header{grid-column:1/3;padding:10px 16px;background:#161b22;border-bottom:1px solid #30363d}h1{font-size:15px;margin:0}
+.laws{font-size:11px;color:#8b949e;margin-top:4px}
+#editor{grid-row:2;padding:12px;border:none;background:#0d1117;color:#e6edf3;font-family:Georgia,serif;font-size:15px;line-height:1.6;resize:none;outline:none}
+#gps{grid-row:2;background:#161b22;border-left:1px solid #30363d;padding:12px;overflow-y:auto;font-size:12px}
+#mixer{grid-column:1/3;grid-row:3;background:#10141a;border-top:1px solid #30363d;padding:10px 16px;overflow-y:auto;font-size:12px}
+h2{font-size:12px;color:#7ee787;margin:10px 0 4px}.danger{color:#f85149}.route{margin:6px 0;padding:6px;background:#0d1117;border-radius:6px}.route b{color:#a371f7}
+.risk{color:#8b949e;font-size:11px}.knob{display:inline-block;margin-right:18px}.knob label{display:block;font-size:11px;color:#8b949e}
+table{border-collapse:collapse;margin-top:6px}td,th{padding:2px 10px;text-align:left;font-size:12px}tr.winner td{color:#7ee787;font-weight:600}
+.weather span{display:inline-block;margin-right:10px}
+</style></head><body>
+<header><h1>OMEGA WRITING STUDIO — phase 18 V1 (moteur réel embarqué : radar C14 + routes + mixer C13)</h1>
+<div class="laws" id="laws"></div></header>
+<textarea id="editor" spellcheck="false"></textarea>
+<div id="gps"><h2>GPS — tape pour mesurer…</h2></div>
+<div id="mixer"><h2>POTARDS (re-sélection des 7 candidats réels du ch.1 — étage A inviolable)</h2><div id="knobs"></div><div id="ranking"></div></div>
+<script>"use strict";
+var OMEGA_STUDIO = (() => {
+  var __defProp = Object.defineProperty;
+  var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+  var __getOwnPropNames = Object.getOwnPropertyNames;
+  var __hasOwnProp = Object.prototype.hasOwnProperty;
+  var __export = (target, all) => {
+    for (var name in all)
+      __defProp(target, name, { get: all[name], enumerable: true });
+  };
+  var __copyProps = (to, from, except, desc) => {
+    if (from && typeof from === "object" || typeof from === "function") {
+      for (let key of __getOwnPropNames(from))
+        if (!__hasOwnProp.call(to, key) && key !== except)
+          __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+    }
+    return to;
+  };
+  var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+
+  // src/studio/studio-main.ts
+  var studio_main_exports = {};
+  __export(studio_main_exports, {
+    KNOB_IDS: () => KNOB_IDS,
+    STUDIO_LAWS: () => STUDIO_LAWS,
+    analyze: () => analyze,
+    measureKnobFeatures: () => measureKnobFeatures,
+    remix: () => remix
+  });
+
+  // src/identity/identity-types.ts
+  var ok = (value) => ({ ok: true, value });
+  var err = (error) => ({ ok: false, error });
+  function compareStrings(a, b) {
+    if (a < b) return -1;
+    if (a > b) return 1;
+    return 0;
+  }
+
+  // src/router/product-mode-router.ts
+  var MODE_SPECS = {
+    AUTONOMOUS_BOOK: {
+      laws: ["BF-07_BLIND_SCRIBE", "N3_FORBIDDEN", "BF-15_NO_GOODHART_SELECTION_ONLY"],
+      capabilities: ["GENERATE_PROSE", "AUDIT_TEXT", "RERANK_SELECTION"],
+      defaultTier: "BOOST"
+    },
+    COAUTHOR_GPS: {
+      laws: ["BF-11_USER_SOVEREIGN", "N3_FORBIDDEN"],
+      // « ne décide JAMAIS » (VISION:279)
+      capabilities: ["AUDIT_TEXT", "SUGGEST_TRAJECTORIES"],
+      defaultTier: "SEMI_OFF"
+    },
+    REWRITE_DOCTOR: {
+      laws: ["BF-12_PRESERVE_INTENT", "N3_FORBIDDEN"],
+      capabilities: ["AUDIT_TEXT", "REPAIR_TEXT"],
+      defaultTier: "SEMI_OFF"
+      // GO_B : human-in-the-loop
+    },
+    MYCELIUM_DNA: {
+      laws: ["BF-13_DETERMINISTIC_DNA"],
+      capabilities: ["EXPORT_GENOME", "AUDIT_TEXT"],
+      defaultTier: "OFF"
+      // CALC pur
+    },
+    STYLE_CONTINUATION: {
+      laws: ["BF-14_RIGHTS_GATE", "BF-07_BLIND_SCRIBE", "N3_FORBIDDEN"],
+      capabilities: ["GENERATE_PROSE", "AUDIT_TEXT"],
+      defaultTier: "BOOST"
+    },
+    MIXER_CONTROL: {
+      laws: ["BF-15_NO_GOODHART_SELECTION_ONLY", "N3_FORBIDDEN"],
+      capabilities: ["RERANK_SELECTION", "AUDIT_TEXT"],
+      defaultTier: "OFF"
+      // le mixer ne génère rien : il pondère la sélection
+    }
+  };
+  function setMode(mode, tier) {
+    const spec = MODE_SPECS[mode];
+    if (spec === void 0) {
+      return err({ code: "UNKNOWN_MODE", detail: String(mode) });
+    }
+    const session = {
+      mode,
+      laws: spec.laws,
+      tier: tier ?? spec.defaultTier,
+      can: (cap) => spec.capabilities.includes(cap),
+      requires: (law) => spec.laws.includes(law)
+    };
+    return ok(session);
+  }
+  function assertCapability(session, cap) {
+    if (session === void 0) {
+      return err({ code: "NO_MODE_DECLARED", detail: `capability \xAB ${cap} \xBB demand\xE9e sans mode d\xE9clar\xE9 (BF-09)` });
+    }
+    if (!session.can(cap)) {
+      return err({ code: "CAPABILITY_DENIED", detail: `mode ${session.mode} n'autorise pas \xAB ${cap} \xBB \u2014 lois actives : ${session.laws.join(", ")}` });
+    }
+    return ok(true);
+  }
+
+  // src/coherence/coherence-types.ts
+  function splitSentences(prose) {
+    return prose.normalize("NFC").split(/(?<=[.!?…])\s+/u).map((s) => s.trim()).filter((s) => s.length > 0);
+  }
+  function excerptOf(sentence, max = 120) {
+    return sentence.length <= max ? sentence : `${sentence.slice(0, max - 1)}\u2026`;
+  }
+
+  // src/coherence/sentence-physics.ts
+  var SHOD_RE = /\b(enfile|met|remet|rechausse|lace|laça)\b[^.!?…]{0,40}\b(bottes?|chaussures?|souliers?|sandales?)\b|\b(ses|les)\s+(bottes?|chaussures?|souliers?)\s+(aux\s+pieds|lacées?)\b|\ben\s+bottes?\b/u;
+  var SHOD_WEAK_RE = /\b(ses|sa|son)\s+(bottes?|chaussures?|souliers?|sandales?)\b/u;
+  var UNSHOD_RE = /(?<!\p{L})(retire|enlève|ôte|ota|ôté|retiré|enlevé|déchausse|déchaussée?|arrache|arraché)(?!\p{L})[^.!?…]{0,40}(?<!\p{L})(bottes?|chaussures?|souliers?|sandales?)(?!\p{L})|se\s+déchausse|s[''](?:est\s+)?déchaussée?(?!\p{L})/u;
+  var BAREFOOT_RE = /\bpieds?\s+nus?\b/u;
+  var DRAW_RE = /\b(sort|sortit|saisit|saisis|dégaine|empoigne|brandit|tire)\b\s+(?:son|sa|ses|le|la|les|un|une)\s+([a-zàâçéèêëîïôûùüÿ-]{3,})/u;
+  var STOW_RE = /\b(pose|posa|range|rangea|lâche|lâcha|jette|jeta|repose|glisse|glissa|remet|remit)\b\s+(?:son|sa|ses|le|la|les)\s+([a-zàâçéèêëîïôûùüÿ-]{3,})/u;
+  var DOOR_OPEN_RE = /\b(ouvre|ouvrit|pousse|poussa|entrouvre|entrouvrit)\b[^.!?…]{0,30}\bportes?\b|\bportes?\s+s[''](ouvre|ouvrit|entrouvre)\b/u;
+  var DOOR_OPEN_NEG_RE = /\b(?:ne|n[''])\s*(?:ouvre|ouvrit|pousse|poussa|entrouvre|entrouvrit)\b|\bportes?\s+ne\s+s[''](?:ouvre|ouvrit)\b/u;
+  var DOOR_CLOSE_RE = /\b(ferme|ferma|referme|referma|claque|claqua|verrouille|verrouilla)\b[^.!?…]{0,30}\bportes?\b|\bportes?\s+(se\s+referme|claqua|se\s+ferma)\b/u;
+  function scanSentencePhysics(prose, chapter, opts = {}) {
+    if (prose.trim().length === 0) return err({ code: "EMPTY_INPUT", detail: "prose vide" });
+    if (!Number.isInteger(chapter) || chapter < 1) {
+      return err({ code: "INVALID_CHAPTER_NUMBER", detail: `chapter=${chapter}` });
+    }
+    const win = opts.stateWindowSentences ?? 40;
+    const sentences = splitSentences(prose);
+    const signals = [];
+    let foot = "UNKNOWN";
+    let footEvidence = "";
+    let footAt = -1;
+    const drawn = /* @__PURE__ */ new Map();
+    let doorOpenAt = -1;
+    let doorEvidence = "";
+    const lower = (s) => s.toLowerCase();
+    sentences.forEach((sentence, i) => {
+      const s = lower(sentence);
+      if (foot !== "UNKNOWN" && footAt >= 0 && i - footAt > win) foot = "UNKNOWN";
+      if (doorOpenAt >= 0 && i - doorOpenAt > win) doorOpenAt = -1;
+      for (const [k, v] of drawn) if (i - v.at > win) drawn.delete(k);
+      const unshod = UNSHOD_RE.test(s);
+      const barefoot = BAREFOOT_RE.test(s);
+      const shodStrong = SHOD_RE.test(s);
+      const shodWeak = SHOD_WEAK_RE.test(s);
+      if (unshod) {
+        foot = "BAREFOOT";
+        footEvidence = excerptOf(sentence);
+        footAt = i;
+      } else if (barefoot) {
+        if (foot === "SHOD") {
+          signals.push({
+            kind: "FOOTWEAR_CONTRADICTION",
+            severity: "WARN",
+            locus: { chapter, sentenceIndex: i, excerpt: excerptOf(sentence) },
+            established: footEvidence,
+            contradiction: excerptOf(sentence)
+          });
+        } else if (foot !== "BAREFOOT" && SHOD_WEAK_RE.test(s)) {
+          signals.push({
+            kind: "FOOTWEAR_CONTRADICTION",
+            severity: "INFO",
+            locus: { chapter, sentenceIndex: i, excerpt: excerptOf(sentence) },
+            established: excerptOf(sentence),
+            contradiction: excerptOf(sentence)
+          });
+        }
+        foot = "BAREFOOT";
+        footEvidence = excerptOf(sentence);
+        footAt = i;
+      } else if (shodStrong || shodWeak) {
+        if (shodStrong || foot !== "BAREFOOT") {
+          foot = "SHOD";
+          footEvidence = excerptOf(sentence);
+          footAt = i;
+        }
+      }
+      const draw = DRAW_RE.exec(s);
+      if (draw !== null) {
+        const obj = draw[2] ?? "";
+        if (obj.length > 0) {
+          const prior = drawn.get(obj);
+          if (prior !== void 0) {
+            signals.push({
+              kind: "OBJECT_REDRAWN",
+              severity: "INFO",
+              locus: { chapter, sentenceIndex: i, excerpt: excerptOf(sentence) },
+              established: prior.evidence,
+              contradiction: excerptOf(sentence)
+            });
+          }
+          drawn.set(obj, { at: i, evidence: excerptOf(sentence) });
+        }
+      }
+      const stow = STOW_RE.exec(s);
+      if (stow !== null) {
+        const obj = stow[2] ?? "";
+        drawn.delete(obj);
+      }
+      if (DOOR_CLOSE_RE.test(s)) {
+        doorOpenAt = -1;
+      } else if (DOOR_OPEN_RE.test(s) && !DOOR_OPEN_NEG_RE.test(s)) {
+        if (doorOpenAt >= 0) {
+          signals.push({
+            kind: "DOOR_REOPENED",
+            severity: "INFO",
+            locus: { chapter, sentenceIndex: i, excerpt: excerptOf(sentence) },
+            established: doorEvidence,
+            contradiction: excerptOf(sentence)
+          });
+        }
+        doorOpenAt = i;
+        doorEvidence = excerptOf(sentence);
+      }
+    });
+    return ok(signals);
+  }
+
+  // src/coherence/chapter-coherence.ts
+  var DEFAULT_LOCATION_LEXICON = [
+    "phare",
+    "cuisine",
+    "mairie",
+    "plage",
+    "port",
+    "archives",
+    "caf\xE9",
+    "\xE9glise",
+    "cimeti\xE8re",
+    "falaise",
+    "bureau",
+    "quai",
+    "cale",
+    "grenier",
+    "cave",
+    "chapelle",
+    "presbyt\xE8re",
+    "halle",
+    "cri\xE9e",
+    "jet\xE9e",
+    "lande"
+  ];
+  var MOVE_RE = /\b(marche|marcha|monte|monta|descend|descendit|entre|entra|sort|sortit|traverse|traversa|rejoint|rejoignit|arrive|arriva|quitte|quitta|retourne|retourna|gagne|gagna|s[''](?:approche|approcha|éloigne|éloigna)|se\s+dirige|se\s+dirigea|pousse\s+la\s+porte|franchit|grimpe|grimpa|court|courut|suit|suivit|longe|longea|revient|revint)\b/u;
+  var DAY_PHASES = [
+    { re: /\b(aube|aurore|petit\s+matin|lever\s+du\s+jour)\b/u, order: 0, label: "aube" },
+    { re: /\bmatin(?:ée)?\b/u, order: 1, label: "matin" },
+    { re: /\bmidi\b/u, order: 2, label: "midi" },
+    { re: /\baprès-midi\b/u, order: 3, label: "apr\xE8s-midi" },
+    { re: /\b(crépuscule|tombée\s+du\s+jour|couchant)\b/u, order: 4, label: "cr\xE9puscule" },
+    { re: /\bsoir(?:ée)?\b/u, order: 5, label: "soir" },
+    { re: /\b(nuit|minuit)\b/u, order: 6, label: "nuit" }
+  ];
+  var NEW_DAY_RE = /\b(lendemain|jour\s+suivant|au\s+réveil|se\s+réveilla|s[''](?:éveille|éveilla)|le\s+jour\s+d[''](?:après)|une\s+semaine|des\s+jours\s+plus\s+tard|la\s+veille|autrefois|jadis|des\s+années\s+plus\s+tôt|souvenir|se\s+souvenait|revoyait)\b/u;
+  var EXIT_RE = /\b([A-ZÀÂÉÈÊËÎÏÔÛÙÜ][a-zàâçéèêëîïôûùüÿ]{2,})\s+(?:sort|sortit|part|partit|s[''](?:éloigne|éloigna)|disparaît|disparut|quitt[ae]|tourna\s+les\s+talons|s[''](?:en\s+va|en\s+alla))\b/u;
+  var RETURN_RE = /\b([A-ZÀÂÉÈÊËÎÏÔÛÙÜ][a-zàâçéèêëîïôûùüÿ]{2,})\s+(?:revient|revint|entre|entra|rejoignit|rejoint|reparaît|reparut|surgit|était\s+revenu)\b|\bsur\s+le\s+seuil,?\s+([A-ZÀÂÉÈÊËÎÏÔÛÙÜ][a-zàâçéèêëîïôûùüÿ]{2,})\b/u;
+  var SPEAK_RE = /(?:dit|dis|lança|murmura|souffla|répondit|répliqua|reprit|demanda|cria|chuchota|grogna|ajouta)\s+([A-ZÀÂÉÈÊËÎÏÔÛÙÜ][a-zàâçéèêëîïôûùüÿ]{2,})\b/u;
+  function scanChapterCoherence(prose, chapter, opts = {}) {
+    if (prose.trim().length === 0) return err({ code: "EMPTY_INPUT", detail: "prose vide" });
+    if (!Number.isInteger(chapter) || chapter < 1) {
+      return err({ code: "INVALID_CHAPTER_NUMBER", detail: `chapter=${chapter}` });
+    }
+    const locations = (opts.locations ?? DEFAULT_LOCATION_LEXICON).map((l) => l.normalize("NFC").toLowerCase());
+    const moveWindow = opts.moveWindow ?? 2;
+    const sentences = splitSentences(prose);
+    const lowers = sentences.map((s) => s.toLowerCase());
+    const signals = [];
+    let activeLocation = null;
+    let activeAt = -1;
+    lowers.forEach((s, i) => {
+      const found = locations.find((loc) => new RegExp(`\\b(?:au|\xE0\\s+la|dans\\s+l[ae]s?|dans\\s+(?:ce|cette|son|sa|leur)|vers\\s+l[ae]s?|devant\\s+l[ae]s?|sous\\s+l[ae]s?|jusqu[''](?:au|\xE0\\s+la)|sur\\s+l[ae]s?)\\s+(?:\\w+\\s+)?${loc}\\b`, "u").test(s) || new RegExp(`^l[ae]s?\\s+${loc}\\b`, "u").test(s));
+      if (found === void 0) return;
+      if (activeLocation !== null && found !== activeLocation && i - activeAt <= 12) {
+        const lo = Math.max(0, i - moveWindow);
+        const hi = Math.min(lowers.length - 1, i + moveWindow);
+        let moved = false;
+        for (let k = lo; k <= hi; k++) {
+          const sk = lowers[k];
+          if (sk !== void 0 && MOVE_RE.test(sk)) {
+            moved = true;
+            break;
+          }
+        }
+        if (!moved) {
+          const sent = sentences[i];
+          signals.push({
+            kind: "LOCATION_JUMP",
+            severity: "INFO",
+            locus: { chapter, sentenceIndex: i, excerpt: excerptOf(sent ?? "") },
+            detail: `\xAB ${activeLocation} \xBB \u2192 \xAB ${found} \xBB sans verbe de d\xE9placement \xE0 \xB1${moveWindow} phrases`
+          });
+        }
+      }
+      activeLocation = found;
+      activeAt = i;
+    });
+    let phase = -1;
+    let phaseLabel = "";
+    lowers.forEach((s, i) => {
+      const hit = DAY_PHASES.find((p) => p.re.test(s));
+      if (hit === void 0) return;
+      if (phase >= 0 && hit.order < phase && !NEW_DAY_RE.test(s)) {
+        const prev1 = lowers[i - 1] ?? "";
+        const prev2 = lowers[i - 2] ?? "";
+        if (!NEW_DAY_RE.test(prev1) && !NEW_DAY_RE.test(prev2)) {
+          const sent = sentences[i];
+          signals.push({
+            kind: "TIME_REGRESSION",
+            severity: "INFO",
+            locus: { chapter, sentenceIndex: i, excerpt: excerptOf(sent ?? "") },
+            detail: `\xAB ${phaseLabel} \xBB \u2192 \xAB ${hit.label} \xBB sans marqueur de nouvelle journ\xE9e`
+          });
+        }
+      }
+      phase = hit.order;
+      phaseLabel = hit.label;
+    });
+    const gone = /* @__PURE__ */ new Map();
+    sentences.forEach((sentence, i) => {
+      const exit = EXIT_RE.exec(sentence);
+      if (exit !== null && exit[1] !== void 0) gone.set(exit[1], i);
+      const ret = RETURN_RE.exec(sentence);
+      if (ret !== null) {
+        const name = ret[1] ?? ret[2];
+        if (name !== void 0) gone.delete(name);
+      }
+      const speak = SPEAK_RE.exec(sentence);
+      if (speak !== null && speak[1] !== void 0) {
+        const name = speak[1];
+        const exitedAt = gone.get(name);
+        if (exitedAt !== void 0 && i > exitedAt) {
+          signals.push({
+            kind: "GHOST_SPEAKER",
+            severity: "WARN",
+            locus: { chapter, sentenceIndex: i, excerpt: excerptOf(sentence) },
+            detail: `${name} parle (phrase ${i}) alors que sorti de sc\xE8ne (phrase ${exitedAt}) sans marqueur de retour`
+          });
+          gone.delete(name);
+        }
+      }
+    });
+    return ok(signals);
+  }
+
+  // src/mixer/knob-bindings.ts
+  var KNOB_IDS = ["TENSION", "ROMANCE", "MYSTERE", "VIOLENCE", "ESPOIR"];
+  var RE = (s) => new RegExp(s, "giu");
+  var KNOB_BINDINGS = {
+    TENSION: {
+      knob: "TENSION",
+      mechanism: "Densit\xE9 de confrontation + urgence corporelle + adverbes de rafale \u2014 la tension se manifeste lexicalement (menace, ultimatum) et physiologiquement (souffle, coeur, mains).",
+      limits: "Compare des candidats de la M\xCAME sc\xE8ne ; insensible \xE0 la tension purement situationnelle (dramaturgie sans marqueurs).",
+      goodhartRisk: "Pousser \xE0 +1 en permanence \u21D2 \xAB monotonie dramatique \xBB (audit C9 : 72% TRANSITION \xE9tait le d\xE9faut INVERSE) \u2014 le potard est par CHAPITRE, le plan garde l'alternance.",
+      lexicons: [
+        RE(String.raw`\b(menace|menaça|ultimatum|exige|exigea|accuse|accusa|affronte|défie|défia|hausse le ton|coupe la parole|serre les poings|claque|sursauta?)\b`),
+        RE(String.raw`\b(souffle court|cœur (?:qui )?bat|battait|tempes|poings serrés|mâchoire|nuque raide|s'immobilise|se fige|figea)\b`),
+        RE(String.raw`\b(soudain|brusquement|d'un coup|aussitôt|immédiatement)\b`)
+      ]
+    },
+    ROMANCE: {
+      knob: "ROMANCE",
+      mechanism: "Densit\xE9 de proximit\xE9 relationnelle et de tendresse \u2014 gestes (main, \xE9treinte), regards soutenus, lexique affectif non violent.",
+      limits: "Ne distingue pas amour naissant/conjugal/filial ; un thriller froid score bas partout (normal).",
+      goodhartRisk: "Sur-s\xE9lection de candidats sentimentaux hors sujet \u21D2 born\xE9 par l'\xE9ligibilit\xE9 (G2 fid\xE9lit\xE9 au plan intact).",
+      lexicons: [
+        RE(String.raw`\b(tendresse|tendre(?:ment)?|caresse|étreinte|enlace|enlaça|effleure|effleura|embrasse|embrassa|frôle|frôla)\b`),
+        RE(String.raw`\b(main dans la main|prend sa main|prit sa main|contre son épaule|tout contre (?:elle|lui)|leurs regards)\b`),
+        RE(String.raw`\b(sourit doucement|voix douce|chaleur|apaisé[es]?|réconfort)\b`)
+      ]
+    },
+    MYSTERE: {
+      knob: "MYSTERE",
+      mechanism: "Densit\xE9 d'inconnu actif \u2014 questions ouvertes, indices mat\xE9riels non r\xE9solus, dissimulation (cache, tait, secret), perception incompl\xE8te (ombre, silhouette).",
+      limits: "Mesure le myst\xE8re AFFICH\xC9, pas la qualit\xE9 de l'\xE9nigme (le ledger seed/payoff mesure la structure, lui).",
+      goodhartRisk: "\xC0 +1 permanent \u21D2 accumulation de questions jamais pay\xE9es \u2014 surveiller seedLedger UNPAID en parall\xE8le.",
+      lexicons: [
+        RE(String.raw`\b(secret|énigme|mystère|mystérieu[sx]e?|inexpliqué[es]?|étrange(?:ment)?|sans réponse)\b`),
+        RE(String.raw`\b(cache|cachait|dissimule|dissimulait|se tait|taisait|ne dit rien|éluda|esquiva)\b`),
+        RE(String.raw`\b(silhouette|ombre|à peine visible|indistinct[es]?|on aurait dit|sembla(?:it)?)\b`),
+        RE(String.raw`\?`)
+        // densité interrogative brute
+      ]
+    },
+    VIOLENCE: {
+      knob: "VIOLENCE",
+      mechanism: "Densit\xE9 d'impact physique \u2014 coups, blessures, sang, destruction mat\xE9rielle. Potard surtout utile en N\xC9GATIF (-1 : adoucir la s\xE9lection).",
+      limits: "Violence SUGG\xC9R\xC9E (hors-champ) invisible au lexique \u2014 c'est voulu : le potard pilote l'explicite.",
+      goodhartRisk: "\xC0 +1 \u21D2 surench\xE8re gore si les candidats le permettent \u2014 l'\xE9ligibilit\xE9 (locks canon) reste le mur.",
+      lexicons: [
+        RE(String.raw`\b(frappe|frappa|cogne|cogna|brise|brisa|fracasse|fracassa|gifle|gifla|étrangle|étrangla|empoigne|empoigna)\b`),
+        RE(String.raw`\b(sang|plaie|blessure|hématome|fracture|cadavre|hurlement|hurle(?:ment)?s?)\b`)
+      ]
+    },
+    ESPOIR: {
+      knob: "ESPOIR",
+      mechanism: "Densit\xE9 de valence positive prospective \u2014 promesse, lumi\xE8re, r\xE9pit, r\xE9solution d'avancer. L'axe E\u2080 positif de la physique V4.4 en proxy lexical.",
+      limits: "Ironie invisible (un \xAB espoir \xBB sarcastique compte) ; faux positifs en fin heureuse de sc\xE8ne sombre.",
+      goodhartRisk: "\xC0 +1 \u21D2 mi\xE8vrerie si le plan ne contraint pas \u2014 r\xE9serv\xE9 aux chapitres de respiration (recommandation audit C9).",
+      lexicons: [
+        RE(String.raw`\b(espoir|espère|espéra(?:it)?|promesse|promet|demain|enfin|renaît|renaissait|s'apaise|apaisa)\b`),
+        RE(String.raw`\b(lumière|éclaircie|soleil|aube nouvelle|sourire|rire|chaleur retrouvée|soulagement|soulagé[es]?)\b`)
+      ]
+    }
+  };
+  function measureKnobFeatures(prose) {
+    const text = prose.normalize("NFC");
+    const words = Math.max(1, text.split(/\s+/u).filter((w) => w.length > 0).length);
+    const densityOf = (b) => {
+      let hits = 0;
+      for (const re of b.lexicons) {
+        re.lastIndex = 0;
+        hits += (text.match(re) ?? []).length;
+      }
+      return hits / words * 1e3;
+    };
+    return {
+      TENSION: densityOf(KNOB_BINDINGS.TENSION),
+      ROMANCE: densityOf(KNOB_BINDINGS.ROMANCE),
+      MYSTERE: densityOf(KNOB_BINDINGS.MYSTERE),
+      VIOLENCE: densityOf(KNOB_BINDINGS.VIOLENCE),
+      ESPOIR: densityOf(KNOB_BINDINGS.ESPOIR)
+    };
+  }
+
+  // src/gps/gps-radar.ts
+  var SPEAK_NEAR_RE = (name) => new RegExp(`(?:dit|lan\xE7a|murmura|souffla|r\xE9pondit|r\xE9pliqua|demanda|cria|reprit)\\s+${name.replace(/[.*+?^${}()|[\]\\]/gu, "\\$&")}(?!\\p{L})`, "u");
+  function radar(input) {
+    if (input.currentText.trim().length === 0) return err({ code: "EMPTY_TEXT", detail: "rien \xE0 mesurer" });
+    const threshold = input.dyingThreadThreshold ?? 5;
+    const text = input.currentText.normalize("NFC");
+    const sentences = text.split(/(?<=[.!?…])\s+/u).filter((s) => s.trim().length > 0);
+    const charactersInScene = [];
+    for (const name of [...input.knownCharacters].sort(compareStrings)) {
+      const re = new RegExp(`(?<!\\p{L})${name.replace(/[.*+?^${}()|[\]\\]/gu, "\\$&")}(?!['\u2019\\p{L}])`, "u");
+      let lastSeen = -1;
+      for (let i = sentences.length - 1; i >= 0; i--) {
+        const s = sentences[i];
+        if (s !== void 0 && re.test(s)) {
+          lastSeen = i;
+          break;
+        }
+      }
+      if (lastSeen >= 0) {
+        charactersInScene.push({ name, lastSeenSentence: lastSeen, speaking: SPEAK_NEAR_RE(name).test(text) });
+      }
+    }
+    const dangers = [];
+    const phys = scanSentencePhysics(text, input.currentChapter);
+    if (phys.ok) {
+      for (const s of phys.value) dangers.push({ kind: "COHERENCE_SIGNAL", detail: `${s.kind} : \xAB ${s.locus.excerpt.slice(0, 70)} \xBB` });
+    }
+    const chap = scanChapterCoherence(text, input.currentChapter);
+    if (chap.ok) {
+      for (const s of chap.value) dangers.push({ kind: "COHERENCE_SIGNAL", detail: `${s.kind} : ${s.detail.slice(0, 90)}` });
+    }
+    const agingSeeds = [];
+    for (const seed of [...input.seeds].sort(compareStrings)) {
+      const re = new RegExp(`(?<!\\p{L})${seed.toLowerCase()}(?!\\p{L})`, "u");
+      let planted = -1;
+      let lastRecall = -1;
+      for (const h of input.history) {
+        if (re.test(h.prose.normalize("NFC").toLowerCase())) {
+          if (planted < 0) planted = h.chapter;
+          lastRecall = h.chapter;
+        }
+      }
+      if (re.test(text.toLowerCase())) lastRecall = input.currentChapter;
+      if (planted >= 0) {
+        const since = input.currentChapter - lastRecall;
+        if (since >= threshold) {
+          agingSeeds.push({ seed, plantedChapter: planted, lastRecallChapter: lastRecall, chaptersSinceRecall: since });
+          dangers.push({ kind: "DYING_THREAD", detail: `graine \xAB ${seed} \xBB sans rappel depuis ${since} chapitres (plant\xE9e ch.${planted})` });
+        }
+      }
+    }
+    const words = text.split(/\s+/u).filter((w) => w.length > 0).length;
+    return ok({
+      chapter: input.currentChapter,
+      words,
+      charactersInScene,
+      emotionalWeather: measureKnobFeatures(text),
+      dangers,
+      agingSeeds
+    });
+  }
+
+  // src/gps/trajectory-predictor.ts
+  var TEMPLATES = {
+    ENQUETE: (who, _other, seed) => ({
+      premise: `${who} d\xE9couvre un \xE9l\xE9ment mat\xE9riel li\xE9 \xE0 \xAB ${seed} \xBB et choisit de le dissimuler pour l'instant.`,
+      mobilizes: [who, `graine \xAB ${seed} \xBB (rappel)`],
+      risks: ["retarde le payoff", "ajoute une dissimulation \xE0 r\xE9soudre"],
+      knobTendency: { MYSTERE: 1 }
+    }),
+    TENSION: (who, other, _seed) => ({
+      premise: `${other} surprend ${who} en pleine action \u2014 confrontation imm\xE9diate, \xE0 voix contenue.`,
+      mobilizes: [who, other],
+      risks: ["consomme une confrontation (rare)", "expose une information avant son heure"],
+      knobTendency: { TENSION: 1 }
+    }),
+    EMOTION: (who, other, _seed) => ({
+      premise: `${who} baisse la garde devant ${other} : un souvenir personnel remonte, la sc\xE8ne ralentit.`,
+      mobilizes: [who, other, "int\xE9riorit\xE9"],
+      risks: ["casse le rythme si la sc\xE8ne pr\xE9c\xE9dente \xE9tait lente", "demande un ancrage m\xE9moire coh\xE9rent"],
+      knobTendency: { ESPOIR: 1, TENSION: -1 }
+    }),
+    THRILLER: (who, _other, seed) => ({
+      premise: `Quelqu'un d'autre conna\xEEt \xAB ${seed} \xBB : ${who} trouve la preuve qu'un tiers est pass\xE9 avant.`,
+      mobilizes: [who, `graine \xAB ${seed} \xBB (escalade)`],
+      risks: ["introduit un antagoniste actif \xE0 assumer ensuite", "acc\xE9l\xE8re la chronologie"],
+      knobTendency: { TENSION: 1, MYSTERE: 1 }
+    }),
+    NOIR: (who, _other, seed) => ({
+      premise: `${who} d\xE9truit ou compromet volontairement un \xE9l\xE9ment li\xE9 \xE0 \xAB ${seed} \xBB pour prot\xE9ger quelqu'un.`,
+      mobilizes: [who, `graine \xAB ${seed} \xBB (bascule morale)`],
+      risks: ["acte irr\xE9versible", "d\xE9place la sympathie du lecteur"],
+      knobTendency: { TENSION: 1, ESPOIR: -1 }
+    })
+  };
+  var TYPES_SORTED = ["EMOTION", "ENQUETE", "NOIR", "TENSION", "THRILLER"];
+  function predictTrajectories(position, seeds) {
+    const inScene = [...position.charactersInScene].sort((a, b) => b.lastSeenSentence - a.lastSeenSentence || compareStrings(a.name, b.name));
+    const who = inScene[0]?.name;
+    if (who === void 0) {
+      return err({ code: "NO_MATERIAL", detail: "aucun personnage en sc\xE8ne \u2014 le GPS ne peut pas proposer de routes sans mati\xE8re" });
+    }
+    const other = inScene.find((c) => c.name !== who)?.name ?? "un t\xE9moin impr\xE9vu";
+    const seed = position.agingSeeds[0]?.seed ?? seeds[0];
+    const out = [];
+    for (const t of TYPES_SORTED) {
+      if ((t === "ENQUETE" || t === "THRILLER" || t === "NOIR") && seed === void 0) continue;
+      const built = TEMPLATES[t](who, other, seed ?? "");
+      out.push({ type: t, ...built });
+    }
+    if (out.length < 2) {
+      return err({ code: "SINGLE_ROUTE_FORBIDDEN", detail: `une seule route possible (${out[0]?.type ?? "aucune"}) \u2014 une route unique est une d\xE9cision d\xE9guis\xE9e (BF-11)` });
+    }
+    return ok(out);
+  }
+
+  // src/mixer/mixer-selector.ts
+  var KNOB_WEIGHT_DEFAULT = 15;
+  function zscores(values) {
+    const n = values.length;
+    if (n === 0) return [];
+    const mean = values.reduce((s, v) => s + v, 0) / n;
+    const sd = Math.sqrt(values.reduce((s, v) => s + (v - mean) ** 2, 0) / n);
+    return values.map((v) => sd < 1e-9 ? 0 : (v - mean) / sd);
+  }
+  function mixedSelect(candidates, settings, weight = KNOB_WEIGHT_DEFAULT) {
+    for (const k of KNOB_IDS) {
+      const v = settings[k];
+      if (v !== void 0 && (!Number.isFinite(v) || v < -1 || v > 1)) {
+        return { ok: false, error: { code: "INVALID_SETTING", detail: `${k}=${v} hors [-1,+1]` } };
+      }
+    }
+    const eligible = candidates.filter((c) => c.eligible);
+    if (eligible.length === 0) {
+      return { ok: false, error: { code: "NO_ELIGIBLE_CANDIDATES", detail: "\xE9tage A vide \u2014 le mixer ne rep\xEAche JAMAIS un in\xE9ligible" } };
+    }
+    const feats = eligible.map((c) => measureKnobFeatures(c.prose));
+    const zByKnob = /* @__PURE__ */ new Map();
+    for (const k of KNOB_IDS) zByKnob.set(k, zscores(feats.map((f) => f[k])));
+    const mixed = eligible.map((c, i) => {
+      const contributions = [];
+      let delta = 0;
+      for (const k of KNOB_IDS) {
+        const setting = settings[k] ?? 0;
+        if (setting === 0) continue;
+        const z = zByKnob.get(k)?.[i] ?? 0;
+        const d = setting * z * weight;
+        contributions.push({ knob: k, setting, zscore: Number(z.toFixed(4)), delta: Number(d.toFixed(3)) });
+        delta += d;
+      }
+      return {
+        id: c.id,
+        baseScore: c.baseScore,
+        adjustedScore: Number((c.baseScore + delta).toFixed(3)),
+        features: feats[i],
+        contributions
+      };
+    });
+    const byBase = [...mixed].sort((a, b) => b.baseScore - a.baseScore || compareStrings(a.id, b.id));
+    const byAdjusted = [...mixed].sort((a, b) => b.adjustedScore - a.adjustedScore || compareStrings(a.id, b.id));
+    const baseWinner = byBase[0]?.id ?? "";
+    const winner = byAdjusted[0]?.id ?? "";
+    return {
+      ok: true,
+      value: { winner, changedWinner: winner !== baseWinner, ranked: byAdjusted, settings, weight }
+    };
+  }
+
+  // src/studio/studio-main.ts
+  var gpsSession = (() => {
+    const r = setMode("COAUTHOR_GPS");
+    return r.ok ? r.value : void 0;
+  })();
+  var mixerSession = (() => {
+    const r = setMode("MIXER_CONTROL");
+    return r.ok ? r.value : void 0;
+  })();
+  function analyze(currentText, currentChapter, history, knownCharacters, seeds) {
+    const gateA = assertCapability(gpsSession, "AUDIT_TEXT");
+    const gateS = assertCapability(gpsSession, "SUGGEST_TRAJECTORIES");
+    if (!gateA.ok || !gateS.ok) return { ok: false, error: "mode GPS indisponible" };
+    const pos = radar({ currentText, currentChapter, history, knownCharacters, seeds, dyingThreadThreshold: 3 });
+    if (!pos.ok) return { ok: false, error: pos.error.detail };
+    const traj = predictTrajectories(pos.value, seeds);
+    return { ok: true, position: pos.value, trajectories: traj.ok ? traj.value : [] };
+  }
+  function remix(candidates, settings) {
+    const gate = assertCapability(mixerSession, "RERANK_SELECTION");
+    if (!gate.ok) return { error: gate.error.detail };
+    const r = mixedSelect(candidates, settings);
+    return r.ok ? r.value : { error: r.error.detail };
+  }
+  var STUDIO_LAWS = [
+    "Le GPS ne d\xE9cide JAMAIS. Il montre des chemins. (VISION:279, impos\xE9 par le router)",
+    "Routes en ordre alphab\xE9tique \u2014 aucune pr\xE9f\xE9rence. Les risques sont toujours affich\xE9s.",
+    "Les potards re-classent des candidats EXISTANTS d\xE9j\xE0 pass\xE9s par les gates \u2014 jamais de coaching.",
+    "Un candidat in\xE9ligible ne gagne jamais, quel que soit le potard (\xE9tage A inviolable)."
+  ];
+  return __toCommonJS(studio_main_exports);
+})();
+</script>
+<script>
+const DATA = {"ch5":"La pluie ne tombait pas sur l'île, elle s'y accrochait. Une nappe grise, froide et visqueuse qui transformait l'air en une gelée opaque. De la fenêtre de la cuisine, Léna Marchetti observait la façade du phare de Ker-Morvan. Les vitres de la tour étaient sombres, des yeux éteints qui ne regardaient plus rien. L'obscurité à l'intérieur de la tour n'était pas naturelle, elle semblait peser, une masse tangible qui s'était infiltrée dans le bâtiment. Léna serra son écharpe de laine brute contre sa gorge. Le tissu était rugueux, irritant la peau de son cou, une douleur physique qui ancrait ses sens dans la réalité alors que son esprit tournait en rond. La maison sentait le sel rance et le bois humide. Elle avait allumé la bouilloire électrique, un bruit de bourdonnement faible qui se perdait dans le silence de la pièce. Le silence. C'était ce mot qui résonnait le plus fort depuis deux jours. Deux jours que le corps du gardien, Henri, ne bougeait plus. Deux jours que le village entier semblait avoir retenu son souffle, les stores tirés, les portes verrouillées. Elle posa la tasse de thé fumant sur la table en chêne ciré. La vapeur montait en spirale, s'évanouissant dans l'air froid. Son regard revint vers la fenêtre. Là-bas, une silhouette se détachait de la brume. Yvon Squarcioni. Il avançait lentement sur le chemin de gravier, les épaules voûtées sous le poids de sa cape en cuir, qui semblait déjà saturée d'humidité. Il ne courait pas. Il ne semblait même pas pressé. C'était pire. Son approche était celle d'un prédateur qui a déjà senti la proie, qui sait qu'elle n'a plus nulle part où aller. Léna s'éloigna de la fenêtre, les mains moites. Elle fit le tour de la table pour rejoindre l'entrée. La porte s'ouvrit avant qu'elle ne puisse atteindre la poignée. Yvon entra, apportant avec lui un tourbillon de vent et une odeur de goudron brûlé. Il secoua son parapluie, une gerbe de gouttelettes projetée sur le parquet, mais il ne s'excusa pas. Il ôta sa casquette, laissant voir ses cheveux gris, plats et collés au crâne. « Vous n'auriez pas dû rester ici, mademoiselle Marchetti », dit-il. Sa voix était grave, usée par le tabac et la mer. Il n'y avait ni colère ni compassion dans son ton, juste une constatation froide. « Je suis la propriétaire de cette maison, Yvon. Et je n'ai pas l'intention de fuir », répondit Léna, sa voix plus ferme qu'elle ne le pensait. Elle sentait une vibration dans ses jambes, une inquiétude sourde qui montait depuis ses orteils jusqu'à la base de son crâne. Yvon ne la regarda pas. Il fixait le phare à travers la vitre, comme si la tour avait des yeux capables de le voir à travers l'épaisseur du verre. « Le silence n'est pas une protection. C'est un aveu. Le silence de ce village est un mur qui cache quelque chose de plus grand que la mort d'Henri. » Il se tourna enfin vers elle, ses yeux gris étant des morceaux de pierre polie. « Garcia et Gaspard sont arrivés hier soir. Ils ont fouillé le phare. Ils n'ont rien trouvé. Rien qui ne corresponde à ce que nous savons. » Léna sentit un frisson parcourir sa nuque. « Ils ne trouvent rien parce qu'ils cherchent à l'extérieur. Ils cherchent un coupable, une arme, un mobile. Mais le mobile, Yvon, il n'est pas dans la tour. Il est ici. Il est dans ce village. » Yvon hocha lentement la Yvon hocha lentement la tête, un mouvement si infime que Léna faillit ne pas le remarquer","history":[{"chapter":1,"prose":"Le sel colle à la peau, une pellicule glacée qui pique les yeux et ronge le cuir des doigts. Léna Marchetti s’essuie le front avec le revers de sa manche, une tâche de poussière de granit sur un tissu bleu marine déjà fané. Elle est debout sur le ponton de bois, les planches pourries grinçant sous ses bottes lourdes. En face, l'Atlantique se dresse, une masse sombre, lourde, qui ne fait aucun bruit avant de s'écraser contre les pieux. C'est un bruit de pierre contre pierre, un craquement sec qui remonte dans les os.\n\nIl est six heures du matin. L'aube n'est qu'une lueur grise, indécise, filtrant à travers les nuages bas qui accostent sur l'île. Le village de Ker-Morvan, perché sur la falaise à deux cents mètres de là, dort encore. Les volets sont clos. Les rares lumières dans la rue principale sont des points faibles, des ombres jaunes qui ne parviennent pas à percer la brume salée. Tout est immobile. Trop immobile.\n\nLéna ajuste sa ceinture. Elle porte un pantalon de travail, une chemise à manches longues, et une veste en lin imperméable qui sent le vieux tabac et la fumée de bois. Elle n'a pas dormi, ou du moins pas vraiment. Son esprit tourne en rond, une mouche dans une bouteille, frappant contre les parois invisibles de son propre crâne. L'inquiétude est là, une boule de glace dans le creux de l'estomac, une sensation physique qui la force à se tenir droite, les épaules serrées contre le froid.\n\nElle regarde l'horizon. Le phare de Ker-Morvan est une silhouette noire contre le ciel gris. Sa lumière ne tourne pas. C'est inhabituel. La lampe est censée balayer les vagues, une rotation régulière, hypnotique, un métronome pour les marins. Mais ce matin, la tour est muette. Le faisceau est éteint.\n\nLéna ne bouge pas. Elle ne fait pas un pas de plus vers le phare. Elle sait ce qu'elle doit faire. Elle doit aller voir. Mais ses pieds sont ancrés dans la terre humide, comme si le sol lui-même la retenait. Elle ferme les yeux une seconde, inspirant l'air froid qui sent l'iodure et la mort. Quand elle les rouvre, son regard se fixe sur la porte de la tour.\n\nIl y a quelque chose qui ne va pas.\n\nElle commence à marcher. Le pas est lent, lourd. Le bois du ponton crie sous le poids de son corps, un son aigu qui se perd dans le rugissement lointain des vagues. Elle traverse le quai, où deux filets de pêcheurs sont suspendus à des crochets, flottant comme des spectres dans la brume. L'eau gicle entre les planches, froide et sale, trempant le bas de ses pantalons. Elle ne sent pas l'humidité. Elle est trop occupée à compter les battements de son cœur, trop rapide, trop fort.\n\nArrivée au pied de la tour, elle s'arrête. La porte est entrouverte. Juste une fissure de deux doigts. Une ombre noire se dessine à l'intérieur, là où la lumière du jour devrait pénétrer. Léna pose sa main sur la poignée en fer. Elle est glaciale, rugueuse. Elle pousse. La porte s'ouvre avec un grincement prolongé, une plainte de métal qui résonne dans l'espace confiné de l'entrée.\n\nL'odeur arrive avant qu'elle ne franchisse le seuil. Une odeur lourde, sucrée, métallique. Celle du sang séché, mais aussi celle de la fumée de tabac froid et de la cire de chandelle.\n\nLéna franchit la porte. Elle s'engouffre dans l'escalier en colimaçon, étroit, sombre. Elle monte,\n\nL'escalier en colimaçon semble ne pas vouloir la laisser passer. Les marches de pierre, usées par des siècles de pas, sont glissantes sous ses bottes, recouvertes d'une fine couche de poussière grasse qui s'accroche à la semelle. Léna s'arrête, le souffle court, ses poumons se remplissant de l'air vicié de l'étroit conduit. Elle ne regarde pas en bas. Regarder en bas, c'est voir le vide, c'est sentir le vertige, c'est accepter que la tour est une grotte verticale, une mâchoire de roche qui l'avale. Elle avance, une main sur le mur de pierre, l'autre tendue devant elle pour chasser l'obscurité qui se dégage du sol.\n\nL'odeur est plus forte ici. Elle s'insinue dans les narines, lourde, visqueuse. Le mélange du sang séché et de la fumée de tabac froid est devenu une présence physique, une brume épaisse qui colle à la langue et au palais. Léna retient son souffle, mais cela ne sert à rien ; l'air est saturé, saturé de cette odeur de mort qui ne vient pas seulement du corps, mais de la matière elle-même. Les murs semblent suinter cette odeur. Elle monte, un pas, deux pas, trois. Le silence n'est pas total. Il y a le bruit de sa propre respiration, sifflante, rapide, et le crissement de ses chaussures sur la pierre. Un bruit trop fort, trop net, qui résonne dans le cylindre de pierre comme un coup de marteau.\n\nElle atteint le premier palier. C'est une petite plateforme circulaire, à peine assez large pour faire demi-tour. Une fenêtre, haute et étroite, laisse passer un rayon de lumière grise qui coupe l'obscurité en deux. La poussière danse dans ce faisceau, des millions de particules suspendues dans l'air immobile. Léna s'approche de la fenêtre. La vitre est sale, tachée de traces de doigts et de sel. Elle essuie la vitre avec le revers de sa manche, révélant une vue sur le port. La mer est calme, d'un gris plomb, battant doucement contre les pieux. Les bateaux sont là, immobiles, comme des jouets abandonnés. Personne ne bouge. Le village semble endormi, ou mort. Le silence du port est celui d'un cimetière, un silence lourd, étouffé, qui contraste violemment avec le bourdonnement de son propre sang dans ses oreilles.\n\nElle se détourne de la fenêtre et continue à monter. Le deuxième palier. La porte est là, juste devant elle. Une porte en bois massif, sombre, renforcée par des bandes de fer rouillé. Elle est fermée à clé. La serrure est une vieille ferrure à pêne, rouillée, qui a résisté au temps et au sel. Léna pose sa main sur le bois. Il est froid, humide. Elle sent les nervures du bois, les nœuds, la texture rugueuse. Elle pousse la porte. Elle ne bouge pas. Elle est verrouillée de l'intérieur, ou coincée par le poids du temps. Léna se penche, écoutant. Rien. Juste le bruit de sa respiration et le crissement de la pierre sous ses pieds.\n\nElle recule, le dos contre le mur de pierre. Elle ferme les yeux un instant. Elle pense à la maison. À la petite cuisine, aux carreaux de ciment blanc, au pot de café qui fume sur le poêle. À la radio qui diffuse des nouvelles ennuyeuses, à la voix de sa mère qui lui demande de ramasser le linge. À la routine. À la sécurité du quotidien. Ici, tout est faux. L'air est trop épais, la lumière trop faible, les ombres trop profondes. Elle ouvre les yeux. Elle doit entrer.\n\nElle fouille dans sa poche, sort son couteau suisse. Le métal est froid, luisant.\n\nLe métal est froid, luisant. Elle l'ouvre à la hâte, le cliquetis de la lame qui s'étend sonne comme un éclat de verre dans le silence étouffant. Le manche de bois, usé par l'usage, s'adapte parfaitement à la paume moite de Léna. Elle ne lève pas le bras. Elle n'a pas besoin de force brute, seulement de précision. Elle insère la pointe de la lame dans la fente du verrou, là où le bois a noirci sous l'effet de l'humidité et de la poussière accumulée durant des décennies. Elle pousse, elle pivote, elle gratte le métal rouillé. Un grincement aigu, une vibration qui remonte le long de son avant-bras et lui fait serrer les dents. La serrure résiste, elle gémit. Léna ferme les yeux, inspirant par le nez pour ne pas sentir l'odeur de la poussière et de la moisissure qui s'échappe de la porte. Elle pense à la maison. À la petite cuisine, aux carreaux de ciment blanc, au pot de café qui fume sur le poêle. À la radio qui diffuse des nouvelles ennuyeuses, à la voix de sa mère qui lui demande de ramasser le linge. À la routine. À la sécurité du quotidien. Ici, tout est faux. L'air est trop épais, la lumière trop faible, les ombres trop profondes.\n\nUn déclic sec. Le verrou cède.\n\nLéna retient son souffle. Elle ne pousse pas la porte immédiatement. Elle écoute. Le silence est lourd, presque liquide, comme de l'huile froide qui coule dans ses oreilles. Pas de pas, pas de souffle, pas de craquement de planche. Juste le vent qui hurle doucement au loin, traversant les dunes, sifflant entre les rochers. Elle pousse du bout des épaules. La porte s'ouvre avec une lenteur agonisante, émettant un soupir de bois fatigué qui s'étend sur plusieurs secondes. La lumière du jour, pâle et blafarde, entre dans le couloir sombre. Elle projette des ombres longues et déformées sur les murs tapissés de cartes marines jaunies et de photos encadrées dont les visages ont été rayés au couteau, ne laissant que des trous noirs et vides.\n\nLéna franchit le seuil. Le sol de la cabane est recouvert d'une fine couche de sable fin, mélangé à de la cendre grise. Elle avance pieds nus, la semelle de ses bottes restée accrochée à la porte. Le sable est froid sous la plante de ses pieds, il se déplace avec une fluidité inquiétante. Elle suit le couloir, les murs bas de l'entrée, jusqu'à la petite pièce principale. L'odeur frappe Léna avant même qu'elle ne voit le corps. Une odeur de sel séché, de poisson pourri et de fumée froide. C'est l'odeur de la mort qui a séjourné ici trop longtemps, qui s'est incrustée dans les murs, dans le bois, dans la peau de la maison.\n\nAu centre de la pièce, face à la fenêtre à barreaux qui donne sur la mer grise, se dresse le gardien.\n\nIl est assis dans son fauteuil de cuir noir, le tissu décousu laissant apparaître une mousse jaunie. Sa tête pend sur la poitrine, le menton écrasé contre le col de sa chemise blanche, tachée de noir. Il ne bouge pas. Il est figé dans une position qui n'est pas celle d'un homme endormi. Les mains sont posées sur les accoudoirs, les doigts recourbés comme des serres d'oiseau mort. Léna s'approche lentement. Chaque pas est un calcul. Elle doit savoir. Elle doit comprendre pourquoi ce silence. Pourquoi ce village se tait.\n\nElle s'arrête à trois mètres du fauteuil. Elle peut voir"},{"chapter":2,"prose":"La brume ne tombait pas, elle s'installait. Elle collait aux vitres de la cuisine de Ker-Morvan comme un film gras, rendant la lumière du matin indécise, grise et lointaine. Léna Marchetti essuya la vaisselle avec une serviette épongeuse, le geste mécanique de ceux qui cherchent à s'occuper les mains pour ne pas penser. L'air sentait le sel rassis, le café froid et cette odeur sucrée et lourde du chlore qui montait de la mer, même à des kilomètres du quai.\n\nElle éteignit le gaz. Le silence qui suivit ne fut pas un repos, mais une attente. Une inquiétude sourde, un bourdonnement à la base de la nuque, lui rappelait que quelque chose n'allait pas depuis trois jours. Le gardien du phare, ce vieux Henri, n'était pas revenu de son poste. Pas de coup de téléphone, pas de mot, pas de rumeur autre que celle, vague, qu'il avait fait une chute ou qu'il était ivre.\n\nLa porte s'ouvrit sans bruit. Yvon Squarcioni entra, l'eau gouttant de son imperméable beige sur le carrelage blanc. Il ne salua pas. Il avait les yeux cernés, le teint cendré d'un homme qui n'a pas dormi depuis deux nuits.\n\n— Ils ne veulent pas dire le nom, dit-il. La voix de Yvon était rauque, comme si la mer lui avait mangé la gorge.\n\n— Qui, Yvon ?\n\n— Le maire et le gendarme. Ils ont verrouillé la zone. Personne n'approche le phare. Pas même les marins pour ramasser les épaves.\n\nLéna posa l'assiette essuyée. Le bruit de la porcelaine contre le bois résonna trop fort. Elle sentit le poids de la peur monter, non pas en une vague de panique, mais en une lourdeur froide qui lui nouait l'estomac.\n\n— Et Gaspard ? demanda-t-elle.\n\n— Gaspard est à la mairie. Il dit que c'est un accident. Une tempête qui a emporté le garde-corps. Il dit que Henri a glissé. Mais personne ne croit ça. Personne ne veut croire ça.\n\nYvon s'approcha du tableau, fixant le croquis du phare qu'ils avaient fait ensemble il y a des années. Il ne le regardait pas, il le traversait du regard.\n\n— Garcia vient ce soir, annonça Yvon. Il a demandé à voir les archives du village. Il veut savoir qui avait un motif.\n\n— Garcia ? L'inspecteur ?\n\n— Oui. Il ne se contente pas des déclarations officielles. Il fouille.\n\nLéna sentit un frisson parcourir son échine. L'arrivée de Garcia changeait la donne. Cela transformait une tragédie locale en une enquête. Et si Henri n'avait pas glissé ? Si quelqu'un l'avait poussé ? Le silence du village n'était pas la pudeur d'un peuple face au malheur, c'était la complicité d'un peuple face à un crime.\n\nElle se tourna vers Yvon.\n\n— Pourquoi se taisent-ils, Yvon ? Pourquoi personne ne parle de Henri ?\n\nYvon soupira, un souffle court qui s'échappa de ses poumons comme une fuite d'air.\n\n— Parce que Henri savait. Ou parce qu'il a vu. Et que le village a décidé que ce silence était plus important que la vérité.\n\nIl sortit une cigarette de sa poche, la regarda un instant comme si elle était une arme, puis la remit. Il n'allumait pas, ici. Pas avec Léna.\n\n— Je dois y aller. Je vais vérifier les traces de pas. Si Garcia veut fouiller, il faudra qu'on lui montre quelque chose. Ou qu'on lui cache quelque chose.\n\n— Yvon, attends.\n\nIl se figea.\n\n— Quoi ?\n\n— Si tu vas au phare, tu ne peux pas y aller seul. Pas maintenant.\n\nLe vent, plus fort sur la pointe du phare que dans le village, fouettait le visage de Léna. L'air sentait le sel rance et la houille brûlée, une odeur âcre qui s'accrochait aux poumons et ne s'en allait plus. Elle serra son manteau autour d'elle, les manches trop longues lui masquant les mains. Yvon Squarcioni marchait devant elle, ses pas lourds s'enfonçant dans la terre battue, écrasant les miettes d'algues sèches. Il ne parlait pas. Il ne regardait pas en arrière. Léna suivait, le cœur battant à un rythme irrégulier, comme si elle attendait un coup qui ne viendrait jamais, mais qui pourrait frapper à tout instant.\n\nLe phare se dressait, masse de pierre grise et de fer rouillé contre un ciel de plomb. Les vitres de la lanterne étaient sales, opaques, comme des yeux malades. Léna sentit une gêne physique, une pression derrière les oreilles. Ce n'était pas la peur de la mort, c'était la peur de ce qui se cachait derrière les murs. Yvon s'arrêta devant la porte de bois épais, peinte en blanc écaillé. Il posa sa main dessus, paume ouverte, comme pour sentir la vibration de l'air.\n\n— Je vais monter, dit-il. La voix était rauque. Je dois voir si les traces mènent jusqu'ici. Si Garcia veut fouiller, il faudra qu'on lui montre quelque chose. Ou qu'on lui cache quelque chose.\n\n— Yvon, murmura Léna.\n\nIl se tourna, le visage durci par le vent.\n\n— Reste là. Ne touche à rien.\n\nIl poussa la porte. Elle grinça sur ses gonds rouillés, un son aigu qui coupa le bruit du vent pendant une seconde, puis fut étouffée par le lourd fracas de la fermeture. Léna resta sur le seuil, les yeux fixés sur le battant. Le silence qui suivit fut plus lourd que le bruit précédent. Elle entendit le crépitement de ses propres pas sur le gravier, le battement de son sang dans ses tempes. Elle recula de deux pas, se penchant pour examiner le sol.\n\nLes traces de pas étaient là, marquées dans la boue et le sable humide. Des semelles larges, profondes, venant de la direction du village. Mais il y avait autre chose. À côté de la trace principale, une marque plus fine, presque invisible, comme si quelqu'un avait traîé un objet léger. Léna s'accroupit, le froid de la terre lui mordant les genoux. Elle écarta la boue du pouce. La marque ressemblait à une éraflure, mais elle était trop régulière. Elle regarda autour d'elle, la tête penchée. Le vent lui fouettait les cheveux, lui collant des mèches au front.\n\n— Yvon ! cria-t-elle, la voix étouffée par le vent.\n\nAucune réponse. Juste le grincement lointain d'une porte intérieure qui s'ouvrait et se fermait. Elle se releva, les genoux craquant. Elle devait le rejoindre. Elle poussa la porte, l'air intérieur sentait la poussière, le vieux bois et une odeur métallique, comme du sang séché. L'obscurité était épaisse, seulement percée par les rares rayons de lumière qui filtraient par les fentes des volets.\n\nElle avança, le souffle court. L'odeur du gardien, Henri, était là, mais elle était différente. Pas celle de la mort, mais celle de la peur. Une sueur froide lui coula dans le dos. Elle entendit un bruit, un froissement, venant de l'étage supérieur. Elle monta les marches de bois, une à une, comptant mentalement. Dix, vingt, trente. Le bois grinçait sous son poids.\n\nAu premier étage, le couloir était sombre. Elle s'arrêta, la main tendue\n\nLa main de Léna tremblait contre la paroi froide. Le bois était rugueux, comme une peau malade. Elle ne vit rien, rien que l'ombre qui semblait boire la faible lumière du haut du phare. Un silence s'était abattu, plus lourd que le grondement de la mer dehors. Ce n'était pas un silence d'attente, mais celui de la retenue, de l'écoute. Elle poussa le loquet qui bloquait la porte de la chambre de veille, la serrure rouillée grinçant comme une plainte humaine.\n\nLa pièce était une caverne de livres et de cartons. Des piles de journaux, des atlas usés, des carnets de relevés météorologiques empilés jusqu'au plafond. L'air y était stagnant, saturé de l'odeur de la moisissure et de cette odeur métallique, âcre, qui n'avait pas quitté le bas. Mais cette fois, elle était plus nette. Une odeur de cuivre oxydé, de rouille fraîche. Léna fit un pas, ses bottes faisant un bruit sec sur le plancher.\n\n— Yvon ?\n\nSa voix se perdit dans l'amoncellement de papier. Pas de réponse. Seulement le sifflement du vent qui passait par les vitres épaisses, comme si la pierre elle-même respirait avec difficulté. Elle avança vers la table de travail, encombrée de cartes marines étalées, de compas, d'une boussole brisée. Sur la table, une tasse de café froid, une croûte de lait caillé au fond. Tout était en place, figé. Trop en place.\n\nElle se dirigea vers la fenêtre, cherchant une ouverture, une faille dans cette forteresse de solitude. Le vent était devenu plus violent, claquant contre les carreaux. Elle écarta les rideaux épais, poussant les lourdes épaisses de tissu. La lumière du jour, blafarde, s'invita dans la pièce, révélant la poussière qui dansait dans l'air.\n\n— C'est fou, murmura-t-elle. Personne ne vit ici depuis des années.\n\nElle tourna la tête vers le coin de la pièce, là où se trouvaient les tiroirs. Un tiroir était entrouvert. Un bruit de pas. Léna se figea. Le cœur battant à tout rompre, elle se figea, l'oreille tendue. Un bruit de pas, lourds, traînants, venant du corridor. Elle se recula, se fondant dans l'ombre derrière la pile de journaux.\n\n— Yvon ? appela-t-elle, la voix plus ferme cette fois.\n\nLe bruit s'arrêta. Puis un bruit de papier, un froissement sec. Quelqu'un fouillait dans les tiroirs. Léna se mit à genoux, cherchant un objet, n'importe quoi, un livre, une lampe. Elle saisit un lourd dictionnaire maritime, le serrant contre sa poitrine comme un bouclier. Elle attendit. Le silence s'étira, devenant une pression physique sur ses tempes.\n\n— Qui est là ? demanda-t-elle, sa voix brisée par la peur.\n\nUn rire, court, rauque, provenant du corridor. Pas celui de Yvon. Un rire sec, sans joie, comme celui d'un homme qui a oublié comment sourire.\n\n— Personne, dit une voix. Une voix de femme. Mais celle de Léna, la voix de la peur, la voix de la peur, la voix de la peur.\n\nLéna se leva, le dictionnaire toujours serré. Elle fit face à la porte. L'ombre s'agrandit, une silhouette qui se détachait contre la lumière grise de la fenêtre.\n\n— Léna ? La silhouette s'arrêta. C'était Yvon.\n\nElle haleta, un soulagement si violent qu'elle faillit tomber. Elle avait oublié le vent, la poussière, la peur. Yvon était là. Il était vivant.\n\n— Yvon ! s"},{"chapter":3,"prose":"La pluie ne tombait pas, elle s'accumulait. Elle collait aux vitres du bureau de Ker-Morvan comme une pellicule grasse, étouffant la lumière du crépuscule. À l'intérieur, l'air sentait le café froid et le bois humide. Léna Marchetti posa sa tasse sur le bureau en chêne usé. Le bruit du porcelaine contre le bois résonna dans le silence, trop fort pour le calme de la pièce. Elle fixa la lettre ouverte devant elle. Elle ne l'avait pas écrite. Elle ne l'avait jamais écrite.\n\nLe papier était épais, de couleur crème, avec une texture rugueuse qui grinçait sous ses doigts. L'encre était noire, trop noire, comme si elle avait été appliquée avec une rapidité nerveuse. Les caractères étaient serrés, penchés vers la droite. Elle ne reconnaissait pas l'écriture, mais la forme des mots était familière, comme un souvenir lointain qui refait surface sans visage.\n\nElle lut une seconde fois.\n\n*Le silence ne protège personne. La marée monte. Regarde derrière vous.*\n\nIl n'y avait pas de signature. Pas de date. Juste ces trois phrases. Léna sentit une contraction dans la poitrine, une chaleur froide qui remontait le long de sa colonne vertébrale. Elle se leva, fit le tour du bureau. La pièce était ordinaire. Des piles de dossiers, un téléphone filaire noir, un calendrier montrant la date d'hier. Rien ne semblait anormal, sauf la lettre. Elle la reprit. La sentit. Il y avait une odeur subtile, sous l'encre et la poussière. Du sel marin. Du goudron. L'odeur du phare.\n\nLa porte s'ouvrit avec un grincement. Léna se figea, la lettre toujours dans la main. Yvon Squarcioni entra. Il portait sa veste de pêche, trempée par la pluie. L'eau gouttait de ses cheveux gris sur le linoléum du couloir. Il n'avait pas l'air surpris de la voir. Il avait l'air fatigué, comme s'il portait le poids de toute la baie sur ses épaules.\n\n« Tu es encore là, » dit-il. Sa voix était rauque, usée par le tabac et le vent.\n\n« Je travaillais, » répondit Léna. Elle glissa la lettre dans sa poche intérieure, sous la chemise. Elle ne voulait pas qu'il la voie.\n\nYvon referma la porte. Il s'approcha du bureau, essuya la gouttière de son front avec le revers de la manche. Il ne regarda pas la lettre. Il regarda Léna, ses yeux gris cherchant quelque chose qu'il ne trouvait pas.\n\n« Il y a eu une nouvelle, » dit Yvon. « Garcia est arrivé ce matin. Il a demandé des nouvelles du gardien. »\n\n« Je sais, » répondit Léna. Elle croisa les bras. La tension dans la pièce était palpable, une pression qui montait avec la marée.\n\n« Il a l'air pressé, » poursuivit Yvon. « Il fouille partout. Il demande aux gens ce qu'ils ont vu la nuit du meurtre. Personne ne lui répond. »\n\n« Et toi, tu as répondu ? » demanda Léna.\n\nYvon haussa les épaules. « Je ne sais rien. Je ne vois rien. C'est comme ça qu'on survit ici. On ne voit rien. »\n\nIl y eut un long silence. La pluie battait contre la vitre avec une régularité hypnotique. Léna sentit la lettre brûler contre sa poitrine. Elle avait peur. Pas une peur vive, mais une inquiétude sourde qui s'installait dans le creux de l'estomac. Une certitude qu'elle ne voulait pas avouer : quelque chose allait mal. Quelque chose de grave.\n\nGarcia avait frappé à la porte de la mairie trois jours plus tôt. Il avait demandé à voir les archives du phare. Les\n\nLa pluie ne s'arrêtait pas. Elle frappait le carreau avec une persistance aveugle, transformant la rue en un ruban gris et brillant où les ombres des ormes s'étiraient et se déformaient sous le reflet des réverbères. Léna sentit la lettre brûler contre sa poitrine, à travers le tissu de son pull, une chaleur paradoxale dans ce froid qui remontait du sol. Elle ne bougeait pas. Yvon, lui, semblait avoir basculé dans une apathie protectrice, ses mains posées à plat sur la table en bois verni, comme s'il tenait par la force de son immobilité le monde entier en place.\n\n« Garcia a frappé à la porte de la mairie trois jours plus tôt. Il avait demandé à voir les archives du phare. » Léna continua la phrase d'Yvon, sa voix rauque à peine audible, comme si les mots lui brûlaient la gorge. Elle avait peur. Pas une peur vive, celle qui fait sursauter, mais une inquiétude sourde qui s'installait dans le creux de l'estomac, une certitude qu'elle ne voulait pas avouer : quelque chose allait mal. Quelque chose de grave.\n\nYvon ne releva pas la tête. « Les archives sont fermées. Ou plutôt, les tiroirs sont verrouillés. Le notaire a changé la serrure la semaine dernière. Il m'a dit que c'était une mesure de sécurité, après les rumeurs de cambriolage. Mais je sais qu'il ment. »\n\n« Tu sais pourquoi ? » demanda Gaspard, assis à l'autre bout de la table. Son regard était fixé sur la vitre, où la pluie dessina des sillons tortueux. Il ne semblait pas inquiet. Il semblait fatigué.\n\n« Parce que Garcia cherche quelque chose qui n'est pas dans les registres. » Yvon leva enfin les yeux. Son regard était vide, vidé de toute émotion, comme si la peur avait été extraite de lui depuis longtemps. « Le gardien ne s'est pas suicidé. Personne ici ne croit à cette histoire. Les gendarmes ont dit que c'était une histoire de chagrin, de dépression. Mais le gardien, lui, il ne buvait pas. Il ne parlait pas de chagrin. Il parlait de la mer. De ce qui venait du large. »\n\nGarcia avait frappé à la porte de la mairie. Il avait demandé à voir les archives du phare. Mais il ne s'agissait pas seulement de papiers. Léna sentit la lettre contre son cœur se tordre, comme une bête vivante. Elle avait lu les premières lignes de ce document, trouvé coincé dans la semelle de la vieille botte du gardien, la veille du meurtre. Une date. Un lieu. Un mot, inscrit d'une écriture tremblante : *L'Écho*.\n\n« Tu as dit que personne ne lui répondait, » reprit Léna, forçant sa voix à rester stable. « Mais toi, Yvon. Tu as répondu. »\n\nYvon haussa les épaules, un geste mécanique. « Je ne sais rien. Je ne vois rien. C'est comme ça qu'on survit ici. On ne voit rien. »\n\nLe silence s'étira, lourd, saturé de l'odeur de la pluie et de la poussière humide qui montait des murs. Léna ferma les yeux. Elle revit Garcia, la nuit précédente, dans la rue étroite. Il avait marché jusqu'à la mairie, son imperméable noir dégoulinant, ses yeux gris fixés sur l'entrée. Il n'avait pas frappé. Il avait simplement attendu. Comme un chien qui sent une proie. Puis, il était parti. Mais il avait laissé derrière lui une empreinte, une trace qu'elle n'avait pas encore vue.\n\n« Le gardien, » murmura Gaspard, brisant le silence. « Il a été vu la nuit du meurtre. Pas au phare. À la plage. Près de la cale. »\n\nLéna ouvrit\n\nLéna ouvrit les yeux. Le plafond de la salle des réunions était une carte de fissures, un réseau de cicatrices anciennes qui semblait bouger à la lueur vacillante des néons. L'odeur de la poussière humide s'était mêlée à celle du café froid, une senteur âcre qui collait au fond de la gorge. Gaspard avait raison. Le gardien n'avait pas été vu au phare. Il avait été vu là où il n'aurait jamais dû aller, à la plage, près de la cale.\n\n« À la cale ? » répéta Yvon Squarcioni, sa voix rauque se perdant dans le bourdonnement électrique. Il se gratta la nuque, laissant une traînée de suie sur sa peau pâle. « C'est une blague. Le gardien ne quitte jamais la tour. Il a les clés, il a les ordres. Il ne descend pas. »\n\n« Il a été vu, » insista Gaspard, posant une main lourde sur la table en chêne. Ses jointures étaient blanches. « Un pêcheur, hier soir. Il rentrait avec le filet. Il a vu une silhouette. Grande. Qui portait l'effigie du phare, mais qui se dirigeait vers la cale. Pas vers l'eau. Vers la vieille baraque des engins. »\n\nLéna sentit un froid lui parcourir l'échine, distinct de la fraîcheur ambiante. C'était l'odeur du poisson pourri qui montait des marées basses, mélangée à la peur. Elle se souvint de Garcia. Il avait attendu devant la mairie comme un chien, observant, analysant. Il n'avait pas besoin de frapper. Il savait que le village était une boîte de conserve scellée. Et aujourd'hui, Gaspard venait de dévisser le couvercle.\n\n« Qui a dit que c'était le gardien ? » demanda Yvon, mais sa voix tremblait légèrement. Il n'avait pas regardé Gaspard, il fixait la tache d'humidité sur le mur opposé. « C'était peut-être un touriste. Ou un voleur de bois. On ne connaît pas la plage, nous autres. On ne connaît rien. »\n\n« On sait que le gardien est mort, » coupa Léna, sa voix plus ferme qu'elle ne l'aurait voulu. Elle croisa les bras, cherchant une posture de défense, mais elle se sentait nue. « Et on sait que s'il était à la cale, il y avait une raison. »\n\nGaspard la dévisagea. Ses yeux, cernés par des nuits sans sommeil, semblèrent chercher quelque chose en elle, une faille, une complicité. « Tu as raison, Lena. Mais pourquoi personne ne l'a entendu ? Pourquoi personne n'a rien vu quand il est descendu ? »\n\nLe silence retomba, plus épais qu'avant. Il semblait peser sur leurs épaules, les obligeant à se courber. Dehors, la pluie reprenait, martelant la vitre avec une insistance rituelle, comme un doigt frappant une porte close. Léna ferma les yeux un instant, et revit la rue étroite, Garcia qui marchait, son imperméable noir dégoulinant. Il n'avait pas frappé. Il avait attendu. Et maintenant, il attendait toujours.\n\n« La cale, » murmura Yvon, comme s'il parlait pour lui-même. « Il y a des choses là-bas. Des choses qu'on ne devrait pas voir. »\n\n« Des choses ? » Gaspard se pencha en avant. « Tu parles de quoi, Yvon ? »\n\n« De la machine, » répondit l'homme sans lever la tête. Il commença à triturer un petit objet entre ses doigts : une clé rouillée, à peine plus grande qu'un ongle. Léna le vit briller sous la lumière, une étincelle grise dans la pénombre. « Le gardien ne descendait pas pour rien. Il venait vérifier. Il venait s'assurer que"},{"chapter":4,"prose":"Le brouillard ne s'était pas levé. Il avait seulement changé de texture, passant d'un voile humide à une brume plus dense, presque solide, qui collait aux vitres de la maison de Ker-Morvan comme une peau grasse. À l'intérieur, l'air sentait le sel séché et le bois pourri. Léna Marchetti se tenait debout dans la cuisine, les doigts entrelacés derrière son dos, observant la marmite de soupe qui frémissait à peine sur le feu électrique. Le bruit du gaz était un sifflement aigu, presque invisible, qui s'insinuait dans le silence de la maison.\n\nElle ne pouvait pas s'asseoir. Chaque fois qu'elle s'asseyait, elle sentait le poids de l'absence au fond de la salle à manger. Le gardien, cet homme dont on avait à peine entendu la voix, était parti, et le village avait décidé de le laisser partir sans un mot. Pas de fleurs sur la route, pas de cris dans la rue, pas de rumeurs. Juste ce silence, lourd comme un couvercle de fer.\n\nLa porte d'entrée s'ouvrit avec un grincement plaintif. Yvon Squarcioni entra, secouant son imperméable. L'eau tomba de ses épaules larges sur le carrelage en une traînée sombre. Il portait le visage fermé de ceux qui ont passé trop de temps à attendre la pluie.\n\n— Ils ne bougent pas, dit-il d'une voix rauque. Pas un seul voisin ne m'a ouvert la porte. On dirait que le village est mort avec lui.\n\nLéna tourna la tête, ses yeux suivant le mouvement de l'homme. Yvon était le type de personne que l'on voyait toujours, celui qui savait où étaient cachés les outils, qui connaissait les secrets de chaque famille. Mais aujourd'hui, il semblait petit, effacé par la masse du silence qui pesait sur la presqu'ule.\n\n— Ils ont peur, répondit Léna. Ou ils savent quelque chose.\n\n— La peur, c'est une excuse pour les lâches, marmonna Yvon en s'asseyant à la table. Il prit une cuillère et remua la soupe sans la goûter. Mais je ne sens pas la peur. Je sens une complicité. Une sorte de pacte.\n\nGarcia arriva quelques minutes plus tard, sans frapper, comme s'il avait été invité. Il portait un chapeau mou qu'il posa sur le rebord de la fenêtre, révélant un visage marqué par le sel et le temps. Ses yeux, d'un gris acier, balayèrent la pièce avant de se poser sur Léna. Il y avait une tension dans sa posture, une raideur dans les épaules qui n'était pas naturelle.\n\n— Gaspard est en route, annonça-t-il. Il a fait le tour de l'île. Il a trouvé des traces.\n\n— Des traces de quoi ? demanda Léna, le cœur se serrant dans sa poitrine.\n\n— De pas, dit Garcia. Pas de gardien. Des pas qui ne ressemblent à rien qu'on a l'habitude de voir.\n\nLe téléphone de la cuisine, un vieux modèle posé sur un chiffon, sonna. Le son était strident, violent dans la semi-silence de la pièce. Léna décrocha, le son de la voix de l'appelante lui coupant la respiration.\n\n— C'est le commissariat, dit-elle en raccrochant. Ils ont trouvé quelque chose. Quelque chose qui ne devrait pas être là.\n\nYvon leva les yeux, inquiet. — Qu'est-ce que c'est ?\n\n— Une lettre, dit Garcia en se rapprochant de la table. Une lettre trouvée dans la poche du veston du gardien. Mais elle n'a pas été écrite par lui.\n\nLéna sentit une vague de froid lui monter le long de la colonne vertébrale. Elle ne comprit pas tout de suite. Une lettre trouvée dans une poche, ce n'était pas un drame. Mais le ton de Garcia, le regard f\n\nLe froid ne venait pas du vent qui fouettait les vitres, mais de l'air même qui semblait s'être figé dans la cuisine. Garcia tenait le papier entre le pouce et l'index, comme si la matière brûlait sa peau. Léna observa ses jointures blanchir. La feuille était épaisse, de ce papier à lettre ancien qui sentait l'encre de chine et la poussière de bibliothèque, un contraste violent avec la saleté du veston du gardien.\n\n— Elle n'a pas été écrite par lui, répéta Garcia, la voix plus basse, presque un murmure.\n\nGaspard se pencha par-dessus l'épaule du commissaire. Il plissa les yeux, cherchant la signature, le timbre, tout ce qui pouvait trahir l'identité de l'auteur.\n— C'est une main ferme, dit-il enfin. Pas de tremblement. Le gardien avait les mains instables depuis l'accident, tu le sais. Il tremblait même en tenant sa tasse de café.\n\nLéna sentit un nœud se serrer dans son ventre. Elle s'appuya contre le plan de travail froid, le granit contre ses avant-bras.\n— Et ça ne ressemble pas à ça ? demanda-t-elle, désignant le gribouillis du mort qu'ils avaient vu sur la scène de crime.\n\n— Non, répondit Yvon Squarcioni. C'est net. Trop net.\n\nGarcia tourna la feuille. Il la tendit à Léna. Elle prit le papier, les doigts glacés. L'encre était noire, profonde. Les caractères étaient des majuscules d'imprimerie, sans aucune fioriture, sans aucune hésitation. Une écriture de soldat ou de prêtre, quelque chose d'absolument contrôlé.\n\n*« Ils ne savent pas encore que le silence a un prix. »*\n\nLes mots se détachèrent du fond blanc, tranchants comme des éclats de verre. Léna relut la phrase. Le sens lui échappait, mais la syntaxe, la froideur de la formulation, tout cela la perturbait. Ce n'était pas le langage d'un homme qui s'était battu pour sa vie dans la tour du phare. C'était le langage de quelqu'un qui surveillait, qui observait, et qui décidait.\n\n— Une fausse piste, murmura Garcia en reprenant la lettre. Ou une mise en scène.\n\n— Pourquoi faire ça ? demanda Léna. Pour effrayer ? Pour semer le doute ?\n\n— Pour dire qu'il n'est pas seul, répondit Gaspard. Si quelqu'un a écrit ça et l'a glissé dans la poche du mort, c'est que le tueur voulait qu'on la trouve. C'est un message.\n\n— Un message pour qui ?\n\n— Pour nous, dit Garcia en posant la lettre sur la table. Ou pour celui qui nous regarde.\n\nLe silence qui suivit fut lourd, étouffant. Le bruit de la pluie contre la vitre sembla soudainement s'intensifier, comme si la tempête extérieure cherchait à pénétrer l'enceinte du village. Yvon Squarcioni s'essuya le front du revers de la main. Ses yeux, habituellement vitreux, semblaient chercher une issue dans la pièce, une échappatoire à cette vérité qui s'imposait.\n\n— Le village se tait, dit soudain Yvon. C'est ça, le problème. On nous a dit que personne n'avait rien vu. Personne n'a entendu la chute. Personne n'a entendu les cris. Mais si cette lettre est là, alors quelqu'un a vu. Quelqu'un a agi.\n\n— Et si c'est un leurre ? lança Gaspard, nerveux. Pour nous faire croire qu'il y a un complice, alors qu'on n'a qu'un assassin solitaire ?\n\n— Non, dit Garcia avec une certitude qui tranche le doute. L'écriture ne ment pas. Et le papier... Il n'y a pas de papier comme ça dans ce village. Pas depuis des années. C'est un type de papier importé,\n\nLe papier semblait brûler les doigts de Garcia, une chaleur fantôme qui ne venait pas de la flamme de la bougie, mais de la gravité de l'objet lui-même. Il le tendit vers la lumière vacillante, laissant les lettres grises se détacher du fond blanc cassé. La texture était rude, granuleuse, un grain fin qui s'accrochait à la peau, opposé au papier lisse et brillant des factures ou des journaux que l'on trouvait aux bureaux de poste de Bonifacio.\n\n— Un papier importé, répéta Garcia, la voix plus basse, comme s'il parlait à l'ombre des murs. À Paris, à Marseille, peut-être. Pas ici. Ici, on écrit sur du kraft, sur des sacs de jute, sur le dos des vieux journaux quand la faim est trop grande pour attendre. Ce papier a un nom. Un nom qu'on ne trouve pas sur les étagères de la quincaillerie.\n\nGaspard s'agita sur sa chaise de bois, le bois grinçant sous son poids. La sueur perlait maintenant à sa tempe, coulant dans le sillon de son front, mélangeant la poussière de la cheminée à la peur.\n— Et alors ? Si c'est importé, ça veut dire quoi ? Que le gardien avait un ami à Paris ? Que le tueur est un voyageur ?\n— Ça veut dire que la mort a été préparée, répondit Garcia sans lever les yeux du document. Le gardien ne tuait pas les gens par accident, Gaspard. Et s'il y a une lettre, c'est qu'il y a eu une négociation. Une transaction.\n\nYvon Squarcioni, qui s'était assis à la table, les mains posées à plat sur le bois noirci par le temps, fit un mouvement brusque. Le son de ses ongles raclant la table fut aigu, perçant le silence lourd de la pièce.\n— Le village se tait, dit-il encore, comme une prière ou une malédiction. On nous a dit que personne n'avait rien vu. Personne n'a entendu la chute. Personne n'a entendu les cris. Mais si cette lettre est là, alors quelqu'un a vu. Quelqu'un a agi. Et ce quelqu'un a gardé le silence.\n\nLe silence n'était pas seulement l'absence de bruit extérieur ; il était une présence physique, un poids qui écrasait les poumons. La tempête dehors semblait s'être apaisée, remplacée par un vent plus sourd, plus glacial, qui s'engouffrait par les fissures du plancher, faisant danser les ombres sur les murs de pierre calcaire. L'odeur de la pluie et de la mer, mêlée à l'odeur âcre de la bougie et de la poussière, imprégnait l'air.\n\n— Peut-être que c'est un leurre, insista Gaspard, sa voix tremblante trahissant l'effort de rester rationnel. Pour nous faire croire qu'il y a un complice, alors qu'on n'a qu'un assassin solitaire. Quelqu'un qui a volé ce papier, qui l'a laissé là pour nous troubler.\n— Non, dit Garcia avec une certitude qui tranche le doute. L'écriture ne ment pas. Et le papier... Il n'y a pas de papier comme ça dans ce village. Pas depuis des années. C'est un type de papier importé, fabriqué à l'étranger, avec une encre qui résiste à l'humidité. Regardez les bords. Ils sont coupés au couteau, pas déchirés. C'est un geste précis. Un geste de quelqu'un qui veut qu'on le trouve, ou de quelqu'un qui veut qu'on ne le trouve pas.\n\nGarcia se leva, ses bottes lourdes crissant sur le sol de terre battue. Il s'approcha de la fenêtre, une fente étroite qui donnait sur le quai désert. Dehors, la nuit était si dense que les vagues semblaient"}],"knownCharacters":["Léna","Garcia","Gaspard","Yvon","Henri"],"seeds":["naufrage","dette","lettre","carnet","registre"],"candidates":[{"id":"canon-strict","prose":"La pluie ne tombait pas, elle s'insinuait. Une bruine froide, tenace, qui collait au visage comme un voile de suie et rendait le bitume de la corniche luisant de reflets grisâtres. Léna Marchetti garait sa berline sur le bas-côté, les essuie-glaces claquant d'un rythme mécanique, lents, comme s'ils hésitaient à faire leur travail. Elle coupa le contact. Le silence qui suivit n'était pas vide ; il était lourd, saturé de l'odeur de l'humidité et de la marée basse.\n\nElle sortit du véhicule. L'air sentait le varech mort et le goudron mouillé. Elle ajusta son manteau, un tissu lourd qui lui collait à la peau, et regarda vers le village. Saint-Cast-le-Gaulois s'étalait en contrebas, une rangée de toits d'ardoise sombre serrés les uns contre les autres, luisant sous la pluie. Les fenêtres étaient éteintes. Pas de lumière. Pas de mouvement. À cette heure, une heure du matin, la plupart des habitants dormaient, mais le village semblait plus qu'endormi. Il semblait tenir son souffle.\n\nLéna marcha vers le phare. Ses pas claquaient sur le gravier humide, un bruit sec qui semblait trop fort dans cette atmosphère étouffante. Elle connaissait chaque caillou, chaque racine d'arbuste tordue par le vent. Ici, la nature ne cédait jamais. Elle grignotait les pierres, elle pliait le métal, elle imposait sa loi.\n\nLe gardien, Henri, l'avait attendue à la porte de la maisonnette d'entrée. Il n'avait pas ouvert. Le bruit de la serrure avait été un grincement prolongé, un cri de métal fatigué, avant que la porte ne s'ouvre de deux centimètres.\n\nLéna s'arrêta devant la grille. Elle sortit son téléphone, l'écran se brisa en une toile d'araignée blanche sous ses doigts gantés. Elle n'avait pas de signal. Pas de réseau. Juste le silence. Elle poussa la grille rouillée. Elle grinça, un son aigu qui traversa la brume.\n\nElle monta les marches de l'escalier extérieur, l'air se chargeant d'une odeur âcre, celle de l'huile de machine et de la poussière de chaux. La porte du phare était entrouverte. Une fente de ténèbres s'ouvrait sur l'intérieur. Léna s'arrêta un instant, l'oreille tendue. Rien. Juste le vent qui sifflait dans les fentes du bois, et le bruit de ses propres battements de cœur, trop rapides, trop forts.\n\nElle poussa la porte. Elle s'ouvrit avec un gémissement de charnière.\n\nL'intérieur sentait le vieux bois et le sel. La lumière du jour, diffuse, filtrait à travers les verres sales de la lanterne, éclairant des ombres qui semblaient se déplacer. Léna alluma sa lampe torche. Le faisceau blanc trancha l'obscurité, révélant la poussière qui dansait dans l'air immobile.\n\nElle monta les marches de l'escalier en colimaçon. Le bois craquait sous son poids. À chaque palier, l'odeur changeait légèrement, passant de l'huile à quelque chose de plus sucré, plus âcre. Une odeur de viande cuite trop longtemps, de fer rouillé, de sang séché.\n\nElle arriva au premier étage, là où se trouvait le logement du gardien. La porte était grande ouverte.\n\nHenri était là.\n\nIl était assis sur sa chaise, penché en avant, la tête reposant sur la table de travail. Le dossier de la chaise était enfoncé contre le mur, comme si quelqu'un l'avait poussé de l'intérieur. Sa main droite pend","baseScore":528,"eligible":true},{"id":"tension-interne","prose":"Le sel colle à la peau comme une seconde écorce, celle d'une humidité qui ne s'efface pas, qui s'infiltre dans les pores et s'y incruste. Léna Marchetti ferma les yeux un instant, sentant le grain du granit brut sous ses paumes, froid et rugueux contre la chaleur moite de ses joues. Elle était là, sur le quai de Saint-Léonard, face à la mer qui ne s'arrêtait jamais de bouger. Une houle basse, lourde, poussait contre les pieux de bois vermoulu avec un bruit de succion, de succion de chair.\n\nElle ne portait pas de manteau. Le vent d'est, celui qui vient des falaises et qui sent le goudron et la boue, s'engouffrait dans son chemisier en lin. Il lui mordait les bras nus. Elle n'eut pas peur du froid. La peur était ailleurs, quelque part dans le creux de son ventre, une boule froide qui ne fondait pas.\n\nAutour d'elle, le village ne s'éveillait pas vraiment. Il y avait une inertie, une sorte de sommeil lourd qui tenait les corps en place. Les rares passants, des marins au visage tanné par le sel et le tabac, des vieilles femmes avec des sacs de filet, évitaient son regard. Quand leurs yeux croisaient les siens, ils fuyaient, se posant sur le sol, sur leurs chaussures, sur l'horizon. Personne ne saluait. Personne ne disait bonjour. Léna avait grandi ici, elle connaissait les cicatrices de chaque maison, les noms gravés sur les tombes du cimetière en contrebas. Mais aujourd'hui, le silence n'était pas le silence habituel des matins de marée basse. Il était plus épais. Il étouffait les sons.\n\nElle poussa un soupir, une vapeur blanche qui s'évapora presque instantanément dans l'air vif. Elle ajusta la sangle de son sac sur son épaule. Le cuir grinça, un son sec qui sembla trop fort dans le vacarme étouffé du port. Elle se dirigea vers la petite maison blanche à la porte bleue, la maison de son oncle, Armand Marchetti.\n\nLa porte était fermée à clef. Elle l'avait toujours trouvée ainsi, mais aujourd'hui, la serrure semblait plus résistante, le métal plus froid au toucher. Elle fouilla dans sa poche, sortit la clé de la poche de son jean, la fit tourner. Le mécanisme rendit un bruit de ferraille usée, un grincement métallique qui vibra dans le bois de la porte. Léna poussa. La porte céda avec un soupir de charpente.\n\nL'intérieur sentait l'odeur habituelle : le tabac froid, l'encre de Chine et cette senteur douceâtre et écœurante de la résine de pin qui imprégnait tout le bois. Mais il y avait autre chose. Une odeur de pourriture lente, celle de la viande qui commence à se décomposer dans un coin oublié du réfrigérateur. Léna fronça le nez, le souffle court. Elle fit un pas, puis un autre. Le parquet craqua sous ses pas.\n\n— Oncle Armand ?\n\nSa voix résonna dans l'entrée, étrangement faible. Pas d'écho. Le son semblait avoir été absorbé par les murs, par le silence qui pesait sur la pièce. Elle avança vers la cuisine, la lumière du matin filtrant à travers les carreaux de la fenêtre, filtrant la poussière qui dansait dans l'air immobile.\n\nLa table était mise pour deux. Une tasse de café encore fumante, mais le liquide était noir, figé. À côté, un carnet de notes ouvert, la plume posée dessus. Léna s'approcha, ses yeux balayant les lignes d'écriture serrée, le griffonnage rapide de son oncle. Elle lut les dernières phrases, les mots qui se superposaient, comme s'il","baseScore":578,"eligible":true},{"id":"sensoriel","prose":"La pluie sur l'asphalte du parking ne fait pas de bruit. Elle le mange. Une nappe grasse, noire et huileuse, recouvre le bitume fissuré de la caserne de gendarmerie de l'Île de Sein. Léna Marchetti sort de la voiture, le col de son imperméable remonté jusqu'aux pommettes. L'air sent le sel rance, le goudron mouillé et cette odeur de fer qui persiste toujours, même après des années de nettoyage. C'est l'odeur de l'île, celle qui s'incruste dans les pores, dans les vêtements, dans les poumons.\n\nElle ferme la portière. Le claquement est sec, étouffé par le vent qui hurle entre les bâtiments bas, gris comme des cailloux. Elle vérifie sa montre. 07:42. L'heure du petit-déjeuner, dans un monde qui a oublié de dormir. Léna ajuste sa ceinture. Le cuir est dur, froid contre sa peau. Elle déteste ce moment, cette seconde d'avant. L'inquiétude sourde, celle qu'elle a apprise à vivre comme un second souffle, commence à monter dans sa poitrine, un poids lourd qui ne la quitte jamais vraiment. Elle pousse la porte battante de la salle des pas perdus.\n\nL'intérieur est une boîte à chaussures aux murs écaillés. L'odeur de café brûlé et de poussière de tabac s'y mêle à celle, plus tenace, de la lessive industrielle. Un homme, le sergent Durand, est assis derrière son bureau, les yeux plissés devant un écran d'ordinateur dont l'écran scintille faiblement. Il ne lève pas la tête. Il n'a pas besoin de regarder pour savoir qui entre.\n\n— Tu es en retard, dit-il d'une voix rauque, comme si le sable lui avait collé la gorge.\n— La tempête, répond Léna. Elle a dévalé la route.\n\nElle dépose son sac sur le rebord du comptoir. Le bruit du cuir qui frotte contre le métal froid résonne dans le silence. Durand finally lève les yeux. Son visage est un assemblage de rides profondes, creusées par le vent marin et l'âge. Il y a dans son regard une fatigue ancienne, une résignation qui pèse plus lourd que le uniforme bleu marine.\n\n— Le gardien du phare de Kersanton, dit-il. Il est mort.\n— Comment ?\n— On l'a trouvé. Dans la salle des machines.\n\nLéna sent le sol se dérober sous ses semelles, une micro-seconde de vertige qu'elle refoule immédiatement. Elle ne sursaute pas. Elle fixe l'écran. Une photo apparaît. Le corps d'un homme, étendu sur le sol de béton, noyé dans une mare sombre. La lumière du phare, éteinte, plonge la scène dans une pénombre bleutée. Le visage est méconnaissable, tuméfié, les yeux grands ouverts, fixant le plafond humide.\n\n— Personne n'a rien vu ? demande Léna. Sa voix est plate, contrôlée.\n— Tout le monde dort. Ou feint de dormir. Le village...\n— Le village se tait, complète-t-il.\n\nIl se lève, se dirige vers le tableau blanc où sont épinglés des photos de la côte, des cartes marines, des relevés de marée. Il trace une ligne rouge avec un marqueur qui sent l'encre forte.\n\n— Depuis trois jours, plus personne ne vient voir le gardien. On pensait qu'il était malade, qu'il avait un problème de santé. Mais ce matin, à 06:00, le bateau de ravitaillement a dû faire demi-tour. Le phare était éteint. Le gardien, lui, n'était plus là.\n\nLéna observe la photo. Elle voit la texture du béton, les traces de boue, la tache sombre qui s'étend sous le corps. Elle ne","baseScore":560,"eligible":true},{"id":"dialogue","prose":"Le brouillard ne tombait pas, il s'installait. Il collait aux vitres de la maison de bois, grimpait comme une mousse grise sous les lattes du perron, et s'infiltrait dans les interstices des volets fermés. À l'intérieur, l'air sentait le sel séché et le bois de chauffe humide. Léna Marchetti épluchait une pomme de terre, le couteau à lames fines glissant dans la chair blanche avec un bruit de succion régulier. *Scritch. Scritch.* Le son était trop fort dans la cuisine, une percussion sèche qui résonnait contre le silence de la maison.\n\nElle ne leva pas les yeux vers la fenêtre. Elle savait que la mer n'était plus qu'une tache d'encre derrière la vitre sale. Les vagues battaient contre les rochers, un bruit sourd, rythmé, comme un cœur malade qui peine à battre. Depuis trois jours, le vent avait tourné. Il venait du nord-est, chargé de l'odeur âcre de l'algue morte et de la neige qui fondait trop vite. Une odeur de pourriture douceâtre qui ne partait jamais vraiment, même après le lavage des mains.\n\nLéna posa la pomme de terre dans le saladier d'eau froide. L'eau était glacée. Elle sentit le froid traverser ses doigts, une douleur vive et nette qui la ramena à l'instant présent. Elle ne pensait pas au passé, ni aux années passées à Paris, ni aux dossiers qu'elle avait laissés derrière elle. Ici, à l'Île-aux-Oiseaux, le temps ne s'écoulait pas ; il stagne. Il s'accumule dans les recoins, comme la poussière sur les étagères de la bibliothèque du village.\n\nElle sortit de la cuisine, ses pas étouffés par le lino usé. La maison était froide. Le radiateur ne crachait que des bouffées d'air tiède, insuffisant face à la température qui montait dans les murs. Elle s'arrêta devant la porte d'entrée, la main posée sur la poignée en laiton. Elle écouta.\n\nRien. Pas le gémissement d'un chat, pas le craquement d'une branche sous le poids de la neige. Juste le vent. Il sifflait autour de la cheminée, un son aigu, presque humain dans sa plainte.\n\nLéna ouvrit la porte. L'air la frappa au visage, humide et lourd. Elle descendit les marches du perron, les jambes lourdes. Le chemin de gravier grinçait sous ses bottes de caoutchouc. Devant elle, le village s'étirait, une suite de toits de tuiles rouges et de façades blanchies à la chaux, tous penchés vers la mer. Les volets étaient clos sur presque toutes les maisons. Personne ne sortait. Personne ne venait de sortir depuis des jours.\n\nElle traversa la petite place. Le puits était couvert d'une épaisse couche de glace. L'eau semblait figée, comme le monde entier. À l'angle de la rue, la boulangerie était fermée, les stores baissés. Le panneau « Fermé » était resté accroché à la poignée depuis des mois, ou peut-être des années. Léna ne savait plus. Elle ne l'avait pas regardé en détail. Elle n'avait pas besoin de regarder pour savoir que quelque chose n'allait pas.\n\nLe silence était la première chose qu'elle avait remarquée en arrivant. Pas un silence de vide, mais un silence de retenue. Comme si les habitants retenaient leur souffle, attendant que le danger passe, ou qu'il arrive.\n\nElle tourna à droite, vers le sentier qui menait au phare. La distance était courte, trois cents mètres de gravier et d'herbe rase, mais elle parut interminable. Le vent s'intensifia, faisant voler des mèches de cheveux collantes contre son front. L'ode","baseScore":565,"eligible":true},{"id":"rythme-compresse","prose":"Le sel colle à la peau, une pellicule glacée qui pique les yeux et ronge le cuir des doigts. Léna Marchetti s’essuie le front avec le revers de sa manche, une tâche de poussière de granit sur un tissu bleu marine déjà fané. Elle est debout sur le ponton de bois, les planches pourries grinçant sous ses bottes lourdes. En face, la mer du Nord se dresse, une masse sombre, lourde, qui ne fait aucun bruit avant de s'écraser contre les pieux. C'est un bruit de pierre contre pierre, un craquement sec qui remonte dans les os.\n\nIl est six heures du matin. L'aube n'est qu'une lueur grise, indécise, filtrant à travers les nuages bas qui accostent sur l'île. Le village de Saint-Marc, perché sur la falaise à deux cents mètres de là, dort encore. Les volets sont clos. Les rares lumières dans la rue principale sont des points faibles, des ombres jaunes qui ne parviennent pas à percer la brume salée. Tout est immobile. Trop immobile.\n\nLéna ajuste sa ceinture. Elle porte un pantalon de travail, une chemise à manches longues, et une veste en lin imperméable qui sent le vieux tabac et la fumée de bois. Elle n'a pas dormi, ou du moins pas vraiment. Son esprit tourne en rond, une mouche dans une bouteille, frappant contre les parois invisibles de son propre crâne. L'inquiétude est là, une boule de glace dans le creux de l'estomac, une sensation physique qui la force à se tenir droite, les épaules serrées contre le froid.\n\nElle regarde l'horizon. Le phare de Saint-Marc est une silhouette noire contre le ciel gris. Sa lumière ne tourne pas. C'est inhabituel. La lampe est censée balayer les vagues, une rotation régulière, hypnotique, un métronome pour les marins. Mais ce matin, la tour est muette. Le faisceau est éteint.\n\nLéna ne bouge pas. Elle ne fait pas un pas de plus vers le phare. Elle sait ce qu'elle doit faire. Elle doit aller voir. Mais ses pieds sont ancrés dans la terre humide, comme si le sol lui-même la retenait. Elle ferme les yeux une seconde, inspirant l'air froid qui sent l'iodure et la mort. Quand elle les rouvre, son regard se fixe sur la porte de la tour.\n\nIl y a quelque chose qui ne va pas.\n\nElle commence à marcher. Le pas est lent, lourd. Le bois du ponton crie sous le poids de son corps, un son aigu qui se perd dans le rugissement lointain des vagues. Elle traverse le quai, où deux filets de pêcheurs sont suspendus à des crochets, flottant comme des spectres dans la brume. L'eau gicle entre les planches, froide et sale, trempant le bas de ses pantalons. Elle ne sent pas l'humidité. Elle est trop occupée à compter les battements de son cœur, trop rapide, trop fort.\n\nArrivée au pied de la tour, elle s'arrête. La porte est entrouverte. Juste une fissure de deux doigts. Une ombre noire se dessine à l'intérieur, là où la lumière du jour devrait pénétrer. Léna pose sa main sur la poignée en fer. Elle est glaciale, rugueuse. Elle pousse. La porte s'ouvre avec un grincement prolongé, une plainte de métal qui résonne dans l'espace confiné de l'entrée.\n\nL'odeur arrive avant qu'elle ne franchisse le seuil. Une odeur lourde, sucrée, métallique. Celle du sang séché, mais aussi celle de la fumée de tabac froid et de la cire de chandelle.\n\nLéna franchit la porte. Elle s'engouffre dans l'escalier en colimaçon, étroit, sombre. Elle monte,","baseScore":581,"eligible":true},{"id":"voix-seche","prose":"Le vent ne s'arrête jamais à Saint-Marc. Il s'insinue dans les joints des volets, il gratte les vitres comme un ongle sale, il fait vibrer la charpente de la maison de Léna Marchetti. Elle est debout dans la cuisine, les mains posées sur le bord du plan de travail en granit froid. L'eau du robinet goutte. *Tac. Tac. Tac.* Le rythme est régulier, implacable, plus fort que le vent. Elle ne bouge pas. Elle regarde l'ombre de la bouteille d'huile d'olive qui s'allonge sur le carrelage. Elle attend que le silence revienne, mais le silence n'est jamais là.\n\nLéna a quarante-deux ans. Ses cheveux sont coupés court, un peu trop courts pour être négligés, assez longs pour cacher le début de la calvitie. Elle porte un pull en laine grise, tricoté à la main, aux mailles serrées. Elle ne le quitte jamais. La laine sent le renfermé et le tabac froid. Elle a les épaules voûtées, comme si elle portait le poids de la falaise derrière elle. Elle ne sourit pas. Le sourire est une concession à la faiblesse.\n\nElle prend une tasse en céramique ébréchée. La porcelaine est chaude. Elle la porte à ses lèvres. Le café est noir, amer, brûlant. Elle déglutit lentement. Le liquide lui brûle la gorge, un feu vif qui la réveille un peu plus. Elle éteint la lumière de la cuisine. La pièce sombre n'est qu'une extension de la nuit dehors.\n\nDehors, la mer gronde. C'est un bruit de fond, une respiration lourde et humide. Elle entend les mouettes, des cris aigus qui déchirent l'air salin. Elle les déteste. Elles sont les seules à ne pas se taire.\n\nLéna sort sur le petit balcon en bois. Le vent lui fouette le visage. Elle respire. L'air sent l'iode, le poisson pourri et la pluie. Elle regarde le phare au loin. La tour blanche est un point fixe dans la grisaille. La lumière tourne. *Clic. Clic. Clic.* Le mécanisme est visible, lourd. Le faisceau balaye la mer, effleure les vagues, puis disparaît dans le noir.\n\nElle reste là, figée. Elle sent la tension monter dans ses mollets, une contraction sourde qui ne s'en va pas. C'est une inquiétude qui ne se nomme pas. Elle ne peut pas dire pourquoi elle est là, ni pourquoi elle attend. Elle attend juste. Le village derrière elle dort, ou feint de dormir. Les fenêtres sont noires. Personne ne bouge.\n\nElle rentre. Elle ferme le volet. Le bruit du métal contre le bois est sec, violent. Elle éteint la lumière du salon. Elle s'assoit sur le canapé en cuir craquelé. Le cuir gémit sous son poids. Elle fixe la cheminée éteinte. La cendre est froide. Elle pense à son père. Elle pense à la dernière fois qu'elle l'a vu. Il était assis ici, exactement à la même place. Il avait les mêmes yeux, vides, fixés sur la cheminée. Il ne parlait pas. Il écoutait le vent.\n\nLéna se lève. Elle marche vers la porte d'entrée. Elle met son manteau. La laine est lourde, mouillée par la sueur froide de ses épaules. Elle ouvre la porte. Le vent entre, une vague d'air glacial qui chasse la chaleur résiduelle de la pièce. Elle ferme la porte derrière elle. Elle est dehors.\n\nLa rue est vide. Les pavés sont mouillés, reflétant la faible lueur des réverbères. Ils sont allumés, mais ils sont vieux. La lumière jaune tremble, vacille, puis s'éteint complètement dans un grésillement électrique. Léna ne bouge pas. Elle attend que la lumière revienne.","baseScore":581,"eligible":true},{"id":"synthese","prose":"Le sel colle à la peau comme une deuxième couche de poussière. Léna Marchetti sentit cette humidité pénétrer les coutures de son blouson avant même d'ouvrir la porte de la petite maison en pierre grise. L'air, dans la rue du Port, sentait l'algue séchée et le goudron, un mélange âcre qui s'incrustait au fond des poumons et ne partait jamais vraiment.\n\nElle poussa l'entrée. La porte grinça, un son long et rauque qui sembla résonner dans le silence de l'immeuble. À l'intérieur, l'odeur du café froid traînait encore, mêlée à celle de la fumée de cigarette. La table de la cuisine était jonchée de factures, de journaux froissés et d'une tasse renversée où le café avait séché en une croûte sombre.\n\nLéna posa son sac sur le plan de travail. Ses mouvements étaient précis, méthodiques. Elle avait appris, après des années à courir après les ombres, que le chaos commençait toujours par le désordre. Ici, rien n'était désordonné. C'était trop calme. Trop propre.\n\nElle alluma la cafetière. L'eau bouillit, un sifflement aigu qui coupa le silence. Elle s'appuya contre le mur, sentant la pierre froide traverser son dos. C'était son monde ordinaire, celui de Marseille, avant que tout ne bascule. Des ruelles où l'on se croise, des voisins qui se saluent, des enfants qui jouent devant les portes ouvertes. Une banalité rassurante. Mais depuis trois jours, cette banalité lui pesait sur les épaules comme un linceul humide.\n\nLa sonnerie du téléphone la fit sursauter. Elle décrocha sans regarder l'écran.\n\n« Allô ? »\n\n« C'est pour le dossier du phare de l'Est, Lena. » La voix du commissaire Dupin était grave, dépourvue de cette familiarité qu'il affichait habituellement. « Ils ont retrouvé le corps du gardien ce matin. »\n\nLéna ferma les yeux. Le silence qui suivit fut plus lourd que le bruit de la pluie qui commençait à tomber dehors.\n\n« Je suis au courant, dit-elle d'une voix neutre. Qui est-ce ? »\n\n« Un inconnu, Lena. Un homme d'une soixantaine d'années. Pas de papiers sur lui. Pas de traces d'effraction. Juste... mort, assis dans sa cabine. »\n\n« Assis ? »\n\n« Oui. Comme s'il avait attendu la mort. »\n\nLéna sentit un froid remonter le long de sa colonne vertébrale. « Et la famille ? »\n\n« La famille est au village. Ils refusent de parler. Ils disent qu'ils ne savent rien. Que le gardien vivait en ermite. »\n\n« Le gardien ne vivait pas en ermite, Dupin. Il parlait avec tout le monde. Il distribuait du poisson aux enfants. Il était connu. »\n\n« Alors ils mentent. Ou ils ont peur. »\n\nLéna posa la main sur la table, sentant le bois froid sous ses doigts. « Je pars. »\n\nElle raccrocha. La cafetière se tut, l'eau ayant coulé. Elle ne but pas son café. Elle s'habilla vite, enfilant un manteau noir, des bottes solides. Elle prit son sac à dos, y glissant un carnet, un stylo et une lampe torche.\n\nLa rue du Port était vide. Les voitures stationnées semblaient attendre, des carcasses noircies par le sel. Léna marcha jusqu'à son véhicule, une vieille berline grise qui grinçait à chaque démarrage. Elle mit le contact. Le moteur toussa, puis démarra avec un grondement sourd.\n\nElle quitta la ville. Les routes sinueuses montaient vers les collines, serpentant entre des maisons blanches aux volets fermés. Le ciel était bas, chargé de nuages","baseScore":565,"eligible":true}]};
+const E = document.getElementById('editor'); E.value = DATA.ch5;
+document.getElementById('laws').textContent = OMEGA_STUDIO.STUDIO_LAWS.join('  ·  ');
+let t = null;
+function refreshGps(){
+  const r = OMEGA_STUDIO.analyze(E.value, 5, DATA.history, DATA.knownCharacters, DATA.seeds);
+  const el = document.getElementById('gps');
+  if(!r.ok){ el.innerHTML = '<h2>GPS</h2><p>'+(r.error??'')+'</p>'; return; }
+  const p = r.position; const w = p.emotionalWeather;
+  el.innerHTML = '<h2>OÙ TU ES</h2>'
+    + '<p>'+p.words+' mots · en scène : '+(p.charactersInScene.map(c=>c.name+(c.speaking?' (parle)':'')).join(', ')||'personne')+'</p>'
+    + '<div class="weather"><span>TEN '+w.TENSION.toFixed(1)+'</span><span>MYS '+w.MYSTERE.toFixed(1)+'</span><span>ESP '+w.ESPOIR.toFixed(1)+'</span><span>ROM '+w.ROMANCE.toFixed(1)+'</span><span>VIO '+w.VIOLENCE.toFixed(1)+'</span></div>'
+    + '<h2>DANGERS ('+p.dangers.length+')</h2>'
+    + p.dangers.slice(0,6).map(d=>'<p class="danger">'+d.kind+' — '+d.detail.slice(0,90)+'</p>').join('')
+    + '<h2>CHEMINS POSSIBLES (ordre alphabétique — à toi de choisir)</h2>'
+    + (r.trajectories??[]).map(tr=>'<div class="route"><b>['+tr.type+']</b> '+tr.premise+'<div class="risk">risques : '+tr.risks.join(' ; ')+'</div></div>').join('');
+}
+E.addEventListener('input', ()=>{ clearTimeout(t); t = setTimeout(refreshGps, 600); });
+refreshGps();
+const knobsDiv = document.getElementById('knobs');
+const settings = {};
+for(const k of OMEGA_STUDIO.KNOB_IDS){
+  const w = document.createElement('div'); w.className='knob';
+  w.innerHTML = '<label>'+k+' <span id="v_'+k+'">0</span></label><input type="range" min="-100" max="100" value="0" id="k_'+k+'">';
+  knobsDiv.appendChild(w);
+  document.getElementById('k_'+k).addEventListener('input', (ev)=>{
+    settings[k] = Number(ev.target.value)/100;
+    document.getElementById('v_'+k).textContent = settings[k].toFixed(2);
+    refreshMixer();
+  });
+}
+function refreshMixer(){
+  const r = OMEGA_STUDIO.remix(DATA.candidates, settings);
+  const el = document.getElementById('ranking');
+  if(r.error){ el.innerHTML = '<p>'+r.error+'</p>'; return; }
+  el.innerHTML = '<table><tr><th>#</th><th>profil</th><th>base</th><th>ajusté</th><th>contributions</th></tr>'
+    + r.ranked.map((c,i)=>'<tr class="'+(i===0?'winner':'')+'"><td>'+(i+1)+'</td><td>'+c.id+'</td><td>'+c.baseScore+'</td><td>'+c.adjustedScore+'</td><td>'+c.contributions.map(x=>x.knob+(x.delta>=0?'+':'')+x.delta.toFixed(1)).join(' ')+'</td></tr>').join('')
+    + '</table><p style="color:#8b949e">changedWinner='+r.changedWinner+' · le gagnant reste un candidat ÉLIGIBLE (gates durs déjà passés)</p>';
+}
+refreshMixer();
+</script></body></html>

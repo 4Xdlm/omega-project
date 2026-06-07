@@ -26,6 +26,9 @@
 | NCR-C11-001 | 2026-06-06 | Métriques Doctor avant/après clarifiées (coutures au résumé + targetedProof) | Tribunal (ChatGPT) | nexus/proof/C12_EVIDENCE/README.md | FERMÉE |
 | C11-PROD | 2026-06-06 | Doctor = PASS production périmètre MÉCANIQUE ; chirurgical LLM = HOLD | Tribunal 2/2 | dito | ACTÉ |
 | MASTER-RECONCEPT | 2026-06-06 | Ce dossier = source unique ; protocole de reprise obligatoire ; STOP archéologie opportuniste | Francky (mandat) | ce dossier | EXÉCUTÉ |
+| NCR-M0B-DECISION | 2026-06-06 | **scribe-engine réorienté = moteur de micro-réécriture AU SERVICE DU DOCTOR ; RIEN détruit, pont additif** (scribe-bridge, gates scribe = V2 du pont via ProseDoc propre) | **Francky (tranché)** | nexus/proof/M0B_PH18_EVIDENCE + AUDIT_SCRIBE | **FERMÉE — SURGICAL réel prouvé (bottes corrigées par le pont)** |
+| GOLDSET-PROXY-V2 | 2026-06-06 | REVELATION_RE V2 calibrée gold-set (V1 recall 0.063→V2 F1 0.857) ; recall plafonné 0.75 anti-Goodhart | Francky (GO Gold-Set) | GOLDSET_PROXY_REPORT | SCELLÉ (labels IA, humain=V3) |
+| PH18-STUDIO | 2026-06-06 | Writing Studio V1 : moteur RÉEL bundlé (zéro duplication), lois BF-11 imposées par le router DANS la page | Francky (GO après recontrôle) | WRITING_STUDIO.html | LIVRÉ |
 
 **Décisions structurantes implicites devenues lois de fait** (adresses) : Scribe aveugle (ADR R2 BF-07) ; canon-kernel épine unique (D3/forensic) ; mint par NONCE (BF-01) ; RECALL_OR_INVALID (BF-02) ; compareStrings partout (leçon C1 ×3) ; hash prompt BRUT pour instruments (leçon C8) ; casting TOTAL au plan (leçon 88k, à formaliser au prochain run).
 **Options REJETÉES mémorables** : Reader Model autoritaire ; interdiction du mauvais style ; modules non-plug-in (DEC-20260121:169) ; Mode C laisse élastique (toxique) ; f9a ; voice_conformity (KILL) ; feedback sémantique ; baisser un kill-switch post-hoc.

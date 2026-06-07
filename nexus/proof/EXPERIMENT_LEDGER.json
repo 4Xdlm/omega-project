@@ -1,0 +1,103 @@
+{
+  "version": 1,
+  "rows": [
+    {
+      "runId": "c7_book_18k_silence",
+      "date": "2026-05-30",
+      "model": "gemma4:31b",
+      "planHash": null,
+      "outputHash": "sha-non-notarise",
+      "words": 18107,
+      "chapters": 30,
+      "cleanliness": {
+        "SYNTAX": false,
+        "SEAM": false,
+        "SEMANTIC": false,
+        "NARRATIVE": false
+      },
+      "maxTicPer1000w": 5.47,
+      "incipitUnique": 7,
+      "incipitClones": 26,
+      "incipitWeather": 0,
+      "transitionRatioRealized": null,
+      "revelationsRealized": null,
+      "pacingCvMean": 0.592,
+      "selectorEntropyRatio": null,
+      "genomeHash": null,
+      "failures": [
+        "7 têtes d'incipit uniques sur 30",
+        "tics 5.47/1000w"
+      ],
+      "decisions": [
+        "livre pré-tour-de-contrôle — baseline historique"
+      ]
+    },
+    {
+      "runId": "c8_book60k_88k",
+      "date": "2026-06-06",
+      "model": "gemma4:31b",
+      "planHash": null,
+      "outputHash": "3ce2d56d",
+      "words": 86630,
+      "chapters": 50,
+      "cleanliness": {
+        "SYNTAX": true,
+        "SEAM": true,
+        "SEMANTIC": true,
+        "NARRATIVE": false
+      },
+      "maxTicPer1000w": 3.99,
+      "incipitUnique": 19,
+      "incipitClones": 30,
+      "incipitWeather": 48,
+      "transitionRatioRealized": 0.72,
+      "revelationsRealized": 0,
+      "pacingCvMean": 0.656,
+      "selectorEntropyRatio": null,
+      "genomeHash": null,
+      "failures": [
+        "48/50 incipits météo",
+        "0 RÉVÉLATION réalisée",
+        "TRANSITION 72%"
+      ],
+      "decisions": [
+        "HOLD export (tribunal)",
+        "9 sceaux d'auteur actifs"
+      ]
+    },
+    {
+      "runId": "next_book_emp16",
+      "date": "2026-06-07",
+      "model": "gemma4:31b",
+      "planHash": "df8d650f",
+      "outputHash": "ab4683a0178b0782",
+      "words": 84343,
+      "chapters": 50,
+      "cleanliness": {
+        "SYNTAX": true,
+        "SEAM": true,
+        "SEMANTIC": true,
+        "NARRATIVE": false
+      },
+      "maxTicPer1000w": 1.24,
+      "incipitUnique": 37,
+      "incipitClones": 11,
+      "incipitWeather": 0,
+      "transitionRatioRealized": 0.58,
+      "revelationsRealized": 2,
+      "pacingCvMean": 0.556,
+      "selectorEntropyRatio": 0.9618,
+      "genomeHash": "05b23ef1",
+      "failures": [
+        "11 incipits clonés",
+        "driftRate plan→réalisé 0.74"
+      ],
+      "decisions": [
+        "PASS CONDITIONNEL",
+        "Vallet MINT",
+        "ch39 KEEP (NCR-PX2-001)",
+        "clones REPAIR_SYSTEMIC→C18"
+      ]
+    }
+  ]
+}

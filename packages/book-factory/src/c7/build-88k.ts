@@ -10,6 +10,7 @@ const r = await buildCanonical(v0, {
     locationUnify: new Map([["Ker-Morvan", ["Saint-Marc"]]]),
     literalReplacements: new Map([
       ["la mer du Nord", "l'Atlantique"],
+      ["comme un lourd", "comme un couvercle"], // DÉCISION AUTEUR n°2-9 (NCR-005, 2/2 transmis)
       ["Elle avance pieds nus, la semelle de ses bottes restée accrochée à la porte.",
         "Elle retire ses bottes sur le seuil, la semelle restée accrochée à la porte, et avance pieds nus."],
     ]),

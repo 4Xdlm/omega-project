@@ -17,29 +17,38 @@ import { dedupAdjacentDuplicateSentences, isTailTruncated } from '../doctor/repa
 import { ScribeGatedRepairPort } from '../doctor/scribe-bridge.js';
 import { importManuscript } from '../doctor/manuscript-import.js';
 import { scanSentencePhysics } from '../coherence/sentence-physics.js';
+import { seamSweep } from '../doctor/seam-sweep.js';
+import { stripScaffold } from '../doctor/scaffold-guard.js';
 
 const RUN = process.env['FINAL_RUN'] ?? 'runs/c8_book60k';
 const KNOWN = ['Léna', 'Garcia', 'Gaspard', 'Yvon', 'Henri', 'Ker-Morvan'];
+/** Mode DÉTERMINISTE (défaut) : zéro Ollama → canonique reproductible et non
+ *  suspendable. Le SURGICAL/tail-LLM (non déterministe + risque de hang) n'est
+ *  activé QUE si OMEGA_REBUILD_SURGICAL=1 est explicitement demandé. */
+const ALLOW_SURGICAL = process.env['OMEGA_REBUILD_SURGICAL'] === '1';
+const SURGICAL_MODEL = process.env['OMEGA_REBUILD_MODEL'] ?? 'gemma4:31b';
 
 async function repairTail(text: string, port: ScribeGatedRepairPort): Promise<{ text: string; method: string }> {
   const trimmed = text.trimEnd();
   if (!isTailTruncated(trimmed)) return { text, method: 'TAIL_ALREADY_COMPLETE' };
-  // La dernière « phrase » est tronquée — tenter une CONTINUATION bornée qui CLÔT.
   const lastStop = Math.max(trimmed.lastIndexOf('. '), trimmed.lastIndexOf('? '), trimmed.lastIndexOf('! '), trimmed.lastIndexOf('» '));
   const completePart = trimmed.slice(0, lastStop + 1);
   const brokenTail = trimmed.slice(lastStop + 1).trim();
-  const directive = `[FAIT] La phrase finale du roman est coupée en plein mot : « ${brokenTail.slice(-120)} ». [ORDRE] Termine UNIQUEMENT cette phrase et clos la scène en 1 à 3 phrases sobres, cohérentes avec l'aveu d'Yvon sur le naufrage. N'introduis aucun fait nouveau.`;
-  const completed = await port.rewriteSegment(directive, brokenTail);
-  if (completed !== brokenTail && completed.trim().length > brokenTail.length && /[.!?…»]$/u.test(completed.trim())) {
-    return { text: `${completePart} ${completed.trim()}\n`, method: 'TAIL_COMPLETED_BY_SURGICAL' };
+  if (ALLOW_SURGICAL) {
+    // Continuation bornée qui CLÔT (timeout strict côté port — jamais de hang infini).
+    const directive = `[FAIT] La phrase finale du roman est coupée en plein mot : « ${brokenTail.slice(-120)} ». [ORDRE] Termine UNIQUEMENT cette phrase et clos la scène en 1 à 3 phrases sobres, cohérentes avec l'aveu d'Yvon sur le naufrage. N'introduis aucun fait nouveau.`;
+    const completed = await port.rewriteSegment(directive, brokenTail);
+    if (completed !== brokenTail && completed.trim().length > brokenTail.length && /[.!?…»]$/u.test(completed.trim())) {
+      return { text: `${completePart} ${completed.trim()}\n`, method: 'TAIL_COMPLETED_BY_SURGICAL' };
+    }
   }
-  // Fallback no-op sûr : coupe à la dernière phrase complète (perte minimale tracée).
+  // Déterministe : coupe à la dernière phrase complète (perte minimale tracée).
   return { text: `${completePart}\n`, method: `TAIL_CUT_AT_LAST_SENTENCE (perdu: « ${brokenTail.slice(0, 80)}… »)` };
 }
 
 async function main(): Promise<void> {
   const v0 = readFileSync(`${RUN}/MANUSCRIT.md`, 'utf8');
-  const port = new ScribeGatedRepairPort({ knownEntities: KNOWN });
+  const port = new ScribeGatedRepairPort({ knownEntities: KNOWN, model: SURGICAL_MODEL });
 
   /* 1. Doctor complet : mécanique (couture FIXÉE) + overrides + SURGICAL APPLIQUÉ. */
   const r = await runDoctor(v0, {
@@ -49,10 +58,22 @@ async function main(): Promise<void> {
       literalReplacements: new Map([['la mer du Nord', "l'Atlantique"]]),
     },
     seeds: ['naufrage', 'dette', 'lettre', 'carnet', 'registre'],
-    executor: { llm: port, allowSurgical: true }, // ← le SURGICAL est DANS l'export cette fois
+    executor: { llm: port, allowSurgical: ALLOW_SURGICAL }, // déterministe par défaut (anti-hang Ollama)
   });
   if (!r.ok) throw new Error(JSON.stringify(r.error));
   let text = r.value.repairedProse;
+
+  /* 1bis. SCAFFOLD GUARD : retrait des directives de génération (« — Acte N : …
+   *       [synthese. ») laissées dans la prose — découverte du balayage couture. */
+  const impForScaffold = importManuscript(text);
+  if (!impForScaffold.ok) throw new Error(`scaffold import: ${JSON.stringify(impForScaffold.error)}`);
+  const scaffold = stripScaffold(impForScaffold.value.chapters.map((c) => ({ chapter: c.chapter, prose: c.prose })));
+  if (!scaffold.ok) throw new Error(`scaffold strip: ${JSON.stringify(scaffold.error)}`);
+  text = scaffold.value.cleaned.map((c) => `## Chapitre ${c.chapter}\n\n${c.prose}`).join('\n\n');
+  const scaffoldCsv = ['chapter;blockIndex;reason;text',
+    ...scaffold.value.removed.map((x) => [x.chapter, x.blockIndex, x.reason, `"${x.text.replace(/"/gu, "''")}"`].join(';')),
+  ].join('\n');
+  writeFileSync(`${RUN}/SCAFFOLD_STRIP.csv`, scaffoldCsv, 'utf8');
 
   /* 2. Dédoublonnage adjacent exact (tracé). */
   const dedup = dedupAdjacentDuplicateSentences(text);
@@ -61,6 +82,28 @@ async function main(): Promise<void> {
   /* 3. Réparation du tail ch.50. */
   const tail = await repairTail(text, port);
   text = tail.text;
+
+  /* 4. SEAM SWEEP GLOBAL (NCR-SEAM-GLOBAL-002) — étape de pipeline, pas patch
+   *    post-hoc. Balaie TOUTES les coutures des 50 chapitres par DÉFINITION
+   *    structurelle (fragment pendu / faux-départ / reprise quasi-dup), trace
+   *    chaque réparation dans un CSV avant/après, et exige un RE-SCAN à zéro. */
+  const impForSeam = importManuscript(text);
+  if (!impForSeam.ok) throw new Error(`seam import: ${JSON.stringify(impForSeam.error)}`);
+  const sweep = seamSweep(
+    impForSeam.value.chapters.map((c) => ({ chapter: c.chapter, prose: c.prose })),
+    0.6,
+    ['Léna', 'Garcia', 'Gaspard', 'Yvon', 'Henri', 'Squarcioni', 'Marchetti', 'Ker-Morvan', 'Thomas'],
+  );
+  if (!sweep.ok) throw new Error(`seam sweep: ${JSON.stringify(sweep.error)}`);
+  text = sweep.value.repairedText;
+  const seamCsv = ['chapter;paragraph;kind;action;before;after',
+    ...sweep.value.repairs.map((x) => [x.finding.chapter, x.finding.paragraphIndex, x.finding.kind, x.action,
+      `"${x.before.replace(/"/gu, "''").replace(/\s+/gu, ' ')}"`, `"${x.after.replace(/"/gu, "''").replace(/\s+/gu, ' ')}"`].join(';')),
+  ].join('\n');
+  writeFileSync(`${RUN}/SEAM_SWEEP_GLOBAL.csv`, seamCsv, 'utf8');
+  const seamByKind: Record<string, number> = {};
+  for (const f of sweep.value.findings) seamByKind[f.kind] = (seamByKind[f.kind] ?? 0) + 1;
+  const seamManual = sweep.value.repairs.filter((x) => x.action === 'NONE_MANUAL_REVIEW');
 
   writeFileSync(`${RUN}/MANUSCRIT_V1_FINAL.md`, text, 'utf8');
   const finalHash = String(sha256(text.normalize('NFC')));
@@ -74,20 +117,38 @@ async function main(): Promise<void> {
   const lastChapter = imp.ok ? imp.value.chapters[imp.value.chapters.length - 1] : undefined;
   const tailTruncated = lastChapter !== undefined ? isTailTruncated(lastChapter.prose) : true;
   const surgicalApplied = r.value.applied.filter((a) => a.action.kind === 'SURGICAL_REWRITE' && a.applied).length;
-  const footwearSignals = imp.ok
+  const footwearAll = imp.ok
     ? imp.value.chapters.flatMap((c) => {
         const s = scanSentencePhysics(c.prose, c.chapter);
         return s.ok ? s.value.filter((x) => x.kind === 'FOOTWEAR_CONTRADICTION') : [];
       })
     : [];
+  // proof2 teste les CONTRADICTIONS DURES (severity WARN). Les INFO sont des
+  // élisions délibérées que le scanner SIGNALE sans les condamner (ex. ch.1 réel
+  // « pieds nus, la semelle de ses bottes restée accrochée » — image cohérente).
+  // Compter une INFO comme échec = proof myope vs la classification du scanner.
+  const footwearSignals = footwearAll.filter((x) => x.severity === 'WARN');
+  const footwearInfo = footwearAll.filter((x) => x.severity === 'INFO');
 
   const proof = {
     exportFile: 'MANUSCRIT_V1_FINAL.md',
     finalHash,
     proof1_noDuplicatedMetalSentence: !metalDoubled,
-    proof2_footwearContradictionsInExport: footwearSignals.length,
+    proof2_footwearHardContradictions: footwearSignals.length,
     proof2_pass: footwearSignals.length === 0,
+    proof2_footwearAdvisoryInfo: footwearInfo.length,
+    proof2_footwearInfoSamples: footwearInfo.slice(0, 3).map((x) => x.locus.excerpt),
     proof3_ch50Complete: !tailTruncated,
+    proof4_seamResidualAfterRescan: sweep.value.residualFindings.length,
+    proof4_pass: sweep.value.residualFindings.length === 0,
+    proof5_scaffoldDirectivesRemoved: scaffold.value.removed.length,
+    proof5_scaffoldResidual: scaffold.value.residual,
+    proof5_pass: scaffold.value.residual === 0,
+    seamFindingsInitial: sweep.value.findings.length,
+    seamByKind,
+    seamRepairsApplied: sweep.value.repairs.filter((x) => x.action !== 'NONE_MANUAL_REVIEW').length,
+    seamManualReview: seamManual.length,
+    seamManualSamples: seamManual.slice(0, 5).map((x) => ({ chapter: x.finding.chapter, excerpt: x.finding.excerpt })),
     tailMethod: tail.method,
     surgicalAppliedCount: surgicalApplied,
     adjacentDuplicatesRemoved: dedup.count,

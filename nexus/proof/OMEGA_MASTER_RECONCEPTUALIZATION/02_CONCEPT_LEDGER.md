@@ -79,6 +79,12 @@ Aucun LLM juge sans profil calibré du COUPLE {modèle+provider+prompt_sha+temp+
 ### CONCEPT-IDEA-PRESERVATION-001
 Le système de sauvegarde des idées/concepts « pour ne rien perdre » (SESSION_SAVE_RITUAL + DEC-* + carte mémoire + CE LEDGER). **Syn** : anti-oubli, mémoire canonique, livre maître, save ritual. **Src** : DEC-20260121-001:151-165 ; 00_CARTE_MEMOIRE_OMEGA ; ce dossier. **Statut** : DÉCISION_SCELLÉE, INCARNÉ 2026-06-06 ici-même. **Action** : 10_REPRISE_PROTOCOL appliqué à CHAQUE session — c'est la réponse structurelle à la colère légitime de l'Architecte.
 
+### CONCEPT-SEAM-SWEEP-001
+Contrôle d'intégrité des COUTURES (frontières de blocs/chapitres) par DÉFINITIONS structurelles, pas listes de patterns. **Syn** : couture, fragment pendu, reprise dupliquée, dangling, stitch, NCR-SEAM-GLOBAL-002. **Src** : `src/doctor/seam-sweep.ts` (2026-06-07) ; ancêtre fixBrokenStitch (EXP-1). **Statut** : PROUVÉ_CODE+TEST — 12 INV (cas réels tribunal en fixtures), arbre de décision grammatical 8 actions tracées, critère PASS = re-scan à zéro. Sur le 60k : 206 findings → résidu **0**. **Gap** : généraliser hors c8 (livre arbitraire) ; brancher comme gate du pont V2. **Action** : intégré au pipeline canonique rebuild-final.
+
+### CONCEPT-SCAFFOLD-GUARD-001
+Contrôle anti-fuite des DIRECTIVES DE GÉNÉRATION laissées en prose (« — Acte N : … [synthese] »). **Syn** : scaffold, beat directive, markup tag, fuite de squelette, bruit Acte×46. **Src** : `src/doctor/scaffold-guard.ts` (2026-06-07) ; parenté nettoyage génome NCR-MYC-001. **Statut** : PROUVÉ_CODE+TEST — 7 INV, invariant = crochet fermé `[token-minuscule]` (les 50 crochets du V0 sont TOUS des tags, zéro crochet de prose), 50/50 retirés résidu 0. **Gap** : généraliser le vocabulaire markup hors c8. **Action** : intégré au pipeline AVANT la couture (sinon cascade : la couture mange le `]`).
+
 ### Organes actés sans concept dédié ci-dessus (adresses rapides)
 SENTINEL→DEC:23 (incarné gates+préséance+wrappers) · INTENT_LAYER→DEC:60 (partiel : BookIntent/genesis) · STYLE_DEVIATION_MANAGER→DEC:84 (non codé ; lié BF-12) · EXECUTION_MODE OFF/SEMI/BOOST→DEC:99 (non codé ; parenté llm-cost-guard) · TOKEN_METER→DEC:114 (non codé) · PLUGIN_CONTRACT/NEXUS_DEP→DEC:140 (packages/integration-nexus-dep existe) · SESSION_SAVE_RITUAL→DEC:151 (vivant : DEC-*, ce dossier).
 **Règle de croissance** : nouvelle idée ⇒ NEW_CONCEPT ici AVANT toute conception. Idée retrouvée ⇒ FOUND_EXISTING + adresse.

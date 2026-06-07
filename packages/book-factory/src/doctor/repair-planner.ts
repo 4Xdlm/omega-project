@@ -164,7 +164,7 @@ export function buildRepairPlan(
         kind: 'SURGICAL_REWRITE', cls: 'SURGICAL_LLM',
         chapter: p.locus.chapter, sentenceIndex: p.locus.sentenceIndex,
         reason: p.kind, segmentExcerpt: p.locus.excerpt,
-        directive: `[FAIT] Le personnage était chaussé (« ${p.established.slice(0, 60)} »). [OBSERVÉ] « ${p.contradiction.slice(0, 60)} ». [ORDRE] Rends la transition physiquement possible (retrait explicite ou cohérence). N'altère rien d'autre.`,
+        directive: `[FAIT] Le personnage était chaussé (« ${p.established.slice(0, 60)} »). [OBSERVÉ] « ${p.contradiction.slice(0, 60)} ». [ORDRE] Rends la transition physiquement possible en EXPLICITANT le retrait avec un verbe (ôter, retirer, se déchausser) AVANT la mention des pieds nus. N'altère rien d'autre.`,
       });
     } else {
       actions.push({ kind: 'SIGNAL', cls: 'SIGNAL_ONLY', topic: p.kind === 'DOOR_REOPENED' ? 'DOOR' : 'OBJECT', detail: `${p.kind} ch.${p.locus.chapter} : ${p.locus.excerpt.slice(0, 70)}`, count: 1 });

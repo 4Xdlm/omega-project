@@ -36,7 +36,7 @@ const SHOD_WEAK_RE = /\b(ses|sa|son)\s+(bottes?|chaussures?|souliers?|sandales?)
  *  JS ne fonctionne PAS devant une lettre accentuée (« ôté » n'a jamais de word
  *  boundary) — lookarounds \p{L} obligatoires (trou attrapé sur la réparation
  *  V1 du 60k : « Elle a ôté ses bottes » non reconnu par la version \b). */
-const UNSHOD_RE = /(?<!\p{L})(retire|enlève|ôte|ota|ôté|retiré|enlevé|déchausse|déchaussée?|arrache|arraché)(?!\p{L})[^.!?…]{0,40}(?<!\p{L})(bottes?|chaussures?|souliers?|sandales?)(?!\p{L})|se\s+déchausse|s[''](?:est\s+)?déchaussée?(?!\p{L})/u;
+const UNSHOD_RE = /(?<!\p{L})(retire|enlève|ôte|ota|ôté|retiré|enlevé|déchausse|déchaussée?|arrache|arraché)(?!\p{L})[^.!?…]{0,40}(?<!\p{L})(bottes?|chaussures?|souliers?|sandales?)(?!\p{L})|(?<!\p{L})(?:bottes?|chaussures?|souliers?)(?!\p{L})[^.!?…]{0,50}(?<!\p{L})(?:retir(?:er|ée?s?)|ôt(?:er|ée?s?)|enlev(?:er|ée?s?))(?!\p{L})|se\s+déchausse|s[''](?:est\s+)?déchaussée?(?!\p{L})/u;
 /** État PIEDS NUS observé. */
 const BAREFOOT_RE = /\bpieds?\s+nus?\b/u;
 

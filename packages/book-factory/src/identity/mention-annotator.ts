@@ -134,7 +134,9 @@ export function annotateMentions(
     }
 
     /* — noms propres restants = UNRESOLVED (jamais silencieux) — */
-    const NAME_RE = /(?<!\p{L})([A-ZÀÂÉÈÊËÎÏÔÛÙÜ][a-zàâçéèêëîïôûùüÿ]{2,}(?:-[A-ZÀÂÉÈÊËÎÏÔÛÙÜ][a-zàâçéèêëîïôûùüÿ]{2,})?)(?!['’\p{L}])(?!\{\{)/gu;
+    // (?!-) : sans lui, « Ker-Morvan{{id}} » déjà annoté fait retomber le
+    // backtracking sur « Ker » nu (faux IDENTITY_UNDEFINED attrapé par INV-REG-005).
+    const NAME_RE = /(?<!\p{L})([A-ZÀÂÉÈÊËÎÏÔÛÙÜ][a-zàâçéèêëîïôûùüÿ]{2,}(?:-[A-ZÀÂÉÈÊËÎÏÔÛÙÜ][a-zàâçéèêëîïôûùüÿ]{2,})?)(?!['’\p{L}-])(?!\{\{)/gu;
     const lowercaseVocab = new Set(ch.prose.normalize('NFC').split(/[\s,;:!?.…«»"()—]+/u).filter((w) => /^[a-zàâçéèêëîïôûùüÿ-]{3,}$/u.test(w)));
     for (const m of text.matchAll(NAME_RE)) {
       const name = m[1];

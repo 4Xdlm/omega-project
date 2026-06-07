@@ -3,33 +3,41 @@
  *  pointeurs suivis — nourriture du Radar GPS. */
 import { readFileSync, writeFileSync } from 'node:fs';
 import { annotateMentions } from '../identity/mention-annotator.js';
+import { EntityRegistry, verifyManuscriptIdentities } from '../identity/entity-registry.js';
 import { importManuscript } from '../doctor/manuscript-import.js';
 const RUN = 'runs/c8_book60k';
 const text = readFileSync(`${RUN}/MANUSCRIT_V1_FINAL.md`, 'utf8');
 const imp = importManuscript(text);
 if (!imp.ok) throw new Error('import');
-const r = annotateMentions(imp.value.chapters, [
-  /* — personnages (casse stricte) — */
-  { charId: 'ent_lena', canonical: 'Léna', aliases: ['Marchetti'], vital: 'ALIVE', kind: 'CHARACTER' },
-  { charId: 'ent_garcia', canonical: 'Garcia', aliases: [], vital: 'ALIVE', kind: 'CHARACTER' },
-  { charId: 'ent_gaspard', canonical: 'Gaspard', aliases: [], vital: 'ALIVE', kind: 'CHARACTER' },
-  { charId: 'ent_yvon', canonical: 'Yvon', aliases: ['Squarcioni'], vital: 'ALIVE', kind: 'CHARACTER' },
-  { charId: 'ent_henri', canonical: 'Henri', aliases: ['Morel'], vital: 'DEAD', kind: 'CHARACTER' },
-  /* — lieux — */
-  { charId: 'loc_kermorvan', canonical: 'Ker-Morvan', aliases: [], vital: 'ALIVE', kind: 'PLACE' },
-  { charId: 'loc_mairie', canonical: 'mairie', aliases: [], vital: 'ALIVE', kind: 'PLACE' },
-  { charId: 'loc_port', canonical: 'port', aliases: [], vital: 'ALIVE', kind: 'PLACE' },
-  { charId: 'loc_eglise', canonical: 'église', aliases: [], vital: 'ALIVE', kind: 'PLACE' },
-  { charId: 'loc_cale', canonical: 'cale', aliases: [], vital: 'ALIVE', kind: 'PLACE' },
-  /* — événements / seeds — */
-  { charId: 'evt_naufrage', canonical: 'naufrage', aliases: [], vital: 'ALIVE', kind: 'EVENT' },
-  { charId: 'evt_dette', canonical: 'dette', aliases: ['dettes'], vital: 'ALIVE', kind: 'EVENT' },
-  /* — objets-seeds — */
-  { charId: 'obj_lettre', canonical: 'lettre', aliases: [], vital: 'ALIVE', kind: 'OBJECT' },
-  { charId: 'obj_carnet', canonical: 'carnet', aliases: [], vital: 'ALIVE', kind: 'OBJECT' },
-  { charId: 'obj_registre', canonical: 'registre', aliases: ['registres'], vital: 'ALIVE', kind: 'OBJECT' },
-]);
+/* P0-A : le REGISTRE TYPÉ UNIQUE est LA source — l'annotateur reçoit une
+ * PROJECTION, plus jamais sa propre carte du monde. */
+const reg = new EntityRegistry('c8_book60k');
+const MINTS: ReadonlyArray<Parameters<EntityRegistry['mint']>[0]> = [
+  { kind: 'CHARACTER', canonical: 'Léna', aliases: ['Marchetti'] },
+  { kind: 'CHARACTER', canonical: 'Garcia' },
+  { kind: 'CHARACTER', canonical: 'Gaspard' },
+  { kind: 'CHARACTER', canonical: 'Yvon', aliases: ['Squarcioni'] },
+  { kind: 'CHARACTER', canonical: 'Henri', aliases: ['Morel'], vital: 'DEAD' },
+  { kind: 'PLACE', canonical: 'Ker-Morvan' },
+  { kind: 'PLACE', canonical: 'mairie' },
+  { kind: 'PLACE', canonical: 'port' },
+  { kind: 'PLACE', canonical: 'église' },
+  { kind: 'PLACE', canonical: 'cale' },
+  { kind: 'EVENT', canonical: 'naufrage' },
+  { kind: 'EVENT', canonical: 'dette', aliases: ['dettes'] },
+  { kind: 'OBJECT', canonical: 'lettre' },
+  { kind: 'OBJECT', canonical: 'carnet' },
+  { kind: 'OBJECT', canonical: 'registre', aliases: ['registres'] },
+];
+for (const m of MINTS) {
+  const minted = reg.mint(m);
+  if (!minted.ok) throw new Error(`mint: ${minted.error.detail}`);
+}
+const r = annotateMentions(imp.value.chapters, reg.toAnnotatorEntities());
 if (!r.ok) throw new Error('annot');
+/* LOI CASTING TOTAL : le déficit du 88k est MESURÉ (jamais silencieux). */
+const casting = verifyManuscriptIdentities(imp.value.chapters, reg);
+const castingDeficit = casting.ok ? casting.value.undefinedMentions : [];
 writeFileSync(`${RUN}/MANUSCRIT_V1_FINAL_ANNOTATED.md`, r.value.annotated, 'utf8');
 const perEntity: Record<string, number> = {};
 for (const m of r.value.mentions) perEntity[m.charId] = (perEntity[m.charId] ?? 0) + m.count;
@@ -41,6 +49,9 @@ const report = {
   presenceSample: r.value.presence.slice(0, 3),
   unresolvedTop: r.value.unresolved.slice(0, 8),
   suspicions: r.value.suspicions.length, suspicionSamples: r.value.suspicions.slice(0, 5),
+  /* P0-A — LOI CASTING TOTAL : déficit du 88k (entités jamais mintées). */
+  castingDeficitCount: castingDeficit.length,
+  castingDeficitTop: [...castingDeficit].sort((a, b) => b.count - a.count).slice(0, 10),
 };
 writeFileSync(`${RUN}/ANNOTATION_REPORT.json`, JSON.stringify(report, null, 2), 'utf8');
 writeFileSync(`${RUN}/PRESENCE_MAP.json`, JSON.stringify(r.value.presence, null, 2), 'utf8');

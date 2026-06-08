@@ -98,6 +98,38 @@
         "ch39 KEEP (NCR-PX2-001)",
         "clones REPAIR_SYSTEMIC→C18"
       ]
+    },
+    {
+      "runId": "next_book_v2",
+      "date": "2026-06-08",
+      "model": "gemma4:31b",
+      "planHash": "df8d650f",
+      "outputHash": "b438250eb9a2bd6a",
+      "words": 84436,
+      "chapters": 50,
+      "cleanliness": {
+        "SYNTAX": true,
+        "SEAM": true,
+        "SEMANTIC": true,
+        "NARRATIVE": true
+      },
+      "maxTicPer1000w": 1.23,
+      "incipitUnique": 45,
+      "incipitClones": 0,
+      "incipitWeather": 0,
+      "transitionRatioRealized": 0.48,
+      "revelationsRealized": 4,
+      "pacingCvMean": 0.59,
+      "selectorEntropyRatio": 0.9881,
+      "genomeHash": null,
+      "failures": [
+        "target_fail:transitionLe045",
+        "target_fail:revelationsGePlan"
+      ],
+      "decisions": [
+        "C18 swaps=0",
+        "C17 regens=14 flagged=14"
+      ]
     }
   ]
 }

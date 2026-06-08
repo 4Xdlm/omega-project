@@ -15,7 +15,8 @@ import { appendFileSync, writeFileSync } from 'node:fs';
 import { ControlPlane, selectorEntropy } from '../control/control-plane.js';
 import type { ChapterControlVerdict, ControlPlaneReport, DramaticFn } from '../control/control-plane.js';
 import { MotifRepulsionField, normalizedHead } from '../variation/motif-repulsion.js';
-import { FEWSHOT_EXEMPLARS } from '../rosetta/dramatic-grid.js';
+import { DEFAULT_ESCALATION, FEWSHOT_EXEMPLARS } from '../rosetta/dramatic-grid.js';
+import type { EscalationProfile } from '../rosetta/dramatic-grid.js';
 
 /* ————————————————— Wasserstein rythme (ADVISORY, profil PROVISOIRE) ————————————————— */
 
@@ -107,9 +108,11 @@ export class V2Conductor {
   private readonly decisions: ChapterDecision[] = [];
   private readonly lyapunov: LyapunovTerms[] = [];
   private readonly outRoot: string;
+  private readonly escalation: EscalationProfile;
 
-  constructor(outRoot: string, mintedSurfaces: readonly string[], controlMode: 'shadow' | 'soft' = 'soft') {
+  constructor(outRoot: string, mintedSurfaces: readonly string[], controlMode: 'shadow' | 'soft' = 'soft', escalationProfile: EscalationProfile = DEFAULT_ESCALATION) {
     this.outRoot = outRoot;
+    this.escalation = escalationProfile;
     this.control = new ControlPlane(controlMode);
     this.emergence = new EmergenceTracker(mintedSurfaces);
   }
@@ -173,10 +176,15 @@ export class V2Conductor {
    *  Zéro coaching sémantique (leçon Mode C). */
   escalationDirective(plannedFn: DramaticFn, atChapter: number): string {
     const variation = this.field.compileVariationDirective(atChapter);
+    /* EMP-19 : l'exemplar n'est injecté QUE si le profil calibré du modèle le
+     * réclame ('fewshot'). En 'native', la directive structurelle suffit (et
+     * l'exemplar nuirait — mistral-small : +tics/mimétisme prouvés en S0). */
+    const revFew = this.escalation.REVELATION === 'fewshot';
+    const confFew = this.escalation.CONFRONTATION === 'fewshot';
     const fnLine = plannedFn === 'REVELATION'
-      ? `${FEWSHOT_EXEMPLARS.REVELATION}\n\nCONTRAINTE : un personnage avoue ou découvre un fait nouveau vérifiable (verbe d'aveu : avoua, comprit que, la vérité éclata), puis modifie sa décision. INTERDIT de finir sans la découverte.`
+      ? `${revFew ? `${FEWSHOT_EXEMPLARS.REVELATION}\n\n` : ''}CONTRAINTE : un personnage avoue ou découvre un fait nouveau vérifiable (verbe d'aveu : avoua, comprit que, la vérité éclata), puis modifie sa décision. INTERDIT de finir sans la découverte.`
       : plannedFn === 'CONFRONTATION'
-        ? `${FEWSHOT_EXEMPLARS.CONFRONTATION}\n\nCONTRAINTE : un personnage ACCUSE, MENACE ou EXIGE (verbe explicite) ; l'autre RIPOSTE en dialogue ; le ton MONTE. INTERDIT de désamorcer par une description.`
+        ? `${confFew ? `${FEWSHOT_EXEMPLARS.CONFRONTATION}\n\n` : ''}CONTRAINTE : un personnage ACCUSE, MENACE ou EXIGE (verbe explicite) ; l'autre RIPOSTE en dialogue ; le ton MONTE. INTERDIT de désamorcer par une description.`
         : `FONCTION OBLIGATOIRE DU CHAPITRE : ${plannedFn}. INTERDIT de glisser vers une simple transition.`;
     return `${fnLine}${variation.length > 0 ? `\n${variation}` : ''}`;
   }

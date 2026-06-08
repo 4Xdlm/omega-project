@@ -35,6 +35,7 @@ import type { CoreDeps } from '../loop/r6-core.js';
 import { persistLiteResult, MemFs } from '../loop/persistence.js';
 import { NodeFs, appendLine } from './node-fs.js';
 import { V2Conductor } from '../v2/v2-conductor.js';
+import { escalationProfileFor } from '../rosetta/dramatic-grid.js';
 import { importManuscript } from '../doctor/manuscript-import.js';
 import { runDoctorAudit } from '../doctor/doctor-orchestrator.js';
 
@@ -186,7 +187,7 @@ async function main(): Promise<void> {
   const v2on = process.env['C7_V2'] === '1';
   const v2PlanPath = process.env['C7_PLAN_LOCK'] ?? 'runs/next_book/PLAN_LOCK.json';
   const v2Plan: ReadonlyArray<{ chapter: number; act: number; fn: string }> = v2on ? (JSON.parse(rfsEmp16(v2PlanPath, 'utf8')) as { plan: { chapter: number; act: number; fn: string }[] }).plan : [];
-  const v2 = v2on ? new V2Conductor(outRoot, [...world.surfaces], 'soft') : undefined;
+  const v2 = v2on ? new V2Conductor(outRoot, [...world.surfaces], 'soft', escalationProfileFor(model)) : undefined;
   const v2Admitted: { chapter: number; prose: string }[] = [];
   const v2Winners: string[] = [];
   const V2_SEEDS = ['naufrage', 'dette', 'lettre', 'carnet', 'registre'];

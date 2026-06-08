@@ -6,7 +6,7 @@ import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 
 import { EmergenceTracker, V2Conductor, lyapunovReadout, sentenceLengths, wassersteinToProfile } from '../src/v2/v2-conductor.js';
-import { FEWSHOT_EXEMPLARS } from '../src/rosetta/dramatic-grid.js';
+import { CALIBRATED_ESCALATION, FEWSHOT_EXEMPLARS } from '../src/rosetta/dramatic-grid.js';
 
 describe('V2 — Wasserstein rythme (ADVISORY, profil PROVISOIRE)', () => {
   it('V2-001 — prose monotone (toutes phrases ~10 mots) plus LOIN du profil que prose à queue lourde', () => {
@@ -56,6 +56,16 @@ describe('V2 — escalade C17 calibrée S0 (few-shot prouvé, pas reformulation)
     expect(conf).toContain(FEWSHOT_EXEMPLARS.CONFRONTATION);
     // ACTION : pas d'exemplar (gemma4 la produit déjà — S0 succès dès variante A)
     expect(v2.escalationDirective('ACTION', 5)).not.toContain(FEWSHOT_EXEMPLARS.REVELATION);
+  });
+
+  it('V2-008 — escalade MODEL-AWARE (EMP-19) : profil mistral REV=native ⇒ AUCUN exemplar de révélation', () => {
+    const dir = mkdtempSync(join(tmpdir(), 'v2-'));
+    const mistral = new V2Conductor(dir, [], 'soft', CALIBRATED_ESCALATION['mistral-small:24b']);
+    const rev = mistral.escalationDirective('REVELATION', 5);
+    expect(rev).not.toContain(FEWSHOT_EXEMPLARS.REVELATION); // native : pas d'exemplar
+    expect(rev).toMatch(/avoue ou découvre/u); // mais la contrainte structurelle reste
+    // CONFRONTATION reste fewshot pour mistral (calibré) ⇒ exemplar présent
+    expect(mistral.escalationDirective('CONFRONTATION', 5)).toContain(FEWSHOT_EXEMPLARS.CONFRONTATION);
   });
 });
 

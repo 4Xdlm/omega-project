@@ -84,6 +84,26 @@ export function directivesFor(fn: MeasurableFn): readonly Directive[] {
  * mesure recall 0.75 ; gemma4 sous-produit 37× la densité humaine).
  * Texte IDENTIQUE à la preuve s0-fewshot.ts — SSOT.
  */
+/**
+ * PROFILS D'ESCALADE CALIBRÉS PAR MODÈLE (EMP-19 : la config est model-spécifique).
+ * S0 gemma4 (2026-06-08) : REV 0%→100% par few-shot, CONF idem ⇒ tout-fewshot.
+ * S0 mistral-small:24b : REV NATIF 100% (few-shot ajoute des tics) ⇒ native ;
+ *   CONF natif 67% → few-shot 100% ⇒ fewshot. Un modèle inconnu hérite du
+ *   défaut prudent (fewshot, la béquille ne casse rien si déjà natif). */
+export type EscalationKind = 'native' | 'fewshot';
+export type EscalationProfile = Readonly<Record<'REVELATION' | 'CONFRONTATION', EscalationKind>>;
+
+export const DEFAULT_ESCALATION: EscalationProfile = { REVELATION: 'fewshot', CONFRONTATION: 'fewshot' };
+
+export const CALIBRATED_ESCALATION: Readonly<Record<string, EscalationProfile>> = {
+  'gemma4:31b': { REVELATION: 'fewshot', CONFRONTATION: 'fewshot' },
+  'mistral-small:24b': { REVELATION: 'native', CONFRONTATION: 'fewshot' },
+};
+
+export function escalationProfileFor(model: string): EscalationProfile {
+  return CALIBRATED_ESCALATION[model] ?? DEFAULT_ESCALATION;
+}
+
 export const FEWSHOT_EXEMPLARS: Readonly<Record<'REVELATION' | 'CONFRONTATION', string>> = {
   REVELATION: 'EXEMPLE du registre attendu (ne PAS le recopier, écris une scène neuve dans le même registre d\'aveu) :\n« Garcia baissa les yeux. Puis il avoua : c\'était lui qui avait éteint le phare cette nuit-là. Léna comprit alors que tout ce qu\'on lui avait raconté était faux. La vérité éclata d\'un coup : son père n\'était pas mort en mer. »',
   CONFRONTATION: 'EXEMPLE du registre attendu (ne PAS le recopier, écris une scène neuve dans le même registre d\'affrontement) :\n« — Tu m\'accuses, moi ? exigea Léna.\n— Je t\'accuse, oui, dit Garcia, et je te défie de le nier.\nElle se dressa, menaça de tout révéler. Le ton montait, réplique après réplique. »',

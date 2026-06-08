@@ -45,11 +45,12 @@ export const DEFAULT_ROLE_LEXICON: readonly string[] = ['gardien', 'maire', 'cur
  */
 export const REVELATION_RE = /\b(?:(?<!ne\s)(?<!n['’])(?:avou[ae]|avoua|admit|admet|confess[ae]|confessa|attesta|céda)\b|(?<!refusa\sde\s)(?<!ne\s)confirm(?:a|èrent|e)\b|révèle|révéla|révélait\b|comprit(?:\s+(?:que|alors|enfin|pourquoi))|comprend\s+que|(?:la\s+vérité\s+éclata|tout\s+s[''-]?éclaira|s[''-]?éclaira\s+d[''-]?un\s+coup)|découvr(?:e|it)\s+(?:que|la|le|les|enfin)|trouva\s+(?:la|le|les)\s+\p{L}+|mi(?:rent|t)\s+au\s+jour|apprit\s+que|apprend\s+que|(?<!ne\s)reconn(?:aît|ut)\b|c[''](?:était|est)\s+(?:lui|elle|moi)\s+qui|sut\s+enfin|réalisa\s+(?:soudain|alors|que)|il\s+s[''](?:appelait)|une\s+seule\s+et\s+même\s+personne|le\s+masque\s+tomba|tout\s+(?:désignait|vient\s+de\s+là)|parlaient\s+d[''](?:eux-mêmes)|dédicace\s+révélait)\b/iu;
 
-/** Verbes d'action forte (fonction ACTION). */
-const ACTION_RE = /\b(court|courut|frappe|frappa|brise|brisa|saisit|fuit|fuyait|s[''](?:effondre|effondra)|arrache|arracha|bouscule|bousculé|empoigne|claqua|jaillit|bondit|se\s+jette|se\s+jeta|hurle|hurla|se\s+débat|lutte|luttait)\b/u;
+/** Verbes d'action forte (fonction ACTION). EXPORTÉE pour S0 Rosetta dramatique
+ *  (SSOT : un seul lexique d'action, jamais re-dérivé — leçon C1). */
+export const ACTION_RE = /\b(court|courut|frappe|frappa|brise|brisa|saisit|fuit|fuyait|s[''](?:effondre|effondra)|arrache|arracha|bouscule|bousculé|empoigne|claqua|jaillit|bondit|se\s+jette|se\s+jeta|hurle|hurla|se\s+débat|lutte|luttait)\b/u;
 
-/** Marqueurs de confrontation (fonction CONFRONTATION). */
-const CONFRONT_RE = /\b(accuse|accusa|menace|menaça|exige|exigea|affronte|affronta|se\s+dresse|défie|défia|coupe\s+la\s+parole|hausse\s+le\s+ton|colère|rage|furieu[xs]e?)\b/u;
+/** Marqueurs de confrontation (fonction CONFRONTATION). EXPORTÉE pour S0 Rosetta. */
+export const CONFRONT_RE = /\b(accuse|accusa|menace|menaça|exige|exigea|affronte|affronta|se\s+dresse|défie|défia|coupe\s+la\s+parole|hausse\s+le\s+ton|colère|rage|furieu[xs]e?)\b/u;
 
 const STOP = new Set(['le', 'la', 'les', 'de', 'des', 'du', 'un', 'une', 'et', 'à', 'au', 'aux', 'en', 'dans', 'sur', 'que', 'qui', 'ne', 'pas', 'se', 'sa', 'son', 'ses', 'il', 'elle', 'était', 'avait']);
 

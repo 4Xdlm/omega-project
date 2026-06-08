@@ -1,0 +1,72 @@
+{
+  "bakeoff": "WRITER_BAKEOFF",
+  "date": "2026-06-08",
+  "temp": 0.8,
+  "note": "Marqueurs FR model-agnostiques (Gold-Set recall 0.75). Chaque modèle = COUPLE EMP-19 distinct.",
+  "table": [
+    {
+      "model": "gemma4:31b",
+      "nativeDramaticSuccess": 0.5,
+      "nativeActionSuccess": 1,
+      "fewshotDramaticSuccess": 1,
+      "fewshotMimicry": 0.32,
+      "ticMean": 5.74,
+      "repeatMean": 0,
+      "wordsMean": 266,
+      "degenerate": false
+    },
+    {
+      "model": "qwen3:32b",
+      "nativeDramaticSuccess": 0.5,
+      "nativeActionSuccess": 1,
+      "fewshotDramaticSuccess": 0.75,
+      "fewshotMimicry": 0.322,
+      "ticMean": 2.8,
+      "repeatMean": 0,
+      "wordsMean": 256,
+      "degenerate": false
+    },
+    {
+      "model": "qwen3.5:35b-a3b",
+      "nativeDramaticSuccess": 0.5,
+      "nativeActionSuccess": 1,
+      "fewshotDramaticSuccess": 1,
+      "fewshotMimicry": 0.481,
+      "ticMean": 3.03,
+      "repeatMean": 0,
+      "wordsMean": 332,
+      "degenerate": false
+    },
+    {
+      "model": "mistral-small:24b",
+      "nativeDramaticSuccess": 0.75,
+      "nativeActionSuccess": 1,
+      "fewshotDramaticSuccess": 1,
+      "fewshotMimicry": 0.543,
+      "ticMean": 1.81,
+      "repeatMean": 0.0052,
+      "wordsMean": 342,
+      "degenerate": false
+    },
+    {
+      "model": "mistral:latest",
+      "nativeDramaticSuccess": 0.25,
+      "nativeActionSuccess": 1,
+      "fewshotDramaticSuccess": 0.75,
+      "fewshotMimicry": 0.543,
+      "ticMean": 3.1,
+      "repeatMean": 0.0021,
+      "wordsMean": 255,
+      "degenerate": false
+    }
+  ],
+  "ranked": [
+    "mistral-small:24b",
+    "qwen3.5:35b-a3b",
+    "gemma4:31b",
+    "qwen3:32b",
+    "mistral:latest"
+  ],
+  "best": "mistral-small:24b",
+  "verdict": "mistral-small:24b BAT gemma4 en production dramatique NATIVE (0.75 vs 0.5). Candidat scribe V3 — re-calibration EMP-19 requise (nouveau couple) AVANT adoption. Mimétisme few-shot 0.543."
+}

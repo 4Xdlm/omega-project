@@ -1,0 +1,36 @@
+{
+  "lock": "SCRIBE_PRODUCTION_LOCK",
+  "date": "2026-06-08",
+  "authority": "Tribunal 2/2 convergent (Gemini + ChatGPT) relayé par Francky + mandat 'seul décisionnaire'",
+  "decision": {
+    "SCRIBE_PRODUCTION": "gemma4:31b",
+    "SCRIBE_CHALLENGER_CALIBRATED": "mistral-small:24b",
+    "REJECTED_OPERATIONAL": "llama3.3:70b"
+  },
+  "rationale": {
+    "gemma4": "scribe le plus propre/contrôlable : tics 1.50 vs 3.19, SEMANTIC_CLEAN true (0 résidu) vs 3, regens 14 vs 17, TRANSITION 0.38 ; base de calibration entière. Une chaîne de production exige d'abord la fiabilité.",
+    "mistral-small": "challenger sérieux : incipits 47/50, REVELATION 16, entropie sélecteur 0.99, +mots ; réserve pour diversité / second regard / scènes à faible variété. PAS production tant que ses 3 résidus + profil tics ne sont pas traités.",
+    "llama3.3:70b": "0 chapitre produit — trop lent pour le Best-of-N (7 candidats + extension/chapitre), timeout. Le 'plus gros' n'écrit pas le pipeline."
+  },
+  "evidence": {
+    "duel": "runs/DUEL_VERDICT.json (même PLAN_LOCK df8d650f)",
+    "gemma4_book_hash": "3025744d35ea",
+    "mistral_book_hash": "4ef8088aee57",
+    "calibration": "S0_MODEL_CALIB (mistral REV native / CONF fewshot), CALIBRATED_ESCALATION map, S0_VERDICT (few-shot prouvé sur gemma4)"
+  },
+  "lawful_caveats": {
+    "narrative_clean": "AUCUN livre du duel n'est NARRATIVE_CLEAN (gemma4 redites de fonction résiduelles ; mistral 3 résidus sémantiques). Le seul NARRATIVE_CLEAN=true reste NEXT_BOOK_V2 (b438250e). On ne scelle PAS un faux propre.",
+    "emp19": "changement de scribe = nouveau couple ⇒ recalibration. gemma4 reste car déjà calibré.",
+    "promotion": "tout futur changement de scribe exige une nouvelle preuve au C19 EXPERIMENT_LEDGER."
+  },
+  "interdits_actifs": [
+    "pas de bascule production vers mistral maintenant",
+    "pas de nouveau duel complet immédiat",
+    "pas de LoRA",
+    "pas de changement de scribe sans preuve C19"
+  ],
+  "open_for_architect": {
+    "human_reading": "relecture comparative courte ch.1/10/25/40/50 (les marqueurs mesurent la structure, pas le souffle) — extraits préparés dans runs/DUEL_READING_SAMPLE.md",
+    "studio_v2": "Gemini pousse le déploiement UI Studio V2 (valider les AUTHOR_REVIEW) — DIVERGENCE non bloquante, décision Architecte"
+  }
+}

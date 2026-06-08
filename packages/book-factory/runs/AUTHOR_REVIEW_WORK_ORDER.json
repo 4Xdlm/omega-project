@@ -1,0 +1,181 @@
+{
+  "workOrder": "AUTHOR_REVIEW_WORK_ORDER",
+  "date": "2026-06-08",
+  "base": "V3 gemma4",
+  "control": "Croisement 3-IA (Gemini + ChatGPT + Claude) — pas de lecture Francky. Chaque item attend un verdict convergent avant exécution gatée.",
+  "law": "PE-3 : aucun créatif auto-réparé. La régénération réelle = harnais guardRegen, lancé seulement après feu vert 3-IA.",
+  "priority1_noMover": [
+    {
+      "chapter": 27,
+      "fonction": "CONFRONTATION",
+      "issue": "AUCUN personnage moteur",
+      "regenSpec": "régénérer avec directive : « un personnage NOMMÉ doit AGIR (verbe concret) ou DÉCIDER dans la scène »",
+      "guard": "guardRegen defect=mover : ACCEPT seulement si moversAfter>moversBefore + casting intact + zéro mort ressuscité"
+    },
+    {
+      "chapter": 31,
+      "fonction": "CONFRONTATION",
+      "issue": "AUCUN personnage moteur",
+      "regenSpec": "régénérer avec directive : « un personnage NOMMÉ doit AGIR (verbe concret) ou DÉCIDER dans la scène »",
+      "guard": "guardRegen defect=mover : ACCEPT seulement si moversAfter>moversBefore + casting intact + zéro mort ressuscité"
+    },
+    {
+      "chapter": 33,
+      "fonction": "CONFRONTATION",
+      "issue": "AUCUN personnage moteur",
+      "regenSpec": "régénérer avec directive : « un personnage NOMMÉ doit AGIR (verbe concret) ou DÉCIDER dans la scène »",
+      "guard": "guardRegen defect=mover : ACCEPT seulement si moversAfter>moversBefore + casting intact + zéro mort ressuscité"
+    }
+  ],
+  "priority2_softTransitions": [
+    {
+      "chapter": 1,
+      "comfortRuns": 7,
+      "ticMax": 0.59,
+      "issue": "transition molle (passages de confort)",
+      "option": "COUPE/FUSION avec chapitre voisin OU renfort dramatique — décision 3-IA (structure de l'arc)"
+    },
+    {
+      "chapter": 3,
+      "comfortRuns": 18,
+      "ticMax": 1.17,
+      "issue": "transition molle (passages de confort)",
+      "option": "COUPE/FUSION avec chapitre voisin OU renfort dramatique — décision 3-IA (structure de l'arc)"
+    },
+    {
+      "chapter": 4,
+      "comfortRuns": 12,
+      "ticMax": 0.59,
+      "issue": "transition molle (passages de confort)",
+      "option": "COUPE/FUSION avec chapitre voisin OU renfort dramatique — décision 3-IA (structure de l'arc)"
+    },
+    {
+      "chapter": 11,
+      "comfortRuns": 20,
+      "ticMax": 2.34,
+      "issue": "transition molle (passages de confort)",
+      "option": "COUPE/FUSION avec chapitre voisin OU renfort dramatique — décision 3-IA (structure de l'arc)"
+    },
+    {
+      "chapter": 12,
+      "comfortRuns": 20,
+      "ticMax": 1.77,
+      "issue": "transition molle (passages de confort)",
+      "option": "COUPE/FUSION avec chapitre voisin OU renfort dramatique — décision 3-IA (structure de l'arc)"
+    },
+    {
+      "chapter": 16,
+      "comfortRuns": 20,
+      "ticMax": 1.72,
+      "issue": "transition molle (passages de confort)",
+      "option": "COUPE/FUSION avec chapitre voisin OU renfort dramatique — décision 3-IA (structure de l'arc)"
+    },
+    {
+      "chapter": 20,
+      "comfortRuns": 19,
+      "ticMax": 2.38,
+      "issue": "transition molle (passages de confort)",
+      "option": "COUPE/FUSION avec chapitre voisin OU renfort dramatique — décision 3-IA (structure de l'arc)"
+    },
+    {
+      "chapter": 21,
+      "comfortRuns": 18,
+      "ticMax": 1.73,
+      "issue": "transition molle (passages de confort)",
+      "option": "COUPE/FUSION avec chapitre voisin OU renfort dramatique — décision 3-IA (structure de l'arc)"
+    },
+    {
+      "chapter": 24,
+      "comfortRuns": 18,
+      "ticMax": 1.72,
+      "issue": "transition molle (passages de confort)",
+      "option": "COUPE/FUSION avec chapitre voisin OU renfort dramatique — décision 3-IA (structure de l'arc)"
+    },
+    {
+      "chapter": 26,
+      "comfortRuns": 20,
+      "ticMax": 1.78,
+      "issue": "transition molle (passages de confort)",
+      "option": "COUPE/FUSION avec chapitre voisin OU renfort dramatique — décision 3-IA (structure de l'arc)"
+    },
+    {
+      "chapter": 32,
+      "comfortRuns": 14,
+      "ticMax": 1.21,
+      "issue": "transition molle (passages de confort)",
+      "option": "COUPE/FUSION avec chapitre voisin OU renfort dramatique — décision 3-IA (structure de l'arc)"
+    },
+    {
+      "chapter": 34,
+      "comfortRuns": 20,
+      "ticMax": 2.31,
+      "issue": "transition molle (passages de confort)",
+      "option": "COUPE/FUSION avec chapitre voisin OU renfort dramatique — décision 3-IA (structure de l'arc)"
+    },
+    {
+      "chapter": 36,
+      "comfortRuns": 15,
+      "ticMax": 2.94,
+      "issue": "transition molle (passages de confort)",
+      "option": "COUPE/FUSION avec chapitre voisin OU renfort dramatique — décision 3-IA (structure de l'arc)"
+    },
+    {
+      "chapter": 37,
+      "comfortRuns": 15,
+      "ticMax": 2.39,
+      "issue": "transition molle (passages de confort)",
+      "option": "COUPE/FUSION avec chapitre voisin OU renfort dramatique — décision 3-IA (structure de l'arc)"
+    },
+    {
+      "chapter": 38,
+      "comfortRuns": 19,
+      "ticMax": 1.15,
+      "issue": "transition molle (passages de confort)",
+      "option": "COUPE/FUSION avec chapitre voisin OU renfort dramatique — décision 3-IA (structure de l'arc)"
+    },
+    {
+      "chapter": 46,
+      "comfortRuns": 18,
+      "ticMax": 2.38,
+      "issue": "transition molle (passages de confort)",
+      "option": "COUPE/FUSION avec chapitre voisin OU renfort dramatique — décision 3-IA (structure de l'arc)"
+    },
+    {
+      "chapter": 48,
+      "comfortRuns": 16,
+      "ticMax": 1.73,
+      "issue": "transition molle (passages de confort)",
+      "option": "COUPE/FUSION avec chapitre voisin OU renfort dramatique — décision 3-IA (structure de l'arc)"
+    },
+    {
+      "chapter": 49,
+      "comfortRuns": 15,
+      "ticMax": 2.94,
+      "issue": "transition molle (passages de confort)",
+      "option": "COUPE/FUSION avec chapitre voisin OU renfort dramatique — décision 3-IA (structure de l'arc)"
+    },
+    {
+      "chapter": 50,
+      "comfortRuns": 18,
+      "ticMax": 1.77,
+      "issue": "transition molle (passages de confort)",
+      "option": "COUPE/FUSION avec chapitre voisin OU renfort dramatique — décision 3-IA (structure de l'arc)"
+    }
+  ],
+  "priority3_payoffRedistribution": {
+    "issue": "BACK-LOADING payoff sévère",
+    "measure": {
+      "acte1_1to17": 0,
+      "acte2_18to34": 0,
+      "acte3_35to50": 2
+    },
+    "plan3ia": "ajouter 2-3 micro-payoffs avant l'acte 3 (acte1 : vérité locale ; acte2 : preuve qui aggrave). Restructuration d'arc = créatif, JAMAIS auto — proposition à valider 3-IA."
+  },
+  "counts": {
+    "noMover": 3,
+    "softTransitions": 19,
+    "high": 15,
+    "med": 35
+  },
+  "note_dialogue": "Dialogue conflit-ratio 0.879 = NON explicatif. L'inquiétude « dialogue trop explicatif » des tribunaux N'EST PAS confirmée par la mesure — pas d'action."
+}

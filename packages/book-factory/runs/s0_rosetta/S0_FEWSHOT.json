@@ -1,0 +1,84 @@
+{
+  "arm": "FEW_SHOT (variante E = D + exemplar)",
+  "revelationSuccessRate_E": 1,
+  "confrontationSuccessRate_E": 0.6666666666666666,
+  "baseline_D_successRate": {
+    "REVELATION": 0,
+    "CONFRONTATION": 0
+  },
+  "cells": [
+    {
+      "fn": "REVELATION",
+      "variant": "E",
+      "seed": 101,
+      "argmax": "REVELATION",
+      "success": true,
+      "revelationHits": 3,
+      "confrontHits": 0,
+      "dialogueRatio": 0,
+      "words": 246,
+      "maxTicPer1000w": 8.13
+    },
+    {
+      "fn": "REVELATION",
+      "variant": "E",
+      "seed": 202,
+      "argmax": "REVELATION",
+      "success": true,
+      "revelationHits": 3,
+      "confrontHits": 0,
+      "dialogueRatio": 0,
+      "words": 258,
+      "maxTicPer1000w": 7.75
+    },
+    {
+      "fn": "REVELATION",
+      "variant": "E",
+      "seed": 303,
+      "argmax": "REVELATION",
+      "success": true,
+      "revelationHits": 3,
+      "confrontHits": 0,
+      "dialogueRatio": 0,
+      "words": 275,
+      "maxTicPer1000w": 3.64
+    },
+    {
+      "fn": "CONFRONTATION",
+      "variant": "E",
+      "seed": 101,
+      "argmax": "CONFRONTATION",
+      "success": true,
+      "revelationHits": 0,
+      "confrontHits": 4,
+      "dialogueRatio": 0.2,
+      "words": 275,
+      "maxTicPer1000w": 0
+    },
+    {
+      "fn": "CONFRONTATION",
+      "variant": "E",
+      "seed": 202,
+      "argmax": "ACTION",
+      "success": false,
+      "revelationHits": 0,
+      "confrontHits": 3,
+      "dialogueRatio": 0.15,
+      "words": 276,
+      "maxTicPer1000w": 3.62
+    },
+    {
+      "fn": "CONFRONTATION",
+      "variant": "E",
+      "seed": 303,
+      "argmax": "CONFRONTATION",
+      "success": true,
+      "revelationHits": 0,
+      "confrontHits": 4,
+      "dialogueRatio": 0.211,
+      "words": 286,
+      "maxTicPer1000w": 0
+    }
+  ],
+  "verdict": "FEW_SHOT_MORD — l'exemplar lève ce que la directive seule ne levait pas. Levier TROUVÉ et réinjectable dans l'escalade C17."
+}

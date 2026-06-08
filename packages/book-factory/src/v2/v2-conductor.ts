@@ -15,6 +15,7 @@ import { appendFileSync, writeFileSync } from 'node:fs';
 import { ControlPlane, selectorEntropy } from '../control/control-plane.js';
 import type { ChapterControlVerdict, ControlPlaneReport, DramaticFn } from '../control/control-plane.js';
 import { MotifRepulsionField, normalizedHead } from '../variation/motif-repulsion.js';
+import { FEWSHOT_EXEMPLARS } from '../rosetta/dramatic-grid.js';
 
 /* ————————————————— Wasserstein rythme (ADVISORY, profil PROVISOIRE) ————————————————— */
 
@@ -164,15 +165,18 @@ export class V2Conductor {
     return verdict;
   }
 
-  /** Directive d'escalade pour la regen C17 (INTERDITS + faits — zéro coaching,
-   *  leçon Mode C). La traduction model-aware (Rosetta) s'applique en amont si
-   *  un profil calibré existe pour le couple — sinon flag ROSETTA_NA tracé. */
+  /** Directive d'escalade pour la regen C17. CALIBRÉE S0 (2026-06-08) : la
+   *  reformulation de directive NE MORD PAS sur gemma4 (réfuté, 0% sur 4
+   *  variantes) ; le SEUL levier prouvé est le FEW-SHOT (montrer le registre :
+   *  REVELATION 0%→100%, CONFRONTATION 0%→67%). Donc pour ces deux fonctions on
+   *  injecte l'exemplar PROUVÉ. ACTION/autres : structurel suffit (déjà produit).
+   *  Zéro coaching sémantique (leçon Mode C). */
   escalationDirective(plannedFn: DramaticFn, atChapter: number): string {
     const variation = this.field.compileVariationDirective(atChapter);
     const fnLine = plannedFn === 'REVELATION'
-      ? 'CE CHAPITRE DOIT CONTENIR UNE RÉVÉLATION CONCRÈTE : un personnage APPREND un fait précis qu\'il ignorait (nomme le fait). INTERDIT de finir le chapitre sans cette découverte.'
+      ? `${FEWSHOT_EXEMPLARS.REVELATION}\n\nCONTRAINTE : un personnage avoue ou découvre un fait nouveau vérifiable (verbe d'aveu : avoua, comprit que, la vérité éclata), puis modifie sa décision. INTERDIT de finir sans la découverte.`
       : plannedFn === 'CONFRONTATION'
-        ? 'CE CHAPITRE EST UNE CONFRONTATION : deux personnages s\'affrontent EN DIALOGUE sur un désaccord nommé. INTERDIT de rester en description ou en déplacement.'
+        ? `${FEWSHOT_EXEMPLARS.CONFRONTATION}\n\nCONTRAINTE : un personnage ACCUSE, MENACE ou EXIGE (verbe explicite) ; l'autre RIPOSTE en dialogue ; le ton MONTE. INTERDIT de désamorcer par une description.`
         : `FONCTION OBLIGATOIRE DU CHAPITRE : ${plannedFn}. INTERDIT de glisser vers une simple transition.`;
     return `${fnLine}${variation.length > 0 ? `\n${variation}` : ''}`;
   }

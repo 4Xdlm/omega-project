@@ -109,3 +109,9 @@ SENTINEL→DEC:23 (incarné gates+préséance+wrappers) · INTENT_LAYER→DEC:60
 | CONCEPT-PARETO-CANDIDATE-SELECTOR-001 | NEW_CONCEPT — SPEC only | OMEGA_ULTRA_VISION section 4 | admissibilite avant score ; ancetre = selection hostile R7 min_axis |
 | CONCEPT-EMERGENCE-TRACKER-001 | NEW_CONCEPT — SPEC only (extension EntityRegistry, pas un module neuf) | OMEGA_ULTRA_VISION section 6 | masse narrative -> AUTHOR_REVIEW ; cas fondateur Vallet (scelle) |
 | NCR-PX2-001 | FERMEE | semantic-gate.ts M1/M2 + build-canonical.ts M3 + px2-ncr.test.ts | faux positif flexionnel (disparais/disparaissent) ; 3 preuves convergentes ; hash EMP-16 inchange |
+
+## SESSION_SAVE 2026-06-08-bis — S0 ROSETTA DRAMATIQUE
+
+| Concept-ID | Statut | Adresse | Note |
+|---|---|---|---|
+| CONCEPT-ROSETTA-DRAMATIC-FUNCTION-CALIBRATION-001 | LIVRE — levier few-shot PROUVE, reinjecte SHADOW/SOFT | book-factory/src/rosetta/ + s0-*.ts + v2-conductor escalationDirective | reformulation refutee (0% A-D) ; few-shot REVELATION 0->100% CONFRONTATION 0->67% ; gemma4 sous-produit 37x ; DECISION/REVERSAL UNMEASURABLE consignees |

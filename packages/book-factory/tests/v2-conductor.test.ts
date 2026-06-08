@@ -6,6 +6,7 @@ import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 
 import { EmergenceTracker, V2Conductor, lyapunovReadout, sentenceLengths, wassersteinToProfile } from '../src/v2/v2-conductor.js';
+import { FEWSHOT_EXEMPLARS } from '../src/rosetta/dramatic-grid.js';
 
 describe('V2 — Wasserstein rythme (ADVISORY, profil PROVISOIRE)', () => {
   it('V2-001 — prose monotone (toutes phrases ~10 mots) plus LOIN du profil que prose à queue lourde', () => {
@@ -42,6 +43,19 @@ describe('V2 — Lyapunov readout (SHADOW, gains PROVISOIRES=1)', () => {
   it('V2-005 — V = somme exacte des termes (auditables un à un)', () => {
     const r = lyapunovReadout({ chapter: 7, unpaidSeeds: 3, motifSaturation: 2, driftRate: 0.5, emergenceCandidates: 1, actBreaches: 0, rhythmFlatness: 4.2 });
     expect(r.V).toBeCloseTo(10.7, 3);
+  });
+});
+
+describe('V2 — escalade C17 calibrée S0 (few-shot prouvé, pas reformulation)', () => {
+  it('V2-007 — l\'escalade REVELATION/CONFRONTATION injecte l\'EXEMPLAR prouvé (S0-bis)', () => {
+    const v2 = new V2Conductor(mkdtempSync(join(tmpdir(), 'v2-')), []);
+    const rev = v2.escalationDirective('REVELATION', 5);
+    expect(rev).toContain(FEWSHOT_EXEMPLARS.REVELATION);
+    expect(rev).toMatch(/avoua|comprit que|la vérité éclata/u);
+    const conf = v2.escalationDirective('CONFRONTATION', 5);
+    expect(conf).toContain(FEWSHOT_EXEMPLARS.CONFRONTATION);
+    // ACTION : pas d'exemplar (gemma4 la produit déjà — S0 succès dès variante A)
+    expect(v2.escalationDirective('ACTION', 5)).not.toContain(FEWSHOT_EXEMPLARS.REVELATION);
   });
 });
 

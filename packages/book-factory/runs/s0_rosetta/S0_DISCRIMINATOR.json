@@ -1,0 +1,21 @@
+{
+  "concept": "CONCEPT-ROSETTA-DRAMATIC-FUNCTION-CALIBRATION-001",
+  "discriminator": "densité de marqueurs / 100 mots — humain (Gold-Set) vs gemma4 (S0)",
+  "revelation": {
+    "humanScenes": 32,
+    "humanHitRate": 0.75,
+    "humanDensityPer100w": 5.6,
+    "gemmaDensityPer100w": 0.15,
+    "humanOverGemma": 37.34
+  },
+  "confrontation": {
+    "gemmaDensityPer100w": 0.27
+  },
+  "markersValidation": {
+    "source": "GOLDSET_PROXY_REPORT revelationV2",
+    "recall": 0.75,
+    "precision": 1,
+    "f1": 0.857
+  },
+  "verdict": "GEMMA4_UNDERPRODUCES — la mesure est innocentée (Gold-Set hitRate 0.75, densité humaine 37.3× celle de gemma4). Le levier n'est PAS la directive (réfutation « D mord ») ni le lexique RE. Prochain bras VALIDÉ : few-shot (montrer un AVEU réel), pas re-formuler."
+}

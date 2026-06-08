@@ -74,3 +74,17 @@ export const DRAMATIC_GRID: readonly Directive[] = [
 export function directivesFor(fn: MeasurableFn): readonly Directive[] {
   return DRAMATIC_GRID.filter((d) => d.fn === fn);
 }
+
+/**
+ * EXEMPLARS FEW-SHOT — le SEUL levier PROUVÉ (S0-bis, 2026-06-08) :
+ *   REVELATION : directive D seule 0% → few-shot 100% (3/3)
+ *   CONFRONTATION : directive D seule 0% → few-shot 67% (2/3)
+ * gemma4 a besoin de VOIR le registre lexical, pas qu'on le lui DÉCRIVE
+ * (S0 a réfuté « la directive vérifiable mord » ; le Gold-Set innocente la
+ * mesure recall 0.75 ; gemma4 sous-produit 37× la densité humaine).
+ * Texte IDENTIQUE à la preuve s0-fewshot.ts — SSOT.
+ */
+export const FEWSHOT_EXEMPLARS: Readonly<Record<'REVELATION' | 'CONFRONTATION', string>> = {
+  REVELATION: 'EXEMPLE du registre attendu (ne PAS le recopier, écris une scène neuve dans le même registre d\'aveu) :\n« Garcia baissa les yeux. Puis il avoua : c\'était lui qui avait éteint le phare cette nuit-là. Léna comprit alors que tout ce qu\'on lui avait raconté était faux. La vérité éclata d\'un coup : son père n\'était pas mort en mer. »',
+  CONFRONTATION: 'EXEMPLE du registre attendu (ne PAS le recopier, écris une scène neuve dans le même registre d\'affrontement) :\n« — Tu m\'accuses, moi ? exigea Léna.\n— Je t\'accuse, oui, dit Garcia, et je te défie de le nier.\nElle se dressa, menaça de tout révéler. Le ton montait, réplique après réplique. »',
+};

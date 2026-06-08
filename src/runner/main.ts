@@ -10,6 +10,7 @@
 
 import { existsSync, mkdirSync, writeFileSync, readFileSync, readdirSync } from 'fs';
 import { join, resolve, basename, dirname } from 'path';
+import { pathToFileURL } from 'url';
 
 import {
   parseArgs,
@@ -18,7 +19,7 @@ import {
   CliParseError,
 } from './cli-parser';
 
-import type { ParsedArgs, RunResult, BatchResult, VerifyResult, CapsuleResult } from './types';
+import type { ParsedArgs, RunResult, BatchResult, VerifyResult, CapsuleResult, CliCommand } from './types';
 import { ExitCode, FIXED_PATHS, RUN_FILES, DEFAULT_PROFILE } from './types';
 
 import { getPipelineFiles } from './pipeline';
@@ -53,8 +54,11 @@ function getFixedTimestamp(): string {
 
 /**
  * Handles 'help' command.
+ *
+ * Accepts ParsedArgs (ignored) so it conforms to the uniform CommandHandler
+ * signature used by the command registry.
  */
-function handleHelp(): number {
+function handleHelp(_args: ParsedArgs): number {
   console.log(getHelpText());
   return ExitCode.PASS;
 }
@@ -273,15 +277,60 @@ async function handleCapsule(args: ParsedArgs): Promise<number> {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
+// COMMAND REGISTRY
+// ═══════════════════════════════════════════════════════════════════════════════
+
+/**
+ * Uniform signature for a CLI command handler.
+ *
+ * Handlers receive the fully parsed arguments and return a process exit code,
+ * either synchronously or asynchronously.
+ */
+export type CommandHandler = (args: ParsedArgs) => number | Promise<number>;
+
+/**
+ * Single source of truth mapping every CLI command to its handler.
+ *
+ * Replaces the previous hardcoded `switch`. Because the table is typed as
+ * `Record<CliCommand, CommandHandler>`, TypeScript fails the build if a command
+ * is added to `CliCommand` without a corresponding handler here — keeping the
+ * dispatch table exhaustive by construction.
+ */
+export const COMMAND_REGISTRY: Readonly<Record<CliCommand, CommandHandler>> = Object.freeze({
+  help: handleHelp,
+  run: handleRun,
+  batch: handleBatch,
+  verify: handleVerify,
+  capsule: handleCapsule,
+});
+
+/**
+ * Routes parsed arguments to the registered handler for their command.
+ *
+ * Never throws for an unrecognised command: returns INTENT_INVALID instead,
+ * mirroring the previous `default` branch. The unknown-command guard remains
+ * for runtime safety even though `CliCommand` is validated during parsing.
+ *
+ * @param args - Parsed CLI arguments (command + options).
+ * @returns Process exit code.
+ */
+export async function dispatchCommand(args: ParsedArgs): Promise<number> {
+  const handler = COMMAND_REGISTRY[args.command];
+  if (!handler) {
+    console.error(`Error: Unknown command: ${String(args.command)}`);
+    return ExitCode.INTENT_INVALID;
+  }
+  return await handler(args);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
 // MAIN
 // ═══════════════════════════════════════════════════════════════════════════════
 
 /**
  * Main CLI entry point.
  */
-async function main(): Promise<number> {
-  const argv = process.argv.slice(2);
-
+export async function main(argv: readonly string[] = process.argv.slice(2)): Promise<number> {
   // Parse arguments
   let args: ParsedArgs;
   try {
@@ -295,34 +344,29 @@ async function main(): Promise<number> {
     return ExitCode.INTENT_INVALID;
   }
 
-  // Dispatch command
-  switch (args.command) {
-    case 'help':
-      return handleHelp();
-
-    case 'run':
-      return handleRun(args);
-
-    case 'batch':
-      return handleBatch(args);
-
-    case 'verify':
-      return handleVerify(args);
-
-    case 'capsule':
-      return await handleCapsule(args);
-
-    default: {
-      console.error(`Error: Unknown command`);
-      return ExitCode.INTENT_INVALID;
-    }
-  }
+  // Dispatch command via the registry
+  return dispatchCommand(args);
 }
 
-// Run main
-main()
-  .then((exitCode) => process.exit(exitCode))
-  .catch((error) => {
-    console.error(`Fatal error: ${error.message}`);
-    process.exit(1);
-  });
+/**
+ * True when this module is executed directly as the process entry point
+ * (e.g. `node main.js`), false when imported (e.g. from tests). Guards the
+ * auto-run so importing the module never triggers the CLI or `process.exit`.
+ */
+function isDirectExecution(): boolean {
+  const entry = process.argv[1];
+  if (!entry) {
+    return false;
+  }
+  return import.meta.url === pathToFileURL(entry).href;
+}
+
+// Run main only when invoked directly.
+if (isDirectExecution()) {
+  main()
+    .then((exitCode) => process.exit(exitCode))
+    .catch((error) => {
+      console.error(`Fatal error: ${error.message}`);
+      process.exit(1);
+    });
+}

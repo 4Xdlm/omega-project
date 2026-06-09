@@ -35,10 +35,10 @@ describe('ARG — classification des 7 règles (la classe la plus forte gagne)',
     expect(c.enforcement).toBe('ENFORCEABLE');
     expect(c.checker).toBe('DRAMATIC_VITALITY');
   });
-  it('ARG-002 — S7 identité ⇒ ADVISORY (démotion empirique : faux-positif co-occurrence)', () => {
+  it('ARG-002 — S7 identité ⇒ ENFORCEABLE/IDENTITY (repromu, détecteur coref-grade AP-2)', () => {
     const c = classifyRule(rule('Finale = 8/10 ; unification d\'identité (Henri/Thomas) PASS — zéro dérive perçue.'));
-    expect(c.enforcement).toBe('ADVISORY');
-    expect(c.checker).toBeNull();
+    expect(c.enforcement).toBe('ENFORCEABLE');
+    expect(c.checker).toBe('IDENTITY_UNIFICATION');
   });
   it('ARG-003 — S4 atmosphère ⇒ ADVISORY ; S3 station ⇒ PROCESS ; S5 payoff ⇒ CONFIRMATION', () => {
     expect(classifyRule(rule('LOI ATMOSPHÈRE : seuil TRANSITION 0.45 = ADVISORY.')).enforcement).toBe('ADVISORY');
@@ -62,10 +62,10 @@ describe('ARG — opposabilité (passed=false ⟺ règle ENFORCEABLE violée)', 
   it('ARG-006 — manuscrit vivant ⇒ PASS', () => {
     expect(enforceAuthorRules([vitalityRule], VITAL).passed).toBe(true);
   });
-  it('ARG-007 — règle d\'identité (ADVISORY) ne bloque JAMAIS, même sur dérive apparente', () => {
+  it('ARG-007 — règle d\'identité (ENFORCEABLE coref-grade) : dérive apposée réelle ⇒ VIOLATION', () => {
     const r = enforceAuthorRules([identityRule], DRIFT);
-    expect(r.passed).toBe(true); // démotée : co-occurrence≠coréférence
-    expect(r.advisories.some((a) => a.includes('ADVISORY'))).toBe(true);
+    expect(r.passed).toBe(false);
+    expect(r.violations.some((v) => v.checker === 'IDENTITY_UNIFICATION')).toBe(true);
   });
   it('ARG-008 — advisory/process/confirmation ne mettent JAMAIS passed à false (INV-ARG-002)', () => {
     const benign = [rule('seuil 0.45 advisory'), rule('STATION_FORMAT offset'), rule('Doctor invisible souverain')];

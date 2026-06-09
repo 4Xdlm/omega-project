@@ -41,10 +41,11 @@
 
 import type { ArcChapter } from '../coherence/arc-coherence.js';
 import type { AuthorDecision } from '../identity/author-seal.js';
+import { detectIdentityDrift } from '../identity/identity-drift.js';
 import { transitionSignals } from '../polish/transition-triage.js';
 
 export type RuleEnforcement = 'ENFORCEABLE' | 'ADVISORY' | 'PROCESS' | 'CONFIRMATION';
-export type RuleChecker = 'DRAMATIC_VITALITY';
+export type RuleChecker = 'DRAMATIC_VITALITY' | 'IDENTITY_UNIFICATION';
 
 export interface RuleClassification {
   readonly decisionId: string;
@@ -73,8 +74,11 @@ export interface AuthorRuleReport {
 // NB : « ventre mou » SEUL ne déclenche pas (S4 le cite comme contraste dans sa
 // réponse → faux-positif vitality détecté sur données réelles 2026-06-09). On exige
 // la signature du STANDARD lecteur-de-genre (S8), pas l'expression isolée.
+// IDENTITY repromu ENFORCEABLE (AP-2) : détecteur coref-grade (apposition serrée),
+// 0 faux-positif prouvé sur V3 — remplace la co-occurrence démotée.
+const IDENTITY_RE = /unifi|henri\s*\/\s*thomas|z[ée]ro\s+(?:but[ée]e|d[ée]rive)|identit[ée]/iu;
 const VITALITY_RE = /lecteur\s+de\s+genre|engagement\s+constant|z[ée]ro\s+complaisance/iu;
-const ADVISORY_RE = /unifi|henri\s*\/\s*thomas|z[ée]ro\s+(?:but[ée]e|d[ée]rive)|identit[ée]|atmosph[èe]re|0[.,]45|advisory|route\s*=|predictor|contextuel|enqu[êe]te/iu;
+const ADVISORY_RE = /atmosph[èe]re|0[.,]45|advisory|route\s*=|predictor|contextuel|enqu[êe]te/iu;
 const PROCESS_RE = /station_format|format\s+station|offset|extrait\s+cible|protocole\s+station/iu;
 const CONFIRMATION_RE = /payoff|doctor\s+invisible|souverain|invisible|finale\s*=|paiement\s+r[ée]el/iu;
 
@@ -86,11 +90,20 @@ export const VITALITY_COMFORT_BAR = 0.85; // ratio de phrases de confort
 export function classifyRule(d: AuthorDecision): RuleClassification {
   const base = { decisionId: d.decisionId, chapter: d.chapter } as const;
   const t = `${d.ruleText ?? ''} ${d.answer}`;
+  if (IDENTITY_RE.test(t)) return { ...base, enforcement: 'ENFORCEABLE', checker: 'IDENTITY_UNIFICATION', reason: 'unification d\'identité = dérive de rôle apposée (détecteur coref-grade AP-2, 0 faux-positif V3)' };
   if (VITALITY_RE.test(t)) return { ...base, enforcement: 'ENFORCEABLE', checker: 'DRAMATIC_VITALITY', reason: 'zéro ventre mou = chapitre objectivement mort mesurable' };
-  if (ADVISORY_RE.test(t)) return { ...base, enforcement: 'ADVISORY', checker: null, reason: 'identité (co-occurrence≠coréférence, faux-positif V3) / seuil PROVISOIRE EMP-16 / book-scoped — logué, ne bloque pas' };
+  if (ADVISORY_RE.test(t)) return { ...base, enforcement: 'ADVISORY', checker: null, reason: 'seuil PROVISOIRE EMP-16 (0.45) / book-scoped (route ch.5) — logué, ne bloque pas' };
   if (PROCESS_RE.test(t)) return { ...base, enforcement: 'PROCESS', checker: null, reason: 'règle de PROCESSUS (workflow), pas une propriété du manuscrit' };
   if (CONFIRMATION_RE.test(t)) return { ...base, enforcement: 'CONFIRMATION', checker: null, reason: 'constat d\'auteur — non gateable sans juge sémantique' };
   return { ...base, enforcement: 'ADVISORY', checker: null, reason: 'règle non reconnue → ADVISORY par défaut (on ne gate jamais l\'inconnu)' };
+}
+
+function identityViolations(decisionId: string, chapters: readonly ArcChapter[]): readonly RuleViolation[] {
+  const text = chapters.map((c) => c.prose).join('\n\n');
+  return detectIdentityDrift(text).map((drift) => ({
+    decisionId, checker: 'IDENTITY_UNIFICATION' as const,
+    detail: `rôle « ${drift.role} » apposé à ${drift.names.length} noms : ${drift.names.map((n) => `${n.name}×${n.occurrences}`).join(', ')} — dérive d'identité`,
+  }));
 }
 
 function vitalityViolations(decisionId: string, chapters: readonly ArcChapter[]): readonly RuleViolation[] {
@@ -113,9 +126,9 @@ export function enforceAuthorRules(decisions: readonly AuthorDecision[], chapter
   const classifications = decisions.filter((d) => d.anchorExcerpt === null).map(classifyRule);
   const violations: RuleViolation[] = [];
   for (const c of classifications) {
-    if (c.enforcement === 'ENFORCEABLE' && c.checker === 'DRAMATIC_VITALITY') {
-      violations.push(...vitalityViolations(c.decisionId, chapters));
-    }
+    if (c.enforcement !== 'ENFORCEABLE') continue;
+    if (c.checker === 'DRAMATIC_VITALITY') violations.push(...vitalityViolations(c.decisionId, chapters));
+    else if (c.checker === 'IDENTITY_UNIFICATION') violations.push(...identityViolations(c.decisionId, chapters));
   }
   return {
     classifications,

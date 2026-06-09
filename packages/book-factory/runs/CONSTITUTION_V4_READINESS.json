@@ -1,0 +1,78 @@
+{
+  "phase": "CONSTITUTION_V4_READINESS",
+  "date": "2026-06-09",
+  "ready": true,
+  "checks": [
+    {
+      "component": "RHYTHM_SOFT_CALIBRATED",
+      "ready": true,
+      "detail": "déciles maîtres FR = [5,7,9,11,14,17,21,27,37]"
+    },
+    {
+      "component": "ESCALATION_FEWSHOT_GEMMA4",
+      "ready": true,
+      "detail": "REV=fewshot CONF=fewshot"
+    },
+    {
+      "component": "SUBTEXT_EXEMPLARS",
+      "ready": true,
+      "detail": "exemplars REVELATION + CONFRONTATION présents (levier prouvé S0-bis)"
+    },
+    {
+      "component": "GATE_VITALITY_ENFORCEABLE",
+      "ready": true,
+      "detail": "zéro ventre mou = chapitre objectivement mort mesurable"
+    },
+    {
+      "component": "GATE_IDENTITY_ENFORCEABLE",
+      "ready": true,
+      "detail": "unification d'identité = dérive de rôle apposée (détecteur coref-grade AP-2, 0 faux-positif V3)"
+    },
+    {
+      "component": "GATE_LANG_CLEAN",
+      "ready": true,
+      "detail": "détecteur franglais opérant (denylist sans homographe FR)"
+    }
+  ],
+  "config": {
+    "scribe": "gemma4:31b",
+    "rhythm": {
+      "mode": "soft",
+      "source": "maîtres FR (24114 phrases)",
+      "deciles": [
+        5,
+        7,
+        9,
+        11,
+        14,
+        17,
+        21,
+        27,
+        37
+      ]
+    },
+    "escalation": "few-shot (REVELATION + CONFRONTATION exemplars)",
+    "buildGates": {
+      "enforceAuthorRules": true,
+      "enforceable": [
+        "DRAMATIC_VITALITY",
+        "IDENTITY_UNIFICATION"
+      ],
+      "cleanliness": [
+        "SYNTAX",
+        "SEAM",
+        "SEMANTIC",
+        "NARRATIVE",
+        "LANG",
+        "AUTHOR_LOCKS"
+      ]
+    },
+    "filet": "applyPatch (guard + re-certif + revert auto)",
+    "interdits": [
+      "pas de mistral en prod",
+      "pas de gate dure sur 1 preuve",
+      "pas de révélation centrale prématurée"
+    ],
+    "status": "GENERATION_HOLD_ARCHITECT"
+  }
+}

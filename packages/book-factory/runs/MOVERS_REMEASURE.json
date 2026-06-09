@@ -1,0 +1,63 @@
+{
+  "phase": "EMP-16 MOVERS_REMEASURE",
+  "date": "2026-06-09",
+  "rows": [
+    {
+      "chapter": 21,
+      "physical": 2,
+      "confrontation": 3,
+      "total": 5,
+      "verdict": "HAS_PHYSICAL_AGENCY (déjà moteur)"
+    },
+    {
+      "chapter": 25,
+      "physical": 1,
+      "confrontation": 2,
+      "total": 3,
+      "verdict": "HAS_PHYSICAL_AGENCY (déjà moteur)"
+    },
+    {
+      "chapter": 27,
+      "physical": 0,
+      "confrontation": 3,
+      "total": 3,
+      "verdict": "AGENCY_BY_CONFRONTATION (faux noMover physique → ACCEPTER tel quel)"
+    },
+    {
+      "chapter": 31,
+      "physical": 0,
+      "confrontation": 2,
+      "total": 2,
+      "verdict": "AGENCY_BY_CONFRONTATION (faux noMover physique → ACCEPTER tel quel)"
+    },
+    {
+      "chapter": 33,
+      "physical": 0,
+      "confrontation": 2,
+      "total": 2,
+      "verdict": "AGENCY_BY_CONFRONTATION (faux noMover physique → ACCEPTER tel quel)"
+    },
+    {
+      "chapter": 46,
+      "physical": 1,
+      "confrontation": 2,
+      "total": 3,
+      "verdict": "HAS_PHYSICAL_AGENCY (déjà moteur)"
+    },
+    {
+      "chapter": 49,
+      "physical": 2,
+      "confrontation": 2,
+      "total": 4,
+      "verdict": "HAS_PHYSICAL_AGENCY (déjà moteur)"
+    }
+  ],
+  "specificityControl": {
+    "physical": 0,
+    "confrontation": 0,
+    "total": 0,
+    "pass": true,
+    "note": "chapitre mort doit rester total=0 (le lexique élargi reste spécifique)"
+  },
+  "reading": "physical = agence par verbe physique (ancien lexique) ; confrontation = agence par interrogation/regard/décision (ajout EMP-16). total=0 = vrai noMover."
+}

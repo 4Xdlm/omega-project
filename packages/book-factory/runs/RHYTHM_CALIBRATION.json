@@ -1,0 +1,44 @@
+{
+  "phase": "PE-4 RHYTHM_CALIBRATION",
+  "date": "2026-06-08",
+  "masters": "9 maîtres FR (Camus, Yourcenar, Gracq, Giono, Maupassant, Balzac, Duras), 24114 phrases",
+  "calibratedDeciles": [
+    5,
+    7,
+    9,
+    11,
+    14,
+    17,
+    21,
+    27,
+    37
+  ],
+  "mastersStats": {
+    "median": 14,
+    "mean": 18.2,
+    "p90": 37
+  },
+  "booksW1": [
+    {
+      "book": "V3_gemma4",
+      "w1_vs_masters": 7.05,
+      "w1_vs_provisional": 3.86
+    },
+    {
+      "book": "V3_mistral",
+      "w1_vs_masters": 5.6,
+      "w1_vs_provisional": 3.09
+    },
+    {
+      "book": "V2_b438250e",
+      "w1_vs_masters": 7.06,
+      "w1_vs_provisional": 3.83
+    },
+    {
+      "book": "88k",
+      "w1_vs_masters": 7.13,
+      "w1_vs_provisional": 3.9
+    }
+  ],
+  "reading": "w1_vs_masters bas = rythme proche des maîtres. Les livres OMEGA, plus courts/plats, ont un w1 > 0 — la marge à combler. Profil CÂBLÉ en défaut (advisory→soft au prochain run)."
+}

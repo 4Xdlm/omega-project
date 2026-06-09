@@ -20,17 +20,24 @@ import type { EscalationProfile } from '../rosetta/dramatic-grid.js';
 
 /* ————————————————— Wasserstein rythme (ADVISORY, profil PROVISOIRE) ————————————————— */
 
-/** Profil cible PROVISOIRE (vision §5 : P10≤4, P50≈12, P90≥28, queue lourde).
- *  Déciles explicites — à RECALIBRER sur les maîtres FR du Gold-Set avant tout
- *  passage au-dessus d'ADVISORY. Marqué PROVISIONAL dans chaque rapport. */
+/** Profil cible PROVISOIRE (historique, vision §5). REMPLACÉ par le calibré. */
 export const PROVISIONAL_RHYTHM_DECILES: readonly number[] = [3, 4, 6, 8, 10, 12, 15, 19, 24, 31];
+
+/** Profil cible CALIBRÉ (PE-4) sur 9 MAÎTRES FR (Camus, Yourcenar, Gracq, Giono,
+ *  Maupassant, Balzac, Duras — 24 114 phrases). Déciles P10..P90 de longueur de
+ *  phrase (mots). Médiane 14, moyenne 18.2, P90=37 : les maîtres écrivent plus
+ *  long ET avec une queue bien plus lourde que le provisoire — c'est la cible du
+ *  « swing » rythmique qui manquait à OMEGA (cv plat). Source mesurée, non inventée. */
+export const CALIBRATED_RHYTHM_DECILES: readonly number[] = [5, 7, 9, 11, 14, 17, 21, 27, 37];
 
 export function sentenceLengths(prose: string): readonly number[] {
   return prose.split(/(?<=[.!?…»])\s+(?!»)/u).map((s) => s.trim().split(/\s+/u).filter((w) => /\p{L}/u.test(w)).length).filter((n) => n > 0);
 }
 
-/** W₁ approchée par comparaison de déciles (déterministe, CALC pur). */
-export function wassersteinToProfile(lengths: readonly number[], deciles: readonly number[] = PROVISIONAL_RHYTHM_DECILES): number {
+/** W₁ approchée par comparaison de déciles (déterministe, CALC pur). Défaut =
+ *  profil CALIBRÉ maîtres FR (PE-4). Plus la distance est BASSE, plus le rythme
+ *  approche le swing des maîtres. */
+export function wassersteinToProfile(lengths: readonly number[], deciles: readonly number[] = CALIBRATED_RHYTHM_DECILES): number {
   if (lengths.length < 5) return Number.POSITIVE_INFINITY;
   const sorted = [...lengths].sort((a, b) => a - b);
   const q = (p: number): number => sorted[Math.min(sorted.length - 1, Math.max(0, Math.round(p * (sorted.length - 1))))] ?? 0;

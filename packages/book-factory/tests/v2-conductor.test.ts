@@ -9,10 +9,11 @@ import { EmergenceTracker, V2Conductor, lyapunovReadout, sentenceLengths, wasser
 import { CALIBRATED_ESCALATION, FEWSHOT_EXEMPLARS } from '../src/rosetta/dramatic-grid.js';
 
 describe('V2 — Wasserstein rythme (ADVISORY, profil PROVISOIRE)', () => {
-  it('V2-001 — prose monotone (toutes phrases ~10 mots) plus LOIN du profil que prose à queue lourde', () => {
-    const flat = Array<string>(20).fill('Il marcha le long du quai en regardant la mer grise.').join(' ');
-    const varied = 'Rien. Il marcha le long du quai désert en regardant la mer grise se lever par paquets contre les pierres noires, et chaque vague semblait peser le poids exact de ce qu\'il refusait de dire depuis le naufrage. Trois mots. Puis le silence retomba sur le port comme une dalle. Léna attendait toujours.';
-    expect(wassersteinToProfile(sentenceLengths(varied))).toBeLessThan(wassersteinToProfile(sentenceLengths(flat)));
+  it('V2-001 — prose monotone plus LOIN du profil maître que prose au swing maître (fixtures robustes)', () => {
+    const sent = (k: number): string => `${Array<string>(k).fill('mot').join(' ')}.`;
+    const flat = Array.from({ length: 30 }, () => sent(11)).join(' '); // toutes ~11 mots
+    const swing = Array.from({ length: 30 }, (_, i) => sent([5, 9, 14, 21, 37][i % 5] ?? 11)).join(' '); // spread maître
+    expect(wassersteinToProfile(sentenceLengths(swing))).toBeLessThan(wassersteinToProfile(sentenceLengths(flat)));
   });
 
   it('V2-002 — moins de 5 phrases ⇒ Infinity (jamais de score sur un échantillon vide)', () => {

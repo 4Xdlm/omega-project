@@ -27,6 +27,7 @@ import { semanticGate, buildBookVocabulary, isBookEndComplete } from '../doctor/
 import { scanSemanticResidue } from '../doctor/semantic-residue.js';
 import { AuthorDecisionLedger } from '../identity/author-seal.js';
 import { enforceAuthorRules } from './author-rule-gate.js';
+import { scanEnglishResiduals } from '../doctor/lang-purity.js';
 
 /** Types dérivés du contrat RÉEL de runDoctor (zéro duplication de type). */
 type DoctorArgs = NonNullable<Parameters<typeof runDoctor>[1]>;
@@ -37,8 +38,11 @@ export interface CleanlinessReport {
   readonly SEAM_CLEAN: boolean;
   readonly SEMANTIC_CLEAN: boolean;
   readonly NARRATIVE_CLEAN: boolean;
+  /** Aucun résidu anglais/franglais (LANG_PURITY) — trou de gate fermé 2026-06-09. */
+  readonly LANG_CLEAN: boolean;
   readonly AUTHOR_LOCKS_INTACT: boolean;
   readonly detail: {
+    readonly englishResiduals: number;
     readonly seamResidual: number;
     readonly scaffoldResidual: number;
     readonly semanticResidual: number;
@@ -187,6 +191,7 @@ export async function buildCanonical(v0: string, opts: BuildCanonicalOptions = {
   const quoteDelta = (text.match(/«/gu) ?? []).length - (text.match(/»/gu) ?? []).length;
 
   const seamResidual = sweep.value.residualFindings.length;
+  const englishResiduals = scanEnglishResiduals(text).length;
   /* NCR-PX2-001 (M3) — AUTORITÉ D'AUTEUR : un résidu sémantique dont l'extrait
    * recouvre une ancre SPAN/STYLE scellée KEEP/MARK_AS_STYLE est SILENCÉ. La
    * machine a posé la question UNE fois ; le sceau est la réponse — définitive. */
@@ -205,8 +210,10 @@ export async function buildCanonical(v0: string, opts: BuildCanonicalOptions = {
     SEMANTIC_CLEAN: semanticResidual === 0 && quoteDelta === 0 && bookEnd,
     // INTERDICTION (ChatGPT) de déclarer propre tant que la saturation persiste :
     NARRATIVE_CLEAN: functionalRedundancies === 0 && brokenComparisons === 0 && incipitClones === 0 && maxTicPer1000w <= (opts.maxTicPer1000w ?? 1.5),
+    LANG_CLEAN: englishResiduals === 0,
     AUTHOR_LOCKS_INTACT: locksBrokenList.length === 0,
     detail: {
+      englishResiduals,
       seamResidual, scaffoldResidual: scaffold.value.residual, semanticResidual,
       quoteDelta, bookEndComplete: bookEnd, brokenComparisons, functionalRedundancies,
       incipitClones, maxTicPer1000w: Number(maxTicPer1000w.toFixed(2)),

@@ -478,7 +478,7 @@ Le visage de la jeune femme se crispa. Elle se leva d'un bond, sa chaise raclant
 
 Léna s'effondra sur sa chaise, le souffle court. Elle resta ainsi quelques secondes, les mains tremblantes posées sur ses genoux. Puis, elle leva les yeux vers lui. Son regard avait changé. L'effroi avait laissé place à une sorte de résignation amère.
 
-Elle plongea la main dans la poche de son gilet et en sortit une enveloppe jaunie, carefully pliée. Elle la posa sur la table entre eux.
+Elle plongea la main dans la poche de son gilet et en sortit une enveloppe jaunie, soigneusement pliée. Elle la posa sur la table entre eux.
 
 — Je ne voulais pas que cela sorte d'ici, murmura-t-elle. Je pensais que si je gardais ça, je serais en sécurité.
 
@@ -755,7 +755,7 @@ Léna ne répondit pas.
 
 Garcia claqua la porte. Le bruit résonna dans le vestibule de Ker-Morvan comme un coup de feu. Il ne s'excusa pas. Il fit face à Yvon Squarcioni, qui se tenait debout près de la table en chêne, les mains jointes dans le dos, le regard fixe.
 
-L'air dans la pièce était saturé d'une senteur de cire froide et de tabac gris. Une seule lampe à huile éclairait le centre de la pièce, jetant des ombres mouvantes sur les murs tapissés de papier jauni. Gaspard était là aussi, adossé au chambranle de la porte, observant la scène avec une neutralité bothering.
+L'air dans la pièce était saturé d'une senteur de cire froide et de tabac gris. Une seule lampe à huile éclairait le centre de la pièce, jetant des ombres mouvantes sur les murs tapissés de papier jauni. Gaspard était là aussi, adossé au chambranle de la porte, observant la scène avec une neutralité déconcertante.
 
 — Vous tournez en rond, Garcia, lança Yvon d'une voix monocorde.
 
@@ -811,7 +811,7 @@ Gaspard détourna le regard. Ses doigts, noueux et tachés de tabac, tripotaient
 
 — Rien du tout ? insista Garcia en faisant un pas vers lui. Vous étiez là, Gaspard. Vous avez vu les mouvements autour du phare ces dernières semaines. Vous savez qui fréquentait qui.
 
-L'homme secoua la tête, un mouvement brusque, presque violent. Il semblait vouloir s'extraire de la conversation, s'effacer contre le mur lambrissé de Ker-Morvan. Léna, restée en retrait près de la cheminée, observa la scène. Elle ne disait rien, mais ses yeux passaient de l'un à l'autre, enregistrant chaque tressaillement, chaque hésitation. Elle tenait une tasse de porcelaine entre ses mains, mais elle ne buvait pas. La vapeur s'en échappait en volutes lentes, blending avec la lumière blafarde qui filtrait à travers les rideaux lourds.
+L'homme secoua la tête, un mouvement brusque, presque violent. Il semblait vouloir s'extraire de la conversation, s'effacer contre le mur lambrissé de Ker-Morvan. Léna, restée en retrait près de la cheminée, observa la scène. Elle ne disait rien, mais ses yeux passaient de l'un à l'autre, enregistrant chaque tressaillement, chaque hésitation. Elle tenait une tasse de porcelaine entre ses mains, mais elle ne buvait pas. La vapeur s'en échappait en volutes lentes, se mêlant à la lumière blafarde qui filtrait à travers les rideaux lourds.
 
 Yvon Squarcioni se redressa, occupant l'espace de sa carrure imposante. Il posa ses mains à plat sur la table, un geste de domination tranquille.
 
@@ -1463,7 +1463,7 @@ Yvon se dressa brusquement, le fauteuil reculant avec un bruit sec sur le parque
 
 — Vous n'êtes rien ici ! hurla Yvon. Un étranger avec un badge et des préjugés ! Vous pensez pouvoir débarquer dans notre maison et pointer du doigt qui vous voulez ? Vous ne savez rien de ce que nous avons dû porter pour que ce lieu survive !
 
-— Je sais que des gens meurent quand on commence à poser des questions, riposta Garcia, le regard froid. Je sais que when on parle de dettes, on finit souvent par payer en sang.
+— Je sais que des gens meurent quand on commence à poser des questions, riposta Garcia, le regard froid. Je sais que quand on parle de dettes, on finit souvent par payer en sang.
 
 Léna, qui s'était tenue en retrait, tenta d'intervenir, la main tendue pour apaiser le conflit.
 
@@ -1583,7 +1583,7 @@ Yvon eut un rictus. Il fit un pas vers le bord du perron, là où le béton rejo
 
 Le silence s'installa, dense, presque solide. Garcia sentait l'humidité s'infiltrer sous son col, une sensation glaciale qui lui rappelait l'urgence de sortir de Ker-Morvan. Il observa Yvon. L'homme semblait soudain plus vieux, vidé de sa superbe. Ce n'était plus le notable arrogant, mais un homme acculé, un homme qui savait que le cercle se refermait.
 
-— Léna est fragile, reprit Yvon d'un ton brusque. Elle a porté during des années des poids que vous ne pouvez même pas imaginer. Si vous cherchez à briser conjugates des secrets pour satisfaire une curiosité administrative, vous allez faire plus de mal que de bien.
+— Léna est fragile, reprit Yvon d'un ton brusque. Elle a porté durant des années des poids que vous ne pouvez même pas imaginer. Si vous cherchez à briser des secrets pour satisfaire une curiosité administrative, vous allez faire plus de mal que de bien.
 
 — Je ne cherche pas à satisfaire ma curiosité, Squarcioni. Je cherche un meurtrier.
 
@@ -1871,7 +1871,7 @@ Le mot tomba comme une lame. Le visage de Squarcioni se crispa imperceptiblement
 
 Squarcioni se leva brusquement. Le mouvement fut si violent que la chaise bascula en arrière, frappant le sol avec un bruit sourd qui fit sursauter Léna. L'homme dominait Garcia, sa silhouette massive occultant la lumière blafarde qui filtrait par la fenêtre.
 
-— Vous jouez un jeu dangereux, Garcia. Vous arrivez ici avec vos questions de citadin, vous fouillez dans des tiroirs qui sont fermés depuis vingt ans. Vous croyez que la vérité va vous libérer ? Ici, la vérité ne fait que weighted les gens.
+— Vous jouez un jeu dangereux, Garcia. Vous arrivez ici avec vos questions de citadin, vous fouillez dans des tiroirs qui sont fermés depuis vingt ans. Vous croyez que la vérité va vous libérer ? Ici, la vérité ne fait que peser sur les gens.
 
 Qu'est-ce qu'il cachait ?
 
@@ -3704,7 +3704,7 @@ Léna frotta nerveusement son avant-bras. Le geste était répétitif, presque m
 
 — Le registre ne dira rien ? répéta Garcia. C'est une affirmation audacieuse pour un document qui a survécu à tout le reste.
 
-Il sentait la rigidité de l'atmosphère. Ker-Morvan n'était plus une demeure, c'était une boîte pressurisée. Un seul mot de trop, une seule pression au mauvais endroit, et tout would exploser. Il observa Léna. Elle était pâle, les traits tirés, mais ses yeux brillaient d'une détermination froide, presque désespérée. Elle n'avait pas peur de lui ; elle avait peur de ce qu'il représentait : l'imprévisibilité.
+Il sentait la rigidité de l'atmosphère. Ker-Morvan n'était plus une demeure, c'était une boîte pressurisée. Un seul mot de trop, une seule pression au mauvais endroit, et tout allait exploser. Il observa Léna. Elle était pâle, les traits tirés, mais ses yeux brillaient d'une détermination froide, presque désespérée. Elle n'avait pas peur de lui ; elle avait peur de ce qu'il représentait : l'imprévisibilité.
 
 — Vous ne comprenez pas comment ça marche ici, Garcia, intervint Yvon d'une voix rauque. Vous arrivez avec vos questions et vos méthodes, vous croyez que la vérité est une ligne droite. Mais ici, la vérité est un cercle. On tourne autour, on s'adapte, et on finit par accepter que certaines choses ne doivent pas être déplacées.
 

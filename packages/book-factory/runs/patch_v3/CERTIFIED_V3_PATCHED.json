@@ -1,16 +1,20 @@
 {
   "phase": "CERTIFIED_V3_PATCHED",
   "date": "2026-06-09",
-  "CERTIFIED_V3_PATCHED_HASH": "b7b6c036dbeb2a1c6b43ce70a25461b724b4e3fbda368a888dea3a6532429d20",
+  "revision": "AP-1 lang-purity",
+  "CERTIFIED_V3_PATCHED_HASH": "24bb55dfa009108191d35f1b0a96f9eeed642314ed5c1c62311ff79302cb42be",
+  "supersedes": "b7b6c036dbeb2a1c",
   "baseHash": "3025744d35ea",
-  "words": 85067,
+  "words": 85068,
   "cleanliness": {
     "SYNTAX_CLEAN": true,
     "SEAM_CLEAN": true,
     "SEMANTIC_CLEAN": true,
     "NARRATIVE_CLEAN": true,
+    "LANG_CLEAN": true,
     "AUTHOR_LOCKS_INTACT": true,
     "detail": {
+      "englishResiduals": 0,
       "seamResidual": 0,
       "scaffoldResidual": 0,
       "semanticResidual": 0,
@@ -27,13 +31,29 @@
       "lockSilencedResiduals": 0
     }
   },
-  "workingRawHash": "32ba81014558d3d41c10590503f6eedce5945ce33f31eadd6989576b7f4966e6",
+  "langCleanup": {
+    "residualsBefore": 2,
+    "fixesApplied": [
+      "que when on parle → que quand on parle",
+      "tout would exploser → tout allait exploser"
+    ],
+    "fixesMissed": [
+      "carefully pliée",
+      "neutralité bothering",
+      "volutes lentes, blending avec",
+      "porté during des années",
+      "briser conjugates des secrets",
+      "ne fait que weighted les gens"
+    ],
+    "residualsAfterCanonical": 0
+  },
   "patches": [
     "ch.21 reinforce",
     "ch.46 reinforce",
     "ch.49 reinforce",
     "ch.16 payoff{clé}",
     "ch.32 payoff{clé→registre}",
-    "27/31/33 accepted as-is (false noMover)"
+    "27/31/33 accepted as-is",
+    "AP-1 franglais cleanup (6)"
   ]
 }

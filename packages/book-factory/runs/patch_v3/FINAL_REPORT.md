@@ -34,3 +34,8 @@ Chaque candidate passée par `applyPatch` (splice → guardRegen → buildCanoni
 
 ## Limites (honnêteté)
 La certification = gates CALC (propreté + vitalité), **PAS jugement littéraire**. Le souffle, l'émotion, le plaisir de lecture, le naturel des scènes et la fatigue des tics résiduels = **lecture humaine finale requise** avant statut "production". V4 = HOLD.
+
+## RÉVISION AP-1 (2026-06-09) — franglais nettoyé, gate LANG_CLEAN
+- Nouveau hash : **24bb55dfa0091081…** (supersede b7b6c036). 85068 mots.
+- 8 résidus anglais corrigés (substitution déterministe) : carefully→soigneusement, bothering→déconcertante, blending→se mêlant à, during→durant, conjugates(supprimé), weighted→peser sur, when→quand, would→allait. Le détecteur a trouvé 2 résidus de plus que la relecture humaine (when, would) ; 1 faux-positif exclu (standing = emprunt FR).
+- `LANG_CLEAN = TRUE` désormais câblé dans buildCanonical (gate permanente). Propreté : SYNTAX/SEAM/SEMANTIC/NARRATIVE/LANG/AUTHOR_LOCKS = tous ✓.

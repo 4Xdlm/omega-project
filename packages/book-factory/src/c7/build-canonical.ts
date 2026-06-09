@@ -26,6 +26,7 @@ import { seamSweep } from '../doctor/seam-sweep.js';
 import { semanticGate, buildBookVocabulary, isBookEndComplete } from '../doctor/semantic-gate.js';
 import { scanSemanticResidue } from '../doctor/semantic-residue.js';
 import { AuthorDecisionLedger } from '../identity/author-seal.js';
+import { enforceAuthorRules } from './author-rule-gate.js';
 
 /** Types dérivés du contrat RÉEL de runDoctor (zéro duplication de type). */
 type DoctorArgs = NonNullable<Parameters<typeof runDoctor>[1]>;
@@ -64,6 +65,10 @@ export interface BuildCanonicalOptions {
   readonly knownNames?: readonly string[];
   /** Registre des sceaux — verifyAnchors BLOQUANT (mandat 2/2). */
   readonly authorLocks?: AuthorDecisionLedger;
+  /** Oppose les RÈGLES d'auteur (DECISION_LOCK ruleText) au manuscrit : une règle
+   *  ENFORCEABLE violée = BUILD FAIL (GO Francky 2026-06-09). OPT-IN (défaut OFF :
+   *  zéro régression). Le chemin production V3-certif/V4 l'active. */
+  readonly enforceAuthorRules?: boolean;
   /** Tics surveillés pour NARRATIVE_CLEAN (mesure honnête, cap par 1000 mots). */
   readonly ticWatch?: readonly string[];
   readonly maxTicPer1000w?: number;
@@ -79,7 +84,8 @@ export interface BuildCanonicalResult {
 
 export type BuildError =
   | { readonly code: 'IMPORT_FAIL' | 'PIPELINE_FAIL'; readonly detail: string }
-  | { readonly code: 'UNRESOLVED_LOCK'; readonly detail: string; readonly broken: readonly string[] };
+  | { readonly code: 'UNRESOLVED_LOCK'; readonly detail: string; readonly broken: readonly string[] }
+  | { readonly code: 'AUTHOR_RULE_VIOLATION'; readonly detail: string; readonly violations: readonly string[] };
 
 const DEFAULT_TICS = ['le gardien', 'le silence', 'il y a', 'la pluie', 'le village'] as const;
 
@@ -149,6 +155,16 @@ export async function buildCanonical(v0: string, opts: BuildCanonicalOptions = {
     locksBrokenList = v.broken.map((d) => `${d.decisionId}:${(d.anchorExcerpt ?? '').slice(0, 50)}`);
     if (v.broken.length > 0) {
       return err({ code: 'UNRESOLVED_LOCK', detail: `${v.broken.length} ancre(s) scellée(s) introuvable(s) — BUILD FAIL (le sceau est une gate).`, broken: locksBrokenList });
+    }
+  }
+
+  /* 6-bis. RÈGLES D'AUTEUR OPPOSABLES (GO Francky 2026-06-09) — opt-in. Une règle
+   *  ENFORCEABLE violée (identité dérivante / chapitre mort) = BUILD FAIL. Les
+   *  ADVISORY/PROCESS/CONFIRMATION ne bloquent jamais (INV-ARG-002). */
+  if (opts.enforceAuthorRules === true && opts.authorLocks !== undefined) {
+    const ruleReport = enforceAuthorRules(opts.authorLocks.activeLocks(), finalChapters);
+    if (!ruleReport.passed) {
+      return err({ code: 'AUTHOR_RULE_VIOLATION', detail: `${ruleReport.violations.length} règle(s) d'auteur ENFORCEABLE violée(s) — BUILD FAIL (le sceau est opposable, pas décoratif).`, violations: ruleReport.violations.map((v) => `${v.decisionId}/${v.checker}: ${v.detail}`) });
     }
   }
 

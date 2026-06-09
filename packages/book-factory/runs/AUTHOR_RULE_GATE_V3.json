@@ -1,0 +1,127 @@
+{
+  "phase": "AUTHOR_RULE_GATE on V3 gemma4",
+  "date": "2026-06-09",
+  "activeDecisions": 16,
+  "chapters": 50,
+  "classifications": [
+    {
+      "decisionId": "auth_09d5e1b25688",
+      "chapter": 6,
+      "enforcement": "ADVISORY",
+      "checker": null,
+      "reason": "règle non reconnue → ADVISORY par défaut (on ne gate jamais l'inconnu)"
+    },
+    {
+      "decisionId": "auth_1fa74ba61904",
+      "chapter": 6,
+      "enforcement": "ADVISORY",
+      "checker": null,
+      "reason": "règle non reconnue → ADVISORY par défaut (on ne gate jamais l'inconnu)"
+    },
+    {
+      "decisionId": "auth_203ff457fd51",
+      "chapter": 9,
+      "enforcement": "ADVISORY",
+      "checker": null,
+      "reason": "règle non reconnue → ADVISORY par défaut (on ne gate jamais l'inconnu)"
+    },
+    {
+      "decisionId": "auth_23ba9437b3d6",
+      "chapter": 43,
+      "enforcement": "ADVISORY",
+      "checker": null,
+      "reason": "règle non reconnue → ADVISORY par défaut (on ne gate jamais l'inconnu)"
+    },
+    {
+      "decisionId": "auth_2ff3a7c989f7",
+      "chapter": 5,
+      "enforcement": "ADVISORY",
+      "checker": null,
+      "reason": "identité (co-occurrence≠coréférence, faux-positif V3) / seuil PROVISOIRE EMP-16 / book-scoped — logué, ne bloque pas"
+    },
+    {
+      "decisionId": "auth_45e606fd2a09",
+      "chapter": 46,
+      "enforcement": "CONFIRMATION",
+      "checker": null,
+      "reason": "constat d'auteur — non gateable sans juge sémantique"
+    },
+    {
+      "decisionId": "auth_4a04827cf7ac",
+      "chapter": 47,
+      "enforcement": "CONFIRMATION",
+      "checker": null,
+      "reason": "constat d'auteur — non gateable sans juge sémantique"
+    },
+    {
+      "decisionId": "auth_56f264e22a33",
+      "chapter": null,
+      "enforcement": "ENFORCEABLE",
+      "checker": "DRAMATIC_VITALITY",
+      "reason": "zéro ventre mou = chapitre objectivement mort mesurable"
+    },
+    {
+      "decisionId": "auth_6a8d0cddbcd3",
+      "chapter": 50,
+      "enforcement": "ADVISORY",
+      "checker": null,
+      "reason": "identité (co-occurrence≠coréférence, faux-positif V3) / seuil PROVISOIRE EMP-16 / book-scoped — logué, ne bloque pas"
+    },
+    {
+      "decisionId": "auth_7f595c596ee1",
+      "chapter": 25,
+      "enforcement": "ADVISORY",
+      "checker": null,
+      "reason": "identité (co-occurrence≠coréférence, faux-positif V3) / seuil PROVISOIRE EMP-16 / book-scoped — logué, ne bloque pas"
+    },
+    {
+      "decisionId": "auth_a3c910854712",
+      "chapter": 3,
+      "enforcement": "ADVISORY",
+      "checker": null,
+      "reason": "règle non reconnue → ADVISORY par défaut (on ne gate jamais l'inconnu)"
+    },
+    {
+      "decisionId": "auth_c6ccb116a2f8",
+      "chapter": 12,
+      "enforcement": "ADVISORY",
+      "checker": null,
+      "reason": "règle non reconnue → ADVISORY par défaut (on ne gate jamais l'inconnu)"
+    },
+    {
+      "decisionId": "auth_e7ff1fb178b8",
+      "chapter": 16,
+      "enforcement": "PROCESS",
+      "checker": null,
+      "reason": "règle de PROCESSUS (workflow), pas une propriété du manuscrit"
+    },
+    {
+      "decisionId": "auth_ed57ebb30170",
+      "chapter": 2,
+      "enforcement": "ADVISORY",
+      "checker": null,
+      "reason": "règle non reconnue → ADVISORY par défaut (on ne gate jamais l'inconnu)"
+    }
+  ],
+  "enforceable": [
+    "auth_56f264e22a33:DRAMATIC_VITALITY"
+  ],
+  "advisories": [
+    "auth_09d5e1b25688:ADVISORY",
+    "auth_1fa74ba61904:ADVISORY",
+    "auth_203ff457fd51:ADVISORY",
+    "auth_23ba9437b3d6:ADVISORY",
+    "auth_2ff3a7c989f7:ADVISORY",
+    "auth_45e606fd2a09:CONFIRMATION",
+    "auth_4a04827cf7ac:CONFIRMATION",
+    "auth_6a8d0cddbcd3:ADVISORY",
+    "auth_7f595c596ee1:ADVISORY",
+    "auth_a3c910854712:ADVISORY",
+    "auth_c6ccb116a2f8:ADVISORY",
+    "auth_e7ff1fb178b8:PROCESS",
+    "auth_ed57ebb30170:ADVISORY"
+  ],
+  "violations": [],
+  "passed": true,
+  "reading": "V3 PASSE les règles ENFORCEABLE — cohérent avec la relecture humaine (S7 « zéro butée »). Gate non-faux-positif sur le livre réel."
+}

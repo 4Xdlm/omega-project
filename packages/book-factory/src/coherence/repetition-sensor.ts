@@ -178,14 +178,17 @@ export function patchAdmissible(
   const a = measureRepetition(after, config);
   const reasons: string[] = [];
 
+  // COMPTES (total par famille), pas densités : invariants à la longueur du texte
+  // (leçon dry-run TS — raccourcir un passage gonflait les densités → faux FAMILY_ROSE).
   const byFam = (prof: RepetitionProfile, fam: TicFamily): number =>
-    prof.families.find((p) => p.family === fam)?.maxDensityPer1000w ?? 0;
+    prof.families.find((p) => p.family === fam)?.total ?? 0;
 
   for (const fam of new Set([...b.families, ...a.families].map((p) => p.family))) {
-    if (byFam(a, fam) > byFam(b, fam) + 1e-9) reasons.push(`FAMILY_ROSE:${fam} ${byFam(b, fam).toFixed(3)}→${byFam(a, fam).toFixed(3)}`);
+    if (byFam(a, fam) > byFam(b, fam)) reasons.push(`FAMILY_ROSE:${fam} ${byFam(b, fam)}→${byFam(a, fam)}`);
   }
-  if (byFam(a, targetFamily) >= byFam(b, targetFamily) - 1e-9) reasons.push(`TARGET_NOT_REDUCED:${targetFamily}`);
+  if (byFam(a, targetFamily) >= byFam(b, targetFamily)) reasons.push(`TARGET_NOT_REDUCED:${targetFamily}`);
   if (a.exactRepeatCount > b.exactRepeatCount) reasons.push(`EXACT_REPEATS_ROSE:${b.exactRepeatCount}→${a.exactRepeatCount}`);
 
-  return { admissible: reasons.length === 0, reasons, deltaScore: a.score - b.score };
+  const tot = (p: RepetitionProfile): number => p.families.reduce((s, f) => s + f.total, 0) + p.exactRepeatCount;
+  return { admissible: reasons.length === 0, reasons, deltaScore: tot(a) - tot(b) };
 }

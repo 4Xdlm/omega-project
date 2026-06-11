@@ -138,4 +138,20 @@ describe('TIC_WEAVER — tribunal réutilisé du seam-surgeon', () => {
     expect(result.verdict).toBe('ESCALATE_ANCHOR');
     expect(out).toBe(text);
   });
+
+  it('INV-TW-02 ANTI-RÉGRESSION — PASS si le tic CIBLÉ baisse, même si un AUTRE tic du lexique reste dominant', () => {
+    // « le gardien » ×3 domine ; on cible « ne cilla pas » ×1. L'ancien bug
+    // (max-sur-lexique) aurait rejeté car le max ne bougeait pas. Le fix doit APPLIQUER.
+    const lex = ['ne cilla pas', 'le gardien'] as const;
+    const text = 'Le gardien veillait. Le gardien dormait. Le gardien partit. Yvon ne cilla pas devant lui.';
+    const o = occ({
+      tic: 'ne cilla pas',
+      anchorSentence: 'Yvon ne cilla pas devant lui.',
+      proposedReplacement: 'Yvon serra le poing.',
+    });
+    const { text: out, result } = operateTic(text, o, world(1), lex);
+    expect(result.verdict).toBe('APPLIED');
+    expect(out).not.toContain('ne cilla pas');
+    expect((out.match(/le gardien/giu) ?? []).length).toBe(3); // l'autre tic n'est PAS touché
+  });
 });

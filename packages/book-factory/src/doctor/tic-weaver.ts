@@ -152,10 +152,21 @@ export function operateTic(
   // Splice ciblé sur la PHRASE-TIC (≠ fenêtre gauche du seam).
   const patched = left + occ.proposedReplacement + right;
 
-  // INV-TW-02 : re-scan — la densité de tic doit BAISSER (sinon REVERT).
-  const after = maxTicDensityPer1000w(patched, ticLexicon);
-  if (after >= before) {
-    return { text: chapterText, result: mk('ESCALATE_RESCAN', [`TIC_NOT_REDUCED before=${before.toFixed(3)} after=${after.toFixed(3)}`], after) };
+  // INV-TW-02 : re-scan en COMPTES (invariants à la longueur, leçon dry-run TS) —
+  // le cliché CIBLÉ `occ.tic` doit reculer (compte strict) ET aucun tic du
+  // lexique ne doit voir son COMPTE augmenter (anti nouvelle occurrence). On NE
+  // compare PAS les densités /1000 mots : raccourcir le texte les gonfle à tort.
+  const after = maxTicDensityPer1000w(patched, ticLexicon); // reporting uniquement
+  const count = (t: string, pat: string): number => (t.match(new RegExp(escapeRe(pat), 'giu')) ?? []).length;
+  const ticBefore = count(chapterText, occ.tic);
+  const ticAfter = count(patched, occ.tic);
+  if (ticAfter >= ticBefore) {
+    return { text: chapterText, result: mk('ESCALATE_RESCAN', [`TARGET_TIC_NOT_REDUCED "${occ.tic}" ${ticBefore}→${ticAfter}`], after) };
+  }
+  for (const lx of ticLexicon) {
+    if (count(patched, lx) > count(chapterText, lx)) {
+      return { text: chapterText, result: mk('ESCALATE_RESCAN', [`NEW_TIC_OCCURRENCE "${lx}"`], after) };
+    }
   }
 
   return { text: patched, result: mk('APPLIED', [`SEAM_GUARDS_PASSED:${occ.familyTags.join('+') || 'none'}`], after) };

@@ -40,6 +40,16 @@ for (const p of ap10) jobs.push({
   occ: { ticId: p.ticId, chapter: p.chapter, tic: 'fit un pas', anchorSentence: p.anchorSentence, proposedReplacement: p.proposedReplacement, familyTags: p.familyTags ?? [] },
   lex: PHRASE_LEX, family: 'PHRASE',
 });
+// AP-11 extension : silence (PHRASE) + simile (SATURATION « couperet » / PHRASE « coup de feu »).
+const ap11 = j('AP11_PROPOSED_PATCHES.json').patches as Array<{ ticId: string; chapter: number; family: string; anchorSentence: string; proposedReplacement: string; familyTags: string[] }>;
+for (const p of ap11) {
+  let tic = 'le silence qui suivit'; let lex: readonly string[] = ['le silence qui suivit']; let family: TicFamily = 'PHRASE';
+  if (p.family === 'SIMILE') {
+    if (/comme un couperet/iu.test(p.anchorSentence)) { tic = 'comme un couperet'; lex = ['comme un couperet']; family = 'SATURATION'; }
+    else { tic = 'comme un coup de feu'; lex = ['comme un coup de feu']; family = 'PHRASE'; }
+  }
+  jobs.push({ occ: { ticId: p.ticId, chapter: p.chapter, tic, anchorSentence: p.anchorSentence, proposedReplacement: p.proposedReplacement, familyTags: p.familyTags ?? [] }, lex, family });
+}
 
 let applied = 0;
 const esc: Record<string, number> = {};
@@ -57,7 +67,7 @@ for (const job of jobs) {
 const before = measureRepetition(CANON);
 const a = measureRepetition(text);
 console.log('=== WEAVER DRY-RUN RÉEL AP-9 + AP-10 (guardPatch + règle unifiée + re-scan ciblé) ===');
-console.log(`jobs: ${jobs.length} (AP-9 ${ap9.length} + AP-10 ${ap10.length})`);
+console.log(`jobs: ${jobs.length} (AP-9 ${ap9.length} + AP-10 ${ap10.length} + AP-11 ${ap11.length})`);
 console.log(`APPLIQUÉS (2 gates) : ${applied}`);
 console.log('ESCALATE/REJET :', esc);
 // Le verdict « aucun axe ne monte » se juge en COMPTES (ce qu'on contrôle : on

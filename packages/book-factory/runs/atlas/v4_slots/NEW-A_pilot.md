@@ -1,0 +1,29 @@
+Le vent avait tourné. Il venait maintenant du large, chargé d’embruns et d’une humidité qui s’insinuait sous le col du manteau. Garcia marcha longtemps sur le sentier côtier, là où la terre se fragmente en plaques de schiste gris et où l'herbe, rase et jaunie, s'accroche aux parois rocheuses pour ne pas être emportée.
+
+Il gardait les mains enfoncées dans ses poches. Dans la poche droite, le pli de papier froissé contre sa cuisse semblait brûler. Cette phrase — *le prix du phare est devenu trop lourd* — n’était pas une confession, c’était une énigme posée là pour humilier celui qui tenterait de la résoudre. Il s'arrêta un instant pour regarder l'horizon. L'Atlantique était d'un bleu acier, presque noir, strié d'écume blanche là où les courants se heurtaient aux récifs. C’était une beauté brute, sans concession, qui ne demandait rien et ne donnait rien.
+
+Il reprit sa marche, le pas lent, régulier. Garcia aimait ces moments de vide. Pour lui, l'enquête ne commençait pas dans les dossiers ou lors des interrogatoires, mais ici, dans cette phase d'absorption. Il s'agissait de laisser les faits décanter, comme on laisse reposer un sediment au fond d'un verre. Dubois était mort. Un gardien de phare, un homme dont la vie entière avait été rythmée par la rotation d'une lentille et le cycle des marées. On ne tue pas un tel homme sans une raison profonde, ancrée dans le sol ou dans le passé.
+
+Il observa Ker-Morvan depuis le haut de la falaise. Le village s'agglutinait au creux d'un vallon, un amas de maisons en granit aux toits d'ardoise sombre, serrées les unes contre les autres comme pour se protéger d'un ennemi invisible. De là-haut, on ne voyait pas les visages, seulement les cheminées qui fumaient avec une mollesse monotone. C’était un lieu clos, malgré l'ouverture sur l'océan. Un endroit où les secrets s'accumulaient comme la mousse sur les murets de pierre sèche.
+
+Il sentit le froid pincer ses joues. L'air avait un goût d'iode et de sel. Il se souvint du regard des villageois lorsqu'il était descendu vers le phare : des yeux fixes, des bouches closes, une politesse glaciale qui servait de rempart. Cette hostilité n'était pas bruyante ; elle était feutrée, presque courtoise. C'était le silence des gens qui savent et qui attendent que l'étranger s'épuise ou parte.
+
+Il s'assit sur un bloc de granit poli par les siècles. Il ne sortit pas la lettre. Il n'en avait plus besoin pour l'instant ; les mots étaient gravés dans sa mémoire. Il se concentra sur le rythme de sa propre respiration, sur le bruit sourd du ressac en contrebas. 
+
+Sa méthode était simple : il cherchait la faille dans la cohérence. Tout homme, même le plus prudent, laisse une trace, un décalage entre ce qu'il dit et ce qu'il est. À Ker-Morvan, le décalage était collectif. Le village entier semblait respirer à l'unisson, comme un seul organisme protecteur. On ne protégeait pas forcément le meurtrier, pensait-il, on protégeait peut-être l'ordre des choses. L'équilibre fragile d'une communauté isolée où chaque famille possède sa part d'ombre et où Dubois était sans doute le dépositaire d'un poids trop grand pour un seul homme.
+
+Il resta ainsi, immobile, pendant une demi-heure. Le ciel vira au mauve, puis au gris perle. Au loin, sur le chemin qui redescendait vers le port, il distingua une silhouette. Un homme, sans doute, marchant avec l'assurance de celui qui possède le terrain. La figure était minuscule, un point noir sur fond de roche, mais Garcia sentit l'effet de surveillance. Il n'était pas seul dans sa solitude ; il était observé. 
+
+C’était une sensation familière. L'inspecteur savait que l'isolement était une arme à double tranchant. Il lui permettait de réfléchir sans interférence, mais il le rendait aussi vulnérable, exposé comme une cible sur un champ blanc.
+
+Il se leva et brossa la poussière de son pantalon. Le vent s'était calmé, laissant place à une atmosphère pesante, presque cotonneuse. L'odeur d'une tourbe brûlée monta soudain jusqu'à lui, portée par une brise légère. C'était l'odeur des foyers, du retour au chaud, du repli sur soi. 
+
+Il regarda une dernière fois la tour du phare. Elle se dressait, solitaire et impassible, dominant le chaos des vagues. Dubois y avait vécu, y avait veillé. Qu'avait-il vu depuis ce balcon de pierre ? Quelles lumières avait-il aperçues dans la nuit, là où personne n'était censé naviguer ? 
+
+Garcia ne se pressait pas. Il savait que le temps jouait pour lui autant que pour les autres. Le doute était son outil principal ; il le cultivait, l'entretient, le faisait croître jusqu'à ce qu'il devienne insupportable pour ceux qui voulaient s'en débarrasser. 
+
+Il entama la descente vers le village. Le sentier était glissant, les pierres mouillées brillaient sous la lumière déclinante. Chaque pas le ramenait vers cette chape de plomb, vers ces visages fermés et ces portes closes. Il sentait l'étau se resserrer lentement, non pas par des gestes brusques, mais par une pression constante, invisible, comme celle de la marée qui monte et recouvre inexorablement le sable.
+
+Il ne craignait pas le silence du village. Au contraire, il s'en nourrissait. Le silence était l'espace où les mensonges prenaient forme. Il suffisait d'attendre que l'un des maillons cède, qu'une parole s'échappe, qu'un regard trahisse une peur. 
+
+En atteignant le bas de la côte, il vit les premières lampes s'allumer dans les maisons. De petites lumières jaunes, fragiles, qui tentaient de repousser l'obscurité envahissante de la Bretagne. Garcia redressa son col et s'engagea sur le chemin goudronné, vers le centre du village, le cœur calme et l'esprit froid.

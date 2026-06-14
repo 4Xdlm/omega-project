@@ -1,0 +1,17 @@
+La pluie avait cessé, laissant place à une brume grasse qui collait aux vitres et effaçait les contours du port. Garcia resta assis dans sa voiture, le moteur tournant au ralenti. Le ronronnement mécanique était le seul point d'ancrage dans ce paysage délavé. Il regarda le rétroviseur : le village de Ker-Morvan s'enfonçait dans un gris monochrome, une tache de pierre et d'ardoise accrochée à la falaise.
+
+Il n'y avait eu aucune arrestation spectaculaire. Les dossiers étaient bouclés, les rapports rédigés avec une précision administrative qui gommait l'horreur. Mais Garcia savait que le papier ne guérissait rien. Il avait obtenu des noms, quelques aveux contrariés, et la preuve technique du détournement du *Triton*. Pourtant, en regardant le village s'éloigner, il sentait que la victoire était une coquille vide. 
+
+Yvon Squarcioni resterait sans doute là-bas encore longtemps. Le patriarche avait des alliés, des réseaux qui s'étendaient bien au-delà des limites de la commune. La justice aurait prélevé sa part, certes, mais elle ne déracinerait pas l'ordre établi. On condamnerait quelques hommes pour des faits mineurs, on classerait le reste sous le motif du manque de preuves matérielles après vingt ans de silence. Le butin, dispersé depuis 1998, s'était déjà transformé en maisons en pierre, en terrains agricoles et en comptes opaques. On ne restitue pas l'argent qui a servi à bâtir un village.
+
+Il pensa à Léna Marchetti. Il l'avait vue une dernière fois sur le quai, immobile, les yeux fixés sur l'horizon où la mer rejoignait le ciel dans une nuance de plomb. Elle n'avait rien dit. Elle portait désormais seule le poids d'une vérité qui ne libérait personne. Elle était redevenue une étrangère chez elle, une pièce dissonante dans l'harmonie du mensonge collectif.
+
+Garcia passa la première et s'engagea sur la route départementale. Le bitume était luisant, strié de flaques d'eau sombre. À chaque tournant, il avait l'impression de laisser derrière lui un cimetière invisible. Dubois, le gardien du phare, n'était qu'un nom sur une plaque, un homme tué pour avoir trop noté dans ses registres. Sa mort n'avait pas provoqué l'effondrement du système ; elle en avait simplement fermé la boucle.
+
+Il sentit l'odeur du sel et de l'iode s'estomper à mesure qu'il s'éloignait de la côte. C'était une odeur qui lui collait à la peau, une empreinte tenace qu'aucun savon ne pourrait effacer totalement. Il avait cherché la vérité avec l'obstination d'un homme qui croit que la lumière dissipe les ombres. Il découvrait maintenant que certaines zones restent obscures, même en plein jour, parce que les habitants ont appris à vivre dans le noir.
+
+Le prix payé n'était pas celui des tribunaux. C'était l'usure. L'épuisement d'avoir lutté contre un courant trop fort. En regardant le paysage défiler, Garcia se demanda ce qu'il restait de lui-même après ce passage à Ker-Morvan. Une fatigue sourde, une sorte de cendres froides dans la poitrine.
+
+Il ne reviendrait pas. Il n'y avait plus rien à chercher. Le secret du *Triton* était désormais public, mais il était devenu insignifiant. Le village continuerait de respirer au rythme des marées, les hommes continueraient de se saluer avec prudence sur le port, et le silence reprendrait ses droits, plus dense encore, car désormais conscient de lui-même.
+
+Il accéléra. Derrière lui, la brume avait fini d'avaler Ker-Morvan, comme si la terre avait décidé de reprendre ce qu'elle ne pouvait pas purifier.

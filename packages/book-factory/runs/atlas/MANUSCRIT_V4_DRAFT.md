@@ -200,45 +200,43 @@ Il jeta un coup d'œil vers la tour du phare, cette colonne de pierre qui domina
 
 ## Chapitre 3
 
-Le vent avait tourné. Il venait maintenant du large, chargé d’un sel corrosif qui collait aux lèvres et piquait les yeux. Garcia quitta le village par le chemin bas, celui qui longe la falaise et s'enfonce dans le granit gris. Ses pas étaient lourds, rythmés par le craquement du gravier sous ses semelles. Il ne regardait pas en arrière. Il n’en avait pas besoin ; il sentait Ker-Morvan derrière lui, comme une masse compacte, un bloc de pierre et de secrets qui refusait de s'ouvrir.
+Le vent s'était levé, un souffle humide et salé qui s'engouffrait dans le col du pardessus. Garcia quitta la mairie sans se retourner, laissant derrière lui l'odeur de cire et le regard imperturbable de Squarcioni. Il ne cherchait pas à fuir, mais à sortir de ce huis clos où chaque mot pesait son poids d'or et où les silences étaient orchestrés comme une partition.
 
-C’était un village de façade. De l'extérieur, on voyait les façades blanchies à la chaux, les géraniums flétris dans des pots en terre cuite et le clocher pointu qui semblait vouloir percer le ciel bas. Mais Garcia avait appris à lire les interstices. Il y avait dans l'attitude des gens une politesse trop appliquée, un retrait systématique dès qu'il s'approchait. Un accueil poli, certes, mais vide. Une hostilité feutrée, comme on en trouve dans les lieux où l'on a trop longtemps appris à se taire pour survivre.
+Il marcha d'abord vers le port, suivant la ligne étroite du quai. Sous ses semelles, le granit était glissant, recouvert d'une fine pellicule d'algues brunes. Le village de Ker-Morvan s'étalait là, agrippé à la roche, un amas de maisons aux façades délavées, grises comme le ciel qui s'affaissait sur l'Atlantique. C'était un lieu où l'on ne parlait pas pour ne rien dire, où chaque geste était codifié, où l'étranger était toléré tant qu'il restait à sa place, dans la zone grise de l'administration et des procédures.
 
-Il s'arrêta au bord du précipice. En bas, l'Atlantique s'écrasait contre les récifs avec une violence sourde. L'écume blanche bouillonnait, dévorant le pied des rochers. Le bruit était constant, un grondement qui semblait venir des entrailles de la terre. Garcia sortit un mouchoir de sa poche et essuya son visage. L'air était glacial, une humidité pénétrante qui s'insinuait sous le manteau et refroidissait les os.
+Garcia s'arrêta au bord de la jetée. Il sortit un carnet de sa poche, mais ne nota rien. Il regarda simplement l'eau, d'un vert opaque, hachée par des crêtes d'écume blanche. Le corps de Dubois, le gardien du phare, avait été retrouvé dans une posture qui ne trompait pas : celle d'un homme surpris en plein inventaire. Un homme qui comptait, peut-être, et qui s'était rendu compte que le sol se dérobait sous lui.
 
-Il repensa à Dubois. Le gardien du phare n’était pas un homme aimé, mais il était respecté pour sa solitude. Un homme qui vit seul dans une tour de pierre finit toujours par devenir l'oreille du village, celui que l'on ignore tout en craignant son regard. Dubois avait vu passer les bateaux, les cargaisons nocturnes, les hommes qui débarquaient à l'heure où le monde dort. Il avait sans doute noté des dates, des noms, des chiffres. Un comptable de l'ombre.
+L'inspecteur sentait l'hostilité du village, non pas comme une agression frontale, mais comme une pression constante, une sorte de climat. C'était dans la façon dont les volets se fermaient à son passage, dans le regard fuyant d'une femme qui vidait ses bacs à fleurs, dans l'absence soudaine de bruit dès qu'il tournait au coin d'une rue. Ker-Morvan était une forteresse sans murs, protégée par un pacte de silence dont il ne possédait pas encore la clé.
 
-Garcia ferma les yeux un instant. Sa méthode était simple : il ne cherchait pas la preuve éclatante, celle qui saute aux yeux et que l'on peut nier. Il cherchait la faille dans la routine. L'absence d'un geste habituel, le mot de trop, le regard qui s'écarte trop vite. À Ker-Morvan, tout semblait figé depuis 1998. Le naufrage du Triton n'était pas un événement passé, c'était l'axe autour duquel gravitait toute la vie locale. Un traumatisme collectif utilisé comme un bouclier.
+Il reprit sa marche et s'engagea sur le sentier côtier qui remontait vers le phare. Le chemin était étroit, bordé de landes roussies et de genêts tordus par les embruns. Ses chaussures s'enfonçaient dans la tourbe spongieuse. À chaque pas, il repensait à cette phrase : *Le prix du phare est devenu trop lourd pour un seul homme.* 
 
-Il reprit sa marche, s'enfonçant vers la pointe. La végétation était rase, composée de bruyères et d'ajoncs qui pliaient sous les rafales. Le sol était spongieux par endroits, saturé d'eau. Il marchait lentement, laissant son esprit vagabonder. 
+Le mot « prix » était le pivot. Dans un village comme celui-ci, où la pêche déclinait et où les jeunes partaient vers les villes, l'argent était une notion discrète, presque taboue, mais omniprésente. On ne parlait pas de fortune, on parlait de « s'en sortir ». Et Dubois, le solitaire du phare, s'était-il trop bien sorti ? Ou avait-il simplement tenu les comptes des autres, devenant ainsi le banquier d'un secret collectif ?
 
-Le prix du phare. Cette phrase revenait sans cesse. Trop lourd pour un seul homme. On ne parle pas de poids physique quand on écrit cela. On parle de fardeau. De culpabilité. Ou peut-être d'une somme d'argent si importante qu'elle devient une chaîne. Si Dubois tenait des comptes, il ne tenait pas seulement des registres financiers ; il tenait les gens par la gorge. Un chantage prolongé sur vingt ans pouvait transformer un homme tranquille en cible.
+Garcia s'arrêta pour reprendre son souffle. Il s'appuya contre un rocher moussu et ferma les yeux. Il entendait le fracas sourd des vagues contre la base de la falaise, un bruit tellurique qui semblait venir des entrailles de la terre. C'était là que le *Triton* avait sombré, vingt ans plus tôt. Un naufrage propre, sans survivants officiels, une tragédie maritime classée. Mais dans l'esprit d'un enquêteur, rien n'est jamais tout à fait propre. Il y a toujours un résidu, une trace de graisse sur un gant blanc, un détail qui ne colle pas avec la version officielle.
 
-Il s'arrêta pour ramasser un galet noir, parfaitement lisse, et le fit rouler entre ses doigts. C'était un geste machinal, une façon d'occuper son esprit pour ne pas sombrer dans l'impatience. L'impatience était l'ennemie de l'enquêteur. Elle poussait à poser les questions trop tôt, à forcer les portes avant qu'elles ne soient prêtes à s'ouvrir.
+Il rouvrit les yeux et observa le phare au loin. La tour se dressait, impassible, comme un gnomon géant marquant l'heure d'un crime ancien. Il imaginait Dubois là-haut, dans sa solitude choisie, entouré de ses registres et de ses calculs. Un homme qui voit tout depuis son poste d'observation, qui surveille les entrées et les sorties du port, les cargaisons nocturnes, les rendez-vous clandestins sur la grève. Dubois n'était pas seulement un gardien de lumière ; il était le greffier des ombres de Ker-Morvan.
 
-Au loin, sur la crête, une silhouette se dessina. Une forme sombre, immobile, qui le regardait. Garcia ne fit aucun signe de la main. Il resta immobile, observant l'autre. La silhouette ne bougeait pas non plus. Elle semblait faire partie du paysage, comme un rocher ou un tronc d'arbre calciné. Puis, avec une lenteur calculée, l'individu tourna le dos et disparut derrière un pli du terrain.
+La pensée le fit frissonner. Si Dubois possédait des preuves, si le naufrage du *Triton* n'avait été qu'une mise en scène pour détourner une cargaison, alors tout le village était potentiellement complice. Le maire, les notables, peut-être même le vieux Gaspard avec ses tremblements et ses peurs. Un butin partagé crée des liens plus solides que le sang. C'était un étau qui se refermait lentement sur lui, non pas par la violence, mais par l'isolement.
 
-Ce n'était pas Gaspard. Le vieux du port avait une démarche hésitante, un corps brisé par les années et l'humidité. Ici, la silhouette était droite, stable. 
+Il reprit sa progression, montant vers les hauteurs. Le vent redoubla d'intensité, sifflet aigu dans les oreilles. Il aperçut alors une silhouette, tout en haut de la crête, se découpant contre le gris du ciel. Une forme mince, immobile, qui semblait observer sa remontée. Garcia ralentit, le corps tendu. Il ne fit pas signe de la main, n'appela pas. Il resta là, figé dans l'herbe rase, observant l'inconnu.
 
-Garcia ressentit une légère pression dans sa poitrine. Ce n'était pas de la peur, mais une vigilance accrue. Il se sentait observé, non pas comme un intrus, mais comme un élément perturbateur qu'on surveillait pour savoir s'il allait enfin craquer ou s'en aller. Le village l'avait adopté provisoirement, comme on adopte un mal nécessaire, mais la patience des gens de mer était courte quand le vent tournait.
+La silhouette ne bougeait pas. Elle ne semblait ni menaçante ni accueillante, juste présente. Une sentinelle. Après quelques secondes qui lui parurent des heures, la forme pivota et disparut derrière un affleurement rocheux avec une fluidité presque surnaturelle. 
 
-Il bifurqua vers un sentier plus étroit qui menait à une petite crique isolée. Là, le sable était gris et jonché de varech putré. L'odeur d'iode et de décomposition était forte. Il s'assit sur un tronc flotté, le bois blanchi par le sel et poli par les marées. 
+Garcia resta immobile, le cœur battant avec une régularité sourde. Qui pouvait bien errer sur ces hauteurs à cette heure ? Un villageois ? Ou quelqu'un que l'on croyait disparu ? L'idée de Marc, le revenant dont on murmurait l'existence dans les tavernes, effleura son esprit. Il balaya l'idée d'un revers de main mental. On ne revient pas des profondeurs de l'Atlantique. Pourtant, le doute était là, niché comme un parasite dans son raisonnement.
 
-Il réfléchissait à Marc. Le revenant. Un homme mort dans un naufrage ne revient pas sans raison, surtout après tant d'années. Si Marc était vivant, c'est que le Triton n'avait pas été l'unique victime de cette nuit-là. Ou alors, le naufrage avait été une mise en scène. Détourner une cargaison, simuler une catastrophe, partager le butin et acheter le silence des survivants. Un plan simple, efficace, à condition que personne ne garde de traces écrites.
+Il descendit lentement vers une petite crique abritée, où le sable était noir et compact. Il s'accroupit pour ramasser un galet poli par l'eau. Son esprit travaillait désormais avec une méthode froide, analytique. Il ne s'agissait plus de chercher un meurtrier, mais de dénouer un nœud gordien. Le meurtre de Dubois n'était que la manifestation physique d'une tension devenue insupportable. Quelqu'un avait eu peur. Quelqu'un avait paniqué face à l'idée que le registre s'ouvre et que les noms soient lus à haute voix.
 
-Dubois était la trace. Le gardien du phare était l'archive vivante d'un crime collectif.
+Il resta un long moment ainsi, assis sur le sable froid, entouré par le cri des goélands qui tournaient en cercles au-dessus de lui. Le paysage était d'une beauté cruelle, dépouillée de tout artifice. Ici, la nature ne pardonnait rien et n'effaçait rien ; elle recouvrait simplement les choses de sel et de mousse.
 
-Garcia regarda l'horizon. La mer s'était calmée, mais elle restait d'un gris métallique, opaque. Il se demanda combien de personnes dans ce village dormaient mal le soir. Combien d'entre elles surveillaient leur porte, craignant qu'un papier ne ressurgisse des profondeurs ou d'une vieille malle poussiéreuse.
+Il se releva et épousseta son pantalon. Il sentait l'épuisement monter, une fatigue nerveuse qui lui pesait sur les épaules. Mais c'était l'épuisement du chasseur qui a enfin senti la piste. Le village était une boîte fermée, et il venait d'en trouver la fente.
 
-Il se leva et secoua son manteau. Le froid s'intensifiait, l'obscurité commençait à grignoter les contours du paysage. Il devait rentrer. Non pas pour interroger qui que ce soit, mais pour observer. Il voulait voir qui, dans le village, sortirait de chez soi pour vérifier s'il était bien rentré.
+Il regarda une dernière fois vers la mairie, minuscule point blanc dans la vallée. Squarcioni y attendait sans doute que l'inspecteur s'épuise, qu'il se lasse de ce climat hostile et reparte vers la ville avec un rapport mentionnant un accident domestique ou un suicide mélancolique. Mais Garcia savait que le silence était une forme de confession. Plus on insistait pour ne rien dire, plus on confirmait l'existence d'un secret.
 
-En remontant vers Ker-Morvan, il nota la disposition des maisons, l'angle des fenêtres qui donnaient sur la route. Tout était conçu pour voir sans être vu. Le village était un panoptique naturel où chaque habitant était à la fois gardien et prisonnier. 
+Il entama le chemin du retour, marchant d'un pas lent et régulier. Il ne craignait pas l'attaque physique ; il redoutait l'effacement. L'idée que Ker-Morvan puisse l'absorber, le transformer en un autre étranger égaré dans les brumes de la Bretagne. 
 
-Il s'arrêta une dernière fois devant l'entrée du village. Les lumières s'allumaient une à une derrière les rideaux épais. L'atmosphère était lourde, non pas de tension, mais d'une attente résignée. Il sentait que l'étau se refermait, non pas sur lui, mais sur ceux qui avaient cru pouvoir enterrer le passé sous le sable et l'écume.
+En franchissant le seuil du village, il croisa Léna Marchetti. Elle ne dit rien, s'écarta simplement pour lui laisser le passage, le regard bas. Garcia nota la tension de ses épaules, l'infime tremblement de ses mains. Elle était le maillon faible, celle dont la conscience était devenue un fardeau trop lourd à porter seule.
 
-Il avait le temps. Le doute était son outil le plus précieux. Il allait laisser le silence du village travailler pour lui. Car dans un lieu où tout le monde se tait, le moindre craquement devient un aveu. 
-
-Garcia s'engagea sur la rue principale. Ses pas résonnaient sur le pavé humide. Il ne cherchait plus le secret ; il attendait que le secret, lassé de rester caché, vienne frapper à sa porte.
+Il passa devant elle sans un mot, sentant l'odeur du feu de tourbe qui s'échappait des cheminées. Le soir tombait, enveloppant Ker-Morvan d'un voile bleuté. L'inspecteur rentra dans sa chambre d'hôtel, ferma la porte à clé et s'assit dans le noir, écoutant le vent cogner contre les vitres. Il était seul, mais pour la première fois depuis son arrivée, il avait l'impression de ne plus être totalement aveugle.
 
 ## Chapitre 4
 
@@ -1153,37 +1151,37 @@ Elle s'approcha de la table, observant le corps avec une intensité nouvelle. El
 
 ## Chapitre 12
 
-Yvon Squarcioni était seul dans sa chambre, une pièce vaste et froide où l'air sentait la cire et la poussière ancienne. Il n'avait pas allumé la lampe. Seule la lumière blafarde de la lune filtrait à travers les rideaux de velours sombre, découpant des formes géométriques sur le parquet ciré. 
+Yvon Squarcioni monta l’escalier avec une lenteur calculée, chaque marche en chêne massif renvoyant un gémissement sourd sous son poids. Dans le hall, l’obscurité était dense, seulement troublée par la lueur blafarde d'une veilleuse qui jetait des ombres longilignes sur les boiseries. Il s'arrêta un instant pour reprendre son souffle. Sa poitrine sifflait, un bruit sec, semblable au froissement d'un vieux parchemin. À soixante-dix ans, le corps ne ment plus ; il devient l'archive exacte de toutes les fatigues et de toutes les trahisons.
 
-Il était assis sur le bord du lit, le dos voûté, les épaules tombantes. Ses mains, posées à plat sur ses cuisses, tremblaient imperceptiblement. Ce n'était pas le tremblement de la peur, mais celui d'une machine trop longtemps sollicitée, un moteur usé par des années de tension invisible. Il sentait le poids de son propre corps, une pesanteur insupportable qui semblait l'enfoncer dans le matelas. Chaque articulation le lançait, chaque muscle était noué par une raideur sourde.
+Il entra dans sa chambre sans allumer la lumière principale. Il préférait ainsi, dans ce demi-jour où les contours des meubles s'estompent pour devenir des silhouettes menaçantes. Il retira ses chaussures avec soin, les posa parallèlement l'une à l'autre sur le tapis d'Aubusson élimé. Ce geste, répété chaque soir depuis trois décennies, était la seule ancre qui le retenait encore à une forme de normalité. 
 
-Il avait soixante-dix ans, et pour la première fois, il se sentait vieux. Pas la vieillesse digne du patriarche, celle qu'il affichait au conseil municipal ou lors des fêtes du village, mais une décrépitude brute, organique. Il était épuisé. Une fatigue qui ne s'en allait pas avec le sommeil, car le sommeil était devenu un champ de mines.
+Il s'assit sur le bord du lit. Le matelas s'affaissa légèrement. Il resta là, immobile, les mains posées à plat sur ses cuisses, observant le vide. Dans le silence de la maison, il entendait le vent s'engouffrer dans les interstices des volets clos, un sifflement intermittent qui rappelait le cri d'un animal blessé. C’était le bruit de Ker-Morvan. Un village qui dormait sur un mensonge, et lui, le gardien du secret, l'homme qui avait orchestré le silence pour que chacun puisse continuer à manger à sa faim.
 
-Il fixa le mur opposé. Dans l'obscurité, il croyait voir les visages. Pas des spectres, rien de tel, mais des souvenirs concrets : des regards évités, des poignées de mains trop fermes, des enveloppes glissées sous des tables. Trente ans. Trois décennies à maintenir un barrage contre la vérité. Il avait construit Ker-Morvan sur un mensonge, bétonné le silence avec l'argent du *Triton*, et il s'était persuadé que le temps effaçait tout.
+Il se leva pour s'approcher de la commode en acajou. Sur le plateau, une photographie en noir et blanc, protégée par un verre épais, montrait le port tel qu'il était avant les grands travaux. Il y avait là des visages effacés, des barques de bois, l'odeur imaginaire du goudron et du sel. Son regard s'attarda sur un point précis de l'image : la jetée où, vingt-cinq ans plus tôt, ils avaient attendu que la mer finisse son travail.
 
-Mais le temps ne fait rien d'autre que tasser la boue. 
+Soudain, le souvenir remonta, non pas comme une image, mais comme une sensation physique. Le froid. Un froid viscous, pénétrant, qui s'insinuait sous les vêtements et collait à la peau. Il se revoyait sur le quai, entouré des autres, lipids et nerveux. Ils avaient regardé l'horizon, là où le *Triton* était censé avoir sombré. Le ciel était d'un gris de plomb, sans nuances. Il se souvenait du poids du sac d'argent dans sa main, une lourdeur rassurante qui justifiait tout. On ne tue pas des hommes, on efface des erreurs. On ne crée pas un naufrage, on optimise un trajet.
 
-Le meurtre de Dubois avait rouvert une brèche. Squarcioni ferma les yeux. Il revit le visage du gardien, cet homme maigre et meticulieux qui avait tenu les comptes, qui avait noté chaque retard, chaque cargaison détournée, chaque complicité. Dubois n'était pas un complice, il était l'archiviste du crime. Le supprimer n'était pas un acte de cruauté, c'était une nécessité comptable. Pourtant, en éliminant le gardien, il avait brisé l'équilibre.
+C’était l’odeur de la marée basse qui lui revenait maintenant, cette senteur d'algues en décomposition et de vase froide. Il avait cru que le temps agirait comme un solvant, qu'il dissoudrait lentement les traces du crime jusqu'à ce qu'il ne reste plus qu'une légende locale, une tragédie maritime banale. Mais le silence n'est jamais vide ; il s'accumule, il s'épaissit, il finit par devenir un mur contre lequel on s'écrase.
 
-Un bruit sec retentit dans le couloir, peut-être le bois qui travaillait sous l'effet du froid breton. Squarcioni tressaillit. Son cœur cogna une fois, fort, contre ses côtes, un choc sourd qui lui monta jusqu'à la gorge. Il resta immobile, retenant sa respiration, écoutant le silence de la maison. 
+Il se déplaça vers la fenêtre et écarta légèrement le rideau de velours. Au loin, le phare continuait son balayage méthodique. Le faisceau blanc coupait l'obscurité, révélant un instant les rochers noirs, puis replongeait tout dans le noir. Dubois avait été là-haut. Dubois avait vu. Ou plutôt, Dubois avait noté. 
 
-C'était cela, sa vie désormais : l'attente d'un bruit. L'écoute permanente du moindre craquement. Il s'était entouré de loyautés achetées et de peurs partagées, mais dans cette chambre, il n'y avait plus personne pour le soutenir. Il était le sommet de la pyramide, et le sommet est l'endroit le plus exposé au vent.
+Yvon sentit une pointe de douleur aiguë lui traverser la tempe. L'insomnie était devenue sa compagne fidèle. Chaque nuit, il refaisait le calcul : combien d'années de tranquillité pour un cadavre ? Le prix semblait avoir été juste à l'époque. Aujourd'hui, le solde était négatif. Il se sentait vide, comme si l'argent et le pouvoir n'avaient fait que creuser un trou en lui, une cavité où ne logeait plus aucune émotion, seulement une vigilance fébrile.
 
-Il se leva avec effort. Ses genoux craquèrent. Il marcha lentement vers la fenêtre et écarta légèrement le rideau. Au loin, la silhouette du phare se dressait contre le ciel d'encre. La lanterne tournait, balayant la côte d'un faisceau régulier, froid, mécanique. Ce rayon de lumière semblait venir le chercher personnellement, comme un doigt accusateur qui passait sur son visage toutes les quelques secondes.
+Il s'approcha du guéridon où reposait un verre d'eau et un petit pilulier en plastique. Il prit son comprimé sans boire, laissant la poudre amère stagner sur sa langue. Il détestait cette dépendance chimique pour trouver le sommeil. Il se souvenait d'une époque où il s'endormait d'un trait, épuisé par le travail et la satisfaction du devoir accompli. Maintenant, dormir était un combat. Chaque fois qu'il fermait les yeux, il entendait le craquement du bois du *Triton* sous la pression des vagues, un bruit de rupture définitive.
 
-Il pensa à Marc. Le revenant. L'idée que l'homme puisse être encore en vie, quelque part, était une plaie ouverte. Un mort qui revient, c'est un dossier qu'on ne peut plus classer. Si Marc parlait, tout l'édifice s'effondrerait : les maisons rénovées, les comptes bancaires offshore, le prestige du nom des Squarcioni. Tout cela n'était que du sable.
+Il se demanda si Marc, ce revenant dont on murmurait le nom dans les tavernes, existait vraiment ou s'il n'était que la projection de sa propre culpabilité. Un homme mort ne revient pas. C’est une loi physique. Pourtant, l'idée qu'un survivage puisse errer sur les sentiers de Ker-Morvan, avec pour seul bagage la vérité, le faisait frissonner malgré la chaleur du chauffage central.
 
-Il s'appuya contre le rebord de la fenêtre, le front froid contre la vitre. Il sentit une goutte de sueur couler le long de sa tempe malgré la fraîcheur de la nuit. Son esprit tournait en boucle, cherchant une faille, un moyen de verrouiller définitivement la situation. Mais plus il réfléchissait, plus il sentait que les fils lui échappaient. Garcia était là, avec son obstination d'inspecteur, et Léna... cette fille avait le regard de son père. Un regard qui enregistrait tout.
+Il retourna s'allonger, mais ne retira pas sa chemise de nuit en soie. Il resta ainsi, le regard fixé au plafond où les ombres dansaient au rythme du vent. Il pensa à Léna. Cette fille avait le regard de son père, ce regard qui ne s'arrêtait pas à la surface des choses. Elle était l'élément instable, la faille dans l'édifice. Yvon savait que Garcia, cet inspecteur à la patience d'araignée, utiliserait cette faille pour entrer.
 
-Il se détourna du phare et retourna vers sa table de nuit. Il y avait là un verre d'eau, à moitié vide. Il le saisit, mais ses doigts étaient si raides qu'il manqua de le renverser. L'eau trembla dans le verre, créant des rides concentriques. 
+Il ferma les yeux et tenta de visualiser le visage de Dubois. Le gardien du phare avait été un homme insignifiant, presque invisible. On oublie souvent que les gens invisibles sont ceux qui voient tout. En supprimant Dubois, il pensait avoir fermé le livre. Il ne s'était pas rendu compte qu'il n'avait fait qu'en déplacer les pages.
 
-Il s'assit à nouveau, laissant tomber sa tête entre ses mains. Il ne voulait plus être le maire. Il ne voulait plus être le chef. Il aurait voulu redevenir l'homme qu'il était avant le naufrage du *Triton*, avant que l'appât du gain ne transforme son ambition en une prison sans barreaux. 
+Une goutte de sueur perla sur son front. Le silence de la chambre était devenu oppressant, presque solide. Il avait l'impression que les murs de la maison se resserraient autour de lui, que le bois du parquet absorbait ses secrets pour mieux les recracher un jour. 
 
-Le silence de la chambre devint oppressant, presque physique. C'était un vide qui aspirait tout : sa force, sa volonté, sa dignité. Il resta ainsi, prostré dans le noir, conscient que chaque minute qui passait le rapprochait d'un point de rupture. 
+Il tourna la tête vers la table de nuit. Là, posé négligemment, se trouvait un vieux carnet de cuir noir, sans titre. Il ne l'ouvrait plus depuis des années. C’était le registre des dettes, des faveurs et des silences achetés. Le testament de son empire. Il aurait dû le brûler il y a longtemps, mais une part d'orgueil, une part de vanité de patriarche, l'avait poussé à le conserver. On ne jette pas la preuve de sa propre puissance.
 
-Il n'avait plus peur des hommes, pas vraiment. Il avait peur de l'épuisement. Cette sensation que son corps ne pourrait plus supporter le poids du secret. Il imaginait ses secrets comme des pierres qu'il aurait accumulées dans un sac à dos pendant trente ans, et qu'il portait maintenant, seul, dans le noir, sans pouvoir jamais poser le fardeau.
+L'heure était avancée. L'aube arriverait bientôt avec sa lumière crue et sans pitié, révélant les rides, les taches de vieillesse et les doutes. Yvon Squarcioni, l'homme le plus puissant du village, se sentit soudain minuscule, réduit à la dimension d'un insecte piégé sous un verre. 
 
-Le vent s'engouffra dans la cheminée avec un sifflement aigu, un bruit de plainte qui sembla remplir la pièce. Squarcioni ne bougea pas. Il ferma les yeux et attendit que l'aube arrive, sachant qu'elle n'apporterait aucun repos, seulement une nouvelle journée de masquer le vide.
+Il tenta de respirer profondément, mais l'air semblait manquer dans la pièce. Il s'enveloppa dans sa couverture, remontant le tissu jusqu'au menton, comme pour se protéger d'un froid qui ne venait pas de l'extérieur. Dans le noir, il n'était plus le maire, ni le chef, ni le protecteur. Il était seulement un vieil homme épuisé, hanté par le bruit d'une épave et le regard d'un mort, attendant que le jour se lève pour reprendre son masque de marbre.
 
 ## Chapitre 13
 
@@ -1315,82 +1313,135 @@ Yvon se tendit, son visage se décomposant. Le bloc venait de voler en éclats. 
 
 ## Chapitre 14
 
-Le bureau de Yvon était étroit, saturé par l'odeur de vieux papier et de poussière. Garcia restait debout, les mains enfoncées dans les poches de son manteau, observant le reflet des lampadaires dans la vitre sale. À côté de lui, Gaspard et Léna occupaient l'espace avec une raideur immobile. Yvon était assis derrière son secrétaire en chêne, le visage mangé par les ombres, ses doigts noueux jouant avec le bord d'un sous-main en cuir.
+Le bureau de Yvon était étroit, saturé par l'odeur de vieux papier et de poussière humide. Garcia restait debout, les mains enfoncées dans les poches de son manteau, observant le reflet des lampadaires dans la vitre sale. À côté de lui, Gaspard et Léna occupaient l'espace avec une raideur absolue. Yvon était assis derrière son secrétaire en chêne, le visage mangé par les ombres, ses doigts noueux jouant avec le bord d'un sous-main en cuir noir.
 
-Le carnet était posé sur le bois, ouvert à la page des chiffres. Les colonnes étaient nettes, les noms abrégés, les sommes précises. 
+L'inspecteur ne bougeait pas. Il laissait le carnet de Dubois reposer sur le bureau, ouvert à une page où des colonnes de chiffres s'alignaient avec une précision chirurgicale. Des dates, des sommes, des initiales. 
 
-— C’est fini, Yvon, dit Garcia. Le carnet parle.
+Yvon fixa le papier. Ses yeux étaient deux billes ternes.
 
-Yvon ne leva pas les yeux. Il fixa un point invisible sur le bureau. Gaspard, près de la porte, tremblait. On entendait le froissement de son imperméable à chaque respiration courte. Léna ne regardait personne ; elle fixait le mur, le dos droit, les bras croisés sur sa poitrine.
+— C’est un faux, finit-il par dire.
 
-— Le Triton n'a pas coulé par malchance, reprit Garcia. C’est un montage. On a détourné la cargaison avant que le navire ne touche les récifs. On a partagé le butin. Et on a acheté le silence de Ker-Morvan pour vingt ans.
+La voix était rauque, mais elle ne tremblait pas encore. Garcia fit un pas en avant. Le plancher craqua sous sa semelle.
 
-Yvon laissa échapper un bruit sourd, une sorte de grognement étouffé. 
+— Dubois n'était pas un comptable, Yvon. C’était un gardien de phare. Il passait ses nuits à regarder l'horizon et ses journées à noter qui montait et qui descendait du port. Les chiffres sont là. Les dates correspondent aux travaux de la mairie, aux rénovations des maisons du village.
 
-— Vous croyez... commença-t-il.
-— Je ne crois pas, je sais. Les comptes sont là. Dubois savait tout. C’est pour ça qu’il est mort.
+Yvon détourna le regard vers Gaspard. Le vieux marin était blême, les épaules rentrées, comme s'il attendait un coup.
 
-Yvon releva la tête. Ses yeux étaient rouges, injectés de sang. Il regarda Gaspard. Le vieux du port recula d'un pas, s'écrasant contre le chambranle de la porte. 
+— Gaspard sait, continua Garcia. Il a peur, mais il sait. 
 
-— Toi, Gaspard... tu as été le premier à prendre ta part. Ne fais pas l'innocent.
+Gaspard secoua la tête, un mouvement brusque, presque convulsif. Il ne regarda personne.
 
-— Je n'ai rien fait ! balbutia Gaspard. J'ai juste... on m'a dit que c'était légal.
+— Je n'ai rien dit, murmura le vieux.
 
-Yvon eut un rire sec, sans joie. Un claquement de gorge. 
+— Vous n'avez pas besoin de parler pour mentir, Gaspard. Votre visage suffit.
 
-— Légal. Quel mot ridicule.
+Garcia se tourna vers Léna. Elle était immobile, le regard fixé sur Yvon. Elle semblait absente, comme si elle écoutait un bruit lointain. L'inspecteur savait qu'elle était le point faible. Le lien du sang était la seule chose que Yvon respectait encore, ou du moins, la seule chose qu'il craignait de briser.
 
-Léna tourna enfin la tête vers lui. Sa voix était blanche, dépouillée.
+— Parlez-moi du Triton, dit Garcia. 1998. Un naufrage rapide, sans survivants officiels. Une cargaison d'électronique et de métaux précieux qui a disparu dans les fonds. On a conclu à une erreur de navigation, une tempête soudaine.
 
-— Pourquoi Dubois ? Il était avec vous depuis le début.
+Yvon eut un petit rire sec, un bruit de gorge. 
 
-Yvon fixa Léna. Un long moment passa. On entendait le vent cogner contre les volets clos du bureau. Le maire se redressa lentement, ses vertèbres craquant sous la chemise amidonnée. Il posa ses mains à plat sur le secrétaire. 
+— La mer prend ce qu'elle veut. C’est la loi d'ici.
 
-— Dubois est devenu gourmand, dit Yvon d'une voix soudainement stable. Il pensait que le carnet lui donnait un droit de regard sur tout le village. Il a voulu renégocier sa part. Il voulait nous faire chanter, un par un.
+— Sauf quand on l'aide un peu, répondit Garcia. Le Triton n'a pas coulé par accident. Il a été guidé vers les récifs. Quelqu'un a éteint le signal, ou a donné des coordonnées fausses. Et ensuite, on a récupéré la marchandise avant que les assurances ne s'en occupent.
 
-Garcia fit un pas vers lui. 
+Le silence qui suivit fut dense. On entendait le tic-tac d'une pendule murale et le vent qui frappait la façade de la mairie. Yvon ne bougeait plus. Ses doigts étaient figés sur le cuir du sous-main.
 
-— Qui a donné l'ordre ? Quelqu'un d'autre ? Un intermédiaire à Brest ? Un patron ?
+— Qui a récupéré le butin, Yvon ?
 
-Yvon eut un mouvement brusque du menton. Un geste de dédain.
+Le maire leva les yeux. Son expression était redevenue celle d'un juge. 
 
-— Personne. Pas de patron. Pas de commande venue d'en haut. C’est moi qui ai orchestré le Triton. C’est moi qui ai réparti les parts. C’est moi qui ai décidé que Dubois devait s'arrêter de parler.
+— Vous imaginez des histoires, inspecteur. Vous venez de la ville, vous cherchez du drame pour remplir vos rapports. Ici, on vit avec ce que la mer nous donne.
 
-Le silence retomba, dense. Gaspard avait la bouche ouverte, incapable de prononcer un mot. Léna semblait avoir vieilli de dix ans en une seconde.
+Garcia sortit le carnet et pointa un nom, une initiale associée à une somme importante.
 
-— Vous assumez tout ? demanda Garcia.
+— C’est quoi ça ? Une donation ? Un cadeau ? 
 
-— Tout, répondit Yvon. Le village a survécu grâce à cet argent. Les toitures ont été refaites, les commerces sont restés ouverts, vos pères ne sont pas partis travailler à Paris. J'ai tenu Ker-Morvan à bout de bras avec le sang du Triton. Je n'ai jamais laissé un étranger mettre le nez ici.
+Yvon ne répondit pas. Garcia s'approcha encore, envahissant l'espace personnel de l'homme. Il pouvait sentir l'odeur de vieux tabac et de fatigue qui émanait du maire.
 
-— Vous avez tué un homme pour protéger un budget municipal, dit Garcia.
+— Dubois a été tué parce qu'il avait ce carnet. Il a été tué parce qu'il a commencé à demander sa part, ou peut-être parce qu'il voulait racheter sa conscience. Mais dans tous les cas, il était devenu un problème. 
 
-Yvon regarda l'inspecteur. Il n'y avait plus de peur, seulement une sorte d'épuisement définitif. 
+Léna fit un pas vers le bureau. Sa voix était basse, presque un souffle.
 
-— J'ai supprimé un poids mort. Dubois était devenu un risque. On ne laisse pas un maillon faible pourrir toute la chaîne. C’est ça, diriger.
+— Pourquoi lui ?
 
-Léna fit un pas en avant, la voix tremblante.
+Yvon ne la regarda pas. Il fixa Garcia.
 
-— Et Marc ? Marc est mort dans le naufrage. Vous l'avez laissé là-bas.
+— Dubois était un parasite. Un petit homme qui croyait que tenir des notes lui donnait un pouvoir sur les autres.
 
-Yvon ne cilla pas. 
+— Et vous, Yvon, quel pouvoir avez-vous ? demanda Garcia. Celui de décider qui vit et qui meurt pour protéger un compte en banque ?
 
-— Le sacrifice était nécessaire. Un mort officiel pour valider la perte du navire. On ne pouvait pas tous s'en sortir. C'était le prix.
+L'inspecteur changea de ton. Il ne cherchait plus l'affrontement, il proposait une sortie, même si elle était étroite.
 
-Garcia observa le visage de l'homme. Yvon n'essayait plus de nier, ni de justifier. Il avait déposé ses armes en même temps qu'il avouait tout. C’était un acte de pouvoir, même dans la défaite. 
+— On peut tout arrêter là. Le procureur attend. Si vous parlez maintenant, si vous expliquez comment ça a été organisé, on pourra peut-être limiter les dégâts. Sinon, je sors d'ici et je lance les mandats pour tout le monde. Gaspard, Léna... tout le village sera sous les projecteurs. Vous voulez vraiment que vos enfants sachent sur quoi sont bâties leurs maisons ?
 
-— C'est terminé, dit Garcia.
+Yvon ferma les yeux. Ses paupières tremblaient. Le masque s'effritait, pièce par pièce. Il semblait soudainement plus petit dans son fauteuil, comme si l'armure qu'il avait portée pendant vingt ans venait de se volatiliser. 
 
-Il saisit le carnet et le rangea dans sa poche intérieure. Il fit signe à Gaspard et Léna de sortir. Personne ne bougea tout de suite. Le poids des mots flottait encore dans l'air vicié de la pièce. 
+Il prit une profonde inspiration, un bruit d'aspiration qui ressemblait à un sanglot étouffé.
 
-Yvon se rassit lentement. Il reprit sa place derrière son secrétaire, comme s'il attendait simplement que le temps reprenne son cours. 
+— On n'avait pas le choix, dit-il enfin.
 
-— Sortez maintenant, dit le maire sans les regarder. Allez tous. 
+La voix était différente. Plus neutre. Presque clinique. Garcia ne bougea pas d'un millimètre. Il savait que c'était l'instant critique. S'il interrompait maintenant, Yvon se refermerait comme une huître.
 
-Garcia s'arrêta sur le seuil.
+— Quel choix ? demanda Garcia.
 
-— On revient avec les menottes, Yvon.
+Yvon ouvrit les yeux. Le regard était vide. 
 
-Yvon ne répondit pas. Il fixa la vitre sale, là où la lumière des lampadaires dessinait des traînées jaunâtres dans l'obscurité de la pièce.
+— Le village mourait. On n'avait plus rien. Plus de pêche, plus d'industrie. Juste du vent et du granit. Le Triton passait par là tous les deux ans. On savait ce qu'il transportait. Un contact nous a prévenus que le capitaine était prêt à négocier. Mais il voulait trop. Alors on a décidé que le bateau devait couler.
+
+Léna porta la main à sa bouche. Gaspard s'était enfoncé contre le mur, comme pour s'y fondre.
+
+— Comment avez-vous fait ? 
+
+— Simple, répondit Yvon. Un signal détourné, un moment d'obscurité au mauvais endroit. Le Triton a frappé le récif de la Dent. En dix minutes, tout était fini. On a attendu que la mer se calme, on a envoyé les barques. On a vidé la cale avant même que le premier signal de détresse ne soit traité à la côte.
+
+— Et l'argent ? 
+
+Yvon eut un rictus. 
+
+— L'argent a été réparti. Entre les familles influentes. Les hommes qui tenaient le port, ceux qui géraient la mairie. On a acheté le silence de ceux qui ont vu passer les caisses. On a rénové l'église, on a financé les études des jeunes, on a stabilisé l'économie du village. Tout le monde en a profité. Directement ou indirectement.
+
+— Sauf Dubois, dit Garcia.
+
+Yvon hocha la tête. 
+
+— Dubois était le gardien. Il voyait tout depuis sa tour. On lui a donné une part au début, pour qu'il ferme les yeux. Mais avec le temps, il est devenu gourmand. Il a commencé à noter chaque transaction, chaque nom, chaque centime. Il s'est cru intouchable parce qu'il avait des preuves. Il pensait que son carnet était un bouclier.
+
+— C’est pour ça que vous l’avez tué.
+
+Yvon redressa le buste. Une lueur de fierté maladive passa dans ses yeux. 
+
+— J'ai orchestré sa disparition, oui. Je ne pouvais pas laisser un homme comme lui tenir le village à la gorge. Ce village est mien. Je l'ai sauvé du déclin avec cet argent. Je suis le seul ici qui ait eu le courage de faire ce qu'il fallait pour que Ker-Morvan survive. Les autres... ils ont pris l'argent, mais ils n'avaient pas les couilles d'assumer la méthode.
+
+Garcia regarda Léna. Elle était livide. 
+
+— Votre père était dans la boucle, Yvon ? demanda l'inspecteur.
+
+Yvon tourna enfin son regard vers elle. Un regard froid, sans pitié.
+
+— Ton père a été l'un des premiers à monter dans la barque, Léna. Il a pris sa part. Il a construit ta chambre avec cet argent.
+
+Léna recula d'un pas, comme si on l'avait frappée physiquement. Elle regarda Yvon avec une horreur pure, tandis que Gaspard détournait les yeux, incapable de soutenir le regard de la jeune femme.
+
+— Vous êtes seul maintenant, dit Garcia. 
+
+Yvon s'adossa à son siège. Il semblait épuisé, vidé de sa substance. Le poids des aveux l'avait écrasé.
+
+— Je suis peut-être seul, mais je suis le seul qui sache comment ce village fonctionne vraiment. Allez-y, appelez vos gendarmes. Emmenez-moi. Mais n'oubliez pas que si je tombe, je ne pars pas seul. Tout ce qui a été construit ici depuis 1998 est basé sur un mensonge. Si vous tirez sur le fil, tout s'effondre.
+
+Garcia rangea lentement le carnet dans sa poche intérieure. Il regarda l'homme derrière le bureau avec un mépris calme.
+
+— Le problème, Yvon, c’est que je m'en fiche que le village s'effondre. Je suis inspecteur, pas urbaniste.
+
+Il se tourna vers Gaspard et Léna.
+
+— Sortons d'ici. 
+
+Léna ne bougea pas tout de suite. Elle fixa Yvon une dernière fois. Il n'y avait plus rien dans son regard, juste l'inertie d'un homme qui a tout calculé et qui s'est rendu compte, trop tard, qu'il avait oublié de compter sur la mémoire des morts.
+
+Elle sortit la première, sans un mot, ses pas résonnant sur le parquet. Gaspard suivit, la tête basse, comme un condamné. 
+
+Garcia resta un instant seul avec Yvon. Le maire ne bougeait plus. Il fixait le vide, les mains posées à plat sur le cuir noir du sous-main. L'air était devenu glacial dans la pièce. Garcia ne dit rien d'autre. Il éteignit la lampe de bureau, plongeant l'homme dans l'obscurité, et referma la porte derrière lui avec un clic sec et définitif.
 
 ## Chapitre 15
 
@@ -1831,96 +1882,84 @@ Garcia, qui était resté spectateur, laissa échapper un sifflement. Il ne semb
 
 Le bois craqua sèchement. Garcia resta immobile, le souffle court, le dos plaqué contre le mur froid de Ker-Morvan. Dans la pièce adjacente, les voix s'étaient tues. Il sentait le poids de son arme dans sa main droite, le métal glacé qui lui brûlait la paume. L'air était saturé d'une humidité poisseuse, une atmosphère épaisse qui semblait absorber chaque bruit, chaque mouvement. Yvon Squarcioni était là, quelque part dans l'ombre.
 
-L'inspecteur ne bougeait plus. Il fixait le registre de Dubois, le petit carnet à la couverture de cuir noir qu'il avait réussi à subtiliser avant que Gaspard n'intervienne. Le livre était ouvert sur une page cornée, jaunie par le sel et le temps. Ses yeux étaient rivés sur une ligne précise, un nom écrit d'une écriture serrée, presque maniaque.
+L'inspecteur ne bougeait plus. Son regard était fixé sur le petit carnet noir qu'il avait arraché au bureau du gardien Dubois avant que la situation ne dégénère. Le cuir était gras, imprégné de sel et d'huile. Il l'avait ouvert quelques minutes plus tôt, sous la lumière blafarde d'une lampe torche, et c’est là qu’il avait vu.
 
-*Garcia, J. – Dette acquittée.*
+Le nom. Son propre nom. Précisément, celui de son père. 
 
-Le monde autour de lui sembla s'effacer. Il n'y avait plus que ce nom. Son père. Jean Garcia, le gendarme intègre, l'homme aux principes d'acier qui l'avait élevé dans la discipline et le respect scrupuleux de la loi. Un homme mort depuis dix ans, emporté par un cancer foudroyant, laissant derrière lui l'image d'une probité absolue.
+*« Lucien Garcia — Dette acquittée. »*
 
-Pourtant, là, noir sur blanc, le nom apparaissait dans les comptes secrets du gardien du phare. "Dette acquittée". Le terme était technique, froid. Il ne suggérait pas un prêt d'argent, mais une transaction. Un silence acheté. Une part du butin du *Triton* détournée en 1998 pour construire une vie, ou effacer un péché.
+Quatre mots. Une ligne manuscrite, serrée, sans fioriture. La date remontait à deux ans après le naufrage du Triton. Vingt-cinq ans plus tôt. Son père, ce gendarme rigide, cet homme de principes qui avait élevé son fils dans le culte de l'honneur et de la loi, était inscrit dans le grand livre des compromis de Ker-Morvan.
 
-Garcia sentit un vertige le prendre. La nausée monta, acide, dans sa gorge. Tout son édifice personnel, la fondation sur laquelle il avait bâti sa carrière et son identité, venait de se fendre en deux. Il n'était plus l'enquêteur extérieur venu nettoyer les décombres d'un village corrompu. Il était le fils du complice. Le sang qui coulait dans ses veines était mêlé à celui des voleurs de Ker-Morvan.
+Un vertige soudain le prit. Garcia sentit le sol osciller sous ses semelles. Ce n'était pas seulement une découverte, c'était un effondrement. Tout son édifice intérieur, la structure même sur laquelle il avait bâti sa carrière d'enquêteur, venait de se fendre en deux. Il revit le visage de son père, les rides sévères, le regard qui ne tolérait aucun écart. Cet homme-là avait touché l'argent du Triton. Cet homme-là avait été payé pour fermer les yeux sur une cargaison détournée et des corps laissés à la mer.
 
-Il referma brusquement le carnet. Le bruit fut sec, comme un claquement de doigts.
+Le bruit d'un pas, un frottement de cuir sur le parquet, le ramena brutalement au présent. 
 
-— Vous avez trouvé ce que vous cherchiez ?
+Il glissa le carnet dans sa poche intérieure, contre sa poitrine. Le papier semblait brûler sa peau. Il se redressa lentement,en écoutant le silence qui s'était installé. C'était un silence vide, hanté par les secrets du village. À cet instant, Garcia ne se sentit plus comme l'homme de loi venu mettre l'ordre dans ce chaos breton, mais comme un intrus, un complice malgré lui.
 
-La voix venait de derrière lui. Basse, posée, dépourvue d'agressivité. Garcia se retourna. Léna Marchetti était là, appuyée contre le chambranle de la porte. Elle le regardait avec une intensité troublante, ses yeux scrutant le visage de l'inspecteur pour y lire la vérité.
+Il s'écarta du mur et fit quelques pas vers la porte. Il croisa Léna Marchetti. Elle était assise sur un tabouret bas, les mains jointes entre les genoux, le regard perdu dans le vide. Elle avait l'air fragile, presque transparente sous la lumière crue de l'ampoule nue qui pendait au plafond.
 
-Garcia ne répondit pas tout de suite. Il rangea le carnet dans sa poche intérieure, le pressant contre son flanc comme s'il s'agissait d'une plaie ouverte.
+Elle tourna la tête vers lui. Ses yeux étaient rougis. 
+— Vous avez trouvé quelque chose ? demanda-t-elle.
 
-— Pourquoi vous restez ici ? demanda-t-il.
-— Je ne peux pas partir. Pas maintenant.
-— Allez chez vous, Léna. C’est dangereux.
+Garcia ne répondit pas tout de suite. Il regarda la jeune femme, et pour la première fois, il vit en elle non plus une témoin, mais une victime collatérale d'un système dont il faisait désormais partie. S'il révélait le contenu du carnet, s'il transformait ce document en pièce à conviction, il jetait son père aux chiens. Il salissait un souvenir qu'il avait chéri comme un sanctuaire.
 
-Elle fit un pas vers lui. Le plancher gémissait sous ses pieds. Elle s'arrêta à quelques centimètres, assez près pour qu'il sente l'odeur de la pluie et du savon sur sa peau.
+Léna se leva. Elle fit un pas vers lui, hésitante.
+— Vous tremblez, Garcia.
 
-— Vous avez une mine affreuse, Garcia. Qu’est-ce qu’il y a dans ce livre ?
-— Rien qui vous concerne.
-— On ne devient pas blanc comme un linge pour "rien".
+Il referma le poing sur la crosse de son arme. 
+— C’est le froid, répondit-il d'une voix sèche.
 
-Garcia détourna le regard vers la fenêtre. Dehors, la brume s'épaississait, engloutissant les contours du port et les silhouettes des maisons de granit. Le village ressemblait à un cimetière où les morts refusaient de rester sous terre.
+C'était un mensonge. Un petit mensonge, banal, mais pour Garcia, c'était une fissure supplémentaire. Il sentit l'envie monter, brutale et irrationnelle : déchirer la page. Brûler le carnet dans la cheminée du salon. Effacer la trace. On pouvait justifier cela par l'amour filial, par la volonté de protéger la mémoire d'un mort. C’était la tentation facile, celle que Squarcioni utilisait sans doute pour tenir tout le village : le chantage à la respectabilité.
 
-— Mon père... commença-t-il. Sa voix était rauque, étranglée.
+Il imaginait déjà la scène. Le papier qui s'enroule dans les flammes, les chiffres et les noms qui s'évaporent en cendres grises. En un geste, il pourrait redevenir l'homme pur qu'il croyait être. Il pourrait continuer son enquête contre le maire sans avoir à se regarder dans la glace avec dégoût.
 
-Léna fronça les sourcils. Elle sembla comprendre, ou du moins pressentir la direction du gouffre. Elle ne posa pas de question. Elle savait que dans ce coin de pays, certaines vérités étaient comme des mines : on ne marchait pas dessus sans être prêt à tout perdre.
+Mais alors, il repensa à Dubois, le gardien du phare. Le corps gisant, les yeux ouverts sur le vide, assassiné pour avoir tenu ces comptes. Dubois était mort parce qu'il possédait la vérité. Si Garcia détruisait la preuve, il devenait l'associé du meurtrier. Il validait le crime de Dubois en commettant un autre crime : celui de l'omission.
 
-— On peut sortir d'ici, murmura-t-elle.
-— Je ne sais pas.
+— Où est Squarcioni ? demanda-t-elle.
 
-Il se sentit soudain vulnérable, presque nu. L'autorité de son insigne lui parut dérisoire, une décoration insignifiante face à la souillure qui venait de s'abattre sur son nom. S'il poursuivait l'enquête, s'il remontait la filière jusqu'au bout, il risquait de salir la mémoire du seul homme qu'il avait admiré. Mais s'il s'arrêtait, il devenait le prolongement exact de cette corruption.
+Garcia ne la regarda pas. Ses yeux étaient fixés sur la porte entrouverte qui menait vers le couloir sombre.
+— Il attend que je fasse un choix, répondit-il pour lui-même.
 
-Un bruit de pas lourds résonna dans le couloir. Squarcioni approchait.
+La voix du maire s'éleva soudain depuis l'autre pièce. C’était une voix calme, posée, celle d'un homme qui a l'habitude de diriger et de posséder. 
+— Inspecteur Garcia ? Je suppose que vous avez fini d'explorer les archives de ce pauvre Dubois. C'est un endroit poussiéreux, n'est-ce pas ? On y trouve parfois des choses qui ne regardent personne.
 
-Garcia se redressa. Il sentit la colère remplacer la nausée. Une colère froide, lucide. Si son père avait été impliqué, c'était que les hommes comme Squarcioni avaient su manipuler les faiblesses, acheter les consciences ou menacer les familles. Le maire-patriarche n'était pas seulement le cerveau du détournement du *Triton*, il était l'architecte d'un système de chantage qui s'étendait sur des décennies.
+Le ton était transparent. Squarcioni ne menaçait pas, il suggérait. Il savait que le carnet avait été trouvé. Il savait peut-être même ce qu'il contenait. C’était là toute la force du patriarche : il ne jouait pas avec des faits, mais avec les faiblesses des hommes.
 
-Il ne pouvait pas lâcher. Non pas pour la justice, pas encore, mais pour laver l'affront. Il voulait regarder Squarcioni dans les yeux et lui dire qu'il n'avait pas réussi à acheter tout le monde.
+Garcia sentit une colère froide monter en lui. Ce n'était pas une colère explosive, mais une tension sourde, une rigidité qui s'empara de ses épaules. Il réalisa que Squarcioni attendait qu'il vienne le voir pour négocier. Le maire proposait un pacte tacite : le silence contre la paix.
 
-Léna posa une main légère sur son bras. Un contact bref, presque imperceptible.
+Il fit un pas vers le couloir, laissant Léna derrière lui. Chaque mouvement lui coûtait. Son esprit était un champ de bataille où s'affrontaient l'image du père idéal et la réalité du gendarme corrompu. Il se demanda combien d'autres noms figuraient dans ce carnet. Combien d'hommes respectables de Ker-Morvan marchaient la tête haute en sachant qu'ils étaient liés par le sang et l'argent au naufrage du Triton.
 
-— Ne le laissez pas gagner, dit-elle simplement.
+Il s'arrêta devant la silhouette massive de Squarcioni, qui se tenait debout près d'une fenêtre donnant sur la mer. Le maire ne se retourna pas. Il regardait l'horizon sombre, là où les vagues s'écrasaient contre les rochers dans un fracas monotone.
 
-Il se détacha d'elle avec un mouvement brusque. Il ne supportait pas la pitié. 
+— Mon père a connu ce village, dit Garcia. Sa voix était basse, presque un murmure.
 
-La porte s'ouvrit lentement. Yvon Squarcioni entra dans la pièce. Il portait un veston en tweed sombre et un air de satisfaction tranquille. Il ne regarda ni Léna, ni le mur froid, mais fixa Garcia avec une condescendance paternelle.
+Squarcioni esquissa un mouvement d'épaules, un léger pivotement du buste. 
+— Le monde est complexe, inspecteur. Les hommes font des choix pour protéger les leurs. Votre père était un homme pragmatique. C’est une qualité rare.
 
-— L'enquête avance, inspecteur ? Vous semblez préoccupé.
-— J'ai lu updating les notes de Dubois, Squarcioni. C'est fascinant. La comptabilité est d'une précision chirurgicale.
+Le mot « pragmatique » résonna comme une insulte. Garcia serra les dents. Il sentait le carnet contre son flanc, comme un poids mort, une ancre qui le tirait vers le fond. Pendant quelques secondes, il resta immobile, suspendu à l'idée de tout arrêter ici. Il aurait pu rendre le carnet, s'excuser, repartir vers la ville et oublier Ker-Morvan. 
 
-Le maire ne cilla pas. Il s'avança vers le centre de la pièce, les mains jointes dans le dos, comme un professeur visitant sa classe.
+Mais il repensa au visage de Marc, le revenant du naufrage, cet homme brisé que le village avait tenté d'effacer. Il pensa à l'injustice froide des comptes secrets.
 
-— Le gardien était un homme obsessionnel. Il aimait noter les détails. Mais les notes ne sont pas des preuves. Ce sont des impressions. Des fantasmes d'un homme solitaire qui s'ennuyait dans sa tour.
-— On ne note pas des montants exacts et des dates de paiement par "fantasme".
+Il sortit lentement le carnet de sa poche et le tint fermement dans sa main gauche. 
 
-Squarcioni eut un petit rire sec, sans joie. Il s'arrêta juste devant Garcia. L'odeur du tabac et d'un parfum coûteux émanait de lui.
+— Le pragmatisme s'arrête là où commence la loi, Squarcioni.
 
-— Vous êtes un homme droit, Garcia. C'est votre qualité principale. Mais la droiture est une ligne fragile. Un seul virage, une seule nuance de gris, et tout s'effondre. N'est-ce pas ?
+Le maire se retourna enfin. Son visage était impassible, mais ses yeux étaient deux fentes sombres, scrutant l'homme en face de lui. Il cherchait le point de rupture. Il attendait que Garcia cède, que le fils s'efface devant le père.
 
-Garcia sentit le piège se refermer. Squarcioni savait. Il savait que Garcia avait vu le registre. Il savait pour le père. L'attaque n'était pas frontale, elle était oblique, insidieuse. C'était une invitation à la négociation. Un pacte de silence contre le maintien d'une illusion.
+— Vous êtes courageux, Garcia. Ou alors vous êtes stupide. Le courage est une vertu qui se paie cher dans cette région.
 
-L'inspecteur serra les poings dans ses poches. Son cœur battait avec force contre ses côtes, mais son visage restait de marbre. Il se rappela les leçons de son père : ne jamais montrer sa faille à l'adversaire. Même si la faille était béante.
+— Je préfère payer le prix fort plutôt que de vivre avec une dette que je ne peux pas acquitter, répondit l'inspecteur.
 
-— Je n'aime pas les nuances, Squarcioni. J'aime les faits.
-— Les faits sont malléables, mon cher. Surtout quand ils concernent des gens qui ne sont plus là pour se défendre.
+Il n'y avait plus de place pour le doute. Le trouble était toujours là, une brûlure sourde dans sa poitrine, mais il l'avait transformé en moteur. Il ne s'agissait plus seulement de résoudre un meurtre, mais de laver une souillure. Même si cela signifiait détruire l'image du seul homme qu'il avait admiré.
 
-Le silence qui suivit fut dense. Garcia sentait le regard de Léna peser sur lui, comme un rappel. Il avait le choix : s'enfoncer dans la boue avec les autres ou utiliser cette boue pour étouffer le maire.
+Il fit demi-tour et retourna vers Léna.
+— On part, dit-il simplement.
 
-— Je vais déposer ce registre au commissariat dès demain, déclara Garcia d'une voix neutre.
-— Vous pourriez faire une chute brutale en chemin, répondit Squarcioni sans lever le ton. Les routes de Bretagne sont traîtresses sous la pluie.
+Léna le regarda, surprise par la soudaineté de son ton. Elle vit dans ses yeux quelque chose qui n'y était pas auparavant : une sorte de détermination désespérée, l'expression d'un homme qui vient de perdre son innocence et qui a décidé que c'était le moment idéal pour commencer à travailler.
 
-Le maire tourna les talons et quitta la pièce sans un regard supplémentaire. 
+Ils sortirent de la maison. Dehors, le vent s'était levé, cinglant, chargé de sel. La pluie commençait à tomber, fine et glaciale. Garcia monta dans sa voiture sans regarder en arrière. Il sentit le carnet, bien calé dans sa poche, comme une arme chargée qu'il ne pouvait plus se permettre de décharger. 
 
-Garcia resta planté là, immobile. Il sentait encore le poids du carnet contre son flanc. Il avait menti. Il ne déposerait pas le registre tout de suite. Il devait d'abord comprendre comment son père s'était retrouvé dans cette liste. Il devait savoir si l'homme qu'il avait aimé était un criminel ou une victime.
-
-Léna s'approcha à nouveau. 
-— Qu'est-ce que vous allez faire ?
-— Je vais finir ce travail, répondit-il.
-
-Il sortit de la maison sans attendre sa réponse. L'air frais et salin le frappa au visage, lui redonnant un peu de clarté. Il marcha vers le port, ses pas lourds sur le gravier. Le ciel était d'un gris plombé, menaçant. Quelque part, dans l'ombre des hangars ou sous les pontons, Marc, le revenant, observait peut-être.
-
-Garcia s'arrêta face à la mer. L'océan grondait, sombre et profond, gardant en son sein les secrets du *Triton*. Il se demanda combien de temps on pouvait vivre avec un secret avant qu'il ne devienne une prison. Son père avait vécu ainsi. Lui aussi était désormais enfermé.
-
-Il sortit une cigarette et l'alluma. La fumée se dissipait instantanément dans le vent violent. Il ne vacillait plus. L'obstination, ce vieux trait familial, avait pris le dessus. S'il devait tomber, il entraînerait Squarcioni avec lui dans le gouffre.
+Il démarra le moteur. Le bruit du diesel déchira le silence du village. En s'éloignant sur la route étroite qui serpentait entre les landes et les falaises, il savait que rien ne serait plus jamais comme avant. Il avait franchi un seuil. Le fils du gendarme était mort dans cette maison ; l'inspecteur Garcia, lui, venait de naître, avec pour seul bagage la vérité crue d'un carnet noir.
 
 ## Chapitre 20
 
@@ -2574,20 +2613,24 @@ Yvon Squarcioni esquissa un sourire mince, dépourvu de toute chaleur.
 
 ## Chapitre 25
 
-La pluie avait cessé, laissant place à une brume grasse qui collait aux vitres et effaçait les contours du port. Garcia resta assis dans sa voiture, le moteur tournant au ralenti. Le ronronnement mécanique était le seul point d'ancrage dans ce paysage délavé. Il regarda le rétroviseur : le village de Ker-Morvan s'enfonçait dans un gris monochrome, une tache de pierre et d'ardoise accrochée à la falaise.
+La pluie avait repris, fine et persistante, cette bruine bretonne qui ne mouille pas les vêtements mais s'insinue partout, jusque dans les articulations. Garcia resta longtemps immobile sur le quai, observant les reflets gris du ciel se fondre dans l'huile noire de l'estuaire. Il ne regardait rien en particulier, seulement le mouvement monotone des bouées qui tressautaient au rythme d'une marée descendante.
 
-Il n'y avait eu aucune arrestation spectaculaire. Les dossiers étaient bouclés, les rapports rédigés avec une précision administrative qui gommait l'horreur. Mais Garcia savait que le papier ne guérissait rien. Il avait obtenu des noms, quelques aveux contrariés, et la preuve technique du détournement du *Triton*. Pourtant, en regardant le village s'éloigner, il sentait que la victoire était une coquille vide. 
+Il avait déposé ses dossiers dans la voiture, sur le siège passager. Des piles de papiers jaunis, des notes griffonnées à la hâte, les comptes secrets du gardien Dubois que personne ne lirait jamais devant un tribunal. La vérité était là, consignée avec une précision d'archiviste, mais elle n'avait plus l'éclat du dévoilement. Elle ressemblait désormais à un vieux linge sale que l'on aurait tenté de laver trop tard.
 
-Yvon Squarcioni resterait sans doute là-bas encore longtemps. Le patriarche avait des alliés, des réseaux qui s'étendaient bien au-delà des limites de la commune. La justice aurait prélevé sa part, certes, mais elle ne déracinerait pas l'ordre établi. On condamnerait quelques hommes pour des faits mineurs, on classerait le reste sous le motif du manque de preuves matérielles après vingt ans de silence. Le butin, dispersé depuis 1998, s'était déjà transformé en maisons en pierre, en terrains agricoles et en comptes opaques. On ne restitue pas l'argent qui a servi à bâtir un village.
+Il pensa à Léna. Il l'avait croisée une dernière fois près de la boulangerie. Elle ne l'avait pas regardé. Elle marchait la tête basse, les épaules rentrées, comme si elle craignait qu'un courant d'air ne vienne briser l'équilibre précaire de sa vie. Elle était restée là-bas, prisonnière d'un silence qu'elle avait aidé à construire et qui, désormais, lui servait de plafond.
 
-Il pensa à Léna Marchetti. Il l'avait vue une dernière fois sur le quai, immobile, les yeux fixés sur l'horizon où la mer rejoignait le ciel dans une nuance de plomb. Elle n'avait rien dit. Elle portait désormais seule le poids d'une vérité qui ne libérait personne. Elle était redevenue une étrangère chez elle, une pièce dissonante dans l'harmonie du mensonge collectif.
+Le village n'avait pas changé. Les façades de granit restaient impassibles, les volets clos sur des secrets que le sel rongeait lentement. Squarcioni était toujours là, dans sa mairie, entouré de ses dossiers et de son influence tranquille. La justice, celle des codes et des procédures, s'était heurtée à une muraille d'indifférence et de complicités tacites. Quelques rapports seraient transmis à Nantes, quelques noms seraient cités, mais le cœur du système, cette machine à broyer les hommes pour quelques caisses de marchandises détournées en quatre-vingt-dix-huit, continuait de tourner.
 
-Garcia passa la première et s'engagea sur la route départementale. Le bitume était luisant, strié de flaques d'eau sombre. À chaque tournant, il avait l'impression de laisser derrière lui un cimetière invisible. Dubois, le gardien du phare, n'était qu'un nom sur une plaque, un homme tué pour avoir trop noté dans ses registres. Sa mort n'avait pas provoqué l'effondrement du système ; elle en avait simplement fermé la boucle.
+Garcia monta dans sa Peugeot. L'habitacle sentait le vieux papier et l'humidité. Il ne démarra pas tout de suite. Il resta là, les mains posées sur le volant, écoutant le cliquetis du moteur qui refroidissait. 
 
-Il sentit l'odeur du sel et de l'iode s'estomper à mesure qu'il s'éloignait de la côte. C'était une odeur qui lui collait à la peau, une empreinte tenace qu'aucun savon ne pourrait effacer totalement. Il avait cherché la vérité avec l'obstination d'un homme qui croit que la lumière dissipe les ombres. Il découvrait maintenant que certaines zones restent obscures, même en plein jour, parce que les habitants ont appris à vivre dans le noir.
+Il se demanda ce qu'il avait gagné. Il avait déterré un cadavre, remonté le fil d'un naufrage, forcé Gaspard à trembler de peur dans un coin de pièce. Mais Ker-Morvan ne rendait rien. Le village ne donnait ni pardon ni reconnaissance. C'était une terre qui absorbait tout : les cris, les larmes et les preuves. 
 
-Le prix payé n'était pas celui des tribunaux. C'était l'usure. L'épuisement d'avoir lutté contre un courant trop fort. En regardant le paysage défiler, Garcia se demanda ce qu'il restait de lui-même après ce passage à Ker-Morvan. Une fatigue sourde, une sorte de cendres froides dans la poitrine.
+Il regarda le phare au loin, silhouette sombre se découpant sur l'horizon. Dubois y avait vécu seul, comptable des péchés d'autrui, avant que le prix du silence ne devienne trop cher pour ses assassins. Le phare continuait de balayer la mer de son faisceau blanc, régulier, indifférent aux hommes qui s'entretuaient en bas.
 
-Il ne reviendrait pas. Il n'y avait plus rien à chercher. Le secret du *Triton* était désormais public, mais il était devenu insignifiant. Le village continuerait de respirer au rythme des marées, les hommes continueraient de se saluer avec prudence sur le port, et le silence reprendrait ses droits, plus dense encore, car désormais conscient de lui-même.
+Garcia engagea la première. Il quitta le port lentement, sans regarder dans le rétroviseur. En passant devant la place centrale, il vit les habitués du café, silhouettes floues derrière la vitre embuée, discutant probablement de la météo ou des prix du poisson. Ils savaient tout, et ils ne savaient rien. C'était là l'essentiel.
 
-Il accéléra. Derrière lui, la brume avait fini d'avaler Ker-Morvan, comme si la terre avait décidé de reprendre ce qu'elle ne pouvait pas purifier.
+Il franchit le pont qui menait vers la route départementale. Derrière lui, Ker-Morvan s'effaçait dans la brume, redevenant ce petit point insignifiant sur la carte, un village côtier comme tant d'autres, où l'on apprend très tôt que certaines vérités sont plus utiles quand elles restent enfouies sous le sable.
+
+Il ne ressentait ni colère, ni triomphe. Juste une fatigue profonde, une sorte de vide froid qui s'était installé dans sa poitrine. Il avait fait son travail d'inspecteur, mais il avait oublié que dans certains endroits, le droit ne s'applique qu'à ceux qui n'ont personne pour les protéger.
+
+Il accéléra, laissant le bruit du vent couvrir le silence définitif de Dubois et le retour spectral de Marc. La route était longue, grise, et elle ne menait nulle part où il pourrait enfin oublier l'odeur de l'iode mêlée à celle de la trahison.

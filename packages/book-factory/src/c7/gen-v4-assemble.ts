@@ -11,7 +11,7 @@ import { buildCanonical } from './build-canonical.js';
 import { measureRepetition } from '../coherence/repetition-sensor.js';
 
 const OUT = 'runs/atlas';
-const COH1 = `${OUT}/MANUSCRIT_V3_COH2.md`;
+const COH1 = `${OUT}/MANUSCRIT_V3_COH3.md`;
 const SLOTS = `${OUT}/v4_slots`;
 const OUT_MS = `${OUT}/MANUSCRIT_V4_DRAFT.md`;
 const REPORT = `${OUT}/V4_ASSEMBLY_REPORT.json`;

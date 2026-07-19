@@ -1687,7 +1687,7 @@ Yvon Squarcioni leva enfin les yeux. Il y avait là une expression de terreur pu
 
 Il prit une inspiration sifflante, comme si l'air lui manquait. Puis, dans un souffle brisé, il avoua :
 
-— C'est la dette. La dette de sang. Le naufrage n'était pas un accident, c'était un montage. On a récupéré la cargaison, on a partagé les gains, mais on a dû payer pour que les dossiers disparaissent. Sauf que l'argent n'a jamais suffi. Le prix a été revu à la hausse, chaque année, pour chaque famille.
+— Vous connaissez déjà l'histoire, Garcia. Le montage, le butin, l'omerta payée famille par famille. Ce que vous ignorez, c'est que l'argent n'a jamais suffi. Le prix a été revu à la hausse, chaque année.
 
 Garcia fronça les sourcils.
 
@@ -2185,7 +2185,7 @@ Gaspard, resté en retrait près de la porte, ne quittait pas Léna des yeux. Il
 
 Garcia fit un pas vers le bureau, là où reposait le registre. Le cuir était craquelé, usé par des décennies de manipulations clandestines. Il ne toucha pas à l'objet, mais sa présence agissait comme un couperet suspendu au-dessus d'eux.
 
-— Le naufrage n'était pas un accident, n'est-ce pas ? continua Garcia. Un signal éteint, une trajectoire déviée. Un profit rapide pour combler un trou financier, et un homme qui devient gênant parce qu'il a vu trop de choses.
+— On connaît la mécanique, maintenant, continua Garcia. Un signal éteint, une trajectoire déviée, un homme qui a vu trop de choses. Ce que je veux, ce n'est plus l'histoire. C'est le nom de celui qui a tenu le couteau.
 
 Yvon releva la tête. Son visage était marqué, les rides creusées par une angoisse qui ne le quittait plus.
 
@@ -2225,7 +2225,7 @@ L'homme fit un pas vers elle, le visage tordu par une colère mêlée de panique
 
 Garcia descendit du véhicule. Le gravier crissa sous ses semelles, un bruit sec qui ricocha contre les murs de pierre de Ker-Morvan. Il resta immobile, les mains enfoncées dans les poches de son manteau, observant la bâtisse. La lumière déclinait, jetant des ombres allongées et déformées sur le sol battu.
 
-Léna l'attendait sur le perron. Elle ne bougea pas. Bras croisés, visage fermé, elle portait une fatigue qui ne masquait pas une vigilance aiguë. Entre eux, l'air s'était épaissi, saturé d'une tension électrique.
+Léna l'attendait sur le perron. Elle ne bougea pas. Bras croisés, visage fermé, elle portait une fatigue qui ne masquait pas sa résolution : elle avait choisi son camp, et ce n'était plus celui d'Yvon. Entre eux, l'air s'était épaissi, saturé d'une tension électrique.
 
 — Tu as parlé à Yvon ? demanda-t-elle.
 
@@ -2401,7 +2401,7 @@ Yvon esquissa un sourire amer.
 
 — Et qui va vous croire ? La mairie, l'église, le port... Nous sommes tous dans le même bateau, Garcia. Si vous coulez le navire, vous vous noyez avec nous.
 
-Le silence qui suivit fut dense. Un silence organique, presque palpable, qui semblait absorber les sons environnants. Garcia pensa à Léna. Elle l'attendait à Ker-Morvan. Elle représentait la seule ancre encore solide dans ce chaos de mensonges.
+Le silence qui suivit fut dense. Garcia pensa à Léna. Elle l'attendait à Ker-Morvan. Elle représentait la seule ancre encore solide dans ce chaos de mensonges.
 
 — Léna sait, dit Garcia.
 
@@ -2420,8 +2420,6 @@ Arrivé à Ker-Morvan, il trouva Léna sur le perron. Elle ne dit rien. Elle pri
 — C'est terminé ? demanda-t-elle.
 
 — Pour l'instant.
-
-Le sang avait séché. Une croûte sombre, presque noire, s'était formée autour de la plaie béante du cou, là où la lame avait tranché avec une précision chirurgicale. Garcia fixa le corps étendu sur le sol de pierre, immobile, dépouillé de toute dignité. C'était l'image finale, l'image brute. Le reste n'était que du bruit.
 
 Léna serra sa main plus fort. Il sentit le tremblement léger de ses doigts. Ils étaient toujours là, sur le perron de Ker-Morvan, mais l'esprit de Garcia était retourné dans la tour, auprès de ce cadavre qui refusait de s'effacer.
 
@@ -2469,7 +2467,7 @@ Le regard de Gaspard était vide, les pupilles dilatées. Il ne tremblait pas, i
 
 — Je n'avais pas le choix, finit-il par lâcher. Sa voix était un froissement de papier sec.
 
-Garcia fit un pas vers lui. Le craquement d'une latte de bois sous sa botte résonna comme un coup de feu dans l'immobilité de la pièce. L'air semblait s'être épaissi, saturé d'une tension électrique qui faisait dresser les poils sur ses bras.
+Garcia fit un pas vers lui. Une latte de bois craqua sous sa botte.
 
 — Le choix existe toujours, Gaspard. Tu as choisi de tuer un homme pour protéger un secret.
 

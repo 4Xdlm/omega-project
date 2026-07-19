@@ -33,6 +33,12 @@ export const EN_DENYLIST: ReadonlySet<string> = new Set([
   'walking', 'running', 'smiling', 'nodding', 'whispering', 'whispered', 'feeling', 'staring',
   'thinking', 'knowing', 'trying', 'turning', 'reaching', 'waiting', 'speaking', 'conjugates',
   'would', 'could', 'should', 'might', 'must', 'will', 'shall', 'doing', 'going', 'being', 'having',
+  // contenu anglais sans homographe FR — renfort TRIBUNAL 2026-07-18 : viscous/lipids/passing/
+  // unplanned laissés passer sur le V4 (LANG_CLEAN faux). Ajouts sûrs (0 homographe FR, non-emprunts).
+  'viscous', 'lipids', 'passing', 'unplanned', 'blood', 'shadow', 'whisper', 'whispering', 'breath',
+  'throat', 'shoulder', 'glance', 'gaze', 'empty', 'heavy', 'silent', 'darkness', 'coldness',
+  'morning', 'evening', 'answered', 'answer', 'window', 'wall', 'floor', 'ceiling', 'night',
+  'blinking', 'trembling', 'clenched', 'clutching', 'grabbing', 'pushing', 'pulling', 'leaning',
 ]);
 
 export interface LangResidual { readonly word: string; readonly index: number; readonly context: string }

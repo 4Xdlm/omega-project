@@ -39,6 +39,8 @@ export const EN_DENYLIST: ReadonlySet<string> = new Set([
   'throat', 'shoulder', 'glance', 'gaze', 'empty', 'heavy', 'silent', 'darkness', 'coldness',
   'morning', 'evening', 'answered', 'answer', 'window', 'wall', 'floor', 'ceiling', 'night',
   'blinking', 'trembling', 'clenched', 'clutching', 'grabbing', 'pushing', 'pulling', 'leaning',
+  // renfort ORTHO-SCAN 2026-07-19 : franglais « ships-logs » laissé passer sur COH5 (tokenisé \b).
+  'ships', 'logs', 'ship', 'log',
 ]);
 
 export interface LangResidual { readonly word: string; readonly index: number; readonly context: string }

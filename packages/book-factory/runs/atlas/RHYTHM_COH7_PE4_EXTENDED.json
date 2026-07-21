@@ -1,0 +1,122 @@
+{
+ "phase": "PE-4 EXTENDED -> COH7 (RHYTHM_NPVI_P0, mesure seule)",
+ "date": "2026-07-21",
+ "method": "W1 approx (deciles) longueurs de phrase par chapitre, moyenne. Reference = CALIBRATED_RHYTHM_DECILES (9 maitres FR, 24114 phrases). Plus BAS = plus proche du swing des maitres.",
+ "mastersReference": {
+  "median": 14,
+  "mean": 18.2,
+  "p90": 37,
+  "deciles": [
+   5,
+   7,
+   9,
+   11,
+   14,
+   17,
+   21,
+   27,
+   37
+  ]
+ },
+ "books": [
+  {
+   "book": "COH7_303fa775 (courant)",
+   "w1_vs_masters": 6.56,
+   "w1_vs_provisional": 3.78,
+   "dist": {
+    "n": 3840,
+    "median": 8,
+    "mean": 9.55,
+    "p90": 18,
+    "max": 39
+   }
+  },
+  {
+   "book": "V2_b438250e (reference NARRATIVE_CLEAN)",
+   "w1_vs_masters": 7.06,
+   "w1_vs_provisional": 3.83,
+   "dist": {
+    "n": 8686,
+    "median": 8,
+    "mean": 9.45,
+    "p90": 17,
+    "max": 39
+   }
+  },
+  {
+   "book": "V3_gemma4 (ancetre COH)",
+   "w1_vs_masters": 7.05,
+   "w1_vs_provisional": 3.86,
+   "dist": {
+    "n": 8727,
+    "median": 8,
+    "mean": 9.47,
+    "p90": 17,
+    "max": 42
+   }
+  },
+  {
+   "book": "V3_mistral",
+   "w1_vs_masters": 5.6,
+   "w1_vs_provisional": 3.09,
+   "dist": {
+    "n": 8340,
+    "median": 10,
+    "mean": 10.89,
+    "p90": 18,
+    "max": 44
+   }
+  }
+ ],
+ "coh7_staccato_top8": [
+  {
+   "chapter": 5,
+   "w1": 9,
+   "meanLen": 7.7,
+   "sentences": 207
+  },
+  {
+   "chapter": 6,
+   "w1": 8.44,
+   "meanLen": 8.2,
+   "sentences": 205
+  },
+  {
+   "chapter": 13,
+   "w1": 8,
+   "meanLen": 8.7,
+   "sentences": 193
+  },
+  {
+   "chapter": 18,
+   "w1": 8,
+   "meanLen": 8.6,
+   "sentences": 183
+  },
+  {
+   "chapter": 20,
+   "w1": 8,
+   "meanLen": 8.6,
+   "sentences": 183
+  },
+  {
+   "chapter": 22,
+   "w1": 8,
+   "meanLen": 8.6,
+   "sentences": 189
+  },
+  {
+   "chapter": 23,
+   "w1": 8,
+   "meanLen": 8.5,
+   "sentences": 195
+  },
+  {
+   "chapter": 24,
+   "w1": 7.89,
+   "meanLen": 8.7,
+   "sentences": 178
+  }
+ ],
+ "reading": "w1_vs_masters bas = rythme proche des maitres. Comparer dist.median/mean/p90 de COH7 aux maitres (14/18.2/37): si COH7 plus court/plat -> staccato. nPVI syllabique (omega-p0) = descripteur NON calibre sur corpus maitre -> hors scope mesure-calibree."
+}

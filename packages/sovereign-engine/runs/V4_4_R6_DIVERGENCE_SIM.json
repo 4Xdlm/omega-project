@@ -1,0 +1,49 @@
+{
+ "sim": "V4_4_R6_DIVERGENCE_SIM",
+ "date": "2026-07-21",
+ "purpose": "Quantifier l impact du passage style-only -> composite 60/25/15 en shadow.",
+ "weights": {
+  "emotion": 0.6,
+  "logic": 0.25,
+  "style": 0.15
+ },
+ "candidatesPerChapter": 7,
+ "trialsPerRho": 5000,
+ "seed": 42,
+ "model": "style01=a; emotion01=rho*a+(1-rho)*b; logic01=uniforme. a,b ~ U(0,1). Correlation style<->emotion = rho.",
+ "results": [
+  {
+   "rho": 0,
+   "divergenceRate": 0.7824,
+   "meanEmotionGain_all": 0.3404,
+   "meanEmotionGain_whenDiverged": 0.4351,
+   "meanStyleDelta_whenDiverged": -0.3543,
+   "nDiverged": 3912
+  },
+  {
+   "rho": 0.3,
+   "divergenceRate": 0.6328,
+   "meanEmotionGain_all": 0.1419,
+   "meanEmotionGain_whenDiverged": 0.2242,
+   "meanStyleDelta_whenDiverged": -0.241,
+   "nDiverged": 3164
+  },
+  {
+   "rho": 0.6,
+   "divergenceRate": 0.4546,
+   "meanEmotionGain_all": 0.0256,
+   "meanEmotionGain_whenDiverged": 0.0563,
+   "meanStyleDelta_whenDiverged": -0.1402,
+   "nDiverged": 2273
+  },
+  {
+   "rho": 0.9,
+   "divergenceRate": 0.3182,
+   "meanEmotionGain_all": -0.0203,
+   "meanEmotionGain_whenDiverged": -0.0637,
+   "meanStyleDelta_whenDiverged": -0.0836,
+   "nDiverged": 1591
+  }
+ ],
+ "reading": "divergenceRate = fraction de chapitres ou le composite choisit un AUTRE jet que le style-only. meanEmotionGain_whenDiverged = gain d emotion [0,1] sur ces chapitres. meanStyleDelta_whenDiverged = cout (negatif) en style. Plus style et emotion sont decorreles (rho bas), plus le composite corrige, au prix d un leger style."
+}

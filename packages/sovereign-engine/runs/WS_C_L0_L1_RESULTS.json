@@ -1,0 +1,22 @@
+{
+ "harness": "WS_C_HARNESS_L0_L1_P0",
+ "date": "2026-07-21",
+ "corpus": "FR-thriller 20 livres (Thilliez/Chattam/Bussi/Loubry)",
+ "extracts": 688,
+ "wordsPerExtract": 2000,
+ "legality": "imports: ws-c-physics -> features.ts (extractSentiment/featureIntensity/featureDistance). ZERO garage, ZERO LLM.",
+ "L0_order_sensitivity": {
+  "note": "AUC naturel vs melange (self-contract). Plancher : haut = ordre-sensible (attendu), ~0.5 = FORMULE MORTE.",
+  "C1": 0.9999,
+  "C2": 0.9998,
+  "C3": 0.9924,
+  "gap_C3": 0.3226
+ },
+ "L1B_contract_selectivity_ADVISORY": {
+  "note": "AUC bon-contrat vs mauvais-contrat sur textes construits (arousal croissant -> C_RISE). ADVISORY : le tri utilise le meme signal (arousal) que le score -> non qualifiant (cf L1_ASSIGNMENT_AUDIT).",
+  "C1": 1,
+  "C2": 1,
+  "C3": 1
+ },
+ "status": "L0/L1 = gate mecanique. NE qualifie PAS emotion01 (exige L2 + EMP-16). emotion01 GELE."
+}

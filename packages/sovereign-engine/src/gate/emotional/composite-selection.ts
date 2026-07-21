@@ -162,3 +162,79 @@ export function selectWithDivergence(
     weights: w,
   };
 }
+
+// ──────────────────────────────────────────────────────────────────────────────
+// SHADOW DUAL — full (60/25/15) vs emotion_style (60/40) — isole l'effet émotion
+// du bruit logique (durcissement ChatGPT 2026-07-21). PUR, observationnel.
+// ──────────────────────────────────────────────────────────────────────────────
+
+/** Composite SANS logique : 60% émotion / 40% style. Isole l'effet émotion. */
+export const EMOTION_STYLE_WEIGHTS: CompositeWeights = { emotion: 0.6, logic: 0, style: 0.4 };
+
+/** Détail composite par jet (les deux pondérations). */
+export interface PerAttemptShadow {
+  readonly id: string;
+  readonly emotion01: number;
+  readonly logic01: number;
+  readonly style01: number;
+  readonly composite_full: number;
+  readonly composite_emotion_style: number;
+}
+
+/** Résultat shadow complet attaché (optionnellement) au R6GateResult. Log-only. */
+export interface R6CompositeShadowResult {
+  readonly enabled: true;
+  /** Divergence sous pondération constitutionnelle 60/25/15. */
+  readonly full: DivergenceReport;
+  /** Divergence sous pondération 60/40 (sans logique). */
+  readonly emotionStyle: DivergenceReport;
+  /** Id du jet réellement sélectionné en PRODUCTION (style-only) — INCHANGÉ. */
+  readonly productionPickId: string;
+  /** Gains (composite_full) si divergence, sinon 0. */
+  readonly emotionGainIfDivergedFull: number;
+  readonly styleDeltaIfDivergedFull: number;
+  readonly logicDeltaIfDivergedFull: number;
+  readonly perAttempt: readonly PerAttemptShadow[];
+}
+
+/**
+ * Construit le résultat shadow dual à partir de candidats déjà normalisés.
+ * PUR / déterministe / observationnel — ne sélectionne rien en production.
+ *
+ * @param candidates - scores normalisés des jets.
+ * @param productionPickId - id du jet choisi par la PROD (style-only), pour audit.
+ * @throws Error si `candidates` est vide.
+ */
+export function buildCompositeShadow(
+  candidates: readonly CandidateScores[],
+  productionPickId: string,
+): R6CompositeShadowResult {
+  if (candidates.length === 0) throw new Error('buildCompositeShadow: aucun candidat');
+  const full = selectWithDivergence(candidates, CONSTITUTION_WEIGHTS);
+  const emotionStyle = selectWithDivergence(candidates, EMOTION_STYLE_WEIGHTS);
+
+  const byId = new Map(candidates.map((c) => [c.id, c]));
+  const sp = byId.get(full.styleOnlyPickId);
+  const cp = byId.get(full.compositePickId);
+  const divergedFull = full.diverged && sp !== undefined && cp !== undefined;
+
+  const perAttempt: PerAttemptShadow[] = candidates.map((c) => ({
+    id: c.id,
+    emotion01: clamp01(c.emotion01),
+    logic01: clamp01(c.logic01),
+    style01: clamp01(c.style01),
+    composite_full: computeComposite(c, CONSTITUTION_WEIGHTS),
+    composite_emotion_style: computeComposite(c, EMOTION_STYLE_WEIGHTS),
+  }));
+
+  return {
+    enabled: true,
+    full,
+    emotionStyle,
+    productionPickId,
+    emotionGainIfDivergedFull: divergedFull ? +(clamp01(cp.emotion01) - clamp01(sp.emotion01)).toFixed(6) : 0,
+    styleDeltaIfDivergedFull: divergedFull ? +(clamp01(cp.style01) - clamp01(sp.style01)).toFixed(6) : 0,
+    logicDeltaIfDivergedFull: divergedFull ? +(clamp01(cp.logic01) - clamp01(sp.logic01)).toFixed(6) : 0,
+    perAttempt,
+  };
+}

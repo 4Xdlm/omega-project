@@ -17,6 +17,7 @@
 
 import type { DispatcherFeatureName } from '../scoring/dispatcher/features-provenance.js';
 import type { LangKey } from '../scoring/dispatcher/coefficients-v3-4.js';
+import type { R6CompositeShadowResult } from './emotional/composite-selection.js';
 
 // ──────────────────────────────────────────────────────────────────────────────
 // CONFIGURATION
@@ -200,6 +201,14 @@ export interface R6GateResult {
 
   /** Durée totale de toutes les tentatives en millisecondes. */
   readonly totalDurationMs: number;
+
+  /**
+   * SHADOW (V4.4->R6 bridge) — résultat composite constitutionnel 60/25/15,
+   * présent UNIQUEMENT si `OMEGA_R6_COMPOSITE=shadow` + scoreurs injectés.
+   * Purement observationnel : ne reflète AUCUN changement de sélection prod.
+   * Absent en fonctionnement normal (rétro-compat totale).
+   */
+  readonly compositeShadow?: R6CompositeShadowResult;
 }
 
 // ──────────────────────────────────────────────────────────────────────────────

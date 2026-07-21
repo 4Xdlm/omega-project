@@ -51,6 +51,7 @@ import type {
   R6Language,
 } from './r6-types.js';
 import { buildR6GateConfig } from './r6-types.js';
+import { attachCompositeShadow, type EmotionalShadowScorers } from './emotional/r6-shadow.js';
 
 // ──────────────────────────────────────────────────────────────────────────────
 // SEED GENERATION (ADR-003 §4)
@@ -190,7 +191,7 @@ export function buildR6GateLog(result: R6GateResult): R6GateLog {
  * }
  * ```
  */
-export async function runR6RejectionGate(
+async function runR6RejectionGateCore(
   generator: R6ProseGenerator,
   prompt: string,
   baseSeed: string,
@@ -268,6 +269,30 @@ export async function runR6RejectionGate(
   // car on retourne immédiatement au premier pass — mais défense)
   const bestPassedIdx = selectBestAttempt(attempts, true);
   return buildResult(attempts, bestPassedIdx, cfg, startTime, true);
+}
+
+/**
+ * Point d'entrée public du R6 Rejection Gate.
+ *
+ * Comportement IDENTIQUE à l'historique : la sélection de production reste
+ * pilotée à 100% par le score de STYLE (CALC V3.4). Le paramètre optionnel
+ * `shadowScorers`, combiné au flag `OMEGA_R6_COMPOSITE=shadow`, attache
+ * UNIQUEMENT un champ observationnel `compositeShadow` (V4.4->R6 bridge) —
+ * il ne change JAMAIS `selectedAttempt` (hash de sortie livre stable).
+ *
+ * @param shadowScorers - scoreurs émotion/logique injectés (log-only). Optionnel.
+ * @see gate/emotional/r6-shadow.ts
+ */
+export async function runR6RejectionGate(
+  generator: R6ProseGenerator,
+  prompt: string,
+  baseSeed: string,
+  language: R6Language,
+  config?: Partial<R6GateConfig>,
+  shadowScorers?: EmotionalShadowScorers,
+): Promise<R6GateResult> {
+  const result = await runR6RejectionGateCore(generator, prompt, baseSeed, language, config);
+  return attachCompositeShadow(result, shadowScorers);
 }
 
 // ──────────────────────────────────────────────────────────────────────────────

@@ -16,7 +16,9 @@
  * Sinon : no-op strict (resultat identique, aucun champ `compositeShadow`).
  *
  * Scoreurs injectes (DI, comme R6ProseGenerator) — a brancher au niveau appelant :
- *   scoreEmotion <- scoreTension14D(packet, prose).score   [0,100]  (Plutchik-14 forge)
+ *   scoreEmotion <- scoreur emotion NON-GARAGE approuve Tribunal  [0,100]
+ *                   (!! PAS scoreTension14D/target_14d : GARAGE/DORMANT,
+ *                    FORBID-CANON-GARAGE-001, NE PAS RESSUSCITER !!)
  *   scoreLogic?  <- continuity-oracle / arc-coherence       [0,100]  (defaut 50 -> logic01=0.5)
  * ═══════════════════════════════════════════════════════════════════════════════
  */
@@ -33,7 +35,8 @@ export const R6_COMPOSITE_FLAG = 'OMEGA_R6_COMPOSITE';
  * en production, seulement pour mesurer la divergence composite en shadow.
  */
 export interface EmotionalShadowScorers {
-  /** Emotion [0,100] — brancher scoreTension14D(packet, prose).score. */
+  /** Emotion [0,100] — moteur NON-GARAGE approuve (PAS scoreTension14D/target_14d,
+   *  FORBID-CANON-GARAGE-001). Injecte par l'appelant, jamais code en dur ici. */
   readonly scoreEmotion: (prose: string, langRoute: string) => number | Promise<number>;
   /** Logique/coherence [0,100] — brancher continuity-oracle. Absent => 50 (logic01=0.5). */
   readonly scoreLogic?: (prose: string) => number | Promise<number>;

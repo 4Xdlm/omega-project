@@ -15,8 +15,10 @@
  *   - Aucune I/O, aucun LLM, aucun etat. Ne touche pas `r6-rejection-gate.ts`.
  *   - Cablage live (log-only, sous flag) = etape 5 gatee (Architecte).
  *   - Sources reelles a brancher a l'etape live :
- *       emotionScore  <- scoreTension14D(packet, prose).score      [0,100]
- *       coherenceScore<- axe coherence Oracle                       [0,100]
+ *       emotionScore  <- scoreur emotion NON-GARAGE approuve Tribunal   [0,100]
+ *                        (!! PAS scoreTension14D/target_14d : GARAGE,
+ *                         FORBID-CANON-GARAGE-001, resurrection interdite !!)
+ *       coherenceScore<- axe coherence Oracle (ex: continuity-oracle)   [0,100]
  *       calcScore     <- scoreForR6Gate(prose).baseline_tier_score  (~[1.5,6.5])
  * ═══════════════════════════════════════════════════════════════════════════════
  */
@@ -34,7 +36,8 @@ import {
 export interface RawAxisScores {
   /** Identifiant du jet (index de tentative R6). */
   readonly id: string;
-  /** Emotion : scoreTension14D [0,100]. */
+  /** Emotion [0,100] : score d'un moteur NON-GARAGE approuve (PAS le 14D gare —
+   *  FORBID-CANON-GARAGE-001). */
   readonly emotionScore: number;
   /** Coherence/logique : axe Oracle [0,100]. */
   readonly coherenceScore: number;

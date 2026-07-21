@@ -23,9 +23,19 @@
  *   - Activation (flip shadow->active) = modif MOTEUR => EMP-16 (3 preuves).
  *
  * Les scores d'entree sont normalises dans [0,1] :
- *   emotion01 = scoreTension14D(...)/100   (axe Oracle existant, Plutchik-14)
- *   logic01   = axe coherence /100          (capteurs existants)
+ *   emotion01 = <scoreur emotion APPROUVE>/100  (voir AVERTISSEMENT ci-dessous)
+ *   logic01   = axe coherence /100          (capteurs existants, ex: continuity-oracle)
  *   style01   = normalizeCalcScore(calcScore)  (echelle tier ~[1.5,6.5] -> [0,1])
+ *
+ * !! AVERTISSEMENT GOUVERNANCE (FORBID-CANON-GARAGE-001) !!
+ *   Le canon `Emotion14 target_14d` (deriveEmotionContract.ts) + le runtime
+ *   `emotion_14d`/`tension_14d` sont GARAGE/DORMANT — RESURRECTION INTERDITE
+ *   (NCR_EMOTION14_CANON_DRIFT ; lecon NCR_V2_3_ORACLE_ECC_14D_INCOMPATIBLE :
+ *   ne JAMAIS forcer `target_14d` (qui reste {}) pour faire passer un Oracle).
+ *   => Ce module est AGNOSTIQUE du moteur : `emotion01` est un score INJECTE.
+ *      La SOURCE d'`emotion01` doit etre un signal emotion NON-GARAGE, approuve
+ *      par Tribunal (voie WS-C : pouvoir discriminant MESURE). N'utilisez PAS
+ *      scoreTension14D/target_14d comme source tant que le garage n'est pas leve.
  * ═══════════════════════════════════════════════════════════════════════════════
  */
 
@@ -47,7 +57,8 @@ export const CALC_TIER_MAX = 6.5;
 export interface CandidateScores {
   /** Identifiant du jet (index de tentative R6, ou seed). */
   readonly id: string;
-  /** Fidelite emotionnelle [0,1] — scoreTension14D/100 vs emotion_contract. */
+  /** Fidelite emotionnelle [0,1] — score INJECTE d'un moteur NON-GARAGE approuve
+   *  (PAS scoreTension14D/target_14d : FORBID-CANON-GARAGE-001). */
   readonly emotion01: number;
   /** Coherence/logique [0,1] — axe(s) de coherence existant(s). */
   readonly logic01: number;

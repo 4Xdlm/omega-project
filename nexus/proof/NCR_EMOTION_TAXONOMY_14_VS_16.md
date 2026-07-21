@@ -30,5 +30,14 @@ La spec V4.4→R6 supposait une seule taxonomie émotionnelle « Emotion14 (ou 1
 - `Emotion14` (genome) et Plutchik-14 (forge) coexistent par rôle — documenté ici comme vérité repo.
 - Migration/unification = **HOLD** jusqu'à décision Architecte (hors périmètre bridge shadow).
 
-## Décision Architecte (à remplir)
-_Pending Francky._ — (a) valider Option 1 ; (b) trancher si l'unification long-terme est souhaitée ; (c) autoriser l'alignement documentaire « 16 → 14 ».
+## ⚠️ CORRECTION CRITIQUE (2026-07-21, alerte Architecte « vieux moteur au garage »)
+**La conclusion « utiliser forge Plutchik-14 comme scoreur émotion » ci-dessous est PARTIELLEMENT INVALIDÉE.** Vérification faite : le canon **`Emotion14 target_14d` (`deriveEmotionContract.ts`)** et le runtime **`emotion_14d`/`tension_14d`** sont **GARAGE/DORMANT** sous **`FORBID-CANON-GARAGE-001`** (`NCR_EMOTION14_CANON_DRIFT` ; OMEGA_ULTRA_VISION 2026-06-08 : « Emotion14 target_14d — GARAGE — NE PAS RESSUSCITER »). Leçon scellée `NCR_V2_3_ORACLE_ECC_14D_INCOMPATIBLE` : interdit de forcer `target_14d` (qui reste `{}`) pour faire passer un Oracle. Motif du garage (WS-C) : 14D « estimé/calculé mais pas mesuré avec rigueur » → résurrection = **Tribunal + preuve WS-C de pouvoir discriminant mesuré**, PAS un câblage.
+**Conséquence** : `scoreTension14D`/`target_14d`/`omega-forge` ne peuvent PAS servir de source `emotion01` du bridge tant que le garage n'est pas levé. Le **code du bridge reste valide** (agnostique : `emotion01` injecté, aucun import du garage — vérifié). La **SOURCE émotion est UNRESOLVED/gatée** : à définir hors garage (voie WS-C approuvée Tribunal). Le taxonomie 14/16 reste tranché (Option 1) mais ne suffit pas — le blocage réel est le garage, pas la taxonomie.
+
+## Décision Architecte
+**2026-07-21 — OPTION 1 ADOPTÉE** (taxonomie), **MAIS SOURCE ÉMOTION GATÉE GARAGE**. Statut : **taxonomie RESOLVED ; source émotion OPEN (garage)**.
+- Le bridge R6 reste **agnostique du moteur** ; la taxonomie cible, SI un jour un scoreur non-garé est approuvé, sera Plutchik-14 côté forme — mais **aucun câblage de `scoreTension14D`/`target_14d` autorisé** (FORBID-CANON-GARAGE-001).
+- `genome-Emotion14` reste la taxonomie de **fingerprint**, SANCTUARISÉE, non touchée.
+- Mention « 16 émotions » = **dette documentaire** → aligner les docs sur 14.
+- **INTERDITS actés** : aucune migration vers 16 ; aucune unification de taxonomie ; aucune mutation genome.
+- Axe logique du composite (25 %) : **`continuity-oracle`** (couplé arc + CharacterRegistry) désigné (Gemini) ; en attendant le branchement, fallback `logic01=0.5` + composite dual `emotion_style` (60/40) pour isoler l'effet émotion (ChatGPT).

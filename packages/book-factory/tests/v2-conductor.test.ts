@@ -10,7 +10,11 @@ import { CALIBRATED_ESCALATION, FEWSHOT_EXEMPLARS } from '../src/rosetta/dramati
 
 describe('V2 — Wasserstein rythme (ADVISORY, profil PROVISOIRE)', () => {
   it('V2-001 — prose monotone plus LOIN du profil maître que prose au swing maître (fixtures robustes)', () => {
-    const sent = (k: number): string => `${Array<string>(k).fill('mot').join(' ')}.`;
+    // Fixture conforme au français réel : une phrase COMMENCE par une majuscule.
+    // (Le découpeur canonique — migration 2026-07-30 — ne coupe un terminateur que
+    // devant une amorce de phrase ; l'ancienne fixture tout-minuscules était un
+    // artefact de l'ancien splitter, pas du français.)
+    const sent = (k: number): string => `Mot ${Array<string>(Math.max(0, k - 1)).fill('mot').join(' ')}.`;
     const flat = Array.from({ length: 30 }, () => sent(11)).join(' '); // toutes ~11 mots
     const swing = Array.from({ length: 30 }, (_, i) => sent([5, 9, 14, 21, 37][i % 5] ?? 11)).join(' '); // spread maître
     expect(wassersteinToProfile(sentenceLengths(swing))).toBeLessThan(wassersteinToProfile(sentenceLengths(flat)));

@@ -1,27 +1,23 @@
 /**
  * OMEGA Style Emergence Engine -- Cadence Analyzer
  * Phase C.3 -- Sentence length distribution analysis
+ *
+ * MIGRATION 2026-07-30 : le découpage local (split `(?<=[.!?])\s+` + comptage de
+ * tokens bruts) comptait « : » et « — » comme des mots et ratait des découpages
+ * (phrase de 746 mots observée sur epub). Remplacé par le découpeur CANONIQUE
+ * (@omega/phonetic-stack, dépendance déclarée) — import par chemin source,
+ * pattern repo, le dist du paquet n'incluant pas encore ce module.
  */
 
 import type { ProseParagraph } from '../types.js';
 import type { CadenceProfile } from '../types.js';
-
-function extractSentences(text: string): string[] {
-  return text.split(/(?<=[.!?])\s+/).filter((s) => s.trim().length > 0);
-}
-
-function wordCount(sentence: string): number {
-  return sentence.split(/\s+/).filter((w) => w.length > 0).length;
-}
+import { sentenceLengthsFr } from '../../../omega-p0/src/phonetic/sentence-splitter-fr.js';
 
 export function analyzeCadence(paragraphs: readonly ProseParagraph[]): CadenceProfile {
   const allSentenceLengths: number[] = [];
 
   for (const para of paragraphs) {
-    const sentences = extractSentences(para.text);
-    for (const s of sentences) {
-      allSentenceLengths.push(wordCount(s));
-    }
+    allSentenceLengths.push(...sentenceLengthsFr(para.text));
   }
 
   if (allSentenceLengths.length === 0) {

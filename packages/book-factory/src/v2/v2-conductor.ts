@@ -17,6 +17,10 @@ import type { ChapterControlVerdict, ControlPlaneReport, DramaticFn } from '../c
 import { MotifRepulsionField, normalizedHead } from '../variation/motif-repulsion.js';
 import { DEFAULT_ESCALATION, FEWSHOT_EXEMPLARS } from '../rosetta/dramatic-grid.js';
 import type { EscalationProfile } from '../rosetta/dramatic-grid.js';
+// Découpeur CANONIQUE (@omega/phonetic-stack, dépendance déclarée). Import par
+// chemin source (pattern repo, cf. polish/description-density.ts) : le dist du
+// paquet n'inclut pas encore ce module et tsx/vitest résolvent le TS directement.
+import { sentenceLengthsFr } from '../../../omega-p0/src/phonetic/sentence-splitter-fr.js';
 
 /* ————————————————— Wasserstein rythme (ADVISORY, profil PROVISOIRE) ————————————————— */
 
@@ -27,11 +31,23 @@ export const PROVISIONAL_RHYTHM_DECILES: readonly number[] = [3, 4, 6, 8, 10, 12
  *  Maupassant, Balzac, Duras — 24 114 phrases). Déciles P10..P90 de longueur de
  *  phrase (mots). Médiane 14, moyenne 18.2, P90=37 : les maîtres écrivent plus
  *  long ET avec une queue bien plus lourde que le provisoire — c'est la cible du
- *  « swing » rythmique qui manquait à OMEGA (cv plat). Source mesurée, non inventée. */
+ *  « swing » rythmique qui manquait à OMEGA (cv plat). Source mesurée, non inventée.
+ *
+ *  ⚠️ STALE_SPLITTER (2026-07-30) : ces déciles ont été calibrés avec l'ANCIEN
+ *  découpeur (split sur `…»`, retiré depuis — cf. sentence-splitter-fr.ts).
+ *  Écart mesuré ancien→canonique sur corpus FR : médiane +0..1, P90 +1..2.
+ *  À RECALIBRER sur le corpus 9-maîtres avec le découpeur canonique avant tout
+ *  usage décisionnel. Usage actuel : ADVISORY/SHADOW uniquement — toléré. */
 export const CALIBRATED_RHYTHM_DECILES: readonly number[] = [5, 7, 9, 11, 14, 17, 21, 27, 37];
 
+/** Longueurs de phrase — DÉLÈGUE au découpeur canonique FR (@omega/phonetic-stack).
+ *  Migration 2026-07-30 : l'ancienne implémentation locale (split `(?<=[.!?…»])\s+(?!»)`)
+ *  coupait sur les points de suspension intra-phrastiques et éclatait les incises
+ *  dialoguées. Tous les consommateurs (duel-analyze, frthriller-rhythm,
+ *  polar-rhythm-baseline, rhythm-coh7-extend, pacing-shadow…) migrent via ce point
+ *  unique. Signature inchangée. */
 export function sentenceLengths(prose: string): readonly number[] {
-  return prose.split(/(?<=[.!?…»])\s+(?!»)/u).map((s) => s.trim().split(/\s+/u).filter((w) => /\p{L}/u.test(w)).length).filter((n) => n > 0);
+  return sentenceLengthsFr(prose);
 }
 
 /** W₁ approchée par comparaison de déciles (déterministe, CALC pur). Défaut =

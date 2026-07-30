@@ -91,3 +91,11 @@ export type { SurpriseAnalysis } from './phonetic/surprise-analyzer.js';
 
 export { analyzeInevitability } from './phonetic/inevitability-analyzer.js';
 export type { InevitabilityAnalysis } from './phonetic/inevitability-analyzer.js';
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// SENTENCE SPLITTER FR — découpeur de phrases CANONIQUE (2026-07-30)
+// Remplace les implémentations divergentes v2-conductor (A) et cadence-analyzer (B).
+// Toute mesure de longueur/rythme de phrase DOIT passer par ces fonctions.
+// ═══════════════════════════════════════════════════════════════════════════════
+
+export { splitSentencesFr, countWordsFr, sentenceLengthsFr } from './phonetic/sentence-splitter-fr.js';

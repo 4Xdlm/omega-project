@@ -1,0 +1,1836 @@
+{
+  "spec": "B0_SYNTACTIC_CAUSAL_MATRIX",
+  "model": "gemma4:31b",
+  "runs": 3,
+  "candidatesPerRun": 7,
+  "preregisteredBaseline": "0 phrase >=50 mots sur 42 generations (A0 + A3)",
+  "gate": "PASS d'un bras : >=5 sorties sur 21 avec une periode de 50-90 mots dans le dernier tiers, <=1 periode ample par sortie, aucune entite nouvelle, aucune phrase sans verbe ajoutee.",
+  "arms": {
+    "B0": {
+      "plan": false,
+      "exemplar": false
+    },
+    "B1": {
+      "plan": true,
+      "exemplar": false
+    },
+    "B2": {
+      "plan": false,
+      "exemplar": true
+    },
+    "B3": {
+      "plan": true,
+      "exemplar": true
+    }
+  },
+  "summary": [
+    {
+      "arm": "B0",
+      "n": 21,
+      "periodes 50-90 (sorties)": 0,
+      "dont dans le dernier tiers": 0,
+      "phrase max (moy)": 36.38,
+      "phrase max (abs)": 45,
+      ">=30 (moy)": 3.57,
+      ">=40 (moy)": 0.33,
+      ">=50 (moy)": 0,
+      "mots (moy)": 1089.76,
+      "sans verbe (moy)": 1.33,
+      "entites nouvelles (moy)": 2.81,
+      "anglais (total)": 9,
+      "tics POST_A3 (moy)": 6.39
+    },
+    {
+      "arm": "B1",
+      "n": 21,
+      "periodes 50-90 (sorties)": 1,
+      "dont dans le dernier tiers": 1,
+      "phrase max (moy)": 121.57,
+      "phrase max (abs)": 144,
+      ">=30 (moy)": 4.14,
+      ">=40 (moy)": 1.1,
+      ">=50 (moy)": 1,
+      "mots (moy)": 1001.43,
+      "sans verbe (moy)": 1.19,
+      "entites nouvelles (moy)": 2.52,
+      "anglais (total)": 3,
+      "tics POST_A3 (moy)": 6.12
+    },
+    {
+      "arm": "B2",
+      "n": 21,
+      "periodes 50-90 (sorties)": 0,
+      "dont dans le dernier tiers": 0,
+      "phrase max (moy)": 37.43,
+      "phrase max (abs)": 45,
+      ">=30 (moy)": 4,
+      ">=40 (moy)": 0.38,
+      ">=50 (moy)": 0,
+      "mots (moy)": 1106.52,
+      "sans verbe (moy)": 1.38,
+      "entites nouvelles (moy)": 2.71,
+      "anglais (total)": 2,
+      "tics POST_A3 (moy)": 5.12
+    },
+    {
+      "arm": "B3",
+      "n": 21,
+      "periodes 50-90 (sorties)": 1,
+      "dont dans le dernier tiers": 1,
+      "phrase max (moy)": 122.1,
+      "phrase max (abs)": 150,
+      ">=30 (moy)": 4.57,
+      ">=40 (moy)": 1.62,
+      ">=50 (moy)": 1.05,
+      "mots (moy)": 1033.71,
+      "sans verbe (moy)": 1.1,
+      "entites nouvelles (moy)": 2.52,
+      "anglais (total)": 8,
+      "tics POST_A3 (moy)": 5.29
+    }
+  ],
+  "detail": {
+    "B0": [
+      {
+        "words": 1115,
+        "sentences": 78,
+        "ge30": 3,
+        "ge40": 0,
+        "ge50": 0,
+        "maxSentenceWords": 38,
+        "maxPosition": 0.282,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 0,
+        "newEntities": [
+          "Ker",
+          "Morvan"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 4.48,
+        "sha256": "4f76b93e19b9efcdd88c677c058de3394298080a6d03bba097df720ca78ba2f5"
+      },
+      {
+        "words": 1057,
+        "sentences": 80,
+        "ge30": 3,
+        "ge40": 0,
+        "ge50": 0,
+        "maxSentenceWords": 37,
+        "maxPosition": 0.263,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 2,
+        "newEntities": [
+          "Ker",
+          "Morvan"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 5.68,
+        "sha256": "b4499cb5f6271d42f10f70abadbdee72332bfca55cc4484827e528b4a5881eb7"
+      },
+      {
+        "words": 1078,
+        "sentences": 82,
+        "ge30": 5,
+        "ge40": 1,
+        "ge50": 0,
+        "maxSentenceWords": 40,
+        "maxPosition": 0.378,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 1,
+        "newEntities": [
+          "Ker",
+          "Morvan",
+          "République"
+        ],
+        "englishResiduals": 1,
+        "ticDensity": 3.71,
+        "sha256": "29b93f4d473bd8cb1a13d8d4f1dc15c5dda94b1091eb35aca7c8204eabac4e0c"
+      },
+      {
+        "words": 1073,
+        "sentences": 78,
+        "ge30": 4,
+        "ge40": 0,
+        "ge50": 0,
+        "maxSentenceWords": 33,
+        "maxPosition": 0.923,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 1,
+        "newEntities": [
+          "Ker",
+          "Morvan",
+          "Atlantique",
+          "Paris"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 6.52,
+        "sha256": "e3f1aa4cf0c0fdb7d97330dbd64a0007c6e1352dd0c5df6b1fca0a06cc5154a0"
+      },
+      {
+        "words": 1118,
+        "sentences": 75,
+        "ge30": 3,
+        "ge40": 1,
+        "ge50": 0,
+        "maxSentenceWords": 41,
+        "maxPosition": 0.96,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 0,
+        "newEntities": [
+          "Ker",
+          "Morvan"
+        ],
+        "englishResiduals": 1,
+        "ticDensity": 7.16,
+        "sha256": "28974cc2e66615d8fa37a9fe23738b726ff690f2c981253ee46b57835fe0576a"
+      },
+      {
+        "words": 1079,
+        "sentences": 73,
+        "ge30": 2,
+        "ge40": 2,
+        "ge50": 0,
+        "maxSentenceWords": 42,
+        "maxPosition": 0.986,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 0,
+        "newEntities": [
+          "Ker",
+          "Morvan",
+          "Atlantique"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 6.49,
+        "sha256": "1559db615b77b90603469402b98ed00025ae2257c3fd71d26bc7385498ba4d52"
+      },
+      {
+        "words": 1095,
+        "sentences": 87,
+        "ge30": 2,
+        "ge40": 0,
+        "ge50": 0,
+        "maxSentenceWords": 32,
+        "maxPosition": 0.621,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 2,
+        "newEntities": [
+          "Ker",
+          "Morvan"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 4.57,
+        "sha256": "91fbc32516a981291c999f03e115db5ef97779de7e77abb026ac65dff5e670bb"
+      },
+      {
+        "words": 1071,
+        "sentences": 76,
+        "ge30": 5,
+        "ge40": 0,
+        "ge50": 0,
+        "maxSentenceWords": 36,
+        "maxPosition": 0.434,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 1,
+        "newEntities": [
+          "Ker",
+          "Morvan",
+          "Atlantique"
+        ],
+        "englishResiduals": 1,
+        "ticDensity": 6.54,
+        "sha256": "aac1ce9cd621f60e8da1d7de0cdb2395660a1f03cca17e8a1777f3423c380735"
+      },
+      {
+        "words": 1050,
+        "sentences": 71,
+        "ge30": 4,
+        "ge40": 0,
+        "ge50": 0,
+        "maxSentenceWords": 36,
+        "maxPosition": 0.817,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 1,
+        "newEntities": [
+          "Ker",
+          "Morvan"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 4.76,
+        "sha256": "2b57ea5f41d5bba5afa5c1f60d19fa9c522258b12b6c9341ce078536bbdd41b1"
+      },
+      {
+        "words": 1065,
+        "sentences": 82,
+        "ge30": 0,
+        "ge40": 0,
+        "ge50": 0,
+        "maxSentenceWords": 29,
+        "maxPosition": 0.659,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 1,
+        "newEntities": [
+          "Atlantique",
+          "Ker",
+          "Morvan"
+        ],
+        "englishResiduals": 2,
+        "ticDensity": 7.51,
+        "sha256": "129d9daf8987d6669cc562011951c8ca2749205f759b5b37920f1808ac775bb1"
+      },
+      {
+        "words": 1009,
+        "sentences": 73,
+        "ge30": 2,
+        "ge40": 0,
+        "ge50": 0,
+        "maxSentenceWords": 34,
+        "maxPosition": 0.329,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 3,
+        "newEntities": [
+          "Atlantique",
+          "Ker",
+          "Morvan"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 8.92,
+        "sha256": "0d539114fd4b6e7521706a67e191381a324e4fb782cd3a02b98e48a982c2411e"
+      },
+      {
+        "words": 1065,
+        "sentences": 71,
+        "ge30": 3,
+        "ge40": 1,
+        "ge50": 0,
+        "maxSentenceWords": 45,
+        "maxPosition": 0.986,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 0,
+        "newEntities": [
+          "Ker",
+          "Morvan",
+          "Atlantique"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 5.63,
+        "sha256": "34254bfcf154c84f4578385d3e2bf58b5a0ecbffc3e5e3b797590646ccaf8772"
+      },
+      {
+        "words": 1083,
+        "sentences": 83,
+        "ge30": 1,
+        "ge40": 0,
+        "ge50": 0,
+        "maxSentenceWords": 30,
+        "maxPosition": 0.506,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 1,
+        "newEntities": [
+          "Ker",
+          "Morvan",
+          "Paris",
+          "Atlantique"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 12,
+        "sha256": "a49d8b1d259f6b5f70a8ae3a8766217a9920dfbf9368d512fd4a4990f65f6fb7"
+      },
+      {
+        "words": 1066,
+        "sentences": 84,
+        "ge30": 4,
+        "ge40": 0,
+        "ge50": 0,
+        "maxSentenceWords": 36,
+        "maxPosition": 0.988,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 2,
+        "newEntities": [
+          "Ker",
+          "Morvan",
+          "République",
+          "Nantes"
+        ],
+        "englishResiduals": 1,
+        "ticDensity": 4.69,
+        "sha256": "7251524960110c94e81636333562492d54620ba0c2181fee9ef6591f49e9c1ed"
+      },
+      {
+        "words": 1155,
+        "sentences": 84,
+        "ge30": 5,
+        "ge40": 0,
+        "ge50": 0,
+        "maxSentenceWords": 33,
+        "maxPosition": 0.262,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 2,
+        "newEntities": [
+          "Ker",
+          "Morvan"
+        ],
+        "englishResiduals": 1,
+        "ticDensity": 7.79,
+        "sha256": "91ae5fbf36689e1ebb17ff50de2bbeaf571ae56e5a874d7dd0af53ebc7c84735"
+      },
+      {
+        "words": 1078,
+        "sentences": 80,
+        "ge30": 4,
+        "ge40": 0,
+        "ge50": 0,
+        "maxSentenceWords": 38,
+        "maxPosition": 0.988,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 0,
+        "newEntities": [
+          "Ker",
+          "Morvan"
+        ],
+        "englishResiduals": 1,
+        "ticDensity": 6.49,
+        "sha256": "516fb7b6780ebde41c01a23c7aca9d49b5901e458fd7410135c74edec59d48fc"
+      },
+      {
+        "words": 1117,
+        "sentences": 83,
+        "ge30": 5,
+        "ge40": 0,
+        "ge50": 0,
+        "maxSentenceWords": 36,
+        "maxPosition": 0.819,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 2,
+        "newEntities": [
+          "Ker",
+          "Morvan",
+          "Atlantique"
+        ],
+        "englishResiduals": 1,
+        "ticDensity": 8.06,
+        "sha256": "db97f41537689f6a893d53aa1b73262b76dae408aca2b6aadba4b25ba0abaec0"
+      },
+      {
+        "words": 1159,
+        "sentences": 86,
+        "ge30": 6,
+        "ge40": 1,
+        "ge50": 0,
+        "maxSentenceWords": 41,
+        "maxPosition": 0.86,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 3,
+        "newEntities": [
+          "Ker",
+          "Morvan",
+          "Atlantique"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 4.31,
+        "sha256": "42625e0bc9c5ee7841e179e525c031507e7066aa9d8c3167b71deaaecab787a7"
+      },
+      {
+        "words": 1124,
+        "sentences": 83,
+        "ge30": 8,
+        "ge40": 1,
+        "ge50": 0,
+        "maxSentenceWords": 40,
+        "maxPosition": 0.157,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 2,
+        "newEntities": [
+          "Ker",
+          "Morvan"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 4.45,
+        "sha256": "f69683e9c1a7d9700293ddec6f3157256a4074f5062afe2c06f58af5ab179f60"
+      },
+      {
+        "words": 1078,
+        "sentences": 79,
+        "ge30": 3,
+        "ge40": 0,
+        "ge50": 0,
+        "maxSentenceWords": 33,
+        "maxPosition": 0.734,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 1,
+        "newEntities": [
+          "Ker",
+          "Morvan",
+          "Paris",
+          "Rennes"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 7.42,
+        "sha256": "b0f99b456567281b12d1e6483de5328e9ef29f5ee3f860069999d24ff3bc717b"
+      },
+      {
+        "words": 1150,
+        "sentences": 94,
+        "ge30": 3,
+        "ge40": 0,
+        "ge50": 0,
+        "maxSentenceWords": 34,
+        "maxPosition": 0.043,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 3,
+        "newEntities": [
+          "Atlantique",
+          "Ker",
+          "Morvan"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 6.96,
+        "sha256": "401f41fca20add8874026c814ebf278a85a1bbdf7761a4b277356d3db7bb6e7c"
+      }
+    ],
+    "B1": [
+      {
+        "words": 1010,
+        "sentences": 68,
+        "ge30": 4,
+        "ge40": 2,
+        "ge50": 1,
+        "maxSentenceWords": 134,
+        "maxPosition": 0.779,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 0,
+        "newEntities": [
+          "Ker",
+          "Morvan",
+          "Atlantique"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 2.97,
+        "sha256": "5487145479c656a138ccf27f648369d2fcc14a82defeb9319715aea7ec134bce"
+      },
+      {
+        "words": 1066,
+        "sentences": 68,
+        "ge30": 3,
+        "ge40": 1,
+        "ge50": 1,
+        "maxSentenceWords": 98,
+        "maxPosition": 0.735,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 1,
+        "newEntities": [
+          "Atlantique",
+          "Ker",
+          "Morvan"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 8.44,
+        "sha256": "554c738ad318b6d9fc2e5464127a88b1782d2cd10fb1c4dc9e3af2e496589383"
+      },
+      {
+        "words": 1050,
+        "sentences": 69,
+        "ge30": 4,
+        "ge40": 1,
+        "ge50": 1,
+        "maxSentenceWords": 139,
+        "maxPosition": 0.667,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 0,
+        "newEntities": [
+          "Ker",
+          "Morvan"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 4.76,
+        "sha256": "bda44ee0186a301f62d54092a8a36d25f96ef7149494abd600ef60deeeba83a5"
+      },
+      {
+        "words": 996,
+        "sentences": 65,
+        "ge30": 5,
+        "ge40": 1,
+        "ge50": 1,
+        "maxSentenceWords": 90,
+        "maxPosition": 0.831,
+        "hasAmplePeriod": true,
+        "amplePeriodInZone": true,
+        "amplePeriodCount": 1,
+        "verblessSentences": 2,
+        "newEntities": [
+          "Ker",
+          "Morvan"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 7.03,
+        "sha256": "8ed8cea2af29df7a0dfbb7f4e41f1de8bf18fb93135d0016a4e3cf92b5d6f89d"
+      },
+      {
+        "words": 994,
+        "sentences": 66,
+        "ge30": 4,
+        "ge40": 1,
+        "ge50": 1,
+        "maxSentenceWords": 138,
+        "maxPosition": 0.727,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 3,
+        "newEntities": [
+          "Atlantique",
+          "Ker",
+          "Morvan"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 7.04,
+        "sha256": "ddf19978b3d2e56ad791b86fb23f05c97af087de94a513e50f8beb1ff26f6554"
+      },
+      {
+        "words": 1038,
+        "sentences": 64,
+        "ge30": 3,
+        "ge40": 1,
+        "ge50": 1,
+        "maxSentenceWords": 133,
+        "maxPosition": 0.781,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 2,
+        "newEntities": [
+          "Ker",
+          "Morvan"
+        ],
+        "englishResiduals": 1,
+        "ticDensity": 7.71,
+        "sha256": "fa380ab6db590fcd2593d212ce96e01c356bc0ff6fea18cf3af36f66dfbd0000"
+      },
+      {
+        "words": 984,
+        "sentences": 59,
+        "ge30": 7,
+        "ge40": 1,
+        "ge50": 1,
+        "maxSentenceWords": 118,
+        "maxPosition": 0.644,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 0,
+        "newEntities": [
+          "Ker",
+          "Morvan"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 5.08,
+        "sha256": "82b555dd8008eaa6a7b690428fe636ed6bed13aa275d4170a442fef6cac0d2d1"
+      },
+      {
+        "words": 1033,
+        "sentences": 65,
+        "ge30": 3,
+        "ge40": 1,
+        "ge50": 1,
+        "maxSentenceWords": 120,
+        "maxPosition": 0.738,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 1,
+        "newEntities": [
+          "Atlantique",
+          "Ker",
+          "Morvan"
+        ],
+        "englishResiduals": 1,
+        "ticDensity": 5.81,
+        "sha256": "fe56da6d08154848654fa22ee6412c9ffb7b060c7beaf5be1eb77f80ad913073"
+      },
+      {
+        "words": 1005,
+        "sentences": 75,
+        "ge30": 3,
+        "ge40": 1,
+        "ge50": 1,
+        "maxSentenceWords": 116,
+        "maxPosition": 0.787,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 2,
+        "newEntities": [
+          "Ker",
+          "Morvan"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 3.98,
+        "sha256": "e182bd39d40bbb76d549eab423573740bf064300229664c4df8e494aa75e4a4a"
+      },
+      {
+        "words": 1024,
+        "sentences": 75,
+        "ge30": 3,
+        "ge40": 1,
+        "ge50": 1,
+        "maxSentenceWords": 132,
+        "maxPosition": 0.76,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 2,
+        "newEntities": [
+          "Ker",
+          "Morvan",
+          "Atlantique"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 8.79,
+        "sha256": "c070fc17062ae97721f0e3b5a9e71008ba7ab641346c25d6d9101244434dd7fd"
+      },
+      {
+        "words": 982,
+        "sentences": 58,
+        "ge30": 5,
+        "ge40": 1,
+        "ge50": 1,
+        "maxSentenceWords": 144,
+        "maxPosition": 0.741,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 2,
+        "newEntities": [
+          "Ker",
+          "Morvan",
+          "Dieu"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 7.13,
+        "sha256": "9222d8f78cbf7619641a0aacb545d96db1d9254201f526710a7f3878e118f40a"
+      },
+      {
+        "words": 990,
+        "sentences": 59,
+        "ge30": 6,
+        "ge40": 1,
+        "ge50": 1,
+        "maxSentenceWords": 135,
+        "maxPosition": 0.763,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 0,
+        "newEntities": [
+          "Ker",
+          "Morvan",
+          "Finistère"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 5.05,
+        "sha256": "2a60e1d48c9b6f289cf589612f94ce5dc0d8bfb146936bf40a3072735edad44a"
+      },
+      {
+        "words": 877,
+        "sentences": 57,
+        "ge30": 4,
+        "ge40": 1,
+        "ge50": 1,
+        "maxSentenceWords": 94,
+        "maxPosition": 0.737,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 0,
+        "newEntities": [
+          "Ker",
+          "Morvan"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 5.7,
+        "sha256": "4ce0f9299ea8a5a0fd0d9d3b55bca86d3e2752d7de5c1a7cf57e58e97a8af089"
+      },
+      {
+        "words": 986,
+        "sentences": 60,
+        "ge30": 5,
+        "ge40": 1,
+        "ge50": 1,
+        "maxSentenceWords": 117,
+        "maxPosition": 0.667,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 0,
+        "newEntities": [
+          "Atlantique",
+          "Ker",
+          "Morvan"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 8.11,
+        "sha256": "87b04d9fcb800cecc7fcddda6ffd4dc186b325984473b0b0edb229e61565e559"
+      },
+      {
+        "words": 951,
+        "sentences": 62,
+        "ge30": 7,
+        "ge40": 1,
+        "ge50": 1,
+        "maxSentenceWords": 115,
+        "maxPosition": 0.677,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 2,
+        "newEntities": [
+          "Ker",
+          "Morvan"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 5.26,
+        "sha256": "213321d0e153d3cce9ce26b3f0c6c526a5613c27d66a776bf066db240414f1a4"
+      },
+      {
+        "words": 1064,
+        "sentences": 67,
+        "ge30": 3,
+        "ge40": 2,
+        "ge50": 1,
+        "maxSentenceWords": 130,
+        "maxPosition": 0.582,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 0,
+        "newEntities": [
+          "Ker",
+          "Morvan",
+          "Atlantique"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 5.64,
+        "sha256": "cbcbd54a02360434f5a92b0f1c3a43db2f144992a1c0cbc10a50d99ae37aebc6"
+      },
+      {
+        "words": 953,
+        "sentences": 65,
+        "ge30": 1,
+        "ge40": 1,
+        "ge50": 1,
+        "maxSentenceWords": 139,
+        "maxPosition": 0.738,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 0,
+        "newEntities": [
+          "Ker",
+          "Morvan",
+          "Atlantique"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 6.3,
+        "sha256": "17d658c9e8b582bd0bead3168145ac714410b21f60972e0e44115c27fdefe67b"
+      },
+      {
+        "words": 1030,
+        "sentences": 63,
+        "ge30": 6,
+        "ge40": 1,
+        "ge50": 1,
+        "maxSentenceWords": 118,
+        "maxPosition": 0.762,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 2,
+        "newEntities": [
+          "Ker",
+          "Morvan"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 6.8,
+        "sha256": "0100f558474872893f55230a49fdcbec37e62fd8a4b5f06b585edb62b2a92157"
+      },
+      {
+        "words": 980,
+        "sentences": 62,
+        "ge30": 2,
+        "ge40": 1,
+        "ge50": 1,
+        "maxSentenceWords": 118,
+        "maxPosition": 0.645,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 3,
+        "newEntities": [
+          "Ker",
+          "Morvan"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 6.12,
+        "sha256": "34922f9725bf701b699281893c1c1a70e49d587f9c5da6c69c989ff94f9ef08f"
+      },
+      {
+        "words": 1027,
+        "sentences": 62,
+        "ge30": 6,
+        "ge40": 1,
+        "ge50": 1,
+        "maxSentenceWords": 111,
+        "maxPosition": 0.742,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 0,
+        "newEntities": [
+          "Ker",
+          "Morvan"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 6.82,
+        "sha256": "40c41d7f6aa82ab8a96e57db6ea98aebec2f38667663db2b1c7e1ad349ad26d7"
+      },
+      {
+        "words": 990,
+        "sentences": 70,
+        "ge30": 3,
+        "ge40": 1,
+        "ge50": 1,
+        "maxSentenceWords": 114,
+        "maxPosition": 0.629,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 3,
+        "newEntities": [
+          "Ker",
+          "Morvan",
+          "Atlantique"
+        ],
+        "englishResiduals": 1,
+        "ticDensity": 4.04,
+        "sha256": "dd2ac1b76a9ba697feb273c762e929580e42a534a9689818e0fe654326289763"
+      }
+    ],
+    "B2": [
+      {
+        "words": 1134,
+        "sentences": 77,
+        "ge30": 5,
+        "ge40": 0,
+        "ge50": 0,
+        "maxSentenceWords": 36,
+        "maxPosition": 0.091,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 2,
+        "newEntities": [
+          "Ker",
+          "Morvan",
+          "Paris"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 7.05,
+        "sha256": "de3a1335051ec59cc2db1a8f84b78a81e14db8562d3507e0b42779528835946e"
+      },
+      {
+        "words": 1080,
+        "sentences": 76,
+        "ge30": 5,
+        "ge40": 0,
+        "ge50": 0,
+        "maxSentenceWords": 33,
+        "maxPosition": 0.382,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 0,
+        "newEntities": [
+          "Ker",
+          "Morvan",
+          "Atlantique"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 5.56,
+        "sha256": "ecddf7b4b3a7113b820f8408eba2571d429dac49fcba673f91b300e4ba296bc0"
+      },
+      {
+        "words": 1103,
+        "sentences": 88,
+        "ge30": 2,
+        "ge40": 0,
+        "ge50": 0,
+        "maxSentenceWords": 32,
+        "maxPosition": 0.102,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 2,
+        "newEntities": [
+          "Ker",
+          "Morvan"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 4.53,
+        "sha256": "091908dacd447954925f32061e5bd6a54835ceeb86dee0789b0387f837df4646"
+      },
+      {
+        "words": 1132,
+        "sentences": 79,
+        "ge30": 4,
+        "ge40": 1,
+        "ge50": 0,
+        "maxSentenceWords": 41,
+        "maxPosition": 0.848,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 1,
+        "newEntities": [
+          "Ker",
+          "Morvan"
+        ],
+        "englishResiduals": 1,
+        "ticDensity": 5.3,
+        "sha256": "9b89c39913878a93b73f7be4195c5ef6ea755103f9c8fa01f41b4fea68fc37c1"
+      },
+      {
+        "words": 1071,
+        "sentences": 75,
+        "ge30": 5,
+        "ge40": 0,
+        "ge50": 0,
+        "maxSentenceWords": 38,
+        "maxPosition": 0.267,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 1,
+        "newEntities": [
+          "Ker",
+          "Morvan",
+          "Paris"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 6.54,
+        "sha256": "39dc9efe83977838af18545673dc4b04ad0c154f9eb6d64bff1285dd6b3a79b9"
+      },
+      {
+        "words": 1180,
+        "sentences": 88,
+        "ge30": 3,
+        "ge40": 0,
+        "ge50": 0,
+        "maxSentenceWords": 39,
+        "maxPosition": 0.432,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 1,
+        "newEntities": [
+          "Ker",
+          "Morvan",
+          "Atlantique"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 4.24,
+        "sha256": "3295c941fe56495bf87234fb7c35e97ac4b86f3b8d09cd267cf19dffe6569989"
+      },
+      {
+        "words": 1067,
+        "sentences": 71,
+        "ge30": 3,
+        "ge40": 1,
+        "ge50": 0,
+        "maxSentenceWords": 42,
+        "maxPosition": 0.986,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 2,
+        "newEntities": [
+          "Ker",
+          "Morvan",
+          "Paris",
+          "Rennes"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 3.75,
+        "sha256": "c9b879ef20c841f5dc5c684609b3bd6554f7771260d8b1b264edbc670851f9f0"
+      },
+      {
+        "words": 1092,
+        "sentences": 86,
+        "ge30": 2,
+        "ge40": 0,
+        "ge50": 0,
+        "maxSentenceWords": 36,
+        "maxPosition": 0.326,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 1,
+        "newEntities": [
+          "Ker",
+          "Morvan"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 8.24,
+        "sha256": "91a53af2a0956d4368972fd5802794aa79905e6ee58715e58c4116d53e51187c"
+      },
+      {
+        "words": 1157,
+        "sentences": 82,
+        "ge30": 4,
+        "ge40": 1,
+        "ge50": 0,
+        "maxSentenceWords": 41,
+        "maxPosition": 0.415,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 3,
+        "newEntities": [
+          "Ker",
+          "Morvan"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 5.19,
+        "sha256": "18cd68e7231eb865db7e728ee1adde4409bb62d88da125213e456f90a9995b16"
+      },
+      {
+        "words": 1081,
+        "sentences": 84,
+        "ge30": 5,
+        "ge40": 0,
+        "ge50": 0,
+        "maxSentenceWords": 33,
+        "maxPosition": 0.131,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 0,
+        "newEntities": [
+          "Ker",
+          "Morvan"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 5.55,
+        "sha256": "8ffb2895da56f330d887c5d93144179b7d7564fc44ce98e5f090f8db0aef67b2"
+      },
+      {
+        "words": 1145,
+        "sentences": 74,
+        "ge30": 5,
+        "ge40": 0,
+        "ge50": 0,
+        "maxSentenceWords": 36,
+        "maxPosition": 0.973,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 2,
+        "newEntities": [
+          "Ker",
+          "Morvan"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 4.37,
+        "sha256": "dc38800f0bbc6247f7d5c2e83028383047f8c407eb167a136547acd215a63bea"
+      },
+      {
+        "words": 1100,
+        "sentences": 82,
+        "ge30": 5,
+        "ge40": 0,
+        "ge50": 0,
+        "maxSentenceWords": 34,
+        "maxPosition": 0.183,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 0,
+        "newEntities": [
+          "Ker",
+          "Morvan",
+          "Atlantique"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 7.27,
+        "sha256": "bf988e31c0469908e541bbb6fb110fe14a09913cd7052e8f9b27dc18a339bc47"
+      },
+      {
+        "words": 1177,
+        "sentences": 82,
+        "ge30": 3,
+        "ge40": 0,
+        "ge50": 0,
+        "maxSentenceWords": 32,
+        "maxPosition": 0.061,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 1,
+        "newEntities": [
+          "Ker",
+          "Morvan"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 5.95,
+        "sha256": "397a69d51f073a430f12a40fd1f6fceafb9ae2a7ba4774451c07b5944dc10005"
+      },
+      {
+        "words": 1137,
+        "sentences": 72,
+        "ge30": 5,
+        "ge40": 0,
+        "ge50": 0,
+        "maxSentenceWords": 33,
+        "maxPosition": 0.611,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 1,
+        "newEntities": [
+          "Ker",
+          "Morvan"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 6.16,
+        "sha256": "f4886bcd68e466d55c419ea488d32f8cbdd81509d67f5028566c197b9e5440ba"
+      },
+      {
+        "words": 1123,
+        "sentences": 75,
+        "ge30": 5,
+        "ge40": 0,
+        "ge50": 0,
+        "maxSentenceWords": 37,
+        "maxPosition": 0.307,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 2,
+        "newEntities": [
+          "Ker",
+          "Morvan",
+          "Atlantique"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 3.56,
+        "sha256": "b1675ff0469bcde40d44feace09680c441f00075df83461c82b22ab7ce00e288"
+      },
+      {
+        "words": 1171,
+        "sentences": 82,
+        "ge30": 3,
+        "ge40": 1,
+        "ge50": 0,
+        "maxSentenceWords": 41,
+        "maxPosition": 0.329,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 2,
+        "newEntities": [
+          "Ker",
+          "Morvan",
+          "Nantes",
+          "Rennes"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 2.56,
+        "sha256": "1c264d7166ae85a8c84bf9fc795d2821d684b861e6667fc2a022df3de8697a0f"
+      },
+      {
+        "words": 1027,
+        "sentences": 65,
+        "ge30": 9,
+        "ge40": 1,
+        "ge50": 0,
+        "maxSentenceWords": 45,
+        "maxPosition": 0.2,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 2,
+        "newEntities": [
+          "Ker",
+          "Morvan"
+        ],
+        "englishResiduals": 1,
+        "ticDensity": 2.92,
+        "sha256": "531a11aae4b22d085b28ec7c501c3c51159fac14091e499adb23a64e4aeb04cb"
+      },
+      {
+        "words": 1058,
+        "sentences": 77,
+        "ge30": 2,
+        "ge40": 0,
+        "ge50": 0,
+        "maxSentenceWords": 32,
+        "maxPosition": 0.286,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 1,
+        "newEntities": [
+          "Ker",
+          "Morvan",
+          "Atlantique"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 3.78,
+        "sha256": "3eab09e9831d7fd74f8f3e5b703054cc4fb5d0586dc916602a437384c04a4e59"
+      },
+      {
+        "words": 1022,
+        "sentences": 69,
+        "ge30": 2,
+        "ge40": 1,
+        "ge50": 0,
+        "maxSentenceWords": 41,
+        "maxPosition": 0.826,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 1,
+        "newEntities": [
+          "Ker",
+          "Morvan",
+          "Atlantique"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 3.91,
+        "sha256": "75bf1e20bd5048361831efb92a9ad9a4333a2071c2ab6432ea4c3fe819cf13c0"
+      },
+      {
+        "words": 1072,
+        "sentences": 71,
+        "ge30": 4,
+        "ge40": 1,
+        "ge50": 0,
+        "maxSentenceWords": 41,
+        "maxPosition": 0.113,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 2,
+        "newEntities": [
+          "Ker",
+          "Morvan",
+          "Atlantique",
+          "Nantes",
+          "Paris"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 6.53,
+        "sha256": "63dee6318efaeccc62aa11f236ec0661e051a151fa3cf2439d6f74702821948c"
+      },
+      {
+        "words": 1108,
+        "sentences": 83,
+        "ge30": 3,
+        "ge40": 1,
+        "ge50": 0,
+        "maxSentenceWords": 43,
+        "maxPosition": 0.988,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 2,
+        "newEntities": [
+          "Ker",
+          "Morvan"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 4.51,
+        "sha256": "05421b330691c99963bc808f47e4b8467c908fdfd2a227e6177f9416200b44c6"
+      }
+    ],
+    "B3": [
+      {
+        "words": 981,
+        "sentences": 57,
+        "ge30": 4,
+        "ge40": 2,
+        "ge50": 1,
+        "maxSentenceWords": 121,
+        "maxPosition": 0.667,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 0,
+        "newEntities": [
+          "Ker",
+          "Morvan"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 2.04,
+        "sha256": "d913bbfa7ed0219c337b1ea545ac7d4a003919b275cbf3b35d794dd4ba29c69f"
+      },
+      {
+        "words": 1142,
+        "sentences": 66,
+        "ge30": 8,
+        "ge40": 1,
+        "ge50": 1,
+        "maxSentenceWords": 128,
+        "maxPosition": 0.758,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 2,
+        "newEntities": [
+          "Ker",
+          "Morvan"
+        ],
+        "englishResiduals": 1,
+        "ticDensity": 6.13,
+        "sha256": "3f353c6db2b1097c7f98b106f086f30a4a66f2e5f4c79b1d36c53d8588b57eca"
+      },
+      {
+        "words": 952,
+        "sentences": 60,
+        "ge30": 1,
+        "ge40": 1,
+        "ge50": 1,
+        "maxSentenceWords": 131,
+        "maxPosition": 0.75,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 1,
+        "newEntities": [
+          "Ker",
+          "Morvan",
+          "Atlantique"
+        ],
+        "englishResiduals": 1,
+        "ticDensity": 5.25,
+        "sha256": "d270a54a34e0d9a5b087a083614491879e816edced8adecde4b965f945227a0b"
+      },
+      {
+        "words": 1078,
+        "sentences": 73,
+        "ge30": 4,
+        "ge40": 1,
+        "ge50": 1,
+        "maxSentenceWords": 111,
+        "maxPosition": 0.781,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 2,
+        "newEntities": [
+          "Ker",
+          "Morvan",
+          "Atlantique"
+        ],
+        "englishResiduals": 1,
+        "ticDensity": 4.64,
+        "sha256": "c395c41833ea89fd231548fb6de5061597e54c73e55bf53aa262de1f2e2b3f33"
+      },
+      {
+        "words": 1040,
+        "sentences": 62,
+        "ge30": 4,
+        "ge40": 1,
+        "ge50": 1,
+        "maxSentenceWords": 100,
+        "maxPosition": 0.742,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 1,
+        "newEntities": [
+          "Ker",
+          "Morvan",
+          "Atlantique"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 6.73,
+        "sha256": "7a152a741168eb1b06cf3d600d9132761b7335982e7985d80faf22765bc19922"
+      },
+      {
+        "words": 1066,
+        "sentences": 71,
+        "ge30": 5,
+        "ge40": 2,
+        "ge50": 1,
+        "maxSentenceWords": 126,
+        "maxPosition": 0.746,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 2,
+        "newEntities": [
+          "Ker",
+          "Morvan",
+          "Atlantique"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 7.5,
+        "sha256": "f78a3f3abe5b88771efa3e0a4cac0937d317342196a2a3104928bc1f45f8be6c"
+      },
+      {
+        "words": 1099,
+        "sentences": 65,
+        "ge30": 5,
+        "ge40": 1,
+        "ge50": 1,
+        "maxSentenceWords": 138,
+        "maxPosition": 0.6,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 1,
+        "newEntities": [
+          "Ker",
+          "Morvan"
+        ],
+        "englishResiduals": 1,
+        "ticDensity": 5.46,
+        "sha256": "87f5d6a4e4455373e41b09a41ec6e2cefe7a9f928a4d029ca98086f381859f11"
+      },
+      {
+        "words": 1056,
+        "sentences": 56,
+        "ge30": 6,
+        "ge40": 4,
+        "ge50": 2,
+        "maxSentenceWords": 150,
+        "maxPosition": 0.661,
+        "hasAmplePeriod": true,
+        "amplePeriodInZone": true,
+        "amplePeriodCount": 1,
+        "verblessSentences": 1,
+        "newEntities": [
+          "Ker",
+          "Morvan",
+          "Atlantique"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 4.73,
+        "sha256": "ba0d60f5d4c031321daa5b134f0a3f990045fb7010b3a0d52764d86753c74b3d"
+      },
+      {
+        "words": 1019,
+        "sentences": 64,
+        "ge30": 5,
+        "ge40": 1,
+        "ge50": 1,
+        "maxSentenceWords": 120,
+        "maxPosition": 0.672,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 0,
+        "newEntities": [
+          "Ker",
+          "Morvan",
+          "Atlantique"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 2.94,
+        "sha256": "5be38549f0eaa94b6cef133ce499e76f7360c5245ed5c4f392586006cc3e4589"
+      },
+      {
+        "words": 1043,
+        "sentences": 63,
+        "ge30": 4,
+        "ge40": 1,
+        "ge50": 1,
+        "maxSentenceWords": 147,
+        "maxPosition": 0.778,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 0,
+        "newEntities": [
+          "Ker",
+          "Morvan"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 6.71,
+        "sha256": "cf700b723234d41980cb09cabdb0d4bb9c68eac1d26a2d5e256f6eb95aa241be"
+      },
+      {
+        "words": 1024,
+        "sentences": 59,
+        "ge30": 5,
+        "ge40": 2,
+        "ge50": 1,
+        "maxSentenceWords": 109,
+        "maxPosition": 0.847,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 0,
+        "newEntities": [
+          "Ker",
+          "Morvan"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 5.86,
+        "sha256": "1ee9686edd783a5a09c932b66e0b72daf55f3b141d78c2221855f780f48894ef"
+      },
+      {
+        "words": 947,
+        "sentences": 52,
+        "ge30": 5,
+        "ge40": 1,
+        "ge50": 1,
+        "maxSentenceWords": 129,
+        "maxPosition": 0.731,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 2,
+        "newEntities": [
+          "Ker",
+          "Morvan",
+          "Gauloises"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 5.28,
+        "sha256": "3530c3b38e9ca21dec0a617a52ee580061eb51fa1a781e799932010eece12959"
+      },
+      {
+        "words": 1101,
+        "sentences": 66,
+        "ge30": 8,
+        "ge40": 2,
+        "ge50": 1,
+        "maxSentenceWords": 128,
+        "maxPosition": 0.697,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 0,
+        "newEntities": [
+          "Ker",
+          "Morvan",
+          "Lorient"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 5.45,
+        "sha256": "593e9cdeac85c6b208435b551d73578d1ad2497f91e865c1d3312319fef31175"
+      },
+      {
+        "words": 1015,
+        "sentences": 70,
+        "ge30": 1,
+        "ge40": 1,
+        "ge50": 1,
+        "maxSentenceWords": 143,
+        "maxPosition": 0.714,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 0,
+        "newEntities": [
+          "Ker",
+          "Morvan",
+          "Atlantique"
+        ],
+        "englishResiduals": 1,
+        "ticDensity": 6.9,
+        "sha256": "d146fd36e896ee2c449889fe0cf4649ef4bb87e6c6ddf47be9acc522caf0d04f"
+      },
+      {
+        "words": 1042,
+        "sentences": 60,
+        "ge30": 9,
+        "ge40": 4,
+        "ge50": 1,
+        "maxSentenceWords": 101,
+        "maxPosition": 0.733,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 1,
+        "newEntities": [
+          "Ker",
+          "Morvan"
+        ],
+        "englishResiduals": 1,
+        "ticDensity": 3.84,
+        "sha256": "33eecc8e5d36a847e975413333ec2e032d466b289ade48bb85c6d987a80e6c6d"
+      },
+      {
+        "words": 1052,
+        "sentences": 68,
+        "ge30": 2,
+        "ge40": 1,
+        "ge50": 1,
+        "maxSentenceWords": 107,
+        "maxPosition": 0.676,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 0,
+        "newEntities": [
+          "Ker",
+          "Morvan",
+          "Atlantique"
+        ],
+        "englishResiduals": 1,
+        "ticDensity": 5.7,
+        "sha256": "75bb41c63140e79fa3e5e97dff7c6655268a4d05cd36a459909c414054430395"
+      },
+      {
+        "words": 957,
+        "sentences": 61,
+        "ge30": 3,
+        "ge40": 1,
+        "ge50": 1,
+        "maxSentenceWords": 101,
+        "maxPosition": 0.721,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 1,
+        "newEntities": [
+          "Ker",
+          "Morvan"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 5.22,
+        "sha256": "c3246436eeda0dd4babc46287fec4ef9e6fbe66fe98243d6564694457b7664f5"
+      },
+      {
+        "words": 1026,
+        "sentences": 62,
+        "ge30": 7,
+        "ge40": 3,
+        "ge50": 1,
+        "maxSentenceWords": 119,
+        "maxPosition": 0.694,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 1,
+        "newEntities": [
+          "Ker",
+          "Morvan"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 4.87,
+        "sha256": "43430a92e910dd0d9e9ef7b3f64dab833b08dc12e6d6018658aa42eac1cd9a66"
+      },
+      {
+        "words": 1077,
+        "sentences": 73,
+        "ge30": 3,
+        "ge40": 2,
+        "ge50": 1,
+        "maxSentenceWords": 112,
+        "maxPosition": 0.767,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 4,
+        "newEntities": [
+          "Ker",
+          "Morvan"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 2.79,
+        "sha256": "5426b17fa12f91331d31ad9b397f5d6da900b402fe1cbe87e6d32f07ae05029f"
+      },
+      {
+        "words": 945,
+        "sentences": 59,
+        "ge30": 3,
+        "ge40": 1,
+        "ge50": 1,
+        "maxSentenceWords": 118,
+        "maxPosition": 0.627,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 2,
+        "newEntities": [
+          "Atlantique",
+          "Ker",
+          "Morvan"
+        ],
+        "englishResiduals": 0,
+        "ticDensity": 6.35,
+        "sha256": "ae3ad64671fa8ee8cb2550ee4dc78b029c2157ff3903b447cbcae2d92a5c2e7f"
+      },
+      {
+        "words": 1046,
+        "sentences": 60,
+        "ge30": 4,
+        "ge40": 1,
+        "ge50": 1,
+        "maxSentenceWords": 125,
+        "maxPosition": 0.667,
+        "hasAmplePeriod": false,
+        "amplePeriodInZone": false,
+        "amplePeriodCount": 0,
+        "verblessSentences": 2,
+        "newEntities": [
+          "Ker",
+          "Morvan"
+        ],
+        "englishResiduals": 1,
+        "ticDensity": 6.69,
+        "sha256": "1f137d47b86bdc8f76145d1aae6c2f013e53c343ac464744ce0b62a46f623f02"
+      }
+    ]
+  }
+}

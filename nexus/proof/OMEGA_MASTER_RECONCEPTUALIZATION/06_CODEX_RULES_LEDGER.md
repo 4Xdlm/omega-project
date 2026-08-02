@@ -34,3 +34,16 @@ Tout tri observable/hashé = compareStrings code-unit (JAMAIS localeCompare — 
 
 ## RÈGLE ANTI-OUBLI (ce dossier)
 Toute proposition cite le Concept Ledger (FOUND_EXISTING/NEW_CONCEPT) sinon HORS PROTOCOLE · toute session lit 00_READ_ME_FIRST d'abord · toute découverte de session significative met à jour les ledgers concernés AVANT la fin de session (SESSION_SAVE_RITUAL, DEC:151).
+
+## FORBID-006 v2 — RATIFIÉ Architecte 2026-08-02 (remplace la formulation N3 mono-clause)
+
+| # | Objet | Statut | Raison (mécanisme) |
+|---|---|---|---|
+| 1 | Coaching esthétique subjectif dans les directives | **INTERDIT À JAMAIS** | Non falsifiable, non mesurable ; audit lexical à la construction des directives (inchangé depuis ADR R2) |
+| 2 | Structure mesurable comme cible de MESURE ou de SÉLECTION | **AUTORISÉE** | Une propriété comptable est vérifiable a posteriori ; ADR-003 : « CALC contrôle la SÉLECTION, pas la génération » |
+| 3 | Quota lexical injecté dans le prompt | **INTERDIT** | Échec empirique S0-ROSETTA : la reformulation de directive obtient 0 % sur les variantes A-D ; produit du pastiche, pas de la forme |
+| 4 | Few-shot montrant la forme | **AUTORISÉ ET PRIORITAIRE** | Seul levier prouvé : REVELATION 0→100 %, CONFRONTATION 0→67 % (S0-ROSETTA 2026-06-08) |
+| 5 | Budget syntaxique porté par le PLAN | **AUTORISÉ comme OPPORTUNITÉ, jamais comme quota aveugle** | Le post-traitement sature à 44 mots et la génération plafonne à 42 (CONCEPT-RHYTHM-TAIL-LAW-001, 2 corpus) : la queue longue ne peut être que planifiée. Mais une phrase longue décorative = FAIL |
+
+**Violation** : directive contenant du vocabulaire esthétique subjectif, ou un quota lexical, ou une obligation de forme sans fonction narrative ⇒ run invalide.
+**Origine** : tour de table 3-IA 2026-08-02 (15/15 votes), fondé sur les 4 retours du lecteur libre + l'audit SCRIBE + le gel A0.

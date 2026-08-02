@@ -30,3 +30,30 @@ C15    STYLE_CONTINUATION rights-gated
 Transverses : plan-lock casting total · cooldown branché · campagne N2 fautes injectées · Gold-Set complet juges · seuils C9 multi-livres (EMP-16)
 ```
 **Tout item ci-dessus cite ses ancêtres (02/05) — interdiction de les redécouvrir.**
+
+## TRANCHE VERTICALE « retombée réflexive » (ratifiée 2026-08-02)
+
+Une scène, la chaîne entière, avant toute généralisation. Ordre ratifié :
+`A0 BASELINE_FREEZE` (**FAIT**) → `A0.5 GOVERNANCE_REGISTRATION` → `A1 READ_ONLY_AUDITS` →
+`A2 TYPOGRAPHY_COMMIT` → `A3 ENGINE_CONFORMITY_COMMIT` → `B CONTRAST_AND_SPECS` →
+`C VERTICAL_SLICE` → `D BLIND_HUMAN_GATE`. A2 et A3 séquentiels et isolés ; aucune construction C
+avant les verdicts B ; aucune généralisation avant PASS D.
+
+Chaîne de la tranche : PLAN (`long_tail_opportunity` sur PLAN_LOCK, `fn: TRANSITION`) → FEW-SHOT
+(exemplar FR natif validé Architecte, extension `FEWSHOT_EXEMPLARS`) → GÉNÉRATION seedée gemma4:31b →
+SÉLECTION composite **SHADOW sur les DEUX sélecteurs** (`r6-core.ts:187` ET `gen-v4-all.ts:82-91`,
+gagnant prod inchangé) → ≤1 correction SURGICAL bornée → SCELLEMENT (typo + gate complétude) →
+gate `targeted-regen-guard` → A/B aveugle lecteurs longs.
+
+**Faits bloquants découverts au scan** :
+- Le chemin SURGICAL est **mort dans `buildCanonical`** (`allowSurgical:false` en dur, build-canonical.ts:105) ;
+  `seam-surgeon.operateSeam` = tests only ; `rewritePrompt V2.3` = bench-only. Ce qui VIT : `guardPatch`
+  (via tic-weaver), `runDoctor`/`executeRepairs`, et les gardes anti-coaching de `scribe-bridge.ts:36-51`.
+- Le seed « déterministe » de sovereign est **TEXTUEL** (`ollama-provider.ts:253`, injecté dans le prompt) ;
+  le générateur officiel `chapter-generator.ts:80-93` n'a **aucun** seed.
+- **Deux** sélecteurs words-dominant, pas un. Mesuré en A0 : corrélation mots↔qualité ≈ 0 (−0,060).
+- Non-conformités modèle : `c7-runner.ts:158`, `go2-chain-e2e.ts:31`, `persona-calibration.ts:21`,
+  `scribe-bridge.ts:79` défaut qwen3.5 contre SCRIBE-PRODUCTION-LOCK gemma4.
+- 3 bugs latents : `repetition-sensor.ts:53` famille ATMOSPHERIC codée en dur sur le manuscrit COH ;
+  `lang-purity.ts` entrée `whispering` dupliquée ; `gen-v4-all.ts:75` test anglais inline contredisant
+  `lang-purity` sur « standing ».

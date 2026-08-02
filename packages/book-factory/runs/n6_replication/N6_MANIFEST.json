@@ -1,0 +1,39 @@
+{
+  "spec": "N6_REPLICATION_OTHER_SCENE",
+  "model": "gemma4:31b",
+  "sceneChanged": "REVELATION a deux avec dialogue (au lieu de TRANSITION solitaire)",
+  "planCopiedVerbatimFrom": "B1a",
+  "preregistered": {
+    "H1": ">=15/21 sorties avec periode",
+    "H0": "<5/21"
+  },
+  "thresholds": {
+    "watch": 0.05,
+    "template": 0.1,
+    "publishedMean": 0.0009,
+    "publishedMaxObserved": 0.0952
+  },
+  "summary": [
+    {
+      "arm": "N6nu",
+      "n": 21,
+      "sortiesAvecPeriode": 0,
+      "periodes": 0,
+      "repetitionTete": 0,
+      "verdict": "CLEAN",
+      "densite": 0,
+      "residusAnglais": 0
+    },
+    {
+      "arm": "N6plan",
+      "n": 21,
+      "sortiesAvecPeriode": 21,
+      "periodes": 23,
+      "repetitionTete": 0.3043,
+      "verdict": "TEMPLATE_DETECTED",
+      "densite": 0.0101,
+      "residusAnglais": 2
+    }
+  ],
+  "hypothesis": "H1 SOUTENUE — le PLAN est un levier de FORME, independant de la scene"
+}

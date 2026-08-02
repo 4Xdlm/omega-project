@@ -1,0 +1,29 @@
+La pluie avait cessé, laissant place à une brume épaisse, grasse, qui collait aux vitres de la petite chambre d’hôte. Garcia était assis sur le bord du lit, les chaussures encore aux pieds. Le silence de Ker-Morvan n'était pas un silence de paix, mais un silence de plomb, celui des secrets qui s'entassent sous les dalles et dans le limon des marais. Il regardait ses mains posées sur ses genoux ; elles tremblaient légèrement, un tremblement imperceptible que seule l’immobilité totale permettait de déceler.
+
+Il avait besoin de ce calme pour laisser descendre la boue. La révélation qu'il venait d'obtenir ne ressemblait pas à un coup de tonnerre, mais plutôt à une infiltration lente, comme l'eau s'insinue dans une fissure de béton jusqu'à ce que tout l'édifice menace de s'effondrer.
+
+Il se leva et traversa la pièce pour atteindre la fenêtre. L'air était saturé d'iode et de sel. Dehors, le village semblait s'être dissous dans le blanc opaque. Il ne restait que quelques silhouettes de maisons aux toits d'ardoise, des formes spectrales qui refusaient de livrer leur secret. Garcia sentit l'odeur du vieux bois et de la poussière froide qui flottait dans la chambre. C’était une odeur de fin de règne, l’odeur des choses qu’on a trop longtemps cachées sous un tapis.
+
+Il pensa à Dubois. Le gardien du phare n'avait pas été tué pour un simple différend d'argent ou une querelle de voisinage. Il avait été effacé parce qu'il était devenu le point de rupture d'un système. Un maître-chanteur, certes, mais un maître-chanteur qui possédait la seule pièce manquante du mécanisme.
+
+Garcia s'appuya contre le chambranle de la porte. Son esprit revenait sans cesse à l'image de Marc, ce revenant sorti des eaux après tant d'années. Un homme que tout le monde croyait englouti avec le *Triton* en 1998. Le naufrage. Ce mot résonnait maintenant différemment dans sa tête. Ce n'était plus une tragédie maritime, un accident dû à une tempête et à la malchance. C'était un montage. Une mise en scène chirurgicale où le chaos des vagues avait servi de voile pour un détournement de cargaison.
+
+Il imaginait Squarcioni, le maire, le patriarche dont le regard semblait englober tout le village. Un homme qui ne donnait pas d'ordres, mais qui suggérait des directions. Squarcioni n'était pas seulement l'administrateur de la commune ; il était l'architecte du silence. Il avait acheté les consciences avec le butin du *Triton*, tissant un réseau de dépendances et de dettes morales si serrées que personne n'aurait osé parler, même après vingt ans. Sauf Dubois. Et peut-être Léna.
+
+Léna Marchetti. Garcia revoyait son visage, cette tension permanente dans les traits, ce regard qui fuyait dès qu'on approchait trop près de la vérité. Elle était l'élément fragile, le maillon qui grinçait. Elle n'était pas complice par ambition, mais par crainte, ou pire, par une sorte de loyauté dévoyée envers un clan qui l'avait assimilée pour mieux la museler.
+
+Il s'assit à nouveau, cette fois sur la vieille chaise en paille qui craquait sous son poids. Il sortit un paquet de cigarettes, en alluma une, et regarda la fumée monter en spirales lentes vers le plafond grisâtre. La nicotine calmait un peu l'angoisse, mais elle ne dissipait pas l'évidence.
+
+Ce qui l'ébranlait, ce n'était pas la découverte du crime, mais la mesure de l'isolement dans lequel il se trouvait. À Ker-Morvan, la loi n'était pas celle du code pénal, mais celle de l'appartenance. En s'attaquant à Squarcioni, il ne s'attaquait pas seulement à un meurtrier, mais à l'équilibre même du village. Il s'attaquait à la structure qui nourrissait les gens, qui entretenait le port et qui maintenait une paix apparente sur un cimetière de mensonges.
+
+Le poids de la tâche se fit sentir physiquement, comme une pression sur sa poitrine. Il savait désormais que Gaspard, le vieux du port, n'était pas seulement peureux par nature, mais qu'il était le témoin muet d'un massacre organisé. Chaque silence, chaque hésitation rencontrée depuis son arrivée ici prenait soudain un sens précis.
+
+L'inspecteur ferma les yeux. Il revoyait le visage de Marc, ce spectre revenu hanter les vivants. Marc n'était pas un revenant, il était la preuve matérielle du crime originel. Sa survie était l'erreur de calcul de Squarcioni, l'unique faille dans un plan qui se voulait parfait.
+
+C’est là que tout s’emboîtait, car si le *Triton* avait été volontairement précipité vers les récifs pour simuler une perte totale, permettant ainsi à une poignée d'initiés de récupérer le fret clandestin avant que la mer ne recouvre les preuves, alors Dubois n'avait pas seulement été un opportuniste ayant trouvé des documents ou des objets échoués, mais il avait été le gardien d'un secret dont le prix était devenu insupportable pour le maire, lequel avait dû orchestrer l'exécution du phare pour protéger non seulement sa fortune, mais l'image même de l'homme providentiel qu'il s'était construit au fil des décennies en utilisant l'argent du sang pour cimenter l'allégeance d'un village entier.
+
+Garcia ouvrit les yeux. La pièce semblait plus sombre. Il resta ainsi un long moment, immobile, laissant le silence redevenir total. 
+
+Il savait ce qu'il devait faire, mais il savait aussi que le chemin serait glissant. Il ne pourrait pas compter sur des renforts immédiats sans risquer d'alerter le réseau de Squarcioni avant d'avoir rassemblé des preuves irréfutables. Il était seul dans cet outpost breton, entouré de gens qui préféraient le confort d'un mensonge partagé à la rudesse d'une vérité libératrice.
+
+Il écrasa sa cigarette dans un cendrier en porcelaine ébréchée. Le geste était sec, définitif. Il se leva et alla vers son sac pour sortir son carnet. Il ne nota rien, pas tout de suite. Il préféra rester encore quelques minutes dans l'obscurité naissante, à écouter le bruit lointain du ressac contre les rochers, ce bruit monotone qui, depuis 1998, effaçait lentement les traces, mais n'en supprimait jamais l'odeur.

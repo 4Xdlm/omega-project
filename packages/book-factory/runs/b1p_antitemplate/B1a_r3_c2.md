@@ -1,0 +1,31 @@
+La pluie avait cessé, laissant place à une brume épaisse qui collait aux vitres et effaçait les contours du port. Garcia était assis dans l'obscurité de sa chambre d'hôte, une pièce exiguë qui sentait le renfermé et la cire froide. Sur la table de nuit, une lampe à huile diffusait une lumière jaunâtre, instable, qui faisait danser les ombres sur le papier peint décollé. Il ne s'était pas déshabillé. Son imperméable, encore humide, était jeté sur le dossier d'une chaise en bois, et quelques gouttes d'eau venaient de tomber sur le parquet avec un bruit sec, métronomique.
+
+Il resta ainsi, immobile, les mains posées à plat sur ses cuisses. Le silence de Ker-Morvan n'était pas un silence de repos, mais un silence de compression, comme si le village tout entier retenait son souffle pour ne pas laisser s'échapper un secret. 
+
+Il repensa au visage de Léna Marchetti. Cette expression d'épuisement, ce regard qui ne cherchait plus à mentir mais qui n'osait pas encore dire. Elle était l'élément fragile, la fissure dans le mur. Il avait senti, dans le tremblement imperceptible de ses doigts, que la peur avait changé de camp. Mais cette peur ne concernait pas la loi ; elle concernait l'ordre. L'ordre établi par Squarcioni, ce patriarche qui régnait sur le port avec une bienveillance de fer.
+
+Garcia se leva lentement. Ses articulations craquèrent. Il s'approcha de la fenêtre et écarta légèrement le rideau de dentelle grise. Dehors, rien. Juste le reflet des quelques lampadaires dans les flaques d'eau et, plus loin, la silhouette massive du phare où Dubois avait rendu l'âme. 
+
+Dubois. Le gardien. Un homme que tout le monde méprisait pour sa cupidité, mais qui possédait une chose précieuse : la mémoire des courants et des cargaisons. On l'avait tué parce qu'il était devenu trop gourmand, parce qu'il avait voulu transformer un silence acheté en rente perpétuelle. Le chantage est un jeu dangereux quand on s'adresse à des hommes qui ont bâti leur fortune sur un naufrage.
+
+Le Triton. 1998. Un nom qui revenait comme un refrain macabre dans chaque conversation détournée, chaque hésitation. On avait parlé d'une tragédie, d'un accident dû aux récifs, d'une cargaison engloutie. La vérité était plus prosaïque et bien plus sale. Le butin n'avait pas coulé avec le navire ; il avait été déchargé dans l'ombre, réparti entre quelques mains puissantes, tandis que les corps étaient laissés à la mer pour sceller le pacte.
+
+Garcia sentit une fatigue immense l'envahir, une lassitude qui ne venait pas du manque de sommeil, mais du poids de l'évidence. Il savait désormais que Marc n'était pas un fantôme, ni une hallucination collective née de la culpabilité du village. Marc était le témoin vivant, l'erreur de calcul dans le montage financier du crime. Un homme revenu d'entre les morts pour hanter ceux qui l'avaient condamné au silence.
+
+Il retourna s'asseoir, le regard fixé sur le vide. Il mesurait maintenant le prix de sa présence ici. À Ker-Morvan, on ne résout pas une enquête, on dérange un équilibre. Squarcioni n'était pas seulement le maire ; il était l'architecte d'un système où chaque habitant tenait une part du secret, rendant chacun complice et donc dépendant. En tirant sur un fil, Garcia risquait de défaire tout le tissu social de ce coin de Bretagne.
+
+L'inspecteur ferma les yeux. Il revoyait Gaspard, le vieux du port, avec ses mains tremblantes et son regard fuyant. Gaspard savait. Tout le monde savait. Mais savoir est une chose, témoigner en est une autre. Dans un village où l'économie repose sur un mensonge collectif, la vérité est une forme d'insubordination.
+
+Il se demanda combien de temps il lui faudrait pour rassembler des preuves tangibles. Les documents avaient probablement été brûlés, les traces effacées par vingt ans de sel et de vent. Il ne tenait que des fragments, des intuitions, des silences trop lourds. Pour faire tomber un homme comme Squarcioni, il ne suffisait pas d'avoir raison ; il fallait briser la loi du silence, et cela demandait une violence psychologique qu'il n'était pas certain de vouloir employer.
+
+C'est alors que tout s'emboîta dans son esprit, depuis le placement précis des corps lors du naufrage pour simuler l'accident jusqu'à la gestion minutieuse des comptes municipaux qui avaient permis de rénover le port sans source de revenus apparente, en passant par le rôle pivot de Dubois comme coffre-fort humain et sentinelle du phare, pour aboutir à la nécessité absolue d'éliminer le gardien dès l'instant où Marc avait refait surface, car la présence du revenant transformait le secret en une bombe à retardement que seul un meurtre méthodique pouvait tenter de désamorcer.
+
+Garcia resta un long moment sans bouger. La révélation ne lui apporta aucun soulagement, seulement une clarté froide et tranchante. Il se sentait soudain étranger à cet endroit, comme si l'air même qu'il respirait était saturé d'une hostilité sourde. 
+
+Il s'approcha de la table et saisit son carnet. Il n'écrivit rien. Il se contenta de feuilleter les pages, de relire ses notes, d'observer les noms qu'il avait griffonnés. Squarcioni. Marchetti. Gaspard. 
+
+L'enquête n'était plus une recherche de coupable, elle était devenue une confrontation avec un système. S'il continuait, il ne s'attaquait pas à un homme, mais à tout un territoire. Il savait que dès le lendemain, les regards changeraient. On ne le verrait plus comme l'inspecteur envoyé pour éclaircir un décès suspect, mais comme l'ennemi qui menaçait la paix fragile d'un village bâti sur un cimetière.
+
+Il éteignit la lampe à huile. L'obscurité retomba brusquement, épaisse et oppressante. Garcia resta debout dans le noir, écoutant le bruit lointain du ressac contre les quais. Il sentait l'humidité s'infiltrer dans ses os. Il savait qu'il ne pourrait plus repartir d'ici sans avoir tranché le nœud, même si cela signifiait laisser Ker-Morvan s'effondrer sur elle-même.
+
+Il s'allongea sur le lit, sans retirer ses chaussures. Il fixa le plafond sombre, attendant que le sommeil vienne, tout en sachant que les nuits à venir seraient peuplées par le visage de ceux qui préféreraient le voir disparaître dans la brume, comme le Triton vingt ans plus tôt.

@@ -1,0 +1,31 @@
+La pluie avait cessé, laissant place à ce brouillard gras qui colle aux vitres et efface les contours du monde. Dans la petite chambre d'hôte où Garcia avait posé ses valises, l'air sentait le renfermé et la cire froide. Il était assis sur le bord du lit, le dos voûté, les mains jointes entre ses genoux. Le silence de Ker-Morvan n'était pas un silence de repos ; c'était un silence de guet, une chape lourde qui pesait sur les épaules, comme si les murs eux-mêmes retenaient leur souffle pour ne pas trahir un secret.
+
+Il resta ainsi longtemps, immobile, écoutant le tic-tac irrégulier d'une pendule à quartz posée sur la commode. Ce bruit sec, mécanique, lui rappelait la précision d'un engrenage qui s'enraye. Il sentait encore dans sa gorge l'amertume du café froid qu'il avait bu sans le goûter. 
+
+L'information qu'il venait de recueillir ne s'était pas imposée comme un choc, mais comme une infiltration lente, un poison qui remonte le long des veines. Il avait longtemps cherché un mobile simple, une querelle d'argent ou une passion malheureuse, les ressorts classiques du crime provincial. Mais ici, tout était plus vaste, plus ancien. Le naufrage du Triton n'avait pas été l'accident tragique que les archives officialisaient en 1998 ; c'était une mise en scène, un sacrifice organisé pour effacer des traces et redistribuer un butin.
+
+Il ferma les yeux. Il revit le visage de Gaspard, ce vieux du port dont la peur était devenue une seconde peau, presque une protection. Il repensa à Léna Marchetti, à ce regard qui oscillait entre l'espoir et l'effroi, comme si elle attendait que quelqu'un vienne enfin briser le sceau du silence. Et puis il y avait Squarcioni. Le maire. L'homme dont la bienveillance apparente n'était qu'une armature pour maintenir l'ordre d'un clan.
+
+Le meurtre de Dubois, le gardien du phare, n'était pas un acte isolé. C'était un nettoyage. Dubois avait été le maillon faible, celui qui avait gardé les comptes, celui qui avait osé transformer le secret en rente. En tuant le maître-chanteur, Squarcioni n'avait pas seulement supprimé une menace ; il avait réaffirmé sa souveraineté sur Ker-Morvan.
+
+Garcia se leva et marcha lentement vers la fenêtre. Le verre était froid sous ses doigts. Dehors, les silhouettes des maisons s'estompaient dans l'opale du crépuscule. Il se demanda combien de temps on pouvait vivre dans un village où chaque pierre, chaque ruelle, était cimentée par une complicité criminelle. On n'y habitait pas, on y survivait en acceptant le prix du silence.
+
+Il se sentait soudain étranger, non pas comme un policier dans un village reculé, mais comme un homme face à une machine dont il ne comprenait pas encore toutes les commandes. Il avait toujours cru que la vérité était une lumière qui libérait. Ici, la vérité ressemblait plutôt à une lame : elle coupait celui qui la manipulait sans précaution. S'il remontait le fil jusqu'au Triton, s'il prouvait que Marc n'était pas mort dans les eaux froides de l'Atlantique mais qu'il était revenu comme un fantôme pour réclamer sa part, il ne ferait pas que résoudre une enquête. Il allait briser l'équilibre fragile d'une communauté entière.
+
+Il s'arrêta devant le petit guéridon où reposaient ses notes. Des feuilles volantes, des noms soulignés au crayon, des dates qui se chevauchaient. Tout semblait insignifiant pris isolément. Mais l'ensemble formait une architecture cohérente, un édifice construit sur le mensonge et la peur.
+
+Il posa sa main sur le bois rugueux de la table, sentant sous ses doigts une petite rainure, une entaille ancienne dans le vernis, et c'est ce détail minuscule, cette brisure matérielle, qui fit basculer tout le reste dans son esprit : il comprit que Dubois n'avait pas été tué pour l'argent qu'il demandait, mais parce que Marc était revenu, que le revenant avait été aperçu par le gardien du phare et que Squarcioni ne pouvait tolérer l'existence d'un témoin vivant du naufrage alors que le butin avait été dilapidé pour bâtir le prestige du village, faisant de chaque route goudronnée, de chaque école rénovée et de chaque visage satisfait une preuve tangible du crime originel, transformant ainsi Ker-Morvan en un immense monument au silence où le meurtre de Dubois n'était que la conclusion logique d'un cycle commencé vingt ans plus tôt pour protéger un empire de sable.
+
+La pensée s'arrêta là, nette. Il retira sa main du meuble. 
+
+L'épuisement le gagna soudain, une fatigue sourde qui lui descendit jusque dans les chevilles. Ce n'était pas la fatigue du voyage, mais celle de la lucidité. On ne revient jamais en arrière après avoir vu l'envers du décor. Il savait maintenant que Squarcioni ne reculerait devant rien, car le maire ne jouait pas sa carrière ou sa liberté, il jouait l'identité même du lieu qu'il dirigeait.
+
+Garcia retourna s'asseoir sur le lit. Il regarda ses chaussures, couvertes d'une fine pellicule de boue grise. 
+
+Il se demanda ce que Marc attendait. Le revenant était là, quelque part dans les plis du brouillard, peut-être à observer la maison, peut-être attendant l'heure où le courage de Garcia l'emporterait sur sa prudence. L'inspecteur sentit un frisson lui parcourir l'échine. Ce n'était pas de la peur, mais une forme d'excitation froide. 
+
+Le dossier était clos dans son esprit, mais il ne pouvait pas encore l'être sur le papier. Il fallait des preuves. Des preuves concrètes, tangibles, qui ne dépendent pas de la parole d'un vieux peureux ou des larmes d'une femme tiraillée. Il lui fallait l'élément matériel, le vestige du Triton que Dubois avait peut-être caché avant de mourir.
+
+Il resta immobile dans la pénombre croissante, écoutant le vent se lever et frapper les volets avec une régularité métronomique. Le village s'endormait sans doute, drapé dans son mensonge confortable. Lui seul, dans cette chambre exiguë, portait désormais le poids de l'évidence. Il savait que dès le lendemain, chaque regard croisé sur la place du marché serait différent. Chaque salut de tête serait une question, chaque silence une menace.
+
+Il s'allongea lentement, sans enlever ses vêtements, et fixa le plafond blanc. La nuit tombait sur Ker-Morvan, et avec elle, la certitude que personne ne sortirait indemne de cette affaire. Il ferma les yeux, mais l'image du phare, dressé comme un doigt accusateur dans la brume, persistait derrière ses paupières.

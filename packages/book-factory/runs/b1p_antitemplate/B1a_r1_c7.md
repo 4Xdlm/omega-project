@@ -1,0 +1,27 @@
+La pluie avait cessé, mais l’humidité persistait, collée aux murs de pierre et infiltrée dans les jointures des fenêtres. Garcia était assis dans le vieux fauteuil en cuir craquelé de sa chambre d'hôte, un verre de cognac à la main. Le liquide ambré oscillait légèrement au rythme de sa respiration. Dehors, Ker-Morvan s’était tue. Il n’y avait plus que le ressac lointain, ce bruit sourd et monotone qui semblait venir du centre de la terre, et le cri intermittent d’un goéland égaré dans le crépuscule gris.
+
+Il ne buvait pas. Il regardait simplement le reflet de la lampe à huile sur la surface du verre. 
+
+L'information qu'il avait reçue une heure plus tôt n'avait pas provoqué de choc violent, mais plutôt un glissement lent, comme un terrain qui s'effondre sous l'effet d'une pluie trop longue. Il sentait dans sa poitrine un poids froid, une sorte de fatigue minérale. Ce n'était pas la surprise, car au fond, il avait toujours su que le silence de ce village n'était pas celui de l'innocence, mais celui d'un accord tacite, d'une solidarité scellée dans le sang et l'argent.
+
+Il posa le verre sur la table basse, un meuble bas et massif qui sentait la cire et la poussière. Il se leva et fit quelques pas vers la fenêtre. Le village s’étalait en contrebas, quelques lumières jaunes perçant la brume, des silhouettes de maisons agrippées au granit. 
+
+Il pensa à Dubois, le gardien du phare. L'homme était mort dans une solitude absolue, étouffé par ses propres secrets. Il avait voulu transformer un crime collectif en rente personnelle, et Ker-Morvan l'avait supprimé avec la précision d'un chirurgien. Ce n'était pas un meurtre passionnel, c'était un acte d'entretien, une réparation nécessaire pour maintenir l'ordre des choses.
+
+Garcia frotta son visage de ses mains rugueuses. L'odeur du tabac froid imprégnait son veston. Il se demanda combien de temps il faudrait pour que ce village digère la présence d'un inspecteur qui savait. Squarcioni, avec son allure de patriarche et ses mains propres, dirigeait cette machine depuis des décennies. Le maire n'était pas un criminel au sens banal du terme ; il était le gardien d'une économie souterraine, l'architecte d'un naufrage qui avait enrichi les uns en sacrifiant les autres.
+
+Il s'imaginait Léna Marchetti, dans sa maison isolée, tiraillée entre la loyauté envers son clan et ce reste de conscience qui la faisait trembler dès qu'il croisait son regard. Elle était l'élément fragile, la faille dans le mur. Mais même elle n'était peut-être qu'un leurre, un moyen pour Squarcioni de tâter le terrain, d'évaluer la profondeur de l'enquête.
+
+Il retourna s'asseoir, this fois sur le bord du lit, le dos voûté. Le silence de la pièce était devenu oppressant. Chaque craquement du plancher semblait être un reproche. Il songea à Marc, cet homme que tout le monde croyait englouti par les flots en 1998. Un revenant. L'existence même de Marc changeait la nature du crime : on ne parlait plus seulement d'un détournement de cargaison et d'une fraude aux assurances, mais d'une mise en scène macabre où l'on avait laissé un homme pour mort pour mieux partager le butin.
+
+Il ferma les yeux. Il revoyait le visage peureux de Gaspard, le vieux du port, dont les mains tremblaient dès que le nom du *Triton* était prononcé. La peur de Gaspard n'était pas celle d'un témoin, c'était la peur d'un complice qui attend son tour pour être effacé.
+
+L'obscurité s'épaississait dans la chambre. Garcia sentait que le temps des questions était terminé. Il n'y avait plus rien à demander, plus personne à interroger. Tout était là, étalé devant lui, dans l'économie froide de ce village breton où l'on ne pardonnait pas la trahison et où l'on enterrait les morts deux fois pour être sûr qu'ils ne remontent pas.
+
+Il se leva une dernière fois et s'approcha du miroir piqué de taches noires. Il vit un homme dont le visage semblait avoir vieilli de dix ans en une soirée. Il mesura alors la portée de sa situation : il était seul face à une structure, un système où le juge, le bourreau et la victime étaient liés par un même secret, et s'il décidait d'actionner le levier de la justice, il ne briserait pas seulement un cercle de complicité mais il ébranlerait tout l'équilibre social de Ker-Morvan, condamnant des familles entières à la ruine pour avoir bâti leur confort sur les débris du *Triton* et le silence acheté d'un gardien de phare dont le cadavre ne serait bientôt plus qu'une note de bas de page dans un dossier classé.
+
+Il resta immobile, contemplant son reflet. La décision était prise, mais elle n'apportait aucun soulagement. Il savait que dès l'aube, le regard des gens changerait. On ne le verrait plus comme l'étranger curieux ou l'inspecteur importun, mais comme l'ennemi. 
+
+Il retourna vers son verre de cognac et vida le reste d'un trait. Le liquide brûla sa gorge, lui rappelant qu'il était encore vivant, encore tangible dans ce décor spectral. Il éteignit la lampe. La chambre plongea dans un noir total, seulement troublé par l'éclat blafard de la lune qui filtrait à travers les rideaux. 
+
+Il s'allongea sur le lit, sans enlever ses chaussures, et écouta le vent se lever à nouveau. Le vent de Ker-Morvan ne transportait aucun message, seulement le bruit du vide et le rappel constant que, dans cet endroit, la mer finissait toujours par reprendre ce qui lui appartenait.

@@ -1,0 +1,31 @@
+La pluie avait cessé, laissant place à une brume épaisse qui collait aux vitres de la petite chambre louée. Garcia resta immobile, debout devant le radiateur qui cliquetait avec une régularité agaçante. L'odeur était celle des lieux anciens : un mélange de cire froide, de poussière et d'humidité persistante qui semblait s'infiltrer jusque dans les jointures de ses doigts. Il n'avait pas encore enlevé son imperméable. Le tissu était lourd, imprégné du sel et de la grisaille de Ker-Morvan.
+
+Il regarda ses mains. Elles tremblaient légèrement, un détail insignifiant qu'il s'efforça d'ignorer en les glissant dans ses poches. Ce qu'il venait d'apprendre ne rentrait pas dans les dossiers. Ce n'était pas une preuve matérielle, pas une signature sur un papier officiel ou un aveu arraché dans la sueur d'un interrogatoire. C'était une vérité plus sourde, une sorte de vibration qui changeait brusquement la fréquence de tout le dossier.
+
+Il s'approcha de la table en chêne où reposait son carnet ouvert. Les notes étaient propres, alignées. Le nom de Dubois, le gardien du phare, y figurait en lettres capitales. Un homme seul, un marginal que le village tolérait parce qu'il était utile à la navigation et invisible pour le reste. On l'avait retrouvé avec le crâne fracassé sur les rochers, une mise en scène maladroite visant à simuler une chute accidentelle lors d'une tempête. Jusque-là, l'affaire ressemblait à un drame domestique ou à un règlement de comptes mineur.
+
+Garcia s'assit lentement sur le bord du lit. Le matelas grinça sous son poids. Il fixa le papier peint jauni, dont les motifs floraux semblaient se dissoudre dans la pénombre. 
+
+Le Triton. Ce nom revenait sans cesse, comme un refrain obsessif. Un cargo disparu en 1998, englouti par la colère de l'Atlantique avec tout son équipage et sa cargaison. Un naufrage propre, rapide, acté par les assurances et le temps. Mais le silence qui entourait cet événement à Ker-Morvan n'était pas celui du deuil ; c'était un silence solide, construit pierre après pierre, comme les murs des maisons en granit du village. Un silence payé.
+
+Il repensa au visage de Léna Marchetti. Cette expression d'effroi contenue, ce regard qui fuyait dès qu'on évoquait le passé. Elle n'était pas une complice, elle était l'otage d'une mémoire collective. Et puis il y avait Squarcioni. Le maire. L'homme dont la présence remplissait chaque pièce, chaque conversation, chaque recoin de cette commune. Un patriarche qui veillait sur les siens avec une bienveillance qui ressemblait étrangement à une surveillance policière.
+
+Garcia se leva et fit quelques pas dans l'espace restreint de la chambre. Le plancher craquait sous ses semelles. Il sentit soudain l'étouffement de l'endroit, cette atmosphère de village fermé où chaque fenêtre est un œil et chaque porte une frontière. 
+
+Dubois n'avait pas été tué pour ce qu'il avait fait, mais pour ce qu'il savait. Le gardien du phare avait vu. Il avait vu ce qui remontait des profondeurs, ou peut-être avait-il simplement intercepté les flux d'argent qui circulaient discrètement depuis vingt ans pour maintenir le bouchon sur la vérité. Dubois était devenu le point faible d'un système parfaitement huilé. Le maître-chanteur n'avait pas cherché la fortune, il avait cherché une assurance vie dans un monde où personne ne pouvait être protégé.
+
+Et Marc. Ce revenant. L'ombre qui errait sur les quais et que Gaspard, le vieux peureux, craignait comme on craint un spectre. Marc n'était pas un fantôme, mais l'erreur fatale du montage initial. Un survivant improbable d'un naufrage orchestré.
+
+Garcia s'arrêta devant la fenêtre. La brume s'était levée légèrement, révélant la silhouette sombre du phare au loin, dressée comme un index accusateur contre le ciel d'encre. Il mesura alors l'ampleur de la solitude dans laquelle il se trouvait. S'attaquer à Squarcioni, ce n'était pas arrêter un criminel, c'était s'attaquer à l'économie même du village, briser l'équilibre précaire qui permettait à ces gens de manger et de dormir en paix. Il ne s'agissait plus d'une simple enquête pour meurtre, mais d'un démantèlement social.
+
+Il sentit un froid glacial descendre le long de sa colonne vertébrale. Le prix à payer serait élevé. Pour obtenir la vérité sur le Triton, il faudrait accepter de devenir l'ennemi public d'une communauté entière, s'enfoncer dans une hostilité sourde où même le boulanger ou le facteur cesseraient de lui adresser la parole. Il serait l'étranger qui vient remuer la boue du fond du port, celui qui réveille les morts pour le plaisir d'un dossier bien classé.
+
+C'est là que tout s'emboîtait, que le détournement de la cargaison en quatre-vingt-dix-huit n'était pas un accident de parcours mais l'acte fondateur d'une prospérité clandestine dont Squarcioni était l'architecte et le banquier, utilisant Dubois pour surveiller les approches maritimes avant que ce dernier ne transforme sa vigilance en moyen de pression, forçant ainsi le patriarche à ordonner l'exécution du gardien pour protéger non seulement son secret, mais surtout l'empire d'influence qu'il avait bâti sur le mensonge et le sang des disparus du Triton.
+
+Garcia ferma les yeux. Il resta ainsi un long moment, écoutant le bruit du vent qui s'engouffrait dans les conduits de la cheminée. 
+
+Il savait désormais ce qu'il devait faire. La voie était étroite et dangereuse. Il n'avait plus d'alliés ici, seulement des suspects et des victimes terrorisées. Il aurait pu plier, accepter l'évidence du pouvoir local et classer le meurtre de Dubois comme un accident, rentrer à Paris avec un rapport banal et oublier Ker-Morvan. Mais il y avait cette sensation, dans sa poitrine, une sorte d'obstination froide, presque physique.
+
+Il retourna vers la table, prit son stylo et traça un trait ferme sur son carnet, barrant le nom de Dubois pour l'associer, par une flèche nerveuse, à celui de Squarcioni. 
+
+Le silence de la chambre était redevenu total. Garcia s'assit, alluma une cigarette et regarda la fumée monter lentement vers le plafond, blanche et fragile comme un mensonge qui s'évapore. Il ne dormirait pas cette nuit. Il attendrait l'aube pour commencer à détruire tout ce que le village avait mis vingt ans à construire.

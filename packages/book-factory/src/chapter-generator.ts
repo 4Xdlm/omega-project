@@ -12,6 +12,7 @@
 
 import type { ChapterIntent } from './chapter-spec-to-intent.js';
 import type { ChapterSpec } from './book-planner.js';
+import { scanEnglishResiduals } from './doctor/lang-purity.js';
 
 export interface GenRequest {
   readonly intent: ChapterIntent;
@@ -37,6 +38,29 @@ export interface GenResult {
   readonly words: number;
   readonly model: string;
   readonly ms: number;
+  /**
+   * N-GARDE (2026-08-02) — mots-outils ANGLAIS restes dans la prose francaise.
+   *
+   * Constate sur 105 sorties reelles : 9,5 % en contiennent au moins un, soit
+   * ~5 chapitres par livre de 50. Exemples releves :
+   *   « Il resta ainsi, immobile, during un long moment »   (x4, meme formule)
+   *   « la faire rouler between son index et son majeur »
+   *   « reprendre contact avec les survivants ou with l'autorite »
+   *   « demain, when il sortirait de cette chambre »
+   *
+   * PISTE POUR LE RETOUR LECTEUR n.1 (« des mots qui manquent parfois »,
+   * NON REPRODUIT depuis 2026-07-30) : un mot-outil anglais au milieu d'une
+   * phrase francaise correcte ne se lit pas comme un anglicisme, il se lit
+   * comme une anomalie — un mot manquant, une coquille.
+   *
+   * Le detecteur `scanEnglishResiduals` couvrait deja ces mots et fonctionnait
+   * (v4-constitution.ts:35 le teste sur « Il marcha during la nuit »). Il n'etait
+   * simplement JAMAIS appele sur le chemin officiel : filet pose trop loin en aval.
+   *
+   * Ce champ SIGNALE, il ne rejette rien. Transformer ce signal en gate de
+   * selection est une decision de la tranche C, pas un effet de bord ici.
+   */
+  readonly langResiduals?: readonly string[];
 }
 
 export interface ChapterGenerator {
@@ -133,7 +157,16 @@ export class OllamaChapterGenerator implements ChapterGenerator {
       const raw = data.message?.content ?? '';
       const prose = raw.replace(/<think>[\s\S]*?<\/think>/g, '').trim();
       if (prose.length === 0) throw new Error(`Ollama returned empty prose (model ${model}); ensure think:false.`);
-      return { prose, words: countWords(prose), model, ms: Date.now() - t0 };
+      // N-GARDE : signale les mots-outils anglais restes dans la prose. Ne rejette
+      // rien — le filet existait deja (lang-purity) mais n'etait jamais pose ici.
+      const residuals = scanEnglishResiduals(prose).map((r) => r.word);
+      return {
+        prose,
+        words: countWords(prose),
+        model,
+        ms: Date.now() - t0,
+        ...(residuals.length > 0 ? { langResiduals: residuals } : {}),
+      };
     } finally {
       clearTimeout(timer);
     }

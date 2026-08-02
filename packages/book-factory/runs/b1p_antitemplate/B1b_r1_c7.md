@@ -1,0 +1,31 @@
+La pluie avait cessé, laissant place à cet embrun fine et persistante qui colle aux vitres et grise le paysage. Garcia était assis dans le vieux fauteuil en cuir craquelé de sa chambre d'hôte, une pièce exiguë qui sentait la cire froide et le tabac froid. Sur la table de chevet, une lampe à abat-jour jaune jetait un cercle maladroit sur quelques dossiers ouverts et un cendrier plein.
+
+Il ne bougeait pas. Il regardait oppositement le mur blanc, là où l'humidité avait dessiné une tache sombre, semblable à une île oubliée sur une carte marine. Dans le silence de la maison, on entendait seulement le tic-tac irrégulier d'une pendule dans le couloir et, plus loin, le grondement sourd de l'Atlantique qui s'écrasait contre les récifs de Ker-Morvan.
+
+Il se sentait vide, comme si la révélation qu'il venait de recevoir avait aspiré tout l'air de la pièce. Pendant des jours, il avait cherché un mobile, une faille dans le récit officiel du naufrage du *Triton*. Il avait cru tenir un fil en s'attaquant à Dubois, le gardien du phare. Un homme aigri, certes, mais dont le meurtre semblait être l'acte final d'un chantage mal géré. Le schéma était classique : un secret enfoui, une somme d'argent demandée, un crime passionnel ou pragmatique pour faire taire la victime. C'était l'arithmétique simple du polar, celle qu'il maîtrisait.
+
+Maise le nom de Marc avait tout fait basculer. 
+
+Marc. Le disparu. L'homme que tout le village considérait comme une épave humaine, engloutie par les eaux en 1998 avec le reste de la cargaison. On l'avait pleuré, on l'avait oublié, on avait construit un mythe sur son absence pour mieux sceller le silence des survivants. Et soudain, l'idée que Marc n'était pas mort, qu'il était revenu, non pas comme un fantôme mais comme un homme de chair et d'os, changeait la nature même du crime. 
+
+Garcia alluma une cigarette. La fumée monta en volutes lentes, découpées par la lumière jaune. Il pensa à Léna Marchetti. Il revit son regard, cette oscillation permanente entre la peur et une sorte de pitié désespérée. Elle ne craignait pas seulement le meurtrier ; elle craignait l'effondrement d'un ordre établi. À Ker-Morvan, l'ordre portait un nom : Yvon Squarcioni.
+
+Le maire n'était pas un simple administrateur de commune. Il était la racine et la sève. Celui qui avait organisé le détournement du *Triton*, celui qui avait réparti le butin entre les familles influentes, celui qui avait acheté les consciences avec des promesses de prospérité et des silences assortis d'un prix. Squarcioni avait transformé un naufrage criminel en un fond d'investissement pour le village. Le meurtre de Dubois n'était pas l'acte d'un homme isolé, c'était la maintenance d'un système.
+
+Garcia ferma les yeux. Il sentait le poids de cette vérité. Ce n'était plus une enquête sur un homicide, c'était l'autopsie d'une communauté. S'il tirait sur le fil, il ne ramènerait pas seulement un coupable en cellule ; il briserait l'équilibre fragile de Ker-Morvan. Il jetterait à la mer des dizaines de vies qui s'étaient construites sur cet argent sale.
+
+Il se leva et s'approcha de la fenêtre. Le jardin était plongé dans une pénombre bleutée. Quelques buissons d'ajoncs pliaient sous le vent. Il se demanda combien de temps Marc avait erré dans les ombres, observant ceux qui l'avaient enterré symboliquement pour s'enrichir. Quel genre de haine pouvait nourrir un homme pendant vingt ans ? 
+
+Il y avait là une solitude immense, celle de Marc, et celle qu'il ressentait maintenant, lui, l'étranger arrivé avec ses méthodes et son code pénal dans un lieu où la loi était dictée par le courant et les alliances familiales. Il se sentait soudain très loin de Paris, loin de ses collègues, loin de la logique bureaucratique du commissariat. Ici, la vérité n'avait pas la valeur d'une preuve, elle avait le poids d'un scandale.
+
+Il posa sa main sur le rebord froid de la fenêtre et observa une petite goutte d'eau qui glissait lentement le long du verre, traçant un chemin sinueux avant de disparaître dans le cadre en bois pourri, et c'est alors que tout s'emboîta avec une clarté brutale : il comprit que Dubois n'avait pas été tué parce qu'il chantait pour l'argent, mais parce qu'il était devenu le seul lien tangible entre le revenant et le patriarche, car si Marc était revenu chercher justice, il avait forcément trouvé refuge chez l'homme qui surveillait la côte, faisant de Dubois non plus un complice du silence mais le confident involontaire d'une vengeance qui ne pouvait s'accomplir sans laisser des traces, obligeant Squarcioni à éliminer le gardien pour effacer la trace du passage de Marc et ainsi préserver l'illusion d'un secret parfaitement scellé depuis vingt ans.
+
+Garcia retira sa main. Il resta un long moment immobile, le front appuyé contre la vitre froide. 
+
+Le mécanisme était là, complet. La logique était implacable. Mais elle l'obligeait à un choix qu'il n'avait pas anticipé. S'il allait voir Squarcioni maintenant, il entrerait dans l'antre du lion sans aucune arme autre que sa propre intuition. Le maire avait le village pour bouclier, les notables pour témoins et le silence des côtes pour allié. 
+
+Il retourna s'asseoir dans son fauteuil. Il ne ressentait ni excitation, ni triomphe. Juste une fatigue profonde, une sorte de lassitude morale. Il savait que les heures à venir seraient lentes. Il devait attendre que la nuit tombe complètement, attendre que les masques se figent pour mieux les briser. 
+
+Il regarda ses mains. Elles tremblaient légèrement. Ce n'était pas de la peur, mais l'effet du froid et de la nicotine. Il réfléchit à Gaspard, le vieux du port, cet homme terrifié qui semblait porter toute la culpabilité du monde sur ses épaules voûtées. Gaspard était le symptôme, Squarcioni était la maladie. 
+
+Il éteignit la lampe. La chambre fut plongée dans l'obscurité, seulement percée par la lueur blafarde de la lune qui filtrait à travers les rideaux. Garcia resta là, assis dans le noir, écoutant le rythme du monde extérieur, mesurant le prix du silence et le coût exact d'une vérité qui, une fois révélée, ne laisserait personne indemne à Ker-Morvan.

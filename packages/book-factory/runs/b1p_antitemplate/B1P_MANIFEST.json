@@ -1,0 +1,190 @@
+{
+  "spec": "B1_PRIME_ANTITEMPLATE",
+  "model": "gemma4:31b",
+  "thresholds": {
+    "watch": 0.05,
+    "template": 0.1,
+    "publishedMean": 0.0009,
+    "publishedMaxObserved": 0.0952
+  },
+  "publishedDensity": 0.0167,
+  "gate": "PASS d'un remede : conserve >=19/21 sorties avec periode ET ramene le taux de repetition de tete sous 0,10 (seuil TEMPLATE), sans faire chuter la densite sous 1,0 % ni exploser au-dessus de 2,5 %.",
+  "results": [
+    {
+      "arm": "B1",
+      "note": "contrôle, repris de B0 sans régénération",
+      "n": 21,
+      "outputsWithPeriod": 21,
+      "periods": 21,
+      "headRepeatRate": 0.381,
+      "verdict": "TEMPLATE_DETECTED",
+      "timesAbovePublished": 423,
+      "density": 0.0155,
+      "maxPeriodWords": 143,
+      "topHeads": [
+        {
+          "motif": "c’est alors que tout",
+          "count": 4
+        },
+        {
+          "motif": "il comprit que le",
+          "count": 2
+        },
+        {
+          "motif": "c'est alors que le",
+          "count": 2
+        }
+      ],
+      "topNgrams": [
+        {
+          "motif": "si dubois avait été",
+          "count": 5
+        },
+        {
+          "motif": "le retour de marc",
+          "count": 5
+        },
+        {
+          "motif": "le meurtre du gardien",
+          "count": 5
+        },
+        {
+          "motif": "meurtre du gardien n'était",
+          "count": 5
+        },
+        {
+          "motif": "il comprit que le",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "arm": "B3",
+      "note": "référence B0",
+      "n": 21,
+      "outputsWithPeriod": 21,
+      "periods": 22,
+      "headRepeatRate": 0.5909,
+      "verdict": "TEMPLATE_DETECTED",
+      "timesAbovePublished": 657,
+      "density": 0.0166,
+      "maxPeriodWords": 149,
+      "topHeads": [
+        {
+          "motif": "c’est alors que tout",
+          "count": 4
+        },
+        {
+          "motif": "il comprit que dubois",
+          "count": 3
+        },
+        {
+          "motif": "c’est alors que les",
+          "count": 2
+        },
+        {
+          "motif": "il resta ainsi, immobile,",
+          "count": 2
+        },
+        {
+          "motif": "sa pensée s'accéléra, glissant",
+          "count": 2
+        }
+      ],
+      "topNgrams": [
+        {
+          "motif": "le gardien du phare",
+          "count": 6
+        },
+        {
+          "motif": "le meurtre de dubois",
+          "count": 6
+        },
+        {
+          "motif": "meurtre de dubois n'était",
+          "count": 6
+        },
+        {
+          "motif": "que le meurtre de",
+          "count": 5
+        },
+        {
+          "motif": "de dubois n'était pas",
+          "count": 5
+        }
+      ]
+    },
+    {
+      "arm": "B1a",
+      "note": "interdiction de formule de bascule",
+      "n": 21,
+      "outputsWithPeriod": 21,
+      "periods": 25,
+      "headRepeatRate": 0.08,
+      "verdict": "WATCH",
+      "timesAbovePublished": 89,
+      "density": 0.0194,
+      "maxPeriodWords": 134,
+      "topHeads": [
+        {
+          "motif": "le raisonnement s'imposa à",
+          "count": 2
+        }
+      ],
+      "topNgrams": [
+        {
+          "motif": "car si le triton",
+          "count": 4
+        },
+        {
+          "motif": "le triton avait été",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "arm": "B1b",
+      "note": "pool de portes d'entrée concrètes",
+      "n": 21,
+      "outputsWithPeriod": 21,
+      "periods": 22,
+      "headRepeatRate": 0.3636,
+      "verdict": "TEMPLATE_DETECTED",
+      "timesAbovePublished": 404,
+      "density": 0.0171,
+      "maxPeriodWords": 172,
+      "topHeads": [
+        {
+          "motif": "il posa sa main",
+          "count": 5
+        },
+        {
+          "motif": "il fixa alors le",
+          "count": 3
+        }
+      ],
+      "topNgrams": [
+        {
+          "motif": "il comprit que dubois",
+          "count": 11
+        },
+        {
+          "motif": "comprit que dubois n'avait",
+          "count": 11
+        },
+        {
+          "motif": "que dubois n'avait pas",
+          "count": 10
+        },
+        {
+          "motif": "dubois n'avait pas été",
+          "count": 10
+        },
+        {
+          "motif": "n'avait pas été tué",
+          "count": 9
+        }
+      ]
+    }
+  ]
+}

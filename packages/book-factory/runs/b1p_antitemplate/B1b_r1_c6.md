@@ -1,0 +1,33 @@
+La pluie avait cessé, laissant place à cette brume épaisse, grasse, qui colle aux vêtements et gomme les contours du monde. Garcia était assis dans sa voiture, le moteur éteint, garé sur le bas-côté d'une route départementale qui serpentait entre deux murets de granit gris. Le silence était total, interrompu seulement par le cliquetis métallique du bloc moteur qui refroidissait et le rythme monotone de l'essuie-glace resté en position haute, laissant une traînée d'humidité sur le pare-brise.
+
+Il ne bougeait pas. Ses mains reposaient à plat sur le volant, les doigts légèrement crispés. Il regardait devant lui, mais ne voyait rien du paysage breton, seulement le reflet flou de son propre visage dans le miroir intérieur : des traits tirés, des cernes creusées par des nuits d'insomnie et ce regard vide, celui des hommes qui viennent de heurter un mur invisible.
+
+Il avait l'impression que l'air dans l'habitacle était devenu trop dense. Il ouvrit la vitre de quelques centimètres. L'odeur du sel, de la vase et de la tourbe monta instantanément, s'immisçant dans ses narines comme une intrusion. C’était l’odeur de Ker-Morvan, cette odeur de fin du monde où tout finit par être digéré par la mer.
+
+Il repensa à Dubois. Le gardien de phare gisant sur le sol froid, le regard fixé vers un plafond qu'il ne voyait plus. Un homme tué pour quelques secrets, un maître-chanteur dont l'avidité avait été sa seule erreur. Jusqu'ici, Garcia avait traité l'affaire comme un crime passionnel ou une querelle de voisinage, une affaire de village où les rancœurs s'accumulent pendant des décennies avant d'éclater en un acte brutal. Mais la révélation qu'il venait de recueillir, ce fragment de vérité glissé entre deux silences, changeait tout.
+
+Le *Triton*. 1998.
+
+Un naufrage. Un drame maritime que tout le monde acceptait comme une fatalité, un coup du sort dans une zone traîtresse. On avait pleuré les morts, on avait salué le courage des survivants. Mais le naufrage n'était qu'un décor. Une mise en scène.
+
+Garcia ferma les yeux. Il sentit le poids de la solitude s'abattre sur lui. Ce n'était pas la solitude physique, celle d'un homme seul dans sa voiture, mais la solitude du policier qui comprend que le terrain sur lequel il marche est une croûte fragile recouvrant un gouffre. À Ker-Morvan, le pouvoir n'appartenait pas à l'État, ni même à la loi. Il appartenait à Squarcioni. Le maire, le patriarche, l'homme dont le nom était synonyme de stabilité et de bienveillance. Un homme capable de détourner une cargaison entière, d'organiser un massacre et de transformer le silence en une vertu civique.
+
+Il imagina le mécanisme : le butin partagé, les mains graisseuses qui s'étaient serrées dans l'ombre, les pactes scellés dans le sang et l'argent. Et puis Marc. Ce revenant, cet homme que l'on croyait englouti par les flots et qui revenait hanter les consciences comme un spectre. Marc était la faille. La seule pièce du puzzle qui ne s'emboîtait pas parfaitement, l'élément perturbateur qui obligeait les complices à surveiller leurs arrières.
+
+Garcia rouvrit les yeux. Il observa une petite goutte d'eau qui glissait lentement le long de la vitre latérale, traçant un chemin sinueux avant de disparaître dans le joint en caoutchouc.
+
+Il se demanda ce qu'il attendait maintenant. La procédure ? Le rapport détaillé ? Les mandats d'amener ? Tout cela lui semblait soudainement dérisoire, presque naïf. On n'arrête pas un homme comme Squarcioni avec des formulaires administratifs. On s'attaquait à une structure, à un système de croyances où le village entier était devenu l'accessoire d'un crime. Léna Marchetti, avec ses yeux hantés et ses hésitations, n'était qu'une victime collatérale de ce silence imposé, une femme tiraillée entre la morale et la survie dans un lieu où la loyauté se payait en monnaie sonnante ou en peur viscérale.
+
+Il sentit une fatigue immense l'envahir, une lassitude qui ne venait pas du manque de sommeil mais d'un dégoût profond. C’était le dégoût de découvrir que la banalité du mal s'était installée là, dans ce coin de Bretagne, avec la patience d'un lichen sur la pierre.
+
+Il porta la main à sa poche et en sortit un paquet de cigarettes. Il en alluma une, lentement, observant la braise rouge s'intensifier. La fumée monta en volutes blanches, se mélangeant à la brume qui s'engouffrait par l'entrebâillement de la fenêtre.
+
+C’est alors qu’il posa son regard sur le cendrier en plastique posé sur le tableau de bord, où s'accumulaient les mégots écrasés des derniers jours, et ce détail insignifiant, cette accumulation de détritus grisâtres, déclencha soudainement l'engrenage final de sa pensée : il comprit que Dubois n'avait pas été tué pour avoir découvert le secret du *Triton*, car tout le monde au village savait intuitivement que le naufrage était un mensonge, mais qu'il avait été abattu parce qu'il était devenu le seul lien tangible entre le passé et le présent, le seul capable de transformer un soupçon collectif en preuve judiciaire, et que Squarcioni, dans sa gestion millimétrée du pouvoir, ne pouvait tolérer qu'une seule pièce du mécanisme échappe à son contrôle, d'autant plus que le retour de Marc rendait la situation explosive, obligeant le patriarche à passer de la manipulation passive à l'élimination active pour protéger non seulement sa fortune, mais l'image même de l'ordre social qu'il avait bâtie sur un cimetière marin.
+
+Il resta ainsi, immobile, tandis que la cigarette se consumait jusqu'au filtre. La conclusion était là, froide et nette. Elle ne lui apportait aucune satisfaction, seulement une certitude pesante. 
+
+Le chemin était désormais tracé, mais il savait qu'il serait glissant. Il n'était plus l'inspecteur venu d'ailleurs pour résoudre une énigme ; il était devenu l'intrus qui menaçait l'équilibre d'un sanctuaire bâti sur le crime. 
+
+Garcia écrasa son mégot avec une lenteur méthodique. Il rangea le paquet, redressa son col et fixa le pare-brise. La brume commençait à se lever, laissant apparaître, au loin, la silhouette sombre et menaçante du phare de Ker-Morvan, dressé comme un doigt accusateur pointé vers le ciel gris.
+
+Il tourna la clé de contact. Le moteur vrombit, brisant le silence de la lande. Il engagea la première et repartit lentement vers le village, sachant que chaque mètre parcouru le rapprochait d'une confrontation où la loi ne serait peut-être qu'un mot vide face à l'implacable logique du silence.

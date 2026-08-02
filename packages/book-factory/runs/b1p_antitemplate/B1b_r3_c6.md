@@ -1,0 +1,31 @@
+La pluie avait cessé, mais l’humidité persistait, lourde, collant aux parois de la petite chambre d’hôte comme une seconde peau. Garcia était assis sur le bord du lit, le dos voûté, les coudes posés sur les genoux. Dans la pénombre, la pièce sentait la cire froide et le vieux linge. Il n'avait pas allumé la lampe ; la lumière grise d'un crépuscule breton filtrait à travers les rideaux de dentelle jaunie, jetant des ombres incertaines sur le parquet ciré.
+
+Il resta ainsi, immobile, pendant un long moment. Le silence était total, si l’on oubliait le tic-tac métronomique d'une pendule dans le couloir et le grondement sourd, presque organique, de la mer qui battait les rochers en contrebas. C’était un bruit familier maintenant, ce ressac incessant qui semblait vouloir grignoter Ker-Morvan centimètre par centimètre, année après année.
+
+Il sentait encore dans ses doigts le contact du papier glacé, le froid des documents qu'il avait consultés. La révélation n'avait pas été un coup de tonnerre, mais plutôt l'effondrement lent d'un mur de sable. Tout s'était mis en place avec une simplicité obscène.
+
+Il pensa à Dubois, le gardien du phare. L'homme était mort pour un secret qui ne lui appartenait même pas, ou plutôt, pour avoir tenté de transformer un silence collectif en rente personnelle. Un maître-chanteur maladroit, foudroyé par ceux qu'il croyait pouvoir manipuler. Le crime n'était pas un acte d'impulsion, c'était une opération de nettoyage. Une maintenance nécessaire pour préserver l'équilibre du village.
+
+Garcia ferma les yeux. Il revit le visage de Léna Marchetti, cette expression de tiraillement, ce regard qui fuyait systématiquement vers la fenêtre dès qu'on évoquait le passé. Elle n'était pas complice, peut-être, mais elle était l'otage d'un système. On ne naît pas à Ker-Morvan, on est intégré à une mécanique.
+
+Et puis il y avait Squarcioni. Le maire. L’homme dont la présence remplissait chaque espace, dont la voix posée et le paternalisme mielleux servaient de couverture à une volonté d'acier. Squarcioni n'était pas seulement le cerveau du détournement de la cargaison du *Triton* ; il était l'architecte d'une paix sociale bâtie sur un mensonge. Le butin partagé en 1998 n'avait pas été une simple affaire d'appât, c'était le ciment qui avait soudé les familles, acheté les consciences et transformé un naufrage tragique en un fonds de commerce clandestin.
+
+Garcia se leva lentement. Il marcha jusqu'à la fenêtre et écarta légèrement le rideau. De là, il pouvait voir la silhouette sombre du phare, dressée comme un doigt accusateur contre le ciel d'encre. C'était là que Dubois avait rendu l'âme. 
+
+Il songea à Marc. Le revenant. L'homme que tout le monde croyait englouti par les eaux froides de la Manche vingt ans plus tôt. Le retour de Marc n'était pas un miracle, c'était une anomalie dans l'équation de Squarcioni. Un homme mort ne parle pas ; un homme qui revient d'entre les morts devient une menace existentielle pour tous ceux qui ont prospéré sur son absence.
+
+L'inspecteur sentit une fatigue immense l'envahir, une lassitude qui n'était pas physique, mais morale. Il savait désormais que la vérité à Ker-Morvan ne serait pas un soulagement, mais une rupture. Révéler le montage du *Triton*, c'était démanteler l'économie du village, briser des vies qui s'étaient reconstruites sur des ruines maquillées. Il mesurait le prix du silence et le coût exorbitant de la justice.
+
+Il posa sa main sur le rebord de la fenêtre, sentant sous ses doigts la froideur du bois humide et le grain rugueux d'une écaille de peinture qui se détachait, et c'est alors que tout s'assembla avec une clarté brutale : il comprit que Dubois n'avait pas été tué pour ce qu'il savait du naufrage en soi, mais parce qu'il avait découvert que Marc était toujours en vie et que le maire payait secrètement l'exil de cet homme pour éviter que le secret ne s'ébruite, transformant ainsi un simple vol de cargaison en un système de chantage permanent où chaque bénéficiaire du butin était devenu, avec le temps, l'esclave de Squarcioni, lequel utilisait la peur d'une dénonciation collective pour maintenir son emprise sur Ker-Morvan, faisant de ce village non plus une communauté, mais une prison à ciel ouvert dont Dubois avait tenté de vendre la clé avant que le bourreau ne décide de refermer la porte définitivement.
+
+Il retira sa main du rebord. Le geste était simple, presque banal, mais il marquait la fin d'une hésitation. 
+
+Le raisonnement était clos. Il n'y avait plus de place pour le doute ou pour la compassion envers les « victimes » du système. Squarcioni avait joué sa partition avec brio, utilisant la cupidité des uns et la peur des autres pour ériger son empire miniature. Mais il avait commis l'erreur classique de tous les patriarches : croire que le temps efface tout, alors que le temps ne fait qu'accumuler les sédiments qui finissent par étouffer celui qui les a déposés.
+
+Garcia retourna s'asseoir sur le lit. Il regarda ses mains dans la pénombre. Elles étaient vides, mais son esprit était désormais encombré d'une certitude pesante. 
+
+Il savait ce qu'il devait faire. Ce ne serait pas une arrestation spectaculaire, pas un coup d'éclat. Cela demanderait de la patience, de la précision. Il faudrait remonter le fil, pièce par pièce, document par document, forcer les maillons faibles comme Gaspard, le vieux du port dont la peur était plus forte que sa loyauté, et attendre que l'étau se resserre.
+
+Il resta encore un moment dans le noir, écoutant le vent s'engouffrer dans les interstices de la maison. La solitude de la chambre lui semblait soudain être le seul endroit sûr, le seul espace où la pensée pouvait encore être pure avant d'être confrontée à la boue et aux mensonges du village.
+
+Il se leva une dernière fois pour éteindre la petite lampe qu'il n'avait finalement pas allumée. Il s'allongea sur le lit, sans retirer ses chaussures, les yeux fixés sur le plafond sombre. Demain, le soleil se lèverait sur Ker-Morvan avec sa routine immuable, ses saluts polis et ses secrets enfouis. Mais pour Garcia, le paysage avait changé. Le village n'était plus qu'un crime à ciel ouvert, et lui était désormais le seul homme éveillé dans un dortoir de complices.

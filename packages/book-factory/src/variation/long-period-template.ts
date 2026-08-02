@@ -198,3 +198,62 @@ export function longPeriodDensity(
 
 /** Référence publiée, gelée avec les seuils. */
 export const PUBLISHED_LONG_PERIOD_DENSITY = 0.0167;
+
+/* ══════════════════════════════════════════════════════════════════════════════
+ * REFUS À LA SÉLECTION — le filet, complémentaire de la contrainte de prompt
+ * ══════════════════════════════════════════════════════════════════════════════
+ * N6 a montré qu'une interdiction écrite sur une scène ne protège pas la suivante :
+ * la même denylist donne 0,08 sur la scène réflexive et 0,30 sur la scène de
+ * révélation. Traiter le gabarit par énumération de formules est une course perdue.
+ *
+ * N7 a simulé le refus à la sélection sur 105 sorties déjà générées — pour le
+ * chapitre i, si la tête de période a déjà servi, le candidat est refusé et on
+ * régénère. Exactement ce que `motif-repulsion` fait pour les incipits de chapitre.
+ *
+ *   bras                      taux avant   rejets / 21   chapitres servis
+ *   B1  PLAN nu                  0,476          7              14
+ *   B3  PLAN + exemplar          0,667         10              11
+ *   B1a PLAN + interdiction      0,095          1              20
+ *   N6plan (autre scène)         0,333          4              17
+ *
+ * LECTURE : le coût du filet est proportionnel au taux résiduel, donc directement
+ * réglé par la qualité du prompt. Les deux mécanismes ne sont pas concurrents :
+ *   • la contrainte de prompt fait tomber le taux de collision à la source ;
+ *   • le refus à la sélection garantit le zéro, à un coût que le prompt détermine.
+ * Composés, prompt B1a + refus = une régénération sur vingt et un.
+ *
+ * Conforme à ADR-003 : CALC contrôle la SÉLECTION, pas la génération.
+ */
+
+export interface PeriodHeadSelection<T> {
+  /** Le candidat retenu, ou null si tous sont des clones. */
+  readonly chosen: T | null;
+  /** Candidats refusés parce que leur tête de période avait déjà servi. */
+  readonly rejected: readonly T[];
+  /** La tête retenue, à ajouter au registre pour le chapitre suivant. */
+  readonly head: string | null;
+}
+
+/**
+ * Choisit le premier candidat dont la tête de période n'a pas déjà servi.
+ * Un candidat SANS période longue est admissible (il n'ajoute aucun gabarit) et
+ * ne consomme aucune tête.
+ *
+ * NE MODIFIE RIEN : rend une décision, le consommateur en fait ce qu'il veut.
+ * En mode SHADOW, on compare simplement `chosen` au gagnant de production.
+ */
+export function selectDistinctPeriodHead<T>(
+  candidates: readonly T[],
+  proseOf: (c: T) => string,
+  usedHeads: ReadonlySet<string>,
+): PeriodHeadSelection<T> {
+  const rejected: T[] = [];
+  for (const c of candidates) {
+    const periods = extractLongPeriods(proseOf(c));
+    if (periods.length === 0) return { chosen: c, rejected, head: null };
+    const h = periodHead(periods[0] ?? '');
+    if (!usedHeads.has(h)) return { chosen: c, rejected, head: h };
+    rejected.push(c);
+  }
+  return { chosen: null, rejected, head: null };
+}

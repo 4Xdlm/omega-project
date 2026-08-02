@@ -5,6 +5,7 @@
  */
 import { describe, it, expect } from 'vitest';
 import {
+  selectDistinctPeriodHead,
   extractLongPeriods,
   periodHead,
   measureTemplateEmergence,
@@ -154,5 +155,41 @@ describe('INV-LPT-06 — densité et seuils gelés', () => {
     expect(r.headRepeatRate).toBe(0);
     expect(r.verdict).toBe('CLEAN');
     expect(longPeriodDensity([]).ratio).toBe(0);
+  });
+});
+
+describe('INV-LPT-07 — refus a la selection (filet complementaire du prompt)', () => {
+  const prose = (x: { readonly t: string }): string => x.t;
+
+  it('retient le premier candidat dont la tete de periode est neuve', () => {
+    const cands = [
+      { t: sentence("C'est alors que tout", 60) },
+      { t: sentence('Alpha beta gamma delta', 60) },
+    ];
+    const r = selectDistinctPeriodHead(cands, prose, new Set(["c'est alors que tout"]));
+    expect(r.chosen).toBe(cands[1]);
+    expect(r.rejected).toHaveLength(1);
+    expect(r.head).toBe('alpha beta gamma delta');
+  });
+
+  it('un candidat SANS periode longue est admissible et ne consomme aucune tete', () => {
+    const cands = [{ t: 'Trois phrases courtes. Rien de long. Fin.' }];
+    const r = selectDistinctPeriodHead(cands, prose, new Set());
+    expect(r.chosen).toBe(cands[0]);
+    expect(r.head).toBeNull();
+  });
+
+  it('rend null quand tous les candidats sont des clones', () => {
+    const cands = [{ t: sentence('Tete deja vue ici', 60) }, { t: sentence('Tete deja vue ici', 60) }];
+    const r = selectDistinctPeriodHead(cands, prose, new Set(['tete deja vue ici']));
+    expect(r.chosen).toBeNull();
+    expect(r.rejected).toHaveLength(2);
+  });
+
+  it('ne refuse rien quand le registre est vide', () => {
+    const cands = [{ t: sentence('Premiere tete du livre', 60) }];
+    const r = selectDistinctPeriodHead(cands, prose, new Set());
+    expect(r.chosen).toBe(cands[0]);
+    expect(r.rejected).toHaveLength(0);
   });
 });

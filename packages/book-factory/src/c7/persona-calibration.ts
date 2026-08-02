@@ -18,7 +18,7 @@ interface PairSide { readonly src: string; readonly text: string; }
 interface Pair { readonly pair_id: string; readonly master: PairSide; readonly popular: PairSide; }
 interface PairsFile { readonly protocol: string; readonly wlen: number; readonly pairs: readonly Pair[]; }
 
-const MODEL = process.env['CALIB_MODEL'] ?? 'qwen3.5:35b-a3b';
+const MODEL = process.env['CALIB_MODEL'] ?? 'gemma4:31b';
 const TEMPERATURE = 0;
 const PAIRS_PATH = process.env['CALIB_PAIRS'] ?? 'runs/c7_calib_pairs.json';
 const OUT = process.env['CALIB_OUT'] ?? 'runs/c7_calibration';

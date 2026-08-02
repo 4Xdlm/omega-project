@@ -28,7 +28,7 @@ import { measureKnobFeatures } from '../mixer/knob-bindings.js';
 
 const RUN = process.env['GO2_RUN'] ?? 'runs/c8_book60k';
 const OLLAMA = process.env['OLLAMA_URL'] ?? 'http://127.0.0.1:11434';
-const MODEL = process.env['GO2_MODEL'] ?? 'qwen3.5:35b-a3b';
+const MODEL = process.env['GO2_MODEL'] ?? 'gemma4:31b';
 
 class OllamaStylePort implements StyleGenPort {
   async generate(directives: string, brief: string): Promise<string> {

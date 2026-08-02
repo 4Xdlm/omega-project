@@ -76,7 +76,7 @@ export class ScribeGatedRepairPort implements LlmRepairPort {
 
   constructor(opts: ScribeBridgeOptions) {
     this.url = opts.ollamaUrl ?? 'http://127.0.0.1:11434';
-    this.model = opts.model ?? 'qwen3.5:35b-a3b';
+    this.model = opts.model ?? 'gemma4:31b';
     this.timeoutMs = opts.timeoutMs ?? 120_000;
     this.known = opts.knownEntities;
     this.minRatio = opts.minRatio ?? 0.4;

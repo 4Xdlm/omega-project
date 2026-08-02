@@ -1,0 +1,27 @@
+La pluie ne tombait plus, elle saturait l’air, une brume épaisse et saline qui collait aux vitres de la location comme une seconde peau. Garcia était assis dans le noir, face à la fenêtre, sans avoir allumé la lampe. Il écoutait le silence du village, ce silence de Ker-Morvan qui n'était pas une absence de bruit, mais une présence oppressante, un pacte tacite maintenu par des dizaines d'âmes since 1998.
+
+Il sentait le poids de sa cigarette entre ses doigts, la cendre qui s'allongeait dangereusement avant qu'il ne la secoue d'un geste lent, machinal. L'accablement était arrivé sans fracas, comme une marée montante qui finit par submerger les digues. Ce n'était pas la surprise qui le paralysait, mais la lucidité. La compréhension brutale que tout ce qu'il avait assemblé jusqu'ici — les contradictions de Gaspard, les regards fuyants de Léna, l'autorité pesante de Squarcioni — ne formait pas un puzzle complexe, mais une évidence monolithique.
+
+Le meurtre de Dubois n'était pas l'acte impulsif d'un homme acculé, c'était le nettoyage chirurgical d'une plaie qui refusait de se refermer. Le gardien du phare avait voulu transformer son silence en rente, et Ker-Morvan avait répondu avec la seule monnaie qu'elle acceptait encore : le sang.
+
+Garcia ferma les yeux. Il revoyait le visage de Dubois, figé dans l'expression d'une surprise tardive. Pendant des années, le village s'était construit sur les décombres du *Triton*, transformant un naufrage orchestré en tragédie locale, une légende fondatrice qui permettait aux notables de s'acheter une respectabilité faite de béton et de silence. Le butin détourné n'avait pas seulement rempli des poches ; il avait cimenté des allégeances, créé une caste d'initiés dont Squarcioni était le grand prêtre.
+
+Il se demanda à quel moment précis il avait cessé d'être un enquêteur pour devenir l'intrus dans un sanctuaire. Tout était là, devant lui, organisé avec une logique implacable : le détournement de la cargaison, le partage des parts, le silence acheté au prix de la complicité collective. C’était un système organique, une machine où chaque rouage, du plus petit pêcheur au maire, avait sa fonction et son prix.
+
+Il se leva et fit quelques pas dans la petite pièce exiguë. Le parquet craquait sous ses bottes. L'air sentait l'humidité et le tabac froid. Il se sentait soudainement épuisé, d'une fatigue qui ne concernait pas le sommeil, mais l'âme. C'était le vertige de celui qui réalise que la vérité ne libère rien du tout, qu'elle ne fait que dresser un mur infranchissable entre lui et le reste du monde.
+
+S'il poussait le dossier jusqu'au bout, s'il brisait ce cercle de silence, il ne ferait pas que mettre quelques hommes en prison ; il démantèlerait l'économie émotionnelle et matérielle d'un village entier, révélant que la prospérité apparente de Ker-Morvan n'était qu'une gangrène soigneusement maquillée sous un vernis de traditions bretonnes et de piété sincère.
+
+Il s'arrêta devant le miroir piqué du couloir. Son reflet lui renvoya l'image d'un homme dont les traits s'étaient durcis, les yeux cernés par une nuit blanche qui semblait durer depuis des années. Il pensa à Léna. Cette femme tiraillée, coincée entre l'amour pour les siens et le dégoût de leurs secrets. Elle était la victime collatérale la plus cruelle de ce système, condamnée à porter le poids d'une culpabilité qu'elle n'avait pas choisie, mais dont elle héritait comme on hérite d'une terre stérile.
+
+La pensée de Marc, ce revenant sorti des eaux, lui provoqua un frisson. Le retour du mort était l'élément perturbateur, le grain de sable qui avait fait s'enrayer la machine. Mais même Marc n'était peut-être qu'un fantôme utile, un levier utilisé par certains pour faire chanter d'autres. Dans ce village, personne n'était innocent, pas même ceux qui croyaient lutter contre le courant.
+
+Il retourna s'asseoir, this fois sur le bord du lit, le dos voûté. La cigarette était consumée jusqu'au filtre. Il la jeta dans le cendrier avec un bruit sec. 
+
+L'accablement venait de là : la certitude que la justice, telle qu'il l'avait apprise à l'école et pratiquée dans les bureaux climatisés de la ville, était ici une notion étrangère, presque absurde. Ici, la loi était celle du port, celle des courants et des secrets enfouis sous le sable. Pour obtenir une condamnation, il ne lui suffirait pas de preuves matérielles ; il lui faudrait briser des volontés, trahir des confidences, forcer des gens à se regarder en face après vingt ans d'hypocrisie.
+
+Il mesura alors le prix de sa propre obstination. En refusant de lâcher prise, Garcia s'était condamné à une solitude absolue. Il était l'unique détenteur d'une vérité qui ne pouvait être partagée sans détruire tout ce qu'elle touchait. Il se sentit comme un étranger sur une terre hostile, un homme dont la seule arme était une lucidité qui ressemblait à une malédiction.
+
+Le vent se remit à souffler, faisant vibrer les volets clos. Le bruit était monotone, hypnotique. Garcia resta là, immobile, laissant les pièces du puzzle s'emboîter une dernière fois dans son esprit. Il ne s'agissait plus de savoir qui avait frappé Dubois, mais comment on pouvait vivre avec le poids d'un tel secret sans s'effondrer. Squarcioni et les siens avaient réussi l'exploit de transformer un crime en fondation.
+
+C'était cela, la véritable horreur : non pas le meurtre, mais la banalité avec laquelle le village avait intégré le sang dans sa gestion quotidienne.

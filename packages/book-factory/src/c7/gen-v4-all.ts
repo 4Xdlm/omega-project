@@ -7,6 +7,7 @@
  */
 import { readFileSync, writeFileSync, appendFileSync, mkdirSync, existsSync, readdirSync } from 'node:fs';
 import { measureRepetition } from '../coherence/repetition-sensor.js';
+import { scanEnglishResiduals } from '../doctor/lang-purity.js';
 
 const OUT = 'runs/atlas/v4_slots';
 const SRC = 'runs/atlas/MANUSCRIT_V3_COH2.md';
@@ -72,7 +73,9 @@ function guard(text: string, minW: number, maxW: number, heads: { h4: Set<string
   const banned = BANNED.filter((b) => text.toLowerCase().includes(b.toLowerCase()));
   const rep = measureRepetition(text);
   const ticDensity = w > 0 ? (rep.families.reduce((a, f) => a + f.total, 0) / w) * 1000 : 0;
-  const english = (text.match(/\b(the|and the|with the|something|nothing|standing)\b/giu) ?? []).length;
+  // A3 : le detecteur inline (6 tokens) contredisait lang-purity sur « standing »,
+  // que lang-purity exclut explicitement comme emprunt FR legitime. Source unique.
+  const english = scanEnglishResiduals(text).length;
   const incipitClone = heads.h4.has(head4(text)) || heads.h8.has(head8(text));
   const ok = w >= minW && w <= maxW && banned.length === 0 && ticDensity <= 8.0 && english === 0 && !incipitClone;
   return { ok, words: w, ticDensity: Number(ticDensity.toFixed(2)), banned, english, incipitClone };

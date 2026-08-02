@@ -18,6 +18,18 @@ export interface GenRequest {
   readonly digest: string;
   readonly spec: ChapterSpec;
   readonly previousTail?: string; // last ~150 words of the previous chapter (local continuity)
+  /**
+   * A3 — CONTRAINTES à EXÉCUTER (PLAN_LOCK / EMP-16), distinctes du digest.
+   *
+   * Avant A3, les directives EMP-16 étaient concaténées au `digest`, lequel est
+   * introduit au modèle par l'en-tête « Contexte (ne pas recopier) ». Des
+   * « CONTRAINTES OBLIGATOIRES » arrivaient donc dans la zone que le prompt
+   * désigne explicitement comme non exécutable. Elles ont désormais leur propre
+   * bloc d'instruction, lu comme tel.
+   */
+  readonly directives?: string;
+  /** A3 — seed numérique transmis à Ollama. Absent = non déterministe (état d'avant A3). */
+  readonly seed?: number;
 }
 
 export interface GenResult {
@@ -71,11 +83,21 @@ export class OllamaChapterGenerator implements ChapterGenerator {
   async generate(req: GenRequest): Promise<GenResult> {
     const model = this.opts.model ?? 'gemma4:31b';
     const base = this.opts.url ?? 'http://localhost:11434';
+    // A3 — ORDRE DU PROMPT : contexte (non exécutable) puis continuité, puis la
+    // CONSIGNE, et les contraintes DANS le bloc de consigne. Les directives ne
+    // transitent plus par le digest : « Contexte (ne pas recopier) » désignait au
+    // modèle une zone non exécutable, où atterrissaient les « CONTRAINTES
+    // OBLIGATOIRES » du PLAN_LOCK.
     const user =
       `Contexte (ne pas recopier) :\n${req.digest}\n\n` +
-      (req.previousTail !== undefined ? `Fin du chapitre précédent (enchaîne naturellement) :\n…${req.previousTail}\n\n` : '') +
+      (req.previousTail !== undefined
+        ? `Fin du chapitre précédent (enchaîne naturellement) :\n…${req.previousTail}\n\n`
+        : '') +
       `Écris le chapitre ${req.spec.index} (~${req.intent.target_word_count} mots), ` +
-      `émotion dominante « ${req.intent.core_emotion} ». Objectif : ${req.intent.premise}`;
+      `émotion dominante « ${req.intent.core_emotion} ». Objectif : ${req.intent.premise}` +
+      (req.directives !== undefined && req.directives.trim().length > 0
+        ? `\n\nCONTRAINTES À RESPECTER DANS CE CHAPITRE :\n${req.directives.trim()}`
+        : '');
 
     const body = {
       model,
@@ -89,6 +111,10 @@ export class OllamaChapterGenerator implements ChapterGenerator {
         temperature: this.opts.temperature ?? 0.8,
         num_predict: this.opts.maxTokens ?? 2048,
         top_p: 0.92,
+        // A3 — seed numérique réellement transmis au RNG. Avant A3 le chemin
+        // officiel n'en avait aucun (et le « seed » de sovereign était injecté
+        // en TEXTE dans le system prompt : déterminisme apparent, pas réel).
+        ...(req.seed !== undefined ? { seed: req.seed } : {}),
       },
     };
 

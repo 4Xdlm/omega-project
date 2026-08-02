@@ -50,7 +50,9 @@ export const DEFAULT_FAMILIES: readonly FamilyPatterns[] = [
   {
     family: 'ATMOSPHERIC',
     regex: false,
-    patterns: ['le gardien', 'le silence', 'il y a', 'la pluie', 'le village'],
+    // A3 : 'le gardien'/'le village' RETIRES - motifs du manuscrit COH, faux sur tout autre livre.
+    // Les motifs propres a une oeuvre passent par config.families, jamais par le defaut.
+    patterns: ['le silence', 'il y a', 'la pluie'],
   },
   {
     family: 'SATURATION',

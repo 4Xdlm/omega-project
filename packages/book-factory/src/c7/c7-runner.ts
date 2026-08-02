@@ -155,7 +155,7 @@ function chapterDeps(world: World, log: StoryStateLog, spec: ChapterSpec) {
 /* ─────────────────────────────────── modes ───────────────────────────────────────── */
 async function main(): Promise<void> {
   const mode = process.env['C7_MODE'] ?? 'bench';
-  const model = process.env['C7_MODEL'] ?? 'qwen3.5:35b-a3b';
+  const model = process.env['C7_MODEL'] ?? 'gemma4:31b';
   const outRoot = process.env['C7_OUT'] ?? `runs/c7_${mode}`;
   const maxCh = Number(process.env['C7_MAX_CH'] ?? (mode === 'bench' ? 3 : 30));
   const fs = new NodeFs();
@@ -196,9 +196,22 @@ async function main(): Promise<void> {
     const { packs, pctx, locks } = chapterDeps(world, log, spec);
     const digest = buildContextDigest(log.project(), spec, plan, book);
     const emp16Pack = emp16Packs.find((p) => p.chapter === spec.index);
-    const digestFinal = emp16Pack !== undefined ? `${digest}\n\n=== PLAN-LOCK EMP-16 (df8d650f) — CONTRAINTES OBLIGATOIRES ===\n${emp16Pack.directive}` : digest;
-    if (spec.index === 1 && emp16Pack !== undefined) wfsEmp16(`${outRoot}/INJECTION_PROOF_CH1.txt`, digestFinal, 'utf8');
-    const base: GenRequest = { intent: chapterSpecToIntent(spec, book), digest: digestFinal, spec };
+    // A3 : les directives EMP-16 ne transitent PLUS par le digest (bloc « ne pas
+    // recopier »). Elles passent par GenRequest.directives, lu comme une consigne.
+    const emp16Directive =
+      emp16Pack !== undefined
+        ? `=== PLAN-LOCK EMP-16 (df8d650f) ===\n${emp16Pack.directive}`
+        : undefined;
+    const digestFinal = digest;
+    // A3 : la preuve d'injection doit montrer les DEUX blocs — le digest (contexte)
+    // ET les directives (consigne). Ecrire le seul digest ne prouverait plus rien.
+    if (spec.index === 1 && emp16Pack !== undefined)
+      wfsEmp16(
+        `${outRoot}/INJECTION_PROOF_CH1.txt`,
+        `${digestFinal}\n\n[DIRECTIVES A3 — bloc de consigne, hors digest]\n${emp16Directive ?? ''}`,
+        'utf8',
+      );
+    const base: GenRequest = { intent: chapterSpecToIntent(spec, book), digest: digestFinal, spec, ...(emp16Directive !== undefined ? { directives: emp16Directive } : {}) };
     const resolution = { chapter: asChapterRef(spec.index) };
     const common = {
       registry: world.registry,

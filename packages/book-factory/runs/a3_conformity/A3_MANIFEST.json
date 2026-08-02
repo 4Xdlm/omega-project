@@ -1,0 +1,242 @@
+{
+  "spec": "A3_CONFORMITY_VERIFICATION",
+  "model": "gemma4:31b",
+  "determinism": {
+    "identicalOnSameSeed": false,
+    "differsOnOtherSeed": true,
+    "verdict": false
+  },
+  "seedsUsed": [
+    7,
+    42,
+    123,
+    2024,
+    31337,
+    8191,
+    65521,
+    1007,
+    1042,
+    1123,
+    3024,
+    32337,
+    9191,
+    66521,
+    2007,
+    2042,
+    2123,
+    4024,
+    33337,
+    10191,
+    67521
+  ],
+  "envelope": {
+    "words": {
+      "min": 1009,
+      "max": 1159,
+      "mean": 1089.76,
+      "stdev": 36.67
+    },
+    "ticDensity": {
+      "min": 3.71,
+      "max": 12,
+      "mean": 6.39,
+      "stdev": 1.89
+    },
+    "maxSentenceWords": {
+      "min": 29,
+      "max": 45,
+      "mean": 36.38,
+      "stdev": 4.03
+    },
+    "distinct": 21
+  },
+  "a0Reference": {
+    "words": {
+      "mean": 1084.29,
+      "stdev": 57.39
+    },
+    "ticDensity": {
+      "mean": 8.83,
+      "stdev": 1.63
+    },
+    "maxSentenceWords": {
+      "mean": 34.9,
+      "stdev": 3.68
+    }
+  },
+  "deltas": {
+    "words": 5.47,
+    "ticDensity": -2.44,
+    "maxSentenceWords": 1.48
+  },
+  "records": [
+    {
+      "run": 1,
+      "seed": 7,
+      "words": 1115,
+      "ticDensity": 4.48,
+      "maxSentenceWords": 38,
+      "sha256": "4f76b93e19b9efcdd88c677c058de3394298080a6d03bba097df720ca78ba2f5"
+    },
+    {
+      "run": 1,
+      "seed": 42,
+      "words": 1057,
+      "ticDensity": 5.68,
+      "maxSentenceWords": 37,
+      "sha256": "b4499cb5f6271d42f10f70abadbdee72332bfca55cc4484827e528b4a5881eb7"
+    },
+    {
+      "run": 1,
+      "seed": 123,
+      "words": 1078,
+      "ticDensity": 3.71,
+      "maxSentenceWords": 40,
+      "sha256": "29b93f4d473bd8cb1a13d8d4f1dc15c5dda94b1091eb35aca7c8204eabac4e0c"
+    },
+    {
+      "run": 1,
+      "seed": 2024,
+      "words": 1073,
+      "ticDensity": 6.52,
+      "maxSentenceWords": 33,
+      "sha256": "e3f1aa4cf0c0fdb7d97330dbd64a0007c6e1352dd0c5df6b1fca0a06cc5154a0"
+    },
+    {
+      "run": 1,
+      "seed": 31337,
+      "words": 1118,
+      "ticDensity": 7.16,
+      "maxSentenceWords": 41,
+      "sha256": "28974cc2e66615d8fa37a9fe23738b726ff690f2c981253ee46b57835fe0576a"
+    },
+    {
+      "run": 1,
+      "seed": 8191,
+      "words": 1079,
+      "ticDensity": 6.49,
+      "maxSentenceWords": 42,
+      "sha256": "1559db615b77b90603469402b98ed00025ae2257c3fd71d26bc7385498ba4d52"
+    },
+    {
+      "run": 1,
+      "seed": 65521,
+      "words": 1095,
+      "ticDensity": 4.57,
+      "maxSentenceWords": 32,
+      "sha256": "91fbc32516a981291c999f03e115db5ef97779de7e77abb026ac65dff5e670bb"
+    },
+    {
+      "run": 2,
+      "seed": 1007,
+      "words": 1071,
+      "ticDensity": 6.54,
+      "maxSentenceWords": 36,
+      "sha256": "aac1ce9cd621f60e8da1d7de0cdb2395660a1f03cca17e8a1777f3423c380735"
+    },
+    {
+      "run": 2,
+      "seed": 1042,
+      "words": 1050,
+      "ticDensity": 4.76,
+      "maxSentenceWords": 36,
+      "sha256": "2b57ea5f41d5bba5afa5c1f60d19fa9c522258b12b6c9341ce078536bbdd41b1"
+    },
+    {
+      "run": 2,
+      "seed": 1123,
+      "words": 1065,
+      "ticDensity": 7.51,
+      "maxSentenceWords": 29,
+      "sha256": "129d9daf8987d6669cc562011951c8ca2749205f759b5b37920f1808ac775bb1"
+    },
+    {
+      "run": 2,
+      "seed": 3024,
+      "words": 1009,
+      "ticDensity": 8.92,
+      "maxSentenceWords": 34,
+      "sha256": "0d539114fd4b6e7521706a67e191381a324e4fb782cd3a02b98e48a982c2411e"
+    },
+    {
+      "run": 2,
+      "seed": 32337,
+      "words": 1065,
+      "ticDensity": 5.63,
+      "maxSentenceWords": 45,
+      "sha256": "34254bfcf154c84f4578385d3e2bf58b5a0ecbffc3e5e3b797590646ccaf8772"
+    },
+    {
+      "run": 2,
+      "seed": 9191,
+      "words": 1083,
+      "ticDensity": 12,
+      "maxSentenceWords": 30,
+      "sha256": "a49d8b1d259f6b5f70a8ae3a8766217a9920dfbf9368d512fd4a4990f65f6fb7"
+    },
+    {
+      "run": 2,
+      "seed": 66521,
+      "words": 1066,
+      "ticDensity": 4.69,
+      "maxSentenceWords": 36,
+      "sha256": "7251524960110c94e81636333562492d54620ba0c2181fee9ef6591f49e9c1ed"
+    },
+    {
+      "run": 3,
+      "seed": 2007,
+      "words": 1155,
+      "ticDensity": 7.79,
+      "maxSentenceWords": 33,
+      "sha256": "91ae5fbf36689e1ebb17ff50de2bbeaf571ae56e5a874d7dd0af53ebc7c84735"
+    },
+    {
+      "run": 3,
+      "seed": 2042,
+      "words": 1078,
+      "ticDensity": 6.49,
+      "maxSentenceWords": 38,
+      "sha256": "516fb7b6780ebde41c01a23c7aca9d49b5901e458fd7410135c74edec59d48fc"
+    },
+    {
+      "run": 3,
+      "seed": 2123,
+      "words": 1117,
+      "ticDensity": 8.06,
+      "maxSentenceWords": 36,
+      "sha256": "db97f41537689f6a893d53aa1b73262b76dae408aca2b6aadba4b25ba0abaec0"
+    },
+    {
+      "run": 3,
+      "seed": 4024,
+      "words": 1159,
+      "ticDensity": 4.31,
+      "maxSentenceWords": 41,
+      "sha256": "42625e0bc9c5ee7841e179e525c031507e7066aa9d8c3167b71deaaecab787a7"
+    },
+    {
+      "run": 3,
+      "seed": 33337,
+      "words": 1124,
+      "ticDensity": 4.45,
+      "maxSentenceWords": 40,
+      "sha256": "f69683e9c1a7d9700293ddec6f3157256a4074f5062afe2c06f58af5ab179f60"
+    },
+    {
+      "run": 3,
+      "seed": 10191,
+      "words": 1078,
+      "ticDensity": 7.42,
+      "maxSentenceWords": 33,
+      "sha256": "b0f99b456567281b12d1e6483de5328e9ef29f5ee3f860069999d24ff3bc717b"
+    },
+    {
+      "run": 3,
+      "seed": 67521,
+      "words": 1150,
+      "ticDensity": 6.96,
+      "maxSentenceWords": 34,
+      "sha256": "401f41fca20add8874026c814ebf278a85a1bbdf7761a4b277356d3db7bb6e7c"
+    }
+  ]
+}

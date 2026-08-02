@@ -257,3 +257,78 @@ export function selectDistinctPeriodHead<T>(
   }
   return { chosen: null, rejected, head: null };
 }
+
+/* ══════════════════════════════════════════════════════════════════════════════
+ * LE MOULE DE RAISONNEMENT — la période récapitule-t-elle l'intrigue ?
+ * ══════════════════════════════════════════════════════════════════════════════
+ * B1a a ramené le gabarit d'OUVERTURE dans l'enveloppe humaine. Restait le défaut
+ * plus profond, signalé par la lecture et par les deux relecteurs externes : la
+ * période n'est pas une pensée, c'est un résumé de dossier déguisé en intériorité.
+ * Le personnage n'y découvre rien, il réexplique l'intrigue au lecteur.
+ *
+ * BASELINE — le discriminant le plus net mesuré sur ce projet
+ * ──────────────────────────────────────────────────────────
+ * Connecteurs de récapitulation causale comptés dans les périodes ≥50 mots :
+ *
+ *   source                  n periodes   moyenne   % a zero   % avec >=2
+ *   PUBLIÉ (18 romans)          1384       0,01      99,2 %      0,0 %
+ *   B1  (PLAN nu)                 21       1,62      14,3 %     57,1 %
+ *   B1b (PLAN + pool)             22       1,73       9,1 %     59,1 %
+ *   B1a (PLAN + interdit tête)    26       0,69      57,7 %     19,2 %
+ *
+ * UNE PÉRIODE À DEUX CONNECTEURS OU PLUS N'EXISTE PAS DANS LE CORPUS PUBLIÉ :
+ * zéro sur mille trois cent quatre-vingt-quatre. Le seuil de rejet est donc posé
+ * là où le corpus dit qu'un romancier ne va jamais.
+ *
+ * Effet secondaire mesuré : l'interdiction de tête réduit DÉJÀ le moule de moitié
+ * (1,62 → 0,69). Les deux gabarits sont liés, pas indépendants.
+ */
+
+/** Connecteurs qui enchaînent une déduction sur une autre — le tissu du résumé. */
+const RECAP_CONNECTORS =
+  /\b(car si|ce qui signifiait|ce qui voulait dire|transformant ainsi|faisant de|obligeant|par conséquent|dès lors que|autrement dit|signifiait que|impliquait que|prouvait que|n'était pas\s+\w+\s+mais|non pas\s+\w+\s+mais)\b/giu;
+
+export const RECAP_THRESHOLDS = {
+  /** Au-delà : à surveiller. 0,8 % des périodes publiées ont un connecteur. */
+  watch: 1,
+  /** À partir de là : rejet. ZÉRO période publiée sur 1384 atteint ce niveau. */
+  reject: 2,
+  publishedMean: 0.01,
+  publishedPctZero: 99.2,
+  publishedPctTwoPlus: 0,
+} as const;
+
+export type RecapVerdict = 'CLEAN' | 'WATCH' | 'PLOT_RECAP_AS_THOUGHT';
+
+export interface RecapReport {
+  readonly connectors: number;
+  readonly matched: readonly string[];
+  readonly verdict: RecapVerdict;
+}
+
+/** Mesure la récapitulation causale d'UNE période. */
+export function measurePlotRecap(period: string): RecapReport {
+  const matched = period.match(RECAP_CONNECTORS) ?? [];
+  const n = matched.length;
+  return {
+    connectors: n,
+    matched: matched.map((m) => m.toLowerCase()),
+    verdict:
+      n >= RECAP_THRESHOLDS.reject
+        ? 'PLOT_RECAP_AS_THOUGHT'
+        : n >= RECAP_THRESHOLDS.watch
+          ? 'WATCH'
+          : 'CLEAN',
+  };
+}
+
+/** Le pire verdict parmi les périodes d'un texte — un seul résumé suffit à salir. */
+export function measureTextRecap(text: string): RecapReport {
+  const periods = extractLongPeriods(text);
+  let worst: RecapReport = { connectors: 0, matched: [], verdict: 'CLEAN' };
+  for (const p of periods) {
+    const r = measurePlotRecap(p);
+    if (r.connectors > worst.connectors) worst = r;
+  }
+  return worst;
+}

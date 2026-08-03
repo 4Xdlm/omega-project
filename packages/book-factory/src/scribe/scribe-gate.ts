@@ -171,6 +171,60 @@ export function gateSelect<T>(
   return { chosen: null, chosenHead: null, vetoed, repelled, exhausted: true };
 }
 
+/* ──────────── PRÉFÉRENCE DE FORME (SHADOW — jamais au PLAN) ──────────── */
+
+import { measureTailRates } from '../variation/long-period-template.js';
+import { PUBLISHED_SHAPE_RATIO_ENVELOPE } from '../variation/long-period-template.js';
+
+/**
+ * POURQUOI SHADOW ET PAS UNE CONSIGNE DE PLAN (arbitrage 2026-08-03) :
+ * Gemini proposait une « opportunité de phrase moyenne 41-49 » dans le PLAN ;
+ * ChatGPT la rejetait. Nos PROPRES données tranchent : la contrainte positive
+ * fabrique son gabarit (B1b « entre par un geste » → « il posa sa main » ×5 ;
+ * B1d « apporte du neuf » → « le raisonnement s'imposa » ×4 — quatre bras,
+ * même verdict). Une consigne « phrase moyenne » produirait des phrases
+ * moyennes en gabarit. Donc : la forme se MESURE et se PRÉFÈRE à la sélection,
+ * elle ne se commande pas.
+ *
+ * Fait visé : N9 shapeRatio = 0,75 vs élite 0,330 [0,111-0,528] — quand une
+ * phrase dépasse 40 mots elle dépasse presque toujours 50 ; la zone organique
+ * 41-49 (deux tiers des phrases longues humaines) manque.
+ */
+export interface ShapeShadow {
+  /** Distance du shapeRatio du candidat à la médiane publiée (0,33). */
+  readonly distanceToPublished: number;
+  readonly shapeRatio: number;
+  readonly tail40: number;
+  readonly inPublishedRange: boolean;
+}
+
+export function shapeShadow(prose: string): ShapeShadow {
+  const r = measureTailRates(prose);
+  const e = PUBLISHED_SHAPE_RATIO_ENVELOPE;
+  return {
+    shapeRatio: r.shapeRatio,
+    tail40: r.tail40,
+    distanceToPublished: r.tail40 > 0 ? Math.abs(r.shapeRatio - e.median) : 0,
+    inPublishedRange: r.tail40 === 0 || (r.shapeRatio >= e.min && r.shapeRatio <= e.maxObserved),
+  };
+}
+
+/**
+ * Classement SHADOW de candidats par forme organique — À CONSOMMER EN OBSERVATION
+ * (journal d'admission) tant que le gain n'est pas prouvé sur Candidate Packs
+ * gelés. Ne change PAS le gagnant de production ; ne vetote jamais (une forme
+ * atypique n'est pas une faute). Départage stable par index d'origine.
+ */
+export function rankByShape<T>(
+  candidates: readonly T[],
+  proseOf: (c: T) => string,
+): readonly { readonly candidate: T; readonly shadow: ShapeShadow }[] {
+  return candidates
+    .map((candidate, i) => ({ candidate, shadow: shapeShadow(proseOf(candidate)), i }))
+    .sort((a, b) => a.shadow.distanceToPublished - b.shadow.distanceToPublished || a.i - b.i)
+    .map(({ candidate, shadow }) => ({ candidate, shadow }));
+}
+
 /** Registre des têtes déjà servies — à faire vivre sur la durée d'un livre. */
 export class PeriodHeadRegistry {
   private readonly used = new Set<string>();

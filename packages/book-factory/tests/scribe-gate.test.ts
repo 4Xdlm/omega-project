@@ -10,6 +10,8 @@ import {
   checkEligibility,
   gateSelect,
   PeriodHeadRegistry,
+  rankByShape,
+  shapeShadow,
 } from '../src/scribe/scribe-gate.js';
 import {
   measurePlotRecap,
@@ -184,5 +186,44 @@ describe('INV-GATE-04 — registre des têtes sur la durée du livre', () => {
     expect(heads[0]).toBe('le vent tomba doucement');
     expect(heads[1]).toBe('alpha beta gamma delta');
     expect(reg.size).toBe(3);
+  });
+});
+
+describe('INV-GATE-SHAPE — préférence de forme SHADOW (jamais une consigne, jamais un veto)', () => {
+  /** phrase de n mots, tête capitalisée (le splitter exige terminateur + amorce).
+   *  ⚠️ Unicité par MOTS-LETTRES : la normalisation du veto de dégénérescence
+   *  supprime les chiffres — « Corps0 » et « Corps1 » deviendraient identiques
+   *  et déclencheraient GENERATION_COLLAPSE (3ᵉ fois que ce piège mord). */
+  const U = ['az', 'by', 'cx', 'dw', 'ev', 'fu', 'gt', 'hs', 'ir', 'jq', 'kp', 'lo', 'mn', 'na', 'ob', 'pc', 'qd', 're', 'sf', 'tg'];
+  function sent(n: number, seed: string, k = 0): string {
+    const uniq = U[k % U.length] ?? 'zz';
+    const body = `${seed} ${uniq} ${Array.from({ length: Math.max(0, n - 2) }, (_, j) => `mot${'abcdefghi'[j % 9]}`).join(' ')}`;
+    return `${body.charAt(0).toUpperCase()}${body.slice(1)}.`;
+  }
+
+  it('un candidat avec des phrases 41-49 (forme organique) se classe avant le tout-ou-rien', () => {
+    // organique : longues en 45 et 55 mots (ratio 0,5) ; binaire : toutes >= 55 (ratio 1).
+    const organic = [sent(45, 'Alpha'), sent(55, 'Beta'), ...Array.from({ length: 18 }, (_, i) => sent(12, `corps`, i))].join(' ');
+    const binary = [sent(55, 'Gamma'), sent(60, 'Delta'), ...Array.from({ length: 18 }, (_, i) => sent(12, `autre`, i))].join(' ');
+    const ranked = rankByShape([{ t: binary }, { t: organic }], (c) => c.t);
+    expect(ranked[0]?.candidate.t).toBe(organic);
+    expect(ranked[0]?.shadow.shapeRatio).toBeLessThan(ranked[1]?.shadow.shapeRatio ?? 0);
+  });
+
+  it('un candidat SANS phrase longue est neutre (distance 0) — la forme ne crée pas d’obligation', () => {
+    const none = Array.from({ length: 20 }, (_, i) => sent(12, `court`, i)).join(' ');
+    const s = shapeShadow(none);
+    expect(s.tail40).toBe(0);
+    expect(s.distanceToPublished).toBe(0);
+    expect(s.inPublishedRange).toBe(true);
+  });
+
+  it('le classement est SHADOW : gateSelect ne le consulte pas (le gagnant ne change pas)', () => {
+    const organic = [sent(45, 'Alpha'), ...Array.from({ length: 19 }, (_, i) => sent(12, `corps`, i))].join(' ');
+    const binary = [sent(55, 'Gamma'), ...Array.from({ length: 19 }, (_, i) => sent(12, `autre`, i))].join(' ');
+    // binaire en PREMIER : c'est lui que la production choisit (premier éligible),
+    // meme si le classement de forme prefererait l'autre.
+    const d = gateSelect([{ t: binary }, { t: organic }], (c) => c.t, new Set());
+    expect(d.chosen?.t).toBe(binary);
   });
 });

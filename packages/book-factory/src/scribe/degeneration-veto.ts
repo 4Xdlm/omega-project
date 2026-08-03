@@ -49,13 +49,31 @@ export interface DegenReport {
   readonly dominantSentence: string;
 }
 
-/** Seuils gelés, dérivés du corpus (voir en-tête). Export pour les tests. */
+/** Seuils gelés, dérivés du corpus (voir en-tête). Export pour les tests.
+ *
+ *  RÈGLE DE CONVERGENCE (amendement ChatGPT, appliqué AVEC une correction
+ *  vérifiée sur les données, 2026-08-03) : l'amendement visait le faux positif
+ *  « répétition littéraire volontaire ». Ce risque n'existe que pour runMax —
+ *  une anaphore délibérée peut faire 5-7 répétitions consécutives SANS dupliquer
+ *  le chapitre. Il n'existe PAS pour dupRatio ≥ 0,15 : c'est un cinquième du
+ *  chapitre en doublons, 4× au-delà du PIRE livre publié (0,0353) — aucune
+ *  intention littéraire ne produit ça à l'échelle d'un chapitre. Vérification :
+ *  la convergence stricte 2-signaux aurait laissé passer 3 des 4 vrais
+ *  effondrements de juin (dup 0,20-0,24 mais domShare 0,03-0,05). Donc :
+ *    VETO  : runMax ≥ 8 (catastrophique)
+ *            OU dupRatio ≥ 0,15 (aucun humain n'y va, seuil autosuffisant)
+ *            OU runMax ≥ 5 ET convergence (dup ≥ 0,05 ou domShare ≥ 0,10)
+ *    WATCH : tout signal isolé restant.
+ *  Les 4 effondrements de juin restent vetotés ; 0 livre publié n'atteint
+ *  aucun signal de veto ; l'anaphore volontaire (run 5-7 isolé) tombe en WATCH. */
 export const DEGEN_THRESHOLDS = {
-  /** Publié max observé : 3 (échelle livre entier). Veto à 5. */
+  /** Série catastrophique : veto immédiat, aucun doute possible (publié max 3). */
+  catastrophicRun: 8,
+  /** Signaux individuels (chacun déjà au-dessus de tout le corpus publié). */
   vetoRun: 5,
-  /** Publié max observé : 0,0353. Veto à 0,15 (juin dégénéré : ≥ 0,20). */
+  /** Publié max observé : 0,0353. Signal à 0,15 (juin dégénéré : ≥ 0,20). */
   vetoDupRatio: 0.15,
-  /** Publié max observé : 0,0113. Veto à 0,10. */
+  /** Publié max observé : 0,0113. Signal à 0,10. */
   vetoDominantShare: 0.1,
   /** Zone WATCH : au-dessus du max publié, sous le veto. */
   watchRun: 4,
@@ -121,10 +139,16 @@ export function measureDegeneration(text: string): DegenReport {
   const dominantShare = dominantCount / sents.length;
 
   const T = DEGEN_THRESHOLDS;
+  const runConverges =
+    maxRun >= T.vetoRun && (duplicateRatio >= T.watchDupRatio || dominantShare >= T.vetoDominantShare);
   let verdict: DegenVerdict = 'CLEAN';
-  if (maxRun >= T.vetoRun || duplicateRatio >= T.vetoDupRatio || dominantShare >= T.vetoDominantShare) {
+  if (maxRun >= T.catastrophicRun || duplicateRatio >= T.vetoDupRatio || runConverges) {
     verdict = 'GENERATION_COLLAPSE';
-  } else if (maxRun >= T.watchRun || duplicateRatio >= T.watchDupRatio) {
+  } else if (
+    maxRun >= T.watchRun ||
+    duplicateRatio >= T.watchDupRatio ||
+    dominantShare >= T.vetoDominantShare
+  ) {
     verdict = 'WATCH';
   }
 

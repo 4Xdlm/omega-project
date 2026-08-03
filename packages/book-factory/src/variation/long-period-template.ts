@@ -137,26 +137,60 @@ export interface TailRates {
   readonly tail60: number;
   readonly tail90: number;
   readonly maxLen: number;
+  /* ── FORME de la queue (amendement ChatGPT 2026-08-03) ──
+   * Fait mesuré : N9 a tail50/tail40 = 0,75-0,82 quand le thriller élite est à
+   * 0,330 méd [0,111-0,528, 18 livres]. Quand une phrase N9 dépasse 40 mots,
+   * elle dépasse presque toujours 50 : le PLAN produit « phrase normale OU
+   * grande période planifiée », sans la zone organique 41-49 qui fait deux
+   * tiers des phrases longues humaines. La DOSE est bonne, la FORME ne l'est
+   * pas. Ces bandes rendent l'artefact mesurable ; elles ne fixent aucun quota. */
+  readonly band41_49: number;
+  readonly band50_59: number;
+  readonly band60_89: number;
+  readonly band90plus: number;
+  /** tail50 / tail40 — 0 si tail40 = 0 (jamais NaN). Humain ≈ 0,33 ; binaire → 1. */
+  readonly shapeRatio: number;
 }
 
 export function measureTailRates(text: string): TailRates {
   const lens = splitSentences(text).map((s) => countWordsFr(s));
   const n = lens.length;
   if (n === 0) {
-    return { sentences: 0, tail30: 0, tail40: 0, tail50: 0, tail60: 0, tail90: 0, maxLen: 0 };
+    return {
+      sentences: 0, tail30: 0, tail40: 0, tail50: 0, tail60: 0, tail90: 0, maxLen: 0,
+      band41_49: 0, band50_59: 0, band60_89: 0, band90plus: 0, shapeRatio: 0,
+    };
   }
   const over = (k: number): number => lens.filter((l) => l > k).length / n;
   const atLeast = (k: number): number => lens.filter((l) => l >= k).length / n;
+  const tail40 = over(40);
+  const tail50 = atLeast(50);
+  const tail60 = atLeast(60);
+  const tail90 = atLeast(90);
   return {
     sentences: n,
     tail30: over(30),
-    tail40: over(40),
-    tail50: atLeast(50),
-    tail60: atLeast(60),
-    tail90: atLeast(90),
+    tail40,
+    tail50,
+    tail60,
+    tail90,
     maxLen: Math.max(...lens),
+    band41_49: tail40 - tail50,
+    band50_59: tail50 - tail60,
+    band60_89: tail60 - tail90,
+    band90plus: tail90,
+    shapeRatio: tail40 > 0 ? tail50 / tail40 : 0,
   };
 }
+
+/** Forme observée chez le thriller FR élite (18 livres pleins, par livre) :
+ *  shapeRatio méd 0,330, min 0,111, max 0,528. N9 mesuré à 0,750 = HORS de la
+ *  gamme observée. Diagnostic, pas quota. */
+export const PUBLISHED_SHAPE_RATIO_ENVELOPE = {
+  median: 0.33,
+  min: 0.111,
+  maxObserved: 0.528,
+} as const;
 
 /** Enveloppes par livre (échelle passage ~1000 mots), gelées le 2026-08-03.
  *  Sources : 18 thrillers FR élite pleins + 8 maîtres contemporains pleins.

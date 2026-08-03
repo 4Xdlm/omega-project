@@ -61,6 +61,31 @@ describe('INV-DEGEN-03 — zone WATCH entre le max publié et le veto', () => {
     expect(r.maxConsecutiveRun).toBe(4);
     expect(r.verdict).toBe('WATCH');
   });
+
+  it("anaphore volontaire : run de 6 dans un chapitre long et PROPRE → WATCH, pas veto (amendement anti-faux-positif)", () => {
+    // 6 répétitions consécutives mais dup < 5 % du chapitre et aucune dominance :
+    // c'est le cas « répétition littéraire délibérée » que le veto ne doit pas faucher.
+    const t = `${distinctSentences(100)} ${Array.from({ length: 6 }, () => 'Il pleuvait sur la ville encore.').join(' ')} ${distinctSentences(100).replace(/restait la sans bouger/g, 'demeurait fixe et droit')}`;
+    const r = measureDegeneration(t);
+    expect(r.maxConsecutiveRun).toBe(6);
+    expect(r.duplicateRatio).toBeLessThan(0.05);
+    expect(r.verdict).toBe('WATCH');
+  });
+
+  it('le MÊME run de 6 dans un chapitre COURT converge (dup ≥ 5 %) → VETO', () => {
+    const t = `${distinctSentences(40)} ${Array.from({ length: 6 }, () => 'Il pleuvait sur la ville encore.').join(' ')}`;
+    const r = measureDegeneration(t);
+    expect(r.verdict).toBe('GENERATION_COLLAPSE');
+  });
+
+  it('dupRatio ≥ 0,15 vetote SEUL — cas réel juin ch05/08/10 (dup 0,20-0,24, domShare 0,03-0,05)', () => {
+    // La convergence stricte à 2 signaux aurait laissé passer 3 des 4 effondrements réels.
+    const dups = Array.from({ length: 30 }, (_, i) => `La porte numero ${['un', 'deux', 'trois'][i % 3]} claqua fort.`);
+    const r = measureDegeneration(`${distinctSentences(90)} ${dups.join(' ')}`);
+    expect(r.maxConsecutiveRun).toBeLessThan(5);
+    expect(r.duplicateRatio).toBeGreaterThanOrEqual(0.15);
+    expect(r.verdict).toBe('GENERATION_COLLAPSE');
+  });
 });
 
 describe('INV-DEGEN-04 — jamais de veto sur un fragment', () => {

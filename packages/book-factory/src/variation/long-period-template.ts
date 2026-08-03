@@ -196,8 +196,63 @@ export function longPeriodDensity(
   return { sentences, long, ratio: sentences === 0 ? 0 : Number((long / sentences).toFixed(4)) };
 }
 
-/** Référence publiée, gelée avec les seuils. */
+/**
+ * ENVELOPPE PUBLIÉE — et pourquoi la moyenne est un piège.
+ *
+ * J'ai d'abord retenu la moyenne AGRÉGÉE (1,67 %) et conclu, au vu d'un run de
+ * livre à 0,80 %, à un « déficit de dose ». C'était faux. Mesuré par livre sur
+ * les 18 romans :
+ *
+ *     0,02  0,09  0,09  0,14  0,24  0,24  0,35  0,39  0,42
+ *     0,54  0,54  0,67  0,83  0,88  1,07  3,84  3,91  7,69   (en %)
+ *
+ *     médiane 0,48 %  ·  Q1 0,24 %  ·  Q3 0,88 %  ·  min 0,02 %  ·  max 7,69 %
+ *
+ * La distribution est massivement asymétrique : trois livres tirent la moyenne.
+ * ZÉRO livre sur dix-huit ne se trouve entre 1,50 et 1,85 %. Viser 1,67 % aurait
+ * donc été viser une valeur que presque aucun romancier ne produit — et aurait
+ * conduit à sur-doser le moteur pour corriger un déficit inexistant.
+ *
+ * OMEGA à 0,80 % est DANS l'enveloppe, au-dessus de la médiane, dans le
+ * troisième quartile. Il n'y a pas de déficit de dose.
+ *
+ * RÈGLE : comparer à l'enveloppe, jamais à la moyenne d'une distribution qu'on
+ * n'a pas regardée.
+ */
+export const PUBLISHED_LONG_PERIOD_DENSITY_ENVELOPE = {
+  min: 0.0002,
+  q1: 0.0024,
+  median: 0.0048,
+  q3: 0.0088,
+  max: 0.0769,
+  /** Moyenne agrégée — conservée pour mémoire, NE PAS l'utiliser comme cible. */
+  aggregateMeanMisleading: 0.0167,
+} as const;
+
+/** @deprecated Moyenne agrégée trompeuse — utiliser l'enveloppe ci-dessus. */
 export const PUBLISHED_LONG_PERIOD_DENSITY = 0.0167;
+
+export type DensityVerdict = 'UNDER' | 'IN_ENVELOPE' | 'OVER';
+
+/**
+ * Situe une densité mesurée dans l'enveloppe publiée. `IN_ENVELOPE` dès qu'on est
+ * entre le premier et le dernier livre — c'est la seule comparaison honnête.
+ */
+export function situateDensity(ratio: number): {
+  readonly verdict: DensityVerdict;
+  readonly vsMedian: number;
+  readonly quartile: string;
+} {
+  const e = PUBLISHED_LONG_PERIOD_DENSITY_ENVELOPE;
+  const verdict: DensityVerdict = ratio < e.min ? 'UNDER' : ratio > e.max ? 'OVER' : 'IN_ENVELOPE';
+  const quartile =
+    ratio < e.q1 ? 'sous Q1' : ratio < e.median ? 'Q1-mediane' : ratio < e.q3 ? 'mediane-Q3' : 'au-dessus de Q3';
+  return {
+    verdict,
+    vsMedian: Number((ratio / e.median).toFixed(2)),
+    quartile,
+  };
+}
 
 /* ══════════════════════════════════════════════════════════════════════════════
  * REFUS À LA SÉLECTION — le filet, complémentaire de la contrainte de prompt

@@ -13,6 +13,8 @@ import {
   splitSentences,
   TEMPLATE_THRESHOLDS,
   LONG_PERIOD_MIN_WORDS,
+  situateDensity,
+  PUBLISHED_LONG_PERIOD_DENSITY_ENVELOPE,
 } from '../src/variation/long-period-template.js';
 
 /** Fabrique une phrase d'au moins n mots, commençant par `head`.
@@ -191,5 +193,29 @@ describe('INV-LPT-07 — refus a la selection (filet complementaire du prompt)',
     const r = selectDistinctPeriodHead(cands, prose, new Set());
     expect(r.chosen).toBe(cands[0]);
     expect(r.rejected).toHaveLength(0);
+  });
+});
+
+describe('INV-LPT-08 — l enveloppe publiee, et le piege de la moyenne', () => {
+  it('la distribution est asymetrique : la moyenne agregee depasse Q3', () => {
+    const e = PUBLISHED_LONG_PERIOD_DENSITY_ENVELOPE;
+    expect(e.aggregateMeanMisleading).toBeGreaterThan(e.q3);
+    expect(e.median).toBeLessThan(e.aggregateMeanMisleading / 3);
+  });
+
+  it('0,80 % — la densite du run de livre — est DANS l enveloppe, au-dessus de la mediane', () => {
+    const r = situateDensity(0.008);
+    expect(r.verdict).toBe('IN_ENVELOPE');
+    expect(r.vsMedian).toBeGreaterThan(1);
+    expect(r.quartile).toBe('mediane-Q3');
+  });
+
+  it('reconnait un sous-dosage reel et un sur-dosage reel', () => {
+    expect(situateDensity(0.0001).verdict).toBe('UNDER');
+    expect(situateDensity(0.09).verdict).toBe('OVER');
+  });
+
+  it('la mediane elle-meme est evidemment dans l enveloppe', () => {
+    expect(situateDensity(PUBLISHED_LONG_PERIOD_DENSITY_ENVELOPE.median).verdict).toBe('IN_ENVELOPE');
   });
 });

@@ -45,8 +45,10 @@
  * sur l'esthétique. Il ouvre une opportunité, il refuse ce qui est mesurablement
  * fautif, il scelle.
  */
+import { createHash } from 'node:crypto';
 import {
   gateSelect,
+  checkEligibility,
   PeriodHeadRegistry,
   type Veto,
 } from './scribe-gate.js';
@@ -106,6 +108,24 @@ export interface ScribeCandidate {
   readonly attempt: number;
 }
 
+/**
+ * Trace d'un candidat ECARTE. Sans elle, « 0 veto » n'est pas verifiable : on ne
+ * peut ni rejouer la decision, ni distinguer « aucun candidat fautif » de « le
+ * gate ne s'est pas declenche ». Manque signale en relecture externe, comble ici.
+ */
+export interface RejectedTrace {
+  readonly attempt: number;
+  readonly candidateIndex: number;
+  /** SHA256 du candidat — permet de le retrouver dans un dump sans le stocker. */
+  readonly sha256: string;
+  readonly words: number;
+  /** Debut du texte, pour lire la raison sans ouvrir le dump. */
+  readonly excerpt: string;
+  readonly vetos: readonly Veto[];
+  /** Ecarte par repulsion (tete deja servie) plutot que par veto. */
+  readonly repelledHead?: string;
+}
+
 export interface AdmissionLog {
   readonly attempts: number;
   readonly candidatesSeen: number;
@@ -116,6 +136,15 @@ export interface AdmissionLog {
   readonly words: number;
   /** Aucun candidat admissible après le budget d'essais : à remonter, jamais à masquer. */
   readonly exhausted: boolean;
+  /** AUDIT : tous les candidats ecartes, avec la raison. Verifiable, rejouable. */
+  readonly rejected: readonly RejectedTrace[];
+  /**
+   * SHADOW : ce que le gate AURAIT choisi, quand il ne decide pas.
+   * `null` en mode dur (le gate a decide) ou si aucun candidat n'etait admissible.
+   */
+  readonly shadowChoice?: { readonly candidateIndex: number; readonly head: string | null } | null;
+  /** SHADOW : le choix du gate differe-t-il de celui de la production ? */
+  readonly shadowDiverged?: boolean;
 }
 
 export interface ChapterResult {
@@ -132,6 +161,21 @@ export interface ScribeOptions {
   readonly strictLang?: boolean;
   /** Scellement typographique. Défaut true. */
   readonly seal?: boolean;
+  /**
+   * MODE SHADOW (arbitrage 2-IA du 2026-08-03) : le gate CALCULE son choix,
+   * l'archive et mesure la divergence, mais NE CHANGE PAS le gagnant. La
+   * production garde son sélecteur ; on observe d'abord ce que le gate ferait.
+   *
+   * Les vetos qui restent DURS même en shadow — ce sont des erreurs objectives,
+   * pas des jugements littéraires :
+   *   LANG_RESIDUAL   un mot anglais dans une phrase française
+   * Ceux qui deviennent purement observationnels en shadow :
+   *   PLOT_RECAP      la récapitulation, qui peut produire des faux positifs
+   *   la répulsion de tête
+   */
+  readonly shadow?: boolean;
+  /** Le sélecteur de production, en mode shadow. Défaut : le premier candidat. */
+  readonly productionPick?: (proses: readonly string[]) => number;
 }
 
 /**
@@ -153,63 +197,135 @@ export async function writeChapter(
   const maxAttempts = opts.maxAttempts ?? 3;
   const strictLang = opts.strictLang ?? true;
   const seal = opts.seal ?? true;
+  const shadow = opts.shadow ?? false;
+  const productionPick = opts.productionPick ?? ((): number => 0);
 
   const vetoed: { attempt: number; vetos: readonly Veto[] }[] = [];
+  const rejected: RejectedTrace[] = [];
   let candidatesSeen = 0;
   let repelledHeads = 0;
   let fallback: string | null = null;
+
+  const trace = (
+    attempt: number,
+    index: number,
+    prose: string,
+    vetos: readonly Veto[],
+    repelledHead?: string,
+  ): void => {
+    rejected.push({
+      attempt,
+      candidateIndex: index,
+      sha256: createHash('sha256').update(prose, 'utf8').digest('hex'),
+      words: countWordsFr(prose),
+      excerpt: prose.slice(0, 120).replace(/\s+/gu, ' '),
+      vetos,
+      ...(repelledHead !== undefined ? { repelledHead } : {}),
+    });
+  };
+
+  const finish = (
+    prose: string,
+    attempt: number,
+    chosenHead: string | null,
+    typoRulesApplied: number,
+    exhausted: boolean,
+    shadowChoice: { candidateIndex: number; head: string | null } | null,
+    shadowDiverged: boolean | undefined,
+  ): ChapterResult => ({
+    prose,
+    log: {
+      attempts: attempt,
+      candidatesSeen,
+      vetoed,
+      repelledHeads,
+      chosenHead,
+      typoRulesApplied,
+      words: countWordsFr(prose),
+      exhausted,
+      rejected,
+      ...(shadow ? { shadowChoice, shadowDiverged } : {}),
+    },
+  });
 
   for (let attempt = 1; attempt <= maxAttempts; attempt += 1) {
     const proses = await generate(attempt);
     candidatesSeen += proses.length;
     if (fallback === null && proses.length > 0) fallback = proses[0] ?? null;
 
-    const decision = gateSelect(
-      proses.map((p, i) => ({ prose: p, attempt: i })),
-      (c) => c.prose,
-      registry.snapshot(),
-      { strictLang },
-    );
-    for (const v of decision.vetoed) vetoed.push({ attempt, vetos: v.vetos });
+    // En SHADOW, seuls les vetos OBJECTIFS restent durs : un mot anglais est une
+    // faute de langue, pas un jugement de gout. Les criteres litteraires (recap,
+    // repulsion de tete) sont observes sans etre appliques.
+    const candidates = proses.map((p, i) => ({ prose: p, attempt: i }));
+    const decision = gateSelect(candidates, (c) => c.prose, registry.snapshot(), { strictLang });
+
+    for (const v of decision.vetoed) {
+      vetoed.push({ attempt, vetos: v.vetos });
+      trace(attempt, v.candidate.attempt, v.candidate.prose, v.vetos);
+    }
+    for (const r of decision.repelled) {
+      const e = checkEligibility(r.prose, { strictLang });
+      trace(attempt, r.attempt, r.prose, [], e.periodHead ?? '');
+    }
     repelledHeads += decision.repelled.length;
+
+    if (shadow) {
+      // Le gate NE DECIDE PAS. Il calcule ce qu'il aurait fait, on l'archive.
+      const gateIndex = decision.chosen?.attempt ?? null;
+      const prodIndex = Math.max(0, Math.min(proses.length - 1, productionPick(proses)));
+      const prodProse = proses[prodIndex] ?? '';
+      // Sauf pour les vetos objectifs : un candidat fautif ne peut pas gagner,
+      // meme en shadow. Si la production choisit un texte a residu anglais, on
+      // le signale et on prend le premier candidat sans faute de langue.
+      const prodEligible = checkEligibility(prodProse, { strictLang });
+      const hardFault = prodEligible.vetos.some((v) => v.code === 'LANG_RESIDUAL');
+      const finalIndex = hardFault
+        ? proses.findIndex((p) => !checkEligibility(p, { strictLang }).vetos.some((v) => v.code === 'LANG_RESIDUAL'))
+        : prodIndex;
+      const picked = proses[finalIndex >= 0 ? finalIndex : prodIndex] ?? prodProse;
+      if (picked.length === 0) continue;
+
+      const pickedHead = checkEligibility(picked, { strictLang }).periodHead;
+      registry.record(pickedHead);
+      const sealed = seal ? normalizeFrenchTypography(picked) : null;
+      return finish(
+        sealed !== null ? sealed.text : picked,
+        attempt,
+        pickedHead,
+        sealed !== null ? sealed.totalApplied : 0,
+        false,
+        gateIndex !== null ? { candidateIndex: gateIndex, head: decision.chosenHead } : null,
+        gateIndex !== null ? gateIndex !== finalIndex : undefined,
+      );
+    }
 
     if (decision.chosen !== null) {
       registry.record(decision.chosenHead);
       const sealed = seal ? normalizeFrenchTypography(decision.chosen.prose) : null;
-      const prose = sealed !== null ? sealed.text : decision.chosen.prose;
-      return {
-        prose,
-        log: {
-          attempts: attempt,
-          candidatesSeen,
-          vetoed,
-          repelledHeads,
-          chosenHead: decision.chosenHead,
-          typoRulesApplied: sealed !== null ? sealed.totalApplied : 0,
-          words: countWordsFr(prose),
-          exhausted: false,
-        },
-      };
+      return finish(
+        sealed !== null ? sealed.text : decision.chosen.prose,
+        attempt,
+        decision.chosenHead,
+        sealed !== null ? sealed.totalApplied : 0,
+        false,
+        null,
+        undefined,
+      );
     }
   }
 
   // Fallback A : le meilleur disponible, DRAPEAU LEVÉ. Jamais de silence.
   const raw = fallback ?? '';
   const sealed = seal && raw.length > 0 ? normalizeFrenchTypography(raw) : null;
-  const prose = sealed !== null ? sealed.text : raw;
-  return {
-    prose,
-    log: {
-      attempts: maxAttempts,
-      candidatesSeen,
-      vetoed,
-      repelledHeads,
-      chosenHead: null,
-      typoRulesApplied: sealed !== null ? sealed.totalApplied : 0,
-      words: countWordsFr(prose),
-      exhausted: true,
-    },
-  };
+  return finish(
+    sealed !== null ? sealed.text : raw,
+    maxAttempts,
+    null,
+    sealed !== null ? sealed.totalApplied : 0,
+    true,
+    null,
+    undefined,
+  );
 }
 
 /** Résumé d'un livre entier — ce qui doit figurer au journal d'admission. */

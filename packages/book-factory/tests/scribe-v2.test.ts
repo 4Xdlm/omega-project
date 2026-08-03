@@ -193,3 +193,86 @@ describe('INV-SCRIBE2-06 — journal de livre', () => {
     expect(s.regenerationRate).toBe(0);
   });
 });
+
+describe('INV-SCRIBE2-07 — auditabilite : « 0 veto » doit etre verifiable', () => {
+  it('trace chaque candidat ecarte : hash, mots, extrait, raison', async () => {
+    const reg = new PeriodHeadRegistry();
+    const r = await writeChapter(
+      fixed(recapPeriod('Il comprit alors'), cleanPeriod('Tete propre et neuve')),
+      reg,
+    );
+    expect(r.log.rejected).toHaveLength(1);
+    const t = r.log.rejected[0];
+    expect(t?.sha256).toMatch(/^[0-9a-f]{64}$/u);
+    expect(t?.words).toBeGreaterThan(50);
+    expect(t?.excerpt.length).toBeGreaterThan(0);
+    expect(t?.vetos[0]?.code).toBe('PLOT_RECAP');
+    expect(t?.candidateIndex).toBe(0);
+  });
+
+  it('trace aussi les candidats ecartes par REPULSION, distincts des vetos', async () => {
+    const reg = new PeriodHeadRegistry();
+    await writeChapter(fixed(cleanPeriod('Le vent tomba doucement')), reg);
+    const r2 = await writeChapter(
+      fixed(cleanPeriod('Le vent tomba doucement'), cleanPeriod('Une autre tete neuve')),
+      reg,
+    );
+    const rep = r2.log.rejected.find((x) => x.repelledHead !== undefined);
+    expect(rep?.repelledHead).toBe('le vent tomba doucement');
+    expect(rep?.vetos).toHaveLength(0);
+  });
+
+  it('un run sans rejet a une trace VIDE, pas absente — la difference compte', async () => {
+    const reg = new PeriodHeadRegistry();
+    const r = await writeChapter(fixed(cleanPeriod('Tout propre du premier coup')), reg);
+    expect(r.log.rejected).toEqual([]);
+    expect(Array.isArray(r.log.rejected)).toBe(true);
+  });
+});
+
+describe('INV-SCRIBE2-08 — mode SHADOW : observer sans decider', () => {
+  it('la production garde son choix, le gate archive le sien', async () => {
+    const reg = new PeriodHeadRegistry();
+    const r = await writeChapter(
+      fixed(recapPeriod('Choix production'), cleanPeriod('Choix du gate ici')),
+      reg,
+      { shadow: true, productionPick: () => 0 },
+    );
+    // La production a choisi le candidat 0 (recapitulatif) : il est retenu.
+    expect(r.prose).toContain('Choix production');
+    // Le gate aurait pris le 1 : c'est archive, et la divergence est signalee.
+    expect(r.log.shadowChoice?.candidateIndex).toBe(1);
+    expect(r.log.shadowDiverged).toBe(true);
+  });
+
+  it('aucune divergence signalee quand les deux tombent d accord', async () => {
+    const reg = new PeriodHeadRegistry();
+    const r = await writeChapter(
+      fixed(cleanPeriod('Les deux sont d accord'), recapPeriod('Second candidat')),
+      reg,
+      { shadow: true, productionPick: () => 0 },
+    );
+    expect(r.log.shadowDiverged).toBe(false);
+  });
+
+  it('MEME en shadow, un residu anglais ne peut pas gagner — faute objective', async () => {
+    const reg = new PeriodHeadRegistry();
+    const r = await writeChapter(
+      fixed(
+        `${cleanPeriod('Candidat production')} Il partit during la nuit.`,
+        cleanPeriod('Candidat sans faute ici'),
+      ),
+      reg,
+      { shadow: true, productionPick: () => 0 },
+    );
+    expect(r.prose).not.toContain('during');
+    expect(r.prose).toContain('Candidat sans faute');
+  });
+
+  it('hors shadow, aucun champ shadow n est renseigne', async () => {
+    const reg = new PeriodHeadRegistry();
+    const r = await writeChapter(fixed(cleanPeriod('Mode dur normal ici')), reg);
+    expect(r.log.shadowChoice).toBeUndefined();
+    expect(r.log.shadowDiverged).toBeUndefined();
+  });
+});

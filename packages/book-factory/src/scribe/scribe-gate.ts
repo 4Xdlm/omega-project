@@ -28,6 +28,13 @@
  *                   Mesuré : ZÉRO période sur 1384 dans le corpus publié.
  *                   OMEGA sans garde : 57 % des périodes.
  *
+ *   GENERATION_COLLAPSE  effondrement de génération (boucle du modèle).
+ *                   Mesuré : 9/20 chapitres du run de juin dégénérés, dont un à
+ *                   593 phrases identiques consécutives — c'est LUI qui gonflait
+ *                   le z=−10,4 de LEGION. Seuils dérivés de 41 romans publiés
+ *                   (runMax max 3, dupRatio max 0,035) : veto à runMax ≥ 5,
+ *                   dupRatio ≥ 0,15, domShare ≥ 0,10. Là où aucun auteur ne va.
+ *
  * CE QUI N'EST PAS UN VETO, ET POURQUOI
  * ═════════════════════════════════════
  *   Le gabarit d'ouverture n'est pas un veto : il n'a de sens que RELATIVEMENT
@@ -45,8 +52,9 @@ import {
   type RecapVerdict,
 } from '../variation/long-period-template.js';
 import { scanEnglishResiduals } from '../doctor/lang-purity.js';
+import { measureDegeneration } from './degeneration-veto.js';
 
-export type VetoCode = 'LANG_RESIDUAL' | 'PLOT_RECAP';
+export type VetoCode = 'LANG_RESIDUAL' | 'PLOT_RECAP' | 'GENERATION_COLLAPSE';
 
 export interface Veto {
   readonly code: VetoCode;
@@ -80,6 +88,18 @@ export function checkEligibility(
     vetos.push({
       code: 'LANG_RESIDUAL',
       detail: `${residuals.length} mot(s) anglais : ${residuals.slice(0, 4).map((r) => r.word).join(', ')}`,
+    });
+  }
+
+  // Effondrement de génération : objectif, jamais rétrogradable (un candidat qui
+  // boucle n'est pas une variation stylistique, c'est un déchet de sampling).
+  const degen = measureDegeneration(prose);
+  if (degen.verdict === 'GENERATION_COLLAPSE') {
+    vetos.push({
+      code: 'GENERATION_COLLAPSE',
+      detail:
+        `run=${degen.maxConsecutiveRun}, dup=${(degen.duplicateRatio * 100).toFixed(1)}%, ` +
+        `dominante ×${Math.round(degen.dominantShare * degen.sentences)} : « ${degen.dominantSentence.slice(0, 40)} »`,
     });
   }
 

@@ -108,6 +108,64 @@ export function periodHead(period: string): string {
   return normalizedHead(period, true);
 }
 
+/* ─────────────── FAMILLE TAIL — CANONICALISATION (2026-08-03) ─────────────── */
+
+/**
+ * POURQUOI : trois définitions incompatibles circulaient dans les campagnes —
+ * `f26b_long_sent_rate` (> 40 mots, sovereign-engine), la loi de queue (≥ 50),
+ * et l'opportunité du PLAN (50-90). Les chiffres n'étaient PAS comparables
+ * (amendement ChatGPT 2026-08-03 : « aucune augmentation de dose avant cette
+ * canonicalisation »). Cette famille fixe les seuils UNE FOIS, sur LE splitter
+ * canonique et LE compteur de mots canonique. Toute mesure de queue passe ici.
+ *
+ * Étalonnage par livre, échelle passage (~1000 mots), corpus du 3 août :
+ *   tail40 — thriller FR élite (18 livres) : méd 0,0120 [Q1 0,0080 - Q3 0,0200],
+ *            frontière haute observée 0,0930 (Chattam, « Que ta volonté... ») ;
+ *            maîtres FR contemporains hors thriller (8) : méd 0,146 ;
+ *            N9 scribe V2 : 0,0081.
+ *   AUC tail40 maîtres-contemp vs thriller : 0,90 (p_auteur 0,012) — marqueur de
+ *   REGISTRE. Élite vs pop thriller : 0,57 (ns) — PAS un marqueur de qualité
+ *   intra-genre. Ne jamais l'optimiser comme un score.
+ */
+export interface TailRates {
+  readonly sentences: number;
+  /** Part de phrases STRICTEMENT au-dessus de 30/40 mots (déf. f26b : `> 40`). */
+  readonly tail30: number;
+  readonly tail40: number;
+  /** Part de phrases à 50/60/90 mots OU PLUS (déf. loi de queue : `≥`). */
+  readonly tail50: number;
+  readonly tail60: number;
+  readonly tail90: number;
+  readonly maxLen: number;
+}
+
+export function measureTailRates(text: string): TailRates {
+  const lens = splitSentences(text).map((s) => countWordsFr(s));
+  const n = lens.length;
+  if (n === 0) {
+    return { sentences: 0, tail30: 0, tail40: 0, tail50: 0, tail60: 0, tail90: 0, maxLen: 0 };
+  }
+  const over = (k: number): number => lens.filter((l) => l > k).length / n;
+  const atLeast = (k: number): number => lens.filter((l) => l >= k).length / n;
+  return {
+    sentences: n,
+    tail30: over(30),
+    tail40: over(40),
+    tail50: atLeast(50),
+    tail60: atLeast(60),
+    tail90: atLeast(90),
+    maxLen: Math.max(...lens),
+  };
+}
+
+/** Enveloppes par livre (échelle passage ~1000 mots), gelées le 2026-08-03.
+ *  Sources : 18 thrillers FR élite pleins + 8 maîtres contemporains pleins.
+ *  La strate pré-1950 est un CONTRÔLE, jamais une cible (biais d'époque). */
+export const TAIL40_ENVELOPES = {
+  thrillerElite: { q1: 0.008, median: 0.012, q3: 0.02, maxObserved: 0.093 },
+  masterContemp: { q1: 0.0232, median: 0.1461, q3: 0.1672, maxObserved: 0.3928 },
+} as const;
+
 function countRepeats(items: readonly string[]): {
   repeated: RepeatedMotif[];
   unique: number;

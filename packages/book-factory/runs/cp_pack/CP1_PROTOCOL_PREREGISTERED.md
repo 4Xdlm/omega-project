@@ -72,6 +72,18 @@ livre » ; la généralisation (S6 : 2ᵉ univers, 2ᵉ modèle) reste due. Les
 enveloppes de préférence humaine à N=3 juges n'ont pas de puissance
 statistique — c'est un signal directionnel, le juge de paix reste S5.
 
+## Amendements documentés AVANT le rejeu (2026-08-03, générations en cours, aucun résultat connu)
+
+1. **description-density exclu de CP-1** : c'est un SCRIPT sans exports (lit
+   ses corpus au chargement du module), non importable sans refactor. L'axe
+   adjectival est partiellement couvert par OVER_ADJECTIVATION (ia-smell).
+   Le refactor en module importable est une dette notée, pas un prérequis.
+2. **Pondération `selector_combined` préenregistrée** : somme des rangs
+   forme + contenu, égalité 50/50, départage par index d'origine. Aucun
+   coefficient appris, aucun ajustement post-hoc autorisé.
+3. **Fallback A au rejeu** : si un sélecteur épuise le pool (tous vetotés),
+   il prend le meilleur au sens `words` — même doctrine que la production.
+
 ## Statut
 
 - Infrastructure : `candidate-pack.ts` (gel + sinks) ✓ · `opportunity-allocator.ts`

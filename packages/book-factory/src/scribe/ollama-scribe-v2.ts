@@ -32,6 +32,7 @@
  */
 import type { ChapterGenerator, GenRequest, GenResult } from '../chapter-generator.js';
 import { PeriodHeadRegistry } from './scribe-gate.js';
+import { freezeCandidate, type PackSink } from './candidate-pack.js';
 import {
   writeChapter,
   buildDirectiveBlock,
@@ -60,6 +61,11 @@ export interface ScribeV2Options {
   readonly strictLang?: boolean;
   /** Registre partagé sur la durée du livre. Fourni = réutilisé, sinon créé. */
   readonly registry?: PeriodHeadRegistry;
+  /** Gel des candidats BRUTS (Candidate Pack) — chaque candidat généré passe
+   *  par ce sink AVANT toute sélection. Absent = aucun archivage (rétro-compat). */
+  readonly packSink?: PackSink;
+  /** Identifiant du pack (défaut : horodaté). */
+  readonly packId?: string;
 }
 
 /** Ce que `GenRequest` ne porte pas encore : la scène ouvre-t-elle l'opportunité ? */
@@ -156,6 +162,7 @@ export class OllamaScribeV2Generator implements ChapterGenerator {
     const model = this.opts.model ?? 'gemma4:31b';
     const t0 = Date.now();
 
+    const packId = this.opts.packId ?? `pack_${new Date().toISOString().slice(0, 10)}`;
     const result = await writeChapter(
       async (attempt) => {
         const out: string[] = [];
@@ -165,7 +172,21 @@ export class OllamaScribeV2Generator implements ChapterGenerator {
           // le seed n'assure PAS la reproductibilité a temperature > 0, il ne
           // sert ici qu'a ne pas répéter la requête a l'identique.
           const seed = req.seed !== undefined ? req.seed + attempt * 1000 + i : undefined;
-          out.push(await this.callOllama(user, seed));
+          const prose = await this.callOllama(user, seed);
+          // Gel AVANT sélection : le pack contient aussi ce qui sera refusé —
+          // c'est toute la valeur du rejeu contrefactuel.
+          this.opts.packSink?.(
+            freezeCandidate({
+              packId,
+              chapterIndex: req.spec.index,
+              attempt,
+              candidateIndex: i,
+              prose,
+              seed,
+              model,
+            }),
+          );
+          out.push(prose);
         }
         return out;
       },

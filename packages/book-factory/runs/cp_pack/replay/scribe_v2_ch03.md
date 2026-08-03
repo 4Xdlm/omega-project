@@ -1,0 +1,25 @@
+La chambre d’hôte sentait la poussière et la cire froide. C’était une pièce étroite, sous les combles, où le plafond descendait si bas qu’il semblait vouloir écraser Garcia. Une lampe de bureau en métal, dont l’abat-jour jetait un cercle de lumière jaunâtre sur le bois vermoulu, était la seule source d’éclairage. Dehors, le vent s’était levé, frappant les volets avec une régularité métronomique, un bruit sec qui rappelait des coups de feu étouffés.
+
+Garcia posa son holster sur la commode. Le cuir grinça. Il ne prit pas la peine de retirer sa veste ; le froid s’était infiltré dans ses os, une humidité bretonne, visqueuse, qui refusait de quitter la peau. Il s’assit sur le lit, dont le matelas s’affaissa dans un soupir, et ouvrit son carnet.
+
+Les pages étaient cornées, saturées d’une écriture nerveuse. Il relut les dépositions, les bribes de conversations, les silences consignés entre deux lignes. Dubois, le gardien du phare, gisant dans son propre sanctuaire, le cou brisé ou la gorge tranchée — peu importait la méthode, le résultat était une virgule finale posée sur un secret trop lourd. 
+
+Il ferma les yeux un instant. Il voyait encore le visage de Gaspard, ce vieux débris humain dont les mains ne cessaient de vibrer. La peur n’était pas une émotion nouvelle à Ker-Morvan ; elle était l’infrastructure même du village, le ciment qui tenait ensemble les maisons de granit et les jardins clos. C’était une peur collective, organique, transmise comme un héritage empoisonné. 
+
+Il rouvrit le carnet. Squarcioni. Le maire. L’homme dont le regard ne quittait jamais vos yeux, non pas par franchise, mais pour vérifier que vous ne voyiez rien d’autre que ce qu’il acceptait de montrer. Un patriarche qui régnait sur ce bout de terre comme on gère un domaine privé, avec une bienveillance de façade qui masquait une autorité absolue. 
+
+Puis il y avait Léna Marchetti. Elle était la seule faille dans le mur. Dans ses yeux, Garcia avait lu l’épuisement de celle qui porte un masque trop étroit pendant trop longtemps. Elle ne mentait pas avec la conviction des complices ; elle mentait par réflexe, comme on ferme les paupières face à une lumière trop crue. Elle était tiraillée entre une loyauté ancestrale et un dégoût sourd, un équilibre précaire qui pouvait basculer au moindre souffle.
+
+Il se leva et alla vers la fenêtre. Il écarta légèrement le rideau. Le phare, là-bas, continuait de balayer l’obscurité de son faisceau blanc, monotone, indifférent. Un signal pour les marins, un avertissement contre les récifs. À Ker-Morvan, les récifs n’étaient pas seulement dans la mer ; ils étaient partout, tapis sous les politesses et les sourires polis du marché.
+
+Il repensa au *Triton*. 1998. Un naufrage dont on parlait encore comme d’une tragédie grecque, un accident du destin. Mais les accidents ne produisent pas des silences aussi organisés. Les morts ne s’entendent pas pour se taire pendant vingt ans. Seuls les vivants, ceux qui ont quelque chose à protéger, s’accordent sur l’oubli.
+
+Il retourna à sa table et étala ses notes. Il chercha le point de rupture. Le meurtre de Dubois n’était pas un acte isolé, c’était une purge. Quelqu’un avait décidé que le prix du silence était devenu trop élevé. Le maître-chanteur était tombé, mais le chantage, lui, survivait dans la mémoire des autres.
+
+Il se sentit soudain accablé par l’inertie du lieu. Il n’était pas seulement face à un crime, mais face à une culture. Un système où la vérité était considérée comme une trahison et où l’honneur consistait à enterrer ensemble les preuves de sa propre infamie. Il était l’étranger, l’intrus avec son badge et ses procédures, tentant d’appliquer la logique du droit là où ne régnait que la loi du clan.
+
+Il alluma une cigarette. La fumée monta en spirales lentes dans le cône de lumière. Il fixa le nom de Squarcioni sur son papier. Le maire ne craignait pas la police, il attendait que la police s’en aille. Pour lui et les siens, Garcia n’était qu’une intempérie, un orage passager qui finit toujours par s’éloigner vers l’est, laissant le village retrouver sa tranquillité morbide.
+
+C’était cette certitude qui était la plus insupportable : l’idée que même en trouvant le coupable, il ne ferait qu’égratigner la surface d’une gangrène installée depuis des décennies, car tout ici était lié, du granit gris des quais aux mains tremblantes de Gaspard, dans une architecture de complicités où chaque visage rencontré était un verrou supplémentaire, chaque silence une pierre ajoutée à l’édifice, jusqu’à ce que le poids du secret devienne la seule réalité tangible, l’unique vérité acceptable pour ceux qui préfèrent vivre dans l’ombre d’un mensonge partagé plutôt que de risquer l’éclat d’une lumière qui brûle tout sur son passage.
+
+Il écrasa sa cigarette dans le cendrier en verre. Le silence revint, dense, presque solide. Il resta là, immobile, écoutant le vent hurler contre les murs de la maison, conscient que demain, chaque porte qu’il frapperait se fermerait un peu plus fort.

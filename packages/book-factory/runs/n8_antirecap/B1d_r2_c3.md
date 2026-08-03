@@ -1,0 +1,31 @@
+La pluie avait cessé, laissant place à un silence poisseux, saturé d’iode et de vase. Garcia resta longtemps immobile devant la fenêtre ouverte de sa chambre d'hôte. L'air était froid, un froid humide qui s'insinuait sous le col du veston et collait aux tempes. Dehors, Ker-Morvan s'était effacée dans un gris monochrome. Le village ne semblait plus être qu’une poignée de maisons agrippées à la roche pour ne pas glisser vers l’Atlantique.
+
+Il alluma une cigarette. La flamme du briquet vacilla un instant avant de prendre. Il aspira la fumée lentement, sentant le tabac brûler au fond de sa gorge. C'était l'heure où les bruits s'estompent, où le seul rythme audible est celui des marées qui montent et descendent, indifférentes aux hommes.
+
+Il y avait dans cette chambre une odeur de renfermé, un mélange de cire vieille et de linge mal séché. Sur la table de chevet, son carnet restait ouvert, les pages gondolées par l'humidité. Garcia ne le regardait pas. Il fixait le phare, là-bas, dressé comme un doigt accusateur dans la brume. Dubois y avait vécu seul, entouré de ses machines et de son silence, jusqu'à ce qu'on lui coupe le souffle. Un gardien de phare était l'homme idéal pour observer sans être vu, pour noter les passages nocturnes, pour collecter les secrets que le vent apporte avec l'écume.
+
+Garcia sentit un poids s'installer dans sa poitrine, une sensation physique, comme si l'air devenait plus dense. Ce qu'il venait d'apprendre ne changeait pas seulement la nature du crime ; cela déplaçait le centre de gravité de toute l'affaire. Jusqu'ici, il avait cherché un coupable, un homme impulsif ou un opportuniste. Il se retrouvait maintenant face à une architecture. Un système.
+
+Il pensa à Squarcioni. Le maire ne ressemblait pas à un assassin. C'était un homme de substance, un patriarche dont la voix posée et les mains larges rassuraient tout le village. L'autorité naturelle, celle qui ne s'impose pas par la force mais par l'évidence. Squarcioni était le ciment de Ker-Morvan. Si le maire était le cerveau, alors le meurtre de Dubois n'était pas un acte de rage, mais une opération de maintenance. On élimine une pièce défectueuse pour préserver l'ensemble de la machine.
+
+Le Triton. 1998. Le nom du navire revenait sans cesse, comme un refrain obsédant. Un naufrage, des disparus, un drame maritime que le temps avait recouvert d'une couche de résignation. On avait parlé de tempête, de courants traîtres, de malchance. Mais les débris ne mentent jamais totalement. Le butin détourné, le silence acheté avec l'argent du sang, et cette cargaison qui n'avait jamais atteint le port mais qui avait nourri des poches discrètes pendant deux décennies.
+
+Garcia se détourna de la fenêtre. Il marcha jusqu'au lavabo, s'aspergea le visage d'eau froide. Le miroir était piqué de taches noires. Son propre reflet lui parut étranger, les traits tirés, les yeux cernés par des nuits de veille et d'incertitude.
+
+Léna Marchetti. Il revit son regard, cette hésitation permanente, ce tremblement presque invisible dans la voix. Elle n'était pas une complice, elle était l'otage d'une loyauté toxique. Elle aimait peut-être encore l'ombre de cet homme ou craignait simplement le vide que laisserait la chute du patriarche. Elle représentait tout ce qui rendait l'enquête difficile : l'attachement viscéral à une terre où la vérité importe moins que la survie du groupe.
+
+Puis il y avait Marc. Le revenant. L'homme que tout le monde croyait englouti par les flots en quatre-vingt-dix-huit et qui réapparaissait maintenant, tel un spectre, pour venir hanter les consciences. Si Marc était vivant, alors le mensonge s'était épaissi pendant vingt ans, devenant une muraille infranchissable. On ne tue pas seulement pour cacher un vol, on tue pour empêcher le passé de reprendre ses droits.
+
+Garcia s'assit sur le bord du lit, le ressort grinçant sous son poids. Il ferma les yeux et laissa les faits se superposer, sans chercher à les forcer. Le silence de Gaspard, le vieux du port, n'était plus celui de l'ignorance, mais celui d'une terreur ancestrale. Gaspard savait que Squarcioni pouvait briser un homme aussi facilement qu'on brise une branche sèche.
+
+Le mécanisme était là, complet. L'argent du Triton avait permis de bâtir le Ker-Morvan moderne, les routes, les écoles, le prestige du maire, tandis que Dubois, dans sa tour d'ivoire de béton et de verre, avait tenu le fil de la transaction, transformant son savoir en rente jusqu'au jour où le prix était devenu trop élevé.
+
+Il réalisa soudain que Squarcioni n'avait pas seulement orchestré le crime, mais qu'il l'avait fait avec la conviction profonde d'agir pour le bien commun, persuadé que le sacrifice d'un homme seul et aigri comme Dubois était un prix dérisoire pour maintenir la paix sociale du village, et c'est précisément cette certitude morale, ce sentiment d'être au-dessus des lois parce qu'il incarnait la loi locale, qui rendait l'homme dangereux, car Garcia savait désormais que s'attaquer au maire revenait à déclarer la guerre à tout un territoire, à s'aliéner Léna et à condamner Marc à redevenir un mort pour le salut d'une commune entière.
+
+Il resta longtemps ainsi, dans l'obscurité croissante de la chambre. Le tabac était froid dans le cendrier. 
+
+Le prix était là, exposé devant lui. S'il remontait le fil jusqu'au bout, s'il brisait le silence de Ker-Morvan, il ne ferait pas que rendre la justice pour un gardien de phare assassiné ; il détruirait l'équilibre fragile d'un lieu, il jetterait des familles dans la misère et transformerait un village paisible en un champ de ruines judiciaires. 
+
+Il se leva et s'approcha à nouveau de la fenêtre. La pluie recommençait à tomber, fine, persistante, effaçant progressivement les contours du port. Garcia sentit une fatigue immense l'envahir, une lassitude qui n'était pas physique mais existentielle. Il savait ce qu'il devait faire, et il savait que cela le laisserait seul, plus encore qu'au début de son arrivée ici. 
+
+Il reprit son carnet, prit son stylo, et écrivit un seul nom en haut d'une page blanche. L'encre tacha le papier humide. Il ne s'agissait plus d'une enquête, mais d'un démantèlement.

@@ -1,0 +1,31 @@
+La pluie frappait le toit d’ardoise avec une régularité métronomique, un bruit sourd qui semblait aplatir l’espace autour de la petite chambre d'hôte. Garcia était assis sur le bord du lit, le dos courbé, les mains posées à plat sur ses cuisses. Il n’avait pas encore allumé la lampe. La lumière grise et liquide de la fin d’après-midi filtrait à travers les rideaux de dentelle jaunie, jetant des ombres incertaines sur le papier peint décollé aux angles.
+
+Il restait là, immobile, écoutant le silence épais de Ker-Morvan. C'était un silence qui ne reposait pas, un silence chargé d'une tension invisible, comme si les murs eux-mêmes retenaient leur souffle. Dans l'air flottait une odeur persistante de tourbe et de sel, une senteur froide qui s'insinuait partout, même derrière les doubles vitrages.
+
+Il sentait le poids de sa propre fatigue, une lourdeur physique qui lui descendait dans les épaules et lui pesait sur les paupières. Ce n'était pas l'épuisement du voyage ou des nuits courtes, mais cette lassitude particulière qui suit un basculement. L'information qu'il venait de recevoir ne s'était pas imposée comme un choc, mais comme une infiltration lente, un poison qui avait pris son temps pour atteindre le cœur du raisonnement.
+
+Il se leva lentement et s'approcha de la fenêtre. Dehors, le village n'était plus qu'une poignée de silhouettes sombres accrochées au flanc de la falaise. Le port, en bas, était invisible, englouti par la brume. Il pensa à Gaspard, cet homme brisé dont les mains tremblaient dès qu'on évoquait le nom du *Triton*. Il revit le visage de Léna, cette expression de détresse contenue, ce regard qui cherchait une issue là où il n'y avait que des murs.
+
+Il sortit un paquet de cigarettes de sa poche. Le geste était machinal. Il alluma la première avec une lenteur cérémonieuse, observant la petite flamme vaciller avant de s'accrocher au tabac. La fumée monta en volutes grises, se mêlant à l'obscurité naissante.
+
+Il ne pensait pas encore aux preuves, aux dossiers ou aux procédures. Il pensait à la mécanique du silence. Ker-Morvan n'était pas un village, c'était une forteresse sans remparts où le secret était la seule monnaie ayant cours. Squarcioni avait bâti son empire sur ce vide, sur l'absence de mots et la complicité des ombres. Le maire-patriarche ne dirigeait pas seulement la commune ; il en possédait les consciences, les avait achetées avec le butin du naufrage, transformant un crime collectif en une sorte de contrat social tacite.
+
+Dubois, le gardien du phare, avait été l'exception. L'homme qui avait voulu transformer le silence en rente. Sa mort n'était pas un accident, ni même un simple meurtre : c'était un nettoyage technique. Un ajustement comptable pour maintenir l'équilibre d'un système où chacun avait sa part de boue sur les bottes.
+
+Garcia s'appuya contre le rebord froid de la fenêtre. Il se sentait soudain étranger à ce paysage, comme si le granit et l'iode s'étaient ligués pour le rejeter. On ne vient pas déterrer des morts dans un endroit où les vivants ont tout intérêt à ce qu'ils restent sous terre.
+
+Il songea à Marc. Ce revenant dont l'existence même était une insulte à l'organisation du crime. Un homme censé avoir coulé avec le navire en 1998, et qui pourtant respirait encore, quelque part, comme un spectre revenu hanter ses bourreaux. La présence de Marc changeait tout. Ce n'était plus une affaire d'argent détourné ou de cargaison disparue, c'était une question de survie pour ceux qui avaient orchestré le montage.
+
+Il ferma les yeux. Il revoyait le visage impassible de Squarcioni, ce calme olympien qui masquait une violence froide et méthodique. Le maire savait attendre. Il savait laisser l'autre s'épuiser, laisser le doute s'installer, pour mieux refermer le piège au moment où l'adversaire se croyait arrivé au bout de sa route.
+
+Le vent s'intensifia, faisant vibrer les vitres dans leurs cadres. Garcia sentit un frisson lui parcourir la nuque. Il savait désormais que chaque pas qu'il faisait dans les rues du village était surveillé, que chaque question posée à Léna ou à Gaspard revenait instantanément aux oreilles du patriarche. Il était seul dans cet endroit, entouré d'une population qui le voyait comme un intrus, un élément perturbateur qu'il fallait soit neutraliser, soit acheter.
+
+L'idée de l'argent ne l'effleurait même pas. Ce qui l'ébranlait, c'était la simplicité avec laquelle on pouvait effacer une vie pour préserver un confort acquis dans le sang et le sel, cette façon dont le temps avait fini par transformer un naufrage criminel en un mythe fondateur, où la prospérité actuelle du village s'abreuvait chaque jour d'un secret partagé, liant les générations entre elles par une chaîne invisible de culpabilité et de profit, faisant de chaque maison, de chaque commerce et de chaque rue le prolongement d'une épave gisant au fond de l'eau, condamnant ceux qui avaient survécu à vivre dans la peur permanente que le passé ne remonte un jour à la surface pour réclamer son dû.
+
+Il écrasa sa cigarette dans un cendrier en verre. La pièce était maintenant plongée dans le noir complet. Il resta ainsi quelques minutes, sans bouger, laissant l'idée décanter, s'installer durablement dans son esprit.
+
+L'heure n'était plus aux interrogatoires ni aux doutes. Le temps des demi-mesures était terminé. Il savait qu'en franchissant le seuil de cette chambre pour retourner vers le centre du village, il ne serait plus l'inspecteur venu mener une enquête, mais un homme qui s'attaquait à l'ordre établi d'une communauté entière.
+
+Il prit son manteau sur le dossier de la chaise. Le tissu était lourd et froid. Il vérifia la présence de son arme dans son holster, un geste simple, presque rassurant. Ce n'était pas une question de courage, mais de nécessité.
+
+Il éteignit la lumière, s'assura que la porte était bien fermée, puis sortit dans le couloir sombre. Le bruit de ses pas sur le parquet craquant résonnait comme un compte à rebours. Dehors, la pluie continuait de tomber, effaçant les traces et noyant les cris, tandis que Ker-Morvan attendait, immobile, l'issue inévitable de ce face-à-face.

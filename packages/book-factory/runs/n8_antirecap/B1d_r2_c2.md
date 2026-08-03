@@ -1,0 +1,31 @@
+La pluie avait cessé, laissant place à une brume épaisse qui collait aux vitres de la pension comme un linge sale. Garcia était assis face à la fenêtre, immobile, une cigarette éteinte coincée entre les lèvres. Il ne l'allumait pas. Il regardait simplement le gris du ciel se confondre avec le gris des ardoises et le gris de la mer, là-bas, derrière le rideau d'humidité qui effaçait les contours du port.
+
+Dans la chambre, l'air était saturé d'une odeur de renfermé et de cire froide. Un vieux radiateur cliquetait par intermittence, un bruit sec, nerveux, qui semblait compter les secondes d'un temps suspendu. Garcia sentait le poids de son manteau encore humide sur le dossier de la chaise, l'humidité qui remontait lentement dans ses os, une sensation familière, celle des hivers bretons où le froid ne vient pas de l'air mais de la pierre elle-même.
+
+Il avait besoin de ce silence. Un silence absolu, sans le bruit des pas dans le couloir ou le murmure des villageois qu'il croisait depuis son arrivée à Ker-Morvan. Depuis trois jours, il évoluait dans ce village comme un étranger dans une maison close : on lui souriait avec prudence, on lui répondait avec une politesse glacée, et chaque regard était une porte que l'on fermait devant lui.
+
+Il pensa à Dubois, le gardien du phare. L'homme gisant au pied de l'escalier en colimaçon, le crâne fracassé sur le granit. Au début, Garcia avait vu un accident, ou peut-être un crime passionnel, une querelle de voisinage exacerbée par l'isolement. Mais Dubois n'était pas un homme de querelles ; c'était un homme d'archives, un collectionneur de secrets. Un maître-chanteur qui avait su lire entre les lignes du naufrage du Triton, vingt ans plus tôt.
+
+Il ferma les yeux. Il revit le visage de Léna Marchetti. Cette expression de terreur contenue, ce tremblement imperceptible des mains lorsqu'elle parlait du passé. Elle n'était pas une complice, non, elle était la victime collatérale d'un système dont elle ne pouvait s'échapper. Elle était l'otage d'une loyauté forcée, liée par le sang ou par la peur à un homme qui tenait le village dans sa paume comme on tient un oiseau blessé pour mieux lui briser les ailes.
+
+Yvon Squarcioni. Le maire. Le patriarche. L'homme dont la voix était calme, dont le regard ne cillait jamais, et qui incarnait l'ordre et la prospérité de Ker-Morvan. Garcia se rappela la texture du bureau en chêne massif de la mairie, l'odeur du tabac blond et du cuir vieux. Tout là était propre, tout était rangé. Trop rangé. Le genre d'ordre qui ne s'obtient qu'en enterrant profondément les débris.
+
+Le Triton n'avait pas simplement coulé. Il avait été sacrifié. Une cargaison détournée dans l'ombre d'une nuit sans lune, un butin partagé entre quelques mains puissantes, et un silence acheté au prix de vies humaines. Marc, le revenant, celui qu'on croyait mort dans les eaux glacées en 1998, n'était pas un fantôme, mais la preuve vivante du crime. Un homme brisé qui revenait réclamer sa place ou sa vengeance, et que Dubois avait utilisé comme levier pour pressurer le maire.
+
+Garcia se leva lentement. Il fit quelques pas dans la petite pièce, évitant le tapis élimé. Ses chaussures grinçaient sur le parquet. Il sentit une fatigue immense l'envahir, non pas une fatigue physique, mais celle de l'âme qui réalise que la vérité ne libère personne, qu'elle ne fait que déplacer la douleur d'un point à un autre.
+
+Il s'arrêta devant le miroir piqué de taches noires. Il regarda son propre reflet, les cernes marqués sous les yeux, le visage creusé par les nuits d'insomnie. Il savait maintenant comment Squarcioni avait procédé. L'élimination de Dubois n'était pas un acte de rage, mais une opération comptable. Un coût acceptable pour maintenir l'équilibre du pouvoir et protéger le secret du Triton.
+
+C’est alors que tout s’imbriquait, non plus comme des indices, mais comme une nécessité froide : si Squarcioni avait pu faire taire Dubois avec une telle précision, s'il avait réussi à maintenir Gaspard dans un état de terreur paralysante pendant deux décennies et si Léna restait prisonnière d'un silence qui la rongeait, c'est que le réseau de complicités dépassait largement le cadre du village pour s'ancrer dans des structures où la loi n'était plus qu'une suggestion, et Garcia comprit que s'attaquer au maire, c'était accepter de devenir l'ennemi d'un système qui ne se contenterait pas de le renvoyer à Paris, mais qui serait capable d'effacer son existence avec la même méthode administrative qu'il avait utilisée pour le Triton, lui coûtant ainsi non seulement sa carrière, mais peut-être cette fragile paix intérieure qu'il avait mis des années à reconstruire après ses propres naufrages.
+
+Il resta un long moment immobile devant son reflet. Le silence de la chambre semblait s'être densifié. 
+
+Il savait ce qu'il devait faire, et pourtant, l'idée le rebutait. Il ne s'agissait plus d'une simple enquête criminelle, mais d'un choix moral. Il pouvait fermer le dossier, classer l'affaire Dubois comme un accident tragique, et repartir vers la ville en emportant avec lui le secret de Ker-Morvan. Il serait en sécurité. Il garderait son grade.
+
+Mais il revit l'ombre de Marc, cet homme qui avait survécu à l'impossible pour finir dans l'oubli. 
+
+Il sortit enfin la cigarette de sa bouche et l'écrasa du bout du doigt contre le rebord de la fenêtre, sans même l'avoir allumée. Le geste était inutile, presque absurde, mais il marquait une fin. Il retourna s'asseoir à son bureau, ouvrit son carnet et prit son stylo. 
+
+Il ne commença pas par les faits. Il commença par les noms. Squarcioni. Marchetti. Gaspard. 
+
+Le vent se remit à souffler, faisant vibrer les vitres. Dehors, la brume commençait à se déchirer, laissant apparaître, loin sur l'horizon, la silhouette sombre et solitaire du phare. Un monument à la mémoire des morts, et un signal pour ceux qui s'égarent. Garcia sentit une froide détermination s'installer en lui, une sorte de calme blanc, semblable à celui qui précède les tempêtes sur la côte. Il savait que le prix serait élevé, mais il savait aussi qu'il ne pourrait plus jamais regarder un homme dans les yeux s'il choisissait l'ombre.

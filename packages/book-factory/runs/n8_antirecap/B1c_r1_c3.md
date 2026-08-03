@@ -1,0 +1,31 @@
+La pluie avait cessé, laissant place à une brume épaisse qui collait aux vitres de la pension. Garcia était assis face à la fenêtre, immobile, observant le gris monochrome s'installer sur Ker-Morvan. Dans la chambre, l'air était saturé d'une odeur de vieux tapis et de tabac froid. Il n'avait pas allumé la lumière. La pénombre lui convenait ; elle épousait la lourdeur qui lui pesait sur les épaules depuis son entretien avec Léna.
+
+Il tenait entre ses doigts une cigarette non allumée, qu'il faisait rouler machinalement. Le silence de la pièce était ponctué par le tic-tac irrégulier d'une pendule murale, un bruit sec, presque agressif, qui semblait compter les secondes d'un sursis.
+
+Il repensa au visage de la jeune femme. Ce n'était pas la peur qui l'avait trahie, mais une sorte d'épuisement moral, une lassitude profonde que seule possède celle qui a porté un secret trop lourd pour son âge. Elle ne lui avait pas tout dit avec des mots, mais elle avait ouvert une brèche. Une brèche par laquelle s'engouffrait maintenant une vérité froide, visqueuse.
+
+Garcia se leva et fit quelques pas dans l'espace restreint de la chambre. Le parquet craquait sous ses semelles. Il s'arrêta devant le petit lavabo en porcelaine ébréchée. L'eau coulait avec un bruit guttural, un glouglou incessant qui rappelait le ressac contre les digues du port. Il se regarda dans le miroir piqué de rouille. Son propre reflet lui parut étranger, celui d'un homme qui s'était aventuré trop loin dans un territoire où les lois ne sont pas celles des codes pénaux, mais celles du sang et du silence.
+
+Le Triton. 1998. Un naufrage qui avait été classé comme une tragédie maritime, un accident dû à la violence d'une tempête d'automne. On avait pleuré les morts, on avait salué le courage des survivants, et Ker-Morvan s'était refermé sur son drame comme une huître sur sa perle. Mais la perle était noire. Le butin détourné, les cargaisons disparues dans le ventre du courant, tout cela n'avait pas été englouti par l'océan. Cela avait été redistribué, soigneusement, pour cimenter une solidarité de façade et garantir l'allégeance d'un village entier à un seul homme.
+
+Squarcioni. Le maire. Le patriarche. L'homme dont le regard bienveillant cachait une volonté de fer et une absence totale de scrupules. Garcia sentit une nausée monter en lui, non pas pour le crime, mais pour la mécanique parfaite de l'engrenage. Dubois, le gardien du phare, n'avait pas été tué parce qu'il était un criminel, mais parce qu'il était devenu le maillon faible d'une chaîne dont on ne peut rompre aucun anneau sans risquer l'effondrement de tout l'édifice.
+
+Il s'assit sur le bord du lit, le matelas s'affaissant sous son poids. Il pensa à Marc, ce revenant, cet homme que tout le monde croyait mort et qui errait désormais comme une ombre parmi les vivants. Marc était la preuve physique de la supercherie, l'erreur de calcul dans l'équation de Squarcioni.
+
+La pluie recommença à tambouriner contre le verre, un rythme monotone, hypnotique. Garcia ferma les yeux. Il mesurait maintenant le prix de sa position. En tant qu'inspecteur, il représentait l'ordre, la loi, la vérité objective. Mais ici, à Ker-Morvan, la vérité était une marchandise négociable et la loi s'arrêtait aux limites du port. S'il tirait sur le fil, il ne dénouerait pas seulement un meurtre, il briserait l'équilibre fragile d'une communauté entière, il jetterait des dizaines de gens dans la tourmente pour avoir accepté, un jour, un silence rémunéré.
+
+C’était là que résidait la véritable solitude : savoir que la justice, telle qu'il la concevait, était devenue une arme destructrice dont l'usage aurait pour conséquence unique d'isoler davantage ceux qui avaient déjà tout perdu.
+
+Il se demanda combien de temps il lui faudrait pour monter son dossier sans alerting le clan Squarcioni. Le risque n'était plus seulement professionnel, il était devenu organique. On ne s'attaque pas à un patriarche dans son propre domaine sans s'exposer à l'hostilité sourde d'un village qui préfère un mensonge confortable à une vérité dévastatrice. Il imaginait déjà les regards froids à la boulangerie, les portes closes, les silences obstinés lors de ses prochains interrogatoires.
+
+Le poids de la révélation s'était stabilisé en lui, transformant l'émoi initial en une résolution froide et tranchante comme un scalpel. 
+
+Il savait désormais que le sang de Dubois tachait non seulement les mains du meurtrier mais aussi chaque pierre de ce village, chaque toit d'ardoise et chaque filet séchant sur le quai, car tout ce confort apparent reposait sur le sacrifice d'un homme dont on avait effacé la voix pour maintenir l'illusion d'une prospérité acquise honnêtement alors que Marc, cet oublié des abysses, revenait réclamer sa part de lumière dans un monde qui l'avait déjà enterré sous des tonnes de mensonges et de sel.
+
+Garcia rouvrit les yeux. La pièce était plongée dans une obscurité presque totale. Il ne bougea pas. Il resta là, immobile, écoutant le vent s'engouffrer dans les interstices de la fenêtre. 
+
+Il alla enfin vers la table de chevet et saisit son briquet. La petite flamme éclaira un instant ses mains, anémies et stables. Il alluma sa cigarette. La première bouffée fut dure, amère. Il resta longtemps ainsi, dans le noir, regardant le point rouge du tabac briller comme un signal de détresse au milieu d'une nuit sans étoiles. 
+
+Il ne ressentait plus l'urgence d'agir. L'urgence était une émotion pour les amateurs. Lui, il entrait dans la phase de la patience. Il allait laisser Squarcioni croire qu'il avait gagné, laisser le maire s'installer confortablement dans sa certitude d'impunité. C'était là que le piège se refermait le mieux : quand l'adversaire cessait de surveiller ses propres traces, convaincu que le silence était définitif.
+
+Il écrasa son mégot dans un cendrier en verre et s'allongea sur le lit, sans retirer ses chaussures. Le sommeil ne viendrait pas, mais il acceptait cette insomnie comme une forme de vigilance nécessaire. Dehors, Ker-Morvan dormait, enveloppée dans son linceul de brume, ignorant que l'un des siens venait d'en découvrir le secret le plus sombre.

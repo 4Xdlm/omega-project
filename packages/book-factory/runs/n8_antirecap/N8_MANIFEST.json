@@ -1,0 +1,73 @@
+{
+  "spec": "N8_ANTIRECAP",
+  "model": "gemma4:31b",
+  "publishedBaseline": {
+    "periods": 1384,
+    "recapMean": 0.01,
+    "pctZeroRecap": 99.2,
+    "pctTwoPlusRecap": 0
+  },
+  "gate": "PASS d'un remede : conserve >=19/21 sorties avec periode, ramene % de periodes a >=2 connecteurs sous 5 %, sans faire remonter la repetition de tete au-dessus de 0,10.",
+  "results": [
+    {
+      "arm": "B1",
+      "note": "PLAN nu (controle)",
+      "n": 21,
+      "outputsWithPeriod": 21,
+      "periods": 21,
+      "recapMean": 1.33,
+      "pctZeroRecap": 14.3,
+      "pctTwoPlusRecap": 33.3,
+      "headRepeatRate": 0.381,
+      "templateVerdict": "TEMPLATE_DETECTED",
+      "density": 0.0155,
+      "maxPeriodWords": 143,
+      "englishResiduals": 3
+    },
+    {
+      "arm": "B1a",
+      "note": "PLAN + interdiction de tete (socle)",
+      "n": 21,
+      "outputsWithPeriod": 21,
+      "periods": 25,
+      "recapMean": 0.68,
+      "pctZeroRecap": 60,
+      "pctTwoPlusRecap": 20,
+      "headRepeatRate": 0.08,
+      "templateVerdict": "WATCH",
+      "density": 0.0194,
+      "maxPeriodWords": 134,
+      "englishResiduals": 22
+    },
+    {
+      "arm": "B1c",
+      "note": "B1a + interdiction de la chaine deductive",
+      "n": 21,
+      "outputsWithPeriod": 21,
+      "periods": 21,
+      "recapMean": 0.33,
+      "pctZeroRecap": 66.7,
+      "pctTwoPlusRecap": 0,
+      "headRepeatRate": 0,
+      "templateVerdict": "CLEAN",
+      "density": 0.0167,
+      "maxPeriodWords": 122,
+      "englishResiduals": 6
+    },
+    {
+      "arm": "B1d",
+      "note": "B1a + exigence de nouveaute cognitive",
+      "n": 21,
+      "outputsWithPeriod": 21,
+      "periods": 23,
+      "recapMean": 1.09,
+      "pctZeroRecap": 34.8,
+      "pctTwoPlusRecap": 39.1,
+      "headRepeatRate": 0.3043,
+      "templateVerdict": "TEMPLATE_DETECTED",
+      "density": 0.0181,
+      "maxPeriodWords": 192,
+      "englishResiduals": 3
+    }
+  ]
+}

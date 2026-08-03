@@ -1,0 +1,31 @@
+La pluie avait cessé, laissant place à une brume grasse qui collait aux vitres de la petite chambre louée. Garcia était assis sur le bord du lit, le dos voûté, les coudes posés sur les genoux. Le silence de Ker-Morvan n'était pas un silence de repos ; c'était un silence de guet, une chape de plomb qui pesait sur les toits d'ardoise et les ruelles étroites. Dans la pièce, l'odeur était celle des vieilles maisons bretonnes : un mélange de poussière froide, de cire rance et d'humidité persistante.
+
+Il regardait ses mains. Elles étaient immobiles, mais il sentait encore le tremblement léger, presque imperceptible, qui avait agité ses doigts quelques minutes plus tôt. Il ne s'était pas déshabillé. Le trench-coat, encore humide, était jeté sur une chaise en paille. L'eau s'en écoulait lentement, formant une flaque sombre sur le linoléum usé.
+
+Il resta ainsi longtemps, sans bouger, écoutant le tic-tac irrégulier d'une pendule murale qui semblait lutter contre le temps. Chaque battement résonnait comme un couperet. Il avait besoin de ce vide, de cette absence de bruit, pour laisser la révélation descendre en lui, s'installer dans ses muscles, s'imprégner dans sa peau. Ce n'était pas une idée qui s'imposait, c'était une sensation physique, un froid soudain qui lui remontait le long de la colonne vertébrale.
+
+Il se leva et s'approcha de la fenêtre. Le village s'effaçait derrière le voile blanc. En bas, dans la rue, on n'entendait rien, sinon le cri lointain d'un goéland et le bruit sourd d'une porte que l'on fermait. Tout semblait figé, comme si Ker-Morvan s'était refermé sur son secret, comme une huître qui se contracte pour protéger sa perle ou sa plaie.
+
+Il pensa à Léna Marchetti. Il revit son visage, cette tension dans la mâchoire, ce regard qui fuyait sans cesse vers l'horizon, là où le phare de Dubois s'élevait comme un doigt accusateur. Elle n'était pas une complice, elle était une victime collatérale d'un silence trop lourd, une femme étranglée par une loyauté mal placée envers des hommes qui ne connaissaient pas la pitié.
+
+Puis il y avait Squarcioni. Le maire. L'homme dont le nom s'apposait sur chaque plaque commémorative du village, celui qui distribuait les aides et les sourires avec la précision d'un banquier. Garcia imaginait Squarcioni dans son bureau, entouré de ses boiseries sombres, gérant l'ordre et le chaos avec la même impassibilité. Le pouvoir ici n'était pas politique, il était organique. Il s'était enraciné dans le sol, nourri par le sang et l'or du Triton.
+
+Le naufrage de 1998. Un événement propre, presque chirurgical. Une cargaison détournée, un navire qui sombre, quelques morts officiels et un silence acheté pour le prix d'une vie confortable durant vingt ans. Tout cela tenait dans un dossier poussiéreux ou dans la mémoire courte des gens du port. Mais Dubois, le gardien du phare, avait été l'exception. Il avait gardé les preuves comme on garde un talisman, attendant le moment où le chantage rapporterait le plus. Et pour un prix trop élevé, Squarcioni l'avait effacé.
+
+Garcia s'écarta de la fenêtre. Il se sentit soudain oppressé par l'étroitesse de la chambre. Il avait besoin d'air, mais sortir signifiait entrer dans le jeu, marcher sur le terrain de l'adversaire alors qu'il ne savait pas encore comment porter le coup. 
+
+Il s'assit à nouveau, this fois à la petite table en bois où reposait un verre d'eau tiède. Il ne but pas. Il fixa le reflet de la lampe dans le verre. La vérité était là, brute, sans artifice. Elle changeait tout. Ce n'était plus une simple affaire de meurtre, c'était l'histoire d'une communauté entière qui s'était soudée autour d'un crime pour survivre, transformant un village en une forteresse où chaque habitant était à la fois gardien et prisonnier.
+
+Le retour de Marc changeait la donne. Un mort qui revient à la vie est une anomalie que le système ne peut pas absorber sans craquer. L'existence de Marc était l'unique fissure dans le mur de silence, l'élément perturbateur qui rendait le meurtre de Dubois non seulement nécessaire pour Squarcioni, mais désespérément risqué.
+
+Il ferma les yeux. Il visualisait la structure du mensonge, la manière dont elle s'était déployée sur deux décennies, s'appuyant sur la peur de Gaspard, sur l'ambition de Squarcioni et sur le silence résigné des autres, jusqu'à ce que l'avidité de Dubois et le spectre de Marc viennent briser cet équilibre précaire en forçant la main d'un homme qui pensait avoir dompté l'océan et les hommes, oubliant que la mer rend toujours ce qu'elle a pris, même les secrets les plus enfouis sous le sable et le sel.
+
+Il resta immobile, le souffle court. Le raisonnement s'était achevé, laissant place à une certitude glacée. 
+
+Il savait maintenant qu'il était seul. Dans ce village, il n'avait aucun allié, pas même Léna, car elle appartenait à cet écosystème de peur et de dettes. S'il voulait faire éclater la vérité, il ne pourrait compter ni sur les procédures habituelles, ni sur la solidarité locale. Il allait devoir naviguer à vue, dans le brouillard, en sachant que chaque pas le rapprochait d'un homme capable d'effacer un gardien de phare sans verser une larme.
+
+Garcia se leva lentement. Il alla vers son trench-coat et le remit sur ses épaules. Le tissu était encore froid et humide contre sa peau. Il ne craignait pas la violence physique, c'était l'inertie de ce lieu qui l'effrayait. Cette capacité qu'avait Ker-Morvan d'absorber les hommes, de les digérer lentement jusqu'à ce qu'ils deviennent comme Gaspard : des ombres peureuses qui attendent la marée haute pour disparaître.
+
+Il éteignit la lampe. La chambre fut plongée dans une pénombre grise. Il resta un instant dans l'obscurité, écoutant le vent se lever et frapper contre les volets clos. Le bruit ressemblait à des doigts qui grattaient le bois, cherchant à entrer.
+
+Il prit ses clés sur la table, ferma la porte à double tour et descendit l'escalier dont chaque marche gémissait sous son poids. En franchissant le seuil de la maison, il sentit l'air salin lui fouetter le visage. La brume s'était épaissie, effaçant les contours du monde. Il marcha vers le centre du village, ses pas résonnant sur les pavés mouillés, conscient que chaque ombre pouvait être un témoin et chaque silence une menace.

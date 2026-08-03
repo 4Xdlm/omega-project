@@ -1,0 +1,33 @@
+La pluie avait cessé, laissant derrière elle cette odeur de sel froid et de vase remuée que Garcia détestait. Il était assis dans l’obscurité de sa chambre d'hôte, une pièce étroite sous les combles où le plafond penchait dangereusement vers la gauche. Une seule ampoule, nue, pendait au fil électrique et jetait une lumière jaunâtre sur le papier peint décollé. Sur la table de nuit, un verre de cognac dont le liquide sombre oscillait légèrement au rythme des vibrations lointaines du ressac.
+
+Il ne s'était pas déshabillé. Son imperméable était encore humide, posé sur le dossier d'une chaise en paille qui grinçait à chaque mouvement d'air. Il sentait l’humidité s'insinuer dans ses articulations, une douleur sourde, familière, qui remontait des chevilles jusqu'aux lombaires. C'était le prix de Ker-Morvan. Un village où le silence n'était pas une absence de bruit, mais une présence physique, une chape de plomb que l'on posait sur les épaules des étrangers dès leur arrivée.
+
+Il fixa le verre. Le liquide était dense, sirupeux. Il ne le but pas tout de suite. Il regardait simplement le reflet de la lampe dans le miroir piqué de rouille accroché au mur.
+
+L’information qu'il venait de recueillir ne s'était pas imposée comme un choc, mais comme une lente infiltration. Un détail insignifiant, une date glissée dans l'ombre d'un récit, un nom prononcé à demi-mot. Tout cela avait flotté dans son esprit durant le trajet retour, entre les murets de pierre et les landes roussies par le vent, pour finir par s'agglutiner ici, dans le silence de la chambre.
+
+Il pensa à Dubois, le gardien du phare. Le corps gisant sur le sol froid, les yeux ouverts sur un vide qu'il avait passé sa vie à surveiller. On aurait pu croire à un accident, à une chute, à la maladresse d'un vieillard dans l'escalier en colimaçon. Mais Dubois n'était pas tombé. Il avait été poussé par quelqu'un qui craignait le poids des secrets.
+
+Le Triton. 1998. Un naufrage dont on parlait encore comme d'une tragédie maritime, un coup du sort, une erreur de navigation dans la brume. On avait pleuré les disparus, on avait organisé des messes pour les âmes en peine. Mais le Triton n'avait pas simplement coulé. Il avait été sacrifié.
+
+Garcia se leva lentement. Il fit quelques pas dans l'espace restreint, évitant une tache d'humidité au sol. Son esprit revenait sans cesse à Squarcioni. Le maire. L'homme dont la voix posée et le regard paternel suffisaient à maintenir l'ordre dans tout le canton. Un patriarche qui veillait sur les siens avec une bienveillance qui ressemblait étrangement à un contrôle total. Squarcioni n'était pas seulement le visage du village, il en était l'architecte.
+
+Il s'imaginait la scène, vingt ans plus tôt. La cargaison détournée dans le chaos du naufrage, les caisses remontées clandestinement sur le rivage, l'argent distribué pour acheter les langues et sceller les lèvres. Un pacte de sang et d'or, conclu sous un ciel de plomb, où chacun avait reçu sa part en échange d'un oubli définitif.
+
+Et puis il y avait Léna. La jeune femme aux mains tremblantes, dont le regard fuyait sans cesse vers l'horizon. Elle était le point de rupture. Le maillon faible d'une chaîne que Squarcioni croyait indestructible. Garcia sentait l'angoisse de la fille, ce tiraillement insupportable entre la loyauté envers son sang et l'horreur d'un crime qui ne s'éteignait jamais tout à fait.
+
+Il retourna s'asseoir. Le cognac était froid.
+
+Le problème n'était plus de savoir qui avait tué Dubois, car la réponse était là, évidente, inscrite dans la structure même du pouvoir local. Le problème était le prix. S'il tirait sur le fil, c'est tout Ker-Morvan qui s'effondrerait. Les pensions, les petits commerces, l'économie fragile de ce bout de terre dépendaient tous, d'une manière ou d'une autre, du réseau tissé par le maire. Révéler la vérité sur le Triton, c'était condamner le village à une agonie lente, transformer un sanctuaire en cimetière judiciaire.
+
+Il se demanda si Marc, ce revenant que l'on croyait mort dans les eaux noires, était la clé ou simplement l'ombre d'un passé qui refusait de mourir. Un homme qui revient d'entre les morts n'apporte jamais la paix ; il apporte le chaos.
+
+Garcia ferma les yeux. Il entendit le vent s'engouffrer dans les interstices du toit, un sifflement aigu, presque humain. Il se sentait étrangement seul, non pas comme on est seul quand on manque de compagnie, mais comme on est seul quand on détient une vérité qui nous isole du reste du monde.
+
+Le raisonnement glissa alors en lui, fluide et inexorable, partant de la silhouette rigide de Squarcioni pour remonter vers les registres falsifiés du port, s'arrêtant un instant sur la peur viscérale de Gaspard, ce vieux marin dont les mains ne cessaient de trembler, avant de bifurquer vers l'idée que le meurtre de Dubois n'était pas une fin mais un signal, l'aveu involontaire qu'une faille s'était ouverte dans le silence et que Marc, en réapparaissant, avait transformé un secret gérable en une menace existentielle, obligeant ainsi le patriarche à sortir de sa tour d'ivoire pour salir ses propres mains, ce qui signifiait que l'homme de pouvoir était désormais vulnérable, qu'il avait cessé d'être le marionnettiste pour devenir l'acteur d'un drame dont il ne contrôlait plus l'issue, et c'est précisément dans cette faille, dans ce moment de panique où le prédateur devient la proie de sa propre angoisse, que Garcia percevait non seulement la preuve matérielle du crime, mais aussi l'obligation morale d'écraser cet empire de mensonges, même s'il savait que le prix à payer serait l'exil définitif et le mépris d'une population qui préférerait mille fois un bourreau protecteur à un juge honnête.
+
+Il ouvrit les yeux. Le verre était vide.
+
+Il resta ainsi un long moment, immobile, dans la pénombre. La décision était prise, mais elle n'apportait aucun soulagement. Il ne ressentait ni triomphe, ni satisfaction. Juste une fatigue immense, une lassitude qui lui pesait sur les épaules comme l'imperméable humide.
+
+Il se leva et éteignit la lumière. Le noir fut total, dense, presque liquide. Dans le silence, il entendit battre son propre cœur, un bruit sourd et régulier, comme un métronome comptant les secondes qui le séparaient du moment où il allait devoir tout briser. Il s'allongea sur le lit étroit, sans enlever ses chaussures, et regarda le plafond penché, attendant que le sommeil vienne, ou que l'aube arrive pour transformer ses réflexions en actes.

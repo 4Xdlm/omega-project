@@ -1,0 +1,29 @@
+La pluie avait repris, fine et persistante, cette bruine bretonne qui ne mouille pas tout à fait mais qui s'insinue partout, sous le col du manteau, dans les coutures des chaussures. Garcia était assis dans sa chambre d'hôte, une pièce étroite sous les combles où l'odeur de la cire vieille et du linge humide stagnait. Il n'avait pas allumé la lumière. La pénombre grise suffisait à dessiner les contours d'un lit en fer forgé et d'une petite table en pin dont le vernis s'écaillait.
+
+Il resta ainsi, immobile, during un long moment, écoutant le rythme monotone des gouttes contre le velux. Dans sa main, un verre de cognac qu'il ne buvait pas. Le liquide ambré oscillait légèrement, reflétant les éclats d'un ciel bas. 
+
+L'information qu'il avait reçue plus tôt, cet aveu indirect glissé entre deux silences, agissait en lui comme un poison lent. Ce n'était pas le choc de la violence, il avait vu assez de cadavres pour être immunisé contre l'image du sang ; c'était la géométrie du mensonge qui l'ébranlait. Ker-Morvan n'était plus seulement un village côtier avec ses secrets de famille et ses rancœurs ancestrales. C'était une machine, une mécanique huilée depuis vingt ans, où chaque rouage avait été soigneusement ajusté pour maintenir un équilibre précaire.
+
+Il pensa à Dubois, le gardien du phare. L'homme était mort pour une question de chiffres, pour quelques liasses de billets et l'orgueil d'un maître-chanteur qui avait cru pouvoir tordre le bras d'un patriarche. Le meurtre n'était pas un acte de passion, mais un acte d'entretien. On élimine l'élément perturbateur pour que la machine continue de tourner.
+
+Garcia posa le verre sur la table. Le bruit du cristal contre le bois résonna avec une netteté agaçante dans le silence de la pièce. Il se leva et marcha lentement vers la fenêtre, observant les lumières éparses du village en bas, noyées dans la brume. Là-bas, Squarcioni dirigeait tout, non pas par la force, mais par l'interdépendance. Le maire ne possédait pas les gens ; il possédait leurs dettes, leurs hontes et leurs silences.
+
+Il se rappela le visage de Léna Marchetti. Cette tension dans les épaules, ce regard qui fuyait systématiquement vers la mer. Elle n'était pas une complice, elle était l'otage d'un système dont elle avait oublié la sortie. On ne sort pas du Triton. Le naufrage de 1998 n'avait pas été un accident, mais un acte fondateur, une sorte de baptême sanglant qui avait soudé le village dans une fraternité criminelle.
+
+Le froid s'installait. Garcia sentit une fatigue lourde peser sur ses paupières, une lassitude qui dépassait le simple besoin de sommeil. C'était la fatigue de celui qui découvre que l'adversaire n'est pas un homme, mais un paysage tout entier. 
+
+Il s'assit sur le bord du lit, le dos voûté. Il repensa à Marc. Ce revenant, cet homme sorti des eaux après deux décennies d'absence, n'était pas une aubaine pour l'enquête, mais l'élément final du chaos. Le retour du mort venait court-circuiter la tranquillité des survivants. Squarcioni avait sans doute cru que la mer suffisait à effacer les traces, mais la mer rend toujours ce qu'elle a pris, même si c'est pour le rendre déformé et hanté.
+
+Il ferma les yeux. Il revoyait Gaspard, le vieux du port, tremblant comme une feuille, terrifié non pas par la police, mais par l'ombre du maire. Cette peur était l'air qu'ils respiraient tous ici. Une atmosphère épaisse, saturée de culpabilité, où chaque mot prononcé était pesé, filtré, censuré.
+
+Garcia savait maintenant que le butin détourné du Triton n'avait pas seulement enrichi quelques poches ; il avait financé la prospérité apparente du village, les rénovations, les écoles, le silence des notables. L'économie de Ker-Morvan reposait sur un crime. 
+
+Il se demanda alors quel prix il était prêt à payer pour briser ce cercle. S'il remontait le fil jusqu'à Squarcioni, s'il forçait les bouches à s'ouvrir, il ne ferait pas que rendre la justice ; il détruirait l'équilibre fragile d'une communauté entière. Il y aurait des faillites, des arrestations, peut-être des suicides. Le prix de la vérité était souvent une désolation proportionnelle à la durée du mensonge.
+
+Il resta ainsi, dans l'obscurité, sentant le poids de sa propre solitude. En tant qu'inspecteur, il était l'étranger, l'intrus. Mais en découvrant la structure du crime, il s'était lié à eux par un secret. Il faisait désormais partie du cercle des initiés, et cette appartenance lui donnait la nausée.
+
+Il se leva pour verser le reste de son verre dans le lavabo en porcelure ébréchée, regardant le liquide disparaître dans le conduit avec un glouglou monotone, et tandis qu'il essuyait ses mains sur une serviette rêche, il réalisa que l'arrestation de Squarcioni ne serait pas la fin du récit car elle obligerait Léna à choisir son camp, elle qui s'était réfugiée dans une neutralité agonisante, et que Marc, ce revenant dont la simple existence était un acte d'accusation, ne pourrait jamais retrouver sa place dans un monde où les morts sont les seuls à posséder la vérité entière, ce qui signifiait qu'en brisant le silence du village, Garcia s'apprêtait à condamner les survivants à une solitude bien plus brutale que celle qu'il éprouvait en cet instant.
+
+Il éteignit la petite lampe de chevet qu'il avait finalement allumée. Le noir fut total. 
+
+Il s'allongea sur le lit, sans retirer ses chaussures. Il resta immobile, les mains croisées sur la poitrine, écoutant le vent forcir et s'engouffrer dans les interstices de la charpente. Le bruit ressemblait à un long soupir, ou peut-être au cri lointain d'un navire en détresse. Garcia ne chercha pas à savoir. Il attendit simplement que le sommeil vienne, sachant qu'au matin, il devrait sortir de cette chambre et marcher vers le port, là où tout avait commencé, avec la certitude glacée que rien ne serait plus jamais comme avant.
